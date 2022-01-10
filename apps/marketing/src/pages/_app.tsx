@@ -1,5 +1,7 @@
+import '@assets/main.css'
+import '@assets/chrome-bug.css'
+
 import React from 'react'
-import '@styles/globals.css'
 import type { AppProps } from 'next/app'
 
 const Page = ({ Component, pageProps }: AppProps) => (
