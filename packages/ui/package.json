@@ -8,10 +8,10 @@
     "*.css"
   ],
   "devDependencies": {
-    "config": "*",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
     "autoprefixer": "^10.4.2",
+    "config": "*",
     "eslint": "^8.6.0",
     "postcss": "^8.4.5",
     "postcss-flexbugs-fixes": "^5.0.2",
@@ -20,5 +20,8 @@
     "tailwindcss": "^3.0.12",
     "tsconfig": "*",
     "typescript": "^4.5.3"
+  },
+  "dependencies": {
+    "classnames": "^2.3.1"
   }
 }

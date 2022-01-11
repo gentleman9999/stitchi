@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     node: true,
   },
-  extends: ['next', 'airbnb', 'airbnb-typescript', 'prettier'],
+  extends: ['next', 'prettier'],
   plugins: ['@typescript-eslint', 'import'],
   settings: {
     next: {
@@ -32,6 +32,9 @@ module.exports = {
 
     // Allows us to spread props (<Button {...props} />)
     'react/jsx-props-no-spreading': 'off',
+
+    // Removes the need to use ComponentName.defaultProps = {}
+    'react/require-default-props': 'off',
 
     // next
     '@next/next/no-html-link-for-pages': 'off',
