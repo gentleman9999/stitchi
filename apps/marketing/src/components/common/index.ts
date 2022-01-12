@@ -1,2 +1,5 @@
 export * from './BlogPostCard'
 export * from './Footer'
+export * from './ComponentErrorMessage'
+export * from './CmsImage'
+export * from './CmsStructuredText'

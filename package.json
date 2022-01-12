@@ -12,7 +12,8 @@
     "lint": "turbo run lint",
     "test": "",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "codegen": "turbo run codegen"
   },
   "devDependencies": {
     "husky": "^7.0.4",
@@ -35,6 +36,9 @@
         "outputs": []
       },
       "dev": {
+        "cache": false
+      },
+      "codegen": {
         "cache": false
       }
     }

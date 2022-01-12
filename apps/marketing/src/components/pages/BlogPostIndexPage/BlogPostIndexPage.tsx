@@ -1,20 +1,23 @@
-import { BlogPostCard, BlogPostCardProps } from '@components/common'
+import { gql } from '@apollo/client'
+import { BlogPostCard } from '@components/common'
+import { BlogIndexPageArticleFragment } from '@generated/BlogIndexPageArticleFragment'
+import { BlogPostIndexPageCategoryFragment } from '@generated/BlogPostIndexPageCategoryFragment'
 import routes from '@lib/routes'
 import { useRouter } from 'next/router'
 import React from 'react'
 import BlogPostIndexPageFilters from './BlogPostIndexPageFilters'
 
 export interface BlogPostIndexPageProps {
-  posts: BlogPostCardProps['post'][]
-  categories: BlogPostCardProps['post']['category'][]
+  articles: BlogIndexPageArticleFragment[]
+  categories: BlogPostIndexPageCategoryFragment[]
 }
 
-const BlogIndexPage = ({ posts, categories }: BlogPostIndexPageProps) => {
+const BlogIndexPage = ({ articles, categories }: BlogPostIndexPageProps) => {
   const router = useRouter()
   const { categorySlug } = router.query
 
   const activeCategory = categories.find(
-    category => category.name === categorySlug,
+    category => category.slug === categorySlug,
   )
 
   return (
@@ -42,20 +45,37 @@ const BlogIndexPage = ({ posts, categories }: BlogPostIndexPageProps) => {
             ...categories.map(category => ({
               title: category.name,
               href: routes.internal.blog.category.href({
-                categorySlug: category.name,
+                categorySlug: category.slug,
               }),
-              active: category.name === activeCategory?.name,
+              active: category.slug === activeCategory?.slug,
             })),
           ]}
         />
         <div className="mt-12 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
-          {posts.map(post => (
-            <BlogPostCard key={post.href} post={post} />
+          {articles.map(post => (
+            <BlogPostCard key={post.id} post={post} />
           ))}
         </div>
       </div>
     </div>
   )
+}
+
+BlogIndexPage.fragments = {
+  article: gql`
+    ${BlogPostCard.fragments.article}
+    fragment BlogIndexPageArticleFragment on ArticleRecord {
+      id
+      ...BlogPostCardArticleFragment
+    }
+  `,
+  category: gql`
+    fragment BlogPostIndexPageCategoryFragment on CategoryRecord {
+      id
+      name
+      slug
+    }
+  `,
 }
 
 export default BlogIndexPage

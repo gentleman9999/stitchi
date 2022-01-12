@@ -4,6 +4,8 @@ import '@assets/chrome-bug.css'
 import React, { ReactElement, ReactNode, useEffect } from 'react'
 import type { AppProps } from 'next/app'
 import { NextPage } from 'next'
+import { ApolloProvider } from '@apollo/client'
+import { useApollo } from '@lib/apollo'
 
 type ExtendedNextPage = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -14,6 +16,8 @@ type ExtendedAppProps = AppProps & {
 }
 
 const Page = ({ Component, pageProps }: ExtendedAppProps) => {
+  const apolloClient = useApollo(pageProps)
+
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? (page => page)
 
@@ -30,7 +34,11 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
     document.body.classList?.remove('loading')
   }, [])
 
-  return <>{getLayout(<Component {...pageProps} />)}</>
+  return (
+    <ApolloProvider client={apolloClient}>
+      {getLayout(<Component {...pageProps} />)}
+    </ApolloProvider>
+  )
 }
 
 export default Page
