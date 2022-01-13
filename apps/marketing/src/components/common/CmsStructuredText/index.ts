@@ -1,1 +1,1 @@
-export { default as CmsStructuredText } from './CmsStructuredText'
+export { default } from './CmsStructuredText'

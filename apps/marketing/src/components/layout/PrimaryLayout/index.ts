@@ -1,2 +1,2 @@
-export { default as PrimaryLayout } from './PrimaryLayout'
+export { default } from './PrimaryLayout'
 export * from './PrimaryLayout'

@@ -1,2 +1,2 @@
-export { default as ComponentErrorMessage } from './ComponentErrorMessage'
+export { default } from './ComponentErrorMessage'
 export * from './ComponentErrorMessage'

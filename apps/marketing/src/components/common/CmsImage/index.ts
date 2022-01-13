@@ -1,2 +1,2 @@
-export { default as CmsImage } from './CmsImage'
+export { default } from './CmsImage'
 export * from './CmsImage'

@@ -1,2 +1,2 @@
-export { default as BlogPostIndexPage } from './BlogPostIndexPage'
+export { default } from './BlogPostIndexPage'
 export * from './BlogPostIndexPage'

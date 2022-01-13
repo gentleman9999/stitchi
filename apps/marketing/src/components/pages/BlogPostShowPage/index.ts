@@ -1,1 +1,1 @@
-export { default as BlogPostShowPage } from './BlogPostShowPage'
+export { default } from './BlogPostShowPage'

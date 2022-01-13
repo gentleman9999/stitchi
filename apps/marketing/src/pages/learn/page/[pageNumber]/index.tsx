@@ -1,5 +1,5 @@
 import { gql, useQuery } from '@apollo/client'
-import { BlogPostIndexPage, BlogPostIndexPageProps } from '@components/pages'
+import { BlogPostIndexPage } from '@components/pages'
 import { addApolloState, initializeApollo } from '@lib/apollo'
 import {
   BlogIndexPageGetDataQuery,

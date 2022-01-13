@@ -4,7 +4,7 @@ import routes from '@lib/routes'
 import { humanizeDate } from '@utils/date'
 import Link from 'next/link'
 import React from 'react'
-import { CmsImage } from '@components/common'
+import CmsImage from '../CmsImage'
 
 export interface BlogPostCardProps {
   post: BlogPostCardArticleFragment
@@ -81,7 +81,6 @@ const BlogPostCard = ({ post }: BlogPostCardProps) => {
 BlogPostCard.fragments = {
   article: gql`
     ${CmsImage.fragments.image}
-
     fragment BlogPostCardArticleFragment on ArticleRecord {
       id
       updatedAt
