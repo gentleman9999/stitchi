@@ -7,11 +7,6 @@
 // GraphQL fragment: BlogIndexPageArticleFragment
 // ====================================================
 
-export interface BlogIndexPageArticleFragment_content {
-  __typename: "ArticleModelContentField";
-  value: any;
-}
-
 export interface BlogIndexPageArticleFragment_image_responsiveImage {
   __typename: "ResponsiveImage";
   srcSet: string;
@@ -71,7 +66,6 @@ export interface BlogIndexPageArticleFragment {
   title: string | null;
   slug: string | null;
   shortDescription: string | null;
-  content: BlogIndexPageArticleFragment_content | null;
   image: BlogIndexPageArticleFragment_image | null;
   author: BlogIndexPageArticleFragment_author | null;
   categories: BlogIndexPageArticleFragment_categories[];

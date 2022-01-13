@@ -7,11 +7,6 @@
 // GraphQL query operation: BlogIndexPageGetDataQuery
 // ====================================================
 
-export interface BlogIndexPageGetDataQuery_allArticles_content {
-  __typename: "ArticleModelContentField";
-  value: any;
-}
-
 export interface BlogIndexPageGetDataQuery_allArticles_image_responsiveImage {
   __typename: "ResponsiveImage";
   srcSet: string;
@@ -71,7 +66,6 @@ export interface BlogIndexPageGetDataQuery_allArticles {
   title: string | null;
   slug: string | null;
   shortDescription: string | null;
-  content: BlogIndexPageGetDataQuery_allArticles_content | null;
   image: BlogIndexPageGetDataQuery_allArticles_image | null;
   author: BlogIndexPageGetDataQuery_allArticles_author | null;
   categories: BlogIndexPageGetDataQuery_allArticles_categories[];

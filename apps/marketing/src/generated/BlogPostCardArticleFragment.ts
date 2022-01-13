@@ -7,11 +7,6 @@
 // GraphQL fragment: BlogPostCardArticleFragment
 // ====================================================
 
-export interface BlogPostCardArticleFragment_content {
-  __typename: "ArticleModelContentField";
-  value: any;
-}
-
 export interface BlogPostCardArticleFragment_image_responsiveImage {
   __typename: "ResponsiveImage";
   srcSet: string;
@@ -71,7 +66,6 @@ export interface BlogPostCardArticleFragment {
   title: string | null;
   slug: string | null;
   shortDescription: string | null;
-  content: BlogPostCardArticleFragment_content | null;
   image: BlogPostCardArticleFragment_image | null;
   author: BlogPostCardArticleFragment_author | null;
   categories: BlogPostCardArticleFragment_categories[];

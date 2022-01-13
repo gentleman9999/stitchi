@@ -14,7 +14,7 @@ const BlogPostShowPage = (props: BlogShowPageProps) => {
       <BackgroundTexture />
       <div className="relative px-4 sm:px-6 lg:px-8">
         <div className="text-lg max-w-prose mx-auto">
-          {/* <CmsStructuredText content={props.post.content} /> */}
+          <CmsStructuredText content={props.post.content} />
         </div>
       </div>
     </div>
