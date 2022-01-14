@@ -10,26 +10,24 @@ interface Props {
 
 const CmsStructuredText = ({ content }: Props) => {
   return (
-    <div className="prose prose-fuchsia prose-lg">
-      <StructuredText
-        data={content as any}
-        renderLinkToRecord={({ record }) => {
-          console.log(record)
-          switch (record.__typename) {
-            case 'ArticleRecord':
-              return (
-                <Link
-                  href={routes.internal.blog.show.href(record.slug as string)}
-                >
-                  <a>{record.title}</a>
-                </Link>
-              )
-            default:
-              throw new Error(`Invalid record type: ${record.__typename}`)
-          }
-        }}
-      />
-    </div>
+    <StructuredText
+      data={content as any}
+      renderLinkToRecord={({ record }) => {
+        console.log(record)
+        switch (record.__typename) {
+          case 'ArticleRecord':
+            return (
+              <Link
+                href={routes.internal.blog.show.href(record.slug as string)}
+              >
+                <a>{record.title}</a>
+              </Link>
+            )
+          default:
+            throw new Error(`Invalid record type: ${record.__typename}`)
+        }
+      }}
+    />
   )
 }
 

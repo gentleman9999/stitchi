@@ -4,6 +4,7 @@ import routes from '@lib/routes'
 import { humanizeDate } from '@utils/date'
 import Link from 'next/link'
 import React from 'react'
+import Avatar from '../Avatar'
 import CmsImage from '../CmsImage'
 
 export interface BlogPostCardProps {
@@ -49,13 +50,7 @@ const BlogPostCard = ({ post }: BlogPostCardProps) => {
           <div className="flex-shrink-0">
             {/* <a href={post.author.href}> */}
             <span className="sr-only">{post.author.name}</span>
-            <div className="h-10 w-10 rounded-full relative overflow-hidden">
-              <CmsImage
-                data={post.author.image.responsiveImage}
-                layout="fill"
-                objectFit="cover"
-              />
-            </div>
+            <Avatar image={post.author.image.responsiveImage} />
             {/* </a> */}
           </div>
           <div className="ml-3">
@@ -81,6 +76,7 @@ const BlogPostCard = ({ post }: BlogPostCardProps) => {
 BlogPostCard.fragments = {
   article: gql`
     ${CmsImage.fragments.image}
+    ${Avatar.fragments.image}
     fragment BlogPostCardArticleFragment on ArticleRecord {
       id
       updatedAt
@@ -99,7 +95,7 @@ BlogPostCard.fragments = {
           responsiveImage(
             imgixParams: { w: 50, h: 50, fit: crop, q: 80, auto: format }
           ) {
-            ...CmsImageFragment
+            ...AvatarImageFragment
           }
         }
       }

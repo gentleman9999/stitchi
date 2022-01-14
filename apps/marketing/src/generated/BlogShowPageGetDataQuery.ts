@@ -9,6 +9,39 @@ import { SlugFilter } from "./globalTypes";
 // GraphQL query operation: BlogShowPageGetDataQuery
 // ====================================================
 
+export interface BlogShowPageGetDataQuery_article_author_image_responsiveImage {
+  __typename: "ResponsiveImage";
+  srcSet: string;
+  webpSrcSet: string;
+  sizes: string;
+  src: string;
+  width: any;
+  height: any;
+  aspectRatio: any;
+  alt: string | null;
+  title: string | null;
+  base64: string | null;
+}
+
+export interface BlogShowPageGetDataQuery_article_author_image {
+  __typename: "FileField";
+  responsiveImage: BlogShowPageGetDataQuery_article_author_image_responsiveImage | null;
+}
+
+export interface BlogShowPageGetDataQuery_article_author {
+  __typename: "AuthorRecord";
+  id: any;
+  name: string | null;
+  image: BlogShowPageGetDataQuery_article_author_image | null;
+}
+
+export interface BlogShowPageGetDataQuery_article_categories {
+  __typename: "CategoryRecord";
+  id: any;
+  name: string | null;
+  slug: string | null;
+}
+
 export interface BlogShowPageGetDataQuery_article_image_responsiveImage {
   __typename: "ResponsiveImage";
   srcSet: string;
@@ -50,6 +83,10 @@ export interface BlogShowPageGetDataQuery_article_content {
 export interface BlogShowPageGetDataQuery_article {
   __typename: "ArticleRecord";
   id: any;
+  title: string | null;
+  updatedAt: any;
+  author: BlogShowPageGetDataQuery_article_author | null;
+  categories: BlogShowPageGetDataQuery_article_categories[];
   image: BlogShowPageGetDataQuery_article_image | null;
   content: BlogShowPageGetDataQuery_article_content | null;
 }
