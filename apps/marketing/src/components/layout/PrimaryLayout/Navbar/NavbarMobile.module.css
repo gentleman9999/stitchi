@@ -1,0 +1,11 @@
+.item {
+  @apply py-4 border-b border-accent-2 border-solid;
+
+  &:last-child {
+    @apply border-b-0;
+  }
+}
+
+.link {
+  @apply text-xl font-medium flex items-center justify-between w-full;
+}

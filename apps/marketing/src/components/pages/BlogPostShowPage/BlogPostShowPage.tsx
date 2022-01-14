@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { CmsStructuredText } from '@components/common'
+import { CmsImage, CmsStructuredText } from '@components/common'
 import { BlogPostShowPageArticleFragment } from '@generated/BlogPostShowPageArticleFragment'
 import React from 'react'
 import { BackgroundTexture } from 'ui'
@@ -12,6 +12,9 @@ const BlogPostShowPage = (props: BlogShowPageProps) => {
   return (
     <div className="relative py-16 bg-white overflow-hidden">
       <BackgroundTexture />
+      <div>
+        <CmsImage data={props.post.image?.responsiveImage} />
+      </div>
       <div className="relative px-4 sm:px-6 lg:px-8">
         <div className="text-lg max-w-prose mx-auto">
           <CmsStructuredText content={props.post.content} />
@@ -23,9 +26,15 @@ const BlogPostShowPage = (props: BlogShowPageProps) => {
 
 BlogPostShowPage.fragments = {
   article: gql`
+    ${CmsImage.fragments.image}
     ${CmsStructuredText.fragments.content}
     fragment BlogPostShowPageArticleFragment on ArticleRecord {
       id
+      image {
+        responsiveImage {
+          ...CmsImageFragment
+        }
+      }
       content {
         ...CmsStructuredTextContentFragment
       }

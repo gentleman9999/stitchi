@@ -1,0 +1,9 @@
+.nav {
+  @apply relative flex flex-1 flex-row justify-between items-center py-3;
+}
+
+.logo {
+  @apply cursor-pointer transform duration-100 ease-in-out w-auto;
+  height: 55px;
+  width: auto;
+}

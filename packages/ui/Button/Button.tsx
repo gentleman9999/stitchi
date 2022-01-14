@@ -1,26 +1,81 @@
-import type React from 'react'
-import cx from 'classnames'
+import cn from 'classnames'
+import React, {
+  forwardRef,
+  ButtonHTMLAttributes,
+  JSXElementConstructor,
+  useRef,
+} from 'react'
+import mergeRefs from 'react-merge-refs'
+import s from './Button.module.css'
+import { LoadingDots } from 'ui'
 
-export interface ButtonProps {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  href?: string
   className?: string
-  type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type']
+  slim?: boolean
+  variant?: 'flat' | 'ghost' | 'naked'
+  active?: boolean
+  type?: 'submit' | 'reset' | 'button'
+  Component?: string | JSXElementConstructor<any>
+  width?: string | number
+  loading?: boolean
+  disabled?: boolean
+  color?: 'primary' | 'brandPrimary'
 }
 
-const Button: React.FC<ButtonProps> = props => {
-  const { children, className = '', ...rest } = props
+const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
+  const {
+    className,
+    variant = 'flat',
+    slim = false,
+    children,
+    active,
+    width,
+    color = 'primary',
+    loading = false,
+    disabled = false,
+    style = {},
+    Component = 'button',
+    ...rest
+  } = props
+  const ref = useRef<typeof Component>(null)
+
+  const rootClassName = cn(
+    s.root,
+    {
+      [s.ghost]: variant === 'ghost',
+      [s.slim]: slim,
+      [s.naked]: variant === 'naked',
+      [s.loading]: loading,
+      [s.disabled]: disabled,
+      [s.brandColors]: color === 'brandPrimary',
+    },
+    className,
+  )
 
   return (
-    <button
-      type="button"
-      className={cx(
-        'bg-primary flex items-center justify-center border border-transparent rounded-md py-2 px-4 text-base font-medium text-white hover:bg-primary focus:ring-2 focus:ring-offset-2 focus:ring-primary',
-        className,
-      )}
+    <Component
+      aria-pressed={active}
+      data-variant={variant}
+      ref={mergeRefs([ref, buttonRef])}
+      className={rootClassName}
+      disabled={disabled}
+      style={{
+        width,
+        ...style,
+      }}
       {...rest}
     >
       {children}
-    </button>
+      {loading && (
+        <i className="pl-2 m-0 flex">
+          <LoadingDots />
+        </i>
+      )}
+    </Component>
   )
-}
+})
+
+Button.displayName = 'Button'
 
 export default Button

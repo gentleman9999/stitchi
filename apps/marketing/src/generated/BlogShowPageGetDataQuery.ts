@@ -9,6 +9,25 @@ import { SlugFilter } from "./globalTypes";
 // GraphQL query operation: BlogShowPageGetDataQuery
 // ====================================================
 
+export interface BlogShowPageGetDataQuery_article_image_responsiveImage {
+  __typename: "ResponsiveImage";
+  srcSet: string;
+  webpSrcSet: string;
+  sizes: string;
+  src: string;
+  width: any;
+  height: any;
+  aspectRatio: any;
+  alt: string | null;
+  title: string | null;
+  base64: string | null;
+}
+
+export interface BlogShowPageGetDataQuery_article_image {
+  __typename: "FileField";
+  responsiveImage: BlogShowPageGetDataQuery_article_image_responsiveImage | null;
+}
+
 export interface BlogShowPageGetDataQuery_article_content_blocks {
   __typename: "ArticleRecord";
   id: any;
@@ -31,6 +50,7 @@ export interface BlogShowPageGetDataQuery_article_content {
 export interface BlogShowPageGetDataQuery_article {
   __typename: "ArticleRecord";
   id: any;
+  image: BlogShowPageGetDataQuery_article_image | null;
   content: BlogShowPageGetDataQuery_article_content | null;
 }
 

@@ -1,0 +1,95 @@
+{
+  "features": [
+    {
+      "label": "Website Builder",
+      "slug": "website-builder",
+      "description": "Create a professional website you are proud of",
+      "icon": {
+        "url": "https://images.ctfassets.net/tdx0sonzt5cz/145hwmoBnGilCAHA5PytJV/ae70e1d520c987ff53922d114886f66b/view_quilt_white_24dp__1_.svg",
+        "width": 24,
+        "height": 24
+      }
+    },
+    {
+      "label": "Email Marketing",
+      "slug": "email-marketing",
+      "description": "Get the word out and track your campaigns",
+      "icon": {
+        "url": "https://images.ctfassets.net/tdx0sonzt5cz/2WZ7dpj0eKrAKuDPLEpa7R/e9eefe1ca30baa11890b75a072be650b/campaign_white_24dp.svg",
+        "width": 24,
+        "height": 24
+      }
+    },
+    {
+      "label": "Memberships",
+      "slug": "memberships",
+      "description": "Offer recurring and specialty access to your services",
+      "icon": {
+        "url": "https://images.ctfassets.net/tdx0sonzt5cz/4YhqtsiuaxQd9pWIxhKwpI/51ab349997134fbd0e73b8526e5900a0/lock_open_white_24dp.svg",
+        "width": 24,
+        "height": 24
+      }
+    },
+    {
+      "label": "Products",
+      "slug": "products",
+      "description": "Sell products and manage fulfillment from a single e-commerce platform",
+      "icon": {
+        "url": "https://images.ctfassets.net/tdx0sonzt5cz/3ttsT8wOTS8jqYErzRM0gD/e94397eaaf0c37543549c55215970480/category_white_24dp.svg",
+        "width": 24,
+        "height": 24
+      }
+    },
+    {
+      "label": "Online Forms & Surveys",
+      "slug": "online-contact-us-and-intake-forms",
+      "description": "Get to know your customers better",
+      "icon": {
+        "url": "https://images.ctfassets.net/tdx0sonzt5cz/6cKbyj96kC8pYZWLTCyrSa/5dbb19217de2d0b650e45e9ba00a7c70/poll_white_24dp.svg",
+        "width": 24,
+        "height": 24
+      }
+    },
+    {
+      "label": "Contact Management (CRM)",
+      "slug": "customer-management",
+      "description": "Communicate, take notes, and create loyal customers using our best-in-class CRM",
+      "icon": {
+        "url": "https://images.ctfassets.net/tdx0sonzt5cz/3FX3EzkJ6jzqVSrKrGAvqy/1f4c128b41e4b96d0a4fc66b7b732f1d/contact_phone_white_24dp.svg",
+        "width": 24,
+        "height": 24
+      }
+    },
+    {
+      "label": "Online Payments",
+      "slug": "accept-payments-online",
+      "description": "Give customers flexibility with multiple ways to pay",
+      "icon": {
+        "url": "https://images.ctfassets.net/tdx0sonzt5cz/74D4g85rH7giH4RDgYVTsz/c83edb4d2a8d2cab2d6fe1e656d399c0/account_balance_white_24dp.svg",
+        "width": 24,
+        "height": 24
+      }
+    },
+    {
+      "label": "Events, Seminars & Classes",
+      "slug": "host-events",
+      "description": "Host best-in-class, in-person and virtual events, seminars, and classes",
+      "icon": {
+        "url": "https://images.ctfassets.net/tdx0sonzt5cz/28TfvUsHAfr6EF0sG65EaY/3d6d3e136c6b8d1116642d92e9bac294/local_activity_white_24dp.svg",
+        "width": 24,
+        "height": 24
+      }
+    },
+    {
+      "label": "Automated Scheduling",
+      "slug": "the-best-scheduling-app-for-small-businesses",
+      "description": "Let clients book and purchase your services online",
+      "icon": {
+        "url": "https://images.ctfassets.net/tdx0sonzt5cz/1y5PYWei5XbzJo54zKqouS/fba13d012fd976e81824154f8d8108ff/today_white_24dp.svg",
+        "width": 24,
+        "height": 24
+      }
+    }
+  ],
+  "featuresTitle": "Why Yottled"
+}

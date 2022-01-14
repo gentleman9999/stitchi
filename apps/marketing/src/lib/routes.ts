@@ -27,6 +27,9 @@ const routes = {
     home: {
       href: () => buildRoute('/'),
     },
+    getStarted: {
+      href: () => buildRoute('/start'),
+    },
     blog: {
       href: () => buildRoute('/learn'),
       show: {
