@@ -9,7 +9,7 @@ const PrimaryLayout: React.FC<PrimaryLayoutProps> = props => {
   return (
     <>
       <Navbar />
-      <main className="overflow-x-hidden">{children}</main>
+      <main className="relative overflow-x-hidden">{children}</main>
       <Footer />
     </>
   )

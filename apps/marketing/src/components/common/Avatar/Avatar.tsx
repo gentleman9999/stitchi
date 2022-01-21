@@ -9,8 +9,12 @@ export interface AvatarProps {
 
 const Avatar = (props: AvatarProps) => {
   return (
-    <div className="h-10 w-10 rounded-full relative overflow-hidden">
-      <CmsImage data={props.image} layout="fill" objectFit="cover" />
+    <div className="h-12 w-12 rounded-full relative overflow-hidden">
+      <CmsImage
+        data={props.image.responsiveImage}
+        layout="fill"
+        objectFit="cover"
+      />
     </div>
   )
 }
@@ -18,8 +22,13 @@ const Avatar = (props: AvatarProps) => {
 Avatar.fragments = {
   image: gql`
     ${CmsImage.fragments.image}
-    fragment AvatarImageFragment on ResponsiveImage {
-      ...CmsImageFragment
+    fragment AvatarImageFragment on FileField {
+      id
+      responsiveImage(
+        imgixParams: { w: 50, h: 50, fit: crop, q: 80, auto: format }
+      ) {
+        ...CmsImageFragment
+      }
     }
   `,
 }

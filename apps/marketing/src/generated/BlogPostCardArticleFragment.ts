@@ -42,6 +42,7 @@ export interface BlogPostCardArticleFragment_author_image_responsiveImage {
 
 export interface BlogPostCardArticleFragment_author_image {
   __typename: "FileField";
+  id: any;
   responsiveImage: BlogPostCardArticleFragment_author_image_responsiveImage | null;
 }
 

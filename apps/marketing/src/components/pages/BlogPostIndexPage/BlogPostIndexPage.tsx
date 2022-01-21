@@ -36,7 +36,7 @@ const BlogIndexPage = ({ articles, categories }: BlogPostIndexPageProps) => {
             libero labore natus atque, ducimus sed.
           </p>
         </div>
-        <BlogPostIndexPageFilters
+        {/* <BlogPostIndexPageFilters
           filters={[
             {
               title: 'All',
@@ -51,8 +51,8 @@ const BlogIndexPage = ({ articles, categories }: BlogPostIndexPageProps) => {
               active: category.slug === activeCategory?.slug,
             })),
           ]}
-        />
-        <div className="mt-12 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
+        /> */}
+        <div className="mt-12 mb-5 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
           {articles.map(post => (
             <BlogPostCard key={post.id} post={post} />
           ))}

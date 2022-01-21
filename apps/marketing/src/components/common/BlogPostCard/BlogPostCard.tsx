@@ -50,7 +50,7 @@ const BlogPostCard = ({ post }: BlogPostCardProps) => {
           <div className="flex-shrink-0">
             {/* <a href={post.author.href}> */}
             <span className="sr-only">{post.author.name}</span>
-            <Avatar image={post.author.image.responsiveImage} />
+            <Avatar image={post.author.image} />
             {/* </a> */}
           </div>
           <div className="ml-3">
@@ -92,11 +92,8 @@ BlogPostCard.fragments = {
         id
         name
         image {
-          responsiveImage(
-            imgixParams: { w: 50, h: 50, fit: crop, q: 80, auto: format }
-          ) {
-            ...AvatarImageFragment
-          }
+          id
+          ...AvatarImageFragment
         }
       }
       categories {

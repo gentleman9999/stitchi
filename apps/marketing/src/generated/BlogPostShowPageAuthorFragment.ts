@@ -4,10 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: AvatarImageFragment
+// GraphQL fragment: BlogPostShowPageAuthorFragment
 // ====================================================
 
-export interface AvatarImageFragment_responsiveImage {
+export interface BlogPostShowPageAuthorFragment_image_responsiveImage {
   __typename: "ResponsiveImage";
   srcSet: string;
   webpSrcSet: string;
@@ -21,8 +21,15 @@ export interface AvatarImageFragment_responsiveImage {
   base64: string | null;
 }
 
-export interface AvatarImageFragment {
+export interface BlogPostShowPageAuthorFragment_image {
   __typename: "FileField";
   id: any;
-  responsiveImage: AvatarImageFragment_responsiveImage | null;
+  responsiveImage: BlogPostShowPageAuthorFragment_image_responsiveImage | null;
+}
+
+export interface BlogPostShowPageAuthorFragment {
+  __typename: "AuthorRecord";
+  id: any;
+  name: string | null;
+  image: BlogPostShowPageAuthorFragment_image | null;
 }

@@ -10,9 +10,7 @@ import { Button } from 'ui'
 import s from './NavbarDesktop.module.css'
 
 const NavbarDropdown = dynamic(() => import('./NavbarDropdown'))
-const NavbarDropdownItemDesktop = dynamic(
-  () => import('./SecondaryNavbarItemDesktop'),
-)
+const NavbarDropdownItemDesktop = dynamic(() => import('./NavbarItemDesktop'))
 
 const DropdownButton = ({
   label,

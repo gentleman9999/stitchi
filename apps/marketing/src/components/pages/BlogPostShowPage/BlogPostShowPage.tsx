@@ -1,9 +1,10 @@
 import { gql } from '@apollo/client'
-import { Avatar, CmsImage, CmsStructuredText } from '@components/common'
+import { CmsImage, CmsStructuredText } from '@components/common'
 import { BlogPostShowPageArticleFragment } from '@generated/BlogPostShowPageArticleFragment'
 import React from 'react'
 import { BackgroundTexture, Container } from 'ui'
 import { humanizeDate } from '@utils/date'
+import BlogPostShowPageAuthor from './BlogPostShowPageAuthor'
 
 export interface BlogShowPageProps {
   post: BlogPostShowPageArticleFragment
@@ -12,22 +13,31 @@ export interface BlogShowPageProps {
 const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
   return (
     <>
-      <BackgroundTexture />
       <div>
         <Container>
           <article className="prose prose-fuchsia lg:prose-xl max-w-none">
             <div className="mb-12 max-w-none">
               <CmsImage data={post.image?.responsiveImage} />
             </div>
-            <div className="mx-auto max-w-prose">
-              <time>{humanizeDate(post.updatedAt)}</time>
+            <div className="relative mx-auto max-w-prose">
+              <BackgroundTexture />
+
+              <div className="mb-3">
+                <time>
+                  <span>{humanizeDate(post.updatedAt)}</span>
+                </time>
+              </div>
+
               <h1>{post.title}</h1>
-              <address>
-                <Avatar image={post.author.image.responsiveImage} />
-                {post.author.name}
-              </address>
-              <div className="relative">
-                <CmsStructuredText content={post.content} />
+              <div className="divide-y divide-gray-200">
+                <div className="not-prose mb-10">
+                  <BlogPostShowPageAuthor author={post.author} />
+                </div>
+                <div>
+                  <div className="mt-10">
+                    <CmsStructuredText content={post.content} />
+                  </div>
+                </div>
               </div>
             </div>
           </article>
@@ -40,7 +50,7 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
 BlogPostShowPage.fragments = {
   article: gql`
     ${CmsImage.fragments.image}
-    ${Avatar.fragments.image}
+    ${BlogPostShowPageAuthor.fragments.author}
     ${CmsStructuredText.fragments.content}
     fragment BlogPostShowPageArticleFragment on ArticleRecord {
       id
@@ -48,12 +58,7 @@ BlogPostShowPage.fragments = {
       updatedAt
       author {
         id
-        name
-        image {
-          responsiveImage {
-            ...AvatarImageFragment
-          }
-        }
+        ...BlogPostShowPageAuthorFragment
       }
       categories {
         id

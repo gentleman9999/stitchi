@@ -42,6 +42,7 @@ export interface BlogIndexPageGetDataQuery_allArticles_author_image_responsiveIm
 
 export interface BlogIndexPageGetDataQuery_allArticles_author_image {
   __typename: "FileField";
+  id: any;
   responsiveImage: BlogIndexPageGetDataQuery_allArticles_author_image_responsiveImage | null;
 }
 

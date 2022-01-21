@@ -25,6 +25,7 @@ export interface BlogShowPageGetDataQuery_article_author_image_responsiveImage {
 
 export interface BlogShowPageGetDataQuery_article_author_image {
   __typename: "FileField";
+  id: any;
   responsiveImage: BlogShowPageGetDataQuery_article_author_image_responsiveImage | null;
 }
 

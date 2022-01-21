@@ -23,6 +23,7 @@ export interface BlogPostShowPageArticleFragment_author_image_responsiveImage {
 
 export interface BlogPostShowPageArticleFragment_author_image {
   __typename: "FileField";
+  id: any;
   responsiveImage: BlogPostShowPageArticleFragment_author_image_responsiveImage | null;
 }
 
