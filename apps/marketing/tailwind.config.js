@@ -1,17 +1,5 @@
 const colors = require('tailwindcss/colors')
 
-/**
- * https://tailwindcss.com/docs/customizing-colors#using-css-variables
- */
-function withOpacityValue(variable) {
-  return ({ opacityValue }) => {
-    if (opacityValue === undefined) {
-      return `rgb(var(${variable}))`
-    }
-    return `rgb(var(${variable}) / ${opacityValue})`
-  }
-}
-
 module.exports = {
   presets: [require('../../packages/config/tailwind.config.js')],
   content: [
@@ -23,18 +11,18 @@ module.exports = {
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
+      primary: 'var(--primary)',
+      'primary-light': 'var(--primary-light)',
+      'primary-dark': 'var(--primary-dark)',
+      secondary: 'var(--secondary)',
+      'secondary-2': 'var(--secondary-2)',
+      tertiary: 'var(--tertiary)',
+      hover: 'var(--hover)',
+      'hover-1': 'var(--hover-1)',
+      'hover-2': 'var(--hover-2)',
 
-      primary: withOpacityValue('var(--primary)'),
-      'primary-light': withOpacityValue('var(--primary-light)'),
-      'primary-dark': withOpacityValue('var(--primary-dark)'),
-      secondary: withOpacityValue('var(--secondary)'),
-      'secondary-2': withOpacityValue('var(--secondary-2)'),
-      hover: withOpacityValue('var(--hover)'),
-      'hover-1': withOpacityValue('var(--hover-1)'),
-      'hover-2': withOpacityValue('var(--hover-2)'),
-
-      paper: withOpacityValue('var(--paper)'),
-      'paper-dark': withOpacityValue('var(--paper-dark)'),
+      paper: 'var(--paper)',
+      'paper-dark': 'var(--paper-dark)',
 
       gray: colors.slate,
       green: colors.emerald,
