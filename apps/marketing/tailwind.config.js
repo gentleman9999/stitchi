@@ -24,6 +24,7 @@ module.exports = {
       paper: 'var(--paper)',
       'paper-dark': 'var(--paper-dark)',
 
+      white: colors.white,
       gray: colors.slate,
       green: colors.emerald,
       purple: colors.violet,
