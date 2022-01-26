@@ -4,29 +4,38 @@ import React from 'react'
 
 const features = [
   {
-    name: 'Free consultation and design',
-    description: "We'll send money to anyone, anywhere, in any currency.",
+    name: 'Professional, high-quality custom merchandise',
+    description: 'Free consultation and design',
     icon: Doodle1,
   },
   {
-    name: 'High-quality customization on premium products',
-    description: "We'll send money to anyone, anywhere, in any currency.",
+    name: 'Tailored to your unique needs',
+    description: 'High-quality customization on premium products',
     icon: DesktopComputer,
   },
   {
-    name: 'Automated warehousing and fulfillment solutions',
-    description: "We'll send money to anyone, anywhere, in any currency.",
+    name: 'Delivered throughout the world ',
+    description: 'Automated warehousing and fulfillment solutions',
     icon: MapPin,
   },
 ]
 
 const HomePageSimpleFeatureSection = () => {
   return (
-    <Section gutter="lg" className="flex flex-col items-center">
-      <h2 className="text-4xl font-extrabold mb-10">
-        A single place for all of your swag needs.
-      </h2>
-      <dl className="space-y-10 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-8">
+    <Section gutter="lg" className="">
+      <div className="lg:text-center">
+        <span className="text-brand-primary font-semibold tracking-wide uppercase">
+          What&apos;s the deal?
+        </span>
+        <h2 className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+          Create promotional products people will love
+        </h2>
+        <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+          Lorem ipsum dolor sit amet consect adipisicing elit. Possimus magnam
+          voluptatum cupiditate veritatis in accusamus quisquam.
+        </p>
+      </div>
+      <dl className="space-y-10 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-8 mt-10">
         {features.map(feature => (
           <div key={feature.name}>
             <dt>
