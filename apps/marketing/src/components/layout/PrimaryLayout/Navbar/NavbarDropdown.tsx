@@ -54,7 +54,7 @@ const NavbarDropdown = ({ children, open, onClose, anchorEl }: Props) => {
       >
         <Dialog.Overlay className="fixed inset-0" />
         <div
-          className="mt-2 bg-white p-4 relative rounded-md focus:outline-none shadow-magical"
+          className="mt-2 bg-paper p-4 relative rounded-md focus:outline-none shadow-magical"
           style={{
             left: dims.left,
             width: dims.width,

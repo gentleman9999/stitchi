@@ -92,7 +92,7 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
           className="!py-1 !px-4 !font-extrabold !lowercase"
           color="brandPrimary"
         >
-          Sign up
+          start here
         </Button>
       </Link>
     </nav>

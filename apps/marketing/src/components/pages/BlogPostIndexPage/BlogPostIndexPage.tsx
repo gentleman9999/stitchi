@@ -24,7 +24,7 @@ const BlogIndexPage = ({ articles, categories }: BlogPostIndexPageProps) => {
   return (
     <Container className="relative">
       <div className="absolute inset-0">
-        <div className="bg-white h-1/3 sm:h-2/3" />
+        <div className="h-1/3 sm:h-2/3" />
       </div>
       <div className="relative max-w-7xl mx-auto">
         <div className="text-center">
@@ -36,7 +36,7 @@ const BlogIndexPage = ({ articles, categories }: BlogPostIndexPageProps) => {
             libero labore natus atque, ducimus sed.
           </p>
         </div>
-        {/* <BlogPostIndexPageFilters
+        <BlogPostIndexPageFilters
           filters={[
             {
               title: 'All',
@@ -51,7 +51,7 @@ const BlogIndexPage = ({ articles, categories }: BlogPostIndexPageProps) => {
               active: category.slug === activeCategory?.slug,
             })),
           ]}
-        /> */}
+        />
         <div className="mt-12 mb-5 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
           {articles.map(post => (
             <BlogPostCard key={post.id} post={post} />
