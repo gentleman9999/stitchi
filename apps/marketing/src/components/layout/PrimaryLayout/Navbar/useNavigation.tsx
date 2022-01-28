@@ -50,7 +50,7 @@ const navigation: Navigation = [
       {
         label: 'Morning Brew Case Study',
         icon: <Support {...iconBaseProps} />,
-        href: '',
+        href: routes.internal.customers.morningBrew.href(),
       },
       {
         label: 'About Us',

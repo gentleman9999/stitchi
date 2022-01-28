@@ -24,12 +24,12 @@ const HomePageSimpleFeatureSection = () => {
   return (
     <Section gutter="lg" className="">
       <div className="lg:text-center">
-        <span className="text-brand-primary font-semibold tracking-wide uppercase">
-          What&apos;s the deal?
-        </span>
-        <h2 className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-          Create promotional products people will love
+        <h2 className="text-brand-primary font-semibold tracking-wide uppercase">
+          Promotional Product Experts
         </h2>
+        <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+          Create promotional products people will love
+        </p>
         <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
           Lorem ipsum dolor sit amet consect adipisicing elit. Possimus magnam
           voluptatum cupiditate veritatis in accusamus quisquam.

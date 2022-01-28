@@ -39,6 +39,11 @@ const routes = {
         href: ({ categorySlug }) => buildRoute(`/learn/topic/${categorySlug}`),
       },
     },
+    customers: {
+      morningBrew: {
+        href: () => buildRoute('/morning-brew-newsletter-referral-program'),
+      },
+    },
   },
 }
 

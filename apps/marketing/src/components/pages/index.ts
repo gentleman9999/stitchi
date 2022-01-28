@@ -9,3 +9,6 @@ export * from './HomePage'
 
 export { default as StartPage } from './StartPage'
 export * from './StartPage'
+
+export { default as CustomerMorningBrewPage } from './CustomerMorningBrewPage'
+export * from './CustomerMorningBrewPage'

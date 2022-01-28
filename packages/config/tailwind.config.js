@@ -42,6 +42,7 @@ module.exports = {
         primary: 'var(--text-primary)',
         secondary: 'var(--text-secondary)',
         'brand-primary': 'var(--primary)',
+        'brand-secondary': 'var(--secondary)',
       },
     },
   },
