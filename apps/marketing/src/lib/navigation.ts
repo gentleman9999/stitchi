@@ -1,44 +1,79 @@
-import { Facebook, Instagram, Twitter } from 'icons'
+import { Facebook, Instagram, Support, Twitter } from 'icons'
+import { routes } from '.'
+
+export type Navigation = ReturnType<typeof navigation.makeNavigation>
 
 const navigation = {
   makeNavigation: () => ({
     solutions: [
-      { name: 'Marketing', href: '#' },
-      { name: 'Analytics', href: '#' },
-      { name: 'Commerce', href: '#' },
-      { name: 'Insights', href: '#' },
+      {
+        label: 'Pro Merch Designs (Free)',
+        description:
+          "We'll design your merch for you, and you'll get paid for it.",
+        icon: Support,
+        href: '',
+      },
+      {
+        label: 'Quality Customizations',
+        description:
+          "We'll design your merch for you, and you'll get paid for it.",
+        icon: Support,
+
+        href: '',
+      },
+      {
+        label: 'eCommerce, Warehousing & Distribution',
+        description:
+          "We'll design your merch for you, and you'll get paid for it.",
+        icon: Support,
+        href: '',
+      },
     ],
-    support: [
-      { name: 'Pricing', href: '#' },
-      { name: 'Documentation', href: '#' },
-      { name: 'Guides', href: '#' },
-      { name: 'API Status', href: '#' },
-    ],
-    company: [
-      { name: 'About', href: '#' },
-      { name: 'Blog', href: '#' },
-      { name: 'Jobs', href: '#' },
-      { name: 'Press', href: '#' },
-      { name: 'Partners', href: '#' },
+    resources: [
+      {
+        label: 'Learn',
+        icon: Support,
+        href: routes.internal.blog.href(),
+      },
+      {
+        label: 'Morning Brew Case Study',
+        icon: Support,
+        href: routes.internal.customers.morningBrew.href(),
+      },
+      {
+        label: 'About us',
+        icon: Support,
+        href: '#',
+      },
+      {
+        label: 'Partners',
+        icon: Support,
+        href: '#',
+      },
+      {
+        label: 'Jobs',
+        icon: Support,
+        href: '#',
+      },
     ],
     legal: [
-      { name: 'Claim', href: '#' },
-      { name: 'Privacy', href: '#' },
-      { name: 'Terms', href: '#' },
+      { label: 'Claim', href: '#' },
+      { label: 'Privacy', href: '#' },
+      { label: 'Terms', href: '#' },
     ],
     social: [
       {
-        name: 'Facebook',
+        label: 'Facebook',
         href: '#',
         icon: Facebook,
       },
       {
-        name: 'Instagram',
+        label: 'Instagram',
         href: '#',
         icon: Instagram,
       },
       {
-        name: 'Twitter',
+        label: 'Twitter',
         href: '#',
         icon: Twitter,
       },

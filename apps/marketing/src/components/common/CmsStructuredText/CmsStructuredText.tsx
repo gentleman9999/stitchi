@@ -35,9 +35,7 @@ CmsStructuredText.fragments = {
   content: gql`
     fragment CmsStructuredTextContentFragment on ArticleModelContentField {
       value
-      blocks {
-        id
-      }
+      blocks
       links {
         ... on ArticleRecord {
           id

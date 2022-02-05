@@ -12,3 +12,12 @@ export * from './StartPage'
 
 export { default as CustomerMorningBrewPage } from './CustomerMorningBrewPage'
 export * from './CustomerMorningBrewPage'
+
+export { default as CustomizationPage } from './CustomizationPage'
+export * from './CustomizationPage'
+
+export { default as DesignPage } from './DesignPage'
+export * from './DesignPage'
+
+export { default as DistributionPage } from './DistributionPage'
+export * from './DistributionPage'

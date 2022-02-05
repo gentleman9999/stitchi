@@ -4,8 +4,8 @@ import React from 'react'
 import cx from 'classnames'
 import Link from 'next/link'
 import useDropdown from './useDropdown'
-import { Navigation } from './useNavigation'
 import routes from '@lib/routes'
+import { Navigation } from '@lib/navigation'
 import { Button } from 'ui'
 import s from './NavbarDesktop.module.css'
 
@@ -43,48 +43,66 @@ interface Props {
 const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
   const { active, handleClick } = useDropdown()
 
+  const solutionsLabel = 'Why Stitchi?'
+  const resourcesLabel = 'Resources'
+  const iconBaseProps = { fill: 'var(--tertiary)' }
+
   return (
     <nav className="space-x-10">
-      {navigation.map(item => {
-        const key = item.label
-        if ('href' in item) {
-          return (
-            <Link href={item.href} key={key}>
-              <a className={s.link}>{item.label}</a>
-            </Link>
-          )
-        } else {
-          return (
-            <div className="inline-flex" key={key}>
-              <DropdownButton
-                label={item.label}
-                onClick={e => {
-                  handleClick(item.label)
-                }}
-                expanded={active === item.label}
-              />
+      <div className="inline-flex" key={solutionsLabel}>
+        <DropdownButton
+          label={solutionsLabel}
+          onClick={e => {
+            handleClick(solutionsLabel)
+          }}
+          expanded={active === solutionsLabel}
+        />
 
-              <NavbarDropdown
-                onClose={() => handleClick(item.label)}
-                open={active === item.label}
-                anchorEl={anchorEl}
-              >
-                <div className="grid grid-cols-3 gap-4">
-                  {item.subNav.map(subItem => (
-                    <NavbarDropdownItemDesktop
-                      key={subItem.label}
-                      label={subItem.label}
-                      href={subItem.href}
-                      description={subItem.description}
-                      icon={subItem.icon}
-                    />
-                  ))}
-                </div>
-              </NavbarDropdown>
-            </div>
-          )
-        }
-      })}
+        <NavbarDropdown
+          onClose={() => handleClick(solutionsLabel)}
+          open={active === solutionsLabel}
+          anchorEl={anchorEl}
+        >
+          <div className="grid grid-cols-3 gap-4">
+            {navigation.solutions.map(subItem => (
+              <NavbarDropdownItemDesktop
+                key={subItem.label}
+                label={subItem.label}
+                href={subItem.href}
+                description={subItem.description}
+                icon={<subItem.icon {...iconBaseProps} />}
+              />
+            ))}
+          </div>
+        </NavbarDropdown>
+      </div>
+
+      <div className="inline-flex" key={resourcesLabel}>
+        <DropdownButton
+          label={resourcesLabel}
+          onClick={e => {
+            handleClick(resourcesLabel)
+          }}
+          expanded={active === resourcesLabel}
+        />
+
+        <NavbarDropdown
+          onClose={() => handleClick(resourcesLabel)}
+          open={active === resourcesLabel}
+          anchorEl={anchorEl}
+        >
+          <div className="grid grid-cols-3 gap-4">
+            {navigation.resources.map(subItem => (
+              <NavbarDropdownItemDesktop
+                key={subItem.label}
+                label={subItem.label}
+                href={subItem.href}
+                icon={<subItem.icon {...iconBaseProps} />}
+              />
+            ))}
+          </div>
+        </NavbarDropdown>
+      </div>
 
       <Link href={routes.internal.getStarted.href()} passHref>
         <Button

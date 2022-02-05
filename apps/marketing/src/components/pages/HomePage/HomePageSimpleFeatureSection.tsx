@@ -38,7 +38,7 @@ const HomePageSimpleFeatureSection = () => {
         </p>
         <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
           We are a team of promotional product designers, marketers, and coders
-          at your disposal to make your next merch project a breeze.
+          at your disposal to make your next merch project a breeze. close
         </p>
       </div>
       <dl className="space-y-10 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-8 mt-10">

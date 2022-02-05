@@ -44,6 +44,17 @@ const routes = {
         href: () => buildRoute('/morning-brew-newsletter-referral-program'),
       },
     },
+    features: {
+      design: {
+        href: () => buildRoute('/promotional-product-design'),
+      },
+      customization: {
+        href: () => buildRoute('/promotional-product-customization'),
+      },
+      distribution: {
+        href: () => buildRoute('/promotional-product-distribution'),
+      },
+    },
   },
 }
 

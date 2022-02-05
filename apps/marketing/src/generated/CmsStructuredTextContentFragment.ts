@@ -7,11 +7,6 @@
 // GraphQL fragment: CmsStructuredTextContentFragment
 // ====================================================
 
-export interface CmsStructuredTextContentFragment_blocks {
-  __typename: "ArticleRecord";
-  id: any;
-}
-
 export interface CmsStructuredTextContentFragment_links {
   __typename: "ArticleRecord";
   id: any;
@@ -22,6 +17,6 @@ export interface CmsStructuredTextContentFragment_links {
 export interface CmsStructuredTextContentFragment {
   __typename: "ArticleModelContentField";
   value: any;
-  blocks: CmsStructuredTextContentFragment_blocks[];
+  blocks: string[];
   links: CmsStructuredTextContentFragment_links[];
 }

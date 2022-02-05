@@ -1,10 +1,9 @@
 import { ChevronDown, HamburgerMenu } from 'icons'
 import React from 'react'
-import { Navigation } from './useNavigation'
 import Link from 'next/link'
 import cx from 'classnames'
 import s from './NavbarMobile.module.css'
-
+import { Navigation } from '@lib/navigation'
 import useDropdown from './useDropdown'
 import dynamic from 'next/dynamic'
 
@@ -20,6 +19,9 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
     useDropdown<boolean>()
   const { active: dropdownActive, handleClick: handleDropdownClick } =
     useDropdown()
+
+  const solutionsLabel = 'Why Stitchi?'
+  const resourcesLabel = 'Resources'
 
   return (
     <div>
@@ -48,43 +50,54 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
         </Link> */}
 
         <div>
-          {navigation.map(item => {
-            const key = item.label
-            if ('href' in item) {
-              return (
-                <Link href={item.href} key={key}>
-                  <a className={cx(s.link, s.item)}>{item.label}</a>
+          <div className={s.item} key={solutionsLabel}>
+            <button
+              className={s.link}
+              onClick={() => handleDropdownClick(solutionsLabel)}
+            >
+              {solutionsLabel}
+              <span
+                className={cx('ml-2 transition', {
+                  'transform rotate-180': dropdownActive === solutionsLabel,
+                })}
+              >
+                <ChevronDown />
+              </span>
+            </button>
+            <Dropdown expanded={dropdownActive === solutionsLabel}>
+              {navigation.solutions.map(subItem => (
+                <Link href={subItem.href} key={subItem.label}>
+                  <a className="block mb-2 text-lg text-secondary">
+                    {subItem.label}
+                  </a>
                 </Link>
-              )
-            } else {
-              return (
-                <div className={s.item} key={key}>
-                  <button
-                    className={s.link}
-                    onClick={() => handleDropdownClick(item.label)}
-                  >
-                    {item.label}
-                    <span
-                      className={cx('ml-2 transition', {
-                        'transform rotate-180': dropdownActive === item.label,
-                      })}
-                    >
-                      <ChevronDown />
-                    </span>
-                  </button>
-                  <Dropdown expanded={dropdownActive === item.label}>
-                    {item.subNav.map(subItem => (
-                      <Link href={subItem.href} key={subItem.label}>
-                        <a className="block mb-2 text-lg text-secondary">
-                          {subItem.label}
-                        </a>
-                      </Link>
-                    ))}
-                  </Dropdown>
-                </div>
-              )
-            }
-          })}
+              ))}
+            </Dropdown>
+          </div>
+          <div className={s.item} key={resourcesLabel}>
+            <button
+              className={s.link}
+              onClick={() => handleDropdownClick(resourcesLabel)}
+            >
+              {resourcesLabel}
+              <span
+                className={cx('ml-2 transition', {
+                  'transform rotate-180': dropdownActive === resourcesLabel,
+                })}
+              >
+                <ChevronDown />
+              </span>
+            </button>
+            <Dropdown expanded={dropdownActive === resourcesLabel}>
+              {navigation.resources.map(subItem => (
+                <Link href={subItem.href} key={subItem.label}>
+                  <a className="block mb-2 text-lg text-secondary">
+                    {subItem.label}
+                  </a>
+                </Link>
+              ))}
+            </Dropdown>
+          </div>
         </div>
       </NavbarDropdown>
     </div>

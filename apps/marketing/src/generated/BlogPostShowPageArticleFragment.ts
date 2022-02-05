@@ -60,11 +60,6 @@ export interface BlogPostShowPageArticleFragment_image {
   responsiveImage: BlogPostShowPageArticleFragment_image_responsiveImage | null;
 }
 
-export interface BlogPostShowPageArticleFragment_content_blocks {
-  __typename: "ArticleRecord";
-  id: any;
-}
-
 export interface BlogPostShowPageArticleFragment_content_links {
   __typename: "ArticleRecord";
   id: any;
@@ -75,7 +70,7 @@ export interface BlogPostShowPageArticleFragment_content_links {
 export interface BlogPostShowPageArticleFragment_content {
   __typename: "ArticleModelContentField";
   value: any;
-  blocks: BlogPostShowPageArticleFragment_content_blocks[];
+  blocks: string[];
   links: BlogPostShowPageArticleFragment_content_links[];
 }
 
