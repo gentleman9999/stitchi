@@ -49,7 +49,7 @@ const Footer = () => (
             </div>
           </div>
           <div className="md:grid md:grid-cols-2 md:gap-8">
-            <div>
+            {/* <div>
               <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
                 Company
               </h3>
@@ -65,7 +65,7 @@ const Footer = () => (
                   </li>
                 ))}
               </ul>
-            </div>
+            </div> */}
             <div className="mt-12 md:mt-0">
               <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
                 Legal

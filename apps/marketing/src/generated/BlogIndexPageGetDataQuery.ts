@@ -72,11 +72,19 @@ export interface BlogIndexPageGetDataQuery_allArticles {
   categories: BlogIndexPageGetDataQuery_allArticles_categories[];
 }
 
+export interface BlogIndexPageGetDataQuery_allCategories_description {
+  __typename: "CategoryModelDescriptionField";
+  value: any;
+  blocks: string[];
+}
+
 export interface BlogIndexPageGetDataQuery_allCategories {
   __typename: "CategoryRecord";
   id: any;
   name: string | null;
+  shortName: string | null;
   slug: string | null;
+  description: BlogIndexPageGetDataQuery_allCategories_description | null;
 }
 
 export interface BlogIndexPageGetDataQuery {

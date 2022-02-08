@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { BlogPostCard } from '@components/common'
+import { BlogPostCard, CmsStructuredText } from '@components/common'
 import { BlogIndexPageArticleFragment } from '@generated/BlogIndexPageArticleFragment'
 import { BlogPostIndexPageCategoryFragment } from '@generated/BlogPostIndexPageCategoryFragment'
 import routes from '@lib/routes'
@@ -29,11 +29,20 @@ const BlogIndexPage = ({ articles, categories }: BlogPostIndexPageProps) => {
       <div className="relative max-w-7xl mx-auto">
         <div className="text-center">
           <h2 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl">
-            From the blog
+            {`Promotional Products Wiki ${
+              activeCategory?.name ? `: ${activeCategory.name}` : ''
+            }`}
           </h2>
           <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa
-            libero labore natus atque, ducimus sed.
+            {activeCategory?.description ? (
+              <CmsStructuredText content={activeCategory.description} />
+            ) : (
+              <>
+                Promotional Products can be a big asset to your brand. Learn how
+                the pros use promotional products to increase sales and increase
+                brand awareness.
+              </>
+            )}
           </p>
         </div>
         <BlogPostIndexPageFilters
@@ -44,7 +53,7 @@ const BlogIndexPage = ({ articles, categories }: BlogPostIndexPageProps) => {
               active: !activeCategory,
             },
             ...categories.map(category => ({
-              title: category.name,
+              title: category.shortName || category.name,
               href: routes.internal.blog.category.href({
                 categorySlug: category.slug,
               }),
@@ -71,10 +80,15 @@ BlogIndexPage.fragments = {
     }
   `,
   category: gql`
+    ${CmsStructuredText.fragments.categoryDescription}
     fragment BlogPostIndexPageCategoryFragment on CategoryRecord {
       id
       name
+      shortName
       slug
+      description {
+        ...CmsStructuredTextCategoryDescriptionFragment
+      }
     }
   `,
 }

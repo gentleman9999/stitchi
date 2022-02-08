@@ -19,7 +19,7 @@ const getPagination = (currentPage: number) => ({
   skip: (currentPage - 1) * PAGE_LIMIT,
 })
 
-export const getStaticPaths: GetStaticPaths = async () => {
+const getStaticPaths: GetStaticPaths = async () => {
   const paths = []
 
   const client = initializeApollo()
@@ -37,11 +37,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: false,
+    fallback: 'blocking',
   }
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+const getStaticProps: GetStaticProps = async ({ params }) => {
   const { pageNumber } = params
 
   const pageNumberInt = parseInt(`${pageNumber}`, 10)
@@ -92,6 +92,7 @@ BlogIndexPage.getLayout = (page: ReactElement) => (
 )
 
 export default BlogIndexPage
+export { getStaticPaths, getStaticProps }
 
 const GET_DATA = gql`
   ${BlogPostIndexPage.fragments.article}

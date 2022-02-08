@@ -16,8 +16,13 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
       <div>
         <Container>
           <article className="prose prose-fuchsia lg:prose-xl max-w-none">
-            <div className="mb-12 max-w-none">
-              <CmsImage data={post.image?.responsiveImage} />
+            <div className="mb-12 max-w-none max-h-[60vh] overflow-hidden rounded-lg">
+              <CmsImage
+                data={post.image?.responsiveImage}
+                lazyLoad={false}
+                usePlaceholder={false}
+                layout="responsive"
+              />
             </div>
             <div className="relative mx-auto max-w-prose">
               <BackgroundTexture />
@@ -51,7 +56,7 @@ BlogPostShowPage.fragments = {
   article: gql`
     ${CmsImage.fragments.image}
     ${BlogPostShowPageAuthor.fragments.author}
-    ${CmsStructuredText.fragments.content}
+    ${CmsStructuredText.fragments.articleContent}
     fragment BlogPostShowPageArticleFragment on ArticleRecord {
       id
       title
@@ -67,7 +72,7 @@ BlogPostShowPage.fragments = {
       }
 
       image {
-        responsiveImage {
+        responsiveImage(sizes: "") {
           ...CmsImageFragment
         }
       }
