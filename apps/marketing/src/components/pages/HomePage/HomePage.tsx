@@ -1,8 +1,7 @@
-import { SimpleCenteredTestimonial } from '@components/common'
+import { SimpleCenteredTestimonial, useSpokesperson } from '@components/common'
 import React from 'react'
 import { Container } from 'ui'
 import HomePageHero from './HomePageHero'
-import jennyHeadshot from '../../../../public/customers/morning_brew/jenny_rothenberg_morning_brew.jpg'
 import morningBrewLogo from '../../../../public/customers/morning_brew/morning_brew_logo.png'
 import HomePageSimpleFeatureSection from './HomePageSimpleFeatureSection'
 import HomePageClosingSection from './HomePageClosingSection'
@@ -10,21 +9,18 @@ import HomePageClosingSection from './HomePageClosingSection'
 export interface HomePageProps {}
 
 const HomePage = (props: HomePageProps) => {
+  const jenny = useSpokesperson('jenny_rothenberg')
   return (
     <>
       <Container>
         <HomePageHero />
       </Container>
       <Container>
-        <SimpleCenteredTestimonial
+        {/* <SimpleCenteredTestimonial
           testimonial="We shipped over 8,000 pairs of Morning Brew joggers to our loyal readers, resulting in over 75,000 new subscribers. This was our largest growth campaign to date and we love seeing pictures of our readers wearing their MB joggers on social media."
           company={{ name: 'Morning Brew', logo: morningBrewLogo }}
-          spokesperson={{
-            name: 'Jenny Rothenberg',
-            title: 'Director of Growth',
-            headshot: jennyHeadshot,
-          }}
-        />
+          spokesperson={jenny}
+        /> */}
       </Container>
       <Container>
         <HomePageSimpleFeatureSection />

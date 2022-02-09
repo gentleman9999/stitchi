@@ -2,6 +2,7 @@ import React from 'react'
 import { Container } from 'ui'
 import StatsSection from './StatsSection'
 import TestimonialCard from './TestimonialCard'
+import TweetsSection from './TweetsSection'
 
 const CustomerMorningBrewPage = () => {
   return (
@@ -12,7 +13,6 @@ const CustomerMorningBrewPage = () => {
             aria-hidden="true"
             className="hidden sm:block lg:absolute lg:inset-y-0 lg:right-0 lg:w-screen"
           >
-            {/* <div className="absolute inset-y-0 right-1/2 w-full bg-gray-50 rounded-r-3xl lg:right-72" /> */}
             <svg
               className="absolute top-8 left-1/2 -ml-3 lg:-right-8 lg:left-auto lg:top-12"
               width={404}
@@ -50,6 +50,7 @@ const CustomerMorningBrewPage = () => {
             <TestimonialCard />
           </div>
           <StatsSection />
+          <TweetsSection />
         </div>
 
         <div className="relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-0">
