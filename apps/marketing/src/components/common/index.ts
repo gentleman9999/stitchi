@@ -9,7 +9,6 @@ export * from './Footer'
 export { default as CmsStructuredText } from './CmsStructuredText'
 export * from './CmsStructuredText'
 
-export * from './CmsImage'
 export { default as CmsImage } from './CmsImage'
 export * from './CmsImage'
 
@@ -27,3 +26,9 @@ export * from './Section'
 
 export { default as TwitterTweetEmbed } from './TwitterTweetEmbed'
 export * from './TwitterTweetEmbed'
+
+export { default as CmsSeo } from './CmsSeo'
+export * from './CmsSeo'
+
+export { default as SeoDefault } from './SeoDefault'
+export * from './SeoDefault'

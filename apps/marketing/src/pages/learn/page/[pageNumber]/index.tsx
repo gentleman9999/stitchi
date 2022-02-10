@@ -78,13 +78,23 @@ const BlogIndexPage = () => {
     skip: isNaN(pageNumberInt),
   })
 
-  const { allArticles: articles, allCategories: categories } = data || {}
+  const {
+    allArticles: articles,
+    allCategories: categories,
+    blogIndexPage,
+  } = data || {}
 
   if (error && articles.length === 0) {
     return <ComponentErrorMessage error={error} />
   }
 
-  return <BlogPostIndexPage articles={articles} categories={categories} />
+  return (
+    <BlogPostIndexPage
+      articles={articles}
+      categories={categories}
+      page={blogIndexPage}
+    />
+  )
 }
 
 BlogIndexPage.getLayout = (page: ReactElement) => (
@@ -97,6 +107,7 @@ export { getStaticPaths, getStaticProps }
 const GET_DATA = gql`
   ${BlogPostIndexPage.fragments.article}
   ${BlogPostIndexPage.fragments.category}
+  ${BlogPostIndexPage.fragments.page}
   query BlogIndexPageGetDataQuery($first: IntType, $skip: IntType) {
     allArticles(first: $first, skip: $skip) {
       id
@@ -106,6 +117,9 @@ const GET_DATA = gql`
     allCategories {
       id
       ...BlogPostIndexPageCategoryFragment
+    }
+    blogIndexPage {
+      ...BlogPostIndexPagePageFragment
     }
   }
 `

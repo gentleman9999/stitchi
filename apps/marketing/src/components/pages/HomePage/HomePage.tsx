@@ -16,11 +16,11 @@ const HomePage = (props: HomePageProps) => {
         <HomePageHero />
       </Container>
       <Container>
-        {/* <SimpleCenteredTestimonial
+        <SimpleCenteredTestimonial
           testimonial="We shipped over 8,000 pairs of Morning Brew joggers to our loyal readers, resulting in over 75,000 new subscribers. This was our largest growth campaign to date and we love seeing pictures of our readers wearing their MB joggers on social media."
           company={{ name: 'Morning Brew', logo: morningBrewLogo }}
           spokesperson={jenny}
-        /> */}
+        />
       </Container>
       <Container>
         <HomePageSimpleFeatureSection />

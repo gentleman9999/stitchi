@@ -7,8 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint src --fix",
-    "codegen": "yarn codegen:graphql",
-    "codegen:graphql": "apollo client:codegen ./src/generated --target typescript --outputFlat"
+    "codegen": "yarn codegen:graphql && yarn codegen:seo",
+    "codegen:graphql": "apollo client:codegen ./src/generated --target typescript --outputFlat",
+    "codegen:seo": "node ./scripts/generate-seo.mjs"
   },
   "dependencies": {
     "@apollo/client": "^3.5.7",
@@ -19,6 +20,7 @@
     "lodash.isequal": "^4.5.0",
     "lodash.throttle": "^4.1.1",
     "next": "latest",
+    "next-seo": "^5.1.0",
     "react": "^17.0.2",
     "react-datocms": "^2.0.1",
     "react-dom": "^17.0.2",

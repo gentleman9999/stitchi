@@ -78,6 +78,13 @@ export interface BlogIndexPageGetDataQuery_allCategories_description {
   blocks: string[];
 }
 
+export interface BlogIndexPageGetDataQuery_allCategories__seoMetaTags {
+  __typename: "Tag";
+  attributes: any | null;
+  content: string | null;
+  tag: string;
+}
+
 export interface BlogIndexPageGetDataQuery_allCategories {
   __typename: "CategoryRecord";
   id: any;
@@ -85,6 +92,25 @@ export interface BlogIndexPageGetDataQuery_allCategories {
   shortName: string | null;
   slug: string | null;
   description: BlogIndexPageGetDataQuery_allCategories_description | null;
+  /**
+   * SEO meta tags
+   */
+  _seoMetaTags: BlogIndexPageGetDataQuery_allCategories__seoMetaTags[];
+}
+
+export interface BlogIndexPageGetDataQuery_blogIndexPage__seoMetaTags {
+  __typename: "Tag";
+  attributes: any | null;
+  content: string | null;
+  tag: string;
+}
+
+export interface BlogIndexPageGetDataQuery_blogIndexPage {
+  __typename: "BlogIndexPageRecord";
+  /**
+   * SEO meta tags
+   */
+  _seoMetaTags: BlogIndexPageGetDataQuery_blogIndexPage__seoMetaTags[];
 }
 
 export interface BlogIndexPageGetDataQuery {
@@ -96,6 +122,10 @@ export interface BlogIndexPageGetDataQuery {
    * Returns a collection of records
    */
   allCategories: BlogIndexPageGetDataQuery_allCategories[];
+  /**
+   * Returns the single instance record
+   */
+  blogIndexPage: BlogIndexPageGetDataQuery_blogIndexPage | null;
 }
 
 export interface BlogIndexPageGetDataQueryVariables {

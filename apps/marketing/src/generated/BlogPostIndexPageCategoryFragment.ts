@@ -13,6 +13,13 @@ export interface BlogPostIndexPageCategoryFragment_description {
   blocks: string[];
 }
 
+export interface BlogPostIndexPageCategoryFragment__seoMetaTags {
+  __typename: "Tag";
+  attributes: any | null;
+  content: string | null;
+  tag: string;
+}
+
 export interface BlogPostIndexPageCategoryFragment {
   __typename: "CategoryRecord";
   id: any;
@@ -20,4 +27,8 @@ export interface BlogPostIndexPageCategoryFragment {
   shortName: string | null;
   slug: string | null;
   description: BlogPostIndexPageCategoryFragment_description | null;
+  /**
+   * SEO meta tags
+   */
+  _seoMetaTags: BlogPostIndexPageCategoryFragment__seoMetaTags[];
 }
