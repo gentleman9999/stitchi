@@ -127,13 +127,23 @@ const BlogCategoryIndexPage = (props: Props) => {
     },
   })
 
-  const { allArticles: articles, allCategories: categories } = data || {}
+  const {
+    allArticles: articles,
+    allCategories: categories,
+    blogIndexPage,
+  } = data || {}
 
   if (error && articles.length === 0) {
     return <ComponentErrorMessage error={error} />
   }
 
-  return <BlogPostIndexPage articles={articles} categories={categories} />
+  return (
+    <BlogPostIndexPage
+      articles={articles}
+      categories={categories}
+      page={blogIndexPage}
+    />
+  )
 }
 
 BlogCategoryIndexPage.getLayout = (page: ReactElement) => (
