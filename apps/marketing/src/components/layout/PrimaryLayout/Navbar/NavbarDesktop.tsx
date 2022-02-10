@@ -9,8 +9,8 @@ import { Navigation } from '@lib/navigation'
 import { Button } from 'ui'
 import s from './NavbarDesktop.module.css'
 
-const NavbarDropdown = dynamic(() => import('./NavbarDropdown'))
-const NavbarDropdownItemDesktop = dynamic(() => import('./NavbarItemDesktop'))
+// const NavbarDropdown = dynamic(() => import('./NavbarDropdown'))
+// const NavbarDropdownItemDesktop = dynamic(() => import('./NavbarItemDesktop'))
 
 const DropdownButton = ({
   label,
@@ -49,8 +49,14 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
 
   return (
     <nav className="space-x-10">
-      <div className="inline-flex" key={solutionsLabel}>
-        <DropdownButton
+      <Link href={routes.internal.blog.href()} passHref>
+        <a className={s.link}>Learn</a>
+      </Link>
+      <Link href={routes.internal.customers.morningBrew.href()} passHref>
+        <a className={s.link}>Case study</a>
+      </Link>
+      {/* <div className="inline-flex" key={solutionsLabel}> */}
+      {/* <DropdownButton
           label={solutionsLabel}
           onClick={e => {
             handleClick(solutionsLabel)
@@ -102,7 +108,7 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
             ))}
           </div>
         </NavbarDropdown>
-      </div>
+      </div> */}
 
       <Link href={routes.internal.getStarted.href()} passHref>
         <Button
