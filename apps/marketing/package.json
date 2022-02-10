@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 3000",
-    "build": "next build",
+    "build": "yarn codegen && next build",
     "start": "next start",
     "lint": "eslint src --fix",
     "codegen": "yarn codegen:graphql && yarn codegen:seo",
