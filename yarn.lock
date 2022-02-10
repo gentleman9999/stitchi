@@ -161,6 +161,11 @@
     "@babel/helper-validator-identifier" "^7.16.7"
     to-fast-properties "^2.0.0"
 
+"@corex/deepmerge@^2.6.148":
+  version "2.6.148"
+  resolved "https://registry.yarnpkg.com/@corex/deepmerge/-/deepmerge-2.6.148.tgz#8fa825d53ffd1cbcafce1b6a830eefd3dcc09dd5"
+  integrity sha512-6QMz0/2h5C3ua51iAnXMPWFbb1QOU1UvSM4bKBw5mzdT+WtLgjbETBBIQZ+Sh9WvEcGwlAt/DEdRpIC3XlDBMA==
+
 "@endemolshinegroup/cosmiconfig-typescript-loader@^1.0.0":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@endemolshinegroup/cosmiconfig-typescript-loader/-/cosmiconfig-typescript-loader-1.0.2.tgz#c1eadbb4c269f7898195ca8f7428bf5f5d1c449a"
@@ -3956,7 +3961,7 @@ minimatch@^3.0.4, minimatch@~3.0.2:
   dependencies:
     brace-expansion "^1.1.7"
 
-minimist@^1.1.1, minimist@^1.2.0:
+minimist@^1.1.1, minimist@^1.2.0, minimist@^1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
   integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
@@ -4010,6 +4015,14 @@ next-seo@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/next-seo/-/next-seo-5.1.0.tgz#aa9fd6249a11bf93e6da06fa2a6bc89268936edf"
   integrity sha512-ampuQfNTOi1x+xtRIb6CZGunIo6rQXtMo2Tyu861d5GjJFIwfOXsA4lzCa4+e2rLkyXDyVpavNNUZWa3US9ELw==
+
+next-sitemap@^2.1.13:
+  version "2.1.13"
+  resolved "https://registry.yarnpkg.com/next-sitemap/-/next-sitemap-2.1.13.tgz#1772e9f0eae07d4b1c3194654b84e6579c05a95c"
+  integrity sha512-gybyH7ylRiwgRakI81++Hx6a+LUl7tkcmcsjNJA0L0t95lk3gc0OYHH9siV+JMdytd4lag5ue8E8iMGKJ06Q/Q==
+  dependencies:
+    "@corex/deepmerge" "^2.6.148"
+    minimist "^1.2.5"
 
 next-transpile-modules@^9.0.0:
   version "9.0.0"
