@@ -106,6 +106,7 @@ BlogIndexPage.fragments = {
   page: gql`
     ${BlogPostIndexPageSeo.fragments.page}
     fragment BlogPostIndexPagePageFragment on BlogIndexPageRecord {
+      id
       ...BlogPostIndexPageSeoPageFragment
     }
   `,

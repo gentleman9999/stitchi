@@ -146,6 +146,7 @@ export { getStaticPaths, getStaticProps }
 const GET_PAGE_DATA = gql`
   ${BlogPostIndexPage.fragments.article}
   ${BlogPostIndexPage.fragments.category}
+  ${BlogPostIndexPage.fragments.page}
   query BlogCategoryIndexPageGetPageDataQuery(
     $first: IntType
     $skip: IntType
@@ -162,6 +163,10 @@ const GET_PAGE_DATA = gql`
     allCategories {
       id
       ...BlogPostIndexPageCategoryFragment
+    }
+    blogIndexPage {
+      id
+      ...BlogPostIndexPagePageFragment
     }
   }
 `

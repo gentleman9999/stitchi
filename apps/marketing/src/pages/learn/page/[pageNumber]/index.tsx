@@ -119,6 +119,7 @@ const GET_DATA = gql`
       ...BlogPostIndexPageCategoryFragment
     }
     blogIndexPage {
+      id
       ...BlogPostIndexPagePageFragment
     }
   }

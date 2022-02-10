@@ -16,6 +16,7 @@ export interface BlogPostIndexPageSeoPageFragment__seoMetaTags {
 
 export interface BlogPostIndexPageSeoPageFragment {
   __typename: "BlogIndexPageRecord";
+  id: any;
   /**
    * SEO meta tags
    */

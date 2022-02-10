@@ -26,6 +26,7 @@ BlogPostIndexPageSeo.fragments = {
   page: gql`
     ${CmsSeo.fragments.seoTags}
     fragment BlogPostIndexPageSeoPageFragment on BlogIndexPageRecord {
+      id
       _seoMetaTags {
         ...CmsSeoTagsFragment
       }

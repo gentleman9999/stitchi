@@ -107,6 +107,7 @@ export interface BlogIndexPageGetDataQuery_blogIndexPage__seoMetaTags {
 
 export interface BlogIndexPageGetDataQuery_blogIndexPage {
   __typename: "BlogIndexPageRecord";
+  id: any;
   /**
    * SEO meta tags
    */
