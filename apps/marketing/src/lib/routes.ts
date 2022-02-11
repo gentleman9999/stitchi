@@ -55,6 +55,21 @@ const routes = {
         href: () => buildRoute('/promotional-product-distribution'),
       },
     },
+    legal: {
+      privacy: {
+        href: () => buildRoute('/privacy-policy'),
+      },
+      terms: {
+        href: () => buildRoute('/terms-of-use'),
+      },
+    },
+  },
+  external: {
+    social: {
+      twitter: {
+        href: () => buildRoute(`https://twitter.com/gostitchi`),
+      },
+    },
   },
 }
 

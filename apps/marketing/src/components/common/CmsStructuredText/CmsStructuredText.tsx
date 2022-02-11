@@ -1,6 +1,8 @@
 import { gql } from '@apollo/client'
 import { CmsStructuredTextCategoryDescriptionFragment } from '@generated/CmsStructuredTextCategoryDescriptionFragment'
 import { CmsStructuredTextContentFragment } from '@generated/CmsStructuredTextContentFragment'
+import { CmsStructuredTextPrivacyPolicyContentFragment } from '@generated/CmsStructuredTextPrivacyPolicyContentFragment'
+import { CmsStructuredTextTermsOfUseContentFragment } from '@generated/CmsStructuredTextTermsOfUseContentFragment'
 import routes from '@lib/routes'
 import Link from 'next/link'
 import { StructuredText } from 'react-datocms'
@@ -9,6 +11,8 @@ interface Props {
   content:
     | CmsStructuredTextContentFragment
     | CmsStructuredTextCategoryDescriptionFragment
+    | CmsStructuredTextPrivacyPolicyContentFragment
+    | CmsStructuredTextTermsOfUseContentFragment
 }
 
 const CmsStructuredText = ({ content }: Props) => {
@@ -45,6 +49,18 @@ CmsStructuredText.fragments = {
           title
         }
       }
+    }
+  `,
+  privacyPolicyContent: gql`
+    fragment CmsStructuredTextPrivacyPolicyContentFragment on PrivacyPolicyPageModelContentField {
+      value
+      blocks
+    }
+  `,
+  termsOfUseContent: gql`
+    fragment CmsStructuredTextTermsOfUseContentFragment on TermsOfUsePageModelContentField {
+      value
+      blocks
     }
   `,
   categoryDescription: gql`

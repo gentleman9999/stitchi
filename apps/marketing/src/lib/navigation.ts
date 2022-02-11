@@ -40,41 +40,41 @@ const navigation = {
         icon: Support,
         href: routes.internal.customers.morningBrew.href(),
       },
-      {
-        label: 'About us',
-        icon: Support,
-        href: '#',
-      },
-      {
-        label: 'Partners',
-        icon: Support,
-        href: '#',
-      },
-      {
-        label: 'Jobs',
-        icon: Support,
-        href: '#',
-      },
+      // {
+      //   label: 'About us',
+      //   icon: Support,
+      //   href: '#',
+      // },
+      // {
+      //   label: 'Partners',
+      //   icon: Support,
+      //   href: '#',
+      // },
+      // {
+      //   label: 'Jobs',
+      //   icon: Support,
+      //   href: '#',
+      // },
     ],
     legal: [
-      { label: 'Claim', href: '#' },
-      { label: 'Privacy', href: '#' },
-      { label: 'Terms', href: '#' },
+      // { label: 'Claim', href: '#' },
+      { label: 'Privacy', href: routes.internal.legal.privacy.href() },
+      { label: 'Terms', href: routes.internal.legal.terms.href() },
     ],
     social: [
-      {
-        label: 'Facebook',
-        href: '#',
-        icon: Facebook,
-      },
-      {
-        label: 'Instagram',
-        href: '#',
-        icon: Instagram,
-      },
+      // {
+      //   label: 'Facebook',
+      //   href: '#',
+      //   icon: Facebook,
+      // },
+      // {
+      //   label: 'Instagram',
+      //   href: '#',
+      //   icon: Instagram,
+      // },
       {
         label: 'Twitter',
-        href: '#',
+        href: routes.external.social.twitter.href(),
         icon: Twitter,
       },
     ],
