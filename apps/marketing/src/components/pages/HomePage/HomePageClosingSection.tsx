@@ -35,13 +35,14 @@ const HomePageClosingSection = () => {
         <div className="relative">
           <div className="sm:text-center">
             <h2 className="text-2xl font-extrabold text-paper sm:text-4xl">
-              <span className="block">Boost your productivity.</span>
-              <span className="block">Start using Workflow today.</span>
+              <span className="block">
+                Unlock the power of promotional products.
+              </span>
+              <span className="block">
+                {/* Take the hassle out of promotional products. */}
+              </span>
             </h2>
-            <p className="mt-4 text-lg leading-6 text-white">
-              Ac euismod vel sit maecenas id pellentesque eu sed consectetur.
-              Malesuada adipiscing sagittis vel nulla nec.
-            </p>
+            {/* <p className="mt-4 text-lg leading-6 text-white"></p> */}
             <div className="shadow mt-8 inline-block">
               <Link href={routes.internal.getStarted.href()} passHref>
                 <Button Component="a" color="primary">

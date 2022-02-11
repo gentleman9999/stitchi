@@ -25,6 +25,7 @@ const HomePage = (props: HomePageProps) => {
       <Container>
         <HomePageSimpleFeatureSection />
       </Container>
+
       <Container>
         <HomePageClosingSection />
       </Container>

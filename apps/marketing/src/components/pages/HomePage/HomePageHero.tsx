@@ -6,11 +6,16 @@ const HomePageHero = () => {
     <Hero
       title={
         <>
-          <span className="block xl:inline">Make the stitch. Merch for</span>{' '}
-          <span className="inline-block text-tertiary xl:inline underline">
-            startups
-          </span>
-          <span className="inline-block xl:inline">.</span>
+          <span className="block xl:inline">
+            Make the stitch.{' '}
+            <span className="block">
+              Merch for{' '}
+              <span className="inline-block text-tertiary xl:inline underline">
+                startups
+              </span>
+              .
+            </span>
+          </span>{' '}
         </>
       }
       subtitle={

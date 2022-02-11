@@ -16,7 +16,7 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
       <div>
         <Container>
           <article className="prose prose-fuchsia lg:prose-xl max-w-none">
-            <div className="mb-12 max-w-none max-h-[60vh] overflow-hidden rounded-lg">
+            <div className="not-prose mb-12 max-w-none max-h-[60vh] overflow-hidden rounded-lg">
               <CmsImage
                 data={post.image?.responsiveImage}
                 lazyLoad={false}
