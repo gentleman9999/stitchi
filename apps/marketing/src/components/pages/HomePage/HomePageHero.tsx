@@ -1,7 +1,55 @@
 import { Hero } from '@components/common'
-import React from 'react'
+import routes from '@lib/routes'
+import React, { useRef } from 'react'
+
+const SPEED = 50
+
+const USE_CASES = ['startups', 'events', 'bands', 'fundraisers', 'drops']
+
+const UseCase = ({ useCase }: { useCase: string }) => {
+  // const ref = useRef<HTMLSpanElement>()
+
+  // React.useEffect(() => {
+  //   let i = 0
+
+  //   const typeWriter = () => {
+  //     if (i < useCase.length) {
+  //       ref.current.innerHTML += useCase.charAt(i)
+  //       i++
+  //       setTimeout(typeWriter, SPEED)
+  //     }
+  //   }
+
+  //   typeWriter()
+
+  //   return () => {
+  //     clearTimeout()
+  //   }
+  // }, [useCase])
+
+  return (
+    <span className="inline-block text-tertiary xl:inline underline">
+      {useCase}
+    </span>
+  )
+}
 
 const HomePageHero = () => {
+  const [useCase, setUseCase] = React.useState('startups')
+
+  // React.useEffect(() => {
+  //   const rotateUseCase = () => {
+  //     setUseCase(USE_CASES[Math.floor(Math.random() * USE_CASES.length)])
+  //     setTimeout(rotateUseCase, 5000)
+  //   }
+
+  //   rotateUseCase()
+
+  //   return () => {
+  //     clearTimeout()
+  //   }
+  // }, [])
+
   return (
     <Hero
       title={
@@ -9,11 +57,7 @@ const HomePageHero = () => {
           <span className="block xl:inline">
             Make the stitch.{' '}
             <span className="block">
-              Merch for{' '}
-              <span className="inline-block text-tertiary xl:inline underline">
-                startups
-              </span>
-              .
+              Merch for <UseCase useCase={useCase} />.
             </span>
           </span>{' '}
         </>
@@ -27,7 +71,7 @@ const HomePageHero = () => {
       }
       primaryCta={{
         title: 'Get started for free',
-        href: '/',
+        href: routes.internal.getStarted.href(),
       }}
     />
   )
