@@ -16,7 +16,10 @@ export interface Props {
 
 const BlogPostIndexPageFilters = ({ filters, className }: Props) => (
   <div
-    className={cx(className, 'flex flex-wrap justify-center md:justify-start')}
+    className={cx(
+      className,
+      'flex flex-wrap justify-center md:justify-start mt-8',
+    )}
   >
     {filters.map(({ href, title, active }) => (
       <Link href={href} key={href}>
