@@ -2,21 +2,34 @@ import React from 'react'
 
 type InputElementAttributes = React.InputHTMLAttributes<HTMLInputElement>
 
-export interface TextFieldProps {
+interface BaseProps {
   name: string
   className?: string
   label?: string
   description?: string
-  multiline?: boolean
-  minRows?: number
   autoComplete?: InputElementAttributes['autoComplete']
   type?: InputElementAttributes['type']
   required?: InputElementAttributes['required']
   readonly?: InputElementAttributes['readOnly']
 }
 
+interface MultilineProps extends BaseProps {
+  multiline: true
+  inputRef?: React.Ref<any>
+  minRows?: number
+}
+
+interface SinglelineProps extends BaseProps {
+  multiline?: false
+  inputRef?: React.Ref<any>
+}
+
+export type TextFieldProps = MultilineProps | SinglelineProps
+
 const TextField = (props: TextFieldProps) => {
-  const { type = 'text', minRows = 4 } = props
+  const { type = 'text' } = props
+
+  const minRows = 'minRows' in props ? props.minRows : 4
 
   return (
     <div className={props.className}>
@@ -26,7 +39,7 @@ const TextField = (props: TextFieldProps) => {
             htmlFor={props.name}
             className="block text-sm font-medium text-gray-700"
           >
-            {props.label}
+            {`${props.label}${props.required ? '*' : ''}`}
           </label>
         )}
 
@@ -41,9 +54,10 @@ const TextField = (props: TextFieldProps) => {
       </div>
 
       <div className="mt-1">
-        {props.multiline ? (
+        {props.multiline === true ? (
           <textarea
             id={props.name}
+            ref={props.inputRef}
             name={props.name}
             defaultValue={''}
             rows={minRows}
@@ -53,6 +67,7 @@ const TextField = (props: TextFieldProps) => {
         ) : (
           <input
             id={props.name}
+            ref={props.inputRef}
             name={props.name}
             type={type}
             autoComplete={props.autoComplete}

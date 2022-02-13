@@ -64,6 +64,13 @@ const routes = {
       },
     },
   },
+  api: {
+    formResponse: {
+      create: {
+        href: () => buildRoute('/api/form-response'),
+      },
+    },
+  },
   external: {
     social: {
       twitter: {

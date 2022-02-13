@@ -10,6 +10,7 @@ export interface RadioSelectProps {
   name: string
   options: Option[]
   label?: string
+  inputRef?: React.Ref<any>
 }
 
 const RadioSelect = (props: RadioSelectProps) => {
@@ -23,6 +24,7 @@ const RadioSelect = (props: RadioSelectProps) => {
           <div key={option.id} className="flex items-center">
             <input
               id={option.id}
+              ref={props.inputRef}
               name={props.name}
               defaultValue={option.value}
               type="radio"

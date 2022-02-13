@@ -2,10 +2,33 @@ import routes from '@lib/routes'
 import Link from 'next/link'
 import React from 'react'
 import { Button, Logo, RadioSelect, TextField } from 'ui'
+import { object, string, SchemaOf } from 'yup'
+import type { FormInput } from 'pages/api/form-response'
+import { Controller, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import api from '@lib/api'
+
+const schema: SchemaOf<FormInput> = object({
+  email: string().email().required(),
+  first_name: string().optional(),
+  last_name: string().optional(),
+  company: string().optional(),
+  phone: string().optional(),
+  description: string().optional(),
+  budget: string().optional(),
+})
 
 interface StartPageProps {}
 
 const StartPage = (props: StartPageProps) => {
+  const form = useForm({ resolver: yupResolver(schema) })
+
+  const { register, control } = form
+
+  const handleSubmit = form.handleSubmit(async data => {
+    await api.formResponse.create(data)
+  })
+
   return (
     <div>
       <div className="lg:absolute lg:inset-0">
@@ -33,73 +56,133 @@ const StartPage = (props: StartPageProps) => {
               opposite, or email us. We&apos;d love to hear from you! Send us a
               message using the form opposite, or email us.
             </p>
+            {/* {JSON.stringify(form.watch())} */}
             <form
-              action="#"
-              method="POST"
+              // onSubmit={handleSubmit}
               className="mt-9 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8"
             >
-              <TextField
-                name="first-name"
-                label="First name"
-                autoComplete="given-name"
-              />
-              <TextField
-                name="last-name"
-                label="Last name"
-                autoComplete="family-name"
-              />
-              <TextField
-                className="sm:col-span-2"
-                name="email"
-                label="Email"
-                autoComplete="email"
-              />
-              <TextField
-                className="sm:col-span-2"
-                name="company"
-                label="Company"
-                autoComplete="organization"
-              />
-              <TextField
-                className="sm:col-span-2"
-                name="phone"
-                label="Phone"
-                description="Optional"
-                autoComplete="tel"
-              />
-              <TextField
-                multiline
-                className="sm:col-span-2"
-                name="how-can-we-help"
-                label="How can we help you?"
-                description="Max. 500 characters"
+              <Controller
+                name="first_name"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="First name"
+                    autoComplete="given-name"
+                  />
+                )}
               />
 
-              <RadioSelect
-                label="Expected budget"
+              <Controller
+                name="last_name"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Last name"
+                    autoComplete="family-name"
+                  />
+                )}
+              />
+
+              <Controller
+                name="email"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    required
+                    className="sm:col-span-2"
+                    label="Email"
+                    autoComplete="email"
+                  />
+                )}
+              />
+
+              <Controller
+                name="company"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    className="sm:col-span-2"
+                    label="Company"
+                    autoComplete="organization"
+                  />
+                )}
+              />
+
+              <Controller
+                name="phone"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    className="sm:col-span-2"
+                    label="Phone"
+                    autoComplete="tel"
+                  />
+                )}
+              />
+
+              <Controller
+                name="phone"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    className="sm:col-span-2"
+                    label="Phone"
+                    autoComplete="tel"
+                  />
+                )}
+              />
+
+              <Controller
+                name="description"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    multiline
+                    className="sm:col-span-2"
+                    label="How can we help you?"
+                    description="Max. 500 characters"
+                  />
+                )}
+              />
+
+              <Controller
                 name="budget"
-                options={[
-                  {
-                    id: 'budget-under-25k',
-                    label: 'Less than $25k',
-                    value: 'under_25k',
-                  },
-                  {
-                    id: 'budget-25k-50-k',
-                    label: '$25k - $50k',
-                    value: '25k-50k',
-                  },
-                  {
-                    id: 'budget-50k-100k',
-                    label: '$50k - $100k',
-                    value: '50k-100k',
-                  },
-                  {
-                    id: 'budget-over-100k',
-                    label: '$100k+',
-                    value: 'over_100k',
-                  },
-                ]}
+                control={control}
+                render={({ field }) => (
+                  <RadioSelect
+                    {...field}
+                    label="Expected budget"
+                    options={[
+                      {
+                        id: 'budget-under-25k',
+                        label: 'Less than $25k',
+                        value: 'under_25k',
+                      },
+                      {
+                        id: 'budget-25k-50-k',
+                        label: '$25k - $50k',
+                        value: '25k-50k',
+                      },
+                      {
+                        id: 'budget-50k-100k',
+                        label: '$50k - $100k',
+                        value: '50k-100k',
+                      },
+                      {
+                        id: 'budget-over-100k',
+                        label: '$100k+',
+                        value: 'over_100k',
+                      },
+                    ]}
+                  />
+                )}
               />
 
               <div className="text-right sm:col-span-2">

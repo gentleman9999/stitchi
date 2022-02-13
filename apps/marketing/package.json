@@ -15,6 +15,7 @@
   "dependencies": {
     "@apollo/client": "^3.5.7",
     "@headlessui/react": "^1.4.3",
+    "@hookform/resolvers": "^2.8.8",
     "classnames": "^2.3.1",
     "dayjs": "^1.10.7",
     "icons": "*",
@@ -25,7 +26,9 @@
     "react": "^17.0.2",
     "react-datocms": "^2.0.1",
     "react-dom": "^17.0.2",
-    "ui": "*"
+    "react-hook-form": "^7.27.0",
+    "ui": "*",
+    "yup": "^0.32.11"
   },
   "sideEffects": [
     "*.css"
