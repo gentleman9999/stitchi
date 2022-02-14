@@ -11,6 +11,8 @@ export interface RadioSelectProps {
   options: Option[]
   label?: string
   inputRef?: React.Ref<any>
+  value?: string
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const RadioSelect = (props: RadioSelectProps) => {
@@ -26,6 +28,7 @@ const RadioSelect = (props: RadioSelectProps) => {
               id={option.id}
               ref={props.inputRef}
               name={props.name}
+              onChange={props.onChange}
               defaultValue={option.value}
               type="radio"
               className="focus:ring-primary h-4 w-4 text-brand-primary border-gray-300"

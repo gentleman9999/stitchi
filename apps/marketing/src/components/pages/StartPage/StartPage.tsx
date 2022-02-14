@@ -23,10 +23,16 @@ interface StartPageProps {}
 const StartPage = (props: StartPageProps) => {
   const form = useForm({ resolver: yupResolver(schema) })
 
-  const { register, control } = form
+  const { control, formState } = form
 
   const handleSubmit = form.handleSubmit(async data => {
-    await api.formResponse.create(data)
+    try {
+      console.info('Starting to submit contact form')
+      await api.formResponse.create(data)
+      console.info('Successfully submitted contact form')
+    } catch (e) {
+      console.error('Error submitting contact form', { context: { error: e } })
+    }
   })
 
   return (
@@ -56,9 +62,9 @@ const StartPage = (props: StartPageProps) => {
               opposite, or email us. We&apos;d love to hear from you! Send us a
               message using the form opposite, or email us.
             </p>
-            {/* {JSON.stringify(form.watch())} */}
+
             <form
-              // onSubmit={handleSubmit}
+              onSubmit={handleSubmit}
               className="mt-9 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8"
             >
               <Controller
@@ -95,6 +101,8 @@ const StartPage = (props: StartPageProps) => {
                     className="sm:col-span-2"
                     label="Email"
                     autoComplete="email"
+                    description={formState.errors.email?.message}
+                    error={formState.errors.email}
                   />
                 )}
               />
@@ -108,19 +116,6 @@ const StartPage = (props: StartPageProps) => {
                     className="sm:col-span-2"
                     label="Company"
                     autoComplete="organization"
-                  />
-                )}
-              />
-
-              <Controller
-                name="phone"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    className="sm:col-span-2"
-                    label="Phone"
-                    autoComplete="tel"
                   />
                 )}
               />
@@ -184,6 +179,10 @@ const StartPage = (props: StartPageProps) => {
                   />
                 )}
               />
+
+              <div>
+                {Object.keys(formState.errors).length > 0 && <div> </div>}
+              </div>
 
               <div className="text-right sm:col-span-2">
                 <Button type="submit" color="brandPrimary">

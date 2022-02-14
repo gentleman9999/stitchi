@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 
 type InputElementAttributes = React.InputHTMLAttributes<HTMLInputElement>
 
@@ -11,17 +12,21 @@ interface BaseProps {
   type?: InputElementAttributes['type']
   required?: InputElementAttributes['required']
   readonly?: InputElementAttributes['readOnly']
+  value?: string
+  error?: boolean
 }
 
 interface MultilineProps extends BaseProps {
   multiline: true
   inputRef?: React.Ref<any>
   minRows?: number
+  onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
 }
 
 interface SinglelineProps extends BaseProps {
   multiline?: false
   inputRef?: React.Ref<any>
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export type TextFieldProps = MultilineProps | SinglelineProps
@@ -46,7 +51,9 @@ const TextField = (props: TextFieldProps) => {
         {props.description && (
           <span
             id={`${props.name}-description`}
-            className="text-sm text-gray-500"
+            className={cx('text-sm text-gray-500', {
+              'text-red-500': props.error,
+            })}
           >
             {props.description}
           </span>
@@ -59,22 +66,38 @@ const TextField = (props: TextFieldProps) => {
             id={props.name}
             ref={props.inputRef}
             name={props.name}
+            value={props.value}
+            onChange={props.onChange}
             defaultValue={''}
             rows={minRows}
             aria-describedby={props.description && `${props.name}-description`}
-            className="block w-full shadow-sm sm:text-sm focus:ring-primary focus:border-primary border border-gray-300 rounded-md"
+            className={cx(
+              'block w-full shadow-sm sm:text-sm focus:ring-primary focus:border-primary border border-gray-300 rounded-md',
+              {
+                'border-red-500 focus:border-red-500 focus:ring-red-500':
+                  props.error,
+              },
+            )}
           />
         ) : (
           <input
             id={props.name}
             ref={props.inputRef}
             name={props.name}
+            value={props.value}
+            onChange={props.onChange}
             type={type}
             autoComplete={props.autoComplete}
             required={props.required}
             readOnly={props.readonly}
             aria-describedby={props.description && `${props.name}-description`}
-            className="block w-full shadow-sm sm:text-sm focus:ring-primary focus:border-primary border-gray-300 rounded-md"
+            className={cx(
+              'block w-full shadow-sm sm:text-sm focus:ring-primary focus:border-primary border-gray-300 rounded-md',
+              {
+                'border-red-500 focus:border-red-500 focus:ring-red-500':
+                  props.error,
+              },
+            )}
           />
         )}
       </div>
