@@ -14,3 +14,6 @@ export * from './LoadingDots'
 
 export { default as Container } from './Container'
 export * from './Container'
+
+export { default as Dialog } from './Dialog'
+export * from './Dialog'

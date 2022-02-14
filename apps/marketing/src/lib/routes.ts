@@ -29,6 +29,10 @@ const routes = {
     },
     getStarted: {
       href: () => buildRoute('/start'),
+
+      success: {
+        href: () => buildRoute('/start/success'),
+      },
     },
     blog: {
       href: () => buildRoute('/learn'),

@@ -18,20 +18,27 @@ const schema: SchemaOf<FormInput> = object({
   budget: string().optional(),
 })
 
-interface StartPageProps {}
+export interface StartPageProps {
+  onSubmit: (data: FormInput) => void
+}
 
 const StartPage = (props: StartPageProps) => {
-  const form = useForm({ resolver: yupResolver(schema) })
+  const form = useForm<FormInput>({ resolver: yupResolver(schema) })
+  const [loading, setLoading] = React.useState(false)
 
   const { control, formState } = form
 
   const handleSubmit = form.handleSubmit(async data => {
+    setLoading(true)
     try {
       console.info('Starting to submit contact form')
       await api.formResponse.create(data)
       console.info('Successfully submitted contact form')
+      props.onSubmit(data)
     } catch (e) {
       console.error('Error submitting contact form', { context: { error: e } })
+    } finally {
+      setLoading(false)
     }
   })
 
@@ -102,7 +109,7 @@ const StartPage = (props: StartPageProps) => {
                     label="Email"
                     autoComplete="email"
                     description={formState.errors.email?.message}
-                    error={formState.errors.email}
+                    error={Boolean(formState.errors.email)}
                   />
                 )}
               />
@@ -185,7 +192,7 @@ const StartPage = (props: StartPageProps) => {
               </div>
 
               <div className="text-right sm:col-span-2">
-                <Button type="submit" color="brandPrimary">
+                <Button type="submit" color="brandPrimary" loading={loading}>
                   Submit
                 </Button>
               </div>

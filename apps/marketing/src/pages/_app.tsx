@@ -8,6 +8,7 @@ import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '@lib/apollo'
 import { SeoDefault } from '@components/common'
 import globalSeo from '@generated/global-seo.json'
+import StandoutProvider from '@components/context/standout'
 
 type ExtendedNextPage = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -39,7 +40,9 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
   return (
     <ApolloProvider client={apolloClient}>
       <SeoDefault seo={globalSeo.data.homepage._seoMetaTags as any} />
-      {getLayout(<Component {...pageProps} />)}
+      <StandoutProvider>
+        {getLayout(<Component {...pageProps} />)}
+      </StandoutProvider>
     </ApolloProvider>
   )
 }

@@ -1,9 +1,19 @@
 import { routes } from '.'
 
+interface FormResponseCreateBody {
+  email: string
+  first_name?: string
+  last_name?: string
+  company?: string
+  phone?: string
+  description?: string
+  budget?: string
+}
+
 const makeApi = () => {
   return {
     formResponse: {
-      create: async (args: {}) => {
+      create: async (args: FormResponseCreateBody) => {
         const response = await fetch(routes.api.formResponse.create.href(), {
           method: 'POST',
           body: JSON.stringify(args),

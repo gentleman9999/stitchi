@@ -29,6 +29,10 @@ module.exports = withTM({
         destination: '/learn/topic/:topicSlug',
         permanent: true,
       },
+      {
+        source: '/start/success',
+        destination: '/learn?standout=contact_success',
+      },
     ]
   },
 })
