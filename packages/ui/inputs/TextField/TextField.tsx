@@ -14,6 +14,7 @@ interface BaseProps {
   readonly?: InputElementAttributes['readOnly']
   value?: string
   error?: boolean
+  placeholder?: string
 }
 
 interface MultilineProps extends BaseProps {
@@ -35,6 +36,12 @@ const TextField = (props: TextFieldProps) => {
   const { type = 'text' } = props
 
   const minRows = 'minRows' in props ? props.minRows : 4
+  const className = cx(
+    'block w-full shadow-sm sm:text-sm focus:ring-primary focus:border-primary border-gray-300 rounded-md',
+    {
+      'border-red-500 focus:border-red-500 focus:ring-red-500': props.error,
+    },
+  )
 
   return (
     <div className={props.className}>
@@ -66,24 +73,20 @@ const TextField = (props: TextFieldProps) => {
             id={props.name}
             ref={props.inputRef}
             name={props.name}
+            placeholder={props.placeholder}
             value={props.value}
             onChange={props.onChange}
             defaultValue={''}
             rows={minRows}
             aria-describedby={props.description && `${props.name}-description`}
-            className={cx(
-              'block w-full shadow-sm sm:text-sm focus:ring-primary focus:border-primary border border-gray-300 rounded-md',
-              {
-                'border-red-500 focus:border-red-500 focus:ring-red-500':
-                  props.error,
-              },
-            )}
+            className={className}
           />
         ) : (
           <input
             id={props.name}
             ref={props.inputRef}
             name={props.name}
+            placeholder={props.placeholder}
             value={props.value}
             onChange={props.onChange}
             type={type}
@@ -91,13 +94,7 @@ const TextField = (props: TextFieldProps) => {
             required={props.required}
             readOnly={props.readonly}
             aria-describedby={props.description && `${props.name}-description`}
-            className={cx(
-              'block w-full shadow-sm sm:text-sm focus:ring-primary focus:border-primary border-gray-300 rounded-md',
-              {
-                'border-red-500 focus:border-red-500 focus:ring-red-500':
-                  props.error,
-              },
-            )}
+            className={className}
           />
         )}
       </div>

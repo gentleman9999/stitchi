@@ -32,6 +32,7 @@ module.exports = withTM({
       {
         source: '/start/success',
         destination: '/learn?standout=contact_success',
+        permanent: false,
       },
     ]
   },

@@ -1,7 +1,7 @@
 import nav from '@lib/navigation'
 import React from 'react'
-import { Button, Container } from 'ui'
-import { Section } from '..'
+import { Button, Container, InlineTextForm, TextField } from 'ui'
+import { Section, SubscribeInline } from '..'
 
 const navigation = nav.makeNavigation()
 
@@ -56,23 +56,7 @@ const Footer = () => (
                 The latest news, articles, and resources, sent to your inbox
                 weekly.
               </p>
-              <form className="mt-4 sm:flex sm:max-w-md">
-                <label htmlFor="email-address" className="sr-only">
-                  Email address
-                </label>
-                <input
-                  type="email"
-                  name="email-address"
-                  id="email-address"
-                  autoComplete="email"
-                  required
-                  className="appearance-none min-w-0 w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-4 text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:placeholder-gray-400"
-                  placeholder="Enter your email"
-                />
-                <div className="mt-3 sm:mt-0 sm:ml-3 sm:flex-shrink-0">
-                  <Button type="submit">Subscribe</Button>
-                </div>
-              </form>
+              <SubscribeInline />
             </div>
           </div>
         </div>

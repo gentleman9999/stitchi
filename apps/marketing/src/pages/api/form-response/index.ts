@@ -85,6 +85,7 @@ const handler: NextApiHandler = async (req, res) => {
 
         res.status(200).json(formInput)
 
+        break
       default:
         throw new Error(`Unsupported method "${req.method}"`)
     }

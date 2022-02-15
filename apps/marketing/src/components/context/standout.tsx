@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import React from 'react'
 import { Dialog } from 'ui'
+import { SubscribeInline } from '..'
 
 interface StandoutContext {}
 
@@ -18,8 +19,20 @@ const StandoutProvider = ({ children }: { children: React.ReactNode }) => {
     switch (query.standout) {
       case 'contact_success':
         return (
-          <Dialog>
-            <Dialog.Title>Hello</Dialog.Title>
+          <Dialog size="lg">
+            <Dialog.Icon />
+            <Dialog.Title>We&apos;ll be in touch right away</Dialog.Title>
+            <Dialog.Content>
+              <Dialog.ContentText>
+                <p>
+                  Subscribe to receive The latest news, articles, and resources,
+                  sent to your inbox weekly.
+                </p>
+              </Dialog.ContentText>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <SubscribeInline className="m-auto" centered />
+            </Dialog.Actions>
           </Dialog>
         )
       default:

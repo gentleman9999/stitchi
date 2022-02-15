@@ -1,18 +1,68 @@
 import React, { Fragment } from 'react'
+import cx from 'classnames'
 import { Dialog as HuiDialog, Transition } from '@headlessui/react'
 import DialogTitle from './DialogTitle'
-import { Check } from 'icons'
+import DialogIcon from './DialogIcon'
+import DialogContent from './DialogContent'
+import DialogContentText from './DialogContentText'
+import DialogActions from './DialogActions'
+import { Button } from '..'
 
-export interface DialogProps {}
+export interface DialogProps {
+  children: ReturnType<
+    | typeof DialogTitle
+    | typeof DialogIcon
+    | typeof DialogContent
+    | typeof DialogActions
+  >[]
+  size?: 'sm' | 'md' | 'lg'
+}
 
 const Dialog = (props: DialogProps) => {
+  const { size = 'md' } = props
   const [open, setOpen] = React.useState(true)
+
+  let Title = null
+  let Icon = null
+  let Content = null
+  let Actions = null
+
+  React.Children.forEach(props.children, child => {
+    switch (child.type) {
+      case DialogTitle:
+        if (Title) {
+          throw new Error('Dialog can only have one title')
+        }
+        Title = child
+        break
+      case DialogIcon:
+        if (Icon) {
+          throw new Error('Dialog can only have one icon')
+        }
+        Icon = child
+        break
+      case DialogContent:
+        if (Content) {
+          throw new Error('Dialog can only have one content')
+        }
+        Content = child
+        break
+      case DialogActions:
+        if (Actions) {
+          throw new Error('Dialog can only have one actions')
+        }
+        Actions = child
+        break
+      default:
+        throw new Error(`Invalid child type: ${child.type}`)
+    }
+  })
 
   return (
     <Transition.Root show={open} as={Fragment}>
       <HuiDialog
         as="div"
-        className="fixed z-10 inset-0 overflow-y-auto"
+        className="fixed z-40 inset-0 overflow-y-auto"
         onClose={setOpen}
       >
         <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -44,33 +94,24 @@ const Dialog = (props: DialogProps) => {
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+            <div
+              className={cx(
+                'inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full sm:p-6',
+                {
+                  'sm:max-w-sm': size === 'sm',
+                  'sm:max-w-lg': size === 'md',
+                  'sm:max-w-2xl': size === 'lg',
+                },
+              )}
+            >
               <div>
-                <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
-                  <Check
-                    className="h-6 w-6 text-green-600"
-                    aria-hidden="true"
-                  />
-                </div>
+                {Icon}
                 <div className="mt-3 text-center sm:mt-5">
-                  <DialogTitle>Payment successful</DialogTitle>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Consequatur amet labore.
-                    </p>
-                  </div>
+                  {Title}
+                  <div className="mt-2">{Content}</div>
                 </div>
               </div>
-              <div className="mt-5 sm:mt-6">
-                <button
-                  type="button"
-                  className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
-                  onClick={() => setOpen(false)}
-                >
-                  Go back to dashboard
-                </button>
-              </div>
+              {Actions}
             </div>
           </Transition.Child>
         </div>
@@ -80,5 +121,9 @@ const Dialog = (props: DialogProps) => {
 }
 
 Dialog.Title = DialogTitle
+Dialog.Icon = DialogIcon
+Dialog.Content = DialogContent
+Dialog.ContentText = DialogContentText
+Dialog.Actions = DialogActions
 
 export default Dialog

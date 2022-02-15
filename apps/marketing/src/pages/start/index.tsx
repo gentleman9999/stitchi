@@ -7,7 +7,7 @@ const Start = () => {
   const handleSubmit: StartPageProps['onSubmit'] = values => {
     console.info('Start page form submitted', { values })
 
-    router.push(routes.internal.home.href())
+    router.push(routes.internal.getStarted.success.href())
   }
 
   return (
