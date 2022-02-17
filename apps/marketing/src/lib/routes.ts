@@ -31,7 +31,7 @@ const routes = {
       href: () => buildRoute('/start'),
 
       success: {
-        href: () => buildRoute('/start/success'),
+        href: ({ email = '' }) => buildRoute('/start/success', { email }),
       },
     },
     blog: {
@@ -72,6 +72,11 @@ const routes = {
     formResponse: {
       create: {
         href: () => buildRoute('/api/form-response'),
+      },
+    },
+    mailingListSubscription: {
+      create: {
+        href: () => buildRoute('/api/mailing-list-subscription'),
       },
     },
   },

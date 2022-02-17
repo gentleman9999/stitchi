@@ -25,20 +25,24 @@ const StandoutProvider = ({ children }: { children: React.ReactNode }) => {
             <Dialog.Content>
               <Dialog.ContentText>
                 <p>
-                  Subscribe to receive The latest news, articles, and resources,
+                  Subscribe to receive the latest news, articles, and resources,
                   sent to your inbox weekly.
                 </p>
               </Dialog.ContentText>
             </Dialog.Content>
             <Dialog.Actions>
-              <SubscribeInline className="m-auto" centered />
+              <SubscribeInline
+                className="m-auto"
+                centered
+                defaultValue={`${query.email}`}
+              />
             </Dialog.Actions>
           </Dialog>
         )
       default:
         return null
     }
-  }, [query.standout])
+  }, [query.email, query.standout])
 
   return (
     <StandoutContext.Provider value={undefined}>
