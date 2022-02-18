@@ -1,1 +1,10 @@
 .vercel
+/.next
+/.turbo
+.env
+*.env
+
+# dependencies
+/node_modules
+
+.DS_Store
