@@ -9,8 +9,7 @@ import { useApollo } from '@lib/apollo'
 import { SeoDefault } from '@components/common'
 import globalSeo from '@generated/global-seo.json'
 import { StandoutProvider } from '@components/context'
-import { useRouter } from 'next/router'
-import events, { GTM_ID } from '@lib/events'
+import { GTM_ID } from '@lib/events'
 import Script from 'next/script'
 
 type ExtendedNextPage = NextPage & {
@@ -23,7 +22,6 @@ type ExtendedAppProps = AppProps & {
 
 const Page = ({ Component, pageProps }: ExtendedAppProps) => {
   const apolloClient = useApollo(pageProps)
-  const router = useRouter()
 
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? (page => page)
@@ -40,16 +38,6 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
   useEffect(() => {
     document.body.classList?.remove('loading')
   }, [])
-
-  /**
-   * Tracks page view for Google Analytics
-   */
-  useEffect(() => {
-    router.events.on('routeChangeComplete', events.pageview)
-    return () => {
-      router.events.off('routeChangeComplete', events.pageview)
-    }
-  }, [router.events])
 
   return (
     <>
