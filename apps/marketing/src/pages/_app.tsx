@@ -8,7 +8,10 @@ import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '@lib/apollo'
 import { SeoDefault } from '@components/common'
 import globalSeo from '@generated/global-seo.json'
-import StandoutProvider from '@components/context/standout'
+import { StandoutProvider } from '@components/context'
+import { useRouter } from 'next/router'
+import events, { GTM_ID } from '@lib/events'
+import Script from 'next/script'
 
 type ExtendedNextPage = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -20,6 +23,7 @@ type ExtendedAppProps = AppProps & {
 
 const Page = ({ Component, pageProps }: ExtendedAppProps) => {
   const apolloClient = useApollo(pageProps)
+  const router = useRouter()
 
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? (page => page)
@@ -37,13 +41,39 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
     document.body.classList?.remove('loading')
   }, [])
 
+  /**
+   * Tracks page view for Google Analytics
+   */
+  useEffect(() => {
+    router.events.on('routeChangeComplete', events.pageview)
+    return () => {
+      router.events.off('routeChangeComplete', events.pageview)
+    }
+  }, [router.events])
+
   return (
-    <ApolloProvider client={apolloClient}>
-      <SeoDefault seo={globalSeo.data.homepage._seoMetaTags as any} />
-      <StandoutProvider>
-        {getLayout(<Component {...pageProps} />)}
-      </StandoutProvider>
-    </ApolloProvider>
+    <>
+      {/* Google Tag Manager - Global base code */}
+      <Script
+        id="google-tag-manager"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer', '${GTM_ID}');
+          `,
+        }}
+      />
+      <ApolloProvider client={apolloClient}>
+        <SeoDefault seo={globalSeo.data.homepage._seoMetaTags as any} />
+        <StandoutProvider>
+          {getLayout(<Component {...pageProps} />)}
+        </StandoutProvider>
+      </ApolloProvider>
+    </>
   )
 }
 
