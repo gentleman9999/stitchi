@@ -6,6 +6,8 @@ import s from './NavbarMobile.module.css'
 import { Navigation } from '@lib/navigation'
 import useDropdown from './useDropdown'
 import dynamic from 'next/dynamic'
+import routes from '@lib/routes'
+import { Button } from 'ui'
 
 const NavbarDropdown = dynamic(() => import('./NavbarDropdown'))
 
@@ -33,23 +35,30 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
         open={Boolean(dialogOpen)}
         anchorEl={anchorEl}
       >
-        {/* <Link href={routes.app.login.href()} passHref>
-          <Button slim Component="a" variant="ghost" className="w-full mb-2">
-            Login
-          </Button>
-        </Link>
-        <Link href={routes.app.signup.href()} passHref>
-          <Button
-            slim
-            Component="a"
-            color="brandPrimary"
-            className="w-full mb-8"
-          >
-            Signup
-          </Button>
-        </Link> */}
+        <div className={s.item}>
+          <Link href={routes.internal.blog.href()} passHref>
+            <a className={s.link}>Learn</a>
+          </Link>
+        </div>
+        <div className={s.item}>
+          <Link href={routes.internal.customers.morningBrew.href()} passHref>
+            <a className={s.link}>Case study</a>
+          </Link>
+        </div>
+        <div className={s.item}>
+          <Link href={routes.internal.getStarted.href()} passHref>
+            <Button
+              shadow
+              Component="a"
+              color="brandPrimary"
+              className="w-full"
+            >
+              Talk to us
+            </Button>
+          </Link>
+        </div>
 
-        <div>
+        {/* <div>
           <div className={s.item} key={solutionsLabel}>
             <button
               className={s.link}
@@ -98,7 +107,7 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
               ))}
             </Dropdown>
           </div>
-        </div>
+        </div> */}
       </NavbarDropdown>
     </div>
   )

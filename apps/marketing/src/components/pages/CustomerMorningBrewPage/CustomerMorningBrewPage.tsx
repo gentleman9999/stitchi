@@ -9,21 +9,11 @@ const CustomerMorningBrewPage = () => {
   return (
     <Container>
       <div className="lg:grid lg:grid-cols-2 lg:gap-24 lg:items-start">
-        <div className="sm:py-16 lg:py-0">
-          <Background />
-
-          <div className="relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-0 lg:max-w-none lg:py-20">
-            <TestimonialCard />
-          </div>
-          <StatsSection />
-          <TweetsSection />
-        </div>
-
-        <div className="relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-0">
+        <div className="md:order-2 relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-0">
           <div className="pt-12 sm:pt-16 lg:pt-20">
-            <h2 className="text-3xl text-gray-900 font-extrabold tracking-tight sm:text-4xl">
+            <h1 className="text-4xl text-gray-900 font-extrabold tracking-tight md:text-5xl">
               Powering a newsletter referral program with swag
-            </h2>
+            </h1>
             <div className="mt-6 text-gray-500 space-y-6">
               <p className="text-lg">
                 Morning Brew is a newsletter company that sends to more than 3
@@ -33,9 +23,9 @@ const CustomerMorningBrewPage = () => {
               </p>
             </div>
             <div className="mt-10 text-gray-500 space-y-6">
-              <h3 className="text-xl leading-7 text-gray-800 font-bold tracking-tight sm:text-xl">
+              <h2 className="text-xl leading-7 text-gray-800 font-bold tracking-tight sm:text-xl">
                 Building brands with loyal fans
-              </h3>
+              </h2>
               <p className="text-base leading-7">
                 Morning Brew, a news media company, creates succinct daily
                 e-newsletters that provide its over 2.5 million subscribers with
@@ -61,9 +51,9 @@ const CustomerMorningBrewPage = () => {
               </p>
             </div>
             <div className="mt-10 text-gray-500 space-y-6">
-              <h3 className="text-xl leading-7 text-gray-800 font-bold tracking-tight sm:text-xl">
+              <h2 className="text-xl leading-7 text-gray-800 font-bold tracking-tight sm:text-xl">
                 The result of a successful swag campaign
-              </h3>
+              </h2>
               <p className="text-base leading-7">
                 In addition to the 70,000 new subscribers, Morning Brew&apos;s
                 swag provides the best return on investment a company could
@@ -99,6 +89,15 @@ const CustomerMorningBrewPage = () => {
               </p>
             </div>
           </div>
+        </div>
+        <div className="sm:py-16 lg:py-0">
+          <Background />
+
+          <div className="relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-0 lg:max-w-none lg:py-20">
+            <TestimonialCard />
+          </div>
+          <StatsSection />
+          <TweetsSection />
         </div>
       </div>
     </Container>

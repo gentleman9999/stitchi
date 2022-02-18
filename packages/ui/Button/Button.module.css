@@ -73,3 +73,7 @@
 
 .progress {
 }
+
+.shadow1 {
+  @apply rounded-md shadow block;
+}

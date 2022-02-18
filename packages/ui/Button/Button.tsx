@@ -21,6 +21,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean
   disabled?: boolean
   color?: 'primary' | 'brandPrimary'
+  shadow?: boolean
 }
 
 const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
@@ -34,6 +35,7 @@ const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
     color = 'primary',
     loading = false,
     disabled = false,
+    shadow = false,
     style = {},
     Component = 'button',
     ...rest
@@ -49,6 +51,7 @@ const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
       [s.loading]: loading,
       [s.disabled]: disabled,
       [s.brandColors]: color === 'brandPrimary',
+      [s.shadow1]: shadow,
     },
     className,
   )

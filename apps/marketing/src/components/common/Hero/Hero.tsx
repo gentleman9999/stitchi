@@ -20,7 +20,7 @@ const Hero = (props: HeroProps) => {
     <Section gutter="lg" className="min-h-[60vh] flex flex-col justify-center">
       <div className="text-center">
         {props.title && (
-          <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-7xl">
+          <h1 className="text-5xl tracking-tight font-extrabold text-gray-900 sm:text-6xl md:text-7xl lg:text-8xl">
             {props.title}
           </h1>
         )}
@@ -40,11 +40,11 @@ const Hero = (props: HeroProps) => {
               </div>
             )}
             {props.secondaryCta && (
-              <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-                <Link href={props.secondaryCta.href} passHref>
-                  <Button Component="a">{props.secondaryCta.title}</Button>
-                </Link>
-              </div>
+              <Link href={props.secondaryCta.href} passHref>
+                <Button shadow Component="a" className="mt-3 sm:mt-0 sm:ml-3">
+                  {props.secondaryCta.title}
+                </Button>
+              </Link>
             )}
           </div>
         )}
