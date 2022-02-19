@@ -2,6 +2,7 @@ import { Section } from '@components/common'
 import Image from 'next/image'
 import React from 'react'
 import { WebDesign } from 'icons'
+import cx from 'classnames'
 import CustomIcon from '../../../../public/merch/custom-store.svg'
 import DesignIcon from '../../../../public/merch/design.svg'
 import LogisticsIcon from '../../../../public/merch/logistics.svg'
@@ -94,13 +95,17 @@ const HomePageSimpleFeatureSection = () => {
         </p>
         <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
           We are a team of promotional product designers, marketers, and coders
-          at your disposal to make your next merch project a breeze. close
+          at your disposal to make your next merch project a breeze.
         </p>
       </div>
-      {sections.map(section => (
+      {sections.map((section, index) => (
         <div key={section.id} className="relative mt-12 sm:mt-16 lg:mt-24">
-          <div className="lg:grid lg:grid-flow-row-dense lg:grid-cols-2 lg:gap-8 lg:items-center">
-            <div className="lg:col-start-2">
+          <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
+            <div
+              className={cx({
+                'lg:order-2': index % 2 === 0,
+              })}
+            >
               <h3 className="text-2xl font-extrabold text-gray-900 tracking-tight sm:text-3xl">
                 {section.name}
               </h3>
@@ -127,7 +132,7 @@ const HomePageSimpleFeatureSection = () => {
               </dl>
             </div>
 
-            <div className="mt-10 -mx-4 relative lg:mt-0 lg:col-start-1">
+            <div className="mt-10 -mx-4 relative lg:mt-0">
               <svg
                 className="absolute left-1/2 transform -translate-x-1/2 translate-y-16 lg:hidden"
                 width={784}
@@ -161,7 +166,7 @@ const HomePageSimpleFeatureSection = () => {
                   fill="url(#e80155a9-dfde-425a-b5ea-1f6fadd20131)"
                 />
               </svg>
-              <div className="block items-center justify-center h-[490px] rounded-md bg-paper p-20">
+              <div className="block items-center justify-center h-[490px] max-w-[600px] rounded-md bg-paper p-20">
                 <Image
                   {...section.icon}
                   layout="responsive"

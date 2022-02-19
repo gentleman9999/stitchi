@@ -5,6 +5,7 @@ import HomePageHero from './HomePageHero'
 import morningBrewLogo from '../../../../public/customers/morning_brew/morning_brew_logo.png'
 import HomePageSimpleFeatureSection from './HomePageSimpleFeatureSection'
 import HomePageClosingSection from './HomePageClosingSection'
+import HomePageUseCasesSection from './HomePageUseCasesSection'
 
 export interface HomePageProps {}
 
@@ -25,6 +26,12 @@ const HomePage = (props: HomePageProps) => {
       <Container>
         <HomePageSimpleFeatureSection />
       </Container>
+
+      <div className="bg-secondary">
+        <Container>
+          <HomePageUseCasesSection />
+        </Container>
+      </div>
 
       <Container>
         <HomePageClosingSection />
