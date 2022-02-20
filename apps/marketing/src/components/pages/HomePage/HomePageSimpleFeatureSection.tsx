@@ -26,7 +26,14 @@ const sections = [
         id: 'samples',
         name: 'Sample merchandise for you to try',
         description:
-          "Choose from a selection of high-quality promotional products that suit your brand's needs",
+          "Choose from a selection of high-quality promotional products that suit your brand's unique needs",
+        icon: WebDesign,
+      },
+      {
+        id: 'product-images',
+        name: 'Beautiful product shots',
+        description:
+          'Receive digital product mock-ups and professionally photographed product shots to help you sell more',
         icon: WebDesign,
       },
     ],
@@ -35,48 +42,58 @@ const sections = [
     id: 'customize',
     name: 'Tailored to your unique needs',
     description:
-      'From simple swag bulk-ordering to fully integrated merch programs, our solutions scale with your needs.',
+      'From ordering promotional products in bulk to creating a fully integrated merch program, our creative, technology, and fulfillment solutions scale with your needs',
     icon: CustomIcon,
     features: [
       {
         id: 'ecommerce-store',
-        name: 'Launch an eCommerce store',
+        name: 'Simplified eCommerce',
         description:
-          'Build a fully integrated eCommerce store to be where your customers shop',
+          'Connect with your existing website or build a fully integrated eCommerce store so that your business is always wherever your customers are',
         icon: WebDesign,
       },
       {
         id: 'drop',
-        name: 'Create a drop experience',
-        description: '',
+        name: 'Loyalty programs, drop experience & more',
+        description:
+          'Effortlessly create unique experiences that reward your biggest fans',
         icon: WebDesign,
       },
       {
-        id: 'referral-program',
-        name: 'Automate your referral program',
-        description: '',
+        id: 'swag-box',
+        name: 'Swag bags & boxes',
+        description:
+          'Curate the perfect collection of merch so that people can rep your brand head-to-toe. Your employees will especially love this.',
         icon: WebDesign,
       },
     ],
   },
   {
     id: 'distribution',
-    name: 'Delivered to the world',
+    name: 'Delivered effortlessly',
     description:
-      'Our logistics solutions ensure you never have to think about packing, storing, or shipping merchandise ever again.',
+      'Our fulfillment solutions bring the world to you and ensure your merch is delivered with flawless precision',
     icon: LogisticsIcon,
     features: [
       {
         id: 'shipping',
-        name: 'Reach people anywhere',
+        name: '$1 order fulfillment',
         description:
-          'Deliver merch fast and seamlessly handle returns without having to worry about packing, storing, or shipping merchandise ever again',
+          'Have all of your inventory assembled, stored, and shipped from a Stitchi fulfillment center to save lots of money and time',
         icon: WebDesign,
       },
       {
-        id: 'swag-box',
-        name: 'Create a swag box',
-        description: '',
+        id: 'packaging',
+        name: 'Personalized packaging',
+        description:
+          'Place your brand at the forefront every step of the way, making a lasting impression with your audience',
+        icon: WebDesign,
+      },
+      {
+        id: 'analytics',
+        name: 'Actionalble insights at your fingertips',
+        description:
+          'Receive best-in-class analytics about your customers, inventory, and orders so that you can make decisions that drive engagement',
         icon: WebDesign,
       },
     ],
@@ -90,12 +107,12 @@ const HomePageSimpleFeatureSection = () => {
         <h2 className="text-brand-primary font-semibold tracking-wide uppercase">
           Promotional Product Experts
         </h2>
-        <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-          Create Promotional products people love
+        <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl md:text-5xl">
+          Create promotional products people love
         </p>
-        <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-          We are a team of promotional product designers, marketers, and coders
-          at your disposal to make your next merch project a breeze.
+        <p className="mt-4 max-w-2xl text-xl md:text-2xl text-gray-500 lg:mx-auto">
+          We connect people and brands to create powerful, lasting experiences
+          that build brand engagement and loyalty.
         </p>
       </div>
       {sections.map((section, index) => (
@@ -106,7 +123,7 @@ const HomePageSimpleFeatureSection = () => {
                 'lg:order-2': index % 2 === 0,
               })}
             >
-              <h3 className="text-2xl font-extrabold text-gray-900 tracking-tight sm:text-3xl">
+              <h3 className="text-2xl font-bold text-gray-900 tracking-tight sm:text-3xl">
                 {section.name}
               </h3>
               <p className="mt-3 text-lg text-gray-500">

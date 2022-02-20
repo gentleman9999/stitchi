@@ -27,3 +27,9 @@ export * from './PrivacyPage'
 
 export { default as TermsPage } from './TermsPage'
 export * from './TermsPage'
+
+export { default as ProductComparrisonIndexPage } from './ProductComparrisonIndexPage'
+export * from './ProductComparrisonIndexPage'
+
+export { default as CatalogIndexPage } from './CatalogIndexPage'
+export * from './CatalogIndexPage'

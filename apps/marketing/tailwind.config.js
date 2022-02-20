@@ -16,7 +16,6 @@ module.exports = {
       'primary-dark': 'var(--primary-dark)',
       secondary: 'var(--secondary)',
       'secondary-2': 'var(--secondary-2)',
-      tertiary: 'var(--tertiary)',
       hover: 'var(--hover)',
       'hover-1': 'var(--hover-1)',
       'hover-2': 'var(--hover-2)',

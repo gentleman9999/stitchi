@@ -3,7 +3,7 @@
   px-10 py-3 leading-6 transition ease-in-out duration-150
   shadow-sm text-center justify-center 
   border border-transparent items-center font-medium
-  tracking-wide rounded-lg;
+  tracking-tight rounded-lg;
   max-height: 64px;
 
   &.brandColors {
@@ -75,5 +75,5 @@
 }
 
 .shadow1 {
-  @apply rounded-md shadow block;
+  @apply rounded-md shadow inline-block;
 }

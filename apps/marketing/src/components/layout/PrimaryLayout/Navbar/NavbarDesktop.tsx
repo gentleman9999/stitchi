@@ -45,7 +45,7 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
 
   const solutionsLabel = 'Why Stitchi?'
   const resourcesLabel = 'Resources'
-  const iconBaseProps = { fill: 'var(--tertiary)' }
+  const iconBaseProps = { fill: 'var(--primary)' }
 
   return (
     <nav className="space-x-10">

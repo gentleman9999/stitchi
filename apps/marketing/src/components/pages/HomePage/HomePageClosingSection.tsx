@@ -5,11 +5,31 @@ import Link from 'next/link'
 import React from 'react'
 import { Button } from 'ui'
 
+import weworkLogo from '../../../../public/customers/wework/wework_logo.png'
+import greekDressingLogo from '../../../../public/customers/greek_dressing/greek_dressing_logo.svg'
+import morningBrewLogo from '../../../../public/customers/morning_brew/morning_brew_logo.png'
+import greekLicensingLogo from '../../../../public/customers/greek_licensing/greek_licensing_logo.png'
+import lineleapLogo from '../../../../public/customers/lineleap/lineleap_logo.png'
+import Image from 'next/image'
+
+const BrandLogo = (props: { image: StaticImageData; alt: string }) => {
+  return (
+    <div className="relative w-full h-[100px] max-w-[180px]">
+      <Image
+        {...props.image}
+        alt={props.alt}
+        layout="fill"
+        objectFit="contain"
+      />
+    </div>
+  )
+}
+
 const HomePageClosingSection = () => {
   return (
-    <Section gutter="md">
-      <div className="relative rounded-2xl px-6 py-10 bg-primary overflow-hidden shadow-xl sm:px-12 sm:py-20">
-        <div
+    <Section gutter="xl">
+      <div className="relative">
+        {/* <div
           aria-hidden="true"
           className="absolute inset-0 -mt-72 sm:-mt-32 md:mt-0"
         >
@@ -31,23 +51,33 @@ const HomePageClosingSection = () => {
               d="M-217.088 544.086L1544.761 72l134.327 501.316-1761.849 472.086z"
             />
           </svg>
-        </div>
+        </div> */}
         <div className="relative">
           <div className="sm:text-center">
-            <h2 className="text-2xl font-extrabold text-paper sm:text-4xl">
-              <span className="block">
-                Unlock the power of promotional products.
-              </span>
-              <span className="block">
-                {/* Take the hassle out of promotional products. */}
-              </span>
+            <h2 className="text-5xl font-extrabold sm:text-7xl lg:text-8xl tracking-tighter">
+              <span className="block">Swag like...</span>
             </h2>
-            {/* <p className="mt-4 text-lg leading-6 text-white"></p> */}
-            <div className="shadow mt-8 inline-block">
+            <span className="mt-14 lg:mt-20 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-10 lg:gap-16 justify-items-center">
+              <BrandLogo image={weworkLogo} alt="WeWork logo" />
+              <BrandLogo image={morningBrewLogo} alt="Morning Brew logo" />
+              <BrandLogo image={greekDressingLogo} alt="Greek Dressing logo" />
+              <BrandLogo image={lineleapLogo} alt="Lineleep logo" />
+              <BrandLogo
+                image={greekLicensingLogo}
+                alt="Greek Licensing logo"
+              />
+              {/* Take the hassle out of promotional products. */}
+            </span>
+            <p className="mt-14 lg:mt-20 text-2xl font-medium leading-tight tracking-tight max-w-[650px] md:text-center m-auto">
+              Make the stitch and join hundreds of businesses, brands, and
+              creators building brand engagement, loyalty, and revenue with
+              Stitchi
+            </p>
+            <div className="mt-16 inline-block">
               <Link href={routes.internal.getStarted.href()} passHref>
-                <Button Component="a" color="primary">
+                <Button Component="a" color="primary" bold shadow>
                   <span className="flex">
-                    Talk to an expert
+                    Talk to us
                     <ArrowRight className="ml-2" strokeWidth="2" />
                   </span>
                 </Button>

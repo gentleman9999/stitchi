@@ -4,7 +4,6 @@
   --primary-dark: #9ab900;
   --secondary: #012428;
   --secondary-2: #f5e90c;
-  --tertiary: #ff4a00;
   --selection: var(--cyan);
 
   --paper: #fcf9f2;
@@ -16,7 +15,7 @@
   --text-white: #ffffff;
 
   --hover: rgba(0, 0, 0, 0.075);
-  --hover-1: rgba(0, 0, 0, 0.15);
+  --hover-1: rgba(202, 202, 202, 0.15);
   --hover-2: rgba(0, 0, 0, 0.25);
 
   --accent-0: #fff;
@@ -30,8 +29,8 @@
   --accent-8: #111111;
   --accent-9: #000;
 
-  --font-sans: -apple-system, system-ui, BlinkMacSystemFont, 'Helvetica Neue',
-    'Helvetica', sans-serif;
+  --font-sans: Inter, -apple-system, system-ui, BlinkMacSystemFont,
+    'Helvetica Neue', 'Helvetica', sans-serif;
 }
 
 *,

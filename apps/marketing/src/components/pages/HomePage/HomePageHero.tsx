@@ -28,7 +28,7 @@ const UseCase = ({ useCase }: { useCase: string }) => {
   // }, [useCase])
 
   return (
-    <span className="inline-block text-tertiary xl:inline underline">
+    <span className="inline-block text-brand-primary xl:inline underline">
       {useCase}
     </span>
   )
@@ -56,16 +56,16 @@ const HomePageHero = () => {
         <>
           <span className="block xl:inline">
             Make the stitch.{' '}
-            <span className="block">
+            <span className="block whitespace-nowrap">
               Merch for <UseCase useCase={useCase} />.
             </span>
-          </span>{' '}
+          </span>
         </>
       }
       subtitle={
         <>
-          Get paired with a <span className="underline">Stitchi Executive</span>
-           (a real human) and start making professional, high-quality custom
+          Get paired with a <span className="underline">Stitchi Tailor</span>{' '}
+          (an actual human) and start making professional, high-quality custom
           merch from start to finish.
         </>
       }

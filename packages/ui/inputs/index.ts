@@ -6,3 +6,6 @@ export * from './RadioSelect'
 
 export { default as InlineTextForm } from './InlineTextForm'
 export * from './InlineTextForm'
+
+export { default as CheckboxGroup } from './CheckboxGroup'
+export * from './CheckboxGroup'
