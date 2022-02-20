@@ -70,7 +70,7 @@ const CatalogIndexPageFilters = (props: Props) => {
         <NewCheckboxGroup
           options={initialBrands}
           onChange={options => {
-            setInitialBrands(options)
+            // setInitialBrands(options)
           }}
         />
         {/* <div className="mb-4">
@@ -95,7 +95,7 @@ const CatalogIndexPageFilters = (props: Props) => {
               }
             />
           ))} */}
-          <CheckboxGroup enableSearch>
+          {/* <CheckboxGroup enableSearch>
             {initialBrands.map(brand => (
               <Checkbox
                 key={brand.id}
@@ -112,7 +112,7 @@ const CatalogIndexPageFilters = (props: Props) => {
                 // }
               />
             ))}
-          </CheckboxGroup>
+          </CheckboxGroup> */}
         </FilterItems>
       </Filter>
     </div>
