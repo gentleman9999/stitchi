@@ -98,7 +98,7 @@ const sections = [
         name: 'Personalized packaging',
         description:
           'Place your brand at the forefront every step of the way, making a lasting impression with your audience',
-        icon: GrowthMarketing,
+        icon: NeedleThread,
       },
       {
         id: 'analytics',
@@ -142,7 +142,7 @@ const HomePageSimpleFeatureSection = () => {
                   {section.description}
                 </p>
 
-                <dl className="mt-10 space-y-10">
+                <dl className="mt-16 space-y-10">
                   {section.features.map(item => (
                     <div key={item.id} className="relative">
                       <dt>

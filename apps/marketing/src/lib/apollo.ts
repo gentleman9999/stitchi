@@ -7,9 +7,9 @@ import {
 import { setContext } from '@apollo/client/link/context'
 import { mergeDeep } from '@apollo/client/utilities'
 import getOrThrow from '@utils/get-or-throw'
-import isEqual from 'lodash.isequal'
 import { AppProps } from 'next/app'
 import { useMemo } from 'react'
+import { isEqual } from 'lodash-es'
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__' as const
 

@@ -1,12 +1,12 @@
-import Image from 'next/image'
 import React from 'react'
+import CatalogIndexPageProduct from './CatalogIndexPageProduct'
 
 const image = {
   label: 'Catalog',
   url: 'http://www.ooshirts.com/products/5/catalog.jpg',
 }
 
-const product = (id: number) => ({
+export const product = (id: number) => ({
   id: id,
   name: `Gildan Sweatshirt - Crew - ${id}`,
   type: 'Garment',
@@ -15,6 +15,11 @@ const product = (id: number) => ({
   style: '18000',
   externalProductId: 'gildan-sweatshirt-crew',
   externalProductSource: 'scalablepress',
+  ratings: {
+    quality: 3,
+    softness: 3,
+    weight: 1,
+  },
   description:
     'Air Jet Spun Yarn. Double-needle stitching. Set-in sleeves. 1x1 Athletic Rib with Lycra(R). Quarter-turned to eliminate center crease.',
   colors: [
@@ -35,20 +40,8 @@ const CatalogIndexPageProductGrid = (props: Props) => {
   return (
     <ul className="grid grid-cols-3 gap-4">
       {products.map(product => (
-        <li
-          key={product.id}
-          className="block rounded-lg border-2 border-primary bg-[#f6f9f8] p-4"
-        >
-          <div className="relative w-full h-[150px]">
-            <Image
-              src={product.primaryImage.url}
-              alt={product.name}
-              layout="fill"
-              objectFit="contain"
-            />
-          </div>
-
-          <h3>{product.name}</h3>
+        <li key={product.id}>
+          <CatalogIndexPageProduct product={product} />
         </li>
       ))}
     </ul>

@@ -11,7 +11,7 @@ const CatalogIndexPage = (props: CatalogIndexPageProps) => {
     <>
       <Container>
         <Section gutter="sm">
-          <h1 className="text-3xl font-semibold">
+          <h1 className="text-3xl font-semibold ">
             Browse through our selection of curated products
           </h1>
         </Section>

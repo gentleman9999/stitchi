@@ -1,9 +1,11 @@
+import Image from 'next/image'
 import React from 'react'
 import { Container } from 'ui'
 import Background from './Background'
 import StatsSection from './StatsSection'
 import TestimonialCard from './TestimonialCard'
 import TweetsSection from './TweetsSection'
+import morningBrewLogoImage from '../../../../public/customers/morning_brew/morning_brew_logo.png'
 
 const CustomerMorningBrewPage = () => {
   return (
@@ -93,10 +95,20 @@ const CustomerMorningBrewPage = () => {
         <div className="sm:py-16 lg:py-0">
           <Background />
 
-          <div className="relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-0 lg:max-w-none lg:py-20">
+          <div className="relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-0 lg:max-w-none lg:mt-20">
             <TestimonialCard />
           </div>
-          <StatsSection />
+          <div className="relative h-12 mt-8">
+            <Image
+              {...morningBrewLogoImage}
+              layout="fill"
+              objectFit="contain"
+              alt="Morning Brew logo"
+            />
+          </div>
+          <div className="mt-8">
+            <StatsSection />
+          </div>
           <TweetsSection />
         </div>
       </div>

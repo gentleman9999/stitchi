@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import throttle from 'lodash.throttle'
 import cx from 'classnames'
 import { Container } from 'ui'
 import s from './NavbarRoot.module.css'
+import { throttle } from 'lodash-es'
 
 interface Props {
   children: React.ReactNode

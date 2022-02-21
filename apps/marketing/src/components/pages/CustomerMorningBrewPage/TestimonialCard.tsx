@@ -1,7 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import heroImage from '../../../../public/customers/morning_brew/morning_brew_referral_program_giveaway_2.png'
-import morningBrewLogoImage from '../../../../public/customers/morning_brew/morning_brew_logo.png'
+import heroImage from '../../../../public/customers/morning_brew/global_fast_delivery.jpg'
 import { Spokesperson, useSpokesperson } from '@components/common'
 
 const TestimonialCard = () => {
@@ -9,28 +8,20 @@ const TestimonialCard = () => {
 
   return (
     <div className="relative pt-64 pb-10 rounded-2xl shadow-xl overflow-hidden">
-      <div className="absolute inset-0 w-full h-full bg-blend-darken grayscale-[20%] sepia-[20%] brightness-50">
-        {/* <Image
+      <div className="absolute inset-0 w-full h-full bg-blend-darken grayscale-[80%] sepia-[20%] brightness-50">
+        <Image
           {...heroImage}
           layout="fill"
           objectFit="cover"
           alt="Morning Brew Referral Program Giveaway"
-        /> */}
+        />
       </div>
 
       <div className="absolute inset-0 bg-rose-500 mix-blend-multiply" />
       <div className="absolute inset-0 bg-gradient-to-t from-rose-600 via-rose-600 opacity-90" />
       <div className="relative px-8">
-        <div className="relative h-12">
-          <Image
-            {...morningBrewLogoImage}
-            layout="fill"
-            objectFit="contain"
-            alt="Morning Brew logo"
-          />
-        </div>
         <blockquote className="mt-8">
-          <div className="relative text-lg font-medium text-gray-600 md:flex-grow">
+          <div className="relative text-lg font-medium text-white md:flex-grow">
             <svg
               className="absolute top-0 left-0 transform -translate-x-3 -translate-y-2 h-8 w-8 text-rose-400"
               fill="currentColor"
@@ -48,7 +39,7 @@ const TestimonialCard = () => {
           </div>
 
           <footer className="mt-4">
-            <Spokesperson {...jenny} />
+            <Spokesperson {...jenny} light />
           </footer>
         </blockquote>
       </div>

@@ -32,8 +32,12 @@ const Spokesperson = (props: SpokespersonProps) => {
         </div>
 
         <svg
-          className="hidden md:block mx-1 h-5 w-5 text-indigo-600"
-          fill="currentColor"
+          className={cx(
+            'hidden md:block mx-1 h-5 w-5 text-indigo-600 fill-black',
+            {
+              'fill-white': props.light,
+            },
+          )}
           viewBox="0 0 20 20"
         >
           <path d="M11 0h3L9 20H6l5-20z" />
