@@ -1,6 +1,7 @@
 {
   "extends": "tsconfig/nextjs.json",
   "compilerOptions": {
+    "strict": true,
     "baseUrl": "./src",
     "paths": {
       "@assets/*": ["assets/*"],

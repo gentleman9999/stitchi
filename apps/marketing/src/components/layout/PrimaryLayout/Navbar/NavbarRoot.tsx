@@ -6,7 +6,7 @@ import { throttle } from 'lodash-es'
 
 interface Props {
   children: React.ReactNode
-  innerRef: React.RefObject<HTMLDivElement>
+  innerRef: React.RefObject<HTMLDivElement> | React.RefCallback<HTMLDivElement>
 }
 
 const NavbarRoot = ({ children, innerRef }: Props) => {

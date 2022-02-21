@@ -41,67 +41,71 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
   return (
     <Popover>
       <Popover.Button>
+        <span className="sr-only">Close menu</span>
         <IconButton>
           <HamburgerMenu height={24} width={24} />
         </IconButton>
       </Popover.Button>
 
-      <Transition
-        as={Fragment}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
-        <Popover.Panel
-          className="fixed z-10"
-          style={{
-            left: dims.left,
-            width: dims.width,
-            top: dims.top + dims.height,
-          }}
+      <Popover.Group as="nav" className="flex space-x-10">
+        <Transition
+          as={Fragment}
+          enter="transition ease-out duration-100"
+          enterFrom="transform opacity-0 scale-95"
+          enterTo="transform opacity-100 scale-100"
+          leave="transition ease-in duration-75"
+          leaveFrom="transform opacity-100 scale-100"
+          leaveTo="transform opacity-0 scale-95"
         >
-          <NavbarDropdown>
-            <div className={s.item}>
-              <Link href={routes.internal.blog.href()} passHref>
-                <Popover.Button as="a" className={s.link}>
-                  Learn
-                </Popover.Button>
-              </Link>
-            </div>
-            <div className={s.item}>
-              <Link
-                href={routes.internal.customers.morningBrew.href()}
-                passHref
-              >
-                <Popover.Button as="a" className={s.link}>
-                  Case Study
-                </Popover.Button>
-              </Link>
-            </div>
-            <div className={s.item}>
-              <Link href={routes.internal.getStarted.href()} passHref>
-                <Popover.Button
-                  as={(props: any) => (
-                    <Button
-                      {...props}
-                      bold
-                      shadow
-                      Component="a"
-                      color="brandPrimary"
-                      className="w-full"
-                    />
-                  )}
+          <Popover.Panel
+            focus
+            className="fixed z-10"
+            style={{
+              left: dims.left,
+              width: dims.width,
+              top: dims.top + dims.height,
+            }}
+          >
+            <NavbarDropdown>
+              <div className={s.item}>
+                <Link href={routes.internal.blog.href()} passHref>
+                  <Popover.Button as="a" className={s.link}>
+                    Learn
+                  </Popover.Button>
+                </Link>
+              </div>
+              <div className={s.item}>
+                <Link
+                  href={routes.internal.customers.morningBrew.href()}
+                  passHref
                 >
-                  Talk to us
-                </Popover.Button>
-              </Link>
-            </div>
-          </NavbarDropdown>
-        </Popover.Panel>
-      </Transition>
+                  <Popover.Button as="a" className={s.link}>
+                    Case Study
+                  </Popover.Button>
+                </Link>
+              </div>
+              <div className={s.item}>
+                <Link href={routes.internal.getStarted.href()} passHref>
+                  <Popover.Button
+                    as={(props: any) => (
+                      <Button
+                        {...props}
+                        bold
+                        shadow
+                        Component="a"
+                        color="brandPrimary"
+                        className="w-full"
+                      />
+                    )}
+                  >
+                    Talk to us
+                  </Popover.Button>
+                </Link>
+              </div>
+            </NavbarDropdown>
+          </Popover.Panel>
+        </Transition>
+      </Popover.Group>
     </Popover>
   )
 }

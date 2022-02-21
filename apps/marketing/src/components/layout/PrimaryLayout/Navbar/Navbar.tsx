@@ -13,10 +13,11 @@ const NavbarMobile = dynamic(() => import('./NavbarMobile'))
 const NavbarDesktop = dynamic(() => import('./NavbarDesktop'))
 
 const Navbar: FC = () => {
-  const dropdownAchor = React.useRef<HTMLDivElement>(null)
+  const [dropdownAchor, setDropdownAnchor] =
+    React.useState<HTMLDivElement | null>(null)
 
   return (
-    <NavbarRoot innerRef={dropdownAchor}>
+    <NavbarRoot innerRef={setDropdownAnchor}>
       <div className={s.nav}>
         <Link href={routes.internal.home.href()} passHref>
           <a className="contents">
@@ -24,11 +25,11 @@ const Navbar: FC = () => {
           </a>
         </Link>
         <div className="flex items-center flex-1 justify-end">
-          <div className="lg:hidden">
-            <NavbarMobile anchorEl={dropdownAchor.current} navigation={nav} />
+          <div className="block lg:hidden">
+            <NavbarMobile anchorEl={dropdownAchor} navigation={nav} />
           </div>
           <div className="hidden lg:block">
-            <NavbarDesktop anchorEl={dropdownAchor.current} navigation={nav} />
+            <NavbarDesktop anchorEl={dropdownAchor} navigation={nav} />
           </div>
         </div>
       </div>
