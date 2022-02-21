@@ -76,7 +76,7 @@ const CheckboxGroup = (props: CheckboxGroupProps) => {
                   checked: checkedState[index].checked,
                   onSecondaryAction: () => handleIsolateChecked(index),
                   showSecondaryAction:
-                    !checkedState[index] === true ||
+                    checkedState[index].checked !== true ||
                     checkedState.filter(v => v).length > 1,
                 },
                 null,

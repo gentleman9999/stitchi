@@ -40,7 +40,8 @@ const routes = {
         href: (postSlug: string) => buildRoute(`/learn/${postSlug}`),
       },
       category: {
-        href: ({ categorySlug }) => buildRoute(`/learn/topic/${categorySlug}`),
+        href: ({ categorySlug }: { categorySlug: string }) =>
+          buildRoute(`/learn/topic/${categorySlug}`),
       },
     },
     customers: {

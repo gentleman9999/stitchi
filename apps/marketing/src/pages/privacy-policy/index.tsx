@@ -1,4 +1,5 @@
 import { gql, useQuery } from '@apollo/client'
+import { ComponentErrorMessage } from '@components/common'
 import { PrimaryLayout } from '@components/layout'
 import { PrivacyPage } from '@components/pages'
 import { PrivacyGetDataQuery } from '@generated/PrivacyGetDataQuery'
@@ -16,6 +17,10 @@ const getStaticProps: GetStaticProps = async () => {
 
 const Privacy = () => {
   const { data } = useQuery<PrivacyGetDataQuery>(GET_DATA)
+
+  if (!data?.privacyPolicyPage) {
+    return <ComponentErrorMessage error="Failed to load page" />
+  }
 
   return <PrivacyPage page={data.privacyPolicyPage} />
 }

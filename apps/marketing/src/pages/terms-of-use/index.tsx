@@ -1,4 +1,5 @@
 import { gql, useQuery } from '@apollo/client'
+import { ComponentErrorMessage } from '@components/common'
 import { PrimaryLayout } from '@components/layout'
 import { TermsPage } from '@components/pages'
 import { TermsGetDataQuery } from '@generated/TermsGetDataQuery'
@@ -16,6 +17,10 @@ const getStaticProps: GetStaticProps = async () => {
 
 const Terms = () => {
   const { data } = useQuery<TermsGetDataQuery>(GET_DATA)
+
+  if (!data?.termsOfUsePage) {
+    return <ComponentErrorMessage error="Failed to load page" />
+  }
 
   return <TermsPage page={data.termsOfUsePage} />
 }

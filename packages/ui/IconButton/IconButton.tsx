@@ -8,7 +8,7 @@ export interface IconButtonProps {
 const IconButton = (props: IconButtonProps) => {
   const ref = React.useRef<HTMLButtonElement>(null)
   const handleClick: IconButtonProps['onClick'] = e => {
-    ref.current.blur()
+    ref.current?.blur()
     props.onClick?.(e)
   }
 

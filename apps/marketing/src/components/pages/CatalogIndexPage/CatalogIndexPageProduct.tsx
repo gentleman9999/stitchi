@@ -29,7 +29,8 @@ const CatalogIndexPageProduct = ({ product }: Props) => {
               <Star
                 fill="none"
                 className={cx('stroke-primary', {
-                  'fill-primary': product.ratings[key] > i,
+                  'fill-primary':
+                    product.ratings[key as keyof typeof product['ratings']] > i,
                 })}
               />
             ))}

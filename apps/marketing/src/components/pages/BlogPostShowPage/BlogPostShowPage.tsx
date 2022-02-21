@@ -11,19 +11,26 @@ export interface BlogShowPageProps {
 }
 
 const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
+  if (!post.content) {
+    return null
+  }
+
   return (
     <>
       <div>
         <Container>
           <article className="prose prose-fuchsia lg:prose-xl max-w-none">
-            <div className="not-prose mb-12 max-w-none max-h-[60vh] overflow-hidden rounded-lg">
-              <CmsImage
-                data={post.image?.responsiveImage}
-                lazyLoad={false}
-                usePlaceholder={false}
-                layout="responsive"
-              />
-            </div>
+            {post.image?.responsiveImage && (
+              <div className="not-prose mb-12 max-w-none max-h-[60vh] overflow-hidden rounded-lg">
+                <CmsImage
+                  data={post.image.responsiveImage}
+                  lazyLoad={false}
+                  usePlaceholder={false}
+                  layout="responsive"
+                />
+              </div>
+            )}
+
             <div className="relative mx-auto max-w-prose">
               <BackgroundTexture />
 
@@ -35,9 +42,12 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
 
               <h1>{post.title}</h1>
               <div className="divide-y divide-gray-200">
-                <div className="not-prose mb-10">
-                  <BlogPostShowPageAuthor author={post.author} />
-                </div>
+                {post.author && (
+                  <div className="not-prose mb-10">
+                    <BlogPostShowPageAuthor author={post.author} />
+                  </div>
+                )}
+
                 <div>
                   <div className="mt-10">
                     <CmsStructuredText content={post.content} />

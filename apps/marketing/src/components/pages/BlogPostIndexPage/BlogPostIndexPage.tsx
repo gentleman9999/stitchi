@@ -12,7 +12,7 @@ import BlogPostIndexPageSeo from './BlogPostIndexPageSeo'
 
 export interface BlogPostIndexPageProps {
   articles: BlogIndexPageArticleFragment[]
-  categories: BlogPostIndexPageCategoryFragment[]
+  categories?: BlogPostIndexPageCategoryFragment[]
   page: BlogPostIndexPagePageFragment
 }
 
@@ -24,7 +24,7 @@ const BlogIndexPage = ({
   const router = useRouter()
   const { categorySlug } = router.query
 
-  const activeCategory = categories.find(
+  const activeCategory = categories?.find(
     category => category.slug === categorySlug,
   )
 
@@ -61,13 +61,15 @@ const BlogIndexPage = ({
                 href: routes.internal.blog.href(),
                 active: !activeCategory,
               },
-              ...categories.map(category => ({
-                title: category.shortName || category.name,
-                href: routes.internal.blog.category.href({
-                  categorySlug: category.slug,
-                }),
-                active: category.slug === activeCategory?.slug,
-              })),
+              ...(categories
+                ?.filter(c => Boolean(c.slug))
+                .map(category => ({
+                  title: category.shortName || category.name || 'Category',
+                  href: routes.internal.blog.category.href({
+                    categorySlug: category.slug!,
+                  }),
+                  active: category.slug === activeCategory?.slug,
+                })) || []),
             ]}
           />
           <div className="mt-12 mb-5 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">

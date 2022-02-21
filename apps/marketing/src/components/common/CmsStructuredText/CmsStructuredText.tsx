@@ -26,7 +26,7 @@ const CmsStructuredText = ({ content }: Props) => {
               <Link
                 href={routes.internal.blog.show.href(record.slug as string)}
               >
-                <a>{record.title}</a>
+                <a>{record.title as string}</a>
               </Link>
             )
           default:

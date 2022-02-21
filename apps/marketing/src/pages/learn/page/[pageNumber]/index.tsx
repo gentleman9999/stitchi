@@ -5,7 +5,7 @@ import {
   BlogIndexPageGetDataQuery,
   BlogIndexPageGetDataQueryVariables,
 } from '@generated/BlogIndexPageGetDataQuery'
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetStaticPaths, GetStaticPathsResult, GetStaticProps } from 'next'
 import React, { ReactElement } from 'react'
 import { useRouter } from 'next/router'
 import { ComponentErrorMessage } from '@components/common'
@@ -20,7 +20,7 @@ const getPagination = (currentPage: number) => ({
 })
 
 const getStaticPaths: GetStaticPaths = async () => {
-  const paths = []
+  const paths: GetStaticPathsResult['paths'] = []
 
   const client = initializeApollo()
 
@@ -42,7 +42,7 @@ const getStaticPaths: GetStaticPaths = async () => {
 }
 
 const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { pageNumber } = params
+  const { pageNumber } = params || {}
 
   const pageNumberInt = parseInt(`${pageNumber}`, 10)
 
@@ -84,8 +84,16 @@ const BlogIndexPage = () => {
     blogIndexPage,
   } = data || {}
 
-  if (error && articles.length === 0) {
+  if ((error && !articles) || articles?.length === 0) {
     return <ComponentErrorMessage error={error} />
+  }
+
+  if (!articles) {
+    return <ComponentErrorMessage error="Failed to load articles" />
+  }
+
+  if (!blogIndexPage) {
+    return <ComponentErrorMessage error="Failed to load page" />
   }
 
   return (

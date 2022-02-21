@@ -1,4 +1,4 @@
-const BackgroundTexture = props => {
+const BackgroundTexture = () => {
   return (
     <div className="relative">
       <div className="hidden lg:block lg:absolute lg:inset-y-0 lg:h-full lg:w-full">

@@ -9,6 +9,10 @@ export interface PrivacyPageProps {
 }
 
 const PrivacyPage = ({ page }: PrivacyPageProps) => {
+  if (!page.content) {
+    throw new Error('Page did not return any content')
+  }
+
   return (
     <>
       <CmsSeo seo={page._seoMetaTags} />

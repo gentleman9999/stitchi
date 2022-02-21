@@ -16,7 +16,7 @@ import {
 } from '@generated/BlogCategoryIndexPageGetPageDataQuery'
 import { BlogCategoryIndexPageGetPagesQuery } from '@generated/BlogCategoryIndexPageGetPagesQuery'
 import { addApolloState, initializeApollo } from '@lib/apollo'
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetStaticPaths, GetStaticPathsResult, GetStaticProps } from 'next'
 import React, { ReactElement } from 'react'
 
 const PAGE_LIMIT = 20
@@ -27,7 +27,7 @@ const getPagination = (currentPage: number) => ({
 })
 
 const getStaticPaths: GetStaticPaths = async () => {
-  const paths = []
+  const paths: GetStaticPathsResult['paths'] = []
 
   const client = initializeApollo()
 
@@ -37,6 +37,10 @@ const getStaticPaths: GetStaticPaths = async () => {
 
   if (data._allArticlesMeta && data.allCategories) {
     for (const category of data.allCategories) {
+      if (!category.slug) {
+        continue
+      }
+
       const { data: articleData } = await client.query<
         BlogCategoryIndexPageGetCategoryPostsQuery,
         BlogCategoryIndexPageGetCategoryPostsQueryVariables
@@ -52,7 +56,7 @@ const getStaticPaths: GetStaticPaths = async () => {
         Array.from(new Array(pageCount)).forEach((_, index) => {
           paths.push({
             params: {
-              categorySlug: category.slug,
+              categorySlug: category.slug!,
               pageNumber: `${index + 1}`,
             },
           })
@@ -68,7 +72,7 @@ const getStaticPaths: GetStaticPaths = async () => {
 }
 
 const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
-  const { categorySlug, pageNumber } = params
+  const { categorySlug, pageNumber } = params || {}
 
   const pageNumberInt = parseInt(`${pageNumber}`, 10)
 
@@ -133,8 +137,14 @@ const BlogCategoryIndexPage = (props: Props) => {
     blogIndexPage,
   } = data || {}
 
-  if (error && articles.length === 0) {
-    return <ComponentErrorMessage error={error} />
+  if (error || !articles) {
+    return (
+      <ComponentErrorMessage error={error || 'Could not fetch any articles'} />
+    )
+  }
+
+  if (!blogIndexPage) {
+    return <ComponentErrorMessage error="Could not fetch blog index page" />
   }
 
   return (

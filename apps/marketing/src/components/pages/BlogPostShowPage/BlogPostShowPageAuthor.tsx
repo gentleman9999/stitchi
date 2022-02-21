@@ -12,7 +12,7 @@ const BlogPostShowPageAuthor = ({ author }: Props) => {
     <address className="flex items-center">
       <div className="flex-shrink-0">
         <span className="sr-only">{author.name}</span>
-        <Avatar image={author.image} />
+        {author.image && <Avatar image={author.image} />}
       </div>
 
       <div className="ml-3">

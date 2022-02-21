@@ -8,6 +8,9 @@ export interface AvatarProps {
 }
 
 const Avatar = (props: AvatarProps) => {
+  if (!props.image.responsiveImage) {
+    return null
+  }
   return (
     <div className="h-12 w-12 rounded-full relative overflow-hidden">
       <CmsImage

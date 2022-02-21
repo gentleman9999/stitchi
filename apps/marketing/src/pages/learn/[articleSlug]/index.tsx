@@ -8,7 +8,7 @@ import {
 } from '@generated/BlogShowPageGetDataQuery'
 import { BlogShowPageGetPagesQuery } from '@generated/BlogShowPageGetPagesQuery'
 import { addApolloState, initializeApollo } from '@lib/apollo'
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetStaticPaths, GetStaticPathsResult, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 
@@ -19,10 +19,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
     query: GET_PAGES,
   })
 
-  const paths = []
+  const paths: GetStaticPathsResult['paths'] = []
 
   data.allArticles.forEach(article => {
-    paths.push({ params: { articleSlug: article.slug } })
+    paths.push({ params: { articleSlug: article.slug ?? undefined } })
   })
 
   return {
@@ -32,7 +32,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { articleSlug } = params
+  const { articleSlug } = params || {}
 
   if (!articleSlug || typeof articleSlug !== 'string') {
     return {
@@ -59,10 +59,14 @@ const BlogShowPage = () => {
     BlogShowPageGetDataQueryVariables
   >(GET_DATA, { variables: { slug: { eq: `${articleSlug}` } } })
 
-  const { article } = data
+  const { article } = data || {}
 
-  if (error && !article) {
+  if (error) {
     return <ComponentErrorMessage error={error} />
+  }
+
+  if (!article) {
+    return <ComponentErrorMessage error={'No article found'} />
   }
 
   return <BlogPostShowPage post={article} />

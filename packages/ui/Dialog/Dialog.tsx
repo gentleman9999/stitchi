@@ -6,7 +6,6 @@ import DialogIcon from './DialogIcon'
 import DialogContent from './DialogContent'
 import DialogContentText from './DialogContentText'
 import DialogActions from './DialogActions'
-import { Button } from '..'
 
 export interface DialogProps {
   children: ReturnType<
@@ -22,10 +21,10 @@ const Dialog = (props: DialogProps) => {
   const { size = 'md' } = props
   const [open, setOpen] = React.useState(true)
 
-  let Title = null
-  let Icon = null
-  let Content = null
-  let Actions = null
+  let Title: typeof DialogTitle | null = null
+  let Icon: typeof DialogIcon | null = null
+  let Content: typeof DialogContent | null = null
+  let Actions: typeof DialogActions | null = null
 
   React.Children.forEach(props.children, child => {
     switch (child.type) {
@@ -33,25 +32,25 @@ const Dialog = (props: DialogProps) => {
         if (Title) {
           throw new Error('Dialog can only have one title')
         }
-        Title = child
+        Title = child as unknown as typeof DialogTitle
         break
       case DialogIcon:
         if (Icon) {
           throw new Error('Dialog can only have one icon')
         }
-        Icon = child
+        Icon = child as unknown as typeof DialogIcon
         break
       case DialogContent:
         if (Content) {
           throw new Error('Dialog can only have one content')
         }
-        Content = child
+        Content = child as unknown as typeof DialogContent
         break
       case DialogActions:
         if (Actions) {
           throw new Error('Dialog can only have one actions')
         }
-        Actions = child
+        Actions = child as unknown as typeof DialogActions
         break
       default:
         throw new Error(`Invalid child type: ${child.type}`)

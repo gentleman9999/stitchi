@@ -55,7 +55,7 @@ const handler: NextApiHandler = async (req, res) => {
     }
   } catch (e) {
     console.error(e)
-    res.status(500).json({ message: e.message })
+    res.status(500).json({ message: e })
   }
 }
 
