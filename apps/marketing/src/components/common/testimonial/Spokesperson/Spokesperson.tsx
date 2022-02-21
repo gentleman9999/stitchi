@@ -11,14 +11,14 @@ export interface SpokespersonProps {
 
 const Spokesperson = (props: SpokespersonProps) => {
   return (
-    <div className="md:flex md:items-center md:justify-center">
+    <div className="flex flex-col items-center md:flex-row md:items-center md:justify-center">
       <div className="md:flex-shrink-0">
         <Image
           {...props.headshot}
           alt={`${props.name} headshot`}
           width={50}
           height={50}
-          className="mx-auto h-10 w-10 rounded-full"
+          className="rounded-full"
         />
       </div>
       <div className="mt-3 text-center md:mt-0 md:ml-4 md:flex md:items-center">
