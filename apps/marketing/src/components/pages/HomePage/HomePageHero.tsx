@@ -56,8 +56,11 @@ const HomePageHero = () => {
         <>
           <span className="block xl:inline">
             Make the stitch.{' '}
-            <span className="block whitespace-nowrap">
-              Merch for <UseCase useCase={useCase} />.
+            <span className="block">
+              Merch for{' '}
+              <span className="whitespace-nowrape">
+                <UseCase useCase={useCase} />.
+              </span>
             </span>
           </span>
         </>
