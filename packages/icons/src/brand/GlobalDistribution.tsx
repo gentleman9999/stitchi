@@ -1,5 +1,11 @@
 const GlobalDistribution = (...props: any) => (
-  <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 130">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 130 130"
+    width="130"
+    height="130"
+    {...props}
+  >
     <path
       d="M95.27,65A30.27,30.27,0,1,1,65,34.72,30.27,30.27,0,0,1,95.27,65Z"
       fill="#fff"

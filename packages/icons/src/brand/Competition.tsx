@@ -1,5 +1,11 @@
 const Competition = (...props: any) => (
-  <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 130">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 130 130"
+    width="130"
+    height="130"
+    {...props}
+  >
     <rect
       x="8.65"
       y="80.42"

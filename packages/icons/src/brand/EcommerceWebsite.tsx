@@ -1,5 +1,11 @@
 const EcommerceWebsite = (...props: any) => (
-  <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 130">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 130 130"
+    width="130"
+    height="130"
+    {...props}
+  >
     <path
       d="M127.5,35v81.31a4,4,0,0,1-4,4H6.5a4,4,0,0,1-4-4V35Z"
       fill="#fff"

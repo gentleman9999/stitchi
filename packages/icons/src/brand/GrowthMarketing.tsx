@@ -1,5 +1,11 @@
 const GrowthMarketing = (...props: any) => (
-  <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 130">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 130 130"
+    width="130"
+    height="130"
+    {...props}
+  >
     <polygon
       points="76.02 12.15 53.98 12.15 65 3 76.02 12.15"
       fill="#b6dc00"

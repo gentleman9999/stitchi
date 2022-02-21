@@ -1,5 +1,11 @@
-const CustomerSuppert = (...props: any) => (
-  <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 130">
+const CustomerSuppert = ({ ...props }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 130 130"
+    width="130"
+    height="130"
+    {...props}
+  >
     <path
       d="M127.5,69.52v8.42a4.15,4.15,0,0,1-4.15,4.15H70.07a4.16,4.16,0,0,1-4.15-4.15V69.52A18.43,18.43,0,0,1,79.53,51.75l4-1.16,5.73,9.6,7.46-4.48,7.47,4.48,5.73-9.6,4,1.17A18.4,18.4,0,0,1,127.5,69.52Z"
       fill="#b6dc00"

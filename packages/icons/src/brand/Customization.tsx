@@ -1,5 +1,11 @@
 const Customization = (...props: any) => (
-  <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 130">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 130 130"
+    width="130"
+    height="130"
+    {...props}
+  >
     <polygon
       points="127.5 31.17 89.82 68.32 61.67 40.56 99.33 3.42 127.5 31.17"
       fill="#fff"
