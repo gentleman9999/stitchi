@@ -2,14 +2,14 @@ import React from 'react'
 
 export interface IconButtonProps {
   children: React.ReactNode
-  onClick: React.ButtonHTMLAttributes<HTMLButtonElement>['onClick']
+  onClick?: React.ButtonHTMLAttributes<HTMLButtonElement>['onClick']
 }
 
 const IconButton = (props: IconButtonProps) => {
   const ref = React.useRef<HTMLButtonElement>(null)
   const handleClick: IconButtonProps['onClick'] = e => {
     ref.current.blur()
-    props.onClick(e)
+    props.onClick?.(e)
   }
 
   return (
