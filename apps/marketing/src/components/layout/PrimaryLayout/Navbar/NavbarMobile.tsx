@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic'
 import routes from '@lib/routes'
 import { Button, IconButton } from 'ui'
 import { Popover, Transition } from '@headlessui/react'
+import { useRouter } from 'next/router'
 
 const NavbarDropdown = dynamic(() => import('./NavbarDropdown'))
 
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const NavbarMobile = ({ anchorEl, navigation }: Props) => {
+  const router = useRouter()
   const [dims, setDims] = React.useState<DOMRect | null>(null)
 
   React.useEffect(() => {
@@ -28,15 +30,13 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
     update()
 
     window.addEventListener('resize', update)
+    router.events.on('routeChangeComplete', update)
 
     return () => {
       window.removeEventListener('resize', update)
+      router.events.off('routeChangeComplete', update)
     }
-  }, [anchorEl])
-
-  if (!dims) {
-    return null
-  }
+  }, [anchorEl, router.events])
 
   return (
     <Popover>
@@ -60,9 +60,9 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
         <Popover.Panel
           className="fixed z-10"
           style={{
-            left: dims.left,
-            width: dims.width,
-            top: dims.top + dims.height,
+            left: dims?.left,
+            width: dims?.width,
+            top: (dims?.top ?? 0) + (dims?.height ?? 0),
           }}
         >
           <NavbarDropdown>
