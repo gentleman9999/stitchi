@@ -1,7 +1,18 @@
 import { Section } from '@components/common'
 import Image from 'next/image'
 import React from 'react'
-import { WebDesign } from 'icons'
+import {
+  Analytics,
+  Competition,
+  CustomerSupport,
+  Customization,
+  EcommerceWebsite,
+  GlobalDistribution,
+  GrowthMarketing,
+  NeedleThread,
+  Network,
+  WebDesign,
+} from 'icons'
 import cx from 'classnames'
 import CustomIcon from '../../../../public/merch/custom-store.svg'
 import DesignIcon from '../../../../public/merch/design.svg'
@@ -20,21 +31,21 @@ const sections = [
         name: 'Free promotional products design',
         description:
           "Work one-on-one with an expert designer to create professional merch designs (yes, it's free)",
-        icon: WebDesign,
+        icon: CustomerSupport,
       },
       {
         id: 'samples',
         name: 'Sample merchandise for you to try',
         description:
           "Choose from a selection of high-quality promotional products that suit your brand's unique needs",
-        icon: WebDesign,
+        icon: Customization,
       },
       {
         id: 'product-images',
         name: 'Beautiful product shots',
         description:
-          'Receive digital product mock-ups and professionally photographed product shots to help you sell more',
-        icon: WebDesign,
+          'Receive digital product mock-ups and professionally photographed product shots for social media and email marketing to help you sell more',
+        icon: GrowthMarketing,
       },
     ],
   },
@@ -50,21 +61,21 @@ const sections = [
         name: 'Simplified eCommerce',
         description:
           'Connect with your existing website or build a fully integrated eCommerce store so that your business is always wherever your customers are',
-        icon: WebDesign,
-      },
-      {
-        id: 'drop',
-        name: 'Loyalty programs, drop experience & more',
-        description:
-          'Effortlessly create unique experiences that reward your biggest fans',
-        icon: WebDesign,
+        icon: EcommerceWebsite,
       },
       {
         id: 'swag-box',
         name: 'Swag bags & boxes',
         description:
           'Curate the perfect collection of merch so that people can rep your brand head-to-toe. Your employees will especially love this.',
-        icon: WebDesign,
+        icon: Network,
+      },
+      {
+        id: 'drop',
+        name: 'Loyalty programs, drop experience & more',
+        description:
+          'Effortlessly create unique experiences that reward your biggest fans',
+        icon: Competition,
       },
     ],
   },
@@ -80,21 +91,21 @@ const sections = [
         name: '$1 order fulfillment',
         description:
           'Have all of your inventory assembled, stored, and shipped from a Stitchi fulfillment center to save lots of money and time',
-        icon: WebDesign,
+        icon: GlobalDistribution,
       },
       {
         id: 'packaging',
         name: 'Personalized packaging',
         description:
           'Place your brand at the forefront every step of the way, making a lasting impression with your audience',
-        icon: WebDesign,
+        icon: GrowthMarketing,
       },
       {
         id: 'analytics',
         name: 'Actionalble insights at your fingertips',
         description:
           'Receive best-in-class analytics about your customers, inventory, and orders so that you can make decisions that drive engagement',
-        icon: WebDesign,
+        icon: Analytics,
       },
     ],
   },
@@ -135,8 +146,8 @@ const HomePageSimpleFeatureSection = () => {
                   {section.features.map(item => (
                     <div key={item.id} className="relative">
                       <dt>
-                        <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
-                          <item.icon className="h-6 w-6" aria-hidden="true" />
+                        <div className="absolute flex items-center justify-center h-12 w-12 text-white">
+                          <item.icon aria-hidden="true" />
                         </div>
                         <p className="ml-16 text-lg leading-6 font-medium text-gray-900">
                           {item.name}
