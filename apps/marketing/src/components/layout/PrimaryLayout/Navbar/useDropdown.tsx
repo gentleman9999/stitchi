@@ -1,35 +1,33 @@
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 
-export default function useDropdown<T = string | boolean>() {
-  const router = useRouter();
-  const [active, setActive] = useState<T | null>(null);
+export default function useDropdown() {
+  const router = useRouter()
+  const [active, setActive] = useState(false)
 
   useEffect(() => {
     const handleRouteChange = () => {
-      setActive(null);
-    };
+      setActive(false)
+    }
 
-    router.events.on("routeChangeStart", handleRouteChange);
+    router.events.on('routeChangeStart', handleRouteChange)
 
     return () => {
-      router.events.off("routeChangeStart", handleRouteChange);
-    };
-  }, [router.events]);
-
-  const handleClick = (value: T) => {
-    if (active === value) {
-      setActive(null);
-    } else {
-      setActive(value);
+      router.events.off('routeChangeStart', handleRouteChange)
     }
-  };
+  }, [router.events])
+
+  const handleClick = (value?: boolean) => {
+    if (value !== undefined) {
+      setActive(value)
+    } else {
+      setActive(prev => !prev)
+    }
+  }
 
   const handleClose = () => {
-    if (active) {
-      setActive(null);
-    }
-  };
+    setActive(false)
+  }
 
-  return { active, handleClick, handleClose };
+  return { active, handleClick, handleClose }
 }

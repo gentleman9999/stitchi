@@ -6,7 +6,7 @@ import { Navigation } from '@lib/navigation'
 import useDropdown from './useDropdown'
 import dynamic from 'next/dynamic'
 import routes from '@lib/routes'
-import { Button } from 'ui'
+import { Button, IconButton } from 'ui'
 
 const NavbarDropdown = dynamic(() => import('./NavbarDropdown'))
 
@@ -16,14 +16,13 @@ interface Props {
 }
 
 const NavbarMobile = ({ anchorEl, navigation }: Props) => {
-  const { active: dialogOpen, handleClick: handleOpenDialog } =
-    useDropdown<boolean>()
+  const { active: dialogOpen, handleClick: handleOpenDialog } = useDropdown()
 
   return (
     <div>
-      <button className="p-2" onClick={() => handleOpenDialog(true)}>
+      <IconButton onClick={() => handleOpenDialog(true)}>
         <HamburgerMenu height={24} width={24} />
-      </button>
+      </IconButton>
       <NavbarDropdown
         onClose={() => handleOpenDialog(false)}
         open={Boolean(dialogOpen)}

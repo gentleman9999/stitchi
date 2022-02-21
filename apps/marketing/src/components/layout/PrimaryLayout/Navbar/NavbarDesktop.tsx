@@ -55,60 +55,6 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
       <Link href={routes.internal.customers.morningBrew.href()} passHref>
         <a className={s.link}>Case study</a>
       </Link>
-      {/* <div className="inline-flex" key={solutionsLabel}> */}
-      {/* <DropdownButton
-          label={solutionsLabel}
-          onClick={e => {
-            handleClick(solutionsLabel)
-          }}
-          expanded={active === solutionsLabel}
-        />
-
-        <NavbarDropdown
-          onClose={() => handleClick(solutionsLabel)}
-          open={active === solutionsLabel}
-          anchorEl={anchorEl}
-        >
-          <div className="grid grid-cols-3 gap-4">
-            {navigation.solutions.map(subItem => (
-              <NavbarDropdownItemDesktop
-                key={subItem.label}
-                label={subItem.label}
-                href={subItem.href}
-                description={subItem.description}
-                icon={<subItem.icon {...iconBaseProps} />}
-              />
-            ))}
-          </div>
-        </NavbarDropdown>
-      </div>
-
-      <div className="inline-flex" key={resourcesLabel}>
-        <DropdownButton
-          label={resourcesLabel}
-          onClick={e => {
-            handleClick(resourcesLabel)
-          }}
-          expanded={active === resourcesLabel}
-        />
-
-        <NavbarDropdown
-          onClose={() => handleClick(resourcesLabel)}
-          open={active === resourcesLabel}
-          anchorEl={anchorEl}
-        >
-          <div className="grid grid-cols-3 gap-4">
-            {navigation.resources.map(subItem => (
-              <NavbarDropdownItemDesktop
-                key={subItem.label}
-                label={subItem.label}
-                href={subItem.href}
-                icon={<subItem.icon {...iconBaseProps} />}
-              />
-            ))}
-          </div>
-        </NavbarDropdown>
-      </div> */}
 
       <Link href={routes.internal.getStarted.href()} passHref>
         <Button

@@ -20,3 +20,6 @@ export * from './Dialog'
 
 export { default as Checkbox } from './inputs/Checkbox'
 export * from './inputs/Checkbox'
+
+export { default as IconButton } from './IconButton'
+export * from './IconButton'

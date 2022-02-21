@@ -7,5 +7,5 @@
 }
 
 .link {
-  @apply text-xl font-medium flex items-center justify-between w-full;
+  @apply text-xl font-bold flex items-center justify-between w-full;
 }
