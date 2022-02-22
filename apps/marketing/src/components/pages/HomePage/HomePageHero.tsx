@@ -26,10 +26,9 @@ const HomePageHero = () => {
           autoStart: true,
           loop: true,
           delay: 100,
-          wrapperClassName:
-            'Typewriter__wrapper underline text-brand-primary inline',
+          wrapperClassName: 'Typewriter__wrapper underline inline',
           cursorClassName:
-            'Typewriter__cursor text-brand-primary text-5xl sm:text-6xl md:text-7xl lg:text-8xl',
+            'Typewriter__cursor text-5xl sm:text-6xl md:text-7xl lg:text-8xl',
         }}
       />,
     )
@@ -41,7 +40,7 @@ const HomePageHero = () => {
         <>
           <span className="inline">
             Make the stitch.
-            <span className="flex flex-wrap whitespace-nowrap justify-center gap-x-2">
+            <span className="flex flex-wrap whitespace-nowrap justify-center gap-x-2 text-brand-primary">
               <span className="w-full sm:w-auto">{useCase}</span> merch.
               <span className="sr-only">{words.join(` ,`)}</span>
             </span>
