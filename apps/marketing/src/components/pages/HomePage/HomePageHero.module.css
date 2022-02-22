@@ -1,0 +1,23 @@
+.in {
+  animation: fadeIn ease-in 200ms;
+  animation-fill-mode: forwards;
+}
+
+.out {
+  animation: fadeOut ease-in 2ms;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeIn {
+  100% {
+    opacity: 1;
+    top: 0;
+  }
+}
+
+@keyframes fadeOut {
+  100% {
+    opacity: 0;
+    top: 100px;
+  }
+}

@@ -1,66 +1,49 @@
 import { Hero } from '@components/common'
 import routes from '@lib/routes'
-import React, { useRef } from 'react'
+import { capitalize } from 'lodash-es'
+import React from 'react'
+import Typewriter from 'typewriter-effect'
 
-const SPEED = 50
-
-const USE_CASES = ['startups', 'events', 'bands', 'fundraisers', 'drops']
-
-const UseCase = ({ useCase }: { useCase: string }) => {
-  // const ref = useRef<HTMLSpanElement>()
-
-  // React.useEffect(() => {
-  //   let i = 0
-
-  //   const typeWriter = () => {
-  //     if (i < useCase.length) {
-  //       ref.current.innerHTML += useCase.charAt(i)
-  //       i++
-  //       setTimeout(typeWriter, SPEED)
-  //     }
-  //   }
-
-  //   typeWriter()
-
-  //   return () => {
-  //     clearTimeout()
-  //   }
-  // }, [useCase])
-
-  return (
-    <span className="inline-block text-brand-primary xl:inline underline">
-      {useCase}
-    </span>
-  )
-}
+const words = [
+  'business',
+  'event',
+  'band',
+  'fundraiser',
+  'drop',
+  'startup',
+  'employee',
+]
 
 const HomePageHero = () => {
-  const [useCase, setUseCase] = React.useState('startups')
+  const [useCase, setUseCase] = React.useState<React.ReactNode>('Businesses')
 
-  // React.useEffect(() => {
-  //   const rotateUseCase = () => {
-  //     setUseCase(USE_CASES[Math.floor(Math.random() * USE_CASES.length)])
-  //     setTimeout(rotateUseCase, 5000)
-  //   }
-
-  //   rotateUseCase()
-
-  //   return () => {
-  //     clearTimeout()
-  //   }
-  // }, [])
+  React.useEffect(() => {
+    setUseCase(
+      <Typewriter
+        aria-hidden="true"
+        options={{
+          strings: words.map(word => capitalize(word)),
+          autoStart: true,
+          loop: true,
+          delay: 100,
+          wrapperClassName:
+            'Typewriter__wrapper underline text-brand-primary inline',
+          cursorClassName:
+            'Typewriter__cursor text-brand-primary text-5xl sm:text-6xl md:text-7xl lg:text-8xl',
+        }}
+      />,
+    )
+  }, [])
 
   return (
     <Hero
       title={
         <>
-          <span className="block xl:inline">
-            Make the stitch.{' '}
-            <span className="block">
-              Merch for{' '}
-              <span className="whitespace-nowrape">
-                <UseCase useCase={useCase} />.
-              </span>
+          <span className="inline">
+            Make the stitch.
+            <span className="flex flex-wrap whitespace-nowrap justify-center gap-x-2">
+              <span className="w-full sm:w-auto">{useCase}</span> merch.
+              <span className="sr-only">{words.join(` ,`)}</span>
             </span>
           </span>
         </>
