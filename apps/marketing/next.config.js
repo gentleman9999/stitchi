@@ -10,7 +10,13 @@ const withTM = require('next-transpile-modules')([
 module.exports = withTM({
   reactStrictMode: true,
   images: {
-    domains: ['www.ooshirts.com'],
+    domains: [
+      'www.ooshirts.com',
+      'www.alphabroder.com',
+      'cdnl.sanmar.com',
+      'cdnp.sanmar.com',
+      'cdn.ssactivewear.com',
+    ],
   },
 
   async rewrites() {

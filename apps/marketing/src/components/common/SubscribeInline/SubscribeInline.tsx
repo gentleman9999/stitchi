@@ -2,7 +2,7 @@ import React from 'react'
 import { InlineTextForm, InlineTextFormProps } from 'ui'
 import cx from 'classnames'
 import * as yup from 'yup'
-import api from '@lib/api'
+import makeApi from '@lib/api'
 import SubscribeInlineSuccessAlert from './SubscribeInlineSuccessAlert'
 
 export interface SubscribeInlineProps {
@@ -12,6 +12,7 @@ export interface SubscribeInlineProps {
 }
 
 const SubscribeInline = (props: SubscribeInlineProps) => {
+  const [api] = React.useState(makeApi())
   const [subscribedEmail, setSubscribeEmail] = React.useState<string | null>(
     null,
   )

@@ -6,7 +6,7 @@ import { object, string, SchemaOf } from 'yup'
 import type { FormInput } from 'pages/api/form-response'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import api from '@lib/api'
+import makeApi from '@lib/api'
 
 const schema: SchemaOf<FormInput> = object({
   email: string().email().required(),
@@ -23,6 +23,7 @@ export interface StartPageProps {
 }
 
 const StartPage = (props: StartPageProps) => {
+  const [api] = React.useState(makeApi())
   const form = useForm<FormInput>({ resolver: yupResolver(schema) })
   const [loading, setLoading] = React.useState(false)
 

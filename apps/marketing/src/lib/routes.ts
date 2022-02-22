@@ -80,6 +80,11 @@ const routes = {
         href: () => buildRoute('/api/mailing-list-subscription'),
       },
     },
+    product: {
+      list: {
+        href: () => buildRoute('/api/catalog/products'),
+      },
+    },
   },
   external: {
     social: {

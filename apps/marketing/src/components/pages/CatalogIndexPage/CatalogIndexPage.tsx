@@ -2,11 +2,19 @@ import { Section } from '@components/common'
 import React from 'react'
 import { Container } from 'ui'
 import CatalogIndexPageFilters from './CatalogIndexPageFilters'
-import CatalogIndexPageProductGrid from './CatalogIndexPageProductGrid'
+import CatalogIndexPageProductGrid, {
+  Props as ProductGridProps,
+} from './CatalogIndexPageProductGrid'
 
-export interface CatalogIndexPageProps {}
+export interface CatalogIndexPageProps {
+  initialProducts: ProductGridProps['products']
+}
 
 const CatalogIndexPage = (props: CatalogIndexPageProps) => {
+  const [products] = React.useState<ProductGridProps['products']>(
+    props.initialProducts,
+  )
+
   return (
     <>
       <Container>
@@ -23,7 +31,7 @@ const CatalogIndexPage = (props: CatalogIndexPageProps) => {
               <CatalogIndexPageFilters />
             </div>
             <div className="col-span-3">
-              <CatalogIndexPageProductGrid />
+              <CatalogIndexPageProductGrid products={products} />
             </div>
           </div>
         </Section>
