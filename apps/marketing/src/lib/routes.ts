@@ -46,7 +46,10 @@ const routes = {
     },
     customers: {
       morningBrew: {
-        href: () => buildRoute('/morning-brew-newsletter-referral-program'),
+        href: () =>
+          buildRoute(
+            '/powering-morning-brew-newsletter-referral-program-with-custom-swag',
+          ),
       },
     },
     features: {
