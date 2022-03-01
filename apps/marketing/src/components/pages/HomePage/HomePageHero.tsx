@@ -12,6 +12,7 @@ const words = [
   'drop',
   'startup',
   'employee',
+  'influencer',
 ]
 
 const HomePageHero = () => {

@@ -5,6 +5,7 @@ import React from 'react'
 import { BackgroundTexture, Container } from 'ui'
 import { humanizeDate } from '@utils/date'
 import BlogPostShowPageAuthor from './BlogPostShowPageAuthor'
+import BlogPostShowPageSeo from './BlogPostShowPageSeo'
 
 export interface BlogShowPageProps {
   post: BlogPostShowPageArticleFragment
@@ -17,6 +18,7 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
 
   return (
     <>
+      <BlogPostShowPageSeo article={post} />
       <div>
         <Container>
           <article className="prose prose-fuchsia lg:prose-xl max-w-none">
@@ -67,6 +69,7 @@ BlogPostShowPage.fragments = {
     ${CmsImage.fragments.image}
     ${BlogPostShowPageAuthor.fragments.author}
     ${CmsStructuredText.fragments.articleContent}
+    ${BlogPostShowPageSeo.fragments.article}
     fragment BlogPostShowPageArticleFragment on ArticleRecord {
       id
       title
@@ -89,6 +92,7 @@ BlogPostShowPage.fragments = {
       content {
         ...CmsStructuredTextContentFragment
       }
+      ...BlogPostShowPageSEOArticleFragment
     }
   `,
 }

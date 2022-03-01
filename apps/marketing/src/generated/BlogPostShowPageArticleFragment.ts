@@ -74,6 +74,13 @@ export interface BlogPostShowPageArticleFragment_content {
   links: BlogPostShowPageArticleFragment_content_links[];
 }
 
+export interface BlogPostShowPageArticleFragment__seoMetaTags {
+  __typename: "Tag";
+  attributes: any | null;
+  content: string | null;
+  tag: string;
+}
+
 export interface BlogPostShowPageArticleFragment {
   __typename: "ArticleRecord";
   id: any;
@@ -83,4 +90,8 @@ export interface BlogPostShowPageArticleFragment {
   categories: BlogPostShowPageArticleFragment_categories[];
   image: BlogPostShowPageArticleFragment_image | null;
   content: BlogPostShowPageArticleFragment_content | null;
+  /**
+   * SEO meta tags
+   */
+  _seoMetaTags: BlogPostShowPageArticleFragment__seoMetaTags[];
 }

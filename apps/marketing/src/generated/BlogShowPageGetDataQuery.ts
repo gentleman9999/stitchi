@@ -76,6 +76,13 @@ export interface BlogShowPageGetDataQuery_article_content {
   links: BlogShowPageGetDataQuery_article_content_links[];
 }
 
+export interface BlogShowPageGetDataQuery_article__seoMetaTags {
+  __typename: "Tag";
+  attributes: any | null;
+  content: string | null;
+  tag: string;
+}
+
 export interface BlogShowPageGetDataQuery_article {
   __typename: "ArticleRecord";
   id: any;
@@ -85,6 +92,10 @@ export interface BlogShowPageGetDataQuery_article {
   categories: BlogShowPageGetDataQuery_article_categories[];
   image: BlogShowPageGetDataQuery_article_image | null;
   content: BlogShowPageGetDataQuery_article_content | null;
+  /**
+   * SEO meta tags
+   */
+  _seoMetaTags: BlogShowPageGetDataQuery_article__seoMetaTags[];
 }
 
 export interface BlogShowPageGetDataQuery {

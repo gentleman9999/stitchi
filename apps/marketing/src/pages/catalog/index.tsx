@@ -27,6 +27,11 @@ const Catalog = (
           ...record,
           name: record.name || '',
           primaryImage: record.image,
+          ratings: {
+            quality: 3,
+            softness: 1,
+            weight: 2,
+          },
         })) || []
       }
     />
