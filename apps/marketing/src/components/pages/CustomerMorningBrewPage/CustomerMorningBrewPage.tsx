@@ -17,8 +17,8 @@ const CustomerMorningBrewPage = () => {
           <div className="md:order-2 relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-0">
             <div className="pt-12 sm:pt-16 lg:pt-20">
               <h1 className="text-4xl text-gray-900 font-extrabold tracking-tight md:text-5xl">
-                Powering Morning Brew's newsletter referral program with custom
-                swag
+                Powering Morning Brew&apos;s newsletter referral program with
+                custom swag
               </h1>
               <div className="mt-6 text-gray-500 space-y-6">
                 <p className="text-lg">
@@ -118,7 +118,7 @@ const CustomerMorningBrewPage = () => {
             <TweetsSection />
           </div>
         </div>
-      </Container>{' '}
+      </Container>
     </>
   )
 }
