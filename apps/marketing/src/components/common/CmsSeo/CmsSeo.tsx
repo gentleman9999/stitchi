@@ -1,8 +1,5 @@
 import { gql } from '@apollo/client'
-import { CmsSeoTagsFragment } from '@generated/CmsSeoTagsFragment'
-import { NextSeo, NextSeoProps } from 'next-seo'
-import { MetaTag } from 'next-seo/lib/types'
-import Head from 'next/head'
+import { NextSeo } from 'next-seo'
 import React from 'react'
 import { SeoMetaTagType } from 'react-datocms'
 
@@ -19,6 +16,7 @@ export interface CmsSeoProps {
 const CmsSeo = ({ seo }: CmsSeoProps) => {
   return (
     <NextSeo
+      title={seo.find(s => s.tag === 'title')?.content || undefined}
       additionalLinkTags={
         seo
           .filter(({ tag }) => tag === 'link')
