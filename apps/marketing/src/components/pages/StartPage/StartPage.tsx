@@ -65,9 +65,9 @@ const StartPage = (props: StartPageProps) => {
                   <Logo width="80px" />
                 </a>
               </Link>
-              <h2 className="mt-10 text-3xl font-extrabold tracking-tight sm:text-4xl">
+              <h1 className="mt-10 text-3xl font-extrabold tracking-tight sm:text-4xl">
                 Let&apos;s work together
-              </h2>
+              </h1>
               <p className="mt-4 text-lg text-gray-500 sm:mt-3">
                 We&apos;d love to hear from you! Send us a message using the
                 form opposite, or email us. We&apos;d love to hear from you!

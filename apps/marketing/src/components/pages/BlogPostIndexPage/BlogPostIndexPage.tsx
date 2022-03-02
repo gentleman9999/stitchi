@@ -37,11 +37,11 @@ const BlogIndexPage = ({
         </div>
         <div className="relative max-w-7xl mx-auto">
           <div className="text-center">
-            <h2 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl">
+            <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl">
               {`Promotional Products Wiki ${
                 activeCategory?.name ? `: ${activeCategory.name}` : ''
               }`}
-            </h2>
+            </h1>
             <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
               {activeCategory?.description ? (
                 <CmsStructuredText content={activeCategory.description} />
