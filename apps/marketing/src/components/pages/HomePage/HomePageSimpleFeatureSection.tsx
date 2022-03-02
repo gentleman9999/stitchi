@@ -67,7 +67,7 @@ const sections = [
         id: 'swag-box',
         name: 'Swag bags & boxes',
         description:
-          'Curate the perfect collection of merch so that people can rep your brand head-to-toe. Your employees will especially love this.',
+          'Curate the perfect collection of merch so that people can rep your brand head-to-toe. Your employees will especially love this',
         icon: Network,
       },
       {
