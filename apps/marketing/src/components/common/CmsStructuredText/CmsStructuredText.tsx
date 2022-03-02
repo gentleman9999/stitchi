@@ -4,8 +4,9 @@ import { CmsStructuredTextContentFragment } from '@generated/CmsStructuredTextCo
 import { CmsStructuredTextPrivacyPolicyContentFragment } from '@generated/CmsStructuredTextPrivacyPolicyContentFragment'
 import { CmsStructuredTextTermsOfUseContentFragment } from '@generated/CmsStructuredTextTermsOfUseContentFragment'
 import routes from '@lib/routes'
+import { isParagraph, isLink } from 'datocms-structured-text-utils'
 import Link from 'next/link'
-import { StructuredText } from 'react-datocms'
+import { StructuredText, renderRule } from 'react-datocms'
 
 interface Props {
   content:
@@ -19,6 +20,15 @@ const CmsStructuredText = ({ content }: Props) => {
   return (
     <StructuredText
       data={content as any}
+      customRules={[
+        renderRule(isLink, ({ node, children, key }) => {
+          return (
+            <a key={key} href={node.url} target="_blank" rel="noreferrer">
+              {children}
+            </a>
+          )
+        }),
+      ]}
       renderLinkToRecord={({ record }) => {
         switch (record.__typename) {
           case 'ArticleRecord':
