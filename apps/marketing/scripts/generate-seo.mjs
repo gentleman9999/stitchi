@@ -25,6 +25,14 @@ const defaultSeoQuery = `
         tag
       }
     }
+    site: _site {
+      faviconMetaTags {
+        __typename
+        attributes
+        content
+        tag
+      }
+    }
   }
 `
 

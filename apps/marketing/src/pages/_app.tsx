@@ -56,7 +56,14 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
         }}
       />
       <ApolloProvider client={apolloClient}>
-        <SeoDefault seo={globalSeo.data.homepage._seoMetaTags as any} />
+        {/* https://www.datocms.com/docs/next-js/seo-management */}
+        <SeoDefault
+          seo={
+            globalSeo.data.homepage._seoMetaTags.concat(
+              globalSeo.data.site.faviconMetaTags as any,
+            ) as any
+          }
+        />
         <StandoutProvider>
           {getLayout(<Component {...pageProps} />)}
         </StandoutProvider>

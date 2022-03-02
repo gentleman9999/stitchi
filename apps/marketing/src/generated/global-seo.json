@@ -144,6 +144,54 @@
           "tag": "meta"
         }
       ]
+    },
+    "site": {
+      "faviconMetaTags": [
+        {
+          "__typename": "Tag",
+          "attributes": {
+            "sizes": "16x16",
+            "type": "image/png",
+            "rel": "icon",
+            "href": "https://www.datocms-assets.com/61029/1644358473-icon.png?h=16&w=16"
+          },
+          "content": null,
+          "tag": "link"
+        },
+        {
+          "__typename": "Tag",
+          "attributes": {
+            "sizes": "32x32",
+            "type": "image/png",
+            "rel": "icon",
+            "href": "https://www.datocms-assets.com/61029/1644358473-icon.png?h=32&w=32"
+          },
+          "content": null,
+          "tag": "link"
+        },
+        {
+          "__typename": "Tag",
+          "attributes": {
+            "sizes": "96x96",
+            "type": "image/png",
+            "rel": "icon",
+            "href": "https://www.datocms-assets.com/61029/1644358473-icon.png?h=96&w=96"
+          },
+          "content": null,
+          "tag": "link"
+        },
+        {
+          "__typename": "Tag",
+          "attributes": {
+            "sizes": "192x192",
+            "type": "image/png",
+            "rel": "icon",
+            "href": "https://www.datocms-assets.com/61029/1644358473-icon.png?h=192&w=192"
+          },
+          "content": null,
+          "tag": "link"
+        }
+      ]
     }
   }
 }
