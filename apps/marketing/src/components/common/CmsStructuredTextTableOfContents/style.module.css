@@ -1,0 +1,20 @@
+.toc {
+  /* -- Nested List  -- */
+  /* Set the first layer of list items to regular numeric decimals */
+  & > ol {
+    @apply font-semibold text-accent-8;
+    list-style-type: decimal;
+  }
+
+  /* Set the second layer of list items to lowercase alphabetic */
+  & ol > ol {
+    @apply font-medium text-accent-5;
+    list-style-type: lower-alpha;
+  }
+
+  /* Set the third layer of list items to lowercase Roman numerals */
+  & ol > ol > ol {
+    @apply font-normal text-accent-4;
+    list-style-type: lower-roman;
+  }
+}

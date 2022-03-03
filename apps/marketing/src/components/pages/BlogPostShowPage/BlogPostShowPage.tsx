@@ -1,5 +1,9 @@
 import { gql } from '@apollo/client'
-import { CmsImage, CmsStructuredText } from '@components/common'
+import {
+  CmsImage,
+  CmsStructuredText,
+  CmsStructuredTextTableOfContents,
+} from '@components/common'
 import { BlogPostShowPageArticleFragment } from '@generated/BlogPostShowPageArticleFragment'
 import React from 'react'
 import { BackgroundTexture, Container } from 'ui'
@@ -49,6 +53,13 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
                     <BlogPostShowPageAuthor author={post.author} />
                   </div>
                 )}
+
+                <section className="py-10 prose-a:text-current prose-a:no-underline hover:prose-a:underline">
+                  <p className="text-2xl md:text-3xl lg:text-4xl tracking-tight font-bold text-accent-6 mb-4">
+                    Overview
+                  </p>
+                  <CmsStructuredTextTableOfContents content={post.content} />
+                </section>
 
                 <div>
                   <div className="mt-10">

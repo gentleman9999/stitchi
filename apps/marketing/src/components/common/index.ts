@@ -12,6 +12,9 @@ export * from './CmsStructuredText'
 export { default as CmsImage } from './CmsImage'
 export * from './CmsImage'
 
+export { default as CmsStructuredTextTableOfContents } from './CmsStructuredTextTableOfContents'
+export * from './CmsStructuredTextTableOfContents'
+
 export { default as ComponentErrorMessage } from './ComponentErrorMessage'
 export * from './ComponentErrorMessage'
 

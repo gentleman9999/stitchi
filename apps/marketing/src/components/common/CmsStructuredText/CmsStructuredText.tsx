@@ -4,8 +4,8 @@ import { CmsStructuredTextContentFragment } from '@generated/CmsStructuredTextCo
 import { CmsStructuredTextPrivacyPolicyContentFragment } from '@generated/CmsStructuredTextPrivacyPolicyContentFragment'
 import { CmsStructuredTextTermsOfUseContentFragment } from '@generated/CmsStructuredTextTermsOfUseContentFragment'
 import routes from '@lib/routes'
+import { anchorTagFromNode } from '@utils/structured-text'
 import { isLink, isHeading } from 'datocms-structured-text-utils'
-import { render as toPlainText } from 'datocms-structured-text-to-plain-text'
 import Link from 'next/link'
 import { StructuredText, renderNodeRule } from 'react-datocms'
 
@@ -33,10 +33,7 @@ const CmsStructuredText = ({ content }: Props) => {
         // Add HTML anchors to heading levels for in-page navigation
         renderNodeRule(isHeading, ({ node, children, key }) => {
           const HeadingTag = `h${node.level}` as keyof JSX.IntrinsicElements
-          const anchor = toPlainText(node)
-            ?.toLowerCase()
-            .replace(/ /g, '-')
-            .replace(/[^\w-]+/g, '')
+          const anchor = anchorTagFromNode(node)
 
           return (
             <HeadingTag key={key}>
