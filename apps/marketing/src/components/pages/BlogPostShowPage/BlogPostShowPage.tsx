@@ -54,12 +54,17 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
                   </div>
                 )}
 
-                <section className="py-10 prose-a:text-current prose-a:no-underline hover:prose-a:underline">
-                  <p className="text-2xl md:text-3xl lg:text-4xl tracking-tight font-bold text-accent-6 mb-4">
-                    Overview
-                  </p>
-                  <CmsStructuredTextTableOfContents content={post.content} />
-                </section>
+                <div className="py-8">
+                  <section className="p-4 sm:p-6 md:p-8 lg:p-10 prose-a:text-current prose-a:no-underline hover:prose-a:underline bg-[#fef9e6] rounded-lg shadow-lg">
+                    <div className="not-prose">
+                      <p className="text-2xl md:text-3xl lg:text-4xl tracking-tight font-bold text-accent-6 mt-0 mb-6">
+                        Overview
+                      </p>
+                    </div>
+
+                    <CmsStructuredTextTableOfContents content={post.content} />
+                  </section>
+                </div>
 
                 <div>
                   <div className="mt-10">

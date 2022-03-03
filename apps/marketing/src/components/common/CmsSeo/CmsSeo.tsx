@@ -1,10 +1,20 @@
 import { gql } from '@apollo/client'
 import { NextSeo } from 'next-seo'
 import React from 'react'
-import { SeoMetaTagType } from 'react-datocms'
+import {
+  SeoLinkTag,
+  SeoMetaTag,
+  SeoOrFaviconTag,
+  SeoTitleTag,
+} from 'react-datocms'
+
+const isLink = (tag: SeoOrFaviconTag): tag is SeoLinkTag => tag.tag === 'link'
+const isTitle = (tag: SeoOrFaviconTag): tag is SeoTitleTag =>
+  tag.tag === 'title'
+const isMeta = (tag: SeoOrFaviconTag): tag is SeoMetaTag => tag.tag === 'meta'
 
 export interface CmsSeoProps {
-  seo: SeoMetaTagType[]
+  seo: SeoOrFaviconTag[]
 }
 
 /**
@@ -16,22 +26,17 @@ export interface CmsSeoProps {
 const CmsSeo = ({ seo }: CmsSeoProps) => {
   return (
     <NextSeo
-      title={seo.find(s => s.tag === 'title')?.content || undefined}
+      title={seo.find(isTitle)?.content || undefined}
       additionalLinkTags={
-        seo
-          .filter(({ tag }) => tag === 'link')
-          .map(({ attributes }) => ({
-            ...attributes,
-            key: attributes?.property,
-          })) as any
+        seo.filter(isLink).map(({ attributes }) => ({
+          ...attributes,
+        })) as any
       }
       additionalMetaTags={
-        seo
-          .filter(({ tag }) => tag === 'meta')
-          .map(({ attributes }) => ({
-            ...attributes,
-            key: attributes?.property,
-          })) as any
+        seo.filter(isMeta).map(({ attributes }) => ({
+          ...attributes,
+          key: 'name' in attributes ? attributes.name : attributes.property,
+        })) as any
       }
     />
   )
