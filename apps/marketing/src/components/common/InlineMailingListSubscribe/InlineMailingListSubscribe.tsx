@@ -16,7 +16,7 @@ const InlineMailingListSubscribe = (props: InlineMailingListSubscribeProps) => {
         </p>
       </div>
       <div className="mt-12 sm:w-full sm:max-w-md lg:mt-0 lg:ml-8 lg:flex-1">
-        <SubscribeInline />
+        <SubscribeInline privacyPolicyClassName="text-white" />
       </div>
     </div>
   )

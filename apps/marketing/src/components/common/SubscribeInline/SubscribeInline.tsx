@@ -11,6 +11,7 @@ export interface SubscribeInlineProps {
   defaultValue?: string
   className?: string
   centered?: InlineTextFormProps<'email'>['centered']
+  privacyPolicyClassName?: string
 }
 
 const SubscribeInline = (props: SubscribeInlineProps) => {
@@ -58,7 +59,12 @@ const SubscribeInline = (props: SubscribeInlineProps) => {
           .required('Please provide an email')}
         actionLabel="Subscribe"
       />
-      <p className="mt-3 text-sm text-gray-500">
+      <p
+        className={cx(
+          'mt-3 text-sm text-gray-500',
+          props.privacyPolicyClassName,
+        )}
+      >
         We care about the protection of your data. Read our{' '}
         <Link href={routes.internal.legal.privacy.href()}>
           <a className="font-medium underline">Privacy Policy.</a>
