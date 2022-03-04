@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client'
+import { CmsSeoTagsFragment } from '@generated/CmsSeoTagsFragment'
 import { NextSeo } from 'next-seo'
 import React from 'react'
 import {
@@ -14,7 +15,7 @@ const isTitle = (tag: SeoOrFaviconTag): tag is SeoTitleTag =>
 const isMeta = (tag: SeoOrFaviconTag): tag is SeoMetaTag => tag.tag === 'meta'
 
 export interface CmsSeoProps {
-  seo: SeoOrFaviconTag[]
+  seo: CmsSeoTagsFragment[]
 }
 
 /**
@@ -23,7 +24,8 @@ export interface CmsSeoProps {
  * So when we have pages that aren't backed by DatoCms, we need to use NextSeo.
  * Using DatoCmsReactSeo would cause several meta tags for the same property to be rendered.
  */
-const CmsSeo = ({ seo }: CmsSeoProps) => {
+const CmsSeo = (props: CmsSeoProps) => {
+  const seo = props.seo as SeoOrFaviconTag[]
   return (
     <NextSeo
       title={seo.find(isTitle)?.content || undefined}

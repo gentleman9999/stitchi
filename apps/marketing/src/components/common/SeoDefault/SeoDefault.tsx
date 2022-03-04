@@ -1,10 +1,9 @@
-import { CmsSeoTagsFragment } from '@generated/CmsSeoTagsFragment'
 import Head from 'next/head'
 import React from 'react'
-import { CmsSeo } from '..'
+import { CmsSeo, CmsSeoProps } from '..'
 
 export interface SeoDefaultProps {
-  seo: CmsSeoTagsFragment[]
+  seo: CmsSeoProps['seo']
 }
 
 const SeoDefault = (props: SeoDefaultProps) => {
