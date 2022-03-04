@@ -45,7 +45,7 @@ const HomePageUseCasesSection = ({}: Props) => {
   const router = useRouter()
 
   return (
-    <Section gutter="lg" className="text-white">
+    <Section gutter="lg" className="text-gray-50">
       <Container>
         <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tighter">
           Ways to use Stitchi
@@ -60,9 +60,9 @@ const HomePageUseCasesSection = ({}: Props) => {
             <div
               key={id}
               className={cx(
-                'cursor-pointer h-full rounded-xl ring-4 ring-white p-8 flex flex-col justify-between hover:bg-white hover:text-brand-secondary transition-all ease-in-out',
+                'cursor-pointer h-full rounded-xl ring-4 ring-white p-8 flex flex-col justify-between hover:bg-white hover:text-secondary transition-all ease-in-out',
                 {
-                  'bg-white text-brand-secondary hover:bg-primary hover:ring-primary hover:text-white':
+                  'bg-white ring-white text-secondary hover:bg-primary hover:ring-primary hover:text-white':
                     index === 0,
                 },
               )}

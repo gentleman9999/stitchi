@@ -1,13 +1,11 @@
 .filter {
-  @apply mb-4 px-2 py-0.5 mr-4 ring-1 ring-accent-3 rounded-sm transition-all whitespace-nowrap text-sm font-bold text-accent-7;
+  @apply mb-4 px-4 py-2 mr-4  rounded-lg transition-all whitespace-nowrap text-sm font-bold text-gray-700;
 
   &:hover {
-    @apply ring-primary;
-    color: var(--primary);
+    @apply bg-primaryAlt-200;
   }
 }
 
 .active {
-  @apply ring-primary;
-  color: var(--primary);
+  @apply bg-primaryAlt-100;
 }

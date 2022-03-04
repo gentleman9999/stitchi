@@ -4,6 +4,8 @@ import cx from 'classnames'
 import * as yup from 'yup'
 import makeApi from '@lib/api'
 import SubscribeInlineSuccessAlert from './SubscribeInlineSuccessAlert'
+import Link from 'next/link'
+import routes from '@lib/routes'
 
 export interface SubscribeInlineProps {
   defaultValue?: string
@@ -36,21 +38,33 @@ const SubscribeInline = (props: SubscribeInlineProps) => {
   }
 
   return (
-    <InlineTextForm
-      type="email"
-      name="email"
-      autoComplete="email"
-      className={cx('mt-4', props.className)}
-      placeholder="Enter your email"
-      centered={props.centered}
-      defaultValue={props.defaultValue}
-      onSubmit={subscribe}
-      validation={yup
-        .string()
-        .email('🛑 This email address appears to be invalid')
-        .required('Please provide an email')}
-      actionLabel="Subscribe"
-    />
+    <div
+      className={cx('flex flex-col items-start', {
+        'items-center': props.centered,
+      })}
+    >
+      <InlineTextForm
+        type="email"
+        name="email"
+        autoComplete="email"
+        variant="primary"
+        className={cx('mt-4', props.className)}
+        placeholder="Enter your email"
+        defaultValue={props.defaultValue}
+        onSubmit={subscribe}
+        validation={yup
+          .string()
+          .email('🛑 This email address appears to be invalid')
+          .required('Please provide an email')}
+        actionLabel="Subscribe"
+      />
+      <p className="mt-3 text-sm text-gray-500">
+        We care about the protection of your data. Read our{' '}
+        <Link href={routes.internal.legal.privacy.href()}>
+          <a className="font-medium underline">Privacy Policy.</a>
+        </Link>
+      </p>
+    </div>
   )
 }
 

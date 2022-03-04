@@ -123,23 +123,21 @@ const Customization = (...props: any) => (
     />
     <polygon
       points="123.79 114.96 127 126.04 115.87 123.03 123.79 114.96"
-      fill="#002428"
-      stroke="#002428"
+      className="fill-secondary stroke-secondary"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="2"
     />
     <path
       d="M39.59,18.78,18,40l0,0L6.84,29.08a7.8,7.8,0,0,1,0-11,.12.12,0,0,0,0,0L17.24,7.78a8,8,0,0,1,11.22,0Z"
-      fill="#002428"
-      stroke="#002428"
+      className="fill-secondary stroke-secondary"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="2"
     />
     <polygon
       points="118.46 96.58 118.46 96.6 96.88 117.89 96.87 117.89 18.03 40.03 39.59 18.78 118.46 96.58"
-      fill="#b6dc00"
+      className="fill-primary"
       stroke="#002428"
       strokeLinecap="round"
       strokeLinejoin="round"

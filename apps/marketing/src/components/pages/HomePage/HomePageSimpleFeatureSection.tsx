@@ -6,17 +6,17 @@ import {
   Competition,
   CustomerSupport,
   Customization,
+  CustomStoreIcon,
+  DesignIcon,
   EcommerceWebsite,
   GlobalDistribution,
   GrowthMarketing,
+  LogisticsIcon,
   NeedleThread,
   Network,
   WebDesign,
 } from 'icons'
 import cx from 'classnames'
-import CustomIcon from '../../../../public/merch/custom-store.svg'
-import DesignIcon from '../../../../public/merch/design.svg'
-import LogisticsIcon from '../../../../public/merch/logistics.svg'
 
 const sections = [
   {
@@ -54,7 +54,7 @@ const sections = [
     name: 'Tailored to your unique needs',
     description:
       'From ordering promotional products in bulk to creating a fully integrated merch program, our creative, technology, and fulfillment solutions scale with your needs',
-    icon: CustomIcon,
+    icon: CustomStoreIcon,
     features: [
       {
         id: 'ecommerce-store',
@@ -196,11 +196,7 @@ const HomePageSimpleFeatureSection = () => {
                   />
                 </svg>
                 <div className="block items-center justify-center max-h-[490px] max-w-[600px] rounded-md bg-paper p-20">
-                  <Image
-                    {...section.icon}
-                    layout="responsive"
-                    alt={`${section.name} icon`}
-                  />
+                  <section.icon aria-hidden="true" />
                 </div>
               </div>
             </div>

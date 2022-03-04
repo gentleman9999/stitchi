@@ -1,5 +1,5 @@
 .root {
-  @apply bg-accent-9 text-accent-0 cursor-pointer inline-flex
+  @apply bg-gray-900 text-gray-100 cursor-pointer inline-flex
   px-10 py-3 leading-6 transition ease-in-out duration-150
   shadow-sm text-center justify-center 
   border border-transparent items-center font-medium
@@ -7,15 +7,15 @@
   max-height: 64px;
 
   &.brandColors {
-    @apply bg-primary text-primary;
+    @apply border-primary bg-primary text-gray-900;
   }
 }
 
 .root:hover {
-  @apply border-accent-9 bg-accent-6;
+  @apply border-gray-900 bg-gray-600;
 
   &.brandColors {
-    @apply bg-primary-light border-primary-light;
+    @apply bg-primaryAlt-300 border-primaryAlt-300;
   }
 }
 
@@ -24,11 +24,11 @@
 }
 
 .root[data-active] {
-  @apply bg-accent-6;
+  @apply bg-gray-600;
 }
 
 .loading {
-  @apply bg-accent-1 text-accent-3 border-accent-2 cursor-not-allowed;
+  @apply bg-gray-100 text-gray-300 border-gray-200 cursor-not-allowed;
 }
 
 .slim {
@@ -36,20 +36,19 @@
 }
 
 .ghost {
-  @apply border border-accent-2 bg-accent-0 text-secondary;
+  @apply border border-gray-200 bg-gray-100 text-secondary;
 
   &.brandColors {
-    @apply border-primary-light bg-transparent border-2 font-medium;
+    @apply border-primaryAlt-300 bg-transparent border-2 font-medium;
     color: var(--primary);
   }
 }
 
 .ghost:hover {
-  @apply border-accent-9 bg-paper text-accent-9;
+  @apply border-gray-900 bg-paper text-gray-900;
 
   &.brandColors {
-    @apply border-primary-light bg-transparent;
-    color: var(--primary);
+    @apply border-primaryAlt-300 bg-transparent text-primary;
   }
 }
 
@@ -64,7 +63,7 @@
 
 .disabled,
 .disabled:hover {
-  @apply text-accent-4 border-accent-2 bg-accent-1 cursor-not-allowed;
+  @apply text-gray-400 border-gray-200 bg-gray-100 cursor-not-allowed;
   filter: grayscale(1);
   -webkit-transform: translateZ(0);
   -webkit-perspective: 1000;

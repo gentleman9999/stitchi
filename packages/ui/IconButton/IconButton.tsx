@@ -16,7 +16,7 @@ const IconButton = (props: IconButtonProps) => {
     <button
       ref={ref}
       onClick={handleClick}
-      className="p-2 hover:bg-primary-s transition-all rounded-md focus:bg-primary-light"
+      className="p-2 hover:bg-primary-s transition-all rounded-md focus:bg-primaryAlt-300"
     >
       {props.children}
     </button>

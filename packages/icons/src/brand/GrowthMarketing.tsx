@@ -8,7 +8,7 @@ const GrowthMarketing = (...props: any) => (
   >
     <polygon
       points="76.02 12.15 53.98 12.15 65 3 76.02 12.15"
-      fill="#b6dc00"
+      className="fill-primary"
       stroke="#002428"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -16,7 +16,7 @@ const GrowthMarketing = (...props: any) => (
     />
     <polygon
       points="126.95 54.36 126.95 127 75 84.68 107.61 65.65 126.95 54.36"
-      fill="#b6dc00"
+      className="fill-primary"
       stroke="#002428"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -24,7 +24,7 @@ const GrowthMarketing = (...props: any) => (
     />
     <polygon
       points="126.95 127 3.05 127 55.26 84.84 65.27 76.76 75 84.68 126.95 127"
-      fill="#b6dc00"
+      className="fill-primary"
       stroke="#002428"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -32,7 +32,7 @@ const GrowthMarketing = (...props: any) => (
     />
     <polygon
       points="55.26 84.84 3.05 127 3.05 54.36 22.39 65.65 55.26 84.84"
-      fill="#b6dc00"
+      className="fill-primary"
       stroke="#002428"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -40,7 +40,7 @@ const GrowthMarketing = (...props: any) => (
     />
     <polygon
       points="22.39 38.33 22.39 65.65 3.05 54.36 22.39 38.33"
-      fill="#b6dc00"
+      className="fill-primary"
       stroke="#002428"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -48,7 +48,7 @@ const GrowthMarketing = (...props: any) => (
     />
     <polygon
       points="126.95 54.36 107.61 65.65 107.61 38.33 126.95 54.36"
-      fill="#b6dc00"
+      className="fill-primary"
       stroke="#002428"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -64,7 +64,7 @@ const GrowthMarketing = (...props: any) => (
     />
     <path
       d="M79.84,24l6.55,31.73a3.44,3.44,0,0,1-4.29,4L63.61,54.54a3.15,3.15,0,0,1-2.23-2.39l-3.09-15a3.13,3.13,0,0,1,1.1-3.07L74.32,22A3.43,3.43,0,0,1,79.84,24Z"
-      fill="#b6dc00"
+      className="fill-primary"
       stroke="#002428"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -99,7 +99,7 @@ const GrowthMarketing = (...props: any) => (
     />
     <path
       d="M57.91,71.36A3.07,3.07,0,0,1,54.28,69L51.11,53.62l6.2-1,3,15.08A3.08,3.08,0,0,1,57.91,71.36Z"
-      fill="#b6dc00"
+      className="fill-primary"
       stroke="#002428"
       strokeLinecap="round"
       strokeLinejoin="round"

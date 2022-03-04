@@ -5,9 +5,9 @@
 }
 
 .link:hover {
-  @apply text-primary;
+  @apply text-primaryAlt-500;
 }
 
 .link:focus {
-  @apply outline-none text-accent-8;
+  @apply outline-none text-gray-800;
 }

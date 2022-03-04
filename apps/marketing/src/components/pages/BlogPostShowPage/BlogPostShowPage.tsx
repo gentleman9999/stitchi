@@ -3,6 +3,8 @@ import {
   CmsImage,
   CmsStructuredText,
   CmsStructuredTextTableOfContents,
+  InlineMailingListSubscribe,
+  Section,
 } from '@components/common'
 import { BlogPostShowPageArticleFragment } from '@generated/BlogPostShowPageArticleFragment'
 import React from 'react'
@@ -23,59 +25,60 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
   return (
     <>
       <BlogPostShowPageSeo article={post} />
-      <div>
-        <Container>
-          <article className="prose prose-fuchsia lg:prose-xl max-w-none">
-            {post.image?.responsiveImage && (
-              <div className="not-prose mb-12 max-w-none max-h-[60vh] overflow-hidden rounded-lg">
-                <CmsImage
-                  data={post.image.responsiveImage}
-                  lazyLoad={false}
-                  usePlaceholder={false}
-                  layout="responsive"
-                />
-              </div>
-            )}
+      <Container>
+        <article className="prose prose-lime lg:prose-xl max-w-none">
+          {post.image?.responsiveImage && (
+            <div className="not-prose mb-12 max-w-none max-h-[60vh] overflow-hidden rounded-lg">
+              <CmsImage
+                data={post.image.responsiveImage}
+                lazyLoad={false}
+                usePlaceholder={false}
+                layout="responsive"
+              />
+            </div>
+          )}
 
-            <div className="relative mx-auto max-w-prose">
-              <BackgroundTexture />
+          <div className="relative mx-auto max-w-prose">
+            <BackgroundTexture />
 
-              <div className="mb-3">
-                <time>
-                  <span>{humanizeDate(post.updatedAt)}</span>
-                </time>
-              </div>
+            <div className="mb-3">
+              <time>
+                <span>{humanizeDate(post.updatedAt)}</span>
+              </time>
+            </div>
 
-              <h1>{post.title}</h1>
-              <div className="divide-y divide-gray-200">
-                {post.author && (
-                  <div className="not-prose mb-10">
-                    <BlogPostShowPageAuthor author={post.author} />
-                  </div>
-                )}
-
-                <div className="py-8">
-                  <section className="p-4 sm:p-6 md:p-8 lg:p-10 prose-a:text-current prose-a:no-underline hover:prose-a:underline bg-[#fef9e6] rounded-lg shadow-lg">
-                    <div className="not-prose">
-                      <p className="text-2xl md:text-3xl lg:text-4xl tracking-tight font-bold text-accent-6 mt-0 mb-6">
-                        Overview
-                      </p>
-                    </div>
-
-                    <CmsStructuredTextTableOfContents content={post.content} />
-                  </section>
+            <h1>{post.title}</h1>
+            <div className="divide-y divide-gray-200">
+              {post.author && (
+                <div className="not-prose mb-10">
+                  <BlogPostShowPageAuthor author={post.author} />
                 </div>
+              )}
 
-                <div>
-                  <div className="mt-10">
-                    <CmsStructuredText content={post.content} />
+              <div className="py-8">
+                <section className="p-4 sm:p-6 md:p-8 lg:p-10 prose-a:text-current prose-a:no-underline hover:prose-a:underline bg-primaryAlt-100 rounded-lg shadow-lg">
+                  <div className="not-prose">
+                    <p className="text-2xl md:text-3xl lg:text-4xl tracking-tight font-bold text-gray-600 mt-0 mb-6">
+                      Overview
+                    </p>
                   </div>
+
+                  <CmsStructuredTextTableOfContents content={post.content} />
+                </section>
+              </div>
+
+              <div>
+                <div className="mt-10">
+                  <CmsStructuredText content={post.content} />
                 </div>
               </div>
             </div>
-          </article>
-        </Container>
-      </div>
+          </div>
+        </article>
+        <Section gutter="md">
+          <InlineMailingListSubscribe />
+        </Section>
+      </Container>
     </>
   )
 }

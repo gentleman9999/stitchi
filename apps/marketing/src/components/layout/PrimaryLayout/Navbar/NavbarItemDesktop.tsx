@@ -80,7 +80,7 @@ const StyledATag = (props: {
   const linkProps = {
     ...props,
     className:
-      'cursor-pointer block p-4 text-sm hover:bg-accent-1 transition-all rounded-md ring-1 ring-transparent hover:ring-accent-2',
+      'cursor-pointer block p-4 text-sm hover:bg-gray-100 transition-all rounded-md ring-1 ring-transparent hover:ring-gray-200',
     ...(props.external ? { target: '_blank', rel: 'noreferrer' } : {}),
   }
   return <a {...linkProps} />

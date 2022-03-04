@@ -41,7 +41,7 @@ const HomePageHero = () => {
         <>
           <span className="inline">
             Make the stitch.
-            <span className="flex flex-wrap whitespace-nowrap justify-center gap-x-2 text-brand-primary">
+            <span className="flex flex-wrap whitespace-nowrap justify-center gap-x-2 text-primary">
               <span className="w-full sm:w-auto">{useCase}</span> merch.
               <span className="sr-only">{words.join(` ,`)}</span>
             </span>

@@ -38,3 +38,6 @@ export * from './SeoDefault'
 
 export { default as SubscribeInline } from './SubscribeInline'
 export * from './SubscribeInline'
+
+export { default as InlineMailingListSubscribe } from './InlineMailingListSubscribe'
+export * from './InlineMailingListSubscribe'
