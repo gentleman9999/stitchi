@@ -8,6 +8,15 @@ const nextConfig = withTM({
     locales: ['en'],
     defaultLocale: 'en',
   },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/products',
+        permanent: false,
+      },
+    ]
+  },
 })
 
 module.exports = nextConfig
