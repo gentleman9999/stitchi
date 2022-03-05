@@ -4,8 +4,6 @@ import cx from 'classnames'
 import * as yup from 'yup'
 import makeApi from '@lib/api'
 import SubscribeInlineSuccessAlert from './SubscribeInlineSuccessAlert'
-import Link from 'next/link'
-import routes from '@lib/routes'
 
 export interface SubscribeInlineProps {
   defaultValue?: string
