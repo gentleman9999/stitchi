@@ -56,7 +56,7 @@ const Footer = () => (
                 The latest news, articles, and resources, sent to your inbox
                 weekly.
               </p>
-              <SubscribeInline />
+              <SubscribeInline className="mt-4" />
             </div>
           </div>
         </div>

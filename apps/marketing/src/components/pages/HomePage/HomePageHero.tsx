@@ -27,7 +27,7 @@ const HomePageHero = () => {
           autoStart: true,
           loop: true,
           delay: 100,
-          wrapperClassName: 'Typewriter__wrapper underline inline',
+          wrapperClassName: 'Typewriter__wrapper  inline',
           cursorClassName:
             'Typewriter__cursor text-5xl sm:text-6xl md:text-7xl lg:text-8xl',
         }}
@@ -50,9 +50,8 @@ const HomePageHero = () => {
       }
       subtitle={
         <>
-          Get paired with a <span className="underline">Stitchi Tailor</span>{' '}
-          (an actual human) and start making professional, high-quality custom
-          merch from start to finish.
+          We design high-quality custom merch and merch programs. We are the
+          promotional product experts.
         </>
       }
       primaryCta={{

@@ -34,7 +34,10 @@ const SubscribeInline = (props: SubscribeInlineProps) => {
 
   if (subscribedEmail) {
     return (
-      <SubscribeInlineSuccessAlert className="mt-4" email={subscribedEmail} />
+      <SubscribeInlineSuccessAlert
+        className={props.className}
+        email={subscribedEmail}
+      />
     )
   }
 
@@ -49,7 +52,7 @@ const SubscribeInline = (props: SubscribeInlineProps) => {
         name="email"
         autoComplete="email"
         variant="primary"
-        className={cx('mt-4', props.className)}
+        className={cx(props.className)}
         placeholder="Enter your email"
         defaultValue={props.defaultValue}
         onSubmit={subscribe}
@@ -59,17 +62,6 @@ const SubscribeInline = (props: SubscribeInlineProps) => {
           .required('Please provide an email')}
         actionLabel="Subscribe"
       />
-      <p
-        className={cx(
-          'mt-3 text-sm text-gray-500',
-          props.privacyPolicyClassName,
-        )}
-      >
-        We care about the protection of your data. Read our{' '}
-        <Link href={routes.internal.legal.privacy.href()}>
-          <a className="font-medium underline">Privacy Policy.</a>
-        </Link>
-      </p>
     </div>
   )
 }

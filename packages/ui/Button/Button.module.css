@@ -7,7 +7,7 @@
   max-height: 64px;
 
   &.brandColors {
-    @apply border-primary bg-primary text-gray-900;
+    @apply border-primary bg-primary text-gray-100;
   }
 }
 

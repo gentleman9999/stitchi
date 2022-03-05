@@ -1,5 +1,10 @@
 import { gql } from '@apollo/client'
-import { BlogPostCard, CmsStructuredText } from '@components/common'
+import {
+  BlogPostCard,
+  CmsStructuredText,
+  InlineMailingListSubscribe,
+  Section,
+} from '@components/common'
 import { BlogIndexPageArticleFragment } from '@generated/BlogIndexPageArticleFragment'
 import { BlogPostIndexPageCategoryFragment } from '@generated/BlogPostIndexPageCategoryFragment'
 import { BlogPostIndexPagePageFragment } from '@generated/BlogPostIndexPagePageFragment'
@@ -32,9 +37,6 @@ const BlogIndexPage = ({
     <>
       <BlogPostIndexPageSeo category={activeCategory} page={page} />
       <Container className="relative">
-        <div className="absolute inset-0">
-          <div className="h-1/3 sm:h-2/3" />
-        </div>
         <div className="relative max-w-7xl mx-auto">
           <div className="text-center">
             <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl">
@@ -78,6 +80,9 @@ const BlogIndexPage = ({
             ))}
           </div>
         </div>
+        <Section gutter="md">
+          <InlineMailingListSubscribe />
+        </Section>
       </Container>
     </>
   )
