@@ -1,6 +1,7 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import { makeProduct, ProductShowPage } from '@components/pages'
+import withAuthenticatedUser from '@components/hoc/withAuthenticatedUser'
 
 const ProductShow = () => {
   const router = useRouter()
@@ -19,4 +20,4 @@ const ProductShow = () => {
   return <ProductShowPage product={product} />
 }
 
-export default ProductShow
+export default withAuthenticatedUser(ProductShow)
