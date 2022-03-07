@@ -6,7 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { CacheProvider, EmotionCache } from '@emotion/react'
 import theme from '@styles/theme'
 import createEmotionCache from '@styles/createEmotionCache'
-import { ClerkProvider } from '@clerk/nextjs'
+import { UserProvider } from '@auth0/nextjs-auth0'
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()
@@ -18,8 +18,8 @@ interface Props extends AppProps {
 const MyApp = (props: Props) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
   return (
-    <ClerkProvider>
-      <CacheProvider value={emotionCache}>
+    <CacheProvider value={emotionCache}>
+      <UserProvider>
         <Head>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
@@ -28,8 +28,8 @@ const MyApp = (props: Props) => {
           <CssBaseline />
           <Component {...pageProps} />
         </ThemeProvider>
-      </CacheProvider>
-    </ClerkProvider>
+      </UserProvider>
+    </CacheProvider>
   )
 }
 

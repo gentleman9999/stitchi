@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import { ProductsIndexPage } from '@components/pages'
-import withAuthenticatedUser from '@components/hoc/withAuthenticatedUser'
+import { withAuthenticatedUser } from '@components/hoc'
 
 const Home: NextPage = () => {
   return <ProductsIndexPage />
