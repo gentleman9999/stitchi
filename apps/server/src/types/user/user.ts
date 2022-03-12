@@ -3,12 +3,12 @@ import { objectType } from 'nexus'
 export const User = objectType({
   name: 'User',
   definition: t => {
+    t.id('id')
     t.string('email')
     t.boolean('emailVerified')
     t.string('username')
     t.string('phoneNumber')
     t.boolean('phoneVerified')
-    t.string('userId')
     t.field('createdAt', { type: 'DateTime' })
     t.field('updatedAt', { type: 'DateTime' })
     t.string('picture')

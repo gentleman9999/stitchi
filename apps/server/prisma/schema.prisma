@@ -50,6 +50,4 @@ model Membership {
 
 enum MembershipRole {
   OWNER
-  ADMIN
-  USER
 }

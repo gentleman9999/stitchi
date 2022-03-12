@@ -1,0 +1,1 @@
+{"version":3,"file":"get-or-throw.js","sourceRoot":"","sources":["../../src/utils/get-or-throw.ts"],"names":[],"mappings":";;AAAA,IAAM,UAAU,GAAG,UAAC,KAAyB,EAAE,IAAY;IACzD,IAAI,CAAC,KAAK,EAAE;QACV,MAAM,IAAI,KAAK,CAAC,0CAAmC,IAAI,CAAE,CAAC,CAAA;KAC3D;IAED,OAAO,KAAK,CAAA;AACd,CAAC,CAAA;AAED,qBAAe,UAAU,CAAA"}
