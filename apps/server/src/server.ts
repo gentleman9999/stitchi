@@ -2,7 +2,7 @@ import { ApolloServer } from 'apollo-server-express'
 import { ApolloServerPluginDrainHttpServer, Config } from 'apollo-server-core'
 import express from 'express'
 import http from 'http'
-import { getOrThrow } from '../dist/utils'
+import { getOrThrow } from './utils'
 import { schema } from './schema'
 import context from './context'
 

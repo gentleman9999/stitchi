@@ -9,7 +9,9 @@
     "build": "yarn clean && yarn codegen && tsc",
     "codegen": "yarn codegen:prisma && yarn codegen:nexus",
     "codegen:prisma": "prisma generate",
-    "codegen:nexus": "ts-node --transpile-only src/schema"
+    "codegen:nexus": "ts-node --transpile-only src/schema",
+    "deploy:dev": "",
+    "deploy:prod": "",
   },
   "devDependencies": {
     "@types/auth0": "^2.34.13",
