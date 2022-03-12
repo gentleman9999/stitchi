@@ -37,7 +37,7 @@ function makeContext(
     const authHeader = `${expressContext.req.headers['authorization']}`
 
     try {
-      const payload = authHeader ? await verify(authHeader) : null
+      const payload = authHeader ? await verify(authHeader).catch() : null
 
       // Grabs the first created membership.
       // In the future, can use this membershipId to control access to current organization.
@@ -56,8 +56,8 @@ function makeContext(
       return {
         auth0,
         prisma,
+        userId: payload?.sub,
         membershipId: membership?.id,
-        userId: membership?.userId ?? undefined,
         organizationId: membership?.organizationId ?? undefined,
       }
     } catch (error) {

@@ -25,7 +25,9 @@ export const Membership = objectType({
     t.field('user', {
       type: 'User',
       resolve: async (membership, _, ctx) => {
-        return ctx.auth0.getUser({ id: membership.userId })
+        const user = await ctx.auth0.getUser({ id: membership.userId })
+        console.log('HEREEEEE', user)
+        return { ...user, id: user.user_id }
       },
     })
   },

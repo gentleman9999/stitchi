@@ -5,11 +5,19 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { accessToken } = await getAccessToken(req, res, {
-    scopes: ['openid', 'profile', 'email'],
-  })
+  try {
+    switch (req.method) {
+      case 'GET': {
+        const { accessToken } = await getAccessToken(req, res)
+        res.status(200).json({ accessToken: accessToken || null })
+        break
+      }
 
-  console.log('access Token', accessToken)
-
-  res.status(200).json({ accessToken: accessToken || null })
+      default:
+        throw new Error(`Unsupported method: ${req.method}`)
+    }
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ message: e })
+  }
 }
