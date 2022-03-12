@@ -3,6 +3,7 @@ const withTM = require('next-transpile-modules')([
   'ui',
   'icons',
   'config',
+  'tsconfig',
   'hooks',
 ])
 
