@@ -31,7 +31,7 @@ const makeAuthLink = (ctx?: GetServerSidePropsContext) =>
 const httpLink = new HttpLink({
   uri: getOrThrow(
     process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT_URL,
-    'GRAPHQL_API_ENDPOINT_URL',
+    'NEXT_PUBLIC_GRAPHQL_API_ENDPOINT_URL',
   ), // Server URL (must be absolute)
   credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
 })

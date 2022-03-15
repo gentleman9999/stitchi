@@ -6,8 +6,8 @@ export default handleAuth({
       await handleLogin(req, res, {
         authorizationParams: {
           audience: getOrThrow(
-            process.env.GRAPHQL_API_ENDPOINT_URL,
-            'GRAPHQL_API_ENDPOINT_URL',
+            process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT_URL,
+            'NEXT_PUBLIC_GRAPHQL_API_ENDPOINT_URL',
           ),
           scope: 'openid profile email',
         },
