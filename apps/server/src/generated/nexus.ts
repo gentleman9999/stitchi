@@ -55,6 +55,27 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Catalog: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  CatalogProduct: { // root type
+    catalogId: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    isActive: boolean; // Boolean!
+    manufacturerId: string; // String!
+    name: string; // String!
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    vendorId?: string | null; // String
+  }
+  Manufacturer: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    name: string; // String!
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
   Membership: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
@@ -89,6 +110,12 @@ export interface NexusGenObjects {
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     username?: string | null; // String
   }
+  Vendor: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    name: string; // String!
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
 }
 
 export interface NexusGenInterfaces {
@@ -102,6 +129,31 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  Catalog: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    products: Array<NexusGenRootTypes['CatalogProduct'] | null> | null; // [CatalogProduct]
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  CatalogProduct: { // field return type
+    catalog: NexusGenRootTypes['Catalog'] | null; // Catalog
+    catalogId: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    isActive: boolean; // Boolean!
+    manufacturer: NexusGenRootTypes['Manufacturer'] | null; // Manufacturer
+    manufacturerId: string; // String!
+    name: string; // String!
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    vendor: NexusGenRootTypes['Vendor'] | null; // Vendor
+    vendorId: string | null; // String
+  }
+  Manufacturer: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    name: string; // String!
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+  }
   Membership: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
@@ -124,6 +176,7 @@ export interface NexusGenFieldTypes {
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
   }
   Query: { // field return type
+    catalog: NexusGenRootTypes['Catalog'] | null; // Catalog
     viewer: NexusGenRootTypes['Membership'] | null; // Membership
   }
   User: { // field return type
@@ -143,9 +196,40 @@ export interface NexusGenFieldTypes {
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     username: string | null; // String
   }
+  Vendor: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    name: string; // String!
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+  }
 }
 
 export interface NexusGenFieldTypeNames {
+  Catalog: { // field return type name
+    createdAt: 'DateTime'
+    id: 'ID'
+    products: 'CatalogProduct'
+    updatedAt: 'DateTime'
+  }
+  CatalogProduct: { // field return type name
+    catalog: 'Catalog'
+    catalogId: 'String'
+    createdAt: 'DateTime'
+    id: 'ID'
+    isActive: 'Boolean'
+    manufacturer: 'Manufacturer'
+    manufacturerId: 'String'
+    name: 'String'
+    updatedAt: 'DateTime'
+    vendor: 'Vendor'
+    vendorId: 'String'
+  }
+  Manufacturer: { // field return type name
+    createdAt: 'DateTime'
+    id: 'ID'
+    name: 'String'
+    updatedAt: 'DateTime'
+  }
   Membership: { // field return type name
     createdAt: 'DateTime'
     id: 'ID'
@@ -168,6 +252,7 @@ export interface NexusGenFieldTypeNames {
     updatedAt: 'DateTime'
   }
   Query: { // field return type name
+    catalog: 'Catalog'
     viewer: 'Membership'
   }
   User: { // field return type name
@@ -186,6 +271,12 @@ export interface NexusGenFieldTypeNames {
     picture: 'String'
     updatedAt: 'DateTime'
     username: 'String'
+  }
+  Vendor: { // field return type name
+    createdAt: 'DateTime'
+    id: 'ID'
+    name: 'String'
+    updatedAt: 'DateTime'
   }
 }
 

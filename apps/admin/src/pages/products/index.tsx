@@ -1,4 +1,4 @@
-import type { GetServerSideProps, NextPage } from 'next'
+import type { NextPage } from 'next'
 import { ProductsIndexPage } from '@components/pages'
 import { withAuthenticatedUser } from '@components/hoc'
 

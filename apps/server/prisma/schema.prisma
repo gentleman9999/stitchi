@@ -48,6 +48,68 @@ model Membership {
   @@unique([organizationId, invitedEmail])
 }
 
+model Catalog {
+  id String @id @default(uuid())
+
+  catalogProducts CatalogProduct[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CatalogProduct {
+  id String @id @default(uuid())
+
+  name   String
+  active Boolean @default(true)
+
+  catalogId String
+  catalog   Catalog @relation(fields: [catalogId], references: [id])
+
+  primaryVendorId String?
+  primaryVendor   Vendor? @relation(fields: [primaryVendorId], references: [id])
+
+  manufacturerId String
+  manufacturer   Manufacturer @relation(fields: [manufacturerId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CatalogProductVariant {
+  id String @id @default(uuid())
+
+  active           Boolean @default(true)
+  vendorPartNumber String
+
+  vendorId String
+  vendor   Vendor @relation(fields: [vendorId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Vendor {
+  id   String @id @default(uuid())
+  name String
+
+  catalogProductVariants CatalogProductVariant[]
+  catalogProducts        CatalogProduct[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Manufacturer {
+  id   String @id @default(uuid())
+  name String
+
+  catalogProducts CatalogProduct[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum MembershipRole {
   OWNER
 }
