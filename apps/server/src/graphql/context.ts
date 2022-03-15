@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { ManagementClient } from 'auth0'
 import { verify } from './jwt'
-import { getOrThrow } from './utils'
+import { getOrThrow } from '../utils'
 import { ApolloError, AuthenticationError } from 'apollo-server-core'
 import { ContextFunction } from 'apollo-server-core'
 import { ExpressContext } from 'apollo-server-express'

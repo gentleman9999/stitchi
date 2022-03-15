@@ -4,8 +4,8 @@ import { ApolloServerPluginDrainHttpServer, Config } from 'apollo-server-core'
 import express from 'express'
 import http from 'http'
 import { getOrThrow } from './utils'
-import { schema } from './schema'
-import context from './context'
+import { schema } from './graphql/schema'
+import context from './graphql/context'
 
 const PORT = getOrThrow(process.env.PORT, 'PORT')
 

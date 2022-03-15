@@ -6,7 +6,7 @@ import * as types from './types'
 export const schema = makeSchema({
   types: [types, queries, mutations],
   outputs: {
-    schema: __dirname + '/../schema.graphql',
+    schema: __dirname + '/../../schema.graphql',
     typegen: __dirname + '/generated/nexus.ts',
   },
   contextType: {

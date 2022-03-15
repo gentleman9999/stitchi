@@ -1,6 +1,6 @@
 import jwt, { GetPublicKeyOrSecret } from 'jsonwebtoken'
 import jwksClient from 'jwks-rsa'
-import { getOrThrow } from './utils'
+import { getOrThrow } from '../utils'
 
 export interface Payload {
   [key: string]: any
