@@ -70,6 +70,15 @@ export interface NexusGenObjects {
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     vendorId?: string | null; // String
   }
+  CatalogProductConnection: { // root type
+    edges?: Array<NexusGenRootTypes['CatalogProductEdge'] | null> | null; // [CatalogProductEdge]
+    nodes?: Array<NexusGenRootTypes['CatalogProduct'] | null> | null; // [CatalogProduct]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  CatalogProductEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['CatalogProduct'] | null; // CatalogProduct
+  }
   Manufacturer: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
@@ -91,6 +100,12 @@ export interface NexusGenObjects {
     name?: string | null; // String
     role?: NexusGenEnums['GlobalRole'] | null; // GlobalRole
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  PageInfo: { // root type
+    endCursor?: string | null; // String
+    hasNextPage: boolean; // Boolean!
+    hasPreviousPage: boolean; // Boolean!
+    startCursor?: string | null; // String
   }
   Query: {};
   User: { // root type
@@ -132,7 +147,8 @@ export interface NexusGenFieldTypes {
   Catalog: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
-    products: Array<NexusGenRootTypes['CatalogProduct'] | null> | null; // [CatalogProduct]
+    product: NexusGenRootTypes['CatalogProduct'] | null; // CatalogProduct
+    products: NexusGenRootTypes['CatalogProductConnection'] | null; // CatalogProductConnection
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
   }
   CatalogProduct: { // field return type
@@ -147,6 +163,15 @@ export interface NexusGenFieldTypes {
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     vendor: NexusGenRootTypes['Vendor'] | null; // Vendor
     vendorId: string | null; // String
+  }
+  CatalogProductConnection: { // field return type
+    edges: Array<NexusGenRootTypes['CatalogProductEdge'] | null> | null; // [CatalogProductEdge]
+    nodes: Array<NexusGenRootTypes['CatalogProduct'] | null> | null; // [CatalogProduct]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  CatalogProductEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['CatalogProduct'] | null; // CatalogProduct
   }
   Manufacturer: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -174,6 +199,12 @@ export interface NexusGenFieldTypes {
     name: string | null; // String
     role: NexusGenEnums['GlobalRole'] | null; // GlobalRole
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  PageInfo: { // field return type
+    endCursor: string | null; // String
+    hasNextPage: boolean; // Boolean!
+    hasPreviousPage: boolean; // Boolean!
+    startCursor: string | null; // String
   }
   Query: { // field return type
     catalog: NexusGenRootTypes['Catalog'] | null; // Catalog
@@ -208,7 +239,8 @@ export interface NexusGenFieldTypeNames {
   Catalog: { // field return type name
     createdAt: 'DateTime'
     id: 'ID'
-    products: 'CatalogProduct'
+    product: 'CatalogProduct'
+    products: 'CatalogProductConnection'
     updatedAt: 'DateTime'
   }
   CatalogProduct: { // field return type name
@@ -223,6 +255,15 @@ export interface NexusGenFieldTypeNames {
     updatedAt: 'DateTime'
     vendor: 'Vendor'
     vendorId: 'String'
+  }
+  CatalogProductConnection: { // field return type name
+    edges: 'CatalogProductEdge'
+    nodes: 'CatalogProduct'
+    pageInfo: 'PageInfo'
+  }
+  CatalogProductEdge: { // field return type name
+    cursor: 'String'
+    node: 'CatalogProduct'
   }
   Manufacturer: { // field return type name
     createdAt: 'DateTime'
@@ -250,6 +291,12 @@ export interface NexusGenFieldTypeNames {
     name: 'String'
     role: 'GlobalRole'
     updatedAt: 'DateTime'
+  }
+  PageInfo: { // field return type name
+    endCursor: 'String'
+    hasNextPage: 'Boolean'
+    hasPreviousPage: 'Boolean'
+    startCursor: 'String'
   }
   Query: { // field return type name
     catalog: 'Catalog'
@@ -281,6 +328,17 @@ export interface NexusGenFieldTypeNames {
 }
 
 export interface NexusGenArgTypes {
+  Catalog: {
+    product: { // args
+      id: string; // ID!
+    }
+    products: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+  }
 }
 
 export interface NexusGenAbstractTypeMembers {

@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { ApolloServer } from 'apollo-server-express'
 import { ApolloServerPluginDrainHttpServer, Config } from 'apollo-server-core'
 import express from 'express'
@@ -15,6 +16,11 @@ async function startApolloServer(schema: Config['schema']) {
     schema: schema,
     context: context.makeDefaultContext(),
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    introspection:
+      getOrThrow(
+        process.env.GRAPHQL_INTROSPECTION_ENABLED,
+        'GRAPHQL_INTROSPECTION_ENABLED',
+      ) === 'true',
   })
   await server.start()
   server.applyMiddleware({ app })

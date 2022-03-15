@@ -34,11 +34,10 @@ function makeContext(
   params: ContextCreatorParams,
 ): ContextFunction<ExpressContext> {
   return async function createContext(expressContext) {
-    const authHeader = `${expressContext.req.headers['authorization']}`
+    const authHeader = expressContext.req.headers['authorization']
 
     try {
       const payload = authHeader ? await verify(authHeader).catch() : null
-
       // Grabs the first created membership.
       // In the future, can use this membershipId to control access to current organization.
       const membership = await (async () => {

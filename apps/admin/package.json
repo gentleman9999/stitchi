@@ -7,9 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate": "npm -s run generate:prisma && npm -s run generate:nexus",
-    "generate:prisma": "prisma generate",
-    "generate:nexus": "ts-node --transpile-only src/schema"
+    "codegen": "yarn codegen:graphql",
+    "codegen:graphql": "npx apollo client:codegen ./src/generated --target typescript --outputFlat"
   },
   "sideEffects": [
     "*.css"
