@@ -1,5 +1,10 @@
 import fetch from 'node-fetch'
 import { getOrThrow } from '../../utils'
+import {
+  makeGetCategoryResponse,
+  makeGetProductResponse,
+  makeListCategoriesResponse,
+} from './serializer'
 
 const API_ENDPOINT = getOrThrow(
   process.env.SCALABLE_PRESS_API_ENDPOINT_URL,
@@ -9,17 +14,17 @@ const API_ENDPOINT = getOrThrow(
 const makeScalablePressClient = () => {
   return {
     async listCategories() {
-      const res = await fetch(`${API_ENDPOINT}/v2/categories`)
+      const res = await fetch(`${API_ENDPOINT}/v3/categories`)
 
-      return res.json()
+      return makeListCategoriesResponse(await res.json())
     },
     async getCategory(categoryId: string) {
-      const res = await fetch(`${API_ENDPOINT}/v2/categories/${categoryId}`)
-      return res.json()
+      const res = await fetch(`${API_ENDPOINT}/v3/categories/${categoryId}`)
+      return makeGetCategoryResponse(await res.json())
     },
     async getProduct(productId: string) {
-      const res = await fetch(`${API_ENDPOINT}/v2/products/${productId}`)
-      return res.json()
+      const res = await fetch(`${API_ENDPOINT}/v3/products/${productId}`)
+      return makeGetProductResponse(await res.json())
     },
   }
 }

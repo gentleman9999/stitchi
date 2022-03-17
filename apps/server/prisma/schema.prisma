@@ -52,6 +52,8 @@ model Catalog {
   id String @id @default(uuid())
 
   catalogProducts CatalogProduct[]
+  vendors         Vendor[]
+  manufacturers   Manufacturer[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -62,6 +64,7 @@ model CatalogProduct {
 
   name   String
   active Boolean @default(true)
+  slug   String
 
   catalogId String
   catalog   Catalog @relation(fields: [catalogId], references: [id])
@@ -69,8 +72,26 @@ model CatalogProduct {
   primaryVendorId String?
   primaryVendor   Vendor? @relation(fields: [primaryVendorId], references: [id])
 
+  primaryImageId    String?
+  primaryImage      ImageUrl?                @relation(fields: [primaryImageId], references: [id])
+  alternativeImages CatalogProductImageUrl[]
+
+
   manufacturerId String
   manufacturer   Manufacturer @relation(fields: [manufacturerId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CatalogProductImageUrl {
+  id String @id @default(uuid())
+
+  imageUrlId String
+  image      ImageUrl @relation(fields: [imageUrlId], references: [id])
+
+  catalogProductId String
+  catalogProduct   CatalogProduct @relation(fields: [catalogProductId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -92,24 +113,53 @@ model CatalogProductVariant {
 model Vendor {
   id   String @id @default(uuid())
   name String
+  slug String
 
+  catalogId              String
+  catalog                Catalog                 @relation(fields: [catalogId], references: [id])
   catalogProductVariants CatalogProductVariant[]
   catalogProducts        CatalogProduct[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([catalogId, slug])
 }
 
 model Manufacturer {
   id   String @id @default(uuid())
   name String
+  slug String
 
+  catalogId       String
+  catalog         Catalog          @relation(fields: [catalogId], references: [id])
   catalogProducts CatalogProduct[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([catalogId, slug])
+}
+
+enum MembershipRole {
+  OWNER
+}
+
+model ImageUrl {
+  id     String       @id @default(uuid())
+  // Cloudinary URL
+  url    String
+  type   ImageUrlType
+  width  Int
+  height Int
+
+  catalogProducts         CatalogProduct[]
+  catalogProductImageUrls CatalogProductImageUrl[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-enum MembershipRole {
-  OWNER
+enum ImageUrlType {
+  CLOUDINARY
 }
