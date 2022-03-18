@@ -16,15 +16,37 @@ const makeScalablePressClient = () => {
     async listCategories() {
       const res = await fetch(`${API_ENDPOINT}/v3/categories`)
 
-      return makeListCategoriesResponse(await res.json())
+      if (res.ok) {
+        return makeListCategoriesResponse(await res.json())
+      }
+
+      console.error(`Failed to list categories: ${res.status}`, {
+        context: { response: res },
+      })
+      throw new Error(`Failed to list categories: ${res.status}`)
     },
     async getCategory(categoryId: string) {
       const res = await fetch(`${API_ENDPOINT}/v3/categories/${categoryId}`)
-      return makeGetCategoryResponse(await res.json())
+
+      if (res.ok) {
+        return makeGetCategoryResponse(await res.json())
+      }
+
+      console.error(`Failed to get category ${categoryId}`, {
+        context: { response: res },
+      })
+      throw new Error(`Failed to get category ${categoryId}`)
     },
     async getProduct(productId: string) {
       const res = await fetch(`${API_ENDPOINT}/v3/products/${productId}`)
-      return makeGetProductResponse(await res.json())
+      if (res.ok) {
+        return makeGetProductResponse(await res.json())
+      }
+
+      console.error(`Failed to get product ${productId}`, {
+        context: { response: res },
+      })
+      throw new Error(`Failed to get product ${productId}`)
     },
   }
 }

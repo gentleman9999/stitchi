@@ -67,8 +67,9 @@ export interface NexusGenObjects {
     isActive: boolean; // Boolean!
     manufacturerId: string; // String!
     name: string; // String!
+    primaryImageId?: string | null; // String
+    primaryVendorId?: string | null; // String
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
-    vendorId?: string | null; // String
   }
   CatalogProductConnection: { // root type
     edges?: Array<NexusGenRootTypes['CatalogProductEdge'] | null> | null; // [CatalogProductEdge]
@@ -78,6 +79,12 @@ export interface NexusGenObjects {
   CatalogProductEdge: { // root type
     cursor: string; // String!
     node?: NexusGenRootTypes['CatalogProduct'] | null; // CatalogProduct
+  }
+  ImageUrl: { // root type
+    height: number; // Int!
+    id: string; // ID!
+    url: string; // String!
+    width: number; // Int!
   }
   Manufacturer: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -152,6 +159,7 @@ export interface NexusGenFieldTypes {
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
   }
   CatalogProduct: { // field return type
+    alternativeImages: Array<NexusGenRootTypes['ImageUrl'] | null>; // [ImageUrl]!
     catalog: NexusGenRootTypes['Catalog'] | null; // Catalog
     catalogId: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -160,9 +168,11 @@ export interface NexusGenFieldTypes {
     manufacturer: NexusGenRootTypes['Manufacturer'] | null; // Manufacturer
     manufacturerId: string; // String!
     name: string; // String!
+    primaryImage: NexusGenRootTypes['ImageUrl'] | null; // ImageUrl
+    primaryImageId: string | null; // String
+    primaryVendorId: string | null; // String
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     vendor: NexusGenRootTypes['Vendor'] | null; // Vendor
-    vendorId: string | null; // String
   }
   CatalogProductConnection: { // field return type
     edges: Array<NexusGenRootTypes['CatalogProductEdge'] | null> | null; // [CatalogProductEdge]
@@ -172,6 +182,12 @@ export interface NexusGenFieldTypes {
   CatalogProductEdge: { // field return type
     cursor: string; // String!
     node: NexusGenRootTypes['CatalogProduct'] | null; // CatalogProduct
+  }
+  ImageUrl: { // field return type
+    height: number; // Int!
+    id: string; // ID!
+    url: string; // String!
+    width: number; // Int!
   }
   Manufacturer: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -244,6 +260,7 @@ export interface NexusGenFieldTypeNames {
     updatedAt: 'DateTime'
   }
   CatalogProduct: { // field return type name
+    alternativeImages: 'ImageUrl'
     catalog: 'Catalog'
     catalogId: 'String'
     createdAt: 'DateTime'
@@ -252,9 +269,11 @@ export interface NexusGenFieldTypeNames {
     manufacturer: 'Manufacturer'
     manufacturerId: 'String'
     name: 'String'
+    primaryImage: 'ImageUrl'
+    primaryImageId: 'String'
+    primaryVendorId: 'String'
     updatedAt: 'DateTime'
     vendor: 'Vendor'
-    vendorId: 'String'
   }
   CatalogProductConnection: { // field return type name
     edges: 'CatalogProductEdge'
@@ -264,6 +283,12 @@ export interface NexusGenFieldTypeNames {
   CatalogProductEdge: { // field return type name
     cursor: 'String'
     node: 'CatalogProduct'
+  }
+  ImageUrl: { // field return type name
+    height: 'Int'
+    id: 'ID'
+    url: 'String'
+    width: 'Int'
   }
   Manufacturer: { // field return type name
     createdAt: 'DateTime'

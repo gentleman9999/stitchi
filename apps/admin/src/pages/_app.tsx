@@ -9,18 +9,27 @@ import createEmotionCache from '@styles/createEmotionCache'
 import { UserProvider } from '@auth0/nextjs-auth0'
 import { useApollo } from '@lib/apollo-client'
 import { ApolloProvider } from '@apollo/client'
+import { NextPage } from 'next'
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()
 
+type ExtendedNextPage = NextPage & {
+  getLayout?: (page: React.ReactElement) => React.ReactNode
+}
+
 interface Props extends AppProps {
   emotionCache?: EmotionCache
+  Component: ExtendedNextPage
 }
 
 const MyApp = (props: Props) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
 
   const apolloClient = useApollo(pageProps.initialApolloState)
+
+  // Use the layout defined at the page level, if available
+  const getLayout = Component.getLayout ?? (page => page)
 
   return (
     <CacheProvider value={emotionCache}>
@@ -35,7 +44,7 @@ const MyApp = (props: Props) => {
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
-            <Component {...pageProps} />
+            {getLayout(<Component {...pageProps} />)}
           </ThemeProvider>
         </ApolloProvider>
       </UserProvider>

@@ -1,5 +1,7 @@
 import { ImageUrlType, PrismaClient } from '@prisma/client'
+import { exit } from 'process'
 import services from '../src/services'
+import { notEmpty } from '../src/utils'
 
 const VENDOR = {
   name: 'Scalable Press',
@@ -35,11 +37,14 @@ async function start() {
   console.info('FOUND CATEGORIES: ', spCategories.length)
 
   for (const spCategory of spCategories) {
-    const { products: spProducts } = await services.scalablePress.getCategory(
-      spCategory.categoryId,
-    )
+    const { products: spProducts } = await services.scalablePress
+      .getCategory(spCategory.categoryId)
+      .catch(e => {
+        console.error(e)
+        return { products: [] }
+      })
 
-    if (!spProducts) {
+    if (!spProducts?.length) {
       console.warn('No products found for category: ', spCategory.name)
       continue
     }
@@ -50,9 +55,12 @@ async function start() {
     )
 
     for (const spProduct of spProducts) {
-      const spProductDetail = await services.scalablePress.getProduct(
-        spProduct.id,
-      )
+      const spProductDetail = await services.scalablePress
+        .getProduct(spProduct.id)
+        .catch(e => {
+          console.error(e)
+          return null
+        })
 
       if (!spProductDetail) {
         console.warn('No product detail found for product: ', spProduct.name)
@@ -70,6 +78,11 @@ async function start() {
           spProductDetail.properties.brand,
         )
 
+        if (!spProductDetail.properties.brand) {
+          console.warn('No brand found for product: ', spProduct.name)
+          continue
+        }
+
         manufacturer = await prisma.manufacturer.create({
           data: {
             name: spProductDetail.properties.brand,
@@ -86,17 +99,55 @@ async function start() {
           where: { slug: spProductDetail.productId },
         }))
       ) {
-        const primaryImageCloud = await services.cloudinary.uploader.upload(
-          spProductDetail.image.url,
-        )
+        const primaryImageCloud = spProductDetail.image.url
+          ? await services.cloudinary.uploader
+              .upload(spProductDetail.image.url)
+              .catch(e => {
+                console.error(e)
+                return null
+              })
+          : null
 
         const alternativeImagesCloud = await Promise.all(
-          spProductDetail.additionalImages?.map(({ url }) =>
-            services.cloudinary.uploader.upload(url),
-          ) || [],
-        )
+          spProductDetail.additionalImages
+            ?.map(({ url }) =>
+              url ? services.cloudinary.uploader.upload(url) : null,
+            )
+            .filter(notEmpty) || [],
+        ).catch(e => {
+          console.error(
+            `Error uploading image for product: ${spProduct.name}`,
+            { context: { error: e } },
+          )
+          return []
+        })
 
-        await prisma.catalogProduct.create({
+        const alternativeImageData = alternativeImagesCloud.map(image => ({
+          url: image.url,
+          width: image.width,
+          height: image.height,
+          type: ImageUrlType.CLOUDINARY,
+        }))
+
+        const images = await prisma.$transaction([
+          ...(primaryImageCloud
+            ? [
+                prisma.imageUrl.create({
+                  data: {
+                    url: primaryImageCloud.url,
+                    width: primaryImageCloud.width,
+                    height: primaryImageCloud.height,
+                    type: ImageUrlType.CLOUDINARY,
+                  },
+                }),
+              ]
+            : []),
+          ...alternativeImageData
+            .filter(notEmpty)
+            .map(data => prisma.imageUrl.create({ data })),
+        ])
+
+        const catalogProduct = await prisma.catalogProduct.create({
           include: {
             primaryImage: true,
           },
@@ -110,34 +161,28 @@ async function start() {
             manufacturerId: manufacturer.id,
             primaryVendorId: vendor.id,
             active: spProductDetail.available,
-
-            // primaryImage: {
-            //   create: {
-            //     url: primaryImageCloud.url,
-            //     width: primaryImageCloud.width,
-            //     height: primaryImageCloud.height,
-            //     type: ImageUrlType.CLOUDINARY,
-            //   },
-            // },
+            primaryImageId: images[0]?.id,
             alternativeImages: {
-              create: alternativeImagesCloud.map(({ url, width, height }) => ({
-                imageUrl: {
-                  create: {
-                    url,
-                    width,
-                    height,
-                    type: ImageUrlType.CLOUDINARY,
-                  },
-                },
-              })),
+              createMany: {
+                data: images
+                  .splice(0, 1)
+                  .filter(notEmpty)
+                  .map(({ id }) => ({
+                    imageUrlId: id,
+                  })),
+              },
             },
           },
         })
+
+        console.info('CREATED CATALOG PRODUCT: ', catalogProduct.name)
       }
-      break
+      // break
     }
-    break
+    // break
   }
 }
 
 start()
+  .catch(e => console.error(e))
+  .then(() => exit(0))

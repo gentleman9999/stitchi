@@ -19,12 +19,21 @@ export interface ProductShowPageGetProductQuery_catalog_product_vendor {
   name: string;
 }
 
+export interface ProductShowPageGetProductQuery_catalog_product_primaryImage {
+  __typename: "ImageUrl";
+  id: string;
+  url: string;
+  width: number;
+  height: number;
+}
+
 export interface ProductShowPageGetProductQuery_catalog_product {
   __typename: "CatalogProduct";
   id: string;
   name: string;
   manufacturer: ProductShowPageGetProductQuery_catalog_product_manufacturer | null;
   vendor: ProductShowPageGetProductQuery_catalog_product_vendor | null;
+  primaryImage: ProductShowPageGetProductQuery_catalog_product_primaryImage | null;
 }
 
 export interface ProductShowPageGetProductQuery_catalog {

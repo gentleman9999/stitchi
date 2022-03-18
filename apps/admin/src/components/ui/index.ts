@@ -1,4 +1,6 @@
 export {
+  Avatar,
+  Skeleton,
   Button,
   Typography,
   Container,
@@ -9,11 +11,22 @@ export {
   CardContent,
   CardActions,
   Grid,
+  Paper,
+  Divider,
+  Box,
+  Menu,
+  MenuItem,
+  Toolbar,
+  IconButton,
+  AppBar,
+  Tooltip,
 } from '@mui/material'
 export { DataGrid } from '@mui/x-data-grid'
 
 export type {
+  AvatarProps,
   ButtonProps,
+  SkeletonProps,
   TypographyProps,
   ContainerProps,
   AlertProps,
@@ -23,6 +36,15 @@ export type {
   CardContentProps,
   CardActionsProps,
   GridProps,
+  PaperProps,
+  DividerProps,
+  BoxProps,
+  MenuProps,
+  MenuItemProps,
+  ToolbarProps,
+  IconButtonProps,
+  AppBarProps,
+  TooltipProps,
 } from '@mui/material'
 
 export type { DataGridProps } from '@mui/x-data-grid'

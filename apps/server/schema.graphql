@@ -23,6 +23,7 @@ type Catalog {
 }
 
 type CatalogProduct {
+  alternativeImages: [ImageUrl]!
   catalog: Catalog
   catalogId: String!
   createdAt: DateTime!
@@ -31,9 +32,11 @@ type CatalogProduct {
   manufacturer: Manufacturer
   manufacturerId: String!
   name: String!
+  primaryImage: ImageUrl
+  primaryImageId: String
+  primaryVendorId: String
   updatedAt: DateTime
   vendor: Vendor
-  vendorId: String
 }
 
 type CatalogProductConnection {
@@ -67,6 +70,13 @@ scalar DateTime
 enum GlobalRole {
   CUSTOMER
   SUPERADMIN
+}
+
+type ImageUrl {
+  height: Int!
+  id: ID!
+  url: String!
+  width: Int!
 }
 
 type Manufacturer {

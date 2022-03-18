@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { useRouter } from 'next/router'
 import { ProductShowPage } from '@components/pages'
 import { withAuthenticatedUser } from '@components/hoc'
 import { ComponentErrorMessage } from '@components/common'
+import { MainDashboard } from '@components/layout'
 
 const ProductShow = () => {
   const router = useRouter()
@@ -14,5 +15,9 @@ const ProductShow = () => {
 
   return <ProductShowPage productId={id} />
 }
+
+ProductShow.getLayout = (page: ReactElement) => (
+  <MainDashboard>{page}</MainDashboard>
+)
 
 export default withAuthenticatedUser(ProductShow)

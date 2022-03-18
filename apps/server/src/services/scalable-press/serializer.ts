@@ -24,13 +24,13 @@ const GetProductResponse = yup.object({
   description: yup.string(),
   available: yup.boolean().default(false),
   image: yup.object({
-    url: yup.string().required(),
-    label: yup.string().required(),
+    url: yup.string(),
+    label: yup.string(),
   }),
   additionalImages: yup.array(
     yup.object({
-      label: yup.string().required(),
-      url: yup.string().required(),
+      label: yup.string(),
+      url: yup.string(),
     }),
   ),
   colors: yup.array(
@@ -40,24 +40,24 @@ const GetProductResponse = yup.object({
       class: yup.string().required(),
       images: yup.array(
         yup.object({
-          url: yup.string().required(),
-          label: yup.string().required(),
+          url: yup.string(),
+          label: yup.string(),
         }),
       ),
       sizes: yup.array(yup.string()),
     }),
   ),
   properties: yup.object({
-    brand: yup.string().required(),
+    brand: yup.string(),
     style: yup.string().required(),
     dtg: yup.boolean().default(false),
     embr: yup.boolean().default(false),
     supplierMockups: yup.boolean().default(false),
     screenprint: yup.boolean().default(false),
-    startingAtPrice: yup.number().required(),
-    rank: yup.number().required(),
+    startingAtPrice: yup.number().nullable().default(null),
+    rank: yup.number(),
     sla: yup.object({
-      days: yup.number().required(),
+      days: yup.number().nullable().default(null),
     }),
   }),
 })

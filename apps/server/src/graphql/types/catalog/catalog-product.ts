@@ -10,7 +10,8 @@ export const CatalogProduct = objectType({
 
     t.nonNull.string('catalogId')
     t.nonNull.string('manufacturerId')
-    t.string('vendorId')
+    t.string('primaryVendorId')
+    t.string('primaryImageId')
 
     t.nonNull.field('createdAt', { type: 'DateTime' })
     t.field('updatedAt', { type: 'DateTime' })
@@ -40,11 +41,41 @@ export const CatalogProduct = objectType({
     t.field('vendor', {
       type: 'Vendor',
       resolve: async (cp, _, ctx) => {
-        if (!cp.vendorId) return null
+        if (!cp.primaryVendorId) return null
         return ctx.prisma.vendor.findFirst({
           where: {
-            id: cp.vendorId,
+            id: cp.primaryVendorId,
           },
+        })
+      },
+    })
+
+    t.field('primaryImage', {
+      type: 'ImageUrl',
+      resolve: async (cp, _, ctx) => {
+        if (!cp.primaryImageId) {
+          return null
+        }
+
+        return ctx.prisma.imageUrl.findFirst({
+          where: {
+            id: cp.primaryImageId,
+          },
+        })
+      },
+    })
+    t.nonNull.list.field('alternativeImages', {
+      type: 'ImageUrl',
+      resolve: async (cp, _, ctx) => {
+        const cpAlternativeImageUrls =
+          await ctx.prisma.catalogProductImageUrl.findMany({
+            where: {
+              catalogProductId: cp.id,
+            },
+          })
+
+        return ctx.prisma.imageUrl.findMany({
+          where: { id: { in: cpAlternativeImageUrls.map(img => img.id) } },
         })
       },
     })

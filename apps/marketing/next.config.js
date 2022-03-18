@@ -15,13 +15,7 @@ module.exports = withTM({
     defaultLocale: 'en',
   },
   images: {
-    domains: [
-      'www.ooshirts.com',
-      'www.alphabroder.com',
-      'cdnl.sanmar.com',
-      'cdnp.sanmar.com',
-      'cdn.ssactivewear.com',
-    ],
+    domains: ['res.cloudinary.com'],
   },
 
   async rewrites() {
