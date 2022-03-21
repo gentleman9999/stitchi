@@ -18,7 +18,7 @@ interface Product {
     softness?: number
     weight?: number
   }
-  primaryImage?: Image
+  image?: Image
   additionalImages?: Image[]
 }
 
@@ -29,10 +29,10 @@ export interface Props {
 const CatalogIndexPageProduct = ({ product }: Props) => {
   return (
     <div className="block rounded-lg border-2 border-primary bg-[#f6f9f8] p-4">
-      {product.primaryImage?.url && (
+      {product.image?.url && (
         <div className="relative w-full h-[150px]">
           <Image
-            src={product.primaryImage.url}
+            src={product.image.url}
             alt={product.name}
             layout="fill"
             objectFit="contain"

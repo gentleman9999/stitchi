@@ -11,11 +11,11 @@ import {
   Button,
   Avatar,
   Tooltip,
+  Logo,
 } from '@components/ui'
 import { MenuIcon } from '@components/icons'
-
-const pages = ['Products', 'Pricing', 'Blog']
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
+import Link from 'next/link'
+import routes from '@lib/routes'
 
 const Navigation = () => {
   const [anchorElNav, setAnchorElNav] =
@@ -42,18 +42,21 @@ const Navigation = () => {
     setAnchorElUser(null)
   }
 
+  const ClickableLogo = (props: { width: number }) => (
+    <Link href={routes.internal.home.href()}>
+      <a>
+        <Logo style={{ width: props.width }} />
+      </a>
+    </Link>
+  )
+
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
+    <AppBar position="static" color="secondary">
+      <Container maxWidth="lg">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-          >
-            LOGO
-          </Typography>
+          <Box sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}>
+            <ClickableLogo width={60} />
+          </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -84,31 +87,29 @@ const Navigation = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map(page => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Link passHref href={routes.internal.products.href()}>
+                  <Typography textAlign="center" component="a">
+                    Products
+                  </Typography>
+                </Link>
+              </MenuItem>
             </Menu>
           </Box>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
-          >
-            LOGO
-          </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            <ClickableLogo width={55} />
+          </Box>
+
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map(page => (
+            <Link passHref href={routes.internal.products.href()}>
               <Button
-                key={page}
+                Component="a"
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                Products
               </Button>
-            ))}
+            </Link>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -133,11 +134,11 @@ const Navigation = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map(setting => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Link passHref href={routes.internal.api.auth.logout.href()}>
+                  <Typography textAlign="center">Logout</Typography>
+                </Link>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

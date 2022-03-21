@@ -26,7 +26,7 @@ const Catalog = (
         props.records?.map(record => ({
           ...record,
           name: record.name || '',
-          primaryImage: record.image,
+          image: record.image,
           ratings: {
             quality: 3,
             softness: 1,

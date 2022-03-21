@@ -36,8 +36,8 @@ const GetProductResponse = yup.object({
   colors: yup.array(
     yup.object({
       name: yup.string().required(),
-      hex: yup.string().required(),
-      class: yup.string().required(),
+      hex: yup.string(),
+      class: yup.string(),
       images: yup.array(
         yup.object({
           url: yup.string(),
@@ -48,8 +48,9 @@ const GetProductResponse = yup.object({
     }),
   ),
   properties: yup.object({
-    brand: yup.string(),
     style: yup.string().required(),
+    brand: yup.string(),
+    material: yup.string(),
     dtg: yup.boolean().default(false),
     embr: yup.boolean().default(false),
     supplierMockups: yup.boolean().default(false),
@@ -90,4 +91,55 @@ export const makeGetCategoryResponse = async (
   category: any,
 ): Promise<yup.Asserts<typeof GetCategoryResponse>> => {
   return GetCategoryResponse.validate(category)
+}
+
+const GetProductVariantsResponse = yup.object({})
+
+const ProductVariantColor = yup.object({})
+
+const ProductVaraintSize = yup.object({
+  quantity: yup.number(),
+  price: yup.number(),
+  weight: yup.number(),
+  size: yup.string(),
+  color: yup.string(),
+  GTIN: yup.string(),
+  tags: yup.array(yup.string()),
+})
+
+export interface ProductVariant {
+  productId: string
+  colorId?: string
+  sizeId?: string
+  gtin?: string
+}
+
+export const makeGetProductVariantsResponse = async (
+  productId: string,
+  variant: any,
+): Promise<ProductVariant[]> => {
+  const response = await GetProductVariantsResponse.validate(variant)
+
+  let variants: ProductVariant[] = []
+
+  for (const colorKey of Object.keys(response)) {
+    const variantColor = await ProductVariantColor.validate(
+      response[colorKey as keyof typeof response],
+    )
+
+    for (const sizeKey of Object.keys(variantColor)) {
+      const variantSize = await ProductVaraintSize.validate(
+        variantColor[sizeKey as keyof typeof variantColor],
+      )
+
+      variants.push({
+        productId,
+        colorId: colorKey,
+        sizeId: sizeKey,
+        gtin: variantSize.GTIN,
+      })
+    }
+  }
+
+  return variants
 }

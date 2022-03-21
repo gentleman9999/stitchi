@@ -33,7 +33,7 @@ model Membership {
   id   String         @id @default(uuid())
   role MembershipRole
 
-  organization   Organization @relation(fields: [organizationId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id], onUpdate: NoAction)
   organizationId String
 
   userId String
@@ -51,15 +51,50 @@ model Membership {
 model Catalog {
   id String @id @default(uuid())
 
-  catalogProducts CatalogProduct[]
+  materials       Material[]
   vendors         Vendor[]
   manufacturers   Manufacturer[]
+  categories      Category[]
+  sizes           Size[]
+  colors          Color[]
+  colorCategories ColorCategory[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model CatalogProduct {
+model Category {
+  id        String  @id @default(uuid())
+  name      String
+  slug      String
+  catalogId String
+  catalog   Catalog @relation(fields: [catalogId], references: [id], onUpdate: NoAction)
+
+  parentCategoryId String?
+  parentCategory   Category?  @relation(fields: [parentCategoryId], references: [id], name: "Category", onDelete: NoAction, onUpdate: NoAction)
+  childCategories  Category[] @relation(name: "Category")
+
+  materialCategories MaterialCategory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([catalogId, slug])
+}
+
+model MaterialCategory {
+  materialId String
+  material   Material @relation(fields: [materialId], references: [id], onUpdate: NoAction)
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@id([materialId, categoryId])
+}
+
+model Material {
   id String @id @default(uuid())
 
   name   String
@@ -67,47 +102,113 @@ model CatalogProduct {
   slug   String
 
   catalogId String
-  catalog   Catalog @relation(fields: [catalogId], references: [id])
+  catalog   Catalog @relation(fields: [catalogId], references: [id], onUpdate: NoAction)
 
   primaryVendorId String?
-  primaryVendor   Vendor? @relation(fields: [primaryVendorId], references: [id])
+  primaryVendor   Vendor? @relation(fields: [primaryVendorId], references: [id], onUpdate: NoAction)
 
-  primaryImageId    String?
-  primaryImage      ImageUrl?                @relation(fields: [primaryImageId], references: [id])
-  alternativeImages CatalogProductImageUrl[]
+  imageId String?
+  image   Image?  @relation(fields: [imageId], references: [id], onUpdate: NoAction)
 
+  materialCategories MaterialCategory[]
 
-  manufacturerId String
-  manufacturer   Manufacturer @relation(fields: [manufacturerId], references: [id])
+  materialDescription String?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
+  manufacturerStyleName String
+  manufacturerId        String
+  manufacturer          Manufacturer @relation(fields: [manufacturerId], references: [id], onUpdate: NoAction)
 
-model CatalogProductImageUrl {
-  id String @id @default(uuid())
-
-  imageUrlId String
-  image      ImageUrl @relation(fields: [imageUrlId], references: [id])
-
-  catalogProductId String
-  catalogProduct   CatalogProduct @relation(fields: [catalogProductId], references: [id])
+  materialVariants MaterialVariant[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // manufacturerStyleName is a unique identifier for a product within the context of a single manufacturer.
+  @@unique([manufacturerId, slug])
+  @@unique([manufacturerId, manufacturerStyleName])
 }
 
-model CatalogProductVariant {
+model MaterialVariant {
   id String @id @default(uuid())
 
   active           Boolean @default(true)
   vendorPartNumber String
+  gtin             String
+  sizeId           String?
+  size             Size?   @relation(fields: [sizeId], references: [id], onUpdate: NoAction)
+  colorId          String?
+  color            Color?  @relation(fields: [colorId], references: [id], onUpdate: NoAction)
+
+  materialId String
+  material   Material @relation(fields: [materialId], references: [id], onUpdate: NoAction)
+
+  materialVariantImages MaterialVariantImage[]
 
   vendorId String
-  vendor   Vendor @relation(fields: [vendorId], references: [id])
+  vendor   Vendor @relation(fields: [vendorId], references: [id], onUpdate: NoAction)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model MaterialVariantImage {
+  imageId String
+  image   Image  @relation(fields: [imageId], references: [id], onUpdate: NoAction)
+
+  materialVariantId String
+  materialVariant   MaterialVariant @relation(fields: [materialVariantId], references: [id], onUpdate: NoAction)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([imageId, materialVariantId])
+}
+
+model Size {
+  id        String  @id @default(uuid())
+  value     String
+  catalogId String
+  catalog   Catalog @relation(fields: [catalogId], references: [id], onUpdate: NoAction)
+  name      String?
+
+  materialVariants MaterialVariant[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([catalogId, value])
+}
+
+model ColorCategory {
+  id        String  @id @default(uuid())
+  name      String
+  catalogId String
+  catalog   Catalog @relation(fields: [catalogId], references: [id], onUpdate: NoAction)
+  hex       String?
+
+  colors Color[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([catalogId, name])
+}
+
+model Color {
+  id        String  @id @default(uuid())
+  catalogId String
+  catalog   Catalog @relation(fields: [catalogId], references: [id], onUpdate: NoAction)
+  hex       String?
+  name      String?
+
+  colorCategoryId String?
+  colorCategory   ColorCategory? @relation(fields: [colorCategoryId], references: [id], onUpdate: NoAction)
+
+  materialVariants MaterialVariant[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
 }
 
 model Vendor {
@@ -115,10 +216,10 @@ model Vendor {
   name String
   slug String
 
-  catalogId              String
-  catalog                Catalog                 @relation(fields: [catalogId], references: [id])
-  catalogProductVariants CatalogProductVariant[]
-  catalogProducts        CatalogProduct[]
+  catalogId        String
+  catalog          Catalog           @relation(fields: [catalogId], references: [id], onUpdate: NoAction)
+  materialVariants MaterialVariant[]
+  materials        Material[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -131,9 +232,9 @@ model Manufacturer {
   name String
   slug String
 
-  catalogId       String
-  catalog         Catalog          @relation(fields: [catalogId], references: [id])
-  catalogProducts CatalogProduct[]
+  catalogId String
+  catalog   Catalog    @relation(fields: [catalogId], references: [id], onUpdate: NoAction)
+  materials Material[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -145,21 +246,21 @@ enum MembershipRole {
   OWNER
 }
 
-model ImageUrl {
-  id     String       @id @default(uuid())
+model Image {
+  id     String    @id @default(uuid())
   // Cloudinary URL
   url    String
-  type   ImageUrlType
+  type   ImageType
   width  Int
   height Int
 
-  catalogProducts         CatalogProduct[]
-  catalogProductImageUrls CatalogProductImageUrl[]
+  materials             Material[]
+  materialVariantImages MaterialVariantImage[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-enum ImageUrlType {
+enum ImageType {
   CLOUDINARY
 }

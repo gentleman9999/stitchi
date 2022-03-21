@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles'
+import { createTheme, useTheme } from '@mui/material/styles'
 import { red } from '@mui/material/colors'
 
 //https://mui.com/components/data-grid/getting-started/#typescript
@@ -8,10 +8,10 @@ import type {} from '@mui/x-data-grid/themeAugmentation'
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#556cd6',
+      main: '#a3e635',
     },
     secondary: {
-      main: '#19857b',
+      main: '#0f172a',
     },
     error: {
       main: red.A400,
@@ -20,3 +20,5 @@ const theme = createTheme({
 })
 
 export default theme
+
+export { useTheme }

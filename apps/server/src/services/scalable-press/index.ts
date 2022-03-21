@@ -1,8 +1,9 @@
-import fetch from 'node-fetch'
+import nodeFetch, { RequestInfo, RequestInit } from 'node-fetch'
 import { getOrThrow } from '../../utils'
 import {
   makeGetCategoryResponse,
   makeGetProductResponse,
+  makeGetProductVariantsResponse,
   makeListCategoriesResponse,
 } from './serializer'
 
@@ -10,6 +11,20 @@ const API_ENDPOINT = getOrThrow(
   process.env.SCALABLE_PRESS_API_ENDPOINT_URL,
   'SCALABLE_PRESS_API_ENDPOINT_URL',
 )
+
+const API_KEY = getOrThrow(
+  process.env.SCALABLE_PRESS_API_KEY,
+  'SCALABLE_PRESS_API_KEY',
+)
+
+const fetch = (url: RequestInfo, init?: RequestInit | undefined) =>
+  nodeFetch(url, {
+    ...init,
+    headers: {
+      ...init?.headers,
+      Authorization: `Basic ${Buffer.from(`:${API_KEY}`).toString('base64')}`,
+    },
+  })
 
 const makeScalablePressClient = () => {
   return {
@@ -48,9 +63,24 @@ const makeScalablePressClient = () => {
       })
       throw new Error(`Failed to get product ${productId}`)
     },
+
+    async getProductVariants(productId: string) {
+      const res = await fetch(`${API_ENDPOINT}/v2/products/${productId}/items`)
+
+      if (res.ok) {
+        return makeGetProductVariantsResponse(productId, await res.json())
+      }
+
+      console.error(`Failed to get product variants ${productId}`, {
+        context: { ...res },
+      })
+      throw new Error(`Failed to get product variants ${productId}`)
+    },
   }
 }
 
-export default {
+const sclablePress = {
   makeDefaultScalablePressClient: () => makeScalablePressClient(),
 }
+
+export default sclablePress

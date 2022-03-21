@@ -14,6 +14,7 @@ export const schema = makeSchema({
     export: 'Context',
   },
   sourceTypes: {
+    debug: false,
     modules: [
       {
         module: '@prisma/client',

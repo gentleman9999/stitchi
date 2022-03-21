@@ -7,8 +7,8 @@
 // GraphQL fragment: PageHeadingProductFragment
 // ====================================================
 
-export interface PageHeadingProductFragment_primaryImage {
-  __typename: "ImageUrl";
+export interface PageHeadingProductFragment_image {
+  __typename: "Image";
   id: string;
   url: string;
   width: number;
@@ -16,8 +16,8 @@ export interface PageHeadingProductFragment_primaryImage {
 }
 
 export interface PageHeadingProductFragment {
-  __typename: "CatalogProduct";
+  __typename: "Material";
   id: string;
   name: string;
-  primaryImage: PageHeadingProductFragment_primaryImage | null;
+  image: PageHeadingProductFragment_image | null;
 }

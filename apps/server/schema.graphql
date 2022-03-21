@@ -5,61 +5,56 @@
 type Catalog {
   createdAt: DateTime!
   id: ID!
-  product(id: ID!): CatalogProduct
+  product(id: ID!): Material
   products(
     """Returns the elements in the list that come after the specified cursor"""
     after: String
 
     """Returns the elements in the list that come before the specified cursor"""
     before: String
+    filter: CategoryFilterArg = {}
 
     """Returns the first n elements from the list."""
     first: Int
 
     """Returns the last n elements from the list."""
     last: Int
-  ): CatalogProductConnection
+  ): MaterialConnection
   updatedAt: DateTime
 }
 
-type CatalogProduct {
-  alternativeImages: [ImageUrl]!
-  catalog: Catalog
+type Category {
+  breadcrumbs: [Category!]
   catalogId: String!
   createdAt: DateTime!
   id: ID!
-  isActive: Boolean!
-  manufacturer: Manufacturer
-  manufacturerId: String!
   name: String!
-  primaryImage: ImageUrl
-  primaryImageId: String
-  primaryVendorId: String
+  parentCategoryId: String
+  slug: String!
   updatedAt: DateTime
-  vendor: Vendor
 }
 
-type CatalogProductConnection {
-  """
-  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
-  """
-  edges: [CatalogProductEdge]
-
-  """Flattened list of CatalogProduct type"""
-  nodes: [CatalogProduct]
-
-  """
-  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
-  """
-  pageInfo: PageInfo!
+input CategoryFilterArg {
+  categoryId: Filter
+  colorCategoryId: Filter
 }
 
-type CatalogProductEdge {
-  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
-  cursor: String!
+type Color {
+  category: ColorCategory
+  colorCategoryId: String
+  createdAt: DateTime
+  hex: String
+  id: ID!
+  name: String
+  updatedAt: DateTime
+}
 
-  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
-  node: CatalogProduct
+type ColorCategory {
+  createdAt: DateTime
+  hex: String
+  id: ID!
+  name: String!
+  updatedAt: DateTime
 }
 
 """
@@ -67,12 +62,16 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+input Filter {
+  in: [String]
+}
+
 enum GlobalRole {
   CUSTOMER
   SUPERADMIN
 }
 
-type ImageUrl {
+type Image {
   height: Int!
   id: ID!
   url: String!
@@ -83,7 +82,69 @@ type Manufacturer {
   createdAt: DateTime!
   id: ID!
   name: String!
+  slug: String!
   updatedAt: DateTime
+}
+
+type Material {
+  catalog: Catalog
+  catalogId: String!
+  categories: [Category!]
+  colors: [Color!]
+  createdAt: DateTime!
+  id: ID!
+  image: Image
+  imageId: String
+  isActive: Boolean!
+  manufacturer: Manufacturer
+  manufacturerId: String!
+  name: String!
+  primaryVendorId: String
+  sizes: [Size!]
+  style: String!
+  updatedAt: DateTime
+  variants: [MaterialVariant!]
+  vendor: Vendor
+}
+
+type MaterialConnection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [MaterialEdge]
+
+  """Flattened list of Material type"""
+  nodes: [Material]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+}
+
+type MaterialEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String!
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: Material
+}
+
+type MaterialVariant {
+  color: Color
+  colorId: String
+  createdAt: DateTime!
+  gtin: String!
+  id: ID!
+  images: Image
+  isActive: Boolean!
+  material: Material
+  materialId: String!
+  sizeId: String
+  updatedAt: DateTime
+  vendor: Vendor
+  vendorId: String!
+  vendorPartNumber: String!
 }
 
 type Membership {
@@ -143,6 +204,14 @@ type PageInfo {
 type Query {
   catalog: Catalog
   viewer: Membership
+}
+
+type Size {
+  createdAt: DateTime
+  id: ID!
+  name: String
+  updatedAt: DateTime
+  value: String!
 }
 
 type User {

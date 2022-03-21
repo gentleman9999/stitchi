@@ -6,6 +6,7 @@ export const Manufacturer = objectType({
     t.nonNull.id('id')
 
     t.nonNull.string('name')
+    t.nonNull.string('slug')
 
     t.nonNull.field('createdAt', { type: 'DateTime' })
     t.field('updatedAt', { type: 'DateTime' })

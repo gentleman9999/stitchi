@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "ts-node-dev --no-notify --respawn --transpile-only src/server",
+    "dev:typecheck": "tsc --watch --noEmit",
     "start": "node dist/server",
     "clean": "rm -rf dist",
     "build": "yarn clean && yarn codegen && tsc",

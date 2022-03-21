@@ -10,9 +10,10 @@ module.exports = {
   theme: {
     colors: {
       transparent: 'transparent',
-      primary: colors.lime[400],
+      primary: colors.lime[400], // #a3e635
+
       primaryAlt: colors.lime,
-      secondary: colors.slate[900],
+      secondary: colors.slate[900], // #0f172a
       secondaryAlt: colors.slate,
       paper: colors.white,
       gray: colors.zinc,

@@ -1,2 +1,4 @@
 export * from './catalog'
-export * from './catalog-product'
+export * from './material'
+export * from './material-variant'
+export * from './category'

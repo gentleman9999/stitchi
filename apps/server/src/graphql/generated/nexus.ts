@@ -38,6 +38,13 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  CategoryFilterArg: { // input type
+    categoryId?: NexusGenInputs['Filter'] | null; // Filter
+    colorCategoryId?: NexusGenInputs['Filter'] | null; // Filter
+  }
+  Filter: { // input type
+    in?: Array<string | null> | null; // [String]
+  }
 }
 
 export interface NexusGenEnums {
@@ -60,27 +67,31 @@ export interface NexusGenObjects {
     id: string; // ID!
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
   }
-  CatalogProduct: { // root type
+  Category: { // root type
     catalogId: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
-    isActive: boolean; // Boolean!
-    manufacturerId: string; // String!
     name: string; // String!
-    primaryImageId?: string | null; // String
-    primaryVendorId?: string | null; // String
+    parentCategoryId?: string | null; // String
+    slug: string; // String!
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
   }
-  CatalogProductConnection: { // root type
-    edges?: Array<NexusGenRootTypes['CatalogProductEdge'] | null> | null; // [CatalogProductEdge]
-    nodes?: Array<NexusGenRootTypes['CatalogProduct'] | null> | null; // [CatalogProduct]
-    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  Color: { // root type
+    colorCategoryId?: string | null; // String
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    hex?: string | null; // String
+    id: string; // ID!
+    name?: string | null; // String
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
   }
-  CatalogProductEdge: { // root type
-    cursor: string; // String!
-    node?: NexusGenRootTypes['CatalogProduct'] | null; // CatalogProduct
+  ColorCategory: { // root type
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    hex?: string | null; // String
+    id: string; // ID!
+    name: string; // String!
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
   }
-  ImageUrl: { // root type
+  Image: { // root type
     height: number; // Int!
     id: string; // ID!
     url: string; // String!
@@ -90,7 +101,41 @@ export interface NexusGenObjects {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
     name: string; // String!
+    slug: string; // String!
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  Material: { // root type
+    catalogId: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    imageId?: string | null; // String
+    isActive: boolean; // Boolean!
+    manufacturerId: string; // String!
+    name: string; // String!
+    primaryVendorId?: string | null; // String
+    style: string; // String!
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  MaterialConnection: { // root type
+    edges?: Array<NexusGenRootTypes['MaterialEdge'] | null> | null; // [MaterialEdge]
+    nodes?: Array<NexusGenRootTypes['Material'] | null> | null; // [Material]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  MaterialEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['Material'] | null; // Material
+  }
+  MaterialVariant: { // root type
+    colorId?: string | null; // String
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    gtin: string; // String!
+    id: string; // ID!
+    isActive: boolean; // Boolean!
+    materialId: string; // String!
+    sizeId?: string | null; // String
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    vendorId: string; // String!
+    vendorPartNumber: string; // String!
   }
   Membership: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -115,6 +160,13 @@ export interface NexusGenObjects {
     startCursor?: string | null; // String
   }
   Query: {};
+  Size: { // root type
+    createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    id: string; // ID!
+    name?: string | null; // String
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    value: string; // String!
+  }
   User: { // root type
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
     email?: string | null; // String
@@ -154,36 +206,37 @@ export interface NexusGenFieldTypes {
   Catalog: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
-    product: NexusGenRootTypes['CatalogProduct'] | null; // CatalogProduct
-    products: NexusGenRootTypes['CatalogProductConnection'] | null; // CatalogProductConnection
+    product: NexusGenRootTypes['Material'] | null; // Material
+    products: NexusGenRootTypes['MaterialConnection'] | null; // MaterialConnection
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
   }
-  CatalogProduct: { // field return type
-    alternativeImages: Array<NexusGenRootTypes['ImageUrl'] | null>; // [ImageUrl]!
-    catalog: NexusGenRootTypes['Catalog'] | null; // Catalog
+  Category: { // field return type
+    breadcrumbs: NexusGenRootTypes['Category'][] | null; // [Category!]
     catalogId: string; // String!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
-    isActive: boolean; // Boolean!
-    manufacturer: NexusGenRootTypes['Manufacturer'] | null; // Manufacturer
-    manufacturerId: string; // String!
     name: string; // String!
-    primaryImage: NexusGenRootTypes['ImageUrl'] | null; // ImageUrl
-    primaryImageId: string | null; // String
-    primaryVendorId: string | null; // String
+    parentCategoryId: string | null; // String
+    slug: string; // String!
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
-    vendor: NexusGenRootTypes['Vendor'] | null; // Vendor
   }
-  CatalogProductConnection: { // field return type
-    edges: Array<NexusGenRootTypes['CatalogProductEdge'] | null> | null; // [CatalogProductEdge]
-    nodes: Array<NexusGenRootTypes['CatalogProduct'] | null> | null; // [CatalogProduct]
-    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  Color: { // field return type
+    category: NexusGenRootTypes['ColorCategory'] | null; // ColorCategory
+    colorCategoryId: string | null; // String
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    hex: string | null; // String
+    id: string; // ID!
+    name: string | null; // String
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
   }
-  CatalogProductEdge: { // field return type
-    cursor: string; // String!
-    node: NexusGenRootTypes['CatalogProduct'] | null; // CatalogProduct
+  ColorCategory: { // field return type
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    hex: string | null; // String
+    id: string; // ID!
+    name: string; // String!
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
   }
-  ImageUrl: { // field return type
+  Image: { // field return type
     height: number; // Int!
     id: string; // ID!
     url: string; // String!
@@ -193,7 +246,53 @@ export interface NexusGenFieldTypes {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
     name: string; // String!
+    slug: string; // String!
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  Material: { // field return type
+    catalog: NexusGenRootTypes['Catalog'] | null; // Catalog
+    catalogId: string; // String!
+    categories: NexusGenRootTypes['Category'][] | null; // [Category!]
+    colors: NexusGenRootTypes['Color'][] | null; // [Color!]
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    image: NexusGenRootTypes['Image'] | null; // Image
+    imageId: string | null; // String
+    isActive: boolean; // Boolean!
+    manufacturer: NexusGenRootTypes['Manufacturer'] | null; // Manufacturer
+    manufacturerId: string; // String!
+    name: string; // String!
+    primaryVendorId: string | null; // String
+    sizes: NexusGenRootTypes['Size'][] | null; // [Size!]
+    style: string; // String!
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    variants: NexusGenRootTypes['MaterialVariant'][] | null; // [MaterialVariant!]
+    vendor: NexusGenRootTypes['Vendor'] | null; // Vendor
+  }
+  MaterialConnection: { // field return type
+    edges: Array<NexusGenRootTypes['MaterialEdge'] | null> | null; // [MaterialEdge]
+    nodes: Array<NexusGenRootTypes['Material'] | null> | null; // [Material]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  MaterialEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['Material'] | null; // Material
+  }
+  MaterialVariant: { // field return type
+    color: NexusGenRootTypes['Color'] | null; // Color
+    colorId: string | null; // String
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    gtin: string; // String!
+    id: string; // ID!
+    images: NexusGenRootTypes['Image'] | null; // Image
+    isActive: boolean; // Boolean!
+    material: NexusGenRootTypes['Material'] | null; // Material
+    materialId: string; // String!
+    sizeId: string | null; // String
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    vendor: NexusGenRootTypes['Vendor'] | null; // Vendor
+    vendorId: string; // String!
+    vendorPartNumber: string; // String!
   }
   Membership: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -226,6 +325,13 @@ export interface NexusGenFieldTypes {
     catalog: NexusGenRootTypes['Catalog'] | null; // Catalog
     viewer: NexusGenRootTypes['Membership'] | null; // Membership
   }
+  Size: { // field return type
+    createdAt: NexusGenScalars['DateTime'] | null; // DateTime
+    id: string; // ID!
+    name: string | null; // String
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    value: string; // String!
+  }
   User: { // field return type
     createdAt: NexusGenScalars['DateTime'] | null; // DateTime
     email: string | null; // String
@@ -255,36 +361,37 @@ export interface NexusGenFieldTypeNames {
   Catalog: { // field return type name
     createdAt: 'DateTime'
     id: 'ID'
-    product: 'CatalogProduct'
-    products: 'CatalogProductConnection'
+    product: 'Material'
+    products: 'MaterialConnection'
     updatedAt: 'DateTime'
   }
-  CatalogProduct: { // field return type name
-    alternativeImages: 'ImageUrl'
-    catalog: 'Catalog'
+  Category: { // field return type name
+    breadcrumbs: 'Category'
     catalogId: 'String'
     createdAt: 'DateTime'
     id: 'ID'
-    isActive: 'Boolean'
-    manufacturer: 'Manufacturer'
-    manufacturerId: 'String'
     name: 'String'
-    primaryImage: 'ImageUrl'
-    primaryImageId: 'String'
-    primaryVendorId: 'String'
+    parentCategoryId: 'String'
+    slug: 'String'
     updatedAt: 'DateTime'
-    vendor: 'Vendor'
   }
-  CatalogProductConnection: { // field return type name
-    edges: 'CatalogProductEdge'
-    nodes: 'CatalogProduct'
-    pageInfo: 'PageInfo'
+  Color: { // field return type name
+    category: 'ColorCategory'
+    colorCategoryId: 'String'
+    createdAt: 'DateTime'
+    hex: 'String'
+    id: 'ID'
+    name: 'String'
+    updatedAt: 'DateTime'
   }
-  CatalogProductEdge: { // field return type name
-    cursor: 'String'
-    node: 'CatalogProduct'
+  ColorCategory: { // field return type name
+    createdAt: 'DateTime'
+    hex: 'String'
+    id: 'ID'
+    name: 'String'
+    updatedAt: 'DateTime'
   }
-  ImageUrl: { // field return type name
+  Image: { // field return type name
     height: 'Int'
     id: 'ID'
     url: 'String'
@@ -294,7 +401,53 @@ export interface NexusGenFieldTypeNames {
     createdAt: 'DateTime'
     id: 'ID'
     name: 'String'
+    slug: 'String'
     updatedAt: 'DateTime'
+  }
+  Material: { // field return type name
+    catalog: 'Catalog'
+    catalogId: 'String'
+    categories: 'Category'
+    colors: 'Color'
+    createdAt: 'DateTime'
+    id: 'ID'
+    image: 'Image'
+    imageId: 'String'
+    isActive: 'Boolean'
+    manufacturer: 'Manufacturer'
+    manufacturerId: 'String'
+    name: 'String'
+    primaryVendorId: 'String'
+    sizes: 'Size'
+    style: 'String'
+    updatedAt: 'DateTime'
+    variants: 'MaterialVariant'
+    vendor: 'Vendor'
+  }
+  MaterialConnection: { // field return type name
+    edges: 'MaterialEdge'
+    nodes: 'Material'
+    pageInfo: 'PageInfo'
+  }
+  MaterialEdge: { // field return type name
+    cursor: 'String'
+    node: 'Material'
+  }
+  MaterialVariant: { // field return type name
+    color: 'Color'
+    colorId: 'String'
+    createdAt: 'DateTime'
+    gtin: 'String'
+    id: 'ID'
+    images: 'Image'
+    isActive: 'Boolean'
+    material: 'Material'
+    materialId: 'String'
+    sizeId: 'String'
+    updatedAt: 'DateTime'
+    vendor: 'Vendor'
+    vendorId: 'String'
+    vendorPartNumber: 'String'
   }
   Membership: { // field return type name
     createdAt: 'DateTime'
@@ -326,6 +479,13 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     catalog: 'Catalog'
     viewer: 'Membership'
+  }
+  Size: { // field return type name
+    createdAt: 'DateTime'
+    id: 'ID'
+    name: 'String'
+    updatedAt: 'DateTime'
+    value: 'String'
   }
   User: { // field return type name
     createdAt: 'DateTime'
@@ -360,6 +520,7 @@ export interface NexusGenArgTypes {
     products: { // args
       after?: string | null; // String
       before?: string | null; // String
+      filter: NexusGenInputs['CategoryFilterArg'] | null; // CategoryFilterArg
       first?: number | null; // Int
       last?: number | null; // Int
     }
@@ -374,7 +535,7 @@ export interface NexusGenTypeInterfaces {
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
 export type NexusGenEnumNames = keyof NexusGenEnums;
 

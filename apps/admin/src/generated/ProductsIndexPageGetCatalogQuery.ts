@@ -19,18 +19,31 @@ export interface ProductsIndexPageGetCatalogQuery_catalog_products_nodes_manufac
   name: string;
 }
 
+export interface ProductsIndexPageGetCatalogQuery_catalog_products_nodes_categories_breadcrumbs {
+  __typename: "Category";
+  id: string;
+  name: string;
+}
+
+export interface ProductsIndexPageGetCatalogQuery_catalog_products_nodes_categories {
+  __typename: "Category";
+  id: string;
+  breadcrumbs: ProductsIndexPageGetCatalogQuery_catalog_products_nodes_categories_breadcrumbs[] | null;
+}
+
 export interface ProductsIndexPageGetCatalogQuery_catalog_products_nodes {
-  __typename: "CatalogProduct";
+  __typename: "Material";
   id: string;
   name: string;
   vendor: ProductsIndexPageGetCatalogQuery_catalog_products_nodes_vendor | null;
   manufacturer: ProductsIndexPageGetCatalogQuery_catalog_products_nodes_manufacturer | null;
+  categories: ProductsIndexPageGetCatalogQuery_catalog_products_nodes_categories[] | null;
 }
 
 export interface ProductsIndexPageGetCatalogQuery_catalog_products {
-  __typename: "CatalogProductConnection";
+  __typename: "MaterialConnection";
   /**
-   * Flattened list of CatalogProduct type
+   * Flattened list of Material type
    */
   nodes: (ProductsIndexPageGetCatalogQuery_catalog_products_nodes | null)[] | null;
 }
@@ -43,4 +56,8 @@ export interface ProductsIndexPageGetCatalogQuery_catalog {
 
 export interface ProductsIndexPageGetCatalogQuery {
   catalog: ProductsIndexPageGetCatalogQuery_catalog | null;
+}
+
+export interface ProductsIndexPageGetCatalogQueryVariables {
+  categoryIds: string[];
 }

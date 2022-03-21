@@ -23,11 +23,39 @@ const buildRoute = (
 }
 
 const routes = {
-  interal: {
+  internal: {
+    home: {
+      href: () => buildRoute('/'),
+    },
     products: {
       href: () => buildRoute('/products'),
 
       show: (productUuid: string) => buildRoute(`/products/${productUuid}`),
+    },
+    api: {
+      auth: {
+        logout: {
+          href: () => buildRoute('/api/auth/logout'),
+        },
+      },
+    },
+  },
+  external: {
+    ssActivewear: {
+      product: {
+        show: {
+          href: ({
+            brandSlug,
+            productStyle,
+          }: {
+            brandSlug: string
+            productStyle: string
+          }) =>
+            buildRoute(
+              `https://www.ssactivewear.com/p/${brandSlug}/${productStyle}`,
+            ),
+        },
+      },
     },
   },
 }

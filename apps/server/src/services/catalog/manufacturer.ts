@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import slugify from 'slugify'
 
-const makeCatalogProductClient = ({ prisma }: { prisma: PrismaClient }) => {
+const makeManufacturerClient = ({ prisma }: { prisma: PrismaClient }) => {
   return {
     findUniqueSlug: async ({ startingSlug }: { startingSlug: string }) => {
       let potentiallyUniqueSlug = slugify(startingSlug)
@@ -9,7 +9,7 @@ const makeCatalogProductClient = ({ prisma }: { prisma: PrismaClient }) => {
 
       while (
         Boolean(
-          await prisma.catalogProduct.findFirst({
+          await prisma.manufacturer.findFirst({
             where: { slug: potentiallyUniqueSlug },
           }),
         )
@@ -30,6 +30,6 @@ const makeCatalogProductClient = ({ prisma }: { prisma: PrismaClient }) => {
 }
 
 export default {
-  makeDefaultCatalogProductClient: ({ prisma }: { prisma: PrismaClient }) =>
-    makeCatalogProductClient({ prisma }),
+  makeDefaultManufacturerClient: ({ prisma }: { prisma: PrismaClient }) =>
+    makeManufacturerClient({ prisma }),
 }

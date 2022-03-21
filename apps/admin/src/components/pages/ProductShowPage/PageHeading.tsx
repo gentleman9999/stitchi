@@ -23,7 +23,7 @@ const PageHeading = ({ product }: Props) => {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <Avatar src={product.primaryImage?.url} sx={{ width: 80, height: 80 }} />
+      <Avatar src={product.image?.url} sx={{ width: 80, height: 80 }} />
       <Box sx={{ marginLeft: 2 }}>
         <Typography variant="h5" component="h1">
           <b>{product?.name}</b>
@@ -37,10 +37,10 @@ export default PageHeading
 
 PageHeading.fragments = {
   product: gql`
-    fragment PageHeadingProductFragment on CatalogProduct {
+    fragment PageHeadingProductFragment on Material {
       id
       name
-      primaryImage {
+      image {
         id
         url
         width

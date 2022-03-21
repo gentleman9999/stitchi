@@ -1,11 +1,10 @@
-import { CatalogProduct } from '@prisma/client'
+import { Material } from '@prisma/client'
 import { NexusGenObjects } from '../../generated/nexus'
 
-export const makeCatalogProduct = (
-  c: CatalogProduct,
-): NexusGenObjects['CatalogProduct'] => {
+export const makeMaterial = (c: Material): NexusGenObjects['Material'] => {
   return {
     ...c,
     isActive: c.active,
+    style: c.manufacturerStyleName,
   }
 }
