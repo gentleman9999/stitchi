@@ -5,12 +5,11 @@ import {
   extendType,
   arg,
   list,
-  stringArg,
   inputObjectType,
 } from 'nexus'
 import { connectionFromArray } from 'graphql-relay'
 import { makeMaterial } from '../../serializers/catalog'
-import { Category } from '@prisma/client'
+import { notEmpty } from '../../../utils'
 
 export const Material = objectType({
   name: 'Material',
@@ -60,11 +59,13 @@ export const MaterialExtendsMaterialVariant = extendType({
     t.field('material', {
       type: 'Material',
       resolve: async (cp, _, ctx) => {
-        return ctx.prisma.material.findFirst({
+        const material = await ctx.prisma.material.findFirst({
           where: {
             id: cp.materialId,
           },
         })
+
+        return material ? makeMaterial(material) : null
       },
     })
   },
@@ -99,32 +100,31 @@ export const MaterialExtendsCatalog = extendType({
 
       additionalArgs: {
         filter: arg({
-          default: null,
+          default: {},
           type: CategoryFilterArgInput,
         }),
       },
-      resolve: async (catalog, args, ctx) => {
+      async resolve(catalog, args, ctx) {
         const { categoryId } = args.filter || {}
 
-        console.log('CATEGORY ID', categoryId)
-
-        const categories = Object.keys(categoryId).length
-          ? await ctx.prisma.category.findMany({
-              where: {
-                id: {
-                  in: categoryId.in || undefined,
-                  equals: categoryId.eq || undefined,
-                },
-              },
-              include: {
-                childCategories: {
-                  include: {
-                    childCategories: true,
+        const categories =
+          categoryId && Object.keys(categoryId).length
+            ? await ctx.prisma.category.findMany({
+                where: {
+                  id: {
+                    in: categoryId.in?.filter(notEmpty) || undefined,
+                    equals: categoryId.eq || undefined,
                   },
                 },
-              },
-            })
-          : null
+                include: {
+                  childCategories: {
+                    include: {
+                      childCategories: true,
+                    },
+                  },
+                },
+              })
+            : null
 
         const categoryIds = categories?.length
           ? categories.flatMap(c => [
@@ -158,7 +158,7 @@ export const MaterialExtendsCatalog = extendType({
     })
 
     t.field('product', {
-      type: 'Material',
+      type: Material,
       args: {
         id: nonNull(idArg()),
       },

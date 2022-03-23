@@ -17,7 +17,7 @@ export const ColorExtendsMatieralVariant = extendType({
   type: 'MaterialVariant',
   definition(t) {
     t.field('color', {
-      type: 'Color',
+      type: Color,
       resolve: async (cpv, _, ctx) => {
         if (!cpv.colorId) {
           return null
@@ -37,7 +37,7 @@ export const ColorExtendsMaterial = extendType({
   type: 'Material',
   definition(t) {
     t.list.nonNull.field('colors', {
-      type: 'Color',
+      type: Color,
       resolve: async (cp, _, ctx) => {
         const colors = await ctx.prisma.color.findMany({
           where: {
@@ -48,12 +48,15 @@ export const ColorExtendsMaterial = extendType({
             },
           },
         })
-        const filteredColors = colors.reduce((prev, color) => {
-          if (!prev.find(c => c.hex === color.hex)) {
-            prev.push(color)
-          }
-          return prev
-        }, [])
+        const filteredColors = colors.reduce<typeof colors[number][]>(
+          (prev, color) => {
+            if (!prev.find(c => c.hex === color.hex)) {
+              prev.push(color)
+            }
+            return prev
+          },
+          [],
+        )
         return filteredColors
       },
     })

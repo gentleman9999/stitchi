@@ -1,4 +1,5 @@
 import { extendType, objectType } from 'nexus'
+import { makeMaterialVariant } from '../../serializers/catalog'
 
 export const MaterialVariant = objectType({
   name: 'MaterialVariant',
@@ -25,11 +26,13 @@ export const MaterialVariantExtendsMaterial = extendType({
     t.list.nonNull.field('variants', {
       type: 'MaterialVariant',
       resolve: async (cp, _, ctx) => {
-        return ctx.prisma.materialVariant.findMany({
-          where: {
-            materialId: cp.id,
-          },
-        })
+        return (
+          await ctx.prisma.materialVariant.findMany({
+            where: {
+              materialId: cp.id,
+            },
+          })
+        ).map(makeMaterialVariant)
       },
     })
   },

@@ -15,7 +15,7 @@ export const VendorExtendsMaterialVariant = extendType({
   type: 'MaterialVariant',
   definition: t => {
     t.field('vendor', {
-      type: 'Vendor',
+      type: Vendor,
       resolve: async (cpv, _, ctx) => {
         return ctx.prisma.vendor.findFirst({
           where: {
@@ -31,7 +31,7 @@ export const VendorExtendsMaterial = extendType({
   type: 'Material',
   definition: t => {
     t.field('vendor', {
-      type: 'Vendor',
+      type: Vendor,
       resolve: async (cp, _, ctx) => {
         if (!cp.primaryVendorId) return null
         return ctx.prisma.vendor.findFirst({

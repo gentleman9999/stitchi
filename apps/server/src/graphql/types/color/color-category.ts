@@ -18,6 +18,10 @@ export const ColorCategoryExtendsColor = extendType({
     t.field('category', {
       type: ColorCategory,
       resolve: async (cp, _, ctx) => {
+        if (!cp.colorCategoryId) {
+          return null
+        }
+
         return ctx.prisma.colorCategory.findFirst({
           where: {
             id: cp.colorCategoryId,

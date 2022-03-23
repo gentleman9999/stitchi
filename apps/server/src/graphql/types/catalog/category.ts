@@ -14,7 +14,7 @@ export const Category = objectType({
     t.field('updatedAt', { type: 'DateTime' })
 
     t.list.nonNull.field('breadcrumbs', {
-      type: 'Category',
+      type: Category,
       resolve: async (cat, _, ctx) => {
         const breadcrumbs: typeof cat[] = []
         const makeBreadcrumbs = async (category: typeof cat): Promise<void> => {
@@ -40,7 +40,7 @@ export const Category = objectType({
     })
 
     t.list.nonNull.field('children', {
-      type: 'Category',
+      type: Category,
       resolve: async (cat, _, ctx) => {
         return ctx.prisma.category.findMany({
           where: {

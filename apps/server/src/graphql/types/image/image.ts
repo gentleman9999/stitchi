@@ -33,7 +33,7 @@ export const ImageExtendsMaterial = extendType({
 export const ImageExtendsMaterialVariant = extendType({
   type: 'MaterialVariant',
   definition(t) {
-    t.field('images', {
+    t.list.nonNull.field('images', {
       type: 'Image',
       resolve: async (mv, _, ctx) => {
         const imageConnections = await ctx.prisma.materialVariantImage.findMany(

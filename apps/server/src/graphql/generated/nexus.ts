@@ -286,7 +286,7 @@ export interface NexusGenFieldTypes {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     gtin: string; // String!
     id: string; // ID!
-    images: NexusGenRootTypes['Image'] | null; // Image
+    images: NexusGenRootTypes['Image'][] | null; // [Image!]
     isActive: boolean; // Boolean!
     material: NexusGenRootTypes['Material'] | null; // Material
     materialId: string; // String!
@@ -524,7 +524,7 @@ export interface NexusGenArgTypes {
     products: { // args
       after?: string | null; // String
       before?: string | null; // String
-      filter?: NexusGenInputs['CategoryFilterArg'] | null; // CategoryFilterArg
+      filter: NexusGenInputs['CategoryFilterArg'] | null; // CategoryFilterArg
       first?: number | null; // Int
       last?: number | null; // Int
     }
