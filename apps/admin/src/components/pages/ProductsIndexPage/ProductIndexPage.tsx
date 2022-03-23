@@ -91,7 +91,9 @@ const ProductsIndexPage = () => {
     })
   }
 
-  const value = categories?.find(c => c.id === categoryId?.toString())
+  const selectedCategory = categories?.find(
+    c => c.id === categoryId?.toString(),
+  )
 
   return (
     <Container>
@@ -108,7 +110,7 @@ const ProductsIndexPage = () => {
               getOptionLabel={option => option.name}
               options={categories}
               sx={{ width: 300 }}
-              value={categories?.find(c => c.id === categoryId?.toString())}
+              value={selectedCategory}
               onChange={(_, value) =>
                 value ? addCategory(value.id) : removeCategory()
               }
@@ -158,9 +160,18 @@ const GET_CATALOG = gql`
           }
           categories {
             id
+            name
             breadcrumbs {
               id
               name
+            }
+            children {
+              id
+              name
+              children {
+                id
+                name
+              }
             }
           }
         }

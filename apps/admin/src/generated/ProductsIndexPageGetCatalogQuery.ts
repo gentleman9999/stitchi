@@ -42,10 +42,25 @@ export interface ProductsIndexPageGetCatalogQuery_catalog_products_nodes_categor
   name: string;
 }
 
+export interface ProductsIndexPageGetCatalogQuery_catalog_products_nodes_categories_children_children {
+  __typename: "Category";
+  id: string;
+  name: string;
+}
+
+export interface ProductsIndexPageGetCatalogQuery_catalog_products_nodes_categories_children {
+  __typename: "Category";
+  id: string;
+  name: string;
+  children: ProductsIndexPageGetCatalogQuery_catalog_products_nodes_categories_children_children[] | null;
+}
+
 export interface ProductsIndexPageGetCatalogQuery_catalog_products_nodes_categories {
   __typename: "Category";
   id: string;
+  name: string;
   breadcrumbs: ProductsIndexPageGetCatalogQuery_catalog_products_nodes_categories_breadcrumbs[] | null;
+  children: ProductsIndexPageGetCatalogQuery_catalog_products_nodes_categories_children[] | null;
 }
 
 export interface ProductsIndexPageGetCatalogQuery_catalog_products_nodes {

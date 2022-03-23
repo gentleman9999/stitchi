@@ -9,7 +9,6 @@
 
 export interface CategoryFilterArg {
   categoryId?: Filter | null;
-  colorCategoryId?: Filter | null;
 }
 
 export interface Filter {
