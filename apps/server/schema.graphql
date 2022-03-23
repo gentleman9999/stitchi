@@ -3,6 +3,7 @@
 
 
 type Catalog {
+  categories: [Category!]
   createdAt: DateTime!
   id: ID!
   product(id: ID!): Material
@@ -12,7 +13,7 @@ type Catalog {
 
     """Returns the elements in the list that come before the specified cursor"""
     before: String
-    filter: CategoryFilterArg = {}
+    filter: CategoryFilterArg = null
 
     """Returns the first n elements from the list."""
     first: Int
@@ -26,6 +27,7 @@ type Catalog {
 type Category {
   breadcrumbs: [Category!]
   catalogId: String!
+  children: [Category!]
   createdAt: DateTime!
   id: ID!
   name: String!
@@ -36,7 +38,6 @@ type Category {
 
 input CategoryFilterArg {
   categoryId: Filter
-  colorCategoryId: Filter
 }
 
 type Color {
@@ -63,6 +64,7 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTime
 
 input Filter {
+  eq: String
   in: [String]
 }
 

@@ -10,6 +10,7 @@ import {
 } from 'nexus'
 import { connectionFromArray } from 'graphql-relay'
 import { makeMaterial } from '../../serializers/catalog'
+import { Category } from '@prisma/client'
 
 export const Material = objectType({
   name: 'Material',
@@ -75,6 +76,9 @@ export const FilterArgInput = inputObjectType({
     t.field('in', {
       type: list('String'),
     })
+    t.field('eq', {
+      type: 'String',
+    })
   },
 })
 
@@ -82,9 +86,6 @@ export const CategoryFilterArgInput = inputObjectType({
   name: 'CategoryFilterArg',
   definition(t) {
     t.field('categoryId', {
-      type: FilterArgInput,
-    })
-    t.field('colorCategoryId', {
       type: FilterArgInput,
     })
   },
@@ -98,27 +99,52 @@ export const MaterialExtendsCatalog = extendType({
 
       additionalArgs: {
         filter: arg({
-          default: {},
+          default: null,
           type: CategoryFilterArgInput,
         }),
       },
       resolve: async (catalog, args, ctx) => {
+        const { categoryId } = args.filter || {}
+
+        console.log('CATEGORY ID', categoryId)
+
+        const categories = Object.keys(categoryId).length
+          ? await ctx.prisma.category.findMany({
+              where: {
+                id: {
+                  in: categoryId.in || undefined,
+                  equals: categoryId.eq || undefined,
+                },
+              },
+              include: {
+                childCategories: {
+                  include: {
+                    childCategories: true,
+                  },
+                },
+              },
+            })
+          : null
+
+        const categoryIds = categories?.length
+          ? categories.flatMap(c => [
+              c.id,
+              ...c.childCategories.flatMap(cc => [
+                cc.id,
+                ...cc.childCategories.flatMap(ccc => ccc.id),
+              ]),
+            ])
+          : undefined
+
         const products = (
           await ctx.prisma.material.findMany({
             where: {
               catalogId: catalog.id,
               materialCategories: {
                 some: {
-                  categoryId: {
-                    in: args.filter?.categoryId?.in,
-                  },
-                },
-              },
-              materialVariants: {
-                some: {
-                  color: {
-                    colorCategoryId: {
-                      in: args.filter?.colorCategoryId?.in,
+                  category: {
+                    id: {
+                      in: categoryIds,
                     },
                   },
                 },

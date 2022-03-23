@@ -40,9 +40,9 @@ declare global {
 export interface NexusGenInputs {
   CategoryFilterArg: { // input type
     categoryId?: NexusGenInputs['Filter'] | null; // Filter
-    colorCategoryId?: NexusGenInputs['Filter'] | null; // Filter
   }
   Filter: { // input type
+    eq?: string | null; // String
     in?: Array<string | null> | null; // [String]
   }
 }
@@ -204,6 +204,7 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnu
 
 export interface NexusGenFieldTypes {
   Catalog: { // field return type
+    categories: NexusGenRootTypes['Category'][] | null; // [Category!]
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
     product: NexusGenRootTypes['Material'] | null; // Material
@@ -213,6 +214,7 @@ export interface NexusGenFieldTypes {
   Category: { // field return type
     breadcrumbs: NexusGenRootTypes['Category'][] | null; // [Category!]
     catalogId: string; // String!
+    children: NexusGenRootTypes['Category'][] | null; // [Category!]
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
     name: string; // String!
@@ -359,6 +361,7 @@ export interface NexusGenFieldTypes {
 
 export interface NexusGenFieldTypeNames {
   Catalog: { // field return type name
+    categories: 'Category'
     createdAt: 'DateTime'
     id: 'ID'
     product: 'Material'
@@ -368,6 +371,7 @@ export interface NexusGenFieldTypeNames {
   Category: { // field return type name
     breadcrumbs: 'Category'
     catalogId: 'String'
+    children: 'Category'
     createdAt: 'DateTime'
     id: 'ID'
     name: 'String'
@@ -520,7 +524,7 @@ export interface NexusGenArgTypes {
     products: { // args
       after?: string | null; // String
       before?: string | null; // String
-      filter: NexusGenInputs['CategoryFilterArg'] | null; // CategoryFilterArg
+      filter?: NexusGenInputs['CategoryFilterArg'] | null; // CategoryFilterArg
       first?: number | null; // Int
       last?: number | null; // Int
     }

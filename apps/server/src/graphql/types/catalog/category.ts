@@ -38,6 +38,17 @@ export const Category = objectType({
         return breadcrumbs
       },
     })
+
+    t.list.nonNull.field('children', {
+      type: 'Category',
+      resolve: async (cat, _, ctx) => {
+        return ctx.prisma.category.findMany({
+          where: {
+            parentCategoryId: cat.id,
+          },
+        })
+      },
+    })
   },
 })
 
@@ -57,6 +68,25 @@ export const CategoryExtendsMaterial = extendType({
         return ctx.prisma.category.findMany({
           where: { id: { in: materialCategories.map(c => c.categoryId) } },
         })
+      },
+    })
+  },
+})
+
+export const CategoryExtendsCatalog = extendType({
+  type: 'Catalog',
+  definition(t) {
+    t.list.nonNull.field('categories', {
+      type: 'Category',
+      resolve: async (cp, _, ctx) => {
+        const topLevelCategories = await ctx.prisma.category.findMany({
+          where: { catalogId: cp.id, parentCategoryId: null },
+          include: {
+            childCategories: true,
+          },
+        })
+
+        return topLevelCategories
       },
     })
   },

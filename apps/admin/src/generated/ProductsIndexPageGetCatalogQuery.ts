@@ -3,9 +3,26 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { CategoryFilterArg } from "./globalTypes";
+
 // ====================================================
 // GraphQL query operation: ProductsIndexPageGetCatalogQuery
 // ====================================================
+
+export interface ProductsIndexPageGetCatalogQuery_catalog_categories_children {
+  __typename: "Category";
+  id: string;
+  name: string;
+  slug: string;
+}
+
+export interface ProductsIndexPageGetCatalogQuery_catalog_categories {
+  __typename: "Category";
+  id: string;
+  name: string;
+  slug: string;
+  children: ProductsIndexPageGetCatalogQuery_catalog_categories_children[] | null;
+}
 
 export interface ProductsIndexPageGetCatalogQuery_catalog_products_nodes_vendor {
   __typename: "Vendor";
@@ -51,6 +68,7 @@ export interface ProductsIndexPageGetCatalogQuery_catalog_products {
 export interface ProductsIndexPageGetCatalogQuery_catalog {
   __typename: "Catalog";
   id: string;
+  categories: ProductsIndexPageGetCatalogQuery_catalog_categories[] | null;
   products: ProductsIndexPageGetCatalogQuery_catalog_products | null;
 }
 
@@ -59,5 +77,5 @@ export interface ProductsIndexPageGetCatalogQuery {
 }
 
 export interface ProductsIndexPageGetCatalogQueryVariables {
-  categoryIds: string[];
+  filter?: CategoryFilterArg | null;
 }

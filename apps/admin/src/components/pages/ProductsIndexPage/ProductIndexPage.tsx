@@ -6,11 +6,15 @@ import {
   DataGridProps,
   Container,
   Chip,
+  Autocomplete,
+  TextField,
+  Grid,
 } from '@components/ui'
 import routes from 'lib/routes'
 import { useQuery, gql } from '@apollo/client'
 import {
   ProductsIndexPageGetCatalogQuery,
+  ProductsIndexPageGetCatalogQueryVariables,
   ProductsIndexPageGetCatalogQuery_catalog_products_nodes_categories,
 } from '@generated/ProductsIndexPageGetCatalogQuery'
 import { notEmpty } from '@utils/typescript'
@@ -43,8 +47,22 @@ const columns: DataGridProps['columns'] = [
 
 const ProductsIndexPage = () => {
   const router = useRouter()
-  const { data } = useQuery<ProductsIndexPageGetCatalogQuery>(GET_CATALOG)
+  const { categoryId } = router.query
 
+  const { data } = useQuery<
+    ProductsIndexPageGetCatalogQuery,
+    ProductsIndexPageGetCatalogQueryVariables
+  >(GET_CATALOG, {
+    variables: {
+      filter: {
+        categoryId: {
+          eq: categoryId?.toString() || undefined,
+        },
+      },
+    },
+  })
+
+  const categories = data?.catalog?.categories
   const products = data?.catalog?.products?.nodes ?? []
 
   const rows = products.filter(notEmpty).map(p => ({
@@ -55,11 +73,51 @@ const ProductsIndexPage = () => {
     categories: p.categories,
   }))
 
+  const addCategory = (id: string) => {
+    router.push({
+      query: {
+        ...router.query,
+        categoryId: id,
+      },
+    })
+  }
+
+  const removeCategory = () => {
+    router.push({
+      query: {
+        ...router.query,
+        categoryId: undefined,
+      },
+    })
+  }
+
+  const value = categories?.find(c => c.id === categoryId?.toString())
+
   return (
     <Container>
       <Typography variant="h4" component="h1" gutterBottom>
         Products
       </Typography>
+
+      <Grid container spacing={1} sx={{ mb: 1 }}>
+        <Grid item>
+          {categories?.length && (
+            <Autocomplete
+              disablePortal
+              size="small"
+              getOptionLabel={option => option.name}
+              options={categories}
+              sx={{ width: 300 }}
+              value={categories?.find(c => c.id === categoryId?.toString())}
+              onChange={(_, value) =>
+                value ? addCategory(value.id) : removeCategory()
+              }
+              renderInput={params => <TextField {...params} label="Category" />}
+            />
+          )}
+        </Grid>
+      </Grid>
+
       <DataGrid
         rows={rows}
         columns={columns}
@@ -73,10 +131,20 @@ const ProductsIndexPage = () => {
 }
 
 const GET_CATALOG = gql`
-  query ProductsIndexPageGetCatalogQuery($filter: CatalogProductsFilterInput) {
+  query ProductsIndexPageGetCatalogQuery($filter: CategoryFilterArg) {
     catalog {
       id
-      products(first: 100, filter: { categoryIds: $categoryIds }) {
+      categories {
+        id
+        name
+        slug
+        children {
+          id
+          name
+          slug
+        }
+      }
+      products(first: 100, filter: $filter) {
         nodes {
           id
           name

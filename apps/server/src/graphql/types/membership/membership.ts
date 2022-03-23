@@ -26,7 +26,6 @@ export const Membership = objectType({
       type: 'User',
       resolve: async (membership, _, ctx) => {
         const user = await ctx.auth0.getUser({ id: membership.userId })
-        console.log('HEREEEEE', user)
         return { ...user, id: user.user_id }
       },
     })

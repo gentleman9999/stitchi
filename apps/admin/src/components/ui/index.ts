@@ -7,6 +7,15 @@ export * from './Typography'
 export { default as Logo } from './Logo'
 export * from './Logo'
 
+export { default as Autocomplete } from './Autocomplete'
+export * from './Autocomplete'
+
+export { default as TextField } from './TextField'
+export * from './TextField'
+
+export { default as Grid } from './Grid'
+export * from './Grid'
+
 export {
   Avatar,
   Skeleton,
@@ -17,7 +26,6 @@ export {
   CardHeader,
   CardContent,
   CardActions,
-  Grid,
   Paper,
   Divider,
   Box,
@@ -47,7 +55,6 @@ export type {
   CardHeaderProps,
   CardContentProps,
   CardActionsProps,
-  GridProps,
   PaperProps,
   DividerProps,
   BoxProps,
