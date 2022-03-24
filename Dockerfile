@@ -34,8 +34,8 @@
 
 FROM node:14.18.3 AS builder
 
-# Set working directory
-WORKDIR /usr/src/app
+# Set working directory // Heroku expects the working direcotry to be /usr/src/app
+WORKDIR /
 RUN yarn global add turbo
 COPY . .
 RUN turbo prune --scope=server --docker
@@ -43,15 +43,15 @@ RUN turbo prune --scope=server --docker
 # Add lockfile and package.json's of isolated subworkspace
 FROM node:14.18.3 AS installer
 
-WORKDIR /usr/src/app
-COPY --from=builder /usr/src/app/out/json/ .
-COPY --from=builder /usr/src/app/out/yarn.lock ./yarn.lock
+WORKDIR /
+COPY --from=builder /out/json/ .
+COPY --from=builder /out/yarn.lock ./yarn.lock
 RUN yarn install
 
 FROM node:14.18.3 AS sourcer
 
-WORKDIR /usr/src/app
-COPY --from=installer /usr/src/app/ .
-COPY --from=builder /usr/src/app/out/full/ .
+WORKDIR /
+COPY --from=installer / .
+COPY --from=builder /out/full/ .
 COPY .gitignore .gitignore
 RUN yarn turbo run build test --scope=server --include-dependencies --no-deps 
