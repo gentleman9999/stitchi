@@ -1,0 +1,21 @@
+version: '3'
+services:
+  #turborepo
+  turbo:
+    container_name: stitchi
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '5000:5000'
+    volumes:
+      - ./:/app/
+        # Just specify a path and let the Engine create a volume
+      - /app/node_modules/
+    restart: on-failure
+    environment:
+      PORT: 5000
+
+networks:
+  turbo-network:
+    driver: bridge
