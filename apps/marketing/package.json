@@ -2,12 +2,16 @@
   "name": "marketing",
   "version": "0.0.0",
   "private": true,
+  "sideEffects": [
+    "*.css"
+  ],
   "scripts": {
     "dev": "next dev --port 3000",
     "build": "yarn codegen && next build",
     "postbuild": "next-sitemap",
     "start": "next start",
     "lint": "eslint src --fix",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf .next",
     "codegen": "yarn codegen:graphql && yarn codegen:seo",
     "codegen:graphql": "apollo client:codegen ./src/generated --target typescript --outputFlat",
     "codegen:seo": "node ./scripts/generate-seo.mjs"
@@ -23,6 +27,7 @@
     "datocms-structured-text-to-plain-text": "^2.0.1",
     "datocms-structured-text-utils": "^2.0.1",
     "dayjs": "^1.10.7",
+    "hooks": "*",
     "icons": "*",
     "lodash-es": "^4.17.21",
     "next": "latest",
@@ -31,14 +36,11 @@
     "react-datocms": "^3.0.11",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.27.0",
+    "react-merge-refs": "^1.1.0",
     "typewriter-effect": "^2.18.2",
-    "ui": "*",
     "uuid": "^8.3.2",
     "yup": "^0.32.11"
   },
-  "sideEffects": [
-    "*.css"
-  ],
   "devDependencies": {
     "@tailwindcss/forms": "^0.4.0",
     "@tailwindcss/typography": "^0.5.0",

@@ -1,6 +1,6 @@
 import nav from '@lib/navigation'
 import React from 'react'
-import { Button, Container, InlineTextForm, TextField } from 'ui'
+import { Button, Container, InlineTextForm, TextField } from '@components/ui'
 import { Section, SubscribeInline } from '..'
 
 const navigation = nav.makeNavigation()

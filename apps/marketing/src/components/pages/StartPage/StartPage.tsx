@@ -1,7 +1,7 @@
 import routes from '@lib/routes'
 import Link from 'next/link'
 import React from 'react'
-import { Button, Logo, RadioSelect, TextField } from 'ui'
+import { Button, Logo, RadioSelect, TextField } from '@components/ui'
 import { object, string, SchemaOf } from 'yup'
 import type { FormInput } from 'pages/api/form-response'
 import { Controller, useForm } from 'react-hook-form'

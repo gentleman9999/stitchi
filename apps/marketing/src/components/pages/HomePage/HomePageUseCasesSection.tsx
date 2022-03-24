@@ -3,7 +3,7 @@ import React from 'react'
 import cx from 'classnames'
 import routes from '@lib/routes'
 import Link from 'next/link'
-import { Container } from 'ui'
+import { Container } from '@components/ui'
 import { useRouter } from 'next/router'
 
 const useCases = [

@@ -1,6 +1,6 @@
 import { useFuzzySearch } from 'hooks'
 import React from 'react'
-import { Checkbox, TextField } from 'ui'
+import { Checkbox, TextField } from '@components/ui'
 import * as uuid from 'uuid'
 
 interface Option {

@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import Link from 'next/link'
 import s from './Navbar.module.css'
-import { Logo } from 'ui'
+import { Logo } from '@components/ui'
 import routes from '@lib/routes'
 import NavbarRoot from './NavbarRoot'
 import navigation from '@lib/navigation'

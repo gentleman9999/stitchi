@@ -9,8 +9,8 @@
   "scripts": {
     "dev": "ts-node-dev --no-notify --respawn --transpile-only src/server",
     "dev:typecheck": "tsc --watch --noEmit",
-    "start": "node dist/server",
-    "clean": "rm -rf dist",
+    "start": "node dist/src/server",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "build": "yarn clean && yarn codegen && tsc",
     "codegen": "yarn codegen:prisma && yarn codegen:nexus",
     "codegen:prisma": "prisma generate",

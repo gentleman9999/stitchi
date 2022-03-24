@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import { CmsSeo, CmsStructuredText, Section } from '@components/common'
 import { PrivacyPagePageFragment } from '@generated/PrivacyPagePageFragment'
 import React from 'react'
-import { Container } from 'ui'
+import { Container } from '@components/ui'
 
 export interface PrivacyPageProps {
   page: PrivacyPagePageFragment

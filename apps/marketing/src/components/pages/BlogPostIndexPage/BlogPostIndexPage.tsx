@@ -11,7 +11,7 @@ import { BlogPostIndexPagePageFragment } from '@generated/BlogPostIndexPagePageF
 import routes from '@lib/routes'
 import { useRouter } from 'next/router'
 import React from 'react'
-import { Container } from 'ui'
+import { Container } from '@components/ui'
 import BlogPostIndexPageFilters from './BlogPostIndexPageFilters'
 import BlogPostIndexPageSeo from './BlogPostIndexPageSeo'
 

@@ -12,6 +12,12 @@
     },
     "codegen": {
       "cache": false
+    },
+    "clean": {
+      "cache": false
+    },
+    "test": {
+      "cache": false
     }
   }
 }

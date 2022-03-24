@@ -8,27 +8,32 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
-  ListItemButton,
   Avatar,
   Box,
 } from '@components/ui'
 import { gql } from '@apollo/client'
-import { ProductDetailsProductFragment } from '@generated/ProductDetailsProductFragment'
+import {
+  ProductVariantsProductFragment,
+  ProductVariantsProductFragment_variants,
+} from '@generated/ProductVariantsProductFragment'
 
 interface Props {
-  product?: ProductDetailsProductFragment | null
+  product?: ProductVariantsProductFragment | null
 }
 
 const ProductVariants = ({ product }: Props) => {
   // Instead of showing all the possible color / size combinations, just show colors and assume all sizes apply
   const variants =
-    product?.variants?.reduce((prev, variant) => {
-      if (!prev.find(v => v.color.name === variant.color.name)) {
-        prev.push(variant)
-      }
+    product?.variants?.reduce<ProductVariantsProductFragment_variants[]>(
+      (prev, variant) => {
+        if (!prev.find(v => v.color?.name === variant.color?.name)) {
+          prev.push(variant)
+        }
 
-      return prev
-    }, []) || []
+        return prev
+      },
+      [],
+    ) || []
 
   return (
     <Paper sx={{ padding: 3 }}>

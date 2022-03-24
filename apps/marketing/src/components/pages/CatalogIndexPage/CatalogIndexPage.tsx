@@ -1,6 +1,6 @@
 import { Section } from '@components/common'
 import React from 'react'
-import { Container } from 'ui'
+import { Container } from '@components/ui'
 import CatalogIndexPageFilters from './CatalogIndexPageFilters'
 import CatalogIndexPageProductGrid, {
   Props as ProductGridProps,

@@ -8,7 +8,7 @@ import {
 } from '@components/common'
 import { BlogPostShowPageArticleFragment } from '@generated/BlogPostShowPageArticleFragment'
 import React from 'react'
-import { BackgroundTexture, Container } from 'ui'
+import { BackgroundTexture, Container } from '@components/ui'
 import { humanizeDate } from '@utils/date'
 import BlogPostShowPageAuthor from './BlogPostShowPageAuthor'
 import BlogPostShowPageSeo from './BlogPostShowPageSeo'

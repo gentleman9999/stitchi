@@ -1,6 +1,6 @@
 import { SimpleCenteredTestimonial, useSpokesperson } from '@components/common'
 import React from 'react'
-import { Container } from 'ui'
+import { Container } from '@components/ui'
 import HomePageHero from './HomePageHero'
 import morningBrewLogo from '../../../../public/customers/morning_brew/morning_brew_logo.png'
 import HomePageSimpleFeatureSection from './HomePageSimpleFeatureSection'

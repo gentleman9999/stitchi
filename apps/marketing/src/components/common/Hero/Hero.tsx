@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
-import { Button } from 'ui'
+import { Button } from '@components/ui'
 import { Section } from '..'
 
 interface Cta {

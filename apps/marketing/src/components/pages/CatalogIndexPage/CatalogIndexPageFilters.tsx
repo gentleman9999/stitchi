@@ -1,5 +1,5 @@
 import React from 'react'
-import { Checkbox, CheckboxGroup, TextField } from 'ui'
+import { Checkbox, CheckboxGroup, TextField } from '@components/ui'
 import useCheckboxGroup from './useCheckboxGroup'
 import NewCheckboxGroup from './CheckboxGroup'
 

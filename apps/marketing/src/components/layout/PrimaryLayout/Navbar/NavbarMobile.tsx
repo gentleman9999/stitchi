@@ -5,7 +5,7 @@ import s from './NavbarMobile.module.css'
 import { Navigation } from '@lib/navigation'
 import dynamic from 'next/dynamic'
 import routes from '@lib/routes'
-import { Button, IconButton } from 'ui'
+import { Button, IconButton } from '@components/ui'
 import { Popover, Transition } from '@headlessui/react'
 import { useRouter } from 'next/router'
 

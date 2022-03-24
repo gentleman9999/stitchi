@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 3001",
-    "build": "next build",
+    "build": "yarn codegen && next build",
     "start": "next start",
     "lint": "next lint",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf .next",
     "codegen": "yarn codegen:graphql",
     "codegen:graphql": "npx apollo client:codegen ./src/generated --target typescript --outputFlat"
   },

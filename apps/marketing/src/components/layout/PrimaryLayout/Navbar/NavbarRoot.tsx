@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
-import { Container } from 'ui'
+import { Container } from '@components/ui'
 import s from './NavbarRoot.module.css'
 import { throttle } from 'lodash-es'
 

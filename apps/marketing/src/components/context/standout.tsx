@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import React from 'react'
-import { Dialog } from 'ui'
+import { Dialog } from '@components/ui'
 import { SubscribeInline } from '..'
 
 interface StandoutContext {}

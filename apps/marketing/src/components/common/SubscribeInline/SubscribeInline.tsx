@@ -1,5 +1,5 @@
 import React from 'react'
-import { InlineTextForm, InlineTextFormProps } from 'ui'
+import { InlineTextForm, InlineTextFormProps } from '@components/ui'
 import cx from 'classnames'
 import * as yup from 'yup'
 import makeApi from '@lib/api'

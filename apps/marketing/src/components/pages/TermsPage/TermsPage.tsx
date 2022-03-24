@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import { CmsSeo, CmsStructuredText, Section } from '@components/common'
 import { TermsPagePageFragment } from '@generated/TermsPagePageFragment'
 import React from 'react'
-import { Container } from 'ui'
+import { Container } from '@components/ui'
 
 export interface TermsPageProps {
   page: TermsPagePageFragment

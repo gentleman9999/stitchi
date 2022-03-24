@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import routes from '@lib/routes'
 import { Navigation } from '@lib/navigation'
-import { Button } from 'ui'
+import { Button } from '@components/ui'
 import s from './NavbarDesktop.module.css'
 import { ArrowRight } from 'icons'
 

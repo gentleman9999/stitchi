@@ -3,7 +3,7 @@ import routes from '@lib/routes'
 import { ArrowRight } from 'icons'
 import Link from 'next/link'
 import React from 'react'
-import { Button } from 'ui'
+import { Button } from '@components/ui'
 
 import weworkLogo from '../../../../public/customers/wework/wework_logo.png'
 import greekDressingLogo from '../../../../public/customers/greek_dressing/greek_dressing_logo.svg'

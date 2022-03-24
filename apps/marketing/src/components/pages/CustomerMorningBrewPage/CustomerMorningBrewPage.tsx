@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
-import { Container } from 'ui'
+import { Container } from '@components/ui'
 import Background from './Background'
 import StatsSection from './StatsSection'
 import TestimonialCard from './TestimonialCard'
