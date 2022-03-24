@@ -1,5 +1,5 @@
 build:
   docker:
-    web: Dockerfile
+    web: apps/server/Dockerfile
 run:
-  web: node dist/src/server
+  web: yarn start
