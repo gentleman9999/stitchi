@@ -2,4 +2,4 @@ build:
   docker:
     web: Dockerfile
 run:
-  web: yarn install turbo && yarn start
+  web: yarn global add turbo && yarn start
