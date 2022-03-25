@@ -2,4 +2,4 @@ build:
   docker:
     web: Dockerfile
 run:
-  web: yarn global add turbo && yarn start
+  web: yarn workspace server start
