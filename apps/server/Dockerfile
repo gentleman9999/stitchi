@@ -32,26 +32,39 @@
 ## Server Config
 ##
 
-FROM node:14.18.3 AS builder
+FROM node:14.18.3-alpine AS base
+RUN apk update
+WORKDIR /app
+ENV SCOPE=server
+ENV YARN_CACHE_FOLDER=.yarn-cache
 
-# Set working directory // Heroku expects the working direcotry to be /usr/src/app
-WORKDIR /
+FROM node:14.18.3 AS pruner
+
+# Set working directory 
+WORKDIR /app
 RUN yarn global add turbo
 COPY . .
 RUN turbo prune --scope=server --docker
 
-# Add lockfile and package.json's of isolated subworkspace
-FROM node:14.18.3 AS installer
+FROM base AS dev-deps
+COPY --from=pruner /app/out/json/ .
+COPY --from=pruner /app/out/yarn.lock ./yarn.lock
+RUN yarn install --frozen-lockfile
 
-WORKDIR /
-COPY --from=builder /out/json/ .
-COPY --from=builder /out/yarn.lock ./yarn.lock
-RUN yarn install
+FROM base AS prod-deps
+COPY --from=pruner /app/out/json/ .
+COPY --from=pruner /app/out/yarn.lock ./yarn.lock
+COPY --from=dev-deps /app/${YARN_CACHE_FOLDER} /${YARN_CACHE_FOLDER} 
+RUN yarn install --frozen-lockfile --production --prefer-offline --ignore-scripts
+RUN rm -rf /app/${YARN_CACHE_FOLDER}
 
-FROM node:14.18.3 AS sourcer
+FROM base AS builder
+COPY --from=dev-deps /app/ .
+COPY --from=pruner /app/out/full/ .
+RUN yarn turbo run build --scope=${SCOPE} --include-dependencies --no-deps
+RUN find . -name node_modules | xargs rm -rf
 
-WORKDIR /
-COPY --from=installer / .
-COPY --from=builder /out/full/ .
-COPY .gitignore .gitignore
-RUN yarn turbo run build test --scope=server --include-dependencies --no-deps 
+FROM base AS runner
+COPY --from=prod-deps /app/ .
+COPY --from=builder /app/ .
+CMD yarn workspace ${SCOPE} start
