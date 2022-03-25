@@ -2,4 +2,4 @@ build:
   docker:
     web: Dockerfile
 run:
-  web: npx turbo && yarn start
+  web: yarn install turbo && yarn start
