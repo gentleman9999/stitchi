@@ -32,6 +32,12 @@
 ## Server Config
 ##
 
+##
+## NOTES
+##
+## Heroku's build context is the same directory as the Dockerfile and this cannot be changed.
+## Because we must also leverage `turbo prune` from the root directory, we therefore must specificy the Dockerfile in the root directory as opposed to the app directory.
+
 FROM node:14.18.3-alpine AS base
 RUN apk update
 WORKDIR /app
