@@ -57,4 +57,4 @@ FROM base AS builder
 COPY --from=installer /app/ .
 COPY --from=pruner /app/out/full/ .
 COPY .gitignore .gitignore
-RUN yarn turbo run build test --scope=web --include-dependencies --no-deps
+RUN yarn turbo run build test --scope=server --include-dependencies --no-deps
