@@ -1,3 +1,4 @@
 {
-  "stack": "container"
+    "name": "Stitchi",
+    "stack": "container"
 }

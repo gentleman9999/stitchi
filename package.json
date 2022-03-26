@@ -11,7 +11,7 @@
     "build:docker": "turbo run build:docker",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
-    "clean": "turbo run clean && rm -rf node_modules",
+    "clean": "turbo run clean && rm -rf node_modules && rm yarn.lock",
     "start": "turbo run start",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky install",
