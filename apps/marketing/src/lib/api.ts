@@ -1,35 +1,11 @@
 import { routes } from '.'
-import { object, SchemaOf, number, array, string } from 'yup'
-import { ProductListResponse } from 'pages/api/catalog/products'
 import {
   NextPageContext,
   GetServerSidePropsContext,
   GetStaticPathsContext,
   GetStaticPropsContext,
 } from 'next'
-import getOrThrow from '@utils/get-or-throw'
 import makeAbsoluteUrl from '@utils/get-absolute-url'
-
-const listResponseSchema: SchemaOf<ProductListResponse> = object({
-  _metadata: object({
-    page: number().required(),
-    perPage: number().required(),
-    pageCount: number().required(),
-    totalCount: number().required(),
-  }),
-  records: array().of(
-    object({
-      id: string().required(),
-      url: string(),
-      name: string().required(),
-      style: string(),
-      image: object({
-        url: string(),
-        label: string(),
-      }),
-    }),
-  ),
-})
 
 type Context =
   | NextPageContext
@@ -95,25 +71,6 @@ const makeApi = ({
           return response.json()
         } else {
           console.error('Failed to create a mailing list subscription', {
-            context: { response },
-          })
-          throw new Error(`${response.status} ${response.statusText}`)
-        }
-      },
-    },
-    product: {
-      list: async () => {
-        const response = await fetch(routes.api.product.list.href(), {
-          method: 'GET',
-        })
-
-        if (response.ok) {
-          const validatedResponse = await listResponseSchema.validate(
-            await response.json(),
-          )
-          return validatedResponse
-        } else {
-          console.error('Failed to list products', {
             context: { response },
           })
           throw new Error(`${response.status} ${response.statusText}`)

@@ -1,5 +1,5 @@
 import { Section } from '@components/common'
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 import React from 'react'
 import { Spokesperson } from '..'
 
