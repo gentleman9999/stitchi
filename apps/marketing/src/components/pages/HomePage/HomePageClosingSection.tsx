@@ -4,13 +4,12 @@ import { ArrowRight } from 'icons'
 import Link from 'next/link'
 import React from 'react'
 import { Button } from '@components/ui'
-
+import Image, { StaticImageData } from 'next/image'
 import weworkLogo from '../../../../public/customers/wework/wework_logo.png'
 import greekDressingLogo from '../../../../public/customers/greek_dressing/greek_dressing_logo.svg'
 import morningBrewLogo from '../../../../public/customers/morning_brew/morning_brew_logo.png'
 import greekLicensingLogo from '../../../../public/customers/greek_licensing/greek_licensing_logo.png'
 import lineleapLogo from '../../../../public/customers/lineleap/lineleap_logo.png'
-import Image from 'next/image'
 
 const BrandLogo = (props: { image: StaticImageData; alt: string }) => {
   return (
