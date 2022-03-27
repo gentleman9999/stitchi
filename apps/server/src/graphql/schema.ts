@@ -14,6 +14,9 @@ const CMS_URI = getOrThrow(
   'DATO_CMS_GRAPHQL_URI',
 )
 
+const CMS_API_KEY = getOrThrow(process.env.DATO_CMS_API_KEY, 'DATO_CMS_API_KEY')
+const CMS_ENVIRONMENT = getOrThrow(process.env.DATO_CMS_ENV, 'DATO_CMS_ENV')
+
 const makeGraphqlSchema = () =>
   makeSchema({
     types: [types, queries, mutations],
@@ -42,14 +45,17 @@ const makeGraphqlSchema = () =>
 
 const executor: AsyncExecutor = async ({ document, variables }) => {
   const query = print(document)
-  const fetchResult = await fetch(CMS_URI, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer f33b3120440ccb347f19517c7d7496`,
+  const fetchResult = await fetch(
+    `${CMS_URI}/environments/${CMS_ENVIRONMENT}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${CMS_API_KEY}`,
+      },
+      body: JSON.stringify({ query, variables }),
     },
-    body: JSON.stringify({ query, variables }),
-  })
+  )
   return fetchResult.json()
 }
 
