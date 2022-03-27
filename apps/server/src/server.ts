@@ -1,8 +1,10 @@
 import 'dotenv/config'
-import { ApolloServer } from 'apollo-server'
+import { ApolloServer } from 'apollo-server-express'
 import { getOrThrow } from './utils'
 import makeSchema from './graphql/schema'
 import context from './graphql/context'
+import express from 'express'
+import http from 'http'
 
 process
   .on('unhandledRejection', (reason, p) => {
@@ -25,9 +27,13 @@ async function startApolloServer() {
       ) === 'true',
   })
 
-  server.listen({ port: PORT }).then(({ url }) => {
-    console.log(`🚀 Server ready at ${url}graphql`)
-  })
+  const app = express()
+  const httpServer = http.createServer(app)
+
+  await server.start()
+  server.applyMiddleware({ app })
+  await new Promise<void>(resolve => httpServer.listen({ port: PORT }, resolve))
+  console.log(`🚀 Server ready at http://localhost:5000${server.graphqlPath}`)
 }
 
 startApolloServer()
