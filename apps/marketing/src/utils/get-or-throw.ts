@@ -7,10 +7,16 @@
  * @param value Argument which must not be undefined.
  * @param name Name of the argument. Useful for logging purposes.
  */
-export default function getOrThrow(value: string | undefined, name: string) {
+export default function getOrThrow(
+  value: string | undefined,
+  name: string,
+  { allowEmpty }: { allowEmpty?: boolean } = {},
+) {
   if (!value) {
-    throw new Error(`Undefined environment variable: ${name}`);
+    if (allowEmpty === false || value !== '') {
+      throw new Error(`Undefined environment variable: ${name}`)
+    }
   }
 
-  return value;
+  return value
 }

@@ -14,22 +14,12 @@ import { isEqual } from 'lodash-es'
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__' as const
 
 const endpoint = getOrThrow(
-  process.env.NEXT_PUBLIC_DATO_CMS_GRAPHQL_URI,
-  'NEXT_PUBLIC_DATO_CMS_GRAPHQL_URI',
-)
-
-const environment = getOrThrow(
-  process.env.NEXT_PUBLIC_DATO_CMS_ENV,
-  'NEXT_PUBLIC_DATO_CMS_ENV',
-)
-
-const apiKey = getOrThrow(
-  process.env.NEXT_PUBLIC_DATO_CMS_API_KEY,
-  'NEXT_PUBLIC_DATO_CMS_API_KEY',
+  process.env.NEXT_PUBLIC_STITCHI_GRAPHQL_URI,
+  'NEXT_PUBLIC_STITCHI_GRAPHQL_URI',
 )
 
 const httpLink = createHttpLink({
-  uri: `${endpoint}/environments/${environment}`,
+  uri: endpoint,
 })
 
 const authLink = setContext((_, { headers }) => {
@@ -37,7 +27,6 @@ const authLink = setContext((_, { headers }) => {
     headers: Object.assign(headers || {}, {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${apiKey}`,
     }),
   }
 })
