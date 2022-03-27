@@ -5,3 +5,4 @@ apps/server/node_modules
 packages/hooks/node_modules
 packages/config/node_modules
 packages/icons/node_modules
+env
