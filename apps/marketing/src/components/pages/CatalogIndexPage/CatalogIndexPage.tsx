@@ -7,13 +7,11 @@ import CatalogIndexPageProductGrid, {
 } from './CatalogIndexPageProductGrid'
 
 export interface CatalogIndexPageProps {
-  initialProducts: ProductGridProps['products']
+  // initialProducts: ProductGridProps['products']
 }
 
 const CatalogIndexPage = (props: CatalogIndexPageProps) => {
-  const [products] = React.useState<ProductGridProps['products']>(
-    props.initialProducts,
-  )
+  const [products] = React.useState<ProductGridProps['products']>([])
 
   return (
     <>
