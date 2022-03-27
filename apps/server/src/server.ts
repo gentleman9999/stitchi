@@ -1,33 +1,33 @@
 import 'dotenv/config'
-import { ApolloServer } from 'apollo-server-express'
-import { ApolloServerPluginDrainHttpServer, Config } from 'apollo-server-core'
-import express from 'express'
-import http from 'http'
+import { ApolloServer } from 'apollo-server'
 import { getOrThrow } from './utils'
-import { schema } from './graphql/schema'
+import makeSchema from './graphql/schema'
 import context from './graphql/context'
+
+process
+  .on('unhandledRejection', (reason, p) => {
+    console.error('Unhandled Rejection at Promise', reason, p)
+  })
+  .on('uncaughtException', err => {
+    console.error('Uncaught Exception thrown', err)
+  })
 
 const PORT = getOrThrow(process.env.PORT, 'PORT')
 
-async function startApolloServer(schema: Config['schema']) {
-  const app = express()
-  const httpServer = http.createServer(app)
+async function startApolloServer() {
   const server = new ApolloServer({
-    schema: schema,
+    schema: await makeSchema(),
     context: context.makeDefaultContext(),
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
     introspection:
       getOrThrow(
         process.env.GRAPHQL_INTROSPECTION_ENABLED,
         'GRAPHQL_INTROSPECTION_ENABLED',
       ) === 'true',
   })
-  await server.start()
-  server.applyMiddleware({ app })
-  await new Promise<void>(resolve => httpServer.listen({ port: PORT }, resolve))
-  console.log(
-    `🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`,
-  )
+
+  server.listen({ port: PORT }).then(({ url }) => {
+    console.log(`🚀 Server ready at ${url}graphql`)
+  })
 }
 
-startApolloServer(schema)
+startApolloServer()

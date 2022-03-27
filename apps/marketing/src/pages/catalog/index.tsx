@@ -20,23 +20,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 const Catalog = () =>
   // props: InferGetServerSidePropsType<typeof getServerSideProps>,
   {
-    return null
-    // return (
-    //   <CatalogIndexPage
-    //     initialProducts={
-    //       props.records?.map(record => ({
-    //         ...record,
-    //         name: record.name || '',
-    //         image: record.image,
-    //         ratings: {
-    //           quality: 3,
-    //           softness: 1,
-    //           weight: 2,
-    //         },
-    //       })) || []
-    //     }
-    //   />
-    // )
+    return <CatalogIndexPage />
   }
 
 Catalog.getLayout = (page: ReactElement) => (
