@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client'
 import { CatalogFiltersProviderCategoryFragment } from '@generated/CatalogFiltersProviderCategoryFragment'
-import { MaterialFilterArg } from '@generated/globalTypes'
 import { useRouter } from 'next/router'
 import React from 'react'
 
@@ -8,8 +7,12 @@ interface AvailableFilters {
   categories: CatalogFiltersProviderCategoryFragment[]
 }
 
+interface ActiveFilters {
+  category?: CatalogFiltersProviderCategoryFragment
+}
+
 interface State {
-  filters: MaterialFilterArg
+  filters: ActiveFilters
   availableFilters: AvailableFilters
   resetFilters: () => void
   handleCategoryChange: (categoryId: string | null) => void
@@ -45,8 +48,8 @@ const CatalogFiltersProvider = ({
     router.push({ query: params })
   }
 
-  const filters: MaterialFilterArg = {
-    categoryId: categoryId ? { eq: categoryId.toString() } : undefined,
+  const filters: ActiveFilters = {
+    category: availableFilters?.categories.find(c => c.id === categoryId),
   }
 
   return (
