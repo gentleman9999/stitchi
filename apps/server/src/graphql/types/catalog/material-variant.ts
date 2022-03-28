@@ -35,5 +35,14 @@ export const MaterialVariantExtendsMaterial = extendType({
         ).map(makeMaterialVariant)
       },
     })
+    t.nonNull.int('variantCount', {
+      resolve: async (cp, _, ctx) => {
+        return await ctx.prisma.materialVariant.count({
+          where: {
+            materialId: cp.id,
+          },
+        })
+      },
+    })
   },
 })

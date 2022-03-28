@@ -83,8 +83,8 @@ export const FilterArgInput = inputObjectType({
   },
 })
 
-export const CategoryFilterArgInput = inputObjectType({
-  name: 'CategoryFilterArg',
+export const MaterialFilterArgInput = inputObjectType({
+  name: 'MaterialFilterArg',
   definition(t) {
     t.field('categoryId', {
       type: FilterArgInput,
@@ -101,7 +101,7 @@ export const MaterialExtendsCatalog = extendType({
       additionalArgs: {
         filter: arg({
           default: {},
-          type: CategoryFilterArgInput,
+          type: MaterialFilterArgInput,
         }),
       },
       async resolve(catalog, args, ctx) {

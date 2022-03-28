@@ -1,30 +1,42 @@
+import { gql, useQuery } from '@apollo/client'
 import { PrimaryLayout } from '@components/layout'
 import { CatalogIndexPage } from '@components/pages'
-import makeApi from '@lib/api'
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
+import { CatalogGetDataQuery } from '@generated/CatalogGetDataQuery'
+import { addApolloState, initializeApollo } from '@lib/apollo'
 import React, { ReactElement } from 'react'
 
-export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  const api = makeApi({ ctx })
+export const getStaticProps = async () => {
+  const client = initializeApollo()
+  await client.query<CatalogGetDataQuery>({
+    query: GET_DATA,
+  })
 
-  // const { _metadata, records } = await api.product.list()
-
-  return {
-    props: {
-      // records,
-      // metadata: _metadata,
-    },
-  }
+  return addApolloState(client, { props: {} })
 }
 
-const Catalog = () =>
-  // props: InferGetServerSidePropsType<typeof getServerSideProps>,
-  {
-    return <CatalogIndexPage />
-  }
+const Catalog = () => {
+  const { data } = useQuery<CatalogGetDataQuery>(GET_DATA)
+
+  const { catalog } = data || {}
+
+  return <CatalogIndexPage categories={catalog?.categories || []} />
+}
 
 Catalog.getLayout = (page: ReactElement) => (
   <PrimaryLayout>{page}</PrimaryLayout>
 )
+
+const GET_DATA = gql`
+  ${CatalogIndexPage.fragments.category}
+  query CatalogGetDataQuery {
+    catalog {
+      id
+      categories {
+        id
+        ...CatalogIndexPageCategoryFragment
+      }
+    }
+  }
+`
 
 export default Catalog

@@ -2,33 +2,18 @@ import { Star } from 'icons'
 import Image from 'next/image'
 import React from 'react'
 import cx from 'classnames'
-
-interface Image {
-  label?: string
-  url?: string
-}
-
-interface Product {
-  id: string
-  name: string
-  category?: string
-  description?: string
-  ratings?: {
-    quality?: number
-    softness?: number
-    weight?: number
-  }
-  image?: Image
-  additionalImages?: Image[]
-}
+import { gql } from '@apollo/client'
+import { CatalogIndexPageProductProductFragment } from '@generated/CatalogIndexPageProductProductFragment'
+import SwatchGroup from './SwatchGroup'
+import { notEmpty } from '@utils/typescript'
 
 export interface Props {
-  product: Product
+  product: CatalogIndexPageProductProductFragment
 }
 
 const CatalogIndexPageProduct = ({ product }: Props) => {
   return (
-    <div className="block rounded-lg border-2 border-primary bg-[#f6f9f8] p-4">
+    <div className="block rounded-2xl border-2 border-gray-100 bg-[#f6f9f8] p-4">
       {product.image?.url && (
         <div className="relative w-full h-[150px]">
           <Image
@@ -41,7 +26,18 @@ const CatalogIndexPageProduct = ({ product }: Props) => {
       )}
 
       <h3 className="mt-4 text-sm font-medium tracking-wide">{product.name}</h3>
-      {Object.keys(product.ratings || {}).map(key => (
+      <div className="mt-4 flex items-center">
+        <SwatchGroup
+          hexColors={
+            product.colors?.map(({ hex }) => hex).filter(notEmpty) || []
+          }
+        />
+        <span className="ml-auto text-xs font-medium tracking-tight text-gray-700">
+          {product.variantCount} options
+        </span>
+      </div>
+
+      {/* {Object.keys(product.ratings || {}).map(key => (
         <div key={key} className="flex items-center mt-2 justify-between">
           <data className="text-sm">{key}</data>
           <div className="flex gap-1">
@@ -57,9 +53,30 @@ const CatalogIndexPageProduct = ({ product }: Props) => {
             ))}
           </div>
         </div>
-      ))}
+      ))} */}
     </div>
   )
+}
+
+CatalogIndexPageProduct.fragments = {
+  product: gql`
+    fragment CatalogIndexPageProductProductFragment on Material {
+      id
+      name
+      variantCount
+      image {
+        id
+        url
+      }
+      manufacturer {
+        name
+      }
+      colors {
+        id
+        hex
+      }
+    }
+  `,
 }
 
 export default CatalogIndexPageProduct

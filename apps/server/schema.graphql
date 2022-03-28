@@ -13,7 +13,7 @@ type Catalog {
 
     """Returns the elements in the list that come before the specified cursor"""
     before: String
-    filter: CategoryFilterArg = {}
+    filter: MaterialFilterArg = {}
 
     """Returns the first n elements from the list."""
     first: Int
@@ -34,10 +34,6 @@ type Category {
   parentCategoryId: String
   slug: String!
   updatedAt: DateTime
-}
-
-input CategoryFilterArg {
-  categoryId: Filter
 }
 
 type Color {
@@ -105,6 +101,7 @@ type Material {
   sizes: [Size!]
   style: String!
   updatedAt: DateTime
+  variantCount: Int!
   variants: [MaterialVariant!]
   vendor: Vendor
 }
@@ -130,6 +127,10 @@ type MaterialEdge {
 
   """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
   node: Material
+}
+
+input MaterialFilterArg {
+  categoryId: Filter
 }
 
 type MaterialVariant {
