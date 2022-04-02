@@ -121,6 +121,12 @@ type MaterialConnection {
   pageInfo: PageInfo!
 }
 
+input MaterialCreateInput {
+  name: String!
+  slug: String
+  variants: [MaterialVariantCreateInput!]
+}
+
 type MaterialEdge {
   """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
   cursor: String!
@@ -150,6 +156,11 @@ type MaterialVariant {
   vendorPartNumber: String!
 }
 
+input MaterialVariantCreateInput {
+  gtin: String
+  vendorPartNumber: String
+}
+
 type Membership {
   createdAt: DateTime!
   id: ID!
@@ -166,6 +177,9 @@ enum MembershipRole {
 }
 
 type Mutation {
+  """Creates a new product"""
+  materialCreate(input: MaterialCreateInput!): Material
+
   """Bootstraps a new user with necessary resources"""
   userBoostrap: User
 }

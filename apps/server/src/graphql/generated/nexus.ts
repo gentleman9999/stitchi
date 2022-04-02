@@ -42,8 +42,17 @@ export interface NexusGenInputs {
     eq?: string | null; // String
     in?: Array<string | null> | null; // [String]
   }
+  MaterialCreateInput: { // input type
+    name: string; // String!
+    slug?: string | null; // String
+    variants?: NexusGenInputs['MaterialVariantCreateInput'][] | null; // [MaterialVariantCreateInput!]
+  }
   MaterialFilterArg: { // input type
     categoryId?: NexusGenInputs['Filter'] | null; // Filter
+  }
+  MaterialVariantCreateInput: { // input type
+    gtin?: string | null; // String
+    vendorPartNumber?: string | null; // String
   }
 }
 
@@ -308,6 +317,7 @@ export interface NexusGenFieldTypes {
     userId: string; // String!
   }
   Mutation: { // field return type
+    materialCreate: NexusGenRootTypes['Material'] | null; // Material
     userBoostrap: NexusGenRootTypes['User'] | null; // User
   }
   Organization: { // field return type
@@ -466,6 +476,7 @@ export interface NexusGenFieldTypeNames {
     userId: 'String'
   }
   Mutation: { // field return type name
+    materialCreate: 'Material'
     userBoostrap: 'User'
   }
   Organization: { // field return type name
@@ -529,6 +540,11 @@ export interface NexusGenArgTypes {
       filter: NexusGenInputs['MaterialFilterArg'] | null; // MaterialFilterArg
       first?: number | null; // Int
       last?: number | null; // Int
+    }
+  }
+  Mutation: {
+    materialCreate: { // args
+      input: NexusGenInputs['MaterialCreateInput']; // MaterialCreateInput!
     }
   }
 }

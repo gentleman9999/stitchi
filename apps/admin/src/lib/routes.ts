@@ -30,7 +30,13 @@ const routes = {
     products: {
       href: () => buildRoute('/products'),
 
-      show: (productUuid: string) => buildRoute(`/products/${productUuid}`),
+      show: {
+        href: (productUuid: string) => buildRoute(`/products/${productUuid}`),
+      },
+
+      create: {
+        href: () => buildRoute('/products/new'),
+      },
     },
     api: {
       auth: {

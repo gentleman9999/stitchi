@@ -8,7 +8,9 @@ import {
   Chip,
   Autocomplete,
   TextField,
+  Box,
   Grid,
+  Button,
 } from '@components/ui'
 import routes from 'lib/routes'
 import { useQuery, gql } from '@apollo/client'
@@ -19,6 +21,8 @@ import {
 } from '@generated/ProductsIndexPageGetCatalogQuery'
 import { notEmpty } from '@utils/typescript'
 import { GridRenderCellParams } from '@mui/x-data-grid'
+import Link from 'next/link'
+import { AddIcon } from '@components/icons'
 
 const columns: DataGridProps['columns'] = [
   { field: 'id', headerName: 'ID' },
@@ -97,9 +101,22 @@ const ProductsIndexPage = () => {
 
   return (
     <Container>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Products
-      </Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <Typography variant="h4" component="h1" gutterBottom>
+          Products
+        </Typography>
+        <Link passHref href={routes.internal.products.create.href()}>
+          <Button component="a" variant="contained" size="medium">
+            Add product
+          </Button>
+        </Link>
+      </Box>
 
       <Grid container spacing={1} sx={{ mb: 1 }}>
         <Grid item>
@@ -125,7 +142,7 @@ const ProductsIndexPage = () => {
         columns={columns}
         autoHeight
         onRowClick={row =>
-          router.push(routes.internal.products.show(row.id.toString()))
+          router.push(routes.internal.products.show.href(row.id.toString()))
         }
       />
     </Container>
