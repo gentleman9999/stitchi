@@ -19,13 +19,13 @@ const CatalogIndexPageProductGrid = ({}: Props) => {
     variables: {
       first: 20,
       after: null,
-      filter: filters,
+      // filter: filters,
     },
   })
 
-  React.useEffect(() => {
-    refetch({ filter: filters })
-  }, [filters, refetch])
+  // React.useEffect(() => {
+  //   refetch({ filter: filters })
+  // }, [filters, refetch])
 
   const products = data?.catalog?.products?.nodes?.filter(notEmpty) || []
 
