@@ -8,6 +8,7 @@ import { getOrThrow } from '../utils'
 import { AsyncExecutor } from '@graphql-tools/utils'
 import { print } from 'graphql'
 import fetch from 'node-fetch'
+import { makeExecutableSchema } from '@graphql-tools/schema'
 
 const CMS_URI = getOrThrow(
   process.env.DATO_CMS_GRAPHQL_URI,
@@ -70,8 +71,8 @@ const datoCmsSchema = async () => {
 const makeGatewaySchema = async () =>
   stitchSchemas({
     subschemas: [
-      { schema: await datoCmsSchema() },
       { schema: makeGraphqlSchema() },
+      { schema: makeExecutableSchema({ typeDefs: await datoCmsSchema() }) },
     ],
   })
 

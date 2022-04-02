@@ -133,7 +133,7 @@ const ProductsIndexPage = () => {
 }
 
 const GET_CATALOG = gql`
-  query ProductsIndexPageGetCatalogQuery($filter: CategoryFilterArg) {
+  query ProductsIndexPageGetCatalogQuery($filter: MaterialFilterArg) {
     catalog {
       id
       categories {

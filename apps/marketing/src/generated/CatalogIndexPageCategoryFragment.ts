@@ -4,12 +4,12 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: CmsSeoFragment
+// GraphQL fragment: CatalogIndexPageCategoryFragment
 // ====================================================
 
-export interface CmsSeoFragment {
-  __typename: "Tag";
-  attributes: any | null;
-  content: string | null;
-  tag: string;
+export interface CatalogIndexPageCategoryFragment {
+  __typename: "Category";
+  id: string;
+  name: string;
+  parentCategoryId: string | null;
 }

@@ -62,6 +62,32 @@ export interface BlogShowPageGetDataQuery_article_image {
   responsiveImage: BlogShowPageGetDataQuery_article_image_responsiveImage | null;
 }
 
+export interface BlogShowPageGetDataQuery_article_content_blocks_image_responsiveImage {
+  __typename: "ResponsiveImage";
+  srcSet: string;
+  webpSrcSet: string;
+  sizes: string;
+  src: string;
+  width: any;
+  height: any;
+  aspectRatio: any;
+  alt: string | null;
+  title: string | null;
+  base64: string | null;
+}
+
+export interface BlogShowPageGetDataQuery_article_content_blocks_image {
+  __typename: "FileField";
+  id: any;
+  responsiveImage: BlogShowPageGetDataQuery_article_content_blocks_image_responsiveImage | null;
+}
+
+export interface BlogShowPageGetDataQuery_article_content_blocks {
+  __typename: "ImageRecord";
+  id: any;
+  image: BlogShowPageGetDataQuery_article_content_blocks_image | null;
+}
+
 export interface BlogShowPageGetDataQuery_article_content_links {
   __typename: "ArticleRecord";
   id: any;
@@ -72,7 +98,7 @@ export interface BlogShowPageGetDataQuery_article_content_links {
 export interface BlogShowPageGetDataQuery_article_content {
   __typename: "ArticleModelContentField";
   value: any;
-  blocks: string[];
+  blocks: BlogShowPageGetDataQuery_article_content_blocks[];
   links: BlogShowPageGetDataQuery_article_content_links[];
 }
 

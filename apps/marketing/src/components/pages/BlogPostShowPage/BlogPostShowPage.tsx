@@ -12,6 +12,7 @@ import { BackgroundTexture, Container } from '@components/ui'
 import { humanizeDate } from '@utils/date'
 import BlogPostShowPageAuthor from './BlogPostShowPageAuthor'
 import BlogPostShowPageSeo from './BlogPostShowPageSeo'
+import { StructuredText } from 'react-datocms'
 
 export interface BlogShowPageProps {
   post: BlogPostShowPageArticleFragment

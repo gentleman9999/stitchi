@@ -10,7 +10,6 @@
 export interface BlogPostIndexPageCategoryFragment_description {
   __typename: "CategoryModelDescriptionField";
   value: any;
-  blocks: string[];
 }
 
 export interface BlogPostIndexPageCategoryFragment__seoMetaTags {

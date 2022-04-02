@@ -75,7 +75,6 @@ export interface BlogIndexPageGetDataQuery_allArticles {
 export interface BlogIndexPageGetDataQuery_allCategories_description {
   __typename: "CategoryModelDescriptionField";
   value: any;
-  blocks: string[];
 }
 
 export interface BlogIndexPageGetDataQuery_allCategories__seoMetaTags {

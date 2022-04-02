@@ -17,7 +17,6 @@ export interface TermsGetDataQuery_termsOfUsePage__seoMetaTags {
 export interface TermsGetDataQuery_termsOfUsePage_content {
   __typename: "TermsOfUsePageModelContentField";
   value: any;
-  blocks: string[];
 }
 
 export interface TermsGetDataQuery_termsOfUsePage {

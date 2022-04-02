@@ -4,12 +4,12 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: CmsStructuredTextArticleFragment
+// GraphQL fragment: CatalogFiltersProviderCategoryFragment
 // ====================================================
 
-export interface CmsStructuredTextArticleFragment {
-  __typename: 'ArticleRecord'
-  id: string
-  slug: string | null
-  title: string | null
+export interface CatalogFiltersProviderCategoryFragment {
+  __typename: "Category";
+  id: string;
+  name: string;
+  parentCategoryId: string | null;
 }

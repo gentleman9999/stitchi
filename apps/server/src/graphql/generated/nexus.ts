@@ -38,12 +38,12 @@ declare global {
 }
 
 export interface NexusGenInputs {
-  CategoryFilterArg: { // input type
-    categoryId?: NexusGenInputs['Filter'] | null; // Filter
-  }
   Filter: { // input type
     eq?: string | null; // String
     in?: Array<string | null> | null; // [String]
+  }
+  MaterialFilterArg: { // input type
+    categoryId?: NexusGenInputs['Filter'] | null; // Filter
   }
 }
 
@@ -268,6 +268,7 @@ export interface NexusGenFieldTypes {
     sizes: NexusGenRootTypes['Size'][] | null; // [Size!]
     style: string; // String!
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    variantCount: number; // Int!
     variants: NexusGenRootTypes['MaterialVariant'][] | null; // [MaterialVariant!]
     vendor: NexusGenRootTypes['Vendor'] | null; // Vendor
   }
@@ -425,6 +426,7 @@ export interface NexusGenFieldTypeNames {
     sizes: 'Size'
     style: 'String'
     updatedAt: 'DateTime'
+    variantCount: 'Int'
     variants: 'MaterialVariant'
     vendor: 'Vendor'
   }
@@ -524,7 +526,7 @@ export interface NexusGenArgTypes {
     products: { // args
       after?: string | null; // String
       before?: string | null; // String
-      filter: NexusGenInputs['CategoryFilterArg'] | null; // CategoryFilterArg
+      filter: NexusGenInputs['MaterialFilterArg'] | null; // MaterialFilterArg
       first?: number | null; // Int
       last?: number | null; // Int
     }
