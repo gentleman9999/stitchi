@@ -7,6 +7,32 @@
 // GraphQL fragment: CmsStructuredTextContentFragment
 // ====================================================
 
+export interface CmsStructuredTextContentFragment_blocks_image_responsiveImage {
+  __typename: "ResponsiveImage";
+  srcSet: string;
+  webpSrcSet: string;
+  sizes: string;
+  src: string;
+  width: any;
+  height: any;
+  aspectRatio: any;
+  alt: string | null;
+  title: string | null;
+  base64: string | null;
+}
+
+export interface CmsStructuredTextContentFragment_blocks_image {
+  __typename: "FileField";
+  id: any;
+  responsiveImage: CmsStructuredTextContentFragment_blocks_image_responsiveImage | null;
+}
+
+export interface CmsStructuredTextContentFragment_blocks {
+  __typename: "ImageRecord";
+  id: any;
+  image: CmsStructuredTextContentFragment_blocks_image | null;
+}
+
 export interface CmsStructuredTextContentFragment_links {
   __typename: "ArticleRecord";
   id: any;
@@ -17,6 +43,6 @@ export interface CmsStructuredTextContentFragment_links {
 export interface CmsStructuredTextContentFragment {
   __typename: "ArticleModelContentField";
   value: any;
-  blocks: string[];
+  blocks: CmsStructuredTextContentFragment_blocks[];
   links: CmsStructuredTextContentFragment_links[];
 }

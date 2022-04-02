@@ -36,7 +36,6 @@ CmsStructuredTextTableofContents.fragments = {
   articleContent: gql`
     fragment CmsStructuredTextTableOfContentsContentFragment on ArticleModelContentField {
       value
-      blocks
     }
   `,
 }

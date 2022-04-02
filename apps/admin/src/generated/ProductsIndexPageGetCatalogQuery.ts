@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { CategoryFilterArg } from "./globalTypes";
+import { MaterialFilterArg } from "./globalTypes";
 
 // ====================================================
 // GraphQL query operation: ProductsIndexPageGetCatalogQuery
@@ -92,5 +92,5 @@ export interface ProductsIndexPageGetCatalogQuery {
 }
 
 export interface ProductsIndexPageGetCatalogQueryVariables {
-  filter?: CategoryFilterArg | null;
+  filter?: MaterialFilterArg | null;
 }

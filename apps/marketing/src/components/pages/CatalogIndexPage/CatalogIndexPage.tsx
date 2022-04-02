@@ -17,8 +17,8 @@ const CatalogIndexPage = ({ categories }: CatalogIndexPageProps) => {
     <>
       <Container>
         <Section gutter="sm">
-          <div className="p-14 bg-primaryAlt-100 rounded-xl flex items-center">
-            <div className="w-[70%]">
+          <div className="p-14 md:pr-0 bg-primaryAlt-100 rounded-xl flex items-center">
+            <div className="md:w-[70%]">
               <h1 className="text-4xl font-bold tracking-tight">
                 Browse through our curated selection of products
               </h1>
@@ -32,7 +32,7 @@ const CatalogIndexPage = ({ categories }: CatalogIndexPageProps) => {
                 Talk to a designer
               </Button>
             </div>
-            <div className="w-[30%] flex items-center justify-center">
+            <div className="w-[30%] hidden md:flex items-center justify-center">
               <NeedleThread />
             </div>
           </div>

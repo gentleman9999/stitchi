@@ -10,5 +10,4 @@
 export interface CmsStructuredTextPrivacyPolicyContentFragment {
   __typename: "PrivacyPolicyPageModelContentField";
   value: any;
-  blocks: string[];
 }

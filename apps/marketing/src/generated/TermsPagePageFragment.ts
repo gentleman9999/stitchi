@@ -17,7 +17,6 @@ export interface TermsPagePageFragment__seoMetaTags {
 export interface TermsPagePageFragment_content {
   __typename: "TermsOfUsePageModelContentField";
   value: any;
-  blocks: string[];
 }
 
 export interface TermsPagePageFragment {

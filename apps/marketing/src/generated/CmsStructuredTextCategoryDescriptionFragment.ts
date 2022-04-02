@@ -10,5 +10,4 @@
 export interface CmsStructuredTextCategoryDescriptionFragment {
   __typename: "CategoryModelDescriptionField";
   value: any;
-  blocks: string[];
 }

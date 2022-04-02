@@ -10,5 +10,4 @@
 export interface CmsStructuredTextTableOfContentsContentFragment {
   __typename: "ArticleModelContentField";
   value: any;
-  blocks: string[];
 }

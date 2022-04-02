@@ -17,7 +17,6 @@ export interface PrivacyGetDataQuery_privacyPolicyPage__seoMetaTags {
 export interface PrivacyGetDataQuery_privacyPolicyPage_content {
   __typename: "PrivacyPolicyPageModelContentField";
   value: any;
-  blocks: string[];
 }
 
 export interface PrivacyGetDataQuery_privacyPolicyPage {

@@ -1,6 +1,9 @@
 import { gql } from '@apollo/client'
 import { CmsStructuredTextCategoryDescriptionFragment } from '@generated/CmsStructuredTextCategoryDescriptionFragment'
-import { CmsStructuredTextContentFragment } from '@generated/CmsStructuredTextContentFragment'
+import {
+  CmsStructuredTextContentFragment,
+  CmsStructuredTextContentFragment_blocks,
+} from '@generated/CmsStructuredTextContentFragment'
 import { CmsStructuredTextPrivacyPolicyContentFragment } from '@generated/CmsStructuredTextPrivacyPolicyContentFragment'
 import { CmsStructuredTextTermsOfUseContentFragment } from '@generated/CmsStructuredTextTermsOfUseContentFragment'
 import routes from '@lib/routes'
@@ -8,6 +11,7 @@ import { anchorTagFromNode } from '@utils/structured-text'
 import { isLink, isHeading } from 'datocms-structured-text-utils'
 import Link from 'next/link'
 import { StructuredText, renderNodeRule } from 'react-datocms'
+import CmsImage from '../CmsImage'
 
 interface Props {
   content:
@@ -57,15 +61,47 @@ const CmsStructuredText = ({ content }: Props) => {
             throw new Error(`Invalid record type: ${record.__typename}`)
         }
       }}
+      renderBlock={({ record }) => {
+        switch (record.__typename) {
+          case 'ImageRecord':
+            // Right now DatoCMS scalars are returned as `any`. This is a workaround in the meantime
+            const castedRecord =
+              record as unknown as CmsStructuredTextContentFragment_blocks
+
+            if (!castedRecord.image?.responsiveImage) {
+              return null
+            }
+            return (
+              <CmsImage
+                data={castedRecord.image.responsiveImage}
+                layout="responsive"
+              />
+            )
+
+          default:
+            throw new Error(`Invalid record type: ${record.__typename}`)
+        }
+      }}
     />
   )
 }
 
 CmsStructuredText.fragments = {
   articleContent: gql`
+    ${CmsImage.fragments.image}
     fragment CmsStructuredTextContentFragment on ArticleModelContentField {
       value
-      blocks
+      blocks {
+        id
+        ... on ImageRecord {
+          image {
+            id
+            responsiveImage {
+              ...CmsImageFragment
+            }
+          }
+        }
+      }
       links {
         ... on ArticleRecord {
           id
@@ -78,19 +114,16 @@ CmsStructuredText.fragments = {
   privacyPolicyContent: gql`
     fragment CmsStructuredTextPrivacyPolicyContentFragment on PrivacyPolicyPageModelContentField {
       value
-      blocks
     }
   `,
   termsOfUseContent: gql`
     fragment CmsStructuredTextTermsOfUseContentFragment on TermsOfUsePageModelContentField {
       value
-      blocks
     }
   `,
   categoryDescription: gql`
     fragment CmsStructuredTextCategoryDescriptionFragment on CategoryModelDescriptionField {
       value
-      blocks
     }
   `,
 }

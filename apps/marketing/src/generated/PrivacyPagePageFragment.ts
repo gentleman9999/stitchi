@@ -17,7 +17,6 @@ export interface PrivacyPagePageFragment__seoMetaTags {
 export interface PrivacyPagePageFragment_content {
   __typename: "PrivacyPolicyPageModelContentField";
   value: any;
-  blocks: string[];
 }
 
 export interface PrivacyPagePageFragment {

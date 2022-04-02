@@ -7,13 +7,13 @@
 // START Enums and Input Objects
 //==============================================================
 
-export interface CategoryFilterArg {
-  categoryId?: Filter | null;
-}
-
 export interface Filter {
   in?: (string | null)[] | null;
   eq?: string | null;
+}
+
+export interface MaterialFilterArg {
+  categoryId?: Filter | null;
 }
 
 //==============================================================

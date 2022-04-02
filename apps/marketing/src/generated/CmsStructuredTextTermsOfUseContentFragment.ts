@@ -10,5 +10,4 @@
 export interface CmsStructuredTextTermsOfUseContentFragment {
   __typename: "TermsOfUsePageModelContentField";
   value: any;
-  blocks: string[];
 }
