@@ -43,6 +43,7 @@ export interface NexusGenInputs {
     in?: Array<string | null> | null; // [String]
   }
   MaterialCreateInput: { // input type
+    description?: string | null; // String
     name: string; // String!
     slug?: string | null; // String
     variants?: NexusGenInputs['MaterialVariantCreateInput'][] | null; // [MaterialVariantCreateInput!]
@@ -51,7 +52,9 @@ export interface NexusGenInputs {
     categoryId?: NexusGenInputs['Filter'] | null; // Filter
   }
   MaterialVariantCreateInput: { // input type
+    colorId?: string | null; // String
     gtin?: string | null; // String
+    sizeId?: string | null; // String
     vendorPartNumber?: string | null; // String
   }
 }

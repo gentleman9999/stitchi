@@ -122,6 +122,7 @@ type MaterialConnection {
 }
 
 input MaterialCreateInput {
+  description: String
   name: String!
   slug: String
   variants: [MaterialVariantCreateInput!]
@@ -161,7 +162,9 @@ type MaterialVariant {
 }
 
 input MaterialVariantCreateInput {
+  colorId: String
   gtin: String
+  sizeId: String
   vendorPartNumber: String
 }
 

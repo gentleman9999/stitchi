@@ -6,6 +6,7 @@ export const MaterialCreateInput = inputObjectType({
     t.nonNull.field('name', { type: 'String' })
     t.list.nonNull.field('variants', { type: 'MaterialVariantCreateInput' })
     t.field('slug', { type: 'String' })
+    t.field('description', { type: 'String' })
   },
 })
 

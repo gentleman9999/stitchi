@@ -16,6 +16,7 @@ export interface MaterialCreateInput {
   name: string;
   variants?: MaterialVariantCreateInput[] | null;
   slug?: string | null;
+  description?: string | null;
 }
 
 export interface MaterialFilterArg {
@@ -25,6 +26,8 @@ export interface MaterialFilterArg {
 export interface MaterialVariantCreateInput {
   vendorPartNumber?: string | null;
   gtin?: string | null;
+  sizeId?: string | null;
+  colorId?: string | null;
 }
 
 //==============================================================

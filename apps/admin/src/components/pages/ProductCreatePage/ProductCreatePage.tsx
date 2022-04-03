@@ -16,6 +16,9 @@ const ProductCreatePage = (props: ProductCreatePageProps) => {
   const [createProduct, { loading }] = useCreateProduct()
   const form = useForm<Schema>({
     resolver: yupResolver(schema),
+    defaultValues: {
+      variants: [{ gtin: '', vendorPartNumber: '' }],
+    },
   })
 
   const handleSubmit = form.handleSubmit(async data => {

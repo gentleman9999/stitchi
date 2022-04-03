@@ -7,12 +7,15 @@ import {
 const variantSchema: yup.SchemaOf<MaterialVariantCreateInput> = yup.object({
   gtin: yup.string(),
   vendorPartNumber: yup.string(),
+  sizeId: yup.string(),
+  colorId: yup.string(),
 })
 
 const schema: yup.SchemaOf<Omit<MaterialCreateInput, 'slug'>> = yup
   .object({
     name: yup.string().required(),
-    variants: yup.array(variantSchema).required(),
+    description: yup.string().nullable(),
+    variants: yup.array(variantSchema).nullable(),
   })
   .required()
 

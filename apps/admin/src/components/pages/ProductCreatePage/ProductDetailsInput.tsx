@@ -1,6 +1,6 @@
 import { Paper, Grid, TextField } from '@components/ui'
 import React from 'react'
-import { Controller, useFormContext } from 'react-hook-form'
+import { Controller } from 'react-hook-form'
 import { Schema } from './schema'
 
 interface Props {}
@@ -10,7 +10,7 @@ const ProductDetailsInput = (props: Props) => {
     <Paper sx={{ padding: 3 }}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Controller
+          <Controller<Schema>
             name="name"
             render={({
               field: { onChange, onBlur, value, name, ref },
@@ -32,7 +32,7 @@ const ProductDetailsInput = (props: Props) => {
           />
         </Grid>
         <Grid item xs={12}>
-          <Controller
+          <Controller<Schema>
             name="description"
             render={({
               field: { onChange, onBlur, value, name, ref },
