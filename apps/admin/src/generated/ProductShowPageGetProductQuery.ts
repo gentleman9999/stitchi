@@ -7,6 +7,12 @@
 // GraphQL query operation: ProductShowPageGetProductQuery
 // ====================================================
 
+export interface ProductShowPageGetProductQuery_catalog_product_image {
+  __typename: "Image";
+  id: string;
+  url: string;
+}
+
 export interface ProductShowPageGetProductQuery_catalog_product_sizes {
   __typename: "Size";
   id: string;
@@ -59,18 +65,11 @@ export interface ProductShowPageGetProductQuery_catalog_product_variants {
   color: ProductShowPageGetProductQuery_catalog_product_variants_color | null;
 }
 
-export interface ProductShowPageGetProductQuery_catalog_product_image {
-  __typename: "Image";
-  id: string;
-  url: string;
-  width: number;
-  height: number;
-}
-
 export interface ProductShowPageGetProductQuery_catalog_product {
   __typename: "Material";
   id: string;
   name: string;
+  image: ProductShowPageGetProductQuery_catalog_product_image | null;
   style: string;
   sizes: ProductShowPageGetProductQuery_catalog_product_sizes[] | null;
   colors: ProductShowPageGetProductQuery_catalog_product_colors[] | null;
@@ -78,7 +77,6 @@ export interface ProductShowPageGetProductQuery_catalog_product {
   vendor: ProductShowPageGetProductQuery_catalog_product_vendor | null;
   categories: ProductShowPageGetProductQuery_catalog_product_categories[] | null;
   variants: ProductShowPageGetProductQuery_catalog_product_variants[] | null;
-  image: ProductShowPageGetProductQuery_catalog_product_image | null;
 }
 
 export interface ProductShowPageGetProductQuery_catalog {

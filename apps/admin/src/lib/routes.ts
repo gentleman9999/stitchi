@@ -31,7 +31,7 @@ const routes = {
       href: () => buildRoute('/products'),
 
       show: {
-        href: (productUuid: string) => buildRoute(`/products/${productUuid}`),
+        href: (productId: string) => buildRoute(`/products/${productId}`),
       },
 
       create: {

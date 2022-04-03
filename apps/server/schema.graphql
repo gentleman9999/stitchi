@@ -127,6 +127,10 @@ input MaterialCreateInput {
   variants: [MaterialVariantCreateInput!]
 }
 
+type MaterialCreatePayload {
+  material: Material!
+}
+
 type MaterialEdge {
   """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
   cursor: String!
@@ -178,7 +182,7 @@ enum MembershipRole {
 
 type Mutation {
   """Creates a new product"""
-  materialCreate(input: MaterialCreateInput!): Material
+  materialCreate(input: MaterialCreateInput!): MaterialCreatePayload
 
   """Bootstraps a new user with necessary resources"""
   userBoostrap: User

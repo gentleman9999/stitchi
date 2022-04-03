@@ -12,8 +12,19 @@ export interface Filter {
   eq?: string | null;
 }
 
+export interface MaterialCreateInput {
+  name: string;
+  variants?: MaterialVariantCreateInput[] | null;
+  slug?: string | null;
+}
+
 export interface MaterialFilterArg {
   categoryId?: Filter | null;
+}
+
+export interface MaterialVariantCreateInput {
+  vendorPartNumber?: string | null;
+  gtin?: string | null;
 }
 
 //==============================================================

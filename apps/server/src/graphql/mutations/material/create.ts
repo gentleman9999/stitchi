@@ -1,4 +1,4 @@
-import { arg, inputObjectType, mutationField, nonNull } from 'nexus'
+import { arg, inputObjectType, mutationField, nonNull, objectType } from 'nexus'
 
 export const MaterialCreateInput = inputObjectType({
   name: 'MaterialCreateInput',
@@ -9,9 +9,16 @@ export const MaterialCreateInput = inputObjectType({
   },
 })
 
+export const MaterialCreatePayload = objectType({
+  name: 'MaterialCreatePayload',
+  definition(t) {
+    t.nonNull.field('material', { type: 'Material' })
+  },
+})
+
 export const materialCreate = mutationField('materialCreate', {
   description: 'Creates a new product',
-  type: 'Material',
+  type: 'MaterialCreatePayload',
   args: {
     input: nonNull(arg({ type: 'MaterialCreateInput' })),
   },

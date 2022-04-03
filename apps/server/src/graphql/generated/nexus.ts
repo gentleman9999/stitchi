@@ -130,6 +130,9 @@ export interface NexusGenObjects {
     nodes?: Array<NexusGenRootTypes['Material'] | null> | null; // [Material]
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
   }
+  MaterialCreatePayload: { // root type
+    material: NexusGenRootTypes['Material']; // Material!
+  }
   MaterialEdge: { // root type
     cursor: string; // String!
     node?: NexusGenRootTypes['Material'] | null; // Material
@@ -286,6 +289,9 @@ export interface NexusGenFieldTypes {
     nodes: Array<NexusGenRootTypes['Material'] | null> | null; // [Material]
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
   }
+  MaterialCreatePayload: { // field return type
+    material: NexusGenRootTypes['Material']; // Material!
+  }
   MaterialEdge: { // field return type
     cursor: string; // String!
     node: NexusGenRootTypes['Material'] | null; // Material
@@ -317,7 +323,7 @@ export interface NexusGenFieldTypes {
     userId: string; // String!
   }
   Mutation: { // field return type
-    materialCreate: NexusGenRootTypes['Material'] | null; // Material
+    materialCreate: NexusGenRootTypes['MaterialCreatePayload'] | null; // MaterialCreatePayload
     userBoostrap: NexusGenRootTypes['User'] | null; // User
   }
   Organization: { // field return type
@@ -445,6 +451,9 @@ export interface NexusGenFieldTypeNames {
     nodes: 'Material'
     pageInfo: 'PageInfo'
   }
+  MaterialCreatePayload: { // field return type name
+    material: 'Material'
+  }
   MaterialEdge: { // field return type name
     cursor: 'String'
     node: 'Material'
@@ -476,7 +485,7 @@ export interface NexusGenFieldTypeNames {
     userId: 'String'
   }
   Mutation: { // field return type name
-    materialCreate: 'Material'
+    materialCreate: 'MaterialCreatePayload'
     userBoostrap: 'User'
   }
   Organization: { // field return type name

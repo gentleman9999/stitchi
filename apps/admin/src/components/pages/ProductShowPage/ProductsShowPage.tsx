@@ -1,12 +1,11 @@
 import React from 'react'
 import { gql, useQuery } from '@apollo/client'
-import { Container, Typography, Grid, Paper, Divider } from '@components/ui'
-import { ComponentErrorMessage } from '@components/common'
+import { Container, Grid } from '@components/ui'
+import { ComponentErrorMessage, DetailPageHeading } from '@components/common'
 import {
   ProductShowPageGetProductQuery,
   ProductShowPageGetProductQueryVariables,
 } from '@generated/ProductShowPageGetProductQuery'
-import PageHeading from './PageHeading'
 import ProductDetails from './ProductDetails'
 import ProductVariants from './ProductVariants'
 
@@ -38,7 +37,11 @@ const ProductShowPage = ({ productId }: Props) => {
     <Container>
       <Grid container spacing={4}>
         <Grid item xs={12}>
-          <PageHeading product={product} />
+          <DetailPageHeading
+            loading={!product}
+            title={product?.name}
+            avatarUrl={product?.image?.url}
+          />
         </Grid>
         <Grid item xs={12}>
           <Grid container spacing={4}>
@@ -56,16 +59,19 @@ const ProductShowPage = ({ productId }: Props) => {
 }
 
 const GET_PRODUCT = gql`
-  ${PageHeading.fragments.product}
   ${ProductDetails.fragments.product}
   ${ProductVariants.fragments.product}
   query ProductShowPageGetProductQuery($id: ID!) {
     catalog {
       product(id: $id) {
         id
+        name
+        image {
+          id
+          url
+        }
         ...ProductDetailsProductFragment
         ...ProductVariantsProductFragment
-        ...PageHeadingProductFragment
       }
     }
   }
