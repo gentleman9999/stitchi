@@ -1,3 +1,5 @@
+export * from './TextField'
+
 export { default as Button } from './Button'
 export * from './Button'
 
@@ -10,11 +12,11 @@ export * from './Logo'
 export { default as Autocomplete } from './Autocomplete'
 export * from './Autocomplete'
 
-export { default as TextField } from './TextField'
-export * from './TextField'
-
 export { default as Grid } from './Grid'
 export * from './Grid'
+
+export { default as IconButton } from './IconButton'
+export * from './IconButton'
 
 export {
   Avatar,
@@ -32,7 +34,6 @@ export {
   Menu,
   MenuItem,
   Toolbar,
-  IconButton,
   AppBar,
   Tooltip,
   List,
@@ -61,7 +62,6 @@ export type {
   MenuProps,
   MenuItemProps,
   ToolbarProps,
-  IconButtonProps,
   AppBarProps,
   TooltipProps,
   ListProps,

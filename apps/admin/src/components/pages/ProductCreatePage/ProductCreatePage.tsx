@@ -9,6 +9,13 @@ import { useSnackbar } from 'notistack'
 import ProductDetailsInput from './ProductDetailsInput'
 import ProductVariantInput from './ProductVariantsInput'
 
+const defaultVariant = {
+  gtin: '',
+  vendorPartNumber: '',
+  colorId: '',
+  sizeId: '',
+}
+
 export interface ProductCreatePageProps {}
 
 const ProductCreatePage = (props: ProductCreatePageProps) => {
@@ -17,7 +24,7 @@ const ProductCreatePage = (props: ProductCreatePageProps) => {
   const form = useForm<Schema>({
     resolver: yupResolver(schema),
     defaultValues: {
-      variants: [{ gtin: '', vendorPartNumber: '' }],
+      variants: [defaultVariant],
     },
   })
 
@@ -44,10 +51,10 @@ const ProductCreatePage = (props: ProductCreatePageProps) => {
                   <ProductDetailsInput />
                 </Grid>
                 <Grid item xs={12}>
-                  <ProductVariantInput />
+                  <ProductVariantInput defaultValue={defaultVariant} />
                 </Grid>
                 <Grid item xs={12}>
-                  <Button type="submit" variant="contained">
+                  <Button type="submit" variant="contained" loading={loading}>
                     Save
                   </Button>
                 </Grid>

@@ -8,11 +8,12 @@ import {
 export type ButtonProps<
   C extends React.ElementType = ButtonTypeMap['defaultComponent'],
 > = MuiButtonProps<C, { component?: C }> & {
+  loading?: boolean
 }
 
 const Button: React.ForwardRefExoticComponent<ButtonProps<React.ElementType>> =
   React.forwardRef((props, ref) => {
-    const { loading, component = 'button', testId, ...rest } = props
+    const { loading = false, component = 'button', ...rest } = props
 
     return (
       <MuiButton
@@ -21,7 +22,6 @@ const Button: React.ForwardRefExoticComponent<ButtonProps<React.ElementType>> =
         component={component}
         disabled={props.disabled || loading}
         disableElevation={true}
-        data-testid={testId}
       >
         {props.children}
       </MuiButton>
