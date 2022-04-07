@@ -7,7 +7,7 @@ import {
 } from 'react-hook-form'
 import TextField, { TextFieldProps } from './TextField'
 
-export interface Props<
+export interface RHFTextFieldProps<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > extends UseControllerProps<TFieldValues, TName> {
@@ -15,6 +15,7 @@ export interface Props<
   placeholder?: TextFieldProps['placeholder']
   fullWidth?: TextFieldProps['fullWidth']
   minRows?: TextFieldProps['minRows']
+  size?: TextFieldProps['size']
 }
 
 const RHFTextField = <
@@ -22,8 +23,9 @@ const RHFTextField = <
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
   fullWidth = true,
+  size = 'medium',
   ...props
-}: Props<TFieldValues, TName>) => {
+}: RHFTextFieldProps<TFieldValues, TName>) => {
   const {
     field: { onChange, onBlur, name, value, ref },
     fieldState: { error },
@@ -43,6 +45,7 @@ const RHFTextField = <
       minRows={props.minRows}
       multiline={Boolean(props.minRows || 0 > 1)}
       fullWidth={fullWidth}
+      size={size}
     />
   )
 }

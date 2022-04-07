@@ -1,4 +1,5 @@
 export * from './TextField'
+export * from './Autocomplete'
 
 export { default as Button } from './Button'
 export * from './Button'
@@ -8,9 +9,6 @@ export * from './Typography'
 
 export { default as Logo } from './Logo'
 export * from './Logo'
-
-export { default as Autocomplete } from './Autocomplete'
-export * from './Autocomplete'
 
 export { default as Grid } from './Grid'
 export * from './Grid'
@@ -43,6 +41,8 @@ export {
   Chip,
   Stack,
   ListItemButton,
+  FormHelperText,
+  FormControl,
 } from '@mui/material'
 export { DataGrid } from '@mui/x-data-grid'
 

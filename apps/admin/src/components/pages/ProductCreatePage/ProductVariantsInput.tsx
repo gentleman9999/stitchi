@@ -10,6 +10,7 @@ import {
 import { useFieldArray } from 'react-hook-form'
 import { Schema } from './schema'
 import { CloseIcon } from '@components/icons'
+import ColorInput from './ColorInput'
 
 interface ProductVariantsInputProps {
   defaultValue: Record<string, any>
@@ -56,40 +57,45 @@ interface VariantInputProps {
 
 const VariantInput = ({ index, onRemove }: VariantInputProps) => {
   return (
-    <Grid item container spacing={2} xs={12}>
-      <Grid item container spacing={1} xs={11}>
-        <Grid item xs={6} md={2}>
-          <RHFTextField<Schema>
-            name={`variants.${index}.colorId`}
-            label="Color"
-            placeholder="12345678a"
-          />
+    <Grid item container spacing={0} xs={12}>
+      <Grid item container spacing={1} xs={11.5}>
+        <Grid item xs={6} md={3}>
+          <ColorInput index={index} />
         </Grid>
-        <Grid item xs={6} md={2}>
+        <Grid item xs={6} md={3}>
           <RHFTextField<Schema>
             name={`variants.${index}.sizeId`}
             label="Size"
             placeholder="m"
+            size="small"
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid item xs={12} sm={6} md={3}>
           <RHFTextField<Schema>
             name={`variants.${index}.gtin`}
             label="GTIN"
             placeholder="12345678a"
+            size="small"
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid item xs={12} sm={6} md={3}>
           <RHFTextField<Schema>
             name={`variants.${index}.vendorPartNumber`}
             label="Vendor part number"
             placeholder="12345678a"
+            size="small"
           />
         </Grid>
       </Grid>
-      <Grid item xs={1} container justifyContent="center" alignItems="center">
+      <Grid
+        item
+        xs="auto"
+        container
+        justifyContent="center"
+        alignItems="center"
+      >
         {onRemove && (
-          <IconButton onClick={onRemove}>
+          <IconButton onClick={onRemove} size="small">
             <CloseIcon />
           </IconButton>
         )}
