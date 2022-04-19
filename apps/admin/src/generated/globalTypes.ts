@@ -7,6 +7,11 @@
 // START Enums and Input Objects
 //==============================================================
 
+export interface ColorCreateInput {
+  name: string;
+  hex: string;
+}
+
 export interface Filter {
   in?: (string | null)[] | null;
   eq?: string | null;
@@ -28,6 +33,11 @@ export interface MaterialVariantCreateInput {
   gtin?: string | null;
   sizeId?: string | null;
   colorId?: string | null;
+}
+
+export interface SizeCreateInput {
+  name: string;
+  value: string;
 }
 
 //==============================================================

@@ -11,6 +11,7 @@ import { useFieldArray } from 'react-hook-form'
 import { Schema } from './schema'
 import { CloseIcon } from '@components/icons'
 import ColorInput from './ColorInput'
+import SizeInput from './SizeInput'
 
 interface ProductVariantsInputProps {
   defaultValue: Record<string, any>
@@ -63,12 +64,7 @@ const VariantInput = ({ index, onRemove }: VariantInputProps) => {
           <ColorInput index={index} />
         </Grid>
         <Grid item xs={6} md={3}>
-          <RHFTextField<Schema>
-            name={`variants.${index}.sizeId`}
-            label="Size"
-            placeholder="m"
-            size="small"
-          />
+          <SizeInput index={index} />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <RHFTextField<Schema>

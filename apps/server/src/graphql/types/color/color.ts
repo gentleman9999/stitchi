@@ -4,6 +4,8 @@ export const Color = objectType({
   name: 'Color',
   definition(t) {
     t.nonNull.id('id')
+    t.nonNull.string('catalogId')
+
     t.string('hex')
     t.string('name')
     t.string('colorCategoryId')

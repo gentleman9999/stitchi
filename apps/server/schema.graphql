@@ -37,6 +37,8 @@ type Category {
 }
 
 type Color {
+  catalog: Catalog!
+  catalogId: String!
   category: ColorCategory
   colorCategoryId: String
   createdAt: DateTime
@@ -52,6 +54,15 @@ type ColorCategory {
   id: ID!
   name: String!
   updatedAt: DateTime
+}
+
+input ColorCreateInput {
+  hex: String!
+  name: String!
+}
+
+type ColorCreatePayload {
+  color: Color!
 }
 
 """
@@ -184,8 +195,14 @@ enum MembershipRole {
 }
 
 type Mutation {
+  """Creates a new color"""
+  colorCreate(input: ColorCreateInput!): ColorCreatePayload
+
   """Creates a new product"""
   materialCreate(input: MaterialCreateInput!): MaterialCreatePayload
+
+  """Creates a new size"""
+  sizeCreate(input: SizeCreateInput!): SizeCreatePayload
 
   """Bootstraps a new user with necessary resources"""
   userBoostrap: User
@@ -231,11 +248,21 @@ type Query {
 }
 
 type Size {
+  catalogId: String!
   createdAt: DateTime
   id: ID!
   name: String
   updatedAt: DateTime
   value: String!
+}
+
+input SizeCreateInput {
+  name: String!
+  value: String!
+}
+
+type SizeCreatePayload {
+  size: Size!
 }
 
 type User {

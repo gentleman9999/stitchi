@@ -5,6 +5,8 @@ export const Size = objectType({
   definition(t) {
     t.nonNull.id('id')
     t.nonNull.string('value')
+    t.nonNull.string('catalogId')
+
     t.string('name')
 
     t.field('createdAt', { type: 'DateTime' })

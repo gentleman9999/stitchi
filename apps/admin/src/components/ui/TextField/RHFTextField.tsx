@@ -16,6 +16,7 @@ export interface RHFTextFieldProps<
   fullWidth?: TextFieldProps['fullWidth']
   minRows?: TextFieldProps['minRows']
   size?: TextFieldProps['size']
+  InputProps?: TextFieldProps['InputProps']
 }
 
 const RHFTextField = <
@@ -38,6 +39,7 @@ const RHFTextField = <
       value={value}
       name={name}
       inputRef={ref}
+      InputProps={props.InputProps}
       error={Boolean(error?.message)}
       helperText={error?.message}
       label={props.label}

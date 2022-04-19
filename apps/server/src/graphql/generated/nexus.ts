@@ -38,6 +38,10 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  ColorCreateInput: { // input type
+    hex: string; // String!
+    name: string; // String!
+  }
   Filter: { // input type
     eq?: string | null; // String
     in?: Array<string | null> | null; // [String]
@@ -56,6 +60,10 @@ export interface NexusGenInputs {
     gtin?: string | null; // String
     sizeId?: string | null; // String
     vendorPartNumber?: string | null; // String
+  }
+  SizeCreateInput: { // input type
+    name: string; // String!
+    value: string; // String!
   }
 }
 
@@ -89,6 +97,7 @@ export interface NexusGenObjects {
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
   }
   Color: { // root type
+    catalogId: string; // String!
     colorCategoryId?: string | null; // String
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
     hex?: string | null; // String
@@ -102,6 +111,9 @@ export interface NexusGenObjects {
     id: string; // ID!
     name: string; // String!
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  ColorCreatePayload: { // root type
+    color: NexusGenRootTypes['Color']; // Color!
   }
   Image: { // root type
     height: number; // Int!
@@ -176,11 +188,15 @@ export interface NexusGenObjects {
   }
   Query: {};
   Size: { // root type
+    catalogId: string; // String!
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
     id: string; // ID!
     name?: string | null; // String
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     value: string; // String!
+  }
+  SizeCreatePayload: { // root type
+    size: NexusGenRootTypes['Size']; // Size!
   }
   User: { // root type
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
@@ -238,6 +254,8 @@ export interface NexusGenFieldTypes {
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
   }
   Color: { // field return type
+    catalog: NexusGenRootTypes['Catalog']; // Catalog!
+    catalogId: string; // String!
     category: NexusGenRootTypes['ColorCategory'] | null; // ColorCategory
     colorCategoryId: string | null; // String
     createdAt: NexusGenScalars['DateTime'] | null; // DateTime
@@ -252,6 +270,9 @@ export interface NexusGenFieldTypes {
     id: string; // ID!
     name: string; // String!
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  ColorCreatePayload: { // field return type
+    color: NexusGenRootTypes['Color']; // Color!
   }
   Image: { // field return type
     height: number; // Int!
@@ -326,7 +347,9 @@ export interface NexusGenFieldTypes {
     userId: string; // String!
   }
   Mutation: { // field return type
+    colorCreate: NexusGenRootTypes['ColorCreatePayload'] | null; // ColorCreatePayload
     materialCreate: NexusGenRootTypes['MaterialCreatePayload'] | null; // MaterialCreatePayload
+    sizeCreate: NexusGenRootTypes['SizeCreatePayload'] | null; // SizeCreatePayload
     userBoostrap: NexusGenRootTypes['User'] | null; // User
   }
   Organization: { // field return type
@@ -348,11 +371,15 @@ export interface NexusGenFieldTypes {
     viewer: NexusGenRootTypes['Membership'] | null; // Membership
   }
   Size: { // field return type
+    catalogId: string; // String!
     createdAt: NexusGenScalars['DateTime'] | null; // DateTime
     id: string; // ID!
     name: string | null; // String
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     value: string; // String!
+  }
+  SizeCreatePayload: { // field return type
+    size: NexusGenRootTypes['Size']; // Size!
   }
   User: { // field return type
     createdAt: NexusGenScalars['DateTime'] | null; // DateTime
@@ -400,6 +427,8 @@ export interface NexusGenFieldTypeNames {
     updatedAt: 'DateTime'
   }
   Color: { // field return type name
+    catalog: 'Catalog'
+    catalogId: 'String'
     category: 'ColorCategory'
     colorCategoryId: 'String'
     createdAt: 'DateTime'
@@ -414,6 +443,9 @@ export interface NexusGenFieldTypeNames {
     id: 'ID'
     name: 'String'
     updatedAt: 'DateTime'
+  }
+  ColorCreatePayload: { // field return type name
+    color: 'Color'
   }
   Image: { // field return type name
     height: 'Int'
@@ -488,7 +520,9 @@ export interface NexusGenFieldTypeNames {
     userId: 'String'
   }
   Mutation: { // field return type name
+    colorCreate: 'ColorCreatePayload'
     materialCreate: 'MaterialCreatePayload'
+    sizeCreate: 'SizeCreatePayload'
     userBoostrap: 'User'
   }
   Organization: { // field return type name
@@ -510,11 +544,15 @@ export interface NexusGenFieldTypeNames {
     viewer: 'Membership'
   }
   Size: { // field return type name
+    catalogId: 'String'
     createdAt: 'DateTime'
     id: 'ID'
     name: 'String'
     updatedAt: 'DateTime'
     value: 'String'
+  }
+  SizeCreatePayload: { // field return type name
+    size: 'Size'
   }
   User: { // field return type name
     createdAt: 'DateTime'
@@ -555,8 +593,14 @@ export interface NexusGenArgTypes {
     }
   }
   Mutation: {
+    colorCreate: { // args
+      input: NexusGenInputs['ColorCreateInput']; // ColorCreateInput!
+    }
     materialCreate: { // args
       input: NexusGenInputs['MaterialCreateInput']; // MaterialCreateInput!
+    }
+    sizeCreate: { // args
+      input: NexusGenInputs['SizeCreateInput']; // SizeCreateInput!
     }
   }
 }

@@ -103,7 +103,7 @@ const Navigation = () => {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <Link passHref href={routes.internal.products.href()}>
               <Button
-                Component="a"
+                component="a"
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >

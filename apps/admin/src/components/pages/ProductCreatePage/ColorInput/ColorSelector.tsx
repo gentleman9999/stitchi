@@ -1,10 +1,15 @@
 import React from 'react'
-import { Box, TextField, Autocomplete, Typography } from '@components/ui'
+import {
+  Box,
+  TextField,
+  Autocomplete,
+  Typography,
+  ColorDot,
+} from '@components/ui'
 import { useController } from 'react-hook-form'
-import { Schema } from './schema'
+import { Schema } from '../schema'
 import { InputAdornment } from '@mui/material'
 import { createFilterOptions } from '@mui/material/Autocomplete'
-
 import useColors from './useColors'
 
 const filter =
@@ -12,10 +17,10 @@ const filter =
 
 interface Props {
   index: number
+  onCreateColor: () => void
 }
 
-const ColorInput = ({ index }: Props) => {
-  const [createColor, setCreateColor] = React.useState(false)
+const ColorSelector = ({ index, onCreateColor }: Props) => {
   const {
     field: { onChange, onBlur, value, ref },
     fieldState: { error },
@@ -23,15 +28,13 @@ const ColorInput = ({ index }: Props) => {
 
   const { colors } = useColors()
 
-  console.log('CrEATE COLOR', createColor)
-
   return (
     <Autocomplete
       onChange={(e, v) => {
         if (v && v.id === 0) {
           // timeout to avoid instant validation of the dialog's form.
           setTimeout(() => {
-            setCreateColor(true)
+            onCreateColor()
           })
         } else {
           onChange(v?.id)
@@ -62,13 +65,11 @@ const ColorInput = ({ index }: Props) => {
       filterOptions={(options, params) => {
         const filtered = filter(options, params as any)
 
-        if (params.inputValue !== '') {
-          filtered.push({
-            id: 0,
-            name: `Add "${params.inputValue}"`,
-            hex: '',
-          })
-        }
+        filtered.push({
+          id: 0,
+          name: `Add ${params.inputValue ? `"${params.inputValue}"` : ''}`,
+          hex: '',
+        })
 
         return filtered
       }}
@@ -86,16 +87,7 @@ const ColorInput = ({ index }: Props) => {
               ...params.InputProps,
               startAdornment: (
                 <InputAdornment position="start">
-                  <Box
-                    sx={{
-                      backgroundColor: color?.hex,
-                      width: 20,
-                      height: 20,
-                      borderRadius: '100%',
-                      border: '1px solid',
-                      borderColor: 'grey.200',
-                    }}
-                  />
+                  <ColorDot hex={color?.hex} />
                 </InputAdornment>
               ),
             }}
@@ -106,4 +98,4 @@ const ColorInput = ({ index }: Props) => {
   )
 }
 
-export default ColorInput
+export default ColorSelector

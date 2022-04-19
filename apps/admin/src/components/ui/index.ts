@@ -16,6 +16,9 @@ export * from './Grid'
 export { default as IconButton } from './IconButton'
 export * from './IconButton'
 
+export { default as ColorDot } from './ColorDot'
+export * from './ColorDot'
+
 export {
   Avatar,
   Skeleton,
@@ -43,6 +46,11 @@ export {
   ListItemButton,
   FormHelperText,
   FormControl,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  InputAdornment,
 } from '@mui/material'
 export { DataGrid } from '@mui/x-data-grid'
 
