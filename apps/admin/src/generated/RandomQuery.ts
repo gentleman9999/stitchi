@@ -4,14 +4,7 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: UseColorsGetDataQuery
+// GraphQL query operation: RandomQuery
 // ====================================================
 
-export interface UseColorsGetDataQuery_catalog {
-  __typename: "Catalog";
-  id: string;
-}
-
-export interface UseColorsGetDataQuery {
-  catalog: UseColorsGetDataQuery_catalog | null;
-}
+export interface RandomQuery {}

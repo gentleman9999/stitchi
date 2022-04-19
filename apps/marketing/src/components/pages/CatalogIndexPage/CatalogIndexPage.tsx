@@ -3,16 +3,12 @@ import React from 'react'
 import { Button, Container } from '@components/ui'
 import CatalogIndexPageFilters from './CatalogIndexPageFilters'
 import CatalogIndexPageProductGrid from './CatalogIndexPageProductGrid'
-import { gql } from '@apollo/client'
-import { CatalogIndexPageCategoryFragment } from '@generated/CatalogIndexPageCategoryFragment'
 import { CatalogFiltersProvider } from './catalog-filters-context'
 import { NeedleThread } from 'icons'
 
-export interface CatalogIndexPageProps {
-  categories: CatalogIndexPageCategoryFragment[]
-}
+export interface CatalogIndexPageProps {}
 
-const CatalogIndexPage = ({ categories }: CatalogIndexPageProps) => {
+const CatalogIndexPage = ({}: CatalogIndexPageProps) => {
   return (
     <>
       <Container>
@@ -40,7 +36,7 @@ const CatalogIndexPage = ({ categories }: CatalogIndexPageProps) => {
       </Container>
       <Container>
         <Section gutter="md">
-          <CatalogFiltersProvider availableFilters={{ categories }}>
+          <CatalogFiltersProvider>
             <div className="col-span-1">
               <CatalogIndexPageFilters />
             </div>
@@ -54,17 +50,6 @@ const CatalogIndexPage = ({ categories }: CatalogIndexPageProps) => {
       </Container>
     </>
   )
-}
-
-CatalogIndexPage.fragments = {
-  category: gql`
-    ${CatalogFiltersProvider.fragments.category}
-
-    fragment CatalogIndexPageCategoryFragment on Category {
-      id
-      ...CatalogFiltersProviderCategoryFragment
-    }
-  `,
 }
 
 export default CatalogIndexPage

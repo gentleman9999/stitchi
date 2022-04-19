@@ -2,181 +2,14 @@
 ### Do not make changes to this file directly
 
 
-type Catalog {
-  categories: [Category!]
-  createdAt: DateTime!
-  id: ID!
-  product(id: ID!): Material
-  products(
-    """Returns the elements in the list that come after the specified cursor"""
-    after: String
-
-    """Returns the elements in the list that come before the specified cursor"""
-    before: String
-    filter: MaterialFilterArg = {}
-
-    """Returns the first n elements from the list."""
-    first: Int
-
-    """Returns the last n elements from the list."""
-    last: Int
-  ): MaterialConnection
-  updatedAt: DateTime
-}
-
-type Category {
-  breadcrumbs: [Category!]
-  catalogId: String!
-  children: [Category!]
-  createdAt: DateTime!
-  id: ID!
-  name: String!
-  parentCategoryId: String
-  slug: String!
-  updatedAt: DateTime
-}
-
-type Color {
-  catalog: Catalog!
-  catalogId: String!
-  category: ColorCategory
-  colorCategoryId: String
-  createdAt: DateTime
-  hex: String
-  id: ID!
-  name: String
-  updatedAt: DateTime
-}
-
-type ColorCategory {
-  createdAt: DateTime
-  hex: String
-  id: ID!
-  name: String!
-  updatedAt: DateTime
-}
-
-input ColorCreateInput {
-  hex: String!
-  name: String!
-}
-
-type ColorCreatePayload {
-  color: Color!
-}
-
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
 scalar DateTime
 
-input Filter {
-  eq: String
-  in: [String]
-}
-
 enum GlobalRole {
   CUSTOMER
   SUPERADMIN
-}
-
-type Image {
-  height: Int!
-  id: ID!
-  url: String!
-  width: Int!
-}
-
-type Manufacturer {
-  createdAt: DateTime!
-  id: ID!
-  name: String!
-  slug: String!
-  updatedAt: DateTime
-}
-
-type Material {
-  catalog: Catalog
-  catalogId: String!
-  categories: [Category!]
-  colors: [Color!]
-  createdAt: DateTime!
-  id: ID!
-  image: Image
-  imageId: String
-  isActive: Boolean!
-  manufacturer: Manufacturer
-  manufacturerId: String!
-  name: String!
-  primaryVendorId: String
-  sizes: [Size!]
-  style: String!
-  updatedAt: DateTime
-  variantCount: Int!
-  variants: [MaterialVariant!]
-  vendor: Vendor
-}
-
-type MaterialConnection {
-  """
-  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
-  """
-  edges: [MaterialEdge]
-
-  """Flattened list of Material type"""
-  nodes: [Material]
-
-  """
-  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
-  """
-  pageInfo: PageInfo!
-}
-
-input MaterialCreateInput {
-  description: String
-  name: String!
-  slug: String
-  variants: [MaterialVariantCreateInput!]
-}
-
-type MaterialCreatePayload {
-  material: Material!
-}
-
-type MaterialEdge {
-  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
-  cursor: String!
-
-  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
-  node: Material
-}
-
-input MaterialFilterArg {
-  categoryId: Filter
-}
-
-type MaterialVariant {
-  color: Color
-  colorId: String
-  createdAt: DateTime!
-  gtin: String!
-  id: ID!
-  images: [Image!]
-  isActive: Boolean!
-  material: Material
-  materialId: String!
-  sizeId: String
-  updatedAt: DateTime
-  vendor: Vendor
-  vendorId: String!
-  vendorPartNumber: String!
-}
-
-input MaterialVariantCreateInput {
-  colorId: String
-  gtin: String
-  sizeId: String
-  vendorPartNumber: String
 }
 
 type Membership {
@@ -195,15 +28,6 @@ enum MembershipRole {
 }
 
 type Mutation {
-  """Creates a new color"""
-  colorCreate(input: ColorCreateInput!): ColorCreatePayload
-
-  """Creates a new product"""
-  materialCreate(input: MaterialCreateInput!): MaterialCreatePayload
-
-  """Creates a new size"""
-  sizeCreate(input: SizeCreateInput!): SizeCreatePayload
-
   """Bootstraps a new user with necessary resources"""
   userBoostrap: User
 }
@@ -217,52 +41,8 @@ type Organization {
   updatedAt: DateTime
 }
 
-"""
-PageInfo cursor, as defined in https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
-"""
-type PageInfo {
-  """
-  The cursor corresponding to the last nodes in edges. Null if the connection is empty.
-  """
-  endCursor: String
-
-  """
-  Used to indicate whether more edges exist following the set defined by the clients arguments.
-  """
-  hasNextPage: Boolean!
-
-  """
-  Used to indicate whether more edges exist prior to the set defined by the clients arguments.
-  """
-  hasPreviousPage: Boolean!
-
-  """
-  The cursor corresponding to the first nodes in edges. Null if the connection is empty.
-  """
-  startCursor: String
-}
-
 type Query {
-  catalog: Catalog
   viewer: Membership
-}
-
-type Size {
-  catalogId: String!
-  createdAt: DateTime
-  id: ID!
-  name: String
-  updatedAt: DateTime
-  value: String!
-}
-
-input SizeCreateInput {
-  name: String!
-  value: String!
-}
-
-type SizeCreatePayload {
-  size: Size!
 }
 
 type User {
@@ -281,11 +61,4 @@ type User {
   picture: String
   updatedAt: DateTime
   username: String
-}
-
-type Vendor {
-  createdAt: DateTime!
-  id: ID!
-  name: String!
-  updatedAt: DateTime
 }
