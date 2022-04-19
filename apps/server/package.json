@@ -15,7 +15,7 @@
     "build:docker": "cd ../.. && docker build -t stitchi-server .",
     "codegen": "yarn codegen:prisma && yarn codegen:nexus",
     "codegen:prisma": "prisma generate",
-    "codegen:nexus": "DATO_CMS_GRAPHQL_URI=https://graphql.datocms.com DATO_CMS_ENV=main DATO_CMS_API_KEY=f33b3120440ccb347f19517c7d7496 ts-node --transpile-only src/graphql/schema",
+    "codegen:nexus": "ts-node --transpile-only src/graphql/schema",
     "db:migrate": "npx prisma db push",
     "db:inspect": "npx prisma studio"
   },

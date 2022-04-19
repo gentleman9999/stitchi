@@ -1,10 +1,14 @@
 import 'dotenv/config'
 import { ApolloServer } from 'apollo-server-express'
 import { getOrThrow } from './utils'
-import makeSchema from './graphql/schema'
+import { schema as mainGraphSchema } from './graphql/schema'
 import context from './graphql/context'
 import express from 'express'
 import http from 'http'
+import { makeExecutableSchema } from '@graphql-tools/schema'
+import { stitchSchemas } from '@graphql-tools/stitch'
+import { makeSchema as makeDatoCmsSchema } from './dato-cms-schema'
+import { makeSchema as makeBigCommerceSchema } from './bigcommerce-schema'
 
 process
   .on('unhandledRejection', (reason, p) => {
@@ -16,9 +20,22 @@ process
 
 const PORT = getOrThrow(process.env.PORT, 'PORT')
 
+const makeGatewaySchema = async () =>
+  stitchSchemas({
+    subschemas: [
+      // { schema: mainGraphSchema },
+      { schema: makeExecutableSchema({ typeDefs: await makeDatoCmsSchema() }) },
+      {
+        schema: makeExecutableSchema({
+          typeDefs: await makeBigCommerceSchema(),
+        }),
+      },
+    ],
+  })
+
 async function startApolloServer() {
   const server = new ApolloServer({
-    schema: await makeSchema(),
+    schema: await makeGatewaySchema(),
     context: context.makeDefaultContext(),
     introspection:
       getOrThrow(

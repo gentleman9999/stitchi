@@ -1,3 +1,6 @@
+export * from './TextField'
+export * from './Autocomplete'
+
 export { default as Button } from './Button'
 export * from './Button'
 
@@ -7,14 +10,14 @@ export * from './Typography'
 export { default as Logo } from './Logo'
 export * from './Logo'
 
-export { default as Autocomplete } from './Autocomplete'
-export * from './Autocomplete'
-
-export { default as TextField } from './TextField'
-export * from './TextField'
-
 export { default as Grid } from './Grid'
 export * from './Grid'
+
+export { default as IconButton } from './IconButton'
+export * from './IconButton'
+
+export { default as ColorDot } from './ColorDot'
+export * from './ColorDot'
 
 export {
   Avatar,
@@ -32,7 +35,6 @@ export {
   Menu,
   MenuItem,
   Toolbar,
-  IconButton,
   AppBar,
   Tooltip,
   List,
@@ -42,6 +44,13 @@ export {
   Chip,
   Stack,
   ListItemButton,
+  FormHelperText,
+  FormControl,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  InputAdornment,
 } from '@mui/material'
 export { DataGrid } from '@mui/x-data-grid'
 
@@ -61,7 +70,6 @@ export type {
   MenuProps,
   MenuItemProps,
   ToolbarProps,
-  IconButtonProps,
   AppBarProps,
   TooltipProps,
   ListProps,

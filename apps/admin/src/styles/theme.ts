@@ -1,5 +1,5 @@
 import { createTheme, useTheme } from '@mui/material/styles'
-import { red } from '@mui/material/colors'
+import { red, grey } from '@mui/material/colors'
 
 //https://mui.com/components/data-grid/getting-started/#typescript
 import type {} from '@mui/x-data-grid/themeAugmentation'
@@ -7,6 +7,7 @@ import type {} from '@mui/x-data-grid/themeAugmentation'
 // Create a theme instance.
 const theme = createTheme({
   palette: {
+    grey,
     primary: {
       main: '#a3e635',
     },

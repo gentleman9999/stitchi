@@ -132,8 +132,8 @@ model MaterialVariant {
   id String @id @default(uuid())
 
   active           Boolean @default(true)
-  vendorPartNumber String
-  gtin             String
+  vendorPartNumber String?
+  gtin             String?
   sizeId           String?
   size             Size?   @relation(fields: [sizeId], references: [id], onUpdate: NoAction)
   colorId          String?

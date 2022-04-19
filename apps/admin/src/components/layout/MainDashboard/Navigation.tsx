@@ -88,11 +88,11 @@ const Navigation = () => {
               }}
             >
               <MenuItem onClick={handleCloseNavMenu}>
-                <Link passHref href={routes.internal.products.href()}>
+                {/* <Link passHref href={routes.internal.products.href()}>
                   <Typography textAlign="center" component="a">
                     Products
                   </Typography>
-                </Link>
+                </Link> */}
               </MenuItem>
             </Menu>
           </Box>
@@ -101,15 +101,15 @@ const Navigation = () => {
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <Link passHref href={routes.internal.products.href()}>
+            {/* <Link passHref href={routes.internal.products.href()}>
               <Button
-                Component="a"
+                component="a"
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 Products
               </Button>
-            </Link>
+            </Link> */}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>

@@ -1,2 +1,2 @@
-import { Autocomplete } from '@mui/material'
-export default Autocomplete
+export { default as Autocomplete } from './Autocomplete'
+export * from './Autocomplete'

@@ -4,12 +4,7 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: CatalogFiltersProviderCategoryFragment
+// GraphQL query operation: RandomQuery
 // ====================================================
 
-export interface CatalogFiltersProviderCategoryFragment {
-  __typename: "Category";
-  id: string;
-  name: string;
-  parentCategoryId: string | null;
-}
+export interface RandomQuery {}

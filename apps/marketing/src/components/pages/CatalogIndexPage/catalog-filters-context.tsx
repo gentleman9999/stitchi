@@ -1,14 +1,13 @@
-import { gql } from '@apollo/client'
-import { CatalogFiltersProviderCategoryFragment } from '@generated/CatalogFiltersProviderCategoryFragment'
+// import { CatalogFiltersProviderCategoryFragment } from '@generated/CatalogFiltersProviderCategoryFragment'
 import { useRouter } from 'next/router'
 import React from 'react'
 
 interface AvailableFilters {
-  categories: CatalogFiltersProviderCategoryFragment[]
+  categories: any[]
 }
 
 interface ActiveFilters {
-  category?: CatalogFiltersProviderCategoryFragment
+  category?: any
 }
 
 interface State {
@@ -27,7 +26,7 @@ interface CatalogFiltersProviderProps {
 
 const CatalogFiltersProvider = ({
   children,
-  availableFilters,
+  availableFilters = { categories: [] },
 }: CatalogFiltersProviderProps) => {
   const router = useRouter()
   const { categoryId } = router.query
@@ -49,14 +48,14 @@ const CatalogFiltersProvider = ({
   }
 
   const filters: ActiveFilters = {
-    category: availableFilters?.categories.find(c => c.id === categoryId),
+    category: undefined,
   }
 
   return (
     <CatalogFiltersContext.Provider
       value={{
         filters,
-        availableFilters: { categories: [], ...availableFilters },
+        availableFilters: { ...availableFilters },
         resetFilters,
         handleCategoryChange,
       }}
@@ -74,16 +73,6 @@ const useCatalogFilters = () => {
     )
   }
   return context
-}
-
-CatalogFiltersProvider.fragments = {
-  category: gql`
-    fragment CatalogFiltersProviderCategoryFragment on Category {
-      id
-      name
-      parentCategoryId
-    }
-  `,
 }
 
 export { CatalogFiltersProvider, useCatalogFilters }
