@@ -38,7 +38,8 @@ const CatalogIndexPage = ({}: CatalogIndexPageProps) => {
         <Section gutter="md">
           <CatalogFiltersProvider>
             <div className="col-span-1">
-              <CatalogIndexPageFilters />
+              <h2 className="font-bold text-xl">Find the perfect product</h2>
+              {/* <CatalogIndexPageFilters /> */}
             </div>
             <div className="mt-10 grid grid-cols-1 gap-10">
               <div className="col-span-1">

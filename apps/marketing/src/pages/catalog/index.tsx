@@ -25,12 +25,4 @@ Catalog.getLayout = (page: ReactElement) => (
   <PrimaryLayout>{page}</PrimaryLayout>
 )
 
-// const GET_DATA = gql`
-//   query CatalogGetDataQuery {
-//     catalog {
-//       id
-//     }
-//   }
-// `
-
 export default Catalog

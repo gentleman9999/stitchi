@@ -34,6 +34,9 @@ const routes = {
         href: ({ email = '' }) => buildRoute('/start/success', { email }),
       },
     },
+    catalog: {
+      href: () => buildRoute('/catalog'),
+    },
     blog: {
       href: () => buildRoute('/learn'),
       show: {
@@ -81,11 +84,6 @@ const routes = {
     mailingListSubscription: {
       create: {
         href: () => buildRoute('/api/mailing-list-subscription'),
-      },
-    },
-    product: {
-      list: {
-        href: () => buildRoute('/api/catalog/products'),
       },
     },
   },

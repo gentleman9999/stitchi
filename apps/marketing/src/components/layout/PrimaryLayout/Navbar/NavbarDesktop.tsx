@@ -14,9 +14,13 @@ interface Props {
 const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
   return (
     <nav className="space-x-10">
+      <Link href={routes.internal.catalog.href()} passHref>
+        <a className={s.link}>Catalog</a>
+      </Link>
       <Link href={routes.internal.blog.href()} passHref>
         <a className={s.link}>Learn</a>
       </Link>
+
       <Link href={routes.internal.customers.morningBrew.href()} passHref>
         <a className={s.link}>Case study</a>
       </Link>

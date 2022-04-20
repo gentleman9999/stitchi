@@ -67,12 +67,20 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
         >
           <NavbarDropdown>
             <div className={s.item}>
+              <Link href={routes.internal.catalog.href()} passHref>
+                <Popover.Button as="a" className={s.link}>
+                  Catalog
+                </Popover.Button>
+              </Link>
+            </div>
+            <div className={s.item}>
               <Link href={routes.internal.blog.href()} passHref>
                 <Popover.Button as="a" className={s.link}>
                   Learn
                 </Popover.Button>
               </Link>
             </div>
+
             <div className={s.item}>
               <Link
                 href={routes.internal.customers.morningBrew.href()}

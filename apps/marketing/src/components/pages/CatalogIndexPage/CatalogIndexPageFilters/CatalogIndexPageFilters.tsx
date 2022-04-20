@@ -24,55 +24,52 @@ const CatalogIndexPageFilters = (props: Props) => {
   const { category } = filters
 
   return (
-    <div className="">
-      <h2 className="font-bold text-xl">Find the perfect product</h2>
-      <FilterGroup>
-        <Filter>
-          <FilterTitle>Product Type</FilterTitle>
-          <FilterItems>
-            <Dropdown
-              fullWidth
-              placeholder="Select type"
-              value={
-                category
-                  ? { value: category.id, label: category.name }
-                  : defaultType
-              }
-              options={[
-                defaultType,
-                ...availableFilters.categories.map(c => ({
-                  label: c.name,
-                  value: c.id,
-                })),
-              ]}
-              onChange={c => handleCategoryChange(c.value)}
-            />
-          </FilterItems>
-        </Filter>
-        <Filter>
-          <FilterTitle>Brand</FilterTitle>
-          <FilterItems>
-            <Dropdown
-              fullWidth
-              placeholder="Select type"
-              value={
-                category
-                  ? { value: category.id, label: category.name }
-                  : defaultBrand
-              }
-              options={[
-                defaultBrand,
-                ...availableFilters.categories.map(c => ({
-                  label: c.name,
-                  value: c.id,
-                })),
-              ]}
-              onChange={c => handleCategoryChange(c.value)}
-            />
-          </FilterItems>
-        </Filter>
-      </FilterGroup>
-    </div>
+    <FilterGroup>
+      <Filter>
+        <FilterTitle>Product Type</FilterTitle>
+        <FilterItems>
+          <Dropdown
+            fullWidth
+            placeholder="Select type"
+            value={
+              category
+                ? { value: category.id, label: category.name }
+                : defaultType
+            }
+            options={[
+              defaultType,
+              ...availableFilters.categories.map(c => ({
+                label: c.name,
+                value: c.id,
+              })),
+            ]}
+            onChange={c => handleCategoryChange(c.value)}
+          />
+        </FilterItems>
+      </Filter>
+      <Filter>
+        <FilterTitle>Brand</FilterTitle>
+        <FilterItems>
+          <Dropdown
+            fullWidth
+            placeholder="Select type"
+            value={
+              category
+                ? { value: category.id, label: category.name }
+                : defaultBrand
+            }
+            options={[
+              defaultBrand,
+              ...availableFilters.categories.map(c => ({
+                label: c.name,
+                value: c.id,
+              })),
+            ]}
+            onChange={c => handleCategoryChange(c.value)}
+          />
+        </FilterItems>
+      </Filter>
+    </FilterGroup>
   )
 }
 

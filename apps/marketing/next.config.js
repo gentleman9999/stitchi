@@ -14,7 +14,7 @@ module.exports = withTM({
     defaultLocale: 'en',
   },
   images: {
-    domains: ['res.cloudinary.com'],
+    domains: ['res.cloudinary.com', 'cdn11.bigcommerce.com'],
   },
 
   async rewrites() {
