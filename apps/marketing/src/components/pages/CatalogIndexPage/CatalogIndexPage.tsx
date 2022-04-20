@@ -5,10 +5,16 @@ import CatalogIndexPageFilters from './CatalogIndexPageFilters'
 import CatalogIndexPageProductGrid from './CatalogIndexPageProductGrid'
 import { CatalogFiltersProvider } from './catalog-filters-context'
 import { NeedleThread } from 'icons'
+import Link from 'next/link'
+import routes from '@lib/routes'
+import { gql } from '@apollo/client'
+import { CatalogIndexPageSiteFragment } from '@generated/CatalogIndexPageSiteFragment'
 
-export interface CatalogIndexPageProps {}
+export interface CatalogIndexPageProps {
+  site?: CatalogIndexPageSiteFragment | null
+}
 
-const CatalogIndexPage = ({}: CatalogIndexPageProps) => {
+const CatalogIndexPage = ({ site }: CatalogIndexPageProps) => {
   return (
     <>
       <Container>
@@ -24,9 +30,11 @@ const CatalogIndexPage = ({}: CatalogIndexPageProps) => {
                 ethical, and unique products so that you can create experiences
                 people love.
               </p>
-              <Button slim className="mt-6">
-                Talk to a designer
-              </Button>
+              <Link href={routes.internal.getStarted.href()} passHref>
+                <Button slim className="mt-6">
+                  Talk to a designer
+                </Button>
+              </Link>
             </div>
             <div className="w-[30%] hidden md:flex items-center justify-center">
               <NeedleThread />
@@ -36,10 +44,10 @@ const CatalogIndexPage = ({}: CatalogIndexPageProps) => {
       </Container>
       <Container>
         <Section gutter="md">
-          <CatalogFiltersProvider>
+          <CatalogFiltersProvider site={site}>
             <div className="col-span-1">
               <h2 className="font-bold text-xl">Find the perfect product</h2>
-              {/* <CatalogIndexPageFilters /> */}
+              <CatalogIndexPageFilters />
             </div>
             <div className="mt-10 grid grid-cols-1 gap-10">
               <div className="col-span-1">
@@ -51,6 +59,15 @@ const CatalogIndexPage = ({}: CatalogIndexPageProps) => {
       </Container>
     </>
   )
+}
+
+CatalogIndexPage.fragments = {
+  site: gql`
+    ${CatalogFiltersProvider.fragments.site}
+    fragment CatalogIndexPageSiteFragment on Site {
+      ...CatalogFiltersProviderSiteFragment
+    }
+  `,
 }
 
 export default CatalogIndexPage

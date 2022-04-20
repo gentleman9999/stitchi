@@ -38,8 +38,6 @@ const ProductColorOptions = ({ product }: Props) => {
       )
       .filter(notEmpty) || []
 
-  console.log(colors)
-
   return (
     <SwatchGroup
       hexColors={colors?.map(({ hexColors }) => hexColors[0]) || []}

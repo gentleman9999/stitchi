@@ -36,7 +36,7 @@
 }
 
 .ghost {
-  @apply border border-gray-200 bg-gray-100 text-secondary;
+  @apply border border-gray-200 bg-transparent text-secondary;
 
   &.brandColors {
     @apply border-primaryAlt-300 bg-transparent border-2 font-medium;
@@ -45,7 +45,7 @@
 }
 
 .ghost:hover {
-  @apply border-gray-900 bg-paper text-gray-900;
+  @apply border-gray-900 bg-transparent text-gray-900;
 
   &.brandColors {
     @apply border-primaryAlt-300 bg-transparent text-primary;
@@ -74,5 +74,5 @@
 }
 
 .shadow1 {
-  @apply rounded-md shadow inline-block;
+  @apply rounded-md shadow;
 }

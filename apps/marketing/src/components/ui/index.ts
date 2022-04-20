@@ -23,3 +23,6 @@ export * from './inputs/Checkbox'
 
 export { default as IconButton } from './IconButton'
 export * from './IconButton'
+
+export { default as Skeleton } from './Skeleton'
+export * from './Skeleton'

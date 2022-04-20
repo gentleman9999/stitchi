@@ -74,11 +74,14 @@ const HomePageClosingSection = () => {
             </p>
             <div className="mt-16 inline-block">
               <Link href={routes.internal.getStarted.href()} passHref>
-                <Button Component="a" color="primary" bold shadow>
-                  <span className="flex">
-                    Talk to us
-                    <ArrowRight className="ml-2" strokeWidth="2" />
-                  </span>
+                <Button
+                  Component="a"
+                  color="primary"
+                  bold
+                  shadow
+                  endIcon={<ArrowRight strokeWidth="2" />}
+                >
+                  Talk to us
                 </Button>
               </Link>
             </div>

@@ -1,35 +1,51 @@
 // import { CatalogFiltersProviderCategoryFragment } from '@generated/CatalogFiltersProviderCategoryFragment'
+import { gql } from '@apollo/client'
+import {
+  CatalogFiltersProviderSiteFragment,
+  CatalogFiltersProviderSiteFragment_brands_edges_node,
+} from '@generated/CatalogFiltersProviderSiteFragment'
+import { notEmpty } from '@utils/typescript'
 import { useRouter } from 'next/router'
 import React from 'react'
 
+type Brand = CatalogFiltersProviderSiteFragment_brands_edges_node
+
 interface AvailableFilters {
-  categories: any[]
+  brands: Brand[]
 }
 
 interface ActiveFilters {
-  category?: any
+  brands?: Brand[]
 }
 
 interface State {
   filters: ActiveFilters
   availableFilters: AvailableFilters
   resetFilters: () => void
-  handleCategoryChange: (categoryId: string | null) => void
+  // handleCategoryChange: (categoryId: string | null) => void
+  handleBrandChange: (brandId: string | null) => void
 }
 
 const CatalogFiltersContext = React.createContext<State | undefined>(undefined)
 
 interface CatalogFiltersProviderProps {
   children: React.ReactNode
-  availableFilters?: AvailableFilters
+  site?: CatalogFiltersProviderSiteFragment | null
 }
 
 const CatalogFiltersProvider = ({
   children,
-  availableFilters = { categories: [] },
+  site,
 }: CatalogFiltersProviderProps) => {
+  const [availableFilters, setAvailableFilters] =
+    React.useState<AvailableFilters>(makeFilters(site))
+
   const router = useRouter()
-  const { categoryId } = router.query
+  const { brandId } = router.query
+
+  React.useEffect(() => {
+    setAvailableFilters(makeFilters(site))
+  }, [site])
 
   const resetFilters = () => {
     const params = { ...router.query }
@@ -37,18 +53,32 @@ const CatalogFiltersProvider = ({
     router.push({ query: params })
   }
 
-  const handleCategoryChange: State['handleCategoryChange'] = categoryId => {
+  // const handleCategoryChange: State['handleCategoryChange'] = categoryId => {
+  //   const params = { ...router.query }
+  //   if (categoryId) {
+  //     params.categoryId = categoryId
+  //   } else {
+  //     delete params.categoryId
+  //   }
+  //   router.push({ query: params })
+  // }
+
+  const handleBrandChange: State['handleBrandChange'] = brandId => {
     const params = { ...router.query }
-    if (categoryId) {
-      params.categoryId = categoryId
+    if (brandId) {
+      const brand = availableFilters.brands.find(({ id }) => id === brandId)
+      params.brandId = brand?.path
     } else {
-      delete params.categoryId
+      delete params.brandId
     }
-    router.push({ query: params })
+    router.push({ query: params }, undefined, { scroll: false })
   }
 
   const filters: ActiveFilters = {
-    category: undefined,
+    // Only 1 brand for now
+    brands: [
+      availableFilters.brands.find(({ path }) => path === brandId),
+    ].filter(notEmpty),
   }
 
   return (
@@ -57,7 +87,8 @@ const CatalogFiltersProvider = ({
         filters,
         availableFilters: { ...availableFilters },
         resetFilters,
-        handleCategoryChange,
+        // handleCategoryChange,
+        handleBrandChange,
       }}
     >
       {children}
@@ -73,6 +104,40 @@ const useCatalogFilters = () => {
     )
   }
   return context
+}
+
+const makeFilters = (
+  site?: CatalogFiltersProviderSiteFragment | null,
+): AvailableFilters => {
+  return {
+    brands:
+      site?.brands.edges
+        ?.map(edge => edge?.node)
+        .filter(n => Boolean(n?.products.edges?.length))
+        .filter(notEmpty) || [],
+  }
+}
+
+CatalogFiltersProvider.fragments = {
+  site: gql`
+    fragment CatalogFiltersProviderSiteFragment on Site {
+      brands {
+        edges {
+          node {
+            id
+            name
+            path
+            entityId
+            products(first: 1) {
+              edges {
+                __typename
+              }
+            }
+          }
+        }
+      }
+    }
+  `,
 }
 
 export { CatalogFiltersProvider, useCatalogFilters }

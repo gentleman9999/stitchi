@@ -13,7 +13,7 @@ const CatalogIndexPageProduct = ({ product }: Props) => {
   return (
     <div className="block rounded-2xl border-2 border-gray-100 p-4">
       {product.defaultImage?.url && (
-        <div className="relative w-full h-[150px]">
+        <div className="relative w-full h-[200px]">
           <Image
             src={product.defaultImage.url}
             alt={product.name}

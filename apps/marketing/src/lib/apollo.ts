@@ -5,7 +5,7 @@ import {
   NormalizedCacheObject,
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
-import { mergeDeep } from '@apollo/client/utilities'
+import { mergeDeep, relayStylePagination } from '@apollo/client/utilities'
 import getOrThrow from '@utils/get-or-throw'
 import { AppProps } from 'next/app'
 import { useMemo } from 'react'
@@ -37,7 +37,15 @@ const createApolloClient = () =>
   new ApolloClient({
     ssrMode: typeof window === 'undefined',
     link: authLink.concat(httpLink),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        SearchProducts: {
+          fields: {
+            products: relayStylePagination(['brandEntityIds']),
+          },
+        },
+      },
+    }),
   })
 
 export function initializeApollo(

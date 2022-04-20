@@ -18,14 +18,13 @@ const defaultBrand = {
 interface Props {}
 
 const CatalogIndexPageFilters = (props: Props) => {
-  const { availableFilters, handleCategoryChange, filters } =
-    useCatalogFilters()
+  const { availableFilters, handleBrandChange, filters } = useCatalogFilters()
 
-  const { category } = filters
+  const { brands } = filters
 
   return (
     <FilterGroup>
-      <Filter>
+      {/* <Filter>
         <FilterTitle>Product Type</FilterTitle>
         <FilterItems>
           <Dropdown
@@ -46,7 +45,7 @@ const CatalogIndexPageFilters = (props: Props) => {
             onChange={c => handleCategoryChange(c.value)}
           />
         </FilterItems>
-      </Filter>
+      </Filter> */}
       <Filter>
         <FilterTitle>Brand</FilterTitle>
         <FilterItems>
@@ -54,18 +53,18 @@ const CatalogIndexPageFilters = (props: Props) => {
             fullWidth
             placeholder="Select type"
             value={
-              category
-                ? { value: category.id, label: category.name }
+              brands?.length
+                ? { value: brands[0].id, label: brands[0].name }
                 : defaultBrand
             }
             options={[
               defaultBrand,
-              ...availableFilters.categories.map(c => ({
-                label: c.name,
-                value: c.id,
+              ...availableFilters.brands.map(b => ({
+                label: b.name,
+                value: b.id,
               })),
             ]}
-            onChange={c => handleCategoryChange(c.value)}
+            onChange={c => handleBrandChange(c.value)}
           />
         </FilterItems>
       </Filter>

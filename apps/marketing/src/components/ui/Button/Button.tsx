@@ -22,6 +22,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean
   color?: 'primary' | 'brandPrimary'
   shadow?: boolean
+  endIcon?: React.ReactNode
   // Font bold
   bold?: boolean
 }
@@ -34,6 +35,7 @@ const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
     children,
     active,
     width,
+    endIcon,
     color = 'primary',
     loading = false,
     disabled = false,
@@ -79,6 +81,7 @@ const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
           <LoadingDots />
         </i>
       )}
+      {!loading && <div className="ml-2">{endIcon}</div>}
     </Component>
   )
 })
