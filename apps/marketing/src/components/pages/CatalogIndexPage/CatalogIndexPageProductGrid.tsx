@@ -46,10 +46,6 @@ const CatalogIndexPageProductGrid = ({}: Props) => {
 
   const { pageInfo } = data?.site.search.searchProducts?.products || {}
 
-  if (products.length === 0 && networkStatus === NetworkStatus.ready) {
-    return <CatalogIndexPageProuductZeroState />
-  }
-
   const handleFetchMore = () => {
     if (pageInfo?.hasNextPage) {
       fetchMore({
@@ -61,22 +57,24 @@ const CatalogIndexPageProductGrid = ({}: Props) => {
   }
 
   return (
-    <InfiniteScrollContainer onLoadMore={handleFetchMore}>
-      <Grid>
-        {products.map(product => (
-          <li key={product.id}>
-            <CatalogIndexPageProduct product={product} />
-          </li>
-        ))}
-      </Grid>
-      {networkStatus !== NetworkStatus.ready && (
+    <>
+      <InfiniteScrollContainer onLoadMore={handleFetchMore}>
         <Grid>
-          {Array.from(new Array(6)).map((_, i) => (
-            <CatalogIndexPageProductSkeleton key={i} />
+          {products.map(product => (
+            <li key={product.id}>
+              <CatalogIndexPageProduct product={product} />
+            </li>
           ))}
+          {networkStatus !== NetworkStatus.ready &&
+            Array.from(new Array(6)).map((_, i) => (
+              <CatalogIndexPageProductSkeleton key={i} />
+            ))}
         </Grid>
-      )}
-    </InfiniteScrollContainer>
+      </InfiniteScrollContainer>
+      <div className="mt-20">
+        <CatalogIndexPageProuductZeroState />
+      </div>
+    </>
   )
 }
 
