@@ -3,6 +3,7 @@ import {
   InMemoryCache,
   createHttpLink,
   NormalizedCacheObject,
+  defaultDataIdFromObject,
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import { mergeDeep, relayStylePagination } from '@apollo/client/utilities'
@@ -38,10 +39,19 @@ const createApolloClient = () =>
     ssrMode: typeof window === 'undefined',
     link: authLink.concat(httpLink),
     cache: new InMemoryCache({
+      dataIdFromObject(responseObj) {
+        switch (responseObj.__typename) {
+          // By default Site has no ID. We need ID to share site access across cache
+          case 'Site':
+            return 'StitchiSite'
+          default:
+            return defaultDataIdFromObject(responseObj)
+        }
+      },
       typePolicies: {
         SearchProducts: {
           fields: {
-            products: relayStylePagination(['brandEntityIds']),
+            products: relayStylePagination(),
           },
         },
       },

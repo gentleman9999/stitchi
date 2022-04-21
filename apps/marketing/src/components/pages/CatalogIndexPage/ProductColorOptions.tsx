@@ -57,6 +57,7 @@ ProductColorOptions.fragments = {
               values {
                 edges {
                   node {
+                    entityId
                     ... on SwatchOptionValue {
                       label
                       hexColors

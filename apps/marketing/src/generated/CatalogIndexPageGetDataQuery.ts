@@ -129,12 +129,28 @@ export interface CatalogIndexPageGetDataQuery_site_search_searchProducts_product
   node: CatalogIndexPageGetDataQuery_site_search_searchProducts_products_edges_node;
 }
 
+export interface CatalogIndexPageGetDataQuery_site_search_searchProducts_products_pageInfo {
+  __typename: "PageInfo";
+  /**
+   * When paginating forwards, are there more items?
+   */
+  hasNextPage: boolean;
+  /**
+   * When paginating forwards, the cursor to continue.
+   */
+  endCursor: string | null;
+}
+
 export interface CatalogIndexPageGetDataQuery_site_search_searchProducts_products {
   __typename: "ProductConnection";
   /**
    * A list of edges.
    */
   edges: (CatalogIndexPageGetDataQuery_site_search_searchProducts_products_edges | null)[] | null;
+  /**
+   * Information to aid in pagination.
+   */
+  pageInfo: CatalogIndexPageGetDataQuery_site_search_searchProducts_products_pageInfo;
 }
 
 export interface CatalogIndexPageGetDataQuery_site_search_searchProducts {
@@ -167,4 +183,6 @@ export interface CatalogIndexPageGetDataQuery {
 
 export interface CatalogIndexPageGetDataQueryVariables {
   filters: SearchProductsFiltersInput;
+  first: number;
+  after?: string | null;
 }

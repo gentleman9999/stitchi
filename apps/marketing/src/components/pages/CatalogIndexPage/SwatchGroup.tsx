@@ -18,7 +18,7 @@ const SwatchGroup = ({ hexColors }: Props) => {
     <div className="flex items-center">
       {visibleColors?.map((hex, index) => (
         <span
-          key={hex}
+          key={index}
           className="inline-flex w-5 h-5 rounded-full border-2 border-gray-100"
           style={{
             backgroundColor: hex,

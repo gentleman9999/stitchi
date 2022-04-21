@@ -127,12 +127,28 @@ export interface CatalogIndexPageProductGridSiteFragment_search_searchProducts_p
   node: CatalogIndexPageProductGridSiteFragment_search_searchProducts_products_edges_node;
 }
 
+export interface CatalogIndexPageProductGridSiteFragment_search_searchProducts_products_pageInfo {
+  __typename: "PageInfo";
+  /**
+   * When paginating forwards, are there more items?
+   */
+  hasNextPage: boolean;
+  /**
+   * When paginating forwards, the cursor to continue.
+   */
+  endCursor: string | null;
+}
+
 export interface CatalogIndexPageProductGridSiteFragment_search_searchProducts_products {
   __typename: "ProductConnection";
   /**
    * A list of edges.
    */
   edges: (CatalogIndexPageProductGridSiteFragment_search_searchProducts_products_edges | null)[] | null;
+  /**
+   * Information to aid in pagination.
+   */
+  pageInfo: CatalogIndexPageProductGridSiteFragment_search_searchProducts_products_pageInfo;
 }
 
 export interface CatalogIndexPageProductGridSiteFragment_search_searchProducts {
