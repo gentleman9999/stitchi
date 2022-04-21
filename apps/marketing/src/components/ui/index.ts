@@ -6,6 +6,9 @@ export * from './Button'
 export { default as BackgroundTexture } from './BackgroundTexture'
 export * from './BackgroundTexture'
 
+export { default as Badge } from './Badge'
+export * from './Badge'
+
 export { default as Logo } from './Logo'
 export * from './Logo'
 

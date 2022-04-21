@@ -9,6 +9,7 @@ import Link from 'next/link'
 import routes from '@lib/routes'
 import { gql } from '@apollo/client'
 import { CatalogIndexPageSiteFragment } from '@generated/CatalogIndexPageSiteFragment'
+import CatalogIndexPageFilterSummary from './CatalogIndexPageFilterSummary'
 
 export interface CatalogIndexPageProps {
   site?: CatalogIndexPageSiteFragment | null
@@ -45,11 +46,12 @@ const CatalogIndexPage = ({ site }: CatalogIndexPageProps) => {
       <Container>
         <Section gutter="md">
           <CatalogFiltersProvider site={site}>
-            <div className="col-span-1">
-              <h2 className="font-bold text-xl">Find the perfect product</h2>
-              <CatalogIndexPageFilters />
+            <h2 className="font-bold text-xl">Find the perfect product</h2>
+            <CatalogIndexPageFilters />
+            <div className="mt-8">
+              <CatalogIndexPageFilterSummary />
             </div>
-            <div className="mt-10 grid grid-cols-1 gap-10">
+            <div className="mt-4 grid grid-cols-1 gap-10">
               <div className="col-span-1">
                 <CatalogIndexPageProductGrid />
               </div>

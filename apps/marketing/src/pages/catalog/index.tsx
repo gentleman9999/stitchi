@@ -1,7 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
 import { PrimaryLayout } from '@components/layout'
 import { CatalogIndexPage } from '@components/pages'
-import { defaultProductFilters } from '@components/pages/CatalogIndexPage/CatalogIndexPageProductGrid'
 import { CatalogGetDataQuery } from '@generated/CatalogGetDataQuery'
 import { addApolloState, initializeApollo } from '@lib/apollo'
 import React, { ReactElement } from 'react'
