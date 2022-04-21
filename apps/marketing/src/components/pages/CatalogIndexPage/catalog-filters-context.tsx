@@ -8,7 +8,9 @@ import { notEmpty } from '@utils/typescript'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-type Brand = CatalogFiltersProviderSiteFragment_brands_edges_node
+type Brand = CatalogFiltersProviderSiteFragment_brands_edges_node & {
+  active: boolean
+}
 
 interface AvailableFilters {
   brands: Brand[]
@@ -23,7 +25,7 @@ interface State {
   availableFilters: AvailableFilters
   resetFilters: () => void
   // handleCategoryChange: (categoryId: string | null) => void
-  handleBrandChange: (brandId: string | null) => void
+  handleBrandChange: (brandPath: string | null) => void
 }
 
 const CatalogFiltersContext = React.createContext<State | undefined>(undefined)
@@ -37,11 +39,17 @@ const CatalogFiltersProvider = ({
   children,
   site,
 }: CatalogFiltersProviderProps) => {
+  const router = useRouter()
+  const { brandId } = router.query
+
   const [availableFilters, setAvailableFilters] =
     React.useState<AvailableFilters>(makeFilters(site))
 
-  const router = useRouter()
-  const { brandId } = router.query
+  const filters = {
+    brands: [
+      availableFilters.brands.find(({ path }) => path === brandId),
+    ].filter(notEmpty),
+  }
 
   React.useEffect(() => {
     setAvailableFilters(makeFilters(site))
@@ -74,18 +82,16 @@ const CatalogFiltersProvider = ({
     router.push({ query: params }, undefined, { scroll: false })
   }
 
-  const filters: ActiveFilters = {
-    // Only 1 brand for now
-    brands: [
-      availableFilters.brands.find(({ path }) => path === brandId),
-    ].filter(notEmpty),
-  }
-
   return (
     <CatalogFiltersContext.Provider
       value={{
         filters,
-        availableFilters: { ...availableFilters },
+        availableFilters: {
+          brands: availableFilters.brands.map(brand => ({
+            ...brand,
+            active: !filters.brands?.findIndex(b => b.id === brand.id),
+          })),
+        },
         resetFilters,
         // handleCategoryChange,
         handleBrandChange,
@@ -114,7 +120,11 @@ const makeFilters = (
       site?.brands.edges
         ?.map(edge => edge?.node)
         .filter(n => Boolean(n?.products.edges?.length))
-        .filter(notEmpty) || [],
+        .filter(notEmpty)
+        .map(brand => ({
+          ...brand,
+          active: true,
+        })) || [],
   }
 }
 

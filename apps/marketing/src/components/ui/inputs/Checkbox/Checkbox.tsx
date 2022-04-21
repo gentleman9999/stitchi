@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 
 export interface CheckboxProps {
   name: string
@@ -9,9 +10,11 @@ export interface CheckboxProps {
   checked?: boolean
   onSecondaryAction?: () => void
   showSecondaryAction?: boolean
+  size?: 1 | 2
 }
 
 const Checkbox = (props: CheckboxProps) => {
+  const { size = 1 } = props
   const [showSecondaryAction, setShowSecondaryAction] = React.useState(false)
 
   return (
@@ -28,7 +31,11 @@ const Checkbox = (props: CheckboxProps) => {
           value={props.value}
           checked={props.checked}
           onChange={e => props.onChange(e.target.checked)}
-          className="focus:ring-primary h-4 w-4 text-brand-primary border-gray-300 rounded"
+          className={cx(
+            'focus:ring-primary text-brand-primary border-gray-300 rounded',
+            { 'h-4 w-4': size === 1 },
+            { 'h-6 w-6': size === 2 },
+          )}
         />
       </div>
       {(props.label || props.description) && (

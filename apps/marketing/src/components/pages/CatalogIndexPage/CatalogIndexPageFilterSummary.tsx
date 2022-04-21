@@ -14,7 +14,7 @@ const CatalogIndexPageFilterSummary = ({}: Props) => {
   }
 
   return (
-    <div className="flex space-x-4 items-center">
+    <div className="sm:flex sm:space-x-4 items-center">
       <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500">
         Filters
         <span className="sr-only">, active</span>
@@ -23,14 +23,16 @@ const CatalogIndexPageFilterSummary = ({}: Props) => {
         aria-hidden="true"
         className="hidden w-px h-5 bg-gray-300 sm:block sm:ml-4"
       />
-      {brands?.map(brand => (
-        <Badge
-          key={brand.id}
-          label={brand.name}
-          value={brand.entityId}
-          onClose={() => handleBrandChange(null)}
-        />
-      ))}
+      <div className="mt-2 sm:mt-0">
+        {brands?.map(brand => (
+          <Badge
+            key={brand.id}
+            label={brand.name}
+            value={brand.entityId}
+            onClose={() => handleBrandChange(null)}
+          />
+        ))}
+      </div>
     </div>
   )
 }

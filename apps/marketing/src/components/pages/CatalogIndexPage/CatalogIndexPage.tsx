@@ -48,9 +48,7 @@ const CatalogIndexPage = ({ site }: CatalogIndexPageProps) => {
           <CatalogFiltersProvider site={site}>
             <h2 className="font-bold text-xl">Find the perfect product</h2>
             <CatalogIndexPageFilters />
-            <div className="mt-8">
-              <CatalogIndexPageFilterSummary />
-            </div>
+
             <div className="mt-4 grid grid-cols-1 gap-10">
               <div className="col-span-1">
                 <CatalogIndexPageProductGrid />

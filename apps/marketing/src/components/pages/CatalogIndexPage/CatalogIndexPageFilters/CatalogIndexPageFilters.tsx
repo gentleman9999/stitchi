@@ -1,93 +1,82 @@
+import { Popover, Transition } from '@headlessui/react'
+import { Adjustments, XIcon } from 'icons'
 import React from 'react'
-import { Checkbox, CheckboxGroup, TextField } from '@components/ui'
-import useCheckboxGroup from '../useCheckboxGroup'
-import NewCheckboxGroup from '../CheckboxGroup'
-import Dropdown from '../Dropdown'
-import { useCatalogFilters } from '../catalog-filters-context'
-
-const defaultType = {
-  label: 'All types',
-  value: null,
-}
-
-const defaultBrand = {
-  label: 'All brands',
-  value: null,
-}
+import CatalogIndexPageFilterSummary from '../CatalogIndexPageFilterSummary'
+import Desktop from './Desktop'
+import Mobile from './Mobile'
 
 interface Props {}
 
-const CatalogIndexPageFilters = (props: Props) => {
-  const { availableFilters, handleBrandChange, filters } = useCatalogFilters()
-
-  const { brands } = filters
-
+const CatalogIndexPageFilters = ({}: Props) => {
   return (
-    <FilterGroup>
-      {/* <Filter>
-        <FilterTitle>Product Type</FilterTitle>
-        <FilterItems>
-          <Dropdown
-            fullWidth
-            placeholder="Select type"
-            value={
-              category
-                ? { value: category.id, label: category.name }
-                : defaultType
-            }
-            options={[
-              defaultType,
-              ...availableFilters.categories.map(c => ({
-                label: c.name,
-                value: c.id,
-              })),
-            ]}
-            onChange={c => handleCategoryChange(c.value)}
-          />
-        </FilterItems>
-      </Filter> */}
-      <Filter>
-        <FilterTitle>Brand</FilterTitle>
-        <FilterItems>
-          <Dropdown
-            fullWidth
-            placeholder="Select type"
-            value={
-              brands?.length
-                ? { value: brands[0].id, label: brands[0].name }
-                : defaultBrand
-            }
-            options={[
-              defaultBrand,
-              ...availableFilters.brands.map(b => ({
-                label: b.name,
-                value: b.id,
-              })),
-            ]}
-            onChange={c => handleBrandChange(c.value)}
-          />
-        </FilterItems>
-      </Filter>
-    </FilterGroup>
+    <>
+      <nav>
+        <div className="hidden sm:block">
+          <Desktop />
+          <div className="mt-8 ">
+            <CatalogIndexPageFilterSummary />
+          </div>
+        </div>
+
+        <Popover>
+          {({ open }) => (
+            <div className="sm:hidden">
+              <div className="flex items-center mt-8">
+                <CatalogIndexPageFilterSummary />
+
+                <Popover.Button className="ml-auto flex items-center">
+                  {/* Mobile menu button*/}
+                  <div className="ml-auto inline-flex items-center justify-center p-2 rounded-md text-gray-400">
+                    <span className="sr-only">Open main menu</span>
+                    <div className="p-1 rounded-full ring-1 ring-gray-900">
+                      <Adjustments
+                        className="block h-6 w-6 rotate-90 stroke-gray-900"
+                        aria-hidden="true"
+                      />
+                    </div>
+                  </div>
+                </Popover.Button>
+              </div>
+
+              <Transition show={open}>
+                <div className="sm:hidden fixed inset-0 z-50 overflow-y-auto">
+                  <div className="min-h-screen">
+                    <Transition.Child
+                      enter="transition duration-500 ease-in-out"
+                      enterFrom="opacity-0"
+                      enterTo="opacity-100"
+                      leave="transition duration-200 ease-out"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <Popover.Overlay className="fixed inset-0 bg-black opacity-40" />
+                    </Transition.Child>
+                  </div>
+
+                  <Transition.Child
+                    enter="transition duration-3000 ease-in-out"
+                    enterFrom="transform translate-y-[500px]"
+                    enterTo="transform translate-y-0"
+                    leave="transition duration-2000 ease-in-out"
+                    leaveFrom="transform translate-y-0"
+                    leaveTo="transform translate-y-[500px]"
+                  >
+                    <Popover.Panel className="bg-white rounded-t-2xl p-8 absolute bottom-0 left-0 right-0 z-10">
+                      <Popover.Button className="block ml-auto">
+                        <XIcon className="block h-6 w-6" aria-hidden="true" />
+                      </Popover.Button>
+
+                      <Mobile />
+                    </Popover.Panel>
+                  </Transition.Child>
+                </div>
+              </Transition>
+            </div>
+          )}
+        </Popover>
+      </nav>
+    </>
   )
-}
-
-const FilterGroup: React.FC = props => {
-  return <div className="flex space-x-10">{props.children}</div>
-}
-
-const Filter: React.FC = props => {
-  return <div className="mt-8">{props.children}</div>
-}
-
-const FilterTitle: React.FC = props => {
-  return (
-    <h3 className="text-sm font-medium tracking-tight">{props.children}</h3>
-  )
-}
-
-const FilterItems: React.FC = props => {
-  return <div className="mt-2 min-w-[200px]">{props.children}</div>
 }
 
 export default CatalogIndexPageFilters
