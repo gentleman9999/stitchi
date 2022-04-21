@@ -9,6 +9,7 @@ import {
 } from '@generated/CatalogIndexPageGetDataQuery'
 import CatalogIndexPageProductSkeleton from './CatalogIndexPageProductSkeleton'
 import CatalogIndexPageProuductZeroState from './CatalogIndexPageProductZeroState'
+import { InfiniteScrollContainer } from '@components/common'
 
 export interface Props {}
 
@@ -45,20 +46,7 @@ const CatalogIndexPageProductGrid = ({}: Props) => {
 
   const { pageInfo } = data?.site.search.searchProducts?.products || {}
 
-  if (
-    networkStatus !== NetworkStatus.ready &&
-    networkStatus !== NetworkStatus.fetchMore
-  ) {
-    return (
-      <Grid>
-        {Array.from(new Array(6)).map((_, i) => (
-          <CatalogIndexPageProductSkeleton key={i} />
-        ))}
-      </Grid>
-    )
-  }
-
-  if (products.length === 0) {
+  if (products.length === 0 && networkStatus === NetworkStatus.ready) {
     return <CatalogIndexPageProuductZeroState />
   }
 
@@ -73,16 +61,22 @@ const CatalogIndexPageProductGrid = ({}: Props) => {
   }
 
   return (
-    <Grid>
-      {products.map(product => (
-        <li key={product.id}>
-          <CatalogIndexPageProduct product={product} />
-        </li>
-      ))}
-      {pageInfo?.hasNextPage && (
-        <button onClick={handleFetchMore}>Load more</button>
+    <InfiniteScrollContainer onLoadMore={handleFetchMore}>
+      <Grid>
+        {products.map(product => (
+          <li key={product.id}>
+            <CatalogIndexPageProduct product={product} />
+          </li>
+        ))}
+      </Grid>
+      {networkStatus !== NetworkStatus.ready && (
+        <Grid>
+          {Array.from(new Array(6)).map((_, i) => (
+            <CatalogIndexPageProductSkeleton key={i} />
+          ))}
+        </Grid>
       )}
-    </Grid>
+    </InfiniteScrollContainer>
   )
 }
 

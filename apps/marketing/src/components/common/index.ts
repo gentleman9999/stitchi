@@ -41,3 +41,6 @@ export * from './SubscribeInline'
 
 export { default as InlineMailingListSubscribe } from './InlineMailingListSubscribe'
 export * from './InlineMailingListSubscribe'
+
+export { default as InfiniteScrollContainer } from './InfiniteScrollContainer'
+export * from './InfiniteScrollContainer'
