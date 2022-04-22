@@ -13,10 +13,18 @@ export interface ProductColorOptionsProductFragment_productOptions_edges_node_Ch
 
 export interface ProductColorOptionsProductFragment_productOptions_edges_node_MultipleChoiceOption_values_edges_node_MultipleChoiceOptionValue {
   __typename: "MultipleChoiceOptionValue" | "ProductPickListOptionValue";
+  /**
+   * Unique ID for the option value.
+   */
+  entityId: number;
 }
 
 export interface ProductColorOptionsProductFragment_productOptions_edges_node_MultipleChoiceOption_values_edges_node_SwatchOptionValue {
   __typename: "SwatchOptionValue";
+  /**
+   * Unique ID for the option value.
+   */
+  entityId: number;
   /**
    * Label for the option value.
    */

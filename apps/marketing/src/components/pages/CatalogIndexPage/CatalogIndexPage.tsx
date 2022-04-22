@@ -9,7 +9,6 @@ import Link from 'next/link'
 import routes from '@lib/routes'
 import { gql } from '@apollo/client'
 import { CatalogIndexPageSiteFragment } from '@generated/CatalogIndexPageSiteFragment'
-import CatalogIndexPageFilterSummary from './CatalogIndexPageFilterSummary'
 
 export interface CatalogIndexPageProps {
   site?: CatalogIndexPageSiteFragment | null
@@ -20,9 +19,9 @@ const CatalogIndexPage = ({ site }: CatalogIndexPageProps) => {
     <>
       <Container>
         <Section gutter="sm">
-          <div className="p-14 md:pr-0 bg-primaryAlt-100 rounded-xl flex items-center">
+          <div className="p-8 md:p-14 md:pr-0 text-center sm:text-left bg-primaryAlt-100 rounded-xl flex items-center">
             <div className="md:w-[70%]">
-              <h1 className="text-4xl font-bold tracking-tight">
+              <h1 className="text-2xl md:text-3xl lg:text-4xl  font-bold tracking-tight">
                 Browse through our curated selection of products
               </h1>
               <p className="mt-6 text-lg text-gray-700">

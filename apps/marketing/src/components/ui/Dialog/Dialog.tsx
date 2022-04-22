@@ -8,6 +8,8 @@ import DialogContentText from './DialogContentText'
 import DialogActions from './DialogActions'
 
 export interface DialogProps {
+  open: boolean
+  onClose: () => void
   children: ReturnType<
     | typeof DialogTitle
     | typeof DialogIcon
@@ -15,11 +17,11 @@ export interface DialogProps {
     | typeof DialogActions
   >[]
   size?: 'sm' | 'md' | 'lg'
+  className?: string
 }
 
 const Dialog = (props: DialogProps) => {
   const { size = 'md' } = props
-  const [open, setOpen] = React.useState(true)
 
   let Title: typeof DialogTitle | null = null
   let Icon: typeof DialogIcon | null = null
@@ -58,13 +60,13 @@ const Dialog = (props: DialogProps) => {
   })
 
   return (
-    <Transition.Root show={open} as={Fragment}>
+    <Transition.Root show={props.open} as={Fragment}>
       <HuiDialog
         as="div"
         className="fixed z-40 inset-0 overflow-y-auto"
-        onClose={setOpen}
+        onClose={props.onClose}
       >
-        <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 sm:p-0">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -95,17 +97,18 @@ const Dialog = (props: DialogProps) => {
           >
             <div
               className={cx(
-                'inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full sm:p-6',
+                'inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full sm:p-6',
                 {
                   'sm:max-w-sm': size === 'sm',
                   'sm:max-w-lg': size === 'md',
                   'sm:max-w-2xl': size === 'lg',
                 },
+                props.className,
               )}
             >
               <div>
                 {Icon}
-                <div className="mt-3 text-center sm:mt-5">
+                <div className={cx({ 'mt-3 sm:mt-5': Boolean(Icon) })}>
                   {Title}
                   <div className="mt-2">{Content}</div>
                 </div>

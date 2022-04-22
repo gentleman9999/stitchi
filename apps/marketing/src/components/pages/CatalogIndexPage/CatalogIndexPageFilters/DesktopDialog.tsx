@@ -8,7 +8,8 @@ interface Props {
 }
 
 const DesktopDialog = ({ open, onClose }: Props) => {
-  const { availableFilters, handleBrandChange } = useCatalogFilters()
+  const { availableFilters, handleToggleBrand, resetFilters } =
+    useCatalogFilters()
   return (
     <Dialog open={open} onClose={onClose} size="lg">
       <Dialog.Title className="text-center">Filters</Dialog.Title>
@@ -28,7 +29,7 @@ const DesktopDialog = ({ open, onClose }: Props) => {
                       name={`person-${brand.name}`}
                       value={brand.path}
                       checked={brand.active}
-                      onChange={() => handleBrandChange(brand.id)}
+                      onChange={() => handleToggleBrand(brand.path)}
                       size={2}
                     />
                   </div>
@@ -45,8 +46,10 @@ const DesktopDialog = ({ open, onClose }: Props) => {
         </Dialog.ContentText>
       </Dialog.Content>
       <Dialog.Actions className="justify-between flex !mt-14">
-        <Button variant="ghost">Clear all</Button>
-        <Button>Show products</Button>
+        <Button variant="ghost" onClick={resetFilters}>
+          Clear all
+        </Button>
+        <Button onClick={onClose}>Show products</Button>
       </Dialog.Actions>
     </Dialog>
   )

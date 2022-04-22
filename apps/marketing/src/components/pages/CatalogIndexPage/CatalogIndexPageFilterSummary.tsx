@@ -5,7 +5,7 @@ import { useCatalogFilters } from './catalog-filters-context'
 interface Props {}
 
 const CatalogIndexPageFilterSummary = ({}: Props) => {
-  const { filters, handleBrandChange } = useCatalogFilters()
+  const { filters, handleToggleBrand } = useCatalogFilters()
 
   const { brands } = filters
 
@@ -29,7 +29,7 @@ const CatalogIndexPageFilterSummary = ({}: Props) => {
             key={brand.id}
             label={brand.name}
             value={brand.entityId}
-            onClose={() => handleBrandChange(null)}
+            onClose={() => handleToggleBrand(brand.path)}
           />
         ))}
       </div>
