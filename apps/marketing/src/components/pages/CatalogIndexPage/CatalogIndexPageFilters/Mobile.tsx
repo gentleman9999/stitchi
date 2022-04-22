@@ -27,7 +27,7 @@ const Mobile = (props: Props) => {
                 htmlFor={`person-${brand.name}`}
                 className="font-medium text-gray-500 select-none"
               >
-                {brand.name} {`${brand.active}`}
+                {brand.name}
               </label>
             </div>
             <div className="ml-3 flex items-center h-5">
