@@ -2,19 +2,27 @@ import { gql } from '@apollo/client'
 import {
   CatalogFiltersProviderSiteFragment,
   CatalogFiltersProviderSiteFragment_brands_edges_node,
+  CatalogFiltersProviderSiteFragment_categoryTree,
 } from '@generated/CatalogFiltersProviderSiteFragment'
-import { notEmpty } from '@utils/typescript'
 import React from 'react'
 import useBrandFilters from './useBrandFilters'
+import useCategoryFilters from './useCategoryFilters'
 
 type Brand = CatalogFiltersProviderSiteFragment_brands_edges_node
+type Category = CatalogFiltersProviderSiteFragment_categoryTree
+
+type AddedFilterProperties = {
+  active: boolean
+}
 
 interface AvailableFilters {
-  brands: (Brand & { active: boolean })[]
+  brands: (Brand & AddedFilterProperties)[]
+  categories: (Category & AddedFilterProperties)[]
 }
 
 interface ActiveFilters {
-  brands?: Brand[]
+  brands: Brand[]
+  categories: Category[]
 }
 
 interface State {
@@ -22,6 +30,7 @@ interface State {
   availableFilters: AvailableFilters
   resetFilters: () => void
   handleToggleBrand: (brandId: string) => void
+  handleToggleCategory: (categoryId: string) => void
 }
 
 const CatalogFiltersContext = React.createContext<State | undefined>(undefined)
@@ -36,24 +45,31 @@ const CatalogFiltersProvider = ({
   site,
 }: CatalogFiltersProviderProps) => {
   const { activeBrands, availableBrands, clearBrands, toggleBrand } =
-    useBrandFilters({
-      brands: site?.brands.edges?.map(e => e?.node).filter(notEmpty) || [],
-    })
+    useBrandFilters({ site })
+  const {
+    activeCategories,
+    availableCategories,
+    clearCategories,
+    toggleCategory,
+  } = useCategoryFilters({ site })
 
   const makeFilters = (): AvailableFilters => {
     return {
       brands: availableBrands,
+      categories: availableCategories,
     }
   }
 
   const availableFilters = makeFilters()
 
-  const filters = {
+  const filters: ActiveFilters = {
     brands: activeBrands,
+    categories: activeCategories,
   }
 
   const resetFilters = () => {
     clearBrands()
+    clearCategories()
   }
 
   return (
@@ -63,6 +79,7 @@ const CatalogFiltersProvider = ({
         availableFilters,
         resetFilters,
         handleToggleBrand: toggleBrand,
+        handleToggleCategory: toggleCategory,
       }}
     >
       {children}
@@ -83,8 +100,10 @@ const useCatalogFilters = () => {
 CatalogFiltersProvider.fragments = {
   site: gql`
     ${useBrandFilters.fragments.site}
+    ${useCategoryFilters.fragments.site}
     fragment CatalogFiltersProviderSiteFragment on Site {
       ...UseBrandFiltersSiteFragment
+      ...UseCategoryFiltersSiteFragment
     }
   `,
 }

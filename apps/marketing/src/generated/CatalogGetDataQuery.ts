@@ -56,12 +56,25 @@ export interface CatalogGetDataQuery_site_brands {
   edges: (CatalogGetDataQuery_site_brands_edges | null)[] | null;
 }
 
+export interface CatalogGetDataQuery_site_categoryTree {
+  __typename: "CategoryTreeItem";
+  /**
+   * The id category.
+   */
+  entityId: number;
+  /**
+   * The name of category.
+   */
+  name: string;
+}
+
 export interface CatalogGetDataQuery_site {
   __typename: "Site";
   /**
    * Details of the brand.
    */
   brands: CatalogGetDataQuery_site_brands;
+  categoryTree: CatalogGetDataQuery_site_categoryTree[];
 }
 
 export interface CatalogGetDataQuery {

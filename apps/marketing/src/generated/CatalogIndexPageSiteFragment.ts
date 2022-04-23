@@ -56,10 +56,23 @@ export interface CatalogIndexPageSiteFragment_brands {
   edges: (CatalogIndexPageSiteFragment_brands_edges | null)[] | null;
 }
 
+export interface CatalogIndexPageSiteFragment_categoryTree {
+  __typename: "CategoryTreeItem";
+  /**
+   * The id category.
+   */
+  entityId: number;
+  /**
+   * The name of category.
+   */
+  name: string;
+}
+
 export interface CatalogIndexPageSiteFragment {
   __typename: "Site";
   /**
    * Details of the brand.
    */
   brands: CatalogIndexPageSiteFragment_brands;
+  categoryTree: CatalogIndexPageSiteFragment_categoryTree[];
 }

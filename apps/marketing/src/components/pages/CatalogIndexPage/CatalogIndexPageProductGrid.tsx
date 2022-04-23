@@ -10,17 +10,24 @@ import {
 import CatalogIndexPageProductSkeleton from './CatalogIndexPageProductSkeleton'
 import CatalogIndexPageProuductZeroState from './CatalogIndexPageProductZeroState'
 import { InfiniteScrollContainer } from '@components/common'
+import { SearchProductsFiltersInput } from '@generated/globalTypes'
 
 export interface Props {}
 
 const CatalogIndexPageProductGrid = ({}: Props) => {
   const { filters } = useCatalogFilters()
 
-  const formattedFilters = React.useMemo(
+  const formattedFilters: SearchProductsFiltersInput = React.useMemo(
     () => ({
-      brandEntityIds: filters.brands?.map(({ entityId }) => entityId),
+      brandEntityIds: filters.brands.length
+        ? filters.brands.map(({ entityId }) => entityId)
+        : undefined,
+      categoryEntityIds: filters.categories.length
+        ? filters.categories.map(({ entityId }) => entityId)
+        : null,
+      searchSubCategories: true,
     }),
-    [filters.brands],
+    [filters.brands, filters.categories],
   )
   const { data, refetch, networkStatus, fetchMore } = useQuery<
     CatalogIndexPageGetDataQuery,

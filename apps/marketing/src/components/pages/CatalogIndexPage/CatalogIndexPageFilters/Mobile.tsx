@@ -8,7 +8,8 @@ import { Adjustments, XIcon } from 'icons'
 interface Props {}
 
 const Mobile = (props: Props) => {
-  const { availableFilters, handleToggleBrand } = useCatalogFilters()
+  const { availableFilters, handleToggleBrand, handleToggleCategory } =
+    useCatalogFilters()
 
   return (
     <Popover>
@@ -54,41 +55,39 @@ const Mobile = (props: Props) => {
                 leaveFrom="transform translate-y-0"
                 leaveTo="transform translate-y-[500px]"
               >
-                <Popover.Panel className="bg-white rounded-t-2xl p-8 absolute bottom-0 left-0 right-0 z-10">
+                <Popover.Panel className="bg-white rounded-t-2xl p-8 absolute bottom-0 left-0 right-0 z-10 max-h-[80%] overflow-x-scroll">
                   <Popover.Button className="block ml-auto">
                     <XIcon className="block h-6 w-6" aria-hidden="true" />
                   </Popover.Button>
 
                   <fieldset className="space-y-1">
-                    <legend className="text-xl font-bold">Brands</legend>
-                    {availableFilters.brands.map(brand => (
-                      <Popover.Button
-                        className="w-full"
-                        key={brand.name}
-                        onClick={() => handleToggleBrand(brand.path)}
-                        aria-current={brand.active ? 'page' : undefined}
-                      >
-                        <div className="relative flex items-start justify-between py-2">
-                          <div className="min-w-0 text-sm">
-                            <label
-                              htmlFor={`person-${brand.name}`}
-                              className="font-medium text-gray-500 select-none"
-                            >
-                              {brand.name}
-                            </label>
-                          </div>
-                          <div className="ml-3 flex items-center h-5">
-                            <Checkbox
-                              name={`person-${brand.name}`}
-                              value={brand.path}
-                              checked={brand.active}
-                              onChange={() => handleToggleBrand(brand.path)}
-                              size={2}
-                            />
-                          </div>
-                        </div>
-                      </Popover.Button>
-                    ))}
+                    <FilterSection title="Brands">
+                      {availableFilters.brands.map(brand => (
+                        <CheckboxFilter
+                          key={brand.id}
+                          label={brand.name}
+                          value={brand.path}
+                          active={brand.active}
+                          sectionName="Brands"
+                          onChange={() => handleToggleBrand(brand.path)}
+                        />
+                      ))}
+                    </FilterSection>
+                    <FilterSectionSpacer />
+                    <FilterSection title="Categories">
+                      {availableFilters.categories.map(category => (
+                        <CheckboxFilter
+                          key={category.entityId}
+                          label={category.name}
+                          value={category.entityId}
+                          active={category.active}
+                          sectionName="Categories"
+                          onChange={() =>
+                            handleToggleCategory(category.entityId.toString())
+                          }
+                        />
+                      ))}
+                    </FilterSection>
                   </fieldset>
                 </Popover.Panel>
               </Transition.Child>
@@ -97,6 +96,75 @@ const Mobile = (props: Props) => {
         </>
       )}
     </Popover>
+  )
+}
+
+const FilterSection = ({
+  children,
+  title,
+  subtitle,
+}: {
+  children: React.ReactNode
+  title: string
+  subtitle?: string
+}) => {
+  return (
+    <div>
+      <legend className="text-xl font-bold">{title}</legend>
+      <span>{subtitle}</span>
+      <div className="mt-6">{children}</div>
+    </div>
+  )
+}
+
+const FilterSectionSpacer = () => {
+  return (
+    <div className="pt-10 pb-8">
+      <div className="border-b" />
+    </div>
+  )
+}
+
+const CheckboxFilter = ({
+  onChange,
+  label,
+  value,
+  sectionName,
+  active,
+}: {
+  onChange: () => void
+  label: string
+  value: string | number
+  sectionName: string
+  active: boolean
+}) => {
+  const name = `${sectionName}-${value}`
+  return (
+    <Popover.Button
+      className="w-full"
+      onClick={onChange}
+      aria-current={active ? 'page' : undefined}
+    >
+      <div className="relative flex items-start justify-between py-2">
+        <div className="min-w-0 text-sm">
+          <label
+            htmlFor={name}
+            className="font-medium text-gray-500 select-none"
+          >
+            {label}
+          </label>
+        </div>
+        <div className="ml-3 flex items-center h-5">
+          <Checkbox
+            name={name}
+            value={value}
+            checked={active}
+            onChange={onChange}
+            size={2}
+          />
+        </div>
+      </div>
+    </Popover.Button>
   )
 }
 

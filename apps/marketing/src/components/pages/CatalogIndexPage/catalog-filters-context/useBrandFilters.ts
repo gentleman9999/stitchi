@@ -1,75 +1,45 @@
 import { gql } from '@apollo/client'
-import { UseBrandFiltersSiteFragment_brands_edges_node } from '@generated/UseBrandFiltersSiteFragment'
-import { useRouter } from 'next/router'
+import { UseBrandFiltersSiteFragment } from '@generated/UseBrandFiltersSiteFragment'
+import { notEmpty } from '@utils/typescript'
+import useQueryParamArray from './useQueryParamArray'
+
+type Site = UseBrandFiltersSiteFragment | null | undefined
 
 interface Props {
-  brands: UseBrandFiltersSiteFragment_brands_edges_node[]
+  site?: Site
 }
 
-const useBrandFilters = ({ brands }: Props) => {
-  const { query, push } = useRouter()
-  const { brandIds } = query
+const useBrandFilters = ({ site }: Props) => {
+  const brands = makeBrands(site)
+  const {
+    value: brandIds,
+    handleClear: handleClearBrandIds,
+    handleToggle: handleToggleBrandId,
+  } = useQueryParamArray({ param: 'brandIds' })
 
-  const parsedBrandIds = stringToArray(brandIds?.toString())
-
-  const toggleBrand = (brandSlug: string) => {
-    if (parsedBrandIds.includes(brandSlug)) {
-      push({
-        query: {
-          brandIds: arrayToString(
-            parsedBrandIds.filter(id => id !== brandSlug),
-          ),
-        },
-      })
-    } else {
-      push({
-        query: {
-          brandIds: arrayToString([...parsedBrandIds, brandSlug]),
-        },
-      })
-    }
-  }
-
-  const clearBrands = () => {
-    const { brandIds, ...params } = query
-
-    push({
-      query: params,
-    })
-  }
-
-  const activeBrands = brands.filter(b => parsedBrandIds.includes(b.path))
+  const activeBrands = brands.filter(b => brandIds.includes(b.path))
 
   const availableBrands = brands.map(brand => ({
     ...brand,
-    active: parsedBrandIds.includes(brand.path),
+    active: brandIds.includes(brand.path),
   }))
 
   return {
     activeBrands,
     availableBrands,
-    toggleBrand,
-    clearBrands,
+    toggleBrand: handleToggleBrandId,
+    clearBrands: handleClearBrandIds,
   }
 }
 
-const arrayToString = (array: string[]) => {
-  return array.join(',')
-}
-
-const stringToArray = (string?: string) => {
-  if (!string) return []
-  try {
-    return string.split(',')
-  } catch {
-    return []
-  }
+const makeBrands = (site: Site) => {
+  return site?.brands.edges?.map(edge => edge?.node).filter(notEmpty) || []
 }
 
 useBrandFilters.fragments = {
   site: gql`
     fragment UseBrandFiltersSiteFragment on Site {
-      brands {
+      brands(first: 50) {
         edges {
           node {
             id

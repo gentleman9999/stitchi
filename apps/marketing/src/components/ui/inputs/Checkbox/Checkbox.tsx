@@ -3,7 +3,7 @@ import cx from 'classnames'
 
 export interface CheckboxProps {
   name: string
-  value: string
+  value: string | number
   onChange: (checked: boolean) => void
   label?: string
   description?: string
@@ -26,13 +26,13 @@ const Checkbox = (props: CheckboxProps) => {
       <div className="flex items-center h-5">
         <input
           type="checkbox"
-          id={props.value}
+          id={props.value.toString()}
           name={props.name}
           value={props.value}
           checked={props.checked}
           onChange={e => props.onChange(e.target.checked)}
           className={cx(
-            'focus:ring-primary text-brand-primary border-gray-300 rounded',
+            'focus:ring-primary text-brand-primary border-gray-300 rounded cursor-pointer',
             { 'h-4 w-4': size === 1 },
             { 'h-6 w-6': size === 2 },
           )}
