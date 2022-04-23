@@ -32,6 +32,7 @@
     "lodash-es": "^4.17.21",
     "next": "latest",
     "next-seo": "^5.1.0",
+    "next-usequerystate": "^1.7.2",
     "react": "^17.0.2",
     "react-datocms": "^3.0.11",
     "react-dom": "^17.0.2",

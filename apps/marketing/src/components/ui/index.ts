@@ -29,3 +29,6 @@ export * from './IconButton'
 
 export { default as Skeleton } from './Skeleton'
 export * from './Skeleton'
+
+export { default as Transition } from './Transition'
+export * from './Transition'

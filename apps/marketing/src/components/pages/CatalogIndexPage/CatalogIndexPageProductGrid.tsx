@@ -15,19 +15,21 @@ import { SearchProductsFiltersInput } from '@generated/globalTypes'
 export interface Props {}
 
 const CatalogIndexPageProductGrid = ({}: Props) => {
-  const { filters } = useCatalogFilters()
+  const {
+    activeFilters: { brands, categories },
+  } = useCatalogFilters()
 
   const formattedFilters: SearchProductsFiltersInput = React.useMemo(
     () => ({
-      brandEntityIds: filters.brands.length
-        ? filters.brands.map(({ entityId }) => entityId)
+      brandEntityIds: brands.length
+        ? brands.map(({ entityId }) => entityId)
         : undefined,
-      categoryEntityIds: filters.categories.length
-        ? filters.categories.map(({ entityId }) => entityId)
+      categoryEntityIds: categories.length
+        ? categories.map(({ entityId }) => entityId)
         : null,
       searchSubCategories: true,
     }),
-    [filters.brands, filters.categories],
+    [brands, categories],
   )
   const { data, refetch, networkStatus, fetchMore } = useQuery<
     CatalogIndexPageGetDataQuery,

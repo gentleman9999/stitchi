@@ -5,8 +5,7 @@ import {
   CatalogFiltersProviderSiteFragment_categoryTree,
 } from '@generated/CatalogFiltersProviderSiteFragment'
 import React from 'react'
-import useBrandFilters from './useBrandFilters'
-import useCategoryFilters from './useCategoryFilters'
+import useFilters from './useFilters'
 
 type Brand = CatalogFiltersProviderSiteFragment_brands_edges_node
 type Category = CatalogFiltersProviderSiteFragment_categoryTree
@@ -26,11 +25,9 @@ interface ActiveFilters {
 }
 
 interface State {
-  filters: ActiveFilters
+  activeFilters: ActiveFilters
   availableFilters: AvailableFilters
-  resetFilters: () => void
-  handleToggleBrand: (brandId: string) => void
-  handleToggleCategory: (categoryId: string) => void
+  setFilters: ReturnType<typeof useFilters>['setFilters']
 }
 
 const CatalogFiltersContext = React.createContext<State | undefined>(undefined)
@@ -44,42 +41,14 @@ const CatalogFiltersProvider = ({
   children,
   site,
 }: CatalogFiltersProviderProps) => {
-  const { activeBrands, availableBrands, clearBrands, toggleBrand } =
-    useBrandFilters({ site })
-  const {
-    activeCategories,
-    availableCategories,
-    clearCategories,
-    toggleCategory,
-  } = useCategoryFilters({ site })
-
-  const makeFilters = (): AvailableFilters => {
-    return {
-      brands: availableBrands,
-      categories: availableCategories,
-    }
-  }
-
-  const availableFilters = makeFilters()
-
-  const filters: ActiveFilters = {
-    brands: activeBrands,
-    categories: activeCategories,
-  }
-
-  const resetFilters = () => {
-    clearBrands()
-    clearCategories()
-  }
+  const { availableFilters, activeFilters, setFilters } = useFilters({ site })
 
   return (
     <CatalogFiltersContext.Provider
       value={{
-        filters,
+        activeFilters,
         availableFilters,
-        resetFilters,
-        handleToggleBrand: toggleBrand,
-        handleToggleCategory: toggleCategory,
+        setFilters,
       }}
     >
       {children}
@@ -99,11 +68,9 @@ const useCatalogFilters = () => {
 
 CatalogFiltersProvider.fragments = {
   site: gql`
-    ${useBrandFilters.fragments.site}
-    ${useCategoryFilters.fragments.site}
+    ${useFilters.fragments.site}
     fragment CatalogFiltersProviderSiteFragment on Site {
-      ...UseBrandFiltersSiteFragment
-      ...UseCategoryFiltersSiteFragment
+      ...UseFiltersSiteFragment
     }
   `,
 }

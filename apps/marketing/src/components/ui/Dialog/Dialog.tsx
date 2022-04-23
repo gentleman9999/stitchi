@@ -1,11 +1,12 @@
 import React, { Fragment } from 'react'
 import cx from 'classnames'
-import { Dialog as HuiDialog, Transition } from '@headlessui/react'
+import { Dialog as HuiDialog } from '@headlessui/react'
 import DialogTitle from './DialogTitle'
 import DialogIcon from './DialogIcon'
 import DialogContent from './DialogContent'
 import DialogContentText from './DialogContentText'
 import DialogActions from './DialogActions'
+import Transition from '../Transition'
 
 export interface DialogProps {
   open: boolean
@@ -18,6 +19,7 @@ export interface DialogProps {
   >[]
   size?: 'sm' | 'md' | 'lg'
   className?: string
+  mobileFullScreen?: boolean
 }
 
 const Dialog = (props: DialogProps) => {
@@ -67,17 +69,9 @@ const Dialog = (props: DialogProps) => {
         onClose={props.onClose}
       >
         <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 sm:p-0">
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
+          <Transition.FadeOpacity>
             <HuiDialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-          </Transition.Child>
+          </Transition.FadeOpacity>
 
           {/* This element is to trick the browser into centering the modal contents. */}
           <span
@@ -86,22 +80,17 @@ const Dialog = (props: DialogProps) => {
           >
             &#8203;
           </span>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            enterTo="opacity-100 translate-y-0 sm:scale-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-            leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-          >
+          <Transition.ScaleUp>
             <div
               className={cx(
-                'inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full sm:p-6',
+                'align-bottom bg-white px-4 pt-5 pb-4 overflow-hidden shadow-xl transform transition-all sm:align-middle sm:w-full sm:p-6',
                 {
                   'sm:max-w-sm': size === 'sm',
                   'sm:max-w-lg': size === 'md',
                   'sm:max-w-2xl': size === 'lg',
+                  'inline-block my-8 mx-4 rounded-lg': !props.mobileFullScreen,
+                  'absolute bottom-0 left-0 right-0 sm:right-auto sm:left-auto sm:bottom-auto sm:inline-block rounded-t-lg sm:rounded-lg sm:my-8 max-h-[80%] sm:max-h-max':
+                    Boolean(props.mobileFullScreen),
                 },
                 props.className,
               )}
@@ -115,7 +104,7 @@ const Dialog = (props: DialogProps) => {
               </div>
               {Actions}
             </div>
-          </Transition.Child>
+          </Transition.ScaleUp>
         </div>
       </HuiDialog>
     </Transition.Root>
