@@ -7,6 +7,7 @@ import DialogContent from './DialogContent'
 import DialogContentText from './DialogContentText'
 import DialogActions from './DialogActions'
 import Transition from '../Transition'
+import useBreakpoints from '@hooks/useBreakpoints'
 
 export interface DialogProps {
   open: boolean
@@ -29,6 +30,8 @@ const Dialog = (props: DialogProps) => {
   let Icon: typeof DialogIcon | null = null
   let Content: typeof DialogContent | null = null
   let Actions: typeof DialogActions | null = null
+
+  const { currentBreakpoint } = useBreakpoints()
 
   React.Children.forEach(props.children, child => {
     switch (child.type) {
@@ -61,6 +64,9 @@ const Dialog = (props: DialogProps) => {
     }
   })
 
+  const DialogTransitionComponent =
+    currentBreakpoint === 'xs' ? Transition.SlideUp : Transition.ScaleUp
+
   return (
     <Transition.Root show={props.open} as={Fragment}>
       <HuiDialog
@@ -80,7 +86,7 @@ const Dialog = (props: DialogProps) => {
           >
             &#8203;
           </span>
-          <Transition.ScaleUp>
+          <DialogTransitionComponent>
             <div
               className={cx(
                 'align-bottom bg-white px-4 pt-5 pb-4 overflow-hidden shadow-xl transform transition-all sm:align-middle sm:w-full sm:p-6',
@@ -104,7 +110,7 @@ const Dialog = (props: DialogProps) => {
               </div>
               {Actions}
             </div>
-          </Transition.ScaleUp>
+          </DialogTransitionComponent>
         </div>
       </HuiDialog>
     </Transition.Root>
