@@ -8,6 +8,7 @@ import DialogContentText from './DialogContentText'
 import DialogActions from './DialogActions'
 import Transition from '../Transition'
 import useBreakpoints from '@hooks/useBreakpoints'
+import DialogSectionPadding from './DialogSectionPadding'
 
 export interface DialogProps {
   open: boolean
@@ -21,10 +22,11 @@ export interface DialogProps {
   size?: 'sm' | 'md' | 'lg'
   className?: string
   mobileFullScreen?: boolean
+  scroll?: 'paper'
 }
 
 const Dialog = (props: DialogProps) => {
-  const { size = 'md' } = props
+  const { size = 'md', scroll = 'paper' } = props
 
   let Title: typeof DialogTitle | null = null
   let Icon: typeof DialogIcon | null = null
@@ -89,26 +91,29 @@ const Dialog = (props: DialogProps) => {
           <DialogTransitionComponent>
             <div
               className={cx(
-                'align-bottom bg-white px-4 pt-5 pb-4 overflow-hidden shadow-xl transform transition-all sm:align-middle sm:w-full sm:p-6',
+                'align-bottom bg-white overflow-hidden shadow-xl transform transition-all sm:align-middle sm:w-full flex flex-col max-h-[97%]',
                 {
                   'sm:max-w-sm': size === 'sm',
                   'sm:max-w-lg': size === 'md',
                   'sm:max-w-2xl': size === 'lg',
-                  'inline-block my-8 mx-4 rounded-lg': !props.mobileFullScreen,
-                  'absolute bottom-0 left-0 right-0 sm:right-auto sm:left-auto sm:bottom-auto sm:inline-block rounded-t-lg sm:rounded-lg sm:my-8 max-h-[80%] sm:max-h-max':
+                  'flex my-8 mx-4 rounded-lg': !props.mobileFullScreen,
+                  'absolute bottom-0 left-0 right-0 sm:right-auto sm:left-auto sm:bottom-auto sm:flex rounded-t-lg sm:rounded-lg sm:my-8':
                     Boolean(props.mobileFullScreen),
                 },
                 props.className,
               )}
             >
-              <div>
-                {Icon}
-                <div className={cx({ 'mt-3 sm:mt-5': Boolean(Icon) })}>
-                  {Title}
-                  <div className="mt-2">{Content}</div>
+              {Icon}
+              {Icon && <div className="mt-3 sm:mt-5" />}
+
+              {Title && <DialogSectionPadding>{Title}</DialogSectionPadding>}
+              {Content}
+              {Actions && (
+                <div className="">
+                  <DialogSectionPadding>{Actions}</DialogSectionPadding>
                 </div>
-              </div>
-              {Actions}
+              )}
+              <DialogSectionPadding />
             </div>
           </DialogTransitionComponent>
         </div>

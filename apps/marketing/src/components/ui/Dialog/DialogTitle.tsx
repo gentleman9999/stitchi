@@ -5,12 +5,14 @@ import cx from 'classnames'
 export interface DialogTitleProps {
   children: React.ReactNode
   className?: string
+  as?: any
 }
 
 const DialogTitle = (props: DialogTitleProps) => {
+  const { as = 'h3' } = props
   return (
     <HuiDialog.Title
-      as="h3"
+      as={as}
       className={cx(
         'text-lg leading-6 font-medium text-gray-900',
         props.className,

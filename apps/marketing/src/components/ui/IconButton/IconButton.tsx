@@ -6,6 +6,7 @@ export interface IconButtonProps {
   variant?: 'primary' | 'ghost'
   onClick?: React.ButtonHTMLAttributes<HTMLButtonElement>['onClick']
   shift?: ('left' | 'right' | 'up' | 'down')[]
+  disableGutters?: boolean
 }
 
 const IconButton = (props: IconButtonProps) => {
@@ -27,6 +28,7 @@ const IconButton = (props: IconButtonProps) => {
         'translate-x-2': props.shift?.includes('right'),
         '-translate-y-2': props.shift?.includes('up'),
         'translate-y-2': props.shift?.includes('down'),
+        'p-0': props.disableGutters,
       })}
     >
       {props.children}

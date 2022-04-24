@@ -7,9 +7,7 @@ export interface DialogActionsProps {
 }
 
 const DialogActions = (props: DialogActionsProps) => {
-  return (
-    <div className={cx('mt-5 sm:mt-6', props.className)}>{props.children}</div>
-  )
+  return <div className={cx(props.className)}>{props.children}</div>
 }
 
 export default DialogActions

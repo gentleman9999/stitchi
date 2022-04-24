@@ -83,14 +83,14 @@ const FilterDialog = ({ open, onClose }: Props) => {
   return (
     <Dialog mobileFullScreen open={open} onClose={onClose} size="lg">
       <Dialog.Title className="grid grid-cols-3">
-        <IconButton onClick={onClose} variant="ghost" shift={['left', 'up']}>
-          <XIcon width={24} height={24} />
+        <IconButton onClick={onClose} variant="ghost" disableGutters>
+          <XIcon width={20} height={20} />
         </IconButton>
         <div className="text-center">Filters</div>
         <div />
       </Dialog.Title>
 
-      <Dialog.Content>
+      <Dialog.Content dividers>
         <Dialog.ContentText>
           <fieldset>
             <FilterSection
@@ -130,11 +130,15 @@ const FilterDialog = ({ open, onClose }: Props) => {
           </fieldset>
         </Dialog.ContentText>
       </Dialog.Content>
-      <Dialog.Actions className="justify-between flex !mt-14">
-        <Button variant="ghost" onClick={handleReset}>
+      <Dialog.Actions className="justify-between flex">
+        <Button
+          variant="naked"
+          onClick={handleReset}
+          className="whitespace-nowrap"
+        >
           Clear all
         </Button>
-        <Button onClick={handleSubmit}>
+        <Button onClick={handleSubmit} className="whitespace-nowrap">
           Show {count}
           {hasMore ? '+' : ''} products
         </Button>
@@ -212,7 +216,11 @@ const CheckboxFilter = ({
 }
 
 const CheckboxGroup = ({ children }: { children: React.ReactNode }) => {
-  return <div className="grid grid-cols-2 gap-7">{children}</div>
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-7">
+      {children}
+    </div>
+  )
 }
 
 export default FilterDialog
