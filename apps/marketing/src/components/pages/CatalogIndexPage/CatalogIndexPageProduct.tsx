@@ -1,4 +1,3 @@
-import { Star } from 'icons'
 import Image from 'next/image'
 import React from 'react'
 import { gql } from '@apollo/client'
@@ -29,24 +28,6 @@ const CatalogIndexPageProduct = ({ product }: Props) => {
       <div className="mt-4 flex items-center">
         <ProductColorOptions product={product} />
       </div>
-
-      {/* {Object.keys(product.ratings || {}).map(key => (
-        <div key={key} className="flex items-center mt-2 justify-between">
-          <data className="text-sm">{key}</data>
-          <div className="flex gap-1">
-            {Array.from(new Array(3), (_, i) => (
-              <Star
-                fill="none"
-                className={cx('stroke-primary', {
-                  'fill-primary':
-                    product.ratings &&
-                    product.ratings[key as keyof typeof product['ratings']] > i,
-                })}
-              />
-            ))}
-          </div>
-        </div>
-      ))} */}
     </div>
   )
 }

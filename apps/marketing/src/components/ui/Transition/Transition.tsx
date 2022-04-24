@@ -5,6 +5,7 @@ interface CustomTransitionProps {
   children: React.ReactNode
   durationIn?: number
   durationOut?: number
+  as?: any
 }
 
 const ScaleUp = ({

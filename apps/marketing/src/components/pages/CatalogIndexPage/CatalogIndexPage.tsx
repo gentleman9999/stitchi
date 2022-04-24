@@ -15,6 +15,8 @@ export interface CatalogIndexPageProps {
 }
 
 const CatalogIndexPage = ({ site }: CatalogIndexPageProps) => {
+  const gridEndRef = React.useRef<HTMLDivElement>(null)
+
   return (
     <>
       <Container>
@@ -45,8 +47,7 @@ const CatalogIndexPage = ({ site }: CatalogIndexPageProps) => {
       <Container>
         <Section gutter="md">
           <CatalogFiltersProvider site={site}>
-            <h2 className="font-bold text-xl">Find the perfect product</h2>
-            <CatalogIndexPageFilters />
+            <CatalogIndexPageFilters catalogEndRef={gridEndRef} />
 
             <div className="mt-4 grid grid-cols-1 gap-10">
               <div className="col-span-1">
@@ -55,6 +56,7 @@ const CatalogIndexPage = ({ site }: CatalogIndexPageProps) => {
             </div>
           </CatalogFiltersProvider>
         </Section>
+        <div ref={gridEndRef} />
       </Container>
     </>
   )

@@ -42,10 +42,13 @@ const FilterDialog = ({ open, onClose }: Props) => {
       .filter(({ active }) => active)
       .map(category => category.entityId.toString())
 
-    setFilters({
-      brands: brands.length ? brands : null,
-      categories: categories.length ? categories : null,
-    })
+    setFilters(
+      {
+        brands: brands.length ? brands : null,
+        categories: categories.length ? categories : null,
+      },
+      { scroll: false },
+    )
 
     onClose()
   }
