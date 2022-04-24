@@ -1,5 +1,4 @@
 import React from 'react'
-import { useCatalogFilters } from '../catalog-filters-context'
 import FilterDialog from './FilterDialog'
 import FilterDialogButton from './FilterDialogButton'
 import useIntersectionObserver from '@hooks/useIntersectionObserver'
@@ -10,21 +9,16 @@ interface Props {
 }
 
 const CatalogIndexPageFilters = ({ catalogEndRef }: Props) => {
-  const { activeFilters } = useCatalogFilters()
   const staticFilterRef = React.useRef<HTMLDivElement>(null)
   const staticFilter = useIntersectionObserver(staticFilterRef, {})
   const catalogEnd = useIntersectionObserver(catalogEndRef, {})
   const [dialogOpen, setDialogOpen] = React.useState(false)
-
-  const filterCount =
-    activeFilters.brands.length + activeFilters.categories.length
 
   const Button = React.forwardRef<any, { floating?: boolean }>(
     ({ floating = false }, ref) => (
       <FilterDialogButton
         ref={ref}
         onClick={setDialogOpen}
-        filterCount={filterCount}
         floating={floating}
       />
     ),
@@ -48,7 +42,11 @@ const CatalogIndexPageFilters = ({ catalogEndRef }: Props) => {
         </Transition.FadeOpacity>
       </Transition.Root>
 
-      <FilterDialog open={dialogOpen} onClose={() => setDialogOpen(false)} />
+      <FilterDialog
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
+        scroll={!staticFilter?.isIntersecting}
+      />
 
       <div className="flex justify-between">
         <div>{/* <FilterButton onClick={() => {}}>hi</FilterButton> */}</div>

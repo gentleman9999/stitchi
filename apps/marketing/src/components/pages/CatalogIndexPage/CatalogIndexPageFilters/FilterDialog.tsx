@@ -1,29 +1,36 @@
 import { Button, Checkbox, Dialog, IconButton } from '@components/ui'
 import { XIcon } from 'icons'
 import React from 'react'
+import pluralize from 'pluralize'
 import { useCatalogFilters } from '../catalog-filters-context'
 import useFilterPreview from './useFilterPreview'
 
 interface Props {
   open: boolean
   onClose: () => void
+  scroll?: boolean
 }
 
-const FilterDialog = ({ open, onClose }: Props) => {
+const FilterDialog = ({ open, onClose, scroll }: Props) => {
   const { availableFilters, setFilters } = useCatalogFilters()
-
   const [filterState, setFilterState] = React.useState(availableFilters)
 
-  const filterPreviewFilters = React.useMemo(
-    () => ({
+  const { brands, categories } = filterState
+
+  const filterPreviewFilters = React.useMemo(() => {
+    const activeBrandIds = filtersToIds(brands)
+    const activeCategoryIds = filtersToIds(categories)
+
+    return {
       filters: {
-        brandEntityIds: filterToId(filterState.brands),
-        categoryEntityIds: filterToId(filterState.categories),
+        brandEntityIds: activeBrandIds.length ? activeBrandIds : undefined,
+        categoryEntityIds: activeCategoryIds.length
+          ? activeCategoryIds
+          : undefined,
         searchSubCategories: true,
       },
-    }),
-    [filterState.brands, filterState.categories],
-  )
+    }
+  }, [brands, categories])
 
   const { count, hasMore } = useFilterPreview(filterPreviewFilters)
 
@@ -34,20 +41,20 @@ const FilterDialog = ({ open, onClose }: Props) => {
   }, [availableFilters, open])
 
   const handleSubmit = () => {
-    const brands = filterState.brands
+    const serializedBrands = brands
       .filter(({ active }) => active)
       .map(brand => brand.path)
 
-    const categories = filterState.categories
+    const serializedCategories = categories
       .filter(({ active }) => active)
       .map(category => category.entityId.toString())
 
     setFilters(
       {
-        brands: brands.length ? brands : null,
-        categories: categories.length ? categories : null,
+        brands: serializedBrands.length ? serializedBrands : null,
+        categories: serializedCategories.length ? serializedCategories : null,
       },
-      { scroll: false },
+      { scroll },
     )
 
     onClose()
@@ -56,7 +63,7 @@ const FilterDialog = ({ open, onClose }: Props) => {
   const handleToggleBrand = (brandId: string) => {
     setFilterState({
       ...filterState,
-      brands: filterState.brands.map(brand =>
+      brands: brands.map(brand =>
         brand.path === brandId ? { ...brand, active: !brand.active } : brand,
       ),
     })
@@ -65,7 +72,7 @@ const FilterDialog = ({ open, onClose }: Props) => {
   const handleToggleCategory = (categoryId: string) => {
     setFilterState({
       ...filterState,
-      categories: filterState.categories.map(category =>
+      categories: categories.map(category =>
         category.entityId.toString() === categoryId
           ? { ...category, active: !category.active }
           : category,
@@ -101,7 +108,7 @@ const FilterDialog = ({ open, onClose }: Props) => {
               subtitle="A unique and outstanding selection of brands"
             >
               <CheckboxGroup>
-                {filterState.brands?.map(brand => (
+                {brands?.map(brand => (
                   <CheckboxFilter
                     key={brand.path}
                     active={brand.active}
@@ -116,7 +123,7 @@ const FilterDialog = ({ open, onClose }: Props) => {
             <FilterSectionSpacer />
             <FilterSection title="Categories">
               <CheckboxGroup>
-                {filterState.categories?.map(category => (
+                {categories?.map(category => (
                   <CheckboxFilter
                     key={category.entityId}
                     value={category.entityId}
@@ -143,14 +150,14 @@ const FilterDialog = ({ open, onClose }: Props) => {
         </Button>
         <Button onClick={handleSubmit} className="whitespace-nowrap">
           Show {count}
-          {hasMore ? '+' : ''} products
+          {hasMore ? '+' : ''} {pluralize('product', count || 0)}
         </Button>
       </Dialog.Actions>
     </Dialog>
   )
 }
 
-const filterToId = (filters: { entityId: number; active: boolean }[]) =>
+const filtersToIds = (filters: { entityId: number; active: boolean }[]) =>
   filters.filter(({ active }) => active).map(({ entityId }) => entityId)
 
 const FilterSection = ({
