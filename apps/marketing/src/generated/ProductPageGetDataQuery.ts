@@ -76,12 +76,104 @@ export interface ProductPageGetDataQuery_site_route_node_Brand {
   id: string;
 }
 
+export interface ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node_CheckboxOption {
+  __typename: "CheckboxOption" | "DateFieldOption" | "FileUploadFieldOption" | "MultiLineTextFieldOption" | "NumberFieldOption" | "TextFieldOption";
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node_MultipleChoiceOption_values_edges_node_MultipleChoiceOptionValue {
+  __typename: "MultipleChoiceOptionValue" | "ProductPickListOptionValue";
+  /**
+   * Unique ID for the option value.
+   */
+  entityId: number;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node_MultipleChoiceOption_values_edges_node_SwatchOptionValue {
+  __typename: "SwatchOptionValue";
+  /**
+   * Unique ID for the option value.
+   */
+  entityId: number;
+  /**
+   * Label for the option value.
+   */
+  label: string;
+  /**
+   * List of up to 3 hex encoded colors to associate with a swatch value.
+   */
+  hexColors: string[];
+}
+
+export type ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node_MultipleChoiceOption_values_edges_node = ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node_MultipleChoiceOption_values_edges_node_MultipleChoiceOptionValue | ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node_MultipleChoiceOption_values_edges_node_SwatchOptionValue;
+
+export interface ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node_MultipleChoiceOption_values_edges {
+  __typename: "ProductOptionValueEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node_MultipleChoiceOption_values_edges_node;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node_MultipleChoiceOption_values {
+  __typename: "ProductOptionValueConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node_MultipleChoiceOption_values_edges | null)[] | null;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node_MultipleChoiceOption {
+  __typename: "MultipleChoiceOption";
+  /**
+   * Display name for the option.
+   */
+  displayName: string;
+  /**
+   * List of option values.
+   */
+  values: ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node_MultipleChoiceOption_values;
+}
+
+export type ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node = ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node_CheckboxOption | ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node_MultipleChoiceOption;
+
+export interface ProductPageGetDataQuery_site_route_node_Product_productOptions_edges {
+  __typename: "ProductOptionEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_productOptions {
+  __typename: "ProductOptionConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (ProductPageGetDataQuery_site_route_node_Product_productOptions_edges | null)[] | null;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_defaultImage {
+  __typename: "Image";
+  /**
+   * Text description of an image that can be used for SEO and/or accessibility purposes.
+   */
+  altText: string;
+  /**
+   * Absolute path to image using store CDN.
+   */
+  url: string;
+}
+
 export interface ProductPageGetDataQuery_site_route_node_Product {
   __typename: "Product";
   /**
    * The ID of an object
    */
   id: string;
+  /**
+   * Product options.
+   */
+  productOptions: ProductPageGetDataQuery_site_route_node_Product_productOptions;
   /**
    * Name of the product.
    */
@@ -90,6 +182,10 @@ export interface ProductPageGetDataQuery_site_route_node_Product {
    * Description of the product.
    */
   description: string;
+  /**
+   * Default image for a product.
+   */
+  defaultImage: ProductPageGetDataQuery_site_route_node_Product_defaultImage | null;
 }
 
 export type ProductPageGetDataQuery_site_route_node = ProductPageGetDataQuery_site_route_node_Brand | ProductPageGetDataQuery_site_route_node_Product;

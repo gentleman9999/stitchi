@@ -3,7 +3,7 @@ import { ProductShowPageProductFragment } from '@generated/ProductShowPageProduc
 import { ProductShowPageSiteFragment } from '@generated/ProductShowPageSiteFragment'
 import React from 'react'
 import CatalogIndexPage from '../CatalogIndexPage'
-import ProductDialog from './ProductDialog'
+import ProductDialog from './ProductDialog/ProductDialog'
 
 interface Props {
   product: ProductShowPageProductFragment

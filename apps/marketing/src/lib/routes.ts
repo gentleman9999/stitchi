@@ -36,6 +36,16 @@ const routes = {
     },
     catalog: {
       href: () => buildRoute('/catalog'),
+
+      product: {
+        href: ({
+          brandSlug,
+          productSlug,
+        }: {
+          brandSlug: string
+          productSlug: string
+        }) => buildRoute(`/${brandSlug}/${productSlug}`),
+      },
     },
     blog: {
       href: () => buildRoute('/learn'),
