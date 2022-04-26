@@ -20,7 +20,6 @@ const useBreakpoints = () => {
           breakpointValue > biggestBreakpointValue &&
           window.innerWidth >= breakpointValue
         ) {
-          console.log('HELLO')
           biggestBreakpointValue = breakpointValue
           currentBp = breakpoint
         }

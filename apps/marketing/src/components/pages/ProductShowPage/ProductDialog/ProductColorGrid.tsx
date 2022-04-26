@@ -15,7 +15,7 @@ const ProductColorGrid = ({ product }: Props) => {
       {colors.map(({ hexColors, entityId }) => (
         <span
           key={entityId}
-          className="inline-flex w-6 h-6 rounded-md border-2 border-gray-200"
+          className="inline-flex w-6 h-6 rounded-full border-2 border-gray-200 cursor-pointer"
           style={{
             backgroundColor: hexColors[0],
           }}

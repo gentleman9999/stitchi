@@ -1,12 +1,11 @@
 import { format } from 'url'
 
-const buildRoute = (
-  path: string,
-  queryParams?: Record<
-    string,
-    string | string[] | number | boolean | undefined
-  >,
-): string => {
+type QueryParams = Record<
+  string,
+  string | string[] | number | boolean | undefined
+>
+
+const buildRoute = (path: string, queryParams?: QueryParams): string => {
   if (queryParams) {
     // Remove 'undefined' query params
     Object.keys(queryParams).forEach(key => {
@@ -35,16 +34,27 @@ const routes = {
       },
     },
     catalog: {
-      href: () => buildRoute('/catalog'),
+      href: ({ params }: { params?: QueryParams } = {}) =>
+        buildRoute('/catalog', params),
 
       product: {
         href: ({
           brandSlug,
           productSlug,
+          params,
         }: {
+          // slug includes slashes -> '/slug/'
           brandSlug: string
           productSlug: string
-        }) => buildRoute(`/${brandSlug}/${productSlug}`),
+          params: QueryParams
+        }) =>
+          buildRoute(
+            `/${brandSlug.replaceAll('/', '')}/${productSlug.replaceAll(
+              '/',
+              '',
+            )}`,
+            params,
+          ),
       },
     },
     blog: {

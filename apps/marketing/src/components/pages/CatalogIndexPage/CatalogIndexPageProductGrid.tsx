@@ -70,9 +70,7 @@ const CatalogIndexPageProductGrid = ({}: Props) => {
       <InfiniteScrollContainer onLoadMore={handleFetchMore}>
         <Grid>
           {products.map(product => (
-            <li key={product.id}>
-              <CatalogIndexPageProduct product={product} />
-            </li>
+            <CatalogIndexPageProduct key={product.entityId} product={product} />
           ))}
           {networkStatus !== NetworkStatus.ready &&
             Array.from(new Array(6)).map((_, i) => (
@@ -103,6 +101,7 @@ CatalogIndexPageProductGrid.fragments = {
             edges {
               node {
                 id
+                entityId
                 ...CatalogIndexPageProductProductFragment
               }
             }

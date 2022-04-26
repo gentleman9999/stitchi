@@ -120,6 +120,10 @@ export interface CatalogIndexPageGetDataQuery_site_search_searchProducts_product
    */
   id: string;
   /**
+   * Id of the product.
+   */
+  entityId: number;
+  /**
    * Product options.
    */
   productOptions: CatalogIndexPageGetDataQuery_site_search_searchProducts_products_edges_node_productOptions;

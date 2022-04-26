@@ -44,6 +44,10 @@ const createApolloClient = () =>
           // By default Site has no ID. We need ID to share site access across cache
           case 'Site':
             return 'StitchiSite'
+          case 'Image':
+            return responseObj.urlOriginal?.toString() || false
+          case 'SearchQueries':
+            return 'StitchiSearchQueries'
           default:
             return defaultDataIdFromObject(responseObj)
         }

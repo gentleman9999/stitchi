@@ -30,12 +30,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const client = initializeApollo()
 
-  client.query<ProductPageGetDataQuery, ProductPageGetDataQueryVariables>({
-    query: GET_DATA,
-    variables: {
-      path: `/${productSlug?.toString()}/`,
+  await client.query<ProductPageGetDataQuery, ProductPageGetDataQueryVariables>(
+    {
+      query: GET_DATA,
+      variables: {
+        path: `/${productSlug?.toString()}/`,
+      },
     },
-  })
+  )
 
   return addApolloState(client, { props: {} })
 }

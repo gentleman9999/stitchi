@@ -15,7 +15,10 @@ const ProductDialog = ({ product }: Props) => {
   const router = useRouter()
 
   const handleClose = () => {
-    router.push(routes.internal.catalog.href())
+    const params = { ...router.query }
+    delete params['productSlug']
+    delete params['brandSlug']
+    router.push(routes.internal.catalog.href({ params }))
   }
 
   return (
@@ -70,6 +73,7 @@ ProductDialog.fragments = {
       name
       description
       defaultImage {
+        urlOriginal
         altText
         url(width: 300)
       }

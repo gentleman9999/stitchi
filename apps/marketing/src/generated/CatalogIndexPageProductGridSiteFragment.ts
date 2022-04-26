@@ -118,6 +118,10 @@ export interface CatalogIndexPageProductGridSiteFragment_search_searchProducts_p
    */
   id: string;
   /**
+   * Id of the product.
+   */
+  entityId: number;
+  /**
    * Product options.
    */
   productOptions: CatalogIndexPageProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions;
