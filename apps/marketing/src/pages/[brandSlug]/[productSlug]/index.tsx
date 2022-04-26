@@ -6,6 +6,7 @@ import {
   ProductPageGetDataQuery,
   ProductPageGetDataQueryVariables,
 } from '@generated/ProductPageGetDataQuery'
+import { addApolloState, initializeApollo } from '@lib/apollo'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -27,16 +28,23 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     }
   }
 
-  return {
-    props: {},
-  }
+  const client = initializeApollo()
+
+  client.query<ProductPageGetDataQuery, ProductPageGetDataQueryVariables>({
+    query: GET_DATA,
+    variables: {
+      path: `/${productSlug?.toString()}/`,
+    },
+  })
+
+  return addApolloState(client, { props: {} })
 }
 
 const ProductPage = () => {
   const { query } = useRouter()
   const { productSlug } = query
 
-  const { data, loading, error } = useQuery<
+  const { data, error } = useQuery<
     ProductPageGetDataQuery,
     ProductPageGetDataQueryVariables
   >(GET_DATA, {
