@@ -1,7 +1,8 @@
 import { gql } from '@apollo/client'
-import { Dialog } from '@components/ui'
+import { Dialog, IconButton } from '@components/ui'
 import { ProductDialogProductFragment } from '@generated/ProductDialogProductFragment'
 import routes from '@lib/routes'
+import { XIcon } from 'icons'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -18,12 +19,17 @@ const ProductDialog = ({ product }: Props) => {
     const params = { ...router.query }
     delete params['productSlug']
     delete params['brandSlug']
-    router.push(routes.internal.catalog.href({ params }))
+    router.push(routes.internal.catalog.href({ params }), {}, { scroll: false })
   }
 
   return (
     <Dialog open={true} onClose={handleClose} mobileFullScreen>
-      <Dialog.Title>{product.name}</Dialog.Title>
+      <Dialog.Title className="flex gap-2">
+        <span>{product.name}</span>
+        <IconButton onClick={handleClose} variant="ghost">
+          <XIcon width={20} height={20} />
+        </IconButton>
+      </Dialog.Title>
       <Dialog.Content>
         {product.defaultImage && (
           <div className="relative w-full h-[250px]">

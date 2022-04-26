@@ -29,7 +29,7 @@ const CatalogIndexPageProduct = ({ product }: Props) => {
 
   return (
     <li>
-      <Link href={href}>
+      <Link scroll={false} href={href}>
         <a className="block cursor-pointer rounded-2xl border-2 border-gray-100 p-4">
           {product.defaultImage?.url && (
             <div className="relative w-full h-[200px]">

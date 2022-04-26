@@ -91,7 +91,7 @@ const Dialog = (props: DialogProps) => {
           <DialogTransitionComponent>
             <div
               className={cx(
-                'align-bottom bg-white overflow-hidden shadow-xl transform transition-all sm:align-middle sm:w-full flex flex-col max-h-[97%]',
+                'align-bottom bg-white overflow-hidden shadow-xl transform transition-all sm:align-middle sm:w-full flex flex-col max-h-[93%]',
                 {
                   'sm:max-w-sm': size === 'sm',
                   'sm:max-w-lg': size === 'md',
