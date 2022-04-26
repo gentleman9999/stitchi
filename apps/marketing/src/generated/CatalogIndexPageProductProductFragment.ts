@@ -93,10 +93,18 @@ export interface CatalogIndexPageProductProductFragment_brand {
    * Name of the brand.
    */
   name: string;
+  /**
+   * Path for the brand page.
+   */
+  path: string;
 }
 
 export interface CatalogIndexPageProductProductFragment_defaultImage {
   __typename: "Image";
+  /**
+   * Text description of an image that can be used for SEO and/or accessibility purposes.
+   */
+  altText: string;
   /**
    * Absolute path to image using store CDN.
    */
@@ -117,6 +125,10 @@ export interface CatalogIndexPageProductProductFragment {
    * Name of the product.
    */
   name: string;
+  /**
+   * Relative URL path to product page.
+   */
+  path: string;
   /**
    * Brand associated with the product.
    */

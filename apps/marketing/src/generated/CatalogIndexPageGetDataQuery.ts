@@ -95,10 +95,18 @@ export interface CatalogIndexPageGetDataQuery_site_search_searchProducts_product
    * Name of the brand.
    */
   name: string;
+  /**
+   * Path for the brand page.
+   */
+  path: string;
 }
 
 export interface CatalogIndexPageGetDataQuery_site_search_searchProducts_products_edges_node_defaultImage {
   __typename: "Image";
+  /**
+   * Text description of an image that can be used for SEO and/or accessibility purposes.
+   */
+  altText: string;
   /**
    * Absolute path to image using store CDN.
    */
@@ -119,6 +127,10 @@ export interface CatalogIndexPageGetDataQuery_site_search_searchProducts_product
    * Name of the product.
    */
   name: string;
+  /**
+   * Relative URL path to product page.
+   */
+  path: string;
   /**
    * Brand associated with the product.
    */

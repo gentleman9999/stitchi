@@ -31,5 +31,8 @@ export * from './TermsPage'
 export { default as ProductComparrisonIndexPage } from './ProductComparrisonIndexPage'
 export * from './ProductComparrisonIndexPage'
 
+export { default as ProductShowPage } from './ProductShowPage'
+export * from './ProductShowPage'
+
 export { default as CatalogIndexPage } from './CatalogIndexPage'
 export * from './CatalogIndexPage'
