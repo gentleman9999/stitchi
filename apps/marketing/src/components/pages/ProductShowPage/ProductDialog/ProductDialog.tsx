@@ -17,14 +17,11 @@ const ProductDialog = ({ product }: Props) => {
 
   const handleClose = () => {
     const params = { ...router.query }
-    delete params['productSlug']
-    delete params['brandSlug']
+    delete params['catchAllSlug']
     router.push(routes.internal.catalog.href({ params }), undefined, {
       scroll: false,
     })
   }
-
-  console.log(product.description)
 
   return (
     <Dialog open={true} onClose={handleClose} mobileFullScreen>
