@@ -11,6 +11,25 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { ReactElement } from 'react'
+import staticWebsiteData from '@generated/static.json'
+
+const allBrandSlugs = staticWebsiteData.data.site.brands.edges.map(({ node }) =>
+  node.path.replace(/\//g, ''),
+)
+
+const getBigCProductPathFromSlug = (slug: string) => {
+  const brandSlug = allBrandSlugs.find(
+    brandSlug => slug.indexOf(brandSlug) === 0,
+  )
+
+  if (!brandSlug) {
+    return null
+  }
+
+  const productSlug = slug.replace(`${brandSlug}-`, '')
+
+  return `/${productSlug}/`
+}
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
@@ -20,9 +39,17 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { productSlug } = params || {}
+  const { catchAllSlug } = params || {}
 
-  if (!productSlug || typeof productSlug !== 'string') {
+  if (!catchAllSlug || typeof catchAllSlug !== 'string') {
+    return {
+      notFound: true,
+    }
+  }
+
+  const productPath = getBigCProductPathFromSlug(catchAllSlug)
+
+  if (!productPath) {
     return {
       notFound: true,
     }
@@ -34,7 +61,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     {
       query: GET_DATA,
       variables: {
-        path: `/${productSlug?.toString()}/`,
+        path: productPath,
       },
     },
   )
@@ -44,14 +71,16 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 const ProductPage = () => {
   const { query } = useRouter()
-  const { productSlug } = query
+  const { catchAllSlug } = query
+
+  const productPath = getBigCProductPathFromSlug(catchAllSlug?.toString() || '')
 
   const { data, error } = useQuery<
     ProductPageGetDataQuery,
     ProductPageGetDataQueryVariables
   >(GET_DATA, {
     variables: {
-      path: `/${productSlug?.toString()}/` || '',
+      path: productPath || '',
     },
   })
 

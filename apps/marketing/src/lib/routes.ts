@@ -46,10 +46,10 @@ const routes = {
           // slug includes slashes -> '/slug/'
           brandSlug: string
           productSlug: string
-          params: QueryParams
+          params?: QueryParams
         }) =>
           buildRoute(
-            `/${brandSlug.replaceAll('/', '')}/${productSlug.replaceAll(
+            `/${brandSlug.replaceAll('/', '')}-${productSlug.replaceAll(
               '/',
               '',
             )}`,

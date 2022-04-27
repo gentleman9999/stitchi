@@ -83,6 +83,18 @@ export interface ProductDialogProductFragment_productOptions {
   edges: (ProductDialogProductFragment_productOptions_edges | null)[] | null;
 }
 
+export interface ProductDialogProductFragment_brand {
+  __typename: "Brand";
+  /**
+   * The ID of an object
+   */
+  id: string;
+  /**
+   * Name of the brand.
+   */
+  name: string;
+}
+
 export interface ProductDialogProductFragment_defaultImage {
   __typename: "Image";
   /**
@@ -117,6 +129,10 @@ export interface ProductDialogProductFragment {
    * Description of the product.
    */
   description: string;
+  /**
+   * Brand associated with the product.
+   */
+  brand: ProductDialogProductFragment_brand | null;
   /**
    * Default image for a product.
    */

@@ -12,9 +12,10 @@
     "start": "next start",
     "lint": "eslint src --fix",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf .next",
-    "codegen": "yarn codegen:graphql && yarn codegen:seo",
+    "codegen": "yarn codegen:graphql && yarn codegen:seo && yarn codegen:static",
     "codegen:graphql": "npx apollo client:codegen ./src/generated --target typescript --outputFlat",
-    "codegen:seo": "node ./scripts/generate-seo.mjs"
+    "codegen:seo": "node ./scripts/generate-seo.mjs",
+    "codegen:static": "node ./scripts/generate-static.mjs"
   },
   "dependencies": {
     "@apollo/client": "^3.5.7",

@@ -24,6 +24,8 @@ const ProductDialog = ({ product }: Props) => {
     })
   }
 
+  console.log(product.description)
+
   return (
     <Dialog open={true} onClose={handleClose} mobileFullScreen>
       <Dialog.Title className="flex justify-between gap-2">
@@ -45,6 +47,7 @@ const ProductDialog = ({ product }: Props) => {
         )}
 
         <Dialog.ContentText>
+          <span>{product.brand?.name}</span>
           <div className="prose">
             <div dangerouslySetInnerHTML={{ __html: product.description }} />
           </div>
@@ -80,6 +83,10 @@ ProductDialog.fragments = {
       id
       name
       description
+      brand {
+        id
+        name
+      }
       defaultImage {
         urlOriginal
         altText
