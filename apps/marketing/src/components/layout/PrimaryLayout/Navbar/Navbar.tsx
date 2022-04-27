@@ -12,7 +12,9 @@ const nav = navigation.makeNavigation()
 const NavbarMobile = dynamic(() => import('./NavbarMobile'))
 const NavbarDesktop = dynamic(() => import('./NavbarDesktop'))
 
-const Navbar: FC = () => {
+interface Props {}
+
+const Navbar = ({}: Props) => {
   const [dropdownAchor, setDropdownAnchor] =
     React.useState<HTMLDivElement | null>(null)
 

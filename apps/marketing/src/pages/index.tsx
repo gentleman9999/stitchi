@@ -6,6 +6,8 @@ const Home = () => {
   return <HomePage />
 }
 
-Home.getLayout = (page: ReactElement) => <PrimaryLayout>{page}</PrimaryLayout>
+Home.getLayout = (page: ReactElement) => (
+  <PrimaryLayout navBackgroundColor="">{page}</PrimaryLayout>
+)
 
 export default Home

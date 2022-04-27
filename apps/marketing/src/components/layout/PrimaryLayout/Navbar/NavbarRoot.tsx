@@ -30,7 +30,7 @@ const NavbarRoot = ({ children, innerRef }: Props) => {
   }, [hasScrolled])
 
   return (
-    <div className={s.root}>
+    <div className={cx(s.root)}>
       <Container
         ref={innerRef}
         className={cx(s.inner, { 'shadow-magical': hasScrolled })}

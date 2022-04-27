@@ -13,9 +13,12 @@ const HomePage = (props: HomePageProps) => {
   const jenny = useSpokesperson('jenny_rothenberg')
   return (
     <>
+      {/* <div className="bg-primaryAlt-50 min-h-[80vh]"> */}
       <Container>
         <HomePageHero />
       </Container>
+      {/* </div> */}
+
       <Container>
         <SimpleCenteredTestimonial
           testimonial="We shipped over 8,000 pairs of Morning Brew joggers to our loyal readers, resulting in over 75,000 new subscribers. This was our largest growth campaign to date, and we love seeing pictures of our readers wearing their MB joggers on social media."
