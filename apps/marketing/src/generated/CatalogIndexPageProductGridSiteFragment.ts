@@ -102,6 +102,10 @@ export interface CatalogIndexPageProductGridSiteFragment_search_searchProducts_p
 export interface CatalogIndexPageProductGridSiteFragment_search_searchProducts_products_edges_node_defaultImage {
   __typename: "Image";
   /**
+   * Absolute path to original image using store CDN.
+   */
+  urlOriginal: string;
+  /**
    * Text description of an image that can be used for SEO and/or accessibility purposes.
    */
   altText: string;

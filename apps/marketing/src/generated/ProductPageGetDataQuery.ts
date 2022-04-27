@@ -76,6 +76,46 @@ export interface ProductPageGetDataQuery_site_route_node_Brand {
   id: string;
 }
 
+export interface ProductPageGetDataQuery_site_route_node_Product_defaultImage {
+  __typename: "Image";
+  /**
+   * Absolute path to image using store CDN.
+   */
+  seoImageUrl: string;
+  /**
+   * Absolute path to original image using store CDN.
+   */
+  urlOriginal: string;
+  /**
+   * Text description of an image that can be used for SEO and/or accessibility purposes.
+   */
+  altText: string;
+  /**
+   * Absolute path to image using store CDN.
+   */
+  url: string;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_brand {
+  __typename: "Brand";
+  /**
+   * The ID of an object
+   */
+  id: string;
+  /**
+   * Name of the brand.
+   */
+  name: string;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_seo {
+  __typename: "SeoDetails";
+  /**
+   * Meta description.
+   */
+  metaDescription: string;
+}
+
 export interface ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node_CheckboxOption {
   __typename: "CheckboxOption" | "DateFieldOption" | "FileUploadFieldOption" | "MultiLineTextFieldOption" | "NumberFieldOption" | "TextFieldOption";
 }
@@ -152,18 +192,6 @@ export interface ProductPageGetDataQuery_site_route_node_Product_productOptions 
   edges: (ProductPageGetDataQuery_site_route_node_Product_productOptions_edges | null)[] | null;
 }
 
-export interface ProductPageGetDataQuery_site_route_node_Product_defaultImage {
-  __typename: "Image";
-  /**
-   * Text description of an image that can be used for SEO and/or accessibility purposes.
-   */
-  altText: string;
-  /**
-   * Absolute path to image using store CDN.
-   */
-  url: string;
-}
-
 export interface ProductPageGetDataQuery_site_route_node_Product {
   __typename: "Product";
   /**
@@ -171,21 +199,33 @@ export interface ProductPageGetDataQuery_site_route_node_Product {
    */
   id: string;
   /**
-   * Product options.
-   */
-  productOptions: ProductPageGetDataQuery_site_route_node_Product_productOptions;
-  /**
    * Name of the product.
    */
   name: string;
   /**
-   * Description of the product.
+   * Description of the product in plain text.
    */
-  description: string;
+  plainTextDescription: string;
   /**
    * Default image for a product.
    */
   defaultImage: ProductPageGetDataQuery_site_route_node_Product_defaultImage | null;
+  /**
+   * Brand associated with the product.
+   */
+  brand: ProductPageGetDataQuery_site_route_node_Product_brand | null;
+  /**
+   * Product SEO details.
+   */
+  seo: ProductPageGetDataQuery_site_route_node_Product_seo;
+  /**
+   * Product options.
+   */
+  productOptions: ProductPageGetDataQuery_site_route_node_Product_productOptions;
+  /**
+   * Description of the product.
+   */
+  description: string;
 }
 
 export type ProductPageGetDataQuery_site_route_node = ProductPageGetDataQuery_site_route_node_Brand | ProductPageGetDataQuery_site_route_node_Product;

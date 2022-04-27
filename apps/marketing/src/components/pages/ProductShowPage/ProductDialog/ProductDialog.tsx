@@ -19,14 +19,16 @@ const ProductDialog = ({ product }: Props) => {
     const params = { ...router.query }
     delete params['productSlug']
     delete params['brandSlug']
-    router.push(routes.internal.catalog.href({ params }), {}, { scroll: false })
+    router.push(routes.internal.catalog.href({ params }), undefined, {
+      scroll: false,
+    })
   }
 
   return (
     <Dialog open={true} onClose={handleClose} mobileFullScreen>
-      <Dialog.Title className="flex gap-2">
+      <Dialog.Title className="flex justify-between gap-2">
         <span>{product.name}</span>
-        <IconButton onClick={handleClose} variant="ghost">
+        <IconButton onClick={handleClose} variant="ghost" disableGutters>
           <XIcon width={20} height={20} />
         </IconButton>
       </Dialog.Title>
