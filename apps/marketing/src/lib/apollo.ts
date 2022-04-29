@@ -11,6 +11,7 @@ import getOrThrow from '@utils/get-or-throw'
 import { AppProps } from 'next/app'
 import { useMemo } from 'react'
 import { isEqual } from 'lodash-es'
+import { GetStaticPropsResult } from 'next'
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__' as const
 
@@ -97,8 +98,8 @@ export function addApolloState<
   P extends Omit<{ [key: string]: any }, typeof APOLLO_STATE_PROP_NAME>,
 >(
   client: ApolloClient<NormalizedCacheObject>,
-  pageProps: { props: P; [key: string]: any },
-): { props: P & { APOLLO_STATE_PROP_NAME: any } } {
+  pageProps: GetStaticPropsResult<P>,
+): GetStaticPropsResult<P> & { props: { APOLLO_STATE_PROP_NAME: any } } {
   return {
     ...pageProps,
     props: {

@@ -3,15 +3,19 @@ import { PrimaryLayout } from '@components/layout'
 import { CatalogIndexPage } from '@components/pages'
 import { CatalogGetDataQuery } from '@generated/CatalogGetDataQuery'
 import { addApolloState, initializeApollo } from '@lib/apollo'
+import { GetStaticProps } from 'next'
 import React, { ReactElement } from 'react'
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const client = initializeApollo()
   await client.query<CatalogGetDataQuery>({
     query: GET_DATA,
   })
 
-  return addApolloState(client, { props: {} })
+  return addApolloState(client, {
+    props: {},
+    revalidate: 60, // seconds
+  })
 }
 
 const Catalog = () => {

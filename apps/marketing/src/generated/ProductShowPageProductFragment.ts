@@ -154,6 +154,10 @@ export interface ProductShowPageProductFragment {
    */
   productOptions: ProductShowPageProductFragment_productOptions;
   /**
+   * Id of the product.
+   */
+  entityId: number;
+  /**
    * Description of the product.
    */
   description: string;

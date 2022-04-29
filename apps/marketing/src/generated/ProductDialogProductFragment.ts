@@ -122,6 +122,10 @@ export interface ProductDialogProductFragment {
    */
   productOptions: ProductDialogProductFragment_productOptions;
   /**
+   * Id of the product.
+   */
+  entityId: number;
+  /**
    * Name of the product.
    */
   name: string;

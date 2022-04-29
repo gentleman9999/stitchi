@@ -223,6 +223,10 @@ export interface ProductPageGetDataQuery_site_route_node_Product {
    */
   productOptions: ProductPageGetDataQuery_site_route_node_Product_productOptions;
   /**
+   * Id of the product.
+   */
+  entityId: number;
+  /**
    * Description of the product.
    */
   description: string;

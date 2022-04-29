@@ -11,6 +11,7 @@ import globalSeo from '@generated/global-seo.json'
 import { StandoutProvider } from '@components/context'
 import { GTM_ID } from '@lib/events'
 import Script from 'next/script'
+import { WishlistProvider } from 'context/wishlist-context'
 
 type ExtendedNextPage = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -65,7 +66,9 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
           }
         />
         <StandoutProvider>
-          {getLayout(<Component {...pageProps} />)}
+          <WishlistProvider>
+            {getLayout(<Component {...pageProps} />)}
+          </WishlistProvider>
         </StandoutProvider>
       </ApolloProvider>
     </>
