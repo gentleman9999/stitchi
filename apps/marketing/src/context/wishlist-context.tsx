@@ -3,8 +3,8 @@ import React from 'react'
 
 interface State {
   productEntityIds: number[]
-  toggleProduct: (productEntityId: number) => void
-  isProductInWishlist: (productEntityId: number) => boolean
+  toggleProduct: (args: { entityId: number }) => void
+  isProductInWishlist: (args: { entityId: number }) => boolean
 }
 
 const WishlistContext = React.createContext<State | undefined>(undefined)
@@ -19,16 +19,16 @@ const WishlistProvider = ({
     [],
   )
 
-  const toggleProduct = (productEntityId: number) => {
-    if (productEntityIds.indexOf(productEntityId) < 0) {
-      setProductUuids([...productEntityIds, productEntityId])
+  const toggleProduct: State['toggleProduct'] = ({ entityId }) => {
+    if (productEntityIds.indexOf(entityId) < 0) {
+      setProductUuids([...productEntityIds, entityId])
     } else {
-      setProductUuids(productEntityIds.filter(uuid => uuid !== productEntityId))
+      setProductUuids(productEntityIds.filter(uuid => uuid !== entityId))
     }
   }
 
-  const isProductInWishlist = (productEntityId: number) => {
-    return productEntityIds.indexOf(productEntityId) >= 0
+  const isProductInWishlist: State['isProductInWishlist'] = ({ entityId }) => {
+    return productEntityIds.indexOf(entityId) >= 0
   }
 
   return (

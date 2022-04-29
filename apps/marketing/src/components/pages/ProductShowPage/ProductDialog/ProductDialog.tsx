@@ -49,7 +49,7 @@ const ProductDialog = ({ product }: Props) => {
             <ProductWishlistButton entityId={product.entityId} />
             <span className="text-center text-xs mt-2 max-w-[225px]">
               Save products you think you may want to include in your merch
-              program
+              program.
             </span>
           </div>
           <table className="table-auto w-full mt-8">
