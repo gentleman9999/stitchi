@@ -1,5 +1,4 @@
 import { Section } from '@components/common'
-import Image from 'next/image'
 import React from 'react'
 import {
   Analytics,
@@ -14,9 +13,10 @@ import {
   LogisticsIcon,
   NeedleThread,
   Network,
-  WebDesign,
 } from 'icons'
 import cx from 'classnames'
+import routes from '@lib/routes'
+import { LinkInline } from '@components/ui'
 
 const sections = [
   {
@@ -36,8 +36,15 @@ const sections = [
       {
         id: 'samples',
         name: 'Sample merchandise for you to try',
-        description:
-          "Choose from a selection of high-quality promotional products that suit your brand's unique needs",
+        description: (
+          <>
+            Choose from a selection of{' '}
+            <LinkInline href={routes.internal.catalog.href()} external>
+              high-quality promotional products
+            </LinkInline>{' '}
+            that suit your brand&apos;s unique needs
+          </>
+        ),
         icon: Customization,
       },
       {

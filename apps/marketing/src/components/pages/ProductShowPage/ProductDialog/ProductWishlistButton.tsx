@@ -12,8 +12,6 @@ const ProductWishlistButton = ({ entityId }: Props) => {
 
   const productInWishlist = isProductInWishlist({ entityId })
 
-  console.log('IS IN WISHLIST', productInWishlist)
-
   return (
     <button
       className="flex group items-center bg-primaryAlt-300 rounded-full px-4 py-1"
@@ -30,7 +28,7 @@ const ProductWishlistButton = ({ entityId }: Props) => {
         />
       </span>
       <span className="text-gray-900 text tracking-tighter font-bold">
-        {productInWishlist ? 'Add to closet' : 'Item in closet'}
+        {productInWishlist ? 'Item added to closet' : 'Add item to closet'}
       </span>
     </button>
   )

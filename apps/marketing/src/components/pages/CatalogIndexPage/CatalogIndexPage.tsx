@@ -29,7 +29,7 @@ const CatalogIndexPage = ({ site }: CatalogIndexPageProps) => {
               <p className="mt-6 text-lg text-gray-700">
                 We work with brands that you wont find anywhere else. Our team
                 of experts is continually procuring the highest-quality,
-                ethical, and unique products so that you can create experiences
+                ethical, and unique products so that you can deliver experiences
                 people love.
               </p>
               <Link href={routes.internal.getStarted.href()} passHref>

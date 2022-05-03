@@ -12,6 +12,9 @@ export * from './Badge'
 export { default as Logo } from './Logo'
 export * from './Logo'
 
+export { default as LinkInline } from './LinkInline'
+export * from './LinkInline'
+
 export { default as LoadingDots } from './LoadingDots'
 export * from './LoadingDots'
 
