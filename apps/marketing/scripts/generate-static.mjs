@@ -1,14 +1,13 @@
 import fetch from 'node-fetch'
-import {writeFile} from "fs"
-import nextEnv from "@next/env"
+import { writeFile } from 'fs'
+import nextEnv from '@next/env'
 
-const {loadEnvConfig} = nextEnv
+const { loadEnvConfig } = nextEnv
 
 const projectDir = process.cwd()
 loadEnvConfig(projectDir)
 
 const endpoint = process.env.NEXT_PUBLIC_STITCHI_GRAPHQL_URI
-
 
 const staticDataQuery = `
   query StaticDataQuery {
@@ -32,7 +31,6 @@ async function fetchSeoData() {
       headers: Object.assign({
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        // Authorization: `Bearer ${apiKey}`,
       }),
       body: JSON.stringify({ variables: {}, query: staticDataQuery }),
     })

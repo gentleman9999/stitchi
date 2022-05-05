@@ -1,5 +1,6 @@
 import { Container } from '@components/ui'
 import React from 'react'
+import DesignPageArtExamples from './DesignPageArtExamples'
 
 import DesignPageHero from './DesignPageHero'
 import DesignPageProcess from './DesignPageProcess'
@@ -15,6 +16,9 @@ const DesignPage = (props: DesignPageProps) => {
 
       <Container>
         <DesignPageProcess />
+      </Container>
+      <Container>
+        <DesignPageArtExamples />
       </Container>
     </>
   )
