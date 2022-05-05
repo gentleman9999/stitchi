@@ -18,6 +18,10 @@ const productQuery = `
           node {
             id
             path
+            brand {
+              id
+              path
+            }
           }
         }
         pageInfo {
@@ -62,8 +66,15 @@ const getCatalogProductSlugs = async () => {
     ) {
       const products = res.data.site.products
       products.edges.forEach(edge => {
-        if (edge && edge.node && edge.node.path) {
-          paths.push(edge.node.path)
+        if (edge && edge.node) {
+          const node = edge.node
+          if (node.path && node.brand && node.brand.path) {
+            const slashRegexp = /\//g
+            const serializedBrandPath = node.brand.path.replace(slashRegexp, '')
+            const serializedProductPath = node.path.replace(slashRegexp, '')
+
+            paths.push(`/${serializedBrandPath}-${serializedProductPath}`)
+          }
         }
       })
       after = products.pageInfo.endCursor
