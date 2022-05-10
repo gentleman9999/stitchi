@@ -15,7 +15,7 @@ const ProductShowPage = ({ site, product }: Props) => {
   return (
     <>
       <ProductSeo product={product} />
-      <CatalogIndexPage site={site} />
+      <CatalogIndexPage isBackground site={site} />
       <ProductDialog product={product} />
     </>
   )

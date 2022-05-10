@@ -27,6 +27,9 @@ export * from './Hero'
 export { default as Section } from './Section'
 export * from './Section'
 
+export { default as SectionFAQ } from './SectionFAQ'
+export * from './SectionFAQ'
+
 export { default as TwitterTweetEmbed } from './TwitterTweetEmbed'
 export * from './TwitterTweetEmbed'
 

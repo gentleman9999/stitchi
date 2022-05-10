@@ -9,13 +9,21 @@ interface Props {
   enterTo?: string
   leaveFrom?: string
   leaveTo?: string
+  appear?: boolean
 }
 
 const CustomTransitionBase: React.FC<Props> = props => {
-  const { durationIn, durationOut, as = Fragment, ...rest } = props
+  const {
+    durationIn,
+    durationOut,
+    as = Fragment,
+    appear = true,
+    ...rest
+  } = props
   return (
     <Transition.Child
       as={Fragment}
+      appear={appear}
       enter={`ease-out duration-${durationIn}`}
       leave={`ease-in duration-${durationOut}`}
       {...rest}

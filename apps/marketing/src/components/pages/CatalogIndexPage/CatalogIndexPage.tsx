@@ -12,10 +12,17 @@ import { CatalogIndexPageSiteFragment } from '@generated/CatalogIndexPageSiteFra
 
 export interface CatalogIndexPageProps {
   site?: CatalogIndexPageSiteFragment | null
+  // When this page is used as a background, for example, behind a modal, we to remove emphasis on it's content for SEO purposes
+  isBackground?: boolean
 }
 
-const CatalogIndexPage = ({ site }: CatalogIndexPageProps) => {
+const CatalogIndexPage = ({
+  site,
+  isBackground = false,
+}: CatalogIndexPageProps) => {
   const gridEndRef = React.useRef<HTMLDivElement>(null)
+
+  const TitleTag = isBackground ? 'h2' : 'h1'
 
   return (
     <>
@@ -23,9 +30,9 @@ const CatalogIndexPage = ({ site }: CatalogIndexPageProps) => {
         <Section>
           <div className="p-8 md:p-14 md:pr-0 text-center sm:text-left bg-primaryAlt-100 rounded-xl flex items-center">
             <div className="md:w-[70%]">
-              <h1 className="text-2xl md:text-3xl lg:text-4xl  font-bold tracking-tight">
+              <TitleTag className="text-2xl md:text-3xl lg:text-4xl  font-bold tracking-tight">
                 Browse through our curated selection of products
-              </h1>
+              </TitleTag>
               <p className="mt-6 text-lg text-gray-700">
                 We work with brands that you wont find anywhere else. Our team
                 of experts is continually procuring the highest-quality,

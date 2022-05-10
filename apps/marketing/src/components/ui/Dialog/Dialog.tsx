@@ -88,34 +88,34 @@ const Dialog = (props: DialogProps) => {
           >
             &#8203;
           </span>
-          <DialogTransitionComponent>
-            <div
-              className={cx(
-                'align-bottom bg-white overflow-hidden shadow-xl transform transition-all sm:align-middle sm:w-full flex flex-col max-h-[93%]',
-                {
-                  'sm:max-w-sm': size === 'sm',
-                  'sm:max-w-lg': size === 'md',
-                  'sm:max-w-2xl': size === 'lg',
-                  'flex my-8 mx-4 rounded-lg': !props.mobileFullScreen,
-                  'absolute bottom-0 left-0 right-0 sm:right-auto sm:left-auto sm:bottom-auto sm:flex rounded-t-lg sm:rounded-lg sm:my-8':
-                    Boolean(props.mobileFullScreen),
-                },
-                props.className,
-              )}
-            >
-              {Icon}
-              {Icon && <div className="mt-3 sm:mt-5" />}
+          {/* <DialogTransitionComponent> */}
+          <div
+            className={cx(
+              'align-bottom bg-white overflow-hidden shadow-xl transform transition-all sm:align-middle sm:w-full flex flex-col max-h-[93%]',
+              {
+                'sm:max-w-sm': size === 'sm',
+                'sm:max-w-lg': size === 'md',
+                'sm:max-w-2xl': size === 'lg',
+                'flex my-8 mx-4 rounded-lg': !props.mobileFullScreen,
+                'absolute bottom-0 left-0 right-0 sm:right-auto sm:left-auto sm:bottom-auto sm:flex rounded-t-lg sm:rounded-lg sm:my-8':
+                  Boolean(props.mobileFullScreen),
+              },
+              props.className,
+            )}
+          >
+            {Icon}
+            {Icon && <div className="mt-3 sm:mt-5" />}
 
-              {Title && <DialogSectionPadding>{Title}</DialogSectionPadding>}
-              {Content}
-              {Actions && (
-                <div className="">
-                  <DialogSectionPadding>{Actions}</DialogSectionPadding>
-                </div>
-              )}
-              <DialogSectionPadding />
-            </div>
-          </DialogTransitionComponent>
+            {Title && <DialogSectionPadding>{Title}</DialogSectionPadding>}
+            {Content}
+            {Actions && (
+              <div className="">
+                <DialogSectionPadding>{Actions}</DialogSectionPadding>
+              </div>
+            )}
+            <DialogSectionPadding />
+          </div>
+          {/* </DialogTransitionComponent> */}
         </div>
       </HuiDialog>
     </Transition.Root>
