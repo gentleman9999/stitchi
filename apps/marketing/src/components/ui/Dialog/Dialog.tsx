@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import cx from 'classnames'
-import { Dialog as HuiDialog } from '@headlessui/react'
+import * as RuiDialog from '@radix-ui/react-dialog'
 import DialogTitle from './DialogTitle'
 import DialogIcon from './DialogIcon'
 import DialogContent from './DialogContent'
@@ -22,11 +22,11 @@ export interface DialogProps {
   size?: 'sm' | 'md' | 'lg'
   className?: string
   mobileFullScreen?: boolean
-  scroll?: 'paper'
+  disablePortal?: boolean
 }
 
 const Dialog = (props: DialogProps) => {
-  const { size = 'md', scroll = 'paper' } = props
+  const { size = 'md', disablePortal = false } = props
 
   let Title: typeof DialogTitle | null = null
   let Icon: typeof DialogIcon | null = null
@@ -70,55 +70,64 @@ const Dialog = (props: DialogProps) => {
     currentBreakpoint === 'xs' ? Transition.SlideUp : Transition.ScaleUp
 
   return (
-    <Transition.Root show={props.open} as={Fragment}>
-      <HuiDialog
-        as="div"
-        className="fixed z-40 inset-0 overflow-y-auto"
-        onClose={props.onClose}
-      >
-        <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 sm:p-0">
-          <Transition.FadeOpacity>
-            <HuiDialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-          </Transition.FadeOpacity>
+    <RuiDialog.Root
+      open={props.open}
+      onOpenChange={val => val === false && props.onClose()}
+    >
+      <OptionalPortal disablePortal={disablePortal}>
+        <Transition.Root show={props.open} as={Fragment}>
+          <div className="relative z-40">
+            <Transition.FadeOpacity>
+              <RuiDialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            </Transition.FadeOpacity>
 
-          {/* This element is to trick the browser into centering the modal contents. */}
-          <span
-            className="hidden sm:inline-block sm:align-middle sm:h-screen"
-            aria-hidden="true"
-          >
-            &#8203;
-          </span>
-          {/* <DialogTransitionComponent> */}
-          <div
-            className={cx(
-              'align-bottom bg-white overflow-hidden shadow-xl transform transition-all sm:align-middle sm:w-full flex flex-col max-h-[93%]',
-              {
-                'sm:max-w-sm': size === 'sm',
-                'sm:max-w-lg': size === 'md',
-                'sm:max-w-2xl': size === 'lg',
-                'flex my-8 mx-4 rounded-lg': !props.mobileFullScreen,
-                'absolute bottom-0 left-0 right-0 sm:right-auto sm:left-auto sm:bottom-auto sm:flex rounded-t-lg sm:rounded-lg sm:my-8':
-                  Boolean(props.mobileFullScreen),
-              },
-              props.className,
-            )}
-          >
-            {Icon}
-            {Icon && <div className="mt-3 sm:mt-5" />}
+            <DialogTransitionComponent>
+              <div className="fixed inset-0 flex justify-center items-center">
+                <RuiDialog.Content
+                  className={cx(
+                    'align-bottom bg-white overflow-scroll shadow-xl transform transition-all sm:align-middle sm:w-full flex flex-col max-h-[93%]',
+                    {
+                      'sm:max-w-sm': size === 'sm',
+                      'sm:max-w-lg': size === 'md',
+                      'sm:max-w-2xl': size === 'lg',
+                      'flex my-8 mx-4 rounded-lg': !props.mobileFullScreen,
+                      'fixed bottom-0 left-0 right-0 sm:right-auto sm:left-auto sm:bottom-auto sm:flex rounded-t-lg sm:rounded-lg sm:my-8':
+                        Boolean(props.mobileFullScreen),
+                    },
+                    props.className,
+                  )}
+                >
+                  {Icon}
+                  {Icon && <div className="mt-3 sm:mt-5" />}
 
-            {Title && <DialogSectionPadding>{Title}</DialogSectionPadding>}
-            {Content}
-            {Actions && (
-              <div className="">
-                <DialogSectionPadding>{Actions}</DialogSectionPadding>
+                  {Title && (
+                    <DialogSectionPadding>{Title}</DialogSectionPadding>
+                  )}
+                  {Content}
+                  {Actions && (
+                    <div className="">
+                      <DialogSectionPadding>{Actions}</DialogSectionPadding>
+                    </div>
+                  )}
+                  <DialogSectionPadding />
+                </RuiDialog.Content>
               </div>
-            )}
-            <DialogSectionPadding />
+            </DialogTransitionComponent>
           </div>
-          {/* </DialogTransitionComponent> */}
-        </div>
-      </HuiDialog>
-    </Transition.Root>
+        </Transition.Root>
+      </OptionalPortal>
+    </RuiDialog.Root>
+  )
+}
+
+const OptionalPortal: React.FC<{ disablePortal: boolean }> = ({
+  children,
+  disablePortal,
+}) => {
+  return disablePortal ? (
+    <>{children}</>
+  ) : (
+    <RuiDialog.Portal>{children}</RuiDialog.Portal>
   )
 }
 

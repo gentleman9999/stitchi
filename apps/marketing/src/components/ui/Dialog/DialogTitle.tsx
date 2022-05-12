@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dialog as HuiDialog } from '@headlessui/react'
+import * as RuiDialog from '@radix-ui/react-dialog'
 import cx from 'classnames'
 
 export interface DialogTitleProps {
@@ -9,17 +9,17 @@ export interface DialogTitleProps {
 }
 
 const DialogTitle = (props: DialogTitleProps) => {
-  const { as = 'h3' } = props
+  const { as: Element = 'h3' } = props
   return (
-    <HuiDialog.Title
-      as={as}
+    <RuiDialog.Title
+      asChild
       className={cx(
         'text-lg leading-6 font-medium text-gray-900',
         props.className,
       )}
     >
-      {props.children}
-    </HuiDialog.Title>
+      <Element>{props.children}</Element>
+    </RuiDialog.Title>
   )
 }
 

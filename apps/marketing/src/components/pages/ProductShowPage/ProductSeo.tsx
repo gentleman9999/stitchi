@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client'
 import { ProductSeoProductFragment } from '@generated/ProductSeoProductFragment'
+import { makeProductTitle } from '@utils/catalog'
 import { NextSeo, NextSeoProps } from 'next-seo'
 import { OpenGraphMedia } from 'next-seo/lib/types'
 import React from 'react'
@@ -21,10 +22,6 @@ const ProductSeo = ({ product }: Props) => {
   }
 
   return <NextSeo {...seoProps} />
-}
-
-const makeProductTitle = (product: ProductSeoProductFragment) => {
-  return `${product.brand ? `${product.brand.name} ` : ''}${product.name}`
 }
 
 const makeImages = (product: ProductSeoProductFragment): OpenGraphMedia[] => {

@@ -2,6 +2,7 @@ import { gql } from '@apollo/client'
 import { Dialog, IconButton } from '@components/ui'
 import { ProductDialogProductFragment } from '@generated/ProductDialogProductFragment'
 import routes from '@lib/routes'
+import { makeProductTitle } from '@utils/catalog'
 import { XIcon } from 'icons'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -25,9 +26,9 @@ const ProductDialog = ({ product }: Props) => {
   }
 
   return (
-    <Dialog open={true} onClose={handleClose} mobileFullScreen>
-      <Dialog.Title className="flex justify-between gap-2">
-        <span>{product.name}</span>
+    <Dialog open={true} onClose={handleClose} mobileFullScreen disablePortal>
+      <Dialog.Title className="flex justify-between gap-2" as="div">
+        <h1>{makeProductTitle(product)}</h1>
         <IconButton onClick={handleClose} variant="ghost" disableGutters>
           <XIcon width={20} height={20} />
         </IconButton>

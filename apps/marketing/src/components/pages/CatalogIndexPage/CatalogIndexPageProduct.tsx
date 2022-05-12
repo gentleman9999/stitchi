@@ -7,6 +7,7 @@ import Link from 'next/link'
 import useProductColors from '@hooks/useProductColors'
 import SwatchGroup from './SwatchGroup'
 import { useRouter } from 'next/router'
+import { makeProductTitle } from '@utils/catalog'
 
 export interface Props {
   product: CatalogIndexPageProductProductFragment
@@ -43,7 +44,7 @@ const CatalogIndexPageProduct = ({ product }: Props) => {
           )}
 
           <h3 className="mt-4 text-sm font-medium tracking-wide">
-            {product.brand?.name} {product.name}
+            {makeProductTitle(product)}
           </h3>
           <div className="mt-4 flex items-center">
             <SwatchGroup
