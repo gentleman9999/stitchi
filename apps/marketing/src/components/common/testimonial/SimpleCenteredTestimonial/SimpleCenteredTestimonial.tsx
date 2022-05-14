@@ -1,10 +1,18 @@
 import { Section } from '@components/common'
+import { ArrowRight } from 'icons'
 import Image, { StaticImageData } from 'next/image'
+import Link from 'next/link'
+import cx from 'classnames'
 import React from 'react'
 import { Spokesperson } from '..'
 
 export interface SimpleCenteredTestimonialProps {
   testimonial: string | React.ReactNode
+  cta?: {
+    text: string
+    href: string
+    className?: string
+  }
   company: {
     name: string
     logo: StaticImageData
@@ -20,6 +28,7 @@ const SimpleCenteredTestimonial = ({
   testimonial,
   company,
   spokesperson,
+  cta,
 }: SimpleCenteredTestimonialProps) => {
   return (
     <Section gutter="lg">
@@ -41,6 +50,24 @@ const SimpleCenteredTestimonial = ({
             <Spokesperson {...spokesperson} />
           </footer>
         </blockquote>
+
+        {cta ? (
+          <div className="flex justify-center">
+            <Link href={cta.href}>
+              <a
+                className={cx(
+                  'relative inline-flex items-center justify-center mt-8 group',
+                  cta.className,
+                )}
+              >
+                {cta.text}
+                <span className="transition-all absolute -right-5 group-hover:translate-x-1">
+                  <ArrowRight strokeWidth={3} width={14} />
+                </span>
+              </a>
+            </Link>
+          </div>
+        ) : null}
       </div>
     </Section>
   )

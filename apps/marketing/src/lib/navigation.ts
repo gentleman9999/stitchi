@@ -31,6 +31,16 @@ const navigation = {
     ],
     resources: [
       {
+        label: 'Catalog',
+        icon: Support,
+        href: routes.internal.catalog.href(),
+      },
+      {
+        label: 'Promotional Product Design',
+        icon: Support,
+        href: routes.internal.features.design.href(),
+      },
+      {
         label: 'Learn',
         icon: Support,
         href: routes.internal.blog.href(),

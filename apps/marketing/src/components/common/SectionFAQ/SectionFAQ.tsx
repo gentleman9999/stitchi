@@ -18,7 +18,7 @@ const SectionFAQ = ({ faqs }: Props) => {
 
   return (
     <Section gutter="xl">
-      <div className="bg-primaryAlt-500 rounded-xl p-6 md:p-8">
+      <div className="bg-primaryAlt-500 rounded-xl p-6 md:p-8 shadow-xl">
         <h2 className="text-3xl font-extrabold text-white">
           Frequently asked questions
         </h2>

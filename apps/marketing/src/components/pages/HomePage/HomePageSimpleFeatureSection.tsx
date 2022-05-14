@@ -39,7 +39,7 @@ const sections = [
         description: (
           <>
             Choose from a selection of{' '}
-            <LinkInline href={routes.internal.catalog.href()} external>
+            <LinkInline href={routes.internal.catalog.href()}>
               high-quality promotional products
             </LinkInline>{' '}
             that suit your brand&apos;s unique needs

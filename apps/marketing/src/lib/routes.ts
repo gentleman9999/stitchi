@@ -113,6 +113,11 @@ const routes = {
         href: () => buildRoute(`https://twitter.com/gostitchi`),
       },
     },
+    customers: {
+      morningBrew: {
+        href: () => buildRoute(`https://morningbrew.com`),
+      },
+    },
   },
 }
 
