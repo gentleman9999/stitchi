@@ -29,8 +29,15 @@ const sections = [
       {
         id: 'free-design',
         name: 'Free promotional products design',
-        description:
-          "Work one-on-one with an expert designer to create professional merch designs (yes, it's free)",
+        description: (
+          <>
+            Work one-on-one with an expert designer to{' '}
+            <LinkInline href={routes.internal.features.design.href()}>
+              create professional merch designs
+            </LinkInline>{' '}
+            (yes, it&apos;s free),
+          </>
+        ),
         icon: CustomerSupport,
       },
       {

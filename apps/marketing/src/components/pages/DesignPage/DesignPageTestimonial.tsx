@@ -10,10 +10,10 @@ import { Section } from '@components/common'
 const DesignPageTestimonial = () => {
   return (
     <Section gutter="md">
-      <div className="lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-24">
+      <div className="lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-24 bg-secondaryAlt-100 rounded-md p-4 md:p-8">
         <div className="max-w-xl mx-auto lg:max-w-none">
           <div>
-            <div className="mt-6">
+            <div className="">
               <h2 className="text-3xl font-extrabold tracking-tight text-gray-900">
                 Do more with swag
               </h2>

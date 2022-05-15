@@ -1,6 +1,7 @@
 import { SectionFAQ } from '@components/common'
 import { Container } from '@components/ui'
 import React from 'react'
+import DesignPageAdvantages from './DesignPageAdvantages'
 import DesignPageArtExamples from './DesignPageArtExamples'
 
 import DesignPageHero from './DesignPageHero'
@@ -19,8 +20,11 @@ const DesignPage = (props: DesignPageProps) => {
       <Container>
         <DesignPageProcess />
       </Container>
-      <Container>
+      {/* <Container>
         <DesignPageArtExamples />
+      </Container> */}
+      <Container>
+        <DesignPageAdvantages />
       </Container>
       <Container>
         <SectionFAQ
