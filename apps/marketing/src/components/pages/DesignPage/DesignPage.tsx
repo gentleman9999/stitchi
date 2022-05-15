@@ -27,6 +27,9 @@ const DesignPage = (props: DesignPageProps) => {
         <DesignPageAdvantages />
       </Container>
       <Container>
+        <DesignPageTestimonial />
+      </Container>
+      <Container>
         <SectionFAQ
           faqs={[
             {
@@ -43,9 +46,6 @@ const DesignPage = (props: DesignPageProps) => {
             },
           ]}
         />
-      </Container>
-      <Container>
-        <DesignPageTestimonial />
       </Container>
     </>
   )
