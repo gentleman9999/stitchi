@@ -30,6 +30,9 @@ export * from './Section'
 export { default as SectionFAQ } from './SectionFAQ'
 export * from './SectionFAQ'
 
+export { default as SectionHeader } from './SectionHeader'
+export * from './SectionHeader'
+
 export { default as TwitterTweetEmbed } from './TwitterTweetEmbed'
 export * from './TwitterTweetEmbed'
 

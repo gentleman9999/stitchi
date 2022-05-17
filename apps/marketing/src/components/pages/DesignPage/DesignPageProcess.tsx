@@ -1,13 +1,12 @@
-import { Section } from '@components/common'
+import { Section, SectionHeader } from '@components/common'
 import React from 'react'
-import DesignPageSectionHeader from './DesignPageSectionHeader'
 
 interface Props {}
 
 const DesignPageProcess = ({}: Props) => {
   return (
     <Section gutter="lg">
-      <DesignPageSectionHeader
+      <SectionHeader
         pretitle="Design Process"
         title="Create designs people love"
         subtitle="Work 1x1 with a designer to create stunning promotional products for

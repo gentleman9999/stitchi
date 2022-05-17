@@ -7,7 +7,7 @@ const PromotionalProductsDistribution = () => {
 }
 
 PromotionalProductsDistribution.getLayout = (page: ReactElement) => (
-  <PrimaryLayout>{page}</PrimaryLayout>
+  <PrimaryLayout disableNavSpacing>{page}</PrimaryLayout>
 )
 
 export default PromotionalProductsDistribution

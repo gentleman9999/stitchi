@@ -1,13 +1,12 @@
-import { Section } from '@components/common'
+import { Section, SectionHeader } from '@components/common'
 import Image from 'next/image'
 import React from 'react'
-import DesignPageSectionHeader from './DesignPageSectionHeader'
 import closetRendering from '../../../../public/greek_life_custom_swag.jpg'
 
 const DesignPageAdvantages = () => {
   return (
     <Section gutter="sm">
-      <DesignPageSectionHeader
+      <SectionHeader
         pretitle="Stitchi Advantage"
         title="Everything you asked for"
       />

@@ -1,14 +1,12 @@
 import React from 'react'
 
-const DesignPageSectionHeader = ({
-  pretitle,
-  title,
-  subtitle,
-}: {
+export interface SectionHeaderProps {
   title: string
   pretitle?: string
   subtitle?: string
-}) => {
+}
+
+const SectionHeader = ({ pretitle, title, subtitle }: SectionHeaderProps) => {
   return (
     <div className="flex flex-col items-center">
       {pretitle && (
@@ -22,12 +20,11 @@ const DesignPageSectionHeader = ({
       </h2>
       {subtitle && (
         <p className="mt-4 text sm:text-lg md:text-xl text-gray-600 max-w-2xl text-center">
-          Work 1x1 with a designer to create stunning promotional products for
-          your merch campaigns. Receive designs in 1-2 days.
+          {subtitle}
         </p>
       )}
     </div>
   )
 }
 
-export default DesignPageSectionHeader
+export default SectionHeader

@@ -35,7 +35,7 @@ const sections = [
             <LinkInline href={routes.internal.features.design.href()}>
               create professional merch designs
             </LinkInline>{' '}
-            (yes, it&apos;s free),
+            (yes, it&apos;s free)
           </>
         ),
         icon: CustomerSupport,
