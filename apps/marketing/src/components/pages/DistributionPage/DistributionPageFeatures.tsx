@@ -9,7 +9,7 @@ const DistributionPageFeatures = (props: Props) => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
         <div className="col-span-1">
           <h2 className="font-bold text-3xl leading-tight">
-            Services to meet any fulfillment needs.
+            Services to meet all fulfillment needs.
           </h2>
         </div>
         <div className="col-span-1 md:col-span-2">

@@ -4,7 +4,7 @@ import cx from 'classnames'
 type InputElementAttributes = React.InputHTMLAttributes<HTMLInputElement>
 
 interface BaseProps {
-  name: string
+  name?: string
   className?: string
   label?: string
   description?: string
@@ -12,9 +12,10 @@ interface BaseProps {
   type?: InputElementAttributes['type']
   required?: InputElementAttributes['required']
   readonly?: InputElementAttributes['readOnly']
-  value?: string
+  value?: InputElementAttributes['value']
   error?: boolean
   placeholder?: string
+  inputClassName?: string
 }
 
 interface MultilineProps extends BaseProps {
@@ -41,6 +42,7 @@ const TextField = (props: TextFieldProps) => {
     {
       'border-red-500 focus:border-red-500 focus:ring-red-500': props.error,
     },
+    props.inputClassName,
   )
 
   return (

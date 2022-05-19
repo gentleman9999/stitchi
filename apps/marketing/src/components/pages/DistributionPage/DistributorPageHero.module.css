@@ -1,0 +1,7 @@
+.rangeSlider {
+  @apply mt-8;
+
+  & label {
+    @apply text-secondaryAlt-200;
+  }
+}
