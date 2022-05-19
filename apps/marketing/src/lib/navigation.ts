@@ -11,22 +11,22 @@ const navigation = {
         description:
           "We'll design your merch for you, and you'll get paid for it.",
         icon: Support,
-        href: '',
+        href: routes.internal.features.design.href(),
       },
-      {
-        label: 'Quality Customizations',
-        description:
-          "We'll design your merch for you, and you'll get paid for it.",
-        icon: Support,
+      // {
+      //   label: 'Quality Customizations',
+      //   description:
+      //     "We'll design your merch for you, and you'll get paid for it.",
+      //   icon: Support,
 
-        href: '',
-      },
+      //   href: '',
+      // },
       {
         label: 'eCommerce, Warehousing & Distribution',
         description:
           "We'll design your merch for you, and you'll get paid for it.",
         icon: Support,
-        href: '',
+        href: routes.internal.features.distribution.href(),
       },
     ],
     resources: [
@@ -35,11 +35,7 @@ const navigation = {
         icon: Support,
         href: routes.internal.catalog.href(),
       },
-      {
-        label: 'Promotional Product Design',
-        icon: Support,
-        href: routes.internal.features.design.href(),
-      },
+
       {
         label: 'Learn',
         icon: Support,

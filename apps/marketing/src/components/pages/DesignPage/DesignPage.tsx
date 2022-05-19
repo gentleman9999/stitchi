@@ -1,5 +1,6 @@
 import { SectionFAQ } from '@components/common'
 import { Container } from '@components/ui'
+import { NextSeo } from 'next-seo'
 import React from 'react'
 import DesignPageAdvantages from './DesignPageAdvantages'
 import DesignPageArtExamples from './DesignPageArtExamples'
@@ -13,6 +14,10 @@ interface DesignPageProps {}
 const DesignPage = (props: DesignPageProps) => {
   return (
     <>
+      <NextSeo
+        title="Free, professional merch and promotional product design"
+        description="If you need high quality custom clothing and promotional products, Stitchi is here to help. We offer free design services, fast quotes, excellent customer service, and speedy delivery times."
+      />
       <Container>
         <DesignPageHero />
       </Container>
