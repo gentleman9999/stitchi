@@ -103,8 +103,15 @@ const sections = [
       {
         id: 'shipping',
         name: '$1 order fulfillment',
-        description:
-          'Have all of your inventory assembled, stored, and shipped from a Stitchi fulfillment center to save lots of money and time',
+        description: (
+          <>
+            Have all of your inventory{' '}
+            <LinkInline href={routes.internal.features.distribution.href()}>
+              assembled, stored, and shipped
+            </LinkInline>{' '}
+            from a Stitchi fulfillment center to save money and time
+          </>
+        ),
         icon: GlobalDistribution,
       },
       {

@@ -1,15 +1,14 @@
-import { HamburgerMenu } from 'icons'
-import React, { Fragment } from 'react'
+import { ChevronDown, HamburgerMenu } from 'icons'
+import React from 'react'
 import Link from 'next/link'
 import s from './NavbarMobile.module.css'
 import { Navigation } from '@lib/navigation'
-import dynamic from 'next/dynamic'
 import routes from '@lib/routes'
-import { Button, IconButton } from '@components/ui'
-import { Popover, Transition } from '@headlessui/react'
+import { Button } from '@components/ui'
 import { useRouter } from 'next/router'
-
-const NavbarDropdown = dynamic(() => import('./NavbarDropdown'))
+import cx from 'classnames'
+import NavbarMobileDropdown from './NavbarMobileDropdown'
+import Popover from './Popover'
 
 interface Props {
   anchorEl: HTMLElement | null
@@ -39,81 +38,80 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
   }, [anchorEl, router.events])
 
   return (
-    <Popover>
-      <Popover.Button>
-        <span className="sr-only">Close menu</span>
-        <IconButton>
-          <HamburgerMenu height={24} width={24} />
-        </IconButton>
-      </Popover.Button>
+    <Popover
+      anchorEl={anchorEl}
+      ButtonChildren={() => <HamburgerMenu height={24} width={24} />}
+      panelChildren={
+        <>
+          <div className={s.item}>
+            <NavbarMobileDropdown
+              ButtonChildren={({ active }) => (
+                <div className={s.link}>
+                  Services
+                  <span
+                    className={cx('ml-2 transition', {
+                      'transform rotate-180': active,
+                    })}
+                  >
+                    <ChevronDown />
+                  </span>
+                </div>
+              )}
+              items={navigation.solutions.map(item => {
+                // https://headlessui.dev/react/menu#integrating-with-next-js
+                // eslint-disable-next-line react/display-name
+                return function (props: any) {
+                  return (
+                    <Link href={item.href} key={item.label}>
+                      <a
+                        {...props}
+                        className="block mb-2 text-lg text-secondary"
+                      >
+                        {item.label}
+                      </a>
+                    </Link>
+                  )
+                }
+              })}
+            />
+          </div>
+          <div className={s.item}>
+            <Link href={routes.internal.catalog.href()} passHref>
+              <a className={s.link}>Catalog</a>
+            </Link>
+          </div>
+          <div className={s.item}>
+            <Link href={routes.internal.blog.href()} passHref>
+              <a className={s.link}>Learn</a>
+            </Link>
+          </div>
 
-      {/* <Popover.Group as="nav" className="flex space-x-10"> */}
-      <Transition
-        as={Fragment}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
-        <Popover.Panel
-          className="fixed z-10"
-          style={{
-            left: dims?.left,
-            width: dims?.width,
-            top: (dims?.top ?? 0) + (dims?.height ?? 0),
-          }}
-        >
-          <NavbarDropdown>
-            <div className={s.item}>
-              <Link href={routes.internal.catalog.href()} passHref>
-                <Popover.Button as="a" className={s.link}>
-                  Catalog
-                </Popover.Button>
-              </Link>
-            </div>
-            <div className={s.item}>
-              <Link href={routes.internal.blog.href()} passHref>
-                <Popover.Button as="a" className={s.link}>
-                  Learn
-                </Popover.Button>
-              </Link>
-            </div>
-
-            <div className={s.item}>
-              <Link
-                href={routes.internal.customers.morningBrew.href()}
-                passHref
+          <div className={s.item}>
+            <Link href={routes.internal.customers.morningBrew.href()} passHref>
+              <a className={s.link}>Case Study</a>
+            </Link>
+          </div>
+          <div className={s.item}>
+            <Link href={routes.internal.getStarted.href()} passHref>
+              <Button
+                Component={(props: any) => (
+                  <Button
+                    {...props}
+                    bold
+                    shadow
+                    Component="a"
+                    color="brandPrimary"
+                    className="w-full"
+                  />
+                )}
               >
-                <Popover.Button as="a" className={s.link}>
-                  Case Study
-                </Popover.Button>
-              </Link>
-            </div>
-            <div className={s.item}>
-              <Link href={routes.internal.getStarted.href()} passHref>
-                <Popover.Button
-                  as={(props: any) => (
-                    <Button
-                      {...props}
-                      bold
-                      shadow
-                      Component="a"
-                      color="brandPrimary"
-                      className="w-full"
-                    />
-                  )}
-                >
-                  Talk to us
-                </Popover.Button>
-              </Link>
-            </div>
-          </NavbarDropdown>
-        </Popover.Panel>
-      </Transition>
-      {/* </Popover.Group> */}
-    </Popover>
+                Talk to us
+              </Button>
+            </Link>
+          </div>
+        </>
+      }
+    />
   )
 }
 

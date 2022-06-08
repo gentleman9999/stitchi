@@ -45,7 +45,7 @@ const DesignPage = (props: DesignPageProps) => {
             },
             {
               id: 'faq-2',
-              question: 'Are design really free?',
+              question: 'Are designs really free?',
               answer:
                 'Yes. 100%. Anytime you purchase promotional products from Stitchi we include all design work for free, so you are always delighted with the final product. We always design every product as if it were our own: with innovative designs, attention to detail, and lots of love <3.',
             },
