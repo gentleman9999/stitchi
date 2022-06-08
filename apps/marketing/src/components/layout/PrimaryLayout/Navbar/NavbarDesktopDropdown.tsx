@@ -1,6 +1,8 @@
 import React, { ReactChild } from 'react'
 import NextLink from 'next/link'
 import Image from 'next/image'
+import cx from 'classnames'
+import { Badge } from '@components/ui'
 
 type Icon = { url: string; height: number; width: number } | ReactChild | null
 
@@ -10,6 +12,7 @@ interface Props {
   description?: string | null
   icon?: Icon
   external?: boolean
+  beta?: boolean
 }
 
 const NavbarDesktopDropdown = ({
@@ -18,18 +21,20 @@ const NavbarDesktopDropdown = ({
   label,
   description,
   external,
+  beta,
 }: Props) => {
   const Link = ({ children }: { children: React.ReactNode }) => {
+    const baseStyledATagProps = { disabled: Boolean(beta) }
     if (external) {
       return (
-        <StyledATag external href={href}>
+        <StyledATag {...baseStyledATagProps} external href={href}>
           {children}
         </StyledATag>
       )
     } else {
       return (
         <NextLink href={href} passHref>
-          <StyledATag>{children}</StyledATag>
+          <StyledATag {...baseStyledATagProps}>{children}</StyledATag>
         </NextLink>
       )
     }
@@ -63,7 +68,12 @@ const NavbarDesktopDropdown = ({
             </span>
           )}
           <div>
-            <h4 className="font-extrabold">{label}</h4>
+            <h4 className="font-extrabold">
+              {label}{' '}
+              {beta ? (
+                <Badge label="Coming soon" size="small" className="m-0" />
+              ) : null}{' '}
+            </h4>
             <span className="text-secondary">{description}</span>
           </div>
         </div>
@@ -76,11 +86,17 @@ const StyledATag = (props: {
   children: React.ReactNode
   href?: string
   external?: boolean
+  disabled?: boolean
 }) => {
   const linkProps = {
     ...props,
-    className:
+    className: cx(
       'cursor-pointer block p-4 text-sm hover:bg-gray-100 transition-all rounded-md ring-1 ring-transparent hover:ring-gray-200',
+      {
+        'pointer-events-none touch-none': props.disabled,
+      },
+    ),
+
     ...(props.external ? { target: '_blank', rel: 'noreferrer' } : {}),
   }
   return <a {...linkProps} />

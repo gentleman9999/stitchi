@@ -7,26 +7,35 @@ const navigation = {
   makeNavigation: () => ({
     solutions: [
       {
-        label: 'Pro Merch Designs (Free)',
+        label: 'Pro Merch Design (Free)',
         description:
           "We'll design your merch for you, and you'll get paid for it.",
         icon: Support,
         href: routes.internal.features.design.href(),
       },
-      // {
-      //   label: 'Quality Customizations',
-      //   description:
-      //     "We'll design your merch for you, and you'll get paid for it.",
-      //   icon: Support,
-
-      //   href: '',
-      // },
+    
       {
         label: 'eCommerce, Warehousing & Distribution',
         description:
-          "We'll design your merch for you, and you'll get paid for it.",
+          "Infinitely and efficiently scale your merch program using Stitchi's distribution center. ",
         icon: Support,
         href: routes.internal.features.distribution.href(),
+      },
+      {
+        label: 'Swag Bags & Boxes',
+        description:
+          "Curate unique branded promotional products for your fans and employees.",
+        icon: Support,
+        href: '',
+        beta: true
+      },
+      {
+        label: 'Loyalty & Referral Programs',
+        description:
+          "Reward your audience for purchasing from you or referring your brand.",
+        icon: Support,
+        href: '',
+        beta: true
       },
     ],
     resources: [

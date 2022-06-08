@@ -4,7 +4,7 @@ import Link from 'next/link'
 import s from './NavbarMobile.module.css'
 import { Navigation } from '@lib/navigation'
 import routes from '@lib/routes'
-import { Button } from '@components/ui'
+import { Badge, Button } from '@components/ui'
 import { useRouter } from 'next/router'
 import cx from 'classnames'
 import NavbarMobileDropdown from './NavbarMobileDropdown'
@@ -58,6 +58,7 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
                 </div>
               )}
               items={navigation.solutions.map(item => {
+                const disabled = Boolean(item.beta)
                 // https://headlessui.dev/react/menu#integrating-with-next-js
                 // eslint-disable-next-line react/display-name
                 return function (props: any) {
@@ -65,9 +66,12 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
                     <Link href={item.href} key={item.label}>
                       <a
                         {...props}
-                        className="block mb-2 text-lg text-secondary"
+                        className={cx('block mb-2 text-lg text-secondary', {
+                          'pointer-events-none': disabled,
+                        })}
                       >
                         {item.label}
+                        {disabled && <Badge size="small" label="Coming soon" />}
                       </a>
                     </Link>
                   )

@@ -2,18 +2,21 @@ import React from 'react'
 import cx from 'classnames'
 
 export interface BadgeProps {
-  value: string | number
   label: string
   onClose?: () => void
+  size?: 'small' | 'normal'
+  className?: string
 }
 
-const Badge = ({ value, label, onClose }: BadgeProps) => {
+const Badge = ({ label, onClose, className, size = 'normal' }: BadgeProps) => {
   return (
     <span
-      key={value}
       className={cx(
-        'm-1 inline-flex rounded-full border border-gray-200 items-center py-1.5 px-3 text-sm font-medium bg-white text-gray-900',
+        'm-1 inline-flex rounded-full border border-gray-200 items-center font-medium bg-white text-gray-900',
         { 'pr-2': Boolean(onClose) },
+        { 'py-1.5 px-3 text-sm': size === 'normal' },
+        { 'py-0.5 px-2 text-xs': size === 'small' },
+        className,
       )}
     >
       <span>{label}</span>

@@ -1,6 +1,7 @@
 import nav from '@lib/navigation'
 import React from 'react'
-import { Container } from '@components/ui'
+import cx from 'classnames'
+import { Badge, Container } from '@components/ui'
 import { Section, SubscribeInline } from '..'
 
 const navigation = nav.makeNavigation()
@@ -55,6 +56,7 @@ const Footer = () => (
 interface Item {
   label: string
   href: string
+  beta?: boolean
 }
 
 const List = ({ title, items }: { title: string; items: Item[] }) => {
@@ -72,11 +74,20 @@ const List = ({ title, items }: { title: string; items: Item[] }) => {
   )
 }
 
-const ListItem = ({ label, href }: Item) => {
+const ListItem = ({ label, href, beta }: Item) => {
+  const disabled = Boolean(beta)
   return (
     <li key={label}>
-      <a href={href} className="text-base text-gray-500 hover:text-gray-900">
+      <a
+        href={href}
+        className={cx('text-base text-gray-500 hover:text-gray-900', {
+          'pointer-events-none touch-none': disabled,
+        })}
+      >
         {label}
+        {disabled && (
+          <Badge label="Coming soon" size="small" className="ml-1 my-0" />
+        )}
       </a>
     </li>
   )

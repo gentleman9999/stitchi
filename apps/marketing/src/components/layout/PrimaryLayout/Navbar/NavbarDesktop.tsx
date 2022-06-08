@@ -39,6 +39,7 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
                 label={item.label}
                 href={item.href}
                 description={item.description}
+                beta={item.beta}
                 // icon={item.icon}
               />
             ))}
