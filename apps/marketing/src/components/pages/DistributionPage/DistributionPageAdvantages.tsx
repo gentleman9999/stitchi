@@ -1,5 +1,7 @@
 import React from 'react'
 import { Section, SectionHeader } from '@components/common'
+import Image from 'next/image'
+import shippingWarehouse from '../../../../public/shipping_warehouse.png'
 
 interface Props {}
 
@@ -11,7 +13,10 @@ const DistributionPageAdvantages = (props: Props) => {
         title="Scale effortlessly, zero burden"
         subtitle="We enable brands to scale their eCommerce and access cutting-edge fulfillment services at a completely transparent, industry-low rate."
       />
-      <div className="mt-16 grid grid-cols-1 md:grid-cols-2">
+      <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-16">
+        <div className="sm:order-last">
+          <Image src={shippingWarehouse} alt="Shipping warehouse rendering" />
+        </div>
         <ul className="grid gap-10">
           <Item
             title="Fast and reliable"
@@ -26,7 +31,6 @@ const DistributionPageAdvantages = (props: Props) => {
             description="Leveraging 3rd party logistics can reduce costs tremendously through bulk shipping discounts, specialized equipment and dedicated support."
           />
         </ul>
-        <div></div>
       </div>
     </Section>
   )
