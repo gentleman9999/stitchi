@@ -1,23 +1,24 @@
-import { SectionFAQ } from '@components/common'
+import { gql } from '@apollo/client'
+import { FeaturePageContainer, SectionFAQ } from '@components/common'
 import { Container } from '@components/ui'
-import { NextSeo } from 'next-seo'
+import { DesignPageCatalogFragment } from '@generated/DesignPageCatalogFragment'
 import React from 'react'
 import DesignPageAdvantages from './DesignPageAdvantages'
-import DesignPageArtExamples from './DesignPageArtExamples'
 
 import DesignPageHero from './DesignPageHero'
 import DesignPageProcess from './DesignPageProcess'
-import DesignPageTestimonial from './DesignPageTestimonial'
 
-interface DesignPageProps {}
+interface DesignPageProps {
+  catalog?: DesignPageCatalogFragment | null
+}
 
-const DesignPage = (props: DesignPageProps) => {
+const DesignPage = ({ catalog }: DesignPageProps) => {
   return (
-    <>
-      <NextSeo
-        title="Free, professional merch and promotional product design"
-        description="If you need high quality custom clothing and promotional products, Stitchi is here to help. We offer free design services, fast quotes, excellent customer service, and speedy delivery times."
-      />
+    <FeaturePageContainer
+      seoTitle="Free, professional merch and promotional product design"
+      seoDescription="If you need high quality custom clothing and promotional products, Stitchi is here to help. We offer free design services, fast quotes, excellent customer service, and speedy delivery times."
+      catalog={catalog}
+    >
       <Container>
         <DesignPageHero />
       </Container>
@@ -30,9 +31,6 @@ const DesignPage = (props: DesignPageProps) => {
       </Container> */}
       <Container>
         <DesignPageAdvantages />
-      </Container>
-      <Container>
-        <DesignPageTestimonial />
       </Container>
       <Container>
         <SectionFAQ
@@ -52,8 +50,17 @@ const DesignPage = (props: DesignPageProps) => {
           ]}
         />
       </Container>
-    </>
+    </FeaturePageContainer>
   )
+}
+
+DesignPage.fragments = {
+  catalog: gql`
+    ${FeaturePageContainer.fragments.catalog}
+    fragment DesignPageCatalogFragment on Site {
+      ...FeaturePageContainerCatalogFragment
+    }
+  `,
 }
 
 export default DesignPage

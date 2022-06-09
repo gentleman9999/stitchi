@@ -43,18 +43,16 @@ const routes = {
           productSlug,
           params,
         }: {
-          // slug includes slashes -> '/slug/'
           brandSlug: string
           productSlug: string
           params?: QueryParams
-        }) =>
-          buildRoute(
-            `/${brandSlug.replaceAll('/', '')}-${productSlug.replaceAll(
-              '/',
-              '',
-            )}`,
+        }) => {
+          const serialize = (s: string) => s.replace(/\//g, '')
+          return buildRoute(
+            `/${serialize(brandSlug)}-${serialize(productSlug)}`,
             params,
-          ),
+          )
+        },
       },
     },
     blog: {

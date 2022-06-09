@@ -7,10 +7,10 @@ import jennyHeadshot from '../../../../public/customers/morning_brew/jenny_rothe
 import referralProgram from '../../../../public/customers/morning_brew/morning_brew_referral_program.jpg'
 import { Section } from '@components/common'
 
-const DesignPageTestimonial = () => {
+const FeaturePageTestimonial = () => {
   return (
     <Section gutter="md">
-      <div className="lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-24 bg-secondaryAlt-100 rounded-md p-4 md:p-8">
+      <div className="lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-24 rounded-md p-4 md:p-8">
         <div className="max-w-xl mx-auto lg:max-w-none">
           <div>
             <div className="">
@@ -71,8 +71,8 @@ const DesignPageTestimonial = () => {
             </blockquote>
           </div>
         </div>
-        <div className="mt-12 sm:mt-16 lg:mt-0">
-          <div className="relative overflow-hidden w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5">
+        <div className="mt-12 sm:mt-16 lg:mt-0 self-center">
+          <div className="relative overflow-hidden w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 pl-4 pr-6 pt-2 pb-2">
             <Image
               src={referralProgram}
               alt="Morning Brew Referral Program"
@@ -86,4 +86,4 @@ const DesignPageTestimonial = () => {
   )
 }
 
-export default DesignPageTestimonial
+export default FeaturePageTestimonial

@@ -1,16 +1,23 @@
 import Link from 'next/link'
 import React from 'react'
+import cx from 'classnames'
 import { AnchorHTMLAttributes } from 'react'
 
 export interface LinkInlineProps {
   children: React.ReactNode
   href: string
   external?: boolean
+  className?: string
 }
 
-const LinkInline = ({ children, href, external }: LinkInlineProps) => {
+const LinkInline = ({
+  children,
+  href,
+  external,
+  className,
+}: LinkInlineProps) => {
   const BaseLink = (props: AnchorHTMLAttributes<HTMLAnchorElement>) => (
-    <a className="underline text-primaryAlt-500" {...props}>
+    <a className={cx('underline text-primaryAlt-500', className)} {...props}>
       {children}
     </a>
   )

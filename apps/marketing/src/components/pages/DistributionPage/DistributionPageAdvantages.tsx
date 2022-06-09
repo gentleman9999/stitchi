@@ -14,7 +14,7 @@ const DistributionPageAdvantages = (props: Props) => {
         subtitle="We enable brands to scale their eCommerce and access cutting-edge fulfillment services at a completely transparent, industry-low rate."
       />
       <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-16">
-        <div className="sm:order-last">
+        <div className="sm:order-last self-center">
           <Image src={shippingWarehouse} alt="Shipping warehouse rendering" />
         </div>
         <ul className="grid gap-10">
