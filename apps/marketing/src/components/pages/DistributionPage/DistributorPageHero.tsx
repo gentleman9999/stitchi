@@ -10,14 +10,12 @@ import Link from 'next/link'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import currency from 'currency.js'
-import s from './DistributorPageHero.module.css'
 import { calculate } from './helpers'
-import pluralize from 'pluralize'
 
 const RangeSlider = (props: RangeSliderProps) => (
   <BaseRangeSlider
-    inputClassName="bg-transparent border-4 text-white !text-2xl font-medium"
-    className={s.rangeSlider}
+    inputClassName="bg-transparent border-4 !text-2xl font-medium"
+    className="mt-8"
     {...props}
   />
 )
@@ -67,7 +65,7 @@ const DistributorPageHero = () => {
               </div>
             </div>
             <div className="flex-1 min-w-[300px]">
-              <div className="ring-2 rounded-lg ring-white p-4 text-secondaryAlt-100">
+              <div className="ring-2 rounded-lg bg-white p-4 text-secondaryAlt-800 shadow-secondaryAlt-700 shadow-lg">
                 <h2 className="text-lg font-medium">
                   Estimate your <span className="font-bold">savings</span> with
                   Stitchi fulfillment.
