@@ -49,11 +49,11 @@ const StartPage = (props: StartPageProps) => {
     <>
       <StartPageSeo />
       <Container>
-        <Section>
+        <Section className="flex flex-col items-center">
           <h1 className="mt-10 text-3xl font-extrabold tracking-tight sm:text-4xl text-center">
-            Let&apos;s work together
+            Get with the Stitch
           </h1>
-          <p className="mt-4 text-lg text-gray-500 sm:mt-3 text-center max-w-3xl m-auto">
+          <p className="mt-4 text-lg text-gray-500 sm:mt-3 text-center max-w-3xl">
             We&apos;d love to hear from you and look forward to helping you
             create awesome custom swag! Fill out this short form and someone
             from our team will get back to you right away.
@@ -61,7 +61,7 @@ const StartPage = (props: StartPageProps) => {
 
           <form
             onSubmit={handleSubmit}
-            className="mt-9 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8"
+            className="mt-9 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8 max-w-3xl w-full"
           >
             <Controller
               name="first_name"
