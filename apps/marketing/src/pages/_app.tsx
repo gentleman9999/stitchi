@@ -6,7 +6,7 @@ import type { AppProps } from 'next/app'
 import { NextPage } from 'next'
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '@lib/apollo'
-import { SeoDefault } from '@components/common'
+import { SeoDefault, SmartlookScript } from '@components/common'
 import globalSeo from '@generated/global-seo.json'
 import { StandoutProvider } from '@components/context'
 import { GTM_ID } from '@lib/events'
@@ -56,6 +56,8 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
           `,
         }}
       />
+      <SmartlookScript />
+
       <ApolloProvider client={apolloClient}>
         {/* https://www.datocms.com/docs/next-js/seo-management */}
         <SeoDefault

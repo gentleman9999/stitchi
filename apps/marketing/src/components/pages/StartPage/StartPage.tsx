@@ -182,7 +182,7 @@ const StartPage = (props: StartPageProps) => {
 
             <div className="text-right sm:col-span-2">
               <Button type="submit" color="brandPrimary" loading={loading}>
-                Submit
+                Send message
               </Button>
             </div>
           </form>
