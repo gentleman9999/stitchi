@@ -8,8 +8,8 @@ const SmartlookScript = () => {
   React.useEffect(() => {
     try {
       const smartlookApiKey = getOrThrow(
-        process.env.SMARTLOOK_API_KEY,
-        'SMARTLOOK_API_KEY',
+        process.env.NEXT_PUBLIC_SMARTLOOK_API_KEY,
+        'NEXT_PUBLIC_SMARTLOOK_API_KEY',
       )
 
       setApiKey(smartlookApiKey)
