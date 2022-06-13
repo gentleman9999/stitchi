@@ -46,6 +46,26 @@ module.exports = withTM({
         destination: '/learn?standout=contact_success',
         permanent: false,
       },
+      {
+        source: "/partners",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/overview",
+        destination: "/",
+        permanent: true
+      },
+      {
+        source: "/features",
+        destination: "/",
+        permanent: true
+      },
+      {
+        source: "/morning-brew-newsletter-referral-program",
+        destination: "/powering-morning-brew-newsletter-referral-program-with-custom-swag",
+        permanent: true
+      }
     ]
   },
 })
