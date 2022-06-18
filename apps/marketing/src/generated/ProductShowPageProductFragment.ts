@@ -123,6 +123,102 @@ export interface ProductShowPageProductFragment_productOptions {
   edges: (ProductShowPageProductFragment_productOptions_edges | null)[] | null;
 }
 
+export interface ProductShowPageProductFragment_variants_edges_node_defaultImage {
+  __typename: "Image";
+  /**
+   * Absolute path to image using store CDN.
+   */
+  url: string;
+  /**
+   * Text description of an image that can be used for SEO and/or accessibility purposes.
+   */
+  altText: string;
+}
+
+export interface ProductShowPageProductFragment_variants_edges_node_options_edges_node_values_edges_node {
+  __typename: "ProductOptionValue";
+  /**
+   * Unique ID for the option value.
+   */
+  entityId: number;
+}
+
+export interface ProductShowPageProductFragment_variants_edges_node_options_edges_node_values_edges {
+  __typename: "OptionValueEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: ProductShowPageProductFragment_variants_edges_node_options_edges_node_values_edges_node;
+}
+
+export interface ProductShowPageProductFragment_variants_edges_node_options_edges_node_values {
+  __typename: "OptionValueConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (ProductShowPageProductFragment_variants_edges_node_options_edges_node_values_edges | null)[] | null;
+}
+
+export interface ProductShowPageProductFragment_variants_edges_node_options_edges_node {
+  __typename: "ProductOption";
+  /**
+   * Option values.
+   */
+  values: ProductShowPageProductFragment_variants_edges_node_options_edges_node_values;
+}
+
+export interface ProductShowPageProductFragment_variants_edges_node_options_edges {
+  __typename: "OptionEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: ProductShowPageProductFragment_variants_edges_node_options_edges_node;
+}
+
+export interface ProductShowPageProductFragment_variants_edges_node_options {
+  __typename: "OptionConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (ProductShowPageProductFragment_variants_edges_node_options_edges | null)[] | null;
+}
+
+export interface ProductShowPageProductFragment_variants_edges_node {
+  __typename: "Variant";
+  /**
+   * The ID of an object
+   */
+  id: string;
+  /**
+   * Id of the variant.
+   */
+  entityId: number;
+  /**
+   * Default image for a variant.
+   */
+  defaultImage: ProductShowPageProductFragment_variants_edges_node_defaultImage | null;
+  /**
+   * The options which define a variant.
+   */
+  options: ProductShowPageProductFragment_variants_edges_node_options;
+}
+
+export interface ProductShowPageProductFragment_variants_edges {
+  __typename: "VariantEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: ProductShowPageProductFragment_variants_edges_node;
+}
+
+export interface ProductShowPageProductFragment_variants {
+  __typename: "VariantConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (ProductShowPageProductFragment_variants_edges | null)[] | null;
+}
+
 export interface ProductShowPageProductFragment {
   __typename: "Product";
   /**
@@ -161,4 +257,8 @@ export interface ProductShowPageProductFragment {
    * Description of the product.
    */
   description: string;
+  /**
+   * Variants associated with the product.
+   */
+  variants: ProductShowPageProductFragment_variants;
 }

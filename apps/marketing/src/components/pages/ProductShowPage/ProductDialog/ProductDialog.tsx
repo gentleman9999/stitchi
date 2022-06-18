@@ -10,12 +10,28 @@ import React from 'react'
 import ProductColorGrid from './ProductColorGrid'
 import ProductWishlistButton from './ProductWishlistButton'
 
+interface ProductOptionValues {
+  colorEntityId: number | null
+}
+
 interface Props {
   product: ProductDialogProductFragment
 }
 
 const ProductDialog = ({ product }: Props) => {
   const router = useRouter()
+
+  const [productOptionValues, setProductOptionValues] =
+    React.useState<ProductOptionValues>({
+      colorEntityId: null,
+    })
+
+  const handleColorSelect = (colorEntityId: number) => {
+    setProductOptionValues({
+      ...productOptionValues,
+      colorEntityId,
+    })
+  }
 
   const handleClose = () => {
     const params = { ...router.query }
@@ -24,6 +40,22 @@ const ProductDialog = ({ product }: Props) => {
       scroll: false,
     })
   }
+
+  const activeVariant = product.variants.edges
+    ?.map(edge => edge?.node)
+    .find(variant => {
+      return variant?.options.edges
+        ?.map(edge => edge?.node)
+        .find(option => {
+          return option?.values.edges
+            ?.map(edge => edge?.node)
+            .find(value => {
+              return value?.entityId === productOptionValues.colorEntityId
+            })
+        })
+    })
+
+  const image = activeVariant?.defaultImage || product.defaultImage
 
   return (
     <Dialog open={true} onClose={handleClose} mobileFullScreen disablePortal>
@@ -34,16 +66,16 @@ const ProductDialog = ({ product }: Props) => {
         </IconButton>
       </Dialog.Title>
       <Dialog.Content>
-        {product.defaultImage && (
+        {image ? (
           <div className="relative w-full h-[250px] border-b">
             <Image
-              src={product.defaultImage.url}
-              alt={product.defaultImage.altText || product.name}
+              src={image.url}
+              alt={image.altText || product.name}
               layout="fill"
               objectFit="contain"
             />
           </div>
-        )}
+        ) : null}
 
         <Dialog.ContentText>
           <div className="flex flex-col justify-center items-center mt-4">
@@ -65,7 +97,10 @@ const ProductDialog = ({ product }: Props) => {
             <div dangerouslySetInnerHTML={{ __html: product.description }} />
           </div>
           <VariantOptionSection title="Available Colors">
-            <ProductColorGrid product={product} />
+            <ProductColorGrid
+              product={product}
+              onColorSelect={handleColorSelect}
+            />
           </VariantOptionSection>
         </Dialog.ContentText>
       </Dialog.Content>
@@ -105,6 +140,31 @@ ProductDialog.fragments = {
         urlOriginal
         altText
         url(width: 300)
+      }
+      variants {
+        edges {
+          node {
+            id
+            entityId
+            defaultImage {
+              url(width: 300)
+              altText
+            }
+            options {
+              edges {
+                node {
+                  values {
+                    edges {
+                      node {
+                        entityId
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   `,

@@ -29,9 +29,9 @@ const CatalogIndexPageProduct = ({ product }: Props) => {
   })
 
   return (
-    <li>
+    <li className="flex flex-col">
       <Link scroll={false} href={href}>
-        <a className="block cursor-pointer rounded-2xl border-2 border-gray-100 p-4">
+        <a className="flex-1 flex flex-col cursor-pointer rounded-2xl border border-gray-100 p-4 shadow hover:shadow-md transition-all">
           {product.defaultImage?.url && (
             <div className="relative w-full h-[200px]">
               <Image
@@ -46,7 +46,7 @@ const CatalogIndexPageProduct = ({ product }: Props) => {
           <h3 className="mt-4 text-sm font-medium tracking-wide">
             {makeProductTitle(product)}
           </h3>
-          <div className="mt-4 flex items-center">
+          <div className="flex-1 mt-4 flex items-end">
             <SwatchGroup
               // Could add support for more colors in the future
               hexColors={colors.map(({ hexColors }) => hexColors[0])}
