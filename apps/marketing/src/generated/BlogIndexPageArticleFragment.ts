@@ -63,7 +63,7 @@ export interface BlogIndexPageArticleFragment_categories {
 export interface BlogIndexPageArticleFragment {
   __typename: "ArticleRecord";
   id: any;
-  updatedAt: any;
+  _publishedAt: any | null;
   title: string | null;
   slug: string | null;
   shortDescription: string | null;

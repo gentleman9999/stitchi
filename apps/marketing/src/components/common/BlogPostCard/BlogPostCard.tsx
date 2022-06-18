@@ -72,8 +72,8 @@ const BlogPostCard = ({ post }: BlogPostCardProps) => {
               {/* </a> */}
             </p>
             <div className="flex space-x-1 text-sm text-gray-500">
-              <time dateTime={post.updatedAt}>
-                {humanizeDate(post.updatedAt, { short: true })}
+              <time dateTime={post._publishedAt}>
+                {humanizeDate(post._publishedAt, { short: true })}
               </time>
               {/* <span aria-hidden="true">&middot;</span> */}
               {/* <span>{post.readingTime} read</span> */}
@@ -91,7 +91,7 @@ BlogPostCard.fragments = {
     ${Avatar.fragments.image}
     fragment BlogPostCardArticleFragment on ArticleRecord {
       id
-      updatedAt
+      _publishedAt
       title
       slug
       shortDescription

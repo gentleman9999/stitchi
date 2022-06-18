@@ -65,6 +65,16 @@ module.exports = withTM({
         source: "/morning-brew-newsletter-referral-program",
         destination: "/powering-morning-brew-newsletter-referral-program-with-custom-swag",
         permanent: true
+      },
+      {
+        source: "/event-promotional-products",
+        destination: "/customer-engagement",
+        permanent: true
+      },
+      {
+        source: "/corporate-promotional-products",
+        destination: "/employee-engagement",
+        permanent: true
       }
     ]
   },

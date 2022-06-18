@@ -111,7 +111,7 @@ export interface BlogPostShowPageArticleFragment {
   __typename: "ArticleRecord";
   id: any;
   title: string | null;
-  updatedAt: any;
+  _publishedAt: any | null;
   author: BlogPostShowPageArticleFragment_author | null;
   categories: BlogPostShowPageArticleFragment_categories[];
   image: BlogPostShowPageArticleFragment_image | null;

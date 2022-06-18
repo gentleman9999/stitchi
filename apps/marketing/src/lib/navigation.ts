@@ -7,13 +7,13 @@ const navigation = {
   makeNavigation: () => ({
     solutions: [
       {
-        label: 'Pro Merch Design (Free)',
+        label: 'Pro Merch Design (free)',
         description:
-          "We'll design your merch for you, and you'll get paid for it.",
+          "We'll design your merch for you, and you'll get all the credit.",
         icon: Support,
         href: routes.internal.features.design.href(),
       },
-    
+
       {
         label: 'eCommerce, Warehousing & Distribution',
         description:
@@ -24,18 +24,18 @@ const navigation = {
       {
         label: 'Swag Bags & Boxes',
         description:
-          "Curate unique branded promotional products for your fans and employees.",
+          'Curate unique branded promotional products for your fans and employees.',
         icon: Support,
         href: '',
-        beta: true
+        beta: true,
       },
       {
         label: 'Loyalty & Referral Programs',
         description:
-          "Reward your audience for purchasing from you or referring your brand.",
+          'Reward your audience for purchasing from you or referring your brand.',
         icon: Support,
         href: '',
-        beta: true
+        beta: true,
       },
     ],
     resources: [

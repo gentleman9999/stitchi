@@ -63,7 +63,7 @@ export interface BlogPostCardArticleFragment_categories {
 export interface BlogPostCardArticleFragment {
   __typename: "ArticleRecord";
   id: any;
-  updatedAt: any;
+  _publishedAt: any | null;
   title: string | null;
   slug: string | null;
   shortDescription: string | null;

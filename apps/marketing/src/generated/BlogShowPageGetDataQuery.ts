@@ -113,7 +113,7 @@ export interface BlogShowPageGetDataQuery_article {
   __typename: "ArticleRecord";
   id: any;
   title: string | null;
-  updatedAt: any;
+  _publishedAt: any | null;
   author: BlogShowPageGetDataQuery_article_author | null;
   categories: BlogShowPageGetDataQuery_article_categories[];
   image: BlogShowPageGetDataQuery_article_image | null;

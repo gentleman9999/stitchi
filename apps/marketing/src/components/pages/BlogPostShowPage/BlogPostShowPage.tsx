@@ -44,7 +44,7 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
 
             <div className="mb-3">
               <time>
-                <span>{humanizeDate(post.updatedAt)}</span>
+                <span>{humanizeDate(post._publishedAt)}</span>
               </time>
             </div>
 
@@ -93,7 +93,7 @@ BlogPostShowPage.fragments = {
     fragment BlogPostShowPageArticleFragment on ArticleRecord {
       id
       title
-      updatedAt
+      _publishedAt
       author {
         id
         ...BlogPostShowPageAuthorFragment
