@@ -117,7 +117,7 @@ const GET_DATA = gql`
   ${BlogPostIndexPage.fragments.category}
   ${BlogPostIndexPage.fragments.page}
   query BlogIndexPageGetDataQuery($first: IntType, $skip: IntType) {
-    allArticles(first: $first, skip: $skip) {
+    allArticles(first: $first, skip: $skip, orderBy: _publishedAt_DESC) {
       id
       ...BlogIndexPageArticleFragment
     }
