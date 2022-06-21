@@ -141,7 +141,7 @@ ProductDialog.fragments = {
         altText
         url(width: 300)
       }
-      variants {
+      variants(first: 250) {
         edges {
           node {
             id
