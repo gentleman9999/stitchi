@@ -38,22 +38,26 @@ const ProductDialog = ({ product }: Props) => {
     delete params['catchAllSlug']
     router.push(routes.internal.catalog.href({ params }), undefined, {
       scroll: false,
+      shallow: true,
     })
   }
 
-  const activeVariant = product.variants.edges
-    ?.map(edge => edge?.node)
-    .find(variant => {
-      return variant?.options.edges
-        ?.map(edge => edge?.node)
-        .find(option => {
-          return option?.values.edges
-            ?.map(edge => edge?.node)
-            .find(value => {
-              return value?.entityId === productOptionValues.colorEntityId
-            })
+  const productVariants = product.variants.edges?.map(edge => edge?.node)
+
+  const activeVariant = React.useMemo(
+    () =>
+      productVariants?.find(variant => {
+        const options = variant?.options.edges?.map(edge => edge?.node)
+        return options?.find(option => {
+          const values = option?.values.edges?.map(edge => edge?.node)
+
+          return values?.find(value => {
+            return value?.entityId === productOptionValues.colorEntityId
+          })
         })
-    })
+      }),
+    [productOptionValues.colorEntityId, productVariants],
+  )
 
   const image = activeVariant?.defaultImage || product.defaultImage
 
