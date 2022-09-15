@@ -46,7 +46,7 @@ const Item = ({
 }) => {
   return (
     <div>
-      <h3 className="text sm:text-lg lg:text-xl font-semibold text-secondaryAlt-900">
+      <h3 className="text sm:text-lg lg:text-xl font-semibold text-secondaryAlt-900 font-heading">
         {title}
       </h3>
       <p className="text-secondaryAlt-600 text-sm md:text-base mt-2 leading-relaxed">

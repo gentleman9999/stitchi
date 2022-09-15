@@ -47,7 +47,7 @@ const HomePageUseCasesSection = ({}: Props) => {
   return (
     <Section gutter="lg" className="text-gray-50">
       <Container>
-        <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tighter">
+        <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold font-headingDisplay">
           Ways to use Stitchi
         </h2>
       </Container>
@@ -71,14 +71,12 @@ const HomePageUseCasesSection = ({}: Props) => {
               }}
             >
               <div>
-                <h3 className="tracking-tight text-2xl font-semibold">
-                  {title}
-                </h3>
+                <h3 className="text-2xl font-bold font-heading">{title}</h3>
                 <p className="mt-8 font-medium text-xl">{description}</p>
               </div>
 
               <Link href={cta.href}>
-                <a className="mt-8 block text-2xl tracking-tight font-bold underline">
+                <a className="mt-8 block text-2xl tracking-tight font-bold font-heading underline">
                   {cta.label}
                 </a>
               </Link>

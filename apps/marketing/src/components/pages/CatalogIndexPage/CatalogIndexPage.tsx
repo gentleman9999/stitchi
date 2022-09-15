@@ -35,7 +35,7 @@ const CatalogIndexPage = ({
         <Section>
           <div className="p-8 md:p-14 md:pr-0 text-center sm:text-left bg-primaryAlt-100 rounded-xl flex items-center">
             <div className="md:w-[70%]">
-              <TitleTag className="text-2xl md:text-3xl lg:text-4xl  font-bold tracking-tight">
+              <TitleTag className="text-2xl md:text-3xl lg:text-4xl font-bold font-heading">
                 Browse through our curated selection of products
               </TitleTag>
               <p className="mt-6 text-lg text-gray-700">
@@ -45,9 +45,7 @@ const CatalogIndexPage = ({
                 people love.
               </p>
               <Link href={routes.internal.getStarted.href()} passHref>
-                <Button slim className="mt-6">
-                  Talk to a designer
-                </Button>
+                <Button className="mt-6">Talk to a designer</Button>
               </Link>
             </div>
             <div className="w-[30%] hidden md:flex items-center justify-center">

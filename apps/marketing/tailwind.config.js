@@ -8,6 +8,11 @@ module.exports = {
   ],
   plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
   theme: {
+    fontFamily: {
+      heading: ["Degular"],
+      headingDisplay: ["Degular-Display"],
+      default: ['Inter'],
+    },
     colors: {
       transparent: 'transparent',
       primary: colors.lime[400], // #a3e635

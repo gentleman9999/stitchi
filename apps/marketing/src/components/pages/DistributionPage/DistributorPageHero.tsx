@@ -42,7 +42,7 @@ const DistributorPageHero = () => {
         <Section gutter="xl">
           <div className="mt-10 flex flex-col sm:flex-row gap-8 md:gap-10 lg:gap-12">
             <div className="flex-auto max-w-[66%]">
-              <h1 className="text-4xl sm:text-5xl lg:text-7xl text-white font-extrabold tracking-tight leading-tight">
+              <h1 className="text-4xl sm:text-5xl lg:text-7xl text-white font-extrabold font-headingDisplay">
                 Automate merch fulfillment without hiring
               </h1>
               <p className="text md:text-xl text-secondaryAlt-400 mt-4 font-medium">

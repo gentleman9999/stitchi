@@ -31,7 +31,7 @@ const RadioSelect = (props: RadioSelectProps) => {
               onChange={props.onChange}
               defaultValue={option.value}
               type="radio"
-              className="focus:ring-primary h-4 w-4 text-brand-primary border-gray-300"
+              className="focus:ring-primary h-4 w-4 text-primary border-gray-300"
             />
             <label htmlFor={option.id} className="ml-3">
               <span className="block text-sm text-gray-700">

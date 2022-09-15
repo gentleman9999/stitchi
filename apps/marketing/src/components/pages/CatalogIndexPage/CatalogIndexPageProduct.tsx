@@ -43,7 +43,7 @@ const CatalogIndexPageProduct = ({ product }: Props) => {
             </div>
           )}
 
-          <h3 className="mt-4 text-sm font-medium tracking-wide">
+          <h3 className="mt-4 text-md font-medium font-heading leading-none">
             {makeProductTitle(product)}
           </h3>
           <div className="flex-1 mt-4 flex items-end">

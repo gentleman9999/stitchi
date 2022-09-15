@@ -45,7 +45,7 @@ const Item = ({
 }) => {
   return (
     <li>
-      <h3 className="text-lg font-medium">{title}</h3>
+      <h3 className="text-lg font-medium font-heading">{title}</h3>
       <p className="text text-gray-500 mt-2">{description}</p>
     </li>
   )

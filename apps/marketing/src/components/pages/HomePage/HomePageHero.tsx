@@ -39,7 +39,7 @@ const HomePageHero = () => {
     <Hero
       title={
         <>
-          <span className="inline">
+          <span className="inline font-headingDisplay">
             Make the stitch.
             <span className="flex flex-wrap whitespace-nowrap justify-center gap-x-2 text-primary">
               <span className="w-full sm:w-auto">{useCase}</span> merch.

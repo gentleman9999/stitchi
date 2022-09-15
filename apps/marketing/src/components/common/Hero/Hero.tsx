@@ -20,7 +20,7 @@ const Hero = (props: HeroProps) => {
     <Section gutter="lg" className="min-h-[60vh] flex flex-col justify-center">
       <div className="text-center">
         {props.title && (
-          <h1 className="tracking-tighter  font-extrabold text-gray-900 text-6xl md:text-7xl lg:text-8xl xl:text-9xl">
+          <h1 className="font-extrabold text-gray-900 text-6xl md:text-7xl lg:text-8xl xl:text-9xl">
             {props.title}
           </h1>
         )}

@@ -28,7 +28,7 @@ const StatsSection = () => {
       </dl>
       <div className="mt-10">
         <Link href={routes.internal.getStarted.href()}>
-          <a className="font-medium text-brand-primary">
+          <a className="font-medium text-primary">
             Learn how to level up your swag &nbsp; &rarr;
           </a>
         </Link>

@@ -96,7 +96,7 @@ const FilterDialog = ({ open, onClose, scroll }: Props) => {
         <IconButton onClick={onClose} variant="ghost" disableGutters>
           <XIcon width={20} height={20} />
         </IconButton>
-        <div className="text-center">Filters</div>
+        <div className="text-center font-heading font-bold">Filters</div>
         <div />
       </Dialog.Title>
 
@@ -171,7 +171,7 @@ const FilterSection = ({
 }) => {
   return (
     <div>
-      <legend className="text-2xl font-semibold text-gray-800 tracking-tight">
+      <legend className="text-2xl font-semibold text-gray-800 font-heading">
         {title}
       </legend>
       <span>{subtitle}</span>
@@ -216,7 +216,7 @@ const CheckboxFilter = ({
       </div>
       <label
         htmlFor={name}
-        className="font-medium text-gray-500 select-none cursor-pointer"
+        className="font-medium text-gray-500 select-none cursor-pointer font-heading text-md"
         onClick={onChange}
       >
         {label}

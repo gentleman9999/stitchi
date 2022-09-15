@@ -1,13 +1,13 @@
 .root {
-  @apply bg-gray-900 text-gray-100 cursor-pointer inline-flex
-  px-8 py-3 leading-6 transition ease-in-out duration-150
-  shadow-sm text-center justify-center 
-  border border-transparent items-center font-medium
-  tracking-tight rounded-lg;
+  @apply bg-gray-900 text-gray-50 text-center text-xl cursor-pointer inline-flex
+  px-8 py-3 leading-none transition ease-in-out duration-150
+  shadow-sm justify-center 
+  border border-transparent items-center font-semibold font-heading
+  tracking-normal rounded-md;
   max-height: 64px;
 
   &.brandColors {
-    @apply border-primary bg-primary text-gray-100;
+    @apply border-primary bg-primary text-gray-50;
   }
 }
 

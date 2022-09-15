@@ -60,21 +60,20 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
 
       <Link href={routes.internal.getStarted.href()} passHref>
         <Button
+          bold
           Component="a"
-          className="!py-1 !px-4 !font-extrabold !lowercase text-lg"
+          className="!py-2 !px-4 !lowercase text-lg group !font-default !rounded-2xl"
           color="brandPrimary"
         >
-          <div className="flex group">
-            start here{' '}
-            <span className="ml-1 relative transition-all">
-              <div className="invisible">
-                <ArrowRight strokeWidth="4" width="15px" />
-              </div>
-              <span className="absolute top-0 left-0 ml-1/2 group-hover:left-1.5 duration-200">
-                <ArrowRight strokeWidth="4" width="15px" />
-              </span>
+          start here{' '}
+          <span className="ml-1 relative transition-all">
+            <div className="invisible">
+              <ArrowRight strokeWidth="4" width="15px" />
+            </div>
+            <span className="absolute top-0 left-0 ml-1/2 group-hover:left-1.5 duration-200">
+              <ArrowRight strokeWidth="4" width="15px" />
             </span>
-          </div>
+          </span>
         </Button>
       </Link>
     </nav>

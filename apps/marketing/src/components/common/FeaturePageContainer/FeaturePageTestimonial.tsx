@@ -14,7 +14,7 @@ const FeaturePageTestimonial = () => {
         <div className="max-w-xl mx-auto lg:max-w-none">
           <div>
             <div className="">
-              <h2 className="text-3xl font-extrabold tracking-tight text-gray-900">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 font-headingDisplay">
                 Do more with swag
               </h2>
               <p className="mt-4 text-lg text-gray-500">
@@ -63,7 +63,7 @@ const FeaturePageTestimonial = () => {
                       className="rounded-full"
                     />
                   </div>
-                  <div className="text-base font-medium text-gray-700">
+                  <div className="text-lg font-medium text-gray-700 font-heading">
                     Jenny Rothenberg, Director of Growth
                   </div>
                 </div>

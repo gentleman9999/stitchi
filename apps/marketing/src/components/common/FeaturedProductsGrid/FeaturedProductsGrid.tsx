@@ -70,7 +70,7 @@ const Product = ({
             />
           </div>
         )}
-        <h3 className="font-medium">{product.name}</h3>
+        <h3 className="font-medium font-heading">{product.name}</h3>
       </a>
     </Link>
   )

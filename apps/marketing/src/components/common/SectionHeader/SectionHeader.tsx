@@ -10,12 +10,12 @@ const SectionHeader = ({ pretitle, title, subtitle }: SectionHeaderProps) => {
   return (
     <div className="flex flex-col items-center">
       {pretitle && (
-        <span className="uppercase text-sm tracking-tight font-bold text-white bg-primaryAlt-400 rounded-full px-2">
+        <span className="uppercase text-sm tracking-tight font-bold font-heading text-white bg-primaryAlt-400 rounded-full px-2">
           {pretitle}
         </span>
       )}
 
-      <h2 className="text-center text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 tracking-tight mt-2">
+      <h2 className="text-center text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 font-heading mt-2">
         {title}
       </h2>
       {subtitle && (

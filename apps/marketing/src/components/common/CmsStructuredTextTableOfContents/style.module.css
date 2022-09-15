@@ -1,4 +1,5 @@
 .toc {
+  @apply font-heading;
   /* -- Nested List  -- */
   /* Set the first layer of list items to regular numeric decimals */
   & > ol {

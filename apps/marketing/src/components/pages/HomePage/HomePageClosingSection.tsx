@@ -53,7 +53,7 @@ const HomePageClosingSection = () => {
         </div> */}
         <div className="relative">
           <div className="sm:text-center">
-            <h2 className="text-5xl font-extrabold sm:text-7xl lg:text-8xl tracking-tighter">
+            <h2 className="text-5xl font-extrabold sm:text-7xl lg:text-8xl font-headingDisplay">
               <span className="block">Swag like...</span>
             </h2>
             <span className="mt-14 lg:mt-20 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-10 lg:gap-16 justify-items-center">
@@ -70,7 +70,7 @@ const HomePageClosingSection = () => {
             <p className="mt-14 lg:mt-20 text-2xl font-medium leading-tight tracking-tight max-w-[650px] md:text-center m-auto">
               Make the stitch and join hundreds of businesses, brands, and
               creators building brand engagement, loyalty, and revenue with
-              Stitchi
+              Stitchi.
             </p>
             <div className="mt-16 inline-block">
               <Link href={routes.internal.getStarted.href()} passHref>

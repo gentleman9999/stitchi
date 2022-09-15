@@ -63,7 +63,10 @@ const ProductDialog = ({ product }: Props) => {
 
   return (
     <Dialog open={true} onClose={handleClose} mobileFullScreen disablePortal>
-      <Dialog.Title className="flex justify-between gap-2" as="div">
+      <Dialog.Title
+        className="flex justify-between gap-2 font-heading text-lg"
+        as="div"
+      >
         <h1>{makeProductTitle(product)}</h1>
         <IconButton onClick={handleClose} variant="ghost" disableGutters>
           <XIcon width={20} height={20} />

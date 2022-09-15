@@ -45,10 +45,10 @@ const Step = ({
 }) => {
   return (
     <div className="max-w-sm sm:max-w-none flex flex-col md:block items-center m-auto text-center sm:text-left">
-      <span className="text-4xl text-primaryAlt-300 rounded-full ring ring-primaryAlt-300 w-14 h-14 flex justify-center items-center">
+      <span className="text-4xl text-primaryAlt-300 rounded-full ring ring-primaryAlt-300 w-14 h-14 flex justify-center items-center font-headingDisplay font-semibold">
         {position}
       </span>
-      <h3 className="text md:text-lg font-semibold text-gray-700 mt-6">
+      <h3 className="text:lg md:text-xl font-semibold text-gray-700 mt-6 font-heading">
         {title}
       </h3>
       <p className="text-gray-500 text md:text-lg mt-2">{content}</p>

@@ -41,13 +41,13 @@ const BlogPostCard = ({ post }: BlogPostCardProps) => {
           {categoryHref && (
             <p className="text-sm font-medium text-lime-500">
               <Link href={categoryHref}>
-                <a className="hover:underline">{category.name}</a>
+                <a className="hover:underline font-heading">{category.name}</a>
               </Link>
             </p>
           )}
           <Link href={postHref}>
             <a className="block mt-2">
-              <p className="text-xl font-semibold text-gray-900">
+              <p className="text-xl font-semibold text-gray-900 font-heading">
                 {post.title}
               </p>
               <p className="mt-3 text-base text-gray-500">
@@ -65,8 +65,8 @@ const BlogPostCard = ({ post }: BlogPostCardProps) => {
               {/* </a> */}
             </div>
           )}
-          <div className="ml-3">
-            <p className="text-sm font-medium text-gray-900">
+          <div className="ml-3 font-heading">
+            <p className="text-sm font-medium text-gray-900 ">
               {/* <a href={post.author.href} className="hover:underline"> */}
               {post.author?.name}
               {/* </a> */}

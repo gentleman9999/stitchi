@@ -63,7 +63,7 @@ const NavbarDropdownItemDesktop = ({
             </span>
           )}
           <div>
-            <h4 className="font-extrabold">{label}</h4>
+            <h4 className="font-extrabold font-heading">{label}</h4>
             <span className="text-secondary">{description}</span>
           </div>
         </div>
