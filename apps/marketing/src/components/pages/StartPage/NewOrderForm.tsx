@@ -50,8 +50,7 @@ const NewOrderForm = () => {
         Get with the Stitch
       </h1>
       <p className="mt-4 text-lg text-gray-500 sm:mt-3 text-center max-w-3xl">
-        We&apos;d love to hear from you and look forward to helping you create
-        awesome custom swag! Fill out this short form and someone from our team
+        We take a hands-on approach to working with our customers. We&apos;d love to hear how we can help you facilitate an exceptional merch program and create awesome custom swag! Fill out this short form and someone from our team
         will get back to you right away.
       </p>
 
