@@ -15,7 +15,7 @@
     "build:docker": "cd ../.. && docker build -t stitchi-server .",
     "codegen": "yarn codegen:prisma && yarn codegen:nexus",
     "codegen:prisma": "prisma generate",
-    "codegen:nexus": "ts-node --transpile-only src/graphql/schema",
+    "codegen:nexus": "npx ts-node --transpile-only src/graphql/schema",
     "db:migrate": "npx prisma db push",
     "db:inspect": "npx prisma studio"
   },
