@@ -4,12 +4,13 @@ import cx from 'classnames'
 import Navbar from './Navbar'
 
 export interface PrimaryLayoutProps {
+  children: React.ReactNode
   className?: string
   navBackgroundColor?: string
   disableNavSpacing?: boolean
 }
 
-const PrimaryLayout: React.FC<PrimaryLayoutProps> = props => {
+const PrimaryLayout = (props: PrimaryLayoutProps) => {
   const { children, className, navBackgroundColor, disableNavSpacing } = props
   return (
     <div

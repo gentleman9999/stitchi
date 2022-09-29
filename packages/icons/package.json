@@ -5,8 +5,8 @@
   "types": "./src/index.ts",
   "license": "MIT",
   "devDependencies": {
-    "@types/react": "^17.0.37",
-    "@types/react-dom": "^17.0.11",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
     "config": "*",
     "eslint": "^8.6.0",
     "tsconfig": "*",

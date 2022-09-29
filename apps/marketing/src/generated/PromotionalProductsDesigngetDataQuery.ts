@@ -76,5 +76,8 @@ export interface PromotionalProductsDesigngetDataQuery_site {
 }
 
 export interface PromotionalProductsDesigngetDataQuery {
+  /**
+   * A site
+   */
   site: PromotionalProductsDesigngetDataQuery_site;
 }

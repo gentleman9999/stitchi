@@ -15,7 +15,7 @@ function fuzzySearch<T>({
   return term ? result.map(r => r.item) : data
 }
 
-export interface UseFuzzySearchProps<T> {
+export interface UseFuzzySearchProps<T extends Record<string, any>> {
   data: readonly T[]
   options?: Fuse.IFuseOptions<T>
 }
@@ -24,7 +24,10 @@ export interface UseFuzzySearchProps<T> {
  * A custom React Hook to do a in-memory fuzzy text search
  * using Fuse.js.
  */
-function useFuzzySearch<T>({ data, options }: UseFuzzySearchProps<T>) {
+function useFuzzySearch<T extends Record<string, any>>({
+  data,
+  options,
+}: UseFuzzySearchProps<T>) {
   const [term, setTerm] = useState('')
 
   const fuseOptions = {

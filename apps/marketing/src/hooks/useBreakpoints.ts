@@ -3,7 +3,7 @@ import resolveConfig from 'tailwindcss/resolveConfig'
 import tailwindConfig from '../../tailwind.config' // Fix the path
 
 const fullConfig = resolveConfig(tailwindConfig as any)
-const screens: Record<string, any> = fullConfig.theme.screens || {}
+const screens: Record<string, any> = fullConfig.theme?.screens || {}
 
 const useBreakpoints = () => {
   const [currentBreakpoint, setCurrentBreakpoint] = React.useState<

@@ -47,11 +47,6 @@ module.exports = withTM({
         permanent: false,
       },
       {
-        source: "/partners",
-        destination: "/",
-        permanent: true,
-      },
-      {
         source: "/overview",
         destination: "/",
         permanent: true

@@ -1,4 +1,10 @@
-import { Facebook, Instagram, Support, Twitter } from 'icons'
+import {
+  Facebook,
+  Instagram,
+  SentimentSatisfied,
+  Support,
+  Twitter,
+} from 'icons'
 import { routes } from '.'
 
 export type Navigation = ReturnType<typeof navigation.makeNavigation>
@@ -40,6 +46,11 @@ const navigation = {
     ],
     resources: [
       {
+        label: 'Partners',
+        icon: SentimentSatisfied,
+        href: routes.internal.partners.href(),
+      },
+      {
         label: 'Catalog',
         icon: Support,
         href: routes.internal.catalog.href(),
@@ -60,11 +71,7 @@ const navigation = {
       //   icon: Support,
       //   href: '#',
       // },
-      // {
-      //   label: 'Partners',
-      //   icon: Support,
-      //   href: '#',
-      // },
+
       // {
       //   label: 'Jobs',
       //   icon: Support,

@@ -206,6 +206,9 @@ export interface CatalogIndexPageGetDataQuery_site {
 }
 
 export interface CatalogIndexPageGetDataQuery {
+  /**
+   * A site
+   */
   site: CatalogIndexPageGetDataQuery_site;
 }
 

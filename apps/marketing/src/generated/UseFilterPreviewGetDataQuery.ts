@@ -70,6 +70,9 @@ export interface UseFilterPreviewGetDataQuery_site {
 }
 
 export interface UseFilterPreviewGetDataQuery {
+  /**
+   * A site
+   */
   site: UseFilterPreviewGetDataQuery_site;
 }
 
