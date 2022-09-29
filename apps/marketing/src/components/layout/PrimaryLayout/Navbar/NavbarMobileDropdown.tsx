@@ -19,14 +19,7 @@ const NavbarMobileDropdown = ({ ButtonChildren, items }: Props) => {
           >
             <ButtonChildren active={open} />
           </Menu.Button>
-          <Menu.Items
-            unmount={false}
-            style={
-              {
-                // maxHeight: open ? `${ref.current?.scrollHeight}px` : `0`,
-              }
-            }
-          >
+          <Menu.Items unmount={false}>
             {items.map((Component, i) => (
               <Menu.Item key={i}>
                 <Component />

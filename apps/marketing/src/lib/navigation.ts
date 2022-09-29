@@ -45,11 +45,11 @@ const navigation = {
       },
     ],
     resources: [
-      {
-        label: 'Partners',
-        icon: SentimentSatisfied,
-        href: routes.internal.partners.href(),
-      },
+      // {
+      //   label: 'Partners',
+      //   icon: SentimentSatisfied,
+      //   href: routes.internal.partners.href(),
+      // },
       {
         label: 'Catalog',
         icon: Support,
