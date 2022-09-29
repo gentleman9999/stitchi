@@ -92,6 +92,9 @@ const routes = {
         href: () => buildRoute('/terms-of-use'),
       },
     },
+    partners: {
+      href: () => buildRoute('/partners'),
+    },
   },
   api: {
     formResponse: {

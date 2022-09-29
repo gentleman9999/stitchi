@@ -37,6 +37,9 @@ export interface CatalogIndexPageSiteFragment_brands_edges_node {
    * Id of the brand.
    */
   entityId: number;
+  /**
+   * List of products associated with the brand.
+   */
   products: CatalogIndexPageSiteFragment_brands_edges_node_products;
 }
 
@@ -74,5 +77,8 @@ export interface CatalogIndexPageSiteFragment {
    * Details of the brand.
    */
   brands: CatalogIndexPageSiteFragment_brands;
+  /**
+   * A tree of categories.
+   */
   categoryTree: CatalogIndexPageSiteFragment_categoryTree[];
 }

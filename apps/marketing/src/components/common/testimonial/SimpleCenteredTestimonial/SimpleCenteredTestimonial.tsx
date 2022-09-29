@@ -35,7 +35,8 @@ const SimpleCenteredTestimonial = ({
       <div className="relative">
         <div className="relative mx-auto h-8">
           <Image
-            {...company.logo}
+            // {...company.logo}
+            src={company.logo.src}
             alt={`${company.name} logo`}
             layout="fill"
             objectFit="contain"

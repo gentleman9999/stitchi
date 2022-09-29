@@ -1,14 +1,14 @@
 import { ChevronDown, HamburgerMenu } from 'icons'
 import React from 'react'
-import Link from 'next/link'
+import NextLink from 'next/link'
 import s from './NavbarMobile.module.css'
 import { Navigation } from '@lib/navigation'
 import routes from '@lib/routes'
 import { Badge, Button } from '@components/ui'
-import { useRouter } from 'next/router'
 import cx from 'classnames'
 import NavbarMobileDropdown from './NavbarMobileDropdown'
 import Popover from './Popover'
+import { Popover as HeadlessPopover } from '@headlessui/react'
 
 interface Props {
   anchorEl: HTMLElement | null
@@ -16,27 +16,6 @@ interface Props {
 }
 
 const NavbarMobile = ({ anchorEl, navigation }: Props) => {
-  const router = useRouter()
-  const [dims, setDims] = React.useState<DOMRect | null>(null)
-
-  React.useEffect(() => {
-    const update = () => {
-      if (anchorEl) {
-        setDims(anchorEl.getBoundingClientRect())
-      }
-    }
-
-    update()
-
-    window.addEventListener('resize', update)
-    router.events.on('routeChangeComplete', update)
-
-    return () => {
-      window.removeEventListener('resize', update)
-      router.events.off('routeChangeComplete', update)
-    }
-  }, [anchorEl, router.events])
-
   return (
     <Popover
       anchorEl={anchorEl}
@@ -64,7 +43,9 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
                 return function (props: any) {
                   return (
                     <Link href={item.href} key={item.label}>
-                      <a
+                      <HeadlessPopover.Button
+                        as="a"
+                        disable={disabled}
                         {...props}
                         className={cx('block mb-2 text-lg text-secondary', {
                           'pointer-events-none': disabled,
@@ -72,7 +53,7 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
                       >
                         {item.label}
                         {disabled && <Badge size="small" label="Coming soon" />}
-                      </a>
+                      </HeadlessPopover.Button>
                     </Link>
                   )
                 }
@@ -81,36 +62,44 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
           </div>
           <div className={s.item}>
             <Link href={routes.internal.catalog.href()} passHref>
-              <a className={s.link}>Catalog</a>
+              <HeadlessPopover.Button as="a" className={s.link}>
+                Catalog
+              </HeadlessPopover.Button>
             </Link>
           </div>
           <div className={s.item}>
             <Link href={routes.internal.blog.href()} passHref>
-              <a className={s.link}>Learn</a>
+              <HeadlessPopover.Button as="a" className={s.link}>
+                Learn
+              </HeadlessPopover.Button>
             </Link>
           </div>
 
           <div className={s.item}>
             <Link href={routes.internal.customers.morningBrew.href()} passHref>
-              <a className={s.link}>Case Study</a>
+              <HeadlessPopover.Button as="a" className={s.link}>
+                Case Study
+              </HeadlessPopover.Button>
             </Link>
           </div>
           <div className={s.item}>
             <Link href={routes.internal.getStarted.href()} passHref>
-              <Button
-                Component={(props: any) => (
-                  <Button
-                    {...props}
-                    bold
-                    shadow
-                    Component="a"
-                    color="brandPrimary"
-                    className="w-full"
-                  />
-                )}
-              >
-                Talk to us
-              </Button>
+              <HeadlessPopover.Button as="div">
+                <Button
+                  Component={(props: any) => (
+                    <Button
+                      {...props}
+                      bold
+                      shadow
+                      Component="a"
+                      color="brandPrimary"
+                      className="w-full"
+                    />
+                  )}
+                >
+                  Talk to us
+                </Button>
+              </HeadlessPopover.Button>
             </Link>
           </div>
         </>
@@ -118,5 +107,23 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
     />
   )
 }
+
+// https://headlessui.com/react/menu#integrating-with-next-js
+
+const Link = React.forwardRef<
+  HTMLAnchorElement,
+  { href: string; children: React.ReactNode; [key: string]: any }
+>((props, ref) => {
+  let { href, children, ...rest } = props
+  return (
+    <NextLink href={href}>
+      <a ref={ref} {...rest}>
+        {children}
+      </a>
+    </NextLink>
+  )
+})
+
+Link.displayName = 'Link'
 
 export default NavbarMobile

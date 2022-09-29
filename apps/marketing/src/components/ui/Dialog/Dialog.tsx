@@ -120,9 +120,12 @@ const Dialog = (props: DialogProps) => {
   )
 }
 
-const OptionalPortal: React.FC<{ disablePortal: boolean }> = ({
+const OptionalPortal = ({
   children,
   disablePortal,
+}: {
+  children: React.ReactNode
+  disablePortal: boolean
 }) => {
   return disablePortal ? (
     <>{children}</>

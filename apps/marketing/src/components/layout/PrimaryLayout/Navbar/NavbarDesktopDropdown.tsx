@@ -3,6 +3,7 @@ import NextLink from 'next/link'
 import Image from 'next/image'
 import cx from 'classnames'
 import { Badge } from '@components/ui'
+import { Popover } from '@headlessui/react'
 
 type Icon = { url: string; height: number; width: number } | ReactChild | null
 
@@ -59,24 +60,26 @@ const NavbarDesktopDropdown = ({
   }
 
   return (
-    <div className="py-1 col-span-1" key={href}>
+    <div className="py-1 col-span-1">
       <Link>
-        <div className="flex items-center">
-          {icon && (
-            <span className="mr-2 h-12 w-12 rounded-full bg-black flex justify-center items-center flex-shrink-0">
-              <Icon />
-            </span>
-          )}
-          <div>
-            <h4 className="font-extrabold">
-              {label}{' '}
-              {beta ? (
-                <Badge label="Coming soon" size="small" className="m-0" />
-              ) : null}{' '}
-            </h4>
-            <span className="text-secondary">{description}</span>
+        <Popover.Button as="div" className="p-4">
+          <div className="flex items-center">
+            {icon && (
+              <span className="mr-2 h-12 w-12 rounded-full bg-black flex justify-center items-center flex-shrink-0">
+                <Icon />
+              </span>
+            )}
+            <div>
+              <h4 className="font-extrabold">
+                {label}{' '}
+                {beta ? (
+                  <Badge label="Coming soon" size="small" className="m-0" />
+                ) : null}{' '}
+              </h4>
+              <span className="text-secondary">{description}</span>
+            </div>
           </div>
-        </div>
+        </Popover.Button>
       </Link>
     </div>
   )
@@ -91,7 +94,7 @@ const StyledATag = (props: {
   const linkProps = {
     ...props,
     className: cx(
-      'cursor-pointer block p-4 text-sm hover:bg-gray-100 transition-all rounded-md ring-1 ring-transparent hover:ring-gray-200',
+      'cursor-pointer block text-sm hover:bg-gray-100 transition-all rounded-md ring-1 ring-transparent hover:ring-gray-200',
       {
         'pointer-events-none touch-none': props.disabled,
       },

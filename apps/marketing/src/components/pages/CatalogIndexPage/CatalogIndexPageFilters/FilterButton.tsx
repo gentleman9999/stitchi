@@ -1,11 +1,14 @@
 import React from 'react'
 import cx from 'classnames'
 
-const FilterButton: React.FC<{
+interface Props {
+  children: React.ReactNode
   onClick: () => void
   active?: boolean
   variant?: 'primary' | 'secondary'
-}> = props => {
+}
+
+const FilterButton = (props: Props) => {
   const { variant = 'primary' } = props
   return (
     <button

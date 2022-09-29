@@ -37,6 +37,9 @@ export interface ProductPageGetDataQuery_site_brands_edges_node {
    * Id of the brand.
    */
   entityId: number;
+  /**
+   * List of products associated with the brand.
+   */
   products: ProductPageGetDataQuery_site_brands_edges_node_products;
 }
 
@@ -337,7 +340,7 @@ export type ProductPageGetDataQuery_site_route_node = ProductPageGetDataQuery_si
 export interface ProductPageGetDataQuery_site_route {
   __typename: "Route";
   /**
-   * node
+   * Node
    */
   node: ProductPageGetDataQuery_site_route_node | null;
 }
@@ -348,6 +351,9 @@ export interface ProductPageGetDataQuery_site {
    * Details of the brand.
    */
   brands: ProductPageGetDataQuery_site_brands;
+  /**
+   * A tree of categories.
+   */
   categoryTree: ProductPageGetDataQuery_site_categoryTree[];
   /**
    * Route for a node
@@ -356,6 +362,9 @@ export interface ProductPageGetDataQuery_site {
 }
 
 export interface ProductPageGetDataQuery {
+  /**
+   * A site
+   */
   site: ProductPageGetDataQuery_site;
 }
 
