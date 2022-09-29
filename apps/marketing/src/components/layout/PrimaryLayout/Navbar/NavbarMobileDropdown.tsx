@@ -8,7 +8,6 @@ interface Props {
 }
 
 const NavbarMobileDropdown = ({ ButtonChildren, items }: Props) => {
-  const ref = React.useRef<HTMLDivElement>(null)
   return (
     <Menu>
       {({ open }) => (
@@ -22,9 +21,11 @@ const NavbarMobileDropdown = ({ ButtonChildren, items }: Props) => {
           </Menu.Button>
           <Menu.Items
             unmount={false}
-            style={{
-              maxHeight: open ? `${ref.current?.scrollHeight}px` : `0`,
-            }}
+            style={
+              {
+                // maxHeight: open ? `${ref.current?.scrollHeight}px` : `0`,
+              }
+            }
           >
             {items.map((Component, i) => (
               <Menu.Item key={i}>

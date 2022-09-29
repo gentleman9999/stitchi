@@ -14,7 +14,7 @@ const Spokesperson = (props: SpokespersonProps) => {
     <div className="flex flex-col items-center md:flex-row md:items-center md:justify-center">
       <div className="md:flex-shrink-0">
         <Image
-          {...props.headshot}
+          src={props.headshot.src}
           alt={`${props.name} headshot`}
           width={50}
           height={50}

@@ -67,7 +67,7 @@ const List = ({ title, items }: { title: string; items: Item[] }) => {
       </h3>
       <ul role="list" className="mt-4 space-y-4">
         {items.map(item => (
-          <ListItem {...item} key={item.href} />
+          <ListItem {...item} key={item.label} />
         ))}
       </ul>
     </div>
@@ -77,7 +77,7 @@ const List = ({ title, items }: { title: string; items: Item[] }) => {
 const ListItem = ({ label, href, beta }: Item) => {
   const disabled = Boolean(beta)
   return (
-    <li key={label}>
+    <li>
       <a
         href={href}
         className={cx('text-base text-gray-500 hover:text-gray-900', {

@@ -15,7 +15,7 @@ const BrandLogo = (props: { image: StaticImageData; alt: string }) => {
   return (
     <div className="relative w-full h-[100px] max-w-[180px]">
       <Image
-        {...props.image}
+        src={props.image.src}
         alt={props.alt}
         layout="fill"
         objectFit="contain"
