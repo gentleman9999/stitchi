@@ -34,7 +34,7 @@ const Dropdown = ({ anchorEl, ButtonChildren, panelChildren }: Props) => {
     <Popover className="inline-flex">
       {({ open }) => (
         <>
-          <Popover.Button>
+          <Popover.Button className="focus-visible:outline-none">
             <ButtonChildren active={open} />
           </Popover.Button>
           <Popover.Overlay />
