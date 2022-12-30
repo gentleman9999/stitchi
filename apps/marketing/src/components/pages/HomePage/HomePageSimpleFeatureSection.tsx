@@ -1,4 +1,9 @@
-import { Section } from '@components/common'
+import {
+  Section,
+  SectionHeader,
+  SimpleCenteredTestimonial,
+  useSpokesperson,
+} from '@components/common'
 import React from 'react'
 import {
   Analytics,
@@ -17,6 +22,7 @@ import {
 import cx from 'classnames'
 import routes from '@lib/routes'
 import { LinkInline } from '@components/ui'
+import morningBrewLogo from '../../../../public/customers/morning_brew/morning_brew_logo.png'
 
 const sections = [
   {
@@ -133,36 +139,68 @@ const sections = [
 ]
 
 const HomePageSimpleFeatureSection = () => {
+  const jenny = useSpokesperson('jenny_rothenberg')
+
   return (
-    <Section gutter="lg" className="">
-      <div className="lg:text-center">
-        <h2 className="text-primary text-lg font-semibold font-heading uppercase">
-          Promotional Product Experts
-        </h2>
-        <p className="font-headingDisplay mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl md:text-5xl">
-          Create promotional products people love
-        </p>
-        <p className="mt-4 max-w-2xl text-xl md:text-2xl text-gray-500 lg:mx-auto">
-          We connect people and brands to create powerful, lasting experiences
-          that build brand engagement and loyalty.
-        </p>
-      </div>
+    <>
+      <Section gutter="md" className="lg:text-center">
+        <SectionHeader
+          pretitle="Learn who we are"
+          title="What we do"
+          subtitle={
+            <>
+              We build innovative custom merch programs to diversify revenue and
+              increase affinity for your brand.
+              <br />
+              <br />
+              Our team of designers, marketers, and engineers is equipped to
+              handle your diverse needs, including promotional product ideation,
+              production, and distribution. We provide you with peace of mind
+              every step of the way.
+            </>
+          }
+        />
+
+        <br />
+        <br />
+        <div className="bg-gray-100 p-4 sm:p-8 rounded-md">
+          <SimpleCenteredTestimonial
+            testimonial="We shipped over 8,000 pairs of Morning Brew joggers to our loyal readers, resulting in over 75,000 new subscribers. This was our largest growth campaign to date, and we love seeing pictures of our readers wearing their MB joggers on social media."
+            company={{ name: 'Morning Brew', logo: morningBrewLogo }}
+            spokesperson={jenny}
+            cta={{
+              text: 'See how we helped',
+              href: routes.internal.customers.morningBrew.href(),
+              className: 'text-[#006bd2]',
+            }}
+          />
+        </div>
+      </Section>
+
+      {/* <div className="w-full border-t border-gray-600" /> */}
+      <Section gutter="md" className="lg:text-center">
+        <SectionHeader
+          title="Our merch solutions"
+          subtitle="
+         Delivering a high-quality and affordable merch experience to your
+         audience involves complicated processes requiring specialized
+         expertise to avoid headaches and mistakes. We offer various services
+         to help organizations scale their merch programs infinitely without
+         increasing operational costs and overhead."
+        />
+      </Section>
       <div className="grid grid-cols-1 gap-10">
         {sections.map((section, index) => (
-          <div key={section.id} className="relative mt-12 sm:mt-16 lg:mt-24">
+          <Section key={section.id} gutter="md">
             <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
               <div
                 className={cx({
                   'lg:order-2': index % 2 === 0,
                 })}
               >
-                <h3 className="text-2xl font-bold font-heading text-gray-900 sm:text-3xl">
-                  {section.name}
-                </h3>
-                <p className="mt-3 text-lg text-gray-500">
-                  {section.description}
-                </p>
-
+                <Title>{section.name}</Title>
+                <br />
+                <Subtitle>{section.description}</Subtitle>
                 <dl className="mt-16 space-y-10">
                   {section.features.map(item => (
                     <div key={item.id} className="relative">
@@ -221,10 +259,59 @@ const HomePageSimpleFeatureSection = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </Section>
         ))}
       </div>
-    </Section>
+    </>
+  )
+}
+
+const SectionTitle = ({
+  children,
+  Component = 'h2',
+  className,
+}: {
+  Component?: React.ElementType
+  children: React.ReactNode
+  className?: string
+}) => {
+  return (
+    <Component
+      className={cx(
+        'font-headingDisplay  font-semibold text-gray-900 text-4xl sm:text-5xl md:text-6xl',
+        className,
+      )}
+    >
+      {children}
+    </Component>
+  )
+}
+
+const Title = ({
+  Component = 'h3',
+  children,
+}: {
+  Component?: React.ElementType
+  children: React.ReactNode
+}) => {
+  return (
+    <Component className="text-2xl font-bold font-heading text-gray-900 sm:text-3xl">
+      {children}
+    </Component>
+  )
+}
+
+const Subtitle = ({
+  Component = 'h4',
+  children,
+}: {
+  Component?: React.ElementType
+  children: React.ReactNode
+}) => {
+  return (
+    <Component className="max-w-3xl text-xl text-gray-500 lg:mx-auto">
+      {children}
+    </Component>
   )
 }
 

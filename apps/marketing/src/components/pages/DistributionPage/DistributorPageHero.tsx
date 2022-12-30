@@ -45,7 +45,7 @@ const DistributorPageHero = () => {
               <h1 className="text-4xl sm:text-5xl lg:text-7xl text-white font-extrabold font-headingDisplay">
                 Automate merch fulfillment without hiring
               </h1>
-              <p className="text md:text-xl text-secondaryAlt-400 mt-4 font-medium">
+              <p className="text md:text-xl text-gray-400 mt-4 font-medium">
                 Stitchi handles storing, packing, and shipping your inventory.
                 We build and integrate with all e-commerce apps including
                 Shopify, Instagram, and BigCommerce.
@@ -65,7 +65,7 @@ const DistributorPageHero = () => {
               </div>
             </div>
             <div className="flex-1 min-w-[300px]">
-              <div className="ring-2 rounded-lg bg-white p-4 text-secondaryAlt-800 shadow-secondaryAlt-700 shadow-lg">
+              <div className="ring-2 rounded-lg bg-white p-4 text-gray-800 shadow-gray-700 shadow-lg">
                 <h2 className="text-lg font-medium">
                   Estimate your <span className="font-bold">savings</span> with
                   Stitchi fulfillment.

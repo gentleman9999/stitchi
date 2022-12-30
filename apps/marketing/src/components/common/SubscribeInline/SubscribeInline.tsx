@@ -9,7 +9,6 @@ export interface SubscribeInlineProps {
   defaultValue?: string
   className?: string
   centered?: InlineTextFormProps<'email'>['centered']
-  privacyPolicyClassName?: string
 }
 
 const SubscribeInline = (props: SubscribeInlineProps) => {

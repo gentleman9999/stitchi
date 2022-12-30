@@ -1,9 +1,9 @@
 .link {
-  @apply inline-flex items-center leading-6 transition ease-in-out duration-75 cursor-pointer text-primary font-extrabold lowercase text-lg;
+  @apply inline-flex items-center leading-6 transition ease-in-out duration-75 cursor-pointer text-gray-900 font-extrabold lowercase text-lg;
 }
 
 .link:hover {
-  @apply text-primaryAlt-500;
+  @apply text-gray-800;
 }
 
 .link:focus-visible {

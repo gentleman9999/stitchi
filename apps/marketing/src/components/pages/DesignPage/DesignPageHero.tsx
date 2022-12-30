@@ -10,8 +10,8 @@ const DesignPageHero = ({}: Props) => {
   return (
     <Section gutter="lg">
       <Link href={routes.internal.getStarted.href()}>
-        <a className="inline-flex py-1 items-center font-bold text-primaryAlt-500 flex-wrap font-heading">
-          <span className="bg-primaryAlt-100 px-2 py-1 rounded-md text-sm md:text-md mr-2 mt-2">
+        <a className="inline-flex py-1 items-center font-bold text-black flex-wrap font-heading">
+          <span className="bg-primary px-2 py-1 rounded-md text-sm md:text-md mr-2 mt-2">
             Free, unlimited revisions
           </span>{' '}
           <h1 className="text-sm md:text-md tracking-wide text-grey-900 mt-2">

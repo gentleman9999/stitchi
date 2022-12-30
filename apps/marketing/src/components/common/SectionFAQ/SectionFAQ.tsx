@@ -18,20 +18,18 @@ const SectionFAQ = ({ faqs }: Props) => {
 
   return (
     <Section gutter="lg">
-      <div className="bg-primaryAlt-500 rounded-md p-4 sm:p-6 md:p-8">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white font-headingDisplay">
+      <div className="bg-primary rounded-md p-4 sm:p-6 md:p-8">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-black font-headingDisplay">
           Frequently asked questions
         </h2>
-        <div className="mt-4 md:mt-6 border-t border-indigo-300 border-opacity-25 pt-6 md:pt-10">
+        <div className="mt-4 md:mt-6 border-t border-gray-600 pt-6 md:pt-10">
           <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-12">
             {faqs.map(faq => (
               <div key={faq.id}>
-                <dt className="text-lg font-bold text-white font-heading">
+                <dt className="text-lg font-bold text-black font-heading">
                   {faq.question}
                 </dt>
-                <dd className="mt-2 text-base text-primaryAlt-100">
-                  {faq.answer}
-                </dd>
+                <dd className="mt-2 text-base text-gray-600">{faq.answer}</dd>
               </div>
             ))}
           </dl>

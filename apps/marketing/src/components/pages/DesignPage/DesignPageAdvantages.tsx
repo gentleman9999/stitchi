@@ -7,7 +7,7 @@ const DesignPageAdvantages = () => {
   return (
     <Section gutter="sm">
       <SectionHeader
-        pretitle="Stitchi Advantage"
+        pretitle="Stitchi advantage"
         title="Everything you asked for"
       />
 
@@ -18,7 +18,7 @@ const DesignPageAdvantages = () => {
           alt="Custom swag collection"
         />
 
-        <div className="bg-secondaryAlt-100 py-6 px-4 md:py-10 md:px-8 grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-10 mt-8">
+        <div className="bg-gray-100 py-6 px-4 md:py-10 md:px-8 grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-10 mt-8">
           <Item
             title="Better designs"
             description="Always up-to-date with the latest trends and styles. We combine your brand and campaign objectives to design swag that resonates with your audience."
@@ -46,10 +46,10 @@ const Item = ({
 }) => {
   return (
     <div>
-      <h3 className="text sm:text-lg lg:text-xl font-semibold text-secondaryAlt-900 font-heading">
+      <h3 className="text sm:text-lg lg:text-xl font-semibold text-gray-900 font-heading">
         {title}
       </h3>
-      <p className="text-secondaryAlt-600 text-sm md:text-base mt-2 leading-relaxed">
+      <p className="text-gray-600 text-sm md:text-base mt-2 leading-relaxed">
         {description}
       </p>
     </div>

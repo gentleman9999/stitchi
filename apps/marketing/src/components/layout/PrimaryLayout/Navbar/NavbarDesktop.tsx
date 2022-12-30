@@ -4,7 +4,7 @@ import routes from '@lib/routes'
 import { Navigation } from '@lib/navigation'
 import { Button } from '@components/ui'
 import s from './NavbarDesktop.module.css'
-import { ArrowRight, ChevronDown } from 'icons'
+import { ChevronDown } from 'icons'
 import cx from 'classnames'
 import Popover from './Popover'
 import NavbarDesktopDropdown from './NavbarDesktopDropdown'
@@ -62,18 +62,10 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
         <Button
           bold
           Component="a"
-          className="!py-2 !px-4 !lowercase text-lg group !font-default !rounded-2xl"
-          color="brandPrimary"
+          className="!py-1 !px-4 !lowercase !rounded-2xl"
+          color="primary"
         >
-          start here{' '}
-          <span className="ml-1 relative transition-all">
-            <div className="invisible">
-              <ArrowRight strokeWidth="4" width="15px" />
-            </div>
-            <span className="absolute top-0 left-0 ml-1/2 group-hover:left-1.5 duration-200">
-              <ArrowRight strokeWidth="4" width="15px" />
-            </span>
-          </span>
+          start here
         </Button>
       </Link>
     </nav>

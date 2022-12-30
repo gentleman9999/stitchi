@@ -1,13 +1,9 @@
 .root {
-  @apply bg-gray-900 text-gray-50 text-center text-xl cursor-pointer inline-flex
-  px-8 py-3 leading-none transition ease-in-out duration-150
-  shadow-sm justify-center 
-  border border-transparent items-center font-semibold font-heading
-  tracking-normal rounded-md;
+  @apply bg-gray-900 text-gray-50 text-center text-xl cursor-pointer inline-flex px-8 py-3 leading-none transition ease-in-out duration-150 shadow-sm justify-center border border-transparent items-center font-semibold font-heading tracking-normal rounded-2xl;
   max-height: 64px;
 
   &.brandColors {
-    @apply border-primary bg-primary text-gray-50;
+    @apply border-primary bg-primary text-black;
   }
 }
 
@@ -15,7 +11,7 @@
   @apply border-gray-900 bg-gray-600;
 
   &.brandColors {
-    @apply bg-primaryAlt-300 border-primaryAlt-300;
+    @apply bg-primary border-primary;
   }
 }
 
@@ -39,7 +35,7 @@
   @apply border border-gray-200 bg-transparent text-secondary;
 
   &.brandColors {
-    @apply border-primaryAlt-300 bg-transparent border-2 font-medium;
+    @apply border-primary bg-transparent border-2 font-medium;
     color: var(--primary);
   }
 }
@@ -48,7 +44,7 @@
   @apply border-gray-900 bg-transparent text-gray-900;
 
   &.brandColors {
-    @apply border-primaryAlt-300 bg-transparent text-primary;
+    @apply border-primary bg-transparent text-primary;
   }
 }
 
@@ -70,9 +66,8 @@
   -webkit-backface-visibility: hidden;
 }
 
-.progress {
-}
+.progress {}
 
 .shadow1 {
-  @apply rounded-md shadow;
+  @apply rounded-3xl shadow;
 }

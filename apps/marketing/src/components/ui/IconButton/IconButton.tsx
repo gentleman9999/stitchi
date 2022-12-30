@@ -22,7 +22,7 @@ const IconButton = (props: IconButtonProps) => {
       ref={ref}
       onClick={handleClick}
       className={cx('p-2 transition-all rounded-md', {
-        'hover:bg-primary focus:bg-primaryAlt-300': variant === 'primary',
+        'hover:bg-primary focus:bg-primary': variant === 'primary',
         'bg-transparent': variant === 'ghost',
         '-translate-x-2': props.shift?.includes('left'),
         'translate-x-2': props.shift?.includes('right'),

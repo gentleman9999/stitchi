@@ -14,14 +14,14 @@ const ProductWishlistButton = ({ entityId }: Props) => {
 
   return (
     <button
-      className="flex group items-center bg-primaryAlt-300 rounded-full px-4 py-1"
+      className="flex group items-center bg-primary rounded-full px-4 py-1"
       onClick={() => toggleProduct({ entityId })}
     >
       <span className="mr-2">
         <Heart
           width={18}
           className={cx('transition-colors duration-150 ease-out', {
-            'fill-primaryAlt-300 text-red-400 group-hover:fill-red-400 ':
+            'fill-primary text-red-400 group-hover:fill-red-400 ':
               !productInWishlist,
             'fill-red-500 text-red-500': productInWishlist,
           })}

@@ -17,7 +17,7 @@ const LinkInline = ({
   className,
 }: LinkInlineProps) => {
   const BaseLink = (props: AnchorHTMLAttributes<HTMLAnchorElement>) => (
-    <a className={cx('underline text-primaryAlt-500', className)} {...props}>
+    <a className={cx('underline ', className)} {...props}>
       {children}
     </a>
   )

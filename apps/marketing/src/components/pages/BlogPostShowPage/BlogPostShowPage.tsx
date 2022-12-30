@@ -57,7 +57,7 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
               )}
 
               <div className="py-8">
-                <section className="p-4 sm:p-6 md:p-8 lg:p-10 prose-a:text-current prose-a:no-underline hover:prose-a:underline bg-primaryAlt-100 rounded-lg shadow-lg">
+                <section className="p-4 sm:p-6 md:p-8 lg:p-10 prose-a:text-current prose-a:no-underline hover:prose-a:underline bg-gray-100 rounded-lg shadow-lg">
                   <div className="not-prose">
                     <p className="text-2xl md:text-3xl lg:text-4xl font-headingDisplay font-bold text-gray-600 mt-0 mb-6">
                       Overview

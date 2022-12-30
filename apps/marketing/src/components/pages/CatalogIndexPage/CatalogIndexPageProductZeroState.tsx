@@ -6,7 +6,7 @@ import React from 'react'
 
 const CatalogIndexPageProuductZeroState = () => {
   return (
-    <div className="bg-primaryAlt-50 p-10 rounded-2xl w-full max-w-xl text-center m-auto">
+    <div className="bg-primary p-10 rounded-2xl w-full max-w-xl text-center m-auto">
       <span className="text-4xl">👀</span>
       <h3 className="text-2xl font-bold mt-2">
         Don&apos;t see what you&apos;re looking for?
@@ -16,7 +16,11 @@ const CatalogIndexPageProuductZeroState = () => {
         10,000 products. The products on this website just our favorite :)
       </p>
       <Link href={routes.internal.getStarted.href()} passHref>
-        <Button endIcon={<ArrowRight strokeWidth="2" />} variant="ghost">
+        <Button
+          Component="a"
+          endIcon={<ArrowRight strokeWidth="2" />}
+          variant="naked"
+        >
           Find the perfect product
         </Button>
       </Link>

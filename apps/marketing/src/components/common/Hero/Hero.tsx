@@ -1,16 +1,18 @@
 import Link from 'next/link'
 import React from 'react'
+import cx from 'classnames'
 import { Button } from '@components/ui'
 import { Section } from '..'
 
 interface Cta {
-  title: string
+  title: React.ReactNode
   href: string
+  buttonClassName?: string
 }
 
 export interface HeroProps {
-  title?: string | React.ReactNode
-  subtitle?: string | React.ReactNode
+  title?: React.ReactNode
+  subtitle?: React.ReactNode
   primaryCta?: Cta
   secondaryCta?: Cta
 }
@@ -25,7 +27,7 @@ const Hero = (props: HeroProps) => {
           </h1>
         )}
         {props.subtitle && (
-          <p className="mt-10 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:text-xl lg:text-2xl md:max-w-3xl">
+          <p className="mt-10 max-w-md mx-auto text-base text-gray-700 sm:text-lg lg:text-xl md:max-w-2xl">
             {props.subtitle}
           </p>
         )}
@@ -35,7 +37,11 @@ const Hero = (props: HeroProps) => {
             {props.primaryCta && (
               <div className="rounded-md">
                 <Link href={props.primaryCta.href} passHref>
-                  <Button Component="a" shadow>
+                  <Button
+                    Component="a"
+                    shadow
+                    className={props.primaryCta.buttonClassName}
+                  >
                     {props.primaryCta.title}
                   </Button>
                 </Link>
@@ -43,7 +49,14 @@ const Hero = (props: HeroProps) => {
             )}
             {props.secondaryCta && (
               <Link href={props.secondaryCta.href} passHref>
-                <Button shadow Component="a" className="mt-3 sm:mt-0 sm:ml-3">
+                <Button
+                  shadow
+                  Component="a"
+                  className={cx(
+                    'mt-3 sm:mt-0 sm:ml-3',
+                    props.secondaryCta.buttonClassName,
+                  )}
+                >
                   {props.secondaryCta.title}
                 </Button>
               </Link>

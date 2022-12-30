@@ -81,7 +81,7 @@ const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
           <LoadingDots />
         </i>
       )}
-      {!loading && <div className="ml-2">{endIcon}</div>}
+      {!loading && Boolean(endIcon) && <div className="ml-2">{endIcon}</div>}
     </Component>
   )
 })

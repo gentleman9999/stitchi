@@ -33,7 +33,7 @@ const CatalogIndexPage = ({
       />
       <Container>
         <Section>
-          <div className="p-8 md:p-14 md:pr-0 text-center sm:text-left bg-primaryAlt-100 rounded-xl flex items-center">
+          <div className="p-8 md:p-14 md:pr-0 text-center sm:text-left bg-primary rounded-xl flex items-center">
             <div className="md:w-[70%]">
               <TitleTag className="text-2xl md:text-3xl lg:text-4xl font-bold font-heading">
                 Browse through our curated selection of products

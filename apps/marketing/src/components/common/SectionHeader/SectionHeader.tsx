@@ -3,14 +3,14 @@ import React from 'react'
 export interface SectionHeaderProps {
   title: string
   pretitle?: string
-  subtitle?: string
+  subtitle?: React.ReactNode
 }
 
 const SectionHeader = ({ pretitle, title, subtitle }: SectionHeaderProps) => {
   return (
     <div className="flex flex-col items-center">
       {pretitle && (
-        <span className="uppercase text-sm tracking-tight font-bold font-heading text-white bg-primaryAlt-400 rounded-full px-2">
+        <span className="text-md tracking-tight font-bold font-heading text-black bg-primary rounded-full px-4">
           {pretitle}
         </span>
       )}

@@ -15,14 +15,12 @@ module.exports = {
     },
     colors: {
       transparent: 'transparent',
-      primary: colors.lime[400], // #a3e635
+      primary: '#bdfd6d',
 
-      primaryAlt: colors.lime,
-      secondary: colors.slate[900], // #0f172a
-      secondaryAlt: colors.slate,
+      secondary: colors.stone[900], // #0f172a
       paper: colors.white,
-      gray: colors.zinc,
-      black: colors.black,
+      gray: colors.stone,
+      black: colors.stone[900],
       white: colors.white,
       red: colors.red,
       purple: colors.purple,

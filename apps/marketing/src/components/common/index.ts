@@ -30,6 +30,9 @@ export * from './Avatar'
 export { default as Hero } from './Hero'
 export * from './Hero'
 
+export { default as InfiniteLooper } from './InfiniteLooper'
+export * from './InfiniteLooper'
+
 export { default as Section } from './Section'
 export * from './Section'
 

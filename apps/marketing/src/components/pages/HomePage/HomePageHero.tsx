@@ -1,5 +1,6 @@
 import { Hero } from '@components/common'
 import routes from '@lib/routes'
+import { ArrowRight } from 'icons'
 import { capitalize } from 'lodash-es'
 import React from 'react'
 import Typewriter from 'typewriter-effect'
@@ -55,7 +56,17 @@ const HomePageHero = () => {
         </>
       }
       primaryCta={{
-        title: 'Get started for free',
+        title: (
+          <div className="flex">
+            Get started for free
+            <span className="ml-1 relative transition-all w-[15px]">
+              <span className="absolute top-0 left-0 ml-1/2 group-hover:left-1.5 duration-200">
+                <ArrowRight strokeWidth="4" width="15px" />
+              </span>
+            </span>
+          </div>
+        ),
+        buttonClassName: 'group',
         href: routes.internal.getStarted.href(),
       }}
     />
