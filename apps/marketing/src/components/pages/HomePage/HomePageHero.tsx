@@ -2,6 +2,7 @@ import { Hero } from '@components/common'
 import routes from '@lib/routes'
 import { ArrowRight } from 'icons'
 import { capitalize } from 'lodash-es'
+import pluralize from 'pluralize'
 import React from 'react'
 import Typewriter from 'typewriter-effect'
 
@@ -24,13 +25,12 @@ const HomePageHero = () => {
       <Typewriter
         aria-hidden="true"
         options={{
-          strings: words.map(word => capitalize(word)),
+          strings: words.map(word => pluralize(capitalize(word), 2)),
           autoStart: true,
           loop: true,
           delay: 100,
-          wrapperClassName: 'Typewriter__wrapper  inline',
-          cursorClassName:
-            'Typewriter__cursor text-5xl sm:text-6xl md:text-7xl lg:text-8xl',
+          // wrapperClassName: 'Typewriter__wrapper inline',
+          // cursorClassName: 'Typewriter__cursor ',
         }}
       />,
     )
@@ -42,9 +42,12 @@ const HomePageHero = () => {
         <>
           <span className="inline font-headingDisplay">
             Make the stitch.
-            <span className="flex flex-wrap whitespace-nowrap justify-center gap-x-2 text-primary">
-              <span className="w-full sm:w-auto">{useCase}</span> merch.
-              <span className="sr-only">{words.join(` ,`)}</span>
+            <span className="flex flex-wrap whitespace-nowrap gap-x-2 text-black">
+              Merch for
+              <mark className="sm:w-auto bg-primary px-2 lowercase rounded-md">
+                {useCase}
+              </mark>
+              .<span className="sr-only">{words.join(` ,`)}</span>
             </span>
           </span>
         </>
