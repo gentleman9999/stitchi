@@ -27,7 +27,7 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
     <>
       <BlogPostShowPageSeo article={post} />
       <Container>
-        <article className="prose prose-lime prose-headings:font-heading lg:prose-xl max-w-none">
+        <article className="prose prose-stone prose-headings:font-heading lg:prose-xl max-w-none">
           {post.image?.responsiveImage && (
             <div className="not-prose mb-12 max-w-none max-h-[60vh] overflow-hidden rounded-lg">
               <CmsImage

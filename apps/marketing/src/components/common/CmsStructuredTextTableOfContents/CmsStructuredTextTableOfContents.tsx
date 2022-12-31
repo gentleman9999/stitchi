@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { CmsStructuredTextTableOfContentsContentFragment } from '@generated/CmsStructuredTextTableOfContentsContentFragment'
-import { Adapter, isDocument, isHeading } from 'datocms-structured-text-utils'
+import { isDocument, isHeading } from 'datocms-structured-text-utils'
 import React from 'react'
 import s from './style.module.css'
 
