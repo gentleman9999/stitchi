@@ -10,7 +10,7 @@ import { InfiniteLooper, Section } from '@components/common'
 
 const BrandLogo = (props: { image: StaticImageData; alt: string }) => {
   return (
-    <div className="relative w-full h-[100px] min-w-[100px] mx-4 sm:mx-6">
+    <div className="relative w-full h-[120px] min-w-[120px] mx-4 sm:mx-6">
       <Image
         src={props.image.src}
         alt={props.alt}

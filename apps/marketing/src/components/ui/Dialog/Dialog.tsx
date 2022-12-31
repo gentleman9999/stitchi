@@ -97,8 +97,9 @@ const Dialog = (props: DialogProps) => {
                     props.className,
                   )}
                 >
-                  {Icon}
-                  {Icon && <div className="mt-3 sm:mt-5" />}
+                  {Icon ? (
+                    <DialogSectionPadding>{Icon}</DialogSectionPadding>
+                  ) : null}
 
                   {Title && (
                     <DialogSectionPadding>{Title}</DialogSectionPadding>

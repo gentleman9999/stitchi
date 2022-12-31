@@ -9,7 +9,7 @@ const DistributionPageAdvantages = (props: Props) => {
   return (
     <Section gutter="lg">
       <SectionHeader
-        pretitle="why 3rd party logistics?"
+        pretitle="Why 3rd party logistics?"
         title="Scale effortlessly, zero burden"
         subtitle="We enable brands to scale their eCommerce and access cutting-edge fulfillment services at a completely transparent, industry-low rate."
       />

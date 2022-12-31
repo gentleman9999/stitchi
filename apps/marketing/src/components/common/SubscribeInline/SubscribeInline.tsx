@@ -48,7 +48,7 @@ const SubscribeInline = (props: SubscribeInlineProps) => {
         type="email"
         name="email"
         autoComplete="email"
-        variant="primary"
+        variant="secondary"
         className={cx(props.className)}
         placeholder="Enter your email"
         defaultValue={props.defaultValue}
