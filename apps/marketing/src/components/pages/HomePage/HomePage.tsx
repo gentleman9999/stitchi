@@ -11,11 +11,11 @@ export interface HomePageProps {}
 const HomePage = (props: HomePageProps) => {
   return (
     <>
-      {/* <Container>
+      <Container>
         <HomePageHero />
-      </Container> */}
+      </Container>
 
-      {/* <HomePageCustomerLogos /> */}
+      <HomePageCustomerLogos />
 
       <Container>
         <HomePageSimpleFeatureSection />
