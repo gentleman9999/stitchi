@@ -266,27 +266,6 @@ const HomePageSimpleFeatureSection = () => {
   )
 }
 
-const SectionTitle = ({
-  children,
-  Component = 'h2',
-  className,
-}: {
-  Component?: React.ElementType
-  children: React.ReactNode
-  className?: string
-}) => {
-  return (
-    <Component
-      className={cx(
-        'font-headingDisplay  font-semibold text-gray-900 text-4xl sm:text-5xl md:text-6xl',
-        className,
-      )}
-    >
-      {children}
-    </Component>
-  )
-}
-
 const Title = ({
   Component = 'h3',
   children,

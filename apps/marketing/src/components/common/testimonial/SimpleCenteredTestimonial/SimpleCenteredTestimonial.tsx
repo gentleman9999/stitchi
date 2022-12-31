@@ -1,10 +1,9 @@
-import { Section } from '@components/common'
 import { ArrowRight } from 'icons'
 import Image, { StaticImageData } from 'next/image'
-import Link from 'next/link'
 import cx from 'classnames'
 import React from 'react'
 import { Spokesperson } from '..'
+import { LinkInline } from '@components/ui'
 
 export interface SimpleCenteredTestimonialProps {
   testimonial: string | React.ReactNode
@@ -53,19 +52,18 @@ const SimpleCenteredTestimonial = ({
 
       {cta ? (
         <div className="flex justify-center">
-          <Link href={cta.href}>
-            <a
-              className={cx(
-                'relative inline-flex items-center justify-center mt-8 group',
-                cta.className,
-              )}
-            >
-              {cta.text}
-              <span className="transition-all absolute -right-5 group-hover:translate-x-1">
-                <ArrowRight strokeWidth={3} width={14} />
-              </span>
-            </a>
-          </Link>
+          <LinkInline
+            href={cta.href}
+            className={cx(
+              'relative inline-flex items-center justify-center mt-8 group',
+              cta.className,
+            )}
+          >
+            {cta.text}
+            <span className="transition-all absolute -right-5 group-hover:translate-x-1">
+              <ArrowRight strokeWidth={3} width={14} />
+            </span>
+          </LinkInline>
         </div>
       ) : null}
     </div>

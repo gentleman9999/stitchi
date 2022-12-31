@@ -43,7 +43,6 @@ const HomePageCustomerLogos = () => {
                   image={greekLicensingLogo}
                   alt="Greek Licensing logo"
                 />
-                {/* Take the hassle out of promotional products. */}
               </span>
             </InfiniteLooper>
           </div>
