@@ -22,6 +22,7 @@ import {
 import cx from 'classnames'
 import routes from '@lib/routes'
 import { LinkInline } from '@components/ui'
+import { motion } from 'framer-motion'
 import morningBrewLogo from '../../../../public/customers/morning_brew/morning_brew_logo.png'
 
 const sections = [
@@ -191,75 +192,95 @@ const HomePageSimpleFeatureSection = () => {
       </Section>
       <div className="grid grid-cols-1 gap-10">
         {sections.map((section, index) => (
-          <Section key={section.id} gutter="md">
-            <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
-              <div
-                className={cx({
-                  'lg:order-2': index % 2 === 0,
-                })}
-              >
-                <Title>{section.name}</Title>
-                <br />
-                <Subtitle>{section.description}</Subtitle>
-                <dl className="mt-16 space-y-10">
-                  {section.features.map(item => (
-                    <div key={item.id} className="relative">
-                      <dt>
-                        <div className="absolute flex items-center justify-center h-12 w-12 text-white">
-                          <item.icon aria-hidden="true" width="100%" />
-                        </div>
-                        <p className="ml-16 text-lg leading-6 font-medium font-heading text-gray-900">
-                          {item.name}
-                        </p>
-                      </dt>
-                      <dd className="mt-2 ml-16 text-base text-gray-500">
-                        {item.description}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-
-              <div className="mt-10 -mx-4 relative lg:mt-0">
-                <svg
-                  className="absolute left-1/2 transform -translate-x-1/2 translate-y-16 lg:hidden"
-                  width={784}
-                  height={404}
-                  fill="none"
-                  viewBox="0 0 784 404"
-                  aria-hidden="true"
+          <motion.div
+            key={section.id}
+            initial="offscreen"
+            whileInView="onscreen"
+            viewport={{ once: true }}
+            variants={{
+              offscreen: {
+                y: 300,
+              },
+              onscreen: {
+                y: 0,
+                transition: {
+                  type: 'spring',
+                  bounce: 0.4,
+                  duration: 0.8,
+                },
+              },
+            }}
+          >
+            <Section gutter="md">
+              <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
+                <div
+                  className={cx({
+                    'lg:order-2': index % 2 === 0,
+                  })}
                 >
-                  <defs>
-                    <pattern
-                      id="e80155a9-dfde-425a-b5ea-1f6fadd20131"
-                      x={0}
-                      y={0}
-                      width={20}
-                      height={20}
-                      patternUnits="userSpaceOnUse"
-                    >
-                      <rect
-                        x={0}
-                        y={0}
-                        width={4}
-                        height={4}
-                        className="text-gray-200"
-                        fill="currentColor"
-                      />
-                    </pattern>
-                  </defs>
-                  <rect
+                  <Title>{section.name}</Title>
+                  <br />
+                  <Subtitle>{section.description}</Subtitle>
+                  <dl className="mt-16 space-y-10">
+                    {section.features.map(item => (
+                      <div key={item.id} className="relative">
+                        <dt>
+                          <div className="absolute flex items-center justify-center h-12 w-12 text-white">
+                            <item.icon aria-hidden="true" width="100%" />
+                          </div>
+                          <p className="ml-16 text-lg leading-6 font-medium font-heading text-gray-900">
+                            {item.name}
+                          </p>
+                        </dt>
+                        <dd className="mt-2 ml-16 text-base text-gray-500">
+                          {item.description}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+
+                <div className="mt-10 -mx-4 relative lg:mt-0">
+                  <svg
+                    className="absolute left-1/2 transform -translate-x-1/2 translate-y-16 lg:hidden"
                     width={784}
                     height={404}
-                    fill="url(#e80155a9-dfde-425a-b5ea-1f6fadd20131)"
-                  />
-                </svg>
-                <div className="block items-center justify-center max-h-[490px] max-w-[600px] rounded-md bg-paper p-20">
-                  <section.icon aria-hidden="true" />
+                    fill="none"
+                    viewBox="0 0 784 404"
+                    aria-hidden="true"
+                  >
+                    <defs>
+                      <pattern
+                        id="e80155a9-dfde-425a-b5ea-1f6fadd20131"
+                        x={0}
+                        y={0}
+                        width={20}
+                        height={20}
+                        patternUnits="userSpaceOnUse"
+                      >
+                        <rect
+                          x={0}
+                          y={0}
+                          width={4}
+                          height={4}
+                          className="text-gray-200"
+                          fill="currentColor"
+                        />
+                      </pattern>
+                    </defs>
+                    <rect
+                      width={784}
+                      height={404}
+                      fill="url(#e80155a9-dfde-425a-b5ea-1f6fadd20131)"
+                    />
+                  </svg>
+                  <div className="block items-center justify-center max-h-[490px] max-w-[600px] rounded-md bg-paper p-20">
+                    <section.icon aria-hidden="true" />
+                  </div>
                 </div>
               </div>
-            </div>
-          </Section>
+            </Section>
+          </motion.div>
         ))}
       </div>
     </>

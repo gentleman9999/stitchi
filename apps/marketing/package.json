@@ -29,6 +29,7 @@
     "datocms-structured-text-to-plain-text": "^2.0.1",
     "datocms-structured-text-utils": "^2.0.1",
     "dayjs": "^1.10.7",
+    "framer-motion": "^8.0.2",
     "hooks": "*",
     "icons": "*",
     "lodash-es": "^4.17.21",

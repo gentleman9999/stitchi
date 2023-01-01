@@ -22,9 +22,6 @@ module.exports = {
       gray: colors.stone,
       black: colors.stone[900],
       white: colors.white,
-      red: colors.red,
-      purple: colors.purple,
-      orange: colors.orange,
     },
 
     extend: {

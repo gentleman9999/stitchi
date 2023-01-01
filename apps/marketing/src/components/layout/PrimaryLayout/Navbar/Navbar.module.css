@@ -3,7 +3,15 @@
 }
 
 .logo {
-  @apply cursor-pointer transform duration-100 ease-in-out w-auto;
+  @apply cursor-pointer transform duration-200 ease-in-out w-auto;
   height: 55px;
   width: auto;
+}
+
+.shrink {
+  @apply py-2;
+
+  & .logo {
+    height: 40px;
+  }
 }

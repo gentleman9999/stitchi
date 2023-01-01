@@ -62,7 +62,7 @@ const HomePageUseCasesSection = ({}: Props) => {
               className={cx(
                 'cursor-pointer h-full rounded-xl ring-4 ring-white p-8 flex flex-col justify-between hover:bg-white hover:text-secondary transition-all ease-in-out',
                 {
-                  'bg-white ring-white text-secondary hover:bg-primary hover:ring-primary hover:text-white':
+                  'bg-white ring-white text-secondary hover:bg-primary hover:ring-primary ':
                     index === 0,
                 },
               )}

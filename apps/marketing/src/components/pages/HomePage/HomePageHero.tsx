@@ -2,9 +2,11 @@ import { Hero } from '@components/common'
 import routes from '@lib/routes'
 import { ArrowRight } from 'icons'
 import { capitalize } from 'lodash-es'
+import Image from 'next/image'
 import pluralize from 'pluralize'
 import React from 'react'
 import Typewriter from 'typewriter-effect'
+import underline from '../../../../public/shapes/underline1.svg'
 
 const words = [
   'business',
@@ -29,8 +31,6 @@ const HomePageHero = () => {
           autoStart: true,
           loop: true,
           delay: 100,
-          // wrapperClassName: 'Typewriter__wrapper inline',
-          // cursorClassName: 'Typewriter__cursor ',
         }}
       />,
     )
@@ -44,7 +44,7 @@ const HomePageHero = () => {
             Make the stitch.
             <span className="flex flex-wrap whitespace-nowrap gap-x-2 text-black">
               Merch for
-              <mark className="sm:w-auto bg-primary px-2 lowercase rounded-md">
+              <mark className="relative sm:w-auto bg-primary px-2 lowercase rounded-md">
                 {useCase}
               </mark>
               .<span className="sr-only">{words.join(` ,`)}</span>
