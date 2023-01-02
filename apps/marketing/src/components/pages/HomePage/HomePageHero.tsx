@@ -60,16 +60,16 @@ const HomePageHero = () => {
       }
       primaryCta={{
         title: (
-          <div className="flex">
-            Get started for free
-            <span className="ml-1 relative transition-all w-[15px]">
-              <span className="absolute top-0 left-0 ml-1/2 group-hover:left-1.5 duration-200">
-                <ArrowRight strokeWidth="4" width="15px" />
+          <>
+            <span>Get started for free</span>
+            <span className="ml-2 relative transition-all w-[16px] h-[16px]">
+              <span className="absolute top-[2px] left-0 ml-1/2 group-hover:left-1.5 duration-200">
+                <ArrowRight strokeWidth="4" width="16px" height="16px" />
               </span>
             </span>
-          </div>
+          </>
         ),
-        buttonClassName: 'group',
+        buttonClassName: 'group !rounded-full sm:!text-2xl flex items-center',
         href: routes.internal.getStarted.href(),
       }}
     />
