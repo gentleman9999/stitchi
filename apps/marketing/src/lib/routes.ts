@@ -84,6 +84,9 @@ const routes = {
         href: () => buildRoute('/promotional-product-distribution'),
       },
     },
+    glossary: {
+      href: () => '/promotional-product-glossary',
+    },
     legal: {
       privacy: {
         href: () => buildRoute('/privacy-policy'),

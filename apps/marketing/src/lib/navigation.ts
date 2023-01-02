@@ -66,6 +66,11 @@ const navigation = {
         icon: Support,
         href: routes.internal.customers.morningBrew.href(),
       },
+      {
+        label: 'Promotional Product Industry Terminology',
+        icon: Support,
+        href: routes.internal.glossary.href(),
+      },
       // {
       //   label: 'About us',
       //   icon: Support,
