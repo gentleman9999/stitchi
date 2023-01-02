@@ -5,9 +5,12 @@ import React from 'react'
 import s from './style.module.css'
 
 import recursiveListGenerator from './recursive-list-generator'
+import { CmsStructuredTextTableOfContentsGlossaryTermDescriptionFragment } from '@generated/CmsStructuredTextTableOfContentsGlossaryTermDescriptionFragment'
 
 interface Props {
-  content: CmsStructuredTextTableOfContentsContentFragment
+  content:
+    | CmsStructuredTextTableOfContentsContentFragment
+    | CmsStructuredTextTableOfContentsGlossaryTermDescriptionFragment
 }
 
 const CmsStructuredTextTableofContents = ({ content }: Props) => {
@@ -35,6 +38,11 @@ export default CmsStructuredTextTableofContents
 CmsStructuredTextTableofContents.fragments = {
   articleContent: gql`
     fragment CmsStructuredTextTableOfContentsContentFragment on ArticleModelContentField {
+      value
+    }
+  `,
+  glossaryTermDescription: gql`
+    fragment CmsStructuredTextTableOfContentsGlossaryTermDescriptionFragment on GlossaryEntryModelDescriptionField {
       value
     }
   `,

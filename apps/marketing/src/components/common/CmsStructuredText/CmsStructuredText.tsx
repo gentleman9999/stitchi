@@ -4,6 +4,7 @@ import {
   CmsStructuredTextContentFragment,
   CmsStructuredTextContentFragment_blocks,
 } from '@generated/CmsStructuredTextContentFragment'
+import { CmsStructuredTextGlossaryDescriptionFragment } from '@generated/CmsStructuredTextGlossaryDescriptionFragment'
 import { CmsStructuredTextPrivacyPolicyContentFragment } from '@generated/CmsStructuredTextPrivacyPolicyContentFragment'
 import { CmsStructuredTextTermsOfUseContentFragment } from '@generated/CmsStructuredTextTermsOfUseContentFragment'
 import routes from '@lib/routes'
@@ -19,6 +20,7 @@ interface Props {
     | CmsStructuredTextCategoryDescriptionFragment
     | CmsStructuredTextPrivacyPolicyContentFragment
     | CmsStructuredTextTermsOfUseContentFragment
+    | CmsStructuredTextGlossaryDescriptionFragment
 }
 
 const CmsStructuredText = ({ content }: Props) => {
@@ -72,10 +74,12 @@ const CmsStructuredText = ({ content }: Props) => {
               return null
             }
             return (
-              <CmsImage
-                data={castedRecord.image.responsiveImage}
-                layout="responsive"
-              />
+              <div className="prose-img:mt-0 rounded-md overflow-hidden">
+                <CmsImage
+                  data={castedRecord.image.responsiveImage}
+                  layout="responsive"
+                />
+              </div>
             )
 
           default:
@@ -124,6 +128,30 @@ CmsStructuredText.fragments = {
   categoryDescription: gql`
     fragment CmsStructuredTextCategoryDescriptionFragment on CategoryModelDescriptionField {
       value
+    }
+  `,
+  glossaryEntryDescription: gql`
+    ${CmsImage.fragments.image}
+    fragment CmsStructuredTextGlossaryDescriptionFragment on GlossaryEntryModelDescriptionField {
+      value
+      blocks {
+        id
+        ... on ImageRecord {
+          image {
+            id
+            responsiveImage {
+              ...CmsImageFragment
+            }
+          }
+        }
+      }
+      links {
+        ... on ArticleRecord {
+          id
+          slug
+          title
+        }
+      }
     }
   `,
 }

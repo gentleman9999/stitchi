@@ -31,6 +31,9 @@ export * from './PrivacyPage'
 export { default as RelatedTermsIndexPage } from './RelatedTermsIndexPage'
 export * from './RelatedTermsIndexPage'
 
+export { default as RelatedTermsShowPage } from './RelatedTermsShowPage'
+export * from './RelatedTermsShowPage'
+
 export { default as TermsPage } from './TermsPage'
 export * from './TermsPage'
 

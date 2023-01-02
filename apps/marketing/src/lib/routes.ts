@@ -86,6 +86,9 @@ const routes = {
     },
     glossary: {
       href: () => '/promotional-product-glossary',
+      show: {
+        href: (termSlug: string) => `/promotional-product-glossary/${termSlug}`,
+      },
     },
     legal: {
       privacy: {
