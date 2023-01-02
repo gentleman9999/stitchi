@@ -8,6 +8,7 @@ export interface LinkInlineProps {
   href: string
   external?: boolean
   className?: string
+  underline?: 'always' | 'never' | 'hover'
 }
 
 const LinkInline = ({
@@ -15,9 +16,19 @@ const LinkInline = ({
   href,
   external,
   className,
+  underline = 'always',
 }: LinkInlineProps) => {
   const BaseLink = (props: AnchorHTMLAttributes<HTMLAnchorElement>) => (
-    <a className={cx('underline ', className)} {...props}>
+    <a
+      className={cx(
+        {
+          underline: underline === 'always',
+          'hover:underline': underline === 'hover',
+        },
+        className,
+      )}
+      {...props}
+    >
       {children}
     </a>
   )

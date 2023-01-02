@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { Container } from '@components/ui'
+import { Button, Container, LinkInline } from '@components/ui'
 import { RelatedTermsIndexPageEntryFragment } from '@generated/RelatedTermsIndexPageEntryFragment'
 import { useRouter } from 'next/router'
 import cx from 'classnames'
@@ -8,6 +8,8 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Navigation from './Navigation'
 import { notEmpty } from '@utils/typescript'
+import routes from '@lib/routes'
+import { isEmptyDocument } from 'datocms-structured-text-utils'
 
 interface Props {
   entries: RelatedTermsIndexPageEntryFragment[]
@@ -46,26 +48,49 @@ const Entry = ({
   slug,
   definition,
   term,
+  description,
 }: RelatedTermsIndexPageEntryFragment) => {
   const { asPath } = useRouter()
 
-  const activeTermSlug = asPath.split('#')[1]
+  const hasDescription = !isEmptyDocument(description)
+
+  const linkHref = hasDescription
+    ? routes.internal.glossary.show.href(`${slug}`)
+    : `#${slug}`
 
   return (
     <section
       id={slug?.toString()}
-      className={cx('p-6 hover:shadow-lg rounded-lg outline outline-gray-100', {
-        'sm:col-span-2 shadow-lg': activeTermSlug === slug,
-      })}
+      className="group p-6 hover:shadow-lg rounded-lg outline outline-gray-100 flex flex-col justify-between"
     >
-      <Link href={`#${slug}`} passHref>
-        <a>
+      <div>
+        <LinkInline
+          href={linkHref}
+          underline={hasDescription ? 'always' : 'never'}
+        >
           <h2 className="font-semibold font-headingDisplay text-xl">{term}</h2>
-        </a>
-      </Link>
+        </LinkInline>
 
-      <br />
-      <p className="text-gray-500 leading-loose">{definition}</p>
+        <br />
+        <p className="text-gray-500 leading-loose">{definition}</p>
+      </div>
+      {hasDescription ? (
+        <div>
+          <br />
+          <div className="opacity-0 transition-all flex justify-end group-hover:opacity-100">
+            <Link href={linkHref} passHref>
+              <Button
+                slim
+                color="brandPrimary"
+                className="ml-auto"
+                Component="a"
+              >
+                Word detail
+              </Button>
+            </Link>
+          </div>
+        </div>
+      ) : null}
     </section>
   )
 }
@@ -76,6 +101,10 @@ RelatedTermsIndexPage.fragments = {
       id
       term
       definition
+
+      description {
+        value
+      }
       slug
     }
   `,
