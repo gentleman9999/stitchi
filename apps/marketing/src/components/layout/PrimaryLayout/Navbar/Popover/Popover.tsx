@@ -26,10 +26,6 @@ const Dropdown = ({ anchorEl, ButtonChildren, panelChildren }: Props) => {
     }
   }, [anchorEl])
 
-  if (!anchorDims) {
-    return null
-  }
-
   return (
     <Popover className="inline-flex">
       {({ open }) => (
@@ -53,9 +49,11 @@ const Dropdown = ({ anchorEl, ButtonChildren, panelChildren }: Props) => {
               unmount={false}
               className="fixed z-50"
               style={{
-                left: anchorDims.left,
-                width: anchorDims.width,
-                top: anchorDims.top + anchorDims.height,
+                left: anchorDims?.left,
+                width: anchorDims?.width,
+                top: anchorDims
+                  ? anchorDims.top + anchorDims.height
+                  : undefined,
               }}
             >
               <div className="mt-2 bg-white p-4 relative rounded-md focus:outline-none shadow-magical">

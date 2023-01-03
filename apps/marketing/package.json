@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
-    "@headlessui/react": "^1.7.2",
+    "@headlessui/react": "^1.7.7",
     "@hookform/resolvers": "^2.8.8",
     "@radix-ui/react-dialog": "^1.0.2",
     "@radix-ui/react-slider": "^1.0.0",
