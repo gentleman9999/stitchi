@@ -1,10 +1,4 @@
-import {
-  Facebook,
-  Instagram,
-  SentimentSatisfied,
-  Support,
-  Twitter,
-} from 'icons'
+import { Support, Twitter } from 'icons'
 import { routes } from '.'
 
 export type Navigation = ReturnType<typeof navigation.makeNavigation>
@@ -32,7 +26,7 @@ const navigation = {
         description:
           'Curate unique branded promotional products for your fans and employees.',
         icon: Support,
-        href: '',
+        href: '#',
         beta: true,
       },
       {
@@ -40,7 +34,7 @@ const navigation = {
         description:
           'Reward your audience for purchasing from you or referring your brand.',
         icon: Support,
-        href: '',
+        href: '#',
         beta: true,
       },
     ],

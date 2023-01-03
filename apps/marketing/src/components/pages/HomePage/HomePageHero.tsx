@@ -54,8 +54,8 @@ const HomePageHero = () => {
       }
       subtitle={
         <>
-          We design high-quality custom merch and merch programs. We are the
-          promotional product experts.
+          We design high-quality custom merchandise and merch programs. We are
+          the promotional product experts.
         </>
       }
       primaryCta={{
