@@ -5,7 +5,9 @@ import {
 } from '@components/common'
 import { Button, Container } from '@components/ui'
 import { RelatedTermsShowPageTermFragment } from '@generated/RelatedTermsShowPageTermFragment'
+import routes from '@lib/routes'
 import { ArrowRight } from 'icons'
+import Link from 'next/link'
 import React from 'react'
 import Breadcrumbs from './Breadcrumbs'
 
@@ -61,9 +63,11 @@ const RelatedTermsShowPage = ({ term }: Props) => {
             <p className="text-2xl font-heading font-medium">
               Become a promotional product terminology expert.
             </p>
-            <Button variant="naked" endIcon={<ArrowRight />}>
-              View glossary
-            </Button>
+            <Link href={routes.internal.glossary.href()} passHref>
+              <Button variant="naked" Component="a" endIcon={<ArrowRight />}>
+                View glossary
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
