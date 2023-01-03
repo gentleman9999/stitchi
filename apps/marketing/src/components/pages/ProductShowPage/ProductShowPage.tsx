@@ -4,7 +4,6 @@ import { ProductShowPageSiteFragment } from '@generated/ProductShowPageSiteFragm
 import React from 'react'
 import CatalogIndexPage from '../CatalogIndexPage'
 import ProductDialog from './ProductDialog/ProductDialog'
-import ProductSeo from './ProductSeo'
 
 interface Props {
   product: ProductShowPageProductFragment
@@ -14,7 +13,6 @@ interface Props {
 const ProductShowPage = ({ site, product }: Props) => {
   return (
     <>
-      <ProductSeo product={product} />
       <CatalogIndexPage isBackground site={site} />
       <ProductDialog product={product} />
     </>
@@ -30,10 +28,8 @@ ProductShowPage.fragments = {
   `,
   product: gql`
     ${ProductDialog.fragments.product}
-    ${ProductSeo.fragments.product}
     fragment ProductShowPageProductFragment on Product {
       id
-      ...ProductSeoProductFragment
       ...ProductDialogProductFragment
     }
   `,

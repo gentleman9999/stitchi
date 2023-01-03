@@ -9,7 +9,6 @@ import Link from 'next/link'
 import routes from '@lib/routes'
 import { gql } from '@apollo/client'
 import { CatalogIndexPageSiteFragment } from '@generated/CatalogIndexPageSiteFragment'
-import { NextSeo } from 'next-seo'
 
 export interface CatalogIndexPageProps {
   site?: CatalogIndexPageSiteFragment | null
@@ -27,10 +26,6 @@ const CatalogIndexPage = ({
 
   return (
     <>
-      <NextSeo
-        title="Browse premium and ethical promotional products"
-        description="We work with brands that you wont find anywhere else. Our team of experts is continually procuring the highest-quality, ethical, and unique products so that you can deliver experiences people love."
-      />
       <Container>
         <Section>
           <div className="p-8 md:p-14 md:pr-0 text-center sm:text-left bg-primary rounded-xl flex items-center">

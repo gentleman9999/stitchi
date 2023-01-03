@@ -5,6 +5,7 @@ import { ProductShowPage } from '@components/pages'
 import {
   ProductPageGetDataQuery,
   ProductPageGetDataQueryVariables,
+  ProductPageGetDataQuery_site_route_node_Product,
 } from '@generated/ProductPageGetDataQuery'
 import { addApolloState, initializeApollo } from '@lib/apollo'
 import { GetStaticPaths, GetStaticProps } from 'next'
@@ -12,10 +13,30 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { ReactElement } from 'react'
 import staticWebsiteData from '@generated/static.json'
+import { NextSeo, NextSeoProps } from 'next-seo'
+import { makeProductTitle } from '@utils/catalog'
+import { OpenGraphMedia } from 'next-seo/lib/types'
 
 const allBrandSlugs = staticWebsiteData.data.site.brands.edges.map(({ node }) =>
   node.path.replace(/\//g, ''),
 )
+
+const makeImages = (
+  product: ProductPageGetDataQuery_site_route_node_Product,
+): OpenGraphMedia[] => {
+  const { defaultImage: image } = product
+  if (!image) {
+    return []
+  }
+
+  return [
+    {
+      url: image.seoImageUrl,
+      width: 1000,
+      alt: makeProductTitle(product),
+    },
+  ]
+}
 
 const getBigCProductPathFromSlug = (slug: string) => {
   const brandSlug = allBrandSlugs.find(
@@ -100,7 +121,23 @@ const ProductPage = () => {
     return <ComponentErrorMessage error="No product found" />
   }
 
-  return <ProductShowPage site={site} product={product} />
+  const title = makeProductTitle(product)
+
+  const seoProps: NextSeoProps = {
+    title,
+    description: product.seo.metaDescription || product.plainTextDescription,
+    openGraph: {
+      title,
+      images: makeImages(product),
+    },
+  }
+
+  return (
+    <>
+      <NextSeo {...seoProps} />
+      <ProductShowPage site={site} product={product} />
+    </>
+  )
 }
 
 ProductPage.getLayout = (page: ReactElement) => (
@@ -117,6 +154,18 @@ const GET_DATA = gql`
         node {
           id
           ... on Product {
+            name
+            plainTextDescription
+            defaultImage {
+              seoImageUrl: url(width: 1000)
+            }
+            brand {
+              id
+              name
+            }
+            seo {
+              metaDescription
+            }
             ...ProductShowPageProductFragment
           }
         }

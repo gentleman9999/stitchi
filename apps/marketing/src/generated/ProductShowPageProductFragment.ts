@@ -7,46 +7,6 @@
 // GraphQL fragment: ProductShowPageProductFragment
 // ====================================================
 
-export interface ProductShowPageProductFragment_defaultImage {
-  __typename: "Image";
-  /**
-   * Absolute path to image using store CDN.
-   */
-  seoImageUrl: string;
-  /**
-   * Absolute path to original image using store CDN.
-   */
-  urlOriginal: string;
-  /**
-   * Text description of an image that can be used for SEO and/or accessibility purposes.
-   */
-  altText: string;
-  /**
-   * Absolute path to image using store CDN.
-   */
-  url: string;
-}
-
-export interface ProductShowPageProductFragment_brand {
-  __typename: "Brand";
-  /**
-   * The ID of an object
-   */
-  id: string;
-  /**
-   * Name of the brand.
-   */
-  name: string;
-}
-
-export interface ProductShowPageProductFragment_seo {
-  __typename: "SeoDetails";
-  /**
-   * Meta description.
-   */
-  metaDescription: string;
-}
-
 export interface ProductShowPageProductFragment_productOptions_edges_node_CheckboxOption {
   __typename: "CheckboxOption" | "DateFieldOption" | "FileUploadFieldOption" | "MultiLineTextFieldOption" | "NumberFieldOption" | "TextFieldOption";
 }
@@ -121,6 +81,34 @@ export interface ProductShowPageProductFragment_productOptions {
    * A list of edges.
    */
   edges: (ProductShowPageProductFragment_productOptions_edges | null)[] | null;
+}
+
+export interface ProductShowPageProductFragment_brand {
+  __typename: "Brand";
+  /**
+   * The ID of an object
+   */
+  id: string;
+  /**
+   * Name of the brand.
+   */
+  name: string;
+}
+
+export interface ProductShowPageProductFragment_defaultImage {
+  __typename: "Image";
+  /**
+   * Absolute path to original image using store CDN.
+   */
+  urlOriginal: string;
+  /**
+   * Text description of an image that can be used for SEO and/or accessibility purposes.
+   */
+  altText: string;
+  /**
+   * Absolute path to image using store CDN.
+   */
+  url: string;
 }
 
 export interface ProductShowPageProductFragment_variants_edges_node_defaultImage {
@@ -226,26 +214,6 @@ export interface ProductShowPageProductFragment {
    */
   id: string;
   /**
-   * Name of the product.
-   */
-  name: string;
-  /**
-   * Description of the product in plain text.
-   */
-  plainTextDescription: string;
-  /**
-   * Default image for a product.
-   */
-  defaultImage: ProductShowPageProductFragment_defaultImage | null;
-  /**
-   * Brand associated with the product.
-   */
-  brand: ProductShowPageProductFragment_brand | null;
-  /**
-   * Product SEO details.
-   */
-  seo: ProductShowPageProductFragment_seo;
-  /**
    * Product options.
    */
   productOptions: ProductShowPageProductFragment_productOptions;
@@ -254,9 +222,21 @@ export interface ProductShowPageProductFragment {
    */
   entityId: number;
   /**
+   * Name of the product.
+   */
+  name: string;
+  /**
    * Description of the product.
    */
   description: string;
+  /**
+   * Brand associated with the product.
+   */
+  brand: ProductShowPageProductFragment_brand | null;
+  /**
+   * Default image for a product.
+   */
+  defaultImage: ProductShowPageProductFragment_defaultImage | null;
   /**
    * Variants associated with the product.
    */

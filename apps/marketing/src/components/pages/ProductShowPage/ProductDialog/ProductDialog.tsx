@@ -83,7 +83,6 @@ const ProductDialog = ({ product }: Props) => {
             />
           </div>
         ) : null}
-
         <Dialog.ContentText>
           <div className="flex flex-col justify-center items-center mt-4">
             <ProductWishlistButton entityId={product.entityId} />
