@@ -17,6 +17,7 @@ export interface BlogPostIndexPageSeoCategoryFragment__seoMetaTags {
 export interface BlogPostIndexPageSeoCategoryFragment {
   __typename: "CategoryRecord";
   id: any;
+  slug: string | null;
   /**
    * SEO meta tags
    */

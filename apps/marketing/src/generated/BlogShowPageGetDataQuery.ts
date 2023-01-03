@@ -118,6 +118,7 @@ export interface BlogShowPageGetDataQuery_article {
   categories: BlogShowPageGetDataQuery_article_categories[];
   image: BlogShowPageGetDataQuery_article_image | null;
   content: BlogShowPageGetDataQuery_article_content | null;
+  slug: string | null;
   /**
    * SEO meta tags
    */

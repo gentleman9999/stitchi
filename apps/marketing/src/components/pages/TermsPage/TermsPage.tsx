@@ -3,6 +3,7 @@ import { CmsSeo, CmsStructuredText, Section } from '@components/common'
 import { TermsPagePageFragment } from '@generated/TermsPagePageFragment'
 import React from 'react'
 import { Container } from '@components/ui'
+import routes from '@lib/routes'
 
 export interface TermsPageProps {
   page: TermsPagePageFragment
@@ -15,7 +16,10 @@ const TermsPage = ({ page }: TermsPageProps) => {
 
   return (
     <>
-      <CmsSeo seo={page._seoMetaTags} />
+      <CmsSeo
+        seo={page._seoMetaTags}
+        canonicalUrl={routes.internal.legal.terms.href()}
+      />
       <Container>
         <Section gutter="lg" className="prose prose-lg prose-fuchsia m-auto">
           <CmsStructuredText content={page.content} />

@@ -2,6 +2,7 @@ import { gql } from '@apollo/client'
 import { FeaturePageContainer, SectionFAQ } from '@components/common'
 import { Container } from '@components/ui'
 import { DesignPageCatalogFragment } from '@generated/DesignPageCatalogFragment'
+import routes from '@lib/routes'
 import React from 'react'
 import DesignPageAdvantages from './DesignPageAdvantages'
 
@@ -17,6 +18,7 @@ const DesignPage = ({ catalog }: DesignPageProps) => {
     <FeaturePageContainer
       seoTitle="Free, professional merch and promotional product design"
       seoDescription="If you need high quality custom clothing and promotional products, Stitchi is here to help. We offer free design services, fast quotes, excellent customer service, and speedy delivery times."
+      canonicalUrl={routes.internal.features.design.href()}
       catalog={catalog}
     >
       <Container>

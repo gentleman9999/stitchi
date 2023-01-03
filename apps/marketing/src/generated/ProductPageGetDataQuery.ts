@@ -109,6 +109,10 @@ export interface ProductPageGetDataQuery_site_route_node_Product_brand {
    * Name of the brand.
    */
   name: string;
+  /**
+   * Path for the brand page.
+   */
+  path: string;
 }
 
 export interface ProductPageGetDataQuery_site_route_node_Product_seo {
@@ -301,6 +305,10 @@ export interface ProductPageGetDataQuery_site_route_node_Product {
    * Name of the product.
    */
   name: string;
+  /**
+   * Relative URL path to product page.
+   */
+  path: string;
   /**
    * Description of the product in plain text.
    */

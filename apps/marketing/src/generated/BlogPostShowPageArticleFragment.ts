@@ -116,6 +116,7 @@ export interface BlogPostShowPageArticleFragment {
   categories: BlogPostShowPageArticleFragment_categories[];
   image: BlogPostShowPageArticleFragment_image | null;
   content: BlogPostShowPageArticleFragment_content | null;
+  slug: string | null;
   /**
    * SEO meta tags
    */

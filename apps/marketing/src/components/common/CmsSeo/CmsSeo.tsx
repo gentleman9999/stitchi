@@ -16,6 +16,7 @@ const isMeta = (tag: SeoOrFaviconTag): tag is SeoMetaTag => tag.tag === 'meta'
 
 export interface CmsSeoProps {
   seo: CmsSeoTagsFragment[]
+  canonicalUrl: string
 }
 
 /**
@@ -29,6 +30,9 @@ const CmsSeo = (props: CmsSeoProps) => {
   return (
     <NextSeo
       title={seo.find(isTitle)?.content || undefined}
+      openGraph={{
+        url: props.canonicalUrl,
+      }}
       additionalLinkTags={
         seo.filter(isLink).map(({ attributes }) => ({
           ...attributes,

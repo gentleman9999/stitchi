@@ -16,6 +16,8 @@ import staticWebsiteData from '@generated/static.json'
 import { NextSeo, NextSeoProps } from 'next-seo'
 import { makeProductTitle } from '@utils/catalog'
 import { OpenGraphMedia } from 'next-seo/lib/types'
+import makeAbsoluteUrl from '@utils/get-absolute-url'
+import routes from '@lib/routes'
 
 const allBrandSlugs = staticWebsiteData.data.site.brands.edges.map(({ node }) =>
   node.path.replace(/\//g, ''),
@@ -128,6 +130,12 @@ const ProductPage = () => {
     description: product.seo.metaDescription || product.plainTextDescription,
     openGraph: {
       title,
+      url: makeAbsoluteUrl(
+        routes.internal.catalog.product.href({
+          brandSlug: product.brand?.path || '',
+          productSlug: product.path,
+        }),
+      ),
       images: makeImages(product),
     },
   }
@@ -155,6 +163,7 @@ const GET_DATA = gql`
           id
           ... on Product {
             name
+            path
             plainTextDescription
             defaultImage {
               seoImageUrl: url(width: 1000)
@@ -162,6 +171,7 @@ const GET_DATA = gql`
             brand {
               id
               name
+              path
             }
             seo {
               metaDescription

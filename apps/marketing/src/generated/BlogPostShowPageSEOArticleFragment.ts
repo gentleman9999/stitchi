@@ -17,6 +17,7 @@ export interface BlogPostShowPageSEOArticleFragment__seoMetaTags {
 export interface BlogPostShowPageSEOArticleFragment {
   __typename: "ArticleRecord";
   id: any;
+  slug: string | null;
   /**
    * SEO meta tags
    */

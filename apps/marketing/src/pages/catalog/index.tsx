@@ -3,6 +3,7 @@ import { PrimaryLayout } from '@components/layout'
 import { CatalogIndexPage } from '@components/pages'
 import { CatalogGetDataQuery } from '@generated/CatalogGetDataQuery'
 import { addApolloState, initializeApollo } from '@lib/apollo'
+import routes from '@lib/routes'
 import { GetStaticProps } from 'next'
 import { NextSeo } from 'next-seo'
 import React, { ReactElement } from 'react'
@@ -29,6 +30,7 @@ const Catalog = () => {
       <NextSeo
         title="Browse premium and ethical promotional products"
         description="We work with brands that you wont find anywhere else. Our team of experts is continually procuring the highest-quality, ethical, and unique products so that you can deliver experiences people love."
+        openGraph={{ url: routes.internal.catalog.href() }}
       />
       <CatalogIndexPage site={site} />
     </>

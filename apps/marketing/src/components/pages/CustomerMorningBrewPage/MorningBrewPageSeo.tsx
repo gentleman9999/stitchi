@@ -1,3 +1,4 @@
+import routes from '@lib/routes'
 import { NextSeo } from 'next-seo'
 import React from 'react'
 
@@ -11,6 +12,7 @@ const MorningBrewPageSeo = (props: Props) => {
       million subscribers each day. We've overhauled their
       referral program to be completely automated and backed by a
       swag program."
+      openGraph={{ url: routes.internal.customers.morningBrew.href() }}
     />
   )
 }

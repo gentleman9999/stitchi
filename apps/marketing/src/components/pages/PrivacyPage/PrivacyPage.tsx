@@ -3,6 +3,7 @@ import { CmsSeo, CmsStructuredText, Section } from '@components/common'
 import { PrivacyPagePageFragment } from '@generated/PrivacyPagePageFragment'
 import React from 'react'
 import { Container } from '@components/ui'
+import routes from '@lib/routes'
 
 export interface PrivacyPageProps {
   page: PrivacyPagePageFragment
@@ -15,7 +16,10 @@ const PrivacyPage = ({ page }: PrivacyPageProps) => {
 
   return (
     <>
-      <CmsSeo seo={page._seoMetaTags} />
+      <CmsSeo
+        seo={page._seoMetaTags}
+        canonicalUrl={routes.internal.legal.privacy.href()}
+      />
       <Container>
         <Section gutter="lg" className="prose prose-lg prose-fuchsia m-auto">
           <CmsStructuredText content={page.content} />

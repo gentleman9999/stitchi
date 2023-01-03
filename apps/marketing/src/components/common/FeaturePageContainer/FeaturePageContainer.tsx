@@ -10,6 +10,7 @@ interface Props {
   children: React.ReactNode
   seoTitle: string
   seoDescription: string
+  canonicalUrl: string
   catalog?: FeaturePageContainerCatalogFragment | null
 }
 
@@ -18,10 +19,15 @@ const FeaturePageContainer = ({
   catalog,
   seoTitle,
   seoDescription,
+  canonicalUrl,
 }: Props) => {
   return (
     <>
-      <NextSeo title={seoTitle} description={seoDescription} />
+      <NextSeo
+        title={seoTitle}
+        description={seoDescription}
+        openGraph={{ url: canonicalUrl }}
+      />
       {children}
       <Container>
         <FeaturePageTestimonial />

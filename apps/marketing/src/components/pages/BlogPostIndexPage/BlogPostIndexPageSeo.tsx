@@ -3,6 +3,7 @@ import { CmsSeo } from '@components/common'
 import { BlogPostIndexPageSeoPageFragment } from '@generated/BlogPostIndexPageSeoPageFragment'
 import { BlogPostIndexPageSeoCategoryFragment } from '@generated/BlogPostIndexPageSeoCategoryFragment'
 import React from 'react'
+import routes from '@lib/routes'
 
 interface Props {
   page: BlogPostIndexPageSeoPageFragment
@@ -10,7 +11,18 @@ interface Props {
 }
 
 const BlogPostIndexPageSeo = ({ category, page }: Props) => {
-  return <CmsSeo seo={category?._seoMetaTags || page?._seoMetaTags || []} />
+  return (
+    <CmsSeo
+      seo={category?._seoMetaTags || page?._seoMetaTags || []}
+      canonicalUrl={
+        category
+          ? routes.internal.blog.category.href({
+              categorySlug: category.slug || '',
+            })
+          : routes.internal.blog.href()
+      }
+    />
+  )
 }
 
 BlogPostIndexPageSeo.fragments = {
@@ -18,6 +30,7 @@ BlogPostIndexPageSeo.fragments = {
     ${CmsSeo.fragments.seoTags}
     fragment BlogPostIndexPageSeoCategoryFragment on CategoryRecord {
       id
+      slug
       _seoMetaTags {
         ...CmsSeoTagsFragment
       }
