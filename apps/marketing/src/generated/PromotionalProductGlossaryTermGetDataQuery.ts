@@ -51,6 +51,7 @@ export interface PromotionalProductGlossaryTermGetDataQuery_glossaryEntry {
   __typename: "GlossaryEntryRecord";
   id: any;
   term: string | null;
+  definition: string | null;
   slug: string | null;
   description: PromotionalProductGlossaryTermGetDataQuery_glossaryEntry_description | null;
 }

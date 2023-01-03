@@ -9,6 +9,7 @@ import {
 import { PromotionalProductGlossaryTermGetPagesQuery } from '@generated/PromotionalProductGlossaryTermGetPagesQuery'
 import { addApolloState, initializeApollo } from '@lib/apollo'
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps } from 'next'
+import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
 import React, { ReactElement } from 'react'
 
@@ -76,7 +77,15 @@ const PromotionalProductGlossaryTerm = () => {
     )
   }
 
-  return <RelatedTermsShowPage term={glossaryEntry} />
+  return (
+    <>
+      <NextSeo
+        title={glossaryEntry.term || 'Promotional product glossary'}
+        description={glossaryEntry.definition || undefined}
+      />
+      <RelatedTermsShowPage term={glossaryEntry} />
+    </>
+  )
 }
 
 PromotionalProductGlossaryTerm.getLayout = (page: ReactElement) => (
@@ -88,6 +97,8 @@ const GET_DATA = gql`
   query PromotionalProductGlossaryTermGetDataQuery($slug: String!) {
     glossaryEntry(filter: { slug: { eq: $slug } }) {
       id
+      term
+      definition
       ...RelatedTermsShowPageTermFragment
     }
   }
