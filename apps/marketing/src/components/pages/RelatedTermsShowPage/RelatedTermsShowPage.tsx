@@ -59,15 +59,22 @@ const RelatedTermsShowPage = ({ term }: Props) => {
         <br />
         <div>
           <br />
-          <div className="bg-primary rounded-lg px-4 py-8 flex justify-between items-center">
+          <div className="bg-primary rounded-lg px-4 py-8 flex flex-col gap-4 sm:flex-row justify-between sm:items-center">
             <p className="text-2xl font-heading font-medium">
               Become a promotional product terminology expert.
             </p>
-            <Link href={routes.internal.glossary.href()} passHref>
-              <Button variant="naked" Component="a" endIcon={<ArrowRight />}>
-                View glossary
-              </Button>
-            </Link>
+            <div>
+              <Link href={routes.internal.glossary.href()} passHref>
+                <Button
+                  variant="naked"
+                  Component="a"
+                  endIcon={<ArrowRight />}
+                  className="whitespace-nowrap"
+                >
+                  View glossary
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
