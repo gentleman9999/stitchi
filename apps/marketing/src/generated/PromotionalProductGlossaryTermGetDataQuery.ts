@@ -56,11 +56,22 @@ export interface PromotionalProductGlossaryTermGetDataQuery_glossaryEntry {
   description: PromotionalProductGlossaryTermGetDataQuery_glossaryEntry_description | null;
 }
 
+export interface PromotionalProductGlossaryTermGetDataQuery_relatedTerms {
+  __typename: "GlossaryEntryRecord";
+  id: any;
+  term: string | null;
+  slug: string | null;
+}
+
 export interface PromotionalProductGlossaryTermGetDataQuery {
   /**
    * Returns a specific record
    */
   glossaryEntry: PromotionalProductGlossaryTermGetDataQuery_glossaryEntry | null;
+  /**
+   * Returns a collection of records
+   */
+  relatedTerms: PromotionalProductGlossaryTermGetDataQuery_relatedTerms[];
 }
 
 export interface PromotionalProductGlossaryTermGetDataQueryVariables {

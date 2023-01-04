@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { Button, Container, LinkInline } from '@components/ui'
-import { RelatedTermsIndexPageEntryFragment } from '@generated/RelatedTermsIndexPageEntryFragment'
+import { IndustryTermsIndexPageEntryFragment } from '@generated/IndustryTermsIndexPageEntryFragment'
 import { useRouter } from 'next/router'
 import cx from 'classnames'
 import React from 'react'
@@ -12,10 +12,10 @@ import routes from '@lib/routes'
 import { isEmptyDocument } from 'datocms-structured-text-utils'
 
 interface Props {
-  entries: RelatedTermsIndexPageEntryFragment[]
+  entries: IndustryTermsIndexPageEntryFragment[]
 }
 
-const RelatedTermsIndexPage = ({ entries }: Props) => {
+const IndustryTermsIndexPage = ({ entries }: Props) => {
   return (
     <Container>
       <br />
@@ -49,7 +49,7 @@ const Entry = ({
   definition,
   term,
   description,
-}: RelatedTermsIndexPageEntryFragment) => {
+}: IndustryTermsIndexPageEntryFragment) => {
   const { asPath } = useRouter()
 
   const hasDescription = !isEmptyDocument(description)
@@ -95,9 +95,9 @@ const Entry = ({
   )
 }
 
-RelatedTermsIndexPage.fragments = {
+IndustryTermsIndexPage.fragments = {
   entry: gql`
-    fragment RelatedTermsIndexPageEntryFragment on GlossaryEntryRecord {
+    fragment IndustryTermsIndexPageEntryFragment on GlossaryEntryRecord {
       id
       term
       definition
@@ -110,4 +110,4 @@ RelatedTermsIndexPage.fragments = {
   `,
 }
 
-export default RelatedTermsIndexPage
+export default IndustryTermsIndexPage

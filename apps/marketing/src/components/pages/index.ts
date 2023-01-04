@@ -28,11 +28,11 @@ export * from './PartnersPage'
 export { default as PrivacyPage } from './PrivacyPage'
 export * from './PrivacyPage'
 
-export { default as RelatedTermsIndexPage } from './RelatedTermsIndexPage'
-export * from './RelatedTermsIndexPage'
+export { default as IndustryTermsIndexPage } from './IndustryTermsIndexPage'
+export * from './IndustryTermsIndexPage'
 
-export { default as RelatedTermsShowPage } from './RelatedTermsShowPage'
-export * from './RelatedTermsShowPage'
+export { default as IndustryTermsShowPage } from './IndustryTermsShowPage'
+export * from './IndustryTermsShowPage'
 
 export { default as TermsPage } from './TermsPage'
 export * from './TermsPage'

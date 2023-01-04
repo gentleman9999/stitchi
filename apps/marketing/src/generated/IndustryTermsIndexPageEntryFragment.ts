@@ -8,15 +8,15 @@
 // ====================================================
 
 export interface IndustryTermsIndexPageEntryFragment_description {
-  __typename: 'GlossaryEntryModelDescriptionField'
-  value: any
+  __typename: "GlossaryEntryModelDescriptionField";
+  value: any;
 }
 
 export interface IndustryTermsIndexPageEntryFragment {
-  __typename: 'GlossaryEntryRecord'
-  id: any
-  term: string | null
-  definition: string | null
-  description: IndustryTermsIndexPageEntryFragment_description | null
-  slug: string | null
+  __typename: "GlossaryEntryRecord";
+  id: any;
+  term: string | null;
+  definition: string | null;
+  description: IndustryTermsIndexPageEntryFragment_description | null;
+  slug: string | null;
 }

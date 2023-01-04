@@ -1,7 +1,7 @@
 import { gql, useQuery } from '@apollo/client'
 import { ComponentErrorMessage } from '@components/common'
 import { PrimaryLayout } from '@components/layout'
-import { RelatedTermsShowPage } from '@components/pages'
+import { IndustryTermsShowPage } from '@components/pages'
 import {
   PromotionalProductGlossaryTermGetDataQuery,
   PromotionalProductGlossaryTermGetDataQueryVariables,
@@ -66,7 +66,7 @@ const PromotionalProductGlossaryTerm = () => {
     return <ComponentErrorMessage error={error} />
   }
 
-  const { glossaryEntry } = data || {}
+  const { glossaryEntry, relatedTerms } = data || {}
 
   if (loading) {
     return null
@@ -87,7 +87,10 @@ const PromotionalProductGlossaryTerm = () => {
           url: routes.internal.glossary.show.href(glossaryEntry.slug || ''),
         }}
       />
-      <RelatedTermsShowPage term={glossaryEntry} />
+      <IndustryTermsShowPage
+        term={glossaryEntry}
+        relatedTerms={relatedTerms || []}
+      />
     </>
   )
 }
@@ -97,13 +100,21 @@ PromotionalProductGlossaryTerm.getLayout = (page: ReactElement) => (
 )
 
 const GET_DATA = gql`
-  ${RelatedTermsShowPage.fragments.term}
+  ${IndustryTermsShowPage.fragments.term}
+  ${IndustryTermsShowPage.fragments.relatedTerms}
   query PromotionalProductGlossaryTermGetDataQuery($slug: String!) {
     glossaryEntry(filter: { slug: { eq: $slug } }) {
       id
       term
       definition
-      ...RelatedTermsShowPageTermFragment
+      ...IndustryTermsShowPageTermFragment
+    }
+    relatedTerms: allGlossaryEntries(
+      filter: { description: { exists: true }, slug: { neq: $slug } }
+      first: 3
+    ) {
+      id
+      ...IndustryTermsShowPageRelatedTermsFragment
     }
   }
 `

@@ -1,7 +1,7 @@
 import { gql, useQuery } from '@apollo/client'
 import { ComponentErrorMessage } from '@components/common'
 import { PrimaryLayout } from '@components/layout'
-import { RelatedTermsIndexPage } from '@components/pages'
+import { IndustryTermsIndexPage } from '@components/pages'
 import { PromotionalProductGlossaryGetDataQuery } from '@generated/PromotionalProductGlossaryGetDataQuery'
 import { addApolloState, initializeApollo } from '@lib/apollo'
 import routes from '@lib/routes'
@@ -33,7 +33,7 @@ const PromotionalProductGlossary = () => {
         description="Get a better understanding of the promotional product industry with this comprehensive list of terms and definitions. From common acronyms to specialized terminology, this page has everything you need to know to navigate the world of promotional products and custom merchandise."
         openGraph={{ url: routes.internal.glossary.href() }}
       />
-      <RelatedTermsIndexPage entries={data?.allGlossaryEntries || []} />
+      <IndustryTermsIndexPage entries={data?.allGlossaryEntries || []} />
     </>
   )
 }
@@ -43,11 +43,11 @@ PromotionalProductGlossary.getLayout = (page: ReactElement) => (
 )
 
 const GET_DATA = gql`
-  ${RelatedTermsIndexPage.fragments.entry}
+  ${IndustryTermsIndexPage.fragments.entry}
   query PromotionalProductGlossaryGetDataQuery {
     allGlossaryEntries(first: 100, orderBy: term_ASC) {
       id
-      ...RelatedTermsIndexPageEntryFragment
+      ...IndustryTermsIndexPageEntryFragment
     }
   }
 `
