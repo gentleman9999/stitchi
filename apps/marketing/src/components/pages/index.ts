@@ -28,6 +28,9 @@ export * from './PartnersPage'
 export { default as PrivacyPage } from './PrivacyPage'
 export * from './PrivacyPage'
 
+export { default as IndustryNewsletterLandingPage } from './IndustryNewsletterLandingPage'
+export * from './IndustryNewsletterLandingPage'
+
 export { default as IndustryTermsIndexPage } from './IndustryTermsIndexPage'
 export * from './IndustryTermsIndexPage'
 
