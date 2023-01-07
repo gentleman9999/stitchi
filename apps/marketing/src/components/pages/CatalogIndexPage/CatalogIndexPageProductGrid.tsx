@@ -11,34 +11,48 @@ import CatalogIndexPageProductSkeleton from './CatalogIndexPageProductSkeleton'
 import CatalogIndexPageProuductZeroState from './CatalogIndexPageProductZeroState'
 import { InfiniteScrollContainer } from '@components/common'
 import { SearchProductsFiltersInput } from '@generated/globalTypes'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+
+export const DEFUALT_QUERY_VARIABLES = {
+  first: 30,
+  filters: {
+    brandEntityIds: [],
+    categoryEntityIds: [],
+    searchSubCategories: true,
+  },
+}
 
 export interface Props {}
 
 const CatalogIndexPageProductGrid = ({}: Props) => {
+  const { replace, query } = useRouter()
+
   const {
     activeFilters: { brands, categories },
   } = useCatalogFilters()
 
   const formattedFilters: SearchProductsFiltersInput = React.useMemo(
     () => ({
+      ...DEFUALT_QUERY_VARIABLES.filters,
       brandEntityIds: brands.length
         ? brands.map(({ entityId }) => entityId)
         : undefined,
       categoryEntityIds: categories.length
         ? categories.map(({ entityId }) => entityId)
         : null,
-      searchSubCategories: true,
     }),
     [brands, categories],
   )
+
   const { data, refetch, networkStatus, fetchMore } = useQuery<
     CatalogIndexPageGetDataQuery,
     CatalogIndexPageGetDataQueryVariables
   >(GET_DATA, {
     notifyOnNetworkStatusChange: true,
     variables: {
+      ...DEFUALT_QUERY_VARIABLES,
       filters: formattedFilters,
-      first: 30,
     },
   })
 
@@ -47,6 +61,20 @@ const CatalogIndexPageProductGrid = ({}: Props) => {
       filters: formattedFilters,
     })
   }, [formattedFilters, refetch])
+
+  React.useEffect(() => {
+    const { after } = query
+    if (typeof after === 'string') {
+      fetchMore({
+        variables: { after },
+      })
+
+      const newQuery = { ...query }
+      delete newQuery.after
+
+      replace({ query: newQuery })
+    }
+  }, [query, fetchMore, replace])
 
   const products =
     data?.site.search.searchProducts?.products?.edges
@@ -67,6 +95,7 @@ const CatalogIndexPageProductGrid = ({}: Props) => {
 
   return (
     <>
+      <>{JSON.stringify(products)}</>
       <InfiniteScrollContainer onLoadMore={handleFetchMore}>
         <Grid>
           {products.map(product => (
@@ -78,6 +107,15 @@ const CatalogIndexPageProductGrid = ({}: Props) => {
             ))}
         </Grid>
       </InfiniteScrollContainer>
+      {pageInfo?.hasNextPage && (
+        <Link
+          replace
+          rel="noindex"
+          href={{ query: { after: pageInfo?.endCursor } }}
+        >
+          Next
+        </Link>
+      )}
       <div className="mt-20">
         <CatalogIndexPageProuductZeroState />
       </div>

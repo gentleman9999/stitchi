@@ -1,7 +1,10 @@
 import { gql, useQuery } from '@apollo/client'
 import { ComponentErrorMessage } from '@components/common'
 import { PrimaryLayout } from '@components/layout'
-import { ProductShowPage } from '@components/pages'
+import {
+  CATALOG_DEFAULT_QUERY_VARIABLES,
+  ProductShowPage,
+} from '@components/pages'
 import {
   ProductPageGetDataQuery,
   ProductPageGetDataQueryVariables,
@@ -18,6 +21,7 @@ import { makeProductTitle } from '@utils/catalog'
 import { OpenGraphMedia } from 'next-seo/lib/types'
 import makeAbsoluteUrl from '@utils/get-absolute-url'
 import routes from '@lib/routes'
+import { SearchProductsFiltersInput } from '@generated/globalTypes'
 
 const allBrandSlugs = staticWebsiteData.data.site.brands.edges.map(({ node }) =>
   node.path.replace(/\//g, ''),
@@ -85,6 +89,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       query: GET_DATA,
       variables: {
         path: productPath,
+        ...CATALOG_DEFAULT_QUERY_VARIABLES,
       },
     },
   )
@@ -104,6 +109,7 @@ const ProductPage = () => {
   >(GET_DATA, {
     variables: {
       path: productPath || '',
+      ...CATALOG_DEFAULT_QUERY_VARIABLES,
     },
   })
 
@@ -155,7 +161,12 @@ ProductPage.getLayout = (page: ReactElement) => (
 const GET_DATA = gql`
   ${ProductShowPage.fragments.site}
   ${ProductShowPage.fragments.product}
-  query ProductPageGetDataQuery($path: String!) {
+  query ProductPageGetDataQuery(
+    $path: String!
+    $first: Int!
+    $filters: SearchProductsFiltersInput!
+    $after: String
+  ) {
     site {
       ...ProductShowPageSiteFragment
       route(path: $path) {

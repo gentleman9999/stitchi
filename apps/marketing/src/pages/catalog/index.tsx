@@ -1,17 +1,24 @@
 import { gql, useQuery } from '@apollo/client'
 import { PrimaryLayout } from '@components/layout'
-import { CatalogIndexPage } from '@components/pages'
-import { CatalogGetDataQuery } from '@generated/CatalogGetDataQuery'
+import {
+  CatalogIndexPage,
+  CATALOG_DEFAULT_QUERY_VARIABLES,
+} from '@components/pages'
+import {
+  CatalogGetDataQuery,
+  CatalogGetDataQueryVariables,
+} from '@generated/CatalogGetDataQuery'
 import { addApolloState, initializeApollo } from '@lib/apollo'
 import routes from '@lib/routes'
 import { GetStaticProps } from 'next'
 import { NextSeo } from 'next-seo'
 import React, { ReactElement } from 'react'
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async ({ params }) => {
   const client = initializeApollo()
-  await client.query<CatalogGetDataQuery>({
+  await client.query<CatalogGetDataQuery, CatalogGetDataQueryVariables>({
     query: GET_DATA,
+    variables: CATALOG_DEFAULT_QUERY_VARIABLES,
   })
 
   return addApolloState(client, {
@@ -21,7 +28,10 @@ export const getStaticProps: GetStaticProps = async () => {
 }
 
 const Catalog = () => {
-  const { data } = useQuery<CatalogGetDataQuery>(GET_DATA, {})
+  const { data } = useQuery<CatalogGetDataQuery, CatalogGetDataQueryVariables>(
+    GET_DATA,
+    { variables: CATALOG_DEFAULT_QUERY_VARIABLES },
+  )
 
   const { site } = data || {}
 
@@ -43,7 +53,11 @@ Catalog.getLayout = (page: ReactElement) => (
 
 const GET_DATA = gql`
   ${CatalogIndexPage.fragments.site}
-  query CatalogGetDataQuery {
+  query CatalogGetDataQuery(
+    $filters: SearchProductsFiltersInput!
+    $first: Int!
+    $after: String
+  ) {
     site {
       ...CatalogIndexPageSiteFragment
     }

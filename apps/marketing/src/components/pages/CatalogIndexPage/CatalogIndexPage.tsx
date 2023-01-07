@@ -2,13 +2,17 @@ import { Section } from '@components/common'
 import React from 'react'
 import { Button, Container } from '@components/ui'
 import CatalogIndexPageFilters from './CatalogIndexPageFilters'
-import CatalogIndexPageProductGrid from './CatalogIndexPageProductGrid'
+import CatalogIndexPageProductGrid, {
+  DEFUALT_QUERY_VARIABLES,
+} from './CatalogIndexPageProductGrid'
 import { CatalogFiltersProvider } from './catalog-filters-context'
 import { NeedleThread } from 'icons'
 import Link from 'next/link'
 import routes from '@lib/routes'
 import { gql } from '@apollo/client'
 import { CatalogIndexPageSiteFragment } from '@generated/CatalogIndexPageSiteFragment'
+
+export { DEFUALT_QUERY_VARIABLES }
 
 export interface CatalogIndexPageProps {
   site?: CatalogIndexPageSiteFragment | null
@@ -70,8 +74,10 @@ const CatalogIndexPage = ({
 CatalogIndexPage.fragments = {
   site: gql`
     ${CatalogFiltersProvider.fragments.site}
+    ${CatalogIndexPageProductGrid.fragments.site}
     fragment CatalogIndexPageSiteFragment on Site {
       ...CatalogFiltersProviderSiteFragment
+      ...CatalogIndexPageProductGridSiteFragment
     }
   `,
 }
