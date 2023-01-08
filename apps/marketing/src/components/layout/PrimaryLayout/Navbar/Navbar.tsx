@@ -1,4 +1,4 @@
-import React, { EventHandler } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import s from './Navbar.module.css'
 import { Logo } from '@components/ui'
@@ -7,7 +7,6 @@ import NavbarRoot from './NavbarRoot'
 import navigation from '@lib/navigation'
 import dynamic from 'next/dynamic'
 import cx from 'classnames'
-import { motion } from 'framer-motion'
 
 const nav = navigation.makeNavigation()
 

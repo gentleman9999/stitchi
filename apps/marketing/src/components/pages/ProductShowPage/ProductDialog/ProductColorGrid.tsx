@@ -12,19 +12,21 @@ const ProductColorGrid = ({ product, onColorSelect }: Props) => {
   const { colors } = useProductColors({ product })
 
   return (
-    <div className="flex flex-wrap gap-1">
-      {colors.map(({ hexColors, entityId }) => (
-        <span
-          role="button"
-          key={entityId}
-          className="inline-flex w-6 h-6 rounded-full border-2 border-gray-200 cursor-pointer"
-          style={{
-            backgroundColor: hexColors[0],
-          }}
-          onClick={() => onColorSelect(entityId)}
-        />
+    <ul className="flex flex-wrap gap-1">
+      {colors.map(({ hexColors, entityId, label }) => (
+        <li key={entityId}>
+          <span
+            role="button"
+            className="inline-flex w-6 h-6 rounded-full border-2 border-gray-200 cursor-pointer"
+            style={{
+              backgroundColor: hexColors[0],
+            }}
+            onClick={() => onColorSelect(entityId)}
+          />
+          <span className="sr-only">{label}</span>
+        </li>
       ))}
-    </div>
+    </ul>
   )
 }
 

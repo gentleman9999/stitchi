@@ -83,9 +83,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   await client.query<ProductPageGetDataQuery, ProductPageGetDataQueryVariables>(
     {
       query: GET_DATA,
-      variables: {
-        path: productPath,
-      },
+      variables: { path: productPath },
     },
   )
 
@@ -102,9 +100,7 @@ const ProductPage = () => {
     ProductPageGetDataQuery,
     ProductPageGetDataQueryVariables
   >(GET_DATA, {
-    variables: {
-      path: productPath || '',
-    },
+    variables: { path: productPath || '' },
   })
 
   const { site } = data || {}
@@ -143,7 +139,7 @@ const ProductPage = () => {
   return (
     <>
       <NextSeo {...seoProps} />
-      <ProductShowPage site={site} product={product} />
+      <ProductShowPage product={product} />
     </>
   )
 }
@@ -153,11 +149,9 @@ ProductPage.getLayout = (page: ReactElement) => (
 )
 
 const GET_DATA = gql`
-  ${ProductShowPage.fragments.site}
   ${ProductShowPage.fragments.product}
   query ProductPageGetDataQuery($path: String!) {
     site {
-      ...ProductShowPageSiteFragment
       route(path: $path) {
         node {
           id
