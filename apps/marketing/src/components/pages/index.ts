@@ -10,6 +10,9 @@ export * from './HomePage'
 export { default as StartPage } from './StartPage'
 export * from './StartPage'
 
+export { default as CatalogIndexPage } from './CatalogIndexPage'
+export * from './CatalogIndexPage'
+
 export { default as CustomerMorningBrewPage } from './CustomerMorningBrewPage'
 export * from './CustomerMorningBrewPage'
 
@@ -42,6 +45,3 @@ export * from './ProductComparrisonIndexPage'
 
 export { default as ProductShowPage } from './ProductShowPage'
 export * from './ProductShowPage'
-
-export { default as CatalogIndexPage } from './CatalogIndexPage'
-export * from './CatalogIndexPage'

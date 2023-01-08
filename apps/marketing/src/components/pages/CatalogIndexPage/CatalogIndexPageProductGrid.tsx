@@ -1,8 +1,7 @@
-import { gql, NetworkStatus, useQuery } from '@apollo/client'
+import { gql, QueryResult } from '@apollo/client'
 import React from 'react'
 import { notEmpty } from '@utils/typescript'
 import CatalogIndexPageProduct from './CatalogIndexPageProduct'
-import { useCatalogFilters } from './catalog-filters-context'
 import {
   CatalogIndexPageGetDataQuery,
   CatalogIndexPageGetDataQueryVariables,
@@ -10,78 +9,25 @@ import {
 import CatalogIndexPageProductSkeleton from './CatalogIndexPageProductSkeleton'
 import CatalogIndexPageProuductZeroState from './CatalogIndexPageProductZeroState'
 import { InfiniteScrollContainer } from '@components/common'
-import { SearchProductsFiltersInput } from '@generated/globalTypes'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { CatalogIndexPageProductGridSiteFragment } from '@generated/CatalogIndexPageProductGridSiteFragment'
 
-export const DEFUALT_QUERY_VARIABLES = {
-  first: 30,
-  filters: {
-    brandEntityIds: [],
-    categoryEntityIds: [],
-    searchSubCategories: true,
-  },
-}
-
-export interface Props {}
-
-const CatalogIndexPageProductGrid = ({}: Props) => {
-  const { replace, query } = useRouter()
-
-  const {
-    activeFilters: { brands, categories },
-  } = useCatalogFilters()
-
-  const formattedFilters: SearchProductsFiltersInput = React.useMemo(
-    () => ({
-      ...DEFUALT_QUERY_VARIABLES.filters,
-      brandEntityIds: brands.length
-        ? brands.map(({ entityId }) => entityId)
-        : undefined,
-      categoryEntityIds: categories.length
-        ? categories.map(({ entityId }) => entityId)
-        : null,
-    }),
-    [brands, categories],
-  )
-
-  const { data, refetch, networkStatus, fetchMore } = useQuery<
+export interface Props {
+  loading: boolean
+  site?: CatalogIndexPageProductGridSiteFragment | null
+  fetchMore: QueryResult<
     CatalogIndexPageGetDataQuery,
     CatalogIndexPageGetDataQueryVariables
-  >(GET_DATA, {
-    notifyOnNetworkStatusChange: true,
-    variables: {
-      ...DEFUALT_QUERY_VARIABLES,
-      filters: formattedFilters,
-    },
-  })
+  >['fetchMore']
+}
 
-  React.useEffect(() => {
-    refetch({
-      filters: formattedFilters,
-    })
-  }, [formattedFilters, refetch])
-
-  React.useEffect(() => {
-    const { after } = query
-    if (typeof after === 'string') {
-      fetchMore({
-        variables: { after },
-      })
-
-      const newQuery = { ...query }
-      delete newQuery.after
-
-      replace({ query: newQuery })
-    }
-  }, [query, fetchMore, replace])
-
+const CatalogIndexPageProductGrid = ({ site, loading, fetchMore }: Props) => {
   const products =
-    data?.site.search.searchProducts?.products?.edges
+    site?.search.searchProducts?.products?.edges
       ?.map(edge => edge?.node)
       .filter(notEmpty) || []
 
-  const { pageInfo } = data?.site.search.searchProducts?.products || {}
+  const { pageInfo } = site?.search.searchProducts?.products || {}
 
   const handleFetchMore = () => {
     if (pageInfo?.hasNextPage) {
@@ -95,13 +41,12 @@ const CatalogIndexPageProductGrid = ({}: Props) => {
 
   return (
     <>
-      <>{JSON.stringify(products)}</>
       <InfiniteScrollContainer onLoadMore={handleFetchMore}>
         <Grid>
           {products.map(product => (
             <CatalogIndexPageProduct key={product.entityId} product={product} />
           ))}
-          {networkStatus !== NetworkStatus.ready &&
+          {loading &&
             Array.from(new Array(6)).map((_, i) => (
               <CatalogIndexPageProductSkeleton key={i} />
             ))}
@@ -153,18 +98,5 @@ CatalogIndexPageProductGrid.fragments = {
     }
   `,
 }
-
-const GET_DATA = gql`
-  ${CatalogIndexPageProductGrid.fragments.site}
-  query CatalogIndexPageGetDataQuery(
-    $filters: SearchProductsFiltersInput!
-    $first: Int!
-    $after: String
-  ) {
-    site {
-      ...CatalogIndexPageProductGridSiteFragment
-    }
-  }
-`
 
 export default CatalogIndexPageProductGrid
