@@ -1,7 +1,7 @@
 import {
-  CatalogFiltersProviderSiteFragment_brands_edges_node as Brand,
-  CatalogFiltersProviderSiteFragment_categoryTree as Category,
-} from '@generated/CatalogFiltersProviderSiteFragment'
+  UseCatalogFiltersGetDataQuery_site_brands_edges_node as Brand,
+  UseCatalogFiltersGetDataQuery_site_categoryTree as Category,
+} from '@generated/UseCatalogFiltersGetDataQuery'
 import React from 'react'
 import useFilters from './useCatalogFilters'
 

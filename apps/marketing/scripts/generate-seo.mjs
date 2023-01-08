@@ -7,13 +7,7 @@ const { loadEnvConfig } = nextEnv
 const projectDir = process.cwd()
 loadEnvConfig(projectDir)
 
-const endpoint = process.env.NEXT_PUBLIC_DATO_CMS_GRAPHQL_URI
-
-const environment = process.env.NEXT_PUBLIC_DATO_CMS_ENV
-
-const apiKey = process.env.NEXT_PUBLIC_DATO_CMS_API_KEY
-
-const URI = `${endpoint}/environments/${environment}`
+const endpoint = process.env.NEXT_PUBLIC_STITCHI_GRAPHQL_URI
 
 const defaultSeoQuery = `
   query SeoDefaultQuery {
@@ -38,12 +32,10 @@ const defaultSeoQuery = `
 
 async function fetchSeoData() {
   try {
-    const result = await fetch(URI, {
+    const result = await fetch(endpoint, {
       method: 'POST',
       headers: Object.assign({
         'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: `Bearer ${apiKey}`,
       }),
       body: JSON.stringify({ variables: {}, query: defaultSeoQuery }),
     })

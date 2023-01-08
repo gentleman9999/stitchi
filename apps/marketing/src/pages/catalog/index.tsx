@@ -6,23 +6,23 @@ import {
   CATALOG_GET_DATA,
 } from '@components/pages'
 import {
-  CatalogGetDataQuery,
-  CatalogGetDataQueryVariables,
-} from '@generated/CatalogGetDataQuery'
+  CatalogIndexPageGetDataQuery,
+  CatalogIndexPageGetDataQueryVariables,
+} from '@generated/CatalogIndexPageGetDataQuery'
 import { addApolloState, initializeApollo } from '@lib/apollo'
 import routes from '@lib/routes'
 import { GetServerSideProps, GetStaticProps } from 'next'
 import { NextSeo } from 'next-seo'
 import React, { ReactElement } from 'react'
 
-export const getServerSideProps: GetServerSideProps = async ({
-  params,
-  query,
-}) => {
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const { after } = query
 
   const client = initializeApollo()
-  await client.query<CatalogGetDataQuery, CatalogGetDataQueryVariables>({
+  await client.query<
+    CatalogIndexPageGetDataQuery,
+    CatalogIndexPageGetDataQueryVariables
+  >({
     query: CATALOG_GET_DATA,
     variables: {
       ...CATALOG_DEFAULT_QUERY_VARIABLES,
