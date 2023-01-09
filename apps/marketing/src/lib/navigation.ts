@@ -49,7 +49,6 @@ const navigation = {
         icon: Support,
         href: routes.internal.catalog.href(),
       },
-
       {
         label: 'Blog',
         icon: Support,
