@@ -3,6 +3,7 @@ import { Dialog, IconButton } from '@components/ui'
 import { ProductDialogProductFragment } from '@generated/ProductDialogProductFragment'
 import routes from '@lib/routes'
 import { makeProductTitle } from '@utils/catalog'
+import { generateImageSizes } from '@utils/image'
 import { XIcon } from 'icons'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -62,7 +63,13 @@ const ProductDialog = ({ product }: Props) => {
   const image = activeVariant?.defaultImage || product.defaultImage
 
   return (
-    <Dialog open={true} onClose={handleClose} mobileFullScreen disablePortal>
+    <Dialog
+      open={true}
+      onClose={handleClose}
+      mobileFullScreen
+      disablePortal
+      size="lg"
+    >
       <Dialog.Title
         className="flex justify-between gap-2 font-heading text-lg"
         as="div"
@@ -80,6 +87,7 @@ const ProductDialog = ({ product }: Props) => {
               alt={image.altText || product.name}
               layout="fill"
               objectFit="contain"
+              sizes={generateImageSizes([{ imageWidth: '624px' }])}
             />
           </div>
         ) : null}

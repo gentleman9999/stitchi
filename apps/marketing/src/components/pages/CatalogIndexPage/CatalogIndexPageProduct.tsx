@@ -8,6 +8,7 @@ import useProductColors from '@hooks/useProductColors'
 import SwatchGroup from './SwatchGroup'
 import { useRouter } from 'next/router'
 import { makeProductTitle } from '@utils/catalog'
+import { generateImageSizes } from '@utils/image'
 
 export interface Props {
   product: CatalogIndexPageProductProductFragment
@@ -39,6 +40,7 @@ const CatalogIndexPageProduct = ({ product }: Props) => {
                 alt={product.defaultImage.altText || product.name}
                 layout="fill"
                 objectFit="contain"
+                sizes={generateImageSizes([{ imageWidth: '230px' }])}
               />
             </div>
           )}
