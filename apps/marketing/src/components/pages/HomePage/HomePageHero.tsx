@@ -69,7 +69,7 @@ const HomePageHero = () => {
             </span>
           </>
         ),
-        buttonClassName: 'group !rounded-full sm:!text-2xl flex items-center',
+        buttonClassName: 'group sm:!text-2xl flex items-center',
         href: routes.internal.getStarted.href(),
       }}
     />

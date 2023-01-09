@@ -62,7 +62,7 @@ const NavbarDesktopDropdown = ({
   return (
     <div className="py-1 col-span-1">
       <Link>
-        <Popover.Button as="div" className="p-4">
+        <Popover.Button as="div" className="p-2">
           <div className="flex items-center">
             {icon && (
               <span className="mr-2 h-12 w-12 rounded-full bg-black flex justify-center items-center flex-shrink-0">
@@ -70,13 +70,13 @@ const NavbarDesktopDropdown = ({
               </span>
             )}
             <div>
-              <h4 className="font-extrabold">
+              <h4 className="font-extrabold font-heading text-xl mb-1">
                 {label}{' '}
                 {beta ? (
                   <Badge label="Coming soon" size="small" className="m-0" />
                 ) : null}{' '}
               </h4>
-              <span className="text-secondary">{description}</span>
+              <span className="text-gray-800 font-medium">{description}</span>
             </div>
           </div>
         </Popover.Button>
@@ -94,7 +94,7 @@ const StyledATag = (props: {
   const linkProps = {
     ...props,
     className: cx(
-      'cursor-pointer block text-sm hover:bg-gray-100 transition-all rounded-md ring-1 ring-transparent hover:ring-gray-200',
+      'cursor-pointer block text-sm hover:bg-primary transition-all rounded-md ring-1 ring-transparent hover:shadow-1',
       {
         'pointer-events-none touch-none': props.disabled,
       },

@@ -35,17 +35,15 @@ const Hero = (props: HeroProps) => {
         {(props.primaryCta || props.secondaryCta) && (
           <div className="mt-12 max-w-md sm:flex">
             {props.primaryCta && (
-              <div className="rounded-md">
-                <Link href={props.primaryCta.href} passHref>
-                  <Button
-                    Component="a"
-                    shadow
-                    className={props.primaryCta.buttonClassName}
-                  >
-                    {props.primaryCta.title}
-                  </Button>
-                </Link>
-              </div>
+              <Link href={props.primaryCta.href} passHref>
+                <Button
+                  Component="a"
+                  shadow
+                  className={props.primaryCta.buttonClassName}
+                >
+                  {props.primaryCta.title}
+                </Button>
+              </Link>
             )}
             {props.secondaryCta && (
               <Link href={props.secondaryCta.href} passHref>
