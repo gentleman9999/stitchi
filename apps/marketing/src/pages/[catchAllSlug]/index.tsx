@@ -167,6 +167,18 @@ const ProductPage = () => {
           images: variant.defaultImage ? [variant.defaultImage.url] : [],
           sku: variant.sku,
           mpn: variant.mpn || undefined,
+          offers: variant.prices
+            ? {
+                url,
+                price: variant.prices.price.value,
+                priceCurrency: variant.prices.price.currencyCode,
+                itemCondition: 'https://schema.org/NewCondition',
+                availability: 'https://schema.org/InStock',
+                seller: {
+                  name: 'Stitchi',
+                },
+              }
+            : undefined,
         }
       }) || []
 
@@ -215,6 +227,12 @@ const GET_DATA = gql`
                   gtin
                   mpn
                   sku
+                  prices {
+                    price {
+                      currencyCode
+                      value
+                    }
+                  }
                   options {
                     edges {
                       node {
