@@ -12,7 +12,7 @@ import { BackgroundTexture, Container } from '@components/ui'
 import { humanizeDate } from '@utils/date'
 import BlogPostShowPageAuthor from './BlogPostShowPageAuthor'
 import BlogPostShowPageSeo from './BlogPostShowPageSeo'
-import { StructuredText } from 'react-datocms'
+import BlogPostJsonLD from './BlogPostJsonLD'
 
 export interface BlogShowPageProps {
   post: BlogPostShowPageArticleFragment
@@ -26,6 +26,7 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
   return (
     <>
       <BlogPostShowPageSeo article={post} />
+      <BlogPostJsonLD post={post} />
       <Container>
         <article className="prose prose-stone prose-headings:font-heading lg:prose-xl max-w-none">
           {post.image?.responsiveImage && (
@@ -90,6 +91,7 @@ BlogPostShowPage.fragments = {
     ${BlogPostShowPageAuthor.fragments.author}
     ${CmsStructuredText.fragments.articleContent}
     ${BlogPostShowPageSeo.fragments.article}
+    ${BlogPostJsonLD.fragments.article}
     fragment BlogPostShowPageArticleFragment on ArticleRecord {
       id
       title
@@ -105,6 +107,7 @@ BlogPostShowPage.fragments = {
       }
 
       image {
+        id
         responsiveImage(sizes: "") {
           ...CmsImageFragment
         }
@@ -113,6 +116,7 @@ BlogPostShowPage.fragments = {
         ...CmsStructuredTextContentFragment
       }
       ...BlogPostShowPageSEOArticleFragment
+      ...BlogPostJsonLDArticleFragment
     }
   `,
 }

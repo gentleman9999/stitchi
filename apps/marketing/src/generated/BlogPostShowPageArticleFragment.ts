@@ -55,9 +55,16 @@ export interface BlogPostShowPageArticleFragment_image_responsiveImage {
   base64: string | null;
 }
 
+export interface BlogPostShowPageArticleFragment_image_image {
+  __typename: "ResponsiveImage";
+  src: string;
+}
+
 export interface BlogPostShowPageArticleFragment_image {
   __typename: "FileField";
+  id: any;
   responsiveImage: BlogPostShowPageArticleFragment_image_responsiveImage | null;
+  image: BlogPostShowPageArticleFragment_image_image | null;
 }
 
 export interface BlogPostShowPageArticleFragment_content_blocks_image_responsiveImage {
@@ -121,4 +128,5 @@ export interface BlogPostShowPageArticleFragment {
    * SEO meta tags
    */
   _seoMetaTags: BlogPostShowPageArticleFragment__seoMetaTags[];
+  _updatedAt: any;
 }
