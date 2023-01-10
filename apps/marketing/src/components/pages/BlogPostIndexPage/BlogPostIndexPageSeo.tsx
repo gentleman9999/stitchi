@@ -4,6 +4,7 @@ import { BlogPostIndexPageSeoPageFragment } from '@generated/BlogPostIndexPageSe
 import { BlogPostIndexPageSeoCategoryFragment } from '@generated/BlogPostIndexPageSeoCategoryFragment'
 import React from 'react'
 import routes from '@lib/routes'
+import makeAbsoluteUrl from '@utils/get-absolute-url'
 
 interface Props {
   page: BlogPostIndexPageSeoPageFragment
@@ -14,13 +15,13 @@ const BlogPostIndexPageSeo = ({ category, page }: Props) => {
   return (
     <CmsSeo
       seo={category?._seoMetaTags || page?._seoMetaTags || []}
-      canonicalUrl={
+      canonicalUrl={makeAbsoluteUrl(
         category
           ? routes.internal.blog.category.href({
               categorySlug: category.slug || '',
             })
-          : routes.internal.blog.href()
-      }
+          : routes.internal.blog.href(),
+      )}
     />
   )
 }

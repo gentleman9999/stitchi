@@ -11,6 +11,7 @@ import {
 } from '@generated/CatalogIndexPageGetDataQuery'
 import { addApolloState, initializeApollo } from '@lib/apollo'
 import routes from '@lib/routes'
+import makeAbsoluteUrl from '@utils/get-absolute-url'
 import { GetServerSideProps, GetStaticProps } from 'next'
 import { NextSeo } from 'next-seo'
 import React, { ReactElement } from 'react'
@@ -36,7 +37,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 }
 
 const Catalog = () => {
-  const url = routes.internal.catalog.href()
+  const url = makeAbsoluteUrl(routes.internal.catalog.href())
   return (
     <>
       <NextSeo

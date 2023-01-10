@@ -5,6 +5,7 @@ import { IndustryTermsIndexPage } from '@components/pages'
 import { PromotionalProductGlossaryGetDataQuery } from '@generated/PromotionalProductGlossaryGetDataQuery'
 import { addApolloState, initializeApollo } from '@lib/apollo'
 import routes from '@lib/routes'
+import makeAbsoluteUrl from '@utils/get-absolute-url'
 import { NextSeo } from 'next-seo'
 import React, { ReactElement } from 'react'
 
@@ -19,7 +20,7 @@ const getStaticProps = async () => {
 }
 
 const PromotionalProductGlossary = () => {
-  const url = routes.internal.glossary.href()
+  const url = makeAbsoluteUrl(routes.internal.glossary.href())
   const { data, error } =
     useQuery<PromotionalProductGlossaryGetDataQuery>(GET_DATA)
 

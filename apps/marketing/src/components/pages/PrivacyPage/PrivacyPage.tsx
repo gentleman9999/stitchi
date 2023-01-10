@@ -4,6 +4,7 @@ import { PrivacyPagePageFragment } from '@generated/PrivacyPagePageFragment'
 import React from 'react'
 import { Container } from '@components/ui'
 import routes from '@lib/routes'
+import makeAbsoluteUrl from '@utils/get-absolute-url'
 
 export interface PrivacyPageProps {
   page: PrivacyPagePageFragment
@@ -18,7 +19,7 @@ const PrivacyPage = ({ page }: PrivacyPageProps) => {
     <>
       <CmsSeo
         seo={page._seoMetaTags}
-        canonicalUrl={routes.internal.legal.privacy.href()}
+        canonicalUrl={makeAbsoluteUrl(routes.internal.legal.privacy.href())}
       />
       <Container>
         <Section gutter="lg" className="prose prose-lg prose-fuchsia m-auto">
