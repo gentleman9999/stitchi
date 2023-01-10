@@ -26,6 +26,7 @@ const FeaturePageContainer = ({
       <NextSeo
         title={seoTitle}
         description={seoDescription}
+        canonical={canonicalUrl}
         openGraph={{ url: canonicalUrl }}
       />
       {children}

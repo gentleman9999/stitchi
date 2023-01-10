@@ -36,12 +36,14 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 }
 
 const Catalog = () => {
+  const url = routes.internal.catalog.href()
   return (
     <>
       <NextSeo
         title="Browse premium and ethical promotional products"
         description="We work with brands that you wont find anywhere else. Our team of experts is continually procuring the highest-quality, ethical, and unique products so that you can deliver experiences people love."
-        openGraph={{ url: routes.internal.catalog.href() }}
+        canonical={url}
+        openGraph={{ url }}
       />
       <CatalogIndexPage />
     </>

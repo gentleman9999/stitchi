@@ -78,13 +78,16 @@ const PromotionalProductGlossaryTerm = () => {
     )
   }
 
+  const url = routes.internal.glossary.show.href(glossaryEntry.slug || '')
+
   return (
     <>
       <NextSeo
         title={glossaryEntry.term || 'Promotional product glossary'}
         description={glossaryEntry.definition || undefined}
+        canonical={url}
         openGraph={{
-          url: routes.internal.glossary.show.href(glossaryEntry.slug || ''),
+          url,
         }}
       />
       <IndustryTermsShowPage
