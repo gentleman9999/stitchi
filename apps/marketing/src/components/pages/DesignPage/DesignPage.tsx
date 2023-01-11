@@ -29,9 +29,7 @@ const DesignPage = ({ catalog }: DesignPageProps) => {
       <Container>
         <DesignPageProcess />
       </Container>
-      {/* <Container>
-        <DesignPageArtExamples />
-      </Container> */}
+
       <Container>
         <DesignPageAdvantages />
       </Container>
