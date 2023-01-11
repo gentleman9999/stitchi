@@ -29,7 +29,6 @@
     "datocms-structured-text-to-plain-text": "^2.0.1",
     "datocms-structured-text-utils": "^2.0.1",
     "dayjs": "^1.10.7",
-    "eslint-config-next": "12.1.0",
     "framer-motion": "^8.0.2",
     "hooks": "*",
     "icons": "*",
@@ -62,7 +61,6 @@
     "autoprefixer": "^10.4.0",
     "config": "*",
     "eslint": "^8.6.0",
-    "next-transpile-modules": "^9.0.0",
     "tailwindcss": "^3.0.12",
     "tsconfig": "*",
     "typescript": "^4.5.3"
