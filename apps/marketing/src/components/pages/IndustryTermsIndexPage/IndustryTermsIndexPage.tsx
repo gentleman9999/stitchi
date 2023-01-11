@@ -78,7 +78,7 @@ const Entry = ({
         <div>
           <br />
           <div className="opacity-0 transition-all flex justify-end group-hover:opacity-100">
-            <Link href={linkHref} passHref>
+            <Link href={linkHref} passHref legacyBehavior>
               <Button
                 slim
                 color="brandPrimary"
@@ -92,7 +92,7 @@ const Entry = ({
         </div>
       ) : null}
     </section>
-  )
+  );
 }
 
 IndustryTermsIndexPage.fragments = {

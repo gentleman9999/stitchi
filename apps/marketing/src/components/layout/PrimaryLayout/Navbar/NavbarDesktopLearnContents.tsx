@@ -1,5 +1,5 @@
 import React from 'react'
-import Image from 'next/image'
+import Image from "next/legacy/image";
 import usps from '../../../../../public/customers/morning_brew/global_fast_delivery.jpg'
 import { generateImageSizes } from '@utils/image'
 import { Popover } from '@headlessui/react'
@@ -29,17 +29,23 @@ const NavbarDesktopLearnContents = () => {
             </span>
           </div>
           <div>
-            <Link href={routes.internal.customers.morningBrew.href()} passHref>
-              <a className="text-2xl font-bold font-heading leading-tight">
-                <Popover.Button as="a">
-                  Stitchi Fulfillment: Reduce CAC, multiply growth
-                </Popover.Button>
-              </a>
+            <Link
+              href={routes.internal.customers.morningBrew.href()}
+              passHref
+              className="text-2xl font-bold font-heading leading-tight">
+
+              <Popover.Button as="a">
+                Stitchi Fulfillment: Reduce CAC, multiply growth
+              </Popover.Button>
+
             </Link>
 
             <br />
             <br />
-            <Link href={routes.internal.customers.morningBrew.href()} passHref>
+            <Link
+              href={routes.internal.customers.morningBrew.href()}
+              passHref
+              legacyBehavior>
               <Button Component="a">
                 <Popover.Button as="div">Read more</Popover.Button>
               </Button>
@@ -49,21 +55,27 @@ const NavbarDesktopLearnContents = () => {
       </div>
       <div className="col-span-1 pl-8 flex flex-col gap-3">
         <h2 className="text-3xl font-bold font-heading p-1">Learn</h2>
-        <Link href={routes.internal.blog.href()} passHref>
-          <a className="font-semibold hover:bg-primary p-1 rounded-sm">
-            <Popover.Button as="div">Blog</Popover.Button>
-          </a>
+        <Link
+          href={routes.internal.blog.href()}
+          passHref
+          className="font-semibold hover:bg-primary p-1 rounded-sm">
+
+          <Popover.Button as="div">Blog</Popover.Button>
+
         </Link>
-        <Link href={routes.internal.glossary.href()} passHref>
-          <a className="font-semibold hover:bg-primary p-1 rounded-sm">
-            <Popover.Button as="div">
-              Promotional Products Glossary
-            </Popover.Button>
-          </a>
+        <Link
+          href={routes.internal.glossary.href()}
+          passHref
+          className="font-semibold hover:bg-primary p-1 rounded-sm">
+
+          <Popover.Button as="div">
+            Promotional Products Glossary
+          </Popover.Button>
+
         </Link>
       </div>
     </div>
-  )
+  );
 }
 
 export default NavbarDesktopLearnContents

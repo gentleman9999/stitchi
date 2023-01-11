@@ -6,7 +6,7 @@ import { makeProductTitle } from '@utils/catalog'
 import { generateImageSizes } from '@utils/image'
 import { XIcon } from 'icons'
 import { useQueryState } from 'next-usequerystate'
-import Image from 'next/image'
+import Image from "next/legacy/image";
 import { useRouter } from 'next/router'
 import React from 'react'
 import ProductColorGrid from './ProductColorGrid'

@@ -1,5 +1,5 @@
 import React from 'react'
-import Image from 'next/image'
+import Image from "next/legacy/image";
 import { Button, LinkInline } from '@components/ui'
 import Link from 'next/link'
 import routes from '@lib/routes'
@@ -33,7 +33,7 @@ const FeaturePageTestimonial = () => {
                 <Link
                   href={routes.internal.customers.morningBrew.href()}
                   passHref
-                >
+                  legacyBehavior>
                   <Button slim Component="a" variant="ghost">
                     Read the case study
                   </Button>
@@ -83,7 +83,7 @@ const FeaturePageTestimonial = () => {
         </div>
       </div>
     </Section>
-  )
+  );
 }
 
 export default FeaturePageTestimonial

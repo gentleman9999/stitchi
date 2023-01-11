@@ -13,11 +13,11 @@ const RelatedTerms = ({ terms }: Props) => {
     <ul>
       {terms.map(term => (
         <li key={term.href}>
-          <Link href={term.href}>{term.title}</Link>
+          <Link href={term.href} legacyBehavior>{term.title}</Link>
         </li>
       ))}
     </ul>
-  )
+  );
 }
 
 export default RelatedTerms

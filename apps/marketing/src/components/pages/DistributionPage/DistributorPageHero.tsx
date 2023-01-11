@@ -51,7 +51,7 @@ const DistributorPageHero = () => {
                 Shopify, Instagram, and BigCommerce.
               </p>
               <div className="mt-8">
-                <Link href={routes.internal.getStarted.href()} passHref>
+                <Link href={routes.internal.getStarted.href()} passHref legacyBehavior>
                   <Button
                     bold
                     color="brandPrimary"
@@ -106,7 +106,7 @@ const DistributorPageHero = () => {
         </Section>
       </Container>
     </div>
-  )
+  );
 }
 
 const Number = ({ costInCents }: { costInCents: number }) => {
