@@ -1,4 +1,4 @@
-import React, { EventHandler } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import s from './Navbar.module.css'
 import { Logo } from '@components/ui'
@@ -7,7 +7,6 @@ import NavbarRoot from './NavbarRoot'
 import navigation from '@lib/navigation'
 import dynamic from 'next/dynamic'
 import cx from 'classnames'
-import { motion } from 'framer-motion'
 
 const nav = navigation.makeNavigation()
 
@@ -43,10 +42,10 @@ const Navbar = ({}: Props) => {
   return (
     <NavbarRoot innerRef={setDropdownAnchor}>
       <div className={cx(s.nav, { [s.shrink]: shrink })}>
-        <Link href={routes.internal.home.href()} passHref>
-          <a className="contents">
-            <Logo className={s.logo} />
-          </a>
+        <Link href={routes.internal.home.href()} passHref className="contents">
+
+          <Logo className={s.logo} />
+
         </Link>
         <div className="flex items-center flex-1 justify-end">
           <div className="block lg:hidden">
@@ -58,7 +57,7 @@ const Navbar = ({}: Props) => {
         </div>
       </div>
     </NavbarRoot>
-  )
+  );
 }
 
 export default Navbar

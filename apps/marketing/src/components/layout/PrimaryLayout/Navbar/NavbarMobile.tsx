@@ -61,27 +61,49 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
             />
           </div>
           <div className={s.item}>
+            <NavbarMobileDropdown
+              ButtonChildren={({ active }) => (
+                <div className={s.link}>
+                  Learn
+                  <span
+                    className={cx('ml-2 transition', {
+                      'transform rotate-180': active,
+                    })}
+                  >
+                    <ChevronDown />
+                  </span>
+                </div>
+              )}
+              items={navigation.resources.map(item => {
+                if (item.href === routes.internal.catalog.href()) {
+                  return () => null
+                }
+                // https://headlessui.dev/react/menu#integrating-with-next-js
+                // eslint-disable-next-line react/display-name
+                return function (props: any) {
+                  return (
+                    <Link href={item.href} key={item.label}>
+                      <HeadlessPopover.Button
+                        as="a"
+                        {...props}
+                        className={cx('block mb-2 text-lg text-secondary')}
+                      >
+                        {item.label}
+                      </HeadlessPopover.Button>
+                    </Link>
+                  )
+                }
+              })}
+            />
+          </div>
+          <div className={s.item}>
             <Link href={routes.internal.catalog.href()} passHref>
               <HeadlessPopover.Button as="a" className={s.link}>
                 Catalog
               </HeadlessPopover.Button>
             </Link>
           </div>
-          <div className={s.item}>
-            <Link href={routes.internal.blog.href()} passHref>
-              <HeadlessPopover.Button as="a" className={s.link}>
-                Learn
-              </HeadlessPopover.Button>
-            </Link>
-          </div>
 
-          <div className={s.item}>
-            <Link href={routes.internal.customers.morningBrew.href()} passHref>
-              <HeadlessPopover.Button as="a" className={s.link}>
-                Case Study
-              </HeadlessPopover.Button>
-            </Link>
-          </div>
           <div className={s.item}>
             <Link href={routes.internal.getStarted.href()} passHref>
               <HeadlessPopover.Button as="div">
@@ -116,12 +138,12 @@ const Link = React.forwardRef<
 >((props, ref) => {
   let { href, children, ...rest } = props
   return (
-    <NextLink href={href}>
-      <a ref={ref} {...rest}>
-        {children}
-      </a>
-    </NextLink>
-  )
+    (<NextLink href={href} ref={ref} {...rest}>
+
+      {children}
+
+    </NextLink>)
+  );
 })
 
 Link.displayName = 'Link'

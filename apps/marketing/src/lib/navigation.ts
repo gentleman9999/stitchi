@@ -17,7 +17,7 @@ const navigation = {
       {
         label: 'eCommerce, Warehousing & Distribution',
         description:
-          "Infinitely and efficiently scale your merch program using Stitchi's distribution center. ",
+          'Infinitely and efficiently scale your merch program using our distribution centers. ',
         icon: Support,
         href: routes.internal.features.distribution.href(),
       },
@@ -49,9 +49,8 @@ const navigation = {
         icon: Support,
         href: routes.internal.catalog.href(),
       },
-
       {
-        label: 'Learn',
+        label: 'Blog',
         icon: Support,
         href: routes.internal.blog.href(),
       },

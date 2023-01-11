@@ -56,7 +56,7 @@ const Dropdown = ({ anchorEl, ButtonChildren, panelChildren }: Props) => {
                   : undefined,
               }}
             >
-              <div className="mt-2 bg-white p-4 relative rounded-md focus:outline-none shadow-magical">
+              <div className="mt-2 bg-white p-4 relative rounded-md focus:outline-none shadow-md">
                 {panelChildren}
               </div>
             </Popover.Panel>

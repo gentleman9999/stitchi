@@ -44,6 +44,7 @@ const CmsSeo = (props: CmsSeoProps) => {
           key: 'name' in attributes ? attributes.name : attributes.property,
         })) as any
       }
+      canonical={props.canonicalUrl}
     />
   )
 }

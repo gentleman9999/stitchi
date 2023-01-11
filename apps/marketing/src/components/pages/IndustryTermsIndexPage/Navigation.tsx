@@ -48,28 +48,30 @@ const Inner = ({ termSlugs }: Props) => {
     <div className="flex gap-2 w-full justify-between">
       {Array.from(alphabetMap).map(([letter, slug]) => {
         return (
-          <Link key={letter} href={`#${slug}`} passHref>
-            <a
-              className={cx('text-gray-700', {
-                'pointer-events-none text-gray-400': slug === null,
-              })}
+          (<Link
+            key={letter}
+            href={`#${slug}`}
+            passHref
+            className={cx('text-gray-700', {
+              'pointer-events-none text-gray-400': slug === null,
+            })}>
+
+            <div
+              className={cx(
+                'flex justify-center items-center rounded-full w-7 h-7',
+                {
+                  'bg-primary': activeLetter === letter,
+                },
+              )}
             >
-              <div
-                className={cx(
-                  'flex justify-center items-center rounded-full w-7 h-7',
-                  {
-                    'bg-primary': activeLetter === letter,
-                  },
-                )}
-              >
-                {letter.toUpperCase()}
-              </div>
-            </a>
-          </Link>
-        )
+              {letter.toUpperCase()}
+            </div>
+
+          </Link>)
+        );
       })}
     </div>
-  )
+  );
 }
 
 export default Navigation

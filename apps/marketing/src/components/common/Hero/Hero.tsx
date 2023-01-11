@@ -39,7 +39,7 @@ const Hero = (props: HeroProps) => {
             <div className="mt-12 max-w-md sm:flex">
               {props.primaryCta && (
                 <div className="rounded-md">
-                  <Link href={props.primaryCta.href} passHref>
+                  <Link href={props.primaryCta.href} passHref legacyBehavior>
                     <Button
                       Component="a"
                       shadow
@@ -52,7 +52,7 @@ const Hero = (props: HeroProps) => {
                 </div>
               )}
               {props.secondaryCta && (
-                <Link href={props.secondaryCta.href} passHref>
+                <Link href={props.secondaryCta.href} passHref legacyBehavior>
                   <Button
                     shadow
                     Component="a"

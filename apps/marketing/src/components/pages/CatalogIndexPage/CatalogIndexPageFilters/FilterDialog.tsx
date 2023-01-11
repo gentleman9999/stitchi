@@ -2,7 +2,7 @@ import { Button, Checkbox, Dialog, IconButton } from '@components/ui'
 import { XIcon } from 'icons'
 import React from 'react'
 import pluralize from 'pluralize'
-import { useCatalogFilters } from '../catalog-filters-context'
+import { useCatalogFilters } from '../catalog-filters-context/catalog-filters-context'
 import useFilterPreview from './useFilterPreview'
 
 interface Props {

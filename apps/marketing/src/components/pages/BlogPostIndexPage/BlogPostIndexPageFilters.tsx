@@ -22,8 +22,8 @@ const BlogPostIndexPageFilters = ({ filters, className }: Props) => (
     )}
   >
     {filters.map(({ href, title, active }) => (
-      <Link href={href} key={href}>
-        <a className={cx(s.filter, { [s.active]: active })}>{title}</a>
+      <Link href={href} key={href} className={cx(s.filter, { [s.active]: active })}>
+        {title}
       </Link>
     ))}
   </div>

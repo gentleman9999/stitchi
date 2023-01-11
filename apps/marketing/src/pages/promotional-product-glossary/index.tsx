@@ -5,6 +5,7 @@ import { IndustryTermsIndexPage } from '@components/pages'
 import { PromotionalProductGlossaryGetDataQuery } from '@generated/PromotionalProductGlossaryGetDataQuery'
 import { addApolloState, initializeApollo } from '@lib/apollo'
 import routes from '@lib/routes'
+import makeAbsoluteUrl from '@utils/get-absolute-url'
 import { NextSeo } from 'next-seo'
 import React, { ReactElement } from 'react'
 
@@ -19,6 +20,7 @@ const getStaticProps = async () => {
 }
 
 const PromotionalProductGlossary = () => {
+  const url = makeAbsoluteUrl(routes.internal.glossary.href())
   const { data, error } =
     useQuery<PromotionalProductGlossaryGetDataQuery>(GET_DATA)
 
@@ -31,7 +33,8 @@ const PromotionalProductGlossary = () => {
       <NextSeo
         title="Promotional Product Industry Terms and Definitions"
         description="Get a better understanding of the promotional product industry with this comprehensive list of terms and definitions. From common acronyms to specialized terminology, this page has everything you need to know to navigate the world of promotional products and custom merchandise."
-        openGraph={{ url: routes.internal.glossary.href() }}
+        canonical={url}
+        openGraph={{ url }}
       />
       <IndustryTermsIndexPage entries={data?.allGlossaryEntries || []} />
     </>

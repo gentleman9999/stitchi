@@ -1,10 +1,12 @@
 import routes from '@lib/routes'
+import makeAbsoluteUrl from '@utils/get-absolute-url'
 import { NextSeo } from 'next-seo'
 import React from 'react'
 
 interface Props {}
 
 const MorningBrewPageSeo = (props: Props) => {
+  const url = makeAbsoluteUrl(routes.internal.customers.morningBrew.href())
   return (
     <NextSeo
       title="Powering Morning Brew's newsletter referral program with custom swag"
@@ -12,7 +14,8 @@ const MorningBrewPageSeo = (props: Props) => {
       million subscribers each day. We've overhauled their
       referral program to be completely automated and backed by a
       swag program."
-      openGraph={{ url: routes.internal.customers.morningBrew.href() }}
+      canonical={url}
+      openGraph={{ url }}
     />
   )
 }

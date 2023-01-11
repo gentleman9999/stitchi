@@ -4,6 +4,7 @@ import { TermsPagePageFragment } from '@generated/TermsPagePageFragment'
 import React from 'react'
 import { Container } from '@components/ui'
 import routes from '@lib/routes'
+import makeAbsoluteUrl from '@utils/get-absolute-url'
 
 export interface TermsPageProps {
   page: TermsPagePageFragment
@@ -18,7 +19,7 @@ const TermsPage = ({ page }: TermsPageProps) => {
     <>
       <CmsSeo
         seo={page._seoMetaTags}
-        canonicalUrl={routes.internal.legal.terms.href()}
+        canonicalUrl={makeAbsoluteUrl(routes.internal.legal.terms.href())}
       />
       <Container>
         <Section gutter="lg" className="prose prose-lg prose-fuchsia m-auto">

@@ -2,6 +2,7 @@ import { gql } from '@apollo/client'
 import { CmsSeo } from '@components/common'
 import { BlogPostShowPageSEOArticleFragment } from '@generated/BlogPostShowPageSEOArticleFragment'
 import routes from '@lib/routes'
+import makeAbsoluteUrl from '@utils/get-absolute-url'
 import React from 'react'
 
 interface Props {
@@ -12,7 +13,9 @@ const BlogPostShowPageSeo = ({ article }: Props) => {
   return (
     <CmsSeo
       seo={article._seoMetaTags || []}
-      canonicalUrl={routes.internal.blog.show.href(article.slug || '')}
+      canonicalUrl={makeAbsoluteUrl(
+        routes.internal.blog.show.href(article.slug || ''),
+      )}
     />
   )
 }

@@ -7,70 +7,6 @@
 // GraphQL query operation: ProductPageGetDataQuery
 // ====================================================
 
-export interface ProductPageGetDataQuery_site_brands_edges_node_products_edges {
-  __typename: "ProductEdge";
-}
-
-export interface ProductPageGetDataQuery_site_brands_edges_node_products {
-  __typename: "ProductConnection";
-  /**
-   * A list of edges.
-   */
-  edges: (ProductPageGetDataQuery_site_brands_edges_node_products_edges | null)[] | null;
-}
-
-export interface ProductPageGetDataQuery_site_brands_edges_node {
-  __typename: "Brand";
-  /**
-   * The ID of an object
-   */
-  id: string;
-  /**
-   * Name of the brand.
-   */
-  name: string;
-  /**
-   * Path for the brand page.
-   */
-  path: string;
-  /**
-   * Id of the brand.
-   */
-  entityId: number;
-  /**
-   * List of products associated with the brand.
-   */
-  products: ProductPageGetDataQuery_site_brands_edges_node_products;
-}
-
-export interface ProductPageGetDataQuery_site_brands_edges {
-  __typename: "BrandEdge";
-  /**
-   * The item at the end of the edge.
-   */
-  node: ProductPageGetDataQuery_site_brands_edges_node;
-}
-
-export interface ProductPageGetDataQuery_site_brands {
-  __typename: "BrandConnection";
-  /**
-   * A list of edges.
-   */
-  edges: (ProductPageGetDataQuery_site_brands_edges | null)[] | null;
-}
-
-export interface ProductPageGetDataQuery_site_categoryTree {
-  __typename: "CategoryTreeItem";
-  /**
-   * The id category.
-   */
-  entityId: number;
-  /**
-   * The name of category.
-   */
-  name: string;
-}
-
 export interface ProductPageGetDataQuery_site_route_node_Brand {
   __typename: "Brand" | "Category" | "Variant";
   /**
@@ -121,6 +57,158 @@ export interface ProductPageGetDataQuery_site_route_node_Product_seo {
    * Meta description.
    */
   metaDescription: string;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_prices_price {
+  __typename: "Money";
+  /**
+   * Currency code of the current money.
+   */
+  currencyCode: string;
+  /**
+   * The amount of money.
+   */
+  value: any;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_prices {
+  __typename: "Prices";
+  /**
+   * Calculated price of the product.  Calculated price takes into account basePrice, salePrice, rules (modifier, option, option set) that apply to the product configuration, and customer group discounts.  It represents the in-cart price for a product configuration without bulk pricing rules.
+   */
+  price: ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_prices_price;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options_edges_node_values_edges_node {
+  __typename: "ProductOptionValue";
+  /**
+   * Label for the option value.
+   */
+  label: string;
+  /**
+   * Unique ID for the option value.
+   */
+  entityId: number;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options_edges_node_values_edges {
+  __typename: "OptionValueEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options_edges_node_values_edges_node;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options_edges_node_values {
+  __typename: "OptionValueConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options_edges_node_values_edges | null)[] | null;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options_edges_node {
+  __typename: "ProductOption";
+  /**
+   * Display name for the option.
+   */
+  displayName: string;
+  /**
+   * Option values.
+   */
+  values: ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options_edges_node_values;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options_edges {
+  __typename: "OptionEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options_edges_node;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options {
+  __typename: "OptionConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options_edges | null)[] | null;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_jsonLdImage {
+  __typename: "Image";
+  /**
+   * Absolute path to image using store CDN.
+   */
+  url: string;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_defaultImage {
+  __typename: "Image";
+  /**
+   * Absolute path to image using store CDN.
+   */
+  url: string;
+  /**
+   * Text description of an image that can be used for SEO and/or accessibility purposes.
+   */
+  altText: string;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node {
+  __typename: "Variant";
+  /**
+   * The ID of an object
+   */
+  id: string;
+  /**
+   * Global trade item number.
+   */
+  gtin: string | null;
+  /**
+   * Manufacturer part number.
+   */
+  mpn: string | null;
+  /**
+   * Sku of the variant.
+   */
+  sku: string;
+  /**
+   * Variant prices
+   */
+  prices: ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_prices | null;
+  /**
+   * The options which define a variant.
+   */
+  options: ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options;
+  /**
+   * Default image for a variant.
+   */
+  jsonLdImage: ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_jsonLdImage | null;
+  /**
+   * Id of the variant.
+   */
+  entityId: number;
+  /**
+   * Default image for a variant.
+   */
+  defaultImage: ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_defaultImage | null;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges {
+  __typename: "VariantEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: ProductPageGetDataQuery_site_route_node_Product_variants_edges_node;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_variants {
+  __typename: "VariantConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (ProductPageGetDataQuery_site_route_node_Product_variants_edges | null)[] | null;
 }
 
 export interface ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node_CheckboxOption {
@@ -199,102 +287,6 @@ export interface ProductPageGetDataQuery_site_route_node_Product_productOptions 
   edges: (ProductPageGetDataQuery_site_route_node_Product_productOptions_edges | null)[] | null;
 }
 
-export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_defaultImage {
-  __typename: "Image";
-  /**
-   * Absolute path to image using store CDN.
-   */
-  url: string;
-  /**
-   * Text description of an image that can be used for SEO and/or accessibility purposes.
-   */
-  altText: string;
-}
-
-export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options_edges_node_values_edges_node {
-  __typename: "ProductOptionValue";
-  /**
-   * Unique ID for the option value.
-   */
-  entityId: number;
-}
-
-export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options_edges_node_values_edges {
-  __typename: "OptionValueEdge";
-  /**
-   * The item at the end of the edge.
-   */
-  node: ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options_edges_node_values_edges_node;
-}
-
-export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options_edges_node_values {
-  __typename: "OptionValueConnection";
-  /**
-   * A list of edges.
-   */
-  edges: (ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options_edges_node_values_edges | null)[] | null;
-}
-
-export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options_edges_node {
-  __typename: "ProductOption";
-  /**
-   * Option values.
-   */
-  values: ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options_edges_node_values;
-}
-
-export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options_edges {
-  __typename: "OptionEdge";
-  /**
-   * The item at the end of the edge.
-   */
-  node: ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options_edges_node;
-}
-
-export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options {
-  __typename: "OptionConnection";
-  /**
-   * A list of edges.
-   */
-  edges: (ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options_edges | null)[] | null;
-}
-
-export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node {
-  __typename: "Variant";
-  /**
-   * The ID of an object
-   */
-  id: string;
-  /**
-   * Id of the variant.
-   */
-  entityId: number;
-  /**
-   * Default image for a variant.
-   */
-  defaultImage: ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_defaultImage | null;
-  /**
-   * The options which define a variant.
-   */
-  options: ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options;
-}
-
-export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges {
-  __typename: "VariantEdge";
-  /**
-   * The item at the end of the edge.
-   */
-  node: ProductPageGetDataQuery_site_route_node_Product_variants_edges_node;
-}
-
-export interface ProductPageGetDataQuery_site_route_node_Product_variants {
-  __typename: "VariantConnection";
-  /**
-   * A list of edges.
-   */
-  edges: (ProductPageGetDataQuery_site_route_node_Product_variants_edges | null)[] | null;
-}
-
 export interface ProductPageGetDataQuery_site_route_node_Product {
   __typename: "Product";
   /**
@@ -326,6 +318,10 @@ export interface ProductPageGetDataQuery_site_route_node_Product {
    */
   seo: ProductPageGetDataQuery_site_route_node_Product_seo;
   /**
+   * Variants associated with the product.
+   */
+  variants: ProductPageGetDataQuery_site_route_node_Product_variants;
+  /**
    * Product options.
    */
   productOptions: ProductPageGetDataQuery_site_route_node_Product_productOptions;
@@ -337,10 +333,6 @@ export interface ProductPageGetDataQuery_site_route_node_Product {
    * Description of the product.
    */
   description: string;
-  /**
-   * Variants associated with the product.
-   */
-  variants: ProductPageGetDataQuery_site_route_node_Product_variants;
 }
 
 export type ProductPageGetDataQuery_site_route_node = ProductPageGetDataQuery_site_route_node_Brand | ProductPageGetDataQuery_site_route_node_Product;
@@ -355,14 +347,6 @@ export interface ProductPageGetDataQuery_site_route {
 
 export interface ProductPageGetDataQuery_site {
   __typename: "Site";
-  /**
-   * Details of the brand.
-   */
-  brands: ProductPageGetDataQuery_site_brands;
-  /**
-   * A tree of categories.
-   */
-  categoryTree: ProductPageGetDataQuery_site_categoryTree[];
   /**
    * Route for a node
    */

@@ -1,14 +1,19 @@
-// Not sure why we need 'config' here.. might just be in development mode because of HMR and shared postcss config?
-const withTM = require('next-transpile-modules')([
-  'icons',
-  'config',
-  'tsconfig',
-  'hooks',
-])
-
 /** @type {import('next').NextConfig} */
-module.exports = withTM({
+
+
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+
+module.exports = withBundleAnalyzer({
   reactStrictMode: true,
+  transpilePackages: [
+    'icons',
+    'config',
+    'tsconfig',
+    'hooks',
+    'lodash-es'
+  ],
   i18n: {
     locales: ['en'],
     defaultLocale: 'en',

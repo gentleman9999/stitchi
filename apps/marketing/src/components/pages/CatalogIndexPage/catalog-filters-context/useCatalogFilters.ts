@@ -1,15 +1,13 @@
-import { gql } from '@apollo/client'
-import { UseFiltersSiteFragment } from '@generated/UseFiltersSiteFragment'
+import { gql, useQuery } from '@apollo/client'
 import { queryTypes, useQueryStates } from 'next-usequerystate'
 import { notEmpty } from '@utils/typescript'
+import { UseCatalogFiltersGetDataQuery } from '@generated/UseCatalogFiltersGetDataQuery'
 
-type Site = UseFiltersSiteFragment | null | undefined
+type Site = UseCatalogFiltersGetDataQuery['site'] | null | undefined
 
-interface Props {
-  site?: Site
-}
+interface Props {}
 
-const useFilters = ({ site }: Props) => {
+const useCatalogFilters = ({}: Props = {}) => {
   const [queryFilters, setQueryFilters] = useQueryStates(
     {
       brands: queryTypes.array(queryTypes.string),
@@ -20,9 +18,11 @@ const useFilters = ({ site }: Props) => {
     },
   )
 
+  const { data } = useQuery<UseCatalogFiltersGetDataQuery>(GET_DATA)
+
   const filters = {
-    brands: makeBrands(site, queryFilters),
-    categories: makeCategories(site, queryFilters),
+    brands: makeBrands(data?.site, queryFilters),
+    categories: makeCategories(data?.site, queryFilters),
   }
 
   const activeFilters = {
@@ -64,17 +64,9 @@ const makeBrands = (
   )
 }
 
-const CATEGORY_FRAGMENT = gql`
-  fragment UseFiltersCategoryFragment on CategoryTreeItem {
-    entityId
-    name
-  }
-`
-
-useFilters.fragments = {
-  site: gql`
-    ${CATEGORY_FRAGMENT}
-    fragment UseFiltersSiteFragment on Site {
+const GET_DATA = gql`
+  query UseCatalogFiltersGetDataQuery {
+    site {
       brands(first: 50) {
         edges {
           node {
@@ -91,10 +83,11 @@ useFilters.fragments = {
         }
       }
       categoryTree {
-        ...UseFiltersCategoryFragment
+        entityId
+        name
       }
     }
-  `,
-}
+  }
+`
 
-export default useFilters
+export default useCatalogFilters

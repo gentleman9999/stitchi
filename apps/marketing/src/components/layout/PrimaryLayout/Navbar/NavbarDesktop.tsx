@@ -6,8 +6,9 @@ import { Button } from '@components/ui'
 import s from './NavbarDesktop.module.css'
 import { ChevronDown } from 'icons'
 import cx from 'classnames'
-import Popover from './Popover'
+import Dropdown from './Popover'
 import NavbarDesktopDropdown from './NavbarDesktopDropdown'
+import NavbarDesktopLearnContents from './NavbarDesktopLearnContents'
 
 interface Props {
   anchorEl: HTMLElement | null
@@ -17,22 +18,13 @@ interface Props {
 const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
   return (
     <nav className="space-x-10">
-      <Popover
+      <Dropdown
         anchorEl={anchorEl}
         ButtonChildren={({ active }) => (
-          <div className={s.link}>
-            Services
-            <ChevronDown
-              className={cx(
-                '-mr-1 ml-2 h-5 w-5 transition-transform',
-                active && 'transform rotate-180',
-              )}
-              aria-hidden="true"
-            />
-          </div>
+          <DropdownButton label="Services" active={active} />
         )}
         panelChildren={
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 gap-4">
             {navigation.solutions.map(item => (
               <NavbarDesktopDropdown
                 key={item.label}
@@ -47,29 +39,52 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
         }
       />
 
-      <Link href={routes.internal.catalog.href()} passHref>
-        <a className={s.link}>Catalog</a>
-      </Link>
-      <Link href={routes.internal.blog.href()} passHref>
-        <a className={s.link}>Learn</a>
+      <Dropdown
+        anchorEl={anchorEl}
+        ButtonChildren={({ active }) => (
+          <DropdownButton active={active} label="Learn" />
+        )}
+        panelChildren={<NavbarDesktopLearnContents />}
+      />
+
+      <Link href={routes.internal.catalog.href()} passHref className={s.link}>
+        Catalog
       </Link>
 
-      <Link href={routes.internal.customers.morningBrew.href()} passHref>
-        <a className={s.link}>Case study</a>
-      </Link>
-
-      <Link href={routes.internal.getStarted.href()} passHref>
+      <Link href={routes.internal.getStarted.href()} passHref legacyBehavior>
         <Button
           bold
           Component="a"
-          className="!py-1 !px-4 !lowercase !rounded-2xl"
+          // className="!py-1 !px-4 !lowercase !rounded-2xl"
           color="primary"
+          className="!border-2 !py-1 !px-2 !border-gray-800"
+          variant="ghost"
+          slim
         >
           start here
         </Button>
       </Link>
     </nav>
-  )
+  );
 }
+
+const DropdownButton = ({
+  label,
+  active,
+}: {
+  label: string
+  active: boolean
+}) => (
+  <div className={s.link}>
+    {label}
+    <ChevronDown
+      className={cx(
+        '-mr-1 ml-2 h-5 w-5 transition-transform',
+        active && 'transform rotate-180',
+      )}
+      aria-hidden="true"
+    />
+  </div>
+)
 
 export default NavbarDesktop

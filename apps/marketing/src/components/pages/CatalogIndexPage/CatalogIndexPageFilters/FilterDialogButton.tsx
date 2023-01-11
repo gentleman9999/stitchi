@@ -2,7 +2,7 @@ import { Adjustments } from 'icons'
 import React from 'react'
 import cx from 'classnames'
 import FilterButton from './FilterButton'
-import { useCatalogFilters } from '../catalog-filters-context'
+import { useCatalogFilters } from '../catalog-filters-context/catalog-filters-context'
 
 interface Props {
   onClick: (b: boolean) => void

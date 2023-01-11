@@ -57,9 +57,16 @@ export interface BlogShowPageGetDataQuery_article_image_responsiveImage {
   base64: string | null;
 }
 
+export interface BlogShowPageGetDataQuery_article_image_image {
+  __typename: "ResponsiveImage";
+  src: string;
+}
+
 export interface BlogShowPageGetDataQuery_article_image {
   __typename: "FileField";
+  id: any;
   responsiveImage: BlogShowPageGetDataQuery_article_image_responsiveImage | null;
+  image: BlogShowPageGetDataQuery_article_image_image | null;
 }
 
 export interface BlogShowPageGetDataQuery_article_content_blocks_image_responsiveImage {
@@ -123,6 +130,7 @@ export interface BlogShowPageGetDataQuery_article {
    * SEO meta tags
    */
   _seoMetaTags: BlogShowPageGetDataQuery_article__seoMetaTags[];
+  _updatedAt: any;
 }
 
 export interface BlogShowPageGetDataQuery {

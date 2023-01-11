@@ -8,7 +8,6 @@ import {
   Menu,
   IconButton,
   MenuItem,
-  Button,
   Avatar,
   Tooltip,
   Logo,

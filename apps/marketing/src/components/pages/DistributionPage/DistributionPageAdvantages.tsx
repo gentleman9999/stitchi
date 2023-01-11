@@ -1,6 +1,6 @@
 import React from 'react'
 import { Section, SectionHeader } from '@components/common'
-import Image from 'next/image'
+import Image from "next/legacy/image";
 import shippingWarehouse from '../../../../public/shipping_warehouse.png'
 
 interface Props {}

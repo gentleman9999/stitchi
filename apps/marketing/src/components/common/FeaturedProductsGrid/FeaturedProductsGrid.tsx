@@ -7,7 +7,7 @@ import {
 import routes from '@lib/routes'
 import { notEmpty } from '@utils/typescript'
 import { ArrowRight, ChevronRight } from 'icons'
-import Image from 'next/image'
+import Image from "next/legacy/image";
 import Link from 'next/link'
 import React from 'react'
 import Section from '../Section'
@@ -53,27 +53,27 @@ const Product = ({
 }) => {
   if (!product.brand?.path) return null
   return (
-    <Link
+    (<Link
       href={routes.internal.catalog.product.href({
         brandSlug: product.brand.path,
         productSlug: product.path,
       })}
     >
-      <a>
-        {product.defaultImage?.url && (
-          <div className="relative w-full h-[200px]">
-            <Image
-              src={product.defaultImage.url}
-              alt={product.name}
-              layout="fill"
-              objectFit="contain"
-            />
-          </div>
-        )}
-        <h3 className="font-medium font-heading">{product.name}</h3>
-      </a>
-    </Link>
-  )
+
+      {product.defaultImage?.url && (
+        <div className="relative w-full h-[200px]">
+          <Image
+            src={product.defaultImage.url}
+            alt={product.name}
+            layout="fill"
+            objectFit="contain"
+          />
+        </div>
+      )}
+      <h3 className="font-medium font-heading">{product.name}</h3>
+
+    </Link>)
+  );
 }
 
 FeaturedProductsGrid.fragments = {

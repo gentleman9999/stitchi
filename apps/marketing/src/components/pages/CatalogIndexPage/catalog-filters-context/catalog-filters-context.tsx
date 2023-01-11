@@ -1,14 +1,9 @@
-import { gql } from '@apollo/client'
 import {
-  CatalogFiltersProviderSiteFragment,
-  CatalogFiltersProviderSiteFragment_brands_edges_node,
-  CatalogFiltersProviderSiteFragment_categoryTree,
-} from '@generated/CatalogFiltersProviderSiteFragment'
+  UseCatalogFiltersGetDataQuery_site_brands_edges_node as Brand,
+  UseCatalogFiltersGetDataQuery_site_categoryTree as Category,
+} from '@generated/UseCatalogFiltersGetDataQuery'
 import React from 'react'
-import useFilters from './useFilters'
-
-type Brand = CatalogFiltersProviderSiteFragment_brands_edges_node
-type Category = CatalogFiltersProviderSiteFragment_categoryTree
+import useFilters from './useCatalogFilters'
 
 type AddedFilterProperties = {
   active: boolean
@@ -34,14 +29,10 @@ const CatalogFiltersContext = React.createContext<State | undefined>(undefined)
 
 interface CatalogFiltersProviderProps {
   children: React.ReactNode
-  site?: CatalogFiltersProviderSiteFragment | null
 }
 
-const CatalogFiltersProvider = ({
-  children,
-  site,
-}: CatalogFiltersProviderProps) => {
-  const { availableFilters, activeFilters, setFilters } = useFilters({ site })
+const CatalogFiltersProvider = ({ children }: CatalogFiltersProviderProps) => {
+  const { availableFilters, activeFilters, setFilters } = useFilters()
 
   return (
     <CatalogFiltersContext.Provider
@@ -64,15 +55,6 @@ const useCatalogFilters = () => {
     )
   }
   return context
-}
-
-CatalogFiltersProvider.fragments = {
-  site: gql`
-    ${useFilters.fragments.site}
-    fragment CatalogFiltersProviderSiteFragment on Site {
-      ...UseFiltersSiteFragment
-    }
-  `,
 }
 
 export { CatalogFiltersProvider, useCatalogFilters }

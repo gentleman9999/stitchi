@@ -40,20 +40,20 @@ const BlogPostCard = ({ post }: BlogPostCardProps) => {
         <div className="flex-1">
           {categoryHref && (
             <p className="text-sm font-medium text-lime-500">
-              <Link href={categoryHref}>
-                <a className="hover:underline font-heading">{category.name}</a>
+              <Link href={categoryHref} className="hover:underline font-heading">
+                {category.name}
               </Link>
             </p>
           )}
-          <Link href={postHref}>
-            <a className="block mt-2">
-              <p className="text-xl font-semibold text-gray-900 font-heading">
-                {post.title}
-              </p>
-              <p className="mt-3 text-base text-gray-500">
-                {post.shortDescription}
-              </p>
-            </a>
+          <Link href={postHref} className="block mt-2">
+
+            <p className="text-xl font-semibold text-gray-900 font-heading">
+              {post.title}
+            </p>
+            <p className="mt-3 text-base text-gray-500">
+              {post.shortDescription}
+            </p>
+
           </Link>
         </div>
         <div className="mt-6 flex items-center">
@@ -82,7 +82,7 @@ const BlogPostCard = ({ post }: BlogPostCardProps) => {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 BlogPostCard.fragments = {

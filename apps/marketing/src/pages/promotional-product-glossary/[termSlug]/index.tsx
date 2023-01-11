@@ -9,6 +9,7 @@ import {
 import { PromotionalProductGlossaryTermGetPagesQuery } from '@generated/PromotionalProductGlossaryTermGetPagesQuery'
 import { addApolloState, initializeApollo } from '@lib/apollo'
 import routes from '@lib/routes'
+import makeAbsoluteUrl from '@utils/get-absolute-url'
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps } from 'next'
 import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
@@ -78,13 +79,18 @@ const PromotionalProductGlossaryTerm = () => {
     )
   }
 
+  const url = makeAbsoluteUrl(
+    routes.internal.glossary.show.href(glossaryEntry.slug || ''),
+  )
+
   return (
     <>
       <NextSeo
         title={glossaryEntry.term || 'Promotional product glossary'}
         description={glossaryEntry.definition || undefined}
+        canonical={url}
         openGraph={{
-          url: routes.internal.glossary.show.href(glossaryEntry.slug || ''),
+          url,
         }}
       />
       <IndustryTermsShowPage
