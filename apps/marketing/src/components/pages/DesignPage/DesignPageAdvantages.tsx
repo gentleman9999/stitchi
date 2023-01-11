@@ -1,5 +1,5 @@
 import { Section, SectionHeader } from '@components/common'
-import Image from 'next/image'
+import Image from "next/legacy/image";
 import React from 'react'
 import closetRendering from '../../../../public/greek_life_custom_swag.jpg'
 

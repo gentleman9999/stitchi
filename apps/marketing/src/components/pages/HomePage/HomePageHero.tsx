@@ -2,7 +2,7 @@ import { Hero } from '@components/common'
 import routes from '@lib/routes'
 import { ArrowRight } from 'icons'
 import { capitalize } from 'lodash-es'
-import Image from 'next/image'
+import Image from "next/legacy/image";
 import pluralize from 'pluralize'
 import React from 'react'
 import Typewriter from 'typewriter-effect'

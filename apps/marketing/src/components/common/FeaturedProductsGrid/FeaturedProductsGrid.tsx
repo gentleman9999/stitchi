@@ -7,7 +7,7 @@ import {
 import routes from '@lib/routes'
 import { notEmpty } from '@utils/typescript'
 import { ArrowRight, ChevronRight } from 'icons'
-import Image from 'next/image'
+import Image from "next/legacy/image";
 import Link from 'next/link'
 import React from 'react'
 import Section from '../Section'

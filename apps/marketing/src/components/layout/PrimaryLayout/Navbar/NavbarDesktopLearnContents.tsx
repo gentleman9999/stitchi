@@ -1,5 +1,5 @@
 import React from 'react'
-import Image from 'next/image'
+import Image from "next/legacy/image";
 import usps from '../../../../../public/customers/morning_brew/global_fast_delivery.jpg'
 import { generateImageSizes } from '@utils/image'
 import { Popover } from '@headlessui/react'

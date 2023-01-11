@@ -1,5 +1,5 @@
 import React from 'react'
-import Image, { StaticImageData } from 'next/image'
+import Image, { StaticImageData } from "next/legacy/image";
 import weworkLogo from '../../../../public/customers/wework/wework_logo.png'
 import greekDressingLogo from '../../../../public/customers/greek_dressing/greek_dressing_logo.svg'
 import morningBrewLogo from '../../../../public/customers/morning_brew/morning_brew_logo_black.png'

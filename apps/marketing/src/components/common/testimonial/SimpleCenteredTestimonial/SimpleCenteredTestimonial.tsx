@@ -1,5 +1,5 @@
 import { ArrowRight } from 'icons'
-import Image, { StaticImageData } from 'next/image'
+import Image, { StaticImageData } from "next/legacy/image";
 import cx from 'classnames'
 import React from 'react'
 import { Spokesperson } from '..'

@@ -1,6 +1,6 @@
 import React, { ReactChild } from 'react'
 import NextLink from 'next/link'
-import Image from 'next/image'
+import Image from "next/legacy/image";
 import cx from 'classnames'
 import { Badge } from '@components/ui'
 import { Popover } from '@headlessui/react'
