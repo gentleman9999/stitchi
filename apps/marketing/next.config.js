@@ -1,11 +1,18 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
+
+
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+
+module.exports = withBundleAnalyzer({
   reactStrictMode: true,
   transpilePackages: [
     'icons',
     'config',
     'tsconfig',
     'hooks',
+    'lodash-es'
   ],
   i18n: {
     locales: ['en'],
@@ -71,4 +78,4 @@ module.exports = {
       }
     ]
   },
-}
+})
