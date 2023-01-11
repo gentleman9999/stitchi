@@ -33,7 +33,7 @@ const FeaturePageTestimonial = () => {
                 <Link
                   href={routes.internal.customers.morningBrew.href()}
                   passHref
-                >
+                  legacyBehavior>
                   <Button slim Component="a" variant="ghost">
                     Read the case study
                   </Button>
@@ -83,7 +83,7 @@ const FeaturePageTestimonial = () => {
         </div>
       </div>
     </Section>
-  )
+  );
 }
 
 export default FeaturePageTestimonial

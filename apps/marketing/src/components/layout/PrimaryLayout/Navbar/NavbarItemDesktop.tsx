@@ -28,10 +28,10 @@ const NavbarDropdownItemDesktop = ({
       )
     } else {
       return (
-        <NextLink href={href} passHref>
+        <NextLink href={href} passHref legacyBehavior>
           <StyledATag>{children}</StyledATag>
         </NextLink>
-      )
+      );
     }
   }
 

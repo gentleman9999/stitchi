@@ -138,12 +138,12 @@ const Link = React.forwardRef<
 >((props, ref) => {
   let { href, children, ...rest } = props
   return (
-    <NextLink href={href}>
-      <a ref={ref} {...rest}>
-        {children}
-      </a>
-    </NextLink>
-  )
+    (<NextLink href={href} ref={ref} {...rest}>
+
+      {children}
+
+    </NextLink>)
+  );
 })
 
 Link.displayName = 'Link'

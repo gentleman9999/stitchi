@@ -56,9 +56,9 @@ const CmsStructuredText = ({ content }: Props) => {
               <Link
                 href={routes.internal.blog.show.href(record.slug as string)}
               >
-                <a>{record.title as string}</a>
+                {record.title as string}
               </Link>
-            )
+            );
           default:
             throw new Error(`Invalid record type: ${record.__typename}`)
         }
@@ -87,7 +87,7 @@ const CmsStructuredText = ({ content }: Props) => {
         }
       }}
     />
-  )
+  );
 }
 
 CmsStructuredText.fragments = {

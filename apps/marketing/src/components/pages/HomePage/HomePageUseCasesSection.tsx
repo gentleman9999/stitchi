@@ -75,17 +75,19 @@ const HomePageUseCasesSection = ({}: Props) => {
                 <p className="mt-8 font-medium text-xl">{description}</p>
               </div>
 
-              <Link href={cta.href}>
-                <a className="mt-8 block text-2xl tracking-tight font-bold font-heading underline">
-                  {cta.label}
-                </a>
+              <Link
+                href={cta.href}
+                className="mt-8 block text-2xl tracking-tight font-bold font-heading underline">
+
+                {cta.label}
+
               </Link>
             </div>
           </div>
         ))}
       </Container>
     </Section>
-  )
+  );
 }
 
 export default HomePageUseCasesSection

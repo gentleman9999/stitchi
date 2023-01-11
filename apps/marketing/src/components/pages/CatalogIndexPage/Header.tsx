@@ -22,7 +22,7 @@ const Header = ({
             experts is continually procuring the highest-quality, ethical, and
             unique products so that you can deliver experiences people love.
           </p>
-          <Link href={routes.internal.getStarted.href()} passHref>
+          <Link href={routes.internal.getStarted.href()} passHref legacyBehavior>
             <Button className="mt-6">Talk to a designer</Button>
           </Link>
         </div>
@@ -31,7 +31,7 @@ const Header = ({
         </div>
       </div>
     </Section>
-  )
+  );
 }
 
 export default Header

@@ -101,7 +101,7 @@ const IndustryTermsShowPage = ({ term, relatedTerms }: Props) => {
               Become a promotional product terminology expert.
             </p>
             <div>
-              <Link href={routes.internal.glossary.href()} passHref>
+              <Link href={routes.internal.glossary.href()} passHref legacyBehavior>
                 <Button
                   variant="naked"
                   Component="a"
@@ -116,7 +116,7 @@ const IndustryTermsShowPage = ({ term, relatedTerms }: Props) => {
         </div>
       </div>
     </Container>
-  )
+  );
 }
 
 IndustryTermsShowPage.fragments = {

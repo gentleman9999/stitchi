@@ -47,11 +47,11 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
         panelChildren={<NavbarDesktopLearnContents />}
       />
 
-      <Link href={routes.internal.catalog.href()} passHref>
-        <a className={s.link}>Catalog</a>
+      <Link href={routes.internal.catalog.href()} passHref className={s.link}>
+        Catalog
       </Link>
 
-      <Link href={routes.internal.getStarted.href()} passHref>
+      <Link href={routes.internal.getStarted.href()} passHref legacyBehavior>
         <Button
           bold
           Component="a"
@@ -65,7 +65,7 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
         </Button>
       </Link>
     </nav>
-  )
+  );
 }
 
 const DropdownButton = ({

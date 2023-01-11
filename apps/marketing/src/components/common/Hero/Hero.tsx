@@ -35,7 +35,7 @@ const Hero = (props: HeroProps) => {
         {(props.primaryCta || props.secondaryCta) && (
           <div className="mt-12 max-w-md sm:flex">
             {props.primaryCta && (
-              <Link href={props.primaryCta.href} passHref>
+              <Link href={props.primaryCta.href} passHref legacyBehavior>
                 <Button
                   Component="a"
                   shadow
@@ -46,7 +46,7 @@ const Hero = (props: HeroProps) => {
               </Link>
             )}
             {props.secondaryCta && (
-              <Link href={props.secondaryCta.href} passHref>
+              <Link href={props.secondaryCta.href} passHref legacyBehavior>
                 <Button
                   shadow
                   Component="a"
@@ -63,7 +63,7 @@ const Hero = (props: HeroProps) => {
         )}
       </div>
     </Section>
-  )
+  );
 }
 
 export default Hero

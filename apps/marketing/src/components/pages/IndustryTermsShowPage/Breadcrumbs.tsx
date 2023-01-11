@@ -22,11 +22,13 @@ const Breadcrumbs = ({ term }: Props) => {
         Promotional Products Glossary
       </Link>
       <span>&gt;</span>
-      <Link href={routes.internal.glossary.show.href(term.slug)}>
-        <a className="font-semibold">{term.term}</a>
+      <Link
+        href={routes.internal.glossary.show.href(term.slug)}
+        className="font-semibold">
+        {term.term}
       </Link>
     </div>
-  )
+  );
 }
 
 export default Breadcrumbs

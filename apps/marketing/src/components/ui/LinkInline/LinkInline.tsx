@@ -38,10 +38,10 @@ const LinkInline = ({
   }
 
   return (
-    <Link href={href} passHref>
+    <Link href={href} passHref legacyBehavior>
       <BaseLink />
     </Link>
-  )
+  );
 }
 
 export default LinkInline
