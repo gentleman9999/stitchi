@@ -1,9 +1,8 @@
 import { Footer } from '@components/common'
 import React from 'react'
 import cx from 'classnames'
-import PageLoadProgress from 'nextjs-progressbar'
 import Navbar from './Navbar'
-import { theme } from '../../../../tailwind.config'
+import PageloadProgressIndicator from './PageloadProgressIndicator'
 
 export interface PrimaryLayoutProps {
   children: React.ReactNode
@@ -16,10 +15,7 @@ const PrimaryLayout = (props: PrimaryLayoutProps) => {
   const { children, className, navBackgroundColor, disableNavSpacing } = props
   return (
     <>
-      <PageLoadProgress
-        color={theme.colors.primary}
-        options={{ showSpinner: false }}
-      />
+      <PageloadProgressIndicator />
       <div
         className={cx('flex flex-col justify-between min-h-screen', className)}
       >
