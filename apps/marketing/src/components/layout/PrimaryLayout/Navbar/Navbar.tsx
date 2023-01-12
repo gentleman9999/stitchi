@@ -5,15 +5,13 @@ import { Logo } from '@components/ui'
 import routes from '@lib/routes'
 import NavbarRoot from './NavbarRoot'
 import navigation from '@lib/navigation'
-// import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic'
 import cx from 'classnames'
 
 const nav = navigation.makeNavigation()
 
-// const NavbarMobile = dynamic(() => import('./NavbarMobile'), { ssr: false })
-// const NavbarDesktop = dynamic(() => import('./NavbarDesktop'), { ssr: false })
-import NavbarMobile from './NavbarMobile'
-import NavbarDesktop from './NavbarDesktop'
+const NavbarMobile = dynamic(() => import('./NavbarMobile'), { ssr: false })
+const NavbarDesktop = dynamic(() => import('./NavbarDesktop'), { ssr: false })
 
 interface Props {}
 
