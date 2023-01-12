@@ -33,12 +33,21 @@ export interface PromotionalProductGlossaryTermGetDataQuery_glossaryEntry_descri
   image: PromotionalProductGlossaryTermGetDataQuery_glossaryEntry_description_blocks_image | null;
 }
 
-export interface PromotionalProductGlossaryTermGetDataQuery_glossaryEntry_description_links {
+export interface PromotionalProductGlossaryTermGetDataQuery_glossaryEntry_description_links_ArticleRecord {
   __typename: "ArticleRecord";
   id: any;
   slug: string | null;
   title: string | null;
 }
+
+export interface PromotionalProductGlossaryTermGetDataQuery_glossaryEntry_description_links_GlossaryEntryRecord {
+  __typename: "GlossaryEntryRecord";
+  id: any;
+  slug: string | null;
+  term: string | null;
+}
+
+export type PromotionalProductGlossaryTermGetDataQuery_glossaryEntry_description_links = PromotionalProductGlossaryTermGetDataQuery_glossaryEntry_description_links_ArticleRecord | PromotionalProductGlossaryTermGetDataQuery_glossaryEntry_description_links_GlossaryEntryRecord;
 
 export interface PromotionalProductGlossaryTermGetDataQuery_glossaryEntry_description {
   __typename: "GlossaryEntryModelDescriptionField";

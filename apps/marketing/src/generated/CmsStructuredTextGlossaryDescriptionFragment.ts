@@ -33,12 +33,21 @@ export interface CmsStructuredTextGlossaryDescriptionFragment_blocks {
   image: CmsStructuredTextGlossaryDescriptionFragment_blocks_image | null;
 }
 
-export interface CmsStructuredTextGlossaryDescriptionFragment_links {
+export interface CmsStructuredTextGlossaryDescriptionFragment_links_ArticleRecord {
   __typename: "ArticleRecord";
   id: any;
   slug: string | null;
   title: string | null;
 }
+
+export interface CmsStructuredTextGlossaryDescriptionFragment_links_GlossaryEntryRecord {
+  __typename: "GlossaryEntryRecord";
+  id: any;
+  slug: string | null;
+  term: string | null;
+}
+
+export type CmsStructuredTextGlossaryDescriptionFragment_links = CmsStructuredTextGlossaryDescriptionFragment_links_ArticleRecord | CmsStructuredTextGlossaryDescriptionFragment_links_GlossaryEntryRecord;
 
 export interface CmsStructuredTextGlossaryDescriptionFragment {
   __typename: "GlossaryEntryModelDescriptionField";

@@ -33,12 +33,21 @@ export interface IndustryTermsShowPageTermFragment_description_blocks {
   image: IndustryTermsShowPageTermFragment_description_blocks_image | null;
 }
 
-export interface IndustryTermsShowPageTermFragment_description_links {
+export interface IndustryTermsShowPageTermFragment_description_links_ArticleRecord {
   __typename: "ArticleRecord";
   id: any;
   slug: string | null;
   title: string | null;
 }
+
+export interface IndustryTermsShowPageTermFragment_description_links_GlossaryEntryRecord {
+  __typename: "GlossaryEntryRecord";
+  id: any;
+  slug: string | null;
+  term: string | null;
+}
+
+export type IndustryTermsShowPageTermFragment_description_links = IndustryTermsShowPageTermFragment_description_links_ArticleRecord | IndustryTermsShowPageTermFragment_description_links_GlossaryEntryRecord;
 
 export interface IndustryTermsShowPageTermFragment_description {
   __typename: "GlossaryEntryModelDescriptionField";
