@@ -44,7 +44,6 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
                   return (
                     <Link href={item.href} key={item.label}>
                       <HeadlessPopover.Button
-                        as="a"
                         disable={disabled}
                         {...props}
                         className={cx('block mb-2 text-lg text-secondary', {
@@ -84,7 +83,6 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
                   return (
                     <Link href={item.href} key={item.label}>
                       <HeadlessPopover.Button
-                        as="a"
                         {...props}
                         className={cx('block mb-2 text-lg text-secondary')}
                       >
@@ -97,28 +95,17 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
             />
           </div>
           <div className={s.item}>
-            <Link href={routes.internal.catalog.href()} passHref>
-              <HeadlessPopover.Button as="a" className={s.link}>
+            <Link href={routes.internal.catalog.href()}>
+              <HeadlessPopover.Button className={s.link}>
                 Catalog
               </HeadlessPopover.Button>
             </Link>
           </div>
 
           <div className={s.item}>
-            <Link href={routes.internal.getStarted.href()} passHref>
+            <Link href={routes.internal.getStarted.href()}>
               <HeadlessPopover.Button as="div">
-                <Button
-                  Component={(props: any) => (
-                    <Button
-                      {...props}
-                      bold
-                      shadow
-                      Component="a"
-                      color="brandPrimary"
-                      className="w-full"
-                    />
-                  )}
-                >
+                <Button bold shadow color="brandPrimary" className="w-full">
                   Talk to us
                 </Button>
               </HeadlessPopover.Button>
@@ -138,12 +125,10 @@ const Link = React.forwardRef<
 >((props, ref) => {
   let { href, children, ...rest } = props
   return (
-    (<NextLink href={href} ref={ref} {...rest}>
-
+    <NextLink href={href} ref={ref} {...rest}>
       {children}
-
-    </NextLink>)
-  );
+    </NextLink>
+  )
 })
 
 Link.displayName = 'Link'

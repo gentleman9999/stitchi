@@ -10,8 +10,8 @@ import cx from 'classnames'
 
 const nav = navigation.makeNavigation()
 
-const NavbarMobile = dynamic(() => import('./NavbarMobile'))
-const NavbarDesktop = dynamic(() => import('./NavbarDesktop'))
+const NavbarMobile = dynamic(() => import('./NavbarMobile'), { ssr: false })
+const NavbarDesktop = dynamic(() => import('./NavbarDesktop'), { ssr: false })
 
 interface Props {}
 
@@ -43,9 +43,7 @@ const Navbar = ({}: Props) => {
     <NavbarRoot innerRef={setDropdownAnchor}>
       <div className={cx(s.nav, { [s.shrink]: shrink })}>
         <Link href={routes.internal.home.href()} passHref className="contents">
-
           <Logo className={s.logo} />
-
         </Link>
         <div className="flex items-center flex-1 justify-end">
           <div className="block lg:hidden">
@@ -57,7 +55,7 @@ const Navbar = ({}: Props) => {
         </div>
       </div>
     </NavbarRoot>
-  );
+  )
 }
 
 export default Navbar

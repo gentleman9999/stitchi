@@ -65,7 +65,7 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
         </Button>
       </Link>
     </nav>
-  );
+  )
 }
 
 const DropdownButton = ({
