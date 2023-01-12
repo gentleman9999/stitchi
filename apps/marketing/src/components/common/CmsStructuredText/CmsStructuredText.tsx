@@ -27,7 +27,7 @@ const CmsStructuredText = ({ content }: Props) => {
   return (
     <StructuredText
       data={content as any}
-      customRules={[
+      customNodeRules={[
         // Open links in new tab
         renderNodeRule(isLink, ({ node, children, key }) => {
           return (
