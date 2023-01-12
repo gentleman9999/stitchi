@@ -93,12 +93,21 @@ export interface BlogPostShowPageArticleFragment_content_blocks {
   image: BlogPostShowPageArticleFragment_content_blocks_image | null;
 }
 
-export interface BlogPostShowPageArticleFragment_content_links {
+export interface BlogPostShowPageArticleFragment_content_links_ArticleRecord {
   __typename: "ArticleRecord";
   id: any;
   slug: string | null;
   title: string | null;
 }
+
+export interface BlogPostShowPageArticleFragment_content_links_GlossaryEntryRecord {
+  __typename: "GlossaryEntryRecord";
+  id: any;
+  slug: string | null;
+  term: string | null;
+}
+
+export type BlogPostShowPageArticleFragment_content_links = BlogPostShowPageArticleFragment_content_links_ArticleRecord | BlogPostShowPageArticleFragment_content_links_GlossaryEntryRecord;
 
 export interface BlogPostShowPageArticleFragment_content {
   __typename: "ArticleModelContentField";

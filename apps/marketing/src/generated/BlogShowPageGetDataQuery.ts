@@ -95,12 +95,21 @@ export interface BlogShowPageGetDataQuery_article_content_blocks {
   image: BlogShowPageGetDataQuery_article_content_blocks_image | null;
 }
 
-export interface BlogShowPageGetDataQuery_article_content_links {
+export interface BlogShowPageGetDataQuery_article_content_links_ArticleRecord {
   __typename: "ArticleRecord";
   id: any;
   slug: string | null;
   title: string | null;
 }
+
+export interface BlogShowPageGetDataQuery_article_content_links_GlossaryEntryRecord {
+  __typename: "GlossaryEntryRecord";
+  id: any;
+  slug: string | null;
+  term: string | null;
+}
+
+export type BlogShowPageGetDataQuery_article_content_links = BlogShowPageGetDataQuery_article_content_links_ArticleRecord | BlogShowPageGetDataQuery_article_content_links_GlossaryEntryRecord;
 
 export interface BlogShowPageGetDataQuery_article_content {
   __typename: "ArticleModelContentField";
