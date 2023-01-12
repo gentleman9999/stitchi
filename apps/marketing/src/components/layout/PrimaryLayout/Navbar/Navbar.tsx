@@ -7,11 +7,10 @@ import NavbarRoot from './NavbarRoot'
 import navigation from '@lib/navigation'
 import dynamic from 'next/dynamic'
 import cx from 'classnames'
+import NavbarMobile from './NavbarMobile'
+import NavbarDesktop from './NavbarDesktop'
 
 const nav = navigation.makeNavigation()
-
-const NavbarMobile = dynamic(() => import('./NavbarMobile'), { ssr: false })
-const NavbarDesktop = dynamic(() => import('./NavbarDesktop'), { ssr: false })
 
 interface Props {}
 
