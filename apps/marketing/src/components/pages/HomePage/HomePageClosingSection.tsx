@@ -17,7 +17,11 @@ const HomePageClosingSection = () => {
               Stitchi.
             </p>
             <div className="mt-16 inline-block">
-              <Link href={routes.internal.getStarted.href()} passHref legacyBehavior>
+              <Link
+                href={routes.internal.getStarted.href()}
+                passHref
+                legacyBehavior
+              >
                 <Button
                   Component="a"
                   color="primary"
@@ -25,7 +29,7 @@ const HomePageClosingSection = () => {
                   shadow
                   endIcon={<ArrowRight strokeWidth="2" />}
                 >
-                  Talk to us
+                  Work with us
                 </Button>
               </Link>
             </div>
@@ -33,7 +37,7 @@ const HomePageClosingSection = () => {
         </div>
       </div>
     </Section>
-  );
+  )
 }
 
 export default HomePageClosingSection

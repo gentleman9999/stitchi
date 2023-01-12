@@ -106,7 +106,7 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
             <Link href={routes.internal.getStarted.href()}>
               <HeadlessPopover.Button as="div">
                 <Button bold shadow color="brandPrimary" className="w-full">
-                  Talk to us
+                  Work with us
                 </Button>
               </HeadlessPopover.Button>
             </Link>

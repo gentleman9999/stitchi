@@ -55,13 +55,12 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
         <Button
           bold
           Component="a"
-          // className="!py-1 !px-4 !lowercase !rounded-2xl"
           color="primary"
-          className="!border-2 !py-1 !px-2 !border-gray-800"
+          className="!border-2 !py-1 !px-2 !border-gray-800 !lowercase"
           variant="ghost"
           slim
         >
-          start here
+          Work with us
         </Button>
       </Link>
     </nav>
