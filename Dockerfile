@@ -12,7 +12,7 @@
 ## Heroku's build context is the same directory as the Dockerfile and this cannot be changed.
 ## Because we must also leverage `turbo prune` from the root directory, we therefore must specificy the Dockerfile in the root directory as opposed to the app directory.
 
-FROM node:16 AS base
+FROM node:14.18.3 AS base
 WORKDIR /app
 ENV SCOPE=server
 ENV YARN_CACHE_FOLDER=.yarn-cache
@@ -31,7 +31,7 @@ FROM base AS builder
 COPY --from=installer /app/ .
 COPY --from=pruner /app/out/full/ .
 COPY .gitignore .gitignore
-RUN yarn turbo run build test --scope=server --include-dependencies --no-deps
+RUN yarn turbo run build test --filter=server --include-dependencies
 
 
 ##
