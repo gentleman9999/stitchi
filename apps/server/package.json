@@ -22,7 +22,7 @@
     "@types/node-fetch": "^2.6.1",
     "config": "*",
     "prisma": "^3.11.0",
-    "ts-node": "^10.6.0",
+    "ts-node": "^10.9.1",
     "ts-node-dev": "^1.1.8",
     "tsconfig": "*",
     "typescript": "^4.5.3"
