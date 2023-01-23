@@ -26,7 +26,7 @@ const getStaticPaths: GetStaticPaths = async () => {
   const paths: GetStaticPathsResult['paths'] = []
 
   data.allGlossaryEntries.forEach(entry => {
-    paths.push({ params: { termSlug: entry.slug ?? undefined } })
+    paths.filter().push({ params: { termSlug: entry.slug ?? undefined } })
   })
 
   return { paths, fallback: 'blocking' }
@@ -127,7 +127,7 @@ const GET_DATA = gql`
 
 const GET_PAGES = gql`
   query PromotionalProductGlossaryTermGetPagesQuery {
-    allGlossaryEntries(first: 100) {
+    allGlossaryEntries(first: 100, filter: { description: { exists: true } }) {
       id
       slug
     }
