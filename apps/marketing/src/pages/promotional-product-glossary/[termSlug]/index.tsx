@@ -26,7 +26,7 @@ const getStaticPaths: GetStaticPaths = async () => {
   const paths: GetStaticPathsResult['paths'] = []
 
   data.allGlossaryEntries.forEach(entry => {
-    paths.filter().push({ params: { termSlug: entry.slug ?? undefined } })
+    paths.push({ params: { termSlug: entry.slug ?? undefined } })
   })
 
   return { paths, fallback: 'blocking' }
