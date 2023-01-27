@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
-    "@headlessui/react": "^1.7.7",
+    "@headlessui/react": "^1.7.8",
     "@hookform/resolvers": "^2.8.8",
     "@next/bundle-analyzer": "^13.1.1",
     "@radix-ui/react-dialog": "^1.0.2",
@@ -41,6 +41,7 @@
     "next-seo": "^5.1.0",
     "next-sitemap": "^2.5.20",
     "next-usequerystate": "^1.7.2",
+    "nextjs-progressbar": "^0.0.16",
     "pluralize": "^8.0.0",
     "react": "^18.2.0",
     "react-datocms": "^3.1.1",
@@ -48,6 +49,7 @@
     "react-hook-form": "^7.29.0",
     "react-loading-skeleton": "^3.1.0",
     "react-merge-refs": "^1.1.0",
+    "sharp": "^0.31.3",
     "typewriter-effect": "^2.18.2",
     "uuid": "^8.3.2",
     "yup": "^0.32.11"

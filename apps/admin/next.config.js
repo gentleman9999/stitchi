@@ -1,9 +1,7 @@
-// Not sure why we need 'config' here.. might just be in development mode because of HMR and shared postcss config?
-const withTM = require('next-transpile-modules')(['config'])
-
 /** @type {import('next').NextConfig} */
-const nextConfig = withTM({
+const nextConfig = {
   reactStrictMode: true,
+  transpilePackages: ['config'],
   i18n: {
     locales: ['en'],
     defaultLocale: 'en',
@@ -30,6 +28,6 @@ const nextConfig = withTM({
       },
     ]
   },
-})
+}
 
 module.exports = nextConfig

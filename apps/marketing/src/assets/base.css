@@ -3,6 +3,10 @@
     'Helvetica Neue', 'Helvetica', sans-serif;
 }
 
+::selection {
+  @apply bg-primary
+}
+
 *,
 *:before,
 *:after {
@@ -18,14 +22,14 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
 html,
 body {
+  @apply text-black bg-paper;
   font-family: var(--font-sans);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--paper);
-  color: var(--text-primary);
   overscroll-behavior-x: none;
 }
 

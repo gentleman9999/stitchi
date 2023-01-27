@@ -27,7 +27,7 @@ const CmsStructuredText = ({ content }: Props) => {
   return (
     <StructuredText
       data={content as any}
-      customRules={[
+      customNodeRules={[
         // Open links in new tab
         renderNodeRule(isLink, ({ node, children, key }) => {
           return (
@@ -42,9 +42,8 @@ const CmsStructuredText = ({ content }: Props) => {
           const anchor = anchorTagFromNode(node)
 
           return (
-            <HeadingTag key={key}>
-              {children} <a id={anchor} />
-              <a href={`#${anchor}`} />
+            <HeadingTag key={key} id={anchor}>
+              {children}
             </HeadingTag>
           )
         }),
@@ -58,7 +57,15 @@ const CmsStructuredText = ({ content }: Props) => {
               >
                 {record.title as string}
               </Link>
-            );
+            )
+          case 'GlossaryEntryRecord':
+            return (
+              <Link
+                href={routes.internal.glossary.show.href(record.slug as string)}
+              >
+                {record.term as string}
+              </Link>
+            )
           default:
             throw new Error(`Invalid record type: ${record.__typename}`)
         }
@@ -87,7 +94,7 @@ const CmsStructuredText = ({ content }: Props) => {
         }
       }}
     />
-  );
+  )
 }
 
 CmsStructuredText.fragments = {
@@ -111,6 +118,11 @@ CmsStructuredText.fragments = {
           id
           slug
           title
+        }
+        ... on GlossaryEntryRecord {
+          id
+          slug
+          term
         }
       }
     }
@@ -150,6 +162,11 @@ CmsStructuredText.fragments = {
           id
           slug
           title
+        }
+        ... on GlossaryEntryRecord {
+          id
+          slug
+          term
         }
       }
     }

@@ -6,7 +6,7 @@ import { makeProductTitle } from '@utils/catalog'
 import { generateImageSizes } from '@utils/image'
 import { XIcon } from 'icons'
 import { useQueryState } from 'next-usequerystate'
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image'
 import { useRouter } from 'next/router'
 import React from 'react'
 import ProductColorGrid from './ProductColorGrid'
@@ -101,6 +101,8 @@ const ProductDialog = ({ product }: Props) => {
             </span>
           </div>
           <table className="table-auto w-full mt-8">
+            <caption>Specifications</caption>
+
             <tbody>
               <tr className="border-y">
                 <td>Brand</td>

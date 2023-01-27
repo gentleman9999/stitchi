@@ -26,7 +26,10 @@ const getStaticPaths: GetStaticPaths = async () => {
   const paths: GetStaticPathsResult['paths'] = []
 
   data.allGlossaryEntries.forEach(entry => {
-    paths.push({ params: { termSlug: entry.slug ?? undefined } })
+    // We only create pages for terms that have a description
+    if ((entry.description?.value?.document?.children?.length || 0) > 1) {
+      paths.push({ params: { termSlug: entry.slug ?? undefined } })
+    }
   })
 
   return { paths, fallback: 'blocking' }
@@ -130,6 +133,9 @@ const GET_PAGES = gql`
     allGlossaryEntries(first: 100) {
       id
       slug
+      description {
+        value
+      }
     }
   }
 `
