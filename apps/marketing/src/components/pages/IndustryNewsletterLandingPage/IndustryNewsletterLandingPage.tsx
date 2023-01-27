@@ -1,6 +1,8 @@
-import { Section, SectionHeader } from '@components/common'
+import FeaturePageTestimonial from '@components/common/FeaturePageContainer/FeaturePageTestimonial'
 import { Container } from '@components/ui'
 import React from 'react'
+import Features from './Features'
+import FrequentlyAskedQuestions from './FrequentlyAskedQuestions'
 import Hero from './Hero'
 
 const IndustryNewsletterLandingPage = () => {
@@ -10,9 +12,13 @@ const IndustryNewsletterLandingPage = () => {
         <Hero />
       </Container>
       <Container>
-        <Section gutter="md">
-          <SectionHeader title="Features" />
-        </Section>
+        <Features />
+      </Container>
+      <Container>
+        <FeaturePageTestimonial />
+      </Container>
+      <Container>
+        <FrequentlyAskedQuestions />
       </Container>
     </div>
   )

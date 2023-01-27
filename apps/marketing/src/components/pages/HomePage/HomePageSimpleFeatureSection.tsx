@@ -185,7 +185,7 @@ const HomePageSimpleFeatureSection = () => {
           subtitle="
          Delivering a high-quality and affordable merch experience to your
          audience involves complicated processes requiring specialized
-         expertise to avoid headaches and mistakes. We offer various services
+         expertise to avoid headaches and mistakes. We offer various solutions
          to help organizations scale their merch programs infinitely without
          increasing operational costs and overhead."
         />

@@ -1,5 +1,5 @@
 import React from 'react'
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image'
 import { Button, LinkInline } from '@components/ui'
 import Link from 'next/link'
 import routes from '@lib/routes'
@@ -10,7 +10,7 @@ import { Section } from '@components/common'
 const FeaturePageTestimonial = () => {
   return (
     <Section gutter="md">
-      <div className="lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-24 rounded-md p-4 md:p-8">
+      <div className="lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-24">
         <div className="max-w-xl mx-auto lg:max-w-none">
           <div>
             <div className="">
@@ -33,7 +33,8 @@ const FeaturePageTestimonial = () => {
                 <Link
                   href={routes.internal.customers.morningBrew.href()}
                   passHref
-                  legacyBehavior>
+                  legacyBehavior
+                >
                   <Button slim Component="a" variant="ghost">
                     Read the case study
                   </Button>
@@ -83,7 +84,7 @@ const FeaturePageTestimonial = () => {
         </div>
       </div>
     </Section>
-  );
+  )
 }
 
 export default FeaturePageTestimonial
