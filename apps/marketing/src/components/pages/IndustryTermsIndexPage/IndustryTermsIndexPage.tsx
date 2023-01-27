@@ -64,12 +64,14 @@ const Entry = ({
       className="group p-6 hover:shadow-lg rounded-lg outline outline-gray-100 flex flex-col justify-between"
     >
       <div>
-        <LinkInline
-          href={linkHref}
-          underline={hasDescription ? 'always' : 'never'}
-        >
-          <h2 className="font-semibold font-headingDisplay text-xl">{term}</h2>
-        </LinkInline>
+        <h2 className="font-semibold font-headingDisplay text-xl">
+          <LinkInline
+            href={linkHref}
+            underline={hasDescription ? 'always' : 'never'}
+          >
+            {term}
+          </LinkInline>
+        </h2>
 
         <br />
         <p className="text-gray-500 leading-loose">{definition}</p>
@@ -92,7 +94,7 @@ const Entry = ({
         </div>
       ) : null}
     </section>
-  );
+  )
 }
 
 IndustryTermsIndexPage.fragments = {
