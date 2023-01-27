@@ -1,6 +1,6 @@
 import React from 'react'
 import { Section, SectionHeader } from '@components/common'
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image'
 import shippingWarehouse from '../../../../public/shipping_warehouse.png'
 
 interface Props {}
@@ -11,7 +11,7 @@ const DistributionPageAdvantages = (props: Props) => {
       <SectionHeader
         pretitle="Why 3rd party logistics?"
         title="Scale effortlessly, zero burden"
-        subtitle="We enable brands to scale their eCommerce and access cutting-edge fulfillment services at a completely transparent, industry-low rate."
+        subtitle="We enable brands to scale their eCommerce and access cutting-edge fulfillment solutions at a completely transparent, industry-low rate."
       />
       <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-16">
         <div className="sm:order-last self-center">

@@ -18,7 +18,7 @@ const DesignPage = ({ catalog }: DesignPageProps) => {
   return (
     <FeaturePageContainer
       seoTitle="Free, professional merch and promotional product design"
-      seoDescription="If you need high quality custom clothing and promotional products, Stitchi is here to help. We offer free design services, fast quotes, excellent customer service, and speedy delivery times."
+      seoDescription="If you need high quality custom clothing and promotional products, Stitchi is here to help. We offer free design solutions, fast quotes, excellent customer service, and speedy delivery times."
       canonicalUrl={makeAbsoluteUrl(routes.internal.features.design.href())}
       catalog={catalog}
     >

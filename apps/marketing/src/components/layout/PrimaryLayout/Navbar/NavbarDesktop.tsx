@@ -23,7 +23,7 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
         <Dropdown
           anchorEl={anchorEl}
           ButtonChildren={({ active }) => (
-            <DropdownButton label="Services" active={active} />
+            <DropdownButton label="Solutions" active={active} />
           )}
           panelChildren={
             <div className="grid grid-cols-2 gap-4">
