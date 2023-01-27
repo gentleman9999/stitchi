@@ -42,9 +42,8 @@ const CmsStructuredText = ({ content }: Props) => {
           const anchor = anchorTagFromNode(node)
 
           return (
-            <HeadingTag key={key}>
-              {children} <a id={anchor} />
-              <a href={`#${anchor}`} />
+            <HeadingTag key={key} id={anchor}>
+              {children}
             </HeadingTag>
           )
         }),
