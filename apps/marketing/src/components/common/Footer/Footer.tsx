@@ -14,9 +14,10 @@ const Footer = () => (
     <Container>
       <Section gutter="md">
         <div className="grid grid-cols-1 gap-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
             <List title="Solutions" items={navigation.solutions} />
             <List title="Resources" items={navigation.resources} />
+            <List title="Industries" items={navigation.industries} />
             <List title="Legal" items={navigation.legal} />
           </div>
           <div className="">

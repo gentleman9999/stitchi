@@ -101,6 +101,11 @@ const routes = {
     partners: {
       href: () => buildRoute('/partners'),
     },
+    industries: {
+      newsletters: {
+        href: () => buildRoute('/newsletter-merchandise-referral-program'),
+      },
+    },
   },
   api: {
     formResponse: {

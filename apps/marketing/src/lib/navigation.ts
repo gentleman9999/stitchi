@@ -76,6 +76,12 @@ const navigation = {
       //   href: '#',
       // },
     ],
+    industries: [
+      {
+        label: 'Newsletters',
+        href: routes.internal.industries.newsletters.href(),
+      },
+    ],
     legal: [
       // { label: 'Claim', href: '#' },
       { label: 'Privacy', href: routes.internal.legal.privacy.href() },
