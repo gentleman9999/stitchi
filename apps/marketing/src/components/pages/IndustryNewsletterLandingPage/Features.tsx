@@ -5,8 +5,7 @@ const Features = () => {
   return (
     <Section gutter="md">
       <SectionHeader
-        title="Features"
-        pretitle="Grow faster, for less"
+        title="Grow faster, for less"
         subtitle="Maximize subscriber acquisition and minimize costs with automated referral campaigns - a proven strategy for growing successful newsletters."
       />
       <div className="mt-14">

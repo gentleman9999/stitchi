@@ -11,7 +11,7 @@ const FeaturePageTestimonial = () => {
   return (
     <Section gutter="md">
       <div className="lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-24">
-        <div className="max-w-xl mx-auto lg:max-w-none">
+        <div className="mx-auto">
           <div>
             <div className="">
               <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 font-headingDisplay">

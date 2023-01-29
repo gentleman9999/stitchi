@@ -4,6 +4,7 @@ import React from 'react'
 import Features from './Features'
 import FrequentlyAskedQuestions from './FrequentlyAskedQuestions'
 import Hero from './Hero'
+import Process from './Process'
 
 const IndustryNewsletterLandingPage = () => {
   return (
@@ -13,6 +14,9 @@ const IndustryNewsletterLandingPage = () => {
       </Container>
       <Container>
         <Features />
+      </Container>
+      <Container>
+        <Process />
       </Container>
       <Container>
         <FeaturePageTestimonial />
