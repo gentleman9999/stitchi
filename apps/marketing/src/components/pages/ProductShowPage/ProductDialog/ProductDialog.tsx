@@ -5,8 +5,7 @@ import routes from '@lib/routes'
 import { makeProductTitle } from '@utils/catalog'
 import { generateImageSizes } from '@utils/image'
 import { XIcon } from 'icons'
-import { useQueryState } from 'next-usequerystate'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React from 'react'
 import ProductColorGrid from './ProductColorGrid'
@@ -84,10 +83,13 @@ const ProductDialog = ({ product }: Props) => {
         {image ? (
           <div className="relative w-full h-[250px] border-b">
             <Image
+              fill
+              style={{
+                objectFit: 'contain',
+              }}
               src={image.url}
               alt={image.altText || product.name}
-              layout="fill"
-              objectFit="contain"
+              width={300}
               sizes={generateImageSizes([{ imageWidth: '624px' }])}
             />
           </div>
