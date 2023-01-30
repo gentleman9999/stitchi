@@ -120,6 +120,14 @@ const routes = {
     },
   },
   external: {
+    support: {
+      email: {
+        href: () => buildRoute(`mailto:hello@stitchi.us`),
+      },
+      phone: {
+        href: () => buildRoute(`tel:+1-833-381-3212`),
+      },
+    },
     social: {
       twitter: {
         href: () => buildRoute(`https://twitter.com/gostitchi`),
@@ -129,6 +137,9 @@ const routes = {
       morningBrew: {
         href: () => buildRoute(`https://morningbrew.com`),
       },
+    },
+    careers: {
+      href: () => buildRoute(``),
     },
   },
 }

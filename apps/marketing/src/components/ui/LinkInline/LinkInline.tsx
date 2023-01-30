@@ -18,8 +18,17 @@ const LinkInline = ({
   className,
   underline = 'always',
 }: LinkInlineProps) => {
-  const BaseLink = (props: AnchorHTMLAttributes<HTMLAnchorElement>) => (
-    <a
+  const externalProps = external
+    ? {
+        target: '_blank',
+        rel: 'noreferrer',
+      }
+    : {}
+
+  return (
+    <Link
+      {...externalProps}
+      href={href}
       className={cx(
         {
           underline: underline === 'always',
@@ -27,21 +36,10 @@ const LinkInline = ({
         },
         className,
       )}
-      {...props}
     >
       {children}
-    </a>
-  )
-
-  if (external) {
-    return <BaseLink href={href} target="_blank" rel="noreferrer" />
-  }
-
-  return (
-    <Link href={href} passHref legacyBehavior>
-      <BaseLink />
     </Link>
-  );
+  )
 }
 
 export default LinkInline

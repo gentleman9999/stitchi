@@ -36,7 +36,6 @@
 
   &.brandColors {
     @apply border-primary bg-transparent border-2 font-medium;
-    color: var(--primary);
   }
 }
 
