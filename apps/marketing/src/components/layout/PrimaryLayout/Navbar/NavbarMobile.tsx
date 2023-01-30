@@ -42,18 +42,19 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
                 // eslint-disable-next-line react/display-name
                 return function (props: any) {
                   return (
-                    <Link href={item.href} key={item.label}>
-                      <HeadlessPopover.Button
-                        disable={disabled}
-                        {...props}
-                        className={cx('block mb-2 text-lg text-secondary', {
-                          'pointer-events-none': disabled,
-                        })}
-                      >
-                        {item.label}
-                        {disabled && <Badge size="small" label="Coming soon" />}
-                      </HeadlessPopover.Button>
-                    </Link>
+                    <HeadlessPopover.Button
+                      {...props}
+                      key={item.label}
+                      href={item.href}
+                      as={Link}
+                      disable={disabled}
+                      className={cx('block text-lg text-secondary', {
+                        'pointer-events-none': disabled,
+                      })}
+                    >
+                      {item.label}
+                      {disabled && <Badge size="small" label="Coming soon" />}
+                    </HeadlessPopover.Button>
                   )
                 }
               })}
@@ -81,14 +82,15 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
                 // eslint-disable-next-line react/display-name
                 return function (props: any) {
                   return (
-                    <Link href={item.href} key={item.label}>
-                      <HeadlessPopover.Button
-                        {...props}
-                        className={cx('block mb-2 text-lg text-secondary')}
-                      >
-                        {item.label}
-                      </HeadlessPopover.Button>
-                    </Link>
+                    <HeadlessPopover.Button
+                      {...props}
+                      key={item.label}
+                      href={item.href}
+                      as={Link}
+                      className={cx('block text-lg text-secondary')}
+                    >
+                      {item.label}
+                    </HeadlessPopover.Button>
                   )
                 }
               })}

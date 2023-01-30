@@ -1,4 +1,4 @@
-import { Menu } from '@headlessui/react'
+import { Menu, Transition } from '@headlessui/react'
 import React from 'react'
 import cx from 'classnames'
 
@@ -14,12 +14,13 @@ const NavbarMobileDropdown = ({ ButtonChildren, items }: Props) => {
         <>
           <Menu.Button
             className={cx('w-full', {
-              'mb-3': open,
+              'mb-4': open,
             })}
           >
             <ButtonChildren active={open} />
           </Menu.Button>
-          <Menu.Items unmount={false}>
+
+          <Menu.Items unmount={false} className="flex flex-col gap-4">
             {items.map((Component, i) => (
               <Menu.Item key={i}>
                 <Component />
