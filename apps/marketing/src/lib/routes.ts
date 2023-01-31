@@ -125,7 +125,7 @@ const routes = {
         href: () => buildRoute(`mailto:hello@stitchi.us`),
       },
       phone: {
-        href: () => buildRoute(`tel:+1-833-381-3212`),
+        href: () => buildRoute(`tel:+1-248-221-1863`),
       },
     },
     social: {

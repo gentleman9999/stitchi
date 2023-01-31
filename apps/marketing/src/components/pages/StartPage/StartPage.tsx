@@ -24,8 +24,8 @@ const StartPage = () => {
         href={routes.external.support.email.href()}
       />
       <ContactMethod
-        title="Text us"
-        label="+1 (833) 381-3212"
+        title="Text or call us"
+        label="+1 (248) 221-1863"
         href={routes.external.support.phone.href()}
       />
     </div>
