@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
+import { Container } from '@components/ui'
 import { ProductShowPageProductFragment } from '@generated/ProductShowPageProductFragment'
 import React from 'react'
-import CatalogIndexPage from '../CatalogIndexPage'
 import ProductDialog from './ProductDialog/ProductDialog'
 
 interface Props {
@@ -10,10 +10,9 @@ interface Props {
 
 const ProductShowPage = ({ product }: Props) => {
   return (
-    <>
+    <Container>
       <ProductDialog product={product} />
-      <CatalogIndexPage isBackground />
-    </>
+    </Container>
   )
 }
 

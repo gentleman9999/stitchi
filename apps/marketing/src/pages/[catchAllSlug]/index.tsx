@@ -116,7 +116,7 @@ const ProductPage = () => {
   }
 
   if (!site) {
-    return <ComponentErrorMessage error="No site found" />
+    throw new Error("No site found. This shouldn't happen.")
   }
 
   const product = site.route.node
