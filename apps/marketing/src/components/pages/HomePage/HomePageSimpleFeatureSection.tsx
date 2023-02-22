@@ -1,9 +1,4 @@
-import {
-  Section,
-  SectionHeader,
-  SimpleCenteredTestimonial,
-  useSpokesperson,
-} from '@components/common'
+import { Section, SectionHeader } from '@components/common'
 import React from 'react'
 import {
   Analytics,
@@ -23,7 +18,6 @@ import cx from 'classnames'
 import routes from '@lib/routes'
 import { LinkInline } from '@components/ui'
 import { motion } from 'framer-motion'
-import morningBrewLogo from '../../../../public/customers/morning_brew/morning_brew_logo.png'
 
 const sections = [
   {
@@ -140,56 +134,8 @@ const sections = [
 ]
 
 const HomePageSimpleFeatureSection = () => {
-  const jenny = useSpokesperson('jenny_rothenberg')
-
   return (
     <>
-      <Section gutter="md" className="lg:text-center">
-        <SectionHeader
-          pretitle="Learn who we are"
-          title="What we do"
-          subtitle={
-            <>
-              We build innovative custom merch programs to diversify revenue and
-              increase affinity for your brand.
-              <br />
-              <br />
-              Our team of designers, marketers, and engineers is equipped to
-              handle your diverse needs, including promotional product ideation,
-              production, and distribution. We provide you with peace of mind
-              every step of the way.
-            </>
-          }
-        />
-
-        <br />
-        <br />
-        <div className="bg-gray-100 p-4 sm:p-8 rounded-md">
-          <SimpleCenteredTestimonial
-            testimonial="We shipped over 8,000 pairs of Morning Brew joggers to our loyal readers, resulting in over 75,000 new subscribers. This was our largest growth campaign to date, and we love seeing pictures of our readers wearing their MB joggers on social media."
-            company={{ name: 'Morning Brew', logo: morningBrewLogo }}
-            spokesperson={jenny}
-            cta={{
-              text: 'See how we helped',
-              href: routes.internal.customers.morningBrew.href(),
-              className: 'text-[#006bd2]',
-            }}
-          />
-        </div>
-      </Section>
-
-      {/* <div className="w-full border-t border-gray-600" /> */}
-      <Section gutter="md" className="lg:text-center">
-        <SectionHeader
-          title="Our merch solutions"
-          subtitle="
-         Delivering a high-quality and affordable merch experience to your
-         audience involves complicated processes requiring specialized
-         expertise to avoid headaches and mistakes. We offer various solutions
-         to help organizations scale their merch programs infinitely without
-         increasing operational costs and overhead."
-        />
-      </Section>
       <div className="grid grid-cols-1 gap-10">
         {sections.map((section, index) => (
           <motion.div
@@ -225,14 +171,14 @@ const HomePageSimpleFeatureSection = () => {
                     {section.features.map(item => (
                       <div key={item.id} className="relative">
                         <dt>
-                          <div className="absolute flex items-center justify-center h-12 w-12 text-white">
+                          <div className="mb-4 sm:mb-0 sm:absolute flex items-center justify-center h-12 w-12 text-white">
                             <item.icon aria-hidden="true" width="100%" />
                           </div>
-                          <p className="ml-16 text-lg leading-6 font-medium font-heading text-gray-900">
+                          <p className="sm:ml-16 text-2xl leading-6 font-medium font-heading text-gray-900">
                             {item.name}
                           </p>
                         </dt>
-                        <dd className="mt-2 ml-16 text-base text-gray-500">
+                        <dd className="mt-2 sm:ml-16 text-base text-gray-500">
                           {item.description}
                         </dd>
                       </div>
@@ -295,7 +241,7 @@ const Title = ({
   children: React.ReactNode
 }) => {
   return (
-    <Component className="text-2xl font-bold font-heading text-gray-900 sm:text-3xl">
+    <Component className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-gray-900">
       {children}
     </Component>
   )
@@ -309,7 +255,7 @@ const Subtitle = ({
   children: React.ReactNode
 }) => {
   return (
-    <Component className="max-w-3xl text-xl text-gray-500 lg:mx-auto">
+    <Component className="max-w-3xl text-lg md:text-xl text-gray-500 lg:mx-auto">
       {children}
     </Component>
   )
