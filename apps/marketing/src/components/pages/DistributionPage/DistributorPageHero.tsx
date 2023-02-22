@@ -43,15 +43,19 @@ const DistributorPageHero = () => {
           <div className="mt-10 flex flex-col sm:flex-row gap-8 md:gap-10 lg:gap-12">
             <div className="flex-auto max-w-[66%]">
               <h1 className="text-4xl sm:text-5xl lg:text-7xl text-white font-extrabold font-headingDisplay">
-                Automate merch fulfillment without hiring
+                Build a merch empire without hiring
               </h1>
               <p className="text md:text-xl text-gray-400 mt-4 font-medium">
-                Stitchi handles storing, packing, and shipping your inventory.
-                We build and integrate with all e-commerce apps including
-                Shopify, Instagram, and BigCommerce.
+                Stitchi automates merch fulfillment by storing, packing, and
+                shipping your inventory. We integrate directly with e-commerce
+                platforms and loyalty programs.
               </p>
               <div className="mt-8">
-                <Link href={routes.internal.getStarted.href()} passHref legacyBehavior>
+                <Link
+                  href={routes.internal.getStarted.href()}
+                  passHref
+                  legacyBehavior
+                >
                   <Button
                     bold
                     color="brandPrimary"
@@ -106,7 +110,7 @@ const DistributorPageHero = () => {
         </Section>
       </Container>
     </div>
-  );
+  )
 }
 
 const Number = ({ costInCents }: { costInCents: number }) => {

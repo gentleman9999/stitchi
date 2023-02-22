@@ -7,11 +7,11 @@ import { Button } from '@components/ui'
 
 const HomePageClosingSection = () => {
   return (
-    <Section gutter="xl">
+    <Section gutter="lg">
       <div className="relative">
         <div className="relative">
           <div className="sm:text-center">
-            <p className="mt-14 lg:mt-20 text-2xl font-medium leading-tight tracking-tight max-w-[650px] md:text-center m-auto">
+            <p className="mt-14 lg:mt-20 text-2xl font-semibold max-w-[650px] md:text-center m-auto font-heading">
               Make the stitch and join hundreds of businesses, brands, and
               creators building brand engagement, loyalty, and revenue with
               Stitchi.
@@ -22,14 +22,14 @@ const HomePageClosingSection = () => {
                 passHref
                 legacyBehavior
               >
-                <Button
-                  Component="a"
-                  color="primary"
-                  bold
-                  shadow
-                  endIcon={<ArrowRight strokeWidth="2" />}
-                >
-                  Work with us
+                <Button Component="a" color="primary" bold shadow>
+                  <div className="flex items-center group">
+                    Work with us{' '}
+                    <ArrowRight
+                      strokeWidth="2"
+                      className="ml-2 group-hover:translate-x-2 transition-all"
+                    />
+                  </div>
                 </Button>
               </Link>
             </div>
