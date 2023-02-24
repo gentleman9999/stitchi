@@ -16,49 +16,49 @@ import { NextSeo } from 'next-seo'
 import makeAbsoluteUrl from '@utils/get-absolute-url'
 import routes from '@lib/routes'
 
-// const getStaticPaths: GetStaticPaths = async () => {
-//   const client = initializeApollo()
+const getStaticPaths: GetStaticPaths = async () => {
+  const client = initializeApollo()
 
-//   const { data } =
-//     await client.query<PromotionalProductsGlossaryCategoryGetPagesQuery>({
-//       query: GET_PAGES,
-//     })
+  const { data } =
+    await client.query<PromotionalProductsGlossaryCategoryGetPagesQuery>({
+      query: GET_PAGES,
+    })
 
-//   return {
-//     paths: data.allGlossaryCategories
-//       .map(category =>
-//         category.slug
-//           ? {
-//               params: { categorySlug: category.slug },
-//             }
-//           : null,
-//       )
-//       .filter(notEmpty),
-//     fallback: 'blocking',
-//   }
-// }
+  return {
+    paths: data.allGlossaryCategories
+      .map(category =>
+        category.slug
+          ? {
+              params: { categorySlug: category.slug },
+            }
+          : null,
+      )
+      .filter(notEmpty),
+    fallback: 'blocking',
+  }
+}
 
-// const getStaticProps: GetStaticProps = async ({ params }) => {
-//   const { categorySlug } = params || {}
+const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { categorySlug } = params || {}
 
-//   if (typeof categorySlug !== 'string') {
-//     return {
-//       notFound: true,
-//     }
-//   }
+  if (typeof categorySlug !== 'string') {
+    return {
+      notFound: true,
+    }
+  }
 
-//   const client = initializeApollo()
+  const client = initializeApollo()
 
-//   await client.query<
-//     PromotionalProductsGlossaryCategoryGetDataQuery,
-//     PromotionalProductsGlossaryCategoryGetDataQueryVariables
-//   >({
-//     query: GET_DATA,
-//     variables: { slug: categorySlug },
-//   })
+  await client.query<
+    PromotionalProductsGlossaryCategoryGetDataQuery,
+    PromotionalProductsGlossaryCategoryGetDataQueryVariables
+  >({
+    query: GET_DATA,
+    variables: { slug: categorySlug },
+  })
 
-//   return addApolloState(client, { props: {} })
-// }
+  return addApolloState(client, { props: {} })
+}
 
 const PromotionalProductsGlossaryCategory = () => {
   const { query } = useRouter()
