@@ -61,7 +61,10 @@ const CmsStructuredText = ({ content }: Props) => {
           case 'GlossaryEntryRecord':
             return (
               <Link
-                href={routes.internal.glossary.show.href(record.slug as string)}
+                href={routes.internal.glossary.show.href({
+                  termSlug: record.slug as string,
+                  termType: record.entryType as string,
+                })}
               >
                 {record.term as string}
               </Link>
@@ -123,6 +126,7 @@ CmsStructuredText.fragments = {
           id
           slug
           term
+          entryType
         }
       }
     }

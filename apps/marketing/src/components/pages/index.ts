@@ -34,6 +34,9 @@ export * from './PrivacyPage'
 export { default as IndustryNewsletterLandingPage } from './IndustryNewsletterLandingPage'
 export * from './IndustryNewsletterLandingPage'
 
+export { default as IndustryTermsCategoryShowPage } from './IndustryTermsCategoryShowPage'
+export type { Props as IndustryTermsCategoryShowPageProps } from './IndustryTermsCategoryShowPage'
+
 export { default as IndustryTermsIndexPage } from './IndustryTermsIndexPage'
 export * from './IndustryTermsIndexPage'
 

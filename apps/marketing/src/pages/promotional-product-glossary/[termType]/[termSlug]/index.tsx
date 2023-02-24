@@ -28,7 +28,12 @@ const getStaticPaths: GetStaticPaths = async () => {
   data.allGlossaryEntries.forEach(entry => {
     // We only create pages for terms that have a description
     if ((entry.description?.value?.document?.children?.length || 0) > 1) {
-      paths.push({ params: { termSlug: entry.slug ?? undefined } })
+      paths.push({
+        params: {
+          termSlug: entry.slug ?? undefined,
+          termType: entry.entryType ?? undefined,
+        },
+      })
     }
   })
 
@@ -83,7 +88,10 @@ const PromotionalProductGlossaryTerm = () => {
   }
 
   const url = makeAbsoluteUrl(
-    routes.internal.glossary.show.href(glossaryEntry.slug || ''),
+    routes.internal.glossary.show.href({
+      termSlug: glossaryEntry.slug || '',
+      termType: glossaryEntry.entryType || '',
+    }),
   )
 
   return (
@@ -133,6 +141,7 @@ const GET_PAGES = gql`
     allGlossaryEntries(first: 100) {
       id
       slug
+      entryType
       description {
         value
       }

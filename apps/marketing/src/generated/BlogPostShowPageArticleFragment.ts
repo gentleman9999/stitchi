@@ -105,6 +105,7 @@ export interface BlogPostShowPageArticleFragment_content_links_GlossaryEntryReco
   id: any;
   slug: string | null;
   term: string | null;
+  entryType: string | null;
 }
 
 export type BlogPostShowPageArticleFragment_content_links = BlogPostShowPageArticleFragment_content_links_ArticleRecord | BlogPostShowPageArticleFragment_content_links_GlossaryEntryRecord;

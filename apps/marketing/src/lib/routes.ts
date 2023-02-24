@@ -87,7 +87,19 @@ const routes = {
     glossary: {
       href: () => '/promotional-product-glossary',
       show: {
-        href: (termSlug: string) => `/promotional-product-glossary/${termSlug}`,
+        href: ({
+          termSlug,
+          termType,
+        }: {
+          termType: string
+          termSlug: string
+        }) => `/promotional-product-glossary/${termType}/${termSlug}`,
+      },
+      categories: {
+        show: {
+          href: (categorySlug: string) =>
+            `/promotional-product-glossary/categories/${categorySlug}`,
+        },
       },
     },
     legal: {

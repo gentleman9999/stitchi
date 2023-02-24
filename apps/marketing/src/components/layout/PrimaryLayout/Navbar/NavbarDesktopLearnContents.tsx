@@ -62,9 +62,7 @@ const NavbarDesktopLearnContents = () => {
           passHref
           className="font-semibold hover:bg-primary p-1 rounded-sm"
         >
-          <Popover.Button as="div">
-            Promotional Products Glossary
-          </Popover.Button>
+          <Popover.Button as="div">Merch Brand Guide</Popover.Button>
         </Link>
       </div>
     </div>

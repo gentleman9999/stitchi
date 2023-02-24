@@ -62,6 +62,7 @@ export interface PromotionalProductGlossaryTermGetDataQuery_glossaryEntry {
   term: string | null;
   definition: string | null;
   slug: string | null;
+  entryType: string | null;
   description: PromotionalProductGlossaryTermGetDataQuery_glossaryEntry_description | null;
 }
 
@@ -70,6 +71,7 @@ export interface PromotionalProductGlossaryTermGetDataQuery_relatedTerms {
   id: any;
   term: string | null;
   slug: string | null;
+  entryType: string | null;
 }
 
 export interface PromotionalProductGlossaryTermGetDataQuery {

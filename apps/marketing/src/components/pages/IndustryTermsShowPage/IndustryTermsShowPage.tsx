@@ -46,9 +46,13 @@ const IndustryTermsShowPage = ({ term, relatedTerms }: Props) => {
         <RelatedTerms
           terms={relatedTerms.map(term => ({
             title: term.term || '',
-            href: term.slug
-              ? routes.internal.glossary.show.href(term.slug)
-              : routes.internal.glossary.href(),
+            href:
+              term.slug && term.entryType
+                ? routes.internal.glossary.show.href({
+                    termSlug: term.slug,
+                    termType: term.entryType,
+                  })
+                : routes.internal.glossary.href(),
           }))}
         />
       </div>
@@ -101,7 +105,11 @@ const IndustryTermsShowPage = ({ term, relatedTerms }: Props) => {
               Become a promotional product terminology expert.
             </p>
             <div>
-              <Link href={routes.internal.glossary.href()} passHref legacyBehavior>
+              <Link
+                href={routes.internal.glossary.href()}
+                passHref
+                legacyBehavior
+              >
                 <Button
                   variant="naked"
                   Component="a"
@@ -116,7 +124,7 @@ const IndustryTermsShowPage = ({ term, relatedTerms }: Props) => {
         </div>
       </div>
     </Container>
-  );
+  )
 }
 
 IndustryTermsShowPage.fragments = {
@@ -127,6 +135,7 @@ IndustryTermsShowPage.fragments = {
       id
       term
       slug
+      entryType
       description {
         ...CmsStructuredTextGlossaryDescriptionFragment
         ...CmsStructuredTextTableOfContentsGlossaryTermDescriptionFragment
@@ -138,6 +147,7 @@ IndustryTermsShowPage.fragments = {
       id
       term
       slug
+      entryType
     }
   `,
 }

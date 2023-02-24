@@ -45,6 +45,7 @@ export interface CmsStructuredTextContentFragment_links_GlossaryEntryRecord {
   id: any;
   slug: string | null;
   term: string | null;
+  entryType: string | null;
 }
 
 export type CmsStructuredTextContentFragment_links = CmsStructuredTextContentFragment_links_ArticleRecord | CmsStructuredTextContentFragment_links_GlossaryEntryRecord;

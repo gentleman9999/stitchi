@@ -107,6 +107,7 @@ export interface BlogShowPageGetDataQuery_article_content_links_GlossaryEntryRec
   id: any;
   slug: string | null;
   term: string | null;
+  entryType: string | null;
 }
 
 export type BlogShowPageGetDataQuery_article_content_links = BlogShowPageGetDataQuery_article_content_links_ArticleRecord | BlogShowPageGetDataQuery_article_content_links_GlossaryEntryRecord;
