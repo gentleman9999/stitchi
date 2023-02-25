@@ -52,7 +52,7 @@ const IndustryTermsIndexPage = ({ entries, categories }: Props) => {
           {/* <Navigation termSlugs={entries.map(e => e.slug).filter(notEmpty)} /> */}
           <motion.ul layout className="flex flex-col">
             {entries.map(entry => (
-              <IndustryTermCard entry={entry} key={entry.id} />
+              <IndustryTermCard entry={entry} key={entry.id} component="li" />
             ))}
           </motion.ul>
         </div>

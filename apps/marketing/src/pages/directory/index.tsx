@@ -8,8 +8,6 @@ import routes from '@lib/routes'
 import makeAbsoluteUrl from '@utils/get-absolute-url'
 import { NextSeo } from 'next-seo'
 import React, { ReactElement } from 'react'
-import { useSiteSearch } from 'react-datocms'
-import cms from '@lib/cms'
 
 const getStaticProps = async () => {
   const client = initializeApollo()

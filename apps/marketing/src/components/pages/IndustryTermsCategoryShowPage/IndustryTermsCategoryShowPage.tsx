@@ -16,7 +16,7 @@ const IndustryTermsCategoryShowPage = ({ category, entries }: Props) => {
   return (
     <>
       <Container>
-        <h1 className="text-5xl font-medium text-gray-800 font-headingDisplay">
+        <h1 className="text-4xl font-medium text-gray-800 ">
           {category.title}
         </h1>
         <br />
@@ -41,9 +41,7 @@ const IndustryTermsCategoryShowPage = ({ category, entries }: Props) => {
 
         <ul>
           {entries.map(entry => (
-            <li key={entry.id}>
-              <IndustryTermCard entry={entry} />
-            </li>
+            <IndustryTermCard entry={entry} component="li" key={entry.id} />
           ))}
         </ul>
       </Container>

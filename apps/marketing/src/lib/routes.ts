@@ -85,7 +85,7 @@ const routes = {
       },
     },
     glossary: {
-      href: () => '/promotional-product-glossary',
+      href: () => '/directory',
       show: {
         href: ({
           termSlug,
@@ -93,12 +93,12 @@ const routes = {
         }: {
           termType: string
           termSlug: string
-        }) => `/promotional-product-glossary/${termType}/${termSlug}`,
+        }) => `/directory/${termType}/${termSlug}`,
       },
       categories: {
         show: {
           href: (categorySlug: string) =>
-            `/promotional-product-glossary/categories/${categorySlug}`,
+            `/directory/categories/${categorySlug}`,
         },
       },
     },

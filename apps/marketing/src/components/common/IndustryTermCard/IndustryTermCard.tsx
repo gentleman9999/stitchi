@@ -6,10 +6,11 @@ import routes from '@lib/routes'
 import CmsImage from '../CmsImage'
 
 export interface Props {
+  component?: React.ElementType
   entry: IndustryTermCardTermFragment
 }
 
-const IndustryTermCard = ({ entry }: Props) => {
+const IndustryTermCard = ({ entry, component: Component = 'div' }: Props) => {
   if (!entry.slug || !entry.entryType) {
     console.error('IndustryTermCard: missing slug or entryType', entry)
 
@@ -21,12 +22,12 @@ const IndustryTermCard = ({ entry }: Props) => {
     termType: entry.entryType,
   })
   return (
-    <div
+    <Component
       id={entry.slug?.toString()}
       key={entry.id}
-      className="border border-gray-800 grid grid-cols-12 border-b-0 last-of-type:border-b"
+      className="sm:border-2 border-gray-800 grid grid-cols-12 border-b-0 sm:last-of-type:border-b-2 last-of-type:rounded-b-md first-of-type:rounded-t-md overflow-hidden"
     >
-      <div className="col-span-3 border-r border-r-gray-800">
+      <div className="col-span-12 sm:col-span-3 sm:border-r-2 border-r-gray-800">
         {entry.primaryImage?.responsiveImage ? (
           <Link
             href={href}
@@ -41,7 +42,7 @@ const IndustryTermCard = ({ entry }: Props) => {
         ) : null}
       </div>
 
-      <div className="p-8 col-span-9">
+      <div className="py-8 sm:p-8 col-span-12 sm:col-span-9">
         <Link href={href}>
           <h2 className="text-3xl font-headingDisplay font-bold">
             {entry.term}
@@ -50,7 +51,7 @@ const IndustryTermCard = ({ entry }: Props) => {
         <br />
         <p>{entry.definition}</p>
       </div>
-    </div>
+    </Component>
   )
 }
 
