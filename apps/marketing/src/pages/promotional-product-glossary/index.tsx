@@ -8,6 +8,8 @@ import routes from '@lib/routes'
 import makeAbsoluteUrl from '@utils/get-absolute-url'
 import { NextSeo } from 'next-seo'
 import React, { ReactElement } from 'react'
+import { useSiteSearch } from 'react-datocms'
+import cms from '@lib/cms'
 
 const getStaticProps = async () => {
   const client = initializeApollo()
@@ -21,6 +23,7 @@ const getStaticProps = async () => {
 
 const PromotionalProductGlossary = () => {
   const url = makeAbsoluteUrl(routes.internal.glossary.href())
+
   const { data, error } =
     useQuery<PromotionalProductGlossaryGetDataQuery>(GET_DATA)
 
@@ -52,7 +55,11 @@ const GET_DATA = gql`
   ${IndustryTermsIndexPage.fragments.entry}
   ${IndustryTermsIndexPage.fragments.category}
   query PromotionalProductGlossaryGetDataQuery {
-    allGlossaryCategories(first: 100, orderBy: title_ASC) {
+    allGlossaryCategories(
+      first: 100
+      orderBy: title_ASC
+      filter: { OR: [{ title: {} }] }
+    ) {
       id
       ...IndustryTermsIndexPageCategoryFragment
     }

@@ -13,12 +13,34 @@ export interface PromotionalProductsGlossaryCategoryGetDataQuery_glossaryCategor
   description: string | null;
 }
 
+export interface PromotionalProductsGlossaryCategoryGetDataQuery_glossaryCategory__allReferencingGlossaryEntries_primaryImage_responsiveImage {
+  __typename: "ResponsiveImage";
+  srcSet: string;
+  webpSrcSet: string;
+  sizes: string;
+  src: string;
+  width: any;
+  height: any;
+  aspectRatio: any;
+  alt: string | null;
+  title: string | null;
+  base64: string | null;
+}
+
+export interface PromotionalProductsGlossaryCategoryGetDataQuery_glossaryCategory__allReferencingGlossaryEntries_primaryImage {
+  __typename: "FileField";
+  id: any;
+  responsiveImage: PromotionalProductsGlossaryCategoryGetDataQuery_glossaryCategory__allReferencingGlossaryEntries_primaryImage_responsiveImage | null;
+}
+
 export interface PromotionalProductsGlossaryCategoryGetDataQuery_glossaryCategory__allReferencingGlossaryEntries {
   __typename: "GlossaryEntryRecord";
   id: any;
-  term: string | null;
   slug: string | null;
   entryType: string | null;
+  definition: string | null;
+  term: string | null;
+  primaryImage: PromotionalProductsGlossaryCategoryGetDataQuery_glossaryCategory__allReferencingGlossaryEntries_primaryImage | null;
 }
 
 export interface PromotionalProductsGlossaryCategoryGetDataQuery_glossaryCategory {

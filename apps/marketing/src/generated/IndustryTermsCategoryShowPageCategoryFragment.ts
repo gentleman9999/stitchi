@@ -11,4 +11,5 @@ export interface IndustryTermsCategoryShowPageCategoryFragment {
   __typename: "GlossaryCategoryRecord";
   id: any;
   title: string | null;
+  slug: string | null;
 }

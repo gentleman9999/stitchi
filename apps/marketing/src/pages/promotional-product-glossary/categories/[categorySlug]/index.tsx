@@ -138,5 +138,5 @@ const GET_DATA = gql`
   }
 `
 
-// export { getStaticPaths, getStaticProps }
+export { getStaticPaths, getStaticProps }
 export default PromotionalProductsGlossaryCategory
