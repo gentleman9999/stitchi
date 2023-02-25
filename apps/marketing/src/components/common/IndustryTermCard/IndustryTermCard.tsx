@@ -25,7 +25,7 @@ const IndustryTermCard = ({ entry, component: Component = 'div' }: Props) => {
     <Component
       id={entry.slug?.toString()}
       key={entry.id}
-      className="sm:border-2 border-gray-800 grid grid-cols-12 border-b-0 sm:last-of-type:border-b-2 last-of-type:rounded-b-md first-of-type:rounded-t-md overflow-hidden"
+      className="sm:border-2 sm:border-b-0 border-gray-800 grid grid-cols-12 sm:last-of-type:border-b-2 last-of-type:rounded-b-md first-of-type:rounded-t-md overflow-hidden"
     >
       <div className="col-span-12 sm:col-span-3 sm:border-r-2 border-r-gray-800">
         {entry.primaryImage?.responsiveImage ? (
