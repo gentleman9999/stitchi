@@ -19,7 +19,9 @@ const Breadcrumbs = ({ term }: Props) => {
 
   return (
     <div className="flex gap-2 text-xl font-heading">
-      <Link href={routes.internal.glossary.href()}>Merch Brand Guide</Link>
+      <Link href={routes.internal.glossary.href()}>
+        Promotional Products Directory
+      </Link>
       <span>&gt;</span>
       <Link
         href={routes.internal.glossary.show.href({
