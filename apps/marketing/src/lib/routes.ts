@@ -85,9 +85,21 @@ const routes = {
       },
     },
     glossary: {
-      href: () => '/promotional-product-glossary',
+      href: () => '/directory',
       show: {
-        href: (termSlug: string) => `/promotional-product-glossary/${termSlug}`,
+        href: ({
+          termSlug,
+          termType,
+        }: {
+          termType: string
+          termSlug: string
+        }) => `/directory/${termType}/${termSlug}`,
+      },
+      categories: {
+        show: {
+          href: (categorySlug: string) =>
+            `/directory/categories/${categorySlug}`,
+        },
       },
     },
     legal: {

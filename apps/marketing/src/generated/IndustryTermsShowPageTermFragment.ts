@@ -7,6 +7,26 @@
 // GraphQL fragment: IndustryTermsShowPageTermFragment
 // ====================================================
 
+export interface IndustryTermsShowPageTermFragment_primaryImage_responsiveImage {
+  __typename: "ResponsiveImage";
+  srcSet: string;
+  webpSrcSet: string;
+  sizes: string;
+  src: string;
+  width: any;
+  height: any;
+  aspectRatio: any;
+  alt: string | null;
+  title: string | null;
+  base64: string | null;
+}
+
+export interface IndustryTermsShowPageTermFragment_primaryImage {
+  __typename: "FileField";
+  id: any;
+  responsiveImage: IndustryTermsShowPageTermFragment_primaryImage_responsiveImage | null;
+}
+
 export interface IndustryTermsShowPageTermFragment_description_blocks_image_responsiveImage {
   __typename: "ResponsiveImage";
   srcSet: string;
@@ -61,5 +81,9 @@ export interface IndustryTermsShowPageTermFragment {
   id: any;
   term: string | null;
   slug: string | null;
+  entryType: string | null;
+  businessUrl: string | null;
+  affiliateUrl: string | null;
+  primaryImage: IndustryTermsShowPageTermFragment_primaryImage | null;
   description: IndustryTermsShowPageTermFragment_description | null;
 }

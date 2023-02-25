@@ -4,13 +4,12 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: IndustryTermsShowPageRelatedTermsFragment
+// GraphQL fragment: IndustryTermsCategoryShowPageCategoryFragment
 // ====================================================
 
-export interface IndustryTermsShowPageRelatedTermsFragment {
-  __typename: "GlossaryEntryRecord";
+export interface IndustryTermsCategoryShowPageCategoryFragment {
+  __typename: "GlossaryCategoryRecord";
   id: any;
-  term: string | null;
+  title: string | null;
   slug: string | null;
-  entryType: string | null;
 }

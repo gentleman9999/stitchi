@@ -16,6 +16,7 @@ export interface PromotionalProductGlossaryTermGetPagesQuery_allGlossaryEntries 
   __typename: "GlossaryEntryRecord";
   id: any;
   slug: string | null;
+  entryType: string | null;
   description: PromotionalProductGlossaryTermGetPagesQuery_allGlossaryEntries_description | null;
 }
 

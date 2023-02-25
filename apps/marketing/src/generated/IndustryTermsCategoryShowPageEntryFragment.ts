@@ -4,10 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: IndustryTermsIndexPageEntryFragment
+// GraphQL fragment: IndustryTermsCategoryShowPageEntryFragment
 // ====================================================
 
-export interface IndustryTermsIndexPageEntryFragment_primaryImage_responsiveImage {
+export interface IndustryTermsCategoryShowPageEntryFragment_primaryImage_responsiveImage {
   __typename: "ResponsiveImage";
   srcSet: string;
   webpSrcSet: string;
@@ -21,18 +21,18 @@ export interface IndustryTermsIndexPageEntryFragment_primaryImage_responsiveImag
   base64: string | null;
 }
 
-export interface IndustryTermsIndexPageEntryFragment_primaryImage {
+export interface IndustryTermsCategoryShowPageEntryFragment_primaryImage {
   __typename: "FileField";
   id: any;
-  responsiveImage: IndustryTermsIndexPageEntryFragment_primaryImage_responsiveImage | null;
+  responsiveImage: IndustryTermsCategoryShowPageEntryFragment_primaryImage_responsiveImage | null;
 }
 
-export interface IndustryTermsIndexPageEntryFragment {
+export interface IndustryTermsCategoryShowPageEntryFragment {
   __typename: "GlossaryEntryRecord";
   id: any;
   slug: string | null;
   entryType: string | null;
   definition: string | null;
   term: string | null;
-  primaryImage: IndustryTermsIndexPageEntryFragment_primaryImage | null;
+  primaryImage: IndustryTermsCategoryShowPageEntryFragment_primaryImage | null;
 }

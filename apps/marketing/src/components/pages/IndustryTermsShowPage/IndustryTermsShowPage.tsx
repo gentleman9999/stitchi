@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client'
 import {
+  CmsImage,
   CmsStructuredText,
   CmsStructuredTextTableOfContents,
 } from '@components/common'
@@ -10,6 +11,7 @@ import routes from '@lib/routes'
 import { ArrowRight } from 'icons'
 import Link from 'next/link'
 import React from 'react'
+import cx from 'classnames'
 import Breadcrumbs from './Breadcrumbs'
 import RelatedTerms from './RelatedTerms'
 
@@ -21,12 +23,18 @@ interface Props {
 const SidebarCard = ({
   children,
   title,
+  disablePadding,
 }: {
   children: React.ReactNode
-  title: string
+  title?: string
+  disablePadding?: boolean
 }) => {
   return (
-    <div className="border p-4 rounded-xl prose">
+    <div
+      className={cx('border p-4 rounded-xl prose overflow-hidden', {
+        'p-0': disablePadding,
+      })}
+    >
       <span className="text-xl font-semibold">{title}</span>
       {children}
     </div>
@@ -34,6 +42,12 @@ const SidebarCard = ({
 }
 
 const IndustryTermsShowPage = ({ term, relatedTerms }: Props) => {
+  const FeaturedImage = term.primaryImage?.responsiveImage ? (
+    <SidebarCard disablePadding>
+      <CmsImage data={term.primaryImage.responsiveImage} />
+    </SidebarCard>
+  ) : null
+
   const TableOfContents = term.description ? (
     <SidebarCard title="In this definition">
       <CmsStructuredTextTableOfContents content={term.description} />
@@ -46,14 +60,21 @@ const IndustryTermsShowPage = ({ term, relatedTerms }: Props) => {
         <RelatedTerms
           terms={relatedTerms.map(term => ({
             title: term.term || '',
-            href: term.slug
-              ? routes.internal.glossary.show.href(term.slug)
-              : routes.internal.glossary.href(),
+            href:
+              term.slug && term.entryType
+                ? routes.internal.glossary.show.href({
+                    termSlug: term.slug,
+                    termType: term.entryType,
+                  })
+                : routes.internal.glossary.href(),
           }))}
         />
       </div>
     </SidebarCard>
   )
+
+  const termUrl = getTermUrl(term)
+  const termDisplayUrl = getDisplayUrl(term)
 
   return (
     <Container>
@@ -65,8 +86,23 @@ const IndustryTermsShowPage = ({ term, relatedTerms }: Props) => {
         <div>
           <br />
           <div className="grid grid-cols-6 gap-10">
-            <div className="col-span-6 lg:col-span-4">
+            <div className="col-span-6 lg:col-span-4 flex flex-col gap-4">
               <h1 className="font-heading text-5xl font-bold">{term.term}</h1>
+              {termUrl ? (
+                <a
+                  href={termUrl}
+                  target="_blank"
+                  rel="nofollow noreferrer"
+                  className="underline font-medium text-lg"
+                >
+                  <div className="flex items-center">
+                    <ArrowRight strokeWidth={2} />
+                    {termDisplayUrl}
+                  </div>
+                </a>
+              ) : null}
+
+              <hr />
               <div>
                 <br />
                 <div className="lg:hidden">
@@ -88,6 +124,7 @@ const IndustryTermsShowPage = ({ term, relatedTerms }: Props) => {
               </div>
             </div>
             <div className="hidden col-span-2 lg:flex flex-col gap-6">
+              {FeaturedImage}
               {TableOfContents}
               {Related}
             </div>
@@ -101,7 +138,11 @@ const IndustryTermsShowPage = ({ term, relatedTerms }: Props) => {
               Become a promotional product terminology expert.
             </p>
             <div>
-              <Link href={routes.internal.glossary.href()} passHref legacyBehavior>
+              <Link
+                href={routes.internal.glossary.href()}
+                passHref
+                legacyBehavior
+              >
                 <Button
                   variant="naked"
                   Component="a"
@@ -116,17 +157,63 @@ const IndustryTermsShowPage = ({ term, relatedTerms }: Props) => {
         </div>
       </div>
     </Container>
-  );
+  )
+}
+
+const getTermUrl = (term: IndustryTermsShowPageTermFragment): string | null => {
+  // Pick URL
+  const url = term.affiliateUrl || term.businessUrl || null // Default to affiliate URL if it exists, otherwise use business URL
+
+  if (!url) return null
+
+  // Format URL with UTM params
+  const utmParams = {
+    utm_source: 'stitchi.us',
+  }
+
+  const urlObj = new URL(url)
+  Object.entries(utmParams).forEach(([key, value]) => {
+    urlObj.searchParams.set(key, value)
+  })
+
+  return urlObj.toString()
+}
+
+const getDisplayUrl = (
+  term: IndustryTermsShowPageTermFragment,
+): string | null => {
+  const url = term.businessUrl || term.affiliateUrl || null
+
+  if (!url) return null
+
+  return (
+    url
+      .replace('www.', '')
+      // Remove protocol
+      .replace(/(^\w+:|^)\/\//, '') // Default to business URL if it exists, otherwise use affiliate URL
+      // Remove trailing slash
+      .replace(/\/$/, '')
+  )
 }
 
 IndustryTermsShowPage.fragments = {
   term: gql`
     ${CmsStructuredTextTableOfContents.fragments.glossaryTermDescription}
     ${CmsStructuredText.fragments.glossaryEntryDescription}
+    ${CmsImage.fragments.image}
     fragment IndustryTermsShowPageTermFragment on GlossaryEntryRecord {
       id
       term
       slug
+      entryType
+      businessUrl
+      affiliateUrl
+      primaryImage {
+        id
+        responsiveImage {
+          ...CmsImageFragment
+        }
+      }
       description {
         ...CmsStructuredTextGlossaryDescriptionFragment
         ...CmsStructuredTextTableOfContentsGlossaryTermDescriptionFragment
@@ -138,6 +225,7 @@ IndustryTermsShowPage.fragments = {
       id
       term
       slug
+      entryType
     }
   `,
 }
