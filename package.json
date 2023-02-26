@@ -40,6 +40,8 @@
     "lint-staged": "^12.1.7",
     "next": "^13.2.1",
     "prettier": "^2.5.1",
-    "turbo": "latest"
+    "tailwind": "^4.0.0",
+    "turbo": "latest",
+    "typescript": "^4.9.5"
   }
 }
