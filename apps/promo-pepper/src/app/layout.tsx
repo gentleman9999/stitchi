@@ -1,4 +1,13 @@
-import './globals.css'
+import { Inter } from 'next/font/google'
+import Banner from './Banner'
+
+import './main.css'
+import PrimaryNavigation from './PrimaryNavigation'
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+})
 
 export const metadata = {
   title: 'Create Next App',
@@ -12,7 +21,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={`${inter.variable} font-sans`}>
+        <Banner />
+        <PrimaryNavigation />
+        <main>{children}</main>
+      </body>
     </html>
   )
 }

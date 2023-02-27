@@ -1,5 +1,7 @@
 const colors = require('tailwindcss/colors')
+const { fontFamily } = require('tailwindcss/defaultTheme')
 
+/** @type {import('tailwindcss').Config} \*/
 module.exports = {
   presets: [require('../../packages/config/tailwind.config.js')],
   content: [
@@ -9,13 +11,13 @@ module.exports = {
   plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
   theme: {
     fontFamily: {
-      heading: ["Degular"],
-      headingDisplay: ["Degular-Display"],
+      heading: ['Degular'],
+      headingDisplay: ['Degular-Display'],
       default: ['Inter'],
     },
     colors: {
       transparent: 'transparent',
-      primary: '#bdfd6d',
+      primary: '#e52c2c',
       secondary: colors.stone[900], // #0f172a
       paper: colors.white,
       gray: colors.stone,
@@ -27,6 +29,11 @@ module.exports = {
     },
 
     extend: {
+      extend: {
+        fontFamily: {
+          sans: ['var(--font-inter)', ...fontFamily.sans],
+        },
+      },
       maxWidth: {
         '8xl': '1920px',
       },
