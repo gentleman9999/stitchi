@@ -8,7 +8,7 @@ interface Props {}
 
 const PrimaryNavigation = ({}: Props) => {
   return (
-    <nav>
+    <nav className="border-y-4 border-gray-800 -translate-y-1 sticky top-1 bg-paper z-10">
       <Container className="py-2 grid grid-cols-3">
         <div className="col-span-1 flex items-center">
           <Link href={routes.internal.home.href()}>

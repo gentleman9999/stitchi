@@ -1,5 +1,6 @@
 import { Inter } from 'next/font/google'
 import Banner from './Banner'
+import Footer from './Footer'
 
 import './main.css'
 import PrimaryNavigation from './PrimaryNavigation'
@@ -25,6 +26,7 @@ export default function RootLayout({
         <Banner />
         <PrimaryNavigation />
         <main>{children}</main>
+        <Footer />
       </body>
     </html>
   )
