@@ -6,8 +6,8 @@ interface Props {}
 
 const Banner = () => {
   return (
-    <form>
-      <div className="border-y-4 border-gray-800">
+    <form className="flex justify-center p-4">
+      <div className=" bg-primary rounded-md w-full">
         <Container>
           <div className="py-2 grid grid-cols-6 font-bold">
             <div className="col-span-1 flex items-center">
@@ -20,12 +20,12 @@ const Banner = () => {
                 name="email"
                 autoComplete="email"
                 placeholder="Your email address"
-                className="w-full text-center py-2 px-3 bg-gray-200 rounded-md border-2 border-gray-800"
+                className="w-full text-center py-2 px-3 bg-gray-100 rounded-md outline-primary"
               />
             </div>
             <div className="col-span-1 flex items-center"></div>
             <div className="col-span-1 flex items-center justify-end">
-              <button className="text-primary">
+              <button className="">
                 <div className="flex items-center group">
                   Sign up{' '}
                   <ArrowRight
