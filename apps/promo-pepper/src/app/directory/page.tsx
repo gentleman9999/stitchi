@@ -4,13 +4,35 @@ import { CompanyCard } from '@/components/common'
 import SearchBar from '@/components/common/SearchBar'
 import { Container } from '@/components/ui'
 import Link from 'next/link'
-import { categories, companies } from './mock'
+import React from 'react'
+import { useIntersectionObserver } from '@/hooks'
+import { categories, companies as mockCompanies } from './mock'
 
 export default function Home() {
+  const directoryEndRef = React.useRef<HTMLDivElement>(null)
+  const [loading, setLoading] = React.useState(false)
+  const [companies, setCompanies] = React.useState(mockCompanies)
+  const directoryEnd = useIntersectionObserver(directoryEndRef, {})
+
+  React.useEffect(() => {
+    if (loading) return
+    if (directoryEnd?.isIntersecting) {
+      fetchMore()
+    }
+  }, [directoryEnd?.isIntersecting, loading])
+
+  const fetchMore = () => {
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+      setCompanies(prev => [...prev, ...mockCompanies])
+    }, 1500)
+  }
+
   return (
     <Container>
       <div className="py-20">
-        <h1 className="text-5xl font-bold max-w-2xl leading-tight">
+        <h1 className="text-7xl font-bold max-w-2xl font-headingDisplay">
           Discover the internet&apos;s best merch and how its made
         </h1>
       </div>
@@ -23,7 +45,7 @@ export default function Home() {
                 <li key={category.slug}>
                   <Link
                     href={`#${category.slug}`}
-                    className="py-4 px-4 rounded-md border-2 border-gray-400 font-semibold hover:border-gray-600 transition-all"
+                    className="py-4 px-4 rounded-md border border-gray-400 font-semibold hover:border-gray-600 transition-all"
                   >
                     {category.label}
                   </Link>
@@ -33,7 +55,7 @@ export default function Home() {
           </ul>
         </div>
         <div>
-          <ul>
+          <ul className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {companies.map(company => {
               return (
                 <CompanyCard
@@ -43,8 +65,16 @@ export default function Home() {
                 />
               )
             })}
+            {loading ? (
+              <>
+                {Array.from(new Array(4)).map((_, i) => (
+                  <CompanyCard component="li" key={i} loading />
+                ))}
+              </>
+            ) : null}
           </ul>
         </div>
+        <div ref={directoryEndRef} />
       </div>
     </Container>
   )

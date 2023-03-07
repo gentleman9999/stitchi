@@ -1,8 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
-import { gql } from '@apollo/client'
 import Image from 'next/image'
-// import CmsImage from '../CmsImage'
+import { Skeleton } from '@/components/ui'
+import cx from 'classnames'
 
 interface Company {
   id: string
@@ -13,11 +13,16 @@ interface Company {
 
 export interface Props {
   component?: React.ElementType
-  company: Company
+  company?: Company
+  loading?: boolean
 }
 
-const CompanyCard = ({ company, component: Component = 'div' }: Props) => {
-  if (!company.slug) {
+const CompanyCard = ({
+  company,
+  loading = false,
+  component: Component = 'div',
+}: Props) => {
+  if (!loading && !company?.slug) {
     console.error('IndustryTermCard: missing slug', company)
 
     return null
@@ -27,22 +32,29 @@ const CompanyCard = ({ company, component: Component = 'div' }: Props) => {
 
   return (
     <Component
-      id={company.slug?.toString()}
-      key={company.id}
-      className="sm:border-4 sm:border-b-0 border-gray-800 grid grid-cols-12 sm:last-of-type:border-b-4 last-of-type:rounded-b-md first-of-type:rounded-t-md overflow-hidden"
+      id={loading ? undefined : company?.slug?.toString()}
+      className={cx(
+        'p-2 sm:border border-gray-800 grid grid-cols-12 rounded-md overflow-hidden',
+        { '!border-gray-400 animate-pulse': loading },
+      )}
     >
-      <div className="col-span-12 sm:col-span-3 sm:border-r-4 border-r-gray-800">
+      <div className="col-span-12 sm:col-span-3 rounded-sm overflow-hidden">
         <Link
           href={href}
           className="relative w-full after:pb-[100%] after:block after:content-[''] bg-red-300"
         >
-          <Image
-            fill
-            src={`https://picsum.photos/400?random=${company.id}`}
-            style={{ objectFit: 'cover' }}
-            alt="image test"
-            key={company.id}
-          />
+          {loading ? (
+            <Skeleton className="h-full" />
+          ) : (
+            <Image
+              fill
+              src={`https://picsum.photos/400?random=${company?.id}`}
+              style={{ objectFit: 'cover' }}
+              alt="image test"
+              key={company?.id}
+            />
+          )}
+
           {/* {company.primaryImage?.responsiveImage ? (
 
             <CmsImage
@@ -54,14 +66,23 @@ const CompanyCard = ({ company, component: Component = 'div' }: Props) => {
         </Link>
       </div>
 
-      <div className="py-8 sm:p-8 col-span-12 sm:col-span-9">
+      <div className="sm:px-4 col-span-12 sm:col-span-9">
         <Link href={href}>
           <h2 className="text-3xl font-headingDisplay font-bold">
-            {company.term}
+            {loading ? (
+              <Skeleton className="w-[120px] h-7" />
+            ) : (
+              <>{company?.term}</>
+            )}
           </h2>
         </Link>
-        <br />
-        <p>{company.definition}</p>
+        <p>
+          {loading ? (
+            <Skeleton className="h-4 mt-2" />
+          ) : (
+            <>{company?.definition}</>
+          )}
+        </p>
       </div>
     </Component>
   )

@@ -30,7 +30,7 @@ const SearchBar = ({ onSubmit }: Props) => {
           />
         </div>
         <input
-          className="py-3 pr-5 pl-10 font-medium w-full rounded-md border-2 border-gray-400 focus:outline-gray-800 placeholder:font-normal"
+          className="py-3 pr-5 pl-10 font-medium w-full rounded-md border border-gray-400 focus:outline-gray-800 placeholder:font-normal"
           placeholder="Search for companies"
           onChange={handleChange}
           value={search}

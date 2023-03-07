@@ -22,6 +22,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="stylesheet" href="https://use.typekit.net/msx0isz.css" />
+      </head>
       <body className={`${inter.variable} font-sans`}>
         <Banner />
         <PrimaryNavigation />

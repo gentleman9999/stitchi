@@ -66,4 +66,11 @@ export const companies = [
     definition:
       'American Apparel is leading manufactoring of blank promotional garments.',
   },
+  {
+    id: '8',
+    slug: '8',
+    term: 'Jerzees',
+    definition:
+      'Jerzees is leading manufactoring of blank promotional garments.',
+  },
 ]
