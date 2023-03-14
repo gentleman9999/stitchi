@@ -49,16 +49,16 @@ export default function Companies() {
             <div className="prose prose-lg">
               <p>
                 This is a bunch of placeholder text that I am writing to see how
-                some formatting shows up on the company page. It's great that
-                you've continued reading this far because this text is
+                some formatting shows up on the company page. It&apos;s great
+                that you&apos;ve continued reading this far because this text is
                 absolutely meaningless. Thank you!
               </p>
               <p>
-                Here's another paragraph to demonstrate what it may look like
-                for a company to have a description with a second, meaningless,
-                paragraph. At this point if you've made it this far you are
-                wasting company $ and should consider moving on to something
-                else. Thank you, again!
+                Here&apos;s another paragraph to demonstrate what it may look
+                like for a company to have a description with a second,
+                meaningless, paragraph. At this point if you&apos;ve made it
+                this far you are wasting company $ and should consider moving on
+                to something else. Thank you, again!
               </p>
             </div>
             <div className="flex flex-col gap-4 w-full">
