@@ -13,6 +13,7 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf .next"
   },
   "dependencies": {
+    "@apollo/client": "^3.5.10",
     "@radix-ui/react-dialog": "^1.0.2",
     "@types/node": "^17.0.21",
     "@types/react": "^18.0.21",

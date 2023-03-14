@@ -1,4 +1,6 @@
+import { initializeApollo } from '@/lib/apollo'
 import { Inter } from 'next/font/google'
+import ApolloProviderWrapper from './ApolloProviderWrapper'
 import Banner from './Banner'
 import Footer from './Footer'
 
@@ -20,16 +22,20 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const apolloClient = initializeApollo()
+
   return (
     <html lang="en">
       <head>
         <link rel="stylesheet" href="https://use.typekit.net/msx0isz.css" />
       </head>
       <body className={`${inter.variable} font-sans`}>
-        <Banner />
-        <PrimaryNavigation />
-        <main>{children}</main>
-        <Footer />
+        <ApolloProviderWrapper client={apolloClient}>
+          <Banner />
+          <PrimaryNavigation />
+          <main>{children}</main>
+          <Footer />
+        </ApolloProviderWrapper>
       </body>
     </html>
   )

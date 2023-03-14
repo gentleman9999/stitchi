@@ -11,6 +11,9 @@ const nextConfig = {
   images: {
     domains: ['picsum.photos'],
   },
+  async redirects() {
+    return [{ source: '/', destination: '/directory', permanent: false }]
+  },
 }
 
 module.exports = nextConfig
