@@ -15,10 +15,9 @@ export default function FilterDialog({ open, onOpenChange }: Props) {
 
   return (
     <Dialog.Root modal open={open} onOpenChange={onOpenChange}>
-      <Dialog.Portal className="z-50">
-        <Dialog.Overlay className="fixed top-0 left-0 bottom-0 right-0 bg-gray-900 opacity-10 grid place-items-center overflow-y-auto" />
-        {/* <Container> */}
-        <div className="fixed top-0 left-0 bottom-0 right-0 grid place-items-center overflow-y-auto">
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed top-0 left-0 bottom-0 right-0 bg-gray-900 opacity-20 grid place-items-center overflow-y-auto z-50" />
+        <div className="fixed top-0 left-0 bottom-0 right-0 grid place-items-center overflow-y-auto z-50">
           <Dialog.Content className="bg-paper min-w-[300px] rounded-md">
             <Section>
               <div className="flex justify-center relative">
@@ -48,8 +47,6 @@ export default function FilterDialog({ open, onOpenChange }: Props) {
             </Section>
           </Dialog.Content>
         </div>
-
-        {/* </Container> */}
       </Dialog.Portal>
     </Dialog.Root>
   )

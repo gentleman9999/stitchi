@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Skeleton } from '@/components/ui'
 import cx from 'classnames'
+import routes from '@/lib/routes'
 
 interface Company {
   id: string
@@ -28,7 +29,11 @@ const CompanyCard = ({
     return null
   }
 
-  const href = ''
+  const href = company?.slug
+    ? routes.internal.directory.companies.show.href({
+        companySlug: company.slug,
+      })
+    : null
 
   return (
     <Component
@@ -40,8 +45,8 @@ const CompanyCard = ({
     >
       <div className="col-span-12 sm:col-span-3 rounded-sm overflow-hidden">
         <Link
-          href={href}
-          className="relative w-full after:pb-[100%] after:block after:content-[''] bg-red-300"
+          href={href || ''}
+          className="relative w-full after:pb-[100%] after:block after:content-['']"
         >
           {loading ? (
             <Skeleton className="h-full" />
@@ -67,7 +72,7 @@ const CompanyCard = ({
       </div>
 
       <div className="sm:px-4 col-span-12 sm:col-span-9">
-        <Link href={href}>
+        <Link href={href || ''}>
           <h2 className="text-3xl font-headingDisplay font-bold">
             {loading ? (
               <Skeleton className="w-[120px] h-7" />
