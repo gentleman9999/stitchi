@@ -14,7 +14,8 @@ export default function Footer(props: Props) {
       <Container>
         <div className="py-10">
           <p className="text-base text-gray-400 md:mt-0 md:order-1">
-            &copy; {new Date().getFullYear()} Stitchi, LLC. All rights reserved.
+            &copy; {new Date().getFullYear()} PromoPepper, LLC. All rights
+            reserved.
           </p>
         </div>
       </Container>

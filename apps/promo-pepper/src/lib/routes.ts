@@ -28,6 +28,7 @@ const routes = {
     },
 
     directory: {
+      href: () => '/directory',
       companies: {
         show: {
           href: ({ companySlug }: { companySlug: string }) =>
