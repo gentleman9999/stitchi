@@ -1,16 +1,30 @@
-'use client'
-
 import { companies } from '@/app/mock'
 import { Container } from '@/components/ui'
 import routes from '@/lib/routes'
 import { ArrowRight } from 'icons'
 import Image from 'next/image'
 import Link from 'next/link'
+import { gql } from '@apollo/client'
+import {
+  CompanyPageGetDataQuery,
+  CompanyPageGetDataQueryVariables,
+} from '@/__generated__/graphql'
+import { initializeApollo } from '@/lib/apollo'
 
-const HOST = process.env.NEXT_PUBLIC_HOST || 'promopepper.com'
+export default async function Companies() {
+  const client = initializeApollo()
 
-export default function Companies() {
-  const company = companies.find(c => c.slug === '1')
+  const { data } = await client.query<
+    CompanyPageGetDataQuery,
+    CompanyPageGetDataQueryVariables
+  >({
+    query: GET_DATA,
+    variables: { companySlug: 'gildan' },
+  })
+
+  const { company } = data || {}
+
+  const websiteUrl = getWebsiteUrl(company)
 
   return company ? (
     <>
@@ -22,14 +36,13 @@ export default function Companies() {
                 {company.term}
               </h1>
               <p className="mt-2 text-xl">{company.definition}</p>
-              <div className="mt-4">
-                <Link
-                  href={`#?referrer=${HOST}`}
-                  className="underline font-bold"
-                >
-                  www.gildan.com
-                </Link>
-              </div>
+              {websiteUrl ? (
+                <div className="mt-4">
+                  <Link href={websiteUrl} className="underline font-bold">
+                    {company.businessUrl || company.term}
+                  </Link>
+                </div>
+              ) : null}
             </div>
 
             <div className="relative w-48 h-48">
@@ -109,3 +122,37 @@ function DataPoint({
     </dt>
   )
 }
+
+const getWebsiteUrl = (company: CompanyPageGetDataQuery['company']) => {
+  const param = 'referrer'
+  const value = typeof window !== 'undefined' ? window.location.href : null
+
+  const url = new URL(company?.affiliateUrl || company?.businessUrl || '')
+
+  if (!url) return null
+
+  if (value) {
+    url.searchParams.append(param, value)
+  }
+
+  return url
+}
+
+const GET_DATA = gql`
+  query CompanyPageGetData($companySlug: String!) {
+    company: glossaryEntry(filter: { slug: { eq: $companySlug } }) {
+      id
+      term
+      definition
+      businessUrl
+      affiliateUrl
+
+      description {
+        __typename
+      }
+      primaryImage {
+        id
+      }
+    }
+  }
+`
