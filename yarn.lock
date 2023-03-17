@@ -4234,7 +4234,7 @@ datocms-structured-text-generic-html-renderer@^2.0.1, datocms-structured-text-ge
   dependencies:
     datocms-structured-text-utils "^2.0.4"
 
-datocms-structured-text-to-plain-text@^2.0.1:
+datocms-structured-text-to-plain-text@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/datocms-structured-text-to-plain-text/-/datocms-structured-text-to-plain-text-2.0.4.tgz#9798c5ea06417e7da4b4b14d1ed3dd9c0d550944"
   integrity sha512-/0VQNo6xZXiGdnHCTIoEmdnwD1JZVMMsyEfSy2SNF7QW4YAOz8bKtWSwCT4cYRKrhA/jZWCq7G4u0kPmiy1FWg==
@@ -8245,10 +8245,10 @@ rc@1.2.8, rc@^1.2.7, rc@^1.2.8:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-datocms@^3.1.1:
-  version "3.1.4"
-  resolved "https://registry.yarnpkg.com/react-datocms/-/react-datocms-3.1.4.tgz#6326ee4bf0babbff4be61609a3b56e45cea61745"
-  integrity sha512-L+esZt3id1b/shQkjPmIUU+CEjwuz1ZRTMU+LylMC3uPUat3iuads/V625Bnz6blyrRxpPlcd14Uit9LxnHfcg==
+react-datocms@^4.0.9:
+  version "4.0.9"
+  resolved "https://registry.yarnpkg.com/react-datocms/-/react-datocms-4.0.9.tgz#ad2a8465cd39ca94772267dc5f86733edaf628c7"
+  integrity sha512-W8bS8KEG/Cjyo9AaSWaXZXN/wGHg753Es7TES173465ma9cQd35nBm4E0yL6s1I2ofcJ0Ww/xtdvuDVWQZwZWg==
   dependencies:
     datocms-listen "^0.1.9"
     datocms-structured-text-generic-html-renderer "^2.0.1"

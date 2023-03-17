@@ -41,14 +41,14 @@ export type AddWishlistItemsInput = {
 
 /** Add wishlist items */
 export type AddWishlistItemsResult = {
-  __typename?: 'AddWishlistItemsResult';
+  __typename: 'AddWishlistItemsResult';
   /** The wishlist */
   result: Wishlist;
 };
 
 /** Aggregated */
 export type Aggregated = {
-  __typename?: 'Aggregated';
+  __typename: 'Aggregated';
   /** Number of available products in stock. This can be 'null' if inventory is not set orif the store's Inventory Settings disable displaying stock levels on the storefront. */
   availableToSell: Scalars['Long'];
   /** Indicates a threshold low-stock level.  This can be 'null' if the inventory warning level is not set or if the store's Inventory Settings disable displaying stock levels on the storefront. */
@@ -57,7 +57,7 @@ export type Aggregated = {
 
 /** Aggregated Product Inventory */
 export type AggregatedInventory = {
-  __typename?: 'AggregatedInventory';
+  __typename: 'AggregatedInventory';
   /** Number of available products in stock. This can be 'null' if inventory is not set orif the store's Inventory Settings disable displaying stock levels on the storefront. */
   availableToSell: Scalars['Int'];
   /** Indicates a threshold low-stock level. This can be 'null' if the inventory warning level is not set or if the store's Inventory Settings disable displaying stock levels on the storefront. */
@@ -65,7 +65,7 @@ export type AggregatedInventory = {
 };
 
 export type ArticleModelContentField = {
-  __typename?: 'ArticleModelContentField';
+  __typename: 'ArticleModelContentField';
   blocks: Array<ImageRecord>;
   links: Array<ArticleModelContentLinksField>;
   value: Scalars['JsonField'];
@@ -130,7 +130,7 @@ export enum ArticleModelOrderBy {
 
 /** Record of type Article (article) */
 export type ArticleRecord = RecordInterface & {
-  __typename?: 'ArticleRecord';
+  __typename: 'ArticleRecord';
   _createdAt: Scalars['DateTime'];
   _firstPublishedAt?: Maybe<Scalars['DateTime']>;
   _isValid: Scalars['BooleanType'];
@@ -169,7 +169,7 @@ export type ArticleRecordShortDescriptionArgs = {
 
 /** Author */
 export type Author = {
-  __typename?: 'Author';
+  __typename: 'Author';
   /** Author name. */
   name: Scalars['String'];
 };
@@ -222,7 +222,7 @@ export enum AuthorModelOrderBy {
 
 /** Record of type Author (author) */
 export type AuthorRecord = RecordInterface & {
-  __typename?: 'AuthorRecord';
+  __typename: 'AuthorRecord';
   _createdAt: Scalars['DateTime'];
   _firstPublishedAt?: Maybe<Scalars['DateTime']>;
   _isValid: Scalars['BooleanType'];
@@ -251,7 +251,7 @@ export type AuthorRecord_SeoMetaTagsArgs = {
 
 /** Record of type Blog Index Page (blog_index_page) */
 export type BlogIndexPageRecord = RecordInterface & {
-  __typename?: 'BlogIndexPageRecord';
+  __typename: 'BlogIndexPageRecord';
   _createdAt: Scalars['DateTime'];
   _firstPublishedAt?: Maybe<Scalars['DateTime']>;
   _isValid: Scalars['BooleanType'];
@@ -283,7 +283,7 @@ export type BooleanFilter = {
 
 /** Brand */
 export type Brand = Node & {
-  __typename?: 'Brand';
+  __typename: 'Brand';
   /** Default image for brand. */
   defaultImage?: Maybe<Image>;
   /** Id of the brand. */
@@ -342,7 +342,7 @@ export type BrandProductsArgs = {
 
 /** A connection to a list of items. */
 export type BrandConnection = {
-  __typename?: 'BrandConnection';
+  __typename: 'BrandConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<BrandEdge>>>;
   /** Information to aid in pagination. */
@@ -351,7 +351,7 @@ export type BrandConnection = {
 
 /** An edge in a connection. */
 export type BrandEdge = {
-  __typename?: 'BrandEdge';
+  __typename: 'BrandEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -360,7 +360,7 @@ export type BrandEdge = {
 
 /** Brand Filter */
 export type BrandSearchFilter = SearchProductFilter & {
-  __typename?: 'BrandSearchFilter';
+  __typename: 'BrandSearchFilter';
   /** List of available brands. */
   brands: BrandSearchFilterItemConnection;
   /** Indicates whether to display product count next to the filter. */
@@ -382,7 +382,7 @@ export type BrandSearchFilterBrandsArgs = {
 
 /** Specific brand filter item */
 export type BrandSearchFilterItem = {
-  __typename?: 'BrandSearchFilterItem';
+  __typename: 'BrandSearchFilterItem';
   /** Brand ID. */
   entityId: Scalars['Int'];
   /** Indicates whether brand is selected. */
@@ -395,7 +395,7 @@ export type BrandSearchFilterItem = {
 
 /** A connection to a list of items. */
 export type BrandSearchFilterItemConnection = {
-  __typename?: 'BrandSearchFilterItemConnection';
+  __typename: 'BrandSearchFilterItemConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<BrandSearchFilterItemEdge>>>;
   /** Information to aid in pagination. */
@@ -404,7 +404,7 @@ export type BrandSearchFilterItemConnection = {
 
 /** An edge in a connection. */
 export type BrandSearchFilterItemEdge = {
-  __typename?: 'BrandSearchFilterItemEdge';
+  __typename: 'BrandSearchFilterItemEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -413,7 +413,7 @@ export type BrandSearchFilterItemEdge = {
 
 /** Breadcrumb */
 export type Breadcrumb = {
-  __typename?: 'Breadcrumb';
+  __typename: 'Breadcrumb';
   /** Category id. */
   entityId: Scalars['Int'];
   /** Name of the category. */
@@ -422,7 +422,7 @@ export type Breadcrumb = {
 
 /** A connection to a list of items. */
 export type BreadcrumbConnection = {
-  __typename?: 'BreadcrumbConnection';
+  __typename: 'BreadcrumbConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<BreadcrumbEdge>>>;
   /** Information to aid in pagination. */
@@ -431,7 +431,7 @@ export type BreadcrumbConnection = {
 
 /** An edge in a connection. */
 export type BreadcrumbEdge = {
-  __typename?: 'BreadcrumbEdge';
+  __typename: 'BreadcrumbEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -440,7 +440,7 @@ export type BreadcrumbEdge = {
 
 /** Bulk pricing tier that sets a fixed price for the product or variant. */
 export type BulkPricingFixedPriceDiscount = BulkPricingTier & {
-  __typename?: 'BulkPricingFixedPriceDiscount';
+  __typename: 'BulkPricingFixedPriceDiscount';
   /** Maximum item quantity that applies to this bulk pricing tier - if not defined then the tier does not have an upper bound. */
   maximumQuantity?: Maybe<Scalars['Int']>;
   /** Minimum item quantity that applies to this bulk pricing tier. */
@@ -451,7 +451,7 @@ export type BulkPricingFixedPriceDiscount = BulkPricingTier & {
 
 /** Bulk pricing tier that reduces the price of the product or variant by a percentage. */
 export type BulkPricingPercentageDiscount = BulkPricingTier & {
-  __typename?: 'BulkPricingPercentageDiscount';
+  __typename: 'BulkPricingPercentageDiscount';
   /** Maximum item quantity that applies to this bulk pricing tier - if not defined then the tier does not have an upper bound. */
   maximumQuantity?: Maybe<Scalars['Int']>;
   /** Minimum item quantity that applies to this bulk pricing tier. */
@@ -462,7 +462,7 @@ export type BulkPricingPercentageDiscount = BulkPricingTier & {
 
 /** Bulk pricing tier that will subtract an amount from the price of the product or variant. */
 export type BulkPricingRelativePriceDiscount = BulkPricingTier & {
-  __typename?: 'BulkPricingRelativePriceDiscount';
+  __typename: 'BulkPricingRelativePriceDiscount';
   /** Maximum item quantity that applies to this bulk pricing tier - if not defined then the tier does not have an upper bound. */
   maximumQuantity?: Maybe<Scalars['Int']>;
   /** Minimum item quantity that applies to this bulk pricing tier. */
@@ -481,7 +481,7 @@ export type BulkPricingTier = {
 
 /** Storefront catalog settings. */
 export type Catalog = {
-  __typename?: 'Catalog';
+  __typename: 'Catalog';
   /** Product comparisons enabled. */
   productComparisonsEnabled?: Maybe<Scalars['Boolean']>;
 };
@@ -512,7 +512,7 @@ export type CatalogProductOptionValue = {
 
 /** Category */
 export type Category = Node & {
-  __typename?: 'Category';
+  __typename: 'Category';
   /** Category breadcrumbs. */
   breadcrumbs: BreadcrumbConnection;
   /** Default image for the category. */
@@ -587,7 +587,7 @@ export type CategoryShopByPriceRangesArgs = {
 
 /** A connection to a list of items. */
 export type CategoryConnection = {
-  __typename?: 'CategoryConnection';
+  __typename: 'CategoryConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<CategoryEdge>>>;
   /** Information to aid in pagination. */
@@ -596,7 +596,7 @@ export type CategoryConnection = {
 
 /** An edge in a connection. */
 export type CategoryEdge = {
-  __typename?: 'CategoryEdge';
+  __typename: 'CategoryEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -604,7 +604,7 @@ export type CategoryEdge = {
 };
 
 export type CategoryModelDescriptionField = {
-  __typename?: 'CategoryModelDescriptionField';
+  __typename: 'CategoryModelDescriptionField';
   blocks: Array<Scalars['String']>;
   links: Array<Scalars['String']>;
   value: Scalars['JsonField'];
@@ -674,7 +674,7 @@ export enum CategoryProductSort {
 
 /** Record of type Category (category) */
 export type CategoryRecord = RecordInterface & {
-  __typename?: 'CategoryRecord';
+  __typename: 'CategoryRecord';
   _createdAt: Scalars['DateTime'];
   _firstPublishedAt?: Maybe<Scalars['DateTime']>;
   _isValid: Scalars['BooleanType'];
@@ -704,7 +704,7 @@ export type CategoryRecord_SeoMetaTagsArgs = {
 
 /** Category Filter */
 export type CategorySearchFilter = SearchProductFilter & {
-  __typename?: 'CategorySearchFilter';
+  __typename: 'CategorySearchFilter';
   /** List of available categories. */
   categories: CategorySearchFilterItemConnection;
   /** Indicates whether to display product count next to the filter. */
@@ -726,7 +726,7 @@ export type CategorySearchFilterCategoriesArgs = {
 
 /** Specific category filter item */
 export type CategorySearchFilterItem = {
-  __typename?: 'CategorySearchFilterItem';
+  __typename: 'CategorySearchFilterItem';
   /** Category ID. */
   entityId: Scalars['Int'];
   /** Indicates whether category is selected. */
@@ -750,7 +750,7 @@ export type CategorySearchFilterItemSubCategoriesArgs = {
 
 /** A connection to a list of items. */
 export type CategorySearchFilterItemConnection = {
-  __typename?: 'CategorySearchFilterItemConnection';
+  __typename: 'CategorySearchFilterItemConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<CategorySearchFilterItemEdge>>>;
   /** Information to aid in pagination. */
@@ -759,7 +759,7 @@ export type CategorySearchFilterItemConnection = {
 
 /** An edge in a connection. */
 export type CategorySearchFilterItemEdge = {
-  __typename?: 'CategorySearchFilterItemEdge';
+  __typename: 'CategorySearchFilterItemEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -768,7 +768,7 @@ export type CategorySearchFilterItemEdge = {
 
 /** An item in a tree of categories. */
 export type CategoryTreeItem = {
-  __typename?: 'CategoryTreeItem';
+  __typename: 'CategoryTreeItem';
   /** Subcategories of this category */
   children: Array<CategoryTreeItem>;
   /** The description of this category. */
@@ -789,7 +789,7 @@ export type CategoryTreeItem = {
 
 /** The Channel */
 export type Channel = {
-  __typename?: 'Channel';
+  __typename: 'Channel';
   /** The ID of the channel. */
   entityId: Scalars['Long'];
   /** Metafield data related to a channel. */
@@ -809,7 +809,7 @@ export type ChannelMetafieldsArgs = {
 
 /** A simple yes/no question represented by a checkbox. */
 export type CheckboxOption = CatalogProductOption & {
-  __typename?: 'CheckboxOption';
+  __typename: 'CheckboxOption';
   /** Indicates the default checked status. */
   checkedByDefault: Scalars['Boolean'];
   /** Display name for the option. */
@@ -826,13 +826,13 @@ export type CheckboxOption = CatalogProductOption & {
 
 /** Additional information about the collection. */
 export type CollectionInfo = {
-  __typename?: 'CollectionInfo';
+  __typename: 'CollectionInfo';
   /** Total items in the collection despite pagination. */
   totalItems?: Maybe<Scalars['Long']>;
 };
 
 export type CollectionMetadata = {
-  __typename?: 'CollectionMetadata';
+  __typename: 'CollectionMetadata';
   count: Scalars['IntType'];
 };
 
@@ -852,7 +852,7 @@ export enum ColorBucketType {
 }
 
 export type ColorField = {
-  __typename?: 'ColorField';
+  __typename: 'ColorField';
   alpha: Scalars['IntType'];
   blue: Scalars['IntType'];
   green: Scalars['IntType'];
@@ -862,7 +862,7 @@ export type ColorField = {
 
 /** Contact field */
 export type ContactField = {
-  __typename?: 'ContactField';
+  __typename: 'ContactField';
   /** Store address line. */
   address: Scalars['String'];
   /** Store address type. */
@@ -877,7 +877,7 @@ export type ContactField = {
 
 /** The page content. */
 export type Content = {
-  __typename?: 'Content';
+  __typename: 'Content';
   /** The rendered regions by specific page. */
   renderedRegionsByPageType: RenderedRegionsByPageType;
   /** The rendered regions by specific page and id. */
@@ -909,7 +909,7 @@ export type CreateWishlistInput = {
 
 /** Create wishlist */
 export type CreateWishlistResult = {
-  __typename?: 'CreateWishlistResult';
+  __typename: 'CreateWishlistResult';
   /** The newly created wishlist */
   result: Wishlist;
 };
@@ -934,7 +934,7 @@ export type CreatedAtFilter = {
 
 /** Currency details. */
 export type Currency = {
-  __typename?: 'Currency';
+  __typename: 'Currency';
   /** Currency code. */
   code: CurrencyCode;
   /** Currency display settings. */
@@ -955,7 +955,7 @@ export type Currency = {
 
 /** A connection to a list of items. */
 export type CurrencyConnection = {
-  __typename?: 'CurrencyConnection';
+  __typename: 'CurrencyConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<CurrencyEdge>>>;
   /** Information to aid in pagination. */
@@ -964,7 +964,7 @@ export type CurrencyConnection = {
 
 /** Currency display settings. */
 export type CurrencyDisplay = {
-  __typename?: 'CurrencyDisplay';
+  __typename: 'CurrencyDisplay';
   /** Currency decimal places. */
   decimalPlaces: Scalars['Int'];
   /** Currency decimal token. */
@@ -979,7 +979,7 @@ export type CurrencyDisplay = {
 
 /** An edge in a connection. */
 export type CurrencyEdge = {
-  __typename?: 'CurrencyEdge';
+  __typename: 'CurrencyEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -994,7 +994,7 @@ export enum CurrencySymbolPosition {
 
 /** Custom field */
 export type CustomField = {
-  __typename?: 'CustomField';
+  __typename: 'CustomField';
   /** Custom field id. */
   entityId: Scalars['Int'];
   /** Name of the custom field. */
@@ -1005,7 +1005,7 @@ export type CustomField = {
 
 /** A connection to a list of items. */
 export type CustomFieldConnection = {
-  __typename?: 'CustomFieldConnection';
+  __typename: 'CustomFieldConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<CustomFieldEdge>>>;
   /** Information to aid in pagination. */
@@ -1014,7 +1014,7 @@ export type CustomFieldConnection = {
 
 /** An edge in a connection. */
 export type CustomFieldEdge = {
-  __typename?: 'CustomFieldEdge';
+  __typename: 'CustomFieldEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -1023,7 +1023,7 @@ export type CustomFieldEdge = {
 
 /** A customer that shops on a store */
 export type Customer = {
-  __typename?: 'Customer';
+  __typename: 'Customer';
   /** Customer addresses count. */
   addressCount: Scalars['Int'];
   /** Customer attributes count. */
@@ -1066,7 +1066,7 @@ export type CustomerWishlistsArgs = {
 
 /** A custom, store-specific attribute for a customer */
 export type CustomerAttribute = {
-  __typename?: 'CustomerAttribute';
+  __typename: 'CustomerAttribute';
   /** The ID of the custom customer attribute */
   entityId: Scalars['Int'];
   /** The name of the custom customer attribute */
@@ -1077,7 +1077,7 @@ export type CustomerAttribute = {
 
 /** Custom, store-specific customer attributes */
 export type CustomerAttributes = {
-  __typename?: 'CustomerAttributes';
+  __typename: 'CustomerAttributes';
   /** A custom, store-specific attribute for a customer */
   attribute: CustomerAttribute;
 };
@@ -1090,7 +1090,7 @@ export type CustomerAttributesAttributeArgs = {
 
 /** A calendar for allowing selection of a date. */
 export type DateFieldOption = CatalogProductOption & {
-  __typename?: 'DateFieldOption';
+  __typename: 'DateFieldOption';
   /** The default timestamp of date option. */
   defaultValue?: Maybe<Scalars['DateTime']>;
   /** Display name for the option. */
@@ -1111,7 +1111,7 @@ export type DateFieldOption = CatalogProductOption & {
 
 /** Date Time Extended */
 export type DateTimeExtended = {
-  __typename?: 'DateTimeExtended';
+  __typename: 'DateTimeExtended';
   /** ISO-8601 formatted date in UTC */
   utc: Scalars['DateTime'];
 };
@@ -1126,14 +1126,14 @@ export type DeleteWishlistItemsInput = {
 
 /** Delete wishlist items */
 export type DeleteWishlistItemsResult = {
-  __typename?: 'DeleteWishlistItemsResult';
+  __typename: 'DeleteWishlistItemsResult';
   /** The wishlist */
   result: Wishlist;
 };
 
 /** Delete wishlist */
 export type DeleteWishlistResult = {
-  __typename?: 'DeleteWishlistResult';
+  __typename: 'DeleteWishlistResult';
   /** The result of the operation */
   result: Scalars['String'];
 };
@@ -1146,7 +1146,7 @@ export type DeleteWishlistsInput = {
 
 /** Display field */
 export type DisplayField = {
-  __typename?: 'DisplayField';
+  __typename: 'DisplayField';
   /** Extended date format. */
   extendedDateFormat: Scalars['String'];
   /** Short date format. */
@@ -1155,7 +1155,7 @@ export type DisplayField = {
 
 /** Distance */
 export type Distance = {
-  __typename?: 'Distance';
+  __typename: 'Distance';
   /** Length unit */
   lengthUnit: LengthUnit;
   /** Distance in specified length unit */
@@ -1191,7 +1191,7 @@ export enum FaviconType {
 }
 
 export type FileField = FileFieldInterface & {
-  __typename?: 'FileField';
+  __typename: 'FileField';
   _createdAt: Scalars['DateTime'];
   _updatedAt: Scalars['DateTime'];
   alt?: Maybe<Scalars['String']>;
@@ -1357,7 +1357,7 @@ export type FileFilter = {
 
 /** A form allowing selection and uploading of a file from the user's local computer. */
 export type FileUploadFieldOption = CatalogProductOption & {
-  __typename?: 'FileUploadFieldOption';
+  __typename: 'FileUploadFieldOption';
   /** Display name for the option. */
   displayName: Scalars['String'];
   /** Unique ID for the option. */
@@ -1374,7 +1374,7 @@ export type FileUploadFieldOption = CatalogProductOption & {
 
 /** Gift wrapping for product */
 export type GiftWrapping = {
-  __typename?: 'GiftWrapping';
+  __typename: 'GiftWrapping';
   /** Indicates whether commenting is allowed for the gift wrapping. */
   allowComments: Scalars['Boolean'];
   /** Gift wrapping id. */
@@ -1387,7 +1387,7 @@ export type GiftWrapping = {
 
 /** A connection to a list of items. */
 export type GiftWrappingConnection = {
-  __typename?: 'GiftWrappingConnection';
+  __typename: 'GiftWrappingConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<GiftWrappingEdge>>>;
   /** Information to aid in pagination. */
@@ -1396,7 +1396,7 @@ export type GiftWrappingConnection = {
 
 /** An edge in a connection. */
 export type GiftWrappingEdge = {
-  __typename?: 'GiftWrappingEdge';
+  __typename: 'GiftWrappingEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -1404,7 +1404,7 @@ export type GiftWrappingEdge = {
 };
 
 export type GlobalSeoField = {
-  __typename?: 'GlobalSeoField';
+  __typename: 'GlobalSeoField';
   facebookPageUrl?: Maybe<Scalars['String']>;
   fallbackSeo?: Maybe<SeoField>;
   siteName?: Maybe<Scalars['String']>;
@@ -1464,7 +1464,7 @@ export enum GlossaryCategoryModelOrderBy {
 
 /** Record of type Glossary Category (glossary_category) */
 export type GlossaryCategoryRecord = RecordInterface & {
-  __typename?: 'GlossaryCategoryRecord';
+  __typename: 'GlossaryCategoryRecord';
   _allReferencingGlossaryEntries: Array<GlossaryEntryRecord>;
   /** Returns meta information regarding a record collection */
   _allReferencingGlossaryEntriesMeta: CollectionMetadata;
@@ -1521,7 +1521,7 @@ export type GlossaryCategoryRecordDescriptionArgs = {
 };
 
 export type GlossaryEntryModelDescriptionField = {
-  __typename?: 'GlossaryEntryModelDescriptionField';
+  __typename: 'GlossaryEntryModelDescriptionField';
   blocks: Array<ImageRecord>;
   links: Array<GlossaryEntryModelDescriptionLinksField>;
   value: Scalars['JsonField'];
@@ -1598,7 +1598,7 @@ export enum GlossaryEntryModelOrderBy {
 
 /** Record of type Glossary Entry (glossary_entry) */
 export type GlossaryEntryRecord = RecordInterface & {
-  __typename?: 'GlossaryEntryRecord';
+  __typename: 'GlossaryEntryRecord';
   _allReferencingArticles: Array<ArticleRecord>;
   /** Returns meta information regarding a record collection */
   _allReferencingArticlesMeta: CollectionMetadata;
@@ -1678,7 +1678,7 @@ export type GlossaryEntryRecordDefinitionArgs = {
 
 /** Record of type Glossary Index Page (glossary_index_page) */
 export type GlossaryIndexPageRecord = RecordInterface & {
-  __typename?: 'GlossaryIndexPageRecord';
+  __typename: 'GlossaryIndexPageRecord';
   _createdAt: Scalars['DateTime'];
   _firstPublishedAt?: Maybe<Scalars['DateTime']>;
   _isValid: Scalars['BooleanType'];
@@ -1704,7 +1704,7 @@ export type GlossaryIndexPageRecord_SeoMetaTagsArgs = {
 
 /** Record of type HomePage (homepage) */
 export type HomepageRecord = RecordInterface & {
-  __typename?: 'HomepageRecord';
+  __typename: 'HomepageRecord';
   _createdAt: Scalars['DateTime'];
   _firstPublishedAt?: Maybe<Scalars['DateTime']>;
   _isValid: Scalars['BooleanType'];
@@ -1730,7 +1730,7 @@ export type HomepageRecord_SeoMetaTagsArgs = {
 
 /** Image */
 export type Image = {
-  __typename?: 'Image';
+  __typename: 'Image';
   /** Text description of an image that can be used for SEO and/or accessibility purposes. */
   altText: Scalars['String'];
   /** Indicates whether this is the primary image. */
@@ -1750,7 +1750,7 @@ export type ImageUrlArgs = {
 
 /** A connection to a list of items. */
 export type ImageConnection = {
-  __typename?: 'ImageConnection';
+  __typename: 'ImageConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<ImageEdge>>>;
   /** Information to aid in pagination. */
@@ -1759,7 +1759,7 @@ export type ImageConnection = {
 
 /** An edge in a connection. */
 export type ImageEdge = {
-  __typename?: 'ImageEdge';
+  __typename: 'ImageEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -1768,7 +1768,7 @@ export type ImageEdge = {
 
 /** Block of type Image (image) */
 export type ImageRecord = RecordInterface & {
-  __typename?: 'ImageRecord';
+  __typename: 'ImageRecord';
   _createdAt: Scalars['DateTime'];
   _firstPublishedAt?: Maybe<Scalars['DateTime']>;
   _isValid: Scalars['BooleanType'];
@@ -3164,7 +3164,7 @@ export type InUseFilter = {
 
 /** An inventory */
 export type Inventory = {
-  __typename?: 'Inventory';
+  __typename: 'Inventory';
   /** Locations */
   locations: LocationConnection;
 };
@@ -3188,7 +3188,7 @@ export type InventoryLocationsArgs = {
 
 /** Inventory By Locations */
 export type InventoryByLocations = {
-  __typename?: 'InventoryByLocations';
+  __typename: 'InventoryByLocations';
   /** Number of available products in stock. */
   availableToSell: Scalars['Long'];
   /** Indicates whether this product is in stock. */
@@ -3212,7 +3212,7 @@ export type InventoryByLocations = {
 
 /** Inventory settings from control panel. */
 export type InventorySettings = {
-  __typename?: 'InventorySettings';
+  __typename: 'InventorySettings';
   /** Out of stock message. */
   defaultOutOfStockMessage: Scalars['String'];
   /** Flag to show or not on product filtering when option is out of stock */
@@ -3357,7 +3357,7 @@ export type LinksFilter = {
 
 /** A connection to a list of items. */
 export type LocationConnection = {
-  __typename?: 'LocationConnection';
+  __typename: 'LocationConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<LocationEdge>>>;
   /** Information to aid in pagination. */
@@ -3366,7 +3366,7 @@ export type LocationConnection = {
 
 /** An edge in a connection. */
 export type LocationEdge = {
-  __typename?: 'LocationEdge';
+  __typename: 'LocationEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -3375,7 +3375,7 @@ export type LocationEdge = {
 
 /** Login result */
 export type LoginResult = {
-  __typename?: 'LoginResult';
+  __typename: 'LoginResult';
   /** The currently logged in customer. */
   customer?: Maybe<Customer>;
   /**
@@ -3387,7 +3387,7 @@ export type LoginResult = {
 
 /** Logo field */
 export type LogoField = {
-  __typename?: 'LogoField';
+  __typename: 'LogoField';
   /** Store logo image. */
   image: Image;
   /** Logo title. */
@@ -3396,14 +3396,14 @@ export type LogoField = {
 
 /** Logout result */
 export type LogoutResult = {
-  __typename?: 'LogoutResult';
+  __typename: 'LogoutResult';
   /** The result of a logout */
   result: Scalars['String'];
 };
 
 /** Measurement */
 export type Measurement = {
-  __typename?: 'Measurement';
+  __typename: 'Measurement';
   /** Unit of measurement. */
   unit: Scalars['String'];
   /** Unformatted weight measurement value. */
@@ -3412,7 +3412,7 @@ export type Measurement = {
 
 /** A connection to a list of items. */
 export type MetafieldConnection = {
-  __typename?: 'MetafieldConnection';
+  __typename: 'MetafieldConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<MetafieldEdge>>>;
   /** Information to aid in pagination. */
@@ -3421,7 +3421,7 @@ export type MetafieldConnection = {
 
 /** An edge in a connection. */
 export type MetafieldEdge = {
-  __typename?: 'MetafieldEdge';
+  __typename: 'MetafieldEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -3430,7 +3430,7 @@ export type MetafieldEdge = {
 
 /** Key/Value pairs of data attached tied to a resource entity (product, brand, category, etc.) */
 export type Metafields = {
-  __typename?: 'Metafields';
+  __typename: 'Metafields';
   /** The ID of the metafield when referencing via our backend API. */
   entityId: Scalars['Int'];
   /** The ID of an object */
@@ -3443,7 +3443,7 @@ export type Metafields = {
 
 /** A money object - includes currency code and a money amount */
 export type Money = {
-  __typename?: 'Money';
+  __typename: 'Money';
   /** Currency code of the current money. */
   currencyCode: Scalars['String'];
   /**
@@ -3457,7 +3457,7 @@ export type Money = {
 
 /** A min and max pair of money objects */
 export type MoneyRange = {
-  __typename?: 'MoneyRange';
+  __typename: 'MoneyRange';
   /** Maximum money object. */
   max: Money;
   /** Minimum money object. */
@@ -3466,7 +3466,7 @@ export type MoneyRange = {
 
 /** A multi-line text input field, aka a text box. */
 export type MultiLineTextFieldOption = CatalogProductOption & {
-  __typename?: 'MultiLineTextFieldOption';
+  __typename: 'MultiLineTextFieldOption';
   /** Default value of the multiline text field option. */
   defaultValue?: Maybe<Scalars['String']>;
   /** Display name for the option. */
@@ -3487,7 +3487,7 @@ export type MultiLineTextFieldOption = CatalogProductOption & {
 
 /** An option type that has a fixed list of values. */
 export type MultipleChoiceOption = CatalogProductOption & {
-  __typename?: 'MultipleChoiceOption';
+  __typename: 'MultipleChoiceOption';
   /** Display name for the option. */
   displayName: Scalars['String'];
   /** The chosen display style for this multiple choice option. */
@@ -3513,7 +3513,7 @@ export type MultipleChoiceOptionValuesArgs = {
 
 /** A simple multiple choice value comprised of an id and a label. */
 export type MultipleChoiceOptionValue = CatalogProductOptionValue & {
-  __typename?: 'MultipleChoiceOptionValue';
+  __typename: 'MultipleChoiceOptionValue';
   /** Unique ID for the option value. */
   entityId: Scalars['Int'];
   /** Indicates whether this value is the chosen default selected value. */
@@ -3525,7 +3525,7 @@ export type MultipleChoiceOptionValue = CatalogProductOptionValue & {
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
+  __typename: 'Mutation';
   /** Customer login */
   login: LoginResult;
   /** Customer logout */
@@ -3554,7 +3554,7 @@ export type Node = {
 
 /** A single line text input field that only accepts numbers. */
 export type NumberFieldOption = CatalogProductOption & {
-  __typename?: 'NumberFieldOption';
+  __typename: 'NumberFieldOption';
   /** Default value of the text field option. */
   defaultValue?: Maybe<Scalars['Float']>;
   /** Display name for the option. */
@@ -3577,7 +3577,7 @@ export type NumberFieldOption = CatalogProductOption & {
 
 /** A connection to a list of items. */
 export type OptionConnection = {
-  __typename?: 'OptionConnection';
+  __typename: 'OptionConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<OptionEdge>>>;
   /** Information to aid in pagination. */
@@ -3586,7 +3586,7 @@ export type OptionConnection = {
 
 /** An edge in a connection. */
 export type OptionEdge = {
-  __typename?: 'OptionEdge';
+  __typename: 'OptionEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -3602,7 +3602,7 @@ export enum OptionOutOfStockBehavior {
 
 /** A connection to a list of items. */
 export type OptionValueConnection = {
-  __typename?: 'OptionValueConnection';
+  __typename: 'OptionValueConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<OptionValueEdge>>>;
   /** Information to aid in pagination. */
@@ -3611,7 +3611,7 @@ export type OptionValueConnection = {
 
 /** An edge in a connection. */
 export type OptionValueEdge = {
-  __typename?: 'OptionValueEdge';
+  __typename: 'OptionValueEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -3636,7 +3636,7 @@ export type OrientationFilter = {
 
 /** Other Filter */
 export type OtherSearchFilter = SearchProductFilter & {
-  __typename?: 'OtherSearchFilter';
+  __typename: 'OtherSearchFilter';
   /** Indicates whether to display product count next to the filter. */
   displayProductCount: Scalars['Boolean'];
   /** Free shipping filter. */
@@ -3653,7 +3653,7 @@ export type OtherSearchFilter = SearchProductFilter & {
 
 /** Other Filter Item */
 export type OtherSearchFilterItem = {
-  __typename?: 'OtherSearchFilterItem';
+  __typename: 'OtherSearchFilterItem';
   /** Indicates whether this filter is selected. */
   isSelected: Scalars['Boolean'];
   /** Indicates how many products available for this filter. */
@@ -3662,7 +3662,7 @@ export type OtherSearchFilterItem = {
 
 /** Information about pagination in a connection. */
 export type PageInfo = {
-  __typename?: 'PageInfo';
+  __typename: 'PageInfo';
   /** When paginating forwards, the cursor to continue. */
   endCursor?: Maybe<Scalars['String']>;
   /** When paginating forwards, are there more items? */
@@ -3721,7 +3721,7 @@ export type ParentFilter = {
 
 /** A connection to a list of items. */
 export type PopularBrandConnection = {
-  __typename?: 'PopularBrandConnection';
+  __typename: 'PopularBrandConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<PopularBrandEdge>>>;
   /** Information to aid in pagination. */
@@ -3730,7 +3730,7 @@ export type PopularBrandConnection = {
 
 /** An edge in a connection. */
 export type PopularBrandEdge = {
-  __typename?: 'PopularBrandEdge';
+  __typename: 'PopularBrandEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -3739,7 +3739,7 @@ export type PopularBrandEdge = {
 
 /** PopularBrandType */
 export type PopularBrandType = {
-  __typename?: 'PopularBrandType';
+  __typename: 'PopularBrandType';
   /** Brand count */
   count: Scalars['Int'];
   /** Brand id */
@@ -3768,7 +3768,7 @@ export type PositionFilter = {
 
 /** The min and max range of prices that apply to this product. */
 export type PriceRanges = {
-  __typename?: 'PriceRanges';
+  __typename: 'PriceRanges';
   /** Product price min/max range. */
   priceRange: MoneyRange;
   /** Product retail price min/max range. */
@@ -3777,7 +3777,7 @@ export type PriceRanges = {
 
 /** Price Filter */
 export type PriceSearchFilter = SearchProductFilter & {
-  __typename?: 'PriceSearchFilter';
+  __typename: 'PriceSearchFilter';
   /** Indicates whether filter is collapsed by default. */
   isCollapsedByDefault: Scalars['Boolean'];
   /** Display name for the filter. */
@@ -3796,7 +3796,7 @@ export type PriceSearchFilterInput = {
 
 /** Price filter range */
 export type PriceSearchFilterItem = {
-  __typename?: 'PriceSearchFilterItem';
+  __typename: 'PriceSearchFilterItem';
   /** Maximum price of the product. */
   maxPrice?: Maybe<Scalars['Float']>;
   /** Minimum price of the product. */
@@ -3805,7 +3805,7 @@ export type PriceSearchFilterItem = {
 
 /** The various prices that can be set on a product. */
 export type Prices = {
-  __typename?: 'Prices';
+  __typename: 'Prices';
   /** Original price of the product. */
   basePrice?: Maybe<Money>;
   /** List of bulk pricing tiers applicable to a product or variant. */
@@ -3827,7 +3827,7 @@ export type Prices = {
 };
 
 export type PrivacyPolicyPageModelContentField = {
-  __typename?: 'PrivacyPolicyPageModelContentField';
+  __typename: 'PrivacyPolicyPageModelContentField';
   blocks: Array<Scalars['String']>;
   links: Array<Scalars['String']>;
   value: Scalars['JsonField'];
@@ -3835,7 +3835,7 @@ export type PrivacyPolicyPageModelContentField = {
 
 /** Record of type Privacy Policy Page (privacy_policy_page) */
 export type PrivacyPolicyPageRecord = RecordInterface & {
-  __typename?: 'PrivacyPolicyPageRecord';
+  __typename: 'PrivacyPolicyPageRecord';
   _createdAt: Scalars['DateTime'];
   _firstPublishedAt?: Maybe<Scalars['DateTime']>;
   _isValid: Scalars['BooleanType'];
@@ -3862,7 +3862,7 @@ export type PrivacyPolicyPageRecord_SeoMetaTagsArgs = {
 
 /** Product */
 export type Product = Node & {
-  __typename?: 'Product';
+  __typename: 'Product';
   /** Absolute URL path for adding a product to cart. */
   addToCartUrl: Scalars['String'];
   /**
@@ -4089,7 +4089,7 @@ export type ProductVariantsArgs = {
 
 /** Product Attribute Filter */
 export type ProductAttributeSearchFilter = SearchProductFilter & {
-  __typename?: 'ProductAttributeSearchFilter';
+  __typename: 'ProductAttributeSearchFilter';
   /** List of available product attributes. */
   attributes: ProductAttributeSearchFilterItemConnection;
   /** Indicates whether to display product count next to the filter. */
@@ -4119,7 +4119,7 @@ export type ProductAttributeSearchFilterInput = {
 
 /** Specific product attribute filter item */
 export type ProductAttributeSearchFilterItem = {
-  __typename?: 'ProductAttributeSearchFilterItem';
+  __typename: 'ProductAttributeSearchFilterItem';
   /** Indicates whether product attribute is selected. */
   isSelected: Scalars['Boolean'];
   /** Indicates how many products available for this filter. */
@@ -4130,7 +4130,7 @@ export type ProductAttributeSearchFilterItem = {
 
 /** A connection to a list of items. */
 export type ProductAttributeSearchFilterItemConnection = {
-  __typename?: 'ProductAttributeSearchFilterItemConnection';
+  __typename: 'ProductAttributeSearchFilterItemConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<ProductAttributeSearchFilterItemEdge>>>;
   /** Information to aid in pagination. */
@@ -4139,7 +4139,7 @@ export type ProductAttributeSearchFilterItemConnection = {
 
 /** An edge in a connection. */
 export type ProductAttributeSearchFilterItemEdge = {
-  __typename?: 'ProductAttributeSearchFilterItemEdge';
+  __typename: 'ProductAttributeSearchFilterItemEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -4163,7 +4163,7 @@ export enum ProductAvailabilityStatus {
 
 /** Available Product */
 export type ProductAvailable = ProductAvailability & {
-  __typename?: 'ProductAvailable';
+  __typename: 'ProductAvailable';
   /** A few words telling the customer how long it will normally take to ship this product, such as 'Usually ships in 24 hours'. */
   description: Scalars['String'];
   /** The availability state of the product. */
@@ -4179,7 +4179,7 @@ export enum ProductConditionType {
 
 /** A connection to a list of items. */
 export type ProductConnection = {
-  __typename?: 'ProductConnection';
+  __typename: 'ProductConnection';
   /** Collection info */
   collectionInfo?: Maybe<CollectionInfo>;
   /** A list of edges. */
@@ -4190,7 +4190,7 @@ export type ProductConnection = {
 
 /** An edge in a connection. */
 export type ProductEdge = {
-  __typename?: 'ProductEdge';
+  __typename: 'ProductEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -4199,7 +4199,7 @@ export type ProductEdge = {
 
 /** Product Inventory Information */
 export type ProductInventory = {
-  __typename?: 'ProductInventory';
+  __typename: 'ProductInventory';
   /** Aggregated product inventory information. This data may not be available if not set or if the store's Inventory Settings have disabled displaying stock levels on the storefront. */
   aggregated?: Maybe<AggregatedInventory>;
   /** Indicates whether this product's inventory is being tracked on variant level. If true, you may wish to check the variants node to understand the true inventory of each individual variant, rather than relying on this product-level aggregate to understand how many items may be added to cart. */
@@ -4210,7 +4210,7 @@ export type ProductInventory = {
 
 /** Product Option */
 export type ProductOption = {
-  __typename?: 'ProductOption';
+  __typename: 'ProductOption';
   /** Display name for the option. */
   displayName: Scalars['String'];
   /** Unique ID for the option. */
@@ -4232,7 +4232,7 @@ export type ProductOptionValuesArgs = {
 
 /** A connection to a list of items. */
 export type ProductOptionConnection = {
-  __typename?: 'ProductOptionConnection';
+  __typename: 'ProductOptionConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<ProductOptionEdge>>>;
   /** Information to aid in pagination. */
@@ -4241,7 +4241,7 @@ export type ProductOptionConnection = {
 
 /** An edge in a connection. */
 export type ProductOptionEdge = {
-  __typename?: 'ProductOptionEdge';
+  __typename: 'ProductOptionEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -4250,7 +4250,7 @@ export type ProductOptionEdge = {
 
 /** Product Option Value */
 export type ProductOptionValue = {
-  __typename?: 'ProductOptionValue';
+  __typename: 'ProductOptionValue';
   /** Unique ID for the option value. */
   entityId: Scalars['Int'];
   /** Label for the option value. */
@@ -4259,7 +4259,7 @@ export type ProductOptionValue = {
 
 /** A connection to a list of items. */
 export type ProductOptionValueConnection = {
-  __typename?: 'ProductOptionValueConnection';
+  __typename: 'ProductOptionValueConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<ProductOptionValueEdge>>>;
   /** Information to aid in pagination. */
@@ -4268,7 +4268,7 @@ export type ProductOptionValueConnection = {
 
 /** An edge in a connection. */
 export type ProductOptionValueEdge = {
-  __typename?: 'ProductOptionValueEdge';
+  __typename: 'ProductOptionValueEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -4285,7 +4285,7 @@ export enum ProductOutOfStockBehavior {
 
 /** A Product PickList Value - a product to be mapped to the base product if selected. */
 export type ProductPickListOptionValue = CatalogProductOptionValue & {
-  __typename?: 'ProductPickListOptionValue';
+  __typename: 'ProductPickListOptionValue';
   /** Unique ID for the option value. */
   entityId: Scalars['Int'];
   /** Indicates whether this value is the chosen default selected value. */
@@ -4300,7 +4300,7 @@ export type ProductPickListOptionValue = CatalogProductOptionValue & {
 
 /** PreOrder Product */
 export type ProductPreOrder = ProductAvailability & {
-  __typename?: 'ProductPreOrder';
+  __typename: 'ProductPreOrder';
   /** A few words telling the customer how long it will normally take to ship this product, such as 'Usually ships in 24 hours'. */
   description: Scalars['String'];
   /** The message to be shown in the store when a product is put into the pre-order availability state, e.g. "Expected release date is %%DATE%%" */
@@ -4335,7 +4335,7 @@ export enum ProductReviewsSortInput {
 
 /** Unavailable Product */
 export type ProductUnavailable = ProductAvailability & {
-  __typename?: 'ProductUnavailable';
+  __typename: 'ProductUnavailable';
   /** A few words telling the customer how long it will normally take to ship this product, such as 'Usually ships in 24 hours'. */
   description: Scalars['String'];
   /** The message to be shown in the store when "Call for pricing" is enabled for this product, e.g. "Contact us at 555-5555" */
@@ -4346,7 +4346,7 @@ export type ProductUnavailable = ProductAvailability & {
 
 /** Public Wishlist */
 export type PublicWishlist = {
-  __typename?: 'PublicWishlist';
+  __typename: 'PublicWishlist';
   /** The wishlist id. */
   entityId: Scalars['Int'];
   /** A list of the wishlist items */
@@ -4386,7 +4386,7 @@ export type PublishedAtFilter = {
 };
 
 export type Query = {
-  __typename?: 'Query';
+  __typename: 'Query';
   /** Returns meta information regarding a record collection */
   _allArticlesMeta: CollectionMetadata;
   /** Returns meta information regarding a record collection */
@@ -4642,7 +4642,7 @@ export type QueryUploadArgs = {
 
 /** Rating Filter */
 export type RatingSearchFilter = SearchProductFilter & {
-  __typename?: 'RatingSearchFilter';
+  __typename: 'RatingSearchFilter';
   /** Indicates whether filter is collapsed by default. */
   isCollapsedByDefault: Scalars['Boolean'];
   /** Display name for the filter. */
@@ -4670,7 +4670,7 @@ export type RatingSearchFilterInput = {
 
 /** Specific rating filter item */
 export type RatingSearchFilterItem = {
-  __typename?: 'RatingSearchFilterItem';
+  __typename: 'RatingSearchFilterItem';
   /** Indicates whether rating is selected. */
   isSelected: Scalars['Boolean'];
   /** Indicates how many products available for this filter. */
@@ -4681,7 +4681,7 @@ export type RatingSearchFilterItem = {
 
 /** A connection to a list of items. */
 export type RatingSearchFilterItemConnection = {
-  __typename?: 'RatingSearchFilterItemConnection';
+  __typename: 'RatingSearchFilterItemConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<RatingSearchFilterItemEdge>>>;
   /** Information to aid in pagination. */
@@ -4690,7 +4690,7 @@ export type RatingSearchFilterItemConnection = {
 
 /** An edge in a connection. */
 export type RatingSearchFilterItemEdge = {
-  __typename?: 'RatingSearchFilterItemEdge';
+  __typename: 'RatingSearchFilterItemEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -4719,7 +4719,7 @@ export type RecordInterface_SeoMetaTagsArgs = {
 
 /** The region object */
 export type Region = {
-  __typename?: 'Region';
+  __typename: 'Region';
   /** The rendered HTML content targeted at the region. */
   html: Scalars['String'];
   /** The name of a region. */
@@ -4728,7 +4728,7 @@ export type Region = {
 
 /** A connection to a list of items. */
 export type RelatedProductsConnection = {
-  __typename?: 'RelatedProductsConnection';
+  __typename: 'RelatedProductsConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<RelatedProductsEdge>>>;
   /** Information to aid in pagination. */
@@ -4737,7 +4737,7 @@ export type RelatedProductsConnection = {
 
 /** An edge in a connection. */
 export type RelatedProductsEdge = {
-  __typename?: 'RelatedProductsEdge';
+  __typename: 'RelatedProductsEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -4746,7 +4746,7 @@ export type RelatedProductsEdge = {
 
 /** The rendered regions by specific page. */
 export type RenderedRegionsByPageType = {
-  __typename?: 'RenderedRegionsByPageType';
+  __typename: 'RenderedRegionsByPageType';
   /** List of regions */
   regions: Array<Region>;
 };
@@ -4771,7 +4771,7 @@ export enum ResolutionType {
 }
 
 export type ResponsiveImage = {
-  __typename?: 'ResponsiveImage';
+  __typename: 'ResponsiveImage';
   alt?: Maybe<Scalars['String']>;
   aspectRatio: Scalars['FloatType'];
   base64?: Maybe<Scalars['String']>;
@@ -4787,7 +4787,7 @@ export type ResponsiveImage = {
 
 /** Review */
 export type Review = {
-  __typename?: 'Review';
+  __typename: 'Review';
   /** Product review author. */
   author: Author;
   /** Product review creation date. */
@@ -4804,7 +4804,7 @@ export type Review = {
 
 /** A connection to a list of items. */
 export type ReviewConnection = {
-  __typename?: 'ReviewConnection';
+  __typename: 'ReviewConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<ReviewEdge>>>;
   /** Information to aid in pagination. */
@@ -4813,7 +4813,7 @@ export type ReviewConnection = {
 
 /** An edge in a connection. */
 export type ReviewEdge = {
-  __typename?: 'ReviewEdge';
+  __typename: 'ReviewEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -4822,7 +4822,7 @@ export type ReviewEdge = {
 
 /** Review Rating Summary */
 export type Reviews = {
-  __typename?: 'Reviews';
+  __typename: 'Reviews';
   /**
    * Average rating of the product.
    * @deprecated Alpha version. Do not use in production.
@@ -4836,14 +4836,14 @@ export type Reviews = {
 
 /** route */
 export type Route = {
-  __typename?: 'Route';
+  __typename: 'Route';
   /** Node */
   node?: Maybe<Node>;
 };
 
 /** Store search settings. */
 export type Search = {
-  __typename?: 'Search';
+  __typename: 'Search';
   /** Product filtering enabled. */
   productFilteringEnabled: Scalars['Boolean'];
 };
@@ -4858,7 +4858,7 @@ export type SearchProductFilter = {
 
 /** A connection to a list of items. */
 export type SearchProductFilterConnection = {
-  __typename?: 'SearchProductFilterConnection';
+  __typename: 'SearchProductFilterConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<SearchProductFilterEdge>>>;
   /** Information to aid in pagination. */
@@ -4867,7 +4867,7 @@ export type SearchProductFilterConnection = {
 
 /** An edge in a connection. */
 export type SearchProductFilterEdge = {
-  __typename?: 'SearchProductFilterEdge';
+  __typename: 'SearchProductFilterEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -4876,7 +4876,7 @@ export type SearchProductFilterEdge = {
 
 /** Container for catalog search results, which may contain both products as well as a list of search filters for further refinement. */
 export type SearchProducts = {
-  __typename?: 'SearchProducts';
+  __typename: 'SearchProducts';
   /** Available product filters. */
   filters: SearchProductFilterConnection;
   /** Details of the products. */
@@ -4940,7 +4940,7 @@ export enum SearchProductsSortInput {
 
 /** The Search queries. */
 export type SearchQueries = {
-  __typename?: 'SearchQueries';
+  __typename: 'SearchQueries';
   /** Details of the products and facets matching given search criteria. */
   searchProducts: SearchProducts;
 };
@@ -4954,7 +4954,7 @@ export type SearchQueriesSearchProductsArgs = {
 
 /** Seo Details */
 export type SeoDetails = {
-  __typename?: 'SeoDetails';
+  __typename: 'SeoDetails';
   /** Meta description. */
   metaDescription: Scalars['String'];
   /** Meta keywords. */
@@ -4964,7 +4964,7 @@ export type SeoDetails = {
 };
 
 export type SeoField = {
-  __typename?: 'SeoField';
+  __typename: 'SeoField';
   description?: Maybe<Scalars['String']>;
   image?: Maybe<FileField>;
   title?: Maybe<Scalars['String']>;
@@ -4979,7 +4979,7 @@ export type SeoFilter = {
 
 /** Store settings information from the control panel. */
 export type Settings = {
-  __typename?: 'Settings';
+  __typename: 'Settings';
   /** Channel ID. */
   channelId: Scalars['Long'];
   /** Contact information for the store. */
@@ -5015,7 +5015,7 @@ export type Settings = {
 
 /** A connection to a list of items. */
 export type ShopByPriceConnection = {
-  __typename?: 'ShopByPriceConnection';
+  __typename: 'ShopByPriceConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<ShopByPriceEdge>>>;
   /** Information to aid in pagination. */
@@ -5024,7 +5024,7 @@ export type ShopByPriceConnection = {
 
 /** An edge in a connection. */
 export type ShopByPriceEdge = {
-  __typename?: 'ShopByPriceEdge';
+  __typename: 'ShopByPriceEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -5033,14 +5033,14 @@ export type ShopByPriceEdge = {
 
 /** Category shop by price money ranges */
 export type ShopByPriceRange = {
-  __typename?: 'ShopByPriceRange';
+  __typename: 'ShopByPriceRange';
   /** Category shop by price range. */
   ranges: MoneyRange;
 };
 
 /** A site */
 export type Site = {
-  __typename?: 'Site';
+  __typename: 'Site';
   /** Details of the best selling products. */
   bestSellingProducts: ProductConnection;
   /** Details of the brand. */
@@ -5222,7 +5222,7 @@ export type SlugFilter = {
 
 /** The social media link. */
 export type SocialMediaLink = {
-  __typename?: 'SocialMediaLink';
+  __typename: 'SocialMediaLink';
   /** The name of the social media link. */
   name: Scalars['String'];
   /** The url of the social media link. */
@@ -5250,7 +5250,7 @@ export enum StockLevelDisplay {
 
 /** Store logo as image. */
 export type StoreImageLogo = {
-  __typename?: 'StoreImageLogo';
+  __typename: 'StoreImageLogo';
   /** Logo image. */
   image: Image;
 };
@@ -5260,14 +5260,14 @@ export type StoreLogo = StoreImageLogo | StoreTextLogo;
 
 /** Store logo as text. */
 export type StoreTextLogo = {
-  __typename?: 'StoreTextLogo';
+  __typename: 'StoreTextLogo';
   /** Logo text. */
   text: Scalars['String'];
 };
 
 /** Storefront settings. */
 export type Storefront = {
-  __typename?: 'Storefront';
+  __typename: 'Storefront';
   /** Storefront catalog settings. */
   catalog?: Maybe<Catalog>;
 };
@@ -5324,7 +5324,7 @@ export type StructuredTextFilter = {
 
 /** Specific sub-category filter item */
 export type SubCategorySearchFilterItem = {
-  __typename?: 'SubCategorySearchFilterItem';
+  __typename: 'SubCategorySearchFilterItem';
   /** Category ID. */
   entityId: Scalars['Int'];
   /** Indicates whether category is selected. */
@@ -5348,7 +5348,7 @@ export type SubCategorySearchFilterItemSubCategoriesArgs = {
 
 /** A connection to a list of items. */
 export type SubCategorySearchFilterItemConnection = {
-  __typename?: 'SubCategorySearchFilterItemConnection';
+  __typename: 'SubCategorySearchFilterItemConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<SubCategorySearchFilterItemEdge>>>;
   /** Information to aid in pagination. */
@@ -5357,7 +5357,7 @@ export type SubCategorySearchFilterItemConnection = {
 
 /** An edge in a connection. */
 export type SubCategorySearchFilterItemEdge = {
-  __typename?: 'SubCategorySearchFilterItemEdge';
+  __typename: 'SubCategorySearchFilterItemEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -5366,7 +5366,7 @@ export type SubCategorySearchFilterItemEdge = {
 
 /** A swatch option value - swatch values can be associated with a list of hexidecimal colors or an image. */
 export type SwatchOptionValue = CatalogProductOptionValue & {
-  __typename?: 'SwatchOptionValue';
+  __typename: 'SwatchOptionValue';
   /** Unique ID for the option value. */
   entityId: Scalars['Int'];
   /** List of up to 3 hex encoded colors to associate with a swatch value. */
@@ -5389,7 +5389,7 @@ export type SwatchOptionValueImageUrlArgs = {
 };
 
 export type Tag = {
-  __typename?: 'Tag';
+  __typename: 'Tag';
   attributes?: Maybe<Scalars['MetaTagAttributes']>;
   content?: Maybe<Scalars['String']>;
   tag: Scalars['String'];
@@ -5397,7 +5397,7 @@ export type Tag = {
 
 /** The tax display settings object */
 export type TaxDisplaySettings = {
-  __typename?: 'TaxDisplaySettings';
+  __typename: 'TaxDisplaySettings';
   /** Tax display setting for Product Details Page. */
   pdp: TaxPriceDisplay;
   /** Tax display setting for Product List Page. */
@@ -5412,7 +5412,7 @@ export enum TaxPriceDisplay {
 }
 
 export type TermsOfUsePageModelContentField = {
-  __typename?: 'TermsOfUsePageModelContentField';
+  __typename: 'TermsOfUsePageModelContentField';
   blocks: Array<Scalars['String']>;
   links: Array<Scalars['String']>;
   value: Scalars['JsonField'];
@@ -5420,7 +5420,7 @@ export type TermsOfUsePageModelContentField = {
 
 /** Record of type Terms of Use Page (terms_of_use_page) */
 export type TermsOfUsePageRecord = RecordInterface & {
-  __typename?: 'TermsOfUsePageRecord';
+  __typename: 'TermsOfUsePageRecord';
   _createdAt: Scalars['DateTime'];
   _firstPublishedAt?: Maybe<Scalars['DateTime']>;
   _isValid: Scalars['BooleanType'];
@@ -5447,7 +5447,7 @@ export type TermsOfUsePageRecord_SeoMetaTagsArgs = {
 
 /** A single line text input field. */
 export type TextFieldOption = CatalogProductOption & {
-  __typename?: 'TextFieldOption';
+  __typename: 'TextFieldOption';
   /** Default value of the text field option. */
   defaultValue?: Maybe<Scalars['String']>;
   /** Display name for the option. */
@@ -5500,7 +5500,7 @@ export type UpdateWishlistInput = {
 
 /** Update wishlist */
 export type UpdateWishlistResult = {
-  __typename?: 'UpdateWishlistResult';
+  __typename: 'UpdateWishlistResult';
   /** The wishlist */
   result: Wishlist;
 };
@@ -5815,7 +5815,7 @@ export type UploadUpdatedAtFilter = {
 };
 
 export type UploadVideoField = {
-  __typename?: 'UploadVideoField';
+  __typename: 'UploadVideoField';
   duration?: Maybe<Scalars['Int']>;
   framerate?: Maybe<Scalars['Int']>;
   mp4Url?: Maybe<Scalars['String']>;
@@ -5854,7 +5854,7 @@ export type UploadWidthFilter = {
 
 /** Url field */
 export type UrlField = {
-  __typename?: 'UrlField';
+  __typename: 'UrlField';
   /** CDN url to fetch assets. */
   cdnUrl: Scalars['String'];
   /** Checkout url. */
@@ -5865,7 +5865,7 @@ export type UrlField = {
 
 /** Variant */
 export type Variant = Node & {
-  __typename?: 'Variant';
+  __typename: 'Variant';
   /** Default image for a variant. */
   defaultImage?: Maybe<Image>;
   /** The variant's depth. If a depth was not explicitly specified on the variant, this will be the product's depth. */
@@ -5940,7 +5940,7 @@ export type VariantProductOptionsArgs = {
 
 /** A connection to a list of items. */
 export type VariantConnection = {
-  __typename?: 'VariantConnection';
+  __typename: 'VariantConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<VariantEdge>>>;
   /** Information to aid in pagination. */
@@ -5949,7 +5949,7 @@ export type VariantConnection = {
 
 /** An edge in a connection. */
 export type VariantEdge = {
-  __typename?: 'VariantEdge';
+  __typename: 'VariantEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -5958,7 +5958,7 @@ export type VariantEdge = {
 
 /** Variant Inventory */
 export type VariantInventory = {
-  __typename?: 'VariantInventory';
+  __typename: 'VariantInventory';
   /** Aggregated product variant inventory information. This data may not be available if not set or if the store's Inventory Settings have disabled displaying stock levels on the storefront. */
   aggregated?: Maybe<Aggregated>;
   /** Inventory by locations. */
@@ -5989,7 +5989,7 @@ export enum VideoMp4Res {
 
 /** A wishlist */
 export type Wishlist = {
-  __typename?: 'Wishlist';
+  __typename: 'Wishlist';
   /** The wishlist id. */
   entityId: Scalars['Int'];
   /** Is the wishlist public? */
@@ -6014,7 +6014,7 @@ export type WishlistItemsArgs = {
 
 /** A connection to a list of items. */
 export type WishlistConnection = {
-  __typename?: 'WishlistConnection';
+  __typename: 'WishlistConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<WishlistEdge>>>;
   /** Information to aid in pagination. */
@@ -6023,7 +6023,7 @@ export type WishlistConnection = {
 
 /** An edge in a connection. */
 export type WishlistEdge = {
-  __typename?: 'WishlistEdge';
+  __typename: 'WishlistEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -6038,7 +6038,7 @@ export type WishlistFiltersInput = {
 
 /** The wishlist item */
 export type WishlistItem = {
-  __typename?: 'WishlistItem';
+  __typename: 'WishlistItem';
   /** Wishlist item id. */
   entityId: Scalars['Int'];
   /** A product included in the wishlist. */
@@ -6051,7 +6051,7 @@ export type WishlistItem = {
 
 /** A connection to a list of items. */
 export type WishlistItemConnection = {
-  __typename?: 'WishlistItemConnection';
+  __typename: 'WishlistItemConnection';
   /** A list of edges. */
   edges?: Maybe<Array<Maybe<WishlistItemEdge>>>;
   /** Information to aid in pagination. */
@@ -6060,7 +6060,7 @@ export type WishlistItemConnection = {
 
 /** An edge in a connection. */
 export type WishlistItemEdge = {
-  __typename?: 'WishlistItemEdge';
+  __typename: 'WishlistItemEdge';
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
@@ -6077,7 +6077,7 @@ export type WishlistItemInput = {
 
 /** The wishlist mutations. */
 export type WishlistMutations = {
-  __typename?: 'WishlistMutations';
+  __typename: 'WishlistMutations';
   /** Add wishlist items */
   addWishlistItems?: Maybe<AddWishlistItemsResult>;
   /** Create wishlist */
@@ -6671,7 +6671,7 @@ export enum CurrencyCode {
 }
 
 export type FocalPoint = {
-  __typename?: 'focalPoint';
+  __typename: 'focalPoint';
   x: Scalars['FloatType'];
   y: Scalars['FloatType'];
 };
@@ -6681,7 +6681,24 @@ export type CompanyPageGetDataQueryVariables = Exact<{
 }>;
 
 
-export type CompanyPageGetDataQuery = { __typename?: 'Query', company?: { __typename?: 'GlossaryEntryRecord', id: any, term?: string | null, definition?: string | null, businessUrl?: string | null, affiliateUrl?: string | null, description?: { __typename: 'GlossaryEntryModelDescriptionField' } | null, primaryImage?: { __typename?: 'FileField', id: any } | null } | null };
+export type CompanyPageGetDataQuery = { __typename: 'Query', company?: { __typename: 'GlossaryEntryRecord', id: any, term?: string | null, definition?: string | null, businessUrl?: string | null, affiliateUrl?: string | null, description?: (
+      { __typename: 'GlossaryEntryModelDescriptionField' }
+      & { ' $fragmentRefs'?: { 'CmsStructuredTextGlossaryDescriptionFragment': CmsStructuredTextGlossaryDescriptionFragment } }
+    ) | null, primaryImage?: { __typename: 'FileField', id: any } | null } | null };
 
+export type CmsImageFragment = { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt?: string | null, title?: string | null, base64?: string | null } & { ' $fragmentName'?: 'CmsImageFragment' };
 
-export const CompanyPageGetDataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CompanyPageGetData"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"companySlug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"company"},"name":{"kind":"Name","value":"glossaryEntry"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"slug"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"companySlug"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"term"}},{"kind":"Field","name":{"kind":"Name","value":"definition"}},{"kind":"Field","name":{"kind":"Name","value":"businessUrl"}},{"kind":"Field","name":{"kind":"Name","value":"affiliateUrl"}},{"kind":"Field","name":{"kind":"Name","value":"description"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}}]}},{"kind":"Field","name":{"kind":"Name","value":"primaryImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<CompanyPageGetDataQuery, CompanyPageGetDataQueryVariables>;
+export type CmsStructuredTextGlossaryDescriptionFragment = { __typename: 'GlossaryEntryModelDescriptionField', value: any, blocks: Array<(
+    { __typename: 'ImageRecord', id: any }
+    & { ' $fragmentRefs'?: { 'CmsStructuredTextImageRecordFragment': CmsStructuredTextImageRecordFragment } }
+  )>, links: Array<{ __typename: 'ArticleRecord', id: any, slug?: string | null, title?: string | null } | { __typename: 'GlossaryEntryRecord', id: any, slug?: string | null, term?: string | null }> } & { ' $fragmentName'?: 'CmsStructuredTextGlossaryDescriptionFragment' };
+
+export type CmsStructuredTextImageRecordFragment = { __typename: 'ImageRecord', id: any, image?: { __typename: 'FileField', id: any, responsiveImage?: (
+      { __typename: 'ResponsiveImage' }
+      & { ' $fragmentRefs'?: { 'CmsImageFragment': CmsImageFragment } }
+    ) | null } | null } & { ' $fragmentName'?: 'CmsStructuredTextImageRecordFragment' };
+
+export const CmsImageFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CmsImage"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ResponsiveImage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"srcSet"}},{"kind":"Field","name":{"kind":"Name","value":"webpSrcSet"}},{"kind":"Field","name":{"kind":"Name","value":"sizes"}},{"kind":"Field","name":{"kind":"Name","value":"src"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"aspectRatio"}},{"kind":"Field","name":{"kind":"Name","value":"alt"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"base64"}}]}}]} as unknown as DocumentNode<CmsImageFragment, unknown>;
+export const CmsStructuredTextImageRecordFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CmsStructuredTextImageRecord"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ImageRecord"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"responsiveImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CmsImage"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CmsImage"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ResponsiveImage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"srcSet"}},{"kind":"Field","name":{"kind":"Name","value":"webpSrcSet"}},{"kind":"Field","name":{"kind":"Name","value":"sizes"}},{"kind":"Field","name":{"kind":"Name","value":"src"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"aspectRatio"}},{"kind":"Field","name":{"kind":"Name","value":"alt"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"base64"}}]}}]} as unknown as DocumentNode<CmsStructuredTextImageRecordFragment, unknown>;
+export const CmsStructuredTextGlossaryDescriptionFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CmsStructuredTextGlossaryDescription"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"GlossaryEntryModelDescriptionField"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"blocks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"CmsStructuredTextImageRecord"}}]}},{"kind":"Field","name":{"kind":"Name","value":"links"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ArticleRecord"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"GlossaryEntryRecord"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"term"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CmsImage"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ResponsiveImage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"srcSet"}},{"kind":"Field","name":{"kind":"Name","value":"webpSrcSet"}},{"kind":"Field","name":{"kind":"Name","value":"sizes"}},{"kind":"Field","name":{"kind":"Name","value":"src"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"aspectRatio"}},{"kind":"Field","name":{"kind":"Name","value":"alt"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"base64"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CmsStructuredTextImageRecord"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ImageRecord"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"responsiveImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CmsImage"}}]}}]}}]}}]} as unknown as DocumentNode<CmsStructuredTextGlossaryDescriptionFragment, unknown>;
+export const CompanyPageGetDataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CompanyPageGetData"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"companySlug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"company"},"name":{"kind":"Name","value":"glossaryEntry"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"slug"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"companySlug"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"term"}},{"kind":"Field","name":{"kind":"Name","value":"definition"}},{"kind":"Field","name":{"kind":"Name","value":"businessUrl"}},{"kind":"Field","name":{"kind":"Name","value":"affiliateUrl"}},{"kind":"Field","name":{"kind":"Name","value":"description"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"CmsStructuredTextGlossaryDescription"}}]}},{"kind":"Field","name":{"kind":"Name","value":"primaryImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CmsImage"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ResponsiveImage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"srcSet"}},{"kind":"Field","name":{"kind":"Name","value":"webpSrcSet"}},{"kind":"Field","name":{"kind":"Name","value":"sizes"}},{"kind":"Field","name":{"kind":"Name","value":"src"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"aspectRatio"}},{"kind":"Field","name":{"kind":"Name","value":"alt"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"base64"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CmsStructuredTextImageRecord"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ImageRecord"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"responsiveImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CmsImage"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CmsStructuredTextGlossaryDescription"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"GlossaryEntryModelDescriptionField"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"blocks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"CmsStructuredTextImageRecord"}}]}},{"kind":"Field","name":{"kind":"Name","value":"links"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ArticleRecord"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"GlossaryEntryRecord"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"term"}}]}}]}}]}}]} as unknown as DocumentNode<CompanyPageGetDataQuery, CompanyPageGetDataQueryVariables>;

@@ -13,7 +13,10 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  query CompanyPageGetData($companySlug: String!) {\n    company: glossaryEntry(filter: { slug: { eq: $companySlug } }) {\n      id\n      term\n      definition\n      businessUrl\n      affiliateUrl\n\n      description {\n        __typename\n      }\n      primaryImage {\n        id\n      }\n    }\n  }\n": types.CompanyPageGetDataDocument,
+    "\n  \n  query CompanyPageGetData($companySlug: String!) {\n    company: glossaryEntry(filter: { slug: { eq: $companySlug } }) {\n      id\n      term\n      definition\n      businessUrl\n      affiliateUrl\n\n      description {\n        __typename\n        ...CmsStructuredTextGlossaryDescription\n      }\n      primaryImage {\n        id\n      }\n    }\n  }\n": types.CompanyPageGetDataDocument,
+    "\n    fragment CmsImage on ResponsiveImage {\n      srcSet\n      webpSrcSet\n      sizes\n      src\n      width\n      height\n      aspectRatio\n      alt\n      title\n      base64\n    }\n  ": types.CmsImageFragmentDoc,
+    "\n    \n    fragment CmsStructuredTextGlossaryDescription on GlossaryEntryModelDescriptionField {\n      value\n      blocks {\n        id\n        ...CmsStructuredTextImageRecord\n      }\n      links {\n        ... on ArticleRecord {\n          id\n          slug\n          title\n        }\n        ... on GlossaryEntryRecord {\n          id\n          slug\n          term\n        }\n      }\n    }\n  ": types.CmsStructuredTextGlossaryDescriptionFragmentDoc,
+    "\n    \n    fragment CmsStructuredTextImageRecord on ImageRecord {\n      id\n      image {\n        id\n        responsiveImage {\n          ...CmsImage\n        }\n      }\n    }\n  ": types.CmsStructuredTextImageRecordFragmentDoc,
 };
 
 /**
@@ -33,7 +36,19 @@ export function gql(source: string): unknown;
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query CompanyPageGetData($companySlug: String!) {\n    company: glossaryEntry(filter: { slug: { eq: $companySlug } }) {\n      id\n      term\n      definition\n      businessUrl\n      affiliateUrl\n\n      description {\n        __typename\n      }\n      primaryImage {\n        id\n      }\n    }\n  }\n"): (typeof documents)["\n  query CompanyPageGetData($companySlug: String!) {\n    company: glossaryEntry(filter: { slug: { eq: $companySlug } }) {\n      id\n      term\n      definition\n      businessUrl\n      affiliateUrl\n\n      description {\n        __typename\n      }\n      primaryImage {\n        id\n      }\n    }\n  }\n"];
+export function gql(source: "\n  \n  query CompanyPageGetData($companySlug: String!) {\n    company: glossaryEntry(filter: { slug: { eq: $companySlug } }) {\n      id\n      term\n      definition\n      businessUrl\n      affiliateUrl\n\n      description {\n        __typename\n        ...CmsStructuredTextGlossaryDescription\n      }\n      primaryImage {\n        id\n      }\n    }\n  }\n"): (typeof documents)["\n  \n  query CompanyPageGetData($companySlug: String!) {\n    company: glossaryEntry(filter: { slug: { eq: $companySlug } }) {\n      id\n      term\n      definition\n      businessUrl\n      affiliateUrl\n\n      description {\n        __typename\n        ...CmsStructuredTextGlossaryDescription\n      }\n      primaryImage {\n        id\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n    fragment CmsImage on ResponsiveImage {\n      srcSet\n      webpSrcSet\n      sizes\n      src\n      width\n      height\n      aspectRatio\n      alt\n      title\n      base64\n    }\n  "): (typeof documents)["\n    fragment CmsImage on ResponsiveImage {\n      srcSet\n      webpSrcSet\n      sizes\n      src\n      width\n      height\n      aspectRatio\n      alt\n      title\n      base64\n    }\n  "];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n    \n    fragment CmsStructuredTextGlossaryDescription on GlossaryEntryModelDescriptionField {\n      value\n      blocks {\n        id\n        ...CmsStructuredTextImageRecord\n      }\n      links {\n        ... on ArticleRecord {\n          id\n          slug\n          title\n        }\n        ... on GlossaryEntryRecord {\n          id\n          slug\n          term\n        }\n      }\n    }\n  "): (typeof documents)["\n    \n    fragment CmsStructuredTextGlossaryDescription on GlossaryEntryModelDescriptionField {\n      value\n      blocks {\n        id\n        ...CmsStructuredTextImageRecord\n      }\n      links {\n        ... on ArticleRecord {\n          id\n          slug\n          title\n        }\n        ... on GlossaryEntryRecord {\n          id\n          slug\n          term\n        }\n      }\n    }\n  "];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n    \n    fragment CmsStructuredTextImageRecord on ImageRecord {\n      id\n      image {\n        id\n        responsiveImage {\n          ...CmsImage\n        }\n      }\n    }\n  "): (typeof documents)["\n    \n    fragment CmsStructuredTextImageRecord on ImageRecord {\n      id\n      image {\n        id\n        responsiveImage {\n          ...CmsImage\n        }\n      }\n    }\n  "];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

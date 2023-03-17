@@ -4,14 +4,19 @@ import routes from '@/lib/routes'
 import { ArrowRight } from 'icons'
 import Image from 'next/image'
 import Link from 'next/link'
-import { gql } from '@apollo/client'
 import {
+  CmsStructuredTextGlossaryDescriptionFragmentDoc,
   CompanyPageGetDataQuery,
   CompanyPageGetDataQueryVariables,
 } from '@/__generated__/graphql'
-import { initializeApollo } from '@/lib/apollo'
+import { initializeApollo, makeFragment } from '@/lib/apollo'
+import React from 'react'
+import { CmsStructuredText } from '@/components/common'
+import { gql } from '@apollo/client'
 
-export default async function Companies() {
+export const revalidate = 5
+
+export default async function Page(params: any) {
   const client = initializeApollo()
 
   const { data } = await client.query<
@@ -21,8 +26,14 @@ export default async function Companies() {
     query: GET_DATA,
     variables: { companySlug: 'gildan' },
   })
-
   const { company } = data || {}
+
+  const description = makeFragment(
+    CmsStructuredTextGlossaryDescriptionFragmentDoc,
+    company?.description,
+  )
+
+  console.log('DAATA', data)
 
   const websiteUrl = getWebsiteUrl(company)
 
@@ -38,13 +49,17 @@ export default async function Companies() {
               <p className="mt-2 text-xl">{company.definition}</p>
               {websiteUrl ? (
                 <div className="mt-4">
-                  <Link href={websiteUrl} className="underline font-bold">
+                  <Link
+                    href={websiteUrl}
+                    className="underline font-bold"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     {company.businessUrl || company.term}
                   </Link>
                 </div>
               ) : null}
             </div>
-
             <div className="relative w-48 h-48">
               <Image
                 fill
@@ -60,19 +75,7 @@ export default async function Companies() {
           <h2 className="text-2xl">Overview</h2>
           <div className="flex gap-10 justify-between mt-4">
             <div className="prose prose-lg">
-              <p>
-                This is a bunch of placeholder text that I am writing to see how
-                some formatting shows up on the company page. It&apos;s great
-                that you&apos;ve continued reading this far because this text is
-                absolutely meaningless. Thank you!
-              </p>
-              <p>
-                Here&apos;s another paragraph to demonstrate what it may look
-                like for a company to have a description with a second,
-                meaningless, paragraph. At this point if you&apos;ve made it
-                this far you are wasting company $ and should consider moving on
-                to something else. Thank you, again!
-              </p>
+              {description ? <CmsStructuredText content={description} /> : null}
             </div>
             <div className="flex flex-col gap-4 w-full">
               <DataPoint label="Year founded" value="1983" />
@@ -84,7 +87,6 @@ export default async function Companies() {
         <hr />
         <section aria-label="similar companies" className="py-12">
           <h2 className="text-2xl">Related companies</h2>
-
           <ul className="flex gap-8 mt-4">
             {companies.slice(0, 3).map(company => (
               <li key={company.id} className="flex-1">
@@ -95,7 +97,6 @@ export default async function Companies() {
                   className="border px-4 py-2 w-full text-xl font-medium rounded-md flex justify-between items-center group"
                 >
                   {company.term}
-
                   <ArrowRight className="group-hover:translate-x-1 transition-all" />
                 </Link>
               </li>
@@ -127,7 +128,9 @@ const getWebsiteUrl = (company: CompanyPageGetDataQuery['company']) => {
   const param = 'referrer'
   const value = typeof window !== 'undefined' ? window.location.href : null
 
-  const url = new URL(company?.affiliateUrl || company?.businessUrl || '')
+  const url = new URL(
+    company?.affiliateUrl || company?.businessUrl || 'www.example.com',
+  )
 
   if (!url) return null
 
@@ -139,6 +142,7 @@ const getWebsiteUrl = (company: CompanyPageGetDataQuery['company']) => {
 }
 
 const GET_DATA = gql`
+  ${CmsStructuredText.fragments.entryDescription}
   query CompanyPageGetData($companySlug: String!) {
     company: glossaryEntry(filter: { slug: { eq: $companySlug } }) {
       id
@@ -148,7 +152,7 @@ const GET_DATA = gql`
       affiliateUrl
 
       description {
-        __typename
+        ...CmsStructuredTextGlossaryDescription
       }
       primaryImage {
         id
