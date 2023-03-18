@@ -21,10 +21,10 @@
     "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build"
   },
   "dependencies": {
-    "@apollo/client": "^3.5.10",
+    "@apollo/client": "^3.7.10",
     "@headlessui/react": "^1.7.8",
     "@hookform/resolvers": "^2.8.8",
-    "@next/bundle-analyzer": "^13.2.1",
+    "@next/bundle-analyzer": "^4",
     "@radix-ui/react-dialog": "^1.0.2",
     "@radix-ui/react-slider": "^1.0.0",
     "@sendgrid/client": "^7.6.1",
@@ -37,7 +37,7 @@
     "hooks": "*",
     "icons": "*",
     "lodash-es": "^4.17.21",
-    "next": "^13.2.1",
+    "next": "^13.2.4",
     "next-seo": "^5.1.0",
     "next-sitemap": "^2.5.20",
     "next-usequerystate": "^1.7.2",
