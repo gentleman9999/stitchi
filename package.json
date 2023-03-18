@@ -35,6 +35,7 @@
   },
   "packageManager": "yarn@1.22.17",
   "dependencies": {
+    "@apollo/client": "^3.7.10",
     "@manypkg/cli": "^0.19.1",
     "datocms-structured-text-to-plain-text": "^2.0.4",
     "husky": "^7.0.4",

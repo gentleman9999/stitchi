@@ -1,23 +1,28 @@
 'use client'
 
 import routes from '@/lib/routes'
-import { CmsStructuredTextGlossaryDescriptionFragment } from '@/__generated__/graphql'
 import { isLink, isHeading } from 'datocms-structured-text-utils'
 import Link from 'next/link'
-import { StructuredText, renderNodeRule } from 'react-datocms'
+import { renderNodeRule } from 'react-datocms'
 import { Node } from 'datocms-structured-text-utils'
 import { render as toPlainText } from 'datocms-structured-text-to-plain-text'
 import CmsStructuredTextBlockRenderer from './CmsStructuredTextBlockRenderer'
-import { gql } from '@apollo/client'
+import { FragmentType, getFragmentData, gql } from '@/__generated__'
+import DatoCmsStructuredTextWrapper from '../DatoCmsStructuredTextWrapper'
 
 export interface Props {
-  content: CmsStructuredTextGlossaryDescriptionFragment
+  content: FragmentType<typeof CmsStructuredTextGlossaryDescriptionFragment>
 }
 
-const CmsStructuredText = ({ content }: Props) => {
+const CmsStructuredText = (props: Props) => {
+  const content = getFragmentData(
+    CmsStructuredTextGlossaryDescriptionFragment,
+    props.content,
+  )
+
   return (
-    <StructuredText
-      data={content as any}
+    <DatoCmsStructuredTextWrapper
+      data={content}
       customNodeRules={[
         // Open links in new tab
         renderNodeRule(isLink, ({ node, children, key }) => {
@@ -44,21 +49,23 @@ const CmsStructuredText = ({ content }: Props) => {
           case 'ArticleRecord':
             return <>{record.title}</>
           case 'GlossaryEntryRecord':
-            return (
+            return record.slug ? (
               <Link
                 href={routes.internal.directory.companies.show.href({
-                  companySlug: record.slug as string,
+                  companySlug: record.slug,
                 })}
               >
-                {record.term as string}
+                {record.term}
               </Link>
-            )
+            ) : null
           default:
-            throw new Error(`Invalid record type: ${record.__typename}`)
+            throw new Error(
+              `Invalid record type: ${(record as any).__typename}`,
+            )
         }
       }}
       renderBlock={context => (
-        <CmsStructuredTextBlockRenderer context={context as any} />
+        <CmsStructuredTextBlockRenderer context={context} />
       )}
     />
   )
@@ -70,29 +77,28 @@ const anchorTagFromNode = (node: Node) =>
     .replace(/ /g, '-')
     .replace(/[^\w-]+/g, '')
 
-CmsStructuredText.fragments = {
-  entryDescription: gql`
-    ${CmsStructuredTextBlockRenderer.fragments.image}
-    fragment CmsStructuredTextGlossaryDescription on GlossaryEntryModelDescriptionField {
-      value
-      blocks {
-        id
+export const CmsStructuredTextGlossaryDescriptionFragment = gql(/* GraphQL */ `
+  fragment CmsStructuredTextGlossaryDescription on GlossaryEntryModelDescriptionField {
+    value
+    blocks {
+      id
+      ... on ImageRecord {
         ...CmsStructuredTextImageRecord
       }
-      links {
-        ... on ArticleRecord {
-          id
-          slug
-          title
-        }
-        ... on GlossaryEntryRecord {
-          id
-          slug
-          term
-        }
+    }
+    links {
+      ... on ArticleRecord {
+        id
+        slug
+        title
+      }
+      ... on GlossaryEntryRecord {
+        id
+        slug
+        term
       }
     }
-  `,
-}
+  }
+`)
 
 export default CmsStructuredText

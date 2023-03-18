@@ -1,3 +1,4 @@
+'use query'
 import { companies } from '@/app/mock'
 import { Container } from '@/components/ui'
 import routes from '@/lib/routes'
@@ -5,35 +6,28 @@ import { ArrowRight } from 'icons'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
-  CmsStructuredTextGlossaryDescriptionFragmentDoc,
   CompanyPageGetDataQuery,
   CompanyPageGetDataQueryVariables,
 } from '@/__generated__/graphql'
-import { initializeApollo, makeFragment } from '@/lib/apollo'
+import { initializeApollo } from '@/lib/apollo'
 import React from 'react'
 import { CmsStructuredText } from '@/components/common'
-import { gql } from '@apollo/client'
+import { gql } from '@/__generated__'
+import { useQuery } from '@apollo/client'
 
 export const revalidate = 5
 
-export default async function Page(params: any) {
-  const client = initializeApollo()
+const client = initializeApollo()
 
-  const { data } = await client.query<
+export default function Page(params: any) {
+  const { data } = useQuery<
     CompanyPageGetDataQuery,
     CompanyPageGetDataQueryVariables
-  >({
-    query: GET_DATA,
+  >(CompanyPageGetData, {
+    client,
     variables: { companySlug: 'gildan' },
   })
   const { company } = data || {}
-
-  const description = makeFragment(
-    CmsStructuredTextGlossaryDescriptionFragmentDoc,
-    company?.description,
-  )
-
-  console.log('DAATA', data)
 
   const websiteUrl = getWebsiteUrl(company)
 
@@ -75,7 +69,9 @@ export default async function Page(params: any) {
           <h2 className="text-2xl">Overview</h2>
           <div className="flex gap-10 justify-between mt-4">
             <div className="prose prose-lg">
-              {description ? <CmsStructuredText content={description} /> : null}
+              {/* {company.description ? (
+                <CmsStructuredText content={company.description} />
+              ) : null} */}
             </div>
             <div className="flex flex-col gap-4 w-full">
               <DataPoint label="Year founded" value="1983" />
@@ -138,11 +134,10 @@ const getWebsiteUrl = (company: CompanyPageGetDataQuery['company']) => {
     url.searchParams.append(param, value)
   }
 
-  return url
+  return url.toString()
 }
 
-const GET_DATA = gql`
-  ${CmsStructuredText.fragments.entryDescription}
+const CompanyPageGetData = gql(/* GraphQL */ `
   query CompanyPageGetData($companySlug: String!) {
     company: glossaryEntry(filter: { slug: { eq: $companySlug } }) {
       id
@@ -150,13 +145,14 @@ const GET_DATA = gql`
       definition
       businessUrl
       affiliateUrl
-
       description {
-        ...CmsStructuredTextGlossaryDescription
+        blocks {
+          id
+        }
       }
       primaryImage {
         id
       }
     }
   }
-`
+`)

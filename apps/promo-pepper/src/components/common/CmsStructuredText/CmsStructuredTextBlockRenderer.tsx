@@ -1,15 +1,10 @@
-import { makeFragment } from '@/lib/apollo'
-import {
-  CmsImageFragmentDoc,
-  CmsStructuredTextImageRecordFragment,
-} from '@/__generated__/graphql'
-import { gql } from '@apollo/client'
+import { FragmentType, getFragmentData, gql } from '@/__generated__'
 import React from 'react'
 import { RenderBlockContext } from 'react-datocms'
 import CmsImage from '../CmsImage'
 
 interface Props {
-  context: RenderBlockContext<CmsStructuredTextImageRecordFragment>
+  context: RenderBlockContext<any>
 }
 
 export default function CmsStructuredTextBlockRenderer(props: Props) {
@@ -27,34 +22,32 @@ export default function CmsStructuredTextBlockRenderer(props: Props) {
 function ImageRecordRenderer({
   record,
 }: {
-  record: CmsStructuredTextImageRecordFragment
+  record: FragmentType<typeof CmsStructuredTextImageRecordFragment>
 }) {
-  const cmsImage = makeFragment(
-    CmsImageFragmentDoc,
-    record.image?.responsiveImage,
+  const imageRecord = getFragmentData(
+    CmsStructuredTextImageRecordFragment,
+    record,
   )
 
-  if (!cmsImage) {
+  if (!imageRecord.image?.responsiveImage) {
     return null
   }
 
   return (
     <div className="prose-img:mt-0 rounded-md overflow-hidden">
-      <CmsImage data={cmsImage} layout="responsive" />
+      <CmsImage data={imageRecord.image?.responsiveImage} layout="responsive" />
     </div>
   )
 }
-CmsStructuredTextBlockRenderer.fragments = {
-  image: gql`
-    ${CmsImage.fragments.image}
-    fragment CmsStructuredTextImageRecord on ImageRecord {
+
+export const CmsStructuredTextImageRecordFragment = gql(/* GraphQL */ `
+  fragment CmsStructuredTextImageRecord on ImageRecord {
+    id
+    image {
       id
-      image {
-        id
-        responsiveImage {
-          ...CmsImage
-        }
+      responsiveImage {
+        ...CmsImage
       }
     }
-  `,
-}
+  }
+`)

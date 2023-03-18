@@ -7,4 +7,6 @@ export type {} from './CmsStructuredText'
 export { default as CompanyCard } from './CompanyCard'
 export type { Props as CompanyCardProps } from './CompanyCard'
 
+export { default as DatoCmsImageWrapper } from './DatoCmsImageWrapper'
+
 export { default as SearchBar } from './SearchBar'

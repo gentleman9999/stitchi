@@ -1,43 +1,38 @@
-import { CmsImageFragment } from '@/__generated__/graphql'
-import { gql } from '@apollo/client'
+import { FragmentType, getFragmentData, gql } from '@/__generated__'
 import React from 'react'
-import { Image } from 'react-datocms'
+import DatoCmsImageWrapper from '../DatoCmsImageWrapper'
 
-export type CmsImageProps = Omit<React.ComponentProps<typeof Image>, 'data'> & {
-  data: CmsImageFragment
+export type CmsImageProps = Omit<
+  React.ComponentProps<typeof DatoCmsImageWrapper>,
+  'data'
+> & {
+  data: FragmentType<typeof CmsImageFragment>
 }
 
 /**
  * Learn more: https://github.com/datocms/react-datocms#progressiveresponsive-image
  */
 const CmsImage = (props: CmsImageProps) => {
-  const data = { ...props.data }
-
-  Object.keys(data).forEach(key => {
-    if (data[key as keyof CmsImageFragment] === undefined) {
-      data[key as keyof CmsImageFragment] = null
-    }
-  })
+  const { data, ...rest } = props
+  const image = getFragmentData(CmsImageFragment, props.data)
 
   // eslint-disable-next-line jsx-a11y/alt-text
-  return <Image {...props} data={data as any} />
+  return <DatoCmsImageWrapper {...rest} data={image} />
 }
 
-CmsImage.fragments = {
-  image: gql`
-    fragment CmsImage on ResponsiveImage {
-      srcSet
-      webpSrcSet
-      sizes
-      src
-      width
-      height
-      aspectRatio
-      alt
-      title
-      base64
-    }
-  `,
-}
+export const CmsImageFragment = gql(/* GraphQL */ `
+  fragment CmsImage on ResponsiveImage {
+    srcSet
+    webpSrcSet
+    sizes
+    src
+    width
+    height
+    aspectRatio
+    alt
+    title
+    base64
+  }
+`)
 
 export default CmsImage
