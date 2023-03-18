@@ -1794,7 +1794,7 @@
     prop-types "^15.8.1"
     reselect "^4.1.6"
 
-"@next/bundle-analyzer@^4":
+"@next/bundle-analyzer@^13.2.4":
   version "13.2.4"
   resolved "https://registry.yarnpkg.com/@next/bundle-analyzer/-/bundle-analyzer-13.2.4.tgz#ad319bf566528f8afee34df07574fd97170b03f2"
   integrity sha512-bY4Clt7f1roJextpeQOQQWfNiXI0O5UvfOEyfuM5YUGPQMOCAZD2zjLjolakdn9Dm2yyMQUQ6JDE+iJK0dIeLA==
