@@ -1,33 +1,31 @@
-'use client'
-
-import { CompanyCard } from '@/components/common'
-import SearchBar from '@/components/common/SearchBar'
 import { Container } from '@/components/ui'
+// import { initializeApollo } from '@/lib/apollo'
+// import {
+//   DirectoryIndexPageGetDataQuery,
+//   DirectoryIndexPageGetDataQueryVariables,
+// } from '@/__generated__/graphql'
+// import { notFound } from 'next/navigation'
 import React from 'react'
-import { useIntersectionObserver } from '@/hooks'
-import { companies as mockCompanies } from '../mock'
-import Filters from './Filters'
+import Directory from './Directory'
+// import {
+//   defaultQueryVariables,
+//   directoryIndexPageGetData,
+// } from './directoryIndexPageGetData'
 
-export default function Directory() {
-  const directoryEndRef = React.useRef<HTMLDivElement>(null)
-  const [loading, setLoading] = React.useState(false)
-  const [companies, setCompanies] = React.useState(mockCompanies)
-  const directoryEnd = useIntersectionObserver(directoryEndRef, {})
+export default async function Page() {
+  // const client = initializeApollo()
 
-  React.useEffect(() => {
-    if (loading) return
-    if (directoryEnd?.isIntersecting) {
-      fetchMore()
-    }
-  }, [directoryEnd?.isIntersecting, loading])
+  // const { data } = await client.query<
+  //   DirectoryIndexPageGetDataQuery,
+  //   DirectoryIndexPageGetDataQueryVariables
+  // >({
+  //   query: directoryIndexPageGetData,
+  //   variables: defaultQueryVariables,
+  // })
 
-  const fetchMore = () => {
-    setLoading(true)
-    setTimeout(() => {
-      setLoading(false)
-      setCompanies(prev => [...prev, ...mockCompanies])
-    }, 1500)
-  }
+  // if (!data.directory) {
+  //   notFound()
+  // }
 
   return (
     <>
@@ -37,33 +35,7 @@ export default function Directory() {
             Discover the internet&apos;s best merch and how its made
           </h1>
         </div>
-        <div className="flex flex-col gap-20">
-          <div className="flex flex-col gap-12">
-            <SearchBar onSubmit={() => {}} loading={false} />
-            <Filters />
-          </div>
-          <div>
-            <ul className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              {companies.map(company => {
-                return (
-                  <CompanyCard
-                    component="li"
-                    company={company}
-                    key={company.id}
-                  />
-                )
-              })}
-              {loading ? (
-                <>
-                  {Array.from(new Array(4)).map((_, i) => (
-                    <CompanyCard component="li" key={i} loading />
-                  ))}
-                </>
-              ) : null}
-            </ul>
-          </div>
-          <div ref={directoryEndRef} />
-        </div>
+        <Directory />
       </Container>
     </>
   )

@@ -35,10 +35,12 @@
   },
   "packageManager": "yarn@1.22.17",
   "dependencies": {
+    "@apollo/client": "^3.7.10",
     "@manypkg/cli": "^0.19.1",
+    "datocms-structured-text-to-plain-text": "^2.0.4",
     "husky": "^7.0.4",
     "lint-staged": "^12.1.7",
-    "next": "^13.2.1",
+    "next": "^13.2.4",
     "prettier": "^2.5.1",
     "tailwind": "^4.0.0",
     "turbo": "latest",
