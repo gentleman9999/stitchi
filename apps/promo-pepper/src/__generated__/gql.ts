@@ -13,7 +13,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  query CompanyPageGetData($companySlug: String!) {\n    company: glossaryEntry(filter: { slug: { eq: $companySlug } }) {\n      id\n      term\n      definition\n      businessUrl\n      affiliateUrl\n      description {\n        ...CmsStructuredTextGlossaryDescription\n      }\n    }\n  }\n": types.CompanyPageGetDataDocument,
+    "\n  query CompanyPageGetData($companySlug: String!) {\n    company: glossaryEntry(filter: { slug: { eq: $companySlug } }) {\n      id\n      term\n      definition\n      businessUrl\n      affiliateUrl\n      description {\n        ...CmsStructuredTextGlossaryDescription\n      }\n      primaryImage {\n        id\n        responsiveImage {\n          ...CmsImage\n        }\n      }\n    }\n  }\n": types.CompanyPageGetDataDocument,
+    "\n  query DirectoryIndexPageGetData(\n    $first: IntType\n    $skip: IntType\n    $filter: GlossaryEntryModelFilter\n  ) {\n    directory: allGlossaryEntries(first: $first, skip: $skip, filter: $filter) {\n      id\n    }\n  }\n": types.DirectoryIndexPageGetDataDocument,
     "\n  fragment CmsImage on ResponsiveImage {\n    srcSet\n    webpSrcSet\n    sizes\n    src\n    width\n    height\n    aspectRatio\n    alt\n    title\n    base64\n  }\n": types.CmsImageFragmentDoc,
     "\n  fragment CmsStructuredTextGlossaryDescription on GlossaryEntryModelDescriptionField {\n    value\n    blocks {\n      id\n      ... on ImageRecord {\n        ...CmsStructuredTextImageRecord\n      }\n    }\n    links {\n      ... on ArticleRecord {\n        id\n        slug\n        title\n      }\n      ... on GlossaryEntryRecord {\n        id\n        slug\n        term\n      }\n    }\n  }\n": types.CmsStructuredTextGlossaryDescriptionFragmentDoc,
     "\n  fragment CmsStructuredTextImageRecord on ImageRecord {\n    id\n    image {\n      id\n      responsiveImage {\n        ...CmsImage\n      }\n    }\n  }\n": types.CmsStructuredTextImageRecordFragmentDoc,
@@ -36,7 +37,11 @@ export function gql(source: string): unknown;
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query CompanyPageGetData($companySlug: String!) {\n    company: glossaryEntry(filter: { slug: { eq: $companySlug } }) {\n      id\n      term\n      definition\n      businessUrl\n      affiliateUrl\n      description {\n        ...CmsStructuredTextGlossaryDescription\n      }\n    }\n  }\n"): (typeof documents)["\n  query CompanyPageGetData($companySlug: String!) {\n    company: glossaryEntry(filter: { slug: { eq: $companySlug } }) {\n      id\n      term\n      definition\n      businessUrl\n      affiliateUrl\n      description {\n        ...CmsStructuredTextGlossaryDescription\n      }\n    }\n  }\n"];
+export function gql(source: "\n  query CompanyPageGetData($companySlug: String!) {\n    company: glossaryEntry(filter: { slug: { eq: $companySlug } }) {\n      id\n      term\n      definition\n      businessUrl\n      affiliateUrl\n      description {\n        ...CmsStructuredTextGlossaryDescription\n      }\n      primaryImage {\n        id\n        responsiveImage {\n          ...CmsImage\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query CompanyPageGetData($companySlug: String!) {\n    company: glossaryEntry(filter: { slug: { eq: $companySlug } }) {\n      id\n      term\n      definition\n      businessUrl\n      affiliateUrl\n      description {\n        ...CmsStructuredTextGlossaryDescription\n      }\n      primaryImage {\n        id\n        responsiveImage {\n          ...CmsImage\n        }\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query DirectoryIndexPageGetData(\n    $first: IntType\n    $skip: IntType\n    $filter: GlossaryEntryModelFilter\n  ) {\n    directory: allGlossaryEntries(first: $first, skip: $skip, filter: $filter) {\n      id\n    }\n  }\n"): (typeof documents)["\n  query DirectoryIndexPageGetData(\n    $first: IntType\n    $skip: IntType\n    $filter: GlossaryEntryModelFilter\n  ) {\n    directory: allGlossaryEntries(first: $first, skip: $skip, filter: $filter) {\n      id\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

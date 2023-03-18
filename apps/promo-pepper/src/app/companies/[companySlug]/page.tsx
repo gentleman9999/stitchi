@@ -2,20 +2,25 @@ import { companies } from '@/app/mock'
 import { Container } from '@/components/ui'
 import routes from '@/lib/routes'
 import { ArrowRight } from 'icons'
-import Image from 'next/image'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import {
   CompanyPageGetDataQuery,
   CompanyPageGetDataQueryVariables,
 } from '@/__generated__/graphql'
 import { initializeApollo } from '@/lib/apollo'
 import React from 'react'
-import { CmsStructuredText } from '@/components/common'
+import { CmsImage, CmsStructuredText } from '@/components/common'
 import { gql } from '@/__generated__'
 
 export const revalidate = 5
+export const dynamicParams = true
 
-export default async function Page(params: any) {
+export default async function Page({
+  params,
+}: {
+  params: { companySlug: string }
+}) {
   const client = initializeApollo()
 
   const { data } = await client.query<
@@ -23,9 +28,14 @@ export default async function Page(params: any) {
     CompanyPageGetDataQueryVariables
   >({
     query: CompanyPageGetData,
-    variables: { companySlug: 'gildan' },
+    variables: { companySlug: params.companySlug },
   })
+
   const { company } = data || {}
+
+  if (!company) {
+    notFound()
+  }
 
   const websiteUrl = getWebsiteUrl(company)
 
@@ -52,14 +62,16 @@ export default async function Page(params: any) {
                 </div>
               ) : null}
             </div>
-            <div className="relative w-48 h-48">
-              <Image
-                fill
-                src={`https://picsum.photos/400?random=${company.id}`}
-                style={{ objectFit: 'cover' }}
-                alt={`${company.term} cover`}
-              />
-            </div>
+            {company.primaryImage?.responsiveImage ? (
+              <div className="relative w-48 h-48 shrink-0 rounded-md overflow-hidden">
+                <CmsImage
+                  layout="fill"
+                  objectFit="cover"
+                  data={company.primaryImage?.responsiveImage}
+                  style={{ objectFit: 'cover' }}
+                />
+              </div>
+            ) : null}
           </div>
         </section>
         <hr />
@@ -71,11 +83,11 @@ export default async function Page(params: any) {
                 <CmsStructuredText content={company.description} />
               ) : null}
             </div>
-            <div className="flex flex-col gap-4 w-full">
+            <dl className="flex flex-col gap-4 w-full">
               <DataPoint label="Year founded" value="1983" />
               <DataPoint label="Employees" value="500-1000" />
               <DataPoint label="CEO" value="Jordan Sack" />
-            </div>
+            </dl>
           </div>
         </section>
         <hr />
@@ -111,10 +123,10 @@ function DataPoint({
   value: React.ReactNode
 }) {
   return (
-    <dt className="bg-gray-100 p-2 rounded-md w-full">
-      <label className="">{label}</label>
-      <td className="font-medium text-xl">{value}</td>
-    </dt>
+    <div className="bg-gray-100 p-2 rounded-md w-full">
+      <dt className="">{label}</dt>
+      <dd className="font-medium text-xl">{value}</dd>
+    </div>
   )
 }
 
@@ -122,17 +134,17 @@ const getWebsiteUrl = (company: CompanyPageGetDataQuery['company']) => {
   const param = 'referrer'
   const value = typeof window !== 'undefined' ? window.location.href : null
 
-  const url = new URL(
-    company?.affiliateUrl || company?.businessUrl || 'www.example.com',
-  )
+  if (company?.affiliateUrl || company?.businessUrl) {
+    const url = new URL(company?.affiliateUrl || company?.businessUrl || '')
 
-  if (!url) return null
+    if (value) {
+      url.searchParams.append(param, value)
+    }
 
-  if (value) {
-    url.searchParams.append(param, value)
+    return url.toString()
   }
 
-  return url.toString()
+  return null
 }
 
 const CompanyPageGetData = gql(/* GraphQL */ `
@@ -145,6 +157,12 @@ const CompanyPageGetData = gql(/* GraphQL */ `
       affiliateUrl
       description {
         ...CmsStructuredTextGlossaryDescription
+      }
+      primaryImage {
+        id
+        responsiveImage {
+          ...CmsImage
+        }
       }
     }
   }

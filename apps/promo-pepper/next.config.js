@@ -4,10 +4,6 @@ const nextConfig = {
     appDir: true,
   },
   transpilePackages: ['icons', 'config', 'tsconfig', 'hooks'],
-  i18n: {
-    locales: ['en'],
-    defaultLocale: 'en',
-  },
   images: {
     domains: ['picsum.photos'],
   },

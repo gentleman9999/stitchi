@@ -1,5 +1,4 @@
 'use client'
-
 import routes from '@/lib/routes'
 import { isLink, isHeading } from 'datocms-structured-text-utils'
 import Link from 'next/link'
