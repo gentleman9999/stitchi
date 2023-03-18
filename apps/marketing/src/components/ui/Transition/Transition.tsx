@@ -56,13 +56,11 @@ const SlideUp = ({
   />
 )
 
-const Transition = HuiTransition as any
+const Transition: any = {}
+Transition.Root = HuiTransition.Root
+Transition.Child = HuiTransition.Child
 Transition.ScaleUp = ScaleUp
 Transition.FadeOpacity = FadeOpacity
 Transition.SlideUp = SlideUp
 
-export default Transition as typeof HuiTransition & {
-  ScaleUp: typeof ScaleUp
-  FadeOpacity: typeof FadeOpacity
-  SlideUp: typeof SlideUp
-}
+export default Transition
