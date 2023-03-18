@@ -1,4 +1,3 @@
-'use query'
 import { companies } from '@/app/mock'
 import { Container } from '@/components/ui'
 import routes from '@/lib/routes'
@@ -13,18 +12,17 @@ import { initializeApollo } from '@/lib/apollo'
 import React from 'react'
 import { CmsStructuredText } from '@/components/common'
 import { gql } from '@/__generated__'
-import { useQuery } from '@apollo/client'
 
 export const revalidate = 5
 
-const client = initializeApollo()
+export default async function Page(params: any) {
+  const client = initializeApollo()
 
-export default function Page(params: any) {
-  const { data } = useQuery<
+  const { data } = await client.query<
     CompanyPageGetDataQuery,
     CompanyPageGetDataQueryVariables
-  >(CompanyPageGetData, {
-    client,
+  >({
+    query: CompanyPageGetData,
     variables: { companySlug: 'gildan' },
   })
   const { company } = data || {}
@@ -69,9 +67,9 @@ export default function Page(params: any) {
           <h2 className="text-2xl">Overview</h2>
           <div className="flex gap-10 justify-between mt-4">
             <div className="prose prose-lg">
-              {/* {company.description ? (
+              {company.description ? (
                 <CmsStructuredText content={company.description} />
-              ) : null} */}
+              ) : null}
             </div>
             <div className="flex flex-col gap-4 w-full">
               <DataPoint label="Year founded" value="1983" />
@@ -146,12 +144,7 @@ const CompanyPageGetData = gql(/* GraphQL */ `
       businessUrl
       affiliateUrl
       description {
-        blocks {
-          id
-        }
-      }
-      primaryImage {
-        id
+        ...CmsStructuredTextGlossaryDescription
       }
     }
   }
