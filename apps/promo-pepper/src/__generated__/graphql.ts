@@ -75,7 +75,7 @@ export type ArticleModelContentLinksField = ArticleRecord | GlossaryEntryRecord;
 
 /** Linking fields */
 export enum ArticleModelFieldsReferencingGlossaryEntryModel {
-  ArticleContent = 'article_content'
+  ARTICLE_CONTENT = 'article_content'
 }
 
 export type ArticleModelFilter = {
@@ -102,30 +102,30 @@ export type ArticleModelFilter = {
 };
 
 export enum ArticleModelOrderBy {
-  CreatedAtAsc = '_createdAt_ASC',
-  CreatedAtDesc = '_createdAt_DESC',
-  FirstPublishedAtAsc = '_firstPublishedAt_ASC',
-  FirstPublishedAtDesc = '_firstPublishedAt_DESC',
-  IsValidAsc = '_isValid_ASC',
-  IsValidDesc = '_isValid_DESC',
-  PublicationScheduledAtAsc = '_publicationScheduledAt_ASC',
-  PublicationScheduledAtDesc = '_publicationScheduledAt_DESC',
-  PublishedAtAsc = '_publishedAt_ASC',
-  PublishedAtDesc = '_publishedAt_DESC',
-  StatusAsc = '_status_ASC',
-  StatusDesc = '_status_DESC',
-  UnpublishingScheduledAtAsc = '_unpublishingScheduledAt_ASC',
-  UnpublishingScheduledAtDesc = '_unpublishingScheduledAt_DESC',
-  UpdatedAtAsc = '_updatedAt_ASC',
-  UpdatedAtDesc = '_updatedAt_DESC',
-  CreatedAtAsc = 'createdAt_ASC',
-  CreatedAtDesc = 'createdAt_DESC',
-  IdAsc = 'id_ASC',
-  IdDesc = 'id_DESC',
-  TitleAsc = 'title_ASC',
-  TitleDesc = 'title_DESC',
-  UpdatedAtAsc = 'updatedAt_ASC',
-  UpdatedAtDesc = 'updatedAt_DESC'
+  _CREATEDAT_ASC = '_createdAt_ASC',
+  _CREATEDAT_DESC = '_createdAt_DESC',
+  _FIRSTPUBLISHEDAT_ASC = '_firstPublishedAt_ASC',
+  _FIRSTPUBLISHEDAT_DESC = '_firstPublishedAt_DESC',
+  _ISVALID_ASC = '_isValid_ASC',
+  _ISVALID_DESC = '_isValid_DESC',
+  _PUBLICATIONSCHEDULEDAT_ASC = '_publicationScheduledAt_ASC',
+  _PUBLICATIONSCHEDULEDAT_DESC = '_publicationScheduledAt_DESC',
+  _PUBLISHEDAT_ASC = '_publishedAt_ASC',
+  _PUBLISHEDAT_DESC = '_publishedAt_DESC',
+  _STATUS_ASC = '_status_ASC',
+  _STATUS_DESC = '_status_DESC',
+  _UNPUBLISHINGSCHEDULEDAT_ASC = '_unpublishingScheduledAt_ASC',
+  _UNPUBLISHINGSCHEDULEDAT_DESC = '_unpublishingScheduledAt_DESC',
+  _UPDATEDAT_ASC = '_updatedAt_ASC',
+  _UPDATEDAT_DESC = '_updatedAt_DESC',
+  CREATEDAT_ASC = 'createdAt_ASC',
+  CREATEDAT_DESC = 'createdAt_DESC',
+  ID_ASC = 'id_ASC',
+  ID_DESC = 'id_DESC',
+  TITLE_ASC = 'title_ASC',
+  TITLE_DESC = 'title_DESC',
+  UPDATEDAT_ASC = 'updatedAt_ASC',
+  UPDATEDAT_DESC = 'updatedAt_DESC'
 }
 
 /** Record of type Article (article) */
@@ -157,7 +157,7 @@ export type ArticleRecord = RecordInterface & {
 
 
 /** Record of type Article (article) */
-export type ArticleRecord_SeoMetaTagsArgs = {
+export type ArticleRecordSeoMetaTagsArgs = {
   locale?: InputMaybe<SiteLocale>;
 };
 
@@ -194,30 +194,30 @@ export type AuthorModelFilter = {
 };
 
 export enum AuthorModelOrderBy {
-  CreatedAtAsc = '_createdAt_ASC',
-  CreatedAtDesc = '_createdAt_DESC',
-  FirstPublishedAtAsc = '_firstPublishedAt_ASC',
-  FirstPublishedAtDesc = '_firstPublishedAt_DESC',
-  IsValidAsc = '_isValid_ASC',
-  IsValidDesc = '_isValid_DESC',
-  PublicationScheduledAtAsc = '_publicationScheduledAt_ASC',
-  PublicationScheduledAtDesc = '_publicationScheduledAt_DESC',
-  PublishedAtAsc = '_publishedAt_ASC',
-  PublishedAtDesc = '_publishedAt_DESC',
-  StatusAsc = '_status_ASC',
-  StatusDesc = '_status_DESC',
-  UnpublishingScheduledAtAsc = '_unpublishingScheduledAt_ASC',
-  UnpublishingScheduledAtDesc = '_unpublishingScheduledAt_DESC',
-  UpdatedAtAsc = '_updatedAt_ASC',
-  UpdatedAtDesc = '_updatedAt_DESC',
-  CreatedAtAsc = 'createdAt_ASC',
-  CreatedAtDesc = 'createdAt_DESC',
-  IdAsc = 'id_ASC',
-  IdDesc = 'id_DESC',
-  NameAsc = 'name_ASC',
-  NameDesc = 'name_DESC',
-  UpdatedAtAsc = 'updatedAt_ASC',
-  UpdatedAtDesc = 'updatedAt_DESC'
+  _CREATEDAT_ASC = '_createdAt_ASC',
+  _CREATEDAT_DESC = '_createdAt_DESC',
+  _FIRSTPUBLISHEDAT_ASC = '_firstPublishedAt_ASC',
+  _FIRSTPUBLISHEDAT_DESC = '_firstPublishedAt_DESC',
+  _ISVALID_ASC = '_isValid_ASC',
+  _ISVALID_DESC = '_isValid_DESC',
+  _PUBLICATIONSCHEDULEDAT_ASC = '_publicationScheduledAt_ASC',
+  _PUBLICATIONSCHEDULEDAT_DESC = '_publicationScheduledAt_DESC',
+  _PUBLISHEDAT_ASC = '_publishedAt_ASC',
+  _PUBLISHEDAT_DESC = '_publishedAt_DESC',
+  _STATUS_ASC = '_status_ASC',
+  _STATUS_DESC = '_status_DESC',
+  _UNPUBLISHINGSCHEDULEDAT_ASC = '_unpublishingScheduledAt_ASC',
+  _UNPUBLISHINGSCHEDULEDAT_DESC = '_unpublishingScheduledAt_DESC',
+  _UPDATEDAT_ASC = '_updatedAt_ASC',
+  _UPDATEDAT_DESC = '_updatedAt_DESC',
+  CREATEDAT_ASC = 'createdAt_ASC',
+  CREATEDAT_DESC = 'createdAt_DESC',
+  ID_ASC = 'id_ASC',
+  ID_DESC = 'id_DESC',
+  NAME_ASC = 'name_ASC',
+  NAME_DESC = 'name_DESC',
+  UPDATEDAT_ASC = 'updatedAt_ASC',
+  UPDATEDAT_DESC = 'updatedAt_DESC'
 }
 
 /** Record of type Author (author) */
@@ -245,7 +245,7 @@ export type AuthorRecord = RecordInterface & {
 
 
 /** Record of type Author (author) */
-export type AuthorRecord_SeoMetaTagsArgs = {
+export type AuthorRecordSeoMetaTagsArgs = {
   locale?: InputMaybe<SiteLocale>;
 };
 
@@ -271,7 +271,7 @@ export type BlogIndexPageRecord = RecordInterface & {
 
 
 /** Record of type Blog Index Page (blog_index_page) */
-export type BlogIndexPageRecord_SeoMetaTagsArgs = {
+export type BlogIndexPageRecordSeoMetaTagsArgs = {
   locale?: InputMaybe<SiteLocale>;
 };
 
@@ -631,45 +631,45 @@ export type CategoryModelFilter = {
 };
 
 export enum CategoryModelOrderBy {
-  CreatedAtAsc = '_createdAt_ASC',
-  CreatedAtDesc = '_createdAt_DESC',
-  FirstPublishedAtAsc = '_firstPublishedAt_ASC',
-  FirstPublishedAtDesc = '_firstPublishedAt_DESC',
-  IsValidAsc = '_isValid_ASC',
-  IsValidDesc = '_isValid_DESC',
-  PublicationScheduledAtAsc = '_publicationScheduledAt_ASC',
-  PublicationScheduledAtDesc = '_publicationScheduledAt_DESC',
-  PublishedAtAsc = '_publishedAt_ASC',
-  PublishedAtDesc = '_publishedAt_DESC',
-  StatusAsc = '_status_ASC',
-  StatusDesc = '_status_DESC',
-  UnpublishingScheduledAtAsc = '_unpublishingScheduledAt_ASC',
-  UnpublishingScheduledAtDesc = '_unpublishingScheduledAt_DESC',
-  UpdatedAtAsc = '_updatedAt_ASC',
-  UpdatedAtDesc = '_updatedAt_DESC',
-  CreatedAtAsc = 'createdAt_ASC',
-  CreatedAtDesc = 'createdAt_DESC',
-  IdAsc = 'id_ASC',
-  IdDesc = 'id_DESC',
-  NameAsc = 'name_ASC',
-  NameDesc = 'name_DESC',
-  ShortNameAsc = 'shortName_ASC',
-  ShortNameDesc = 'shortName_DESC',
-  UpdatedAtAsc = 'updatedAt_ASC',
-  UpdatedAtDesc = 'updatedAt_DESC'
+  _CREATEDAT_ASC = '_createdAt_ASC',
+  _CREATEDAT_DESC = '_createdAt_DESC',
+  _FIRSTPUBLISHEDAT_ASC = '_firstPublishedAt_ASC',
+  _FIRSTPUBLISHEDAT_DESC = '_firstPublishedAt_DESC',
+  _ISVALID_ASC = '_isValid_ASC',
+  _ISVALID_DESC = '_isValid_DESC',
+  _PUBLICATIONSCHEDULEDAT_ASC = '_publicationScheduledAt_ASC',
+  _PUBLICATIONSCHEDULEDAT_DESC = '_publicationScheduledAt_DESC',
+  _PUBLISHEDAT_ASC = '_publishedAt_ASC',
+  _PUBLISHEDAT_DESC = '_publishedAt_DESC',
+  _STATUS_ASC = '_status_ASC',
+  _STATUS_DESC = '_status_DESC',
+  _UNPUBLISHINGSCHEDULEDAT_ASC = '_unpublishingScheduledAt_ASC',
+  _UNPUBLISHINGSCHEDULEDAT_DESC = '_unpublishingScheduledAt_DESC',
+  _UPDATEDAT_ASC = '_updatedAt_ASC',
+  _UPDATEDAT_DESC = '_updatedAt_DESC',
+  CREATEDAT_ASC = 'createdAt_ASC',
+  CREATEDAT_DESC = 'createdAt_DESC',
+  ID_ASC = 'id_ASC',
+  ID_DESC = 'id_DESC',
+  NAME_ASC = 'name_ASC',
+  NAME_DESC = 'name_DESC',
+  SHORTNAME_ASC = 'shortName_ASC',
+  SHORTNAME_DESC = 'shortName_DESC',
+  UPDATEDAT_ASC = 'updatedAt_ASC',
+  UPDATEDAT_DESC = 'updatedAt_DESC'
 }
 
 /** Product sorting by categories. */
 export enum CategoryProductSort {
-  AToZ = 'A_TO_Z',
-  BestReviewed = 'BEST_REVIEWED',
-  BestSelling = 'BEST_SELLING',
-  Default = 'DEFAULT',
-  Featured = 'FEATURED',
-  HighestPrice = 'HIGHEST_PRICE',
-  LowestPrice = 'LOWEST_PRICE',
-  Newest = 'NEWEST',
-  ZToA = 'Z_TO_A'
+  A_TO_Z = 'A_TO_Z',
+  BEST_REVIEWED = 'BEST_REVIEWED',
+  BEST_SELLING = 'BEST_SELLING',
+  DEFAULT = 'DEFAULT',
+  FEATURED = 'FEATURED',
+  HIGHEST_PRICE = 'HIGHEST_PRICE',
+  LOWEST_PRICE = 'LOWEST_PRICE',
+  NEWEST = 'NEWEST',
+  Z_TO_A = 'Z_TO_A'
 }
 
 /** Record of type Category (category) */
@@ -698,7 +698,7 @@ export type CategoryRecord = RecordInterface & {
 
 
 /** Record of type Category (category) */
-export type CategoryRecord_SeoMetaTagsArgs = {
+export type CategoryRecordSeoMetaTagsArgs = {
   locale?: InputMaybe<SiteLocale>;
 };
 
@@ -837,18 +837,18 @@ export type CollectionMetadata = {
 };
 
 export enum ColorBucketType {
-  Black = 'black',
-  Blue = 'blue',
-  Brown = 'brown',
-  Cyan = 'cyan',
-  Green = 'green',
-  Grey = 'grey',
-  Orange = 'orange',
-  Pink = 'pink',
-  Purple = 'purple',
-  Red = 'red',
-  White = 'white',
-  Yellow = 'yellow'
+  BLACK = 'black',
+  BLUE = 'blue',
+  BROWN = 'brown',
+  CYAN = 'cyan',
+  GREEN = 'green',
+  GREY = 'grey',
+  ORANGE = 'orange',
+  PINK = 'pink',
+  PURPLE = 'purple',
+  RED = 'red',
+  WHITE = 'white',
+  YELLOW = 'yellow'
 }
 
 export type ColorField = {
@@ -988,8 +988,8 @@ export type CurrencyEdge = {
 
 /** Currency symbol position */
 export enum CurrencySymbolPosition {
-  Left = 'LEFT',
-  Right = 'RIGHT'
+  LEFT = 'LEFT',
+  RIGHT = 'RIGHT'
 }
 
 /** Custom field */
@@ -1176,18 +1176,18 @@ export type DistanceFilter = {
 
 /** Entity page type */
 export enum EntityPageType {
-  BlogPost = 'BLOG_POST',
-  Brand = 'BRAND',
-  Category = 'CATEGORY',
-  ContactUs = 'CONTACT_US',
-  Page = 'PAGE',
-  Product = 'PRODUCT'
+  BLOG_POST = 'BLOG_POST',
+  BRAND = 'BRAND',
+  CATEGORY = 'CATEGORY',
+  CONTACT_US = 'CONTACT_US',
+  PAGE = 'PAGE',
+  PRODUCT = 'PRODUCT'
 }
 
 export enum FaviconType {
-  AppleTouchIcon = 'appleTouchIcon',
-  Icon = 'icon',
-  MsApplication = 'msApplication'
+  APPLETOUCHICON = 'appleTouchIcon',
+  ICON = 'icon',
+  MSAPPLICATION = 'msApplication'
 }
 
 export type FileField = FileFieldInterface & {
@@ -1434,32 +1434,32 @@ export type GlossaryCategoryModelFilter = {
 };
 
 export enum GlossaryCategoryModelOrderBy {
-  CreatedAtAsc = '_createdAt_ASC',
-  CreatedAtDesc = '_createdAt_DESC',
-  FirstPublishedAtAsc = '_firstPublishedAt_ASC',
-  FirstPublishedAtDesc = '_firstPublishedAt_DESC',
-  IsValidAsc = '_isValid_ASC',
-  IsValidDesc = '_isValid_DESC',
-  PublicationScheduledAtAsc = '_publicationScheduledAt_ASC',
-  PublicationScheduledAtDesc = '_publicationScheduledAt_DESC',
-  PublishedAtAsc = '_publishedAt_ASC',
-  PublishedAtDesc = '_publishedAt_DESC',
-  StatusAsc = '_status_ASC',
-  StatusDesc = '_status_DESC',
-  UnpublishingScheduledAtAsc = '_unpublishingScheduledAt_ASC',
-  UnpublishingScheduledAtDesc = '_unpublishingScheduledAt_DESC',
-  UpdatedAtAsc = '_updatedAt_ASC',
-  UpdatedAtDesc = '_updatedAt_DESC',
-  CreatedAtAsc = 'createdAt_ASC',
-  CreatedAtDesc = 'createdAt_DESC',
-  IdAsc = 'id_ASC',
-  IdDesc = 'id_DESC',
-  PositionAsc = 'position_ASC',
-  PositionDesc = 'position_DESC',
-  TitleAsc = 'title_ASC',
-  TitleDesc = 'title_DESC',
-  UpdatedAtAsc = 'updatedAt_ASC',
-  UpdatedAtDesc = 'updatedAt_DESC'
+  _CREATEDAT_ASC = '_createdAt_ASC',
+  _CREATEDAT_DESC = '_createdAt_DESC',
+  _FIRSTPUBLISHEDAT_ASC = '_firstPublishedAt_ASC',
+  _FIRSTPUBLISHEDAT_DESC = '_firstPublishedAt_DESC',
+  _ISVALID_ASC = '_isValid_ASC',
+  _ISVALID_DESC = '_isValid_DESC',
+  _PUBLICATIONSCHEDULEDAT_ASC = '_publicationScheduledAt_ASC',
+  _PUBLICATIONSCHEDULEDAT_DESC = '_publicationScheduledAt_DESC',
+  _PUBLISHEDAT_ASC = '_publishedAt_ASC',
+  _PUBLISHEDAT_DESC = '_publishedAt_DESC',
+  _STATUS_ASC = '_status_ASC',
+  _STATUS_DESC = '_status_DESC',
+  _UNPUBLISHINGSCHEDULEDAT_ASC = '_unpublishingScheduledAt_ASC',
+  _UNPUBLISHINGSCHEDULEDAT_DESC = '_unpublishingScheduledAt_DESC',
+  _UPDATEDAT_ASC = '_updatedAt_ASC',
+  _UPDATEDAT_DESC = '_updatedAt_DESC',
+  CREATEDAT_ASC = 'createdAt_ASC',
+  CREATEDAT_DESC = 'createdAt_DESC',
+  ID_ASC = 'id_ASC',
+  ID_DESC = 'id_DESC',
+  POSITION_ASC = 'position_ASC',
+  POSITION_DESC = 'position_DESC',
+  TITLE_ASC = 'title_ASC',
+  TITLE_DESC = 'title_DESC',
+  UPDATEDAT_ASC = 'updatedAt_ASC',
+  UPDATEDAT_DESC = 'updatedAt_DESC'
 }
 
 /** Record of type Glossary Category (glossary_category) */
@@ -1493,7 +1493,7 @@ export type GlossaryCategoryRecord = RecordInterface & {
 
 
 /** Record of type Glossary Category (glossary_category) */
-export type GlossaryCategoryRecord_AllReferencingGlossaryEntriesArgs = {
+export type GlossaryCategoryRecordAllReferencingGlossaryEntriesArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
   first?: InputMaybe<Scalars['IntType']>;
   locale?: InputMaybe<SiteLocale>;
@@ -1504,13 +1504,13 @@ export type GlossaryCategoryRecord_AllReferencingGlossaryEntriesArgs = {
 
 
 /** Record of type Glossary Category (glossary_category) */
-export type GlossaryCategoryRecord_AllReferencingGlossaryEntriesMetaArgs = {
+export type GlossaryCategoryRecordAllReferencingGlossaryEntriesMetaArgs = {
   through?: InputMaybe<InverseRelationshipFilterBetweenGlossaryEntryAndGlossaryCategory>;
 };
 
 
 /** Record of type Glossary Category (glossary_category) */
-export type GlossaryCategoryRecord_SeoMetaTagsArgs = {
+export type GlossaryCategoryRecordSeoMetaTagsArgs = {
   locale?: InputMaybe<SiteLocale>;
 };
 
@@ -1531,12 +1531,12 @@ export type GlossaryEntryModelDescriptionLinksField = ArticleRecord | GlossaryEn
 
 /** Linking fields */
 export enum GlossaryEntryModelFieldsReferencingGlossaryCategoryModel {
-  GlossaryEntryCategories = 'glossaryEntry_categories'
+  GLOSSARYENTRY_CATEGORIES = 'glossaryEntry_categories'
 }
 
 /** Linking fields */
 export enum GlossaryEntryModelFieldsReferencingGlossaryEntryModel {
-  GlossaryEntryDescription = 'glossaryEntry_description'
+  GLOSSARYENTRY_DESCRIPTION = 'glossaryEntry_description'
 }
 
 export type GlossaryEntryModelFilter = {
@@ -1564,36 +1564,36 @@ export type GlossaryEntryModelFilter = {
 };
 
 export enum GlossaryEntryModelOrderBy {
-  CreatedAtAsc = '_createdAt_ASC',
-  CreatedAtDesc = '_createdAt_DESC',
-  FirstPublishedAtAsc = '_firstPublishedAt_ASC',
-  FirstPublishedAtDesc = '_firstPublishedAt_DESC',
-  IsValidAsc = '_isValid_ASC',
-  IsValidDesc = '_isValid_DESC',
-  PublicationScheduledAtAsc = '_publicationScheduledAt_ASC',
-  PublicationScheduledAtDesc = '_publicationScheduledAt_DESC',
-  PublishedAtAsc = '_publishedAt_ASC',
-  PublishedAtDesc = '_publishedAt_DESC',
-  StatusAsc = '_status_ASC',
-  StatusDesc = '_status_DESC',
-  UnpublishingScheduledAtAsc = '_unpublishingScheduledAt_ASC',
-  UnpublishingScheduledAtDesc = '_unpublishingScheduledAt_DESC',
-  UpdatedAtAsc = '_updatedAt_ASC',
-  UpdatedAtDesc = '_updatedAt_DESC',
-  AffiliateUrlAsc = 'affiliateUrl_ASC',
-  AffiliateUrlDesc = 'affiliateUrl_DESC',
-  BusinessUrlAsc = 'businessUrl_ASC',
-  BusinessUrlDesc = 'businessUrl_DESC',
-  CreatedAtAsc = 'createdAt_ASC',
-  CreatedAtDesc = 'createdAt_DESC',
-  EntryTypeAsc = 'entryType_ASC',
-  EntryTypeDesc = 'entryType_DESC',
-  IdAsc = 'id_ASC',
-  IdDesc = 'id_DESC',
-  TermAsc = 'term_ASC',
-  TermDesc = 'term_DESC',
-  UpdatedAtAsc = 'updatedAt_ASC',
-  UpdatedAtDesc = 'updatedAt_DESC'
+  _CREATEDAT_ASC = '_createdAt_ASC',
+  _CREATEDAT_DESC = '_createdAt_DESC',
+  _FIRSTPUBLISHEDAT_ASC = '_firstPublishedAt_ASC',
+  _FIRSTPUBLISHEDAT_DESC = '_firstPublishedAt_DESC',
+  _ISVALID_ASC = '_isValid_ASC',
+  _ISVALID_DESC = '_isValid_DESC',
+  _PUBLICATIONSCHEDULEDAT_ASC = '_publicationScheduledAt_ASC',
+  _PUBLICATIONSCHEDULEDAT_DESC = '_publicationScheduledAt_DESC',
+  _PUBLISHEDAT_ASC = '_publishedAt_ASC',
+  _PUBLISHEDAT_DESC = '_publishedAt_DESC',
+  _STATUS_ASC = '_status_ASC',
+  _STATUS_DESC = '_status_DESC',
+  _UNPUBLISHINGSCHEDULEDAT_ASC = '_unpublishingScheduledAt_ASC',
+  _UNPUBLISHINGSCHEDULEDAT_DESC = '_unpublishingScheduledAt_DESC',
+  _UPDATEDAT_ASC = '_updatedAt_ASC',
+  _UPDATEDAT_DESC = '_updatedAt_DESC',
+  AFFILIATEURL_ASC = 'affiliateUrl_ASC',
+  AFFILIATEURL_DESC = 'affiliateUrl_DESC',
+  BUSINESSURL_ASC = 'businessUrl_ASC',
+  BUSINESSURL_DESC = 'businessUrl_DESC',
+  CREATEDAT_ASC = 'createdAt_ASC',
+  CREATEDAT_DESC = 'createdAt_DESC',
+  ENTRYTYPE_ASC = 'entryType_ASC',
+  ENTRYTYPE_DESC = 'entryType_DESC',
+  ID_ASC = 'id_ASC',
+  ID_DESC = 'id_DESC',
+  TERM_ASC = 'term_ASC',
+  TERM_DESC = 'term_DESC',
+  UPDATEDAT_ASC = 'updatedAt_ASC',
+  UPDATEDAT_DESC = 'updatedAt_DESC'
 }
 
 /** Record of type Glossary Entry (glossary_entry) */
@@ -1632,7 +1632,7 @@ export type GlossaryEntryRecord = RecordInterface & {
 
 
 /** Record of type Glossary Entry (glossary_entry) */
-export type GlossaryEntryRecord_AllReferencingArticlesArgs = {
+export type GlossaryEntryRecordAllReferencingArticlesArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
   first?: InputMaybe<Scalars['IntType']>;
   locale?: InputMaybe<SiteLocale>;
@@ -1643,13 +1643,13 @@ export type GlossaryEntryRecord_AllReferencingArticlesArgs = {
 
 
 /** Record of type Glossary Entry (glossary_entry) */
-export type GlossaryEntryRecord_AllReferencingArticlesMetaArgs = {
+export type GlossaryEntryRecordAllReferencingArticlesMetaArgs = {
   through?: InputMaybe<InverseRelationshipFilterBetweenArticleAndGlossaryEntry>;
 };
 
 
 /** Record of type Glossary Entry (glossary_entry) */
-export type GlossaryEntryRecord_AllReferencingGlossaryEntriesArgs = {
+export type GlossaryEntryRecordAllReferencingGlossaryEntriesArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
   first?: InputMaybe<Scalars['IntType']>;
   locale?: InputMaybe<SiteLocale>;
@@ -1660,13 +1660,13 @@ export type GlossaryEntryRecord_AllReferencingGlossaryEntriesArgs = {
 
 
 /** Record of type Glossary Entry (glossary_entry) */
-export type GlossaryEntryRecord_AllReferencingGlossaryEntriesMetaArgs = {
+export type GlossaryEntryRecordAllReferencingGlossaryEntriesMetaArgs = {
   through?: InputMaybe<InverseRelationshipFilterBetweenGlossaryEntryAndGlossaryEntry>;
 };
 
 
 /** Record of type Glossary Entry (glossary_entry) */
-export type GlossaryEntryRecord_SeoMetaTagsArgs = {
+export type GlossaryEntryRecordSeoMetaTagsArgs = {
   locale?: InputMaybe<SiteLocale>;
 };
 
@@ -1698,7 +1698,7 @@ export type GlossaryIndexPageRecord = RecordInterface & {
 
 
 /** Record of type Glossary Index Page (glossary_index_page) */
-export type GlossaryIndexPageRecord_SeoMetaTagsArgs = {
+export type GlossaryIndexPageRecordSeoMetaTagsArgs = {
   locale?: InputMaybe<SiteLocale>;
 };
 
@@ -1724,7 +1724,7 @@ export type HomepageRecord = RecordInterface & {
 
 
 /** Record of type HomePage (homepage) */
-export type HomepageRecord_SeoMetaTagsArgs = {
+export type HomepageRecordSeoMetaTagsArgs = {
   locale?: InputMaybe<SiteLocale>;
 };
 
@@ -1788,7 +1788,7 @@ export type ImageRecord = RecordInterface & {
 
 
 /** Block of type Image (image) */
-export type ImageRecord_SeoMetaTagsArgs = {
+export type ImageRecordSeoMetaTagsArgs = {
   locale?: InputMaybe<SiteLocale>;
 };
 
@@ -2978,182 +2978,182 @@ export type ImgixParams = {
 };
 
 export enum ImgixParamsAuto {
-  Compress = 'compress',
-  Enhance = 'enhance',
-  Format = 'format',
-  Redeye = 'redeye'
+  COMPRESS = 'compress',
+  ENHANCE = 'enhance',
+  FORMAT = 'format',
+  REDEYE = 'redeye'
 }
 
 export enum ImgixParamsBlendAlign {
-  Bottom = 'bottom',
-  Center = 'center',
-  Left = 'left',
-  Middle = 'middle',
-  Right = 'right',
-  Top = 'top'
+  BOTTOM = 'bottom',
+  CENTER = 'center',
+  LEFT = 'left',
+  MIDDLE = 'middle',
+  RIGHT = 'right',
+  TOP = 'top'
 }
 
 export enum ImgixParamsBlendCrop {
-  Bottom = 'bottom',
-  Faces = 'faces',
-  Left = 'left',
-  Right = 'right',
-  Top = 'top'
+  BOTTOM = 'bottom',
+  FACES = 'faces',
+  LEFT = 'left',
+  RIGHT = 'right',
+  TOP = 'top'
 }
 
 export enum ImgixParamsBlendFit {
-  Clamp = 'clamp',
-  Clip = 'clip',
-  Crop = 'crop',
-  Max = 'max',
-  Scale = 'scale'
+  CLAMP = 'clamp',
+  CLIP = 'clip',
+  CROP = 'crop',
+  MAX = 'max',
+  SCALE = 'scale'
 }
 
 export enum ImgixParamsBlendMode {
-  Burn = 'burn',
-  Color = 'color',
-  Darken = 'darken',
-  Difference = 'difference',
-  Dodge = 'dodge',
-  Exclusion = 'exclusion',
-  Hardlight = 'hardlight',
-  Hue = 'hue',
-  Lighten = 'lighten',
-  Luminosity = 'luminosity',
-  Multiply = 'multiply',
-  Normal = 'normal',
-  Overlay = 'overlay',
-  Saturation = 'saturation',
-  Screen = 'screen',
-  Softlight = 'softlight'
+  BURN = 'burn',
+  COLOR = 'color',
+  DARKEN = 'darken',
+  DIFFERENCE = 'difference',
+  DODGE = 'dodge',
+  EXCLUSION = 'exclusion',
+  HARDLIGHT = 'hardlight',
+  HUE = 'hue',
+  LIGHTEN = 'lighten',
+  LUMINOSITY = 'luminosity',
+  MULTIPLY = 'multiply',
+  NORMAL = 'normal',
+  OVERLAY = 'overlay',
+  SATURATION = 'saturation',
+  SCREEN = 'screen',
+  SOFTLIGHT = 'softlight'
 }
 
 export enum ImgixParamsBlendSize {
-  Inherit = 'inherit'
+  INHERIT = 'inherit'
 }
 
 export enum ImgixParamsCh {
-  Dpr = 'dpr',
-  SaveData = 'saveData',
-  Width = 'width'
+  DPR = 'dpr',
+  SAVEDATA = 'saveData',
+  WIDTH = 'width'
 }
 
 export enum ImgixParamsCrop {
-  Bottom = 'bottom',
-  Edges = 'edges',
-  Entropy = 'entropy',
-  Faces = 'faces',
-  Focalpoint = 'focalpoint',
-  Left = 'left',
-  Right = 'right',
-  Top = 'top'
+  BOTTOM = 'bottom',
+  EDGES = 'edges',
+  ENTROPY = 'entropy',
+  FACES = 'faces',
+  FOCALPOINT = 'focalpoint',
+  LEFT = 'left',
+  RIGHT = 'right',
+  TOP = 'top'
 }
 
 export enum ImgixParamsCs {
-  Adobergb1998 = 'adobergb1998',
-  Srgb = 'srgb',
-  Strip = 'strip',
-  Tinysrgb = 'tinysrgb'
+  ADOBERGB1998 = 'adobergb1998',
+  SRGB = 'srgb',
+  STRIP = 'strip',
+  TINYSRGB = 'tinysrgb'
 }
 
 export enum ImgixParamsFill {
-  Blur = 'blur',
-  Solid = 'solid'
+  BLUR = 'blur',
+  SOLID = 'solid'
 }
 
 export enum ImgixParamsFit {
-  Clamp = 'clamp',
-  Clip = 'clip',
-  Crop = 'crop',
-  Facearea = 'facearea',
-  Fill = 'fill',
-  Fillmax = 'fillmax',
-  Max = 'max',
-  Min = 'min',
-  Scale = 'scale'
+  CLAMP = 'clamp',
+  CLIP = 'clip',
+  CROP = 'crop',
+  FACEAREA = 'facearea',
+  FILL = 'fill',
+  FILLMAX = 'fillmax',
+  MAX = 'max',
+  MIN = 'min',
+  SCALE = 'scale'
 }
 
 export enum ImgixParamsFlip {
   H = 'h',
-  Hv = 'hv',
+  HV = 'hv',
   V = 'v'
 }
 
 export enum ImgixParamsFm {
-  Avif = 'avif',
-  Blurhash = 'blurhash',
-  Gif = 'gif',
-  Jp2 = 'jp2',
-  Jpg = 'jpg',
-  Json = 'json',
-  Jxr = 'jxr',
-  Mp4 = 'mp4',
-  Pjpg = 'pjpg',
-  Png = 'png',
-  Png8 = 'png8',
-  Png32 = 'png32',
-  Webm = 'webm',
-  Webp = 'webp'
+  AVIF = 'avif',
+  BLURHASH = 'blurhash',
+  GIF = 'gif',
+  JP2 = 'jp2',
+  JPG = 'jpg',
+  JSON = 'json',
+  JXR = 'jxr',
+  MP4 = 'mp4',
+  PJPG = 'pjpg',
+  PNG = 'png',
+  PNG8 = 'png8',
+  PNG32 = 'png32',
+  WEBM = 'webm',
+  WEBP = 'webp'
 }
 
 export enum ImgixParamsIptc {
-  Allow = 'allow',
-  Block = 'block'
+  ALLOW = 'allow',
+  BLOCK = 'block'
 }
 
 export enum ImgixParamsMarkAlign {
-  Bottom = 'bottom',
-  Center = 'center',
-  Left = 'left',
-  Middle = 'middle',
-  Right = 'right',
-  Top = 'top'
+  BOTTOM = 'bottom',
+  CENTER = 'center',
+  LEFT = 'left',
+  MIDDLE = 'middle',
+  RIGHT = 'right',
+  TOP = 'top'
 }
 
 export enum ImgixParamsMarkFit {
-  Clip = 'clip',
-  Crop = 'crop',
-  Fill = 'fill',
-  Max = 'max',
-  Scale = 'scale'
+  CLIP = 'clip',
+  CROP = 'crop',
+  FILL = 'fill',
+  MAX = 'max',
+  SCALE = 'scale'
 }
 
 export enum ImgixParamsMarkTile {
-  Grid = 'grid'
+  GRID = 'grid'
 }
 
 export enum ImgixParamsPalette {
-  Css = 'css',
-  Json = 'json'
+  CSS = 'css',
+  JSON = 'json'
 }
 
 export enum ImgixParamsTransparency {
-  Grid = 'grid'
+  GRID = 'grid'
 }
 
 export enum ImgixParamsTrim {
-  Auto = 'auto',
-  Color = 'color'
+  AUTO = 'auto',
+  COLOR = 'color'
 }
 
 export enum ImgixParamsTxtAlign {
-  Bottom = 'bottom',
-  Center = 'center',
-  Left = 'left',
-  Middle = 'middle',
-  Right = 'right',
-  Top = 'top'
+  BOTTOM = 'bottom',
+  CENTER = 'center',
+  LEFT = 'left',
+  MIDDLE = 'middle',
+  RIGHT = 'right',
+  TOP = 'top'
 }
 
 export enum ImgixParamsTxtClip {
-  Ellipsis = 'ellipsis',
-  End = 'end',
-  Middle = 'middle',
-  Start = 'start'
+  ELLIPSIS = 'ellipsis',
+  END = 'end',
+  MIDDLE = 'middle',
+  START = 'start'
 }
 
 export enum ImgixParamsTxtFit {
-  Max = 'max'
+  MAX = 'max'
 }
 
 /** Specifies how to filter by usage */
@@ -3286,31 +3286,31 @@ export type ItemIdFilter = {
 };
 
 export enum ItemStatus {
-  Draft = 'draft',
-  Published = 'published',
-  Updated = 'updated'
+  DRAFT = 'draft',
+  PUBLISHED = 'published',
+  UPDATED = 'updated'
 }
 
 /** length unit */
 export enum LengthUnit {
-  Kilometres = 'Kilometres',
-  Miles = 'Miles'
+  KILOMETRES = 'Kilometres',
+  MILES = 'Miles'
 }
 
 /** Limit date by */
 export enum LimitDateOption {
-  EarliestDate = 'EARLIEST_DATE',
-  LatestDate = 'LATEST_DATE',
-  NoLimit = 'NO_LIMIT',
-  Range = 'RANGE'
+  EARLIEST_DATE = 'EARLIEST_DATE',
+  LATEST_DATE = 'LATEST_DATE',
+  NO_LIMIT = 'NO_LIMIT',
+  RANGE = 'RANGE'
 }
 
 /** Limit numbers by several options. */
 export enum LimitInputBy {
-  HighestValue = 'HIGHEST_VALUE',
-  LowestValue = 'LOWEST_VALUE',
-  NoLimit = 'NO_LIMIT',
-  Range = 'RANGE'
+  HIGHEST_VALUE = 'HIGHEST_VALUE',
+  LOWEST_VALUE = 'LOWEST_VALUE',
+  NO_LIMIT = 'NO_LIMIT',
+  RANGE = 'RANGE'
 }
 
 /** Specifies how to filter Single-link fields */
@@ -3329,8 +3329,8 @@ export type LinkFilter = {
 
 /** Linking locales */
 export enum LinkingLocale {
-  NonLocalized = '_nonLocalized',
-  En = 'en'
+  _NONLOCALIZED = '_nonLocalized',
+  EN = 'en'
 }
 
 /** Specifies how to filter by linking locales */
@@ -3541,9 +3541,9 @@ export type MutationLoginArgs = {
 };
 
 export enum MuxThumbnailFormatType {
-  Gif = 'gif',
-  Jpg = 'jpg',
-  Png = 'png'
+  GIF = 'gif',
+  JPG = 'jpg',
+  PNG = 'png'
 }
 
 /** An object with an ID */
@@ -3595,9 +3595,9 @@ export type OptionEdge = {
 
 /** Behavior of the variant when stock is equal to 0 */
 export enum OptionOutOfStockBehavior {
-  DoNothing = 'DO_NOTHING',
-  HideOption = 'HIDE_OPTION',
-  LabelOption = 'LABEL_OPTION'
+  DO_NOTHING = 'DO_NOTHING',
+  HIDE_OPTION = 'HIDE_OPTION',
+  LABEL_OPTION = 'LABEL_OPTION'
 }
 
 /** A connection to a list of items. */
@@ -3675,40 +3675,40 @@ export type PageInfo = {
 
 /** Page type */
 export enum PageType {
-  AccountAddress = 'ACCOUNT_ADDRESS',
-  AccountAddAddress = 'ACCOUNT_ADD_ADDRESS',
-  AccountAddReturn = 'ACCOUNT_ADD_RETURN',
-  AccountAddWishlist = 'ACCOUNT_ADD_WISHLIST',
-  AccountDownloadItem = 'ACCOUNT_DOWNLOAD_ITEM',
-  AccountEdit = 'ACCOUNT_EDIT',
-  AccountInbox = 'ACCOUNT_INBOX',
-  AccountOrdersAll = 'ACCOUNT_ORDERS_ALL',
-  AccountOrdersCompleted = 'ACCOUNT_ORDERS_COMPLETED',
-  AccountOrdersDetails = 'ACCOUNT_ORDERS_DETAILS',
-  AccountOrdersInvoice = 'ACCOUNT_ORDERS_INVOICE',
-  AccountRecentItems = 'ACCOUNT_RECENT_ITEMS',
-  AccountReturns = 'ACCOUNT_RETURNS',
-  AccountReturnSaved = 'ACCOUNT_RETURN_SAVED',
-  AccountWishlists = 'ACCOUNT_WISHLISTS',
-  AccountWishlistDetails = 'ACCOUNT_WISHLIST_DETAILS',
-  AuthAccountCreated = 'AUTH_ACCOUNT_CREATED',
-  AuthCreateAcc = 'AUTH_CREATE_ACC',
-  AuthForgotPass = 'AUTH_FORGOT_PASS',
-  AuthLogin = 'AUTH_LOGIN',
-  AuthNewPass = 'AUTH_NEW_PASS',
-  Blog = 'BLOG',
-  Brands = 'BRANDS',
-  Cart = 'CART',
-  Compare = 'COMPARE',
-  GiftCertBalance = 'GIFT_CERT_BALANCE',
-  GiftCertPurchase = 'GIFT_CERT_PURCHASE',
-  GiftCertRedeem = 'GIFT_CERT_REDEEM',
-  Home = 'HOME',
-  OrderInfo = 'ORDER_INFO',
-  Search = 'SEARCH',
-  Sitemap = 'SITEMAP',
-  Subscribed = 'SUBSCRIBED',
-  Unsubscribe = 'UNSUBSCRIBE'
+  ACCOUNT_ADDRESS = 'ACCOUNT_ADDRESS',
+  ACCOUNT_ADD_ADDRESS = 'ACCOUNT_ADD_ADDRESS',
+  ACCOUNT_ADD_RETURN = 'ACCOUNT_ADD_RETURN',
+  ACCOUNT_ADD_WISHLIST = 'ACCOUNT_ADD_WISHLIST',
+  ACCOUNT_DOWNLOAD_ITEM = 'ACCOUNT_DOWNLOAD_ITEM',
+  ACCOUNT_EDIT = 'ACCOUNT_EDIT',
+  ACCOUNT_INBOX = 'ACCOUNT_INBOX',
+  ACCOUNT_ORDERS_ALL = 'ACCOUNT_ORDERS_ALL',
+  ACCOUNT_ORDERS_COMPLETED = 'ACCOUNT_ORDERS_COMPLETED',
+  ACCOUNT_ORDERS_DETAILS = 'ACCOUNT_ORDERS_DETAILS',
+  ACCOUNT_ORDERS_INVOICE = 'ACCOUNT_ORDERS_INVOICE',
+  ACCOUNT_RECENT_ITEMS = 'ACCOUNT_RECENT_ITEMS',
+  ACCOUNT_RETURNS = 'ACCOUNT_RETURNS',
+  ACCOUNT_RETURN_SAVED = 'ACCOUNT_RETURN_SAVED',
+  ACCOUNT_WISHLISTS = 'ACCOUNT_WISHLISTS',
+  ACCOUNT_WISHLIST_DETAILS = 'ACCOUNT_WISHLIST_DETAILS',
+  AUTH_ACCOUNT_CREATED = 'AUTH_ACCOUNT_CREATED',
+  AUTH_CREATE_ACC = 'AUTH_CREATE_ACC',
+  AUTH_FORGOT_PASS = 'AUTH_FORGOT_PASS',
+  AUTH_LOGIN = 'AUTH_LOGIN',
+  AUTH_NEW_PASS = 'AUTH_NEW_PASS',
+  BLOG = 'BLOG',
+  BRANDS = 'BRANDS',
+  CART = 'CART',
+  COMPARE = 'COMPARE',
+  GIFT_CERT_BALANCE = 'GIFT_CERT_BALANCE',
+  GIFT_CERT_PURCHASE = 'GIFT_CERT_PURCHASE',
+  GIFT_CERT_REDEEM = 'GIFT_CERT_REDEEM',
+  HOME = 'HOME',
+  ORDER_INFO = 'ORDER_INFO',
+  SEARCH = 'SEARCH',
+  SITEMAP = 'SITEMAP',
+  SUBSCRIBED = 'SUBSCRIBED',
+  UNSUBSCRIBE = 'UNSUBSCRIBE'
 }
 
 /** Specifies how to filter by parent (tree-like collections only) */
@@ -3856,7 +3856,7 @@ export type PrivacyPolicyPageRecord = RecordInterface & {
 
 
 /** Record of type Privacy Policy Page (privacy_policy_page) */
-export type PrivacyPolicyPageRecord_SeoMetaTagsArgs = {
+export type PrivacyPolicyPageRecordSeoMetaTagsArgs = {
   locale?: InputMaybe<SiteLocale>;
 };
 
@@ -4156,9 +4156,9 @@ export type ProductAvailability = {
 
 /** Product availability status */
 export enum ProductAvailabilityStatus {
-  Available = 'Available',
-  Preorder = 'Preorder',
-  Unavailable = 'Unavailable'
+  AVAILABLE = 'Available',
+  PREORDER = 'Preorder',
+  UNAVAILABLE = 'Unavailable'
 }
 
 /** Available Product */
@@ -4172,9 +4172,9 @@ export type ProductAvailable = ProductAvailability & {
 
 /** Product condition */
 export enum ProductConditionType {
-  New = 'NEW',
-  Refurbished = 'REFURBISHED',
-  Used = 'USED'
+  NEW = 'NEW',
+  REFURBISHED = 'REFURBISHED',
+  USED = 'USED'
 }
 
 /** A connection to a list of items. */
@@ -4277,10 +4277,10 @@ export type ProductOptionValueEdge = {
 
 /** Behavior of the product when stock is equal to 0 */
 export enum ProductOutOfStockBehavior {
-  DoNothing = 'DO_NOTHING',
-  HideProduct = 'HIDE_PRODUCT',
-  HideProductAndAccessible = 'HIDE_PRODUCT_AND_ACCESSIBLE',
-  HideProductAndRedirect = 'HIDE_PRODUCT_AND_REDIRECT'
+  DO_NOTHING = 'DO_NOTHING',
+  HIDE_PRODUCT = 'HIDE_PRODUCT',
+  HIDE_PRODUCT_AND_ACCESSIBLE = 'HIDE_PRODUCT_AND_ACCESSIBLE',
+  HIDE_PRODUCT_AND_REDIRECT = 'HIDE_PRODUCT_AND_REDIRECT'
 }
 
 /** A Product PickList Value - a product to be mapped to the base product if selected. */
@@ -4327,10 +4327,10 @@ export type ProductReviewsRatingFilterInput = {
 
 /** Product reviews sorting. */
 export enum ProductReviewsSortInput {
-  HighestRating = 'HIGHEST_RATING',
-  LowestRating = 'LOWEST_RATING',
-  Newest = 'NEWEST',
-  Oldest = 'OLDEST'
+  HIGHEST_RATING = 'HIGHEST_RATING',
+  LOWEST_RATING = 'LOWEST_RATING',
+  NEWEST = 'NEWEST',
+  OLDEST = 'OLDEST'
 }
 
 /** Unavailable Product */
@@ -4451,48 +4451,48 @@ export type Query = {
 };
 
 
-export type Query_AllArticlesMetaArgs = {
+export type QueryAllArticlesMetaArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
   filter?: InputMaybe<ArticleModelFilter>;
   locale?: InputMaybe<SiteLocale>;
 };
 
 
-export type Query_AllAuthorsMetaArgs = {
+export type QueryAllAuthorsMetaArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
   filter?: InputMaybe<AuthorModelFilter>;
   locale?: InputMaybe<SiteLocale>;
 };
 
 
-export type Query_AllCategoriesMetaArgs = {
+export type QueryAllCategoriesMetaArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
   filter?: InputMaybe<CategoryModelFilter>;
   locale?: InputMaybe<SiteLocale>;
 };
 
 
-export type Query_AllGlossaryCategoriesMetaArgs = {
+export type QueryAllGlossaryCategoriesMetaArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
   filter?: InputMaybe<GlossaryCategoryModelFilter>;
   locale?: InputMaybe<SiteLocale>;
 };
 
 
-export type Query_AllGlossaryEntriesMetaArgs = {
+export type QueryAllGlossaryEntriesMetaArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
   filter?: InputMaybe<GlossaryEntryModelFilter>;
   locale?: InputMaybe<SiteLocale>;
 };
 
 
-export type Query_AllUploadsMetaArgs = {
+export type QueryAllUploadsMetaArgs = {
   filter?: InputMaybe<UploadFilter>;
   locale?: InputMaybe<SiteLocale>;
 };
 
 
-export type Query_SiteArgs = {
+export type QuerySiteArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
   locale?: InputMaybe<SiteLocale>;
 };
@@ -4713,7 +4713,7 @@ export type RecordInterface = {
 };
 
 
-export type RecordInterface_SeoMetaTagsArgs = {
+export type RecordInterfaceSeoMetaTagsArgs = {
   locale?: InputMaybe<SiteLocale>;
 };
 
@@ -4764,10 +4764,10 @@ export type ResolutionFilter = {
 };
 
 export enum ResolutionType {
-  Icon = 'icon',
-  Large = 'large',
-  Medium = 'medium',
-  Small = 'small'
+  ICON = 'icon',
+  LARGE = 'large',
+  MEDIUM = 'medium',
+  SMALL = 'small'
 }
 
 export type ResponsiveImage = {
@@ -4927,15 +4927,15 @@ export type SearchProductsFiltersInput = {
 
 /** Sort to use for the product results. Relevance is the default for textual search terms, and “Featured” is the default for category page contexts without a search term. */
 export enum SearchProductsSortInput {
-  AToZ = 'A_TO_Z',
-  BestReviewed = 'BEST_REVIEWED',
-  BestSelling = 'BEST_SELLING',
-  Featured = 'FEATURED',
-  HighestPrice = 'HIGHEST_PRICE',
-  LowestPrice = 'LOWEST_PRICE',
-  Newest = 'NEWEST',
-  Relevance = 'RELEVANCE',
-  ZToA = 'Z_TO_A'
+  A_TO_Z = 'A_TO_Z',
+  BEST_REVIEWED = 'BEST_REVIEWED',
+  BEST_SELLING = 'BEST_SELLING',
+  FEATURED = 'FEATURED',
+  HIGHEST_PRICE = 'HIGHEST_PRICE',
+  LOWEST_PRICE = 'LOWEST_PRICE',
+  NEWEST = 'NEWEST',
+  RELEVANCE = 'RELEVANCE',
+  Z_TO_A = 'Z_TO_A'
 }
 
 /** The Search queries. */
@@ -5205,7 +5205,7 @@ export type SiteRouteArgs = {
 };
 
 export enum SiteLocale {
-  En = 'en'
+  EN = 'en'
 }
 
 /** Specifies how to filter Slug fields */
@@ -5243,9 +5243,9 @@ export type StatusFilter = {
 
 /** Stock level display setting */
 export enum StockLevelDisplay {
-  DontShow = 'DONT_SHOW',
-  Show = 'SHOW',
-  ShowWhenLow = 'SHOW_WHEN_LOW'
+  DONT_SHOW = 'DONT_SHOW',
+  SHOW = 'SHOW',
+  SHOW_WHEN_LOW = 'SHOW_WHEN_LOW'
 }
 
 /** Store logo as image. */
@@ -5274,10 +5274,10 @@ export type Storefront = {
 
 /** Storefront Mode */
 export enum StorefrontStatusType {
-  Hibernation = 'HIBERNATION',
-  Launched = 'LAUNCHED',
-  Maintenance = 'MAINTENANCE',
-  PreLaunch = 'PRE_LAUNCH'
+  HIBERNATION = 'HIBERNATION',
+  LAUNCHED = 'LAUNCHED',
+  MAINTENANCE = 'MAINTENANCE',
+  PRE_LAUNCH = 'PRE_LAUNCH'
 }
 
 /** Specifies how to filter Single-line string fields */
@@ -5406,9 +5406,9 @@ export type TaxDisplaySettings = {
 
 /** Tax setting can be set included or excluded (Tax setting can also be set to both on PDP/PLP). */
 export enum TaxPriceDisplay {
-  Both = 'BOTH',
-  Ex = 'EX',
-  Inc = 'INC'
+  BOTH = 'BOTH',
+  EX = 'EX',
+  INC = 'INC'
 }
 
 export type TermsOfUsePageModelContentField = {
@@ -5441,7 +5441,7 @@ export type TermsOfUsePageRecord = RecordInterface & {
 
 
 /** Record of type Terms of Use Page (terms_of_use_page) */
-export type TermsOfUsePageRecord_SeoMetaTagsArgs = {
+export type TermsOfUsePageRecordSeoMetaTagsArgs = {
   locale?: InputMaybe<SiteLocale>;
 };
 
@@ -5713,30 +5713,30 @@ export type UploadNotesFilter = {
 };
 
 export enum UploadOrderBy {
-  CreatedAtAsc = '_createdAt_ASC',
-  CreatedAtDesc = '_createdAt_DESC',
-  UpdatedAtAsc = '_updatedAt_ASC',
-  UpdatedAtDesc = '_updatedAt_DESC',
-  BasenameAsc = 'basename_ASC',
-  BasenameDesc = 'basename_DESC',
-  FilenameAsc = 'filename_ASC',
-  FilenameDesc = 'filename_DESC',
-  FormatAsc = 'format_ASC',
-  FormatDesc = 'format_DESC',
-  IdAsc = 'id_ASC',
-  IdDesc = 'id_DESC',
-  MimeTypeAsc = 'mimeType_ASC',
-  MimeTypeDesc = 'mimeType_DESC',
-  ResolutionAsc = 'resolution_ASC',
-  ResolutionDesc = 'resolution_DESC',
-  SizeAsc = 'size_ASC',
-  SizeDesc = 'size_DESC'
+  _CREATEDAT_ASC = '_createdAt_ASC',
+  _CREATEDAT_DESC = '_createdAt_DESC',
+  _UPDATEDAT_ASC = '_updatedAt_ASC',
+  _UPDATEDAT_DESC = '_updatedAt_DESC',
+  BASENAME_ASC = 'basename_ASC',
+  BASENAME_DESC = 'basename_DESC',
+  FILENAME_ASC = 'filename_ASC',
+  FILENAME_DESC = 'filename_DESC',
+  FORMAT_ASC = 'format_ASC',
+  FORMAT_DESC = 'format_DESC',
+  ID_ASC = 'id_ASC',
+  ID_DESC = 'id_DESC',
+  MIMETYPE_ASC = 'mimeType_ASC',
+  MIMETYPE_DESC = 'mimeType_DESC',
+  RESOLUTION_ASC = 'resolution_ASC',
+  RESOLUTION_DESC = 'resolution_DESC',
+  SIZE_ASC = 'size_ASC',
+  SIZE_DESC = 'size_DESC'
 }
 
 export enum UploadOrientation {
-  Landscape = 'landscape',
-  Portrait = 'portrait',
-  Square = 'square'
+  LANDSCAPE = 'landscape',
+  PORTRAIT = 'portrait',
+  SQUARE = 'square'
 }
 
 /** Specifies how to filter by size */
@@ -5788,14 +5788,14 @@ export type UploadTitleFilter = {
 };
 
 export enum UploadType {
-  Archive = 'archive',
-  Audio = 'audio',
-  Image = 'image',
-  Pdfdocument = 'pdfdocument',
-  Presentation = 'presentation',
-  Richtext = 'richtext',
-  Spreadsheet = 'spreadsheet',
-  Video = 'video'
+  ARCHIVE = 'archive',
+  AUDIO = 'audio',
+  IMAGE = 'image',
+  PDFDOCUMENT = 'pdfdocument',
+  PRESENTATION = 'presentation',
+  RICHTEXT = 'richtext',
+  SPREADSHEET = 'spreadsheet',
+  VIDEO = 'video'
 }
 
 /** Specifies how to filter by update datetime */
@@ -5982,9 +5982,9 @@ export type VariantInventoryByLocationArgs = {
 };
 
 export enum VideoMp4Res {
-  High = 'high',
-  Low = 'low',
-  Medium = 'medium'
+  HIGH = 'high',
+  LOW = 'low',
+  MEDIUM = 'medium'
 }
 
 /** A wishlist */
@@ -6130,544 +6130,544 @@ export type WishlistUpdateDataInput = {
 
 /** Country Code */
 export enum CountryCode {
-  Ad = 'AD',
-  Ae = 'AE',
-  Af = 'AF',
-  Ag = 'AG',
-  Ai = 'AI',
-  Al = 'AL',
-  Am = 'AM',
-  Ao = 'AO',
-  Aq = 'AQ',
-  Ar = 'AR',
-  As = 'AS',
-  At = 'AT',
-  Au = 'AU',
-  Aw = 'AW',
-  Ax = 'AX',
-  Az = 'AZ',
-  Ba = 'BA',
-  Bb = 'BB',
-  Bd = 'BD',
-  Be = 'BE',
-  Bf = 'BF',
-  Bg = 'BG',
-  Bh = 'BH',
-  Bi = 'BI',
-  Bj = 'BJ',
-  Bl = 'BL',
-  Bm = 'BM',
-  Bn = 'BN',
-  Bo = 'BO',
-  Bq = 'BQ',
-  Br = 'BR',
-  Bs = 'BS',
-  Bt = 'BT',
-  Bv = 'BV',
-  Bw = 'BW',
-  By = 'BY',
-  Bz = 'BZ',
-  Ca = 'CA',
-  Cc = 'CC',
-  Cd = 'CD',
-  Cf = 'CF',
-  Cg = 'CG',
-  Ch = 'CH',
-  Ci = 'CI',
-  Ck = 'CK',
-  Cl = 'CL',
-  Cm = 'CM',
-  Cn = 'CN',
-  Co = 'CO',
-  Cr = 'CR',
-  Cu = 'CU',
-  Cv = 'CV',
-  Cw = 'CW',
-  Cx = 'CX',
-  Cy = 'CY',
-  Cz = 'CZ',
-  De = 'DE',
-  Dj = 'DJ',
-  Dk = 'DK',
-  Dm = 'DM',
-  Do = 'DO',
-  Dz = 'DZ',
-  Ec = 'EC',
-  Ee = 'EE',
-  Eg = 'EG',
-  Eh = 'EH',
-  Er = 'ER',
-  Es = 'ES',
-  Et = 'ET',
-  Fi = 'FI',
-  Fj = 'FJ',
-  Fk = 'FK',
-  Fm = 'FM',
-  Fo = 'FO',
-  Fr = 'FR',
-  Ga = 'GA',
-  Gb = 'GB',
-  Gd = 'GD',
-  Ge = 'GE',
-  Gf = 'GF',
-  Gg = 'GG',
-  Gh = 'GH',
-  Gi = 'GI',
-  Gl = 'GL',
-  Gm = 'GM',
-  Gn = 'GN',
-  Gp = 'GP',
-  Gq = 'GQ',
-  Gr = 'GR',
-  Gs = 'GS',
-  Gt = 'GT',
-  Gu = 'GU',
-  Gw = 'GW',
-  Gy = 'GY',
-  Hk = 'HK',
-  Hm = 'HM',
-  Hn = 'HN',
-  Hr = 'HR',
-  Ht = 'HT',
-  Hu = 'HU',
-  Id = 'ID',
-  Ie = 'IE',
-  Il = 'IL',
-  Im = 'IM',
-  In = 'IN',
-  Io = 'IO',
-  Iq = 'IQ',
-  Ir = 'IR',
-  Is = 'IS',
-  It = 'IT',
-  Je = 'JE',
-  Jm = 'JM',
-  Jo = 'JO',
-  Jp = 'JP',
-  Ke = 'KE',
-  Kg = 'KG',
-  Kh = 'KH',
-  Ki = 'KI',
-  Km = 'KM',
-  Kn = 'KN',
-  Kp = 'KP',
-  Kr = 'KR',
-  Kw = 'KW',
-  Ky = 'KY',
-  Kz = 'KZ',
-  La = 'LA',
-  Lb = 'LB',
-  Lc = 'LC',
-  Li = 'LI',
-  Lk = 'LK',
-  Lr = 'LR',
-  Ls = 'LS',
-  Lt = 'LT',
-  Lu = 'LU',
-  Lv = 'LV',
-  Ly = 'LY',
-  Ma = 'MA',
-  Mc = 'MC',
-  Md = 'MD',
-  Me = 'ME',
-  Mf = 'MF',
-  Mg = 'MG',
-  Mh = 'MH',
-  Mk = 'MK',
-  Ml = 'ML',
-  Mm = 'MM',
-  Mn = 'MN',
-  Mo = 'MO',
-  Mp = 'MP',
-  Mq = 'MQ',
-  Mr = 'MR',
-  Ms = 'MS',
-  Mt = 'MT',
-  Mu = 'MU',
-  Mv = 'MV',
-  Mw = 'MW',
-  Mx = 'MX',
-  My = 'MY',
-  Mz = 'MZ',
-  Na = 'NA',
-  Nc = 'NC',
-  Ne = 'NE',
-  Nf = 'NF',
-  Ng = 'NG',
-  Ni = 'NI',
-  Nl = 'NL',
-  No = 'NO',
-  Np = 'NP',
-  Nr = 'NR',
-  Nu = 'NU',
-  Nz = 'NZ',
-  Om = 'OM',
-  Pa = 'PA',
-  Pe = 'PE',
-  Pf = 'PF',
-  Pg = 'PG',
-  Ph = 'PH',
-  Pk = 'PK',
-  Pl = 'PL',
-  Pm = 'PM',
-  Pn = 'PN',
-  Pr = 'PR',
-  Ps = 'PS',
-  Pt = 'PT',
-  Pw = 'PW',
-  Py = 'PY',
-  Qa = 'QA',
-  Re = 'RE',
-  Ro = 'RO',
-  Rs = 'RS',
-  Ru = 'RU',
-  Rw = 'RW',
-  Sa = 'SA',
-  Sb = 'SB',
-  Sc = 'SC',
-  Sd = 'SD',
-  Se = 'SE',
-  Sg = 'SG',
-  Sh = 'SH',
-  Si = 'SI',
-  Sj = 'SJ',
-  Sk = 'SK',
-  Sl = 'SL',
-  Sm = 'SM',
-  Sn = 'SN',
-  So = 'SO',
-  Sr = 'SR',
-  Ss = 'SS',
-  St = 'ST',
-  Sv = 'SV',
-  Sx = 'SX',
-  Sy = 'SY',
-  Sz = 'SZ',
-  Tc = 'TC',
-  Td = 'TD',
-  Tf = 'TF',
-  Tg = 'TG',
-  Th = 'TH',
-  Tj = 'TJ',
-  Tk = 'TK',
-  Tl = 'TL',
-  Tm = 'TM',
-  Tn = 'TN',
-  To = 'TO',
-  Tr = 'TR',
-  Tt = 'TT',
-  Tv = 'TV',
-  Tw = 'TW',
-  Tz = 'TZ',
-  Ua = 'UA',
-  Ug = 'UG',
-  Um = 'UM',
-  Us = 'US',
-  Uy = 'UY',
-  Uz = 'UZ',
-  Va = 'VA',
-  Vc = 'VC',
-  Ve = 'VE',
-  Vg = 'VG',
-  Vi = 'VI',
-  Vn = 'VN',
-  Vu = 'VU',
-  Wf = 'WF',
-  Ws = 'WS',
-  Ye = 'YE',
-  Yt = 'YT',
-  Za = 'ZA',
-  Zm = 'ZM',
-  Zw = 'ZW'
+  AD = 'AD',
+  AE = 'AE',
+  AF = 'AF',
+  AG = 'AG',
+  AI = 'AI',
+  AL = 'AL',
+  AM = 'AM',
+  AO = 'AO',
+  AQ = 'AQ',
+  AR = 'AR',
+  AS = 'AS',
+  AT = 'AT',
+  AU = 'AU',
+  AW = 'AW',
+  AX = 'AX',
+  AZ = 'AZ',
+  BA = 'BA',
+  BB = 'BB',
+  BD = 'BD',
+  BE = 'BE',
+  BF = 'BF',
+  BG = 'BG',
+  BH = 'BH',
+  BI = 'BI',
+  BJ = 'BJ',
+  BL = 'BL',
+  BM = 'BM',
+  BN = 'BN',
+  BO = 'BO',
+  BQ = 'BQ',
+  BR = 'BR',
+  BS = 'BS',
+  BT = 'BT',
+  BV = 'BV',
+  BW = 'BW',
+  BY = 'BY',
+  BZ = 'BZ',
+  CA = 'CA',
+  CC = 'CC',
+  CD = 'CD',
+  CF = 'CF',
+  CG = 'CG',
+  CH = 'CH',
+  CI = 'CI',
+  CK = 'CK',
+  CL = 'CL',
+  CM = 'CM',
+  CN = 'CN',
+  CO = 'CO',
+  CR = 'CR',
+  CU = 'CU',
+  CV = 'CV',
+  CW = 'CW',
+  CX = 'CX',
+  CY = 'CY',
+  CZ = 'CZ',
+  DE = 'DE',
+  DJ = 'DJ',
+  DK = 'DK',
+  DM = 'DM',
+  DO = 'DO',
+  DZ = 'DZ',
+  EC = 'EC',
+  EE = 'EE',
+  EG = 'EG',
+  EH = 'EH',
+  ER = 'ER',
+  ES = 'ES',
+  ET = 'ET',
+  FI = 'FI',
+  FJ = 'FJ',
+  FK = 'FK',
+  FM = 'FM',
+  FO = 'FO',
+  FR = 'FR',
+  GA = 'GA',
+  GB = 'GB',
+  GD = 'GD',
+  GE = 'GE',
+  GF = 'GF',
+  GG = 'GG',
+  GH = 'GH',
+  GI = 'GI',
+  GL = 'GL',
+  GM = 'GM',
+  GN = 'GN',
+  GP = 'GP',
+  GQ = 'GQ',
+  GR = 'GR',
+  GS = 'GS',
+  GT = 'GT',
+  GU = 'GU',
+  GW = 'GW',
+  GY = 'GY',
+  HK = 'HK',
+  HM = 'HM',
+  HN = 'HN',
+  HR = 'HR',
+  HT = 'HT',
+  HU = 'HU',
+  ID = 'ID',
+  IE = 'IE',
+  IL = 'IL',
+  IM = 'IM',
+  IN = 'IN',
+  IO = 'IO',
+  IQ = 'IQ',
+  IR = 'IR',
+  IS = 'IS',
+  IT = 'IT',
+  JE = 'JE',
+  JM = 'JM',
+  JO = 'JO',
+  JP = 'JP',
+  KE = 'KE',
+  KG = 'KG',
+  KH = 'KH',
+  KI = 'KI',
+  KM = 'KM',
+  KN = 'KN',
+  KP = 'KP',
+  KR = 'KR',
+  KW = 'KW',
+  KY = 'KY',
+  KZ = 'KZ',
+  LA = 'LA',
+  LB = 'LB',
+  LC = 'LC',
+  LI = 'LI',
+  LK = 'LK',
+  LR = 'LR',
+  LS = 'LS',
+  LT = 'LT',
+  LU = 'LU',
+  LV = 'LV',
+  LY = 'LY',
+  MA = 'MA',
+  MC = 'MC',
+  MD = 'MD',
+  ME = 'ME',
+  MF = 'MF',
+  MG = 'MG',
+  MH = 'MH',
+  MK = 'MK',
+  ML = 'ML',
+  MM = 'MM',
+  MN = 'MN',
+  MO = 'MO',
+  MP = 'MP',
+  MQ = 'MQ',
+  MR = 'MR',
+  MS = 'MS',
+  MT = 'MT',
+  MU = 'MU',
+  MV = 'MV',
+  MW = 'MW',
+  MX = 'MX',
+  MY = 'MY',
+  MZ = 'MZ',
+  NA = 'NA',
+  NC = 'NC',
+  NE = 'NE',
+  NF = 'NF',
+  NG = 'NG',
+  NI = 'NI',
+  NL = 'NL',
+  NO = 'NO',
+  NP = 'NP',
+  NR = 'NR',
+  NU = 'NU',
+  NZ = 'NZ',
+  OM = 'OM',
+  PA = 'PA',
+  PE = 'PE',
+  PF = 'PF',
+  PG = 'PG',
+  PH = 'PH',
+  PK = 'PK',
+  PL = 'PL',
+  PM = 'PM',
+  PN = 'PN',
+  PR = 'PR',
+  PS = 'PS',
+  PT = 'PT',
+  PW = 'PW',
+  PY = 'PY',
+  QA = 'QA',
+  RE = 'RE',
+  RO = 'RO',
+  RS = 'RS',
+  RU = 'RU',
+  RW = 'RW',
+  SA = 'SA',
+  SB = 'SB',
+  SC = 'SC',
+  SD = 'SD',
+  SE = 'SE',
+  SG = 'SG',
+  SH = 'SH',
+  SI = 'SI',
+  SJ = 'SJ',
+  SK = 'SK',
+  SL = 'SL',
+  SM = 'SM',
+  SN = 'SN',
+  SO = 'SO',
+  SR = 'SR',
+  SS = 'SS',
+  ST = 'ST',
+  SV = 'SV',
+  SX = 'SX',
+  SY = 'SY',
+  SZ = 'SZ',
+  TC = 'TC',
+  TD = 'TD',
+  TF = 'TF',
+  TG = 'TG',
+  TH = 'TH',
+  TJ = 'TJ',
+  TK = 'TK',
+  TL = 'TL',
+  TM = 'TM',
+  TN = 'TN',
+  TO = 'TO',
+  TR = 'TR',
+  TT = 'TT',
+  TV = 'TV',
+  TW = 'TW',
+  TZ = 'TZ',
+  UA = 'UA',
+  UG = 'UG',
+  UM = 'UM',
+  US = 'US',
+  UY = 'UY',
+  UZ = 'UZ',
+  VA = 'VA',
+  VC = 'VC',
+  VE = 'VE',
+  VG = 'VG',
+  VI = 'VI',
+  VN = 'VN',
+  VU = 'VU',
+  WF = 'WF',
+  WS = 'WS',
+  YE = 'YE',
+  YT = 'YT',
+  ZA = 'ZA',
+  ZM = 'ZM',
+  ZW = 'ZW'
 }
 
 /** Currency Code */
 export enum CurrencyCode {
-  Adp = 'ADP',
-  Aed = 'AED',
-  Afa = 'AFA',
-  Afn = 'AFN',
-  Alk = 'ALK',
-  All = 'ALL',
-  Amd = 'AMD',
-  Ang = 'ANG',
-  Aoa = 'AOA',
-  Aok = 'AOK',
-  Aon = 'AON',
-  Aor = 'AOR',
-  Ara = 'ARA',
-  Arl = 'ARL',
-  Arm = 'ARM',
-  Arp = 'ARP',
-  Ars = 'ARS',
-  Ats = 'ATS',
-  Aud = 'AUD',
-  Awg = 'AWG',
-  Azm = 'AZM',
-  Azn = 'AZN',
-  Bad = 'BAD',
-  Bam = 'BAM',
-  Ban = 'BAN',
-  Bbd = 'BBD',
-  Bdt = 'BDT',
-  Bec = 'BEC',
-  Bef = 'BEF',
-  Bel = 'BEL',
-  Bgl = 'BGL',
-  Bgm = 'BGM',
-  Bgn = 'BGN',
-  Bgo = 'BGO',
-  Bhd = 'BHD',
-  Bif = 'BIF',
-  Bmd = 'BMD',
-  Bnd = 'BND',
-  Bob = 'BOB',
-  Bol = 'BOL',
-  Bop = 'BOP',
-  Bov = 'BOV',
-  Brb = 'BRB',
-  Brc = 'BRC',
-  Bre = 'BRE',
-  Brl = 'BRL',
-  Brn = 'BRN',
-  Brr = 'BRR',
-  Brz = 'BRZ',
-  Bsd = 'BSD',
-  Btn = 'BTN',
-  Buk = 'BUK',
-  Bwp = 'BWP',
-  Byb = 'BYB',
-  Byn = 'BYN',
-  Byr = 'BYR',
-  Bzd = 'BZD',
-  Cad = 'CAD',
-  Cdf = 'CDF',
-  Che = 'CHE',
-  Chf = 'CHF',
-  Chw = 'CHW',
-  Cle = 'CLE',
-  Clf = 'CLF',
-  Clp = 'CLP',
-  Cnx = 'CNX',
-  Cny = 'CNY',
-  Cop = 'COP',
-  Cou = 'COU',
-  Crc = 'CRC',
-  Csd = 'CSD',
-  Csk = 'CSK',
-  Cuc = 'CUC',
-  Cup = 'CUP',
-  Cve = 'CVE',
-  Cyp = 'CYP',
-  Czk = 'CZK',
-  Ddm = 'DDM',
-  Dem = 'DEM',
-  Djf = 'DJF',
-  Dkk = 'DKK',
-  Dop = 'DOP',
-  Dzd = 'DZD',
-  Ecs = 'ECS',
-  Ecv = 'ECV',
-  Eek = 'EEK',
-  Egp = 'EGP',
-  Ern = 'ERN',
-  Esa = 'ESA',
-  Esb = 'ESB',
-  Esp = 'ESP',
-  Etb = 'ETB',
-  Eur = 'EUR',
-  Fim = 'FIM',
-  Fjd = 'FJD',
-  Fkp = 'FKP',
-  Frf = 'FRF',
-  Gbp = 'GBP',
-  Gek = 'GEK',
-  Gel = 'GEL',
-  Ghc = 'GHC',
-  Ghs = 'GHS',
-  Gip = 'GIP',
-  Gmd = 'GMD',
-  Gnf = 'GNF',
-  Gns = 'GNS',
-  Gqe = 'GQE',
-  Grd = 'GRD',
-  Gtq = 'GTQ',
-  Gwe = 'GWE',
-  Gwp = 'GWP',
-  Gyd = 'GYD',
-  Hkd = 'HKD',
-  Hnl = 'HNL',
-  Hrd = 'HRD',
-  Hrk = 'HRK',
-  Htg = 'HTG',
-  Huf = 'HUF',
-  Idr = 'IDR',
-  Iep = 'IEP',
-  Ilp = 'ILP',
-  Ilr = 'ILR',
-  Ils = 'ILS',
-  Inr = 'INR',
-  Iqd = 'IQD',
-  Irr = 'IRR',
-  Isj = 'ISJ',
-  Isk = 'ISK',
-  Itl = 'ITL',
-  Jmd = 'JMD',
-  Jod = 'JOD',
-  Jpy = 'JPY',
-  Kes = 'KES',
-  Kgs = 'KGS',
-  Khr = 'KHR',
-  Kmf = 'KMF',
-  Kpw = 'KPW',
-  Krh = 'KRH',
-  Kro = 'KRO',
-  Krw = 'KRW',
-  Kwd = 'KWD',
-  Kyd = 'KYD',
-  Kzt = 'KZT',
-  Lak = 'LAK',
-  Lbp = 'LBP',
-  Lkr = 'LKR',
-  Lrd = 'LRD',
-  Lsl = 'LSL',
-  Ltl = 'LTL',
-  Ltt = 'LTT',
-  Luc = 'LUC',
-  Luf = 'LUF',
-  Lul = 'LUL',
-  Lvl = 'LVL',
-  Lvr = 'LVR',
-  Lyd = 'LYD',
-  Mad = 'MAD',
-  Maf = 'MAF',
-  Mcf = 'MCF',
-  Mdc = 'MDC',
-  Mdl = 'MDL',
-  Mga = 'MGA',
-  Mgf = 'MGF',
-  Mkd = 'MKD',
-  Mkn = 'MKN',
-  Mlf = 'MLF',
-  Mmk = 'MMK',
-  Mnt = 'MNT',
-  Mop = 'MOP',
-  Mro = 'MRO',
-  Mtl = 'MTL',
-  Mtp = 'MTP',
-  Mur = 'MUR',
-  Mvp = 'MVP',
-  Mvr = 'MVR',
-  Mwk = 'MWK',
-  Mxn = 'MXN',
-  Mxp = 'MXP',
-  Mxv = 'MXV',
-  Myr = 'MYR',
-  Mze = 'MZE',
-  Mzm = 'MZM',
-  Mzn = 'MZN',
-  Nad = 'NAD',
-  Ngn = 'NGN',
-  Nic = 'NIC',
-  Nio = 'NIO',
-  Nlg = 'NLG',
-  Nok = 'NOK',
-  Npr = 'NPR',
-  Nzd = 'NZD',
-  Omr = 'OMR',
-  Pab = 'PAB',
-  Pei = 'PEI',
-  Pen = 'PEN',
-  Pes = 'PES',
-  Pgk = 'PGK',
-  Php = 'PHP',
-  Pkr = 'PKR',
-  Pln = 'PLN',
-  Plz = 'PLZ',
-  Pte = 'PTE',
-  Pyg = 'PYG',
-  Qar = 'QAR',
-  Rhd = 'RHD',
-  Rol = 'ROL',
-  Ron = 'RON',
-  Rsd = 'RSD',
-  Rub = 'RUB',
-  Rur = 'RUR',
-  Rwf = 'RWF',
-  Sar = 'SAR',
-  Sbd = 'SBD',
-  Scr = 'SCR',
-  Sdd = 'SDD',
-  Sdg = 'SDG',
-  Sdp = 'SDP',
-  Sek = 'SEK',
-  Sgd = 'SGD',
-  Shp = 'SHP',
-  Sit = 'SIT',
-  Skk = 'SKK',
-  Sll = 'SLL',
-  Sos = 'SOS',
-  Srd = 'SRD',
-  Srg = 'SRG',
-  Ssp = 'SSP',
-  Std = 'STD',
-  Sur = 'SUR',
-  Svc = 'SVC',
-  Syp = 'SYP',
-  Szl = 'SZL',
-  Thb = 'THB',
-  Tjr = 'TJR',
-  Tjs = 'TJS',
-  Tmm = 'TMM',
-  Tmt = 'TMT',
-  Tnd = 'TND',
-  Top = 'TOP',
-  Tpe = 'TPE',
-  Trl = 'TRL',
-  Try = 'TRY',
-  Ttd = 'TTD',
-  Twd = 'TWD',
-  Tzs = 'TZS',
-  Uah = 'UAH',
-  Uak = 'UAK',
-  Ugs = 'UGS',
-  Ugx = 'UGX',
-  Usd = 'USD',
-  Usn = 'USN',
-  Uss = 'USS',
-  Uyi = 'UYI',
-  Uyp = 'UYP',
-  Uyu = 'UYU',
-  Uzs = 'UZS',
-  Veb = 'VEB',
-  Vef = 'VEF',
-  Vnd = 'VND',
-  Vnn = 'VNN',
-  Vuv = 'VUV',
-  Wst = 'WST',
-  Xaf = 'XAF',
-  Xcd = 'XCD',
-  Xeu = 'XEU',
-  Xfo = 'XFO',
-  Xfu = 'XFU',
-  Xof = 'XOF',
-  Xpf = 'XPF',
-  Xre = 'XRE',
-  Ydd = 'YDD',
-  Yer = 'YER',
-  Yud = 'YUD',
-  Yum = 'YUM',
-  Yun = 'YUN',
-  Yur = 'YUR',
-  Zal = 'ZAL',
-  Zar = 'ZAR',
-  Zmk = 'ZMK',
-  Zmw = 'ZMW',
-  Zrn = 'ZRN',
-  Zrz = 'ZRZ',
-  Zwd = 'ZWD',
-  Zwl = 'ZWL',
-  Zwr = 'ZWR'
+  ADP = 'ADP',
+  AED = 'AED',
+  AFA = 'AFA',
+  AFN = 'AFN',
+  ALK = 'ALK',
+  ALL = 'ALL',
+  AMD = 'AMD',
+  ANG = 'ANG',
+  AOA = 'AOA',
+  AOK = 'AOK',
+  AON = 'AON',
+  AOR = 'AOR',
+  ARA = 'ARA',
+  ARL = 'ARL',
+  ARM = 'ARM',
+  ARP = 'ARP',
+  ARS = 'ARS',
+  ATS = 'ATS',
+  AUD = 'AUD',
+  AWG = 'AWG',
+  AZM = 'AZM',
+  AZN = 'AZN',
+  BAD = 'BAD',
+  BAM = 'BAM',
+  BAN = 'BAN',
+  BBD = 'BBD',
+  BDT = 'BDT',
+  BEC = 'BEC',
+  BEF = 'BEF',
+  BEL = 'BEL',
+  BGL = 'BGL',
+  BGM = 'BGM',
+  BGN = 'BGN',
+  BGO = 'BGO',
+  BHD = 'BHD',
+  BIF = 'BIF',
+  BMD = 'BMD',
+  BND = 'BND',
+  BOB = 'BOB',
+  BOL = 'BOL',
+  BOP = 'BOP',
+  BOV = 'BOV',
+  BRB = 'BRB',
+  BRC = 'BRC',
+  BRE = 'BRE',
+  BRL = 'BRL',
+  BRN = 'BRN',
+  BRR = 'BRR',
+  BRZ = 'BRZ',
+  BSD = 'BSD',
+  BTN = 'BTN',
+  BUK = 'BUK',
+  BWP = 'BWP',
+  BYB = 'BYB',
+  BYN = 'BYN',
+  BYR = 'BYR',
+  BZD = 'BZD',
+  CAD = 'CAD',
+  CDF = 'CDF',
+  CHE = 'CHE',
+  CHF = 'CHF',
+  CHW = 'CHW',
+  CLE = 'CLE',
+  CLF = 'CLF',
+  CLP = 'CLP',
+  CNX = 'CNX',
+  CNY = 'CNY',
+  COP = 'COP',
+  COU = 'COU',
+  CRC = 'CRC',
+  CSD = 'CSD',
+  CSK = 'CSK',
+  CUC = 'CUC',
+  CUP = 'CUP',
+  CVE = 'CVE',
+  CYP = 'CYP',
+  CZK = 'CZK',
+  DDM = 'DDM',
+  DEM = 'DEM',
+  DJF = 'DJF',
+  DKK = 'DKK',
+  DOP = 'DOP',
+  DZD = 'DZD',
+  ECS = 'ECS',
+  ECV = 'ECV',
+  EEK = 'EEK',
+  EGP = 'EGP',
+  ERN = 'ERN',
+  ESA = 'ESA',
+  ESB = 'ESB',
+  ESP = 'ESP',
+  ETB = 'ETB',
+  EUR = 'EUR',
+  FIM = 'FIM',
+  FJD = 'FJD',
+  FKP = 'FKP',
+  FRF = 'FRF',
+  GBP = 'GBP',
+  GEK = 'GEK',
+  GEL = 'GEL',
+  GHC = 'GHC',
+  GHS = 'GHS',
+  GIP = 'GIP',
+  GMD = 'GMD',
+  GNF = 'GNF',
+  GNS = 'GNS',
+  GQE = 'GQE',
+  GRD = 'GRD',
+  GTQ = 'GTQ',
+  GWE = 'GWE',
+  GWP = 'GWP',
+  GYD = 'GYD',
+  HKD = 'HKD',
+  HNL = 'HNL',
+  HRD = 'HRD',
+  HRK = 'HRK',
+  HTG = 'HTG',
+  HUF = 'HUF',
+  IDR = 'IDR',
+  IEP = 'IEP',
+  ILP = 'ILP',
+  ILR = 'ILR',
+  ILS = 'ILS',
+  INR = 'INR',
+  IQD = 'IQD',
+  IRR = 'IRR',
+  ISJ = 'ISJ',
+  ISK = 'ISK',
+  ITL = 'ITL',
+  JMD = 'JMD',
+  JOD = 'JOD',
+  JPY = 'JPY',
+  KES = 'KES',
+  KGS = 'KGS',
+  KHR = 'KHR',
+  KMF = 'KMF',
+  KPW = 'KPW',
+  KRH = 'KRH',
+  KRO = 'KRO',
+  KRW = 'KRW',
+  KWD = 'KWD',
+  KYD = 'KYD',
+  KZT = 'KZT',
+  LAK = 'LAK',
+  LBP = 'LBP',
+  LKR = 'LKR',
+  LRD = 'LRD',
+  LSL = 'LSL',
+  LTL = 'LTL',
+  LTT = 'LTT',
+  LUC = 'LUC',
+  LUF = 'LUF',
+  LUL = 'LUL',
+  LVL = 'LVL',
+  LVR = 'LVR',
+  LYD = 'LYD',
+  MAD = 'MAD',
+  MAF = 'MAF',
+  MCF = 'MCF',
+  MDC = 'MDC',
+  MDL = 'MDL',
+  MGA = 'MGA',
+  MGF = 'MGF',
+  MKD = 'MKD',
+  MKN = 'MKN',
+  MLF = 'MLF',
+  MMK = 'MMK',
+  MNT = 'MNT',
+  MOP = 'MOP',
+  MRO = 'MRO',
+  MTL = 'MTL',
+  MTP = 'MTP',
+  MUR = 'MUR',
+  MVP = 'MVP',
+  MVR = 'MVR',
+  MWK = 'MWK',
+  MXN = 'MXN',
+  MXP = 'MXP',
+  MXV = 'MXV',
+  MYR = 'MYR',
+  MZE = 'MZE',
+  MZM = 'MZM',
+  MZN = 'MZN',
+  NAD = 'NAD',
+  NGN = 'NGN',
+  NIC = 'NIC',
+  NIO = 'NIO',
+  NLG = 'NLG',
+  NOK = 'NOK',
+  NPR = 'NPR',
+  NZD = 'NZD',
+  OMR = 'OMR',
+  PAB = 'PAB',
+  PEI = 'PEI',
+  PEN = 'PEN',
+  PES = 'PES',
+  PGK = 'PGK',
+  PHP = 'PHP',
+  PKR = 'PKR',
+  PLN = 'PLN',
+  PLZ = 'PLZ',
+  PTE = 'PTE',
+  PYG = 'PYG',
+  QAR = 'QAR',
+  RHD = 'RHD',
+  ROL = 'ROL',
+  RON = 'RON',
+  RSD = 'RSD',
+  RUB = 'RUB',
+  RUR = 'RUR',
+  RWF = 'RWF',
+  SAR = 'SAR',
+  SBD = 'SBD',
+  SCR = 'SCR',
+  SDD = 'SDD',
+  SDG = 'SDG',
+  SDP = 'SDP',
+  SEK = 'SEK',
+  SGD = 'SGD',
+  SHP = 'SHP',
+  SIT = 'SIT',
+  SKK = 'SKK',
+  SLL = 'SLL',
+  SOS = 'SOS',
+  SRD = 'SRD',
+  SRG = 'SRG',
+  SSP = 'SSP',
+  STD = 'STD',
+  SUR = 'SUR',
+  SVC = 'SVC',
+  SYP = 'SYP',
+  SZL = 'SZL',
+  THB = 'THB',
+  TJR = 'TJR',
+  TJS = 'TJS',
+  TMM = 'TMM',
+  TMT = 'TMT',
+  TND = 'TND',
+  TOP = 'TOP',
+  TPE = 'TPE',
+  TRL = 'TRL',
+  TRY = 'TRY',
+  TTD = 'TTD',
+  TWD = 'TWD',
+  TZS = 'TZS',
+  UAH = 'UAH',
+  UAK = 'UAK',
+  UGS = 'UGS',
+  UGX = 'UGX',
+  USD = 'USD',
+  USN = 'USN',
+  USS = 'USS',
+  UYI = 'UYI',
+  UYP = 'UYP',
+  UYU = 'UYU',
+  UZS = 'UZS',
+  VEB = 'VEB',
+  VEF = 'VEF',
+  VND = 'VND',
+  VNN = 'VNN',
+  VUV = 'VUV',
+  WST = 'WST',
+  XAF = 'XAF',
+  XCD = 'XCD',
+  XEU = 'XEU',
+  XFO = 'XFO',
+  XFU = 'XFU',
+  XOF = 'XOF',
+  XPF = 'XPF',
+  XRE = 'XRE',
+  YDD = 'YDD',
+  YER = 'YER',
+  YUD = 'YUD',
+  YUM = 'YUM',
+  YUN = 'YUN',
+  YUR = 'YUR',
+  ZAL = 'ZAL',
+  ZAR = 'ZAR',
+  ZMK = 'ZMK',
+  ZMW = 'ZMW',
+  ZRN = 'ZRN',
+  ZRZ = 'ZRZ',
+  ZWD = 'ZWD',
+  ZWL = 'ZWL',
+  ZWR = 'ZWR'
 }
 
 export type FocalPoint = {
@@ -6689,6 +6689,13 @@ export type CompanyPageGetDataQuery = { __typename: 'Query', company?: { __typen
         & { ' $fragmentRefs'?: { 'CmsImageFragment': CmsImageFragment } }
       ) | null } | null } | null };
 
+export type DirectoryIndexPageEntryFragment = (
+  { __typename: 'GlossaryEntryRecord', id: any }
+  & { ' $fragmentRefs'?: { 'CompanyCardCompanyFragment': CompanyCardCompanyFragment } }
+) & { ' $fragmentName'?: 'DirectoryIndexPageEntryFragment' };
+
+export type DirectoryIndexPageMetadataFragment = { __typename: 'CollectionMetadata', count: any } & { ' $fragmentName'?: 'DirectoryIndexPageMetadataFragment' };
+
 export type DirectoryIndexPageGetDataQueryVariables = Exact<{
   first?: InputMaybe<Scalars['IntType']>;
   skip?: InputMaybe<Scalars['IntType']>;
@@ -6696,7 +6703,13 @@ export type DirectoryIndexPageGetDataQueryVariables = Exact<{
 }>;
 
 
-export type DirectoryIndexPageGetDataQuery = { __typename: 'Query', directory: Array<{ __typename: 'GlossaryEntryRecord', id: any }> };
+export type DirectoryIndexPageGetDataQuery = { __typename: 'Query', directory: Array<(
+    { __typename: 'GlossaryEntryRecord', id: any }
+    & { ' $fragmentRefs'?: { 'DirectoryIndexPageEntryFragment': DirectoryIndexPageEntryFragment } }
+  )>, directoryMetadata: (
+    { __typename: 'CollectionMetadata' }
+    & { ' $fragmentRefs'?: { 'DirectoryIndexPageMetadataFragment': DirectoryIndexPageMetadataFragment } }
+  ) };
 
 export type CmsImageFragment = { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt?: string | null, title?: string | null, base64?: string | null } & { ' $fragmentName'?: 'CmsImageFragment' };
 
@@ -6710,8 +6723,16 @@ export type CmsStructuredTextImageRecordFragment = { __typename: 'ImageRecord', 
       & { ' $fragmentRefs'?: { 'CmsImageFragment': CmsImageFragment } }
     ) | null } | null } & { ' $fragmentName'?: 'CmsStructuredTextImageRecordFragment' };
 
+export type CompanyCardCompanyFragment = { __typename: 'GlossaryEntryRecord', id: any, slug?: string | null, definition?: string | null, name?: string | null, primaryImage?: { __typename: 'FileField', id: any, responsiveImage?: (
+      { __typename: 'ResponsiveImage' }
+      & { ' $fragmentRefs'?: { 'CmsImageFragment': CmsImageFragment } }
+    ) | null } | null } & { ' $fragmentName'?: 'CompanyCardCompanyFragment' };
+
 export const CmsImageFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CmsImage"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ResponsiveImage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"srcSet"}},{"kind":"Field","name":{"kind":"Name","value":"webpSrcSet"}},{"kind":"Field","name":{"kind":"Name","value":"sizes"}},{"kind":"Field","name":{"kind":"Name","value":"src"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"aspectRatio"}},{"kind":"Field","name":{"kind":"Name","value":"alt"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"base64"}}]}}]} as unknown as DocumentNode<CmsImageFragment, unknown>;
+export const CompanyCardCompanyFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CompanyCardCompany"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"GlossaryEntryRecord"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","alias":{"kind":"Name","value":"name"},"name":{"kind":"Name","value":"term"}},{"kind":"Field","name":{"kind":"Name","value":"definition"}},{"kind":"Field","name":{"kind":"Name","value":"primaryImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"responsiveImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CmsImage"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CmsImage"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ResponsiveImage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"srcSet"}},{"kind":"Field","name":{"kind":"Name","value":"webpSrcSet"}},{"kind":"Field","name":{"kind":"Name","value":"sizes"}},{"kind":"Field","name":{"kind":"Name","value":"src"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"aspectRatio"}},{"kind":"Field","name":{"kind":"Name","value":"alt"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"base64"}}]}}]} as unknown as DocumentNode<CompanyCardCompanyFragment, unknown>;
+export const DirectoryIndexPageEntryFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DirectoryIndexPageEntry"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"GlossaryEntryRecord"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"CompanyCardCompany"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CmsImage"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ResponsiveImage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"srcSet"}},{"kind":"Field","name":{"kind":"Name","value":"webpSrcSet"}},{"kind":"Field","name":{"kind":"Name","value":"sizes"}},{"kind":"Field","name":{"kind":"Name","value":"src"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"aspectRatio"}},{"kind":"Field","name":{"kind":"Name","value":"alt"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"base64"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CompanyCardCompany"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"GlossaryEntryRecord"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","alias":{"kind":"Name","value":"name"},"name":{"kind":"Name","value":"term"}},{"kind":"Field","name":{"kind":"Name","value":"definition"}},{"kind":"Field","name":{"kind":"Name","value":"primaryImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"responsiveImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CmsImage"}}]}}]}}]}}]} as unknown as DocumentNode<DirectoryIndexPageEntryFragment, unknown>;
+export const DirectoryIndexPageMetadataFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DirectoryIndexPageMetadata"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CollectionMetadata"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]} as unknown as DocumentNode<DirectoryIndexPageMetadataFragment, unknown>;
 export const CmsStructuredTextImageRecordFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CmsStructuredTextImageRecord"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ImageRecord"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"responsiveImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CmsImage"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CmsImage"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ResponsiveImage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"srcSet"}},{"kind":"Field","name":{"kind":"Name","value":"webpSrcSet"}},{"kind":"Field","name":{"kind":"Name","value":"sizes"}},{"kind":"Field","name":{"kind":"Name","value":"src"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"aspectRatio"}},{"kind":"Field","name":{"kind":"Name","value":"alt"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"base64"}}]}}]} as unknown as DocumentNode<CmsStructuredTextImageRecordFragment, unknown>;
 export const CmsStructuredTextGlossaryDescriptionFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CmsStructuredTextGlossaryDescription"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"GlossaryEntryModelDescriptionField"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"blocks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ImageRecord"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CmsStructuredTextImageRecord"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"links"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ArticleRecord"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"GlossaryEntryRecord"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"term"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CmsImage"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ResponsiveImage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"srcSet"}},{"kind":"Field","name":{"kind":"Name","value":"webpSrcSet"}},{"kind":"Field","name":{"kind":"Name","value":"sizes"}},{"kind":"Field","name":{"kind":"Name","value":"src"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"aspectRatio"}},{"kind":"Field","name":{"kind":"Name","value":"alt"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"base64"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CmsStructuredTextImageRecord"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ImageRecord"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"responsiveImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CmsImage"}}]}}]}}]}}]} as unknown as DocumentNode<CmsStructuredTextGlossaryDescriptionFragment, unknown>;
 export const CompanyPageGetDataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CompanyPageGetData"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"companySlug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"company"},"name":{"kind":"Name","value":"glossaryEntry"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"slug"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"companySlug"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"term"}},{"kind":"Field","name":{"kind":"Name","value":"definition"}},{"kind":"Field","name":{"kind":"Name","value":"businessUrl"}},{"kind":"Field","name":{"kind":"Name","value":"affiliateUrl"}},{"kind":"Field","name":{"kind":"Name","value":"description"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CmsStructuredTextGlossaryDescription"}}]}},{"kind":"Field","name":{"kind":"Name","value":"primaryImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"responsiveImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CmsImage"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CmsImage"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ResponsiveImage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"srcSet"}},{"kind":"Field","name":{"kind":"Name","value":"webpSrcSet"}},{"kind":"Field","name":{"kind":"Name","value":"sizes"}},{"kind":"Field","name":{"kind":"Name","value":"src"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"aspectRatio"}},{"kind":"Field","name":{"kind":"Name","value":"alt"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"base64"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CmsStructuredTextImageRecord"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ImageRecord"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"responsiveImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CmsImage"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CmsStructuredTextGlossaryDescription"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"GlossaryEntryModelDescriptionField"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"blocks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ImageRecord"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CmsStructuredTextImageRecord"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"links"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ArticleRecord"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"GlossaryEntryRecord"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"term"}}]}}]}}]}}]} as unknown as DocumentNode<CompanyPageGetDataQuery, CompanyPageGetDataQueryVariables>;
-export const DirectoryIndexPageGetDataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"DirectoryIndexPageGetData"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"first"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"IntType"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"IntType"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"GlossaryEntryModelFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"directory"},"name":{"kind":"Name","value":"allGlossaryEntries"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"Variable","name":{"kind":"Name","value":"first"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<DirectoryIndexPageGetDataQuery, DirectoryIndexPageGetDataQueryVariables>;
+export const DirectoryIndexPageGetDataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"DirectoryIndexPageGetData"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"first"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"IntType"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"IntType"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"GlossaryEntryModelFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"directory"},"name":{"kind":"Name","value":"allGlossaryEntries"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"Variable","name":{"kind":"Name","value":"first"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"DirectoryIndexPageEntry"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"directoryMetadata"},"name":{"kind":"Name","value":"_allGlossaryEntriesMeta"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"DirectoryIndexPageMetadata"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CmsImage"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ResponsiveImage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"srcSet"}},{"kind":"Field","name":{"kind":"Name","value":"webpSrcSet"}},{"kind":"Field","name":{"kind":"Name","value":"sizes"}},{"kind":"Field","name":{"kind":"Name","value":"src"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"aspectRatio"}},{"kind":"Field","name":{"kind":"Name","value":"alt"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"base64"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CompanyCardCompany"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"GlossaryEntryRecord"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","alias":{"kind":"Name","value":"name"},"name":{"kind":"Name","value":"term"}},{"kind":"Field","name":{"kind":"Name","value":"definition"}},{"kind":"Field","name":{"kind":"Name","value":"primaryImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"responsiveImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CmsImage"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DirectoryIndexPageEntry"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"GlossaryEntryRecord"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"CompanyCardCompany"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DirectoryIndexPageMetadata"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"CollectionMetadata"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]} as unknown as DocumentNode<DirectoryIndexPageGetDataQuery, DirectoryIndexPageGetDataQueryVariables>;

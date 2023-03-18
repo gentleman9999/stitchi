@@ -4,25 +4,22 @@ import Image from 'next/image'
 import { Skeleton } from '@/components/ui'
 import cx from 'classnames'
 import routes from '@/lib/routes'
-
-interface Company {
-  id: string
-  slug: string | null
-  term: string
-  definition: string
-}
+import { FragmentType, getFragmentData, gql } from '@/__generated__'
+import CmsImage from '../CmsImage'
 
 export interface Props {
   component?: React.ElementType
-  company?: Company
+  companyData?: FragmentType<typeof CompanyCardCompany>
   loading?: boolean
 }
 
 const CompanyCard = ({
-  company,
+  companyData,
   loading = false,
   component: Component = 'div',
 }: Props) => {
+  const company = getFragmentData(CompanyCardCompany, companyData)
+
   if (!loading && !company?.slug) {
     console.error('IndustryTermCard: missing slug', company)
 
@@ -45,29 +42,18 @@ const CompanyCard = ({
     >
       <div className="col-span-12 sm:col-span-3 rounded-sm overflow-hidden">
         <Link
-          href={href || ''}
+          href={href || '#'}
           className="relative w-full after:pb-[100%] after:block after:content-['']"
         >
           {loading ? (
             <Skeleton className="h-full" />
-          ) : (
-            <Image
-              fill
-              src={`https://picsum.photos/400?random=${company?.id}`}
-              style={{ objectFit: 'cover' }}
-              alt="image test"
-              key={company?.id}
-            />
-          )}
-
-          {/* {company.primaryImage?.responsiveImage ? (
-
+          ) : company?.primaryImage?.responsiveImage ? (
             <CmsImage
               data={company.primaryImage.responsiveImage}
               layout="fill"
               objectFit="cover"
             />
-        ) : null} */}
+          ) : null}
         </Link>
       </div>
 
@@ -77,7 +63,7 @@ const CompanyCard = ({
             {loading ? (
               <Skeleton className="w-[120px] h-7" />
             ) : (
-              <>{company?.term}</>
+              <>{company?.name}</>
             )}
           </h2>
         </Link>
@@ -94,3 +80,18 @@ const CompanyCard = ({
 }
 
 export default CompanyCard
+
+export const CompanyCardCompany = gql(`
+  fragment CompanyCardCompany on GlossaryEntryRecord {
+    id
+    slug
+    name: term
+    definition
+    primaryImage {
+      id
+      responsiveImage {
+        ...CmsImage
+      }
+    }
+  }
+`)

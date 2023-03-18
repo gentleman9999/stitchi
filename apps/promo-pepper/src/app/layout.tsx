@@ -15,7 +15,7 @@ export const metadata = {
   description: 'PromoPepper promotional products directory and newsletter.',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode

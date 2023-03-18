@@ -1,33 +1,31 @@
-import { SearchBar } from '@/components/common'
 import { Container } from '@/components/ui'
-import { initializeApollo } from '@/lib/apollo'
-import { gql } from '@/__generated__'
-import {
-  DirectoryIndexPageGetDataQuery,
-  DirectoryIndexPageGetDataQueryVariables,
-} from '@/__generated__/graphql'
-import { notFound } from 'next/navigation'
+// import { initializeApollo } from '@/lib/apollo'
+// import {
+//   DirectoryIndexPageGetDataQuery,
+//   DirectoryIndexPageGetDataQueryVariables,
+// } from '@/__generated__/graphql'
+// import { notFound } from 'next/navigation'
 import React from 'react'
-import Filters from './Filters'
-import Temp from './Temp'
+import Directory from './Directory'
+// import {
+//   defaultQueryVariables,
+//   directoryIndexPageGetData,
+// } from './directoryIndexPageGetData'
 
-export default async function Directory() {
-  const client = initializeApollo()
+export default async function Page() {
+  // const client = initializeApollo()
 
-  const { data } = await client.query<
-    DirectoryIndexPageGetDataQuery,
-    DirectoryIndexPageGetDataQueryVariables
-  >({
-    query: DirectoryIndexPageGetDataQuery,
-    variables: {
-      first: 20,
-      filter: { entryType: { eq: 'company' } },
-    },
-  })
+  // const { data } = await client.query<
+  //   DirectoryIndexPageGetDataQuery,
+  //   DirectoryIndexPageGetDataQueryVariables
+  // >({
+  //   query: directoryIndexPageGetData,
+  //   variables: defaultQueryVariables,
+  // })
 
-  if (!data.directory) {
-    notFound()
-  }
+  // if (!data.directory) {
+  //   notFound()
+  // }
 
   return (
     <>
@@ -37,20 +35,8 @@ export default async function Directory() {
             Discover the internet&apos;s best merch and how its made
           </h1>
         </div>
-        <Temp />
+        <Directory />
       </Container>
     </>
   )
 }
-
-const DirectoryIndexPageGetDataQuery = gql(/* GraphQL */ `
-  query DirectoryIndexPageGetData(
-    $first: IntType
-    $skip: IntType
-    $filter: GlossaryEntryModelFilter
-  ) {
-    directory: allGlossaryEntries(first: $first, skip: $skip, filter: $filter) {
-      id
-    }
-  }
-`)

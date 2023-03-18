@@ -13,6 +13,10 @@ const config: CodegenConfig = {
       },
       config: {
         nonOptionalTypename: true,
+        namingConvention: {
+          typeNames: 'change-case-all#pascalCase',
+          enumValues: 'change-case-all#upperCase',
+        },
       },
     },
   },
