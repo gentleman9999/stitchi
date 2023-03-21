@@ -94,7 +94,7 @@ export default async function Page({
         <section aria-label="similar companies" className="py-12">
           <h2 className="text-2xl">Related companies</h2>
           <ul className="flex gap-8 mt-4">
-            {companies.slice(0, 3).map(company => (
+            {/* {companies.slice(0, 3).map(company => (
               <li key={company.id} className="flex-1">
                 <Link
                   href={routes.internal.directory.companies.show.href({
@@ -106,7 +106,7 @@ export default async function Page({
                   <ArrowRight className="group-hover:translate-x-1 transition-all" />
                 </Link>
               </li>
-            ))}
+            ))} */}
           </ul>
         </section>
       </Container>

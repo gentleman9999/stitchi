@@ -30,15 +30,12 @@ export default function Directory() {
     notifyOnNetworkStatusChange: true,
   })
 
-  const directory = getFragmentData(DirectoryIndexPageEntry, data?.directory)
+  const query = getFragmentData(DirectoryIndexPageQueryFragment, data)
+
+  const { directory, directoryMetadata } = query || {}
 
   const handleIntersect = () => {
     if (loading) return
-
-    const directoryMetadata = getFragmentData(
-      DirectoryIndexPageMetadata,
-      data?.directoryMetadata,
-    )
 
     const directoryCurrentLength = directory?.length || 0
     const directoryTotalLength = directoryMetadata?.count || 0
@@ -58,7 +55,7 @@ export default function Directory() {
       <div className="flex flex-col gap-20">
         <div className="flex flex-col gap-12">
           <SearchBar onSubmit={() => {}} loading={false} />
-          <Filters />
+          <Filters query={query} />
         </div>
         <div>
           <ul className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -86,15 +83,17 @@ export default function Directory() {
   )
 }
 
-export const DirectoryIndexPageEntry = gql(/* GraphQL */ `
-  fragment DirectoryIndexPageEntry on GlossaryEntryRecord {
-    id
-    ...CompanyCardCompany
-  }
-`)
+export const DirectoryIndexPageQueryFragment = gql(/* GraphQL */ `
+  fragment DirectoryIndexPageQuery on Query {
+    ...DirectoryFilters
 
-export const DirectoryIndexPageMetadata = gql(/* GraphQL */ `
-  fragment DirectoryIndexPageMetadata on CollectionMetadata {
-    count
+    directory: allGlossaryEntries(first: $first, skip: $skip, filter: $filter) {
+      id
+      ...CompanyCardCompany
+    }
+
+    directoryMetadata: _allGlossaryEntriesMeta(filter: $filter) {
+      count
+    }
   }
 `)

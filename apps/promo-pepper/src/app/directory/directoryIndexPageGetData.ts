@@ -7,15 +7,8 @@ export const directoryIndexPageGetData = gql(`
   $skip: IntType
   $filter: GlossaryEntryModelFilter
 ) {
-  directory: allGlossaryEntries(first: $first, skip: $skip, filter: $filter) {
-    id
-    ...DirectoryIndexPageEntry
+  ...DirectoryIndexPageQuery
   }
-
-  directoryMetadata: _allGlossaryEntriesMeta(filter: $filter) {
-    ...DirectoryIndexPageMetadata
-  }
-}
 `)
 
 export const defaultQueryVariables: DirectoryIndexPageGetDataQueryVariables = {

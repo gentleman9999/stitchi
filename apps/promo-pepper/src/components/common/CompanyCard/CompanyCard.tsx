@@ -1,6 +1,5 @@
 import React from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { Skeleton } from '@/components/ui'
 import cx from 'classnames'
 import routes from '@/lib/routes'
