@@ -15,13 +15,23 @@ import {
 } from '@/__generated__/graphql'
 import InfiniteScrollTrigger from './Filters/InfiniteScrollTrigger'
 import { initializeApollo } from '@/lib/apollo'
+import { DirectoryProvider, useDirectory } from './directory-context'
 
 const client = initializeApollo()
 
 interface Props {}
 
-export default function Directory() {
-  const { data, loading, fetchMore } = useQuery<
+export default function Directory(props: Props) {
+  return (
+    <DirectoryProvider>
+      <DirectoryInner {...props} />
+    </DirectoryProvider>
+  )
+}
+
+function DirectoryInner() {
+  const { selectedCategoryIds } = useDirectory()
+  const { data, loading, fetchMore, refetch } = useQuery<
     DirectoryIndexPageGetDataQuery,
     DirectoryIndexPageGetDataQueryVariables
   >(directoryIndexPageGetData, {
@@ -34,6 +44,17 @@ export default function Directory() {
 
   const { directory, directoryMetadata } = query || {}
 
+  React.useEffect(() => {
+    refetch({
+      filter: {
+        ...defaultQueryVariables.filter,
+        categories: {
+          anyIn: Array.from(selectedCategoryIds),
+        },
+      },
+    })
+  }, [refetch, selectedCategoryIds])
+
   const handleIntersect = () => {
     if (loading) return
 
@@ -42,12 +63,7 @@ export default function Directory() {
 
     if (directoryCurrentLength >= directoryTotalLength) return
 
-    fetchMore({
-      variables: {
-        ...defaultQueryVariables,
-        skip: directoryCurrentLength,
-      },
-    })
+    fetchMore({ variables: { skip: directoryCurrentLength } })
   }
 
   return (
@@ -55,7 +71,7 @@ export default function Directory() {
       <div className="flex flex-col gap-20">
         <div className="flex flex-col gap-12">
           <SearchBar onSubmit={() => {}} loading={false} />
-          <Filters query={query} />
+          <Filters />
         </div>
         <div>
           <ul className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -85,8 +101,6 @@ export default function Directory() {
 
 export const DirectoryIndexPageQueryFragment = gql(/* GraphQL */ `
   fragment DirectoryIndexPageQuery on Query {
-    ...DirectoryFilters
-
     directory: allGlossaryEntries(first: $first, skip: $skip, filter: $filter) {
       id
       ...CompanyCardCompany

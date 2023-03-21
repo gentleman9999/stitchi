@@ -1,87 +1,61 @@
 'use client'
 
+import { initializeApollo } from '@/lib/apollo'
 import { notEmpty } from '@/utils/typescript'
 import { FragmentType, getFragmentData, gql } from '@/__generated__'
+import {
+  DirectoryFiltersDataQuery,
+  DirectoryFiltersDataQueryVariables,
+} from '@/__generated__/graphql'
+import { useQuery } from '@apollo/client'
 import { Adjustments, XIcon } from 'icons'
 import React from 'react'
+import { useDirectory } from '../directory-context'
 import FilterButton from './FilterButton'
 import FilterDialog from './FilterDialog'
 
-interface Filter {
-  id: string
-  label: string
-  slug: string
-  active: boolean
-}
+const client = initializeApollo()
 
-interface Category {
-  id: string
-  slug?: string | null
-  title?: string | null
-  children?: (Category | null)[] | null
-}
+type Category = Omit<
+  DirectoryFiltersDataQuery['topLevelCategories'][number],
+  'children'
+>
 
-const categoryReducer = (acc: Map<string, Filter>, category?: Category) => {
-  if (category?.children) {
-    category.children.filter(notEmpty).reduce(categoryReducer, acc)
-  }
+const categoryReducer = (
+  acc: Category[],
+  category: DirectoryFiltersDataQuery['topLevelCategories'][number],
+) => {
+  const { children, ...rest } = category
 
-  const { id, slug, title } = category || {}
+  acc.push(rest)
 
-  if (slug && title && id) {
-    acc.set(id, { id, label: title, slug, active: false })
+  if (children?.length) {
+    children.filter(notEmpty).reduce(categoryReducer, acc)
   }
 
   return acc
 }
 
-const createFilterMap = (
-  queryFragment?: FragmentType<typeof DirectoryFiltersFragment> | null,
-) => {
-  const query = getFragmentData(DirectoryFiltersFragment, queryFragment)
-
-  const { topLevelCategories } = query || {}
-
-  return (
-    topLevelCategories?.reduce(categoryReducer, new Map<string, Filter>()) ||
-    new Map()
-  )
-}
-
-interface Props {
-  query?: FragmentType<typeof DirectoryFiltersFragment> | null
-}
+interface Props {}
 
 export default function Filter(props: Props) {
-  const [filters, setFilters] = React.useState(() =>
-    createFilterMap(props.query),
-  )
+  const { selectedCategoryIds, toggleCategory } = useDirectory()
 
-  React.useEffect(() => {
-    setFilters(createFilterMap(props.query))
-  }, [props.query])
+  const { data } = useQuery<
+    DirectoryFiltersDataQuery,
+    DirectoryFiltersDataQueryVariables
+  >(GetDirectoryFiltersData, { client })
 
   const [showFilters, setShowFilters] = React.useState(false)
 
-  const toggleFilter = (filterId: string) => {
-    const currentFilter = filters.get(filterId)
+  const { featuredCategories, topLevelCategories } = data || {}
 
-    if (currentFilter) {
-      const newFilters = new Map(Array.from(filters))
-      newFilters.set(filterId, {
-        ...currentFilter,
-        active: !currentFilter.active,
-      })
+  const flattenedCategories =
+    topLevelCategories?.reduce(categoryReducer, []) || []
 
-      setFilters(newFilters)
-    }
-  }
-
-  const query = getFragmentData(DirectoryFiltersFragment, props.query)
-  const { featuredCategories, topLevelCategories } = query || {}
-
-  const activeFilters = Array.from(filters.values()).filter(f => f.active)
-  const activeFilterIds = new Set(activeFilters.map(f => f.id))
+  const activeCategories = flattenedCategories?.filter(c =>
+    selectedCategoryIds.has(c.id),
+  )
 
   return (
     <>
@@ -92,16 +66,16 @@ export default function Filter(props: Props) {
       />
 
       <div className="flex gap-4 overflow-hidden w-full">
-        {activeFilters.length > 0 ? (
+        {activeCategories?.length ? (
           <ul className="flex gap-4 shrink-0">
-            {activeFilters.map(filter => (
+            {activeCategories.map(category => (
               <FilterButton
-                key={filter.slug}
+                key={category.slug}
                 className="border-gray-900"
                 component="div"
               >
-                {filter.label}{' '}
-                <button onClick={() => toggleFilter(filter.id)}>
+                {category.title}{' '}
+                <button onClick={() => toggleCategory(category.id)}>
                   <XIcon width={20} />
                 </button>
               </FilterButton>
@@ -109,7 +83,7 @@ export default function Filter(props: Props) {
           </ul>
         ) : null}
 
-        {activeFilters.length > 0 ? (
+        {activeCategories?.length ? (
           <div>
             <div className="border-r h-full" />
           </div>
@@ -118,12 +92,14 @@ export default function Filter(props: Props) {
         {featuredCategories?.length ? (
           <ul className="flex gap-4 flex-shrink overflow-x-scroll">
             {featuredCategories
-              .filter(cat => activeFilterIds.has(cat.id) === false)
-              .map(feature => {
+              .filter(
+                category => selectedCategoryIds.has(category.id) === false,
+              )
+              .map(category => {
                 return (
-                  <li key={feature.id}>
-                    <FilterButton onClick={() => toggleFilter(feature.id)}>
-                      {feature.title}
+                  <li key={category.id}>
+                    <FilterButton onClick={() => toggleCategory(category.id)}>
+                      {category.title}
                     </FilterButton>
                   </li>
                 )
@@ -141,8 +117,8 @@ export default function Filter(props: Props) {
   )
 }
 
-export const DirectoryFiltersFragment = gql(/* GraphQL */ `
-  fragment DirectoryFilters on Query {
+const GetDirectoryFiltersData = gql(/* GraphQL */ `
+  query DirectoryFiltersData {
     featuredCategories: allGlossaryCategories(
       first: 5
       filter: { parent: { eq: 147376160 } }
