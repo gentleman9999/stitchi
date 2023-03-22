@@ -38,11 +38,16 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  AllNewsletterIssuesFilter: { // input type
+    first: number; // Int!
+    skip?: number | null; // Int
+  }
 }
 
 export interface NexusGenEnums {
   GlobalRole: "CUSTOMER" | "SUPERADMIN"
   MembershipRole: "OWNER"
+  NewsletterIssueStatus: "ARCHIVED" | "CONFIRMED" | "DRAFT"
 }
 
 export interface NexusGenScalars {
@@ -64,6 +69,23 @@ export interface NexusGenObjects {
     userId: string; // String!
   }
   Mutation: {};
+  Newsletter: {};
+  NewsletterIssue: { // root type
+    authorNames: Array<string | null>; // [String]!
+    contentHtml: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    displayAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    id: string; // ID!
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    slug: string; // String!
+    status: NexusGenEnums['NewsletterIssueStatus']; // NewsletterIssueStatus!
+    subtitle: string; // String!
+    title: string; // String!
+  }
+  NewsletterIssueConnection: { // root type
+    nodes: Array<NexusGenRootTypes['NewsletterIssue'] | null>; // [NewsletterIssue]!
+    totalCount: number; // Int!
+  }
   Organization: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
@@ -115,6 +137,25 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     userBoostrap: NexusGenRootTypes['User'] | null; // User
   }
+  Newsletter: { // field return type
+    allNewsletterIssues: NexusGenRootTypes['NewsletterIssueConnection']; // NewsletterIssueConnection!
+  }
+  NewsletterIssue: { // field return type
+    authorNames: Array<string | null>; // [String]!
+    contentHtml: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    displayAt: NexusGenScalars['DateTime'] | null; // DateTime
+    id: string; // ID!
+    publishedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    slug: string; // String!
+    status: NexusGenEnums['NewsletterIssueStatus']; // NewsletterIssueStatus!
+    subtitle: string; // String!
+    title: string; // String!
+  }
+  NewsletterIssueConnection: { // field return type
+    nodes: Array<NexusGenRootTypes['NewsletterIssue'] | null>; // [NewsletterIssue]!
+    totalCount: number; // Int!
+  }
   Organization: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
@@ -124,6 +165,7 @@ export interface NexusGenFieldTypes {
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
   }
   Query: { // field return type
+    newsletter: NexusGenRootTypes['Newsletter'] | null; // Newsletter
     viewer: NexusGenRootTypes['Membership'] | null; // Membership
   }
   User: { // field return type
@@ -159,6 +201,25 @@ export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     userBoostrap: 'User'
   }
+  Newsletter: { // field return type name
+    allNewsletterIssues: 'NewsletterIssueConnection'
+  }
+  NewsletterIssue: { // field return type name
+    authorNames: 'String'
+    contentHtml: 'String'
+    createdAt: 'DateTime'
+    displayAt: 'DateTime'
+    id: 'ID'
+    publishedAt: 'DateTime'
+    slug: 'String'
+    status: 'NewsletterIssueStatus'
+    subtitle: 'String'
+    title: 'String'
+  }
+  NewsletterIssueConnection: { // field return type name
+    nodes: 'NewsletterIssue'
+    totalCount: 'Int'
+  }
   Organization: { // field return type name
     createdAt: 'DateTime'
     id: 'ID'
@@ -168,6 +229,7 @@ export interface NexusGenFieldTypeNames {
     updatedAt: 'DateTime'
   }
   Query: { // field return type name
+    newsletter: 'Newsletter'
     viewer: 'Membership'
   }
   User: { // field return type name
@@ -190,6 +252,11 @@ export interface NexusGenFieldTypeNames {
 }
 
 export interface NexusGenArgTypes {
+  Newsletter: {
+    allNewsletterIssues: { // args
+      filter?: NexusGenInputs['AllNewsletterIssuesFilter'] | null; // AllNewsletterIssuesFilter
+    }
+  }
 }
 
 export interface NexusGenAbstractTypeMembers {
@@ -200,7 +267,7 @@ export interface NexusGenTypeInterfaces {
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
 export type NexusGenEnumNames = keyof NexusGenEnums;
 

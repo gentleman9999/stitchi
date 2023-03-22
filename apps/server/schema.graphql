@@ -2,6 +2,11 @@
 ### Do not make changes to this file directly
 
 
+input AllNewsletterIssuesFilter {
+  first: Int!
+  skip: Int
+}
+
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
@@ -32,6 +37,34 @@ type Mutation {
   userBoostrap: User
 }
 
+type Newsletter {
+  allNewsletterIssues(filter: AllNewsletterIssuesFilter): NewsletterIssueConnection!
+}
+
+type NewsletterIssue {
+  authorNames: [String]!
+  contentHtml: String!
+  createdAt: DateTime!
+  displayAt: DateTime
+  id: ID!
+  publishedAt: DateTime
+  slug: String!
+  status: NewsletterIssueStatus!
+  subtitle: String!
+  title: String!
+}
+
+type NewsletterIssueConnection {
+  nodes: [NewsletterIssue]!
+  totalCount: Int!
+}
+
+enum NewsletterIssueStatus {
+  ARCHIVED
+  CONFIRMED
+  DRAFT
+}
+
 type Organization {
   createdAt: DateTime!
   id: ID!
@@ -42,6 +75,7 @@ type Organization {
 }
 
 type Query {
+  newsletter: Newsletter
   viewer: Membership
 }
 

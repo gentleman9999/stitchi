@@ -1,6 +1,7 @@
 import { queryType } from 'nexus'
 
-export * from './viewer'
+export { viewer } from './viewer'
+export { newsletter } from './newsletter'
 
 export const Query = queryType({
   definition: () => {},
