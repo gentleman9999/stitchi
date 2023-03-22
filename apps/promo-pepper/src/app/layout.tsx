@@ -1,5 +1,5 @@
 import { Inter } from 'next/font/google'
-import Banner from './Banner'
+// import SubscribeBanner from './SubsribeBanner'
 import Footer from './Footer'
 
 import './main.css'
@@ -26,7 +26,7 @@ export default async function RootLayout({
         <link rel="stylesheet" href="https://use.typekit.net/msx0isz.css" />
       </head>
       <body className={`${inter.variable} font-sans`}>
-        <Banner />
+        {/* <SubscribeBanner /> */}
         <PrimaryNavigation />
         <main>{children}</main>
         <Footer />

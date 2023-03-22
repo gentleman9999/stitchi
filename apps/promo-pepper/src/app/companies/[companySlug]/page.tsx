@@ -1,4 +1,3 @@
-import { companies } from '@/app/mock'
 import { Container } from '@/components/ui'
 import routes from '@/lib/routes'
 import { ArrowRight } from 'icons'
@@ -12,6 +11,7 @@ import { initializeApollo } from '@/lib/apollo'
 import React from 'react'
 import { CmsImage, CmsStructuredText } from '@/components/common'
 import { gql } from '@/__generated__'
+import { isEmptyDocument } from 'datocms-structured-text-utils'
 
 export const revalidate = 5
 export const dynamicParams = true
@@ -74,27 +74,31 @@ export default async function Page({
             ) : null}
           </div>
         </section>
-        <hr />
-        <section aria-label="description" className="py-12">
-          <h2 className="text-2xl">Overview</h2>
-          <div className="flex gap-10 justify-between mt-4">
-            <div className="prose prose-lg">
-              {company.description ? (
-                <CmsStructuredText content={company.description} />
-              ) : null}
-            </div>
-            <dl className="flex flex-col gap-4 w-full">
+        {isEmptyDocument(company.description?.value) ||
+        !company.description ? null : (
+          <>
+            <hr />
+            <section aria-label="description" className="py-12">
+              <h2 className="text-2xl">Overview</h2>
+              <div className="flex gap-10 justify-between mt-4">
+                <div className="prose prose-lg">
+                  <CmsStructuredText content={company.description} />
+                </div>
+                {/* <dl className="flex flex-col gap-4 w-full">
               <DataPoint label="Year founded" value="1983" />
               <DataPoint label="Employees" value="500-1000" />
               <DataPoint label="CEO" value="Jordan Sack" />
-            </dl>
-          </div>
-        </section>
-        <hr />
+            </dl> */}
+              </div>
+            </section>
+          </>
+        )}
+
+        {/* <hr />
         <section aria-label="similar companies" className="py-12">
           <h2 className="text-2xl">Related companies</h2>
           <ul className="flex gap-8 mt-4">
-            {/* {companies.slice(0, 3).map(company => (
+            {companies.slice(0, 3).map(company => (
               <li key={company.id} className="flex-1">
                 <Link
                   href={routes.internal.directory.companies.show.href({
@@ -106,9 +110,9 @@ export default async function Page({
                   <ArrowRight className="group-hover:translate-x-1 transition-all" />
                 </Link>
               </li>
-            ))} */}
+            ))}
           </ul>
-        </section>
+        </section> */}
       </Container>
     </>
   ) : null
@@ -156,6 +160,7 @@ const CompanyPageGetData = gql(/* GraphQL */ `
       businessUrl
       affiliateUrl
       description {
+        value
         ...CmsStructuredTextGlossaryDescription
       }
       primaryImage {

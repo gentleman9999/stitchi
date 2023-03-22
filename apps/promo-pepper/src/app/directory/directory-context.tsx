@@ -1,20 +1,46 @@
+import { getFragmentData } from '@/__generated__'
+import {
+  DirectoryIndexPageGetDataQuery,
+  DirectoryIndexPageGetDataQueryVariables,
+  DirectoryIndexPageQueryFragmentDoc,
+} from '@/__generated__/graphql'
+import { QueryResult } from '@apollo/client'
 import React from 'react'
+import { useDebounce } from 'use-debounce'
 
 interface State {
   selectedCategoryIds: Set<string>
   toggleCategory: (id: string) => void
+  fetchMoreResults: () => void
 }
 
 const DirectoryContext = React.createContext<State | undefined>(undefined)
 
 interface DirectoryProviderProps {
   children: React.ReactNode
+  queryResult: QueryResult<
+    DirectoryIndexPageGetDataQuery,
+    DirectoryIndexPageGetDataQueryVariables
+  >
 }
 
-const DirectoryProvider: React.FC<DirectoryProviderProps> = ({ children }) => {
+const DirectoryProvider: React.FC<DirectoryProviderProps> = ({
+  children,
+  queryResult: { refetch, fetchMore, data },
+}) => {
   const [selectedCategoryIds, setSelectedCategoryIds] = React.useState<
     Set<string>
   >(new Set())
+
+  React.useEffect(() => {
+    refetch({
+      filter: {
+        categories: {
+          anyIn: Array.from(selectedCategoryIds),
+        },
+      },
+    })
+  }, [refetch, selectedCategoryIds])
 
   const toggleCategory = React.useCallback((id: string) => {
     setSelectedCategoryIds(prev => {
@@ -24,9 +50,21 @@ const DirectoryProvider: React.FC<DirectoryProviderProps> = ({ children }) => {
     })
   }, [])
 
+  const fragmentData = getFragmentData(DirectoryIndexPageQueryFragmentDoc, data)
+
+  const directoryCurrentLength = fragmentData?.directory?.length || 0
+
+  const fetchMoreResults = React.useCallback(() => {
+    fetchMore({ variables: { skip: directoryCurrentLength } })
+  }, [directoryCurrentLength, fetchMore])
+
   const value = React.useMemo<State>(
-    () => ({ selectedCategoryIds, toggleCategory }),
-    [selectedCategoryIds, toggleCategory],
+    () => ({
+      selectedCategoryIds,
+      toggleCategory,
+      fetchMoreResults,
+    }),
+    [fetchMoreResults, selectedCategoryIds, toggleCategory],
   )
 
   return (

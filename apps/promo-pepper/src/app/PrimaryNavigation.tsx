@@ -21,14 +21,14 @@ const PrimaryNavigation = ({}: Props) => {
           </Link>
         </div>
 
-        <div className="col-span-1 flex items-center justify-end">
+        {/* <div className="col-span-1 flex items-center justify-end">
           <ul>
             <NavLink
               label="Directory"
               href={routes.internal.directory.href()}
             />
           </ul>
-        </div>
+        </div> */}
       </Container>
     </nav>
   )

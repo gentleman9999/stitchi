@@ -1,9 +1,9 @@
 'use client'
 import React from 'react'
 import { CompanyCard } from '@/components/common'
-import SearchBar from '@/components/common/SearchBar'
+// import SearchBar from '@/components/common/SearchBar'
 import Filters from './Filters'
-import { FragmentType, getFragmentData, gql } from '@/__generated__'
+import { getFragmentData, gql } from '@/__generated__'
 import { QueryResult, useQuery } from '@apollo/client'
 import {
   defaultQueryVariables,
@@ -20,7 +20,7 @@ import { DirectoryProvider, useDirectory } from './directory-context'
 const client = initializeApollo()
 
 export default function Directory() {
-  const query = useQuery<
+  const result = useQuery<
     DirectoryIndexPageGetDataQuery,
     DirectoryIndexPageGetDataQueryVariables
   >(directoryIndexPageGetData, {
@@ -30,8 +30,8 @@ export default function Directory() {
   })
 
   return (
-    <DirectoryProvider>
-      <DirectoryInner query={query} />
+    <DirectoryProvider queryResult={result}>
+      <DirectoryInner query={result} />
     </DirectoryProvider>
   )
 }
@@ -41,26 +41,16 @@ interface Props {
 }
 
 function DirectoryInner(props: Props) {
-  const { refetch, fetchMore, loading } = props.query
+  const { loading } = props.query
+
+  const { fetchMoreResults } = useDirectory()
 
   const data = getFragmentData(
     DirectoryIndexPageQueryFragment,
     props.query.data,
   )
-  const { selectedCategoryIds } = useDirectory()
 
   const { directory, directoryMetadata } = data || {}
-
-  React.useEffect(() => {
-    refetch({
-      filter: {
-        ...defaultQueryVariables.filter,
-        categories: {
-          anyIn: Array.from(selectedCategoryIds),
-        },
-      },
-    })
-  }, [refetch, selectedCategoryIds])
 
   const handleIntersect = () => {
     if (loading) return
@@ -70,14 +60,14 @@ function DirectoryInner(props: Props) {
 
     if (directoryCurrentLength >= directoryTotalLength) return
 
-    fetchMore({ variables: { skip: directoryCurrentLength } })
+    fetchMoreResults()
   }
 
   return (
     <>
       <div className="flex flex-col gap-20">
         <div className="flex flex-col gap-12">
-          <SearchBar onSubmit={() => {}} loading={false} />
+          {/* <SearchBar onSubmit={() => {}} loading={false} /> */}
           <Filters />
         </div>
         <div>

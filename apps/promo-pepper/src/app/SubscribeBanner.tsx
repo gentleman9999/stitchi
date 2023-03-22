@@ -4,7 +4,7 @@ import { ArrowRight } from 'icons'
 
 interface Props {}
 
-const Banner = () => {
+const SubscribeBanner = () => {
   return (
     <form className="flex justify-center p-4">
       <div className=" bg-primary rounded-md w-full">
@@ -43,4 +43,4 @@ const Banner = () => {
   )
 }
 
-export default Banner
+export default SubscribeBanner
