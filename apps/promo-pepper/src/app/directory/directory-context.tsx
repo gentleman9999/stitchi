@@ -26,7 +26,7 @@ interface DirectoryProviderProps {
 
 const DirectoryProvider: React.FC<DirectoryProviderProps> = ({
   children,
-  queryResult: { refetch, fetchMore, data },
+  queryResult: { refetch, fetchMore, data, variables },
 }) => {
   const [selectedCategoryIds, setSelectedCategoryIds] = React.useState<
     Set<string>
@@ -34,13 +34,15 @@ const DirectoryProvider: React.FC<DirectoryProviderProps> = ({
 
   React.useEffect(() => {
     refetch({
+      ...variables,
       filter: {
+        ...variables?.filter,
         categories: {
           anyIn: Array.from(selectedCategoryIds),
         },
       },
     })
-  }, [refetch, selectedCategoryIds])
+  }, [refetch, selectedCategoryIds, variables])
 
   const toggleCategory = React.useCallback((id: string) => {
     setSelectedCategoryIds(prev => {
