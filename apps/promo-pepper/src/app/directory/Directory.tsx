@@ -3,8 +3,8 @@ import React from 'react'
 import { CompanyCard } from '@/components/common'
 import SearchBar from '@/components/common/SearchBar'
 import Filters from './Filters'
-import { getFragmentData, gql } from '@/__generated__'
-import { useQuery } from '@apollo/client'
+import { FragmentType, getFragmentData, gql } from '@/__generated__'
+import { QueryResult, useQuery } from '@apollo/client'
 import {
   defaultQueryVariables,
   directoryIndexPageGetData,
@@ -19,19 +19,8 @@ import { DirectoryProvider, useDirectory } from './directory-context'
 
 const client = initializeApollo()
 
-interface Props {}
-
-export default function Directory(props: Props) {
-  return (
-    <DirectoryProvider>
-      <DirectoryInner {...props} />
-    </DirectoryProvider>
-  )
-}
-
-function DirectoryInner() {
-  const { selectedCategoryIds } = useDirectory()
-  const { data, loading, fetchMore, refetch } = useQuery<
+export default function Directory() {
+  const query = useQuery<
     DirectoryIndexPageGetDataQuery,
     DirectoryIndexPageGetDataQueryVariables
   >(directoryIndexPageGetData, {
@@ -40,9 +29,27 @@ function DirectoryInner() {
     notifyOnNetworkStatusChange: true,
   })
 
-  const query = getFragmentData(DirectoryIndexPageQueryFragment, data)
+  return (
+    <DirectoryProvider>
+      <DirectoryInner query={query} />
+    </DirectoryProvider>
+  )
+}
 
-  const { directory, directoryMetadata } = query || {}
+interface Props {
+  query: QueryResult<DirectoryIndexPageGetDataQuery>
+}
+
+function DirectoryInner(props: Props) {
+  const { refetch, fetchMore, loading } = props.query
+
+  const data = getFragmentData(
+    DirectoryIndexPageQueryFragment,
+    props.query.data,
+  )
+  const { selectedCategoryIds } = useDirectory()
+
+  const { directory, directoryMetadata } = data || {}
 
   React.useEffect(() => {
     refetch({

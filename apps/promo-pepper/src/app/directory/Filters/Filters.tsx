@@ -2,7 +2,7 @@
 
 import { initializeApollo } from '@/lib/apollo'
 import { notEmpty } from '@/utils/typescript'
-import { FragmentType, getFragmentData, gql } from '@/__generated__'
+import { gql } from '@/__generated__'
 import {
   DirectoryFiltersDataQuery,
   DirectoryFiltersDataQueryVariables,
@@ -75,7 +75,11 @@ export default function Filter(props: Props) {
                 component="div"
               >
                 {category.title}{' '}
-                <button onClick={() => toggleCategory(category.id)}>
+                <button
+                  onClick={() => {
+                    toggleCategory(category.id)
+                  }}
+                >
                   <XIcon width={20} />
                 </button>
               </FilterButton>
@@ -98,7 +102,11 @@ export default function Filter(props: Props) {
               .map(category => {
                 return (
                   <li key={category.id}>
-                    <FilterButton onClick={() => toggleCategory(category.id)}>
+                    <FilterButton
+                      onClick={() => {
+                        toggleCategory(category.id)
+                      }}
+                    >
                       {category.title}
                     </FilterButton>
                   </li>

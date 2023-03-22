@@ -3,6 +3,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { XIcon } from 'icons'
 import { Button, Container } from '@/components/ui'
 import { FragmentType, getFragmentData, gql } from '@/__generated__'
+import { useDirectory } from '../directory-context'
 
 interface Props {
   open: boolean
@@ -68,7 +69,9 @@ export default function FilterDialog({
               <div className="flex-shrink-0 flex-grow-0">
                 <hr />
                 <Section>
-                  <Button>Show x+ products</Button>
+                  <Button onClick={() => onOpenChange(false)}>
+                    Show results
+                  </Button>
                 </Section>
               </div>
             </Dialog.Content>
@@ -102,6 +105,8 @@ const CheckboxFilterGroup = (props: {
   name: string
   category?: FragmentType<typeof FilterDialogDirectoryGategoriesFragment> | null
 }) => {
+  const { toggleCategory, selectedCategoryIds } = useDirectory()
+
   const category = getFragmentData(
     FilterDialogDirectoryGategoriesFragment,
     props.category,
@@ -126,6 +131,8 @@ const CheckboxFilterGroup = (props: {
                   name={child.id}
                   type="checkbox"
                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  onChange={() => toggleCategory(child.id)}
+                  checked={selectedCategoryIds.has(child.id)}
                 />
               </div>
               <div className="ml-3">
