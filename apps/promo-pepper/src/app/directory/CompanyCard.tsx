@@ -4,7 +4,7 @@ import { Skeleton } from '@/components/ui'
 import cx from 'classnames'
 import routes from '@/lib/routes'
 import { FragmentType, getFragmentData, gql } from '@/__generated__'
-import CmsImage from '../CmsImage'
+import CmsImage from '../../components/common/CmsImage'
 
 export interface Props {
   component?: React.ElementType

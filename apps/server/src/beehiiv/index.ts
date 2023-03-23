@@ -19,10 +19,6 @@ const apiUrl = getOrThrow(process.env.BEEHIIV_API_URL, 'BEEHIIV_API_URL')
 const baseUrl = `${apiUrl}/publications/${publicationId}`
 const token = getOrThrow(process.env.BEEHIIV_API_KEY, 'BEEHIIV_API_KEY')
 
-const postUrlSearchParams = new URLSearchParams()
-postUrlSearchParams.append('expand', 'premium_web_content')
-const postUrl = `/posts?${postUrlSearchParams.toString()}`
-
 const fetch = async (url: string, options?: RequestInit) => {
   const response = await nodeFetch(`${baseUrl}${url}`, {
     ...options,
@@ -39,7 +35,11 @@ const fetch = async (url: string, options?: RequestInit) => {
 // Hoping beehiiv will add this functionality soon before this query gets too expensive.
 const getPostBySlug = async (slug: string): Promise<Post> => {
   try {
-    const response = await fetch(postUrl.toString())
+    const params = new URLSearchParams()
+    params.append('expand', 'premium_web_content')
+    params.append('status', 'confirmed')
+
+    const response = await fetch(`/posts?${params.toString()}`)
 
     const data = await response.json()
 
@@ -60,10 +60,26 @@ const getPostBySlug = async (slug: string): Promise<Post> => {
   }
 }
 
-const getPostList = async (): Promise<PostList> => {
+const getPostList = async ({
+  first = 10,
+  after,
+}: {
+  first?: number
+  after?: string
+}): Promise<PostList> => {
+  const limit = first
+  const page = after ? parseInt(after, 10) + 1 : 1
+
+  const params = new URLSearchParams()
+  params.append('limit', limit.toString())
+  params.append('page', page.toString())
+  params.append('expand', 'premium_web_content')
+  params.append('status', 'confirmed')
+
   try {
-    const response = await fetch(postUrl.toString())
+    const response = await fetch(`/posts?${params.toString()}`)
     const data = await response.json()
+
     return makePostList(data)
   } catch (error) {
     console.error(error)

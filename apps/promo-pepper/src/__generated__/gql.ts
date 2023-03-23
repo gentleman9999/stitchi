@@ -14,15 +14,17 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  query CompanyPageGetData($companySlug: String!) {\n    company: glossaryEntry(filter: { slug: { eq: $companySlug } }) {\n      id\n      term\n      definition\n      businessUrl\n      affiliateUrl\n      description {\n        value\n        ...CmsStructuredTextGlossaryDescription\n      }\n      primaryImage {\n        id\n        responsiveImage {\n          ...CmsImage\n        }\n      }\n    }\n  }\n": types.CompanyPageGetDataDocument,
+    "\n  fragment CompanyCardCompany on GlossaryEntryRecord {\n    id\n    slug\n    name: term\n    definition\n    primaryImage {\n      id\n      responsiveImage {\n        ...CmsImage\n      }\n    }\n  }\n": types.CompanyCardCompanyFragmentDoc,
     "\n  fragment DirectoryIndexPageQuery on Query {\n    directory: allGlossaryEntries(first: $first, skip: $skip, filter: $filter) {\n      id\n      ...CompanyCardCompany\n    }\n\n    directoryMetadata: _allGlossaryEntriesMeta(filter: $filter) {\n      count\n    }\n  }\n": types.DirectoryIndexPageQueryFragmentDoc,
     "\n  fragment FilterDialogDirectoryGategoriesFragment on GlossaryCategoryRecord {\n    id\n    title\n    description\n    children {\n      id\n      title\n      description\n    }\n  }\n": types.FilterDialogDirectoryGategoriesFragmentFragmentDoc,
     "\n  query DirectoryFiltersData {\n    featuredCategories: allGlossaryCategories(\n      first: 5\n      filter: { parent: { eq: 147376160 } }\n    ) {\n      id\n      slug\n      title\n    }\n\n    topLevelCategories: allGlossaryCategories(\n      filter: { parent: { exists: false } }\n    ) {\n      id\n      slug\n      title\n      children {\n        id\n        slug\n        title\n      }\n      ...FilterDialogDirectoryGategoriesFragment\n    }\n  }\n": types.DirectoryFiltersDataDocument,
     "\n  query GetFilterPreview($filter: GlossaryEntryModelFilter) {\n    _allGlossaryEntriesMeta(filter: $filter) {\n      count\n    }\n  }\n": types.GetFilterPreviewDocument,
     "\n  query DirectoryIndexPageGetData(\n  $first: IntType\n  $skip: IntType\n  $filter: GlossaryEntryModelFilter\n) {\n  ...DirectoryIndexPageQuery\n  }\n": types.DirectoryIndexPageGetDataDocument,
+    "\n  fragment IssueCardIssue on NewsletterIssue {\n    id\n    slug\n    title\n    subtitle\n    thumbnailUrl\n    authorNames\n    createdAt\n    publishedAt\n  }\n": types.IssueCardIssueFragmentDoc,
+    "\n    query GetNewsletterIssuesData($first: Int!, $after: String) {\n        newsletter {\n            allNewsletterIssues(first: $first, after: $after) {\n                nodes {\n                    id\n                   ...IssueCardIssue\n                }\n            }\n        }\n    }\n": types.GetNewsletterIssuesDataDocument,
     "\n  fragment CmsImage on ResponsiveImage {\n    srcSet\n    webpSrcSet\n    sizes\n    src\n    width\n    height\n    aspectRatio\n    alt\n    title\n    base64\n  }\n": types.CmsImageFragmentDoc,
     "\n  fragment CmsStructuredTextGlossaryDescription on GlossaryEntryModelDescriptionField {\n    value\n    blocks {\n      id\n      ... on ImageRecord {\n        ...CmsStructuredTextImageRecord\n      }\n    }\n    links {\n      ... on ArticleRecord {\n        id\n        slug\n        title\n      }\n      ... on GlossaryEntryRecord {\n        id\n        slug\n        term\n      }\n    }\n  }\n": types.CmsStructuredTextGlossaryDescriptionFragmentDoc,
     "\n  fragment CmsStructuredTextImageRecord on ImageRecord {\n    id\n    image {\n      id\n      responsiveImage {\n        ...CmsImage\n      }\n    }\n  }\n": types.CmsStructuredTextImageRecordFragmentDoc,
-    "\n  fragment CompanyCardCompany on GlossaryEntryRecord {\n    id\n    slug\n    name: term\n    definition\n    primaryImage {\n      id\n      responsiveImage {\n        ...CmsImage\n      }\n    }\n  }\n": types.CompanyCardCompanyFragmentDoc,
 };
 
 /**
@@ -46,6 +48,10 @@ export function gql(source: "\n  query CompanyPageGetData($companySlug: String!)
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function gql(source: "\n  fragment CompanyCardCompany on GlossaryEntryRecord {\n    id\n    slug\n    name: term\n    definition\n    primaryImage {\n      id\n      responsiveImage {\n        ...CmsImage\n      }\n    }\n  }\n"): (typeof documents)["\n  fragment CompanyCardCompany on GlossaryEntryRecord {\n    id\n    slug\n    name: term\n    definition\n    primaryImage {\n      id\n      responsiveImage {\n        ...CmsImage\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function gql(source: "\n  fragment DirectoryIndexPageQuery on Query {\n    directory: allGlossaryEntries(first: $first, skip: $skip, filter: $filter) {\n      id\n      ...CompanyCardCompany\n    }\n\n    directoryMetadata: _allGlossaryEntriesMeta(filter: $filter) {\n      count\n    }\n  }\n"): (typeof documents)["\n  fragment DirectoryIndexPageQuery on Query {\n    directory: allGlossaryEntries(first: $first, skip: $skip, filter: $filter) {\n      id\n      ...CompanyCardCompany\n    }\n\n    directoryMetadata: _allGlossaryEntriesMeta(filter: $filter) {\n      count\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -66,6 +72,14 @@ export function gql(source: "\n  query DirectoryIndexPageGetData(\n  $first: Int
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function gql(source: "\n  fragment IssueCardIssue on NewsletterIssue {\n    id\n    slug\n    title\n    subtitle\n    thumbnailUrl\n    authorNames\n    createdAt\n    publishedAt\n  }\n"): (typeof documents)["\n  fragment IssueCardIssue on NewsletterIssue {\n    id\n    slug\n    title\n    subtitle\n    thumbnailUrl\n    authorNames\n    createdAt\n    publishedAt\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n    query GetNewsletterIssuesData($first: Int!, $after: String) {\n        newsletter {\n            allNewsletterIssues(first: $first, after: $after) {\n                nodes {\n                    id\n                   ...IssueCardIssue\n                }\n            }\n        }\n    }\n"): (typeof documents)["\n    query GetNewsletterIssuesData($first: Int!, $after: String) {\n        newsletter {\n            allNewsletterIssues(first: $first, after: $after) {\n                nodes {\n                    id\n                   ...IssueCardIssue\n                }\n            }\n        }\n    }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function gql(source: "\n  fragment CmsImage on ResponsiveImage {\n    srcSet\n    webpSrcSet\n    sizes\n    src\n    width\n    height\n    aspectRatio\n    alt\n    title\n    base64\n  }\n"): (typeof documents)["\n  fragment CmsImage on ResponsiveImage {\n    srcSet\n    webpSrcSet\n    sizes\n    src\n    width\n    height\n    aspectRatio\n    alt\n    title\n    base64\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -75,10 +89,6 @@ export function gql(source: "\n  fragment CmsStructuredTextGlossaryDescription o
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  fragment CmsStructuredTextImageRecord on ImageRecord {\n    id\n    image {\n      id\n      responsiveImage {\n        ...CmsImage\n      }\n    }\n  }\n"): (typeof documents)["\n  fragment CmsStructuredTextImageRecord on ImageRecord {\n    id\n    image {\n      id\n      responsiveImage {\n        ...CmsImage\n      }\n    }\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  fragment CompanyCardCompany on GlossaryEntryRecord {\n    id\n    slug\n    name: term\n    definition\n    primaryImage {\n      id\n      responsiveImage {\n        ...CmsImage\n      }\n    }\n  }\n"): (typeof documents)["\n  fragment CompanyCardCompany on GlossaryEntryRecord {\n    id\n    slug\n    name: term\n    definition\n    primaryImage {\n      id\n      responsiveImage {\n        ...CmsImage\n      }\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

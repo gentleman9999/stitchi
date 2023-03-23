@@ -61,6 +61,11 @@ export function initializeApollo() {
               allGlossaryEntries: firstSkipPagination(),
             },
           },
+          Newsletter: {
+            fields: {
+              allNewsletterIssues: relayStylePagination(),
+            },
+          },
         },
       }).restore((global as any).__APOLLO_STATE__),
     })

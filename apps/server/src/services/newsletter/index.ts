@@ -5,7 +5,7 @@ import { Post, PostList } from './types'
 
 interface NewsletterClientService {
   getPost: (slug: string) => Promise<Post>
-  listPosts: () => Promise<PostList>
+  listPosts: (params: { first?: number; after?: string }) => Promise<PostList>
   createSubscriber: (input: {
     email: string
     utmSource?: string
@@ -37,9 +37,9 @@ const makeClient: MakeClientFn = (
         throw new Error('Failed to fetch post')
       }
     },
-    listPosts: async () => {
+    listPosts: async ({ first, after }) => {
       try {
-        const posts = await beehiivClient.getPostList()
+        const posts = await beehiivClient.getPostList({ first, after })
         return {
           posts: posts.data.map(post => beehiivPostToPost(post)),
           limit: posts.limit,

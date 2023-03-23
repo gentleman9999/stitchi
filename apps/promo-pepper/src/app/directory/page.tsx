@@ -32,7 +32,7 @@ export default async function Page() {
       <Container>
         <div className="py-20">
           <h1 className="text-7xl font-bold max-w-2xl font-headingDisplay">
-            Discover the internet&apos;s best merch and how its made
+            Discover the companies behind the world&apos;s best products
           </h1>
         </div>
         <Directory />
