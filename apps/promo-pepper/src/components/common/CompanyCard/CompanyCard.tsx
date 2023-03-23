@@ -66,13 +66,11 @@ const CompanyCard = ({
             )}
           </h2>
         </Link>
-        <p>
-          {loading ? (
-            <Skeleton className="h-4 mt-2" />
-          ) : (
-            <>{company?.definition}</>
-          )}
-        </p>
+        {loading ? (
+          <Skeleton className="h-4 mt-2" />
+        ) : (
+          <p>{company?.definition}</p>
+        )}
       </div>
     </Component>
   )

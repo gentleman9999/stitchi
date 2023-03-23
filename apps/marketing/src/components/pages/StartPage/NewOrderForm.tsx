@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, RadioSelect, TextField } from '@components/ui'
-import { object, string, SchemaOf } from 'yup'
+import { object, string, Schema } from 'yup'
 import type { FormInput } from 'pages/api/form-response'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -8,7 +8,7 @@ import makeApi from '@lib/api'
 import { useRouter } from 'next/router'
 import routes from '@lib/routes'
 
-const schema: SchemaOf<FormInput> = object({
+const schema: Schema<FormInput> = object({
   email: string().email().required(),
   first_name: string().optional(),
   last_name: string().optional(),

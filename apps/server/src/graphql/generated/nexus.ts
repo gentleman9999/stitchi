@@ -38,11 +38,16 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  AllNewsletterIssuesFilter: { // input type
+    first: number; // Int!
+    skip?: number | null; // Int
+  }
 }
 
 export interface NexusGenEnums {
   GlobalRole: "CUSTOMER" | "SUPERADMIN"
   MembershipRole: "OWNER"
+  NewsletterIssueStatus: "ARCHIVED" | "CONFIRMED" | "DRAFT"
 }
 
 export interface NexusGenScalars {
@@ -64,6 +69,27 @@ export interface NexusGenObjects {
     userId: string; // String!
   }
   Mutation: {};
+  Newsletter: {};
+  NewsletterIssue: { // root type
+    authorNames: Array<string | null>; // [String]!
+    contentHtml: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    displayAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    id: string; // ID!
+    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    slug: string; // String!
+    status: NexusGenEnums['NewsletterIssueStatus']; // NewsletterIssueStatus!
+    subtitle: string; // String!
+    title: string; // String!
+  }
+  NewsletterIssueConnection: { // root type
+    nodes: Array<NexusGenRootTypes['NewsletterIssue'] | null>; // [NewsletterIssue]!
+    totalCount: number; // Int!
+  }
+  NewsletterIssueEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['NewsletterIssue'] | null; // NewsletterIssue
+  }
   Organization: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
@@ -71,7 +97,20 @@ export interface NexusGenObjects {
     role?: NexusGenEnums['GlobalRole'] | null; // GlobalRole
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
   }
+  PageInfo: { // root type
+    endCursor?: string | null; // String
+    hasNextPage: boolean; // Boolean!
+    hasPreviousPage: boolean; // Boolean!
+    startCursor?: string | null; // String
+  }
   Query: {};
+  Subscriber: { // root type
+    email: string; // String!
+    id: string; // String!
+  }
+  SubscriberCreatePayload: { // root type
+    subscriber?: NexusGenRootTypes['Subscriber'] | null; // Subscriber
+  }
   User: { // root type
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
     email?: string | null; // String
@@ -113,7 +152,32 @@ export interface NexusGenFieldTypes {
     userId: string; // String!
   }
   Mutation: { // field return type
+    subscriberCreate: NexusGenRootTypes['SubscriberCreatePayload'] | null; // SubscriberCreatePayload
     userBoostrap: NexusGenRootTypes['User'] | null; // User
+  }
+  Newsletter: { // field return type
+    allNewsletterIssues: NexusGenRootTypes['NewsletterIssueConnection'] | null; // NewsletterIssueConnection
+    newsletterIssue: NexusGenRootTypes['NewsletterIssue']; // NewsletterIssue!
+  }
+  NewsletterIssue: { // field return type
+    authorNames: Array<string | null>; // [String]!
+    contentHtml: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    displayAt: NexusGenScalars['DateTime'] | null; // DateTime
+    id: string; // ID!
+    publishedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    slug: string; // String!
+    status: NexusGenEnums['NewsletterIssueStatus']; // NewsletterIssueStatus!
+    subtitle: string; // String!
+    title: string; // String!
+  }
+  NewsletterIssueConnection: { // field return type
+    nodes: Array<NexusGenRootTypes['NewsletterIssue'] | null>; // [NewsletterIssue]!
+    totalCount: number; // Int!
+  }
+  NewsletterIssueEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['NewsletterIssue'] | null; // NewsletterIssue
   }
   Organization: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -123,8 +187,22 @@ export interface NexusGenFieldTypes {
     role: NexusGenEnums['GlobalRole'] | null; // GlobalRole
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
   }
+  PageInfo: { // field return type
+    endCursor: string | null; // String
+    hasNextPage: boolean; // Boolean!
+    hasPreviousPage: boolean; // Boolean!
+    startCursor: string | null; // String
+  }
   Query: { // field return type
+    newsletter: NexusGenRootTypes['Newsletter'] | null; // Newsletter
     viewer: NexusGenRootTypes['Membership'] | null; // Membership
+  }
+  Subscriber: { // field return type
+    email: string; // String!
+    id: string; // String!
+  }
+  SubscriberCreatePayload: { // field return type
+    subscriber: NexusGenRootTypes['Subscriber'] | null; // Subscriber
   }
   User: { // field return type
     createdAt: NexusGenScalars['DateTime'] | null; // DateTime
@@ -157,7 +235,32 @@ export interface NexusGenFieldTypeNames {
     userId: 'String'
   }
   Mutation: { // field return type name
+    subscriberCreate: 'SubscriberCreatePayload'
     userBoostrap: 'User'
+  }
+  Newsletter: { // field return type name
+    allNewsletterIssues: 'NewsletterIssueConnection'
+    newsletterIssue: 'NewsletterIssue'
+  }
+  NewsletterIssue: { // field return type name
+    authorNames: 'String'
+    contentHtml: 'String'
+    createdAt: 'DateTime'
+    displayAt: 'DateTime'
+    id: 'ID'
+    publishedAt: 'DateTime'
+    slug: 'String'
+    status: 'NewsletterIssueStatus'
+    subtitle: 'String'
+    title: 'String'
+  }
+  NewsletterIssueConnection: { // field return type name
+    nodes: 'NewsletterIssue'
+    totalCount: 'Int'
+  }
+  NewsletterIssueEdge: { // field return type name
+    cursor: 'String'
+    node: 'NewsletterIssue'
   }
   Organization: { // field return type name
     createdAt: 'DateTime'
@@ -167,8 +270,22 @@ export interface NexusGenFieldTypeNames {
     role: 'GlobalRole'
     updatedAt: 'DateTime'
   }
+  PageInfo: { // field return type name
+    endCursor: 'String'
+    hasNextPage: 'Boolean'
+    hasPreviousPage: 'Boolean'
+    startCursor: 'String'
+  }
   Query: { // field return type name
+    newsletter: 'Newsletter'
     viewer: 'Membership'
+  }
+  Subscriber: { // field return type name
+    email: 'String'
+    id: 'String'
+  }
+  SubscriberCreatePayload: { // field return type name
+    subscriber: 'Subscriber'
   }
   User: { // field return type name
     createdAt: 'DateTime'
@@ -190,6 +307,22 @@ export interface NexusGenFieldTypeNames {
 }
 
 export interface NexusGenArgTypes {
+  Mutation: {
+    subscriberCreate: { // args
+      email: string; // String!
+    }
+  }
+  Newsletter: {
+    allNewsletterIssues: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    newsletterIssue: { // args
+      slug: string; // String!
+    }
+  }
 }
 
 export interface NexusGenAbstractTypeMembers {
@@ -200,7 +333,7 @@ export interface NexusGenTypeInterfaces {
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
 export type NexusGenEnumNames = keyof NexusGenEnums;
 

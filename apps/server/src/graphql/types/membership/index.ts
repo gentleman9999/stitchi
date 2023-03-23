@@ -1,2 +1,2 @@
-export * from "./membership";
-export * from "./membership-role";
+export { Membership } from './membership'
+export { MembershipRole } from './membership-role'

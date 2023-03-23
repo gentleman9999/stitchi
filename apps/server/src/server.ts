@@ -23,7 +23,7 @@ const PORT = getOrThrow(process.env.PORT, 'PORT')
 const makeGatewaySchema = async () =>
   stitchSchemas({
     subschemas: [
-      // { schema: mainGraphSchema },
+      { schema: mainGraphSchema },
       { schema: makeExecutableSchema({ typeDefs: await makeDatoCmsSchema() }) },
       {
         schema: makeExecutableSchema({
