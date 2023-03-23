@@ -2,16 +2,7 @@ import { inputObjectType, objectType } from 'nexus'
 
 export const Newsletter = objectType({
   name: 'Newsletter',
-  definition: t => {
-    t.nonNull.field('allNewsletterIssues', {
-      type: 'NewsletterIssueConnection',
-      args: { filter: 'AllNewsletterIssuesFilter' },
-      resolve: async (_, { filter }, ctx) => {
-        throw new Error('Not implemented yet.')
-        // return ctx.newsletter.listPosts()
-      },
-    })
-  },
+  definition: t => {},
 })
 
 export const AllNewsletterIssuesFilter = inputObjectType({

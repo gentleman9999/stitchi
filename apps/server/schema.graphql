@@ -33,12 +33,28 @@ enum MembershipRole {
 }
 
 type Mutation {
+  """Creates a new subscriber"""
+  subscriberCreate(email: String!): SubscriberCreatePayload
+
   """Bootstraps a new user with necessary resources"""
   userBoostrap: User
 }
 
 type Newsletter {
-  allNewsletterIssues(filter: AllNewsletterIssuesFilter): NewsletterIssueConnection!
+  allNewsletterIssues(
+    """Returns the elements in the list that come after the specified cursor"""
+    after: String
+
+    """Returns the elements in the list that come before the specified cursor"""
+    before: String
+
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+  ): NewsletterIssueConnection
+  newsletterIssue(slug: String!): NewsletterIssue!
 }
 
 type NewsletterIssue {
@@ -59,6 +75,14 @@ type NewsletterIssueConnection {
   totalCount: Int!
 }
 
+type NewsletterIssueEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String!
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: NewsletterIssue
+}
+
 enum NewsletterIssueStatus {
   ARCHIVED
   CONFIRMED
@@ -74,9 +98,43 @@ type Organization {
   updatedAt: DateTime
 }
 
+"""
+PageInfo cursor, as defined in https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+"""
+type PageInfo {
+  """
+  The cursor corresponding to the last nodes in edges. Null if the connection is empty.
+  """
+  endCursor: String
+
+  """
+  Used to indicate whether more edges exist following the set defined by the clients arguments.
+  """
+  hasNextPage: Boolean!
+
+  """
+  Used to indicate whether more edges exist prior to the set defined by the clients arguments.
+  """
+  hasPreviousPage: Boolean!
+
+  """
+  The cursor corresponding to the first nodes in edges. Null if the connection is empty.
+  """
+  startCursor: String
+}
+
 type Query {
   newsletter: Newsletter
   viewer: Membership
+}
+
+type Subscriber {
+  email: String!
+  id: String!
+}
+
+type SubscriberCreatePayload {
+  subscriber: Subscriber
 }
 
 type User {

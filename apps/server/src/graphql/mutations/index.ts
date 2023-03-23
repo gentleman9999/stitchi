@@ -1,6 +1,7 @@
 import { mutationType } from 'nexus'
 
-export * from './user'
+export { userBootstrap } from './user'
+export { subscriberCreate } from './newsletter'
 
 export const Mutation = mutationType({
   definition: () => {},
