@@ -46,6 +46,8 @@ export function initializeApollo() {
               return responseObj.urlOriginal?.toString() || false
             case 'SearchQueries':
               return 'StitchiSearchQueries'
+            case 'Newsletter':
+              return 'PromoPepperNewsletter'
             default:
               return defaultDataIdFromObject(responseObj)
           }

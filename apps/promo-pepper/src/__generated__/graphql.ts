@@ -3183,7 +3183,7 @@ export type InUseFilter = {
 export type Inventory = {
   __typename: 'Inventory';
   /** Locations */
-  locations: LocationConnection;
+  locations: LocationEntityConnection;
 };
 
 
@@ -3201,6 +3201,39 @@ export type InventoryLocationsArgs = {
   serviceTypeIds?: InputMaybe<Array<Scalars['String']>>;
   states?: InputMaybe<Array<Scalars['String']>>;
   typeIds?: InputMaybe<Array<Scalars['String']>>;
+};
+
+/** Address */
+export type InventoryAddress = {
+  __typename: 'InventoryAddress';
+  /** Address line1. */
+  address1: Scalars['String'];
+  /** Address line2. */
+  address2: Scalars['String'];
+  /** Address city. */
+  city: Scalars['String'];
+  /** Address code. */
+  code: Scalars['String'];
+  /** Country code. */
+  countryCode: Scalars['String'];
+  /** Address description. */
+  description?: Maybe<Scalars['String']>;
+  /** Address email. */
+  email: Scalars['String'];
+  /** Address id. */
+  entityId: Scalars['Int'];
+  /** Address label. */
+  label: Scalars['String'];
+  /** Address latitude. */
+  latitude?: Maybe<Scalars['Float']>;
+  /** Address longitude. */
+  longitude?: Maybe<Scalars['Float']>;
+  /** Address phone. */
+  phone: Scalars['String'];
+  /** Address zip. */
+  postalCode: Scalars['String'];
+  /** Address state. */
+  stateOrProvince: Scalars['String'];
 };
 
 /** Inventory By Locations */
@@ -3225,6 +3258,54 @@ export type InventoryByLocations = {
   locationEntityTypeId?: Maybe<Scalars['String']>;
   /** Indicates a threshold low-stock level. */
   warningLevel: Scalars['Int'];
+};
+
+/** Location */
+export type InventoryLocation = {
+  __typename: 'InventoryLocation';
+  /** Location address */
+  address?: Maybe<InventoryAddress>;
+  /**
+   * Upcoming events
+   * @deprecated Deprecated. Use specialHours instead
+   */
+  blackoutHours: Array<SpecialHour>;
+  /** Location code. */
+  code: Scalars['String'];
+  /** Location description. */
+  description?: Maybe<Scalars['String']>;
+  /** Distance between location and specified longitude and latitude */
+  distance?: Maybe<Distance>;
+  /** Location id. */
+  entityId: Scalars['Int'];
+  /** Location label. */
+  label: Scalars['String'];
+  /** Metafield data related to a location. */
+  metafields: MetafieldConnection;
+  /** Location OperatingHours */
+  operatingHours?: Maybe<OperatingHours>;
+  /**
+   * Location service type ids.
+   * @deprecated Deprecated. Will be substituted with pickup methods.
+   */
+  serviceTypeIds: Array<Scalars['String']>;
+  /** Upcoming events */
+  specialHours: Array<SpecialHour>;
+  /** Time zone of location */
+  timeZone?: Maybe<Scalars['String']>;
+  /** Location type id. */
+  typeId?: Maybe<Scalars['String']>;
+};
+
+
+/** Location */
+export type InventoryLocationMetafieldsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  keys?: InputMaybe<Array<Scalars['String']>>;
+  last?: InputMaybe<Scalars['Int']>;
+  namespace: Scalars['String'];
 };
 
 /** Inventory settings from control panel. */
@@ -3388,6 +3469,24 @@ export type LocationEdge = {
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
   node: InventoryByLocations;
+};
+
+/** A connection to a list of items. */
+export type LocationEntityConnection = {
+  __typename: 'LocationEntityConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<Maybe<LocationEntityEdge>>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type LocationEntityEdge = {
+  __typename: 'LocationEntityEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: InventoryLocation;
 };
 
 /** Login result */
@@ -3667,6 +3766,36 @@ export type NumberFieldOption = CatalogProductOption & {
   limitNumberBy: LimitInputBy;
   /** The bottom limit of possible numbers. */
   lowest?: Maybe<Scalars['Float']>;
+};
+
+/** Operating day */
+export type OperatingDay = {
+  __typename: 'OperatingDay';
+  /** Closing. */
+  closing: Scalars['String'];
+  /** Open. */
+  open: Scalars['Boolean'];
+  /** Opening. */
+  opening: Scalars['String'];
+};
+
+/** Operating hours */
+export type OperatingHours = {
+  __typename: 'OperatingHours';
+  /** Friday. */
+  friday?: Maybe<OperatingDay>;
+  /** Monday. */
+  monday?: Maybe<OperatingDay>;
+  /** Saturday. */
+  saturday?: Maybe<OperatingDay>;
+  /** Sunday. */
+  sunday?: Maybe<OperatingDay>;
+  /** Thursday. */
+  thursday?: Maybe<OperatingDay>;
+  /** Tuesday. */
+  tuesday?: Maybe<OperatingDay>;
+  /** Wednesday. */
+  wednesday?: Maybe<OperatingDay>;
 };
 
 /** A connection to a list of items. */
@@ -4541,10 +4670,7 @@ export type Query = {
   glossaryIndexPage?: Maybe<GlossaryIndexPageRecord>;
   /** Returns the single instance record */
   homepage?: Maybe<HomepageRecord>;
-  /**
-   * An inventory
-   * @deprecated Alpha version. Do not use in production.
-   */
+  /** An inventory */
   inventory: Inventory;
   newsletter?: Maybe<Newsletter>;
   /** Fetches an object given its ID */
@@ -5348,6 +5474,19 @@ export type SocialMediaLink = {
   name: Scalars['String'];
   /** The url of the social media link. */
   url: Scalars['String'];
+};
+
+/** Special hour */
+export type SpecialHour = {
+  __typename: 'SpecialHour';
+  /** Closing time */
+  closing?: Maybe<Scalars['DateTime']>;
+  /** Upcoming event name */
+  label: Scalars['String'];
+  /** Is open */
+  open: Scalars['Boolean'];
+  /** Opening time */
+  opening?: Maybe<Scalars['DateTime']>;
 };
 
 /** Specifies how to filter by status */
@@ -6899,6 +7038,11 @@ export type GetNewsletterIssuesDataQuery = { __typename: 'Query', newsletter?: {
         & { ' $fragmentRefs'?: { 'IssueCardIssueFragment': IssueCardIssueFragment } }
       ) | null> } | null } | null };
 
+export type GetHomePageDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetHomePageDataQuery = { __typename: 'Query', newsletter?: { __typename: 'Newsletter', allNewsletterIssues?: { __typename: 'NewsletterIssueConnection', nodes: Array<{ __typename: 'NewsletterIssue', id: string } | null> } | null } | null };
+
 export type CmsImageFragment = { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt?: string | null, title?: string | null, base64?: string | null } & { ' $fragmentName'?: 'CmsImageFragment' };
 
 export type CmsStructuredTextGlossaryDescriptionFragment = { __typename: 'GlossaryEntryModelDescriptionField', value: any, blocks: Array<(
@@ -6924,3 +7068,4 @@ export const GetFilterPreviewDocument = {"kind":"Document","definitions":[{"kind
 export const DirectoryIndexPageGetDataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"DirectoryIndexPageGetData"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"first"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"IntType"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"IntType"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"GlossaryEntryModelFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"DirectoryIndexPageQuery"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CmsImage"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ResponsiveImage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"srcSet"}},{"kind":"Field","name":{"kind":"Name","value":"webpSrcSet"}},{"kind":"Field","name":{"kind":"Name","value":"sizes"}},{"kind":"Field","name":{"kind":"Name","value":"src"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"aspectRatio"}},{"kind":"Field","name":{"kind":"Name","value":"alt"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"base64"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CompanyCardCompany"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"GlossaryEntryRecord"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","alias":{"kind":"Name","value":"name"},"name":{"kind":"Name","value":"term"}},{"kind":"Field","name":{"kind":"Name","value":"definition"}},{"kind":"Field","name":{"kind":"Name","value":"primaryImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"responsiveImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CmsImage"}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"DirectoryIndexPageQuery"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Query"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"directory"},"name":{"kind":"Name","value":"allGlossaryEntries"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"Variable","name":{"kind":"Name","value":"first"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"CompanyCardCompany"}}]}},{"kind":"Field","alias":{"kind":"Name","value":"directoryMetadata"},"name":{"kind":"Name","value":"_allGlossaryEntriesMeta"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}}]}}]} as unknown as DocumentNode<DirectoryIndexPageGetDataQuery, DirectoryIndexPageGetDataQueryVariables>;
 export const GetNewsletterIssueDataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetNewsletterIssueData"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"newsletter"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"newsletterIssue"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"slug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"subtitle"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnailUrl"}},{"kind":"Field","name":{"kind":"Name","value":"contentHtml"}}]}}]}}]}}]} as unknown as DocumentNode<GetNewsletterIssueDataQuery, GetNewsletterIssueDataQueryVariables>;
 export const GetNewsletterIssuesDataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetNewsletterIssuesData"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"first"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"after"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"newsletter"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allNewsletterIssues"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"Variable","name":{"kind":"Name","value":"first"}}},{"kind":"Argument","name":{"kind":"Name","value":"after"},"value":{"kind":"Variable","name":{"kind":"Name","value":"after"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"IssueCardIssue"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"IssueCardIssue"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NewsletterIssue"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"subtitle"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnailUrl"}},{"kind":"Field","name":{"kind":"Name","value":"authorNames"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"publishedAt"}}]}}]} as unknown as DocumentNode<GetNewsletterIssuesDataQuery, GetNewsletterIssuesDataQueryVariables>;
+export const GetHomePageDataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetHomePageData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"newsletter"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allNewsletterIssues"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"5"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetHomePageDataQuery, GetHomePageDataQueryVariables>;
