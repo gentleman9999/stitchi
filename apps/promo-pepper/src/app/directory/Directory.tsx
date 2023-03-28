@@ -1,6 +1,5 @@
 'use client'
 import React from 'react'
-import { CompanyCard } from '@/components/common'
 // import SearchBar from '@/components/common/SearchBar'
 import Filters from './Filters'
 import { getFragmentData, gql } from '@/__generated__'
@@ -13,9 +12,10 @@ import {
   DirectoryIndexPageGetDataQuery,
   DirectoryIndexPageGetDataQueryVariables,
 } from '@/__generated__/graphql'
-import InfiniteScrollTrigger from './Filters/InfiniteScrollTrigger'
 import { initializeApollo } from '@/lib/apollo'
 import { DirectoryProvider, useDirectory } from './directory-context'
+import CompanyCard from './CompanyCard'
+import { InfiniteScrollTrigger } from '@/components/common'
 
 const client = initializeApollo()
 

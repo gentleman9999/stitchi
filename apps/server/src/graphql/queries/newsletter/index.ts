@@ -1,21 +1,21 @@
 import { extendType, queryField } from 'nexus'
 import { nonNull } from 'nexus/dist/core'
-import { Newsletter } from '../../types'
-
-// const newsletterToGraphql = (
-//   newsletter: any,
-// ): ObjectDefinitionBlock<'Newsletter'> => {
-//   return {}
-// }
+import { notEmpty } from '../../../utils'
 
 export const allNewsletterIssues = extendType({
   type: 'Newsletter',
   definition: t => {
     t.connectionField('allNewsletterIssues', {
       type: 'NewsletterIssue',
-      resolve: async (_, { first, after, before, last }, ctx) => {
+      disableBackwardPagination: true,
+      resolve: async (_, { first, after }, ctx) => {
+        const postList = await ctx.newsletter.listPosts({
+          first: notEmpty(first) ? first : undefined,
+          after: notEmpty(after) ? after : undefined,
+        })
+
         return {
-          nodes: (await ctx.newsletter.listPosts()).posts.map(post => ({
+          nodes: postList.posts.map(post => ({
             id: post.id,
             slug: post.slug,
             title: post.title,
@@ -28,7 +28,13 @@ export const allNewsletterIssues = extendType({
             publishedAt: post.publishDate,
             status: post.status as any,
           })),
-          totalCount: 0,
+          totalCount: postList.totalCount,
+          pageInfo: {
+            hasNextPage: postList.page < postList.pageCount - 1,
+            hasPreviousPage: postList.page > 0,
+            endCursor: postList.page.toString(),
+            startCursor: postList.page.toString(),
+          },
         }
       },
     })

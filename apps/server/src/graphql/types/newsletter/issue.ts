@@ -17,6 +17,7 @@ export const NewsletterIssue = objectType({
     t.nonNull.DateTime('createdAt')
     t.nullable.DateTime('publishedAt')
     t.nullable.DateTime('displayAt')
+    t.nullable.string('thumbnailUrl')
     t.nonNull.field('status', { type: 'NewsletterIssueStatus' })
   },
 })

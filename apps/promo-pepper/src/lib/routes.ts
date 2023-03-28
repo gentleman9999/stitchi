@@ -36,6 +36,15 @@ const routes = {
         },
       },
     },
+
+    newsletter: {
+      href: () => '/issues',
+
+      show: {
+        href: ({ issueSlug }: { issueSlug: string }) =>
+          buildRoute(`/issues/${issueSlug}`),
+      },
+    },
   },
 }
 

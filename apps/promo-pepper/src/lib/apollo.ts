@@ -46,6 +46,8 @@ export function initializeApollo() {
               return responseObj.urlOriginal?.toString() || false
             case 'SearchQueries':
               return 'StitchiSearchQueries'
+            case 'Newsletter':
+              return 'PromoPepperNewsletter'
             default:
               return defaultDataIdFromObject(responseObj)
           }
@@ -59,6 +61,11 @@ export function initializeApollo() {
           Query: {
             fields: {
               allGlossaryEntries: firstSkipPagination(),
+            },
+          },
+          Newsletter: {
+            fields: {
+              allNewsletterIssues: relayStylePagination(),
             },
           },
         },

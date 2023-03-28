@@ -80,6 +80,7 @@ export interface NexusGenObjects {
     slug: string; // String!
     status: NexusGenEnums['NewsletterIssueStatus']; // NewsletterIssueStatus!
     subtitle: string; // String!
+    thumbnailUrl?: string | null; // String
     title: string; // String!
   }
   NewsletterIssueConnection: { // root type
@@ -169,6 +170,7 @@ export interface NexusGenFieldTypes {
     slug: string; // String!
     status: NexusGenEnums['NewsletterIssueStatus']; // NewsletterIssueStatus!
     subtitle: string; // String!
+    thumbnailUrl: string | null; // String
     title: string; // String!
   }
   NewsletterIssueConnection: { // field return type
@@ -252,6 +254,7 @@ export interface NexusGenFieldTypeNames {
     slug: 'String'
     status: 'NewsletterIssueStatus'
     subtitle: 'String'
+    thumbnailUrl: 'String'
     title: 'String'
   }
   NewsletterIssueConnection: { // field return type name
@@ -315,9 +318,7 @@ export interface NexusGenArgTypes {
   Newsletter: {
     allNewsletterIssues: { // args
       after?: string | null; // String
-      before?: string | null; // String
-      first?: number | null; // Int
-      last?: number | null; // Int
+      first: number; // Int!
     }
     newsletterIssue: { // args
       slug: string; // String!

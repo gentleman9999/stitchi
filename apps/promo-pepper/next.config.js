@@ -5,10 +5,7 @@ const nextConfig = {
   },
   transpilePackages: ['icons', 'config', 'tsconfig', 'hooks'],
   images: {
-    domains: ['picsum.photos'],
-  },
-  async redirects() {
-    return [{ source: '/', destination: '/directory', permanent: false }]
+    domains: ['picsum.photos', 'beehiiv-images-production.s3.amazonaws.com'],
   },
 }
 
