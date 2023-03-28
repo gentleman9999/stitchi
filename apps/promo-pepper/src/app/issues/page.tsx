@@ -1,6 +1,9 @@
 'use client'
 
-import { InfiniteScrollTrigger } from '@/components/common'
+import {
+  ComponentErrorMessage,
+  InfiniteScrollTrigger,
+} from '@/components/common'
 import { Container } from '@/components/ui'
 import { initializeApollo } from '@/lib/apollo'
 import { gql } from '@/__generated__'
@@ -15,7 +18,7 @@ import IssueCard from './IssueCard'
 const client = initializeApollo()
 
 export default function Page() {
-  const { data, loading, fetchMore } = useQuery<
+  const { data, loading, error, fetchMore } = useQuery<
     GetNewsletterIssuesDataQuery,
     GetNewsletterIssuesDataQueryVariables
   >(GetNewsletterIssuesData, { client, variables: { first: 10 } })
@@ -23,16 +26,20 @@ export default function Page() {
   const { allNewsletterIssues } = data?.newsletter || {}
 
   const handleIntersect = () => {
-    if (
-      allNewsletterIssues.pageInfo.hasNextPage &&
-      allNewsletterIssues.pageInfo.endCursor
-    ) {
-      fetchMore({
-        variables: {
-          after: allNewsletterIssues.pageInfo.endCursor,
-        },
-      })
-    }
+    // if (
+    //   allNewsletterIssues.pageInfo.hasNextPage &&
+    //   allNewsletterIssues.pageInfo.endCursor
+    // ) {
+    //   fetchMore({
+    //     variables: {
+    //       after: allNewsletterIssues.pageInfo.endCursor,
+    //     },
+    //   })
+    // }
+  }
+
+  if (error) {
+    return <ComponentErrorMessage error={error} />
   }
 
   return (
@@ -66,10 +73,7 @@ const GetNewsletterIssuesData = gql(`
                     id
                    ...IssueCardIssue
                 }
-                pageInfo {
-                    hasNextPage
-                    endCursor
-                }
+                
             }
         }
     }
