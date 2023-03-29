@@ -20,7 +20,7 @@ const ComponentErrorMessage = (props: Props) => {
   }
 
   return (
-    <div className="p-6 m-4 rounded-sm text-white bg-rose-500 flex justify-center items-center">
+    <div className="p-6 m-4 rounded-sm  flex justify-center items-center">
       <div>
         <h6 className="text-lg font-bold">Error!</h6>
         <p>{message}</p>

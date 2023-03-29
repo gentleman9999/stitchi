@@ -54,11 +54,11 @@ const postSchema = yup.object().shape({
 })
 
 const postListSchema = yup.object().shape({
-  data: yup.array().of(postSchema).required(),
-  limit: yup.number().required(),
-  page: yup.number().required(),
-  total_results: yup.number().required(),
-  total_pages: yup.number().required(),
+  data: yup.array().of(postSchema).optional(),
+  limit: yup.number().optional(),
+  page: yup.number().optional(),
+  total_results: yup.number().optional(),
+  total_pages: yup.number().optional(),
 })
 
 const subscriberSchema = yup.object().shape({

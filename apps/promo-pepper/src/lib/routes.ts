@@ -35,14 +35,21 @@ const routes = {
             buildRoute(`/companies/${companySlug}`),
         },
       },
+      categories: {
+        show: {
+          href: ({ categorySlug }: { categorySlug: string }) =>
+            buildRoute(`/directory/${categorySlug}`),
+        },
+      },
     },
 
     newsletter: {
       href: () => '/issues',
-
-      show: {
-        href: ({ issueSlug }: { issueSlug: string }) =>
-          buildRoute(`/issues/${issueSlug}`),
+      issues: {
+        show: {
+          href: ({ issueSlug }: { issueSlug: string }) =>
+            buildRoute(`/issues/${issueSlug}`),
+        },
       },
     },
   },

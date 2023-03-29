@@ -78,6 +78,7 @@ const getPostList = async ({
 
   try {
     const response = await fetch(`/posts?${params.toString()}`)
+
     const data = await response.json()
 
     return makePostList(data)

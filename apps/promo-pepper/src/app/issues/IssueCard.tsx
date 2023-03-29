@@ -23,7 +23,7 @@ export default function IssueCard({ loading, issue: issueFragment }: Props) {
     <li className="flex flex-col gap-8 sm:flex-row overflow-hidden p-2 border border-gray-800 rounded-md">
       {issue?.thumbnailUrl ? (
         <Link
-          href={routes.internal.newsletter.show.href({
+          href={routes.internal.newsletter.issues.show.href({
             issueSlug: issue.slug,
           })}
         >
@@ -61,7 +61,7 @@ export default function IssueCard({ loading, issue: issueFragment }: Props) {
             <Skeleton />
           ) : issue ? (
             <Link
-              href={routes.internal.newsletter.show.href({
+              href={routes.internal.newsletter.issues.show.href({
                 issueSlug: issue.slug,
               })}
             >
