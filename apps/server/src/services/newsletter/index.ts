@@ -41,11 +41,11 @@ const makeClient: MakeClientFn = (
       try {
         const posts = await beehiivClient.getPostList({ first, after })
         return {
-          posts: posts.data.map(post => beehiivPostToPost(post)),
-          limit: posts.limit,
-          page: posts.page,
-          totalCount: posts.total_results,
-          pageCount: posts.total_pages,
+          posts: posts.data?.map(post => beehiivPostToPost(post)) || [],
+          limit: posts.limit || 0,
+          page: posts.page || 0,
+          totalCount: posts.total_results || 0,
+          pageCount: posts.total_pages || 0,
         }
       } catch (error) {
         console.error(error)
