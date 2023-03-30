@@ -8,6 +8,7 @@ import { useDirectory } from '../directory-context'
 interface Props {
   open: boolean
   onOpenChange: (b: boolean) => void
+  parentCategoryId?: string
   categories?:
     | FragmentType<typeof FilterDialogDirectoryGategoriesFragment>[]
     | null
@@ -16,6 +17,7 @@ interface Props {
 export default function FilterDialog({
   open,
   onOpenChange,
+  parentCategoryId,
   categories,
 }: Props) {
   if (!open) {
@@ -45,24 +47,33 @@ export default function FilterDialog({
 
               {categories?.length ? (
                 <div className="flex-1 overflow-y-scroll">
-                  {categories.map(categoryFragment => {
-                    const category = getFragmentData(
-                      FilterDialogDirectoryGategoriesFragment,
-                      categoryFragment,
-                    )
+                  {categories
+                    .filter(c => {
+                      const category = getFragmentData(
+                        FilterDialogDirectoryGategoriesFragment,
+                        c,
+                      )
 
-                    if (!category.title) return null
-                    return (
-                      <Section key={category.id}>
-                        <SectionTitle title={category.title} />
-                        <br />
-                        <CheckboxFilterGroup
-                          name={category.title}
-                          category={categoryFragment}
-                        />
-                      </Section>
-                    )
-                  })}
+                      return category.id !== parentCategoryId
+                    })
+                    .map(categoryFragment => {
+                      const category = getFragmentData(
+                        FilterDialogDirectoryGategoriesFragment,
+                        categoryFragment,
+                      )
+
+                      if (!category.title) return null
+                      return (
+                        <Section key={category.id}>
+                          <SectionTitle title={category.title} />
+                          <br />
+                          <CheckboxFilterGroup
+                            name={category.title}
+                            category={categoryFragment}
+                          />
+                        </Section>
+                      )
+                    })}
                 </div>
               ) : null}
 

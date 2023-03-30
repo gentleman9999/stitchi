@@ -1,12 +1,9 @@
-import { getFragmentData } from '@/__generated__'
 import {
   DirectoryIndexPageGetDataQuery,
   DirectoryIndexPageGetDataQueryVariables,
-  DirectoryIndexPageQueryFragmentDoc,
 } from '@/__generated__/graphql'
 import { QueryResult } from '@apollo/client'
 import React from 'react'
-import { useDebounce } from 'use-debounce'
 
 interface State {
   selectedCategoryIds: Set<string>
@@ -22,10 +19,12 @@ interface DirectoryProviderProps {
     DirectoryIndexPageGetDataQuery,
     DirectoryIndexPageGetDataQueryVariables
   >
+  categoryId?: string
 }
 
 const DirectoryProvider: React.FC<DirectoryProviderProps> = ({
   children,
+  categoryId,
   queryResult: { refetch, fetchMore, data, variables },
 }) => {
   const [selectedCategoryIds, setSelectedCategoryIds] = React.useState<
@@ -38,11 +37,11 @@ const DirectoryProvider: React.FC<DirectoryProviderProps> = ({
       filter: {
         ...variables?.filter,
         categories: {
-          anyIn: Array.from(selectedCategoryIds),
+          allIn: [categoryId, ...Array.from(selectedCategoryIds)],
         },
       },
     })
-  }, [refetch, selectedCategoryIds, variables])
+  }, [categoryId, refetch, selectedCategoryIds, variables])
 
   const toggleCategory = React.useCallback((id: string) => {
     setSelectedCategoryIds(prev => {
@@ -52,9 +51,7 @@ const DirectoryProvider: React.FC<DirectoryProviderProps> = ({
     })
   }, [])
 
-  const fragmentData = getFragmentData(DirectoryIndexPageQueryFragmentDoc, data)
-
-  const directoryCurrentLength = fragmentData?.directory?.length || 0
+  const directoryCurrentLength = data?.directory?.length || 0
 
   const fetchMoreResults = React.useCallback(() => {
     fetchMore({ variables: { skip: directoryCurrentLength } })

@@ -36,7 +36,9 @@ const categoryReducer = (
   return acc
 }
 
-interface Props {}
+interface Props {
+  parentCategoryId?: string
+}
 
 export default function Filter(props: Props) {
   const { selectedCategoryIds, toggleCategory } = useDirectory()
@@ -63,6 +65,7 @@ export default function Filter(props: Props) {
         open={showFilters}
         onOpenChange={setShowFilters}
         categories={topLevelCategories}
+        parentCategoryId={props.parentCategoryId}
       />
 
       <div className="flex gap-4 overflow-hidden w-full">

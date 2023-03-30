@@ -49,8 +49,6 @@ export default function Page() {
 
   const handleSubmit = () => {}
 
-  console.log('DATA', data)
-
   return (
     <>
       <section className="py-28">

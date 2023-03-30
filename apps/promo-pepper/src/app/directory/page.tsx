@@ -1,32 +1,8 @@
 import { Container } from '@/components/ui'
-// import { initializeApollo } from '@/lib/apollo'
-// import {
-//   DirectoryIndexPageGetDataQuery,
-//   DirectoryIndexPageGetDataQueryVariables,
-// } from '@/__generated__/graphql'
-// import { notFound } from 'next/navigation'
 import React from 'react'
 import Directory from './Directory'
-// import {
-//   defaultQueryVariables,
-//   directoryIndexPageGetData,
-// } from './directoryIndexPageGetData'
 
 export default async function Page() {
-  // const client = initializeApollo()
-
-  // const { data } = await client.query<
-  //   DirectoryIndexPageGetDataQuery,
-  //   DirectoryIndexPageGetDataQueryVariables
-  // >({
-  //   query: directoryIndexPageGetData,
-  //   variables: defaultQueryVariables,
-  // })
-
-  // if (!data.directory) {
-  //   notFound()
-  // }
-
   return (
     <>
       <Container>
