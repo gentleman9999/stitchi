@@ -78,7 +78,7 @@ const CompanyCard = ({
 
 export default CompanyCard
 
-export const CompanyCardCompany = gql(`
+export const CompanyCardCompany = gql(/* GraphQL */ `
   fragment CompanyCardCompany on GlossaryEntryRecord {
     id
     slug

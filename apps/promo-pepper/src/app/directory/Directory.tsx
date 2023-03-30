@@ -4,51 +4,63 @@ import React from 'react'
 import Filters from './Filters'
 import { getFragmentData, gql } from '@/__generated__'
 import { QueryResult, useQuery } from '@apollo/client'
-import {
-  defaultQueryVariables,
-  directoryIndexPageGetData,
-} from './directoryIndexPageGetData'
+
 import {
   DirectoryIndexPageGetDataQuery,
   DirectoryIndexPageGetDataQueryVariables,
 } from '@/__generated__/graphql'
 import { initializeApollo } from '@/lib/apollo'
 import { DirectoryProvider, useDirectory } from './directory-context'
-import CompanyCard from './CompanyCard'
 import { InfiniteScrollTrigger } from '@/components/common'
+import CompanyCardGrid from './CompanyCardGrid'
 
 const client = initializeApollo()
 
-export default function Directory() {
+const defaultQueryVariables: DirectoryIndexPageGetDataQueryVariables = {
+  first: 20,
+  filter: { entryType: { eq: 'companies' } },
+}
+
+export default function Directory({
+  categoryId,
+  parentCategoryId,
+}: {
+  categoryId?: string
+  parentCategoryId?: string
+}) {
   const result = useQuery<
     DirectoryIndexPageGetDataQuery,
     DirectoryIndexPageGetDataQueryVariables
-  >(directoryIndexPageGetData, {
+  >(DirectoryIndexPageGetData, {
     client,
-    variables: defaultQueryVariables,
     notifyOnNetworkStatusChange: true,
+    variables: {
+      ...defaultQueryVariables,
+      filter: {
+        ...defaultQueryVariables.filter,
+        categories: {
+          allIn: [parentCategoryId],
+        },
+      },
+    },
   })
 
   return (
-    <DirectoryProvider queryResult={result}>
-      <DirectoryInner query={result} />
+    <DirectoryProvider queryResult={result} categoryId={categoryId}>
+      <DirectoryInner query={result} parentCategoryId={parentCategoryId} />
     </DirectoryProvider>
   )
 }
 
 interface Props {
   query: QueryResult<DirectoryIndexPageGetDataQuery>
+  parentCategoryId?: string
 }
 
 function DirectoryInner(props: Props) {
-  const { loading } = props.query
+  const { loading, data } = props.query
 
   const { fetchMoreResults } = useDirectory()
-
-  const data = getFragmentData(
-    DirectoryIndexPageQueryFragment,
-    props.query.data,
-  )
 
   const { directory, directoryMetadata } = data || {}
 
@@ -68,27 +80,10 @@ function DirectoryInner(props: Props) {
       <div className="flex flex-col gap-20">
         <div className="flex flex-col gap-12">
           {/* <SearchBar onSubmit={() => {}} loading={false} /> */}
-          <Filters />
+          <Filters parentCategoryId={props.parentCategoryId} />
         </div>
         <div>
-          <ul className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {directory?.map(companyData => {
-              return (
-                <CompanyCard
-                  component="li"
-                  companyData={companyData}
-                  key={companyData.id}
-                />
-              )
-            })}
-            {loading ? (
-              <>
-                {Array.from(new Array(4)).map((_, i) => (
-                  <CompanyCard component="li" key={i} loading />
-                ))}
-              </>
-            ) : null}
-          </ul>
+          <CompanyCardGrid companies={directory} loading={loading} />
         </div>
         <InfiniteScrollTrigger onIntersect={handleIntersect} />
       </div>
@@ -96,11 +91,15 @@ function DirectoryInner(props: Props) {
   )
 }
 
-export const DirectoryIndexPageQueryFragment = gql(/* GraphQL */ `
-  fragment DirectoryIndexPageQuery on Query {
+export const DirectoryIndexPageGetData = gql(/* GraphQL */ `
+  query DirectoryIndexPageGetData(
+    $first: IntType
+    $skip: IntType
+    $filter: GlossaryEntryModelFilter
+  ) {
     directory: allGlossaryEntries(first: $first, skip: $skip, filter: $filter) {
       id
-      ...CompanyCardCompany
+      ...CompanyCardGridCompany
     }
 
     directoryMetadata: _allGlossaryEntriesMeta(filter: $filter) {

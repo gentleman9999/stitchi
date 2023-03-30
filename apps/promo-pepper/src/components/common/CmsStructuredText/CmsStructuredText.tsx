@@ -77,6 +77,7 @@ const anchorTagFromNode = (node: Node) =>
 
 export const CmsStructuredTextGlossaryDescriptionFragment = gql(/* GraphQL */ `
   fragment CmsStructuredTextGlossaryDescription on GlossaryEntryModelDescriptionField {
+    __typename
     value
     blocks {
       id
