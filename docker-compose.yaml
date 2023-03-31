@@ -1,6 +1,5 @@
 version: '3'
 services:
-  #turborepo
   turbo:
     container_name: stitchi
     build:
