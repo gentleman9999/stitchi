@@ -1,14 +1,13 @@
 import React from 'react'
 import { Button, RadioSelect, TextField } from '@components/ui'
-import { object, string, Schema } from 'yup'
-import type { FormInput } from 'pages/api/form-response'
+import { object, string, Asserts } from 'yup'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import makeApi from '@lib/api'
 import { useRouter } from 'next/router'
 import routes from '@lib/routes'
 
-const schema: Schema<FormInput> = object({
+const schema = object({
   email: string().email().required(),
   first_name: string().optional(),
   last_name: string().optional(),
@@ -20,7 +19,9 @@ const schema: Schema<FormInput> = object({
 
 const NewOrderForm = () => {
   const [api] = React.useState(makeApi())
-  const form = useForm<FormInput>({ resolver: yupResolver(schema) })
+  const form = useForm<Asserts<typeof schema>>({
+    resolver: yupResolver(schema),
+  })
   const [loading, setLoading] = React.useState(false)
 
   const router = useRouter()
