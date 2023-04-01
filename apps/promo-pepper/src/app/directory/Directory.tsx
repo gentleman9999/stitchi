@@ -13,6 +13,7 @@ import { initializeApollo } from '@/lib/apollo'
 import { DirectoryProvider, useDirectory } from './directory-context'
 import { InfiniteScrollTrigger } from '@/components/common'
 import CompanyCardGrid from './CompanyCardGrid'
+import { notEmpty } from '@/utils/typescript'
 
 const client = initializeApollo()
 
@@ -39,7 +40,7 @@ export default function Directory({
       filter: {
         ...defaultQueryVariables.filter,
         categories: {
-          allIn: [parentCategoryId],
+          allIn: [parentCategoryId].filter(notEmpty),
         },
       },
     },

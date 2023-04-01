@@ -1,3 +1,4 @@
+import { notEmpty } from '@/utils/typescript'
 import {
   DirectoryIndexPageGetDataQuery,
   DirectoryIndexPageGetDataQueryVariables,
@@ -37,7 +38,9 @@ const DirectoryProvider: React.FC<DirectoryProviderProps> = ({
       filter: {
         ...variables?.filter,
         categories: {
-          allIn: [categoryId, ...Array.from(selectedCategoryIds)],
+          allIn: [categoryId, ...Array.from(selectedCategoryIds)].filter(
+            notEmpty,
+          ),
         },
       },
     })

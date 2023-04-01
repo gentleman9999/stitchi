@@ -19,14 +19,13 @@ import React from 'react'
 const client = initializeApollo()
 
 export default function Page() {
-  const { data, loading, error } = useQuery<
+  const { data, error } = useQuery<
     GetHomePageDataQuery,
     GetHomePageDataQueryVariables
   >(GetHomePageData, { client, variables: {} })
 
   if (error) {
-    // TODO: bring back once beehiiv working
-    // return <ComponentErrorMessage error={error} />
+    return <ComponentErrorMessage error={error} />
   }
 
   const featuredCategories = getFragmentData(
@@ -44,8 +43,8 @@ export default function Page() {
     data?.supplyChainCategories,
   )
 
-  // const featuredIssues =
-  //   data?.newsletter?.allNewsletterIssues?.nodes.filter(notEmpty) || []
+  const featuredIssues =
+    data?.newsletter?.allNewsletterIssues?.nodes.filter(notEmpty) || []
 
   const handleSubmit = () => {}
 
@@ -105,45 +104,52 @@ export default function Page() {
             </Link>
           </div>
           <ul className="grid grid-cols-2 gap-8 mt-8">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <li key={i} className="col-span-1">
-                <article>
-                  <Link
-                    href={routes.internal.newsletter.issues.show.href({
-                      issueSlug: '',
-                    })}
-                    className="rounded-sm flex gap-3"
-                  >
-                    <div className="relative w-48 h-32 rounded-md overflow-hidden shrink-0">
-                      <Image
-                        fill
-                        src={`https://picsum.photos/seed/${i}/300/200`}
-                        style={{ objectFit: 'cover' }}
-                        alt="TODO: everest"
-                      />
+            {featuredIssues.map(issue =>
+              issue.thumbnailUrl ? (
+                <li key={issue.id} className="col-span-1">
+                  <article>
+                    <div className="flex gap-3 rounded-sm ">
+                      <Link
+                        href={routes.internal.newsletter.issues.show.href({
+                          issueSlug: issue.slug,
+                        })}
+                      >
+                        <div className="relative w-48 h-32 rounded-md overflow-hidden shrink-0">
+                          <Image
+                            fill
+                            src={issue.thumbnailUrl}
+                            style={{ objectFit: 'cover' }}
+                            alt="TODO: everest"
+                          />
+                        </div>
+                      </Link>
+
+                      <div>
+                        <Link
+                          href={routes.internal.newsletter.issues.show.href({
+                            issueSlug: issue.slug,
+                          })}
+                        >
+                          <h2 className="text font-bold cursor-pointer">
+                            {issue.title}
+                          </h2>
+                        </Link>
+
+                        {issue.subtitle ? (
+                          <p className="text">{issue.subtitle}</p>
+                        ) : null}
+                      </div>
                     </div>
-                    <div>
-                      <h2 className="text font-bold">This is an issue title</h2>
-                      <p className="text">
-                        Lorem Ipsum is simply dummy text of the printing and
-                        typesetting industry.
-                      </p>
-                    </div>
-                  </Link>
-                </article>
-              </li>
-            ))}
+                  </article>
+                </li>
+              ) : null,
+            )}
           </ul>
         </section>
       </Container>
 
       <div className="bg-gray-50">
         <Container>
-          <section className="py-10">
-            {/* {featuredIssues.map(issue => (
-            <div key={issue.id}>{issue.id}</div>
-          ))} */}
-          </section>
           <section className="flex flex-col gap-16 py-10">
             <h2 className="text-5xl font-bold font-heading">
               Explore companies
@@ -229,13 +235,17 @@ const GlossaryCategoryFragment = gql(/* GraphQL */ `
 
 const GetHomePageData = gql(/* GraphQL */ `
   query GetHomePageData {
-    # newsletter {
-    #   allNewsletterIssues(first: 5) {
-    #     nodes {
-    #       id
-    #     }
-    #   }
-    # }
+    newsletter {
+      allNewsletterIssues(first: 4) {
+        nodes {
+          id
+          slug
+          title
+          subtitle
+          thumbnailUrl
+        }
+      }
+    }
     featuredCategories: glossaryCategory(filter: { id: { eq: "147376160" } }) {
       id
       ...GlossaryCategoryFragment
