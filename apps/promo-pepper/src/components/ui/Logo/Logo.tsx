@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import logo from 'public/promopepper-logo.png'
-import textLogo from 'public/promopepper-text-logo.png'
+import textLogo from 'public/promopepper-logo-2.png'
 
 export interface LogoProps {
   className?: string
