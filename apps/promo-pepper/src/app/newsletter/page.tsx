@@ -53,26 +53,20 @@ export default function Page() {
         </h1>
       </section>
       <section>
-        {allNewsletterIssues?.edges?.length ? (
-          <ul className="flex flex-col gap-4">
-            {allNewsletterIssues.edges.map((edge, i) =>
-              edge?.node ? (
-                <IssueCard
-                  key={edge.node.id}
-                  issue={edge.node}
-                  loading={false}
-                />
-              ) : null,
-            )}
-            {loading ? (
-              <>
-                {Array.from({ length: 4 }).map((_, index) => (
-                  <IssueCard key={index} loading={loading} />
-                ))}
-              </>
-            ) : null}
-          </ul>
-        ) : null}
+        <ul className="flex flex-col gap-4">
+          {allNewsletterIssues?.edges?.map((edge, i) =>
+            edge?.node ? (
+              <IssueCard key={edge.node.id} issue={edge.node} loading={false} />
+            ) : null,
+          )}
+          {loading ? (
+            <>
+              {Array.from({ length: 4 }).map((_, index) => (
+                <IssueCard key={index} loading={loading} />
+              ))}
+            </>
+          ) : null}
+        </ul>
 
         <InfiniteScrollTrigger onIntersect={handleIntersect} />
       </section>
