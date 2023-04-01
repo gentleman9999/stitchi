@@ -66,8 +66,15 @@ type NewsletterIssue {
 }
 
 type NewsletterIssueConnection {
-  nodes: [NewsletterIssue]!
-  totalCount: Int!
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [NewsletterIssueEdge]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
 }
 
 type NewsletterIssueEdge {
@@ -93,29 +100,9 @@ type Organization {
   updatedAt: DateTime
 }
 
-"""
-PageInfo cursor, as defined in https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
-"""
 type PageInfo {
-  """
-  The cursor corresponding to the last nodes in edges. Null if the connection is empty.
-  """
   endCursor: String
-
-  """
-  Used to indicate whether more edges exist following the set defined by the clients arguments.
-  """
   hasNextPage: Boolean!
-
-  """
-  Used to indicate whether more edges exist prior to the set defined by the clients arguments.
-  """
-  hasPreviousPage: Boolean!
-
-  """
-  The cursor corresponding to the first nodes in edges. Null if the connection is empty.
-  """
-  startCursor: String
 }
 
 type Query {

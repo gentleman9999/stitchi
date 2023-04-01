@@ -12,11 +12,3 @@ export const AllNewsletterIssuesFilter = inputObjectType({
     t.int('skip')
   },
 })
-
-export const NewsletterIssueConnection = objectType({
-  name: 'NewsletterIssueConnection',
-  definition: t => {
-    t.nonNull.list.field('nodes', { type: 'NewsletterIssue' })
-    t.nonNull.int('totalCount')
-  },
-})

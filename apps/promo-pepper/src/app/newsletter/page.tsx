@@ -21,21 +21,25 @@ export default function Page() {
   const { data, loading, error, fetchMore } = useQuery<
     GetNewsletterIssuesDataQuery,
     GetNewsletterIssuesDataQueryVariables
-  >(GetNewsletterIssuesData, { client, variables: { first: 10 } })
+  >(GetNewsletterIssuesData, {
+    client,
+    variables: { first: 2 },
+    notifyOnNetworkStatusChange: true,
+  })
 
   const { allNewsletterIssues } = data?.newsletter || {}
 
+  const { pageInfo } = allNewsletterIssues || {}
+
   const handleIntersect = () => {
-    // if (
-    //   allNewsletterIssues.pageInfo.hasNextPage &&
-    //   allNewsletterIssues.pageInfo.endCursor
-    // ) {
-    //   fetchMore({
-    //     variables: {
-    //       after: allNewsletterIssues.pageInfo.endCursor,
-    //     },
-    //   })
-    // }
+    console.log('PAGE INFO', pageInfo)
+    if (!loading && pageInfo?.hasNextPage && pageInfo.endCursor) {
+      fetchMore({
+        variables: {
+          after: pageInfo.endCursor,
+        },
+      })
+    }
   }
 
   if (error) {
@@ -50,11 +54,15 @@ export default function Page() {
         </h1>
       </section>
       <section>
-        {allNewsletterIssues?.nodes.length ? (
+        {allNewsletterIssues?.edges?.length ? (
           <ul className="flex flex-col gap-4">
-            {allNewsletterIssues.nodes.map(issue =>
-              issue ? (
-                <IssueCard key={issue.id} loading={loading} issue={issue} />
+            {allNewsletterIssues.edges.map(edge =>
+              edge?.node ? (
+                <IssueCard
+                  key={edge.node.id}
+                  loading={loading}
+                  issue={edge.node}
+                />
               ) : null,
             )}
           </ul>
@@ -65,16 +73,22 @@ export default function Page() {
   )
 }
 
-const GetNewsletterIssuesData = gql(`
-    query GetNewsletterIssuesData($first: Int!, $after: String) {
-        newsletter {
-            allNewsletterIssues(first: $first, after: $after) {
-                nodes {
-                    id
-                   ...IssueCardIssue
-                }
-                
-            }
+const GetNewsletterIssuesData = gql(/* GraphQL */ `
+  query GetNewsletterIssuesData($first: Int!, $after: String) {
+    newsletter {
+      allNewsletterIssues(first: $first, after: $after) {
+        edges {
+          node {
+            id
+            ...IssueCardIssue
+          }
         }
+
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+      }
     }
+  }
 `)

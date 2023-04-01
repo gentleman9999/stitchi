@@ -15,25 +15,25 @@ export const allNewsletterIssues = extendType({
         })
 
         return {
-          nodes: postList.posts.map(post => ({
-            id: post.id,
-            slug: post.slug,
-            title: post.title,
-            subtitle: post.subtitle,
-            thumbnailUrl: post.thumbnailUrl,
-            authorNames: post.authors,
-            createdAt: post.createdAt,
-            contentHtml: post.bodyHtml,
-            displayAt: post.displayedDate,
-            publishedAt: post.publishDate,
-            status: post.status as any,
+          edges: postList.posts.map(post => ({
+            cursor: '',
+            node: {
+              id: post.id,
+              slug: post.slug,
+              title: post.title,
+              subtitle: post.subtitle,
+              thumbnailUrl: post.thumbnailUrl,
+              authorNames: post.authors,
+              createdAt: post.createdAt,
+              contentHtml: post.bodyHtml,
+              displayAt: post.displayedDate,
+              publishedAt: post.publishDate,
+              status: post.status as any,
+            },
           })),
-          totalCount: postList.totalCount,
           pageInfo: {
-            hasNextPage: postList.page < postList.pageCount - 1,
-            hasPreviousPage: postList.page > 0,
+            hasNextPage: postList.page < postList.pageCount,
             endCursor: postList.page.toString(),
-            startCursor: postList.page.toString(),
           },
         }
       },

@@ -49,7 +49,9 @@ export default function Page() {
   )
 
   const featuredIssues =
-    data?.newsletter?.allNewsletterIssues?.nodes.filter(notEmpty) || []
+    data?.newsletter?.allNewsletterIssues?.edges
+      ?.map(edge => edge?.node)
+      .filter(notEmpty) || []
 
   return (
     <>
@@ -262,12 +264,14 @@ const GetHomePageData = gql(/* GraphQL */ `
   query GetHomePageData {
     newsletter {
       allNewsletterIssues(first: 4) {
-        nodes {
-          id
-          slug
-          title
-          subtitle
-          thumbnailUrl
+        edges {
+          node {
+            id
+            slug
+            title
+            subtitle
+            thumbnailUrl
+          }
         }
       }
     }

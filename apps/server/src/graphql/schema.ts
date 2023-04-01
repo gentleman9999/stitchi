@@ -26,8 +26,6 @@ export const schema = makeSchema({
   },
   plugins: [
     // Relay pagination
-    connectionPlugin({
-      includeNodesField: true,
-    }),
+    connectionPlugin(),
   ],
 })

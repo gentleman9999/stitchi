@@ -87,8 +87,8 @@ export interface NexusGenObjects {
     title: string; // String!
   }
   NewsletterIssueConnection: { // root type
-    nodes: Array<NexusGenRootTypes['NewsletterIssue'] | null>; // [NewsletterIssue]!
-    totalCount: number; // Int!
+    edges?: Array<NexusGenRootTypes['NewsletterIssueEdge'] | null> | null; // [NewsletterIssueEdge]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
   }
   NewsletterIssueEdge: { // root type
     cursor: string; // String!
@@ -104,8 +104,6 @@ export interface NexusGenObjects {
   PageInfo: { // root type
     endCursor?: string | null; // String
     hasNextPage: boolean; // Boolean!
-    hasPreviousPage: boolean; // Boolean!
-    startCursor?: string | null; // String
   }
   Query: {};
   Subscriber: { // root type
@@ -177,8 +175,8 @@ export interface NexusGenFieldTypes {
     title: string; // String!
   }
   NewsletterIssueConnection: { // field return type
-    nodes: Array<NexusGenRootTypes['NewsletterIssue'] | null>; // [NewsletterIssue]!
-    totalCount: number; // Int!
+    edges: Array<NexusGenRootTypes['NewsletterIssueEdge'] | null> | null; // [NewsletterIssueEdge]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
   }
   NewsletterIssueEdge: { // field return type
     cursor: string; // String!
@@ -195,8 +193,6 @@ export interface NexusGenFieldTypes {
   PageInfo: { // field return type
     endCursor: string | null; // String
     hasNextPage: boolean; // Boolean!
-    hasPreviousPage: boolean; // Boolean!
-    startCursor: string | null; // String
   }
   Query: { // field return type
     newsletter: NexusGenRootTypes['Newsletter'] | null; // Newsletter
@@ -261,8 +257,8 @@ export interface NexusGenFieldTypeNames {
     title: 'String'
   }
   NewsletterIssueConnection: { // field return type name
-    nodes: 'NewsletterIssue'
-    totalCount: 'Int'
+    edges: 'NewsletterIssueEdge'
+    pageInfo: 'PageInfo'
   }
   NewsletterIssueEdge: { // field return type name
     cursor: 'String'
@@ -279,8 +275,6 @@ export interface NexusGenFieldTypeNames {
   PageInfo: { // field return type name
     endCursor: 'String'
     hasNextPage: 'Boolean'
-    hasPreviousPage: 'Boolean'
-    startCursor: 'String'
   }
   Query: { // field return type name
     newsletter: 'Newsletter'
