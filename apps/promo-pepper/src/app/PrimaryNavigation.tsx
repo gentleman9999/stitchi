@@ -10,7 +10,7 @@ const PrimaryNavigation = ({}: Props) => {
   return (
     <nav className="sticky top-0 bg-paper z-10 border-b">
       <Container className="py-2 grid grid-cols-3">
-        <div className="col-span-1 flex items-center">
+        <div className="col-span-1 flex items-center translate-y-1">
           <Link href={routes.internal.home.href()}>
             <Logo variant="textLogo" width={150} />
           </Link>
@@ -36,7 +36,7 @@ const PrimaryNavigation = ({}: Props) => {
 const NavLink = ({ href, label }: { href: string; label: string }) => {
   return (
     <li>
-      <Link href={href} className="font-bold font text-2xl">
+      <Link href={href} className="font-bold font text-2xl font-headingDisplay">
         {label}
       </Link>
     </li>
