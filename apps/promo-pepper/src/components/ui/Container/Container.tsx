@@ -12,7 +12,8 @@ interface ContainerProps {
 const Container = forwardRef<HTMLDivElement, ContainerProps>(
   ({ children, className, Component = 'div', clean, style }, ref) => {
     const rootClassName = cn(className, {
-      'mx-auto container px-6 md:px-20 lg:px-6 w-full max-w-6xl': !clean,
+      'mx-auto container px-2 sm:px-6 md:px-20 lg:px-6 w-full max-w-6xl':
+        !clean,
     })
 
     const props = {

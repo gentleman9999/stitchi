@@ -1,9 +1,9 @@
+import { PrimaryNavigation } from '@/components/common'
 import { Inter } from 'next/font/google'
 // import SubscribeBanner from './SubsribeBanner'
 import Footer from './Footer'
 
 import './main.css'
-import PrimaryNavigation from './PrimaryNavigation'
 
 const inter = Inter({
   subsets: ['latin'],

@@ -6,6 +6,8 @@ export type { Props as CmsStructuredTextProps } from './CmsStructuredText'
 
 export { default as ComponentErrorMessage } from './ComponentErrorMessage'
 
+export { default as PrimaryNavigation } from './PrimaryNavigation'
+
 export { default as DatoCmsImageWrapper } from './DatoCmsImageWrapper'
 
 export { default as InfiniteScrollTrigger } from './InfiniteScrollTrigger'

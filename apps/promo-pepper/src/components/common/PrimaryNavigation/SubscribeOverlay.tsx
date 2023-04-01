@@ -9,7 +9,7 @@ interface Props {
   onSubmit: () => void
 }
 
-export default function PrimaryNavigationSubscribeOverlay(props: Props) {
+export default function SubscribeOverlay(props: Props) {
   const { form, handleSubmit, submitError, submitLoading } =
     useNewsletterSubscribeForm()
 
