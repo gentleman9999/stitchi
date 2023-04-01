@@ -55,13 +55,13 @@ export default function Page() {
 
   return (
     <>
-      <section className="py-28">
+      <section className="py-10 sm:py-16 md:py-20 lg:py-28">
         <Container>
           <div>
-            <h1 className="text-5xl font-headingDisplay font-bold text-black max-w-3xl">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-headingDisplay font-bold text-black max-w-3xl sm:w-[80%]">
               Your go-to source for custom merch news and expert ratings
             </h1>
-            <p className="text-black text-xl font-medium mt-4 w-[70%] max-w-xl">
+            <p className="text-gray-700 text md:text-lg lg:text-xl mt-4 sm:w-[60%] max-w-xl">
               Stay up-to-date and entertained with our weekly newsletter,
               featuring the latest trends, product reviews, and industry
               insights – all for free.
@@ -69,19 +69,19 @@ export default function Page() {
           </div>
 
           <form onSubmit={handleSubmit}>
-            <div className="rounded-md overflow-hidden mt-10 shadow-2xl w-full max-w-sm flex">
+            <div className="flex flex-col gap-2 sm:gap-0 sm:flex-row sm:rounded-md sm:overflow-hidden mt-10 sm:shadow-2xl w-full max-w-sm">
               <label className="sr-only" htmlFor="name">
                 Email address
               </label>
               <input
                 required
                 placeholder="youremail@example.com"
-                className="py-3 px-6 rounded-l-md text-lg focus:outline-black flex-1"
+                className="py-1 px-3 sm:py-3 sm:px-6 rounded-md sm:rounded-r-none text-lg sm:focus:outline-black flex-1 outline sm:outline-none"
                 {...form.register('email')}
               />
               <button
                 type="submit"
-                className="relative bg-gray-800 text-white text-lg py-3 px-6 font-medium"
+                className="relative bg-gray-800 text-white text-lg py-1 px-3 sm:py-3 sm:px-6 font-medium rounded-md sm:rounded-l-none"
               >
                 <div className={submitLoading ? 'opacity-0' : ''}>Try it</div>
                 <div
@@ -98,6 +98,7 @@ export default function Page() {
                 </div>
               </button>
             </div>
+
             {submitError ? (
               <div className="mt-2">
                 <ComponentErrorMessage error={submitError} />
