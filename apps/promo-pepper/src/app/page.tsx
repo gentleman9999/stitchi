@@ -26,7 +26,8 @@ export default function Page() {
     GetHomePageDataQueryVariables
   >(GetHomePageData, { client, variables: {} })
 
-  const { form, handleSubmit, subscribeMutation } = useNewsletterSubscribeForm()
+  const { form, handleSubmit, submitError, submitLoading } =
+    useNewsletterSubscribeForm()
 
   if (error) {
     return <ComponentErrorMessage error={error} />
@@ -80,14 +81,12 @@ export default function Page() {
                 type="submit"
                 className="relative bg-gray-800 text-white text-lg py-3 px-6 font-medium"
               >
-                <div className={subscribeMutation.loading ? 'opacity-0' : ''}>
-                  Try it
-                </div>
+                <div className={submitLoading ? 'opacity-0' : ''}>Try it</div>
                 <div
                   className={cx(
                     'absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center opacity-0',
                     {
-                      'opacity-100': subscribeMutation.loading,
+                      'opacity-100': submitLoading,
                     },
                   )}
                 >
@@ -97,9 +96,15 @@ export default function Page() {
                 </div>
               </button>
             </div>
-            {form.formState.errors.email ? (
+            {submitError ? (
+              <div className="mt-2">
+                <ComponentErrorMessage error={submitError} />
+              </div>
+            ) : null}
+
+            {form.formState.errors.email?.message ? (
               <p className="text-red-500 text-sm mt-2">
-                {form.formState.errors.email.message}
+                {form.formState.errors.email?.message}
               </p>
             ) : null}
           </form>

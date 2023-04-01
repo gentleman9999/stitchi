@@ -44,7 +44,13 @@ const routes = {
     },
 
     newsletter: {
-      href: () => '/issues',
+      href: () => '/newsletter',
+
+      welcome: {
+        href: ({ email }: { email: string }) =>
+          buildRoute('/newsletter/welcome', { email }),
+      },
+
       issues: {
         show: {
           href: ({ issueSlug }: { issueSlug: string }) =>

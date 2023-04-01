@@ -1,21 +1,20 @@
 'use client'
 
-import { useIntersectionObserver } from '@/hooks'
 import React from 'react'
+import { useInView } from 'react-intersection-observer'
 
 interface Props {
   onIntersect: () => void
 }
 
 export default function InfiniteScrollTrigger(props: Props) {
-  const directoryEndRef = React.useRef<HTMLDivElement>(null)
-  const directoryEnd = useIntersectionObserver(directoryEndRef, {})
+  const { inView, ref } = useInView()
 
   React.useEffect(() => {
-    if (!directoryEnd?.isIntersecting) return
+    if (!inView) return
 
     props.onIntersect()
-  }, [directoryEnd?.isIntersecting, props])
+  }, [inView, props])
 
-  return <div ref={directoryEndRef} />
+  return <div ref={ref} />
 }
