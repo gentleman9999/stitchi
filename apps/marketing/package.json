@@ -23,7 +23,7 @@
   "dependencies": {
     "@apollo/client": "^3.7.10",
     "@headlessui/react": "^1.7.8",
-    "@hookform/resolvers": "^2.8.8",
+    "@hookform/resolvers": "^3.0.0",
     "@next/bundle-analyzer": "^13.2.4",
     "@radix-ui/react-dialog": "^1.0.2",
     "@radix-ui/react-slider": "^1.0.0",
@@ -46,7 +46,7 @@
     "react": "^18.2.0",
     "react-datocms": "^4.0.9",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.29.0",
+    "react-hook-form": "^7.43.9",
     "react-loading-skeleton": "^3.1.0",
     "react-merge-refs": "^1.1.0",
     "sharp": "^0.31.3",

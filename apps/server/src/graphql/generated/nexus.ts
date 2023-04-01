@@ -42,6 +42,9 @@ export interface NexusGenInputs {
     first: number; // Int!
     skip?: number | null; // Int
   }
+  SubscriberCreateInput: { // input type
+    email: string; // String!
+  }
 }
 
 export interface NexusGenEnums {
@@ -312,7 +315,7 @@ export interface NexusGenFieldTypeNames {
 export interface NexusGenArgTypes {
   Mutation: {
     subscriberCreate: { // args
-      email: string; // String!
+      input: NexusGenInputs['SubscriberCreateInput']; // SubscriberCreateInput!
     }
   }
   Newsletter: {

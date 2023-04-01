@@ -29,6 +29,7 @@ const documents = {
     "\n  fragment CmsImage on ResponsiveImage {\n    srcSet\n    webpSrcSet\n    sizes\n    src\n    width\n    height\n    aspectRatio\n    alt\n    title\n    base64\n  }\n": types.CmsImageFragmentDoc,
     "\n  fragment CmsStructuredTextGlossaryDescription on GlossaryEntryModelDescriptionField {\n    __typename\n    value\n    blocks {\n      id\n      ... on ImageRecord {\n        ...CmsStructuredTextImageRecord\n      }\n    }\n    links {\n      ... on ArticleRecord {\n        id\n        slug\n        title\n      }\n      ... on GlossaryEntryRecord {\n        id\n        slug\n        term\n      }\n    }\n  }\n": types.CmsStructuredTextGlossaryDescriptionFragmentDoc,
     "\n  fragment CmsStructuredTextImageRecord on ImageRecord {\n    id\n    image {\n      id\n      responsiveImage {\n        ...CmsImage\n      }\n    }\n  }\n": types.CmsStructuredTextImageRecordFragmentDoc,
+    "\n  mutation UseNewsletterSubscribe($email: String!) {\n    subscriberCreate(input: { email: $email }) {\n      subscriber {\n        id\n      }\n    }\n  }\n": types.UseNewsletterSubscribeDocument,
 };
 
 /**
@@ -109,6 +110,10 @@ export function gql(source: "\n  fragment CmsStructuredTextGlossaryDescription o
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  fragment CmsStructuredTextImageRecord on ImageRecord {\n    id\n    image {\n      id\n      responsiveImage {\n        ...CmsImage\n      }\n    }\n  }\n"): (typeof documents)["\n  fragment CmsStructuredTextImageRecord on ImageRecord {\n    id\n    image {\n      id\n      responsiveImage {\n        ...CmsImage\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation UseNewsletterSubscribe($email: String!) {\n    subscriberCreate(input: { email: $email }) {\n      subscriber {\n        id\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation UseNewsletterSubscribe($email: String!) {\n    subscriberCreate(input: { email: $email }) {\n      subscriber {\n        id\n      }\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

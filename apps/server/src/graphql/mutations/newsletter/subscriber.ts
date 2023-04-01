@@ -1,14 +1,23 @@
-import { mutationField, nonNull } from 'nexus'
+import { inputObjectType, mutationField, nonNull } from 'nexus'
+
+export const SubscriberCreateInput = inputObjectType({
+  name: 'SubscriberCreateInput',
+  definition(t) {
+    t.nonNull.string('email')
+  },
+})
 
 export const subscriberCreate = mutationField('subscriberCreate', {
   description: 'Creates a new subscriber',
   type: 'SubscriberCreatePayload',
   args: {
-    email: nonNull('String'),
+    input: nonNull('SubscriberCreateInput'),
   },
-  resolve: async (_, { email }, ctx) => {
+  resolve: async (_, { input }, ctx) => {
     try {
-      const subscriber = await ctx.newsletter.createSubscriber({ email })
+      const subscriber = await ctx.newsletter.createSubscriber({
+        email: input.email,
+      })
 
       return {
         subscriber: {

@@ -18,7 +18,7 @@ const handler: NextApiHandler = async (req, res) => {
   try {
     switch (req.method) {
       case 'POST':
-        const formInput = await formInputSchema.validate(req.body)
+        const formInput = await formInputSchema.validate(JSON.parse(req.body))
 
         const data = {
           contacts: [
@@ -33,7 +33,7 @@ const handler: NextApiHandler = async (req, res) => {
         const [response] = await sendgrid.request({
           url: `/v3/marketing/contacts`,
           method: 'PUT',
-          body: data,
+          body: JSON.stringify(data),
         })
 
         if (response.statusCode !== 202) {

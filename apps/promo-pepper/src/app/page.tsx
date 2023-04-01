@@ -1,7 +1,8 @@
 'use client'
 
 import { ComponentErrorMessage } from '@/components/common'
-import { Container } from '@/components/ui'
+import { Container, LoadingDots } from '@/components/ui'
+import { useNewsletterSubscribeForm } from '@/hooks'
 import { initializeApollo } from '@/lib/apollo'
 import routes from '@/lib/routes'
 import { notEmpty } from '@/utils/typescript'
@@ -15,6 +16,7 @@ import { ArrowRight } from 'icons'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import cx from 'classnames'
 
 const client = initializeApollo()
 
@@ -23,6 +25,8 @@ export default function Page() {
     GetHomePageDataQuery,
     GetHomePageDataQueryVariables
   >(GetHomePageData, { client, variables: {} })
+
+  const { form, handleSubmit, subscribeMutation } = useNewsletterSubscribeForm()
 
   if (error) {
     return <ComponentErrorMessage error={error} />
@@ -46,8 +50,6 @@ export default function Page() {
   const featuredIssues =
     data?.newsletter?.allNewsletterIssues?.nodes.filter(notEmpty) || []
 
-  const handleSubmit = () => {}
-
   return (
     <>
       <section className="py-28">
@@ -63,25 +65,43 @@ export default function Page() {
             </p>
           </div>
 
-          <form
-            onSubmit={handleSubmit}
-            className="rounded-md overflow-hidden mt-10 shadow-2xl w-full max-w-sm flex"
-          >
-            <label className="sr-only" htmlFor="name">
-              Email address
-            </label>
-            <input
-              required
-              name="email"
-              placeholder="youremail@example.com"
-              className="py-3 px-6 rounded-l-md text-lg focus:outline-black flex-1"
-            />
-            <button
-              type="submit"
-              className="bg-gray-800 text-white text-lg py-3 px-6 font-medium"
-            >
-              Try it
-            </button>
+          <form onSubmit={handleSubmit}>
+            <div className="rounded-md overflow-hidden mt-10 shadow-2xl w-full max-w-sm flex">
+              <label className="sr-only" htmlFor="name">
+                Email address
+              </label>
+              <input
+                required
+                placeholder="youremail@example.com"
+                className="py-3 px-6 rounded-l-md text-lg focus:outline-black flex-1"
+                {...form.register('email')}
+              />
+              <button
+                type="submit"
+                className="relative bg-gray-800 text-white text-lg py-3 px-6 font-medium"
+              >
+                <div className={subscribeMutation.loading ? 'opacity-0' : ''}>
+                  Try it
+                </div>
+                <div
+                  className={cx(
+                    'absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center opacity-0',
+                    {
+                      'opacity-100': subscribeMutation.loading,
+                    },
+                  )}
+                >
+                  <i>
+                    <LoadingDots />
+                  </i>
+                </div>
+              </button>
+            </div>
+            {form.formState.errors.email ? (
+              <p className="text-red-500 text-sm mt-2">
+                {form.formState.errors.email.message}
+              </p>
+            ) : null}
           </form>
         </Container>
       </section>

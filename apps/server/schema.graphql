@@ -34,7 +34,7 @@ enum MembershipRole {
 
 type Mutation {
   """Creates a new subscriber"""
-  subscriberCreate(email: String!): SubscriberCreatePayload
+  subscriberCreate(input: SubscriberCreateInput!): SubscriberCreatePayload
 
   """Bootstraps a new user with necessary resources"""
   userBoostrap: User
@@ -126,6 +126,10 @@ type Query {
 type Subscriber {
   email: String!
   id: String!
+}
+
+input SubscriberCreateInput {
+  email: String!
 }
 
 type SubscriberCreatePayload {

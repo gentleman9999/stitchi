@@ -1,1 +1,1 @@
-export { subscriberCreate } from './subscriber'
+export { subscriberCreate, SubscriberCreateInput } from './subscriber'
