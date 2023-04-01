@@ -21,7 +21,7 @@ export default function IssueCard({ loading, issue: issueFragment }: Props) {
 
   return (
     <li className="flex flex-col gap-8 sm:flex-row overflow-hidden p-2 border border-gray-800 rounded-md">
-      {issue?.thumbnailUrl ? (
+      {!loading && issue?.thumbnailUrl ? (
         <Link
           href={routes.internal.newsletter.issues.show.href({
             issueSlug: issue.slug,
@@ -39,11 +39,14 @@ export default function IssueCard({ loading, issue: issueFragment }: Props) {
           </div>
         </Link>
       ) : null}
-      <div className="flex flex-col gap-2">
+      {loading ? (
+        <div className="relative h-52 w-72 rounded-sm overflow-hidden bg-gray-200" />
+      ) : null}
+      <div className="flex flex-col gap-2 flex-1">
         <div>
           <span className="text-gray-700 text-sm">
             {loading ? (
-              <Skeleton />
+              <Skeleton width="20%" height={10} />
             ) : issue ? (
               <>
                 {capitalize(
@@ -58,7 +61,7 @@ export default function IssueCard({ loading, issue: issueFragment }: Props) {
             ) : null}
           </span>
           {loading ? (
-            <Skeleton />
+            <Skeleton width="70%" height={30} />
           ) : issue ? (
             <Link
               href={routes.internal.newsletter.issues.show.href({
@@ -72,11 +75,11 @@ export default function IssueCard({ loading, issue: issueFragment }: Props) {
           ) : null}
         </div>
         <p className="text-gray-800">
-          {loading ? <Skeleton /> : issue ? issue.subtitle : null}
+          {loading ? <Skeleton width="90%" /> : issue ? issue.subtitle : null}
         </p>
 
         {loading ? (
-          <Skeleton />
+          <Skeleton width="20%" />
         ) : issue?.authorNames.length ? (
           <p>{issue.authorNames.join(', ')}</p>
         ) : null}

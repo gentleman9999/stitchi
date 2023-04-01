@@ -32,7 +32,6 @@ export default function Page() {
   const { pageInfo } = allNewsletterIssues || {}
 
   const handleIntersect = () => {
-    console.log('PAGE INFO', pageInfo)
     if (!loading && pageInfo?.hasNextPage && pageInfo.endCursor) {
       fetchMore({
         variables: {
@@ -56,17 +55,25 @@ export default function Page() {
       <section>
         {allNewsletterIssues?.edges?.length ? (
           <ul className="flex flex-col gap-4">
-            {allNewsletterIssues.edges.map(edge =>
+            {allNewsletterIssues.edges.map((edge, i) =>
               edge?.node ? (
                 <IssueCard
                   key={edge.node.id}
-                  loading={loading}
                   issue={edge.node}
+                  loading={false}
                 />
               ) : null,
             )}
+            {loading ? (
+              <>
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <IssueCard key={index} loading={loading} />
+                ))}
+              </>
+            ) : null}
           </ul>
         ) : null}
+
         <InfiniteScrollTrigger onIntersect={handleIntersect} />
       </section>
     </Container>
