@@ -1,6 +1,6 @@
 'use client'
 import routes from '@/lib/routes'
-import { isLink, isHeading, Node } from 'datocms-structured-text-utils'
+import { isLink, isHeading, Node, isCode } from 'datocms-structured-text-utils'
 import Link from 'next/link'
 import { renderNodeRule } from 'react-datocms'
 import { render as toPlainText } from 'datocms-structured-text-to-plain-text'
