@@ -9,10 +9,9 @@ import { CmsStructuredTextPrivacyPolicyContentFragment } from '@generated/CmsStr
 import { CmsStructuredTextTermsOfUseContentFragment } from '@generated/CmsStructuredTextTermsOfUseContentFragment'
 import routes from '@lib/routes'
 import { anchorTagFromNode } from '@utils/structured-text'
-import { isLink, isHeading, isCode } from 'datocms-structured-text-utils'
+import { isLink, isHeading } from 'datocms-structured-text-utils'
 import Link from 'next/link'
 import { StructuredText, renderNodeRule } from 'react-datocms'
-import BlogPostCard from '../BlogPostCard'
 import CmsImage from '../CmsImage'
 
 interface Props {
