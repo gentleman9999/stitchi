@@ -64,6 +64,7 @@ export interface BlogCategoryIndexPageGetPageDataQuery_allArticles {
   __typename: "ArticleRecord";
   id: any;
   _publishedAt: any | null;
+  _createdAt: any;
   title: string | null;
   slug: string | null;
   shortDescription: string | null;

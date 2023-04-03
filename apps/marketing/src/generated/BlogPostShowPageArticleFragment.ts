@@ -98,6 +98,7 @@ export interface BlogPostShowPageArticleFragment_content_links_ArticleRecord {
   id: any;
   slug: string | null;
   title: string | null;
+  shortDescription: string | null;
 }
 
 export interface BlogPostShowPageArticleFragment_content_links_GlossaryEntryRecord {
@@ -129,6 +130,7 @@ export interface BlogPostShowPageArticleFragment {
   id: any;
   title: string | null;
   _publishedAt: any | null;
+  _createdAt: any;
   author: BlogPostShowPageArticleFragment_author | null;
   categories: BlogPostShowPageArticleFragment_categories[];
   image: BlogPostShowPageArticleFragment_image | null;

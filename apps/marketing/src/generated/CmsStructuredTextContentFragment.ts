@@ -38,6 +38,7 @@ export interface CmsStructuredTextContentFragment_links_ArticleRecord {
   id: any;
   slug: string | null;
   title: string | null;
+  shortDescription: string | null;
 }
 
 export interface CmsStructuredTextContentFragment_links_GlossaryEntryRecord {
