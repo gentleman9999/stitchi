@@ -12,6 +12,7 @@ import { anchorTagFromNode } from '@utils/structured-text'
 import { isLink, isHeading } from 'datocms-structured-text-utils'
 import Link from 'next/link'
 import { StructuredText, renderNodeRule } from 'react-datocms'
+import BlogPostCard from '../BlogPostCard'
 import CmsImage from '../CmsImage'
 
 interface Props {
@@ -73,6 +74,26 @@ const CmsStructuredText = ({ content }: Props) => {
             throw new Error(`Invalid record type: ${record.__typename}`)
         }
       }}
+      renderInlineRecord={({ record }) => {
+        if (!record) return null
+        return (
+          <div>
+            <Link
+              href={routes.internal.blog.show.href(record.slug as string)}
+              className="no-underline rounded-md border p-2 flex flex-col gap-2 not-prose"
+            >
+              <h2 className="hover:underline leading-tight">
+                {record.title as string}
+              </h2>
+              {(record.shortDescription as string) ? (
+                <p className="text-xs font-normal">
+                  {record.shortDescription as string}
+                </p>
+              ) : null}
+            </Link>
+          </div>
+        )
+      }}
       renderBlock={({ record }) => {
         switch (record.__typename) {
           case 'ImageRecord':
@@ -121,6 +142,7 @@ CmsStructuredText.fragments = {
           id
           slug
           title
+          shortDescription
         }
         ... on GlossaryEntryRecord {
           id

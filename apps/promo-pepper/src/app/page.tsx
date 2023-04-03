@@ -131,12 +131,12 @@ export default function Page() {
               </div>
             </Link>
           </div>
-          <ul className="grid grid-cols-2 gap-8 mt-8">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-8">
             {featuredIssues.map(issue =>
               issue.thumbnailUrl ? (
                 <li key={issue.id} className="col-span-1">
                   <article>
-                    <div className="flex gap-3 rounded-sm ">
+                    <div className="flex gap-3 rounded-sm">
                       <Link
                         href={routes.internal.newsletter.issues.show.href({
                           issueSlug: issue.slug,
@@ -152,7 +152,7 @@ export default function Page() {
                         </div>
                       </Link>
 
-                      <div>
+                      <div className="min-w-[200px]">
                         <Link
                           href={routes.internal.newsletter.issues.show.href({
                             issueSlug: issue.slug,
