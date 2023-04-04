@@ -116,10 +116,12 @@ export default function Page() {
       <Container>
         <section className="py-20">
           <div className="flex justify-between items-center">
-            <h2 className="text-5xl font-bold font-heading">Latest issues</h2>
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold font-heading">
+              Latest issues
+            </h2>
             <Link
               href={routes.internal.newsletter.href()}
-              className="text-xl font-semibold underline"
+              className="text-lg sm:text-xl font-semibold underline"
             >
               <div className="group flex items-center">
                 All issues{' '}
@@ -131,28 +133,31 @@ export default function Page() {
               </div>
             </Link>
           </div>
-          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-8">
+          <ul className="flex sm:grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 mt-8 overflow-scroll">
             {featuredIssues.map(issue =>
               issue.thumbnailUrl ? (
-                <li key={issue.id} className="col-span-1">
+                <li
+                  key={issue.id}
+                  className="flex-[65vw] max-w-[200px] sm:flex-1 sm:max-w-none shrink-0"
+                >
                   <article>
-                    <div className="flex gap-3 rounded-sm">
+                    <div className="flex flex-col sm:flex-row gap-3 rounded-sm">
                       <Link
                         href={routes.internal.newsletter.issues.show.href({
                           issueSlug: issue.slug,
                         })}
                       >
-                        <div className="relative w-48 h-32 rounded-md overflow-hidden shrink-0">
+                        <div className="relative w-auto sm:w-48 h-32 rounded-md overflow-hidden shrink-0">
                           <Image
                             fill
                             src={issue.thumbnailUrl}
                             style={{ objectFit: 'cover' }}
-                            alt="TODO: everest"
+                            alt={issue.title}
                           />
                         </div>
                       </Link>
 
-                      <div className="min-w-[200px]">
+                      <div className="">
                         <Link
                           href={routes.internal.newsletter.issues.show.href({
                             issueSlug: issue.slug,
@@ -178,8 +183,8 @@ export default function Page() {
 
       <div className="bg-gray-50">
         <Container>
-          <section className="flex flex-col gap-16 py-10">
-            <h2 className="text-5xl font-bold font-heading">
+          <section className="flex flex-col gap-8 sm:gap-10 md:gap-16 py-10">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-heading">
               Explore companies
             </h2>
 
@@ -229,12 +234,12 @@ const CategoryList = ({
       {title ? (
         <h3 className="text-3xl font-semibold font-heading">{title}</h3>
       ) : null}
-      <ul className="flex gap-4 flex-wrap">
+      <ul className="flex gap-2 sm:gap-3 md:gap-4 flex-wrap">
         {categories.map(category =>
           category?.slug ? (
             <li key={category.slug}>
               <Link
-                className="p-4 border text-center font-medium rounded-sm hover:border-gray-400 block transition-all"
+                className="p-2 sm:p-3 md:p-4 border text-center font-semibold rounded-md hover:border-gray-400 block transition-all"
                 href={routes.internal.directory.categories.show.href({
                   categorySlug: category.slug,
                 })}
