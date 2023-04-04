@@ -52,7 +52,7 @@ const PrimaryNavigation = ({}: Props) => {
 
                 <div className="col-span-1 flex items-center md:justify-center">
                   <Link href={routes.internal.home.href()}>
-                    <Logo variant="textLogo" width={150} />
+                    <Logo variant="textLogo" width={200} />
                   </Link>
                 </div>
 
@@ -78,9 +78,9 @@ const PrimaryNavigation = ({}: Props) => {
                     <Popover.Trigger className="p-2 text-sm text-gray-500 rounded-md md:hidden hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-100">
                       <span className="sr-only">Open main menu</span>
                       <HamburgerMenu
-                        height={16}
-                        width={16}
-                        className="fill-gray-500"
+                        height={20}
+                        width={20}
+                        className="fill-gray-600"
                       />
                     </Popover.Trigger>
                   </div>
