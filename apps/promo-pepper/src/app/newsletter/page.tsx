@@ -47,16 +47,22 @@ export default function Page() {
 
   return (
     <Container>
-      <section className="py-20">
-        <h1 className="text-7xl font-bold max-w-2xl font-headingDisplay">
+      <section className="py-8 sm:py-12 md:py-20">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold max-w-2xl font-headingDisplay">
           What&apos;s happening in promo?
         </h1>
       </section>
       <section>
-        <ul className="flex flex-col gap-4">
-          {allNewsletterIssues?.edges?.map((edge, i) =>
+        <ul className="flex flex-col gap-4 items-center">
+          {allNewsletterIssues?.edges?.map(edge =>
             edge?.node ? (
-              <IssueCard key={edge.node.id} issue={edge.node} loading={false} />
+              <div key={edge.node.id} className="w-full max-w-sm sm:max-w-none">
+                <IssueCard
+                  key={edge.node.id}
+                  issue={edge.node}
+                  loading={false}
+                />
+              </div>
             ) : null,
           )}
           {loading ? (

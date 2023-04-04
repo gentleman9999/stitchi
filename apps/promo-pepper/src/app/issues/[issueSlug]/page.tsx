@@ -41,13 +41,13 @@ export default function Page({ params }: { params: { issueSlug: string } }) {
 
   return (
     <Container className="max-w-4xl">
-      <section className="py-20">
-        <h1 className="text-4xl font-bold font-headingDisplay">
+      <section className="py-8 sm:py-14 py-20">
+        <h1 className="text-3xl sm:text-4xl font-bold font-headingDisplay">
           {loading ? <Skeleton /> : issue?.title}
         </h1>
         {loading ? <Skeleton /> : <p className="text-lg">{issue?.subtitle}</p>}
         {issue?.thumbnailUrl ? (
-          <div className="relative w-full h-96 rounded-md overflow-hidden mt-4">
+          <div className="relative w-full h-64  sm:h-96 rounded-md overflow-hidden mt-4">
             <Image
               fill
               src={issue.thumbnailUrl}
@@ -60,7 +60,7 @@ export default function Page({ params }: { params: { issueSlug: string } }) {
       <section>
         {postHtml ? (
           <div
-            className="prose prose-xl max-w-none"
+            className="prose sm:prose-xl max-w-none"
             dangerouslySetInnerHTML={{ __html: postHtml }}
           />
         ) : null}
