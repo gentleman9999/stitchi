@@ -39,7 +39,7 @@ const CompanyCard = ({
         { '!border-gray-400 animate-pulse': loading },
       )}
     >
-      <div className="col-span-12 sm:col-span-3 rounded-sm overflow-hidden">
+      <div className="border sm:border-none col-span-12 sm:col-span-3 rounded-md overflow-hidden">
         <Link
           href={href || '#'}
           className="relative w-full after:pb-[100%] after:block after:content-['']"

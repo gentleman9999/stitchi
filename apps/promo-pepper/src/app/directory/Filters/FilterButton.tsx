@@ -19,7 +19,7 @@ export default function FilterButton(props: Props) {
   return (
     <Component
       className={cx(
-        'py-4 px-4 rounded-md border border-gray-300 font-semibold hover:border-gray-500 transition-all flex gap-2 whitespace-nowrap items-center',
+        'p-2 sm:p-3 md:p-4 rounded-md border border-gray-300 font-semibold hover:border-gray-500 transition-all flex gap-2 whitespace-nowrap items-center',
         className,
       )}
       {...rest}

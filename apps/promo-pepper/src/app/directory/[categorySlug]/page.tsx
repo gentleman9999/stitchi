@@ -42,12 +42,12 @@ export default function Page({ params }: { params: { categorySlug: string } }) {
     <Container>
       <section className="py-12">
         <div className="flex flex-col gap-10">
-          <div className="flex flex-col gap-8">
-            <h1 className="text-5xl font-bold font-headingDisplay">
+          <div className="flex flex-col gap-4 sm:gap-8">
+            <h1 className="text-4xl sm:text-5xl font-bold font-headingDisplay">
               {category?.title}
             </h1>
             {category?.description ? (
-              <p className="text-xl text-gray-700 w-[70%] max-w-3xl">
+              <p className="text-lg sm:text-xl text-gray-700 w-[85%] sm:w-[70%] max-w-3xl">
                 {category.description}
               </p>
             ) : null}

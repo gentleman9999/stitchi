@@ -70,7 +70,7 @@ export default function Filter(props: Props) {
 
       <div className="flex gap-4 overflow-hidden w-full">
         {activeCategories?.length ? (
-          <ul className="flex gap-4 shrink-0">
+          <ul className="hidden sm:flex gap-2 sm:gap-3 md:gap-4 shrink-0">
             {activeCategories.map(category => (
               <FilterButton
                 key={category.slug}
@@ -97,7 +97,7 @@ export default function Filter(props: Props) {
         ) : null}
 
         {featuredCategories?.length ? (
-          <ul className="flex gap-4 flex-shrink overflow-x-scroll">
+          <ul className="hidden sm:flex gap-2 sm:gap-3 md:gap-4 flex-shrink overflow-x-scroll">
             {featuredCategories
               .filter(
                 category => selectedCategoryIds.has(category.id) === false,

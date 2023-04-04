@@ -43,7 +43,7 @@ export default async function Page({
     <>
       <Container>
         <section className="py-12" aria-label="hero">
-          <div className="flex gap-10 justify-between">
+          <div className="flex flex-col sm:flex-row gap-10 justify-between">
             <div>
               <h1 className="text-heading text-5xl font-bold">
                 {company.term}
@@ -81,7 +81,7 @@ export default async function Page({
             <section aria-label="description" className="py-12">
               <h2 className="text-2xl">Overview</h2>
               <div className="flex gap-10 justify-between mt-4">
-                <div className="prose prose-lg">
+                <div className="prose sm:prose-lg">
                   <CmsStructuredText content={company.description} />
                 </div>
                 {/* <dl className="flex flex-col gap-4 w-full">
