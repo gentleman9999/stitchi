@@ -17,7 +17,7 @@ module.exports = {
     },
     colors: {
       transparent: 'transparent',
-      primary: '#e52c2c',
+      primary: '#f44336',
       secondary: colors.stone[900], // #0f172a
       paper: colors.white,
       gray: colors.stone,

@@ -34,6 +34,7 @@ export default function MobileDropdown(props: Props) {
                 type="email"
                 className="rounded-md font-semibold py-1 px-2 flex-1"
                 placeholder="youremail@example.com"
+                autoComplete="email"
                 {...form.register('email')}
               />
               <div className="flex justify-end">

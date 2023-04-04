@@ -30,6 +30,7 @@ export default function SubscribeOverlay(props: Props) {
           id="email"
           className="rounded-md font-semibold py-1 px-2"
           placeholder="youremail@example.com"
+          autoComplete="email"
           {...form.register('email')}
         />
         <button

@@ -1,44 +1,84 @@
-import { Container } from '@/components/ui'
+'use client'
+
+import { Container, LoadingDots } from '@/components/ui'
 import React from 'react'
 import { ArrowRight } from 'icons'
+import { useNewsletterSubscribeForm } from '@/hooks'
+import { ComponentErrorMessage } from '@/components/common'
+import cx from 'classnames'
 
 interface Props {}
 
 const SubscribeBanner = () => {
+  const { form, handleSubmit, submitError, submitLoading } =
+    useNewsletterSubscribeForm()
+
   return (
-    <form className="flex justify-center p-4">
-      <div className=" bg-primary rounded-md w-full">
-        <Container>
-          <div className="py-2 grid grid-cols-6 font-bold">
-            <div className="col-span-1 flex items-center">
+    <form onSubmit={handleSubmit}>
+      <Container>
+        <div className=" bg-primary rounded-md w-full">
+          <div className="py-2 px-4 grid grid-cols-6 font-bold">
+            <div className="col-span-1 flex items-center text-white">
               <span>Get weekly emails</span>
             </div>
             <div className={`h-[10px] col-span-1 flex items-center`} />
             <div className="col-span-2 flex items-center justify-center">
               <input
                 required
-                name="email"
                 autoComplete="email"
                 placeholder="Your email address"
                 className="w-full text-center py-2 px-3 bg-gray-100 rounded-md outline-primary"
+                {...form.register('email')}
               />
             </div>
             <div className="col-span-1 flex items-center"></div>
             <div className="col-span-1 flex items-center justify-end">
-              <button className="">
-                <div className="flex items-center group">
+              <button className="relative" type="submit">
+                <div
+                  className={cx('flex items-center group text-white', {
+                    'opacity-0': submitLoading,
+                  })}
+                >
                   Sign up{' '}
-                  <ArrowRight
-                    strokeWidth={3}
-                    height={16}
-                    className="ml-1 group-hover:translate-x-1 transition-all"
-                  />
+                  <div className="relative">
+                    <div>
+                      <ArrowRight
+                        strokeWidth={3}
+                        height={16}
+                        className="ml-1 group-hover:translate-x-1 transition-all"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className={cx(
+                    'absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center opacity-0',
+                    {
+                      'opacity-100': submitLoading,
+                    },
+                  )}
+                >
+                  <i>
+                    <LoadingDots />
+                  </i>
                 </div>
               </button>
             </div>
           </div>
-        </Container>
-      </div>
+        </div>
+
+        {form.formState.errors.email?.message ? (
+          <p className="text-red-500 text-sm mt-2 text-center">
+            {form.formState.errors.email?.message}
+          </p>
+        ) : null}
+
+        {submitError ? (
+          <div className="mt-2">
+            <ComponentErrorMessage error={submitError} />
+          </div>
+        ) : null}
+      </Container>
     </form>
   )
 }

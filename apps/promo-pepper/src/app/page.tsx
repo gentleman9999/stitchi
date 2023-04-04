@@ -76,6 +76,7 @@ export default function Page() {
               <input
                 required
                 placeholder="youremail@example.com"
+                autoComplete="email"
                 className="py-1 px-3 sm:py-3 sm:px-6 rounded-md sm:rounded-r-none text-lg sm:focus:outline-black flex-1 outline sm:outline-none"
                 {...form.register('email')}
               />
