@@ -56,9 +56,12 @@ const routes = {
       },
     },
     blog: {
-      href: () => buildRoute('/learn'),
+      href: () => buildRoute(`/learn`),
       show: {
         href: (postSlug: string) => buildRoute(`/learn/${postSlug}`),
+      },
+      page: {
+        href: (page: number) => buildRoute(`/learn/page/${page}`),
       },
       category: {
         href: ({ categorySlug }: { categorySlug: string }) =>

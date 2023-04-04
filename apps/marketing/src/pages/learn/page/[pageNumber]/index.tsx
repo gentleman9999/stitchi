@@ -11,11 +11,12 @@ import { useRouter } from 'next/router'
 import { ComponentErrorMessage } from '@components/common'
 import { BlogIndexPageGetPagesQuery } from '@generated/BlogIndexPageGetPagesQuery'
 import { PrimaryLayout } from '@components/layout'
+import routes from '@lib/routes'
 
-const PAGE_LIMIT = 20
+const PAGE_LIMIT = 6
 
 const getPagination = (currentPage: number) => ({
-  first: PAGE_LIMIT,
+  first: currentPage > 1 ? PAGE_LIMIT * 2 : PAGE_LIMIT,
   skip: (currentPage - 1) * PAGE_LIMIT,
 })
 
@@ -68,21 +69,39 @@ const getStaticProps: GetStaticProps = async ({ params }) => {
 const BlogIndexPage = () => {
   const router = useRouter()
   const { pageNumber } = router.query
+
   const pageNumberInt = parseInt(`${pageNumber}`, 10)
 
-  const { data, error } = useQuery<
+  const { data, error, loading } = useQuery<
     BlogIndexPageGetDataQuery,
     BlogIndexPageGetDataQueryVariables
   >(GET_DATA, {
     variables: getPagination(pageNumberInt),
-    skip: isNaN(pageNumberInt),
+    notifyOnNetworkStatusChange: true,
   })
 
   const {
+    _allArticlesMeta,
     allArticles: articles,
     allCategories: categories,
     blogIndexPage,
   } = data || {}
+
+  const canFetchMore = Boolean(
+    articles?.length && articles.length < _allArticlesMeta?.count,
+  )
+
+  const handleFetchMore = () => {
+    if (!loading && canFetchMore) {
+      router.replace(
+        routes.internal.blog.page.href(pageNumberInt + 1),
+        undefined,
+        {
+          scroll: false,
+        },
+      )
+    }
+  }
 
   if ((error && !articles) || articles?.length === 0) {
     return <ComponentErrorMessage error={error} />
@@ -101,6 +120,10 @@ const BlogIndexPage = () => {
       articles={articles}
       categories={categories}
       page={blogIndexPage}
+      onFetchMore={handleFetchMore}
+      canFetchMore={canFetchMore}
+      pageNumber={pageNumberInt}
+      loading={loading}
     />
   )
 }
@@ -117,7 +140,15 @@ const GET_DATA = gql`
   ${BlogPostIndexPage.fragments.category}
   ${BlogPostIndexPage.fragments.page}
   query BlogIndexPageGetDataQuery($first: IntType, $skip: IntType) {
-    allArticles(first: $first, skip: $skip, orderBy: _createdAt_DESC) {
+    _allArticlesMeta(filter: { _status: { eq: published } }) {
+      count
+    }
+    allArticles(
+      first: $first
+      skip: $skip
+      orderBy: _createdAt_DESC
+      filter: { _status: { eq: published } }
+    ) {
       id
       ...BlogIndexPageArticleFragment
     }

@@ -4,9 +4,14 @@ import {
   createHttpLink,
   NormalizedCacheObject,
   defaultDataIdFromObject,
+  FieldPolicy,
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
-import { mergeDeep, relayStylePagination } from '@apollo/client/utilities'
+import {
+  mergeDeep,
+  Reference,
+  relayStylePagination,
+} from '@apollo/client/utilities'
 import getOrThrow from '@utils/get-or-throw'
 import { AppProps } from 'next/app'
 import { useMemo } from 'react'
@@ -57,6 +62,11 @@ const createApolloClient = () =>
         SearchProducts: {
           fields: {
             products: relayStylePagination(),
+          },
+        },
+        Query: {
+          fields: {
+            allArticles: firstSkipPagination(['filter']),
           },
         },
       },
@@ -113,4 +123,35 @@ export function useApollo(pageProps: AppProps['pageProps']) {
   const state = pageProps[APOLLO_STATE_PROP_NAME as keyof typeof pageProps]
   const store = useMemo(() => initializeApollo(state), [state])
   return store
+}
+
+type KeyArgs = FieldPolicy<any>['keyArgs']
+
+function firstSkipPagination<T = Reference>(
+  keyArgs: KeyArgs = false,
+): FieldPolicy<T[]> {
+  return {
+    keyArgs,
+    merge(existing, incoming, { args }) {
+      const merged = existing ? existing.slice(0) : []
+
+      if (incoming) {
+        if (args) {
+          // Assume an offset of 0 if args.offset omitted.
+          const { skip = 0 } = args
+          for (let i = 0; i < incoming.length; ++i) {
+            merged[skip + i] = incoming[i]
+          }
+        } else {
+          // It's unusual (probably a mistake) for a paginated field not
+          // to receive any arguments, so you might prefer to throw an
+          // exception here, instead of recovering by appending incoming
+          // onto the existing array.
+          merged.push.apply(merged, incoming as any)
+        }
+      }
+
+      return merged
+    },
+  }
 }

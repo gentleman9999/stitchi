@@ -7,6 +7,11 @@
 // GraphQL query operation: BlogIndexPageGetDataQuery
 // ====================================================
 
+export interface BlogIndexPageGetDataQuery__allArticlesMeta {
+  __typename: "CollectionMetadata";
+  count: any;
+}
+
 export interface BlogIndexPageGetDataQuery_allArticles_image_responsiveImage {
   __typename: "ResponsiveImage";
   srcSet: string;
@@ -115,6 +120,10 @@ export interface BlogIndexPageGetDataQuery_blogIndexPage {
 }
 
 export interface BlogIndexPageGetDataQuery {
+  /**
+   * Returns meta information regarding a record collection
+   */
+  _allArticlesMeta: BlogIndexPageGetDataQuery__allArticlesMeta;
   /**
    * Returns a collection of records
    */
