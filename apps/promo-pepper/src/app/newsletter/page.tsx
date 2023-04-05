@@ -1,50 +1,21 @@
-'use client'
-
-import {
-  ComponentErrorMessage,
-  InfiniteScrollTrigger,
-} from '@/components/common'
 import { Container } from '@/components/ui'
-import { initializeApollo } from '@/lib/apollo'
-import { gql } from '@/__generated__'
-import {
-  GetNewsletterIssuesDataQuery,
-  GetNewsletterIssuesDataQueryVariables,
-} from '@/__generated__/graphql'
-import { useQuery } from '@apollo/client'
+import getOrThrow from '@/utils/get-or-throw'
+import { Metadata } from 'next'
 import React from 'react'
-import IssueCard from './IssueCard'
+import IssueList from './IssueList'
 
-const client = initializeApollo()
+const siteName = getOrThrow(
+  process.env.NEXT_PUBLIC_SITE_NAME,
+  'NEXT_PUBLIC_SITE_NAME',
+)
 
-export default function Page() {
-  const { data, loading, error, fetchMore } = useQuery<
-    GetNewsletterIssuesDataQuery,
-    GetNewsletterIssuesDataQueryVariables
-  >(GetNewsletterIssuesData, {
-    client,
-    variables: { first: 2 },
-    notifyOnNetworkStatusChange: true,
-  })
+export const metadata: Metadata = {
+  title: `${siteName} Newsletter`,
+  description:
+    '"Unlock the world of promotional industry insights with our dynamic newsletter, delivering the latest news, trends, and tips right to your inbox. Stay ahead of the curve with expert strategies and exclusive deals to elevate your marketing campaigns.',
+}
 
-  const { allNewsletterIssues } = data?.newsletter || {}
-
-  const { pageInfo } = allNewsletterIssues || {}
-
-  const handleIntersect = () => {
-    if (!loading && pageInfo?.hasNextPage && pageInfo.endCursor) {
-      fetchMore({
-        variables: {
-          after: pageInfo.endCursor,
-        },
-      })
-    }
-  }
-
-  if (error) {
-    return <ComponentErrorMessage error={error} />
-  }
-
+export default async function Page() {
   return (
     <Container>
       <section className="py-8 sm:py-12 md:py-20">
@@ -52,50 +23,7 @@ export default function Page() {
           What&apos;s happening in promo?
         </h1>
       </section>
-      <section>
-        <ul className="flex flex-col gap-4 items-center">
-          {allNewsletterIssues?.edges?.map(edge =>
-            edge?.node ? (
-              <div key={edge.node.id} className="w-full max-w-sm sm:max-w-none">
-                <IssueCard
-                  key={edge.node.id}
-                  issue={edge.node}
-                  loading={false}
-                />
-              </div>
-            ) : null,
-          )}
-          {loading ? (
-            <>
-              {Array.from({ length: 4 }).map((_, index) => (
-                <IssueCard key={index} loading={loading} />
-              ))}
-            </>
-          ) : null}
-        </ul>
-
-        <InfiniteScrollTrigger onIntersect={handleIntersect} />
-      </section>
+      <IssueList />
     </Container>
   )
 }
-
-const GetNewsletterIssuesData = gql(/* GraphQL */ `
-  query GetNewsletterIssuesData($first: Int!, $after: String) {
-    newsletter {
-      allNewsletterIssues(first: $first, after: $after) {
-        edges {
-          node {
-            id
-            ...IssueCardIssue
-          }
-        }
-
-        pageInfo {
-          hasNextPage
-          endCursor
-        }
-      }
-    }
-  }
-`)
