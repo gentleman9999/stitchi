@@ -50,15 +50,15 @@ export default async function Page() {
           <HeaderSubscribeForm />
         </Container>
       </section>
-      <Container>
-        <section className="py-20">
+      <section className="py-20">
+        <Container>
           <div className="flex justify-between items-center">
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold font-heading">
               Latest issues
             </h2>
             <Link
               href={routes.internal.newsletter.href()}
-              className="text-lg sm:text-xl font-semibold underline"
+              className="text-lg sm:text-xl font-semibold underline decoration-primary"
             >
               <div className="group flex items-center">
                 All issues{' '}
@@ -70,7 +70,10 @@ export default async function Page() {
               </div>
             </Link>
           </div>
-          <ul className="flex sm:grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 mt-8 overflow-scroll">
+        </Container>
+
+        <Container className="overflow-x-scroll">
+          <ul className="flex sm:grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 mt-8">
             {featuredIssues.map(issue =>
               issue.thumbnailUrl ? (
                 <li
@@ -84,13 +87,15 @@ export default async function Page() {
                           issueSlug: issue.slug,
                         })}
                       >
-                        <div className="relative w-auto sm:w-48 h-32 rounded-md overflow-hidden shrink-0">
-                          <Image
-                            fill
-                            src={issue.thumbnailUrl}
-                            style={{ objectFit: 'cover' }}
-                            alt={issue.title}
-                          />
+                        <div className="shadow-lg rounded-md">
+                          <div className="relative w-auto sm:w-48 h-32 rounded-md overflow-hidden shrink-0">
+                            <Image
+                              fill
+                              src={issue.thumbnailUrl}
+                              style={{ objectFit: 'cover' }}
+                              alt={issue.title}
+                            />
+                          </div>
                         </div>
                       </Link>
 
@@ -100,7 +105,7 @@ export default async function Page() {
                             issueSlug: issue.slug,
                           })}
                         >
-                          <h2 className="text font-bold cursor-pointer">
+                          <h2 className="text font-bold cursor-pointer hover:underline decoration-primary">
                             {issue.title}
                           </h2>
                         </Link>
@@ -115,8 +120,8 @@ export default async function Page() {
               ) : null,
             )}
           </ul>
-        </section>
-      </Container>
+        </Container>
+      </section>
 
       {/* <CompanyCategorySection
         featuredCategories={data.featuredCategories}

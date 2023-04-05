@@ -4,7 +4,7 @@ import { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Footer from './Footer'
 import Script from 'next/script'
-import bannerImage from '../../public/promo-pepper-banner.jpg'
+import bannerImage from '../../public/promo-pepper-banner.png'
 
 import './main.css'
 import makeAbsoluteUrl from '@/utils/get-absolute-url'

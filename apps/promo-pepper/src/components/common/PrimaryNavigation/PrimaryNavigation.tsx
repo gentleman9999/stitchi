@@ -61,7 +61,7 @@ const PrimaryNavigation = ({}: Props) => {
                   <div className="flex items-center gap-4">
                     <button
                       className={cx(
-                        'hidden sm:flex bg-gray-900 text-paper rounded-md font-semibold py-1 px-2 gap-1 items-center',
+                        'hidden sm:flex border-2 border-black text-black rounded-md font-semibold py-1 px-2 gap-1 items-center',
                         { '!hidden': isMenuOpen },
                       )}
                       onClick={() => setIsOverlayOpen(prev => !prev)}
