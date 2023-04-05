@@ -1,18 +1,45 @@
 import { PrimaryNavigation } from '@/components/common'
+import getOrThrow from '@/utils/get-or-throw'
+import { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-// import SubscribeBanner from './SubsribeBanner'
 import Footer from './Footer'
+import bannerImage from '../../public/promo-pepper-banner.jpg'
 
 import './main.css'
+import makeAbsoluteUrl from '@/utils/get-absolute-url'
+
+const siteName = getOrThrow(
+  process.env.NEXT_PUBLIC_SITE_NAME,
+  'NEXT_PUBLIC_SITE_NAME',
+)
+
+const twitterHandle = getOrThrow(
+  process.env.NEXT_PUBLIC_TWITTER_HANDLE,
+  'NEXT_PUBLIC_TWITTER_HANDLE',
+)
 
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
 })
 
-export const metadata = {
-  title: 'PromoPepper',
+const bannerImageUrl = makeAbsoluteUrl(bannerImage.src)
+
+export const metadata: Metadata = {
+  title: siteName,
   description: 'PromoPepper promotional products directory and newsletter.',
+  openGraph: {
+    type: 'website',
+    title: siteName,
+    description: 'PromoPepper promotional products directory and newsletter.',
+    images: [{ url: bannerImageUrl }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: [{ url: bannerImageUrl, alt: `${siteName} banner` }],
+    site: `@${twitterHandle}`,
+    creator: `@${twitterHandle}`,
+  },
 }
 
 export default async function RootLayout({
