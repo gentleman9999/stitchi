@@ -61,7 +61,7 @@ const PrimaryNavigation = ({}: Props) => {
                   <div className="flex items-center gap-4">
                     <button
                       className={cx(
-                        'hidden sm:flex border-2 border-black text-black rounded-md font-semibold py-1 px-2 gap-1 items-center',
+                        'hidden sm:flex border-2 border-black text-black rounded-md font-semibold py-1 px-2 gap-1 items-center group',
                         { '!hidden': isMenuOpen },
                       )}
                       onClick={() => setIsOverlayOpen(prev => !prev)}
@@ -72,6 +72,8 @@ const PrimaryNavigation = ({}: Props) => {
                         strokeWidth={2}
                         className={cx('transition-all', {
                           'rotate-90': isOverlayOpen,
+                          'transform group-hover:translate-x-1 group-hover:scale-110':
+                            !isOverlayOpen,
                         })}
                       />
                     </button>
@@ -122,7 +124,10 @@ const PrimaryNavigation = ({}: Props) => {
 const NavLink = ({ href, label }: { href: string; label: string }) => {
   return (
     <li>
-      <Link href={href} className="font-bold font text-2xl font-headingDisplay">
+      <Link
+        href={href}
+        className="font-bold font text-2xl font-headingDisplay hover:underline underline-offset-4 decoration-primary"
+      >
         {label}
       </Link>
     </li>

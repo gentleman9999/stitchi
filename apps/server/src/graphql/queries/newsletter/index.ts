@@ -2,6 +2,19 @@ import { extendType, queryField } from 'nexus'
 import { nonNull } from 'nexus/dist/core'
 import { notEmpty } from '../../../utils'
 
+const hack_sortPosts = (
+  a: { publishDate: Date | null },
+  b: { publishDate: Date | null },
+) => {
+  if (a.publishDate === null) {
+    return -1
+  }
+  if (b.publishDate === null) {
+    return 1
+  }
+  return b.publishDate.getTime() - a.publishDate.getTime()
+}
+
 export const allNewsletterIssues = extendType({
   type: 'Newsletter',
   definition: t => {
@@ -15,7 +28,8 @@ export const allNewsletterIssues = extendType({
         })
 
         return {
-          edges: postList.posts.map(post => ({
+          // TODO: Update to properly sort once Beehiiv supports sorting
+          edges: postList.posts.sort(hack_sortPosts).map(post => ({
             cursor: '',
             node: {
               id: post.id,

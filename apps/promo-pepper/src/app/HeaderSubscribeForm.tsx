@@ -27,7 +27,7 @@ export default function HeaderSubscribeForm(props: Props) {
         />
         <button
           type="submit"
-          className="relative bg-primary text-white text-lg py-1 px-3 sm:py-3 sm:px-6 font-medium rounded-md sm:rounded-l-none"
+          className="relative bg-primary text-white text-lg py-1 px-3 sm:py-3 sm:px-6 font-semibold rounded-md sm:rounded-l-none"
         >
           <div className={submitLoading ? 'opacity-0' : ''}>Try it</div>
           <div
