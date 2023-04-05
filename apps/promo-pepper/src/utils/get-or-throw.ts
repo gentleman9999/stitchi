@@ -13,7 +13,7 @@ export default function getOrThrow(
   { allowEmpty }: { allowEmpty?: boolean } = {},
 ) {
   if (!value) {
-    if (allowEmpty === false || value !== '') {
+    if (allowEmpty === false) {
       throw new Error(`Undefined environment variable: ${name}`)
     }
   }
