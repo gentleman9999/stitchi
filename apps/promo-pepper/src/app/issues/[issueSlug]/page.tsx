@@ -1,52 +1,114 @@
-'use client'
-
-import { ComponentErrorMessage } from '@/components/common'
-import { Container, Skeleton } from '@/components/ui'
+import { Container } from '@/components/ui'
 import { initializeApollo } from '@/lib/apollo'
 import { gql } from '@/__generated__'
 import {
   GetNewsletterIssueDataQuery,
   GetNewsletterIssueDataQueryVariables,
 } from '@/__generated__/graphql'
-import { useQuery } from '@apollo/client'
 import Image from 'next/image'
 import React from 'react'
 import { parse, HTMLElement } from 'node-html-parser'
+import { notFound } from 'next/navigation'
+import { Metadata } from 'next'
+import { notEmpty } from '@/utils/typescript'
+import getOrThrow from '@/utils/get-or-throw'
+import makeAbsoluteUrl from '@/utils/get-absolute-url'
+import routes from '@/lib/routes'
 
-const client = initializeApollo()
+const twitterHandle = getOrThrow(
+  process.env.NEXT_PUBLIC_TWITTER_HANDLE,
+  'NEXT_PUBLIC_TWITTER_HANDLE',
+)
 
-export default function Page({ params }: { params: { issueSlug: string } }) {
+const siteName = getOrThrow(
+  process.env.NEXT_PUBLIC_SITE_NAME,
+  'NEXT_PUBLIC_SITE_NAME',
+)
+
+interface Params {
+  issueSlug: string
+}
+
+export const generateMetadata = async ({
+  params,
+}: {
+  params: Params
+}): Promise<Metadata> => {
   const { issueSlug } = params
+  const client = initializeApollo()
 
-  const { data, loading, error } = useQuery<
+  const { data, error } = await client.query<
     GetNewsletterIssueDataQuery,
     GetNewsletterIssueDataQueryVariables
-  >(GetNewsletterIssueData, { client, variables: { slug: `${issueSlug}` } })
+  >({ query: GetNewsletterIssueData, variables: { slug: issueSlug } })
+
+  const issue = data.newsletter?.newsletterIssue
+
+  return {
+    title: issue?.title,
+    description: issue?.subtitle,
+    publisher: 'PromoPepper',
+    openGraph: {
+      type: 'article',
+      title: issue?.title,
+      description: issue?.subtitle,
+      images: issue?.thumbnailUrl
+        ? [{ url: issue.thumbnailUrl, alt: issue.title }]
+        : [],
+      authors: issue?.authorNames.filter(notEmpty),
+      publishedTime: issue?.publishedAt ?? undefined,
+      siteName: siteName,
+      url: makeAbsoluteUrl(
+        routes.internal.newsletter.issues.show.href({ issueSlug }),
+      ),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      site: `@${twitterHandle}`,
+      creator: `@${twitterHandle}`,
+      description: issue?.subtitle,
+      title: issue?.title,
+      images: issue?.thumbnailUrl
+        ? [{ url: issue.thumbnailUrl, alt: issue.title }]
+        : [],
+    },
+    authors: issue?.authorNames
+      ?.map(name => (name ? { name } : null))
+      .filter(notEmpty),
+  }
+}
+
+export default async function Page({ params }: { params: Params }) {
+  const { issueSlug } = params
+
+  const client = initializeApollo()
+
+  const { data, error } = await client.query<
+    GetNewsletterIssueDataQuery,
+    GetNewsletterIssueDataQueryVariables
+  >({ query: GetNewsletterIssueData, variables: { slug: issueSlug } })
 
   if (error) {
-    return <ComponentErrorMessage error={error} />
+    console.error(error)
+    return notFound()
   }
 
   const { newsletterIssue: issue } = data?.newsletter || {}
 
   const postHtml = parseHtml(issue?.contentHtml)
 
-  if (!loading && !postHtml) {
-    return (
-      <ComponentErrorMessage
-        error={`Failed to load newsletter issue ${issueSlug}`}
-      />
-    )
+  if (!issue || !postHtml) {
+    return notFound()
   }
 
   return (
     <Container className="max-w-4xl">
-      <section className="py-8 sm:py-14 py-20">
+      <section className="py-8 sm:py-14 md:py-20">
         <h1 className="text-3xl sm:text-4xl font-bold font-headingDisplay">
-          {loading ? <Skeleton /> : issue?.title}
+          {issue.title}
         </h1>
-        {loading ? <Skeleton /> : <p className="text-lg">{issue?.subtitle}</p>}
-        {issue?.thumbnailUrl ? (
+        {<p className="text-lg">{issue.subtitle}</p>}
+        {issue.thumbnailUrl ? (
           <div className="relative w-full h-64  sm:h-96 rounded-md overflow-hidden mt-4">
             <Image
               fill
@@ -100,16 +162,18 @@ const parseHtml = (html?: string | null) => {
   }
 }
 
-const GetNewsletterIssueData = gql(`
-    query GetNewsletterIssueData($slug: String!) {
-        newsletter {
-            newsletterIssue(slug: $slug) {
-                id
-                title
-                subtitle
-                thumbnailUrl
-                contentHtml
-            }
-        }
+const GetNewsletterIssueData = gql(/* GraphQL */ `
+  query GetNewsletterIssueData($slug: String!) {
+    newsletter {
+      newsletterIssue(slug: $slug) {
+        id
+        title
+        subtitle
+        thumbnailUrl
+        contentHtml
+        authorNames
+        publishedAt
+      }
     }
+  }
 `)

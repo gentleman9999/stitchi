@@ -17,11 +17,10 @@ const SubscribeBanner = () => {
     <form onSubmit={handleSubmit}>
       <Container>
         <div className=" bg-primary rounded-md w-full">
-          <div className="py-2 px-4 grid grid-cols-6 font-bold">
-            <div className="col-span-1 flex items-center text-white">
+          <div className="py-2 px-4 grid grid-cols-2 sm:grid-cols-6 font-bold gap-2">
+            <div className="col-span-2 flex items-center text-white">
               <span>Get weekly emails</span>
             </div>
-            <div className={`h-[10px] col-span-1 flex items-center`} />
             <div className="col-span-2 flex items-center justify-center">
               <input
                 required
@@ -31,8 +30,7 @@ const SubscribeBanner = () => {
                 {...form.register('email')}
               />
             </div>
-            <div className="col-span-1 flex items-center"></div>
-            <div className="col-span-1 flex items-center justify-end">
+            <div className="col-span-2 flex items-center justify-end">
               <button className="relative" type="submit">
                 <div
                   className={cx('flex items-center group text-white', {
