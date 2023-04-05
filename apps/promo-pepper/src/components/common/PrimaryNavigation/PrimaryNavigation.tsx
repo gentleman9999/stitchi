@@ -40,12 +40,13 @@ const PrimaryNavigation = ({}: Props) => {
             <Container className="relative">
               <div className="py-2 grid grid-cols-2 md:grid-cols-3">
                 <ul className="hidden md:flex col-span-1 items-center gap-8">
-                  <NavLink
+                  {/* <NavLink
                     label="Directory"
                     href={routes.internal.directory.href()}
-                  />
+                  /> */}
+                  <NavLink label="Home" href={routes.internal.home.href()} />
                   <NavLink
-                    label="Newsletter"
+                    label="Issues"
                     href={routes.internal.newsletter.href()}
                   />
                 </ul>

@@ -2,7 +2,7 @@ import { Container } from '@/components/ui'
 import { initializeApollo } from '@/lib/apollo'
 import routes from '@/lib/routes'
 import { notEmpty } from '@/utils/typescript'
-import { getFragmentData, gql } from '@/__generated__'
+import { gql } from '@/__generated__'
 import {
   GetHomePageDataQuery,
   GetHomePageDataQueryVariables,
@@ -13,6 +13,7 @@ import Link from 'next/link'
 import React from 'react'
 import { notFound } from 'next/navigation'
 import HeaderSubscribeForm from './HeaderSubscribeForm'
+// import CompanyCategorySection from './CompanyCategorySection'
 
 export default async function Page() {
   const client = initializeApollo()
@@ -26,21 +27,6 @@ export default async function Page() {
     console.error(error)
     return notFound()
   }
-
-  const featuredCategories = getFragmentData(
-    GlossaryCategoryFragment,
-    data?.featuredCategories,
-  )
-
-  const productTypeCategories = getFragmentData(
-    GlossaryCategoryFragment,
-    data?.productTypeCategories,
-  )
-
-  const supplyChainCategories = getFragmentData(
-    GlossaryCategoryFragment,
-    data?.supplyChainCategories,
-  )
 
   const featuredIssues =
     data?.newsletter?.allNewsletterIssues?.edges
@@ -132,90 +118,14 @@ export default async function Page() {
         </section>
       </Container>
 
-      <div className="bg-gray-50">
-        <Container>
-          <section className="flex flex-col gap-8 sm:gap-10 md:gap-16 py-10">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-heading">
-              Explore companies
-            </h2>
-
-            <div className="flex flex-col gap-16">
-              <h3 className="sr-only">Featured categories</h3>
-              <CategoryList
-                categories={featuredCategories?.children?.map(c => ({
-                  slug: c?.slug,
-                  title: c?.title,
-                }))}
-              />
-
-              <CategoryList
-                title="By type"
-                categories={supplyChainCategories?.children?.map(c => ({
-                  slug: c?.slug,
-                  title: c?.title,
-                }))}
-              />
-
-              <CategoryList
-                title="By product"
-                categories={productTypeCategories?.children?.map(c => ({
-                  slug: c?.slug,
-                  title: c?.title,
-                }))}
-              />
-            </div>
-          </section>
-        </Container>
-      </div>
+      {/* <CompanyCategorySection
+        featuredCategories={data.featuredCategories}
+        productTypeCategories={data.productTypeCategories}
+        supplyChainCategories={data.supplyChainCategories}
+      /> */}
     </>
   )
 }
-
-const CategoryList = ({
-  title,
-  categories,
-}: {
-  title?: string
-  categories?: ({ slug?: string | null; title?: string | null } | null)[]
-}) => {
-  if (!categories) return null
-
-  return (
-    <div className="flex flex-col gap-8">
-      {title ? (
-        <h3 className="text-3xl font-semibold font-heading">{title}</h3>
-      ) : null}
-      <ul className="flex gap-2 sm:gap-3 md:gap-4 flex-wrap">
-        {categories.map(category =>
-          category?.slug ? (
-            <li key={category.slug}>
-              <Link
-                className="p-2 sm:p-3 md:p-4 border text-center font-semibold rounded-md hover:border-gray-400 block transition-all"
-                href={routes.internal.directory.categories.show.href({
-                  categorySlug: category.slug,
-                })}
-              >
-                {category.title}
-              </Link>
-            </li>
-          ) : null,
-        )}
-      </ul>
-    </div>
-  )
-}
-
-const GlossaryCategoryFragment = gql(/* GraphQL */ `
-  fragment GlossaryCategoryFragment on GlossaryCategoryRecord {
-    id
-    slug
-    children {
-      id
-      title
-      slug
-    }
-  }
-`)
 
 const GetHomePageData = gql(/* GraphQL */ `
   query GetHomePageData {
@@ -232,21 +142,21 @@ const GetHomePageData = gql(/* GraphQL */ `
         }
       }
     }
-    featuredCategories: glossaryCategory(filter: { id: { eq: "147376160" } }) {
-      id
-      ...GlossaryCategoryFragment
-    }
-    supplyChainCategories: glossaryCategory(
-      filter: { id: { eq: "146755585" } }
-    ) {
-      id
-      ...GlossaryCategoryFragment
-    }
-    productTypeCategories: glossaryCategory(
-      filter: { id: { eq: "146755607" } }
-    ) {
-      id
-      ...GlossaryCategoryFragment
-    }
+    # featuredCategories: glossaryCategory(filter: { id: { eq: "147376160" } }) {
+    #   id
+    #   ...CompanyCategorySectionCompany
+    # }
+    # supplyChainCategories: glossaryCategory(
+    #   filter: { id: { eq: "146755585" } }
+    # ) {
+    #   id
+    #   ...CompanyCategorySectionCompany
+    # }
+    # productTypeCategories: glossaryCategory(
+    #   filter: { id: { eq: "146755607" } }
+    # ) {
+    #   id
+    #   ...CompanyCategorySectionCompany
+    # }
   }
 `)
