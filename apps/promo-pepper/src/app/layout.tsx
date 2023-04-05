@@ -3,6 +3,7 @@ import getOrThrow from '@/utils/get-or-throw'
 import { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Footer from './Footer'
+import Script from 'next/script'
 import bannerImage from '../../public/promo-pepper-banner.jpg'
 
 import './main.css'
@@ -16,6 +17,12 @@ const siteName = getOrThrow(
 const twitterHandle = getOrThrow(
   process.env.NEXT_PUBLIC_TWITTER_HANDLE,
   'NEXT_PUBLIC_TWITTER_HANDLE',
+)
+
+const googleAnalyticsId = getOrThrow(
+  process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID,
+  'NEXT_PUBLIC_GOOGLE_ANALYTICS_ID',
+  { allowEmpty: true },
 )
 
 const inter = Inter({
@@ -50,10 +57,31 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <head>
+        {googleAnalyticsId ? (
+          <>
+            <Script
+              strategy="afterInteractive"
+              src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
+            />
+            <Script
+              id="google-analytics"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+          
+            gtag('config', '${googleAnalyticsId}');
+        `,
+              }}
+            />
+          </>
+        ) : null}
+
         <link rel="stylesheet" href="https://use.typekit.net/msx0isz.css" />
       </head>
       <body className={`${inter.variable} font-sans`}>
-        {/* <SubscribeBanner /> */}
         <PrimaryNavigation />
         <main>{children}</main>
         <Footer />
