@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client'
 import {
-  CmsImage,
   CmsStructuredText,
   CmsStructuredTextTableOfContents,
 } from '@components/common'
@@ -42,12 +41,6 @@ const SidebarCard = ({
 }
 
 const IndustryTermsShowPage = ({ term, relatedTerms }: Props) => {
-  const FeaturedImage = term.primaryImage?.responsiveImage ? (
-    <SidebarCard disablePadding>
-      <CmsImage data={term.primaryImage.responsiveImage} />
-    </SidebarCard>
-  ) : null
-
   const TableOfContents = term.description ? (
     <SidebarCard title="In this definition">
       <CmsStructuredTextTableOfContents content={term.description} />
@@ -124,7 +117,6 @@ const IndustryTermsShowPage = ({ term, relatedTerms }: Props) => {
               </div>
             </div>
             <div className="hidden col-span-2 lg:flex flex-col gap-6">
-              {FeaturedImage}
               {TableOfContents}
               {Related}
             </div>
@@ -200,7 +192,6 @@ IndustryTermsShowPage.fragments = {
   term: gql`
     ${CmsStructuredTextTableOfContents.fragments.glossaryTermDescription}
     ${CmsStructuredText.fragments.glossaryEntryDescription}
-    ${CmsImage.fragments.image}
     fragment IndustryTermsShowPageTermFragment on GlossaryEntryRecord {
       id
       term
@@ -208,12 +199,6 @@ IndustryTermsShowPage.fragments = {
       entryType
       businessUrl
       affiliateUrl
-      primaryImage {
-        id
-        responsiveImage {
-          ...CmsImageFragment
-        }
-      }
       description {
         ...CmsStructuredTextGlossaryDescriptionFragment
         ...CmsStructuredTextTableOfContentsGlossaryTermDescriptionFragment

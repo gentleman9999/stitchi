@@ -87,22 +87,6 @@ const BlogIndexPage = () => {
     blogIndexPage,
   } = data || {}
 
-  const canFetchMore = Boolean(
-    articles?.length && articles.length < _allArticlesMeta?.count,
-  )
-
-  const handleFetchMore = () => {
-    if (!loading && canFetchMore) {
-      router.replace(
-        routes.internal.blog.page.href(pageNumberInt + 1),
-        undefined,
-        {
-          scroll: false,
-        },
-      )
-    }
-  }
-
   if ((error && !articles) || articles?.length === 0) {
     return <ComponentErrorMessage error={error} />
   }
@@ -115,15 +99,18 @@ const BlogIndexPage = () => {
     return <ComponentErrorMessage error="Failed to load page" />
   }
 
+  const canFetchMore = Boolean(
+    articles?.length && articles.length < _allArticlesMeta?.count,
+  )
+
   return (
     <BlogPostIndexPage
       articles={articles}
       categories={categories}
       page={blogIndexPage}
-      onFetchMore={handleFetchMore}
       canFetchMore={canFetchMore}
-      pageNumber={pageNumberInt}
       loading={loading}
+      fetchMoreHref={routes.internal.blog.page.href(pageNumberInt + 1)}
     />
   )
 }

@@ -3,18 +3,15 @@ import { Container } from '@components/ui'
 import { IndustryTermsIndexPageEntryFragment } from '@generated/IndustryTermsIndexPageEntryFragment'
 import React from 'react'
 import { motion } from 'framer-motion'
-import Link from 'next/link'
-import routes from '@lib/routes'
-import { IndustryTermsIndexPageCategoryFragment } from '@generated/IndustryTermsIndexPageCategoryFragment'
 import { IndustryTermCard, Section } from '@components/common'
-import SearchBar from './SearchBar'
+import Navigation from './Navigation'
+import { notEmpty } from '@utils/typescript'
 
 interface Props {
   entries: IndustryTermsIndexPageEntryFragment[]
-  categories: IndustryTermsIndexPageCategoryFragment[]
 }
 
-const IndustryTermsIndexPage = ({ entries, categories }: Props) => {
+const IndustryTermsIndexPage = ({ entries }: Props) => {
   return (
     <Container>
       <Section gutter="sm">
@@ -28,28 +25,8 @@ const IndustryTermsIndexPage = ({ entries, categories }: Props) => {
               glossary of the promotional product industry.
             </p>
           </div>
-          {/* <SearchBar onSubmit={() => {}} loading={false} /> */}
-          <div>
-            <ul className="flex gap-4 flex-wrap">
-              {categories.map(category => {
-                return category.slug ? (
-                  <li key={category.id}>
-                    <Link
-                      href={routes.internal.glossary.categories.show.href(
-                        category.slug,
-                      )}
-                    >
-                      <div className="py-3 px-5 rounded-md border font-medium">
-                        {category.title}
-                      </div>
-                    </Link>
-                  </li>
-                ) : null
-              })}
-            </ul>
-          </div>
 
-          {/* <Navigation termSlugs={entries.map(e => e.slug).filter(notEmpty)} /> */}
+          <Navigation termSlugs={entries.map(e => e.slug).filter(notEmpty)} />
           <motion.ul layout className="flex flex-col">
             {entries.map(entry => (
               <IndustryTermCard entry={entry} key={entry.id} component="li" />
@@ -62,13 +39,6 @@ const IndustryTermsIndexPage = ({ entries, categories }: Props) => {
 }
 
 IndustryTermsIndexPage.fragments = {
-  category: gql`
-    fragment IndustryTermsIndexPageCategoryFragment on GlossaryCategoryRecord {
-      id
-      title
-      slug
-    }
-  `,
   entry: gql`
     ${IndustryTermCard.fragments.term}
     fragment IndustryTermsIndexPageEntryFragment on GlossaryEntryRecord {

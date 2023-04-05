@@ -37,10 +37,7 @@ const PromotionalProductGlossary = () => {
         canonical={url}
         openGraph={{ url }}
       />
-      <IndustryTermsIndexPage
-        entries={data?.allGlossaryEntries || []}
-        categories={data?.allGlossaryCategories || []}
-      />
+      <IndustryTermsIndexPage entries={data?.allGlossaryEntries || []} />
     </>
   )
 }
@@ -51,17 +48,12 @@ PromotionalProductGlossary.getLayout = (page: ReactElement) => (
 
 const GET_DATA = gql`
   ${IndustryTermsIndexPage.fragments.entry}
-  ${IndustryTermsIndexPage.fragments.category}
   query PromotionalProductGlossaryGetDataQuery {
-    allGlossaryCategories(
+    allGlossaryEntries(
       first: 100
-      orderBy: title_ASC
-      filter: { OR: [{ title: {} }] }
+      orderBy: term_ASC
+      filter: { entryType: { notIn: ["companies"] } }
     ) {
-      id
-      ...IndustryTermsIndexPageCategoryFragment
-    }
-    allGlossaryEntries(first: 100, orderBy: term_ASC) {
       id
       ...IndustryTermsIndexPageEntryFragment
     }

@@ -15,11 +15,18 @@ import {
   BlogCategoryIndexPageGetPageDataQueryVariables,
 } from '@generated/BlogCategoryIndexPageGetPageDataQuery'
 import { BlogCategoryIndexPageGetPagesQuery } from '@generated/BlogCategoryIndexPageGetPagesQuery'
+import { ArticleModelFilter, ItemStatus } from '@generated/globalTypes'
 import { addApolloState, initializeApollo } from '@lib/apollo'
+import routes from '@lib/routes'
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps } from 'next'
 import React, { ReactElement } from 'react'
 
-const PAGE_LIMIT = 20
+const PAGE_LIMIT = 3
+
+const makeDefaultFilter = (categoryId: number): ArticleModelFilter => ({
+  categories: { eq: [categoryId] },
+  _status: { eq: ItemStatus.published },
+})
 
 const getPagination = (currentPage: number) => ({
   first: PAGE_LIMIT,
@@ -46,7 +53,9 @@ const getStaticPaths: GetStaticPaths = async () => {
         BlogCategoryIndexPageGetCategoryPostsQueryVariables
       >({
         query: GET_CATEGORY_POSTS,
-        variables: { categoryId: category.id },
+        variables: {
+          filter: makeDefaultFilter(category.id),
+        },
       })
 
       if (articleData._allArticlesMeta.count) {
@@ -95,44 +104,55 @@ const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     }
   }
 
-  const variables = {
-    categoryId: data.allCategories[0].id,
-    ...getPagination(pageNumberInt),
-  }
+  const categoryId = data.allCategories[0].id
+
+  const pagination = getPagination(pageNumberInt)
 
   await client.query<
     BlogCategoryIndexPageGetPageDataQuery,
     BlogCategoryIndexPageGetPageDataQueryVariables
   >({
     query: GET_PAGE_DATA,
-    variables,
+    variables: {
+      ...pagination,
+      filter: makeDefaultFilter(categoryId),
+    },
   })
 
   return addApolloState(client, {
-    props: variables,
+    props: {
+      ...pagination,
+      pageNumber: pageNumberInt,
+      categorySlug,
+      categoryId,
+    },
   })
 }
 
 interface Props {
-  categoryId: string
+  categoryId: number
   first: number
   skip: number
+  pageNumber: number
+  categorySlug: string
 }
 
 const BlogCategoryIndexPage = (props: Props) => {
-  const { data, error } = useQuery<
+  const { data, error, loading } = useQuery<
     BlogCategoryIndexPageGetPageDataQuery,
     BlogCategoryIndexPageGetPageDataQueryVariables
   >(GET_PAGE_DATA, {
     variables: {
-      categoryId: props.categoryId,
       first: props.first,
       skip: props.skip,
+      filter: makeDefaultFilter(props.categoryId),
     },
+    notifyOnNetworkStatusChange: true,
   })
 
   const {
     allArticles: articles,
+    _allArticlesMeta,
     allCategories: categories,
     blogIndexPage,
   } = data || {}
@@ -147,11 +167,19 @@ const BlogCategoryIndexPage = (props: Props) => {
     return <ComponentErrorMessage error="Could not fetch blog index page" />
   }
 
+  const canFetchMore = Boolean(articles.length < _allArticlesMeta?.count)
+
   return (
     <BlogPostIndexPage
       articles={articles}
       categories={categories}
       page={blogIndexPage}
+      loading={loading}
+      canFetchMore={canFetchMore}
+      fetchMoreHref={routes.internal.blog.category.href({
+        categorySlug: props.categorySlug,
+        page: props.pageNumber + 1,
+      })}
     />
   )
 }
@@ -170,15 +198,14 @@ const GET_PAGE_DATA = gql`
   query BlogCategoryIndexPageGetPageDataQuery(
     $first: IntType
     $skip: IntType
-    $categoryId: ItemId!
+    $filter: ArticleModelFilter
   ) {
-    allArticles(
-      first: $first
-      skip: $skip
-      filter: { categories: { eq: [$categoryId] } }
-    ) {
+    allArticles(first: $first, skip: $skip, filter: $filter) {
       id
       ...BlogIndexPageArticleFragment
+    }
+    _allArticlesMeta(filter: $filter) {
+      count
     }
     allCategories {
       id
@@ -205,8 +232,10 @@ const GET_CATEGOIES = gql`
 `
 
 const GET_CATEGORY_POSTS = gql`
-  query BlogCategoryIndexPageGetCategoryPostsQuery($categoryId: ItemId!) {
-    _allArticlesMeta(filter: { categories: { eq: [$categoryId] } }) {
+  query BlogCategoryIndexPageGetCategoryPostsQuery(
+    $filter: ArticleModelFilter
+  ) {
+    _allArticlesMeta(filter: $filter) {
       count
     }
   }

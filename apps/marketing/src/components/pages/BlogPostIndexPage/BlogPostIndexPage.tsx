@@ -21,20 +21,18 @@ export interface BlogPostIndexPageProps {
   articles: BlogIndexPageArticleFragment[]
   categories?: BlogPostIndexPageCategoryFragment[]
   page: BlogPostIndexPagePageFragment
-  pageNumber: number
   canFetchMore: boolean
   loading: boolean
-  onFetchMore: () => void
+  fetchMoreHref: string
 }
 
 const BlogIndexPage = ({
   articles,
   categories,
   page,
-  pageNumber,
   canFetchMore,
-  onFetchMore,
   loading,
+  fetchMoreHref,
 }: BlogPostIndexPageProps) => {
   const router = useRouter()
   const { categorySlug } = router.query
@@ -42,6 +40,14 @@ const BlogIndexPage = ({
   const activeCategory = categories?.find(
     category => category.slug === categorySlug,
   )
+
+  const handleFetchMore = () => {
+    if (!loading && canFetchMore) {
+      router.replace(fetchMoreHref, undefined, {
+        scroll: false,
+      })
+    }
+  }
 
   return (
     <>
@@ -54,7 +60,7 @@ const BlogIndexPage = ({
                 activeCategory?.name ? `: ${activeCategory.name}` : ''
               }`}
             </h1>
-            <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
+            <div className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
               {activeCategory?.description ? (
                 <CmsStructuredText content={activeCategory.description} />
               ) : (
@@ -64,7 +70,7 @@ const BlogIndexPage = ({
                   increase brand awareness.
                 </>
               )}
-            </p>
+            </div>
           </div>
           <BlogPostIndexPageFilters
             filters={[
@@ -92,13 +98,13 @@ const BlogIndexPage = ({
             )}
           </div>
 
-          <InfiniteScrollContainer onIntersect={onFetchMore} />
+          <InfiniteScrollContainer onIntersect={handleFetchMore} />
           {canFetchMore ? (
             <div className="flex justify-center">
               <Button
                 Component={Link}
                 {...{ scroll: false, replace: true }}
-                href={routes.internal.blog.page.href(pageNumber + 1)}
+                href={fetchMoreHref}
                 className="mt-2"
                 loading={loading}
               >

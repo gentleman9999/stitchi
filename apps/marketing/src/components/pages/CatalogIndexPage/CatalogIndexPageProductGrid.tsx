@@ -41,17 +41,18 @@ const CatalogIndexPageProductGrid = ({ site, loading, fetchMore }: Props) => {
 
   return (
     <>
-      <InfiniteScrollContainer onLoadMore={handleFetchMore}>
-        <Grid>
-          {products.map(product => (
-            <CatalogIndexPageProduct key={product.entityId} product={product} />
+      <Grid>
+        {products.map(product => (
+          <CatalogIndexPageProduct key={product.entityId} product={product} />
+        ))}
+        {loading &&
+          Array.from(new Array(6)).map((_, i) => (
+            <CatalogIndexPageProductSkeleton key={i} />
           ))}
-          {loading &&
-            Array.from(new Array(6)).map((_, i) => (
-              <CatalogIndexPageProductSkeleton key={i} />
-            ))}
-        </Grid>
-      </InfiniteScrollContainer>
+      </Grid>
+
+      <InfiniteScrollContainer onIntersect={handleFetchMore} />
+
       {pageInfo?.hasNextPage && (
         <Link
           replace
