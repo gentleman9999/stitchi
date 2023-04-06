@@ -200,7 +200,12 @@ const GET_PAGE_DATA = gql`
     $skip: IntType
     $filter: ArticleModelFilter
   ) {
-    allArticles(first: $first, skip: $skip, filter: $filter) {
+    allArticles(
+      first: $first
+      skip: $skip
+      orderBy: _createdAt_DESC
+      filter: $filter
+    ) {
       id
       ...BlogIndexPageArticleFragment
     }
