@@ -14,7 +14,7 @@ export default function HeaderSubscribeForm(props: Props) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="flex flex-col gap-2 sm:gap-0 sm:flex-row sm:rounded-md sm:overflow-hidden mt-10 sm:shadow-2xl w-full max-w-sm">
+      <div className="flex flex-col gap-2 sm:gap-0 sm:flex-row sm:rounded-md sm:overflow-hidden sm:shadow-2xl w-full max-w-sm">
         <label className="sr-only" htmlFor="name">
           Email address
         </label>
@@ -22,7 +22,7 @@ export default function HeaderSubscribeForm(props: Props) {
           required
           placeholder="youremail@example.com"
           autoComplete="email"
-          className="py-1 px-3 sm:py-3 sm:px-6 rounded-md sm:rounded-r-none text-lg sm:focus:outline-black flex-1 outline sm:outline-none"
+          className="py-1 px-3 sm:py-3 sm:px-6 rounded-md sm:rounded-r-none text-lg flex-1 border outline-none focus:border-primary"
           {...form.register('email')}
         />
         <button

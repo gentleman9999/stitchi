@@ -37,17 +37,20 @@ export default async function Page() {
     <>
       <section className="py-10 sm:py-16 md:py-20 lg:py-28">
         <Container>
-          <div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-headingDisplay font-bold text-black max-w-3xl sm:w-[80%]">
-              Your go-to source for custom merch news and expert ratings
-            </h1>
-            <p className="text-gray-700 text md:text-lg lg:text-xl mt-4 sm:w-[60%] max-w-xl">
-              Stay up-to-date and entertained with our weekly newsletter,
-              featuring the latest trends, product reviews, and industry
-              insights – all for free.
-            </p>
+          <div className="flex flex-col gap-8 sm:gap-10 md:gap-12 lg:gap-14">
+            <div className="flex flex-col gap-2 sm:gap-4 md:gap-6 lg:gap-8">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-headingDisplay font-bold text-black max-w-3xl sm:w-[80%]">
+                Your go-to source for custom merch news and expert ratings
+              </h1>
+              <p className="text-gray-700 text md:text-lg lg:text-xl sm:w-[60%] max-w-xl">
+                Stay up-to-date and entertained with our weekly newsletter,
+                featuring the latest trends, product reviews, and industry
+                insights – all for free.
+              </p>
+            </div>
+
+            <HeaderSubscribeForm />
           </div>
-          <HeaderSubscribeForm />
         </Container>
       </section>
       <section className="py-20">

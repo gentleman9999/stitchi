@@ -102,20 +102,22 @@ export default async function Page({ params }: { params: Params }) {
   }
 
   return (
-    <Container className="max-w-4xl">
+    <Container className="!max-w-4xl">
       <section className="py-8 sm:py-14 md:py-20">
         <h1 className="text-3xl sm:text-4xl font-bold font-headingDisplay">
           {issue.title}
         </h1>
         {<p className="text-lg">{issue.subtitle}</p>}
         {issue.thumbnailUrl ? (
-          <div className="relative w-full h-64  sm:h-96 rounded-md overflow-hidden mt-4">
-            <Image
-              fill
-              src={issue.thumbnailUrl}
-              alt={issue.title}
-              style={{ objectFit: 'cover' }}
-            />
+          <div className="rounded-md shadow-xl n mt-4">
+            <div className="relative w-full h-64  sm:h-96 rounded-md overflow-hidden">
+              <Image
+                fill
+                src={issue.thumbnailUrl}
+                alt={issue.title}
+                style={{ objectFit: 'cover' }}
+              />
+            </div>
           </div>
         ) : null}
       </section>

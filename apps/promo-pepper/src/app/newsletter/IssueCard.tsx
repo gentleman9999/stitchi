@@ -20,22 +20,24 @@ export default function IssueCard({ loading, issue: issueFragment }: Props) {
   }
 
   return (
-    <li className="flex flex-col gap-2 sm:gap-4 md:gap-6 sm:flex-row overflow-hidden p-2 sm:border rounded-md w-full">
+    <li className="flex flex-col gap-2 sm:gap-4 md:gap-6 sm:flex-row p-2 sm:border rounded-md w-full">
       {!loading && issue?.thumbnailUrl ? (
         <Link
           href={routes.internal.newsletter.issues.show.href({
             issueSlug: issue.slug,
           })}
         >
-          <div className="border sm:border-none relative h-52 sm:h-40 md:h-52 w-full sm:w-60 md:w-72 rounded-md overflow-hidden">
-            <Image
-              fill
-              src={issue.thumbnailUrl}
-              alt={`${issue.title} thumbnail`}
-              style={{
-                objectFit: 'cover',
-              }}
-            />
+          <div className="shadow-xl rounded-md">
+            <div className="border sm:border-none relative h-52 sm:h-40 md:h-52 w-full sm:w-60 md:w-72 rounded-md overflow-hidden">
+              <Image
+                fill
+                src={issue.thumbnailUrl}
+                alt={`${issue.title} thumbnail`}
+                style={{
+                  objectFit: 'cover',
+                }}
+              />
+            </div>
           </div>
         </Link>
       ) : null}
@@ -68,7 +70,7 @@ export default function IssueCard({ loading, issue: issueFragment }: Props) {
                 issueSlug: issue.slug,
               })}
             >
-              <h2 className="text-2xl lg:text-3xl font-bold font-headingDisplay hover:underline">
+              <h2 className="text-2xl lg:text-3xl font-bold font-headingDisplay hover:underline decoration-primary">
                 {issue.title}
               </h2>
             </Link>
