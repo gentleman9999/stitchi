@@ -1,19 +1,5 @@
 import { extendType, queryField } from 'nexus'
 import { nonNull } from 'nexus/dist/core'
-import { notEmpty } from '../../../utils'
-
-const hack_sortPosts = (
-  a: { publishDate: Date | null },
-  b: { publishDate: Date | null },
-) => {
-  if (a.publishDate === null) {
-    return -1
-  }
-  if (b.publishDate === null) {
-    return 1
-  }
-  return b.publishDate.getTime() - a.publishDate.getTime()
-}
 
 export const allNewsletterIssues = extendType({
   type: 'Newsletter',
@@ -23,13 +9,21 @@ export const allNewsletterIssues = extendType({
       disableBackwardPagination: true,
       resolve: async (_, { first, after }, ctx) => {
         const postList = await ctx.newsletter.listPosts({
-          first: notEmpty(first) ? first : undefined,
-          after: notEmpty(after) ? after : undefined,
+          // Hack to get around broken beehiiv pagination
+          first: 100,
+          // first: notEmpty(first) ? first : undefined,
+          // after: notEmpty(after) ? after : undefined,
         })
+
+        const afterInt = after ? parseInt(after, 10) : 0
+        const limit = first ?? postList.posts.length
+
+        let posts = postList.posts.reverse()
+        posts = posts.slice(afterInt, afterInt + limit)
 
         return {
           // TODO: Update to properly sort once Beehiiv supports sorting
-          edges: postList.posts.sort(hack_sortPosts).map(post => ({
+          edges: posts.map(post => ({
             cursor: '',
             node: {
               id: post.id,
@@ -46,8 +40,8 @@ export const allNewsletterIssues = extendType({
             },
           })),
           pageInfo: {
-            hasNextPage: postList.page < postList.pageCount,
-            endCursor: postList.page.toString(),
+            hasNextPage: afterInt < postList.posts.length - 1,
+            endCursor: `${afterInt + limit}`,
           },
         }
       },

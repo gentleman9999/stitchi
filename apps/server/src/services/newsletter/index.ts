@@ -39,7 +39,7 @@ const makeClient: MakeClientFn = (
     },
     listPosts: async ({ first, after }) => {
       try {
-        const posts = await beehiivClient.getPostList({ first, after })
+        let posts = await beehiivClient.getPostList({ first, after })
         return {
           posts: posts.data?.map(post => beehiivPostToPost(post)) || [],
           limit: posts.limit || 0,

@@ -22,8 +22,7 @@ export default function IssueList() {
     GetNewsletterIssuesDataQueryVariables
   >(GetNewsletterIssuesData, {
     client,
-    // TODO: Right now we can't paginate this query properly, we need for Beehiiv to implement ordering by date descending
-    variables: { first: 52 },
+    variables: { first: 2 },
     notifyOnNetworkStatusChange: true,
   })
 
