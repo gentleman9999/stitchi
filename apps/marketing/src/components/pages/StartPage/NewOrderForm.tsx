@@ -130,24 +130,24 @@ const NewOrderForm = () => {
             label="What's your budget?"
             options={[
               {
-                id: 'budget-under-25k',
-                label: 'Less than $25k',
-                value: 'under_25k',
+                id: 'budget-under-10k',
+                label: 'Less than $10k',
+                value: 'under_10k',
               },
               {
                 id: 'budget-25k-50-k',
-                label: '$25k - $50k',
-                value: '25k-50k',
+                label: '$10k - $25k',
+                value: '10k-25k',
               },
               {
-                id: 'budget-50k-100k',
-                label: '$50k - $100k',
-                value: '50k-100k',
+                id: 'budget-25k-75k',
+                label: '$25k - $75k',
+                value: '25k-75k',
               },
               {
-                id: 'budget-over-100k',
-                label: '$100k+',
-                value: 'over_100k',
+                id: 'budget-over-75k',
+                label: '$75k+',
+                value: 'over_75k',
               },
             ]}
           />
