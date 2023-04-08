@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import makeApi from '@lib/api'
 import { useRouter } from 'next/router'
 import routes from '@lib/routes'
+import { ComponentErrorMessage } from '@components/common'
 
 const schema = object({
   email: string().email().required(),
@@ -23,6 +24,7 @@ const NewOrderForm = () => {
     resolver: yupResolver(schema),
   })
   const [loading, setLoading] = React.useState(false)
+  const [error, setError] = React.useState<string | null>(null)
 
   const router = useRouter()
 
@@ -39,6 +41,9 @@ const NewOrderForm = () => {
       )
     } catch (e) {
       console.error('Error submitting contact form', { context: { error: e } })
+      setError(
+        'Something went wrong. Please try again or contact us using one of the alternative methods.',
+      )
     } finally {
       setLoading(false)
     }
@@ -53,7 +58,13 @@ const NewOrderForm = () => {
         name="first_name"
         control={control}
         render={({ field }) => (
-          <TextField {...field} label="First name" autoComplete="given-name" />
+          <TextField
+            {...field}
+            label="First name"
+            autoComplete="given-name"
+            description={formState.errors.first_name?.message}
+            error={Boolean(formState.errors.first_name)}
+          />
         )}
       />
 
@@ -61,7 +72,13 @@ const NewOrderForm = () => {
         name="last_name"
         control={control}
         render={({ field }) => (
-          <TextField {...field} label="Last name" autoComplete="family-name" />
+          <TextField
+            {...field}
+            label="Last name"
+            autoComplete="family-name"
+            description={formState.errors.last_name?.message}
+            error={Boolean(formState.errors.last_name)}
+          />
         )}
       />
 
@@ -90,6 +107,8 @@ const NewOrderForm = () => {
             className="sm:col-span-2"
             label="Company"
             autoComplete="organization"
+            description={formState.errors.company?.message}
+            error={Boolean(formState.errors.company)}
           />
         )}
       />
@@ -103,6 +122,8 @@ const NewOrderForm = () => {
             className="sm:col-span-2"
             label="Phone"
             autoComplete="tel"
+            description={formState.errors.phone?.message}
+            error={Boolean(formState.errors.phone)}
           />
         )}
       />
@@ -116,7 +137,10 @@ const NewOrderForm = () => {
             multiline
             className="sm:col-span-2"
             label="Tell us about your project"
-            description="Max. 500 characters"
+            description={
+              formState.errors.description?.message || 'Max. 500 characters'
+            }
+            error={Boolean(formState.errors.description)}
           />
         )}
       />
@@ -154,7 +178,11 @@ const NewOrderForm = () => {
         )}
       />
 
-      <div>{Object.keys(formState.errors).length > 0 && <div> </div>}</div>
+      {error ? (
+        <div className="sm:col-span-2">
+          <ComponentErrorMessage error={error} />
+        </div>
+      ) : null}
 
       <div className="text-right sm:col-span-2">
         <Button type="submit" color="brandPrimary" loading={loading}>
