@@ -18,6 +18,7 @@ import { ProductPageGetDataQuery_site_route_node_Product } from '@generated/Prod
 import Breadcrumbs from './Breadcrumbs'
 import ProductQuickActions from './ProductQuickActions'
 import ShareDialog from '@components/common/ShareDialog'
+import ValuePropositions from './ValuePropositions'
 
 interface Props {
   product: ProductShowPageProductFragment
@@ -91,7 +92,7 @@ const ProductShowPage = ({ product }: Props) => {
       ))}
       {share ? <ShareDialog open onClose={() => setShare(false)} /> : null}
       <Container>
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-4">
           <div className="flex flex-col sm:flex-col-reverse gap-4">
             <h1 className="font-headingDisplay font-semibold text-2xl sm:text-3xl text-gray-800">
               {makeProductTitle(product)}
@@ -115,6 +116,9 @@ const ProductShowPage = ({ product }: Props) => {
           </div>
 
           <ProductShowPageProduct product={product} />
+          <hr />
+          <ValuePropositions />
+          <hr />
         </div>
       </Container>
     </>
