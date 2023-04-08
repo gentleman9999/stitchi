@@ -1,7 +1,10 @@
 import { gql } from '@apollo/client'
+import { Button } from '@components/ui'
 import { ProductShowPageProductProductFragment } from '@generated/ProductShowPageProductProductFragment'
+import routes from '@lib/routes'
 import { generateImageSizes } from '@utils/image'
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 import ProductColorGrid from './ProductColorGrid'
 
@@ -80,8 +83,18 @@ const ProductShowPageProduct = ({ product }: Props) => {
         </table>
       </div>
 
-      <div className="prose prose-sm">
-        <div dangerouslySetInnerHTML={{ __html: product.description }} />
+      <div className="flex flex-col gap-6">
+        <Button
+          Component={Link}
+          color="brandPrimary"
+          className="w-full"
+          href={routes.internal.getStarted.href()}
+        >
+          Start an order
+        </Button>
+        <div className="prose prose-sm">
+          <div dangerouslySetInnerHTML={{ __html: product.description }} />
+        </div>
       </div>
     </div>
   )
