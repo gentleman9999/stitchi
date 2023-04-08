@@ -29,7 +29,6 @@ const CatalogProduct = ({ product }: Props) => {
   return (
     <li className="flex flex-col">
       <Link
-        scroll={false}
         href={href}
         className="flex-1 flex flex-col cursor-pointer rounded-2xl border border-gray-100 p-4 shadow hover:shadow-md transition-all"
       >
