@@ -4,7 +4,6 @@ import { generateImageSizes } from '@utils/image'
 import Image from 'next/image'
 import React from 'react'
 import ProductColorGrid from './ProductColorGrid'
-import ProductWishlistButton from './ProductWishlistButton'
 
 interface ProductOptionValues {
   colorEntityId: number | null
@@ -79,13 +78,6 @@ const ProductShowPageProduct = ({ product }: Props) => {
             </tr>
           </tbody>
         </table>
-        <div className="flex flex-col justify-center items-center mt-4">
-          <ProductWishlistButton entityId={product.entityId} />
-          <span className="text-center text-xs mt-2 max-w-[225px]">
-            Save products you think you may want to include in your merch
-            program.
-          </span>
-        </div>
       </div>
 
       <div className="prose prose-sm">
