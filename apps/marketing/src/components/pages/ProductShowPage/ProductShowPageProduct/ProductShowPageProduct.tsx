@@ -71,8 +71,8 @@ const ProductShowPageProduct = ({ product }: Props) => {
           />
         </VariantOptionSection>
 
-        <table className="table-auto w-full mt-8">
-          <caption>Specifications</caption>
+        <table className="table-auto w-full mt-8 text-gray-600">
+          <caption className="font-medium">Specifications</caption>
 
           <tbody>
             <tr className="border-y">

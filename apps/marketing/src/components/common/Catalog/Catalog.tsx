@@ -20,7 +20,7 @@ export const makeDefaultQueryVariables = ({
 }: {
   brandEntityId?: number
 } = {}) => ({
-  first: 30,
+  first: 16,
   filters: {
     brandEntityIds: brandEntityId ? [brandEntityId] : undefined,
     categoryEntityIds: undefined,
