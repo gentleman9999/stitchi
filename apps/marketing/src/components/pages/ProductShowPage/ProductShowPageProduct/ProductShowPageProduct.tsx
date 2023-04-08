@@ -1,11 +1,9 @@
 import { gql } from '@apollo/client'
 import { ProductShowPageProductProductFragment } from '@generated/ProductShowPageProductProductFragment'
-import { makeProductTitle } from '@utils/catalog'
 import { generateImageSizes } from '@utils/image'
 import Image from 'next/image'
 import React from 'react'
 import ProductColorGrid from './ProductColorGrid'
-import ProductWishlistButton from './ProductWishlistButton'
 
 interface ProductOptionValues {
   colorEntityId: number | null
@@ -48,57 +46,44 @@ const ProductShowPageProduct = ({ product }: Props) => {
   const image = activeVariant?.defaultImage || product.defaultImage
 
   return (
-    <>
-      <h1 className="font-headingDisplay font-semibold text-4xl">
-        {makeProductTitle(product)}
-      </h1>
-      <br />
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-        <div>
-          {image ? (
-            <div className="relative w-full h-[250px] border-b">
-              <Image
-                fill
-                style={{
-                  objectFit: 'contain',
-                }}
-                src={image.url}
-                alt={image.altText || product.name}
-                sizes={generateImageSizes([{ imageWidth: '624px' }])}
-              />
-            </div>
-          ) : null}
-          <VariantOptionSection title="Available Colors">
-            <ProductColorGrid
-              product={product}
-              onColorSelect={handleColorSelect}
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+      <div>
+        {image ? (
+          <div className="relative w-full h-[250px] border-b">
+            <Image
+              fill
+              style={{
+                objectFit: 'contain',
+              }}
+              src={image.url}
+              alt={image.altText || product.name}
+              sizes={generateImageSizes([{ imageWidth: '624px' }])}
             />
-          </VariantOptionSection>
-
-          <table className="table-auto w-full mt-8">
-            <caption>Specifications</caption>
-
-            <tbody>
-              <tr className="border-y">
-                <td>Brand</td>
-                <td className="flex justify-end">{product.brand?.name}</td>
-              </tr>
-            </tbody>
-          </table>
-          <div className="flex flex-col justify-center items-center mt-4">
-            <ProductWishlistButton entityId={product.entityId} />
-            <span className="text-center text-xs mt-2 max-w-[225px]">
-              Save products you think you may want to include in your merch
-              program.
-            </span>
           </div>
-        </div>
+        ) : null}
+        <VariantOptionSection title="Available Colors">
+          <ProductColorGrid
+            product={product}
+            onColorSelect={handleColorSelect}
+          />
+        </VariantOptionSection>
 
-        <div className="prose prose-sm">
-          <div dangerouslySetInnerHTML={{ __html: product.description }} />
-        </div>
+        <table className="table-auto w-full mt-8">
+          <caption>Specifications</caption>
+
+          <tbody>
+            <tr className="border-y">
+              <td>Brand</td>
+              <td className="flex justify-end">{product.brand?.name}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </>
+
+      <div className="prose prose-sm">
+        <div dangerouslySetInnerHTML={{ __html: product.description }} />
+      </div>
+    </div>
   )
 }
 

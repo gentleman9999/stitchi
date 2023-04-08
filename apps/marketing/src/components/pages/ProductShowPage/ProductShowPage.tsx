@@ -15,6 +15,8 @@ import makeAbsoluteUrl from '@utils/get-absolute-url'
 import routes from '@lib/routes'
 import { notEmpty } from '@utils/typescript'
 import { ProductPageGetDataQuery_site_route_node_Product } from '@generated/ProductPageGetDataQuery'
+import Breadcrumbs from './Breadcrumbs'
+import ProductQuickActions from './ProductQuickActions'
 
 interface Props {
   product: ProductShowPageProductFragment
@@ -85,7 +87,28 @@ const ProductShowPage = ({ product }: Props) => {
         <ProductJsonLd {...props} key={props.id} />
       ))}
       <Container>
-        <ProductShowPageProduct product={product} />
+        <div className="flex flex-col gap-8">
+          <div className="flex flex-col sm:flex-col-reverse gap-4">
+            <h1 className="font-headingDisplay font-semibold text-2xl sm:text-3xl text-gray-800">
+              {makeProductTitle(product)}
+            </h1>
+
+            <div className="flex justify-between items-center">
+              {product.brand ? (
+                <Breadcrumbs
+                  brandLabel={product.brand.name}
+                  brandSlug={product.brand.path}
+                  productLabel={makeProductTitle(product)}
+                  productSlug={product.path}
+                />
+              ) : null}
+
+              <ProductQuickActions entityId={product.entityId} />
+            </div>
+          </div>
+
+          <ProductShowPageProduct product={product} />
+        </div>
       </Container>
     </>
   )
