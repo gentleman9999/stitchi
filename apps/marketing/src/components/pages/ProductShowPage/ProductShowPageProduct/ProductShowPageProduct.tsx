@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { ProductDialogProductFragment } from '@generated/ProductDialogProductFragment'
+import { ProductShowPageProductProductFragment } from '@generated/ProductShowPageProductProductFragment'
 import { makeProductTitle } from '@utils/catalog'
 import { generateImageSizes } from '@utils/image'
 import Image from 'next/image'
@@ -12,10 +12,10 @@ interface ProductOptionValues {
 }
 
 interface Props {
-  product: ProductDialogProductFragment
+  product: ProductShowPageProductProductFragment
 }
 
-const ProductDialog = ({ product }: Props) => {
+const ProductShowPageProduct = ({ product }: Props) => {
   const [productOptionValues, setProductOptionValues] =
     React.useState<ProductOptionValues>({
       colorEntityId: null,
@@ -53,7 +53,7 @@ const ProductDialog = ({ product }: Props) => {
         {makeProductTitle(product)}
       </h1>
       <br />
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
         <div>
           {image ? (
             <div className="relative w-full h-[250px] border-b">
@@ -117,10 +117,10 @@ const VariantOptionSection = ({
   )
 }
 
-ProductDialog.fragments = {
+ProductShowPageProduct.fragments = {
   product: gql`
     ${ProductColorGrid.fragments.product}
-    fragment ProductDialogProductFragment on Product {
+    fragment ProductShowPageProductProductFragment on Product {
       ...ProductColorGridProductFragment
       id
       entityId
@@ -164,4 +164,4 @@ ProductDialog.fragments = {
   `,
 }
 
-export default ProductDialog
+export default ProductShowPageProduct

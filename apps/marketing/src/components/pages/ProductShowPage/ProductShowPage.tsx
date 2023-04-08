@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import { Container } from '@components/ui'
 import { ProductShowPageProductFragment } from '@generated/ProductShowPageProductFragment'
 import React from 'react'
-import ProductDialog from './ProductDialog/ProductDialog'
+import ProductShowPageProduct from './ProductShowPageProduct/ProductShowPageProduct'
 import {
   NextSeo,
   NextSeoProps,
@@ -85,7 +85,7 @@ const ProductShowPage = ({ product }: Props) => {
         <ProductJsonLd {...props} key={props.id} />
       ))}
       <Container>
-        <ProductDialog product={product} />
+        <ProductShowPageProduct product={product} />
       </Container>
     </>
   )
@@ -110,7 +110,7 @@ const makeImages = (
 
 ProductShowPage.fragments = {
   product: gql`
-    ${ProductDialog.fragments.product}
+    ${ProductShowPageProduct.fragments.product}
     fragment ProductShowPageProductFragment on Product {
       id
       name
@@ -160,7 +160,7 @@ ProductShowPage.fragments = {
           }
         }
       }
-      ...ProductDialogProductFragment
+      ...ProductShowPageProductProductFragment
     }
   `,
 }
