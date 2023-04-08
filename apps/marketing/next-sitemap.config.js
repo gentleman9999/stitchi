@@ -86,7 +86,7 @@ const getCatalogProductSlugs = async () => {
 }
 
 module.exports = {
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.stitchi.us',
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.stitchi.co',
   generateRobotsTxt: true,
   additionalPaths: async () => {
     const result = await getCatalogProductSlugs()

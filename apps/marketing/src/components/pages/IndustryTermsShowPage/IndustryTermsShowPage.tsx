@@ -160,7 +160,7 @@ const getTermUrl = (term: IndustryTermsShowPageTermFragment): string | null => {
 
   // Format URL with UTM params
   const utmParams = {
-    utm_source: 'stitchi.us',
+    utm_source: 'stitchi.co',
   }
 
   const urlObj = new URL(url)

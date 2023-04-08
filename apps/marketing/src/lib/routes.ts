@@ -1,4 +1,10 @@
+import getOrThrow from '@utils/get-or-throw'
 import { format } from 'url'
+
+const supportEmail = getOrThrow(
+  process.env.NEXT_PUBLIC_SUPPORT_EMAIL,
+  'NEXT_PUBLIC_SUPPORT_EMAIL',
+)
 
 type QueryParams = Record<
   string,
@@ -145,7 +151,7 @@ const routes = {
   external: {
     support: {
       email: {
-        href: () => buildRoute(`mailto:hello@stitchi.us`),
+        href: () => buildRoute(`mailto:${supportEmail}`),
       },
       phone: {
         href: () => buildRoute(`tel:+1-248-221-1863`),
