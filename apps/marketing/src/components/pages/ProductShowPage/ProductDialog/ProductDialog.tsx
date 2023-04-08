@@ -89,7 +89,6 @@ const ProductDialog = ({ product }: Props) => {
               }}
               src={image.url}
               alt={image.altText || product.name}
-              width={300}
               sizes={generateImageSizes([{ imageWidth: '624px' }])}
             />
           </div>
