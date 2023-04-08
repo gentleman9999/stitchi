@@ -5,9 +5,11 @@ import { UseCatalogFiltersGetDataQuery } from '@generated/UseCatalogFiltersGetDa
 
 type Site = UseCatalogFiltersGetDataQuery['site'] | null | undefined
 
-interface Props {}
+interface Props {
+  brandEntityId?: number
+}
 
-const useCatalogFilters = ({}: Props = {}) => {
+const useCatalogFilters = ({ brandEntityId }: Props = {}) => {
   const [queryFilters, setQueryFilters] = useQueryStates(
     {
       brands: queryTypes.array(queryTypes.string),
@@ -20,8 +22,14 @@ const useCatalogFilters = ({}: Props = {}) => {
 
   const { data } = useQuery<UseCatalogFiltersGetDataQuery>(GET_DATA)
 
+  const defaultBrand = data?.site.brands.edges?.find(
+    edge => edge?.node.entityId === brandEntityId,
+  )?.node
+
   const filters = {
-    brands: makeBrands(data?.site, queryFilters),
+    brands: defaultBrand
+      ? [{ ...defaultBrand, active: true }]
+      : makeBrands(data?.site, queryFilters),
     categories: makeCategories(data?.site, queryFilters),
   }
 

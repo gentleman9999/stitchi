@@ -138,7 +138,10 @@ const GET_DATA = gql`
 
 const GET_PAGES = gql`
   query PromotionalProductGlossaryTermGetPagesQuery {
-    allGlossaryEntries(first: 100) {
+    allGlossaryEntries(
+      first: 100
+      filter: { entryType: { notIn: ["companies"] } }
+    ) {
       id
       slug
       entryType

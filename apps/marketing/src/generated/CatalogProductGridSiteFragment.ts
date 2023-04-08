@@ -8,215 +8,197 @@
 // ====================================================
 
 export interface CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_CheckboxOption {
-  __typename:
-    | 'CheckboxOption'
-    | 'DateFieldOption'
-    | 'FileUploadFieldOption'
-    | 'MultiLineTextFieldOption'
-    | 'NumberFieldOption'
-    | 'TextFieldOption'
+  __typename: "CheckboxOption" | "DateFieldOption" | "FileUploadFieldOption" | "MultiLineTextFieldOption" | "NumberFieldOption" | "TextFieldOption";
 }
 
 export interface CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node_MultipleChoiceOptionValue {
-  __typename: 'MultipleChoiceOptionValue' | 'ProductPickListOptionValue'
+  __typename: "MultipleChoiceOptionValue" | "ProductPickListOptionValue";
   /**
    * Unique ID for the option value.
    */
-  entityId: number
+  entityId: number;
 }
 
 export interface CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node_SwatchOptionValue {
-  __typename: 'SwatchOptionValue'
+  __typename: "SwatchOptionValue";
   /**
    * Unique ID for the option value.
    */
-  entityId: number
+  entityId: number;
   /**
    * Label for the option value.
    */
-  label: string
+  label: string;
   /**
    * List of up to 3 hex encoded colors to associate with a swatch value.
    */
-  hexColors: string[]
+  hexColors: string[];
 }
 
-export type CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node =
-
-    | CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node_MultipleChoiceOptionValue
-    | CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node_SwatchOptionValue
+export type CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node = CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node_MultipleChoiceOptionValue | CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node_SwatchOptionValue;
 
 export interface CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges {
-  __typename: 'ProductOptionValueEdge'
+  __typename: "ProductOptionValueEdge";
   /**
    * The item at the end of the edge.
    */
-  node: CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node
+  node: CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node;
 }
 
 export interface CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_MultipleChoiceOption_values {
-  __typename: 'ProductOptionValueConnection'
+  __typename: "ProductOptionValueConnection";
   /**
    * A list of edges.
    */
-  edges:
-    | (CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges | null)[]
-    | null
+  edges: (CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges | null)[] | null;
 }
 
 export interface CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_MultipleChoiceOption {
-  __typename: 'MultipleChoiceOption'
+  __typename: "MultipleChoiceOption";
   /**
    * Display name for the option.
    */
-  displayName: string
+  displayName: string;
   /**
    * List of option values.
    */
-  values: CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_MultipleChoiceOption_values
+  values: CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_MultipleChoiceOption_values;
 }
 
-export type CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node =
-
-    | CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_CheckboxOption
-    | CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_MultipleChoiceOption
+export type CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node = CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_CheckboxOption | CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_MultipleChoiceOption;
 
 export interface CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges {
-  __typename: 'ProductOptionEdge'
+  __typename: "ProductOptionEdge";
   /**
    * The item at the end of the edge.
    */
-  node: CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node
+  node: CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node;
 }
 
 export interface CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions {
-  __typename: 'ProductOptionConnection'
+  __typename: "ProductOptionConnection";
   /**
    * A list of edges.
    */
-  edges:
-    | (CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges | null)[]
-    | null
+  edges: (CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges | null)[] | null;
 }
 
 export interface CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_brand {
-  __typename: 'Brand'
+  __typename: "Brand";
   /**
    * The ID of an object
    */
-  id: string
+  id: string;
   /**
    * Name of the brand.
    */
-  name: string
+  name: string;
   /**
    * Path for the brand page.
    */
-  path: string
+  path: string;
 }
 
 export interface CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_defaultImage {
-  __typename: 'Image'
+  __typename: "Image";
   /**
    * Absolute path to original image using store CDN.
    */
-  urlOriginal: string
+  urlOriginal: string;
   /**
    * Text description of an image that can be used for SEO and/or accessibility purposes.
    */
-  altText: string
+  altText: string;
   /**
    * Absolute path to image using store CDN.
    */
-  url: string
+  url: string;
 }
 
 export interface CatalogProductGridSiteFragment_search_searchProducts_products_edges_node {
-  __typename: 'Product'
+  __typename: "Product";
   /**
    * The ID of an object
    */
-  id: string
+  id: string;
   /**
    * Id of the product.
    */
-  entityId: number
+  entityId: number;
   /**
    * Product options.
    */
-  productOptions: CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions
+  productOptions: CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions;
   /**
    * Name of the product.
    */
-  name: string
+  name: string;
   /**
    * Relative URL path to product page.
    */
-  path: string
+  path: string;
   /**
    * Brand associated with the product.
    */
-  brand: CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_brand | null
+  brand: CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_brand | null;
   /**
    * Default image for a product.
    */
-  defaultImage: CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_defaultImage | null
+  defaultImage: CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_defaultImage | null;
 }
 
 export interface CatalogProductGridSiteFragment_search_searchProducts_products_edges {
-  __typename: 'ProductEdge'
+  __typename: "ProductEdge";
   /**
    * The item at the end of the edge.
    */
-  node: CatalogProductGridSiteFragment_search_searchProducts_products_edges_node
+  node: CatalogProductGridSiteFragment_search_searchProducts_products_edges_node;
 }
 
 export interface CatalogProductGridSiteFragment_search_searchProducts_products_pageInfo {
-  __typename: 'PageInfo'
+  __typename: "PageInfo";
   /**
    * When paginating forwards, are there more items?
    */
-  hasNextPage: boolean
+  hasNextPage: boolean;
   /**
    * When paginating forwards, the cursor to continue.
    */
-  endCursor: string | null
+  endCursor: string | null;
 }
 
 export interface CatalogProductGridSiteFragment_search_searchProducts_products {
-  __typename: 'ProductConnection'
+  __typename: "ProductConnection";
   /**
    * A list of edges.
    */
-  edges:
-    | (CatalogProductGridSiteFragment_search_searchProducts_products_edges | null)[]
-    | null
+  edges: (CatalogProductGridSiteFragment_search_searchProducts_products_edges | null)[] | null;
   /**
    * Information to aid in pagination.
    */
-  pageInfo: CatalogProductGridSiteFragment_search_searchProducts_products_pageInfo
+  pageInfo: CatalogProductGridSiteFragment_search_searchProducts_products_pageInfo;
 }
 
 export interface CatalogProductGridSiteFragment_search_searchProducts {
-  __typename: 'SearchProducts'
+  __typename: "SearchProducts";
   /**
    * Details of the products.
    */
-  products: CatalogProductGridSiteFragment_search_searchProducts_products
+  products: CatalogProductGridSiteFragment_search_searchProducts_products;
 }
 
 export interface CatalogProductGridSiteFragment_search {
-  __typename: 'SearchQueries'
+  __typename: "SearchQueries";
   /**
    * Details of the products and facets matching given search criteria.
    */
-  searchProducts: CatalogProductGridSiteFragment_search_searchProducts
+  searchProducts: CatalogProductGridSiteFragment_search_searchProducts;
 }
 
 export interface CatalogProductGridSiteFragment {
-  __typename: 'Site'
+  __typename: "Site";
   /**
    * The Search queries.
    */
-  search: CatalogProductGridSiteFragment_search
+  search: CatalogProductGridSiteFragment_search;
 }

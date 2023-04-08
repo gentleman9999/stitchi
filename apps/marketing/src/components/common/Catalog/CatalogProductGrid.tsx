@@ -1,27 +1,27 @@
 import { gql, QueryResult } from '@apollo/client'
 import React from 'react'
 import { notEmpty } from '@utils/typescript'
-import CatalogIndexPageProduct from './CatalogIndexPageProduct'
+import CatalogProduct from './CatalogProduct'
 import {
   CatalogIndexPageGetDataQuery,
   CatalogIndexPageGetDataQueryVariables,
 } from '@generated/CatalogIndexPageGetDataQuery'
-import CatalogIndexPageProductSkeleton from './CatalogIndexPageProductSkeleton'
-import CatalogIndexPageProuductZeroState from './CatalogIndexPageProductZeroState'
+import CatalogProductSkeleton from './CatalogProductSkeleton'
+import CatalogProuductZeroState from './CatalogProductZeroState'
 import { InfiniteScrollContainer } from '@components/common'
 import Link from 'next/link'
-import { CatalogIndexPageProductGridSiteFragment } from '@generated/CatalogIndexPageProductGridSiteFragment'
+import { CatalogProductGridSiteFragment } from '@generated/CatalogIndexPageProductGridSiteFragment'
 
 export interface Props {
   loading: boolean
-  site?: CatalogIndexPageProductGridSiteFragment | null
+  site?: CatalogProductGridSiteFragment | null
   fetchMore: QueryResult<
     CatalogIndexPageGetDataQuery,
     CatalogIndexPageGetDataQueryVariables
   >['fetchMore']
 }
 
-const CatalogIndexPageProductGrid = ({ site, loading, fetchMore }: Props) => {
+const CatalogProductGrid = ({ site, loading, fetchMore }: Props) => {
   const products =
     site?.search.searchProducts?.products?.edges
       ?.map(edge => edge?.node)
@@ -43,11 +43,11 @@ const CatalogIndexPageProductGrid = ({ site, loading, fetchMore }: Props) => {
     <>
       <Grid>
         {products.map(product => (
-          <CatalogIndexPageProduct key={product.entityId} product={product} />
+          <CatalogProduct key={product.entityId} product={product} />
         ))}
         {loading &&
           Array.from(new Array(6)).map((_, i) => (
-            <CatalogIndexPageProductSkeleton key={i} />
+            <CatalogProductSkeleton key={i} />
           ))}
       </Grid>
 
@@ -63,7 +63,7 @@ const CatalogIndexPageProductGrid = ({ site, loading, fetchMore }: Props) => {
         </Link>
       )}
       <div className="mt-20">
-        <CatalogIndexPageProuductZeroState />
+        <CatalogProuductZeroState />
       </div>
     </>
   )
@@ -75,10 +75,10 @@ const Grid = ({ children }: { children: React.ReactNode }) => (
   </ul>
 )
 
-CatalogIndexPageProductGrid.fragments = {
+CatalogProductGrid.fragments = {
   site: gql`
-    ${CatalogIndexPageProduct.fragments.product}
-    fragment CatalogIndexPageProductGridSiteFragment on Site {
+    ${CatalogProduct.fragments.product}
+    fragment CatalogProductGridSiteFragment on Site {
       search {
         searchProducts(filters: $filters) {
           products(first: $first, after: $after) {
@@ -86,7 +86,7 @@ CatalogIndexPageProductGrid.fragments = {
               node {
                 id
                 entityId
-                ...CatalogIndexPageProductProductFragment
+                ...CatalogProductProductFragment
               }
             }
             pageInfo {
@@ -100,4 +100,4 @@ CatalogIndexPageProductGrid.fragments = {
   `,
 }
 
-export default CatalogIndexPageProductGrid
+export default CatalogProductGrid

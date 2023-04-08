@@ -1,12 +1,8 @@
 import { gql } from '@apollo/client'
-import { Dialog, IconButton } from '@components/ui'
 import { ProductDialogProductFragment } from '@generated/ProductDialogProductFragment'
-import routes from '@lib/routes'
 import { makeProductTitle } from '@utils/catalog'
 import { generateImageSizes } from '@utils/image'
-import { XIcon } from 'icons'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
 import React from 'react'
 import ProductColorGrid from './ProductColorGrid'
 import ProductWishlistButton from './ProductWishlistButton'
@@ -20,8 +16,6 @@ interface Props {
 }
 
 const ProductDialog = ({ product }: Props) => {
-  const router = useRouter()
-
   const [productOptionValues, setProductOptionValues] =
     React.useState<ProductOptionValues>({
       colorEntityId: null,
@@ -31,15 +25,6 @@ const ProductDialog = ({ product }: Props) => {
     setProductOptionValues({
       ...productOptionValues,
       colorEntityId,
-    })
-  }
-
-  const handleClose = () => {
-    const params = { ...router.query }
-    delete params['catchAllSlug']
-    router.push(routes.internal.catalog.href({ params }), undefined, {
-      scroll: false,
-      shallow: true,
     })
   }
 
@@ -63,44 +48,33 @@ const ProductDialog = ({ product }: Props) => {
   const image = activeVariant?.defaultImage || product.defaultImage
 
   return (
-    <Dialog
-      open={true}
-      onClose={handleClose}
-      mobileFullScreen
-      disablePortal
-      size="lg"
-    >
-      <Dialog.Title
-        className="flex justify-between gap-2 font-heading text-lg"
-        as="div"
-      >
-        <h1>{makeProductTitle(product)}</h1>
-        <IconButton onClick={handleClose} variant="ghost" disableGutters>
-          <XIcon width={20} height={20} />
-        </IconButton>
-      </Dialog.Title>
-      <Dialog.Content>
-        {image ? (
-          <div className="relative w-full h-[250px] border-b">
-            <Image
-              fill
-              style={{
-                objectFit: 'contain',
-              }}
-              src={image.url}
-              alt={image.altText || product.name}
-              sizes={generateImageSizes([{ imageWidth: '624px' }])}
+    <>
+      <h1 className="font-headingDisplay font-semibold text-4xl">
+        {makeProductTitle(product)}
+      </h1>
+      <br />
+      <div className="grid grid-cols-2 gap-8">
+        <div>
+          {image ? (
+            <div className="relative w-full h-[250px] border-b">
+              <Image
+                fill
+                style={{
+                  objectFit: 'contain',
+                }}
+                src={image.url}
+                alt={image.altText || product.name}
+                sizes={generateImageSizes([{ imageWidth: '624px' }])}
+              />
+            </div>
+          ) : null}
+          <VariantOptionSection title="Available Colors">
+            <ProductColorGrid
+              product={product}
+              onColorSelect={handleColorSelect}
             />
-          </div>
-        ) : null}
-        <Dialog.ContentText>
-          <div className="flex flex-col justify-center items-center mt-4">
-            <ProductWishlistButton entityId={product.entityId} />
-            <span className="text-center text-xs mt-2 max-w-[225px]">
-              Save products you think you may want to include in your merch
-              program.
-            </span>
-          </div>
+          </VariantOptionSection>
+
           <table className="table-auto w-full mt-8">
             <caption>Specifications</caption>
 
@@ -111,18 +85,20 @@ const ProductDialog = ({ product }: Props) => {
               </tr>
             </tbody>
           </table>
-          <div className="prose prose-sm">
-            <div dangerouslySetInnerHTML={{ __html: product.description }} />
+          <div className="flex flex-col justify-center items-center mt-4">
+            <ProductWishlistButton entityId={product.entityId} />
+            <span className="text-center text-xs mt-2 max-w-[225px]">
+              Save products you think you may want to include in your merch
+              program.
+            </span>
           </div>
-          <VariantOptionSection title="Available Colors">
-            <ProductColorGrid
-              product={product}
-              onColorSelect={handleColorSelect}
-            />
-          </VariantOptionSection>
-        </Dialog.ContentText>
-      </Dialog.Content>
-    </Dialog>
+        </div>
+
+        <div className="prose prose-sm">
+          <div dangerouslySetInnerHTML={{ __html: product.description }} />
+        </div>
+      </div>
+    </>
   )
 }
 

@@ -16,29 +16,27 @@ const useFilterPreview = ({ filters }: Props) => {
   >(GET_DATA, {
     variables: { filters },
     fetchPolicy: 'network-only',
-    notifyOnNetworkStatusChange: false,
+    notifyOnNetworkStatusChange: true,
   })
 
   React.useEffect(() => {
-    if (!loading) {
-      refetch({ filters })
-    }
-  }, [filters, loading, refetch])
+    refetch({ filters })
+  }, [filters, refetch])
+
+  const currentCount =
+    data?.site.search.searchProducts.products.collectionInfo?.totalItems
+
+  const previousCount =
+    previousData?.site.search.searchProducts.products.collectionInfo
+      ?.totalItems || 0
 
   return {
     loading,
-    count: getCount(data) || getCount(previousData),
+    count: currentCount !== undefined ? currentCount : previousCount,
     hasMore: Boolean(
       data?.site.search.searchProducts.products.pageInfo.hasNextPage,
     ),
   }
-}
-
-const getCount = (data?: UseFilterPreviewGetDataQuery) => {
-  return (
-    data?.site.search.searchProducts.products.edges?.map(edge => edge?.node)
-      .length || null
-  )
 }
 
 const GET_DATA = gql`
@@ -47,10 +45,8 @@ const GET_DATA = gql`
       search {
         searchProducts(filters: $filters) {
           products(first: 50) {
-            edges {
-              node {
-                id
-              }
+            collectionInfo {
+              totalItems
             }
             pageInfo {
               hasNextPage

@@ -17,90 +17,94 @@ import makeAbsoluteUrl from '@utils/get-absolute-url'
 import routes from '@lib/routes'
 
 const getStaticPaths: GetStaticPaths = async () => {
-  const client = initializeApollo()
+  // const client = initializeApollo()
 
-  const { data } =
-    await client.query<PromotionalProductsGlossaryCategoryGetPagesQuery>({
-      query: GET_PAGES,
-    })
+  // const { data } =
+  //   await client.query<PromotionalProductsGlossaryCategoryGetPagesQuery>({
+  //     query: GET_PAGES,
+  //   })
 
-  return {
-    paths: data.allGlossaryCategories
-      .map(category =>
-        category.slug
-          ? {
-              params: { categorySlug: category.slug },
-            }
-          : null,
-      )
-      .filter(notEmpty),
-    fallback: 'blocking',
-  }
+  // return {
+  //   paths: data.allGlossaryCategories
+  //     .map(category =>
+  //       category.slug
+  //         ? {
+  //             params: { categorySlug: category.slug },
+  //           }
+  //         : null,
+  //     )
+  //     .filter(notEmpty),
+  //   fallback: 'blocking',
+  // }
+
+  return { paths: [], fallback: false }
 }
 
 const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { categorySlug } = params || {}
+  // const { categorySlug } = params || {}
 
-  if (typeof categorySlug !== 'string') {
-    return {
-      notFound: true,
-    }
-  }
+  // if (typeof categorySlug !== 'string') {
+  //   return {
+  //     notFound: true,
+  //   }
+  // }
 
-  const client = initializeApollo()
+  // const client = initializeApollo()
 
-  await client.query<
-    PromotionalProductsGlossaryCategoryGetDataQuery,
-    PromotionalProductsGlossaryCategoryGetDataQueryVariables
-  >({
-    query: GET_DATA,
-    variables: { slug: categorySlug },
-  })
+  // await client.query<
+  //   PromotionalProductsGlossaryCategoryGetDataQuery,
+  //   PromotionalProductsGlossaryCategoryGetDataQueryVariables
+  // >({
+  //   query: GET_DATA,
+  //   variables: { slug: categorySlug },
+  // })
 
-  return addApolloState(client, { props: {} })
+  // return addApolloState(client, { props: {} })
+  return { props: {} }
 }
 
 const PromotionalProductsGlossaryCategory = () => {
-  const { query } = useRouter()
-  const { data, error } = useQuery<
-    PromotionalProductsGlossaryCategoryGetDataQuery,
-    PromotionalProductsGlossaryCategoryGetDataQueryVariables
-  >(GET_DATA, { variables: { slug: `${query.categorySlug}` } })
+  return null
+  // const { query } = useRouter()
+  // const { data, error } = useQuery<
+  //   PromotionalProductsGlossaryCategoryGetDataQuery,
+  //   PromotionalProductsGlossaryCategoryGetDataQueryVariables
+  // >(GET_DATA, { variables: { slug: `${query.categorySlug}` } })
 
-  if (error) {
-    return <ComponentErrorMessage error={error} />
-  }
+  // if (error) {
+  //   return <ComponentErrorMessage error={error} />
+  // }
 
-  const { glossaryCategory } = data || {}
+  // const { glossaryCategory } = data || {}
 
-  if (!glossaryCategory?.slug) {
-    return null
-  }
+  // if (!glossaryCategory?.slug) {
+  //   return null
+  // }
 
-  const url = makeAbsoluteUrl(
-    routes.internal.glossary.categories.show.href(glossaryCategory.slug),
-  )
+  // const url = makeAbsoluteUrl(
+  //   routes.internal.glossary.categories.show.href(glossaryCategory.slug),
+  // )
 
-  return (
-    <>
-      <NextSeo
-        title={
-          glossaryCategory.seoMetadata?.title ||
-          glossaryCategory.title ||
-          'Promotional Product Glossary Category'
-        }
-        description={glossaryCategory.seoMetadata?.description || undefined}
-        canonical={url}
-        openGraph={{
-          url,
-        }}
-      />
-      <IndustryTermsCategoryShowPage
-        category={glossaryCategory}
-        entries={glossaryCategory._allReferencingGlossaryEntries}
-      />
-    </>
-  )
+  // return (
+  //   <>
+  //     <NextSeo
+  //       title={
+  //         glossaryCategory.seoMetadata?.title ||
+  //         glossaryCategory.title ||
+  //         'Promotional Product Glossary Category'
+  //       }
+  //       description={glossaryCategory.seoMetadata?.description || undefined}
+  //       canonical={url}
+  //       openGraph={{
+  //         url,
+  //       }}
+  //     />
+  //     <IndustryTermsCategoryShowPage
+  //       category={glossaryCategory}
+  //       entries={glossaryCategory._allReferencingGlossaryEntries}
+  //     />
+  //   </>
+  // )
 }
 
 PromotionalProductsGlossaryCategory.getLayout = (page: ReactElement) => {

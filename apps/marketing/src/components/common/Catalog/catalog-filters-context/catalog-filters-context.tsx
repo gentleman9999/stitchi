@@ -28,11 +28,17 @@ interface State {
 const CatalogFiltersContext = React.createContext<State | undefined>(undefined)
 
 interface CatalogFiltersProviderProps {
+  brandEntityId?: number
   children: React.ReactNode
 }
 
-const CatalogFiltersProvider = ({ children }: CatalogFiltersProviderProps) => {
-  const { availableFilters, activeFilters, setFilters } = useFilters()
+const CatalogFiltersProvider = ({
+  children,
+  brandEntityId,
+}: CatalogFiltersProviderProps) => {
+  const { availableFilters, activeFilters, setFilters } = useFilters({
+    brandEntityId,
+  })
 
   return (
     <CatalogFiltersContext.Provider

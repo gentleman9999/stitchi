@@ -7,12 +7,48 @@
 // GraphQL query operation: ProductPageGetDataQuery
 // ====================================================
 
-export interface ProductPageGetDataQuery_site_route_node_Brand {
-  __typename: "Brand" | "Category" | "Variant";
+export interface ProductPageGetDataQuery_site_route_node_Category {
+  __typename: "Category" | "Variant";
   /**
    * The id of the object.
    */
   id: string;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Brand_seo {
+  __typename: "SeoDetails";
+  /**
+   * Page title.
+   */
+  pageTitle: string;
+  /**
+   * Meta description.
+   */
+  metaDescription: string;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Brand {
+  __typename: "Brand";
+  /**
+   * The ID of an object
+   */
+  id: string;
+  /**
+   * Id of the brand.
+   */
+  entityId: number;
+  /**
+   * Name of the brand.
+   */
+  name: string;
+  /**
+   * Path for the brand page.
+   */
+  path: string;
+  /**
+   * Brand SEO details.
+   */
+  seo: ProductPageGetDataQuery_site_route_node_Brand_seo;
 }
 
 export interface ProductPageGetDataQuery_site_route_node_Product_defaultImage {
@@ -335,7 +371,7 @@ export interface ProductPageGetDataQuery_site_route_node_Product {
   description: string;
 }
 
-export type ProductPageGetDataQuery_site_route_node = ProductPageGetDataQuery_site_route_node_Brand | ProductPageGetDataQuery_site_route_node_Product;
+export type ProductPageGetDataQuery_site_route_node = ProductPageGetDataQuery_site_route_node_Category | ProductPageGetDataQuery_site_route_node_Brand | ProductPageGetDataQuery_site_route_node_Product;
 
 export interface ProductPageGetDataQuery_site_route {
   __typename: "Route";

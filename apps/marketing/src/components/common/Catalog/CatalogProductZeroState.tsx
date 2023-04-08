@@ -4,7 +4,7 @@ import { ArrowRight } from 'icons'
 import Link from 'next/link'
 import React from 'react'
 
-const CatalogIndexPageProuductZeroState = () => {
+const CatalogProuductZeroState = () => {
   return (
     <div className="bg-primary p-10 rounded-2xl w-full max-w-xl text-center m-auto">
       <span className="text-4xl">👀</span>
@@ -25,7 +25,7 @@ const CatalogIndexPageProuductZeroState = () => {
         </Button>
       </Link>
     </div>
-  );
+  )
 }
 
-export default CatalogIndexPageProuductZeroState
+export default CatalogProuductZeroState

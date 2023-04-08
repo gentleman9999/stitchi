@@ -1,21 +1,19 @@
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image'
 import React from 'react'
 import { gql } from '@apollo/client'
-import { CatalogIndexPageProductProductFragment } from '@generated/CatalogIndexPageProductProductFragment'
+import { CatalogProductProductFragment } from '@generated/CatalogProductProductFragment'
 import routes from '@lib/routes'
 import Link from 'next/link'
 import useProductColors from '@hooks/useProductColors'
 import SwatchGroup from './SwatchGroup'
-import { useRouter } from 'next/router'
 import { makeProductTitle } from '@utils/catalog'
 import { generateImageSizes } from '@utils/image'
 
 export interface Props {
-  product: CatalogIndexPageProductProductFragment
+  product: CatalogProductProductFragment
 }
 
-const CatalogIndexPageProduct = ({ product }: Props) => {
-  const router = useRouter()
+const CatalogProduct = ({ product }: Props) => {
   const { colors } = useProductColors({ product })
 
   if (!product.brand) {
@@ -26,7 +24,6 @@ const CatalogIndexPageProduct = ({ product }: Props) => {
   const href = routes.internal.catalog.product.href({
     brandSlug: product.brand?.path,
     productSlug: product.path,
-    params: router.query,
   })
 
   return (
@@ -34,8 +31,8 @@ const CatalogIndexPageProduct = ({ product }: Props) => {
       <Link
         scroll={false}
         href={href}
-        className="flex-1 flex flex-col cursor-pointer rounded-2xl border border-gray-100 p-4 shadow hover:shadow-md transition-all">
-
+        className="flex-1 flex flex-col cursor-pointer rounded-2xl border border-gray-100 p-4 shadow hover:shadow-md transition-all"
+      >
         {product.defaultImage?.url && (
           <div className="relative w-full h-[200px]">
             <Image
@@ -56,16 +53,15 @@ const CatalogIndexPageProduct = ({ product }: Props) => {
             hexColors={colors.map(({ hexColors }) => hexColors[0])}
           />
         </div>
-
       </Link>
     </li>
-  );
+  )
 }
 
-CatalogIndexPageProduct.fragments = {
+CatalogProduct.fragments = {
   product: gql`
     ${useProductColors.fragments.product}
-    fragment CatalogIndexPageProductProductFragment on Product {
+    fragment CatalogProductProductFragment on Product {
       ...UseProductColorsProductFragment
       id
       name
@@ -84,4 +80,4 @@ CatalogIndexPageProduct.fragments = {
   `,
 }
 
-export default CatalogIndexPageProduct
+export default CatalogProduct

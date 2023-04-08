@@ -2,7 +2,7 @@ import { Skeleton } from '@components/ui'
 import React from 'react'
 import SwatchGroup from './SwatchGroup'
 
-const CatalogIndexPageProductSkeleton = () => {
+const CatalogProductSkeleton = () => {
   return (
     <div className="block rounded-2xl border-2 border-gray-100 p-4">
       <Skeleton height={200} />
@@ -16,4 +16,4 @@ const CatalogIndexPageProductSkeleton = () => {
   )
 }
 
-export default CatalogIndexPageProductSkeleton
+export default CatalogProductSkeleton

@@ -9,9 +9,10 @@ interface Props {
   open: boolean
   onClose: () => void
   scroll?: boolean
+  hideBrands?: boolean
 }
 
-const FilterDialog = ({ open, onClose, scroll }: Props) => {
+const FilterDialog = ({ open, onClose, scroll, hideBrands }: Props) => {
   const { availableFilters, setFilters } = useCatalogFilters()
   const [filterState, setFilterState] = React.useState(availableFilters)
 
@@ -103,24 +104,29 @@ const FilterDialog = ({ open, onClose, scroll }: Props) => {
       <Dialog.Content dividers>
         <Dialog.ContentText>
           <fieldset>
-            <FilterSection
-              title="Brands"
-              subtitle="A unique and outstanding selection of brands"
-            >
-              <CheckboxGroup>
-                {brands?.map(brand => (
-                  <CheckboxFilter
-                    key={brand.path}
-                    active={brand.active}
-                    value={brand.path}
-                    label={brand.name}
-                    onChange={() => handleToggleBrand(brand.path)}
-                    sectionName="Brands"
-                  />
-                ))}
-              </CheckboxGroup>
-            </FilterSection>
-            <FilterSectionSpacer />
+            {brands.length && !hideBrands ? (
+              <>
+                <FilterSection
+                  title="Brands"
+                  subtitle="A unique and outstanding selection of brands"
+                >
+                  <CheckboxGroup>
+                    {brands.map(brand => (
+                      <CheckboxFilter
+                        key={brand.path}
+                        active={brand.active}
+                        value={brand.path}
+                        label={brand.name}
+                        onChange={() => handleToggleBrand(brand.path)}
+                        sectionName="Brands"
+                      />
+                    ))}
+                  </CheckboxGroup>
+                </FilterSection>
+                <FilterSectionSpacer />
+              </>
+            ) : null}
+
             <FilterSection title="Categories">
               <CheckboxGroup>
                 {categories?.map(category => (
@@ -148,9 +154,19 @@ const FilterDialog = ({ open, onClose, scroll }: Props) => {
         >
           Clear all
         </Button>
-        <Button onClick={handleSubmit} className="whitespace-nowrap">
-          Show {count}
-          {hasMore ? '+' : ''} {pluralize('product', count || 0)}
+        <Button
+          onClick={handleSubmit}
+          className="whitespace-nowrap"
+          disabled={count === 0}
+        >
+          {count === 0 ? (
+            'No products found'
+          ) : (
+            <>
+              Show {count}
+              {hasMore ? '+' : ''} {pluralize('product', count || 0)}
+            </>
+          )}
         </Button>
       </Dialog.Actions>
     </Dialog>
