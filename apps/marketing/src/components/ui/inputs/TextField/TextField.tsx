@@ -69,7 +69,7 @@ const TextField = (props: TextFieldProps) => {
         )}
       </div>
 
-      <div className="mt-1">
+      <div className="">
         {props.multiline === true ? (
           <textarea
             id={props.name}

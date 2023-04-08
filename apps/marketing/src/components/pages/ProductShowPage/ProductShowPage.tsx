@@ -17,12 +17,15 @@ import { notEmpty } from '@utils/typescript'
 import { ProductPageGetDataQuery_site_route_node_Product } from '@generated/ProductPageGetDataQuery'
 import Breadcrumbs from './Breadcrumbs'
 import ProductQuickActions from './ProductQuickActions'
+import ShareDialog from '@components/common/ShareDialog'
 
 interface Props {
   product: ProductShowPageProductFragment
 }
 
 const ProductShowPage = ({ product }: Props) => {
+  const [share, setShare] = React.useState(false)
+
   const title = makeProductTitle(product)
 
   const url = makeAbsoluteUrl(
@@ -86,6 +89,7 @@ const ProductShowPage = ({ product }: Props) => {
       {jsonLDData.map(props => (
         <ProductJsonLd {...props} key={props.id} />
       ))}
+      {share ? <ShareDialog open onClose={() => setShare(false)} /> : null}
       <Container>
         <div className="flex flex-col gap-8">
           <div className="flex flex-col sm:flex-col-reverse gap-4">
@@ -103,7 +107,10 @@ const ProductShowPage = ({ product }: Props) => {
                 />
               ) : null}
 
-              <ProductQuickActions entityId={product.entityId} />
+              <ProductQuickActions
+                entityId={product.entityId}
+                onShareClick={() => setShare(true)}
+              />
             </div>
           </div>
 
