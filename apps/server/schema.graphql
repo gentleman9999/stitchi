@@ -2,6 +2,11 @@
 ### Do not make changes to this file directly
 
 
+input AllNewsletterIssuesFilter {
+  first: Int!
+  skip: Int
+}
+
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
@@ -28,8 +33,62 @@ enum MembershipRole {
 }
 
 type Mutation {
+  """Creates a new subscriber"""
+  subscriberCreate(input: SubscriberCreateInput!): SubscriberCreatePayload
+
   """Bootstraps a new user with necessary resources"""
   userBoostrap: User
+}
+
+type Newsletter {
+  allNewsletterIssues(
+    """Returns the elements in the list that come after the specified cursor"""
+    after: String
+
+    """Returns the first n elements from the list."""
+    first: Int!
+  ): NewsletterIssueConnection
+  newsletterIssue(slug: String!): NewsletterIssue!
+}
+
+type NewsletterIssue {
+  authorNames: [String]!
+  contentHtml: String!
+  createdAt: DateTime!
+  displayAt: DateTime
+  id: ID!
+  publishedAt: DateTime
+  slug: String!
+  status: NewsletterIssueStatus!
+  subtitle: String!
+  thumbnailUrl: String
+  title: String!
+}
+
+type NewsletterIssueConnection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [NewsletterIssueEdge]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+}
+
+type NewsletterIssueEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String!
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: NewsletterIssue
+}
+
+enum NewsletterIssueStatus {
+  ARCHIVED
+  CONFIRMED
+  DRAFT
 }
 
 type Organization {
@@ -41,8 +100,27 @@ type Organization {
   updatedAt: DateTime
 }
 
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean!
+}
+
 type Query {
+  newsletter: Newsletter
   viewer: Membership
+}
+
+type Subscriber {
+  email: String!
+  id: String!
+}
+
+input SubscriberCreateInput {
+  email: String!
+}
+
+type SubscriberCreatePayload {
+  subscriber: Subscriber
 }
 
 type User {

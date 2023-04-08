@@ -63,7 +63,7 @@ const NavbarDesktopLearnContents = () => {
           className="font-semibold hover:bg-primary p-1 rounded-sm"
         >
           <Popover.Button as="div">
-            Promotional Products Glossary
+            Promotional Products Directory
           </Popover.Button>
         </Link>
       </div>

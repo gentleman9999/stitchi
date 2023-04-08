@@ -100,6 +100,7 @@ export interface BlogShowPageGetDataQuery_article_content_links_ArticleRecord {
   id: any;
   slug: string | null;
   title: string | null;
+  shortDescription: string | null;
 }
 
 export interface BlogShowPageGetDataQuery_article_content_links_GlossaryEntryRecord {
@@ -107,6 +108,7 @@ export interface BlogShowPageGetDataQuery_article_content_links_GlossaryEntryRec
   id: any;
   slug: string | null;
   term: string | null;
+  entryType: string | null;
 }
 
 export type BlogShowPageGetDataQuery_article_content_links = BlogShowPageGetDataQuery_article_content_links_ArticleRecord | BlogShowPageGetDataQuery_article_content_links_GlossaryEntryRecord;
@@ -130,6 +132,7 @@ export interface BlogShowPageGetDataQuery_article {
   id: any;
   title: string | null;
   _publishedAt: any | null;
+  _createdAt: any;
   author: BlogShowPageGetDataQuery_article_author | null;
   categories: BlogShowPageGetDataQuery_article_categories[];
   image: BlogShowPageGetDataQuery_article_image | null;

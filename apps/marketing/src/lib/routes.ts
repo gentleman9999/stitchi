@@ -1,4 +1,10 @@
+import getOrThrow from '@utils/get-or-throw'
 import { format } from 'url'
+
+const supportEmail = getOrThrow(
+  process.env.NEXT_PUBLIC_SUPPORT_EMAIL,
+  'NEXT_PUBLIC_SUPPORT_EMAIL',
+)
 
 type QueryParams = Record<
   string,
@@ -37,6 +43,13 @@ const routes = {
       href: ({ params }: { params?: QueryParams } = {}) =>
         buildRoute('/catalog', params),
 
+      brand: {
+        show: {
+          href: ({ brandSlug }: { brandSlug: string }) =>
+            buildRoute(`/${brandSlug}`),
+        },
+      },
+
       product: {
         href: ({
           brandSlug,
@@ -56,13 +69,24 @@ const routes = {
       },
     },
     blog: {
-      href: () => buildRoute('/learn'),
+      href: () => buildRoute(`/learn`),
       show: {
         href: (postSlug: string) => buildRoute(`/learn/${postSlug}`),
       },
+      page: {
+        href: (page: number) => buildRoute(`/learn/page/${page}`),
+      },
       category: {
-        href: ({ categorySlug }: { categorySlug: string }) =>
-          buildRoute(`/learn/topic/${categorySlug}`),
+        href: ({
+          categorySlug,
+          page,
+        }: {
+          categorySlug: string
+          page?: number
+        }) =>
+          buildRoute(
+            `/learn/topic/${categorySlug}${page ? `/page/${page}` : ''}`,
+          ),
       },
     },
     customers: {
@@ -85,9 +109,21 @@ const routes = {
       },
     },
     glossary: {
-      href: () => '/promotional-product-glossary',
+      href: () => '/directory',
       show: {
-        href: (termSlug: string) => `/promotional-product-glossary/${termSlug}`,
+        href: ({
+          termSlug,
+          termType,
+        }: {
+          termType: string
+          termSlug: string
+        }) => `/directory/${termType}/${termSlug}`,
+      },
+      categories: {
+        show: {
+          href: (categorySlug: string) =>
+            `/directory/categories/${categorySlug}`,
+        },
       },
     },
     legal: {
@@ -122,7 +158,7 @@ const routes = {
   external: {
     support: {
       email: {
-        href: () => buildRoute(`mailto:hello@stitchi.us`),
+        href: () => buildRoute(`mailto:${supportEmail}`),
       },
       phone: {
         href: () => buildRoute(`tel:+1-248-221-1863`),

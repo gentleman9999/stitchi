@@ -9,9 +9,8 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "build": "yarn clean && yarn codegen && tsc",
     "build:docker": "cd ../.. && docker build -t stitchi-server .",
-    "codegen": "yarn codegen:prisma && yarn codegen:nexus",
+    "codegen": "yarn codegen:prisma",
     "codegen:prisma": "prisma generate",
-    "codegen:nexus": "npx ts-node --transpile-only src/graphql/schema",
     "db:migrate": "npx prisma db push",
     "db:inspect": "npx prisma studio"
   },
@@ -25,10 +24,9 @@
     "ts-node": "^10.9.1",
     "ts-node-dev": "^1.1.8",
     "tsconfig": "*",
-    "typescript": "^4.5.3"
+    "typescript": "^4.9.5"
   },
   "dependencies": {
-    "@apollo/client": "^3.5.10",
     "@apollo/federation": "^0.36.0",
     "@graphql-tools/stitch": "^8.6.2",
     "@graphql-tools/utils": "^8.6.5",
@@ -38,6 +36,7 @@
     "apollo-server": "^3.6.6",
     "auth0": "^2.40.0",
     "cloudinary": "^1.28.1",
+    "date-fns": "^2.29.3",
     "dotenv": "^16.0.0",
     "graphql": "^16.3.0",
     "graphql-relay": "^0.10.0",
@@ -46,6 +45,6 @@
     "jwks-rsa": "^2.0.5",
     "nexus": "^1.3.0",
     "slugify": "^1.6.5",
-    "yup": "^0.32.11"
+    "yup": "^1.0.2"
   }
 }

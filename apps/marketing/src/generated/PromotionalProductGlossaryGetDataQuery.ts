@@ -7,18 +7,13 @@
 // GraphQL query operation: PromotionalProductGlossaryGetDataQuery
 // ====================================================
 
-export interface PromotionalProductGlossaryGetDataQuery_allGlossaryEntries_description {
-  __typename: "GlossaryEntryModelDescriptionField";
-  value: any;
-}
-
 export interface PromotionalProductGlossaryGetDataQuery_allGlossaryEntries {
   __typename: "GlossaryEntryRecord";
   id: any;
-  term: string | null;
-  definition: string | null;
-  description: PromotionalProductGlossaryGetDataQuery_allGlossaryEntries_description | null;
   slug: string | null;
+  entryType: string | null;
+  definition: string | null;
+  term: string | null;
 }
 
 export interface PromotionalProductGlossaryGetDataQuery {

@@ -9,20 +9,12 @@ import { SearchProductsFiltersInput } from "./globalTypes";
 // GraphQL query operation: UseFilterPreviewGetDataQuery
 // ====================================================
 
-export interface UseFilterPreviewGetDataQuery_site_search_searchProducts_products_edges_node {
-  __typename: "Product";
+export interface UseFilterPreviewGetDataQuery_site_search_searchProducts_products_collectionInfo {
+  __typename: "CollectionInfo";
   /**
-   * The ID of an object
+   * Total items in the collection despite pagination.
    */
-  id: string;
-}
-
-export interface UseFilterPreviewGetDataQuery_site_search_searchProducts_products_edges {
-  __typename: "ProductEdge";
-  /**
-   * The item at the end of the edge.
-   */
-  node: UseFilterPreviewGetDataQuery_site_search_searchProducts_products_edges_node;
+  totalItems: any | null;
 }
 
 export interface UseFilterPreviewGetDataQuery_site_search_searchProducts_products_pageInfo {
@@ -36,9 +28,9 @@ export interface UseFilterPreviewGetDataQuery_site_search_searchProducts_product
 export interface UseFilterPreviewGetDataQuery_site_search_searchProducts_products {
   __typename: "ProductConnection";
   /**
-   * A list of edges.
+   * Collection info
    */
-  edges: (UseFilterPreviewGetDataQuery_site_search_searchProducts_products_edges | null)[] | null;
+  collectionInfo: UseFilterPreviewGetDataQuery_site_search_searchProducts_products_collectionInfo | null;
   /**
    * Information to aid in pagination.
    */

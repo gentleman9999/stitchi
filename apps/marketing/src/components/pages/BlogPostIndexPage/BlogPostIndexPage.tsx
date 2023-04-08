@@ -2,6 +2,7 @@ import { gql } from '@apollo/client'
 import {
   BlogPostCard,
   CmsStructuredText,
+  InfiniteScrollContainer,
   InlineMailingListSubscribe,
   Section,
 } from '@components/common'
@@ -11,20 +12,27 @@ import { BlogPostIndexPagePageFragment } from '@generated/BlogPostIndexPagePageF
 import routes from '@lib/routes'
 import { useRouter } from 'next/router'
 import React from 'react'
-import { Container } from '@components/ui'
+import { Button, Container } from '@components/ui'
 import BlogPostIndexPageFilters from './BlogPostIndexPageFilters'
 import BlogPostIndexPageSeo from './BlogPostIndexPageSeo'
+import Link from 'next/link'
 
 export interface BlogPostIndexPageProps {
   articles: BlogIndexPageArticleFragment[]
   categories?: BlogPostIndexPageCategoryFragment[]
   page: BlogPostIndexPagePageFragment
+  canFetchMore: boolean
+  loading: boolean
+  fetchMoreHref: string
 }
 
 const BlogIndexPage = ({
   articles,
   categories,
   page,
+  canFetchMore,
+  loading,
+  fetchMoreHref,
 }: BlogPostIndexPageProps) => {
   const router = useRouter()
   const { categorySlug } = router.query
@@ -32,6 +40,14 @@ const BlogIndexPage = ({
   const activeCategory = categories?.find(
     category => category.slug === categorySlug,
   )
+
+  const handleFetchMore = () => {
+    if (!loading && canFetchMore) {
+      router.replace(fetchMoreHref, undefined, {
+        scroll: false,
+      })
+    }
+  }
 
   return (
     <>
@@ -44,7 +60,7 @@ const BlogIndexPage = ({
                 activeCategory?.name ? `: ${activeCategory.name}` : ''
               }`}
             </h1>
-            <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
+            <div className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
               {activeCategory?.description ? (
                 <CmsStructuredText content={activeCategory.description} />
               ) : (
@@ -54,11 +70,12 @@ const BlogIndexPage = ({
                   increase brand awareness.
                 </>
               )}
-            </p>
+            </div>
           </div>
           <BlogPostIndexPageFilters
             filters={[
               {
+                key: 'all',
                 title: 'All',
                 href: routes.internal.blog.href(),
                 active: !activeCategory,
@@ -66,6 +83,7 @@ const BlogIndexPage = ({
               ...(categories
                 ?.filter(c => Boolean(c.slug))
                 .map(category => ({
+                  key: category.slug,
                   title: category.shortName || category.name || 'Category',
                   href: routes.internal.blog.category.href({
                     categorySlug: category.slug!,
@@ -75,10 +93,25 @@ const BlogIndexPage = ({
             ]}
           />
           <div className="mt-12 mb-5 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
-            {articles.map(post => (
-              <BlogPostCard key={post.id} post={post} />
-            ))}
+            {articles.map(post =>
+              post ? <BlogPostCard key={post.id} post={post} /> : null,
+            )}
           </div>
+
+          <InfiniteScrollContainer onIntersect={handleFetchMore} />
+          {canFetchMore ? (
+            <div className="flex justify-center">
+              <Button
+                Component={Link}
+                {...{ scroll: false, replace: true }}
+                href={fetchMoreHref}
+                className="mt-2"
+                loading={loading}
+              >
+                Load More
+              </Button>
+            </div>
+          ) : null}
         </div>
         <Section gutter="md">
           <InlineMailingListSubscribe />

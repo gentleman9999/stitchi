@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { ArticleModelFilter } from "./globalTypes";
+
 // ====================================================
 // GraphQL query operation: BlogCategoryIndexPageGetPageDataQuery
 // ====================================================
@@ -64,12 +66,18 @@ export interface BlogCategoryIndexPageGetPageDataQuery_allArticles {
   __typename: "ArticleRecord";
   id: any;
   _publishedAt: any | null;
+  _createdAt: any;
   title: string | null;
   slug: string | null;
   shortDescription: string | null;
   image: BlogCategoryIndexPageGetPageDataQuery_allArticles_image | null;
   author: BlogCategoryIndexPageGetPageDataQuery_allArticles_author | null;
   categories: BlogCategoryIndexPageGetPageDataQuery_allArticles_categories[];
+}
+
+export interface BlogCategoryIndexPageGetPageDataQuery__allArticlesMeta {
+  __typename: "CollectionMetadata";
+  count: any;
 }
 
 export interface BlogCategoryIndexPageGetPageDataQuery_allCategories_description {
@@ -119,6 +127,10 @@ export interface BlogCategoryIndexPageGetPageDataQuery {
    */
   allArticles: BlogCategoryIndexPageGetPageDataQuery_allArticles[];
   /**
+   * Returns meta information regarding a record collection
+   */
+  _allArticlesMeta: BlogCategoryIndexPageGetPageDataQuery__allArticlesMeta;
+  /**
    * Returns a collection of records
    */
   allCategories: BlogCategoryIndexPageGetPageDataQuery_allCategories[];
@@ -131,5 +143,5 @@ export interface BlogCategoryIndexPageGetPageDataQuery {
 export interface BlogCategoryIndexPageGetPageDataQueryVariables {
   first?: any | null;
   skip?: any | null;
-  categoryId: any;
+  filter?: ArticleModelFilter | null;
 }

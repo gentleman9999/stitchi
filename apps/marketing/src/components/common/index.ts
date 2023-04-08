@@ -30,6 +30,9 @@ export * from './Avatar'
 export { default as Hero } from './Hero'
 export * from './Hero'
 
+export { default as IndustryTermCard } from './IndustryTermCard'
+export type { Props as IndustryTermCardProps } from './IndustryTermCard'
+
 export { default as InfiniteLooper } from './InfiniteLooper'
 export * from './InfiniteLooper'
 

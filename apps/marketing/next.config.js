@@ -1,19 +1,12 @@
 /** @type {import('next').NextConfig} */
 
-
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
 module.exports = withBundleAnalyzer({
   reactStrictMode: true,
-  transpilePackages: [
-    'icons',
-    'config',
-    'tsconfig',
-    'hooks',
-    'lodash-es'
-  ],
+  transpilePackages: ['icons', 'config', 'tsconfig', 'hooks', 'lodash-es'],
   i18n: {
     locales: ['en'],
     defaultLocale: 'en',
@@ -37,6 +30,11 @@ module.exports = withBundleAnalyzer({
   async redirects() {
     return [
       {
+        source: '/promotional-product-glossary/:path*',
+        destination: '/directory/:path*',
+        permanent: true,
+      },
+      {
         source: '/learn/page/1',
         destination: '/learn',
         permanent: true,
@@ -52,30 +50,31 @@ module.exports = withBundleAnalyzer({
         permanent: false,
       },
       {
-        source: "/overview",
-        destination: "/",
-        permanent: true
+        source: '/overview',
+        destination: '/',
+        permanent: true,
       },
       {
-        source: "/features",
-        destination: "/",
-        permanent: true
+        source: '/features',
+        destination: '/',
+        permanent: true,
       },
       {
-        source: "/morning-brew-newsletter-referral-program",
-        destination: "/powering-morning-brew-newsletter-referral-program-with-custom-swag",
-        permanent: true
+        source: '/morning-brew-newsletter-referral-program',
+        destination:
+          '/powering-morning-brew-newsletter-referral-program-with-custom-swag',
+        permanent: true,
       },
       {
-        source: "/event-promotional-products",
-        destination: "/customer-engagement",
-        permanent: true
+        source: '/event-promotional-products',
+        destination: '/customer-engagement',
+        permanent: true,
       },
       {
-        source: "/corporate-promotional-products",
-        destination: "/employee-engagement",
-        permanent: true
-      }
+        source: '/corporate-promotional-products',
+        destination: '/employee-engagement',
+        permanent: true,
+      },
     ]
   },
 })

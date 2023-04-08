@@ -61,7 +61,10 @@ const CmsStructuredText = ({ content }: Props) => {
           case 'GlossaryEntryRecord':
             return (
               <Link
-                href={routes.internal.glossary.show.href(record.slug as string)}
+                href={routes.internal.glossary.show.href({
+                  termSlug: record.slug as string,
+                  termType: record.entryType as string,
+                })}
               >
                 {record.term as string}
               </Link>
@@ -69,6 +72,24 @@ const CmsStructuredText = ({ content }: Props) => {
           default:
             throw new Error(`Invalid record type: ${record.__typename}`)
         }
+      }}
+      renderInlineRecord={({ record }) => {
+        if (!record) return null
+        return (
+          <Link
+            href={routes.internal.blog.show.href(record.slug as string)}
+            className="no-underline rounded-md border p-2 flex flex-col gap-2 not-prose"
+          >
+            <h2 className="hover:underline leading-tight">
+              {record.title as string}
+            </h2>
+            {(record.shortDescription as string) ? (
+              <p className="text-xs font-normal">
+                {record.shortDescription as string}
+              </p>
+            ) : null}
+          </Link>
+        )
       }}
       renderBlock={({ record }) => {
         switch (record.__typename) {
@@ -118,11 +139,13 @@ CmsStructuredText.fragments = {
           id
           slug
           title
+          shortDescription
         }
         ... on GlossaryEntryRecord {
           id
           slug
           term
+          entryType
         }
       }
     }

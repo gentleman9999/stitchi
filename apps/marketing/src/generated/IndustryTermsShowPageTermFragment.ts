@@ -61,5 +61,8 @@ export interface IndustryTermsShowPageTermFragment {
   id: any;
   term: string | null;
   slug: string | null;
+  entryType: string | null;
+  businessUrl: string | null;
+  affiliateUrl: string | null;
   description: IndustryTermsShowPageTermFragment_description | null;
 }

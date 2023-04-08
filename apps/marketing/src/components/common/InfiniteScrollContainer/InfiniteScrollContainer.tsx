@@ -1,31 +1,20 @@
-import useIntersectionObserver from '@hooks/useIntersectionObserver'
 import React from 'react'
+import { useInView } from 'react-intersection-observer'
 
-export interface InfiniteScrollContainerProps {
-  children: React.ReactNode
-  onLoadMore: () => void
+interface Props {
+  onIntersect: () => void
 }
 
-const InfiniteScrollContainer = ({
-  children,
-  onLoadMore,
-}: InfiniteScrollContainerProps) => {
-  const ref = React.useRef<HTMLDivElement | null>(null)
-  const entry = useIntersectionObserver(ref, {})
-  const isVisible = !!entry?.isIntersecting
+const InfiniteScrollTrigger = (props: Props) => {
+  const { inView, ref } = useInView()
 
   React.useEffect(() => {
-    if (isVisible) {
-      onLoadMore()
-    }
-  }, [isVisible, onLoadMore])
+    if (!inView) return
 
-  return (
-    <>
-      {children}
-      <div ref={ref} />
-    </>
-  )
+    props.onIntersect()
+  }, [inView, props])
+
+  return <div ref={ref} />
 }
 
-export default InfiniteScrollContainer
+export default InfiniteScrollTrigger

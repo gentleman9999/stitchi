@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { ArticleModelFilter } from "./globalTypes";
+
 // ====================================================
 // GraphQL query operation: BlogCategoryIndexPageGetCategoryPostsQuery
 // ====================================================
@@ -20,5 +22,5 @@ export interface BlogCategoryIndexPageGetCategoryPostsQuery {
 }
 
 export interface BlogCategoryIndexPageGetCategoryPostsQueryVariables {
-  categoryId: any;
+  filter?: ArticleModelFilter | null;
 }

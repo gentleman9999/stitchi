@@ -5,6 +5,7 @@ import { getOrThrow } from '../utils'
 import { ApolloError, AuthenticationError } from 'apollo-server-core'
 import { ContextFunction } from 'apollo-server-core'
 import { ExpressContext } from 'apollo-server-express'
+import services from '../services'
 
 const prisma = new PrismaClient()
 const auth0 = new ManagementClient({
@@ -20,6 +21,7 @@ const auth0 = new ManagementClient({
 export interface Context {
   prisma: PrismaClient
   auth0: ManagementClient
+  newsletter: typeof services.newsletter
   membershipId?: string
   userId?: string
   organizationId?: string
@@ -55,6 +57,7 @@ function makeContext(
       return {
         auth0,
         prisma,
+        newsletter: services.newsletter,
         userId: payload?.sub,
         membershipId: membership?.id,
         organizationId: membership?.organizationId ?? undefined,

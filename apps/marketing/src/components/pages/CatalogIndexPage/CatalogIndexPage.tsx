@@ -1,138 +1,47 @@
-import { Section } from '@components/common'
 import React from 'react'
 import { Container } from '@components/ui'
-import CatalogIndexPageFilters from './CatalogIndexPageFilters'
-import CatalogIndexPageProductGrid from './CatalogIndexPageProductGrid'
-import { gql, NetworkStatus, useQuery } from '@apollo/client'
-import Header from './Header'
-import {
-  CatalogIndexPageGetDataQuery,
-  CatalogIndexPageGetDataQueryVariables,
-} from '@generated/CatalogIndexPageGetDataQuery'
-import { SearchProductsFiltersInput } from '@generated/globalTypes'
-import {
-  CatalogFiltersProvider,
-  useCatalogFilters,
-} from './catalog-filters-context'
-import { useRouter } from 'next/router'
+import Catalog from '@components/common/Catalog'
+import { NeedleThread } from 'icons'
+import Link from 'next/link'
+import routes from '@lib/routes'
+import { Section } from '@components/common'
+import { Button } from '@components/ui'
 
-export const DEFUALT_QUERY_VARIABLES = {
-  first: 30,
-  filters: {
-    brandEntityIds: undefined,
-    categoryEntityIds: undefined,
-    searchSubCategories: true,
-  },
-}
+export interface CatalogIndexPageProps {}
 
-export interface CatalogIndexPageProps {
-  // When this page is used as a background, for example, behind a modal, we to remove emphasis on it's content for SEO purposes
-  isBackground?: boolean
-}
-
-const CatalogIndexPage = ({ isBackground = false }: CatalogIndexPageProps) => {
-  const { query, replace } = useRouter()
-  const gridEndRef = React.useRef<HTMLDivElement>(null)
-
-  const {
-    activeFilters: { brands, categories },
-  } = useCatalogFilters()
-
-  const formattedFilters: SearchProductsFiltersInput = React.useMemo(
-    () => ({
-      ...DEFUALT_QUERY_VARIABLES.filters,
-      brandEntityIds: brands.length
-        ? brands.map(({ entityId }) => entityId)
-        : undefined,
-      categoryEntityIds: categories.length
-        ? categories.map(({ entityId }) => entityId)
-        : undefined,
-    }),
-    [brands, categories],
-  )
-
-  const { data, refetch, networkStatus, fetchMore } = useQuery<
-    CatalogIndexPageGetDataQuery,
-    CatalogIndexPageGetDataQueryVariables
-  >(GET_DATA, {
-    notifyOnNetworkStatusChange: true,
-    variables: {
-      ...DEFUALT_QUERY_VARIABLES,
-      after: typeof query.after === 'string' ? query.after : undefined,
-      filters: formattedFilters,
-    },
-  })
-
-  React.useEffect(() => {
-    refetch({
-      filters: formattedFilters,
-    })
-  }, [formattedFilters, refetch])
-
-  React.useEffect(() => {
-    const { after } = query
-    if (typeof after === 'string') {
-      fetchMore({
-        variables: { after },
-      })
-
-      const newQuery = { ...query }
-      delete newQuery.after
-
-      replace({ query: newQuery })
-    }
-  }, [query, fetchMore, replace])
-
+const CatalogIndexPage = ({}: CatalogIndexPageProps) => {
   return (
     <>
       <Container>
-        <Header TitleTag={isBackground ? 'h2' : undefined} />
-      </Container>
-      <Container>
-        <Section gutter="md">
-          <CatalogIndexPageFilters catalogEndRef={gridEndRef} />
-
-          <div className="mt-4 grid grid-cols-1 gap-10">
-            <div className="col-span-1">
-              <CatalogIndexPageProductGrid
-                fetchMore={fetchMore}
-                site={data?.site}
-                loading={networkStatus !== NetworkStatus.ready}
-              />
+        <Section>
+          <div className="p-8 md:p-14 md:pr-0 text-center sm:text-left bg-primary rounded-xl flex items-center">
+            <div className="md:w-[70%]">
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold font-heading">
+                Browse through our curated selection of products
+              </h1>
+              <p className="mt-6 text-lg text-gray-700">
+                We work with brands that you wont find anywhere else. Our team
+                of experts is continually procuring the highest-quality,
+                ethical, and unique products so that you can deliver experiences
+                people love.
+              </p>
+              <Link
+                href={routes.internal.getStarted.href()}
+                passHref
+                legacyBehavior
+              >
+                <Button className="mt-6">Talk to a designer</Button>
+              </Link>
+            </div>
+            <div className="w-[30%] hidden md:flex items-center justify-center">
+              <NeedleThread />
             </div>
           </div>
         </Section>
-        <div ref={gridEndRef} />
       </Container>
+      <Catalog />
     </>
   )
 }
 
-const withFilterContext = (
-  Component: React.ComponentType<CatalogIndexPageProps>,
-) => {
-  const filterContext = (props: CatalogIndexPageProps) => {
-    return (
-      <CatalogFiltersProvider>
-        <Component {...props} />
-      </CatalogFiltersProvider>
-    )
-  }
-
-  return filterContext
-}
-
-export const GET_DATA = gql`
-  ${CatalogIndexPageProductGrid.fragments.site}
-  query CatalogIndexPageGetDataQuery(
-    $filters: SearchProductsFiltersInput!
-    $first: Int!
-    $after: String
-  ) {
-    site {
-      ...CatalogIndexPageProductGridSiteFragment
-    }
-  }
-`
-
-export default withFilterContext(CatalogIndexPage)
+export default CatalogIndexPage

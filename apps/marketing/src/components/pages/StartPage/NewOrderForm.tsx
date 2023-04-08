@@ -1,14 +1,14 @@
 import React from 'react'
 import { Button, RadioSelect, TextField } from '@components/ui'
-import { object, string, SchemaOf } from 'yup'
-import type { FormInput } from 'pages/api/form-response'
+import { object, string, Asserts } from 'yup'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import makeApi from '@lib/api'
 import { useRouter } from 'next/router'
 import routes from '@lib/routes'
+import { ComponentErrorMessage } from '@components/common'
 
-const schema: SchemaOf<FormInput> = object({
+const schema = object({
   email: string().email().required(),
   first_name: string().optional(),
   last_name: string().optional(),
@@ -20,8 +20,11 @@ const schema: SchemaOf<FormInput> = object({
 
 const NewOrderForm = () => {
   const [api] = React.useState(makeApi())
-  const form = useForm<FormInput>({ resolver: yupResolver(schema) })
+  const form = useForm<Asserts<typeof schema>>({
+    resolver: yupResolver(schema),
+  })
   const [loading, setLoading] = React.useState(false)
+  const [error, setError] = React.useState<string | null>(null)
 
   const router = useRouter()
 
@@ -38,6 +41,9 @@ const NewOrderForm = () => {
       )
     } catch (e) {
       console.error('Error submitting contact form', { context: { error: e } })
+      setError(
+        'Something went wrong. Please try again or contact us using one of the alternative methods.',
+      )
     } finally {
       setLoading(false)
     }
@@ -52,7 +58,13 @@ const NewOrderForm = () => {
         name="first_name"
         control={control}
         render={({ field }) => (
-          <TextField {...field} label="First name" autoComplete="given-name" />
+          <TextField
+            {...field}
+            label="First name"
+            autoComplete="given-name"
+            description={formState.errors.first_name?.message}
+            error={Boolean(formState.errors.first_name)}
+          />
         )}
       />
 
@@ -60,7 +72,13 @@ const NewOrderForm = () => {
         name="last_name"
         control={control}
         render={({ field }) => (
-          <TextField {...field} label="Last name" autoComplete="family-name" />
+          <TextField
+            {...field}
+            label="Last name"
+            autoComplete="family-name"
+            description={formState.errors.last_name?.message}
+            error={Boolean(formState.errors.last_name)}
+          />
         )}
       />
 
@@ -89,6 +107,8 @@ const NewOrderForm = () => {
             className="sm:col-span-2"
             label="Company"
             autoComplete="organization"
+            description={formState.errors.company?.message}
+            error={Boolean(formState.errors.company)}
           />
         )}
       />
@@ -102,6 +122,8 @@ const NewOrderForm = () => {
             className="sm:col-span-2"
             label="Phone"
             autoComplete="tel"
+            description={formState.errors.phone?.message}
+            error={Boolean(formState.errors.phone)}
           />
         )}
       />
@@ -115,7 +137,10 @@ const NewOrderForm = () => {
             multiline
             className="sm:col-span-2"
             label="Tell us about your project"
-            description="Max. 500 characters"
+            description={
+              formState.errors.description?.message || 'Max. 500 characters'
+            }
+            error={Boolean(formState.errors.description)}
           />
         )}
       />
@@ -129,31 +154,35 @@ const NewOrderForm = () => {
             label="What's your budget?"
             options={[
               {
-                id: 'budget-under-25k',
-                label: 'Less than $25k',
-                value: 'under_25k',
+                id: 'budget-under-10k',
+                label: 'Less than $10k',
+                value: 'under_10k',
               },
               {
                 id: 'budget-25k-50-k',
-                label: '$25k - $50k',
-                value: '25k-50k',
+                label: '$10k - $25k',
+                value: '10k-25k',
               },
               {
-                id: 'budget-50k-100k',
-                label: '$50k - $100k',
-                value: '50k-100k',
+                id: 'budget-25k-75k',
+                label: '$25k - $75k',
+                value: '25k-75k',
               },
               {
-                id: 'budget-over-100k',
-                label: '$100k+',
-                value: 'over_100k',
+                id: 'budget-over-75k',
+                label: '$75k+',
+                value: 'over_75k',
               },
             ]}
           />
         )}
       />
 
-      <div>{Object.keys(formState.errors).length > 0 && <div> </div>}</div>
+      {error ? (
+        <div className="sm:col-span-2">
+          <ComponentErrorMessage error={error} />
+        </div>
+      ) : null}
 
       <div className="text-right sm:col-span-2">
         <Button type="submit" color="brandPrimary" loading={loading}>

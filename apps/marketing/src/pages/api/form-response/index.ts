@@ -29,7 +29,7 @@ const handler: NextApiHandler = async (req, res) => {
   try {
     switch (req.method) {
       case 'POST':
-        const formInput = await formInputSchema.validate(req.body)
+        const formInput = await formInputSchema.validate(JSON.parse(req.body))
 
         console.info('Starting to send form response to Slack')
 

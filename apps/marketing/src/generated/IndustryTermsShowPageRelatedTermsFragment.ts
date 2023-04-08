@@ -12,4 +12,5 @@ export interface IndustryTermsShowPageRelatedTermsFragment {
   id: any;
   term: string | null;
   slug: string | null;
+  entryType: string | null;
 }

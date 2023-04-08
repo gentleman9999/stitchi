@@ -1,35 +1,19 @@
-import { gql, useQuery } from '@apollo/client'
+import getServerSideData from '@components/common/Catalog/getServerSideData'
 import { PrimaryLayout } from '@components/layout'
-import {
-  CatalogIndexPage,
-  CATALOG_DEFAULT_QUERY_VARIABLES,
-  CATALOG_GET_DATA,
-} from '@components/pages'
-import {
-  CatalogIndexPageGetDataQuery,
-  CatalogIndexPageGetDataQueryVariables,
-} from '@generated/CatalogIndexPageGetDataQuery'
+import { CatalogIndexPage } from '@components/pages'
 import { addApolloState, initializeApollo } from '@lib/apollo'
 import routes from '@lib/routes'
 import makeAbsoluteUrl from '@utils/get-absolute-url'
-import { GetServerSideProps, GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
 import { NextSeo } from 'next-seo'
 import React, { ReactElement } from 'react'
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const { after } = query
+  const after = typeof query.after === 'string' ? query.after : undefined
 
   const client = initializeApollo()
-  await client.query<
-    CatalogIndexPageGetDataQuery,
-    CatalogIndexPageGetDataQueryVariables
-  >({
-    query: CATALOG_GET_DATA,
-    variables: {
-      ...CATALOG_DEFAULT_QUERY_VARIABLES,
-      after: typeof after === 'string' ? after : undefined,
-    },
-  })
+
+  await getServerSideData(client, { after })
 
   return addApolloState(client, {
     props: {},

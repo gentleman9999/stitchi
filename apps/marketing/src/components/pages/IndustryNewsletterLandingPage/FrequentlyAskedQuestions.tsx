@@ -29,7 +29,7 @@ const FrequentlyAskedQuestions = () => {
           id: 'faq-2',
           question: 'Is my newsletter ready for a referral program?',
           answer: (
-            <>
+            <div className="prose max-w-none prose-ul:list-none prose-ul:p-0 prose-li:p-0">
               There are several factors to consider when determining if your
               newsletter is ready for or will be successful with a referral
               program. Here are a few things to take into account:
@@ -70,7 +70,7 @@ const FrequentlyAskedQuestions = () => {
               strength, and current referral program (if you have one). We can
               also help you design and execute an effective referral program, as
               well as track and report on its success.
-            </>
+            </div>
           ),
         },
       ]}
