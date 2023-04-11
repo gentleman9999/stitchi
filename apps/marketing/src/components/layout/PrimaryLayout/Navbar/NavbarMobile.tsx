@@ -47,13 +47,15 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
                       key={item.label}
                       href={item.href}
                       as={Link}
-                      disable={disabled}
+                      disabled={disabled}
                       className={cx('block text-lg text-secondary', {
                         'pointer-events-none': disabled,
                       })}
                     >
-                      {item.label}
-                      {disabled && <Badge size="small" label="Coming soon" />}
+                      <div>
+                        {item.label}
+                        {disabled && <Badge size="small" label="Coming soon" />}
+                      </div>
                     </HeadlessPopover.Button>
                   )
                 }

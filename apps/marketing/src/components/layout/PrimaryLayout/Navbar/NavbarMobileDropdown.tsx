@@ -23,7 +23,9 @@ const NavbarMobileDropdown = ({ ButtonChildren, items }: Props) => {
           <Menu.Items unmount={false} className="flex flex-col gap-4">
             {items.map((Component, i) => (
               <Menu.Item key={i}>
-                <Component />
+                <div>
+                  <Component />
+                </div>
               </Menu.Item>
             ))}
           </Menu.Items>

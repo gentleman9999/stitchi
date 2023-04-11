@@ -1,6 +1,6 @@
 import React, { ReactChild } from 'react'
 import NextLink from 'next/link'
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image'
 import cx from 'classnames'
 import { Badge } from '@components/ui'
 import { Popover } from '@headlessui/react'
@@ -34,10 +34,10 @@ const NavbarDesktopDropdown = ({
       )
     } else {
       return (
-        <NextLink href={href} passHref legacyBehavior>
-          <StyledATag {...baseStyledATagProps}>{children}</StyledATag>
-        </NextLink>
-      );
+        <StyledATag {...baseStyledATagProps} href={href}>
+          {children}
+        </StyledATag>
+      )
     }
   }
 
@@ -87,12 +87,11 @@ const NavbarDesktopDropdown = ({
 
 const StyledATag = (props: {
   children: React.ReactNode
-  href?: string
+  href: string
   external?: boolean
   disabled?: boolean
 }) => {
   const linkProps = {
-    ...props,
     className: cx(
       'cursor-pointer block text-sm hover:bg-primary transition-all rounded-md ring-1 ring-transparent hover:shadow-1',
       {
@@ -102,7 +101,7 @@ const StyledATag = (props: {
 
     ...(props.external ? { target: '_blank', rel: 'noreferrer' } : {}),
   }
-  return <a {...linkProps} />
+  return <NextLink {...linkProps} href={props.href} />
 }
 
 export default NavbarDesktopDropdown

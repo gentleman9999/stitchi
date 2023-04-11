@@ -54,11 +54,7 @@ const CatalogProductGrid = ({ site, loading, fetchMore }: Props) => {
       <InfiniteScrollContainer onIntersect={handleFetchMore} />
 
       {pageInfo?.hasNextPage && (
-        <Link
-          replace
-          rel="noindex"
-          href={{ query: { after: pageInfo?.endCursor } }}
-        >
+        <Link replace href={{ query: { after: pageInfo?.endCursor } }}>
           Next
         </Link>
       )}
@@ -70,7 +66,7 @@ const CatalogProductGrid = ({ site, loading, fetchMore }: Props) => {
 }
 
 const Grid = ({ children }: { children: React.ReactNode }) => (
-  <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+  <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
     {children}
   </ul>
 )

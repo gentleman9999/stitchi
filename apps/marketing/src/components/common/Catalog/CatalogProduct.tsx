@@ -22,15 +22,15 @@ const CatalogProduct = ({ product }: Props) => {
   }
 
   const href = routes.internal.catalog.product.href({
-    brandSlug: product.brand?.path,
-    productSlug: product.path,
+    brandSlug: product.brand?.path.replaceAll('/', ''),
+    productSlug: product.path.replaceAll('/', ''),
   })
 
   return (
     <li className="flex flex-col">
       <Link
         href={href}
-        className="flex-1 flex flex-col cursor-pointer rounded-2xl border border-gray-100 p-4 shadow hover:shadow-md transition-all"
+        className="flex-1 flex flex-col cursor-pointer rounded-md border border-gray-100 p-4  hover:shadow-lg transition-all"
       >
         {product.defaultImage?.url && (
           <div className="relative w-full h-[200px]">

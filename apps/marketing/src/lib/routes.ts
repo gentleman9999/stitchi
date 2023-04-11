@@ -46,7 +46,7 @@ const routes = {
       brand: {
         show: {
           href: ({ brandSlug }: { brandSlug: string }) =>
-            buildRoute(`/${brandSlug}`),
+            buildRoute(`/${brandSlug.replaceAll('/', '')}`),
         },
       },
 

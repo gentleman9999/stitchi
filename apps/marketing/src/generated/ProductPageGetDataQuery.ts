@@ -15,6 +15,14 @@ export interface ProductPageGetDataQuery_site_route_node_Category {
   id: string;
 }
 
+export interface ProductPageGetDataQuery_site_route_node_Brand_defaultImage {
+  __typename: "Image";
+  /**
+   * Absolute path to image using store CDN.
+   */
+  url: string;
+}
+
 export interface ProductPageGetDataQuery_site_route_node_Brand_seo {
   __typename: "SeoDetails";
   /**
@@ -45,6 +53,10 @@ export interface ProductPageGetDataQuery_site_route_node_Brand {
    * Path for the brand page.
    */
   path: string;
+  /**
+   * Default image for brand.
+   */
+  defaultImage: ProductPageGetDataQuery_site_route_node_Brand_defaultImage | null;
   /**
    * Brand SEO details.
    */

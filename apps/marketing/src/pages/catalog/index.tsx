@@ -8,12 +8,10 @@ import { GetServerSideProps } from 'next'
 import { NextSeo } from 'next-seo'
 import React, { ReactElement } from 'react'
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const after = typeof query.after === 'string' ? query.after : undefined
-
+export const getStaticProps: GetServerSideProps = async ({ query }) => {
   const client = initializeApollo()
 
-  await getServerSideData(client, { after })
+  await getServerSideData(client, {})
 
   return addApolloState(client, {
     props: {},

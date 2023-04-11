@@ -93,6 +93,10 @@ export interface ProductShowPageProductProductFragment_brand {
    * Name of the brand.
    */
   name: string;
+  /**
+   * Path for the brand page.
+   */
+  path: string;
 }
 
 export interface ProductShowPageProductProductFragment_defaultImage {

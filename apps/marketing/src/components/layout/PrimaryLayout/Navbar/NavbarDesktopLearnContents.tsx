@@ -15,7 +15,7 @@ const NavbarDesktopLearnContents = () => {
       <div className="col-span-2 flex gap-4">
         <div className="relative w-48 h-48">
           <Image
-            {...usps}
+            src={usps.src}
             alt="Promotional product case study"
             layout="fill"
             objectFit="cover"

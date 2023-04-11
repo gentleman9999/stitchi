@@ -1,6 +1,4 @@
 import React from 'react'
-import { Section } from '@components/common'
-import { Container } from '@components/ui'
 import { gql, NetworkStatus, useQuery } from '@apollo/client'
 import {
   CatalogIndexPageGetDataQuery,
@@ -92,25 +90,23 @@ const Catalog = ({ brandEntityId }: Props) => {
   }, [query, fetchMore, replace])
 
   return (
-    <Container>
-      <Section gutter="md">
-        <CatalogFilters
-          catalogEndRef={gridEndRef}
-          hideBrands={Boolean(brandEntityId)}
-        />
+    <div>
+      <CatalogFilters
+        catalogEndRef={gridEndRef}
+        hideBrands={Boolean(brandEntityId)}
+      />
 
-        <div className="mt-4 grid grid-cols-1 gap-10">
-          <div className="col-span-1">
-            <CatalogProductGrid
-              fetchMore={fetchMore}
-              site={data?.site}
-              loading={networkStatus !== NetworkStatus.ready}
-            />
-          </div>
+      <div className="mt-4 grid grid-cols-1 gap-10">
+        <div className="col-span-1">
+          <CatalogProductGrid
+            fetchMore={fetchMore}
+            site={data?.site}
+            loading={networkStatus !== NetworkStatus.ready}
+          />
         </div>
-      </Section>
+      </div>
       <div ref={gridEndRef} />
-    </Container>
+    </div>
   )
 }
 

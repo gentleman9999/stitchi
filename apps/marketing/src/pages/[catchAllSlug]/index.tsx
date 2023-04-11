@@ -1,7 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
 import { ComponentErrorMessage } from '@components/common'
 import { PrimaryLayout } from '@components/layout'
-import { ProductShowPage } from '@components/pages'
 import {
   ProductPageGetDataQuery,
   ProductPageGetDataQueryVariables,
@@ -12,8 +11,9 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { ReactElement } from 'react'
 import staticWebsiteData from '@generated/static.json'
-import BrandShowPage from '@components/pages/BrandShowPage'
 import getServerSideData from '@components/common/Catalog/getServerSideData'
+import BrandShowPage from '@components/pages/BrandShowPage'
+import ProductShowPage from '@components/pages/ProductShowPage'
 
 const allBrandSlugs = staticWebsiteData.data.site.brands.edges.map(({ node }) =>
   node.path.replace(/\//g, ''),
@@ -92,6 +92,7 @@ const ProductPage = () => {
     ProductPageGetDataQueryVariables
   >(GET_DATA, {
     variables: { path: path || '' },
+    skip: !path,
   })
 
   const { site } = data || {}

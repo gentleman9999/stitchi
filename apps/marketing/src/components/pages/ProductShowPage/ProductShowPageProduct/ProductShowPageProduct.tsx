@@ -77,21 +77,48 @@ const ProductShowPageProduct = ({ product }: Props) => {
           <tbody>
             <tr className="border-y">
               <td>Brand</td>
-              <td className="flex justify-end">{product.brand?.name}</td>
+              <td className="flex justify-end">
+                {product.brand ? (
+                  <Link
+                    href={routes.internal.catalog.brand.show.href({
+                      brandSlug: product.brand.path.replace('/', ''),
+                    })}
+                    className="underline"
+                  >
+                    {product.brand.name}
+                  </Link>
+                ) : (
+                  '-'
+                )}
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <div className="flex flex-col gap-6">
-        <Button
-          Component={Link}
-          color="brandPrimary"
-          className="w-full"
-          href={routes.internal.getStarted.href()}
-        >
-          Start an order
-        </Button>
+        <div className="flex flex-col gap-5 p-4 rounded-md border">
+          <Button
+            slim
+            Component={Link}
+            color="primary"
+            variant="ghost"
+            className="w-full !rounded-sm"
+            href={routes.internal.getStarted.href()}
+          >
+            I already have a design
+          </Button>
+          <Button
+            slim
+            Component={Link}
+            color="brandPrimary"
+            className="w-full !rounded-sm"
+            href={routes.internal.getStarted.href()}
+          >
+            Talk to a designer
+          </Button>
+        </div>
+
         <div className="prose prose-sm">
           <div dangerouslySetInnerHTML={{ __html: product.description }} />
         </div>
@@ -127,6 +154,7 @@ ProductShowPageProduct.fragments = {
       brand {
         id
         name
+        path
       }
       defaultImage {
         urlOriginal

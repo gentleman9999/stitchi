@@ -15,10 +15,11 @@ import makeAbsoluteUrl from '@utils/get-absolute-url'
 import routes from '@lib/routes'
 import { notEmpty } from '@utils/typescript'
 import { ProductPageGetDataQuery_site_route_node_Product } from '@generated/ProductPageGetDataQuery'
-import Breadcrumbs from './Breadcrumbs'
 import ProductQuickActions from './ProductQuickActions'
 import ShareDialog from '@components/common/ShareDialog'
 import ValuePropositions from './ValuePropositions'
+import Breadcrumbs from '@components/common/Breadcrumbs'
+import BrandShowPage from '../BrandShowPage'
 
 interface Props {
   product: ProductShowPageProductFragment
@@ -101,10 +102,12 @@ const ProductShowPage = ({ product }: Props) => {
             <div className="flex justify-between items-center">
               {product.brand ? (
                 <Breadcrumbs
-                  brandLabel={product.brand.name}
-                  brandSlug={product.brand.path}
-                  productLabel={makeProductTitle(product)}
-                  productSlug={product.path}
+                  breadcrumbs={makeBreadcrumbs({
+                    brandLabel: product.brand.name,
+                    brandSlug: product.brand.path.replaceAll('/', ''),
+                    productLabel: makeProductTitle(product),
+                    productSlug: product.path.replaceAll('/', ''),
+                  })}
                 />
               ) : null}
 
@@ -138,6 +141,31 @@ const makeImages = (
       url: image.seoImageUrl,
       width: 1000,
       alt: makeProductTitle(product),
+    },
+  ]
+}
+
+const makeBreadcrumbs = (params: {
+  brandSlug: string
+  productSlug: string
+  brandLabel: string
+  productLabel: string
+}) => {
+  return [
+    { label: 'Home', href: routes.internal.home.href() },
+    { label: 'Catalog', href: routes.internal.catalog.href() },
+    {
+      label: params.brandLabel,
+      href: routes.internal.catalog.brand.show.href({
+        brandSlug: params.brandSlug,
+      }),
+    },
+    {
+      label: params.productLabel,
+      href: routes.internal.catalog.product.href({
+        brandSlug: params.brandSlug,
+        productSlug: params.productSlug,
+      }),
     },
   ]
 }
