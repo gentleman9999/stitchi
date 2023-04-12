@@ -1,11 +1,11 @@
 import { gql } from '@apollo/client'
-import { Button } from '@components/ui'
 import { ProductShowPageProductProductFragment } from '@generated/ProductShowPageProductProductFragment'
 import routes from '@lib/routes'
 import { generateImageSizes } from '@utils/image'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import ProductPricingCalculator from '../ProductPricingCalculator'
 import ProductColorGrid from './ProductColorGrid'
 
 interface ProductOptionValues {
@@ -97,28 +97,7 @@ const ProductShowPageProduct = ({ product }: Props) => {
       </div>
 
       <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-5 p-4 rounded-md border">
-          <Button
-            slim
-            Component={Link}
-            color="primary"
-            variant="ghost"
-            className="w-full !rounded-sm"
-            href={routes.internal.getStarted.href()}
-          >
-            I already have a design
-          </Button>
-          <Button
-            slim
-            Component={Link}
-            color="brandPrimary"
-            className="w-full !rounded-sm"
-            href={routes.internal.getStarted.href()}
-          >
-            Talk to a designer
-          </Button>
-        </div>
-
+        <ProductPricingCalculator catalogProductId={product.entityId} />
         <div className="prose prose-sm">
           <div dangerouslySetInnerHTML={{ __html: product.description }} />
         </div>

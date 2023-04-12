@@ -19,7 +19,6 @@ import ProductQuickActions from './ProductQuickActions'
 import ShareDialog from '@components/common/ShareDialog'
 import ValuePropositions from './ValuePropositions'
 import Breadcrumbs from '@components/common/Breadcrumbs'
-import BrandShowPage from '../BrandShowPage'
 
 interface Props {
   product: ProductShowPageProductFragment

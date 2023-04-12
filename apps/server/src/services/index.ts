@@ -1,9 +1,6 @@
-import { PrismaClient } from '@prisma/client'
 import scalablePress from './scalable-press'
 import cloudinary from './cloudinary'
 import { makeClient as makeNewsletterClient } from './newsletter'
-
-const prisma = new PrismaClient()
 
 interface ServiceList {
   scalablePress: ReturnType<typeof scalablePress.makeDefaultScalablePressClient>

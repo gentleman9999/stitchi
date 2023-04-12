@@ -42,6 +42,14 @@ export interface NexusGenInputs {
     first: number; // Int!
     skip?: number | null; // Int
   }
+  QuoteGenerateInput: { // input type
+    catalogProductId: number; // Int!
+    printLocations: NexusGenInputs['QuoteGeneratePrintLocationInput'][]; // [QuoteGeneratePrintLocationInput!]!
+    quantity: number; // Int!
+  }
+  QuoteGeneratePrintLocationInput: { // input type
+    colorCount: number; // Int!
+  }
   SubscriberCreateInput: { // input type
     email: string; // String!
   }
@@ -105,7 +113,19 @@ export interface NexusGenObjects {
     endCursor?: string | null; // String
     hasNextPage: boolean; // Boolean!
   }
+  PrintLocation: { // root type
+    colorCount: number; // Int!
+  }
   Query: {};
+  Quote: { // root type
+    id: string; // ID!
+    printLocationCount: number; // Int!
+    printLocations: NexusGenRootTypes['PrintLocation'][]; // [PrintLocation!]!
+    totalCostInCents: number; // Float!
+  }
+  QuoteGeneratePayload: { // root type
+    quote: NexusGenRootTypes['Quote']; // Quote!
+  }
   Subscriber: { // root type
     email: string; // String!
     id: string; // String!
@@ -154,6 +174,7 @@ export interface NexusGenFieldTypes {
     userId: string; // String!
   }
   Mutation: { // field return type
+    quoteGenerate: NexusGenRootTypes['QuoteGeneratePayload'] | null; // QuoteGeneratePayload
     subscriberCreate: NexusGenRootTypes['SubscriberCreatePayload'] | null; // SubscriberCreatePayload
     userBoostrap: NexusGenRootTypes['User'] | null; // User
   }
@@ -194,9 +215,21 @@ export interface NexusGenFieldTypes {
     endCursor: string | null; // String
     hasNextPage: boolean; // Boolean!
   }
+  PrintLocation: { // field return type
+    colorCount: number; // Int!
+  }
   Query: { // field return type
     newsletter: NexusGenRootTypes['Newsletter'] | null; // Newsletter
     viewer: NexusGenRootTypes['Membership'] | null; // Membership
+  }
+  Quote: { // field return type
+    id: string; // ID!
+    printLocationCount: number; // Int!
+    printLocations: NexusGenRootTypes['PrintLocation'][]; // [PrintLocation!]!
+    totalCostInCents: number; // Float!
+  }
+  QuoteGeneratePayload: { // field return type
+    quote: NexusGenRootTypes['Quote']; // Quote!
   }
   Subscriber: { // field return type
     email: string; // String!
@@ -236,6 +269,7 @@ export interface NexusGenFieldTypeNames {
     userId: 'String'
   }
   Mutation: { // field return type name
+    quoteGenerate: 'QuoteGeneratePayload'
     subscriberCreate: 'SubscriberCreatePayload'
     userBoostrap: 'User'
   }
@@ -276,9 +310,21 @@ export interface NexusGenFieldTypeNames {
     endCursor: 'String'
     hasNextPage: 'Boolean'
   }
+  PrintLocation: { // field return type name
+    colorCount: 'Int'
+  }
   Query: { // field return type name
     newsletter: 'Newsletter'
     viewer: 'Membership'
+  }
+  Quote: { // field return type name
+    id: 'ID'
+    printLocationCount: 'Int'
+    printLocations: 'PrintLocation'
+    totalCostInCents: 'Float'
+  }
+  QuoteGeneratePayload: { // field return type name
+    quote: 'Quote'
   }
   Subscriber: { // field return type name
     email: 'String'
@@ -308,6 +354,9 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    quoteGenerate: { // args
+      input: NexusGenInputs['QuoteGenerateInput']; // QuoteGenerateInput!
+    }
     subscriberCreate: { // args
       input: NexusGenInputs['SubscriberCreateInput']; // SubscriberCreateInput!
     }

@@ -33,6 +33,9 @@ enum MembershipRole {
 }
 
 type Mutation {
+  """Generates a quote"""
+  quoteGenerate(input: QuoteGenerateInput!): QuoteGeneratePayload
+
   """Creates a new subscriber"""
   subscriberCreate(input: SubscriberCreateInput!): SubscriberCreatePayload
 
@@ -105,9 +108,34 @@ type PageInfo {
   hasNextPage: Boolean!
 }
 
+type PrintLocation {
+  colorCount: Int!
+}
+
 type Query {
   newsletter: Newsletter
   viewer: Membership
+}
+
+type Quote {
+  id: ID!
+  printLocationCount: Int!
+  printLocations: [PrintLocation!]!
+  totalCostInCents: Float!
+}
+
+input QuoteGenerateInput {
+  catalogProductId: Int!
+  printLocations: [QuoteGeneratePrintLocationInput!]!
+  quantity: Int!
+}
+
+type QuoteGeneratePayload {
+  quote: Quote!
+}
+
+input QuoteGeneratePrintLocationInput {
+  colorCount: Int!
 }
 
 type Subscriber {

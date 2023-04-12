@@ -3666,6 +3666,8 @@ export type Mutation = {
   login: LoginResult;
   /** Customer logout */
   logout: LogoutResult;
+  /** Generates a quote */
+  quoteGenerate?: Maybe<QuoteGeneratePayload>;
   /** Creates a new subscriber */
   subscriberCreate?: Maybe<SubscriberCreatePayload>;
   /** Bootstraps a new user with necessary resources */
@@ -3678,6 +3680,11 @@ export type Mutation = {
 export type MutationLoginArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
+};
+
+
+export type MutationQuoteGenerateArgs = {
+  input: QuoteGenerateInput;
 };
 
 
@@ -4065,6 +4072,11 @@ export type Prices = {
   salePrice?: Maybe<Money>;
   /** The difference between the retail price (MSRP) and the current price, which can be presented to the shopper as their savings. */
   saved?: Maybe<Money>;
+};
+
+export type PrintLocation = {
+  __typename: 'PrintLocation';
+  colorCount: Scalars['Int'];
 };
 
 export type PrivacyPolicyPageModelContentField = {
@@ -4880,6 +4892,29 @@ export type QueryUploadArgs = {
   filter?: InputMaybe<UploadFilter>;
   locale?: InputMaybe<SiteLocale>;
   orderBy?: InputMaybe<Array<InputMaybe<UploadOrderBy>>>;
+};
+
+export type Quote = {
+  __typename: 'Quote';
+  id: Scalars['ID'];
+  printLocationCount: Scalars['Int'];
+  printLocations: Array<PrintLocation>;
+  totalCostInCents: Scalars['Int'];
+};
+
+export type QuoteGenerateInput = {
+  catalogProductId: Scalars['String'];
+  printLocations: Array<QuoteGeneratePrintLocationInput>;
+  quantity: Scalars['Int'];
+};
+
+export type QuoteGeneratePayload = {
+  __typename: 'QuoteGeneratePayload';
+  quote: Quote;
+};
+
+export type QuoteGeneratePrintLocationInput = {
+  colorCount: Scalars['Int'];
 };
 
 /** Rating Filter */
