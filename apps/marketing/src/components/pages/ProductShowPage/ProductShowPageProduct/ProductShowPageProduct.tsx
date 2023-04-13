@@ -49,61 +49,68 @@ const ProductShowPageProduct = ({ product }: Props) => {
   const image = activeVariant?.defaultImage || product.defaultImage
 
   return (
-    <div className="grid grid-cols-12 gap-10">
-      <div className="col-span-12 sm:col-span-6 lg:col-span-7">
-        {image ? (
-          <div className="relative w-full h-[250px] border-b">
-            <Image
-              fill
-              style={{
-                objectFit: 'contain',
-              }}
-              src={image.url}
-              alt={image.altText || product.name}
-              sizes={generateImageSizes([{ imageWidth: '624px' }])}
+    <div className="flex flex-col gap-10">
+      <div className="grid grid-cols-12 gap-10">
+        <div className="col-span-12 sm:col-span-6 lg:col-span-7">
+          {image ? (
+            <div className="relative w-full h-[250px] border-b">
+              <Image
+                fill
+                style={{
+                  objectFit: 'contain',
+                }}
+                src={image.url}
+                alt={image.altText || product.name}
+                sizes={generateImageSizes([{ imageWidth: '624px' }])}
+              />
+            </div>
+          ) : null}
+          <VariantOptionSection title="Available Colors">
+            <ProductColorGrid
+              product={product}
+              onColorSelect={handleColorSelect}
             />
-          </div>
-        ) : null}
-        <VariantOptionSection title="Available Colors">
-          <ProductColorGrid
-            product={product}
-            onColorSelect={handleColorSelect}
-          />
-        </VariantOptionSection>
+          </VariantOptionSection>
+        </div>
 
-        <table className="table-auto w-full mt-8 text-gray-600">
-          <caption className="font-medium">Specifications</caption>
-
-          <tbody>
-            <tr className="border-y">
-              <td>Brand</td>
-              <td className="flex justify-end">
-                {product.brand ? (
-                  <Link
-                    href={routes.internal.catalog.brand.show.href({
-                      brandSlug: product.brand.path.replace('/', ''),
-                    })}
-                    className="underline"
-                  >
-                    {product.brand.name}
-                  </Link>
-                ) : (
-                  '-'
-                )}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div className="flex flex-col gap-6 col-span-12 sm:col-span-6 lg:col-span-5">
+          {activeVariant ? (
+            <div className="p-4 border rounded-md">
+              <CalculatorForm
+                productVariantEntityId={activeVariant?.entityId}
+              />
+            </div>
+          ) : null}
+        </div>
       </div>
+      <div className="grid grid-cols-12 gap-8">
+        <div className="col-span-12 sm:col-span-6 lg:col-span-4">
+          <table className="table-auto w-full text-gray-600 ">
+            <caption className="font-medium">Specifications</caption>
 
-      <div className="flex flex-col gap-6 col-span-12 sm:col-span-6 lg:col-span-5">
-        {activeVariant ? (
-          <div className="p-4 border rounded-md">
-            <CalculatorForm productVariantEntityId={activeVariant?.entityId} />
-          </div>
-        ) : null}
+            <tbody>
+              <tr className="border-y">
+                <td>Brand</td>
+                <td className="flex justify-end">
+                  {product.brand ? (
+                    <Link
+                      href={routes.internal.catalog.brand.show.href({
+                        brandSlug: product.brand.path.replace('/', ''),
+                      })}
+                      className="underline"
+                    >
+                      {product.brand.name}
+                    </Link>
+                  ) : (
+                    '-'
+                  )}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-        <div className="prose prose-sm">
+        <div className="prose prose-sm max-w-none col-span-12 sm:col-span-6 lg:col-span-8">
           <div dangerouslySetInnerHTML={{ __html: product.description }} />
         </div>
       </div>
