@@ -24,6 +24,7 @@ const NavbarDesktopDropdown = ({
   external,
   beta,
 }: Props) => {
+  console.log('DROPDOWN LABEL', label)
   const Link = ({ children }: { children: React.ReactNode }) => {
     const baseStyledATagProps = { disabled: Boolean(beta) }
     if (external) {
@@ -101,7 +102,11 @@ const StyledATag = (props: {
 
     ...(props.external ? { target: '_blank', rel: 'noreferrer' } : {}),
   }
-  return <NextLink {...linkProps} href={props.href} />
+  return (
+    <NextLink {...linkProps} href={props.href}>
+      {props.children}
+    </NextLink>
+  )
 }
 
 export default NavbarDesktopDropdown
