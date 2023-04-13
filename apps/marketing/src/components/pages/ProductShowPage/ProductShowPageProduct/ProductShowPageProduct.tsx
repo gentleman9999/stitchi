@@ -83,22 +83,22 @@ const ProductShowPageProduct = ({ product }: Props) => {
               />
             </div>
           ) : null}
-          <div className="p-6 border rounded-md flex flex-col gap-4">
-            <span>
+          <div className="flex flex-col gap-4">
+            <span className="text-sm">
               Elevate your brand by collaborating with one of our skilled
-              designers at <u>no cost</u>!
+              designers at no cost!
             </span>
-            <Button
-              slim
-              Component={Link}
+            <Link
               href={routes.internal.getStarted.href()}
-              variant="ghost"
+              className="flex items-center underline font-medium"
             >
-              Work with a designer
-            </Button>
+              Work with a designer{' '}
+              <ArrowRight width={16} className="stroke-2 ml-1" />
+            </Link>
           </div>
         </div>
       </div>
+      <hr />
       <div className="grid grid-cols-12 gap-8">
         <div className="col-span-12 sm:col-span-6 lg:col-span-4">
           <table className="table-auto w-full text-gray-600 ">
