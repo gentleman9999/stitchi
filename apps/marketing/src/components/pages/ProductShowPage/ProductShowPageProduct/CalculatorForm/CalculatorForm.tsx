@@ -4,6 +4,7 @@ import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import {
   Button,
+  Checkbox,
   IconButton,
   RangeSlider,
   Skeleton,
@@ -14,7 +15,8 @@ import currency from 'currency.js'
 import pluralize from 'pluralize'
 import Link from 'next/link'
 import routes from '@lib/routes'
-import { ArrowRight, XIcon } from 'icons'
+import { ArrowRight } from 'icons'
+import * as Switch from '@radix-ui/react-switch'
 
 const defaultQuote = {
   quantity: 500,
@@ -153,7 +155,25 @@ const CalculatorForm = (props: Props) => {
               )
             })}
           </div>
+
+          <div className="flex flex-col gap-4">
+            <div>
+              <label className="text-sm font-medium text-gray-700">Other</label>
+              <div className="flex items-center gap-2">
+                <Switch.Root
+                  className="h-6 w-11 flex-shrink-0 bg-gray-200 data-[state='checked']:bg-primary rounded-full relative checked:bg-gray-900 flex items-center border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                  id="includeFulfillment"
+                >
+                  <Switch.Thumb className="block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out data-[state='checked']:translate-x-5" />
+                </Switch.Root>
+                <label htmlFor="includeFulfillment" className="text-sm">
+                  Include fulfillment
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
+
         <hr />
 
         <div className="flex flex-wrap justify-between items-end gap-x-8 gap-y-6">
