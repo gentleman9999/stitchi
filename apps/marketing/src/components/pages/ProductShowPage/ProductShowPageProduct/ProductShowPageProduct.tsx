@@ -7,6 +7,8 @@ import Link from 'next/link'
 import React from 'react'
 import ProductColorGrid from './ProductColorGrid'
 import CalculatorForm from './CalculatorForm'
+import { Button } from '@components/ui'
+import { ArrowRight } from 'icons'
 
 interface ProductOptionValues {
   colorEntityId: number | null
@@ -75,12 +77,26 @@ const ProductShowPageProduct = ({ product }: Props) => {
 
         <div className="flex flex-col gap-6 col-span-12 sm:col-span-6 lg:col-span-5">
           {activeVariant ? (
-            <div className="p-4 border rounded-md">
+            <div className="p-6 border rounded-md">
               <CalculatorForm
                 productVariantEntityId={activeVariant?.entityId}
               />
             </div>
           ) : null}
+          <div className="p-6 border rounded-md flex flex-col gap-4">
+            <span>
+              Elevate your brand by collaborating with one of our skilled
+              designers at <u>no cost</u>!
+            </span>
+            <Button
+              slim
+              Component={Link}
+              href={routes.internal.getStarted.href()}
+              variant="ghost"
+            >
+              Work with a designer
+            </Button>
+          </div>
         </div>
       </div>
       <div className="grid grid-cols-12 gap-8">
