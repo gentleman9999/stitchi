@@ -4,6 +4,7 @@ export const PrintLocation = objectType({
   name: 'PrintLocation',
   definition: t => {
     t.nonNull.int('colorCount')
+    t.int('totalCostInCents')
   },
 })
 
@@ -15,6 +16,11 @@ export const Quote = objectType({
     t.nonNull.list.nonNull.field('printLocations', {
       type: 'PrintLocation',
     })
-    t.nonNull.float('totalCostInCents')
+    t.nonNull.int('productTotalCostCents', {
+      description: 'The cost of the product with shipping, taxes, and other.',
+    })
+    t.nonNull.int('productUnitCostCents', {
+      description: 'The cost of the product without shipping, taxes, or other.',
+    })
   },
 })

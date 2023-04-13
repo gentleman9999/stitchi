@@ -867,6 +867,7 @@ export type ColorField = {
   __typename: 'ColorField';
   alpha: Scalars['IntType'];
   blue: Scalars['IntType'];
+  cssRgb: Scalars['String'];
   green: Scalars['IntType'];
   hex: Scalars['String'];
   red: Scalars['IntType'];
@@ -1227,6 +1228,7 @@ export type FileField = FileFieldInterface & {
   size: Scalars['IntType'];
   smartTags: Array<Scalars['String']>;
   tags: Array<Scalars['String']>;
+  thumbhash?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   url: Scalars['String'];
   video?: Maybe<UploadVideoField>;
@@ -1302,6 +1304,7 @@ export type FileFieldInterface = {
   size: Scalars['IntType'];
   smartTags: Array<Scalars['String']>;
   tags: Array<Scalars['String']>;
+  thumbhash?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   url: Scalars['String'];
   video?: Maybe<UploadVideoField>;
@@ -3666,8 +3669,6 @@ export type Mutation = {
   login: LoginResult;
   /** Customer logout */
   logout: LogoutResult;
-  /** Generates a quote */
-  quoteGenerate?: Maybe<QuoteGeneratePayload>;
   /** Creates a new subscriber */
   subscriberCreate?: Maybe<SubscriberCreatePayload>;
   /** Bootstraps a new user with necessary resources */
@@ -3680,11 +3681,6 @@ export type Mutation = {
 export type MutationLoginArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
-};
-
-
-export type MutationQuoteGenerateArgs = {
-  input: QuoteGenerateInput;
 };
 
 
@@ -4077,6 +4073,7 @@ export type Prices = {
 export type PrintLocation = {
   __typename: 'PrintLocation';
   colorCount: Scalars['Int'];
+  totalCostInCents?: Maybe<Scalars['Int']>;
 };
 
 export type PrivacyPolicyPageModelContentField = {
@@ -4695,6 +4692,8 @@ export type Query = {
   node?: Maybe<Node>;
   /** Returns the single instance record */
   privacyPolicyPage?: Maybe<PrivacyPolicyPageRecord>;
+  /** Generates a quote */
+  quoteGenerate?: Maybe<Quote>;
   /** A site */
   site: Site;
   /** Returns the single instance record */
@@ -4881,6 +4880,13 @@ export type QueryPrivacyPolicyPageArgs = {
 };
 
 
+export type QueryQuoteGenerateArgs = {
+  catalogProductId: Scalars['Int'];
+  printLocations: Array<QuoteGeneratePrintLocationInput>;
+  quantity: Scalars['Int'];
+};
+
+
 export type QueryTermsOfUsePageArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
   locale?: InputMaybe<SiteLocale>;
@@ -4899,18 +4905,9 @@ export type Quote = {
   id: Scalars['ID'];
   printLocationCount: Scalars['Int'];
   printLocations: Array<PrintLocation>;
-  totalCostInCents: Scalars['Int'];
-};
-
-export type QuoteGenerateInput = {
-  catalogProductId: Scalars['String'];
-  printLocations: Array<QuoteGeneratePrintLocationInput>;
-  quantity: Scalars['Int'];
-};
-
-export type QuoteGeneratePayload = {
-  __typename: 'QuoteGeneratePayload';
-  quote: Quote;
+  productTotalCostCents: Scalars['Int'];
+  /** Cost per unit. This does not include taxes, shipping, or other items that apply to the entire order */
+  productUnitCostCents: Scalars['Int'];
 };
 
 export type QuoteGeneratePrintLocationInput = {

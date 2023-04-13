@@ -128,12 +128,6 @@ export interface PublishedAtFilter {
   exists?: any | null;
 }
 
-export interface QuoteGenerateInput {
-  catalogProductId: number;
-  quantity: number;
-  printLocations: QuoteGeneratePrintLocationInput[];
-}
-
 export interface QuoteGeneratePrintLocationInput {
   colorCount: number;
 }

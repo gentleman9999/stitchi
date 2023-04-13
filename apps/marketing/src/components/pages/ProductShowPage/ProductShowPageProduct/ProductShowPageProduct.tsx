@@ -5,7 +5,7 @@ import { generateImageSizes } from '@utils/image'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import ProductPricingCalculator from '../ProductPricingCalculator'
+import ProductPricingCalculator from './ProductPricingCalculator'
 import ProductColorGrid from './ProductColorGrid'
 
 interface ProductOptionValues {
@@ -42,15 +42,15 @@ const ProductShowPageProduct = ({ product }: Props) => {
             return value?.entityId === productOptionValues.colorEntityId
           })
         })
-      }),
+      }) || productVariants?.[0],
     [productOptionValues.colorEntityId, productVariants],
   )
 
   const image = activeVariant?.defaultImage || product.defaultImage
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-      <div>
+    <div className="grid grid-cols-12 gap-10">
+      <div className="col-span-12 sm:col-span-6 lg:col-span-7">
         {image ? (
           <div className="relative w-full h-[250px] border-b">
             <Image
@@ -96,8 +96,10 @@ const ProductShowPageProduct = ({ product }: Props) => {
         </table>
       </div>
 
-      <div className="flex flex-col gap-6">
-        <ProductPricingCalculator catalogProductId={product.entityId} />
+      <div className="flex flex-col gap-6 col-span-12 sm:col-span-6 lg:col-span-5">
+        <ProductPricingCalculator
+          productVariantEntityId={activeVariant?.entityId}
+        />
         <div className="prose prose-sm">
           <div dangerouslySetInnerHTML={{ __html: product.description }} />
         </div>

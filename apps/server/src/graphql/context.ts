@@ -22,6 +22,7 @@ export interface Context {
   prisma: PrismaClient
   auth0: ManagementClient
   newsletter: typeof services.newsletter
+  catalog: typeof services.catalog
   membershipId?: string
   userId?: string
   organizationId?: string
@@ -58,6 +59,7 @@ function makeContext(
         auth0,
         prisma,
         newsletter: services.newsletter,
+        catalog: services.catalog,
         userId: payload?.sub,
         membershipId: membership?.id,
         organizationId: membership?.organizationId ?? undefined,

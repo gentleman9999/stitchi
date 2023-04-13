@@ -33,9 +33,6 @@ enum MembershipRole {
 }
 
 type Mutation {
-  """Generates a quote"""
-  quoteGenerate(input: QuoteGenerateInput!): QuoteGeneratePayload
-
   """Creates a new subscriber"""
   subscriberCreate(input: SubscriberCreateInput!): SubscriberCreatePayload
 
@@ -110,10 +107,14 @@ type PageInfo {
 
 type PrintLocation {
   colorCount: Int!
+  totalCostInCents: Int
 }
 
 type Query {
   newsletter: Newsletter
+
+  """Generates a quote"""
+  quoteGenerate(catalogProductVariantId: Int!, printLocations: [QuoteGeneratePrintLocationInput!]!, quantity: Int!): Quote
   viewer: Membership
 }
 
@@ -121,17 +122,12 @@ type Quote {
   id: ID!
   printLocationCount: Int!
   printLocations: [PrintLocation!]!
-  totalCostInCents: Float!
-}
 
-input QuoteGenerateInput {
-  catalogProductId: Int!
-  printLocations: [QuoteGeneratePrintLocationInput!]!
-  quantity: Int!
-}
+  """The cost of the product with shipping, taxes, and other."""
+  productTotalCostCents: Int!
 
-type QuoteGeneratePayload {
-  quote: Quote!
+  """The cost of the product without shipping, taxes, or other."""
+  productUnitCostCents: Int!
 }
 
 input QuoteGeneratePrintLocationInput {
