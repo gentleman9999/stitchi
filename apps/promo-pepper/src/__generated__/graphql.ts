@@ -867,6 +867,7 @@ export type ColorField = {
   __typename: 'ColorField';
   alpha: Scalars['IntType'];
   blue: Scalars['IntType'];
+  cssRgb: Scalars['String'];
   green: Scalars['IntType'];
   hex: Scalars['String'];
   red: Scalars['IntType'];
@@ -1227,6 +1228,7 @@ export type FileField = FileFieldInterface & {
   size: Scalars['IntType'];
   smartTags: Array<Scalars['String']>;
   tags: Array<Scalars['String']>;
+  thumbhash?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   url: Scalars['String'];
   video?: Maybe<UploadVideoField>;
@@ -1302,6 +1304,7 @@ export type FileFieldInterface = {
   size: Scalars['IntType'];
   smartTags: Array<Scalars['String']>;
   tags: Array<Scalars['String']>;
+  thumbhash?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   url: Scalars['String'];
   video?: Maybe<UploadVideoField>;
@@ -4067,6 +4070,12 @@ export type Prices = {
   saved?: Maybe<Money>;
 };
 
+export type PrintLocation = {
+  __typename: 'PrintLocation';
+  colorCount: Scalars['Int'];
+  totalCostInCents?: Maybe<Scalars['Int']>;
+};
+
 export type PrivacyPolicyPageModelContentField = {
   __typename: 'PrivacyPolicyPageModelContentField';
   blocks: Array<Scalars['String']>;
@@ -4683,6 +4692,8 @@ export type Query = {
   node?: Maybe<Node>;
   /** Returns the single instance record */
   privacyPolicyPage?: Maybe<PrivacyPolicyPageRecord>;
+  /** Generates a quote */
+  quoteGenerate?: Maybe<Quote>;
   /** A site */
   site: Site;
   /** Returns the single instance record */
@@ -4869,6 +4880,13 @@ export type QueryPrivacyPolicyPageArgs = {
 };
 
 
+export type QueryQuoteGenerateArgs = {
+  catalogProductId: Scalars['Int'];
+  printLocations: Array<QuoteGeneratePrintLocationInput>;
+  quantity: Scalars['Int'];
+};
+
+
 export type QueryTermsOfUsePageArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
   locale?: InputMaybe<SiteLocale>;
@@ -4880,6 +4898,20 @@ export type QueryUploadArgs = {
   filter?: InputMaybe<UploadFilter>;
   locale?: InputMaybe<SiteLocale>;
   orderBy?: InputMaybe<Array<InputMaybe<UploadOrderBy>>>;
+};
+
+export type Quote = {
+  __typename: 'Quote';
+  id: Scalars['ID'];
+  printLocationCount: Scalars['Int'];
+  printLocations: Array<PrintLocation>;
+  productTotalCostCents: Scalars['Int'];
+  /** Cost per unit. This does not include taxes, shipping, or other items that apply to the entire order */
+  productUnitCostCents: Scalars['Int'];
+};
+
+export type QuoteGeneratePrintLocationInput = {
+  colorCount: Scalars['Int'];
 };
 
 /** Rating Filter */

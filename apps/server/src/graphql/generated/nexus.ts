@@ -42,6 +42,9 @@ export interface NexusGenInputs {
     first: number; // Int!
     skip?: number | null; // Int
   }
+  QuoteGeneratePrintLocationInput: { // input type
+    colorCount: number; // Int!
+  }
   SubscriberCreateInput: { // input type
     email: string; // String!
   }
@@ -105,7 +108,18 @@ export interface NexusGenObjects {
     endCursor?: string | null; // String
     hasNextPage: boolean; // Boolean!
   }
+  PrintLocation: { // root type
+    colorCount: number; // Int!
+    totalCostInCents?: number | null; // Int
+  }
   Query: {};
+  Quote: { // root type
+    id: string; // ID!
+    printLocationCount: number; // Int!
+    printLocations: NexusGenRootTypes['PrintLocation'][]; // [PrintLocation!]!
+    productTotalCostCents: number; // Int!
+    productUnitCostCents: number; // Int!
+  }
   Subscriber: { // root type
     email: string; // String!
     id: string; // String!
@@ -194,9 +208,21 @@ export interface NexusGenFieldTypes {
     endCursor: string | null; // String
     hasNextPage: boolean; // Boolean!
   }
+  PrintLocation: { // field return type
+    colorCount: number; // Int!
+    totalCostInCents: number | null; // Int
+  }
   Query: { // field return type
     newsletter: NexusGenRootTypes['Newsletter'] | null; // Newsletter
+    quoteGenerate: NexusGenRootTypes['Quote'] | null; // Quote
     viewer: NexusGenRootTypes['Membership'] | null; // Membership
+  }
+  Quote: { // field return type
+    id: string; // ID!
+    printLocationCount: number; // Int!
+    printLocations: NexusGenRootTypes['PrintLocation'][]; // [PrintLocation!]!
+    productTotalCostCents: number; // Int!
+    productUnitCostCents: number; // Int!
   }
   Subscriber: { // field return type
     email: string; // String!
@@ -276,9 +302,21 @@ export interface NexusGenFieldTypeNames {
     endCursor: 'String'
     hasNextPage: 'Boolean'
   }
+  PrintLocation: { // field return type name
+    colorCount: 'Int'
+    totalCostInCents: 'Int'
+  }
   Query: { // field return type name
     newsletter: 'Newsletter'
+    quoteGenerate: 'Quote'
     viewer: 'Membership'
+  }
+  Quote: { // field return type name
+    id: 'ID'
+    printLocationCount: 'Int'
+    printLocations: 'PrintLocation'
+    productTotalCostCents: 'Int'
+    productUnitCostCents: 'Int'
   }
   Subscriber: { // field return type name
     email: 'String'
@@ -319,6 +357,13 @@ export interface NexusGenArgTypes {
     }
     newsletterIssue: { // args
       slug: string; // String!
+    }
+  }
+  Query: {
+    quoteGenerate: { // args
+      catalogProductVariantId: number; // Int!
+      printLocations: NexusGenInputs['QuoteGeneratePrintLocationInput'][]; // [QuoteGeneratePrintLocationInput!]!
+      quantity: number; // Int!
     }
   }
 }

@@ -105,9 +105,33 @@ type PageInfo {
   hasNextPage: Boolean!
 }
 
+type PrintLocation {
+  colorCount: Int!
+  totalCostInCents: Int
+}
+
 type Query {
   newsletter: Newsletter
+
+  """Generates a quote"""
+  quoteGenerate(catalogProductVariantId: Int!, printLocations: [QuoteGeneratePrintLocationInput!]!, quantity: Int!): Quote
   viewer: Membership
+}
+
+type Quote {
+  id: ID!
+  printLocationCount: Int!
+  printLocations: [PrintLocation!]!
+
+  """The cost of the product with shipping, taxes, and other."""
+  productTotalCostCents: Int!
+
+  """The cost of the product without shipping, taxes, or other."""
+  productUnitCostCents: Int!
+}
+
+input QuoteGeneratePrintLocationInput {
+  colorCount: Int!
 }
 
 type Subscriber {

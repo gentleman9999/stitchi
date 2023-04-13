@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client'
-import { Button } from '@components/ui'
 import { ProductShowPageProductProductFragment } from '@generated/ProductShowPageProductProductFragment'
 import routes from '@lib/routes'
 import { generateImageSizes } from '@utils/image'
@@ -7,6 +6,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import ProductColorGrid from './ProductColorGrid'
+import CalculatorForm from './CalculatorForm'
+import { Button } from '@components/ui'
+import { ArrowRight } from 'icons'
 
 interface ProductOptionValues {
   colorEntityId: number | null
@@ -42,84 +44,89 @@ const ProductShowPageProduct = ({ product }: Props) => {
             return value?.entityId === productOptionValues.colorEntityId
           })
         })
-      }),
+      }) || productVariants?.[0],
     [productOptionValues.colorEntityId, productVariants],
   )
 
   const image = activeVariant?.defaultImage || product.defaultImage
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-      <div>
-        {image ? (
-          <div className="relative w-full h-[250px] border-b">
-            <Image
-              fill
-              style={{
-                objectFit: 'contain',
-              }}
-              src={image.url}
-              alt={image.altText || product.name}
-              sizes={generateImageSizes([{ imageWidth: '624px' }])}
+    <div className="flex flex-col gap-10">
+      <div className="grid grid-cols-12 gap-10">
+        <div className="col-span-12 sm:col-span-6 lg:col-span-7">
+          {image ? (
+            <div className="relative w-full h-[250px] border-b">
+              <Image
+                fill
+                style={{
+                  objectFit: 'contain',
+                }}
+                src={image.url}
+                alt={image.altText || product.name}
+                sizes={generateImageSizes([{ imageWidth: '624px' }])}
+              />
+            </div>
+          ) : null}
+          <VariantOptionSection title="Available Colors">
+            <ProductColorGrid
+              product={product}
+              onColorSelect={handleColorSelect}
             />
-          </div>
-        ) : null}
-        <VariantOptionSection title="Available Colors">
-          <ProductColorGrid
-            product={product}
-            onColorSelect={handleColorSelect}
-          />
-        </VariantOptionSection>
-
-        <table className="table-auto w-full mt-8 text-gray-600">
-          <caption className="font-medium">Specifications</caption>
-
-          <tbody>
-            <tr className="border-y">
-              <td>Brand</td>
-              <td className="flex justify-end">
-                {product.brand ? (
-                  <Link
-                    href={routes.internal.catalog.brand.show.href({
-                      brandSlug: product.brand.path.replace('/', ''),
-                    })}
-                    className="underline"
-                  >
-                    {product.brand.name}
-                  </Link>
-                ) : (
-                  '-'
-                )}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-5 p-4 rounded-md border">
-          <Button
-            slim
-            Component={Link}
-            color="primary"
-            variant="ghost"
-            className="w-full !rounded-sm"
-            href={routes.internal.getStarted.href()}
-          >
-            I already have a design
-          </Button>
-          <Button
-            slim
-            Component={Link}
-            color="brandPrimary"
-            className="w-full !rounded-sm"
-            href={routes.internal.getStarted.href()}
-          >
-            Talk to a designer
-          </Button>
+          </VariantOptionSection>
         </div>
 
-        <div className="prose prose-sm">
+        <div className="flex flex-col gap-6 col-span-12 sm:col-span-6 lg:col-span-5">
+          {activeVariant ? (
+            <div className="p-6 border rounded-md">
+              <CalculatorForm
+                productVariantEntityId={activeVariant?.entityId}
+              />
+            </div>
+          ) : null}
+          <div className="flex flex-col gap-4">
+            <span className="text-sm">
+              Elevate your brand by collaborating with one of our skilled
+              designers at no cost!
+            </span>
+            <Link
+              href={routes.internal.getStarted.href()}
+              className="flex items-center underline font-medium"
+            >
+              Work with a designer{' '}
+              <ArrowRight width={16} className="stroke-2 ml-1" />
+            </Link>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div className="grid grid-cols-12 gap-8">
+        <div className="col-span-12 sm:col-span-6 lg:col-span-4">
+          <table className="table-auto w-full text-gray-600 ">
+            <caption className="font-medium">Specifications</caption>
+
+            <tbody>
+              <tr className="border-y">
+                <td>Brand</td>
+                <td className="flex justify-end">
+                  {product.brand ? (
+                    <Link
+                      href={routes.internal.catalog.brand.show.href({
+                        brandSlug: product.brand.path.replace('/', ''),
+                      })}
+                      className="underline"
+                    >
+                      {product.brand.name}
+                    </Link>
+                  ) : (
+                    '-'
+                  )}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div className="prose prose-sm max-w-none col-span-12 sm:col-span-6 lg:col-span-8">
           <div dangerouslySetInnerHTML={{ __html: product.description }} />
         </div>
       </div>
