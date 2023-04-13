@@ -86,8 +86,6 @@ const productQuery = /* GraphQL */ `
 const makeClient: MakeClientFn = () => {
   return {
     getProductPrice: async variantEntityId => {
-      console.log('VARAINT ENTITY ID', variantEntityId)
-
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: {

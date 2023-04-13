@@ -116,7 +116,7 @@ const CalculatorForm = (props: Props) => {
               const location = form.formState.errors?.printLocations?.[index]
               return (
                 <div key={field.id}>
-                  <div className="flex gap-2 items-center justify-between">
+                  <div className="flex flex-col sm:flex-row gap-2 sm:items-center justify-between">
                     <div className="">
                       <label className="text-sm font-medium text-gray-700">
                         Location {index + 1} color count{' '}

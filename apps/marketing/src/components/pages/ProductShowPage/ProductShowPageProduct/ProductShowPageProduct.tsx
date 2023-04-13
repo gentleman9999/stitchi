@@ -52,7 +52,7 @@ const ProductShowPageProduct = ({ product }: Props) => {
 
   return (
     <div className="flex flex-col gap-10">
-      <div className="grid grid-cols-12 gap-10">
+      <div className="grid grid-cols-12 gap-2 sm:gap-4 md:gap-10">
         <div className="col-span-12 sm:col-span-6 lg:col-span-7">
           {image ? (
             <div className="relative w-full h-[250px] border-b">
@@ -75,31 +75,35 @@ const ProductShowPageProduct = ({ product }: Props) => {
           </VariantOptionSection>
         </div>
 
-        <div className="flex flex-col gap-6 col-span-12 sm:col-span-6 lg:col-span-5">
-          {activeVariant ? (
-            <div className="p-6 border rounded-md">
-              <CalculatorForm
-                productVariantEntityId={activeVariant?.entityId}
-              />
+        <div className="col-span-12 sm:col-span-6 lg:col-span-5">
+          <div className="flex flex-col gap-6">
+            {activeVariant ? (
+              <div className="p-6 border rounded-md">
+                <CalculatorForm
+                  productVariantEntityId={activeVariant?.entityId}
+                />
+              </div>
+            ) : null}
+            <div className="flex flex-col gap-4">
+              <span className="text-sm">
+                Elevate your brand by collaborating with one of our skilled
+                designers at no cost!
+              </span>
+              <Link
+                href={routes.internal.getStarted.href()}
+                className="flex items-center underline font-medium"
+              >
+                Work with a designer{' '}
+                <ArrowRight width={16} className="stroke-2 ml-1" />
+              </Link>
             </div>
-          ) : null}
-          <div className="flex flex-col gap-4">
-            <span className="text-sm">
-              Elevate your brand by collaborating with one of our skilled
-              designers at no cost!
-            </span>
-            <Link
-              href={routes.internal.getStarted.href()}
-              className="flex items-center underline font-medium"
-            >
-              Work with a designer{' '}
-              <ArrowRight width={16} className="stroke-2 ml-1" />
-            </Link>
           </div>
         </div>
       </div>
+
       <hr />
-      <div className="grid grid-cols-12 gap-8">
+
+      <div className="grid grid-cols-12 gap-2 sm:gap-4 md:gap-8">
         <div className="col-span-12 sm:col-span-6 lg:col-span-4">
           <table className="table-auto w-full text-gray-600 ">
             <caption className="font-medium">Specifications</caption>
