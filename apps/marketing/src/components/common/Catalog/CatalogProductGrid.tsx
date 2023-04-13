@@ -10,7 +10,7 @@ import CatalogProductSkeleton from './CatalogProductSkeleton'
 import CatalogProuductZeroState from './CatalogProductZeroState'
 import { InfiniteScrollContainer } from '@components/common'
 import Link from 'next/link'
-import { CatalogProductGridSiteFragment } from '@generated/CatalogIndexPageProductGridSiteFragment'
+import { CatalogProductGridSiteFragment } from '@generated/CatalogProductGridSiteFragment'
 
 export interface Props {
   loading: boolean
