@@ -36,9 +36,8 @@ const schema = yup.object({
 
 type FormInput = yup.Asserts<typeof schema>
 
-export interface Props {
+interface Props {
   productVariantEntityId: number
-  onClose: () => void
 }
 
 const CalculatorForm = (props: Props) => {
@@ -81,14 +80,6 @@ const CalculatorForm = (props: Props) => {
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-10">
           <div className="flex flex-col gap-4">
-            <div className="flex justify-between">
-              <h2 className="text-2xl font-bold text-gray-800 font-heading">
-                Get an instant quote
-              </h2>
-              <IconButton variant="ghost" onClick={props.onClose}>
-                <XIcon width={20} />
-              </IconButton>
-            </div>
             <div>
               <h3 className="text-lg font-medium mb-2">Quantity</h3>
 

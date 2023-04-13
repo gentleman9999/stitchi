@@ -5,8 +5,8 @@ import { generateImageSizes } from '@utils/image'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import ProductPricingCalculator from './ProductPricingCalculator'
 import ProductColorGrid from './ProductColorGrid'
+import CalculatorForm from './CalculatorForm'
 
 interface ProductOptionValues {
   colorEntityId: number | null
@@ -97,9 +97,12 @@ const ProductShowPageProduct = ({ product }: Props) => {
       </div>
 
       <div className="flex flex-col gap-6 col-span-12 sm:col-span-6 lg:col-span-5">
-        <ProductPricingCalculator
-          productVariantEntityId={activeVariant?.entityId}
-        />
+        {activeVariant ? (
+          <div className="p-4 border rounded-md">
+            <CalculatorForm productVariantEntityId={activeVariant?.entityId} />
+          </div>
+        ) : null}
+
         <div className="prose prose-sm">
           <div dangerouslySetInnerHTML={{ __html: product.description }} />
         </div>
