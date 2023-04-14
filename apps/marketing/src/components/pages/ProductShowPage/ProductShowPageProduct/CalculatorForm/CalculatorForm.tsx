@@ -22,12 +22,12 @@ const defaultPrintLocation = {
 }
 
 const printLocation = yup.object({
-  colorCount: yup.number().min(1).required(),
+  colorCount: yup.number().min(1).max(8).required(),
 })
 
 const schema = yup.object({
-  quantity: yup.number().min(1).required(),
-  printLocations: yup.array(printLocation.required()).min(1).required(),
+  quantity: yup.number().min(24).max(10000).required(),
+  printLocations: yup.array(printLocation.required()).min(1).max(4).required(),
   includeFulfillment: yup.boolean().required(),
 })
 
@@ -38,6 +38,11 @@ interface Props {
 }
 
 const CalculatorForm = (props: Props) => {
+  const [loading, setLoading] = React.useState(true)
+  const [memoizedPrintLocations, setMemoizedPrintLocations] = React.useState<
+    FormInput['printLocations']
+  >([])
+
   const [adjustingSlider, setAdjustingSlider] = React.useState(false)
   const form = useForm<FormInput>({
     defaultValues: defaultQuote,
@@ -49,15 +54,44 @@ const CalculatorForm = (props: Props) => {
     control: form.control,
   })
 
+  const { trigger } = form
+
   const { printLocations, quantity, includeFulfillment } = form.watch()
 
-  const { data, loading } = useCalculatorFormQuote({
+  const [getQuote, { data }] = useCalculatorFormQuote({
     catalogProductVariantId: props.productVariantEntityId,
-    // Compares values instead of pointer
-    printLocations: [...printLocations.map(location => ({ ...location }))],
-    quantity,
-    includeFulfillment,
   })
+
+  if (
+    JSON.stringify(printLocations) !== JSON.stringify(memoizedPrintLocations)
+  ) {
+    setMemoizedPrintLocations([
+      ...printLocations.map(location => ({ ...location })),
+    ])
+  }
+
+  React.useEffect(() => {
+    const get = async () => {
+      if (await trigger()) {
+        setLoading(true)
+        await getQuote({
+          includeFulfillment,
+          printLocations: memoizedPrintLocations,
+          quantity,
+        })
+        setLoading(false)
+      }
+    }
+
+    if (
+      memoizedPrintLocations.some(location => Number.isNaN(location.colorCount))
+    ) {
+      // We don't want to trigger validation since user hasn't entered anything yet
+      return
+    }
+
+    get()
+  }, [getQuote, includeFulfillment, memoizedPrintLocations, quantity, trigger])
 
   const handleRemovePrintLocation = (index: number) => {
     if (printLocationFieldArray.fields.length === 1) {
@@ -83,17 +117,24 @@ const CalculatorForm = (props: Props) => {
             <Controller
               control={form.control}
               name="quantity"
-              render={({ field }) => (
-                <RangeSlider
-                  value={field.value}
-                  onChange={field.onChange}
-                  min={12}
-                  max={10000}
-                  onPointerDown={() => {
-                    setAdjustingSlider(true)
-                  }}
-                  onPointerUp={() => setAdjustingSlider(false)}
-                />
+              render={({ field, fieldState }) => (
+                <>
+                  <RangeSlider
+                    value={field.value}
+                    onChange={field.onChange}
+                    min={24}
+                    max={10000}
+                    onPointerDown={() => {
+                      setAdjustingSlider(true)
+                    }}
+                    onPointerUp={() => setAdjustingSlider(false)}
+                  />
+                  {fieldState.error ? (
+                    <span className="text-sm text-red-500">
+                      {fieldState.error?.message}
+                    </span>
+                  ) : null}
+                </>
               )}
             />
           </div>
@@ -101,56 +142,81 @@ const CalculatorForm = (props: Props) => {
           <div className="flex flex-col gap-4">
             <div className="flex justify-between items-center">
               <h3 className="text-lg font-medium">Print Locations</h3>
-              <button
-                type="button"
-                onClick={handleAddPrintLocation}
-                className="underline text-sm"
-              >
-                Add print location
-              </button>
+              {printLocationFieldArray.fields.length < 4 ? (
+                <button
+                  type="button"
+                  onClick={handleAddPrintLocation}
+                  className="underline text-sm"
+                >
+                  Add print location
+                </button>
+              ) : null}
             </div>
-            {printLocationFieldArray.fields.map((field, index) => {
-              const location = form.formState.errors?.printLocations?.[index]
-              return (
-                <div key={field.id}>
-                  <div className="flex flex-col sm:flex-row gap-2 sm:items-center justify-between">
-                    <div className="flex-1 flex-shrink-0">
-                      <label className="text-sm font-medium text-gray-700">
-                        Location {index + 1} color count{' '}
-                        {printLocationFieldArray.fields.length > 1 ? (
-                          <button
-                            type="button"
-                            className="text-xs text-gray-400"
-                            onClick={() => handleRemovePrintLocation(index)}
-                          >
-                            (Remove)
-                          </button>
-                        ) : null}
-                      </label>
-                    </div>
-                    <div className="flex-shrink min-w-[50px] max-w-[100px]">
+            <div>
+              {printLocationFieldArray.fields.map((field, index) => {
+                return (
+                  <div key={field.id}>
+                    <div>
                       <Controller
                         name={`printLocations.${index}.colorCount`}
                         control={form.control}
-                        render={({ field }) => (
-                          <TextField
-                            name={field.name}
-                            value={field.value}
-                            onChange={e => {
-                              field.onChange(parseInt(e.target.value))
-                            }}
-                            inputRef={field.ref}
-                            type="number"
-                            error={Boolean(location?.colorCount?.message)}
-                            description={location?.colorCount?.message}
-                          />
+                        render={({ field, fieldState }) => (
+                          <>
+                            <div className="flex flex-col sm:flex-row gap-2 sm:items-center justify-between">
+                              <div className="flex-1 flex-shrink-0">
+                                <label className="text-sm font-medium text-gray-700">
+                                  Location {index + 1} color count{' '}
+                                  {printLocationFieldArray.fields.length > 1 ? (
+                                    <button
+                                      type="button"
+                                      className="text-xs text-gray-400"
+                                      onClick={() =>
+                                        handleRemovePrintLocation(index)
+                                      }
+                                    >
+                                      (Remove)
+                                    </button>
+                                  ) : null}
+                                </label>
+                              </div>
+                              <div className="flex-shrink min-w-[50px] max-w-[100px]">
+                                <TextField
+                                  name={field.name}
+                                  value={field.value}
+                                  onChange={e => {
+                                    const value = parseInt(e.target.value)
+
+                                    if (value < 1) {
+                                      field.onChange(1)
+                                    } else if (value > 8) {
+                                      field.onChange(8)
+                                    } else {
+                                      field.onChange(value)
+                                    }
+                                  }}
+                                  inputRef={field.ref}
+                                  type="number"
+                                />
+                              </div>
+                            </div>
+                            {fieldState.error ? (
+                              <span className="text-sm text-red-500">
+                                {fieldState.error.message}
+                              </span>
+                            ) : null}
+                          </>
                         )}
                       />
                     </div>
                   </div>
-                </div>
-              )
-            })}
+                )
+              })}
+              {form.formState.errors.printLocations?.message ? (
+                <span className="text-sm text-red-500">
+                  {form.formState.errors.printLocations.message}
+                </span>
+              ) : null}
+            </div>
           </div>
 
           <div className="flex flex-col gap-4">

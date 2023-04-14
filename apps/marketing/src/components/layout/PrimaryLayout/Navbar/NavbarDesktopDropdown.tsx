@@ -24,7 +24,6 @@ const NavbarDesktopDropdown = ({
   external,
   beta,
 }: Props) => {
-  console.log('DROPDOWN LABEL', label)
   const Link = ({ children }: { children: React.ReactNode }) => {
     const baseStyledATagProps = { disabled: Boolean(beta) }
     if (external) {

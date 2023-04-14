@@ -4,22 +4,13 @@ import {
 } from '@generated/ProductPricingCalculatorGetQuoteQuery'
 import { gql, useLazyQuery } from '@apollo/client'
 import { QuoteGeneratePrintLocationInput } from '@generated/globalTypes'
-import { useEffect, useState } from 'react'
+import { useCallback } from 'react'
 
 interface Props {
   catalogProductVariantId: number
-  quantity: number
-  printLocations: QuoteGeneratePrintLocationInput[]
-  includeFulfillment: boolean
 }
 
-const useCalculatorFormQuote = ({
-  catalogProductVariantId,
-  quantity,
-  printLocations,
-  includeFulfillment,
-}: Props) => {
-  const [printLocationsCopy, setPrintLocationsCopy] = useState(printLocations)
+const useCalculatorFormQuote = ({ catalogProductVariantId }: Props) => {
   const [fetchMore, query] = useLazyQuery<
     ProductPricingCalculatorGetQuoteQuery,
     ProductPricingCalculatorGetQuoteQueryVariables
@@ -28,28 +19,18 @@ const useCalculatorFormQuote = ({
     fetchPolicy: 'network-only',
   })
 
-  if (JSON.stringify(printLocations) !== JSON.stringify(printLocationsCopy)) {
-    setPrintLocationsCopy([...printLocations])
-  }
+  const getQuote = useCallback(
+    async (input: {
+      quantity: number
+      printLocations: QuoteGeneratePrintLocationInput[]
+      includeFulfillment: boolean
+    }) => {
+      await fetchMore({ variables: { ...input, catalogProductVariantId } })
+    },
+    [catalogProductVariantId, fetchMore],
+  )
 
-  useEffect(() => {
-    fetchMore({
-      variables: {
-        printLocations: printLocationsCopy,
-        catalogProductVariantId,
-        quantity,
-        includeFulfillment,
-      },
-    })
-  }, [
-    fetchMore,
-    catalogProductVariantId,
-    quantity,
-    printLocationsCopy,
-    includeFulfillment,
-  ])
-
-  return query
+  return [getQuote, query] as const
 }
 
 export const GET_QUOTE = gql`
