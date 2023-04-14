@@ -114,7 +114,7 @@ type Query {
   newsletter: Newsletter
 
   """Generates a quote"""
-  quoteGenerate(catalogProductVariantId: Int!, printLocations: [QuoteGeneratePrintLocationInput!]!, quantity: Int!): Quote
+  quoteGenerate(catalogProductVariantId: Int!, includeFulfillment: Boolean, printLocations: [QuoteGeneratePrintLocationInput!]!, quantity: Int!): Quote
   viewer: Membership
 }
 

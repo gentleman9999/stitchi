@@ -362,6 +362,7 @@ export interface NexusGenArgTypes {
   Query: {
     quoteGenerate: { // args
       catalogProductVariantId: number; // Int!
+      includeFulfillment?: boolean | null; // Boolean
       printLocations: NexusGenInputs['QuoteGeneratePrintLocationInput'][]; // [QuoteGeneratePrintLocationInput!]!
       quantity: number; // Int!
     }
