@@ -8,8 +8,9 @@ import currency from 'currency.js'
 import pluralize from 'pluralize'
 import Link from 'next/link'
 import routes from '@lib/routes'
-import { ArrowRight } from 'icons'
+import { ArrowRight, QuestionMarkCircle } from 'icons'
 import * as Switch from '@radix-ui/react-switch'
+import Tooltip from '@components/ui/Tooltip'
 
 const defaultQuote = {
   quantity: 500,
@@ -221,10 +222,34 @@ const CalculatorForm = (props: Props) => {
 
           <div className="flex flex-col gap-4">
             <h3 className="text-lg font-medium">Add-ons</h3>
-            <div className="flex items-center justify-between gap-4">
-              <label htmlFor="includeFulfillment" className="text-sm">
-                No-touch fulfillment ($1.00)
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <label className="text-sm flex whitespace-nowrap gap-1">
+                No-touch fulfillment ($1.00){' '}
+                <Tooltip
+                  side="bottom"
+                  delay={0}
+                  label={
+                    <>
+                      We will fulfill your order for you. We will ship your
+                      order to your customers and handle all customer service
+                      inquiries.{' '}
+                      <Link
+                        href={routes.internal.features.distribution.href()}
+                        className="underline"
+                        target="_blank"
+                      >
+                        Learn more
+                      </Link>
+                    </>
+                  }
+                  renderTrigger={() => (
+                    <i className="cursor-pointer">
+                      <QuestionMarkCircle width={16} />
+                    </i>
+                  )}
+                />{' '}
               </label>
+
               <Controller
                 name="includeFulfillment"
                 control={form.control}

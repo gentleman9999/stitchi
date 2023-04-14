@@ -2,7 +2,7 @@ import React from 'react'
 import * as RuiTooltip from '@radix-ui/react-tooltip'
 
 interface Props {
-  label: string
+  label: React.ReactNode
   renderTrigger: () => React.ReactNode
   delay?: number
   side?: RuiTooltip.TooltipContentProps['side']

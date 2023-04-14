@@ -53,9 +53,9 @@ const ProductShowPageProduct = ({ product }: Props) => {
   return (
     <div className="flex flex-col gap-10">
       <div className="grid grid-cols-12 gap-2 sm:gap-4 md:gap-10">
-        <div className="col-span-12 sm:col-span-6 lg:col-span-7">
+        <div className="col-span-12 sm:col-span-6 lg:col-span-7 flex flex-col gap-4">
           {image ? (
-            <div className="relative w-full h-[250px] border-b">
+            <div className="relative w-full h-[350px] sm:h-[400px] border-b">
               <Image
                 fill
                 style={{
@@ -67,12 +67,11 @@ const ProductShowPageProduct = ({ product }: Props) => {
               />
             </div>
           ) : null}
-          <VariantOptionSection title="Available Colors">
-            <ProductColorGrid
-              product={product}
-              onColorSelect={handleColorSelect}
-            />
-          </VariantOptionSection>
+          <ProductColorGrid
+            product={product}
+            onColorSelect={handleColorSelect}
+            colorEntityId={productOptionValues.colorEntityId}
+          />
         </div>
 
         <div className="col-span-12 sm:col-span-6 lg:col-span-5">
@@ -134,21 +133,6 @@ const ProductShowPageProduct = ({ product }: Props) => {
           <div dangerouslySetInnerHTML={{ __html: product.description }} />
         </div>
       </div>
-    </div>
-  )
-}
-
-const VariantOptionSection = ({
-  title,
-  children,
-}: {
-  title: string
-  children: React.ReactNode
-}) => {
-  return (
-    <div className="mt-6">
-      <h3 className="text font-bold text-gray-700 mb-2">{title}</h3>
-      {children}
     </div>
   )
 }
