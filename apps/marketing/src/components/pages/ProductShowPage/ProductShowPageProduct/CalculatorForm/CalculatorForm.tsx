@@ -152,7 +152,7 @@ const CalculatorForm = (props: Props) => {
                 </button>
               ) : null}
             </div>
-            <div>
+            <div className="flex flex-col gap-2">
               {printLocationFieldArray.fields.map((field, index) => {
                 return (
                   <div key={field.id}>
