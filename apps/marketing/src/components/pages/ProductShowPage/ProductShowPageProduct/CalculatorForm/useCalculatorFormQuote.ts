@@ -10,12 +10,14 @@ interface Props {
   catalogProductVariantId: number
   quantity: number
   printLocations: QuoteGeneratePrintLocationInput[]
+  includeFulfillment: boolean
 }
 
 const useCalculatorFormQuote = ({
   catalogProductVariantId,
   quantity,
   printLocations,
+  includeFulfillment,
 }: Props) => {
   const [printLocationsCopy, setPrintLocationsCopy] = useState(printLocations)
   const [fetchMore, query] = useLazyQuery<
@@ -36,9 +38,16 @@ const useCalculatorFormQuote = ({
         printLocations: printLocationsCopy,
         catalogProductVariantId,
         quantity,
+        includeFulfillment,
       },
     })
-  }, [fetchMore, catalogProductVariantId, quantity, printLocationsCopy])
+  }, [
+    fetchMore,
+    catalogProductVariantId,
+    quantity,
+    printLocationsCopy,
+    includeFulfillment,
+  ])
 
   return query
 }
@@ -48,11 +57,13 @@ export const GET_QUOTE = gql`
     $catalogProductVariantId: Int!
     $printLocations: [QuoteGeneratePrintLocationInput!]!
     $quantity: Int!
+    $includeFulfillment: Boolean
   ) {
     quoteGenerate(
       catalogProductVariantId: $catalogProductVariantId
       printLocations: $printLocations
       quantity: $quantity
+      includeFulfillment: $includeFulfillment
     ) {
       id
       productTotalCostCents

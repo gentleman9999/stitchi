@@ -17,13 +17,16 @@ export const quoteGenerate = queryField('quoteGenerate', {
     catalogProductVariantId: nonNull('Int'),
     quantity: nonNull('Int'),
     printLocations: nonNull(list(nonNull('QuoteGeneratePrintLocationInput'))),
+    includeFulfillment: 'Boolean',
   },
   resolve: async (
     _,
-    { catalogProductVariantId, printLocations, quantity },
+    { catalogProductVariantId, printLocations, quantity, includeFulfillment },
     ctx,
   ) => {
     let productPrice = 0_00
+
+    const fulfillmentCost = includeFulfillment ? 1_00 : 0_00
 
     try {
       productPrice = await ctx.catalog.getProductPrice(catalogProductVariantId)
@@ -93,17 +96,18 @@ export const quoteGenerate = queryField('quoteGenerate', {
       ...printLocations.map(l => l.colorCount),
     )
 
-    const screenCost = multiply(totalColorCount, SCREEN_CHARGE)
-
     const printLocationsTotalCost: number = sum(...printLocationCosts)
 
     const markupMultiplier = add(divide(MARKUP_PCT, 100), 1)
+    const screenCost = multiply(totalColorCount, SCREEN_CHARGE)
 
     const productTotalCostCents = chain(printLocationsTotalCost)
       .add(productPrice)
-      .multiply(quantity)
-      .add(screenCost)
+      .add(divide(screenCost, quantity))
       .multiply(markupMultiplier)
+      .add(fulfillmentCost)
+      .multiply(quantity)
+      // No markup on fulfillment
       .done()
 
     const productUnitCostCents = divide(productTotalCostCents, quantity)
