@@ -38,7 +38,6 @@ const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
     endIcon,
     color = 'primary',
     loading = false,
-    disabled = false,
     shadow = false,
     bold = false,
     style = {},
@@ -54,13 +53,15 @@ const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
       [s.slim]: slim,
       [s.naked]: variant === 'naked',
       [s.loading]: loading,
-      [s.disabled]: disabled,
+      [s.disabled]: props.disabled,
       [s.brandColors]: color === 'brandPrimary',
       [s.shadow1]: shadow,
       '!font-bold': bold,
     },
     className,
   )
+
+  const disabled = props.disabled || loading
 
   return (
     <Component
@@ -75,9 +76,9 @@ const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
       }}
       {...rest}
     >
-      {children}
+      <div className={loading ? 'opacity-0' : ''}>{children}</div>
       {loading && (
-        <i className="pl-2 m-0 flex">
+        <i className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center">
           <LoadingDots />
         </i>
       )}

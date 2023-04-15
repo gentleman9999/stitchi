@@ -11,6 +11,7 @@ import routes from '@lib/routes'
 import { ArrowRight, GlobalDistribution, GlobalDistribution2 } from 'icons'
 import * as Switch from '@radix-ui/react-switch'
 import MoreInformationPopover from '@components/common/MoreInformationPopover'
+import { useRouter } from 'next/router'
 
 const defaultQuote = {
   quantity: 500,
@@ -39,6 +40,8 @@ interface Props {
 }
 
 const CalculatorForm = (props: Props) => {
+  const router = useRouter()
+  const [submitting, setSubmitting] = React.useState(false)
   const [loading, setLoading] = React.useState(true)
   const [memoizedPrintLocations, setMemoizedPrintLocations] = React.useState<
     FormInput['printLocations']
@@ -103,6 +106,12 @@ const CalculatorForm = (props: Props) => {
 
   const handleAddPrintLocation = () => {
     printLocationFieldArray.append(defaultPrintLocation)
+  }
+
+  const handleStartOrderClick = async () => {
+    setSubmitting(true)
+    await router.push(routes.internal.getStarted.href())
+    setSubmitting(false)
   }
 
   const { productUnitCostCents = 0, productTotalCostCents = 0 } =
@@ -311,10 +320,11 @@ const CalculatorForm = (props: Props) => {
           <div>
             <Button
               slim
-              Component={Link}
               color="brandPrimary"
-              href={routes.internal.getStarted.href()}
               endIcon={<ArrowRight width={16} className="stroke-2" />}
+              onClick={handleStartOrderClick}
+              loading={submitting}
+              disabled={loading}
             >
               Start an order
             </Button>
