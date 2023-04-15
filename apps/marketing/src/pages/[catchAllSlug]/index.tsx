@@ -78,6 +78,26 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     })
   }
 
+  //
+  // TODOOO:
+  // Add resolver for product default price, which calls BigC API to get default price and run it through our pricing algorythm
+  //
+
+  if (data.site.route.node?.__typename === 'Product') {
+    const variantId = data.site.route.node.variants.edges?.[0]?.node.entityId
+    if (variantId) {
+      await client.query<
+        ProductPageGetSEODataQuery,
+        ProductPageGetSEODataQueryVariables
+      >({
+        query: GET_SEO_DATA,
+        variables: {
+          catalogProductVariantId: variantId,
+        },
+      })
+    }
+  }
+
   return addApolloState(client, { props: {} })
 }
 
@@ -125,6 +145,21 @@ const ProductPage = () => {
 ProductPage.getLayout = (page: ReactElement) => (
   <PrimaryLayout>{page}</PrimaryLayout>
 )
+
+const GET_SEO_DATA = gql`
+  ${ProductShowPage.fragments.quote}
+  query ProductPageGetSEODataQuery($catalogProductVariantId: Int!) {
+    quoteGenerate(
+      catalogProductVariantId: $catalogProductVariantId
+      includeFulfillment: false
+      quantity: 10000
+      printLocations: [{ colorCount: 1 }]
+    ) {
+      id
+      ...ProductShowPageQuoteFragment
+    }
+  }
+`
 
 const GET_DATA = gql`
   ${ProductShowPage.fragments.product}

@@ -354,6 +354,10 @@ export interface ProductPageGetDataQuery_site_route_node_Product {
    */
   plainTextDescription: string;
   /**
+   * Global trade item number.
+   */
+  gtin: string | null;
+  /**
    * Default image for a product.
    */
   defaultImage: ProductPageGetDataQuery_site_route_node_Product_defaultImage | null;

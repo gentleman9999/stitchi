@@ -52,8 +52,6 @@ const ProductShowPage = ({ product }: Props) => {
       ?.map(edge => edge?.node)
       .filter(notEmpty)
       .map(variant => {
-        console.log()
-
         const color = variant.options.edges
           ?.map(edge => edge?.node)
           .find(option => option?.displayName === 'Color')
@@ -69,11 +67,13 @@ const ProductShowPage = ({ product }: Props) => {
           images: variant.defaultImage ? [variant.defaultImage.url] : [],
           sku: variant.sku,
           mpn: variant.mpn || undefined,
+          gtin13: variant.gtin || undefined,
           offers: variant.prices
             ? {
                 url,
                 price: variant.prices.price.value,
                 priceCurrency: variant.prices.price.currencyCode,
+
                 itemCondition: 'https://schema.org/NewCondition',
                 availability: 'https://schema.org/InStock',
                 seller: {
@@ -170,6 +170,12 @@ const makeBreadcrumbs = (params: {
 }
 
 ProductShowPage.fragments = {
+  quote: gql`
+    fragment ProductShowPageQuoteFragment on Quote {
+      id
+      productUnitCostCents
+    }
+  `,
   product: gql`
     ${ProductShowPageProduct.fragments.product}
     fragment ProductShowPageProductFragment on Product {
@@ -177,6 +183,7 @@ ProductShowPage.fragments = {
       name
       path
       plainTextDescription
+      gtin
       defaultImage {
         seoImageUrl: url(width: 1000)
       }

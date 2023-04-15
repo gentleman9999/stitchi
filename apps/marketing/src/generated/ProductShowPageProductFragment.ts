@@ -298,6 +298,10 @@ export interface ProductShowPageProductFragment {
    */
   plainTextDescription: string;
   /**
+   * Global trade item number.
+   */
+  gtin: string | null;
+  /**
    * Default image for a product.
    */
   defaultImage: ProductShowPageProductFragment_defaultImage | null;
