@@ -8,9 +8,9 @@ import currency from 'currency.js'
 import pluralize from 'pluralize'
 import Link from 'next/link'
 import routes from '@lib/routes'
-import { ArrowRight, QuestionMarkCircle } from 'icons'
+import { ArrowRight, GlobalDistribution, GlobalDistribution2 } from 'icons'
 import * as Switch from '@radix-ui/react-switch'
-import Tooltip from '@components/ui/Tooltip'
+import MoreInformationPopover from '@components/common/MoreInformationPopover'
 
 const defaultQuote = {
   quantity: 500,
@@ -223,16 +223,20 @@ const CalculatorForm = (props: Props) => {
           <div className="flex flex-col gap-4">
             <h3 className="text-lg font-medium">Add-ons</h3>
             <div className="flex flex-wrap items-center justify-between gap-4">
-              <label className="text-sm flex whitespace-nowrap gap-1">
+              <label className="text-sm flex whitespace-nowrap gap-1 relative">
                 No-touch fulfillment ($1.00){' '}
-                <Tooltip
-                  side="bottom"
-                  delay={0}
-                  label={
-                    <>
-                      We will fulfill your order for you. We will ship your
-                      order to your customers and handle all customer service
-                      inquiries.{' '}
+                <MoreInformationPopover
+                  content={
+                    <div className="max-w-[240px] opacity-95 text bg-gray-950 text-white p-6 rounded-md w-full shadow-lg flex flex-col gap-4">
+                      <div className="flex justify-center">
+                        <GlobalDistribution2
+                          width={70}
+                          height={70}
+                          className="stroke-2"
+                        />
+                      </div>
+                      Save money, time, and worry less when you let Stitchi
+                      fulfill your orders and customer service inquiries.{' '}
                       <Link
                         href={routes.internal.features.distribution.href()}
                         className="underline"
@@ -240,14 +244,9 @@ const CalculatorForm = (props: Props) => {
                       >
                         Learn more
                       </Link>
-                    </>
+                    </div>
                   }
-                  renderTrigger={() => (
-                    <i className="cursor-pointer">
-                      <QuestionMarkCircle width={16} />
-                    </i>
-                  )}
-                />{' '}
+                />
               </label>
 
               <Controller
