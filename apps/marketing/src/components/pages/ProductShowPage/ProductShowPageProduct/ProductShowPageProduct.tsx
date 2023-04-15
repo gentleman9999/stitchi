@@ -86,7 +86,7 @@ const ProductShowPageProduct = ({ product }: Props) => {
             <div className="flex flex-col gap-4">
               <span className="text-sm">
                 Elevate your brand by collaborating with one of our skilled
-                designers at no cost!
+                designers at no additional cost!
               </span>
               <Link
                 href={routes.internal.getStarted.href()}

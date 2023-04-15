@@ -12,8 +12,11 @@ const ArrowRight = ({ ...props }) => {
       strokeLinejoin="round"
       {...props}
     >
-      <path d="M5 12H19" />
-      <path d="M12 5L19 12L12 19" />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
+      />
     </svg>
   )
 }

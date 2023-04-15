@@ -321,7 +321,7 @@ const CalculatorForm = (props: Props) => {
             <Button
               slim
               color="brandPrimary"
-              endIcon={<ArrowRight width={16} className="stroke-2" />}
+              endIcon={<ArrowRight width={16} className="stroke-[2.5px]" />}
               onClick={handleStartOrderClick}
               loading={submitting}
               disabled={loading}
