@@ -29,7 +29,10 @@ export const quoteGenerate = queryField('quoteGenerate', {
     const fulfillmentCost = includeFulfillment ? 1_00 : 0_00
 
     try {
-      productPrice = await ctx.catalog.getProductPrice(catalogProductVariantId)
+      const productPriceDecimal = await ctx.catalog.getProductPrice(
+        catalogProductVariantId,
+      )
+      productPrice = Math.floor(productPriceDecimal * 100)
     } catch (error) {
       throw new GraphQLError(
         `Unable to get product price: ${catalogProductVariantId}`,

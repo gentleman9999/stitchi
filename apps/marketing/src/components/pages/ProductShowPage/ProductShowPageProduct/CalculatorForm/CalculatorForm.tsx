@@ -305,7 +305,7 @@ const CalculatorForm = (props: Props) => {
                   <Skeleton width={130} />
                 ) : (
                   <>
-                    {pluralize('unit', quantity, true)}{' '}
+                    {quantity.toLocaleString()} {pluralize('unit', quantity)}{' '}
                     <span className="underline">
                       {currency(productTotalCostCents, {
                         fromCents: true,

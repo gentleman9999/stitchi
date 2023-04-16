@@ -74,7 +74,7 @@ const ProductShowPage = ({ product, quote }: Props) => {
           offers: variant.prices
             ? {
                 url,
-                price: currency(quote?.productUnitCostCents, {
+                price: currency(quote?.productUnitCostCents || 0, {
                   fromCents: true,
                 }),
                 priceCurrency: variant.prices.price.currencyCode,
