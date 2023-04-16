@@ -33,4 +33,5 @@ export interface ProductPricingCalculatorGetQuoteQueryVariables {
   catalogProductVariantId: number;
   printLocations: QuoteGeneratePrintLocationInput[];
   quantity: number;
+  includeFulfillment?: boolean | null;
 }
