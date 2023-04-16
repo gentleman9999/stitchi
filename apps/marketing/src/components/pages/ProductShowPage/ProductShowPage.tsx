@@ -19,12 +19,15 @@ import ProductQuickActions from './ProductQuickActions'
 import ShareDialog from '@components/common/ShareDialog'
 import ValuePropositions from './ValuePropositions'
 import Breadcrumbs from '@components/common/Breadcrumbs'
+import { ProductShowPageQuoteFragment } from '@generated/ProductShowPageQuoteFragment'
+import currency from 'currency.js'
 
 interface Props {
   product: ProductShowPageProductFragment
+  quote?: ProductShowPageQuoteFragment | null
 }
 
-const ProductShowPage = ({ product }: Props) => {
+const ProductShowPage = ({ product, quote }: Props) => {
   const [share, setShare] = React.useState(false)
 
   const title = makeProductTitle(product)
@@ -71,7 +74,9 @@ const ProductShowPage = ({ product }: Props) => {
           offers: variant.prices
             ? {
                 url,
-                price: variant.prices.price.value,
+                price: currency(quote?.productUnitCostCents, {
+                  fromCents: true,
+                }),
                 priceCurrency: variant.prices.price.currencyCode,
 
                 itemCondition: 'https://schema.org/NewCondition',
