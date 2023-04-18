@@ -2,28 +2,64 @@ import { Section, SectionHeader } from '@components/common'
 import { Container } from '@components/ui'
 
 const tableOfContents = {
-  'Getting started': {
-    'Getting started': 1,
-    'Intro to Figma': 15,
-    'Setting up your first artboard': 20,
+  Introduction: {
+    'Why college merch is the perfect side hustle for college students': 4,
+    'What you will learn in this guide': 5,
   },
-  Fundamentals: {
-    'Strokes and fills': 21,
-    'End points': 22,
-    'Bezier curves': 26,
-    'Designing on a grid': 31,
-    'Vector shapes': 45,
+  'Understanding the Custom Merch Business': {
+    'How is custom merch made?': 7,
+    'Why Custom Merch Is So Popular': 9,
+    'Success Stories from Custom Merch Entrepreneurs': 10,
+    'Custom Merch on Campus': 11,
   },
-  'Boolean operations': {
-    'Combining shapes': 50,
-    'Subtracting shapes': 57,
-    'Intersecting shapes': 66,
-    Flattening: 78,
+  'Identifying Your Niche and Target Audience': {
+    "Finding Your Niche: Why It's Important": 12,
+    'Choosing a Profitable Niche and Target Audience': 13,
+    'Analyzing Competitors in Your Niche': 14,
+    'Conducting Market Research for Your Custom Merch Business': 15,
+    'Collaborations and partnerships': 16,
+    'Adaptability and niche expansion': 17,
+    'Case Study: Underground Printing': 18,
   },
-  'Optimizing for production': {
-    'Preparing for SVG': 82,
-    'Configuring your export settings': 88,
-    'Minifying and removing metadata': 95,
+  'Designing Your Custom Merch': {
+    'How to Create High-Quality Designs': 21,
+    'Design Tips for Your Target Audience': 22,
+    'Outsourcing Design Work': 23,
+    'Legal Considerations and Licensing': 25,
+    'Design Software and Tools': 25,
+    Conclusion: 27,
+  },
+  'Manufacturing & Delivering Custom Merch': {
+    'Overview of the Manufacturing and Delivery Process': 28,
+    'Choosing the Ideal Manufacturing Partner': 29,
+    'Ensuring Seamless Delivery to Your Customers': 30,
+    'Comparing the Pros and Cons of Various Printing Techniques': 30,
+    'Managing and Rectifying Production Errors': 32,
+  },
+  'Marketing and Selling Your Custom Merch': {
+    'Different Marketing Channels for Your Custom Merch': 34,
+    'Building a Strong Online Presence': 35,
+    'Optimizing Pricing Strategy': 36,
+    'Building a Community Around Your Brand': 37,
+    'Offline Marketing Opportunities': 38,
+    'Analytics and Data-Driven Decision Making': 38,
+    'Customer Service and Relationship Building': 39,
+  },
+  'Managing and Scaling Your Custom Merch Business': {
+    'Time Management for Your Side Hustle': 41,
+    'Tracking Your Expenses and Revenue': 42,
+    'Legal and Tax Considerations': 43,
+    'Supply Chain Management': 44,
+    'Developing Key Partnerships': 45,
+    'Scaling Your Custom Merch Business': 46,
+    'Adopting Technologies for Business Efficiency': 47,
+    'Diversifying Your Product Offerings': 48,
+    Conclusion: 49,
+  },
+  Conclusion: {
+    'Recap of the Guide': 51,
+    'Final Words of Encouragement': 51,
+    'Additional Resources for Your Custom Merch Business': 52,
   },
 }
 
