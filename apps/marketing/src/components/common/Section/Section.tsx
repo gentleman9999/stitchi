@@ -2,14 +2,18 @@ import React from 'react'
 import cx from 'classnames'
 
 export interface SectionProps {
+  label: string
   children: React.ReactNode
   className?: string
   gutter?: 'sm' | 'md' | 'lg' | 'xl'
+  id?: string
 }
 
 const Section = (props: SectionProps) => {
   return (
     <section
+      id={props.id}
+      aria-label={props.label}
       className={cx(props.className, {
         ['py-3 sm:py-4 md:py-5 lg:py-6']: props.gutter === 'sm',
         ['py-6 sm:py-8 md:py-10 lg:py-12']: props.gutter === 'md',

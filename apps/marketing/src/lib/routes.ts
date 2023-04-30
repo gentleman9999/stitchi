@@ -154,6 +154,13 @@ const routes = {
         href: () => buildRoute('/api/mailing-list-subscription'),
       },
     },
+    downloads: {
+      studentEbook: {
+        show: {
+          href: () => buildRoute('/api/downloads/student-business-ebook'),
+        },
+      },
+    },
   },
   external: {
     support: {

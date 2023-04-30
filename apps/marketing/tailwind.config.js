@@ -9,8 +9,8 @@ module.exports = {
   plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
   theme: {
     fontFamily: {
-      heading: ["Degular"],
-      headingDisplay: ["Degular-Display"],
+      heading: ['Degular'],
+      headingDisplay: ['Degular-Display'],
       default: ['Inter'],
     },
     colors: {
