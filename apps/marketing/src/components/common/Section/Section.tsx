@@ -2,8 +2,8 @@ import React from 'react'
 import cx from 'classnames'
 
 export interface SectionProps {
-  label: string
   children: React.ReactNode
+  label?: string
   className?: string
   gutter?: 'sm' | 'md' | 'lg' | 'xl'
   id?: string
