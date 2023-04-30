@@ -3,6 +3,7 @@ import Button from '@components/ui/Button'
 import GridPattern from '@components/ui/GridPattern'
 import StarRating from '@components/ui/StarRating'
 import coverImage from '../../../../public/cash-in-on-merch-book-cover.jpg'
+import Link from 'next/link'
 
 const Testimonial = () => {
   return (
@@ -12,15 +13,14 @@ const Testimonial = () => {
       </div>
       <blockquote className="mt-2">
         <p className="font-display text-xl font-medium text-gray-900">
-          “This method of designing icons is genius. I wish I had known this
-          method a lot sooner.”
+          “A must-read for college students seeking a successful side hustle..”
         </p>
       </blockquote>
       <figcaption className="mt-2 text-sm text-gray-500">
         <strong className="font-semibold text-blue-600 before:content-['—_']">
-          Stacey Solomon
+          Mark Cuban
         </strong>
-        , Founder at Retail Park
+        , Entrepreneur and Investor
       </figcaption>
     </figure>
   )
@@ -61,7 +61,7 @@ const Hero = () => {
               college student.
             </p>
             <div className="mt-8 flex gap-4">
-              <Button
+              {/* <Button
                 href="#free-chapters"
                 variant="ghost"
                 color="brandPrimary"
@@ -70,6 +70,9 @@ const Hero = () => {
               </Button>
               <Button href="#pricing" color="brandPrimary">
                 Buy book
+              </Button> */}
+              <Button Component={Link} href="#pricing" color="brandPrimary">
+                Download for free
               </Button>
             </div>
           </div>

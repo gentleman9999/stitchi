@@ -1,5 +1,8 @@
 import { Section, SectionHeader } from '@components/common'
-import { Container } from '@components/ui'
+import { Button, Container } from '@components/ui'
+import { ArrowDown } from 'icons'
+import React from 'react'
+import SectionHeading from './SectionHeader'
 
 const tableOfContents = {
   Introduction: {
@@ -64,58 +67,73 @@ const tableOfContents = {
 }
 
 const TableOfContents = () => {
+  const [showAll, setShowAll] = React.useState(false)
   return (
-    <Container>
+    <Container className="!max-w-3xl">
       <Section
         label="table-of-contents-title"
         className="scroll-mt-14 py-16 sm:scroll-mt-32 sm:py-20 lg:py-32"
       >
-        <SectionHeader title="Table of contents" />
+        <SectionHeading number="1">Table of contents</SectionHeading>
 
-        <p className="mt-8 font-display text-4xl font-bold tracking-tight text-slate-900">
+        <p className="mt-8 font-display text-4xl font-bold tracking-tight text-gray-900">
           Get a look at all of the content covered in the book. Everything you
           need to know is inside.
         </p>
-        <p className="mt-4 text-lg tracking-tight text-slate-700">
-          “Everything Starts as a Square” is comprised of 240 tightly edited,
-          highly visual pages designed to teach you everything you need to know
-          about icon design with no unnecessary filler.
+        <p className="mt-4 text-lg tracking-tight text-gray-700">
+          &quot;Cash in on Merch&quot; is comprised of 70 tightly edited, highly
+          visual pages designed to teach you everything you need to know about
+          starting a custom merch business with no unnecessary filler.
         </p>
 
         <ol role="list" className="mt-16 space-y-10 sm:space-y-16">
-          {Object.entries(tableOfContents).map(([title, pages]) => (
-            <li key={title}>
-              <h3 className="font-display text-3xl font-bold tracking-tight text-slate-900">
-                {title}
-              </h3>
-              <ol
-                role="list"
-                className="mt-8 divide-y divide-slate-300/30 rounded-2xl bg-slate-50 px-6 py-3 text-base tracking-tight sm:px-8 sm:py-7"
-              >
-                {Object.entries(pages).map(([title, pageNumber]) => (
-                  <li
-                    key={title}
-                    className="flex justify-between py-3"
-                    aria-label={`${title} on page ${pageNumber}`}
-                  >
-                    <span
-                      className="font-medium text-slate-900"
-                      aria-hidden="true"
+          {Object.entries(tableOfContents)
+            .slice(0, showAll ? -1 : 2)
+            .map(([title, pages]) => (
+              <li key={title}>
+                <h3 className="font-display text-3xl font-bold tracking-tight text-gray-900">
+                  {title}
+                </h3>
+                <ol
+                  role="list"
+                  className="mt-8 divide-y divide-gray-300/30 rounded-2xl bg-gray-50 px-6 py-3 text-base tracking-tight sm:px-8 sm:py-7"
+                >
+                  {Object.entries(pages).map(([title, pageNumber]) => (
+                    <li
+                      key={title}
+                      className="flex justify-between py-3"
+                      aria-label={`${title} on page ${pageNumber}`}
                     >
-                      {title}
-                    </span>
-                    <span
-                      className="font-mono text-slate-400"
-                      aria-hidden="true"
-                    >
-                      {pageNumber}
-                    </span>
-                  </li>
-                ))}
-              </ol>
-            </li>
-          ))}
+                      <span
+                        className="font-medium text-gray-900"
+                        aria-hidden="true"
+                      >
+                        {title}
+                      </span>
+                      <span
+                        className="font-mono text-gray-400"
+                        aria-hidden="true"
+                      >
+                        {pageNumber}
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              </li>
+            ))}
         </ol>
+        {!showAll ? (
+          <div className="flex justify-center mt-8">
+            <Button
+              variant="naked"
+              onClick={() => setShowAll(true)}
+              endIcon={<ArrowDown width={16} strokeWidth={3} />}
+              className="!no-underline hover:!underline"
+            >
+              Show all
+            </Button>
+          </div>
+        ) : null}
       </Section>
     </Container>
   )
