@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import React from 'react'
-import cx from 'classnames'
 import { Button, ButtonProps } from '@components/ui'
 import { Section } from '..'
 
@@ -42,7 +41,6 @@ const Hero = (props: HeroProps) => {
                     <Button
                       Component="a"
                       shadow
-                      className={props.primaryCta.buttonClassName}
                       endIcon={props.primaryCta.endIcon}
                     >
                       {props.primaryCta.title}
