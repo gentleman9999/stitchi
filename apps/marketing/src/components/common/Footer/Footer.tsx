@@ -15,9 +15,9 @@ const Footer = () => (
       <Section gutter="md">
         <div className="grid grid-cols-1 gap-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
+            <List title="Services" items={navigation.services} />
             <List title="Solutions" items={navigation.solutions} />
             <List title="Resources" items={navigation.resources} />
-            <List title="Industries" items={navigation.industries} />
             <List title="Legal" items={navigation.legal} />
           </div>
           <div className="">

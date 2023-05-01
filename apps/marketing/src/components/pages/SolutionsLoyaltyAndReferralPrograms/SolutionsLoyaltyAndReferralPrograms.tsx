@@ -6,7 +6,7 @@ import FrequentlyAskedQuestions from './FrequentlyAskedQuestions'
 import Hero from './Hero'
 import Process from './Process'
 
-const IndustryNewsletterLandingPage = () => {
+const SolutionsLoyaltyAndReferralPrograms = () => {
   return (
     <div>
       <Container>
@@ -28,4 +28,4 @@ const IndustryNewsletterLandingPage = () => {
   )
 }
 
-export default IndustryNewsletterLandingPage
+export default SolutionsLoyaltyAndReferralPrograms

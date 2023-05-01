@@ -15,12 +15,12 @@ const Hero = () => {
       <div className="flex gap-8">
         <div>
           <h1 className="font-headingDisplay text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold md:max-w-lg lg:max-w-xl xl:max-w-2xl">
-            Exponential subscriber growth like the pros 🚀
+            Exponential customer growth like the pros 🚀
           </h1>
           <br className="hidden md:block" />
           <br />
           <p className="text sm:text-lg lg:text-xl text-gray-700 lg:max-w-md xl:max-w-lg">
-            Get thousands of word-of-mouth referrals and reduce subscriber
+            Get thousands of word-of-mouth referrals and reduce customer
             acquisition cost to a fraction of what you pay today.
           </p>
           <br className="hidden md:block" />

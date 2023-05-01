@@ -26,6 +26,39 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
             <NavbarMobileDropdown
               ButtonChildren={({ active }) => (
                 <div className={s.link}>
+                  Services
+                  <span
+                    className={cx('ml-2 transition', {
+                      'transform rotate-180': active,
+                    })}
+                  >
+                    <ChevronDown />
+                  </span>
+                </div>
+              )}
+              items={navigation.services.map(item => {
+                // https://headlessui.dev/react/menu#integrating-with-next-js
+                // eslint-disable-next-line react/display-name
+                return function (props: any) {
+                  return (
+                    <HeadlessPopover.Button
+                      {...props}
+                      key={item.label}
+                      href={item.href}
+                      as={Link}
+                      className={cx('block text-lg text-secondary', {})}
+                    >
+                      <div>{item.label}</div>
+                    </HeadlessPopover.Button>
+                  )
+                }
+              })}
+            />
+          </div>
+          <div className={s.item}>
+            <NavbarMobileDropdown
+              ButtonChildren={({ active }) => (
+                <div className={s.link}>
                   Solutions
                   <span
                     className={cx('ml-2 transition', {

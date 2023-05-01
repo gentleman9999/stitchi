@@ -108,6 +108,11 @@ const routes = {
         href: () => buildRoute('/promotional-product-distribution'),
       },
     },
+    solutions: {
+      loyaltyPrograms: {
+        href: () => buildRoute('loyalty-referral-programs'),
+      },
+    },
     glossary: {
       href: () => '/directory',
       show: {
@@ -137,11 +142,7 @@ const routes = {
     partners: {
       href: () => buildRoute('/partners'),
     },
-    industries: {
-      newsletters: {
-        href: () => buildRoute('/newsletter-merchandise-referral-program'),
-      },
-    },
+
     ebooks: {
       studentMerchBusiness: {
         href: () => buildRoute('/how-to-start-student-merch-business'),

@@ -23,6 +23,25 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
         <Dropdown
           anchorEl={anchorEl}
           ButtonChildren={({ active }) => (
+            <DropdownButton label="Services" active={active} />
+          )}
+          panelChildren={
+            <div className="grid grid-cols-2 gap-4">
+              {navigation.services.map(item => (
+                <NavbarDesktopDropdown
+                  key={item.label}
+                  label={item.label}
+                  href={item.href}
+                  description={item.description}
+                  // icon={item.icon}
+                />
+              ))}
+            </div>
+          }
+        />
+        <Dropdown
+          anchorEl={anchorEl}
+          ButtonChildren={({ active }) => (
             <DropdownButton label="Solutions" active={active} />
           )}
           panelChildren={

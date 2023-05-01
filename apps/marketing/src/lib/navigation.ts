@@ -5,7 +5,7 @@ export type Navigation = ReturnType<typeof navigation.makeNavigation>
 
 const navigation = {
   makeNavigation: () => ({
-    solutions: [
+    services: [
       {
         label: 'Pro Merch Design (free)',
         description:
@@ -21,18 +21,19 @@ const navigation = {
         icon: Support,
         href: routes.internal.features.distribution.href(),
       },
-      {
-        label: 'Swag Bags & Boxes',
-        description:
-          'Curate unique branded promotional products for your fans and employees.',
-        icon: Support,
-        href: '#',
-        beta: true,
-      },
+    ],
+    solutions: [
       {
         label: 'Loyalty & Referral Programs',
         description:
           'Reward your audience for purchasing from you or referring your brand.',
+        icon: Support,
+        href: routes.internal.solutions.loyaltyPrograms.href(),
+      },
+      {
+        label: 'Swag Bags & Boxes',
+        description:
+          'Curate unique branded promotional products for your fans and employees.',
         icon: Support,
         href: '#',
         beta: true,
@@ -80,12 +81,6 @@ const navigation = {
       //   icon: Support,
       //   href: '#',
       // },
-    ],
-    industries: [
-      {
-        label: 'Newsletters',
-        href: routes.internal.industries.newsletters.href(),
-      },
     ],
     legal: [
       // { label: 'Claim', href: '#' },

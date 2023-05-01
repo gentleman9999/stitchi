@@ -75,6 +75,11 @@ module.exports = withBundleAnalyzer({
         destination: '/employee-engagement',
         permanent: true,
       },
+      {
+        source: '/newsletter-merchandise-referral-program',
+        destination: '/loyalty-referral-programs',
+        permanent: true,
+      },
     ]
   },
 })

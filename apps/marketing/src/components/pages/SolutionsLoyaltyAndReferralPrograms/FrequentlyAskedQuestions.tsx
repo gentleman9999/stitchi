@@ -10,7 +10,7 @@ const FrequentlyAskedQuestions = () => {
         {
           id: 'faq-1',
           question:
-            'What types of rewards can I offer my subscribers for their referrals?',
+            'What types of rewards can I offer my customers for their referrals?',
           answer: (
             <>
               From t-shirts and hats to backpacks and coffee mugs, we have a
@@ -43,11 +43,11 @@ const FrequentlyAskedQuestions = () => {
                 </li>
                 <li>
                   <strong>Strong brand</strong>: A strong brand and reputation
-                  can help attract new subscribers via word-of-mouth referrals.
+                  can help attract new customers via word-of-mouth referrals.
                 </li>
                 <li>
                   <strong>Incentives</strong>: Consider what type of incentives
-                  you can offer to encourage subscribers to refer their friends
+                  you can offer to encourage customers to refer their friends
                   and colleagues. These rewards should be attractive enough to
                   motivate them to take action.
                 </li>
@@ -60,7 +60,7 @@ const FrequentlyAskedQuestions = () => {
                 <li>
                   <strong>Communication and reminder</strong>: Communicate
                   clearly and frequently on the referral program and remind your
-                  existing subscribers that they can earn rewards for referrals,
+                  existing customers that they can earn rewards for referrals,
                   this will help to increase the chances of success.
                 </li>
               </ul>
