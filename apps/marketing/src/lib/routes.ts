@@ -142,6 +142,11 @@ const routes = {
         href: () => buildRoute('/newsletter-merchandise-referral-program'),
       },
     },
+    ebooks: {
+      studentMerchBusiness: {
+        href: () => buildRoute('/how-to-start-student-merch-business'),
+      },
+    },
   },
   api: {
     formResponse: {

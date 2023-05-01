@@ -55,7 +55,7 @@ const NavbarDesktopLearnContents = () => {
           passHref
           className="font-semibold hover:bg-primary p-1 rounded-sm"
         >
-          <Popover.Button as="div">Blog</Popover.Button>
+          <Popover.Button as="div">Articles & Guides</Popover.Button>
         </Link>
         <Link
           href={routes.internal.glossary.href()}

@@ -21,7 +21,7 @@ const HomePageFeaturedPosts = ({ posts }: Props) => {
         </h2>
         <p className="mt-2 text-lg leading-8 text-gray-600">
           Unleash your brand&apos;s potential with creative promotional products
-          and targeted marketing strategies - explore our blog for valuable
+          and targeted marketing strategies - explore our articles for valuable
           insights.
         </p>
       </div>

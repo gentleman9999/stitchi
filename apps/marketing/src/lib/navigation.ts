@@ -50,7 +50,7 @@ const navigation = {
         href: routes.internal.catalog.href(),
       },
       {
-        label: 'Blog',
+        label: 'Articles & Guides',
         icon: Support,
         href: routes.internal.blog.href(),
       },
@@ -63,6 +63,11 @@ const navigation = {
         label: 'Promotional Product Industry Terminology',
         icon: Support,
         href: routes.internal.glossary.href(),
+      },
+      {
+        label: 'How To: Start a Merch Business',
+        icon: Support,
+        href: routes.internal.ebooks.studentMerchBusiness.href(),
       },
       // {
       //   label: 'About us',

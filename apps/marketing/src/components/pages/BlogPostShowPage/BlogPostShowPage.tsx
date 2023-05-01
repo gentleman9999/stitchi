@@ -13,12 +13,28 @@ import { humanizeDate } from '@utils/date'
 import BlogPostShowPageAuthor from './BlogPostShowPageAuthor'
 import BlogPostShowPageSeo from './BlogPostShowPageSeo'
 import BlogPostJsonLD from './BlogPostJsonLD'
+import Breadcrumbs from '@components/common/Breadcrumbs'
+import routes from '@lib/routes'
 
 export interface BlogShowPageProps {
   post: BlogPostShowPageArticleFragment
 }
 
 const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
+  React.useEffect(() => {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    const classList = ['scroll-pt-24', 'scroll-smooth']
+
+    window.document.documentElement.classList.add(...classList)
+
+    return () => {
+      window.document.documentElement.classList.remove(...classList)
+    }
+  }, [])
+
   if (!post.content) {
     return null
   }
@@ -28,6 +44,23 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
       <BlogPostShowPageSeo article={post} />
       <BlogPostJsonLD post={post} />
       <Container>
+        {post.title && post.slug ? (
+          <div className="mb-3">
+            <Breadcrumbs
+              breadcrumbs={[
+                {
+                  label: 'Articles & Guides',
+                  href: routes.internal.blog.href(),
+                },
+                {
+                  label: post.title,
+                  href: routes.internal.blog.show.href(post.slug),
+                },
+              ]}
+            />
+          </div>
+        ) : null}
+
         <article className="prose prose-stone prose-headings:font-heading lg:prose-xl max-w-none">
           {post.image?.responsiveImage && (
             <div className="not-prose mb-12 max-w-none max-h-[60vh] overflow-hidden rounded-lg">

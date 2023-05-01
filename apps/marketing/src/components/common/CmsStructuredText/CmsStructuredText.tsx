@@ -80,13 +80,13 @@ const CmsStructuredText = ({ content }: Props) => {
             href={routes.internal.blog.show.href(record.slug as string)}
             className="no-underline rounded-md border p-2 flex flex-col gap-2 not-prose"
           >
-            <h2 className="hover:underline leading-tight">
+            <span className="hover:underline leading-tight">
               {record.title as string}
-            </h2>
+            </span>
             {(record.shortDescription as string) ? (
-              <p className="text-xs font-normal">
+              <span className="text-xs font-normal">
                 {record.shortDescription as string}
-              </p>
+              </span>
             ) : null}
           </Link>
         )
