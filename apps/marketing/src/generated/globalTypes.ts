@@ -34,6 +34,7 @@ export interface ArticleModelFilter {
   slug?: SlugFilter | null;
   title?: StringFilter | null;
   OR?: (ArticleModelFilter | null)[] | null;
+  AND?: (ArticleModelFilter | null)[] | null;
 }
 
 /**
