@@ -7,7 +7,6 @@ import { Section } from '..'
 interface Cta {
   title: React.ReactNode
   href: string
-  buttonClassName?: string
   endIcon?: ButtonProps['endIcon']
 }
 
@@ -53,14 +52,7 @@ const Hero = (props: HeroProps) => {
               )}
               {props.secondaryCta && (
                 <Link href={props.secondaryCta.href} passHref legacyBehavior>
-                  <Button
-                    shadow
-                    Component="a"
-                    className={cx(
-                      'mt-3 sm:mt-0 sm:ml-3',
-                      props.secondaryCta.buttonClassName,
-                    )}
-                  >
+                  <Button shadow Component="a" className="mt-3 sm:mt-0 sm:ml-3">
                     {props.secondaryCta.title}
                   </Button>
                 </Link>

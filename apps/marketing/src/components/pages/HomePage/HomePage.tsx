@@ -8,10 +8,15 @@ import HomePageCustomerLogos from './HomePageCustomerLogos'
 import HomePageTestimonial from './HomePageTestimonial'
 import { Section, SectionHeader } from '@components/common'
 import { Doodle3 } from 'icons'
+import HomePageFeaturedPosts from './HomePageFeaturedPosts'
+import { gql } from '@apollo/client'
+import { HomePageFeaturedPostsFragment } from '@generated/HomePageFeaturedPostsFragment'
 
-export interface HomePageProps {}
+export interface HomePageProps {
+  featuredPosts: HomePageFeaturedPostsFragment[]
+}
 
-const HomePage = (props: HomePageProps) => {
+const HomePage = ({ featuredPosts }: HomePageProps) => {
   return (
     <>
       <Container>
@@ -60,10 +65,24 @@ const HomePage = (props: HomePageProps) => {
       </div>
 
       <Container>
+        <HomePageFeaturedPosts posts={featuredPosts} />
+      </Container>
+
+      <Container>
         <HomePageClosingSection />
       </Container>
     </>
   )
+}
+
+HomePage.fragments = {
+  featuredPosts: gql`
+    ${HomePageFeaturedPosts.fragments.posts}
+    fragment HomePageFeaturedPostsFragment on ArticleRecord {
+      id
+      ...HomePageFeaturedPostsPostsFragment
+    }
+  `,
 }
 
 export default HomePage

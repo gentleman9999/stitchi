@@ -25,64 +25,59 @@ const BlogPostCard = ({ post }: BlogPostCardProps) => {
   }
 
   return (
-    <div className="flex flex-col rounded-lg shadow-lg overflow-hidden">
+    <article className="flex flex-col items-start">
       {post.image?.responsiveImage && (
-        <div className="flex-shrink-0">
+        <div className="relative w-full">
           <CmsImage
             data={post.image.responsiveImage}
-            className="h-40 w-full"
             layout="responsive"
             objectFit="cover"
+            className="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
           />
+          <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
         </div>
       )}
-      <div className="flex-1 bg-white p-6 flex flex-col justify-between">
-        <div className="flex-1">
-          {categoryHref && (
-            <p className="text-sm font-medium text-lime-500">
-              <Link
-                href={categoryHref}
-                className="hover:underline font-heading"
-              >
-                {category.name}
-              </Link>
-            </p>
-          )}
-          <Link href={postHref} className="block mt-2">
-            <p className="text-xl font-semibold text-gray-900 font-heading">
+      <div className="max-w-xl">
+        {categoryHref ? (
+          <div className="mt-8 flex items-center gap-x-4 text-xs">
+            <time dateTime={post._createdAt} className="text-gray-500">
+              {humanizeDate(post._createdAt, { short: true })}
+            </time>
+            <Link
+              href={categoryHref}
+              className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+            >
+              {category.name}
+            </Link>
+          </div>
+        ) : null}
+
+        <div className="group relative">
+          <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+            <Link href={postHref}>
+              <span className="absolute inset-0" />
               {post.title}
-            </p>
-            <p className="mt-3 text-base text-gray-500">
-              {post.shortDescription}
-            </p>
-          </Link>
+            </Link>
+          </h3>
+          <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
+            {post.shortDescription}
+          </p>
         </div>
-        <div className="mt-6 flex items-center">
-          {post.author?.image && (
-            <div className="flex-shrink-0">
-              {/* <a href={post.author.href}> */}
-              <span className="sr-only">{post.author?.name}</span>
-              <Avatar image={post.author.image} />
-              {/* </a> */}
-            </div>
-          )}
-          <div className="ml-3 font-heading">
-            <p className="text-sm font-medium text-gray-900 ">
-              {/* <a href={post.author.href} className="hover:underline"> */}
-              {post.author?.name}
-              {/* </a> */}
-            </p>
-            <div className="flex space-x-1 text-sm text-gray-500">
-              <time dateTime={post._createdAt}>
-                {humanizeDate(post._createdAt, { short: true })}
-              </time>
-              {/* <span aria-hidden="true">&middot;</span> */}
-              {/* <span>{post.readingTime} read</span> */}
+
+        {post.author ? (
+          <div className="relative mt-8 flex items-center gap-x-4">
+            {post.author.image ? <Avatar image={post.author.image} /> : null}
+
+            <div className="text-sm leading-6">
+              <p className="font-semibold text-gray-900">
+                <span className="absolute inset-0" />
+                {post.author.name}
+              </p>
             </div>
           </div>
-        </div>
+        ) : null}
       </div>
-    </div>
+    </article>
   )
 }
 

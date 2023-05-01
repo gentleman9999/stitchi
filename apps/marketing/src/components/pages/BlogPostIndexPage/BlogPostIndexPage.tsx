@@ -92,7 +92,7 @@ const BlogIndexPage = ({
                 })) || []),
             ]}
           />
-          <div className="mt-12 mb-5 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
+          <div className="mt-12 mb-5 max-w-lg mx-auto grid gap-10 lg:grid-cols-3 lg:max-w-none">
             {articles.map(post =>
               post ? <BlogPostCard key={post.id} post={post} /> : null,
             )}
