@@ -13,11 +13,7 @@ import { isLink, isHeading } from 'datocms-structured-text-utils'
 import Link from 'next/link'
 import { StructuredText, renderNodeRule } from 'react-datocms'
 import CmsImage from '../CmsImage'
-
-interface Table {
-  columns: string[]
-  data: Record<string, string>[]
-}
+import TableRecord from './TableRecord'
 
 interface Props {
   content:
@@ -54,7 +50,6 @@ const CmsStructuredText = ({ content }: Props) => {
         }),
       ]}
       renderLinkToRecord={({ record }) => {
-        console.log('RECORD', record)
         switch (record.__typename) {
           case 'ArticleRecord':
             return (
@@ -83,28 +78,7 @@ const CmsStructuredText = ({ content }: Props) => {
       renderInlineRecord={({ record }) => {
         switch (record.__typename) {
           case 'TableRecord': {
-            const table = record.table as Table
-            console.log('TABLE', table)
-            return (
-              <table>
-                <thead>
-                  <tr>
-                    {table.columns.map(column => (
-                      <th key={column}>{column}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {table.data.map((row, index) => (
-                    <tr key={index}>
-                      {table.columns.map(column => (
-                        <td key={column}>{row[column]}</td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )
+            return <TableRecord table={record.table as any} />
           }
           default: {
             return (
