@@ -49,7 +49,13 @@ export interface CmsStructuredTextContentFragment_links_GlossaryEntryRecord {
   entryType: string | null;
 }
 
-export type CmsStructuredTextContentFragment_links = CmsStructuredTextContentFragment_links_ArticleRecord | CmsStructuredTextContentFragment_links_GlossaryEntryRecord;
+export interface CmsStructuredTextContentFragment_links_TableRecord {
+  __typename: "TableRecord";
+  id: any;
+  table: any | null;
+}
+
+export type CmsStructuredTextContentFragment_links = CmsStructuredTextContentFragment_links_ArticleRecord | CmsStructuredTextContentFragment_links_GlossaryEntryRecord | CmsStructuredTextContentFragment_links_TableRecord;
 
 export interface CmsStructuredTextContentFragment {
   __typename: "ArticleModelContentField";

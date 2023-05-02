@@ -14,6 +14,11 @@ import Link from 'next/link'
 import { StructuredText, renderNodeRule } from 'react-datocms'
 import CmsImage from '../CmsImage'
 
+interface Table {
+  columns: string[]
+  data: Record<string, string>[]
+}
+
 interface Props {
   content:
     | CmsStructuredTextContentFragment
@@ -49,6 +54,7 @@ const CmsStructuredText = ({ content }: Props) => {
         }),
       ]}
       renderLinkToRecord={({ record }) => {
+        console.log('RECORD', record)
         switch (record.__typename) {
           case 'ArticleRecord':
             return (
@@ -69,27 +75,55 @@ const CmsStructuredText = ({ content }: Props) => {
                 {record.term as string}
               </Link>
             )
+
           default:
             throw new Error(`Invalid record type: ${record.__typename}`)
         }
       }}
       renderInlineRecord={({ record }) => {
-        if (!record) return null
-        return (
-          <Link
-            href={routes.internal.blog.show.href(record.slug as string)}
-            className="no-underline rounded-md border p-2 flex flex-col gap-2 not-prose"
-          >
-            <span className="hover:underline leading-tight">
-              {record.title as string}
-            </span>
-            {(record.shortDescription as string) ? (
-              <span className="text-xs font-normal">
-                {record.shortDescription as string}
-              </span>
-            ) : null}
-          </Link>
-        )
+        switch (record.__typename) {
+          case 'TableRecord': {
+            const table = record.table as Table
+            console.log('TABLE', table)
+            return (
+              <table>
+                <thead>
+                  <tr>
+                    {table.columns.map(column => (
+                      <th key={column}>{column}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {table.data.map((row, index) => (
+                    <tr key={index}>
+                      {table.columns.map(column => (
+                        <td key={column}>{row[column]}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )
+          }
+          default: {
+            return (
+              <Link
+                href={routes.internal.blog.show.href(record.slug as string)}
+                className="no-underline rounded-md border p-2 flex flex-col gap-2 not-prose"
+              >
+                <span className="hover:underline leading-tight">
+                  {record.title as string}
+                </span>
+                {(record.shortDescription as string) ? (
+                  <span className="text-xs font-normal">
+                    {record.shortDescription as string}
+                  </span>
+                ) : null}
+              </Link>
+            )
+          }
+        }
       }}
       renderBlock={({ record }) => {
         switch (record.__typename) {
@@ -146,6 +180,11 @@ CmsStructuredText.fragments = {
           slug
           term
           entryType
+        }
+
+        ... on TableRecord {
+          id
+          table
         }
       }
     }

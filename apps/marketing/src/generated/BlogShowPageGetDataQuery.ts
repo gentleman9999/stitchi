@@ -111,7 +111,13 @@ export interface BlogShowPageGetDataQuery_article_content_links_GlossaryEntryRec
   entryType: string | null;
 }
 
-export type BlogShowPageGetDataQuery_article_content_links = BlogShowPageGetDataQuery_article_content_links_ArticleRecord | BlogShowPageGetDataQuery_article_content_links_GlossaryEntryRecord;
+export interface BlogShowPageGetDataQuery_article_content_links_TableRecord {
+  __typename: "TableRecord";
+  id: any;
+  table: any | null;
+}
+
+export type BlogShowPageGetDataQuery_article_content_links = BlogShowPageGetDataQuery_article_content_links_ArticleRecord | BlogShowPageGetDataQuery_article_content_links_GlossaryEntryRecord | BlogShowPageGetDataQuery_article_content_links_TableRecord;
 
 export interface BlogShowPageGetDataQuery_article_content {
   __typename: "ArticleModelContentField";

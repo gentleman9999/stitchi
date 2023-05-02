@@ -109,7 +109,13 @@ export interface BlogPostShowPageArticleFragment_content_links_GlossaryEntryReco
   entryType: string | null;
 }
 
-export type BlogPostShowPageArticleFragment_content_links = BlogPostShowPageArticleFragment_content_links_ArticleRecord | BlogPostShowPageArticleFragment_content_links_GlossaryEntryRecord;
+export interface BlogPostShowPageArticleFragment_content_links_TableRecord {
+  __typename: "TableRecord";
+  id: any;
+  table: any | null;
+}
+
+export type BlogPostShowPageArticleFragment_content_links = BlogPostShowPageArticleFragment_content_links_ArticleRecord | BlogPostShowPageArticleFragment_content_links_GlossaryEntryRecord | BlogPostShowPageArticleFragment_content_links_TableRecord;
 
 export interface BlogPostShowPageArticleFragment_content {
   __typename: "ArticleModelContentField";
