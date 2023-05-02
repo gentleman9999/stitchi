@@ -38,6 +38,14 @@ const navigation = {
         href: '#',
         beta: true,
       },
+      {
+        label: 'Corporate Gifting & Employee Swag',
+        description:
+          'Send your employees and clients branded gifts to show your appreciation.',
+        icon: Support,
+        href: '#',
+        beta: true,
+      },
     ],
     resources: [
       // {
