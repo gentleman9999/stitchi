@@ -70,7 +70,9 @@ export default function Form({ product }: Props) {
         />
       </div>
       <div>
-        <button type="submit">Pre-Order</button>
+        <button type="submit" className="border rounded-md py-2 px-4">
+          Pre-Order
+        </button>
       </div>
     </form>
   )
