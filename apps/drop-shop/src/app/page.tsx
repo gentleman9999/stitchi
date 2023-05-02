@@ -20,7 +20,7 @@ export default function Home() {
           </div>
 
           <div className="flex-1">
-            <Image {...featuredImage} alt={product.title} />
+            <Image {...featuredImage} priority alt={product.title} />
           </div>
         </div>
       </div>

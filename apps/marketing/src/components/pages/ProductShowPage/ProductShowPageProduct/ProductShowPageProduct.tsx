@@ -58,6 +58,7 @@ const ProductShowPageProduct = ({ product }: Props) => {
             <div className="relative w-full h-[350px] sm:h-[400px] border-b">
               <Image
                 fill
+                priority
                 style={{
                   objectFit: 'contain',
                 }}

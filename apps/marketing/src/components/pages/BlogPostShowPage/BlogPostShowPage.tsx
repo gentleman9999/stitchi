@@ -65,6 +65,7 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
           {post.image?.responsiveImage && (
             <div className="not-prose mb-12 max-w-none max-h-[60vh] overflow-hidden rounded-lg">
               <CmsImage
+                priority
                 data={post.image.responsiveImage}
                 lazyLoad={false}
                 usePlaceholder={false}
