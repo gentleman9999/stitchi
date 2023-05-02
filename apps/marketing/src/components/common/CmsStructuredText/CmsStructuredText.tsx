@@ -115,6 +115,7 @@ const CmsStructuredText = ({ content }: Props) => {
                 <CmsImage
                   data={castedRecord.image.responsiveImage}
                   layout="responsive"
+                  objectFit="contain"
                 />
               </div>
             )
