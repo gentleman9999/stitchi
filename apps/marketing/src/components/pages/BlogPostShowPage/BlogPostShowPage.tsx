@@ -61,7 +61,7 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
           </div>
         ) : null}
 
-        <article className="prose prose-stone prose-headings:font-heading lg:prose-xl max-w-none">
+        <article className="prose prose-stone prose-headings:font-heading lg:prose-lg max-w-none">
           {post.image?.responsiveImage && (
             <div className="not-prose mb-12 max-w-none max-h-[60vh] overflow-hidden rounded-lg">
               <CmsImage
@@ -74,7 +74,7 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
             </div>
           )}
 
-          <div className="relative mx-auto max-w-prose">
+          <div className="relative mx-auto max-w-4xl">
             <BackgroundTexture />
 
             <div className="mb-3">

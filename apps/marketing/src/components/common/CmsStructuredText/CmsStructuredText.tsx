@@ -80,17 +80,18 @@ const CmsStructuredText = ({ content }: Props) => {
           case 'TableRecord': {
             return <TableRecord table={record.table as any} />
           }
+
           default: {
             return (
               <Link
                 href={routes.internal.blog.show.href(record.slug as string)}
-                className="no-underline rounded-md border p-2 flex flex-col gap-2 not-prose"
+                className="no-underline rounded-md border border-gray-100 p-2 md:p-4 lg:p-6 flex flex-col gap-2 md:gap-4 not-prose bg-gray-50"
               >
-                <span className="hover:underline leading-tight">
+                <span className="hover:underline leading-tight font-bold text-sm md:text-lg">
                   {record.title as string}
                 </span>
                 {(record.shortDescription as string) ? (
-                  <span className="text-xs font-normal">
+                  <span className="text-xs md:text-sm font-normal">
                     {record.shortDescription as string}
                   </span>
                 ) : null}
