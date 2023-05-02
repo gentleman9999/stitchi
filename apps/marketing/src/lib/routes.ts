@@ -110,7 +110,7 @@ const routes = {
     },
     solutions: {
       loyaltyPrograms: {
-        href: () => buildRoute('loyalty-referral-programs'),
+        href: () => buildRoute('/loyalty-referral-programs'),
       },
     },
     glossary: {

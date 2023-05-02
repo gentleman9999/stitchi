@@ -26,14 +26,14 @@ const navigation = {
       {
         label: 'Loyalty & Referral Programs',
         description:
-          'Reward your audience for purchasing from you or referring your brand.',
+          'Incentivize your customers with rewards for purchases and brand referrals.',
         icon: Support,
         href: routes.internal.solutions.loyaltyPrograms.href(),
       },
       {
         label: 'Swag Bags & Boxes',
         description:
-          'Curate unique branded promotional products for your fans and employees.',
+          'Create unique branded branded experiences to showcase your brand.',
         icon: Support,
         href: '#',
         beta: true,
@@ -41,9 +41,17 @@ const navigation = {
       {
         label: 'Corporate Gifting & Employee Swag',
         description:
-          'Send your employees and clients branded gifts to show your appreciation.',
+          'Express gratitude with branded gifts for employees and clients.',
         icon: Support,
         href: '#',
+        beta: true,
+      },
+      {
+        label: 'Collegiate Merchandise',
+        description:
+          'Offer custom merchandise to students, alumni, and supporters with no upfront costs.',
+        icon: Support,
+        href: '',
         beta: true,
       },
     ],
