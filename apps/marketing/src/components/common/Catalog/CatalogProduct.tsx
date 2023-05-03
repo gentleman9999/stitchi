@@ -11,9 +11,10 @@ import { generateImageSizes } from '@utils/image'
 
 export interface Props {
   product: CatalogProductProductFragment
+  priority: boolean
 }
 
-const CatalogProduct = ({ product }: Props) => {
+const CatalogProduct = ({ product, priority }: Props) => {
   const { colors } = useProductColors({ product })
 
   if (!product.brand) {
@@ -35,6 +36,7 @@ const CatalogProduct = ({ product }: Props) => {
         {product.defaultImage?.url && (
           <div className="relative w-full h-[200px]">
             <Image
+              priority={priority}
               src={product.defaultImage.url}
               alt={product.defaultImage.altText || product.name}
               layout="fill"

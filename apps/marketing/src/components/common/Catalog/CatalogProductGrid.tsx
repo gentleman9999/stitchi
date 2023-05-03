@@ -42,8 +42,12 @@ const CatalogProductGrid = ({ site, loading, fetchMore }: Props) => {
   return (
     <>
       <Grid>
-        {products.map(product => (
-          <CatalogProduct key={product.entityId} product={product} />
+        {products.map((product, i) => (
+          <CatalogProduct
+            key={product.entityId}
+            product={product}
+            priority={i < 3}
+          />
         ))}
         {loading &&
           Array.from(new Array(6)).map((_, i) => (

@@ -188,7 +188,10 @@ const routes = {
       },
     },
     careers: {
-      href: () => buildRoute(``),
+      href: () =>
+        buildRoute(
+          `https://stitchi.notion.site/Careers-043a320634cb459c923aef1779433456`,
+        ),
     },
   },
 }
