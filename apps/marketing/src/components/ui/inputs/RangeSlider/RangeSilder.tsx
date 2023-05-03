@@ -14,6 +14,7 @@ export interface RangeSliderProps {
   onChange: (value: number) => void
   onPointerUp?: (e: React.MouseEvent) => void
   onPointerDown?: (e: React.MouseEvent) => void
+  renderValue?: (value: number) => string
 }
 
 const RangeSlider = (props: RangeSliderProps) => {
@@ -28,7 +29,9 @@ const RangeSlider = (props: RangeSliderProps) => {
       <TextField
         label={props.label}
         inputClassName={props.inputClassName}
-        value={value.toLocaleString()}
+        value={
+          props.renderValue ? props.renderValue(value) : value.toLocaleString()
+        }
         type="tel"
         onChange={e => {
           props.onChange(parseInt(e.target.value.replaceAll(',', '')) || 0)

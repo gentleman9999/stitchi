@@ -13,6 +13,7 @@ import { isLink, isHeading } from 'datocms-structured-text-utils'
 import Link from 'next/link'
 import { StructuredText, renderNodeRule } from 'react-datocms'
 import CmsImage from '../CmsImage'
+import CampusMarketSizeCalculator from './CampusMarketSizeCalculator'
 import TableRecord from './TableRecord'
 
 interface Props {
@@ -79,6 +80,18 @@ const CmsStructuredText = ({ content }: Props) => {
         switch (record.__typename) {
           case 'TableRecord': {
             return <TableRecord table={record.table as any} />
+          }
+
+          case 'CustomComponentRecord': {
+            switch (record.componentId) {
+              case 'campus-market-size-calculor': {
+                return <CampusMarketSizeCalculator />
+              }
+
+              default: {
+                console.error(`Invalid componentId: ${record.componentId}`)
+              }
+            }
           }
 
           default: {
@@ -161,6 +174,11 @@ CmsStructuredText.fragments = {
         ... on TableRecord {
           id
           table
+        }
+
+        ... on CustomComponentRecord {
+          id
+          componentId
         }
       }
     }

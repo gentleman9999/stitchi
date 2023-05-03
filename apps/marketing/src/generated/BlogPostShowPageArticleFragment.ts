@@ -115,7 +115,13 @@ export interface BlogPostShowPageArticleFragment_content_links_TableRecord {
   table: any | null;
 }
 
-export type BlogPostShowPageArticleFragment_content_links = BlogPostShowPageArticleFragment_content_links_ArticleRecord | BlogPostShowPageArticleFragment_content_links_GlossaryEntryRecord | BlogPostShowPageArticleFragment_content_links_TableRecord;
+export interface BlogPostShowPageArticleFragment_content_links_CustomComponentRecord {
+  __typename: "CustomComponentRecord";
+  id: any;
+  componentId: string | null;
+}
+
+export type BlogPostShowPageArticleFragment_content_links = BlogPostShowPageArticleFragment_content_links_ArticleRecord | BlogPostShowPageArticleFragment_content_links_GlossaryEntryRecord | BlogPostShowPageArticleFragment_content_links_TableRecord | BlogPostShowPageArticleFragment_content_links_CustomComponentRecord;
 
 export interface BlogPostShowPageArticleFragment_content {
   __typename: "ArticleModelContentField";

@@ -55,7 +55,13 @@ export interface CmsStructuredTextContentFragment_links_TableRecord {
   table: any | null;
 }
 
-export type CmsStructuredTextContentFragment_links = CmsStructuredTextContentFragment_links_ArticleRecord | CmsStructuredTextContentFragment_links_GlossaryEntryRecord | CmsStructuredTextContentFragment_links_TableRecord;
+export interface CmsStructuredTextContentFragment_links_CustomComponentRecord {
+  __typename: "CustomComponentRecord";
+  id: any;
+  componentId: string | null;
+}
+
+export type CmsStructuredTextContentFragment_links = CmsStructuredTextContentFragment_links_ArticleRecord | CmsStructuredTextContentFragment_links_GlossaryEntryRecord | CmsStructuredTextContentFragment_links_TableRecord | CmsStructuredTextContentFragment_links_CustomComponentRecord;
 
 export interface CmsStructuredTextContentFragment {
   __typename: "ArticleModelContentField";
