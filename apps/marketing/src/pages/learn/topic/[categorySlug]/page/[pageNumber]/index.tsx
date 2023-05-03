@@ -24,7 +24,7 @@ import React, { ReactElement } from 'react'
 const PAGE_LIMIT = 3
 
 const makeDefaultFilter = (categoryId: number): ArticleModelFilter => ({
-  categories: { eq: [categoryId] },
+  categories: { anyIn: [categoryId] },
   _status: { eq: ItemStatus.published },
 })
 
@@ -212,7 +212,7 @@ const GET_PAGE_DATA = gql`
     _allArticlesMeta(filter: $filter) {
       count
     }
-    allCategories {
+    allCategories(filter: { id: { notIn: ["147416796"] } }) {
       id
       ...BlogPostIndexPageCategoryFragment
     }
