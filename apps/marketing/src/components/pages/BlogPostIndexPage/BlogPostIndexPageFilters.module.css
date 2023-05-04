@@ -1,9 +1,0 @@
-.filter {
-  @apply mb-4 px-4 py-2 mr-4 rounded-lg transition-all whitespace-nowrap text-base font-bold font-heading text-gray-700;
-
-
-}
-
-.active {
-  @apply bg-primary;
-}

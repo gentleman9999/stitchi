@@ -60,7 +60,7 @@ const NavbarDesktopDropdown = ({
   }
 
   return (
-    <div className="py-1 col-span-1">
+    <div className="flex">
       <Link>
         <Popover.Button as="div" className="p-2">
           <div className="flex items-center">
@@ -93,7 +93,7 @@ const StyledATag = (props: {
 }) => {
   const linkProps = {
     className: cx(
-      'cursor-pointer block text-sm hover:bg-primary transition-all rounded-md ring-1 ring-transparent hover:shadow-1',
+      'cursor-pointer block text-sm hover:ring-gray-200 transition-all rounded-md ring-1 ring-transparent w-full',
       {
         'pointer-events-none touch-none': props.disabled,
       },

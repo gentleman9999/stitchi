@@ -1,7 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
 import cx from 'classnames'
-import s from './BlogPostIndexPageFilters.module.css'
 
 interface Filter {
   title: string
@@ -18,11 +17,18 @@ const BlogPostIndexPageFilters = ({ filters, className }: Props) => (
   <div
     className={cx(
       className,
-      'flex flex-wrap justify-center md:justify-start mt-8',
+      'flex flex-wrap justify-center md:justify-start mt-8 p-2 gap-2',
     )}
   >
     {filters.map(({ href, title, active }) => (
-      <Link href={href} key={href} className={cx(s.filter, { [s.active]: active })}>
+      <Link
+        href={href}
+        key={href}
+        className={cx(
+          'px-4 py-0.5 rounded-md transition-all whitespace-nowrap font-bold font-heading text-gray-900 border',
+          { 'bg-gray-900 text-white': active },
+        )}
+      >
         {title}
       </Link>
     ))}
