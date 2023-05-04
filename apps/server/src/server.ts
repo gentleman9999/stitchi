@@ -23,12 +23,30 @@ const PORT = getOrThrow(process.env.PORT, 'PORT')
 const makeGatewaySchema = async () =>
   stitchSchemas({
     subschemas: [
-      { schema: mainGraphSchema },
+      {
+        schema: mainGraphSchema,
+        merge: {
+          Product: {
+            selectionSet: '{ id }',
+            fieldName: 'product',
+            key: ({ id }) => id,
+            args: ids => ({ ids }),
+          },
+        },
+      },
       { schema: makeExecutableSchema({ typeDefs: await makeDatoCmsSchema() }) },
       {
         schema: makeExecutableSchema({
           typeDefs: await makeBigCommerceSchema(),
         }),
+        merge: {
+          Product: {
+            selectionSet: '{ id }',
+            fieldName: 'product',
+            key: ({ id }) => id,
+            args: ids => ({ ids }),
+          },
+        },
       },
     ],
   })

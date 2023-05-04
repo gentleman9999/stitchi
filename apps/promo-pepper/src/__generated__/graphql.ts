@@ -76,7 +76,7 @@ export type ArticleModelContentField = {
   value: Scalars['JsonField'];
 };
 
-export type ArticleModelContentLinksField = ArticleRecord | GlossaryEntryRecord;
+export type ArticleModelContentLinksField = ArticleRecord | CustomComponentRecord | GlossaryEntryRecord | TableRecord;
 
 /** Linking fields */
 export enum ArticleModelFieldsReferencingGlossaryEntryModel {
@@ -84,6 +84,7 @@ export enum ArticleModelFieldsReferencingGlossaryEntryModel {
 }
 
 export type ArticleModelFilter = {
+  AND?: InputMaybe<Array<InputMaybe<ArticleModelFilter>>>;
   OR?: InputMaybe<Array<InputMaybe<ArticleModelFilter>>>;
   _createdAt?: InputMaybe<CreatedAtFilter>;
   _firstPublishedAt?: InputMaybe<PublishedAtFilter>;
@@ -180,6 +181,7 @@ export type Author = {
 };
 
 export type AuthorModelFilter = {
+  AND?: InputMaybe<Array<InputMaybe<AuthorModelFilter>>>;
   OR?: InputMaybe<Array<InputMaybe<AuthorModelFilter>>>;
   _createdAt?: InputMaybe<CreatedAtFilter>;
   _firstPublishedAt?: InputMaybe<PublishedAtFilter>;
@@ -616,6 +618,7 @@ export type CategoryModelDescriptionField = {
 };
 
 export type CategoryModelFilter = {
+  AND?: InputMaybe<Array<InputMaybe<CategoryModelFilter>>>;
   OR?: InputMaybe<Array<InputMaybe<CategoryModelFilter>>>;
   _createdAt?: InputMaybe<CreatedAtFilter>;
   _firstPublishedAt?: InputMaybe<PublishedAtFilter>;
@@ -1004,6 +1007,80 @@ export enum CurrencySymbolPosition {
   LEFT = 'LEFT',
   RIGHT = 'RIGHT'
 }
+
+export type CustomComponentModelFilter = {
+  AND?: InputMaybe<Array<InputMaybe<CustomComponentModelFilter>>>;
+  OR?: InputMaybe<Array<InputMaybe<CustomComponentModelFilter>>>;
+  _createdAt?: InputMaybe<CreatedAtFilter>;
+  _firstPublishedAt?: InputMaybe<PublishedAtFilter>;
+  _isValid?: InputMaybe<BooleanFilter>;
+  _publicationScheduledAt?: InputMaybe<PublishedAtFilter>;
+  _publishedAt?: InputMaybe<PublishedAtFilter>;
+  _status?: InputMaybe<StatusFilter>;
+  _unpublishingScheduledAt?: InputMaybe<PublishedAtFilter>;
+  _updatedAt?: InputMaybe<UpdatedAtFilter>;
+  componentId?: InputMaybe<StringFilter>;
+  createdAt?: InputMaybe<CreatedAtFilter>;
+  id?: InputMaybe<ItemIdFilter>;
+  internalName?: InputMaybe<StringFilter>;
+  updatedAt?: InputMaybe<UpdatedAtFilter>;
+};
+
+export enum CustomComponentModelOrderBy {
+  _CREATEDAT_ASC = '_createdAt_ASC',
+  _CREATEDAT_DESC = '_createdAt_DESC',
+  _FIRSTPUBLISHEDAT_ASC = '_firstPublishedAt_ASC',
+  _FIRSTPUBLISHEDAT_DESC = '_firstPublishedAt_DESC',
+  _ISVALID_ASC = '_isValid_ASC',
+  _ISVALID_DESC = '_isValid_DESC',
+  _PUBLICATIONSCHEDULEDAT_ASC = '_publicationScheduledAt_ASC',
+  _PUBLICATIONSCHEDULEDAT_DESC = '_publicationScheduledAt_DESC',
+  _PUBLISHEDAT_ASC = '_publishedAt_ASC',
+  _PUBLISHEDAT_DESC = '_publishedAt_DESC',
+  _STATUS_ASC = '_status_ASC',
+  _STATUS_DESC = '_status_DESC',
+  _UNPUBLISHINGSCHEDULEDAT_ASC = '_unpublishingScheduledAt_ASC',
+  _UNPUBLISHINGSCHEDULEDAT_DESC = '_unpublishingScheduledAt_DESC',
+  _UPDATEDAT_ASC = '_updatedAt_ASC',
+  _UPDATEDAT_DESC = '_updatedAt_DESC',
+  COMPONENTID_ASC = 'componentId_ASC',
+  COMPONENTID_DESC = 'componentId_DESC',
+  CREATEDAT_ASC = 'createdAt_ASC',
+  CREATEDAT_DESC = 'createdAt_DESC',
+  ID_ASC = 'id_ASC',
+  ID_DESC = 'id_DESC',
+  INTERNALNAME_ASC = 'internalName_ASC',
+  INTERNALNAME_DESC = 'internalName_DESC',
+  UPDATEDAT_ASC = 'updatedAt_ASC',
+  UPDATEDAT_DESC = 'updatedAt_DESC'
+}
+
+/** Record of type Custom Component (custom_component) */
+export type CustomComponentRecord = RecordInterface & {
+  __typename: 'CustomComponentRecord';
+  _createdAt: Scalars['DateTime'];
+  _firstPublishedAt?: Maybe<Scalars['DateTime']>;
+  _isValid: Scalars['BooleanType'];
+  _modelApiKey: Scalars['String'];
+  _publicationScheduledAt?: Maybe<Scalars['DateTime']>;
+  _publishedAt?: Maybe<Scalars['DateTime']>;
+  /** SEO meta tags */
+  _seoMetaTags: Array<Tag>;
+  _status: ItemStatus;
+  _unpublishingScheduledAt?: Maybe<Scalars['DateTime']>;
+  _updatedAt: Scalars['DateTime'];
+  componentId?: Maybe<Scalars['String']>;
+  createdAt: Scalars['DateTime'];
+  id: Scalars['ItemId'];
+  internalName?: Maybe<Scalars['String']>;
+  updatedAt: Scalars['DateTime'];
+};
+
+
+/** Record of type Custom Component (custom_component) */
+export type CustomComponentRecordSeoMetaTagsArgs = {
+  locale?: InputMaybe<SiteLocale>;
+};
 
 /** Custom field */
 export type CustomField = {
@@ -1433,6 +1510,7 @@ export type GlobalSeoField = {
 };
 
 export type GlossaryCategoryModelFilter = {
+  AND?: InputMaybe<Array<InputMaybe<GlossaryCategoryModelFilter>>>;
   OR?: InputMaybe<Array<InputMaybe<GlossaryCategoryModelFilter>>>;
   _createdAt?: InputMaybe<CreatedAtFilter>;
   _firstPublishedAt?: InputMaybe<PublishedAtFilter>;
@@ -1560,6 +1638,7 @@ export enum GlossaryEntryModelFieldsReferencingGlossaryEntryModel {
 }
 
 export type GlossaryEntryModelFilter = {
+  AND?: InputMaybe<Array<InputMaybe<GlossaryEntryModelFilter>>>;
   OR?: InputMaybe<Array<InputMaybe<GlossaryEntryModelFilter>>>;
   _createdAt?: InputMaybe<CreatedAtFilter>;
   _firstPublishedAt?: InputMaybe<PublishedAtFilter>;
@@ -1839,6 +1918,14 @@ export type ImgixParams = {
    * [Open Imgix reference »](https://docs.imgix.com/apis/url/bg)
    */
   bg?: InputMaybe<Scalars['String']>;
+  /**
+   * Background Removal
+   *
+   * Removes background from image.
+   *
+   * [Open Imgix reference »](https://docs.imgix.com/apis/rendering/background-removal/bg-remove)
+   */
+  bgRemove?: InputMaybe<Scalars['BooleanType']>;
   /**
    * Blend
    *
@@ -2292,6 +2379,18 @@ export type ImgixParams = {
    */
   fpZ?: InputMaybe<Scalars['FloatType']>;
   /**
+   * Frames Per Second
+   *
+   * Specifies the framerate of the generated image.
+   */
+  fps?: InputMaybe<Scalars['IntType']>;
+  /**
+   * Frame Selection
+   *
+   * Specifies the frame of an animated image to use.
+   */
+  frame?: InputMaybe<Scalars['String']>;
+  /**
    * Gamma
    *
    * Adjusts the gamma of the source image.
@@ -2299,6 +2398,12 @@ export type ImgixParams = {
    * [Open Imgix reference »](https://docs.imgix.com/apis/url/adjustment/gam)
    */
   gam?: InputMaybe<Scalars['IntType']>;
+  /**
+   * Animated Gif Quality
+   *
+   * Depends on: `fm=gif`
+   */
+  gifQ?: InputMaybe<Scalars['IntType']>;
   /**
    * Grid Colors
    *
@@ -2348,6 +2453,12 @@ export type ImgixParams = {
    */
   hue?: InputMaybe<Scalars['IntType']>;
   /**
+   * Frame Interval
+   *
+   * Displays every Nth frame starting with the first frame.
+   */
+  interval?: InputMaybe<Scalars['IntType']>;
+  /**
    * Invert
    *
    * Inverts the colors on the source image.
@@ -2361,6 +2472,12 @@ export type ImgixParams = {
    * Determine if IPTC data should be passed for JPEG images.
    */
   iptc?: InputMaybe<ImgixParamsIptc>;
+  /**
+   * Animation Loop Count
+   *
+   * Specifies the number of times an animated image should repeat. A value of 0 means infinite looping.
+   */
+  loop?: InputMaybe<Scalars['IntType']>;
   /**
    * Lossless Compression
    *
@@ -2688,6 +2805,12 @@ export type ImgixParams = {
    */
   rect?: InputMaybe<Scalars['String']>;
   /**
+   * Reverse
+   *
+   * Reverses the frame order on the source animation.
+   */
+  reverse?: InputMaybe<Scalars['BooleanType']>;
+  /**
    * Rotation
    *
    * Rotates an image by a specified number of degrees.
@@ -2727,6 +2850,12 @@ export type ImgixParams = {
    * [Open Imgix reference »](https://docs.imgix.com/apis/url/adjustment/sharp)
    */
   sharp?: InputMaybe<Scalars['FloatType']>;
+  /**
+   * Frame Skip
+   *
+   * Skips every Nth frame starting with the first frame.
+   */
+  skip?: InputMaybe<Scalars['IntType']>;
   /**
    * Transparency
    *
@@ -3414,6 +3543,12 @@ export enum ItemStatus {
   UPDATED = 'updated'
 }
 
+/** Specifies how to filter JSON fields */
+export type JsonFilter = {
+  /** Filter records with the specified field defined (i.e. with any value) or not */
+  exists?: InputMaybe<Scalars['BooleanType']>;
+};
+
 /** length unit */
 export enum LengthUnit {
   KILOMETRES = 'Kilometres',
@@ -3990,8 +4125,6 @@ export type PopularBrandType = {
   name: Scalars['String'];
   /** Brand URL as a relative path */
   path?: Maybe<Scalars['String']>;
-  /** Full Brand URL */
-  url?: Maybe<Scalars['String']>;
 };
 
 /** Specifies how to filter by position (sorted and tree-like collections) */
@@ -4184,6 +4317,7 @@ export type Product = Node & {
   path: Scalars['String'];
   /** Description of the product in plain text. */
   plainTextDescription: Scalars['String'];
+  priceCents: Scalars['Int'];
   /**
    * The minimum and maximum price of this product based on variant pricing and/or modifier price rules.
    * @deprecated Use priceRanges inside prices node instead.
@@ -4646,9 +4780,13 @@ export type Query = {
   /** Returns meta information regarding a record collection */
   _allCategoriesMeta: CollectionMetadata;
   /** Returns meta information regarding a record collection */
+  _allCustomComponentsMeta: CollectionMetadata;
+  /** Returns meta information regarding a record collection */
   _allGlossaryCategoriesMeta: CollectionMetadata;
   /** Returns meta information regarding a record collection */
   _allGlossaryEntriesMeta: CollectionMetadata;
+  /** Returns meta information regarding a record collection */
+  _allTablesMeta: CollectionMetadata;
   /** Returns meta information regarding an assets collection */
   _allUploadsMeta?: Maybe<CollectionMetadata>;
   /** Returns the single instance record */
@@ -4660,9 +4798,13 @@ export type Query = {
   /** Returns a collection of records */
   allCategories: Array<CategoryRecord>;
   /** Returns a collection of records */
+  allCustomComponents: Array<CustomComponentRecord>;
+  /** Returns a collection of records */
   allGlossaryCategories: Array<GlossaryCategoryRecord>;
   /** Returns a collection of records */
   allGlossaryEntries: Array<GlossaryEntryRecord>;
+  /** Returns a collection of records */
+  allTables: Array<TableRecord>;
   /** Returns a collection of assets */
   allUploads: Array<FileField>;
   /** Returns a specific record */
@@ -4675,6 +4817,8 @@ export type Query = {
   category?: Maybe<CategoryRecord>;
   /** The current channel. */
   channel: Channel;
+  /** Returns a specific record */
+  customComponent?: Maybe<CustomComponentRecord>;
   /** The currently logged in customer. */
   customer?: Maybe<Customer>;
   /** Returns a specific record */
@@ -4696,6 +4840,8 @@ export type Query = {
   quoteGenerate?: Maybe<Quote>;
   /** A site */
   site: Site;
+  /** Returns a specific record */
+  table?: Maybe<TableRecord>;
   /** Returns the single instance record */
   termsOfUsePage?: Maybe<TermsOfUsePageRecord>;
   /** Returns a specific asset */
@@ -4725,6 +4871,13 @@ export type QueryAllCategoriesMetaArgs = {
 };
 
 
+export type QueryAllCustomComponentsMetaArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<CustomComponentModelFilter>;
+  locale?: InputMaybe<SiteLocale>;
+};
+
+
 export type QueryAllGlossaryCategoriesMetaArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
   filter?: InputMaybe<GlossaryCategoryModelFilter>;
@@ -4735,6 +4888,13 @@ export type QueryAllGlossaryCategoriesMetaArgs = {
 export type QueryAllGlossaryEntriesMetaArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
   filter?: InputMaybe<GlossaryEntryModelFilter>;
+  locale?: InputMaybe<SiteLocale>;
+};
+
+
+export type QueryAllTablesMetaArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<TableModelFilter>;
   locale?: InputMaybe<SiteLocale>;
 };
 
@@ -4781,6 +4941,16 @@ export type QueryAllCategoriesArgs = {
 };
 
 
+export type QueryAllCustomComponentsArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<CustomComponentModelFilter>;
+  first?: InputMaybe<Scalars['IntType']>;
+  locale?: InputMaybe<SiteLocale>;
+  orderBy?: InputMaybe<Array<InputMaybe<CustomComponentModelOrderBy>>>;
+  skip?: InputMaybe<Scalars['IntType']>;
+};
+
+
 export type QueryAllGlossaryCategoriesArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
   filter?: InputMaybe<GlossaryCategoryModelFilter>;
@@ -4797,6 +4967,16 @@ export type QueryAllGlossaryEntriesArgs = {
   first?: InputMaybe<Scalars['IntType']>;
   locale?: InputMaybe<SiteLocale>;
   orderBy?: InputMaybe<Array<InputMaybe<GlossaryEntryModelOrderBy>>>;
+  skip?: InputMaybe<Scalars['IntType']>;
+};
+
+
+export type QueryAllTablesArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<TableModelFilter>;
+  first?: InputMaybe<Scalars['IntType']>;
+  locale?: InputMaybe<SiteLocale>;
+  orderBy?: InputMaybe<Array<InputMaybe<TableModelOrderBy>>>;
   skip?: InputMaybe<Scalars['IntType']>;
 };
 
@@ -4841,6 +5021,14 @@ export type QueryCategoryArgs = {
 };
 
 
+export type QueryCustomComponentArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<CustomComponentModelFilter>;
+  locale?: InputMaybe<SiteLocale>;
+  orderBy?: InputMaybe<Array<InputMaybe<CustomComponentModelOrderBy>>>;
+};
+
+
 export type QueryGlossaryCategoryArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
   filter?: InputMaybe<GlossaryCategoryModelFilter>;
@@ -4881,9 +5069,18 @@ export type QueryPrivacyPolicyPageArgs = {
 
 
 export type QueryQuoteGenerateArgs = {
-  catalogProductId: Scalars['Int'];
+  catalogProductVariantId: Scalars['Int'];
+  includeFulfillment?: InputMaybe<Scalars['Boolean']>;
   printLocations: Array<QuoteGeneratePrintLocationInput>;
   quantity: Scalars['Int'];
+};
+
+
+export type QueryTableArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<TableModelFilter>;
+  locale?: InputMaybe<SiteLocale>;
+  orderBy?: InputMaybe<Array<InputMaybe<TableModelOrderBy>>>;
 };
 
 
@@ -4905,8 +5102,9 @@ export type Quote = {
   id: Scalars['ID'];
   printLocationCount: Scalars['Int'];
   printLocations: Array<PrintLocation>;
+  /** The cost of the product with shipping, taxes, and other. */
   productTotalCostCents: Scalars['Int'];
-  /** Cost per unit. This does not include taxes, shipping, or other items that apply to the entire order */
+  /** The cost of the product without shipping, taxes, or other. */
   productUnitCostCents: Scalars['Int'];
 };
 
@@ -5701,6 +5899,78 @@ export type SwatchOptionValueImageUrlArgs = {
   width: Scalars['Int'];
 };
 
+export type TableModelFilter = {
+  AND?: InputMaybe<Array<InputMaybe<TableModelFilter>>>;
+  OR?: InputMaybe<Array<InputMaybe<TableModelFilter>>>;
+  _createdAt?: InputMaybe<CreatedAtFilter>;
+  _firstPublishedAt?: InputMaybe<PublishedAtFilter>;
+  _isValid?: InputMaybe<BooleanFilter>;
+  _publicationScheduledAt?: InputMaybe<PublishedAtFilter>;
+  _publishedAt?: InputMaybe<PublishedAtFilter>;
+  _status?: InputMaybe<StatusFilter>;
+  _unpublishingScheduledAt?: InputMaybe<PublishedAtFilter>;
+  _updatedAt?: InputMaybe<UpdatedAtFilter>;
+  createdAt?: InputMaybe<CreatedAtFilter>;
+  id?: InputMaybe<ItemIdFilter>;
+  internalName?: InputMaybe<StringFilter>;
+  table?: InputMaybe<JsonFilter>;
+  updatedAt?: InputMaybe<UpdatedAtFilter>;
+};
+
+export enum TableModelOrderBy {
+  _CREATEDAT_ASC = '_createdAt_ASC',
+  _CREATEDAT_DESC = '_createdAt_DESC',
+  _FIRSTPUBLISHEDAT_ASC = '_firstPublishedAt_ASC',
+  _FIRSTPUBLISHEDAT_DESC = '_firstPublishedAt_DESC',
+  _ISVALID_ASC = '_isValid_ASC',
+  _ISVALID_DESC = '_isValid_DESC',
+  _PUBLICATIONSCHEDULEDAT_ASC = '_publicationScheduledAt_ASC',
+  _PUBLICATIONSCHEDULEDAT_DESC = '_publicationScheduledAt_DESC',
+  _PUBLISHEDAT_ASC = '_publishedAt_ASC',
+  _PUBLISHEDAT_DESC = '_publishedAt_DESC',
+  _STATUS_ASC = '_status_ASC',
+  _STATUS_DESC = '_status_DESC',
+  _UNPUBLISHINGSCHEDULEDAT_ASC = '_unpublishingScheduledAt_ASC',
+  _UNPUBLISHINGSCHEDULEDAT_DESC = '_unpublishingScheduledAt_DESC',
+  _UPDATEDAT_ASC = '_updatedAt_ASC',
+  _UPDATEDAT_DESC = '_updatedAt_DESC',
+  CREATEDAT_ASC = 'createdAt_ASC',
+  CREATEDAT_DESC = 'createdAt_DESC',
+  ID_ASC = 'id_ASC',
+  ID_DESC = 'id_DESC',
+  INTERNALNAME_ASC = 'internalName_ASC',
+  INTERNALNAME_DESC = 'internalName_DESC',
+  UPDATEDAT_ASC = 'updatedAt_ASC',
+  UPDATEDAT_DESC = 'updatedAt_DESC'
+}
+
+/** Record of type Table (table) */
+export type TableRecord = RecordInterface & {
+  __typename: 'TableRecord';
+  _createdAt: Scalars['DateTime'];
+  _firstPublishedAt?: Maybe<Scalars['DateTime']>;
+  _isValid: Scalars['BooleanType'];
+  _modelApiKey: Scalars['String'];
+  _publicationScheduledAt?: Maybe<Scalars['DateTime']>;
+  _publishedAt?: Maybe<Scalars['DateTime']>;
+  /** SEO meta tags */
+  _seoMetaTags: Array<Tag>;
+  _status: ItemStatus;
+  _unpublishingScheduledAt?: Maybe<Scalars['DateTime']>;
+  _updatedAt: Scalars['DateTime'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['ItemId'];
+  internalName?: Maybe<Scalars['String']>;
+  table?: Maybe<Scalars['JsonField']>;
+  updatedAt: Scalars['DateTime'];
+};
+
+
+/** Record of type Table (table) */
+export type TableRecordSeoMetaTagsArgs = {
+  locale?: InputMaybe<SiteLocale>;
+};
+
 export type Tag = {
   __typename: 'Tag';
   attributes?: Maybe<Scalars['MetaTagAttributes']>;
@@ -5921,6 +6191,7 @@ export type UploadFilenameFilter = {
 };
 
 export type UploadFilter = {
+  AND?: InputMaybe<Array<InputMaybe<UploadFilter>>>;
   OR?: InputMaybe<Array<InputMaybe<UploadFilter>>>;
   _createdAt?: InputMaybe<UploadCreatedAtFilter>;
   _updatedAt?: InputMaybe<UploadUpdatedAtFilter>;

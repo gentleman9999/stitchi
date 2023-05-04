@@ -110,6 +110,11 @@ type PrintLocation {
   totalCostInCents: Int
 }
 
+type Product {
+  id: ID!
+  priceCents: Int!
+}
+
 type Query {
   newsletter: Newsletter
 

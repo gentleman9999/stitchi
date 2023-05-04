@@ -72,6 +72,7 @@ CatalogProduct.fragments = {
         name
         path
       }
+      
       defaultImage {
         urlOriginal
         altText

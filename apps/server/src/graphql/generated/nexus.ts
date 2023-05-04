@@ -112,6 +112,9 @@ export interface NexusGenObjects {
     colorCount: number; // Int!
     totalCostInCents?: number | null; // Int
   }
+  Product: { // root type
+    id: string; // ID!
+  }
   Query: {};
   Quote: { // root type
     id: string; // ID!
@@ -212,6 +215,10 @@ export interface NexusGenFieldTypes {
     colorCount: number; // Int!
     totalCostInCents: number | null; // Int
   }
+  Product: { // field return type
+    id: string; // ID!
+    priceCents: number; // Int!
+  }
   Query: { // field return type
     newsletter: NexusGenRootTypes['Newsletter'] | null; // Newsletter
     quoteGenerate: NexusGenRootTypes['Quote'] | null; // Quote
@@ -305,6 +312,10 @@ export interface NexusGenFieldTypeNames {
   PrintLocation: { // field return type name
     colorCount: 'Int'
     totalCostInCents: 'Int'
+  }
+  Product: { // field return type name
+    id: 'ID'
+    priceCents: 'Int'
   }
   Query: { // field return type name
     newsletter: 'Newsletter'
