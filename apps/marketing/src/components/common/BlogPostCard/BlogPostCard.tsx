@@ -9,9 +9,10 @@ import CmsImage from '../CmsImage'
 
 export interface BlogPostCardProps {
   post: BlogPostCardArticleFragment
+  variant?: 'vertical' | 'horizontal'
 }
 
-const BlogPostCard = ({ post }: BlogPostCardProps) => {
+const BlogPostCard = ({ post, variant = 'vertical' }: BlogPostCardProps) => {
   const category = post.categories[0]
   const postHref = post.slug ? routes.internal.blog.show.href(post.slug) : null
   const categoryHref = category.slug
@@ -22,6 +23,44 @@ const BlogPostCard = ({ post }: BlogPostCardProps) => {
 
   if (!postHref) {
     return null
+  }
+
+  if (variant === 'horizontal') {
+    return (
+      <article className="flex flex-col items-start">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between w-full">
+          <div className="relative w-full md:w-2/5">
+            {post.image?.responsiveImage && (
+              <CmsImage
+                data={post.image.responsiveImage}
+                layout="responsive"
+                objectFit="cover"
+                className="aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]"
+              />
+            )}
+            <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
+          </div>
+          <div className="mt-4 md:mt-0 md:ml-4 md:w-3/5">
+            {categoryHref ? (
+              <div className="flex items-center gap-x-4 text-xs">
+                <time dateTime={post._createdAt} className="text-gray-500">
+                  {humanizeDate(post._createdAt, { short: true })}
+                </time>
+                <Link href={categoryHref}>{category.name}</Link>
+              </div>
+            ) : null}
+            <div className="relative">
+              <h3 className="mt-1 text font-semibold leading-tight text-gray-900">
+                <Link href={postHref}>{post.title}</Link>
+              </h3>
+            </div>
+            <p className="mt-2 line-clamp-2 text-sm leading-1 text-gray-600">
+              {post.shortDescription}
+            </p>
+          </div>
+        </div>
+      </article>
+    )
   }
 
   return (

@@ -92,11 +92,11 @@ const navigation = {
       //   href: '#',
       // },
 
-      // {
-      //   label: 'Jobs',
-      //   icon: Support,
-      //   href: '#',
-      // },
+      {
+        label: 'Careers',
+        icon: Support,
+        href: routes.external.careers.href(),
+      },
     ],
     legal: [
       // { label: 'Claim', href: '#' },

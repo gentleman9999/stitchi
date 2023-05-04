@@ -134,7 +134,10 @@ const GET_DATA = gql`
       first: $first
       skip: $skip
       orderBy: _createdAt_DESC
-      filter: { _status: { eq: published } }
+      filter: {
+        _status: { eq: published }
+        categories: { notIn: ["148284102"] }
+      }
     ) {
       id
       ...BlogIndexPageArticleFragment

@@ -15,15 +15,20 @@ import {
   BlogCategoryIndexPageGetPageDataQueryVariables,
 } from '@generated/BlogCategoryIndexPageGetPageDataQuery'
 import { BlogCategoryIndexPageGetPagesQuery } from '@generated/BlogCategoryIndexPageGetPagesQuery'
-import { ArticleModelFilter, ItemStatus } from '@generated/globalTypes'
+import {
+  ArticleModelFilter,
+  ArticleModelOrderBy,
+  ItemStatus,
+} from '@generated/globalTypes'
 import { addApolloState, initializeApollo } from '@lib/apollo'
 import routes from '@lib/routes'
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps } from 'next'
 import React, { ReactElement } from 'react'
 
 const PAGE_LIMIT = 3
+const STUDENT_GUIDE_CATEGORY_ID = '148284102'
 
-const makeDefaultFilter = (categoryId: number): ArticleModelFilter => ({
+const makeDefaultFilter = (categoryId: string): ArticleModelFilter => ({
   categories: { anyIn: [categoryId] },
   _status: { eq: ItemStatus.published },
 })
@@ -115,6 +120,11 @@ const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     query: GET_PAGE_DATA,
     variables: {
       ...pagination,
+      orderBy: [
+        categoryId === STUDENT_GUIDE_CATEGORY_ID
+          ? ArticleModelOrderBy._createdAt_ASC
+          : ArticleModelOrderBy._createdAt_DESC,
+      ],
       filter: makeDefaultFilter(categoryId),
     },
   })
@@ -130,7 +140,7 @@ const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 }
 
 interface Props {
-  categoryId: number
+  categoryId: string
   first: number
   skip: number
   pageNumber: number
@@ -146,6 +156,11 @@ const BlogCategoryIndexPage = (props: Props) => {
       first: props.first,
       skip: props.skip,
       filter: makeDefaultFilter(props.categoryId),
+      orderBy: [
+        props.categoryId === STUDENT_GUIDE_CATEGORY_ID
+          ? ArticleModelOrderBy._createdAt_ASC
+          : ArticleModelOrderBy._createdAt_DESC,
+      ],
     },
     notifyOnNetworkStatusChange: true,
   })
@@ -157,14 +172,18 @@ const BlogCategoryIndexPage = (props: Props) => {
     blogIndexPage,
   } = data || {}
 
-  if (error || !articles) {
+  if (error) {
     return (
       <ComponentErrorMessage error={error || 'Could not fetch any articles'} />
     )
   }
 
   if (!blogIndexPage) {
-    return <ComponentErrorMessage error="Could not fetch blog index page" />
+    return null
+  }
+
+  if (!articles) {
+    return null
   }
 
   const canFetchMore = Boolean(articles.length < _allArticlesMeta?.count)
@@ -199,11 +218,12 @@ const GET_PAGE_DATA = gql`
     $first: IntType
     $skip: IntType
     $filter: ArticleModelFilter
+    $orderBy: [ArticleModelOrderBy]
   ) {
     allArticles(
       first: $first
       skip: $skip
-      orderBy: _createdAt_DESC
+      orderBy: $orderBy
       filter: $filter
     ) {
       id

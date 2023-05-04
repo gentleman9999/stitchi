@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { ArticleModelFilter } from "./globalTypes";
+import { ArticleModelFilter, ArticleModelOrderBy } from "./globalTypes";
 
 // ====================================================
 // GraphQL query operation: BlogCategoryIndexPageGetPageDataQuery
@@ -144,4 +144,5 @@ export interface BlogCategoryIndexPageGetPageDataQueryVariables {
   first?: any | null;
   skip?: any | null;
   filter?: ArticleModelFilter | null;
+  orderBy?: (ArticleModelOrderBy | null)[] | null;
 }
