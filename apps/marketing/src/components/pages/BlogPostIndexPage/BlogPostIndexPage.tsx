@@ -139,20 +139,30 @@ const BlogIndexPage = ({
                     responsibilities.
                   </p>
                 </div>
-                <div className="col-span-1 flex flex-col gap-4">
-                  {articles.slice(0, 3).map(post => (
-                    <BlogPostCard
-                      key={post.id}
-                      post={post}
-                      variant="horizontal"
-                    />
-                  ))}
+                <div>
+                  <div className="col-span-1 flex-col gap-4 hidden md:flex">
+                    {articles.slice(0, 3).map(post => (
+                      <BlogPostCard
+                        key={post.id}
+                        post={post}
+                        variant="horizontal"
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
           )}
 
           <div className="mt-12 mb-5 max-w-lg mx-auto grid gap-10 lg:grid-cols-3 lg:max-w-none">
+            {activeCategory ? null : (
+              <div className="md:hidden">
+                {articles.slice(0, 3).map(post => (
+                  <BlogPostCard key={post.id} post={post} />
+                ))}
+              </div>
+            )}
+
             {articles
               .slice(activeCategory ? 0 : 3)
               .map(post =>

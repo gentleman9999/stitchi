@@ -27,9 +27,9 @@ const BlogPostCard = ({ post, variant = 'vertical' }: BlogPostCardProps) => {
 
   if (variant === 'horizontal') {
     return (
-      <article className="flex flex-col items-start">
+      <article className="flex flex-col items-start @container">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between w-full">
-          <div className="relative w-full md:w-2/5">
+          <div className="relative w-full md:w-2/5 hidden @md:block">
             {post.image?.responsiveImage && (
               <CmsImage
                 data={post.image.responsiveImage}
@@ -40,21 +40,13 @@ const BlogPostCard = ({ post, variant = 'vertical' }: BlogPostCardProps) => {
             )}
             <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
           </div>
-          <div className="mt-4 md:mt-0 md:ml-4 md:w-3/5">
-            {categoryHref ? (
-              <div className="flex items-center gap-x-4 text-xs">
-                <time dateTime={post._createdAt} className="text-gray-500">
-                  {humanizeDate(post._createdAt, { short: true })}
-                </time>
-                <Link href={categoryHref}>{category.name}</Link>
-              </div>
-            ) : null}
+          <div className="mt-4 md:mt-0 md:ml-4 w-full @md:w-3/5">
             <div className="relative">
-              <h3 className="mt-1 text font-semibold leading-tight text-gray-900">
+              <h3 className="mt-1 text-sm font-semibold leading-tight text-gray-900">
                 <Link href={postHref}>{post.title}</Link>
               </h3>
             </div>
-            <p className="mt-2 line-clamp-2 text-sm leading-1 text-gray-600">
+            <p className="mt-2 line-clamp-2 text-xs leading-1 text-gray-600">
               {post.shortDescription}
             </p>
           </div>
