@@ -1,4 +1,4 @@
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image'
 import React from 'react'
 import { Container } from '@components/ui'
 import { motion } from 'framer-motion'
@@ -16,24 +16,26 @@ const CustomerMorningBrewPage = () => {
       <Container>
         <div className="lg:grid lg:grid-cols-2 lg:gap-24 lg:items-start">
           <div className="md:order-2 relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-0">
-            <div className="pt-12 sm:pt-16 lg:pt-20">
+            <div className="pt-12 sm:pt-16 lg:pt-20 prose">
               <motion.h1
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1 }}
-                className="text-4xl text-gray-900 font-extrabold tracking-tight md:text-5xl"
               >
                 Powering Morning Brew&apos;s newsletter referral program with
                 custom swag
               </motion.h1>
-              <div className="mt-6 text-gray-500 space-y-6">
-                <Paragraph>
-                  Morning Brew is a newsletter company that sends to more than 3
-                  million subscribers each day. We&apos;ve overhauled their
-                  referral program to be completely automated and backed by a
-                  swag program.
-                </Paragraph>
-              </div>
+              <Paragraph>
+                Morning Brew, a daily business newsletter company, faced the
+                challenge of managing and expanding their custom merchandise
+                program to keep up with their rapidly growing audience. To
+                overcome this challenge, Morning Brew partnered with Stitchi,
+                the experts in high-quality custom merchandise, merch programs,
+                and promotional products. Together, they not only enhanced the
+                existing merch program but also implemented innovative solutions
+                to streamline distribution and create a seamless experience for
+                their readers.
+              </Paragraph>
               <div className="lg:hidden">
                 <div className="relative h-12 mt-8">
                   <Image
@@ -46,80 +48,67 @@ const CustomerMorningBrewPage = () => {
                 <br />
                 <StatsSection />
               </div>
-
-              <div className="mt-10 text-gray-500 space-y-6">
-                <h2 className="text-xl leading-7 text-gray-800 font-bold tracking-tight sm:text-xl">
-                  Building brands with loyal fans
-                </h2>
-                <Paragraph>
-                  Morning Brew, a news media company, creates succinct daily
-                  e-newsletters that provide its over 2.5 million subscribers
-                  with quick and conversational summaries of all things
-                  business. Their primary objective was to acquire new
-                  subscribers, but at the same time, they wanted to provide a
-                  unique customer experience to stand out. Morning Brew wanted
-                  to engage and interact with their fans in a memorable, fun way
-                  — a chance to win exclusive brand swag. And with their mainly
-                  millennial subscriber base, Morning Brew needed to keep in
-                  mind that this demographic required an interesting brand
-                  experience; according to research from Retail TouchPoints, 68%
-                  of millennials desire a combined online and offline (swag)
-                  brand experience.
-                </Paragraph>
-                <Paragraph>
-                  Morning Brew began their search for the right partner, and
-                  chose to work with Stitchi to strategize and launch a uniquely
-                  on-brand and reproducible marketing referral campaign. Stitchi
-                  combined strategic product development while elevating Morning
-                  Brew&apos;s brand message. Prioritizing the delivery of
-                  top-notch customer experiences, Stitchi created a successful
-                  campaign.
-                </Paragraph>
-              </div>
               <div className="lg:h-0 lg:overflow-hidden">
                 <br />
                 <br />
                 <TestimonialBlock />
               </div>
-              <div className="mt-10 text-gray-500 space-y-6">
-                <h2 className="text-xl leading-7 text-gray-800 font-bold tracking-tight sm:text-xl">
-                  The result of a successful swag campaign
-                </h2>
-                <Paragraph>
-                  In addition to the 70,000 new subscribers, Morning Brew&apos;s
-                  swag provides the best return on investment a company could
-                  have. The most effective marketing dollars spent are on a
-                  customer who will promote your business for you and boost
-                  revenue — one who promotes your business through word-of-mouth
-                  marketing and advocates for your brand. A positive, memorable
-                  customer experience is critical to the sustained growth for
-                  any business.
-                </Paragraph>
-                <Paragraph>
-                  The 7,000 loyal customers who participated in the campaign and
-                  earned swag are now wearing their jogger sweatpants everywhere
-                  they go as casual advertising, and leisurewear continues to
-                  grow in popularity. This organically leads to thousands of
-                  more subscriptions and more revenue. And not only did Morning
-                  Brew get a chance to increase their subscriber base in the
-                  moment, but they were also able to create lasting customer
-                  loyalty with those who participated in the campaign. Loyal
-                  customers tend to associate favorable experiences with a
-                  brand, increasing their likelihood to make repeat purchases
-                  with that business.
-                </Paragraph>
-                <Paragraph>
-                  Leveraging your existing audience to market for you has among
-                  the lowest CAC (customer acquisition cost) compared to other
-                  digital marketing, such as Facebook or Google ads. Moreover,
-                  direct-referral acquisition and frictionless, personalized
-                  customer experiences lead to increased audience retention.
-                  Stitchi&apos;s proprietary strategies, processes,
-                  relationships, and focus on end-customer experience help
-                  startups, brands, and content creators discover untapped
-                  growth and financial success from their audience.
-                </Paragraph>
-              </div>
+              <h2>Key Collaboration Elements</h2>
+
+              <h3>Seamless Integration with Shopify</h3>
+              <p>
+                Stitchi integrated Morning Brew&apos;s existing merch program
+                with Shopify, a leading e-commerce platform. This enabled a
+                smooth and efficient transition, while also providing the
+                foundation for the improved merch program. Through this
+                integration, Stitchi was able to manage the inventory, order
+                processing, and shipping of Morning Brew&apos;s merchandise,
+                allowing the newsletter company to focus on their core business.
+              </p>
+
+              <h3>Dynamic Email Sequences</h3>
+              <p>
+                To facilitate the distribution of merchandise completely
+                hands-free for Morning Brew, Stitchi developed dynamic email
+                sequences that were triggered by specific actions or events.
+                These emails included personalized offers, promotional codes,
+                and reminders to readers. This automated approach helped drive
+                engagement, increase conversions, and ultimately boost Morning
+                Brew&apos;s brand awareness.
+              </p>
+
+              <h3>Ideation and Collaboration</h3>
+              <p>
+                Morning Brew and Stitchi worked closely together to develop
+                creative and engaging ideas for the merchandise program. This
+                collaborative approach ensured that the program was aligned with
+                Morning Brew&apos;s brand identity, target audience, and
+                marketing objectives. The partnership resulted in a range of
+                unique and eye-catching promotional products that resonated with
+                Morning Brew&apos;s readers.
+              </p>
+
+              <h3>Execution and Fulfillment</h3>
+              <p>
+                Stitchi took charge of the integration and fulfillment aspects
+                of the partnership, leveraging their expertise in custom
+                merchandise and merch programs. This included the production,
+                warehousing, and shipping of Morning Brew&apos;s promotional
+                products. Stitchi&apos;s efficient fulfillment process ensured
+                that Morning Brew&apos;s readers received their merchandise
+                promptly and in perfect condition.
+              </p>
+
+              <h2>Conclusion</h2>
+              <Paragraph>
+                The partnership between Morning Brew and Stitchi proved to be
+                highly successful, as it not only enhanced the existing
+                merchandise program but also streamlined the entire process. The
+                seamless integration with Shopify, dynamic email sequences, and
+                collaborative approach resulted in a highly effective merch
+                program that increased engagement, conversions, and brand
+                awareness for Morning Brew.
+              </Paragraph>
             </div>
           </div>
           <div className="sm:py-16 lg:py-0 lg:mt-20">
