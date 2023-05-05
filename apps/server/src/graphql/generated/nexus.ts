@@ -42,6 +42,16 @@ export interface NexusGenInputs {
     first: number; // Int!
     skip?: number | null; // Int
   }
+  ProductKey: { // input type
+    id: string; // ID!
+    prices: NexusGenInputs['ProductPrice']; // ProductPrice!
+  }
+  ProductPrice: { // input type
+    price: NexusGenInputs['ProductPriceValue']; // ProductPriceValue!
+  }
+  ProductPriceValue: { // input type
+    value: number; // Float!
+  }
   QuoteGeneratePrintLocationInput: { // input type
     colorCount: number; // Int!
   }
@@ -220,6 +230,7 @@ export interface NexusGenFieldTypes {
     priceCents: number; // Int!
   }
   Query: { // field return type
+    _products: Array<NexusGenRootTypes['Product'] | null> | null; // [Product]
     newsletter: NexusGenRootTypes['Newsletter'] | null; // Newsletter
     quoteGenerate: NexusGenRootTypes['Quote'] | null; // Quote
     viewer: NexusGenRootTypes['Membership'] | null; // Membership
@@ -318,6 +329,7 @@ export interface NexusGenFieldTypeNames {
     priceCents: 'Int'
   }
   Query: { // field return type name
+    _products: 'Product'
     newsletter: 'Newsletter'
     quoteGenerate: 'Quote'
     viewer: 'Membership'
@@ -371,6 +383,9 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    _products: { // args
+      products: NexusGenInputs['ProductKey'][]; // [ProductKey!]!
+    }
     quoteGenerate: { // args
       catalogProductVariantId: number; // Int!
       includeFulfillment?: boolean | null; // Boolean

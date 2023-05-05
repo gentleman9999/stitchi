@@ -8,6 +8,7 @@ import useProductColors from '@hooks/useProductColors'
 import SwatchGroup from './SwatchGroup'
 import { makeProductTitle } from '@utils/catalog'
 import { generateImageSizes } from '@utils/image'
+import currency from 'currency.js'
 
 export interface Props {
   product: CatalogProductProductFragment
@@ -45,14 +46,23 @@ const CatalogProduct = ({ product, priority }: Props) => {
             />
           </div>
         )}
-        <h3 className="mt-4 text-md font-medium font-heading leading-none">
+        <h3 className="mt-4 text-sm font-medium leading-none">
           {makeProductTitle(product)}
         </h3>
-        <div className="flex-1 mt-4 flex items-end">
-          <SwatchGroup
-            // Could add support for more colors in the future
-            hexColors={colors.map(({ hexColors }) => hexColors[0])}
-          />
+
+        <div className="mt-4 flex justify-between items-center">
+          <div className="flex-1 flex items-end">
+            <SwatchGroup
+              // Could add support for more colors in the future
+              hexColors={colors.map(({ hexColors }) => hexColors[0])}
+            />
+          </div>
+          <span className=" text-gray-600 flex gap-1 items-center">
+            <span className="text-xs">from</span>
+            <span className="font-bold">
+              {currency(product.priceCents, { fromCents: true }).format()}
+            </span>
+          </span>
         </div>
       </Link>
     </li>
@@ -67,12 +77,13 @@ CatalogProduct.fragments = {
       id
       name
       path
+      priceCents
       brand {
         id
         name
         path
       }
-      
+
       defaultImage {
         urlOriginal
         altText

@@ -115,7 +115,21 @@ type Product {
   priceCents: Int!
 }
 
+input ProductKey {
+  id: ID!
+  prices: ProductPrice!
+}
+
+input ProductPrice {
+  price: ProductPriceValue!
+}
+
+input ProductPriceValue {
+  value: Float!
+}
+
 type Query {
+  _products(products: [ProductKey!]!): [Product]
   newsletter: Newsletter
 
   """Generates a quote"""

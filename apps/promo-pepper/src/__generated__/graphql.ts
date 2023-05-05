@@ -17,7 +17,7 @@ export type Scalars = {
   /** Represents `true` or `false` values. */
   BooleanType: any;
   CustomData: any;
-  /** ISO-8601 formatted date in UTC */
+  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: string;
   /** Represents signed double-precision fractional values as specified by [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point). */
   FloatType: any;
@@ -4037,12 +4037,9 @@ export type OtherSearchFilterItem = {
   productCount: Scalars['Int'];
 };
 
-/** Information about pagination in a connection. */
 export type PageInfo = {
   __typename: 'PageInfo';
-  /** When paginating forwards, the cursor to continue. */
   endCursor?: Maybe<Scalars['String']>;
-  /** When paginating forwards, are there more items? */
   hasNextPage: Scalars['Boolean'];
   /** When paginating backwards, are there more items? */
   hasPreviousPage: Scalars['Boolean'];
@@ -4243,7 +4240,6 @@ export type PrivacyPolicyPageRecordSeoMetaTagsArgs = {
   locale?: InputMaybe<SiteLocale>;
 };
 
-/** Product */
 export type Product = Node & {
   __typename: 'Product';
   /** Absolute URL path for adding a product to cart. */
@@ -4292,7 +4288,6 @@ export type Product = Node & {
   gtin?: Maybe<Scalars['String']>;
   /** Height of the product. */
   height?: Maybe<Measurement>;
-  /** The ID of an object */
   id: Scalars['ID'];
   /** A list of the images for a product. */
   images: ImageConnection;
@@ -4354,7 +4349,6 @@ export type Product = Node & {
 };
 
 
-/** Product */
 export type ProductCategoriesArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -4363,7 +4357,6 @@ export type ProductCategoriesArgs = {
 };
 
 
-/** Product */
 export type ProductCustomFieldsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -4373,7 +4366,6 @@ export type ProductCustomFieldsArgs = {
 };
 
 
-/** Product */
 export type ProductGiftWrappingOptionsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -4382,7 +4374,6 @@ export type ProductGiftWrappingOptionsArgs = {
 };
 
 
-/** Product */
 export type ProductImagesArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -4391,7 +4382,6 @@ export type ProductImagesArgs = {
 };
 
 
-/** Product */
 export type ProductMetafieldsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -4402,7 +4392,6 @@ export type ProductMetafieldsArgs = {
 };
 
 
-/** Product */
 export type ProductOptionsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -4411,26 +4400,22 @@ export type ProductOptionsArgs = {
 };
 
 
-/** Product */
 export type ProductPlainTextDescriptionArgs = {
   characterLimit?: InputMaybe<Scalars['Int']>;
 };
 
 
-/** Product */
 export type ProductPriceRangesArgs = {
   includeTax?: InputMaybe<Scalars['Boolean']>;
 };
 
 
-/** Product */
 export type ProductPricesArgs = {
   currencyCode?: InputMaybe<CurrencyCode>;
   includeTax?: InputMaybe<Scalars['Boolean']>;
 };
 
 
-/** Product */
 export type ProductProductOptionsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -4439,7 +4424,6 @@ export type ProductProductOptionsArgs = {
 };
 
 
-/** Product */
 export type ProductRelatedProductsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -4449,7 +4433,6 @@ export type ProductRelatedProductsArgs = {
 };
 
 
-/** Product */
 export type ProductReviewsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -4460,7 +4443,6 @@ export type ProductReviewsArgs = {
 };
 
 
-/** Product */
 export type ProductVariantsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -4836,6 +4818,7 @@ export type Query = {
   node?: Maybe<Node>;
   /** Returns the single instance record */
   privacyPolicyPage?: Maybe<PrivacyPolicyPageRecord>;
+  product?: Maybe<Product>;
   /** Generates a quote */
   quoteGenerate?: Maybe<Quote>;
   /** A site */
@@ -5065,6 +5048,11 @@ export type QueryNodeArgs = {
 export type QueryPrivacyPolicyPageArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
   locale?: InputMaybe<SiteLocale>;
+};
+
+
+export type QueryProductArgs = {
+  id: Scalars['ID'];
 };
 
 
