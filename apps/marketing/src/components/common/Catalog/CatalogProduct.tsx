@@ -9,6 +9,7 @@ import SwatchGroup from './SwatchGroup'
 import { makeProductTitle } from '@utils/catalog'
 import { generateImageSizes } from '@utils/image'
 import currency from 'currency.js'
+import Tooltip from '@components/ui/Tooltip'
 
 export interface Props {
   product: CatalogProductProductFragment
@@ -59,9 +60,15 @@ const CatalogProduct = ({ product, priority }: Props) => {
           </div>
           <span className=" text-gray-600 flex gap-1 items-center">
             <span className="text-xs">from</span>
-            <span className="font-bold">
-              {currency(product.priceCents, { fromCents: true }).format()}
-            </span>
+            <Tooltip
+              label="Price includes 1 print location."
+              delay={150}
+              renderTrigger={() => (
+                <span className="font-bold">
+                  {currency(product.priceCents, { fromCents: true }).format()}
+                </span>
+              )}
+            />
           </span>
         </div>
       </Link>

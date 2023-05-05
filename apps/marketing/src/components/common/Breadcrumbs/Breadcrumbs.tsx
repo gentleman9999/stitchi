@@ -7,6 +7,7 @@ import makeAbsoluteUrl from '@utils/get-absolute-url'
 interface Breadcrumb {
   label: string
   href: string
+  hidden?: boolean
 }
 
 interface Props {
@@ -27,7 +28,7 @@ const Breadcrumbs = ({ breadcrumbs }: Props) => {
         <ol className="flex gap-2 text-gray-600 text-xs">
           {breadcrumbs.map((crumb, i) => (
             <React.Fragment key={crumb.href}>
-              <li>
+              <li className={crumb.hidden ? 'sr-only' : ''}>
                 <Link
                   href={crumb.href}
                   className={cx('hover:text-gray-800', {
@@ -39,7 +40,7 @@ const Breadcrumbs = ({ breadcrumbs }: Props) => {
                 </Link>
               </li>
               {i < breadcrumbs.length - 1 ? (
-                <li>
+                <li className={crumb.hidden ? 'sr-only' : ''}>
                   <span>/</span>
                 </li>
               ) : null}

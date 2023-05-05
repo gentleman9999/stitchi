@@ -33,7 +33,7 @@ const BrandShowPage = ({ brand }: Props) => {
       <Container>
         <Breadcrumbs
           breadcrumbs={[
-            { label: 'Home', href: routes.internal.home.href() },
+            { label: 'Home', href: routes.internal.home.href(), hidden: true },
             { label: 'Catalog', href: routes.internal.catalog.href() },
             { label: brand.name, href },
           ]}

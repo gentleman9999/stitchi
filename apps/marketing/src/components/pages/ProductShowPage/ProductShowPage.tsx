@@ -156,7 +156,7 @@ const makeBreadcrumbs = (params: {
   productLabel: string
 }) => {
   return [
-    { label: 'Home', href: routes.internal.home.href() },
+    { label: 'Home', href: routes.internal.home.href(), hidden: true },
     { label: 'Catalog', href: routes.internal.catalog.href() },
     {
       label: params.brandLabel,

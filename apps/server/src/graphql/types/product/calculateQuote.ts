@@ -1,5 +1,21 @@
 import { add, chain, divide, multiply, sum } from 'mathjs'
 
+const getMarkupMultiplier = (unitCost: number) => {
+  let markup = 100
+  if (unitCost <= 10_00) {
+    markup = 100 // 100% markup
+  } else if (unitCost >= 10_01 && unitCost <= 20_00) {
+    markup = 90 // 90% markup
+  } else if (unitCost >= 20_01 && unitCost <= 30_00) {
+    markup = 80 // 80% markup
+  } else if (unitCost >= 30_01 && unitCost <= 40_00) {
+    markup = 70 // 70% markup
+  } else if (unitCost >= 40_01) {
+    markup = 60 // 60% markup
+  }
+  return markup
+}
+
 const calculate = async ({
   productPriceCents,
   includeFulfillment,
@@ -18,8 +34,6 @@ const calculate = async ({
   const PRINT_QTY_BREAKPOINTS = [
     24, 47, 71, 143, 249, 499, 999, 2499, 4999, 7499, 9999,
   ]
-
-  const MARKUP_PCT = 100 // 100%
 
   // Array depth 1: print qty
   // Array depth 2: color count
@@ -69,23 +83,30 @@ const calculate = async ({
 
   const printLocationsTotalCost: number = sum(...printLocationCosts)
 
-  const markupMultiplier = add(divide(MARKUP_PCT, 100), 1)
   const screenCost = multiply(totalColorCount, SCREEN_CHARGE)
 
   const productTotalCostCents = chain(printLocationsTotalCost)
     .add(productPriceCents)
     .add(divide(screenCost, quantity))
-    .multiply(markupMultiplier)
-    .add(fulfillmentCost)
-    .multiply(quantity)
-    // No markup on fulfillment
     .done()
 
-  const productUnitCostCents = divide(productTotalCostCents, quantity)
+  const markupMultiplier = add(
+    divide(getMarkupMultiplier(productTotalCostCents), 100),
+    1,
+  )
+
+  const productRetailCents = chain(productTotalCostCents)
+    .multiply(markupMultiplier)
+    // No markup on fulfillment
+    .add(fulfillmentCost)
+    .multiply(quantity)
+    .done()
+
+  const productUnitRetailCents = divide(productRetailCents, quantity)
 
   return {
-    productTotalCostCents: Math.floor(productTotalCostCents),
-    productUnitCostCents: Math.floor(productUnitCostCents),
+    productTotalCostCents: Math.floor(productUnitRetailCents),
+    productUnitCostCents: Math.floor(productUnitRetailCents),
     printLocationCount: printLocations.length,
     printLocations: printLocations.map((location, i) => ({
       colorCount: location.colorCount,
