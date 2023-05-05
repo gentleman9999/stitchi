@@ -29,7 +29,7 @@ const CatalogIndexPage = ({}: CatalogIndexPageProps) => {
               <h1 className="text-lg md:text-xl lg:text-xl font-bold font-heading">
                 Browse our curated selection of products
               </h1>
-              <p className=" text text-gray-700 mt-2">
+              <p className="text text-gray-700 mt-2">
                 We work with brands that you wont find anywhere else. Our team
                 of experts is continually procuring the highest-quality,
                 ethical, and unique products so that you can deliver experiences
@@ -52,7 +52,7 @@ const CatalogIndexPage = ({}: CatalogIndexPageProps) => {
           </div>
         </Section>
 
-        <Section>
+        <Section className="mt-4">
           <Catalog />
         </Section>
       </Container>

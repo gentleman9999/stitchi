@@ -1,6 +1,5 @@
 import React from 'react'
 import cx from 'classnames'
-// import * as RuiDialog from '@radix-ui/react-dialog'
 import DialogSectionPadding from './DialogSectionPadding'
 
 export interface DialogContentProps {
@@ -10,19 +9,20 @@ export interface DialogContentProps {
 
 const DialogContent = (props: DialogContentProps) => {
   return (
-    // <RuiDialog.Description>
-    <div>
+    <>
       {props.dividers && <Divider className="mt-4 sm:mt-6" />}
-      <div
-        className={cx('flex-1 overflow-y-scroll', {
-          'pb-4 sm:pb-6': Boolean(props.dividers),
-        })}
-      >
-        <DialogSectionPadding>{props.children}</DialogSectionPadding>
+
+      <div className="overflow-scroll">
+        <div
+          className={cx('flex-1', {
+            'pb-4 sm:pb-6': Boolean(props.dividers),
+          })}
+        >
+          <DialogSectionPadding>{props.children}</DialogSectionPadding>
+        </div>
       </div>
       {props.dividers && <Divider />}
-    </div>
-    // </RuiDialog.Description>
+    </>
   )
 }
 

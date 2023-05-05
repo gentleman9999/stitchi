@@ -57,7 +57,7 @@ const SlideUp = ({
 )
 
 const Transition: any = {}
-Transition.Root = HuiTransition.Root
+Transition.Root = HuiTransition
 Transition.Child = HuiTransition.Child
 Transition.ScaleUp = ScaleUp
 Transition.FadeOpacity = FadeOpacity

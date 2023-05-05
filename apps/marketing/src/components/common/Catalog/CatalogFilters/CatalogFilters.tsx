@@ -51,7 +51,7 @@ const CatalogFilters = ({ catalogEndRef, hideBrands }: Props) => {
       />
 
       <div className="flex justify-between">
-        <div>{/* <FilterButton onClick={() => {}}>hi</FilterButton> */}</div>
+        <div />
         <div ref={staticFilterRef}>
           <Button />
         </div>
