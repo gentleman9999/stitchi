@@ -325,6 +325,7 @@ const CalculatorForm = (props: Props) => {
               onClick={handleStartOrderClick}
               loading={submitting}
               disabled={loading}
+              className="!px-3"
             >
               Start an order
             </Button>
