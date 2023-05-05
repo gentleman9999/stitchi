@@ -13,6 +13,7 @@ const getMarkupMultiplier = (unitCost: number) => {
   } else if (unitCost >= 40_01) {
     markup = 60 // 60% markup
   }
+
   return markup
 }
 
@@ -95,9 +96,12 @@ const calculate = async ({
     1,
   )
 
+  const discount = printQtyBreakpoint * 0.025 // 2.25% discount per qty breakpoint
+
   const productRetailCents = chain(productTotalCostCents)
-    .multiply(markupMultiplier)
-    // No markup on fulfillment
+    .multiply(markupMultiplier) // Apply markup
+    .multiply(1 - discount) // Apply discounts
+    // No markup/discount on fulfillment
     .add(fulfillmentCost)
     .multiply(quantity)
     .done()
@@ -105,7 +109,7 @@ const calculate = async ({
   const productUnitRetailCents = divide(productRetailCents, quantity)
 
   return {
-    productTotalCostCents: Math.floor(productUnitRetailCents),
+    productTotalCostCents: Math.floor(productRetailCents),
     productUnitCostCents: Math.floor(productUnitRetailCents),
     printLocationCount: printLocations.length,
     printLocations: printLocations.map((location, i) => ({
