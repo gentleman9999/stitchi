@@ -2,6 +2,7 @@ import { queryType } from 'nexus'
 
 export { viewer } from './viewer'
 export { newsletter, allNewsletterIssues } from './newsletter'
+export { products } from './product'
 
 export { quoteGenerate, QuoteGeneratePrintLocationInput } from './quote'
 

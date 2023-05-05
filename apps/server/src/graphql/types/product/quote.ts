@@ -1,4 +1,4 @@
-import { objectType } from 'nexus'
+import { extendType, objectType } from 'nexus'
 
 export const PrintLocation = objectType({
   name: 'PrintLocation',
