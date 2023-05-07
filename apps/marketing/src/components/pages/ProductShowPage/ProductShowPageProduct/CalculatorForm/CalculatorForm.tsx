@@ -115,7 +115,7 @@ const CalculatorForm = (props: Props) => {
   }
 
   const { productUnitCostCents = 0, productTotalCostCents = 0 } =
-    data?.quoteGenerate || {}
+    data?.site.product?.quote || {}
 
   return (
     <form>

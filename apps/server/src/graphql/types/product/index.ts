@@ -1,2 +1,2 @@
-export { Product } from './product'
+export { Product, QuoteGeneratePrintLocationInput } from './product'
 export { Quote, PrintLocation } from './quote'
