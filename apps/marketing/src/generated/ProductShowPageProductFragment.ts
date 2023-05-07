@@ -301,6 +301,7 @@ export interface ProductShowPageProductFragment {
    * Global trade item number.
    */
   gtin: string | null;
+  priceCents: number;
   /**
    * Default image for a product.
    */

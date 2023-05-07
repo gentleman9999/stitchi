@@ -5,10 +5,7 @@ import {
   ProductPageGetDataQuery,
   ProductPageGetDataQueryVariables,
 } from '@generated/ProductPageGetDataQuery'
-import {
-  ProductPageGetSEODataQuery,
-  ProductPageGetSEODataQueryVariables,
-} from '@generated/ProductPageGetSEODataQuery'
+
 import { addApolloState, initializeApollo } from '@lib/apollo'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
@@ -39,16 +36,6 @@ const getPath = (slug: string) => {
   const productSlug = slug.replace(`${brandSlug}-`, '')
 
   return `/${productSlug}/`
-}
-
-const getProductVariantIdFromSite = (
-  site?: ProductPageGetDataQuery['site'],
-): number | null => {
-  if (site?.route.node?.__typename === 'Product') {
-    return site.route.node.variants.edges?.[0]?.node.entityId || null
-  }
-
-  return null
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -92,24 +79,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     })
   }
 
-  //
-  // TODOOO:
-  // Add resolver for product default price, which calls BigC API to get default price and run it through our pricing algorythm
-  //
-  const catalogProductVariantId = getProductVariantIdFromSite(data.site)
-
-  if (catalogProductVariantId) {
-    await client.query<
-      ProductPageGetSEODataQuery,
-      ProductPageGetSEODataQueryVariables
-    >({
-      query: GET_SEO_DATA,
-      variables: {
-        catalogProductVariantId,
-      },
-    })
-  }
-
   return addApolloState(client, { props: {} })
 }
 
@@ -127,16 +96,6 @@ const ProductPage = () => {
     skip: !path,
   })
 
-  const catalogProductVariantId = getProductVariantIdFromSite(data?.site)
-
-  const { data: quoteData } = useQuery<
-    ProductPageGetSEODataQuery,
-    ProductPageGetSEODataQueryVariables
-  >(GET_SEO_DATA, {
-    variables: { catalogProductVariantId: catalogProductVariantId || -1 },
-    skip: !catalogProductVariantId,
-  })
-
   const { site } = data || {}
 
   if (error) {
@@ -147,11 +106,11 @@ const ProductPage = () => {
     throw new Error("No site found. This shouldn't happen.")
   }
 
-  const node = site.route.node
+  const node = site?.route.node
 
   switch (node?.__typename) {
     case 'Product': {
-      return <ProductShowPage product={node} quote={quoteData?.quoteGenerate} />
+      return <ProductShowPage product={node} />
     }
 
     case 'Brand': {
@@ -167,21 +126,6 @@ const ProductPage = () => {
 ProductPage.getLayout = (page: ReactElement) => (
   <PrimaryLayout>{page}</PrimaryLayout>
 )
-
-const GET_SEO_DATA = gql`
-  ${ProductShowPage.fragments.quote}
-  query ProductPageGetSEODataQuery($catalogProductVariantId: Int!) {
-    quoteGenerate(
-      catalogProductVariantId: $catalogProductVariantId
-      includeFulfillment: false
-      quantity: 10000
-      printLocations: [{ colorCount: 1 }]
-    ) {
-      id
-      ...ProductShowPageQuoteFragment
-    }
-  }
-`
 
 const GET_DATA = gql`
   ${ProductShowPage.fragments.product}

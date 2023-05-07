@@ -24,10 +24,9 @@ import currency from 'currency.js'
 
 interface Props {
   product: ProductShowPageProductFragment
-  quote?: ProductShowPageQuoteFragment | null
 }
 
-const ProductShowPage = ({ product, quote }: Props) => {
+const ProductShowPage = ({ product }: Props) => {
   const [share, setShare] = React.useState(false)
 
   const title = makeProductTitle(product)
@@ -74,7 +73,7 @@ const ProductShowPage = ({ product, quote }: Props) => {
           offers: variant.prices
             ? {
                 url,
-                price: currency(quote?.productUnitCostCents || 0, {
+                price: currency(product.priceCents || 0, {
                   fromCents: true,
                 }),
                 priceCurrency: variant.prices.price.currencyCode,
@@ -175,12 +174,6 @@ const makeBreadcrumbs = (params: {
 }
 
 ProductShowPage.fragments = {
-  quote: gql`
-    fragment ProductShowPageQuoteFragment on Quote {
-      id
-      productUnitCostCents
-    }
-  `,
   product: gql`
     ${ProductShowPageProduct.fragments.product}
     fragment ProductShowPageProductFragment on Product {
@@ -189,6 +182,7 @@ ProductShowPage.fragments = {
       path
       plainTextDescription
       gtin
+      priceCents
       defaultImage {
         seoImageUrl: url(width: 1000)
       }
