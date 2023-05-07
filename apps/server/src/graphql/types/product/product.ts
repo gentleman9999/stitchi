@@ -1,13 +1,14 @@
 import { GraphQLError } from 'graphql'
-import { objectType } from 'nexus'
+import { list, nonNull, objectType } from 'nexus'
 import calculate from './calculateQuote'
+import * as uuid from 'uuid'
 
 export const Product = objectType({
   name: 'Product',
   definition: t => {
     t.nonNull.id('id')
     t.nonNull.int('priceCents', {
-      resolve: async (parent, args) => {
+      resolve: async parent => {
         try {
           const { productUnitCostCents } = await calculate({
             productPriceCents: (parent as any).prices.price.value * 100,
@@ -26,6 +27,39 @@ export const Product = objectType({
 
           throw new GraphQLError(
             `Unable to calculate product's price: ${parent.id}`,
+          )
+        }
+      },
+    })
+    t.nonNull.field('quote', {
+      type: 'Quote',
+      args: {
+        quantity: nonNull('Int'),
+        printLocations: nonNull(
+          list(nonNull('QuoteGeneratePrintLocationInput')),
+        ),
+        includeFulfillment: 'Boolean',
+      },
+      resolve: async (
+        parent,
+        { includeFulfillment, printLocations, quantity },
+      ) => {
+        try {
+          const data = await calculate({
+            includeFulfillment: Boolean(includeFulfillment),
+            printLocations,
+            quantity,
+            productPriceCents: (parent as any).prices.price.value * 100,
+          })
+
+          return {
+            id: uuid.v4(),
+            ...data,
+          }
+        } catch (error) {
+          console.error(error)
+          throw new GraphQLError(
+            `Unable to get quote for product: ${parent.id}`,
           )
         }
       },
