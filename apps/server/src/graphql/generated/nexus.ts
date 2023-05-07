@@ -228,6 +228,7 @@ export interface NexusGenFieldTypes {
   Product: { // field return type
     id: string; // ID!
     priceCents: number; // Int!
+    quote: NexusGenRootTypes['Quote']; // Quote!
   }
   Query: { // field return type
     _products: Array<NexusGenRootTypes['Product'] | null> | null; // [Product]
@@ -327,6 +328,7 @@ export interface NexusGenFieldTypeNames {
   Product: { // field return type name
     id: 'ID'
     priceCents: 'Int'
+    quote: 'Quote'
   }
   Query: { // field return type name
     _products: 'Product'
@@ -380,6 +382,13 @@ export interface NexusGenArgTypes {
     }
     newsletterIssue: { // args
       slug: string; // String!
+    }
+  }
+  Product: {
+    quote: { // args
+      includeFulfillment?: boolean | null; // Boolean
+      printLocations: NexusGenInputs['QuoteGeneratePrintLocationInput'][]; // [QuoteGeneratePrintLocationInput!]!
+      quantity: number; // Int!
     }
   }
   Query: {
