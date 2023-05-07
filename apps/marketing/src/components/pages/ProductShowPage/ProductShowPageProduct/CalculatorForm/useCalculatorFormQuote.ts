@@ -40,15 +40,19 @@ export const GET_QUOTE = gql`
     $quantity: Int!
     $includeFulfillment: Boolean
   ) {
-    quoteGenerate(
-      catalogProductVariantId: $catalogProductVariantId
-      printLocations: $printLocations
-      quantity: $quantity
-      includeFulfillment: $includeFulfillment
-    ) {
-      id
-      productTotalCostCents
-      productUnitCostCents
+    site {
+      product(variantEntityId: $catalogProductVariantId) {
+        id
+        quote(
+          printLocations: $printLocations
+          quantity: $quantity
+          includeFulfillment: $includeFulfillment
+        ) {
+          id
+          productTotalCostCents
+          productUnitCostCents
+        }
+      }
     }
   }
 `
