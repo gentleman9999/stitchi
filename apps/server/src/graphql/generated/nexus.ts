@@ -233,7 +233,6 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     _products: Array<NexusGenRootTypes['Product'] | null> | null; // [Product]
     newsletter: NexusGenRootTypes['Newsletter'] | null; // Newsletter
-    quoteGenerate: NexusGenRootTypes['Quote'] | null; // Quote
     viewer: NexusGenRootTypes['Membership'] | null; // Membership
   }
   Quote: { // field return type
@@ -333,7 +332,6 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     _products: 'Product'
     newsletter: 'Newsletter'
-    quoteGenerate: 'Quote'
     viewer: 'Membership'
   }
   Quote: { // field return type name
@@ -394,12 +392,6 @@ export interface NexusGenArgTypes {
   Query: {
     _products: { // args
       products: NexusGenInputs['ProductKey'][]; // [ProductKey!]!
-    }
-    quoteGenerate: { // args
-      catalogProductVariantId: number; // Int!
-      includeFulfillment?: boolean | null; // Boolean
-      printLocations: NexusGenInputs['QuoteGeneratePrintLocationInput'][]; // [QuoteGeneratePrintLocationInput!]!
-      quantity: number; // Int!
     }
   }
 }

@@ -1,7 +1,14 @@
 import { GraphQLError } from 'graphql'
-import { list, nonNull, objectType } from 'nexus'
+import { inputObjectType, list, nonNull, objectType } from 'nexus'
 import calculate from './calculateQuote'
 import * as uuid from 'uuid'
+
+export const QuoteGeneratePrintLocationInput = inputObjectType({
+  name: 'QuoteGeneratePrintLocationInput',
+  definition(t) {
+    t.nonNull.int('colorCount')
+  },
+})
 
 export const Product = objectType({
   name: 'Product',
