@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { ArticleModelFilter } from "./globalTypes";
+
 // ====================================================
 // GraphQL query operation: BlogIndexPageGetDataQuery
 // ====================================================
@@ -141,4 +143,5 @@ export interface BlogIndexPageGetDataQuery {
 export interface BlogIndexPageGetDataQueryVariables {
   first?: any | null;
   skip?: any | null;
+  filter?: ArticleModelFilter | null;
 }

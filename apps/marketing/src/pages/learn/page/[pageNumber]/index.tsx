@@ -12,8 +12,10 @@ import { ComponentErrorMessage } from '@components/common'
 import { BlogIndexPageGetPagesQuery } from '@generated/BlogIndexPageGetPagesQuery'
 import { PrimaryLayout } from '@components/layout'
 import routes from '@lib/routes'
+import { ItemStatus } from '@generated/globalTypes'
 
 const PAGE_LIMIT = 6
+const SKIP_CATEGORIES = ['148284102']
 
 const getPagination = (currentPage: number) => ({
   first: currentPage > 1 ? PAGE_LIMIT * 2 : PAGE_LIMIT,
@@ -60,7 +62,13 @@ const getStaticProps: GetStaticProps = async ({ params }) => {
     BlogIndexPageGetDataQueryVariables
   >({
     query: GET_DATA,
-    variables: getPagination(pageNumberInt),
+    variables: {
+      ...getPagination(pageNumberInt),
+      filter: {
+        _status: { eq: ItemStatus.published },
+        categories: { notIn: SKIP_CATEGORIES },
+      },
+    },
   })
 
   return addApolloState(client, { props: {} })
@@ -76,7 +84,13 @@ const BlogIndexPage = () => {
     BlogIndexPageGetDataQuery,
     BlogIndexPageGetDataQueryVariables
   >(GET_DATA, {
-    variables: getPagination(pageNumberInt),
+    variables: {
+      ...getPagination(pageNumberInt),
+      filter: {
+        _status: { eq: ItemStatus.published },
+        categories: { notIn: SKIP_CATEGORIES },
+      },
+    },
     notifyOnNetworkStatusChange: true,
   })
 
@@ -126,18 +140,19 @@ const GET_DATA = gql`
   ${BlogPostIndexPage.fragments.article}
   ${BlogPostIndexPage.fragments.category}
   ${BlogPostIndexPage.fragments.page}
-  query BlogIndexPageGetDataQuery($first: IntType, $skip: IntType) {
-    _allArticlesMeta(filter: { _status: { eq: published } }) {
+  query BlogIndexPageGetDataQuery(
+    $first: IntType
+    $skip: IntType
+    $filter: ArticleModelFilter
+  ) {
+    _allArticlesMeta(filter: $filter) {
       count
     }
     allArticles(
       first: $first
       skip: $skip
       orderBy: _createdAt_DESC
-      filter: {
-        _status: { eq: published }
-        categories: { notIn: ["148284102"] }
-      }
+      filter: $filter
     ) {
       id
       ...BlogIndexPageArticleFragment

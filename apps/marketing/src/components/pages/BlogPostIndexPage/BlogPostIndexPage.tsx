@@ -171,6 +171,7 @@ const BlogIndexPage = ({
           </div>
 
           <InfiniteScrollContainer onIntersect={handleFetchMore} />
+
           {canFetchMore ? (
             <div className="flex justify-center">
               <Button

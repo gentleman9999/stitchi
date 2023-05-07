@@ -11,6 +11,8 @@ const InfiniteScrollTrigger = (props: Props) => {
   React.useEffect(() => {
     if (!inView) return
 
+    console.log('TRIGGERRRR')
+
     props.onIntersect()
   }, [inView, props])
 
