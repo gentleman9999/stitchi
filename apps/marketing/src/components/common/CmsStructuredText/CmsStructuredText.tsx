@@ -126,6 +126,7 @@ const CmsStructuredText = ({ content }: Props) => {
             return (
               <div className="prose-img:mt-0 rounded-md overflow-hidden">
                 <CmsImage
+                  lazyLoad
                   data={castedRecord.image.responsiveImage}
                   layout="responsive"
                   objectFit="contain"

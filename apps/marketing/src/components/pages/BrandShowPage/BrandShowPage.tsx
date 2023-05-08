@@ -22,7 +22,7 @@ const BrandShowPage = ({ brand }: Props) => {
   return (
     <>
       <NextSeo
-        title={`Browse ${brand.seo.pageTitle} products`}
+        title={`Browse ${brand.name} products`}
         description={brand.seo.metaDescription}
         canonical={url}
         openGraph={{ url }}

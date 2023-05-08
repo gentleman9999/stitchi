@@ -118,7 +118,11 @@ const CalculatorForm = (props: Props) => {
     data?.site.product?.quote || {}
 
   return (
-    <form>
+    <form
+      onSubmit={e => {
+        e.preventDefault()
+      }}
+    >
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-10">
           <div className="flex flex-col gap-4">
