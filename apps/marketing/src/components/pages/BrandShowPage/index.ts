@@ -1,1 +1,1 @@
-export { default } from './BrandShowPage'
+export { default, fragments } from './BrandShowPage'

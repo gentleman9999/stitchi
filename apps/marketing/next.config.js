@@ -7,6 +7,9 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 module.exports = withBundleAnalyzer({
   reactStrictMode: true,
   transpilePackages: ['icons', 'config', 'tsconfig', 'hooks', 'lodash-es'],
+  lodash: {
+    transform: 'lodash/{{member}}',
+  },
   i18n: {
     locales: ['en'],
     defaultLocale: 'en',

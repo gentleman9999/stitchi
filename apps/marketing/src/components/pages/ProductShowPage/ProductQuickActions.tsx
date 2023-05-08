@@ -1,4 +1,4 @@
-import { useWishlist } from 'context/wishlist-context'
+import { useWishlist } from '@components/context'
 import { Heart, Share } from 'icons'
 import React from 'react'
 import cx from 'classnames'

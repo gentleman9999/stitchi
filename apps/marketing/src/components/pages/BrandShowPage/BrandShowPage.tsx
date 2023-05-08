@@ -51,7 +51,7 @@ const BrandShowPage = ({ brand }: Props) => {
   )
 }
 
-BrandShowPage.fragments = {
+export const fragments = {
   brand: gql`
     fragment BrandShowPageBrandFragment on Brand {
       id

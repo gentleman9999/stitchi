@@ -13,8 +13,15 @@ import React from 'react'
 import { ReactElement } from 'react'
 import staticWebsiteData from '@generated/static.json'
 import getServerSideData from '@components/common/Catalog/getServerSideData'
-import BrandShowPage from '@components/pages/BrandShowPage'
-import ProductShowPage from '@components/pages/ProductShowPage'
+import dynamic from 'next/dynamic'
+
+import { fragments as brandShowPageFragments } from '@components/pages/BrandShowPage'
+import { fragments as productShowPageFragments } from '@components/pages/ProductShowPage'
+
+const BrandShowPage = dynamic(() => import('@components/pages/BrandShowPage'))
+const ProductShowPage = dynamic(
+  () => import('@components/pages/ProductShowPage'),
+)
 
 const allBrandSlugs = staticWebsiteData.data.site.brands.edges.map(({ node }) =>
   node.path.replace(/\//g, ''),
@@ -128,8 +135,8 @@ ProductPage.getLayout = (page: ReactElement) => (
 )
 
 const GET_DATA = gql`
-  ${ProductShowPage.fragments.product}
-  ${BrandShowPage.fragments.brand}
+  ${productShowPageFragments.product}
+  ${brandShowPageFragments.brand}
   query ProductPageGetDataQuery($path: String!) {
     site {
       route(path: $path) {

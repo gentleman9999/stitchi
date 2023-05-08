@@ -1,8 +1,10 @@
-'use client'
-
-import PageLoadProgress from 'nextjs-progressbar'
+import dynamic from 'next/dynamic'
 import React from 'react'
 import { theme } from '../../../../tailwind.config'
+
+const PageLoadProgress = dynamic(() => import('nextjs-progressbar'), {
+  ssr: false,
+})
 
 const PageloadProgressIndicator = () => {
   return (

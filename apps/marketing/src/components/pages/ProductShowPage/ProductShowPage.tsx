@@ -173,7 +173,7 @@ const makeBreadcrumbs = (params: {
   ]
 }
 
-ProductShowPage.fragments = {
+export const fragments = {
   product: gql`
     ${ProductShowPageProduct.fragments.product}
     fragment ProductShowPageProductFragment on Product {

@@ -3,7 +3,12 @@ import { InlineTextForm, InlineTextFormProps } from '@components/ui'
 import cx from 'classnames'
 import * as yup from 'yup'
 import makeApi from '@lib/api'
-import SubscribeInlineSuccessAlert from './SubscribeInlineSuccessAlert'
+import dynamic from 'next/dynamic'
+
+const SubscribeInlineSuccessAlert = dynamic(
+  () => import('./SubscribeInlineSuccessAlert'),
+  { ssr: false },
+)
 
 export interface SubscribeInlineProps {
   defaultValue?: string

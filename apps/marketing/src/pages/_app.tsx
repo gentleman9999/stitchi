@@ -6,12 +6,9 @@ import type { AppProps } from 'next/app'
 import { NextPage } from 'next'
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '@lib/apollo'
-import { SeoDefault, SmartlookScript } from '@components/common'
+import { SeoDefault } from '@components/common'
 import globalSeo from '@generated/global-seo.json'
-import { StandoutProvider } from '@components/context'
-import { GTM_ID } from '@lib/events'
-import Script from 'next/script'
-import { WishlistProvider } from 'context/wishlist-context'
+import { StandoutProvider, WishlistProvider } from '@components/context'
 
 type ExtendedNextPage = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
