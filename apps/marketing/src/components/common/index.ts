@@ -54,9 +54,6 @@ export * from './CmsSeo'
 export { default as SeoDefault } from './SeoDefault'
 export * from './SeoDefault'
 
-export { default as SmartlookScript } from './SmartlookScript'
-export * from './SmartlookScript'
-
 export { default as SubscribeInline } from './SubscribeInline'
 export * from './SubscribeInline'
 

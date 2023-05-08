@@ -73,18 +73,17 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
         Catalog
       </Link>
 
-      <Link href={routes.internal.getStarted.href()} passHref legacyBehavior>
-        <Button
-          bold
-          Component="a"
-          color="primary"
-          className="!border-2 !py-1 !px-2 !border-gray-800 !lowercase"
-          variant="ghost"
-          slim
-        >
-          Work with us
-        </Button>
-      </Link>
+      <Button
+        bold
+        Component={Link}
+        color="primary"
+        className="!border-2 !py-1 !px-2 !border-gray-800 !lowercase"
+        variant="ghost"
+        slim
+        href={routes.internal.getStarted.href()}
+      >
+        Work with us
+      </Button>
     </nav>
   )
 }
