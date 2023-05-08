@@ -99,8 +99,9 @@ const DropdownButton = ({
   <div className={s.link}>
     {label}
     <ChevronDown
+      strokeWidth="4px"
       className={cx(
-        '-mr-1 ml-2 h-5 w-5 transition-transform',
+        '-mr-1 ml-2 mt-0.5 h-3 w-3 transition-transform text-gray-800',
         active && 'transform rotate-180',
       )}
       aria-hidden="true"

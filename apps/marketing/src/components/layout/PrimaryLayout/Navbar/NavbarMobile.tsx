@@ -110,7 +110,12 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
                 </div>
               )}
               items={navigation.resources.map(item => {
-                if (item.href === routes.internal.catalog.href()) {
+                if (
+                  [
+                    routes.internal.catalog.href(),
+                    routes.external.careers.href(),
+                  ].includes(item.href)
+                ) {
                   return () => null
                 }
                 // https://headlessui.dev/react/menu#integrating-with-next-js
