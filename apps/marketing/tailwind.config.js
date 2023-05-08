@@ -15,7 +15,7 @@ module.exports = {
     fontFamily: {
       heading: ['Degular'],
       headingDisplay: ['Degular-Display'],
-      default: ['var(--font-inter)'],
+      default: ['var(--font-inter)', 'sans-serif'],
     },
     colors: {
       transparent: 'transparent',
