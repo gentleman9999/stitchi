@@ -9,6 +9,13 @@ import { useApollo } from '@lib/apollo'
 import { SeoDefault } from '@components/common'
 import globalSeo from '@generated/global-seo.json'
 import { StandoutProvider, WishlistProvider } from '@components/context'
+import { Inter } from 'next/font/google'
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+})
 
 type ExtendedNextPage = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -38,7 +45,7 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
   }, [])
 
   return (
-    <>
+    <div className={`${inter.variable}`}>
       <ApolloProvider client={apolloClient}>
         {/* https://www.datocms.com/docs/next-js/seo-management */}
         <SeoDefault
@@ -54,7 +61,7 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
           </WishlistProvider>
         </StandoutProvider>
       </ApolloProvider>
-    </>
+    </div>
   )
 }
 
