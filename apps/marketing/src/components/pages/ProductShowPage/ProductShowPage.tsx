@@ -49,8 +49,13 @@ const ProductShowPage = ({ product }: Props) => {
     },
   }
 
-  const jsonLDData: (ProductJsonLdProps & { id: string })[] =
-    product.variants.edges
+  const jsonLDData: ProductJsonLdProps & { id: string } = {
+    id: product.id,
+    productName: product.name,
+    description: product.plainTextDescription,
+    brand: product.brand?.name,
+    images: product.defaultImage ? [product.defaultImage.url] : [],
+    offers: product.variants.edges
       ?.map(edge => edge?.node)
       .filter(notEmpty)
       .map(variant => {
@@ -61,39 +66,29 @@ const ProductShowPage = ({ product }: Props) => {
           .filter(notEmpty)[0].label
 
         return {
+          url,
           color,
-          id: variant.id,
-          productName: product.name,
-          description: product.plainTextDescription,
-          brand: product.brand?.name,
+          price: currency(product.priceCents || 0, {
+            fromCents: true,
+          }),
+          priceCurrency: variant.prices?.price.currencyCode,
           images: variant.defaultImage ? [variant.defaultImage.url] : [],
           sku: variant.sku,
           mpn: variant.mpn || undefined,
           gtin13: variant.gtin || undefined,
-          offers: variant.prices
-            ? {
-                url,
-                price: currency(product.priceCents || 0, {
-                  fromCents: true,
-                }),
-                priceCurrency: variant.prices.price.currencyCode,
-
-                itemCondition: 'https://schema.org/NewCondition',
-                availability: 'https://schema.org/InStock',
-                seller: {
-                  name: 'Stitchi',
-                },
-              }
-            : undefined,
+          itemCondition: 'https://schema.org/NewCondition',
+          availability: 'https://schema.org/InStock',
+          seller: {
+            name: 'Stitchi',
+          },
         }
-      }) || []
+      }),
+  }
 
   return (
     <>
       <NextSeo {...seoProps} />
-      {jsonLDData.map(props => (
-        <ProductJsonLd {...props} key={props.id} />
-      ))}
+      <ProductJsonLd {...jsonLDData} key={jsonLDData.id} />
       {share ? <ShareDialog open onClose={() => setShare(false)} /> : null}
       <Container>
         <div className="flex flex-col gap-4">
