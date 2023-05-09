@@ -50,6 +50,7 @@ const ProductShowPage = ({ product }: Props) => {
   }
 
   const jsonLDData: ProductJsonLdProps & { id: string } = {
+    url,
     id: product.id,
     productName: product.name,
     description: product.plainTextDescription,
@@ -196,6 +197,7 @@ export const fragments = {
             gtin
             mpn
             sku
+
             prices {
               price {
                 currencyCode

@@ -13,7 +13,7 @@ const useCases = [
     description:
       'Make your brand and ideas come to life with a professional promotional product designer at your disposal.',
     cta: {
-      label: 'Get started',
+      label: 'Work with designer',
       href: routes.internal.features.design.href(),
     },
   },
@@ -23,7 +23,7 @@ const useCases = [
     description:
       "Proactively meet your audience's demand without ever having to hire more people.",
     cta: {
-      label: 'Learn more',
+      label: 'Scale limitlessly',
       href: routes.internal.features.distribution.href(),
     },
   },
@@ -33,8 +33,8 @@ const useCases = [
     description:
       'Launch a referral program, fundraiser, or drop experience powered by our automatic fulfillment solutions.',
     cta: {
-      label: 'Learn more',
-      href: routes.internal.getStarted.href(),
+      label: 'Create referral program',
+      href: routes.internal.solutions.loyaltyPrograms.href(),
     },
   },
 ]
@@ -77,17 +77,16 @@ const HomePageUseCasesSection = ({}: Props) => {
 
               <Link
                 href={cta.href}
-                className="mt-8 block text-2xl tracking-tight font-bold font-heading underline">
-
+                className="mt-8 block text-2xl tracking-tight font-bold font-heading underline"
+              >
                 {cta.label}
-
               </Link>
             </div>
           </div>
         ))}
       </Container>
     </Section>
-  );
+  )
 }
 
 export default HomePageUseCasesSection

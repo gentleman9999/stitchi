@@ -7,7 +7,6 @@ import Link from 'next/link'
 import React from 'react'
 import ProductColorGrid from './ProductColorGrid'
 import CalculatorForm from './CalculatorForm'
-import { Button } from '@components/ui'
 import { ArrowRight } from 'icons'
 
 interface ProductOptionValues {
