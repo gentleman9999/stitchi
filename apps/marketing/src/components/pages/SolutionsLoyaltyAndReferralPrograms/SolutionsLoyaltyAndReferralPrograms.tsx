@@ -1,3 +1,4 @@
+import ClosingCtaSection from '@components/common/ClosingCtaSection'
 import FeaturePageTestimonial from '@components/common/FeaturePageContainer/FeaturePageTestimonial'
 import { Container } from '@components/ui'
 import React from 'react'
@@ -20,6 +21,9 @@ const SolutionsLoyaltyAndReferralPrograms = () => {
       </Container>
       <Container>
         <FeaturePageTestimonial />
+      </Container>
+      <Container>
+        <ClosingCtaSection />
       </Container>
       <Container>
         <FrequentlyAskedQuestions />

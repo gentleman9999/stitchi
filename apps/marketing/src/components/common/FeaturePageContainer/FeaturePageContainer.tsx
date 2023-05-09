@@ -4,6 +4,7 @@ import { Container } from '@components/ui'
 import { FeaturePageContainerCatalogFragment } from '@generated/FeaturePageContainerCatalogFragment'
 import { NextSeo } from 'next-seo'
 import React from 'react'
+import ClosingCtaSection from '../ClosingCtaSection'
 import FeaturedProductsGrid from '../FeaturedProductsGrid'
 
 interface Props {
@@ -31,8 +32,12 @@ const FeaturePageContainer = ({
       />
       {children}
       <Container>
+        <ClosingCtaSection />
+      </Container>
+      <Container>
         <FeaturePageTestimonial />
       </Container>
+
       {catalog && (
         <Container>
           <FeaturedProductsGrid catalog={catalog} />

@@ -2,7 +2,6 @@ import React from 'react'
 import { Container } from '@components/ui'
 import HomePageHero from './HomePageHero'
 import HomePageSimpleFeatureSection from './HomePageSimpleFeatureSection'
-import HomePageClosingSection from './HomePageClosingSection'
 import HomePageUseCasesSection from './HomePageUseCasesSection'
 import HomePageCustomerLogos from './HomePageCustomerLogos'
 import HomePageTestimonial from './HomePageTestimonial'
@@ -11,6 +10,7 @@ import { Doodle3 } from 'icons'
 import HomePageFeaturedPosts from './HomePageFeaturedPosts'
 import { gql } from '@apollo/client'
 import { HomePageFeaturedPostsFragment } from '@generated/HomePageFeaturedPostsFragment'
+import ClosingCtaSection from '@components/common/ClosingCtaSection'
 
 export interface HomePageProps {
   featuredPosts: HomePageFeaturedPostsFragment[]
@@ -69,7 +69,7 @@ const HomePage = ({ featuredPosts }: HomePageProps) => {
       </Container>
 
       <Container>
-        <HomePageClosingSection />
+        <ClosingCtaSection />
       </Container>
     </>
   )

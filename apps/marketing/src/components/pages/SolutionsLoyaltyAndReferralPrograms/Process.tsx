@@ -6,9 +6,6 @@ import babyImage from '../../../../public/industries/newsletter/example-tee-baby
 const Process = () => {
   return (
     <Section gutter="md">
-      <SectionHeader title="Process" />
-      <br />
-      <br />
       <div className="flex flex-col md:flex-row gap-8 items-center">
         <Image
           {...babyImage}
@@ -16,20 +13,23 @@ const Process = () => {
           style={{ width: '100%', height: '100%' }}
           className="rounded-lg max-w-md"
         />
-        <ul className="gap-8 grid">
-          <Step
-            title="Design products unique to your brand's voice"
-            description="Work with a Stitchi designer to create a collection of products that accurately reflect your brand and connect with your audience. And best of all, designs are completely free."
-          />
-          <Step
-            title="Launch automated referral program"
-            description="Say goodbye to hiring additional interns. With Stitchi, we'll help you launch or integrate with an existing referral program and automate the entire process, saving you time and energy."
-          />
-          <Step
-            title="Stitchi fulfillment"
-            description="When your customerss reach a referral milestone, we'll handle the fulfillment for you. Our team will pack and ship the rewards, giving you complete visibility into inventory, shipping times, and other key metrics to help you run your business smoothly."
-          />
-        </ul>
+        <div>
+          <h2 className="text-4xl font-heading font-bold mb-4">Process</h2>
+          <ul className="gap-8 grid">
+            <Step
+              title="Design products unique to your brand's voice"
+              description="Work with a Stitchi designer to create a collection of products that accurately reflect your brand and connect with your audience. And best of all, designs are completely free."
+            />
+            <Step
+              title="Launch automated referral program"
+              description="Say goodbye to hiring additional interns. With Stitchi, we'll help you launch or integrate with an existing referral program and automate the entire process, saving you time and energy."
+            />
+            <Step
+              title="Stitchi fulfillment"
+              description="When your customerss reach a referral milestone, we'll handle the fulfillment for you. Our team will pack and ship the rewards, giving you complete visibility into inventory, shipping times, and other key metrics to help you run your business smoothly."
+            />
+          </ul>
+        </div>
       </div>
     </Section>
   )

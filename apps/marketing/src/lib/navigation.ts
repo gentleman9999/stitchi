@@ -35,8 +35,7 @@ const navigation = {
         description:
           'Create unique branded branded experiences to showcase your brand.',
         icon: Support,
-        href: '#',
-        beta: true,
+        href: routes.internal.solutions.swagBox.href(),
       },
       {
         label: 'Corporate Gifting & Employee Swag',

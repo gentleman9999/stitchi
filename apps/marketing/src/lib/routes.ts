@@ -112,6 +112,9 @@ const routes = {
       loyaltyPrograms: {
         href: () => buildRoute('/loyalty-referral-programs'),
       },
+      swagBox: {
+        href: () => buildRoute('/swag-bags-and-boxes'),
+      },
     },
     glossary: {
       href: () => '/directory',

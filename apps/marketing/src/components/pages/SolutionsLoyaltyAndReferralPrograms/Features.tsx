@@ -9,7 +9,7 @@ const Features = () => {
         subtitle="Maximize customer acquisition and minimize costs with automated referral campaigns - a proven strategy for growing successful newsletters."
       />
       <div className="mt-14">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Feature
             title="Grow your customer base"
             description="Encourage your current customers to refer their friends and colleagues to your business for a reward, and watch your customer count grow exponentially."
