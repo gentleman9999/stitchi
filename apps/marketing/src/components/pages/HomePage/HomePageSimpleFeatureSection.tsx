@@ -81,15 +81,31 @@ const sections = [
       {
         id: 'swag-box',
         name: 'Swag bags & boxes',
-        description:
-          'Curate the perfect collection of merch so that people can rep your brand head-to-toe. Your employees will especially love this.',
+        description: (
+          <>
+            Boost your brand&apos;s identity when you{' '}
+            <LinkInline href={routes.internal.solutions.swagBox.href()}>
+              offer swag-in-a-box
+            </LinkInline>
+            , designed to stylishly represent your company head-to-toe and loved
+            by employees for a memorable and engaging experience.
+          </>
+        ),
         icon: Network,
       },
       {
         id: 'drop',
         name: 'Loyalty programs, drop experience & more',
-        description:
-          'Effortlessly create unique experiences that reward your biggest fans.',
+        description: (
+          <>
+            Effortlessly{' '}
+            <LinkInline href={routes.internal.solutions.loyaltyPrograms.href()}>
+              create a unique referral experience
+            </LinkInline>{' '}
+            that rewards your biggest fans for spreading the word about your
+            brand.
+          </>
+        ),
         icon: Competition,
       },
     ],
