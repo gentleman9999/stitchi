@@ -86,7 +86,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     })
   }
 
-  return addApolloState(client, { props: {} })
+  return addApolloState(client, {
+    props: {
+      revalidate: 60,
+    },
+  })
 }
 
 const ProductPage = () => {
