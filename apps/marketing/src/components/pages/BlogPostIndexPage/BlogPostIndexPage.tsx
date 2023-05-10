@@ -156,7 +156,7 @@ const BlogIndexPage = ({
 
           <div className="mt-12 mb-5 max-w-lg mx-auto grid gap-10 lg:grid-cols-3 lg:max-w-none">
             {activeCategory ? null : (
-              <div className="md:hidden">
+              <div className="md:hidden grid gap-10">
                 {articles.slice(0, 3).map(post => (
                   <BlogPostCard key={post.id} post={post} />
                 ))}

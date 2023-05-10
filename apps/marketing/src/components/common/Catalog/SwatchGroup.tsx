@@ -1,6 +1,6 @@
 import React from 'react'
 
-const LIMIT = 6
+const LIMIT = 5
 
 interface Props {
   hexColors: string[]

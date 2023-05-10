@@ -51,7 +51,7 @@ const CatalogProduct = ({ product, priority }: Props) => {
           {makeProductTitle(product)}
         </h3>
 
-        <div className="mt-4 flex justify-between items-center">
+        <div className="mt-4 flex justify-between items-end flex-wrap flex-1">
           <div className="flex-1 flex items-end">
             <SwatchGroup
               // Could add support for more colors in the future

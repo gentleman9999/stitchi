@@ -6,10 +6,18 @@ import Pricing from './Pricing'
 import TableOfContents from './TableOfContents'
 import Testimonial from './Testimonial'
 import waltBorlandHeadshot from '../../../../public/walt-borland-professor-umich.jpg'
+import { NextSeo } from 'next-seo'
+import routes from '@lib/routes'
 
 const GuideShowPage = () => {
   return (
     <div>
+      <NextSeo
+        title="How to start a merch business"
+        description="A book that teaches you how to build a profitable merch business as a
+              college student."
+        canonical={routes.internal.ebooks.studentMerchBusiness.href()}
+      />
       <Hero />
       <Introduction />
       <TableOfContents />

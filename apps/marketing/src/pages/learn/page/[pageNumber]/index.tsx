@@ -119,7 +119,7 @@ const BlogIndexPage = () => {
 
   return (
     <BlogPostIndexPage
-      articles={articles}
+      articles={articles.filter(Boolean)}
       categories={categories}
       page={blogIndexPage}
       canFetchMore={canFetchMore}

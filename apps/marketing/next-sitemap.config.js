@@ -135,17 +135,27 @@ const getCatalogProductSlugs = async () => {
   return paths
 }
 
+/** @type {import('next-sitemap').IConfig} */
 module.exports = {
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.stitchi.co',
   generateRobotsTxt: true,
+  exclude: ['/learn/page/*'],
   additionalPaths: async () => {
-    const result = await getCatalogProductSlugs()
+    const productSlugs = await getCatalogProductSlugs()
 
-    return result.map(slug => ({
-      loc: slug,
-      changefreq: 'daily',
-      priority: 0.7,
-      lastmod: new Date().toISOString(),
-    }))
+    return [
+      {
+        loc: '/learn',
+        changefreq: 'daily',
+        priority: 0.7,
+        lastmod: new Date().toISOString(),
+      },
+      ...productSlugs.map(slug => ({
+        loc: slug,
+        changefreq: 'daily',
+        priority: 0.7,
+        lastmod: new Date().toISOString(),
+      })),
+    ]
   },
 }
