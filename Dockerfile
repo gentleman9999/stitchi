@@ -12,7 +12,7 @@
 ## Heroku's build context is the same directory as the Dockerfile and this cannot be changed.
 ## Because we must also leverage `turbo prune` from the root directory, we therefore must specificy the Dockerfile in the root directory as opposed to the app directory.
 
-FROM node:16-bullseye AS base
+FROM node:18-bullseye AS base
 
 WORKDIR /app
 ENV SCOPE=server
