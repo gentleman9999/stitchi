@@ -90,7 +90,7 @@ const GET_DATA = gql`
 
 const GET_PAGES = gql`
   query BlogShowPageGetPagesQuery {
-    allArticles {
+    allArticles(first: 100) {
       id
       slug
     }
