@@ -50,7 +50,7 @@ const navigation = {
         description:
           'Offer custom merchandise to students, alumni, and supporters with no upfront costs.',
         icon: Support,
-        href: '',
+        href: '#',
         beta: true,
       },
     ],
