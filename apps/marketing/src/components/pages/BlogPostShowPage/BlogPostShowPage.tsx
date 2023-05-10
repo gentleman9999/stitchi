@@ -43,7 +43,7 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
     <>
       <BlogPostShowPageSeo article={post} />
       <BlogPostJsonLD post={post} />
-      <Container>
+      <Container className="!max-w-4xl">
         {post.title && post.slug ? (
           <div className="mb-3">
             <Breadcrumbs
@@ -61,9 +61,9 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
           </div>
         ) : null}
 
-        <article className="prose prose-stone prose-headings:font-heading lg:prose-lg max-w-none">
+        <article className="prose prose-stone prose-headings:font-heading lg:prose-lg m-auto max-w-none">
           {post.image?.responsiveImage && (
-            <div className="not-prose mb-12 max-w-none max-h-[60vh] overflow-hidden rounded-lg">
+            <div className="not-prose mb-12 max-h-[60vh] overflow-hidden rounded-lg">
               <CmsImage
                 priority
                 data={post.image.responsiveImage}
