@@ -31,6 +31,9 @@ const ProductShowPage = ({ product }: Props) => {
 
   const title = makeProductTitle(product)
 
+  // SEO Title shouldn't be the same as H1
+  const seoTitle = `${title}${product.sku ? ` - ${product.sku}` : ''}`
+
   const url = makeAbsoluteUrl(
     routes.internal.catalog.product.href({
       brandSlug: product.brand?.path || '',
@@ -40,10 +43,10 @@ const ProductShowPage = ({ product }: Props) => {
 
   const seoProps: NextSeoProps = {
     canonical: url,
-    title,
+    title: seoTitle,
     description: product.seo.metaDescription || product.plainTextDescription,
     openGraph: {
-      title,
+      title: seoTitle,
       url,
       images: makeImages(product),
     },
@@ -178,6 +181,7 @@ export const fragments = {
       path
       plainTextDescription
       gtin
+      sku
       priceCents
       defaultImage {
         seoImageUrl: url(width: 1000)
