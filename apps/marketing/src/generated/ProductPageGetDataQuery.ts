@@ -357,6 +357,10 @@ export interface ProductPageGetDataQuery_site_route_node_Product {
    * Global trade item number.
    */
   gtin: string | null;
+  /**
+   * Default product variant when no options are selected.
+   */
+  sku: string;
   priceCents: number;
   /**
    * Default image for a product.

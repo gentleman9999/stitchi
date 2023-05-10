@@ -69,6 +69,8 @@ const Catalog = ({ brandEntityId }: Props) => {
     },
   })
 
+  console.log('DATA', data)
+
   React.useEffect(() => {
     refetch({
       filters: formattedFilters,
