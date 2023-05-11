@@ -2,7 +2,7 @@ import { Adjustments } from 'icons'
 import React from 'react'
 import cx from 'classnames'
 import FilterButton from './FilterButton'
-import { useCatalogFilters } from '../catalog-filters-context/catalog-filters-context'
+import useActiveFilters from '../useActiveFilters'
 
 interface Props {
   onClick: (b: boolean) => void
@@ -11,10 +11,9 @@ interface Props {
 
 const FilterDialogButton = React.forwardRef<any, Props>(
   ({ onClick, floating = false }, ref) => {
-    const { activeFilters } = useCatalogFilters()
+    const { brands, categories } = useActiveFilters()
 
-    const filterCount =
-      activeFilters.brands.length + activeFilters.categories.length
+    const filterCount = (brands?.length || 0) + (categories?.length || 0)
 
     const active = filterCount > 0
 

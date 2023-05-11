@@ -5,13 +5,10 @@ import {
   CatalogIndexPageGetDataQueryVariables,
 } from '@generated/CatalogIndexPageGetDataQuery'
 import { SearchProductsFiltersInput } from '@generated/globalTypes'
-import {
-  CatalogFiltersProvider,
-  useCatalogFilters,
-} from './catalog-filters-context'
 import { useRouter } from 'next/router'
 import CatalogFilters from './CatalogFilters'
 import CatalogProductGrid from './CatalogProductGrid'
+import useActiveFilters from './useActiveFilters'
 
 export const makeDefaultQueryVariables = ({
   brandEntityId,
@@ -38,25 +35,16 @@ interface Props {
 const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
   const { query, replace } = useRouter()
   const gridEndRef = React.useRef<HTMLDivElement>(null)
+  const { brands, categories } = useActiveFilters()
 
-  const {
-    activeFilters: { brands, categories },
-  } = useCatalogFilters()
+  // const brands: number[] = []
+  // const categories: number[] = []
 
   const formattedFilters: SearchProductsFiltersInput = React.useMemo(
     () => ({
       ...makeDefaultQueryVariables({ brandEntityId, categoryEntityId }).filters,
-      // Do not apply brand filter if default brand set
-      ...(brandEntityId
-        ? {}
-        : {
-            brandEntityIds: brands.length
-              ? brands.map(({ entityId }) => entityId)
-              : undefined,
-          }),
-      categoryEntityIds: categories.length
-        ? categories.map(({ entityId }) => entityId)
-        : undefined,
+      brandEntityIds: brands?.length ? brands : undefined,
+      categoryEntityIds: categories?.length ? categories : undefined,
     }),
     [brandEntityId, brands, categories, categoryEntityId],
   )
@@ -97,8 +85,8 @@ const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
     <div>
       <CatalogFilters
         catalogEndRef={gridEndRef}
-        hideBrands={Boolean(brandEntityId)}
-        hideCategories={Boolean(categoryEntityId)}
+        brandEntityId={brandEntityId}
+        categoryEntityId={categoryEntityId}
       />
 
       <div className="mt-4 grid grid-cols-1 gap-10">
@@ -115,18 +103,6 @@ const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
   )
 }
 
-const withFilterContext = (Component: React.ComponentType<Props>) => {
-  const filterContext = (props: Props) => {
-    return (
-      <CatalogFiltersProvider brandEntityId={props.brandEntityId}>
-        <Component {...props} />
-      </CatalogFiltersProvider>
-    )
-  }
-
-  return filterContext
-}
-
 export const GET_DATA = gql`
   ${CatalogProductGrid.fragments.site}
   query CatalogIndexPageGetDataQuery(
@@ -140,4 +116,4 @@ export const GET_DATA = gql`
   }
 `
 
-export default withFilterContext(Catalog)
+export default Catalog

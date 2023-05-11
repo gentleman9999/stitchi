@@ -6,14 +6,14 @@ import { Transition } from '@components/ui'
 
 interface Props {
   catalogEndRef: React.RefObject<any>
-  hideBrands?: boolean
-  hideCategories?: boolean
+  brandEntityId?: number
+  categoryEntityId?: number
 }
 
 const CatalogFilters = ({
   catalogEndRef,
-  hideBrands,
-  hideCategories,
+  brandEntityId,
+  categoryEntityId,
 }: Props) => {
   const staticFilterRef = React.useRef<HTMLDivElement>(null)
   const staticFilter = useIntersectionObserver(staticFilterRef, {})
@@ -52,8 +52,8 @@ const CatalogFilters = ({
         open={dialogOpen}
         onClose={() => setDialogOpen(false)}
         scroll={!staticFilter?.isIntersecting}
-        hideBrands={hideBrands}
-        hideCategories={hideCategories}
+        brandEntityId={brandEntityId}
+        categoryEntityId={categoryEntityId}
       />
 
       <div className="flex justify-between">

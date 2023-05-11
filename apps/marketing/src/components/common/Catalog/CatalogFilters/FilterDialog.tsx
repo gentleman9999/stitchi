@@ -2,42 +2,51 @@ import { Button, Checkbox, IconButton } from '@components/ui'
 import { XIcon } from 'icons'
 import React from 'react'
 import pluralize from 'pluralize'
-import { useCatalogFilters } from '../catalog-filters-context/catalog-filters-context'
 import useFilterPreview from './useFilterPreview'
 import * as Dialog from '@radix-ui/react-dialog'
 import cx from 'classnames'
 import { motion, AnimatePresence } from 'framer-motion'
+import useCatalogFilters from './useCatalogFilters'
+import useActiveFilters from '../useActiveFilters'
+import CheckboxFilter from './CheckboxFilter'
+import CheckboxGroup from './CheckboxGroup'
+import CategoryTree from './CategoryTree'
 
 interface Props {
   open: boolean
   onClose: () => void
   scroll?: boolean
-  hideBrands?: boolean
-  hideCategories?: boolean
+  brandEntityId?: number
+  categoryEntityId?: number
 }
 
 const FilterDialog = ({
   open,
   onClose,
   scroll,
-  hideBrands,
-  hideCategories,
+  brandEntityId,
+  categoryEntityId,
 }: Props) => {
-  const { availableFilters, setFilters } = useCatalogFilters()
-  const [filterState, setFilterState] = React.useState(availableFilters)
+  const { brands: activeBrands, categories: activeCategories } =
+    useActiveFilters()
+
+  const { availableFilters, setFilters } = useCatalogFilters({
+    brandEntityId,
+    categoryEntityId,
+  })
+
+  const [filterState, setFilterState] = React.useState({
+    brands: activeBrands,
+    categories: activeCategories,
+  })
 
   const { brands, categories } = filterState
 
   const filterPreviewFilters = React.useMemo(() => {
-    const activeBrandIds = filtersToIds(brands)
-    const activeCategoryIds = filtersToIds(categories)
-
     return {
       filters: {
-        brandEntityIds: activeBrandIds.length ? activeBrandIds : undefined,
-        categoryEntityIds: activeCategoryIds.length
-          ? activeCategoryIds
-          : undefined,
+        brandEntityIds: brands,
+        categoryEntityIds: categories,
         searchSubCategories: true,
       },
     }
@@ -47,58 +56,49 @@ const FilterDialog = ({
 
   React.useEffect(() => {
     if (open) {
-      setFilterState(availableFilters)
+      setFilterState({
+        brands: activeBrands,
+        categories: activeCategories,
+      })
     }
-  }, [availableFilters, open])
+  }, [activeBrands, activeCategories, open])
 
   const handleSubmit = () => {
-    const serializedBrands = brands
-      .filter(({ active }) => active)
-      .map(brand => brand.path)
-
-    const serializedCategories = categories
-      .filter(({ active }) => active)
-      .map(category => category.entityId.toString())
-
-    setFilters(
-      {
-        brands: serializedBrands.length ? serializedBrands : null,
-        categories: serializedCategories.length ? serializedCategories : null,
-      },
-      { scroll },
-    )
+    setFilters({ brands, categories }, { scroll })
 
     onClose()
   }
 
-  const handleToggleBrand = (brandId: string) => {
-    setFilterState({
-      ...filterState,
-      brands: brands.map(brand =>
-        brand.path === brandId ? { ...brand, active: !brand.active } : brand,
-      ),
-    })
+  const handleToggleBrand = (brandId: number) => {
+    if (brands?.includes(brandId)) {
+      setFilterState({
+        ...filterState,
+        brands: brands.filter(brand => brand !== brandId),
+      })
+    } else {
+      setFilterState({
+        ...filterState,
+        brands: [...(brands || []), brandId],
+      })
+    }
   }
 
-  const handleToggleCategory = (categoryId: string) => {
-    setFilterState({
-      ...filterState,
-      categories: categories.map(category =>
-        category.entityId.toString() === categoryId
-          ? { ...category, active: !category.active }
-          : category,
-      ),
-    })
+  const handleToggleCategory = (categoryId: number) => {
+    if (categories?.includes(categoryId)) {
+      setFilterState({
+        ...filterState,
+        categories: categories.filter(category => category !== categoryId),
+      })
+    } else {
+      setFilterState({
+        ...filterState,
+        categories: [...(categories || []), categoryId],
+      })
+    }
   }
 
   const handleReset = () => {
-    setFilterState(prev => ({
-      brands: prev.brands.map(brand => ({ ...brand, active: false })),
-      categories: prev.categories.map(category => ({
-        ...category,
-        active: false,
-      })),
-    }))
+    setFilterState({ brands: [], categories: [] })
   }
 
   return (
@@ -121,11 +121,11 @@ const FilterDialog = ({
                 />
               </Dialog.Overlay>
 
-              <div className="fixed inset-0 flex justify-center items-center">
+              <div className="fixed inset-0 flex justify-center items-center p-4">
                 <Dialog.Content
                   forceMount
                   className={cx(
-                    'align-bottom bg-white overflow-scroll shadow-xl transform transition-all sm:align-middle sm:w-full flex flex-col max-h-[93%] sm:max-w-lg fixed bottom-0 left-0 right-0 sm:right-auto sm:left-auto sm:bottom-auto sm:flex rounded-t-lg sm:rounded-lg sm:my-8 text-sm',
+                    'align-bottom bg-white overflow-scroll shadow-xl transform transition-all sm:align-middle sm:w-full flex flex-col max-h-[93%] sm:max-w-4xl fixed bottom-0 left-0 right-0 sm:right-auto sm:left-auto sm:bottom-auto sm:flex sm:relative rounded-t-lg sm:rounded-lg sm:my-8 text-sm',
                   )}
                 >
                   <DialogSectionPadding>
@@ -172,21 +172,24 @@ const FilterDialog = ({
                       <div className="flex-1 pb-4 sm:pb-6">
                         <DialogSectionPadding>
                           <fieldset>
-                            {brands.length && !hideBrands ? (
+                            {availableFilters.brands.length &&
+                            !brandEntityId ? (
                               <>
                                 <FilterSection
                                   title="Brands"
                                   subtitle="A unique and outstanding selection of brands"
                                 >
                                   <CheckboxGroup>
-                                    {brands.map(brand => (
+                                    {availableFilters.brands.map(brand => (
                                       <CheckboxFilter
                                         key={brand.path}
-                                        active={brand.active}
+                                        active={Boolean(
+                                          brands?.includes(brand.entityId),
+                                        )}
                                         value={brand.path}
                                         label={brand.name}
                                         onChange={() =>
-                                          handleToggleBrand(brand.path)
+                                          handleToggleBrand(brand.entityId)
                                         }
                                         sectionName="Brands"
                                       />
@@ -197,24 +200,14 @@ const FilterDialog = ({
                               </>
                             ) : null}
 
-                            {categories.length && !hideCategories ? (
+                            {availableFilters.categories.length &&
+                            !categoryEntityId ? (
                               <FilterSection title="Categories">
-                                <CheckboxGroup>
-                                  {categories.map(category => (
-                                    <CheckboxFilter
-                                      key={category.entityId}
-                                      value={category.entityId}
-                                      label={category.name}
-                                      onChange={() =>
-                                        handleToggleCategory(
-                                          category.entityId.toString(),
-                                        )
-                                      }
-                                      active={category.active}
-                                      sectionName="Categories"
-                                    />
-                                  ))}
-                                </CheckboxGroup>
+                                <CategoryTree
+                                  categories={availableFilters.categories}
+                                  onToggle={handleToggleCategory}
+                                  activeCategoryIds={categories}
+                                />
                               </FilterSection>
                             ) : null}
                           </fieldset>
@@ -270,9 +263,6 @@ const Divider = ({ className }: { className?: string }) => {
   return <div className={cx('border-t', className)} />
 }
 
-const filtersToIds = (filters: { entityId: number; active: boolean }[]) =>
-  filters.filter(({ active }) => active).map(({ entityId }) => entityId)
-
 const FilterSection = ({
   children,
   title,
@@ -297,51 +287,6 @@ const FilterSectionSpacer = () => {
   return (
     <div className="pt-10 pb-8">
       <div className="border-b" />
-    </div>
-  )
-}
-
-const CheckboxFilter = ({
-  onChange,
-  label,
-  value,
-  sectionName,
-  active,
-}: {
-  onChange: () => void
-  label: string
-  value: string | number
-  sectionName: string
-  active: boolean
-}) => {
-  const name = `${sectionName}-${value}`
-
-  return (
-    <div key={value} className="flex">
-      <div className="mr-3">
-        <Checkbox
-          name={name}
-          value={value}
-          checked={active}
-          onChange={onChange}
-          size={2}
-        />
-      </div>
-      <label
-        htmlFor={name}
-        className="font-medium text-gray-500 select-none cursor-pointer font-heading text-md"
-        onClick={onChange}
-      >
-        {label}
-      </label>
-    </div>
-  )
-}
-
-const CheckboxGroup = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-7">
-      {children}
     </div>
   )
 }

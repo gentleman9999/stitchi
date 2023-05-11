@@ -59,6 +59,34 @@ export interface UseCatalogFiltersGetDataQuery_site_brands {
   edges: (UseCatalogFiltersGetDataQuery_site_brands_edges | null)[] | null;
 }
 
+export interface UseCatalogFiltersGetDataQuery_site_categoryTree_children_children {
+  __typename: "CategoryTreeItem";
+  /**
+   * The id category.
+   */
+  entityId: number;
+  /**
+   * The name of category.
+   */
+  name: string;
+}
+
+export interface UseCatalogFiltersGetDataQuery_site_categoryTree_children {
+  __typename: "CategoryTreeItem";
+  /**
+   * The id category.
+   */
+  entityId: number;
+  /**
+   * The name of category.
+   */
+  name: string;
+  /**
+   * Subcategories of this category
+   */
+  children: UseCatalogFiltersGetDataQuery_site_categoryTree_children_children[];
+}
+
 export interface UseCatalogFiltersGetDataQuery_site_categoryTree {
   __typename: "CategoryTreeItem";
   /**
@@ -69,6 +97,10 @@ export interface UseCatalogFiltersGetDataQuery_site_categoryTree {
    * The name of category.
    */
   name: string;
+  /**
+   * Subcategories of this category
+   */
+  children: UseCatalogFiltersGetDataQuery_site_categoryTree_children[];
 }
 
 export interface UseCatalogFiltersGetDataQuery_site {
