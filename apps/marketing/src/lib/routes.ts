@@ -50,6 +50,14 @@ const routes = {
         },
       },
 
+      category: {
+        show: {
+          href: ({ categorySlug }: { categorySlug: string }) =>
+            // Replace leading and trailing slash
+            buildRoute(`/${categorySlug.replace(/^\/|\/$/g, '')}`),
+        },
+      },
+
       product: {
         href: ({
           brandSlug,

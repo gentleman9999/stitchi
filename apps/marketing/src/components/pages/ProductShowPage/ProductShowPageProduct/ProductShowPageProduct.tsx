@@ -105,12 +105,12 @@ const ProductShowPageProduct = ({ product }: Props) => {
       <div className="grid grid-cols-12 gap-2 sm:gap-4 md:gap-8">
         <div className="col-span-12 sm:col-span-6 lg:col-span-4">
           <table className="table-auto w-full text-gray-600 ">
-            <caption className="font-medium">Specifications</caption>
+            <caption className="font-medium mb-4">Specifications</caption>
 
             <tbody>
               <tr className="border-y">
                 <td>Brand</td>
-                <td className="flex justify-end">
+                <td className="flex justify-end py-2">
                   {product.brand ? (
                     <Link
                       href={routes.internal.catalog.brand.show.href({
@@ -123,6 +123,36 @@ const ProductShowPageProduct = ({ product }: Props) => {
                   ) : (
                     '-'
                   )}
+                </td>
+              </tr>
+              <tr className="border-y">
+                <td>Categories</td>
+                <td className="flex justify-end pl-8 py-2">
+                  <div className="flex flex-wrap justify-end">
+                    {product.categories.edges
+                      ?.map(edge => edge?.node)
+                      .map((category, i) =>
+                        category?.path ? (
+                          <span
+                            key={category?.id}
+                            className="whitespace-nowrap"
+                          >
+                            <Link
+                              href={routes.internal.catalog.category.show.href({
+                                categorySlug: category.path.replace('/', ''),
+                              })}
+                              className="hover:underline"
+                            >
+                              {category?.name}
+                            </Link>
+                            {i !==
+                            (product.categories.edges?.length || 0) - 1 ? (
+                              <span className="mx-1">/</span>
+                            ) : null}
+                          </span>
+                        ) : null,
+                      )}
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -155,6 +185,15 @@ ProductShowPageProduct.fragments = {
         urlOriginal
         altText
         url(width: 300)
+      }
+      categories(first: 10) {
+        edges {
+          node {
+            id
+            name
+            path
+          }
+        }
       }
       variants(first: 250) {
         edges {

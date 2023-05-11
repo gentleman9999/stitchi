@@ -7,10 +7,10 @@
 // GraphQL query operation: ProductPageGetDataQuery
 // ====================================================
 
-export interface ProductPageGetDataQuery_site_route_node_Category {
-  __typename: "Category" | "Variant";
+export interface ProductPageGetDataQuery_site_route_node_Variant {
+  __typename: "Variant";
   /**
-   * The id of the object.
+   * The ID of an object
    */
   id: string;
 }
@@ -335,6 +335,38 @@ export interface ProductPageGetDataQuery_site_route_node_Product_productOptions 
   edges: (ProductPageGetDataQuery_site_route_node_Product_productOptions_edges | null)[] | null;
 }
 
+export interface ProductPageGetDataQuery_site_route_node_Product_categories_edges_node {
+  __typename: "Category";
+  /**
+   * The ID of an object
+   */
+  id: string;
+  /**
+   * Category name.
+   */
+  name: string;
+  /**
+   * Category path.
+   */
+  path: string;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_categories_edges {
+  __typename: "CategoryEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: ProductPageGetDataQuery_site_route_node_Product_categories_edges_node;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_categories {
+  __typename: "CategoryConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (ProductPageGetDataQuery_site_route_node_Product_categories_edges | null)[] | null;
+}
+
 export interface ProductPageGetDataQuery_site_route_node_Product {
   __typename: "Product";
   /**
@@ -390,9 +422,45 @@ export interface ProductPageGetDataQuery_site_route_node_Product {
    * Description of the product.
    */
   description: string;
+  /**
+   * List of categories associated with the product.
+   */
+  categories: ProductPageGetDataQuery_site_route_node_Product_categories;
 }
 
-export type ProductPageGetDataQuery_site_route_node = ProductPageGetDataQuery_site_route_node_Category | ProductPageGetDataQuery_site_route_node_Brand | ProductPageGetDataQuery_site_route_node_Product;
+export interface ProductPageGetDataQuery_site_route_node_Category_seo {
+  __typename: "SeoDetails";
+  /**
+   * Meta description.
+   */
+  metaDescription: string;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Category {
+  __typename: "Category";
+  /**
+   * The ID of an object
+   */
+  id: string;
+  /**
+   * Unique ID for the category.
+   */
+  entityId: number;
+  /**
+   * Category name.
+   */
+  name: string;
+  /**
+   * Category path.
+   */
+  path: string;
+  /**
+   * Category SEO details.
+   */
+  seo: ProductPageGetDataQuery_site_route_node_Category_seo;
+}
+
+export type ProductPageGetDataQuery_site_route_node = ProductPageGetDataQuery_site_route_node_Variant | ProductPageGetDataQuery_site_route_node_Brand | ProductPageGetDataQuery_site_route_node_Product | ProductPageGetDataQuery_site_route_node_Category;
 
 export interface ProductPageGetDataQuery_site_route {
   __typename: "Route";

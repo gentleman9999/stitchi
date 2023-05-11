@@ -9,6 +9,21 @@ loadEnvConfig(projectDir)
 
 const endpoint = process.env.NEXT_PUBLIC_STITCHI_GRAPHQL_URI
 
+const getBigCommerceCategories = async () => {
+  const res = await fetch(
+    'https://api.bigcommerce.com/stores/ycjcgspsys/v3/catalog/categories?limit=250',
+    {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-Auth-Token': '12hvybfwmj3u7jddg1v452q5rg3oun6',
+      },
+    },
+  )
+
+  return res.json()
+}
+
 const staticDataQuery = `
   query StaticDataQuery {
     site {
@@ -40,7 +55,10 @@ async function fetchSeoData() {
       throw json.errors
     }
 
-    return json
+    return {
+      brands: json.data.site.brands,
+      categories: (await getBigCommerceCategories()).data,
+    }
   } catch (error) {
     return console.error(error)
   }

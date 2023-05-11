@@ -2,6 +2,7 @@ import { Section, SectionFAQ, SectionHeader } from '@components/common'
 import ClosingCtaSection from '@components/common/ClosingCtaSection'
 import { Container } from '@components/ui'
 import routes from '@lib/routes'
+import makeAbsoluteUrl from '@utils/get-absolute-url'
 import { NextSeo } from 'next-seo'
 import React from 'react'
 import Hero from './Hero'
@@ -13,7 +14,7 @@ const SolutionsSwagBoxes = () => {
         title="Custom Swag Bags and Boxes"
         description="Embrace the power of custom swag in-a-box to deliver a unique
               experience and reinforce your brand."
-        canonical={routes.internal.solutions.swagBox.href()}
+        canonical={makeAbsoluteUrl(routes.internal.solutions.swagBox.href())}
       />
       <Container>
         <Hero />

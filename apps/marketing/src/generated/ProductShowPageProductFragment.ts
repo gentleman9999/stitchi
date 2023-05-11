@@ -279,6 +279,38 @@ export interface ProductShowPageProductFragment_productOptions {
   edges: (ProductShowPageProductFragment_productOptions_edges | null)[] | null;
 }
 
+export interface ProductShowPageProductFragment_categories_edges_node {
+  __typename: "Category";
+  /**
+   * The ID of an object
+   */
+  id: string;
+  /**
+   * Category name.
+   */
+  name: string;
+  /**
+   * Category path.
+   */
+  path: string;
+}
+
+export interface ProductShowPageProductFragment_categories_edges {
+  __typename: "CategoryEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: ProductShowPageProductFragment_categories_edges_node;
+}
+
+export interface ProductShowPageProductFragment_categories {
+  __typename: "CategoryConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (ProductShowPageProductFragment_categories_edges | null)[] | null;
+}
+
 export interface ProductShowPageProductFragment {
   __typename: "Product";
   /**
@@ -334,4 +366,8 @@ export interface ProductShowPageProductFragment {
    * Description of the product.
    */
   description: string;
+  /**
+   * List of categories associated with the product.
+   */
+  categories: ProductShowPageProductFragment_categories;
 }

@@ -17,18 +17,33 @@ import dynamic from 'next/dynamic'
 
 import { fragments as brandShowPageFragments } from '@components/pages/BrandShowPage'
 import { fragments as productShowPageFragments } from '@components/pages/ProductShowPage'
+import { fragments as categoryShowPageFragments } from '@components/pages/CategoryShowPage'
 
 const BrandShowPage = dynamic(() => import('@components/pages/BrandShowPage'))
 const ProductShowPage = dynamic(
   () => import('@components/pages/ProductShowPage'),
 )
+const CategoryShowPage = dynamic(
+  () => import('@components/pages/CategoryShowPage'),
+)
 
-const allBrandSlugs = staticWebsiteData.data.site.brands.edges.map(({ node }) =>
+const allBrandSlugs = staticWebsiteData.brands.edges.map(({ node }) =>
   node.path.replace(/\//g, ''),
 )
 
-const getPath = (slug: string) => {
-  if (allBrandSlugs.includes(slug)) {
+const allCategorySlugs = staticWebsiteData.categories.map(
+  // Remove leading and trailing slashes
+  category => category.custom_url.url.replace(/^\/|\/$/g, ''),
+)
+
+const getPath = (slugIn?: string | string[]) => {
+  if (slugIn === undefined) {
+    return null
+  }
+
+  const slug = Array.isArray(slugIn) ? slugIn.join('/') : slugIn
+
+  if (allBrandSlugs.includes(slug) || allCategorySlugs.includes(slug)) {
     return `/${slug}/`
   }
 
@@ -47,7 +62,12 @@ const getPath = (slug: string) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
-    paths: [...allBrandSlugs.map(slug => ({ params: { catchAllSlug: slug } }))],
+    paths: [
+      ...allBrandSlugs.map(slug => ({ params: { catchAllSlug: [slug] } })),
+      ...allCategorySlugs.map(slug => ({
+        params: { catchAllSlug: slug.split('/') },
+      })),
+    ],
     fallback: 'blocking',
   }
 }
@@ -55,7 +75,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { catchAllSlug } = params || {}
 
-  if (!catchAllSlug || typeof catchAllSlug !== 'string') {
+  if (!catchAllSlug) {
     return {
       notFound: true,
     }
@@ -86,6 +106,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     })
   }
 
+  if (data.site.route.node?.__typename === 'Category') {
+    // Hydrate server-side data for catalog
+    await getServerSideData(client, {
+      categoryEntityId: data.site.route.node.entityId,
+    })
+  }
+
   return addApolloState(client, {
     props: {
       revalidate: 60,
@@ -93,11 +120,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   })
 }
 
-const ProductPage = () => {
+const CatchAllPage = () => {
   const { query } = useRouter()
   const { catchAllSlug } = query
 
-  const path = getPath(catchAllSlug?.toString() || '')
+  const path = getPath(catchAllSlug)
 
   const { data, error } = useQuery<
     ProductPageGetDataQuery,
@@ -113,10 +140,6 @@ const ProductPage = () => {
     return <ComponentErrorMessage error={error} />
   }
 
-  if (!site) {
-    throw new Error("No site found. This shouldn't happen.")
-  }
-
   const node = site?.route.node
 
   switch (node?.__typename) {
@@ -128,19 +151,25 @@ const ProductPage = () => {
       return <BrandShowPage brand={node} />
     }
 
+    case 'Category': {
+      return <CategoryShowPage category={node} />
+    }
+
     default: {
-      return <ComponentErrorMessage error="No such path" />
+      console.error('Unknown node type', node)
+      return null
     }
   }
 }
 
-ProductPage.getLayout = (page: ReactElement) => (
+CatchAllPage.getLayout = (page: ReactElement) => (
   <PrimaryLayout>{page}</PrimaryLayout>
 )
 
 const GET_DATA = gql`
   ${productShowPageFragments.product}
   ${brandShowPageFragments.brand}
+  ${categoryShowPageFragments.category}
   query ProductPageGetDataQuery($path: String!) {
     site {
       route(path: $path) {
@@ -154,10 +183,15 @@ const GET_DATA = gql`
           ... on Product {
             ...ProductShowPageProductFragment
           }
+
+          ... on Category {
+            entityId
+            ...CategoryShowPageCategoryFragment
+          }
         }
       }
     }
   }
 `
 
-export default ProductPage
+export default CatchAllPage

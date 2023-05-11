@@ -7,7 +7,11 @@ import { makeDefaultQueryVariables, GET_DATA } from './Catalog'
 
 const getServerSideData = async (
   client: ApolloClient<NormalizedCacheObject>,
-  { after, brandEntityId }: { after?: string; brandEntityId?: number },
+  {
+    after,
+    brandEntityId,
+    categoryEntityId,
+  }: { after?: string; brandEntityId?: number; categoryEntityId?: number },
 ) => {
   await client.query<
     CatalogIndexPageGetDataQuery,
@@ -15,7 +19,7 @@ const getServerSideData = async (
   >({
     query: GET_DATA,
     variables: {
-      ...makeDefaultQueryVariables({ brandEntityId }),
+      ...makeDefaultQueryVariables({ brandEntityId, categoryEntityId }),
       after: typeof after === 'string' ? after : undefined,
     },
   })

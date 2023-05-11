@@ -15,13 +15,15 @@ import CatalogProductGrid from './CatalogProductGrid'
 
 export const makeDefaultQueryVariables = ({
   brandEntityId,
+  categoryEntityId,
 }: {
   brandEntityId?: number
+  categoryEntityId?: number
 } = {}) => ({
   first: 16,
   filters: {
     brandEntityIds: brandEntityId ? [brandEntityId] : undefined,
-    categoryEntityIds: undefined,
+    categoryEntityIds: categoryEntityId ? [categoryEntityId] : undefined,
     searchSubCategories: true,
   },
 })
@@ -29,9 +31,11 @@ export const makeDefaultQueryVariables = ({
 interface Props {
   // Filters all results to specific brand
   brandEntityId?: number
+  // Filters all results to specific category
+  categoryEntityId?: number
 }
 
-const Catalog = ({ brandEntityId }: Props) => {
+const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
   const { query, replace } = useRouter()
   const gridEndRef = React.useRef<HTMLDivElement>(null)
 
@@ -41,7 +45,7 @@ const Catalog = ({ brandEntityId }: Props) => {
 
   const formattedFilters: SearchProductsFiltersInput = React.useMemo(
     () => ({
-      ...makeDefaultQueryVariables({ brandEntityId }).filters,
+      ...makeDefaultQueryVariables({ brandEntityId, categoryEntityId }).filters,
       // Do not apply brand filter if default brand set
       ...(brandEntityId
         ? {}
@@ -54,7 +58,7 @@ const Catalog = ({ brandEntityId }: Props) => {
         ? categories.map(({ entityId }) => entityId)
         : undefined,
     }),
-    [brandEntityId, brands, categories],
+    [brandEntityId, brands, categories, categoryEntityId],
   )
 
   const { data, refetch, networkStatus, fetchMore } = useQuery<
@@ -63,13 +67,11 @@ const Catalog = ({ brandEntityId }: Props) => {
   >(GET_DATA, {
     notifyOnNetworkStatusChange: true,
     variables: {
-      ...makeDefaultQueryVariables({ brandEntityId }),
+      ...makeDefaultQueryVariables({ brandEntityId, categoryEntityId }),
       after: typeof query.after === 'string' ? query.after : undefined,
       filters: formattedFilters,
     },
   })
-
-  console.log('DATA', data)
 
   React.useEffect(() => {
     refetch({
@@ -96,6 +98,7 @@ const Catalog = ({ brandEntityId }: Props) => {
       <CatalogFilters
         catalogEndRef={gridEndRef}
         hideBrands={Boolean(brandEntityId)}
+        hideCategories={Boolean(categoryEntityId)}
       />
 
       <div className="mt-4 grid grid-cols-1 gap-10">

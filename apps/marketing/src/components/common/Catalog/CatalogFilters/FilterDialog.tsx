@@ -13,9 +13,16 @@ interface Props {
   onClose: () => void
   scroll?: boolean
   hideBrands?: boolean
+  hideCategories?: boolean
 }
 
-const FilterDialog = ({ open, onClose, scroll, hideBrands }: Props) => {
+const FilterDialog = ({
+  open,
+  onClose,
+  scroll,
+  hideBrands,
+  hideCategories,
+}: Props) => {
   const { availableFilters, setFilters } = useCatalogFilters()
   const [filterState, setFilterState] = React.useState(availableFilters)
 
@@ -190,24 +197,26 @@ const FilterDialog = ({ open, onClose, scroll, hideBrands }: Props) => {
                               </>
                             ) : null}
 
-                            <FilterSection title="Categories">
-                              <CheckboxGroup>
-                                {categories?.map(category => (
-                                  <CheckboxFilter
-                                    key={category.entityId}
-                                    value={category.entityId}
-                                    label={category.name}
-                                    onChange={() =>
-                                      handleToggleCategory(
-                                        category.entityId.toString(),
-                                      )
-                                    }
-                                    active={category.active}
-                                    sectionName="Categories"
-                                  />
-                                ))}
-                              </CheckboxGroup>
-                            </FilterSection>
+                            {categories.length && !hideCategories ? (
+                              <FilterSection title="Categories">
+                                <CheckboxGroup>
+                                  {categories.map(category => (
+                                    <CheckboxFilter
+                                      key={category.entityId}
+                                      value={category.entityId}
+                                      label={category.name}
+                                      onChange={() =>
+                                        handleToggleCategory(
+                                          category.entityId.toString(),
+                                        )
+                                      }
+                                      active={category.active}
+                                      sectionName="Categories"
+                                    />
+                                  ))}
+                                </CheckboxGroup>
+                              </FilterSection>
+                            ) : null}
                           </fieldset>
                         </DialogSectionPadding>
                       </div>

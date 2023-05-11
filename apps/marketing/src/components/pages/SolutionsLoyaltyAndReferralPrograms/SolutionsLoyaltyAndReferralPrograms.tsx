@@ -2,6 +2,7 @@ import ClosingCtaSection from '@components/common/ClosingCtaSection'
 import FeaturePageTestimonial from '@components/common/FeaturePageContainer/FeaturePageTestimonial'
 import { Container } from '@components/ui'
 import routes from '@lib/routes'
+import makeAbsoluteUrl from '@utils/get-absolute-url'
 import { NextSeo } from 'next-seo'
 import React from 'react'
 import Features from './Features'
@@ -16,7 +17,9 @@ const SolutionsLoyaltyAndReferralPrograms = () => {
         title="Launch a Loyalty or Referral Program"
         description="Get thousands of word-of-mouth referrals and reduce customer
         acquisition cost to a fraction of what you pay today."
-        canonical={routes.internal.solutions.loyaltyPrograms.href()}
+        canonical={makeAbsoluteUrl(
+          routes.internal.solutions.loyaltyPrograms.href(),
+        )}
       />
       <Container>
         <Hero />

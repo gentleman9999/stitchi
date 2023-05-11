@@ -8,6 +8,7 @@ import Testimonial from './Testimonial'
 import waltBorlandHeadshot from '../../../../public/walt-borland-professor-umich.jpg'
 import { NextSeo } from 'next-seo'
 import routes from '@lib/routes'
+import makeAbsoluteUrl from '@utils/get-absolute-url'
 
 const GuideShowPage = () => {
   return (
@@ -16,7 +17,9 @@ const GuideShowPage = () => {
         title="How to start a merch business"
         description="A book that teaches you how to build a profitable merch business as a
               college student."
-        canonical={routes.internal.ebooks.studentMerchBusiness.href()}
+        canonical={makeAbsoluteUrl(
+          routes.internal.ebooks.studentMerchBusiness.href(),
+        )}
       />
       <Hero />
       <Introduction />

@@ -10,6 +10,25 @@ loadEnvConfig(projectDir)
 
 const endpoint = process.env.NEXT_PUBLIC_STITCHI_GRAPHQL_URI
 
+const getBigCommerceCategorySlugs = async () => {
+  const res = await fetch(
+    'https://api.bigcommerce.com/stores/ycjcgspsys/v3/catalog/categories?limit=250',
+    {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-Auth-Token': '12hvybfwmj3u7jddg1v452q5rg3oun6',
+      },
+    },
+  )
+
+  const { data } = await res.json()
+
+  return (
+    data.map(category => category.custom_url.url.replace(/^\/|\/$/g, '')) || []
+  )
+}
+
 const productQuery = /* GraphQL */ `
   query ($after: String) {
     site {
@@ -142,6 +161,7 @@ module.exports = {
   exclude: ['/learn/page/*'],
   additionalPaths: async () => {
     const productSlugs = await getCatalogProductSlugs()
+    const productCategorySlugs = await getBigCommerceCategorySlugs()
 
     return [
       {
@@ -151,6 +171,12 @@ module.exports = {
         lastmod: new Date().toISOString(),
       },
       ...productSlugs.map(slug => ({
+        loc: slug,
+        changefreq: 'daily',
+        priority: 0.7,
+        lastmod: new Date().toISOString(),
+      })),
+      ...productCategorySlugs.map(slug => ({
         loc: slug,
         changefreq: 'daily',
         priority: 0.7,
