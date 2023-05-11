@@ -181,7 +181,7 @@ const BlogIndexPage = ({
                 className="mt-2"
                 loading={loading}
               >
-                Load More
+                Next page
               </Button>
             </div>
           ) : null}
