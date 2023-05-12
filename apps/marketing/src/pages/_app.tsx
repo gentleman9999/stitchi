@@ -10,6 +10,8 @@ import { SeoDefault } from '@components/common'
 import globalSeo from '@generated/global-seo.json'
 import { StandoutProvider, WishlistProvider } from '@components/context'
 import { Inter } from 'next/font/google'
+import Script from 'next/script'
+import { GTM_ID } from '@lib/events'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -32,23 +34,40 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
   const getLayout = Component.getLayout ?? (page => page)
 
   return (
-    <div className={`${inter.variable}`}>
-      <ApolloProvider client={apolloClient}>
-        {/* https://www.datocms.com/docs/next-js/seo-management */}
-        <SeoDefault
-          seo={
-            globalSeo.data.homepage._seoMetaTags.concat(
-              globalSeo.data.site.faviconMetaTags as any,
-            ) as any
-          }
-        />
-        <StandoutProvider>
-          <WishlistProvider>
-            {getLayout(<Component {...pageProps} />)}
-          </WishlistProvider>
-        </StandoutProvider>
-      </ApolloProvider>
-    </div>
+    <>
+      {/* Google Tag Manager - Global base code */}
+      <Script
+        id="google-tag-manager"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer', '${GTM_ID}');
+          `,
+        }}
+      />
+      {/* Google Tag Manager - Global base code - end */}
+      <div className={`${inter.variable}`}>
+        <ApolloProvider client={apolloClient}>
+          {/* https://www.datocms.com/docs/next-js/seo-management */}
+          <SeoDefault
+            seo={
+              globalSeo.data.homepage._seoMetaTags.concat(
+                globalSeo.data.site.faviconMetaTags as any,
+              ) as any
+            }
+          />
+          <StandoutProvider>
+            <WishlistProvider>
+              {getLayout(<Component {...pageProps} />)}
+            </WishlistProvider>
+          </StandoutProvider>
+        </ApolloProvider>
+      </div>
+    </>
   )
 }
 
