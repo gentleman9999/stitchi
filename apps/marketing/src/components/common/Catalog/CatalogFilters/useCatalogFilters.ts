@@ -9,7 +9,7 @@ interface Props {
 }
 
 const useCatalogFilters = ({ brandEntityId, categoryEntityId }: Props = {}) => {
-  const [_, setQueryFilters] = useQueryStates(
+  const [, setQueryFilters] = useQueryStates(
     {
       brands: queryTypes.array(queryTypes.integer),
       categories: queryTypes.array(queryTypes.integer),

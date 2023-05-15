@@ -18,6 +18,7 @@ import dynamic from 'next/dynamic'
 import { fragments as brandShowPageFragments } from '@components/pages/BrandShowPage'
 import { fragments as productShowPageFragments } from '@components/pages/ProductShowPage'
 import { fragments as categoryShowPageFragments } from '@components/pages/CategoryShowPage'
+import { notEmpty } from '@utils/typescript'
 
 const BrandShowPage = dynamic(() => import('@components/pages/BrandShowPage'))
 const ProductShowPage = dynamic(
@@ -27,9 +28,9 @@ const CategoryShowPage = dynamic(
   () => import('@components/pages/CategoryShowPage'),
 )
 
-const allBrandSlugs = staticWebsiteData.brands.edges.map(({ node }) =>
-  node.path.replace(/\//g, ''),
-)
+const allBrandSlugs = staticWebsiteData.brands
+  .map(brand => brand.custom_url?.url.replace(/\//g, ''))
+  .filter(notEmpty)
 
 const allCategorySlugs = staticWebsiteData.categories.map(
   // Remove leading and trailing slashes

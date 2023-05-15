@@ -11,22 +11,33 @@ loadEnvConfig(projectDir)
 const endpoint = process.env.NEXT_PUBLIC_STITCHI_GRAPHQL_URI
 
 const getBigCommerceCategorySlugs = async () => {
-  const res = await fetch(
-    'https://api.bigcommerce.com/stores/ycjcgspsys/v3/catalog/categories?limit=250',
-    {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'X-Auth-Token': '12hvybfwmj3u7jddg1v452q5rg3oun6',
+  let page = 1
+  let hasNextPage = true
+  const categorySlugs = []
+
+  while (hasNextPage) {
+    const res = await fetch(
+      'https://api.bigcommerce.com/stores/ycjcgspsys/v3/catalog/categories?limit=250&is_visible=true',
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'X-Auth-Token': '12hvybfwmj3u7jddg1v452q5rg3oun6',
+        },
       },
-    },
-  )
+    )
 
-  const { data } = await res.json()
+    const { data, meta } = await res.json()
 
-  return (
-    data.map(category => category.custom_url.url.replace(/^\/|\/$/g, '')) || []
-  )
+    categorySlugs.push(
+      ...data.map(category => category.custom_url.url.replace(/^\/|\/$/g, '')),
+    )
+
+    hasNextPage = meta.pagination.total_pages > page
+    page++
+  }
+
+  return categorySlugs
 }
 
 const productQuery = /* GraphQL */ `
