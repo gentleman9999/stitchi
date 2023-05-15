@@ -127,7 +127,7 @@ const CatchAllPage = () => {
 
   const path = getPath(catchAllSlug)
 
-  const { data, error } = useQuery<
+  const { data, loading, error } = useQuery<
     ProductPageGetDataQuery,
     ProductPageGetDataQueryVariables
   >(GET_DATA, {
@@ -157,7 +157,9 @@ const CatchAllPage = () => {
     }
 
     default: {
-      console.error('Unknown node type', node)
+      if (!loading) {
+        console.error('Unknown node type', node)
+      }
       return null
     }
   }
