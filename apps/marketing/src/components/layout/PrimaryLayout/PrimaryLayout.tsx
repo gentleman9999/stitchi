@@ -13,6 +13,23 @@ export interface PrimaryLayoutProps {
 
 const PrimaryLayout = (props: PrimaryLayoutProps) => {
   const { children, className, navBackgroundColor, disableNavSpacing } = props
+
+  React.useEffect(() => {
+    // Because we have a sticky nav, we want to ensure that "scroll-to-top" is offset by the height of the nav
+
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    const classList = ['scroll-pt-40', 'scroll-smooth']
+
+    window.document.documentElement.classList.add(...classList)
+
+    return () => {
+      window.document.documentElement.classList.remove(...classList)
+    }
+  }, [])
+
   return (
     <>
       <PageloadProgressIndicator />

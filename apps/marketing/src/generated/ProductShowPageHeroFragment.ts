@@ -8,556 +8,523 @@
 // ====================================================
 
 export interface ProductShowPageHeroFragment_defaultImage {
-  __typename: 'Image'
+  __typename: "Image";
   /**
    * Absolute path to image using store CDN.
    */
-  seoImageUrl: string
+  seoImageUrl: string;
   /**
    * Absolute path to original image using store CDN.
    */
-  urlOriginal: string
+  urlOriginal: string;
   /**
    * Text description of an image that can be used for SEO and/or accessibility purposes.
    */
-  altText: string
+  altText: string;
   /**
    * Absolute path to image using store CDN.
    */
-  url: string
+  url: string;
 }
 
 export interface ProductShowPageHeroFragment_brand {
-  __typename: 'Brand'
+  __typename: "Brand";
   /**
    * The ID of an object
    */
-  id: string
+  id: string;
   /**
    * Name of the brand.
    */
-  name: string
+  name: string;
   /**
    * Path for the brand page.
    */
-  path: string
+  path: string;
 }
 
 export interface ProductShowPageHeroFragment_seo {
-  __typename: 'SeoDetails'
+  __typename: "SeoDetails";
   /**
    * Meta description.
    */
-  metaDescription: string
+  metaDescription: string;
 }
 
 export interface ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_CheckboxOption {
-  __typename:
-    | 'CheckboxOption'
-    | 'DateFieldOption'
-    | 'FileUploadFieldOption'
-    | 'MultiLineTextFieldOption'
-    | 'NumberFieldOption'
-    | 'TextFieldOption'
+  __typename: "CheckboxOption" | "DateFieldOption" | "FileUploadFieldOption" | "MultiLineTextFieldOption" | "NumberFieldOption" | "TextFieldOption";
 }
 
 export interface ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node_MultipleChoiceOptionValue {
-  __typename: 'MultipleChoiceOptionValue' | 'ProductPickListOptionValue'
+  __typename: "MultipleChoiceOptionValue" | "ProductPickListOptionValue";
   /**
    * Unique ID for the option value.
    */
-  entityId: number
+  entityId: number;
 }
 
 export interface ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node_SwatchOptionValue {
-  __typename: 'SwatchOptionValue'
+  __typename: "SwatchOptionValue";
   /**
    * Unique ID for the option value.
    */
-  entityId: number
+  entityId: number;
   /**
    * Label for the option value.
    */
-  label: string
+  label: string;
   /**
    * List of up to 3 hex encoded colors to associate with a swatch value.
    */
-  hexColors: string[]
+  hexColors: string[];
 }
 
-export type ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node =
-
-    | ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node_MultipleChoiceOptionValue
-    | ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node_SwatchOptionValue
+export type ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node = ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node_MultipleChoiceOptionValue | ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node_SwatchOptionValue;
 
 export interface ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges {
-  __typename: 'ProductOptionValueEdge'
+  __typename: "ProductOptionValueEdge";
   /**
    * The item at the end of the edge.
    */
-  node: ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node
+  node: ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node;
 }
 
 export interface ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption_values {
-  __typename: 'ProductOptionValueConnection'
+  __typename: "ProductOptionValueConnection";
   /**
    * A list of edges.
    */
-  edges:
-    | (ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges | null)[]
-    | null
+  edges: (ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges | null)[] | null;
 }
 
 export interface ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption {
-  __typename: 'MultipleChoiceOption'
+  __typename: "MultipleChoiceOption";
   /**
    * Display name for the option.
    */
-  displayName: string
+  displayName: string;
   /**
    * List of option values.
    */
-  values: ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption_values
+  values: ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption_values;
 }
 
-export type ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node =
-
-    | ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_CheckboxOption
-    | ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption
+export type ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node = ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_CheckboxOption | ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption;
 
 export interface ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges {
-  __typename: 'ProductOptionEdge'
+  __typename: "ProductOptionEdge";
   /**
    * The item at the end of the edge.
    */
-  node: ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node
+  node: ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node;
 }
 
 export interface ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions {
-  __typename: 'ProductOptionConnection'
+  __typename: "ProductOptionConnection";
   /**
    * A list of edges.
    */
-  edges:
-    | (ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges | null)[]
-    | null
+  edges: (ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges | null)[] | null;
 }
 
 export interface ProductShowPageHeroFragment_relatedProducts_edges_node_brand {
-  __typename: 'Brand'
+  __typename: "Brand";
   /**
    * The ID of an object
    */
-  id: string
+  id: string;
   /**
    * Name of the brand.
    */
-  name: string
+  name: string;
   /**
    * Path for the brand page.
    */
-  path: string
+  path: string;
 }
 
 export interface ProductShowPageHeroFragment_relatedProducts_edges_node_defaultImage {
-  __typename: 'Image'
+  __typename: "Image";
   /**
    * Absolute path to original image using store CDN.
    */
-  urlOriginal: string
+  urlOriginal: string;
   /**
    * Text description of an image that can be used for SEO and/or accessibility purposes.
    */
-  altText: string
+  altText: string;
   /**
    * Absolute path to image using store CDN.
    */
-  url: string
+  url: string;
 }
 
 export interface ProductShowPageHeroFragment_relatedProducts_edges_node {
-  __typename: 'Product'
+  __typename: "Product";
   /**
    * The ID of an object
    */
-  id: string
+  id: string;
   /**
    * Product options.
    */
-  productOptions: ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions
+  productOptions: ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions;
   /**
    * Name of the product.
    */
-  name: string
+  name: string;
   /**
    * Relative URL path to product page.
    */
-  path: string
-  priceCents: number
+  path: string;
+  priceCents: number;
   /**
    * Brand associated with the product.
    */
-  brand: ProductShowPageHeroFragment_relatedProducts_edges_node_brand | null
+  brand: ProductShowPageHeroFragment_relatedProducts_edges_node_brand | null;
   /**
    * Default image for a product.
    */
-  defaultImage: ProductShowPageHeroFragment_relatedProducts_edges_node_defaultImage | null
+  defaultImage: ProductShowPageHeroFragment_relatedProducts_edges_node_defaultImage | null;
 }
 
 export interface ProductShowPageHeroFragment_relatedProducts_edges {
-  __typename: 'RelatedProductsEdge'
+  __typename: "RelatedProductsEdge";
   /**
    * The item at the end of the edge.
    */
-  node: ProductShowPageHeroFragment_relatedProducts_edges_node
+  node: ProductShowPageHeroFragment_relatedProducts_edges_node;
 }
 
 export interface ProductShowPageHeroFragment_relatedProducts {
-  __typename: 'RelatedProductsConnection'
+  __typename: "RelatedProductsConnection";
   /**
    * A list of edges.
    */
-  edges: (ProductShowPageHeroFragment_relatedProducts_edges | null)[] | null
+  edges: (ProductShowPageHeroFragment_relatedProducts_edges | null)[] | null;
 }
 
 export interface ProductShowPageHeroFragment_variants_edges_node_prices_price {
-  __typename: 'Money'
+  __typename: "Money";
   /**
    * Currency code of the current money.
    */
-  currencyCode: string
+  currencyCode: string;
   /**
    * The amount of money.
    */
-  value: any
+  value: any;
 }
 
 export interface ProductShowPageHeroFragment_variants_edges_node_prices {
-  __typename: 'Prices'
+  __typename: "Prices";
   /**
    * Calculated price of the product.  Calculated price takes into account basePrice, salePrice, rules (modifier, option, option set) that apply to the product configuration, and customer group discounts.  It represents the in-cart price for a product configuration without bulk pricing rules.
    */
-  price: ProductShowPageHeroFragment_variants_edges_node_prices_price
+  price: ProductShowPageHeroFragment_variants_edges_node_prices_price;
 }
 
 export interface ProductShowPageHeroFragment_variants_edges_node_options_edges_node_values_edges_node {
-  __typename: 'ProductOptionValue'
+  __typename: "ProductOptionValue";
   /**
    * Label for the option value.
    */
-  label: string
+  label: string;
   /**
    * Unique ID for the option value.
    */
-  entityId: number
+  entityId: number;
 }
 
 export interface ProductShowPageHeroFragment_variants_edges_node_options_edges_node_values_edges {
-  __typename: 'OptionValueEdge'
+  __typename: "OptionValueEdge";
   /**
    * The item at the end of the edge.
    */
-  node: ProductShowPageHeroFragment_variants_edges_node_options_edges_node_values_edges_node
+  node: ProductShowPageHeroFragment_variants_edges_node_options_edges_node_values_edges_node;
 }
 
 export interface ProductShowPageHeroFragment_variants_edges_node_options_edges_node_values {
-  __typename: 'OptionValueConnection'
+  __typename: "OptionValueConnection";
   /**
    * A list of edges.
    */
-  edges:
-    | (ProductShowPageHeroFragment_variants_edges_node_options_edges_node_values_edges | null)[]
-    | null
+  edges: (ProductShowPageHeroFragment_variants_edges_node_options_edges_node_values_edges | null)[] | null;
 }
 
 export interface ProductShowPageHeroFragment_variants_edges_node_options_edges_node {
-  __typename: 'ProductOption'
+  __typename: "ProductOption";
   /**
    * Display name for the option.
    */
-  displayName: string
+  displayName: string;
   /**
    * Option values.
    */
-  values: ProductShowPageHeroFragment_variants_edges_node_options_edges_node_values
+  values: ProductShowPageHeroFragment_variants_edges_node_options_edges_node_values;
 }
 
 export interface ProductShowPageHeroFragment_variants_edges_node_options_edges {
-  __typename: 'OptionEdge'
+  __typename: "OptionEdge";
   /**
    * The item at the end of the edge.
    */
-  node: ProductShowPageHeroFragment_variants_edges_node_options_edges_node
+  node: ProductShowPageHeroFragment_variants_edges_node_options_edges_node;
 }
 
 export interface ProductShowPageHeroFragment_variants_edges_node_options {
-  __typename: 'OptionConnection'
+  __typename: "OptionConnection";
   /**
    * A list of edges.
    */
-  edges:
-    | (ProductShowPageHeroFragment_variants_edges_node_options_edges | null)[]
-    | null
+  edges: (ProductShowPageHeroFragment_variants_edges_node_options_edges | null)[] | null;
 }
 
 export interface ProductShowPageHeroFragment_variants_edges_node_jsonLdImage {
-  __typename: 'Image'
+  __typename: "Image";
   /**
    * Absolute path to image using store CDN.
    */
-  url: string
+  url: string;
 }
 
 export interface ProductShowPageHeroFragment_variants_edges_node_defaultImage {
-  __typename: 'Image'
+  __typename: "Image";
   /**
    * Absolute path to image using store CDN.
    */
-  url: string
+  url: string;
   /**
    * Text description of an image that can be used for SEO and/or accessibility purposes.
    */
-  altText: string
+  altText: string;
 }
 
 export interface ProductShowPageHeroFragment_variants_edges_node {
-  __typename: 'Variant'
+  __typename: "Variant";
   /**
    * The ID of an object
    */
-  id: string
+  id: string;
   /**
    * Global trade item number.
    */
-  gtin: string | null
+  gtin: string | null;
   /**
    * Manufacturer part number.
    */
-  mpn: string | null
+  mpn: string | null;
   /**
    * Sku of the variant.
    */
-  sku: string
+  sku: string;
   /**
    * Variant prices
    */
-  prices: ProductShowPageHeroFragment_variants_edges_node_prices | null
+  prices: ProductShowPageHeroFragment_variants_edges_node_prices | null;
   /**
    * The options which define a variant.
    */
-  options: ProductShowPageHeroFragment_variants_edges_node_options
+  options: ProductShowPageHeroFragment_variants_edges_node_options;
   /**
    * Default image for a variant.
    */
-  jsonLdImage: ProductShowPageHeroFragment_variants_edges_node_jsonLdImage | null
+  jsonLdImage: ProductShowPageHeroFragment_variants_edges_node_jsonLdImage | null;
   /**
    * Id of the variant.
    */
-  entityId: number
+  entityId: number;
   /**
    * Default image for a variant.
    */
-  defaultImage: ProductShowPageHeroFragment_variants_edges_node_defaultImage | null
+  defaultImage: ProductShowPageHeroFragment_variants_edges_node_defaultImage | null;
 }
 
 export interface ProductShowPageHeroFragment_variants_edges {
-  __typename: 'VariantEdge'
+  __typename: "VariantEdge";
   /**
    * The item at the end of the edge.
    */
-  node: ProductShowPageHeroFragment_variants_edges_node
+  node: ProductShowPageHeroFragment_variants_edges_node;
 }
 
 export interface ProductShowPageHeroFragment_variants {
-  __typename: 'VariantConnection'
+  __typename: "VariantConnection";
   /**
    * A list of edges.
    */
-  edges: (ProductShowPageHeroFragment_variants_edges | null)[] | null
+  edges: (ProductShowPageHeroFragment_variants_edges | null)[] | null;
 }
 
 export interface ProductShowPageHeroFragment_productOptions_edges_node_CheckboxOption {
-  __typename:
-    | 'CheckboxOption'
-    | 'DateFieldOption'
-    | 'FileUploadFieldOption'
-    | 'MultiLineTextFieldOption'
-    | 'NumberFieldOption'
-    | 'TextFieldOption'
+  __typename: "CheckboxOption" | "DateFieldOption" | "FileUploadFieldOption" | "MultiLineTextFieldOption" | "NumberFieldOption" | "TextFieldOption";
 }
 
 export interface ProductShowPageHeroFragment_productOptions_edges_node_MultipleChoiceOption_values_edges_node_MultipleChoiceOptionValue {
-  __typename: 'MultipleChoiceOptionValue' | 'ProductPickListOptionValue'
+  __typename: "MultipleChoiceOptionValue" | "ProductPickListOptionValue";
   /**
    * Unique ID for the option value.
    */
-  entityId: number
+  entityId: number;
 }
 
 export interface ProductShowPageHeroFragment_productOptions_edges_node_MultipleChoiceOption_values_edges_node_SwatchOptionValue {
-  __typename: 'SwatchOptionValue'
+  __typename: "SwatchOptionValue";
   /**
    * Unique ID for the option value.
    */
-  entityId: number
+  entityId: number;
   /**
    * Label for the option value.
    */
-  label: string
+  label: string;
   /**
    * List of up to 3 hex encoded colors to associate with a swatch value.
    */
-  hexColors: string[]
+  hexColors: string[];
 }
 
-export type ProductShowPageHeroFragment_productOptions_edges_node_MultipleChoiceOption_values_edges_node =
-
-    | ProductShowPageHeroFragment_productOptions_edges_node_MultipleChoiceOption_values_edges_node_MultipleChoiceOptionValue
-    | ProductShowPageHeroFragment_productOptions_edges_node_MultipleChoiceOption_values_edges_node_SwatchOptionValue
+export type ProductShowPageHeroFragment_productOptions_edges_node_MultipleChoiceOption_values_edges_node = ProductShowPageHeroFragment_productOptions_edges_node_MultipleChoiceOption_values_edges_node_MultipleChoiceOptionValue | ProductShowPageHeroFragment_productOptions_edges_node_MultipleChoiceOption_values_edges_node_SwatchOptionValue;
 
 export interface ProductShowPageHeroFragment_productOptions_edges_node_MultipleChoiceOption_values_edges {
-  __typename: 'ProductOptionValueEdge'
+  __typename: "ProductOptionValueEdge";
   /**
    * The item at the end of the edge.
    */
-  node: ProductShowPageHeroFragment_productOptions_edges_node_MultipleChoiceOption_values_edges_node
+  node: ProductShowPageHeroFragment_productOptions_edges_node_MultipleChoiceOption_values_edges_node;
 }
 
 export interface ProductShowPageHeroFragment_productOptions_edges_node_MultipleChoiceOption_values {
-  __typename: 'ProductOptionValueConnection'
+  __typename: "ProductOptionValueConnection";
   /**
    * A list of edges.
    */
-  edges:
-    | (ProductShowPageHeroFragment_productOptions_edges_node_MultipleChoiceOption_values_edges | null)[]
-    | null
+  edges: (ProductShowPageHeroFragment_productOptions_edges_node_MultipleChoiceOption_values_edges | null)[] | null;
 }
 
 export interface ProductShowPageHeroFragment_productOptions_edges_node_MultipleChoiceOption {
-  __typename: 'MultipleChoiceOption'
+  __typename: "MultipleChoiceOption";
   /**
    * Display name for the option.
    */
-  displayName: string
+  displayName: string;
   /**
    * List of option values.
    */
-  values: ProductShowPageHeroFragment_productOptions_edges_node_MultipleChoiceOption_values
+  values: ProductShowPageHeroFragment_productOptions_edges_node_MultipleChoiceOption_values;
 }
 
-export type ProductShowPageHeroFragment_productOptions_edges_node =
-  | ProductShowPageHeroFragment_productOptions_edges_node_CheckboxOption
-  | ProductShowPageHeroFragment_productOptions_edges_node_MultipleChoiceOption
+export type ProductShowPageHeroFragment_productOptions_edges_node = ProductShowPageHeroFragment_productOptions_edges_node_CheckboxOption | ProductShowPageHeroFragment_productOptions_edges_node_MultipleChoiceOption;
 
 export interface ProductShowPageHeroFragment_productOptions_edges {
-  __typename: 'ProductOptionEdge'
+  __typename: "ProductOptionEdge";
   /**
    * The item at the end of the edge.
    */
-  node: ProductShowPageHeroFragment_productOptions_edges_node
+  node: ProductShowPageHeroFragment_productOptions_edges_node;
 }
 
 export interface ProductShowPageHeroFragment_productOptions {
-  __typename: 'ProductOptionConnection'
+  __typename: "ProductOptionConnection";
   /**
    * A list of edges.
    */
-  edges: (ProductShowPageHeroFragment_productOptions_edges | null)[] | null
+  edges: (ProductShowPageHeroFragment_productOptions_edges | null)[] | null;
 }
 
 export interface ProductShowPageHeroFragment_categories_edges_node {
-  __typename: 'Category'
+  __typename: "Category";
   /**
    * The ID of an object
    */
-  id: string
+  id: string;
   /**
    * Category name.
    */
-  name: string
+  name: string;
   /**
    * Category path.
    */
-  path: string
+  path: string;
 }
 
 export interface ProductShowPageHeroFragment_categories_edges {
-  __typename: 'CategoryEdge'
+  __typename: "CategoryEdge";
   /**
    * The item at the end of the edge.
    */
-  node: ProductShowPageHeroFragment_categories_edges_node
+  node: ProductShowPageHeroFragment_categories_edges_node;
 }
 
 export interface ProductShowPageHeroFragment_categories {
-  __typename: 'CategoryConnection'
+  __typename: "CategoryConnection";
   /**
    * A list of edges.
    */
-  edges: (ProductShowPageHeroFragment_categories_edges | null)[] | null
+  edges: (ProductShowPageHeroFragment_categories_edges | null)[] | null;
 }
 
 export interface ProductShowPageHeroFragment {
-  __typename: 'Product'
+  __typename: "Product";
   /**
    * The ID of an object
    */
-  id: string
+  id: string;
   /**
    * Name of the product.
    */
-  name: string
+  name: string;
   /**
    * Relative URL path to product page.
    */
-  path: string
+  path: string;
   /**
    * Description of the product in plain text.
    */
-  plainTextDescription: string
+  plainTextDescription: string;
   /**
    * Global trade item number.
    */
-  gtin: string | null
+  gtin: string | null;
   /**
    * Default product variant when no options are selected.
    */
-  sku: string
-  priceCents: number
+  sku: string;
+  priceCents: number;
   /**
    * Default image for a product.
    */
-  defaultImage: ProductShowPageHeroFragment_defaultImage | null
+  defaultImage: ProductShowPageHeroFragment_defaultImage | null;
   /**
    * Brand associated with the product.
    */
-  brand: ProductShowPageHeroFragment_brand | null
+  brand: ProductShowPageHeroFragment_brand | null;
   /**
    * Product SEO details.
    */
-  seo: ProductShowPageHeroFragment_seo
+  seo: ProductShowPageHeroFragment_seo;
   /**
    * Related products for this product.
    */
-  relatedProducts: ProductShowPageHeroFragment_relatedProducts
+  relatedProducts: ProductShowPageHeroFragment_relatedProducts;
   /**
    * Variants associated with the product.
    */
-  variants: ProductShowPageHeroFragment_variants
+  variants: ProductShowPageHeroFragment_variants;
   /**
    * Product options.
    */
-  productOptions: ProductShowPageHeroFragment_productOptions
+  productOptions: ProductShowPageHeroFragment_productOptions;
   /**
    * Id of the product.
    */
-  entityId: number
+  entityId: number;
   /**
    * Description of the product.
    */
-  description: string
+  description: string;
   /**
    * List of categories associated with the product.
    */
-  categories: ProductShowPageHeroFragment_categories
+  categories: ProductShowPageHeroFragment_categories;
 }
