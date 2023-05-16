@@ -184,7 +184,7 @@ const GET_DATA = gql`
           }
 
           ... on Product {
-            ...ProductShowPageProductFragment
+            ...ProductShowPageHeroFragment
           }
 
           ... on Category {

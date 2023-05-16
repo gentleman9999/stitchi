@@ -5,7 +5,7 @@ import { CatalogProductProductFragment } from '@generated/CatalogProductProductF
 import routes from '@lib/routes'
 import Link from 'next/link'
 import useProductColors from '@hooks/useProductColors'
-import SwatchGroup from './SwatchGroup'
+import SwatchGroup from '../Catalog/SwatchGroup'
 import { makeProductTitle } from '@utils/catalog'
 import { generateImageSizes } from '@utils/image'
 import currency from 'currency.js'
@@ -30,15 +30,16 @@ const CatalogProduct = ({ product, priority }: Props) => {
   })
 
   return (
-    <li className="flex flex-col">
+    <li className="flex flex-col w-full">
       <Link
         href={href}
-        className="flex-1 flex flex-col cursor-pointer rounded-md border border-gray-100 p-4  hover:shadow-lg transition-all"
+        className="flex-1 flex flex-col cursor-pointer rounded-md border border-gray-100 p-2  hover:shadow-lg transition-all"
       >
         {product.defaultImage?.url && (
           <div className="relative w-full h-[200px]">
             <Image
               priority={priority}
+              key={product.defaultImage.url}
               src={product.defaultImage.url}
               alt={product.defaultImage.altText || product.name}
               layout="fill"
@@ -47,7 +48,7 @@ const CatalogProduct = ({ product, priority }: Props) => {
             />
           </div>
         )}
-        <h3 className="mt-4 text-sm font-medium leading-none">
+        <h3 className="mt-4 text-xs font-normal leading-tight">
           {makeProductTitle(product)}
         </h3>
 

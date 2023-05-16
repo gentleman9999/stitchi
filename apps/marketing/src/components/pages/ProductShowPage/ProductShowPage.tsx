@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 import { Container } from '@components/ui'
-import { ProductShowPageProductFragment } from '@generated/ProductShowPageProductFragment'
+import { ProductShowPageHeroFragment } from '@generated/ProductShowPageHeroFragment'
 import React from 'react'
-import ProductShowPageProduct from './ProductShowPageProduct/ProductShowPageProduct'
+import ProductShowPageHero from './ProductShowPageHero/ProductShowPageHero'
 import {
   NextSeo,
   NextSeoProps,
@@ -21,13 +21,19 @@ import ValuePropositions from './ValuePropositions'
 import Breadcrumbs from '@components/common/Breadcrumbs'
 import { ProductShowPageQuoteFragment } from '@generated/ProductShowPageQuoteFragment'
 import currency from 'currency.js'
+import ProductShowPageRelatedProducts from './ProductShowPageRelatedProducts'
+import ProductShowPageDetails from './ProductShowPageDetails'
 
 interface Props {
-  product: ProductShowPageProductFragment
+  product: ProductShowPageHeroFragment
 }
 
 const ProductShowPage = ({ product }: Props) => {
   const [share, setShare] = React.useState(false)
+
+  const relatedProducts =
+    product.relatedProducts.edges?.map(edge => edge?.node).filter(notEmpty) ||
+    []
 
   const title = makeProductTitle(product)
 
@@ -120,15 +126,21 @@ const ProductShowPage = ({ product }: Props) => {
             </div>
           </div>
 
-          <ProductShowPageProduct product={product} />
-          <hr />
+          <ProductShowPageHero product={product} />
+          <Divider />
+          <ProductShowPageRelatedProducts products={relatedProducts} />
+          <Divider />
+          <ProductShowPageDetails product={product} />
+          <Divider />
           <ValuePropositions />
-          <hr />
+          <Divider />
         </div>
       </Container>
     </>
   )
 }
+
+const Divider = () => <hr className="my-1" />
 
 const makeImages = (
   product: ProductPageGetDataQuery_site_route_node_Product,
@@ -174,8 +186,10 @@ const makeBreadcrumbs = (params: {
 
 export const fragments = {
   product: gql`
-    ${ProductShowPageProduct.fragments.product}
-    fragment ProductShowPageProductFragment on Product {
+    ${ProductShowPageHero.fragments.product}
+    ${ProductShowPageDetails.fragments.product}
+    ${ProductShowPageRelatedProducts.fragments.product}
+    fragment ProductShowPageHeroFragment on Product {
       id
       name
       path
@@ -193,6 +207,14 @@ export const fragments = {
       }
       seo {
         metaDescription
+      }
+      relatedProducts(first: 5) {
+        edges {
+          node {
+            id
+            ...ProductShowPageRelatedProductsProductFragment
+          }
+        }
       }
       variants(first: 250) {
         edges {
@@ -228,7 +250,8 @@ export const fragments = {
           }
         }
       }
-      ...ProductShowPageProductProductFragment
+      ...ProductShowPageHeroProductFragment
+      ...ProductShowPageDetailsProductFragment
     }
   `,
 }

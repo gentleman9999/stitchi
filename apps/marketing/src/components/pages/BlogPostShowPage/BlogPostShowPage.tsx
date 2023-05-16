@@ -21,20 +21,6 @@ export interface BlogShowPageProps {
 }
 
 const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
-  React.useEffect(() => {
-    if (typeof window === 'undefined') {
-      return
-    }
-
-    const classList = ['scroll-pt-24', 'scroll-smooth']
-
-    window.document.documentElement.classList.add(...classList)
-
-    return () => {
-      window.document.documentElement.classList.remove(...classList)
-    }
-  }, [])
-
   if (!post.content) {
     return null
   }
