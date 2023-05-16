@@ -40,13 +40,27 @@ const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
   // const brands: number[] = []
   // const categories: number[] = []
 
+  const defaultFilters = makeDefaultQueryVariables({
+    brandEntityId,
+    categoryEntityId,
+  }).filters
+
   const formattedFilters: SearchProductsFiltersInput = React.useMemo(
     () => ({
-      brandEntityIds: brands?.length ? brands : undefined,
-      categoryEntityIds: categories?.length ? categories : undefined,
       ...makeDefaultQueryVariables({ brandEntityId, categoryEntityId }).filters,
+      brandEntityIds: brands?.length ? brands : defaultFilters.brandEntityIds,
+      categoryEntityIds: categories?.length
+        ? categories
+        : defaultFilters.categoryEntityIds,
     }),
-    [brandEntityId, brands, categories, categoryEntityId],
+    [
+      brandEntityId,
+      brands,
+      categories,
+      categoryEntityId,
+      defaultFilters.brandEntityIds,
+      defaultFilters.categoryEntityIds,
+    ],
   )
 
   const { data, refetch, networkStatus, fetchMore } = useQuery<
