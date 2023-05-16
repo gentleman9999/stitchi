@@ -42,9 +42,9 @@ const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
 
   const formattedFilters: SearchProductsFiltersInput = React.useMemo(
     () => ({
-      ...makeDefaultQueryVariables({ brandEntityId, categoryEntityId }).filters,
       brandEntityIds: brands?.length ? brands : undefined,
       categoryEntityIds: categories?.length ? categories : undefined,
+      ...makeDefaultQueryVariables({ brandEntityId, categoryEntityId }).filters,
     }),
     [brandEntityId, brands, categories, categoryEntityId],
   )

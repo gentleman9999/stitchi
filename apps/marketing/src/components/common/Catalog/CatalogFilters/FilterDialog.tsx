@@ -45,12 +45,20 @@ const FilterDialog = ({
   const filterPreviewFilters = React.useMemo(() => {
     return {
       filters: {
-        brandEntityIds: brands,
-        categoryEntityIds: categories,
+        brandEntityIds: brands?.length
+          ? brands
+          : brandEntityId
+          ? [brandEntityId]
+          : undefined,
+        categoryEntityIds: categories?.length
+          ? categories
+          : categoryEntityId
+          ? [categoryEntityId]
+          : undefined,
         searchSubCategories: true,
       },
     }
-  }, [brands, categories])
+  }, [brandEntityId, brands, categories, categoryEntityId])
 
   const { count, hasMore } = useFilterPreview(filterPreviewFilters)
 
