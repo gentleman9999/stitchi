@@ -33,9 +33,6 @@ const useFilterPreview = ({ filters }: Props) => {
   return {
     loading,
     count: currentCount !== undefined ? currentCount : previousCount,
-    hasMore: Boolean(
-      data?.site.search.searchProducts.products.pageInfo.hasNextPage,
-    ),
   }
 }
 
@@ -47,9 +44,6 @@ const GET_DATA = gql`
           products(first: 50) {
             collectionInfo {
               totalItems
-            }
-            pageInfo {
-              hasNextPage
             }
           }
         }

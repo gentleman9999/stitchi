@@ -23,7 +23,7 @@ const Checkbox = (props: CheckboxProps) => {
       onMouseOver={() => setShowSecondaryAction(true)}
       onMouseLeave={() => setShowSecondaryAction(false)}
     >
-      <div className="flex items-center h-5">
+      <div className="flex items-center h-6">
         <input
           type="checkbox"
           id={props.value.toString()}

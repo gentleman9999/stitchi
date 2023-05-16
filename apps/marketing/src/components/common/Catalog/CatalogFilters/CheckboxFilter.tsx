@@ -6,17 +6,19 @@ const CheckboxFilter = ({
   value,
   sectionName,
   active,
+  className,
 }: {
   onChange: () => void
   label: string
   value: string | number
   sectionName: string
   active: boolean
+  className?: string
 }) => {
   const name = `${sectionName}-${value}`
 
   return (
-    <div key={value} className="flex">
+    <div key={value} className={'flex ' + className}>
       <div className="mr-3">
         <Checkbox
           name={name}

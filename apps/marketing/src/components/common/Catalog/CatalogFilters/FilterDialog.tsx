@@ -1,4 +1,4 @@
-import { Button, Checkbox, IconButton } from '@components/ui'
+import { Button, IconButton } from '@components/ui'
 import { XIcon } from 'icons'
 import React from 'react'
 import pluralize from 'pluralize'
@@ -60,7 +60,7 @@ const FilterDialog = ({
     }
   }, [brandEntityId, brands, categories, categoryEntityId])
 
-  const { count, hasMore } = useFilterPreview(filterPreviewFilters)
+  const { count } = useFilterPreview(filterPreviewFilters)
 
   React.useEffect(() => {
     if (open) {
@@ -190,14 +190,14 @@ const FilterDialog = ({
                                   <CheckboxGroup>
                                     {availableFilters.brands.map(brand => (
                                       <CheckboxFilter
-                                        key={brand.path}
+                                        key={brand.id}
                                         active={Boolean(
-                                          brands?.includes(brand.entityId),
+                                          brands?.includes(brand.id),
                                         )}
-                                        value={brand.path}
+                                        value={brand.id}
                                         label={brand.name}
                                         onChange={() =>
-                                          handleToggleBrand(brand.entityId)
+                                          handleToggleBrand(brand.id)
                                         }
                                         sectionName="Brands"
                                       />
@@ -244,9 +244,7 @@ const FilterDialog = ({
                           'No products found'
                         ) : (
                           <>
-                            Show {count}
-                            {hasMore ? '+' : ''}{' '}
-                            {pluralize('product', count || 0)}
+                            Show {count} {pluralize('product', count || 0)}
                           </>
                         )}
                       </Button>

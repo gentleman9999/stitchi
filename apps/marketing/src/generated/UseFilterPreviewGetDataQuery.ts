@@ -17,24 +17,12 @@ export interface UseFilterPreviewGetDataQuery_site_search_searchProducts_product
   totalItems: any | null;
 }
 
-export interface UseFilterPreviewGetDataQuery_site_search_searchProducts_products_pageInfo {
-  __typename: "PageInfo";
-  /**
-   * When paginating forwards, are there more items?
-   */
-  hasNextPage: boolean;
-}
-
 export interface UseFilterPreviewGetDataQuery_site_search_searchProducts_products {
   __typename: "ProductConnection";
   /**
    * Collection info
    */
   collectionInfo: UseFilterPreviewGetDataQuery_site_search_searchProducts_products_collectionInfo | null;
-  /**
-   * Information to aid in pagination.
-   */
-  pageInfo: UseFilterPreviewGetDataQuery_site_search_searchProducts_products_pageInfo;
 }
 
 export interface UseFilterPreviewGetDataQuery_site_search_searchProducts {
