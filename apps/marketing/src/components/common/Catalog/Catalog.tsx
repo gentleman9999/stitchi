@@ -37,9 +37,6 @@ const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
   const gridEndRef = React.useRef<HTMLDivElement>(null)
   const { brands, categories } = useActiveFilters()
 
-  // const brands: number[] = []
-  // const categories: number[] = []
-
   const defaultFilters = makeDefaultQueryVariables({
     brandEntityId,
     categoryEntityId,
@@ -103,7 +100,7 @@ const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
         categoryEntityId={categoryEntityId}
       />
 
-      <div className="mt-4 grid grid-cols-1 gap-10">
+      <div className="mt-6 grid grid-cols-1 gap-10">
         <div className="col-span-1">
           <CatalogProductGrid
             fetchMore={fetchMore}

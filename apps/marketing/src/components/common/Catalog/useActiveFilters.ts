@@ -8,7 +8,7 @@ const useActiveFilters = () => {
       categories: queryTypes.array(queryTypes.integer),
     },
     {
-      history: 'push',
+      history: 'replace',
     },
   )
 

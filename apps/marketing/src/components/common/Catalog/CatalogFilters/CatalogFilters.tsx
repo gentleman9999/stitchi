@@ -3,6 +3,7 @@ import FilterDialog from './FilterDialog'
 import FilterDialogButton from './FilterDialogButton'
 import useIntersectionObserver from '@hooks/useIntersectionObserver'
 import { Transition } from '@components/ui'
+import FeaturedFilters from './FeaturedFilters'
 
 interface Props {
   catalogEndRef: React.RefObject<any>
@@ -44,7 +45,15 @@ const CatalogFilters = ({
     <nav>
       <Transition.Root show={showFloatingFilter}>
         <Transition.FadeOpacity>
-          <Button floating={true} />
+          <div
+            className={
+              'fixed z-10 bottom-11 left-0 right-0 flex justify-center'
+            }
+          >
+            <div className="drop-shadow-md">
+              <Button floating={true} />
+            </div>
+          </div>
         </Transition.FadeOpacity>
       </Transition.Root>
 
@@ -56,9 +65,11 @@ const CatalogFilters = ({
         categoryEntityId={categoryEntityId}
       />
 
-      <div className="flex justify-between">
-        <div />
-        <div ref={staticFilterRef}>
+      <div className="flex justify-between items-center gap-4">
+        <div className="flex-1 overflow-y-scroll">
+          <FeaturedFilters />
+        </div>
+        <div className="h-10" ref={staticFilterRef}>
           <Button />
         </div>
       </div>

@@ -33,10 +33,10 @@ const CatalogProduct = ({ product, priority }: Props) => {
     <li className="flex flex-col w-full">
       <Link
         href={href}
-        className="flex-1 flex flex-col cursor-pointer rounded-md border border-gray-100 p-2  hover:shadow-lg transition-all"
+        className="flex-1 flex flex-col cursor-pointer rounded-sm border border-gray-200 p-2  hover:shadow-lg transition-all"
       >
         {product.defaultImage?.url && (
-          <div className="relative w-full h-[200px]">
+          <div className="relative w-full h-[160px]">
             <Image
               priority={priority}
               key={product.defaultImage.url}
@@ -48,7 +48,7 @@ const CatalogProduct = ({ product, priority }: Props) => {
             />
           </div>
         )}
-        <h3 className="mt-4 text-xs font-normal leading-tight">
+        <h3 className="mt-4 text-sm font-normal leading-tight">
           {makeProductTitle(product)}
         </h3>
 

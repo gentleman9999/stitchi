@@ -30,6 +30,10 @@ const Footer = () => (
             </p>
             <SubscribeInline className="mt-4" />
           </div>
+
+          <span className="m-auto font-medium text-gray-500">
+            Proudly Built in Detroit
+          </span>
         </div>
 
         <div className="mt-8 border-t border-gray-200 pt-8 md:flex md:items-center md:justify-between">

@@ -1,0 +1,5 @@
+export { default as Backpack } from './Backpack'
+export { default as BaseBallCap } from './BaseBallCap'
+export { default as Hoodie } from './Hoodie'
+export { default as Socks } from './Socks'
+export { default as TShirt } from './TShirt'

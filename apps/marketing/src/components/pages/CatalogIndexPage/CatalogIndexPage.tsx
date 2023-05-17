@@ -52,7 +52,7 @@ const CatalogIndexPage = ({}: CatalogIndexPageProps) => {
           </div>
         </Section>
 
-        <Section className="mt-4">
+        <Section className="mt-12">
           <Catalog />
         </Section>
       </Container>

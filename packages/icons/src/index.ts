@@ -1,5 +1,6 @@
 export * from './brand'
 export * from './process'
+export * from './catalog'
 
 export { default as Adjustments } from './Adjustments'
 export { default as Bag } from './Bag'
