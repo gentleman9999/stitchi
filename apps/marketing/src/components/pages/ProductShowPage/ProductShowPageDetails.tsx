@@ -15,26 +15,26 @@ interface Props {
 }
 
 const ProductShowPageDetails = ({ product }: Props) => {
-  const ref = React.useRef<HTMLDivElement>(null)
+  const [ref, setRef] = React.useState<HTMLDivElement | null>(null)
   const [expanded, setExpanded] = React.useState(false)
 
   React.useEffect(() => {
-    if (ref.current) {
-      const scrollHeight = ref.current.scrollHeight
+    if (ref) {
+      const scrollHeight = ref.scrollHeight
 
       if (expanded) {
-        ref.current.setAttribute('style', `max-height: ${scrollHeight}px`)
+        ref.setAttribute('style', `max-height: ${scrollHeight}px`)
       } else {
-        ref.current.setAttribute('style', `max-height: ${MIN_HEIGHT}px`)
+        ref.setAttribute('style', `max-height: ${MIN_HEIGHT}px`)
       }
     }
-  }, [expanded])
+  }, [expanded, ref])
 
   const handleToggle = (expanded: boolean) => {
     if (expanded) {
       setExpanded(expanded)
     } else {
-      ref.current?.scrollIntoView({
+      ref?.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
       })
@@ -42,13 +42,13 @@ const ProductShowPageDetails = ({ product }: Props) => {
     }
   }
 
-  const alwaysExpanded = (ref.current?.scrollHeight || 0) < MIN_HEIGHT
+  const alwaysExpanded = (ref?.scrollHeight || 0) < MIN_HEIGHT
 
   return (
     <>
       <h2 className="font-semibold text-xl">Product details</h2>
       <div
-        ref={ref}
+        ref={setRef}
         className={cx(
           `relative max-h-[${
             alwaysExpanded ? 'none' : `${MIN_HEIGHT}px`
