@@ -9,45 +9,38 @@ interface Props {
   floating?: boolean
 }
 
-const FilterDialogButton = React.forwardRef<any, Props>(
-  ({ onClick, floating = false }, ref) => {
-    const { brands, categories } = useActiveFilters()
+const FilterDialogButton = ({ onClick, floating = false }: Props) => {
+  const { brands, categories } = useActiveFilters()
 
-    console.log('BRANDS', brands)
-    console.log('CATEGORIES', categories)
+  const filterCount = (brands?.length || 0) + (categories?.length || 0)
 
-    const filterCount = (brands?.length || 0) + (categories?.length || 0)
+  const active = filterCount > 0
 
-    const active = filterCount > 0
-
-    return (
-      <div ref={ref} className="relative h-full">
-        {active && (
-          <div
-            className={cx(
-              'bg-gray-900 w-4 rounded-full ring-1 ring-white absolute -right-1.5 flex justify-center items-center text-white text-[10px] font-bold',
-              { 'ring-2': Boolean(floating) },
-            )}
-          >
-            {filterCount}
-          </div>
-        )}
-        <FilterButton
-          onClick={() => onClick(true)}
-          active={active}
-          variant={floating ? 'secondary' : 'primary'}
+  return (
+    <div className="relative h-full">
+      {active && (
+        <div
+          className={cx(
+            'bg-gray-900 w-4 rounded-full ring-1 ring-white absolute -right-1.5 flex justify-center items-center text-white text-[10px] font-bold',
+            { 'ring-2': Boolean(floating) },
+          )}
         >
-          <Adjustments
-            className="block h-6 w-6 rotate-90 mr-2"
-            aria-hidden="true"
-          />
-          Filters
-        </FilterButton>
-      </div>
-    )
-  },
-)
-
-FilterDialogButton.displayName = 'FilterDialogButton'
+          {filterCount}
+        </div>
+      )}
+      <FilterButton
+        onClick={() => onClick(true)}
+        active={active}
+        variant={floating ? 'secondary' : 'primary'}
+      >
+        <Adjustments
+          className="block h-6 w-6 rotate-90 mr-2"
+          aria-hidden="true"
+        />
+        Filters
+      </FilterButton>
+    </div>
+  )
+}
 
 export default FilterDialogButton
