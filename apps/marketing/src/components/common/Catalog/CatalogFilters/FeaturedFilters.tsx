@@ -13,6 +13,7 @@ import React, { useEffect } from 'react'
 import cx from 'classnames'
 import useActiveFilters from '../useActiveFilters'
 import useCatalogFilters from './useCatalogFilters'
+import styles from './FeaturedFilters.module.css'
 
 const featured = [
   {
@@ -127,25 +128,24 @@ const FeaturedFilters = () => {
 
   return (
     <div className="relative">
-      <div className="absolute inset-0 flex justify-between items-stretch">
-        <ScrollButton
-          direction="left"
-          onClick={() => handleScroll('left')}
-          visible={showLeftArrow}
-        >
-          ←
-        </ScrollButton>
-        <ScrollButton
-          direction="right"
-          onClick={() => handleScroll('right')}
-          visible={showRightArrow}
-        >
-          →
-        </ScrollButton>
-      </div>
+      <ScrollButton
+        direction="left"
+        onClick={() => handleScroll('left')}
+        visible={showLeftArrow}
+      >
+        ←
+      </ScrollButton>
+
+      <ScrollButton
+        direction="right"
+        onClick={() => handleScroll('right')}
+        visible={showRightArrow}
+      >
+        →
+      </ScrollButton>
 
       <div
-        className="flex-1 overflow-y-scroll "
+        className={styles.container}
         ref={scrollContainerRef}
         onScroll={checkScroll}
       >
@@ -189,11 +189,16 @@ const ScrollButton = ({
 }) => {
   return (
     <div
-      className={cx('z-10 p-3 bg-gradient-to-r  opacity-0 transition-all', {
-        'opacity-100': visible,
-        'from-white to-transparent from-70% pr-5': direction === 'left',
-        'from-transparent to-white to-30% pl-5': direction === 'right',
-      })}
+      className={cx(
+        'z-0 p-3 bg-gradient-to-r  opacity-0 transition-all absolute',
+        {
+          'opacity-100 !z-10': visible,
+          'from-white to-transparent from-70% pr-5 left-0':
+            direction === 'left',
+          'from-transparent to-white to-30% pl-5 right-0':
+            direction === 'right',
+        },
+      )}
     >
       <button
         onClick={onClick}

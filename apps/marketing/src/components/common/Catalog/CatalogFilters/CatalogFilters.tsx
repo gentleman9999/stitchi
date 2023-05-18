@@ -51,7 +51,7 @@ const CatalogFilters = ({
       />
 
       <div className="flex justify-between items-center gap-4">
-        <div>
+        <div className="flex-1 overflow-hidden">
           {!brandEntityId && !categoryEntityId ? <FeaturedFilters /> : null}
         </div>
 
