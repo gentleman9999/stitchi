@@ -51,9 +51,10 @@ const CatalogFilters = ({
       />
 
       <div className="flex justify-between items-center gap-4">
-        <div className="flex-1 overflow-y-scroll">
-          <FeaturedFilters />
+        <div>
+          {!brandEntityId && !categoryEntityId ? <FeaturedFilters /> : null}
         </div>
+
         <div className="h-10" ref={staticFilterRef}>
           <Button />
         </div>

@@ -43,7 +43,7 @@ const BrandShowPage = ({ brand }: Props) => {
             {brand.name}
           </h1>
         </Section>
-        <Section>
+        <Section gutter="md">
           <Catalog brandEntityId={brand.entityId} />
         </Section>
       </Container>

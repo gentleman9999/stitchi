@@ -6,6 +6,7 @@ import {
   Pants,
   Socks,
   TShirt,
+  USAFlag,
 } from 'icons'
 import React, { useEffect } from 'react'
 import cx from 'classnames'
@@ -47,6 +48,11 @@ const featured = [
     categoryEntityId: 33,
     label: 'Accessories',
     Icon: Apron,
+  },
+  {
+    categoryEntityId: 474,
+    label: 'USA Made',
+    Icon: USAFlag,
   },
 ]
 
