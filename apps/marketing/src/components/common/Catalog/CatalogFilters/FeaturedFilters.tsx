@@ -4,6 +4,7 @@ import {
   BaseBallCap,
   Hoodie,
   Pants,
+  Recycle,
   Socks,
   TShirt,
   USAFlag,
@@ -30,7 +31,7 @@ const featured = [
     Icon: BaseBallCap,
   },
   {
-    categoryEntityId: 4,
+    categoryEntityId: 426,
     label: 'Bags',
     Icon: Backpack,
   },
@@ -53,6 +54,11 @@ const featured = [
     categoryEntityId: 474,
     label: 'USA Made',
     Icon: USAFlag,
+  },
+  {
+    categoryEntityId: 475,
+    label: 'Sustainable',
+    Icon: Recycle,
   },
 ]
 
@@ -158,7 +164,7 @@ const FeaturedFilters = () => {
                 )}
               >
                 <div>
-                  <filter.Icon width={28} height={28} />
+                  <filter.Icon width={25} height={25} />
                 </div>
                 <div className="whitespace-nowrap">{filter.label}</div>
               </button>
