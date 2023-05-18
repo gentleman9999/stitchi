@@ -37,28 +37,24 @@ const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
   const gridEndRef = React.useRef<HTMLDivElement>(null)
   const { brands, categories } = useActiveFilters()
 
-  const defaultFilters = makeDefaultQueryVariables({
-    brandEntityId,
-    categoryEntityId,
-  }).filters
+  const defaultVariables = React.useMemo(() => {
+    return makeDefaultQueryVariables({
+      brandEntityId,
+      categoryEntityId,
+    })
+  }, [brandEntityId, categoryEntityId])
 
-  const formattedFilters: SearchProductsFiltersInput = React.useMemo(
-    () => ({
-      ...makeDefaultQueryVariables({ brandEntityId, categoryEntityId }).filters,
-      brandEntityIds: brands?.length ? brands : defaultFilters.brandEntityIds,
+  const formattedFilters: SearchProductsFiltersInput = React.useMemo(() => {
+    return {
+      ...defaultVariables.filters,
+      brandEntityIds: brands?.length
+        ? brands
+        : defaultVariables.filters.brandEntityIds,
       categoryEntityIds: categories?.length
         ? categories
-        : defaultFilters.categoryEntityIds,
-    }),
-    [
-      brandEntityId,
-      brands,
-      categories,
-      categoryEntityId,
-      defaultFilters.brandEntityIds,
-      defaultFilters.categoryEntityIds,
-    ],
-  )
+        : defaultVariables.filters.categoryEntityIds,
+    }
+  }, [brands, categories, defaultVariables.filters])
 
   const { data, refetch, networkStatus, fetchMore } = useQuery<
     CatalogIndexPageGetDataQuery,
@@ -66,7 +62,7 @@ const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
   >(GET_DATA, {
     notifyOnNetworkStatusChange: true,
     variables: {
-      ...makeDefaultQueryVariables({ brandEntityId, categoryEntityId }),
+      ...defaultVariables,
       after: typeof query.after === 'string' ? query.after : undefined,
       filters: formattedFilters,
     },

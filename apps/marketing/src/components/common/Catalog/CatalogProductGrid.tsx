@@ -30,7 +30,7 @@ const CatalogProductGrid = ({ site, loading, fetchMore }: Props) => {
   const { pageInfo } = site?.search.searchProducts?.products || {}
 
   const handleFetchMore = () => {
-    if (pageInfo?.hasNextPage) {
+    if (pageInfo?.hasNextPage && !loading) {
       fetchMore({
         variables: {
           after: pageInfo.endCursor,
@@ -58,7 +58,11 @@ const CatalogProductGrid = ({ site, loading, fetchMore }: Props) => {
       <InfiniteScrollContainer onIntersect={handleFetchMore} />
 
       {pageInfo?.hasNextPage && (
-        <Link replace href={{ query: { after: pageInfo?.endCursor } }}>
+        <Link
+          replace
+          href={{ query: { after: pageInfo?.endCursor } }}
+          className="sr-only"
+        >
           Next
         </Link>
       )}

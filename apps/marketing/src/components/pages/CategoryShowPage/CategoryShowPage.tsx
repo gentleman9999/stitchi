@@ -37,7 +37,7 @@ const CategoryShowPage = ({ category }: Props) => {
             { label: category.name, href },
           ]}
         />
-        <Section>
+        <Section gutter="sm">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-bold">
             {category.name}
           </h1>
