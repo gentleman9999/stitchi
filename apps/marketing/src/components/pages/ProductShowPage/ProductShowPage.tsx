@@ -120,6 +120,7 @@ const ProductShowPage = ({ product }: Props) => {
 
               <ProductQuickActions
                 entityId={product.entityId}
+                productName={product.name}
                 onShareClick={() => setShare(true)}
               />
             </div>

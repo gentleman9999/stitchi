@@ -12,6 +12,7 @@ import { ArrowRight, GlobalDistribution, GlobalDistribution2 } from 'icons'
 import * as Switch from '@radix-ui/react-switch'
 import MoreInformationPopover from '@components/common/MoreInformationPopover'
 import { useRouter } from 'next/router'
+import { track } from '@lib/analytics'
 
 const defaultQuote = {
   quantity: 500,
@@ -36,6 +37,7 @@ const schema = yup.object({
 type FormInput = yup.Asserts<typeof schema>
 
 interface Props {
+  productName: string
   productVariantEntityId: number
 }
 
@@ -110,6 +112,9 @@ const CalculatorForm = (props: Props) => {
 
   const handleStartOrderClick = async () => {
     setSubmitting(true)
+
+    track.productPrimaryCtaClicked({ name: props.productName })
+
     await router.push(routes.internal.getStarted.href())
     setSubmitting(false)
   }

@@ -8,6 +8,7 @@ import React from 'react'
 import ProductColorGrid from './ProductColorGrid'
 import CalculatorForm from './CalculatorForm'
 import { ArrowRight } from 'icons'
+import { track } from '@lib/analytics'
 
 interface ProductOptionValues {
   colorEntityId: number | null
@@ -79,6 +80,7 @@ const ProductShowPageHero = ({ product }: Props) => {
           {activeVariant ? (
             <div className="p-6 border rounded-md">
               <CalculatorForm
+                productName={product.name}
                 productVariantEntityId={activeVariant?.entityId}
               />
             </div>
@@ -91,6 +93,9 @@ const ProductShowPageHero = ({ product }: Props) => {
             <Link
               href={routes.internal.getStarted.href()}
               className="flex items-center underline font-medium"
+              onClick={() =>
+                track.productCustomDesignClicked({ name: product.name })
+              }
             >
               Work with a designer{' '}
               <ArrowRight width={16} className="stroke-2 ml-1" />
