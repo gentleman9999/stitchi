@@ -6,10 +6,15 @@ import Tooltip from '@components/ui/Tooltip'
 
 interface Props {
   entityId: number
+  productName: string
   onShareClick: () => void
 }
 
-const ProductQuickActions = ({ entityId, onShareClick }: Props) => {
+const ProductQuickActions = ({
+  entityId,
+  productName,
+  onShareClick,
+}: Props) => {
   const { isProductInWishlist, toggleProduct } = useWishlist()
 
   const productInWishlist = isProductInWishlist({ entityId })
@@ -29,7 +34,7 @@ const ProductQuickActions = ({ entityId, onShareClick }: Props) => {
             })}
           />
         }
-        onClick={() => toggleProduct({ entityId })}
+        onClick={() => toggleProduct({ entityId, productName })}
       />
       <Action
         description="Share this product."

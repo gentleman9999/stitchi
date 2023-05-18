@@ -1,9 +1,10 @@
 import useLocalStorage from '@hooks/useLocalStorage'
+import { track } from '@lib/analytics'
 import React from 'react'
 
 interface State {
   productEntityIds: number[]
-  toggleProduct: (args: { entityId: number }) => void
+  toggleProduct: (args: { entityId: number; productName: string }) => void
   isProductInWishlist: (args: { entityId: number }) => boolean
 }
 
@@ -19,8 +20,9 @@ const WishlistProvider = ({
     [],
   )
 
-  const toggleProduct: State['toggleProduct'] = ({ entityId }) => {
+  const toggleProduct: State['toggleProduct'] = ({ entityId, productName }) => {
     if (productEntityIds.indexOf(entityId) < 0) {
+      track.productFavorited({ name: productName })
       setProductUuids([...productEntityIds, entityId])
     } else {
       setProductUuids(productEntityIds.filter(uuid => uuid !== entityId))

@@ -63,12 +63,7 @@ const getPath = (slugIn?: string | string[]) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
-    paths: [
-      ...allBrandSlugs.map(slug => ({ params: { catchAllSlug: [slug] } })),
-      ...allCategorySlugs.map(slug => ({
-        params: { catchAllSlug: slug.split('/') },
-      })),
-    ],
+    paths: [],
     fallback: 'blocking',
   }
 }

@@ -12,6 +12,7 @@ import { StandoutProvider, WishlistProvider } from '@components/context'
 import { Inter } from 'next/font/google'
 import Script from 'next/script'
 import { GTM_ID } from '@lib/events'
+import MixpanelProvider from '@components/context/mixpanel-context'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -60,11 +61,13 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
               ) as any
             }
           />
-          <StandoutProvider>
-            <WishlistProvider>
-              {getLayout(<Component {...pageProps} />)}
-            </WishlistProvider>
-          </StandoutProvider>
+          <MixpanelProvider>
+            <StandoutProvider>
+              <WishlistProvider>
+                {getLayout(<Component {...pageProps} />)}
+              </WishlistProvider>
+            </StandoutProvider>
+          </MixpanelProvider>
         </ApolloProvider>
       </div>
     </>
