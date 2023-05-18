@@ -21,35 +21,20 @@ const CatalogFilters = ({
   const catalogEnd = useIntersectionObserver(catalogEndRef, {})
   const [dialogOpen, setDialogOpen] = React.useState(false)
 
-  const Button = React.forwardRef<any, { floating?: boolean }>(
-    ({ floating = false }, ref) => (
-      <FilterDialogButton
-        ref={ref}
-        onClick={setDialogOpen}
-        floating={floating}
-      />
-    ),
+  const Button = ({ floating = false }) => (
+    <FilterDialogButton onClick={setDialogOpen} floating={floating} />
   )
 
-  Button.displayName = 'Button'
-
-  const showFloatingFilter = React.useMemo(
-    () =>
-      Boolean(staticFilter) &&
-      !staticFilter?.isIntersecting &&
-      !catalogEnd?.isIntersecting,
-    [staticFilter, catalogEnd?.isIntersecting],
-  )
+  const showFloatingFilter =
+    Boolean(staticFilter) &&
+    !staticFilter?.isIntersecting &&
+    !catalogEnd?.isIntersecting
 
   return (
     <nav>
       <Transition.Root show={showFloatingFilter}>
         <Transition.FadeOpacity>
-          <div
-            className={
-              'fixed z-10 bottom-11 left-0 right-0 flex justify-center'
-            }
-          >
+          <div className="fixed z-10 bottom-11 left-0 right-0 flex justify-center">
             <div className="drop-shadow-md">
               <Button floating={true} />
             </div>
