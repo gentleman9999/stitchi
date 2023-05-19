@@ -35,7 +35,7 @@ interface Props {
 const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
   const { query, replace } = useRouter()
   const gridEndRef = React.useRef<HTMLDivElement>(null)
-  const { brands, categories, collections, fabric, fit } = useActiveFilters()
+  const { brands, categories, collections, fabrics, fits } = useActiveFilters()
 
   const defaultVariables = React.useMemo(() => {
     return makeDefaultQueryVariables({
@@ -53,17 +53,17 @@ const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
       categoryEntityIds:
         categories?.length ||
         collections?.length ||
-        fabric?.length ||
-        fit?.length
+        fabrics?.length ||
+        fits?.length
           ? [
               ...(categories || []),
               ...(collections || []),
-              ...(fabric || []),
-              ...(fit || []),
+              ...(fabrics || []),
+              ...(fits || []),
             ]
           : defaultVariables.filters.categoryEntityIds,
     }
-  }, [brands, categories, collections, defaultVariables.filters, fabric, fit])
+  }, [brands, categories, collections, defaultVariables.filters, fabrics, fits])
 
   const { data, refetch, networkStatus, fetchMore } = useQuery<
     CatalogIndexPageGetDataQuery,
