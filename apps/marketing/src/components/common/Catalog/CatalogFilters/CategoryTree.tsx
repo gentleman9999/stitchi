@@ -19,8 +19,8 @@ const CategoryTree = (props: Props) => {
   const ref = React.useRef<HTMLDivElement | null>(null)
   const [expanded, setExpanded] = React.useState(false)
 
-  const featuredCategories = props.categories.slice(0, 6)
-  const remainingCategories = props.categories.slice(6)
+  const featuredCategories = props.categories.slice(0, 4)
+  const remainingCategories = props.categories.slice(4)
 
   const toggleExpanded = () => {
     setExpanded(!expanded)
