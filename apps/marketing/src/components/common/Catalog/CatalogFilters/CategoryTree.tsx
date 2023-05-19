@@ -34,18 +34,20 @@ const CategoryTree = (props: Props) => {
   }
 
   return (
-    <div className="sm:columns-2 gap-8">
-      {featuredCategories?.map(category => (
-        <div key={category.entityId} className="inline-block w-full mb-8">
-          <Category
-            category={category}
-            activeCategoryIds={props.activeCategoryIds}
-            onToggle={props.onToggle}
-          />
-        </div>
-      ))}
+    <>
+      <div className="sm:columns-2 gap-8">
+        {featuredCategories?.map(category => (
+          <div key={category.entityId} className="inline-block w-full mb-8">
+            <Category
+              category={category}
+              activeCategoryIds={props.activeCategoryIds}
+              onToggle={props.onToggle}
+            />
+          </div>
+        ))}
+      </div>
       {remainingCategories.length > 0 ? (
-        <div>
+        <>
           <div
             className={cx(
               'grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-h-[2000px] transition-all duration-500 h-auto overflow-hidden',
@@ -54,25 +56,27 @@ const CategoryTree = (props: Props) => {
               },
             )}
           >
-            {remainingCategories?.map(category => (
-              <div key={category.entityId} className="inline-block w-full mb-8">
-                <Category
-                  category={category}
-                  activeCategoryIds={props.activeCategoryIds}
-                  onToggle={props.onToggle}
-                />
-              </div>
-            ))}
+            <div className="sm:columns-2 gap-8">
+              {remainingCategories?.map(category => (
+                <div
+                  key={category.entityId}
+                  className="inline-block w-full mb-8"
+                >
+                  <Category
+                    category={category}
+                    activeCategoryIds={props.activeCategoryIds}
+                    onToggle={props.onToggle}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-          {expanded ? <div className="h-4 sm:h-6" /> : null}
-          <div>
-            <Button variant="naked" onClick={toggleExpanded}>
-              {expanded ? 'Show less' : 'Show all'}
-            </Button>
-          </div>
-        </div>
+          <Button variant="naked" onClick={toggleExpanded}>
+            {expanded ? 'Show less' : 'Show all'}
+          </Button>
+        </>
       ) : null}
-    </div>
+    </>
   )
 }
 

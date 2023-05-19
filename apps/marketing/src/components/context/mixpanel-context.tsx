@@ -10,8 +10,10 @@ const NEXT_PUBLIC_MIXPANEL_PROJECT_TOKEN = getOrThrow(
 
 const mixpanelEnabled = process.env.NEXT_PUBLIC_MIXPANEL_ENABLED === 'true'
 
-if (mixpanelEnabled) {
-  mixpanel.init(NEXT_PUBLIC_MIXPANEL_PROJECT_TOKEN)
+mixpanel.init(NEXT_PUBLIC_MIXPANEL_PROJECT_TOKEN)
+
+if (!mixpanelEnabled) {
+  mixpanel.disable()
 }
 
 // Register super properties.
