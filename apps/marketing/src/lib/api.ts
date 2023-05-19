@@ -6,6 +6,7 @@ import {
   GetStaticPropsContext,
 } from 'next'
 import makeAbsoluteUrl from '@utils/get-absolute-url'
+import { track } from './analytics'
 
 type Context =
   | NextPageContext
@@ -42,6 +43,8 @@ const makeApi = ({
   return {
     formResponse: {
       create: async (args: FormResponseCreateBody) => {
+        track.contactFormSubmitted(args)
+
         const response = await fetch(routes.api.formResponse.create.href(), {
           method: 'POST',
           body: JSON.stringify(args),
@@ -59,6 +62,7 @@ const makeApi = ({
     },
     mailingListSubscription: {
       create: async (args: MailListSubscriptionCreateBody) => {
+        track.mailingListSubscribeClicked(args)
         const response = await fetch(
           routes.api.mailingListSubscription.create.href(),
           {

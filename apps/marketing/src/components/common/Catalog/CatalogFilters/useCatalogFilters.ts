@@ -14,6 +14,9 @@ const useCatalogFilters = ({ brandEntityId, categoryEntityId }: Props = {}) => {
     {
       brands: queryTypes.array(queryTypes.integer),
       categories: queryTypes.array(queryTypes.integer),
+      fabrics: queryTypes.array(queryTypes.integer),
+      collections: queryTypes.array(queryTypes.integer),
+      fits: queryTypes.array(queryTypes.integer),
     },
     {
       history: 'push',
@@ -36,6 +39,9 @@ const useCatalogFilters = ({ brandEntityId, categoryEntityId }: Props = {}) => {
     categories: defaultCategory
       ? [defaultCategory]
       : data?.site.categoryTree.filter(notEmpty) || [],
+    fabrics: data?.site.fabricCategory[0].children || [],
+    collections: data?.site.collections[0].children || [],
+    fits: data?.site.fit[0].children || [],
   }
 
   return {
@@ -57,6 +63,27 @@ const GET_DATA = gql`
             entityId
             name
           }
+        }
+      }
+      fabricCategory: categoryTree(rootEntityId: 506) {
+        entityId
+        children {
+          entityId
+          name
+        }
+      }
+      collections: categoryTree(rootEntityId: 516) {
+        entityId
+        children {
+          entityId
+          name
+        }
+      }
+      fit: categoryTree(rootEntityId: 508) {
+        entityId
+        children {
+          entityId
+          name
         }
       }
     }

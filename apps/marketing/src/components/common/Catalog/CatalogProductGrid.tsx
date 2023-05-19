@@ -84,7 +84,7 @@ CatalogProductGrid.fragments = {
     ${CatalogProduct.fragments.product}
     fragment CatalogProductGridSiteFragment on Site {
       search {
-        searchProducts(filters: $filters) {
+        searchProducts(filters: $filters, sort: FEATURED) {
           products(first: $first, after: $after) {
             edges {
               node {

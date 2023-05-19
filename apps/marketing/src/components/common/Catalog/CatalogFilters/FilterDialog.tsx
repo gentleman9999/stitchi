@@ -5,12 +5,13 @@ import pluralize from 'pluralize'
 import useFilterPreview from './useFilterPreview'
 import * as Dialog from '@radix-ui/react-dialog'
 import cx from 'classnames'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import useCatalogFilters from './useCatalogFilters'
 import useActiveFilters from '../useActiveFilters'
 import CheckboxFilter from './CheckboxFilter'
 import CheckboxGroup from './CheckboxGroup'
 import CategoryTree from './CategoryTree'
+import FilterDialogContainer from './FilterDialogContainer'
 
 interface Props {
   open: boolean
@@ -27,8 +28,13 @@ const FilterDialog = ({
   brandEntityId,
   categoryEntityId,
 }: Props) => {
-  const { brands: activeBrands, categories: activeCategories } =
-    useActiveFilters()
+  const {
+    brands: activeBrands,
+    categories: activeCategories,
+    collections: activeCollections,
+    fabric: activeFabrics,
+    fit: activeFits,
+  } = useActiveFilters()
 
   const { availableFilters, setFilters } = useCatalogFilters({
     brandEntityId,
@@ -38,9 +44,12 @@ const FilterDialog = ({
   const [filterState, setFilterState] = React.useState({
     brands: activeBrands,
     categories: activeCategories,
+    collections: activeCollections,
+    fabrics: activeFabrics,
+    fits: activeFits,
   })
 
-  const { brands, categories } = filterState
+  const { brands, categories, fits, fabrics, collections } = filterState
 
   const filterPreviewFilters = React.useMemo(() => {
     return {
@@ -50,15 +59,38 @@ const FilterDialog = ({
           : brandEntityId
           ? [brandEntityId]
           : undefined,
-        categoryEntityIds: categories?.length
-          ? categories
-          : categoryEntityId
-          ? [categoryEntityId]
-          : undefined,
+        categoryEntityIds:
+          categories?.length ||
+          collections?.length ||
+          fits?.length ||
+          fabrics?.length
+            ? [
+                ...(categories || []),
+                ...(collections || []),
+                ...(fits || []),
+                ...(fabrics || []),
+              ]
+            : categoryEntityId
+            ? [
+                categoryEntityId,
+                ...(collections || []),
+                ...(fits || []),
+                ...(fabrics || []),
+              ]
+            : undefined,
+
         searchSubCategories: true,
       },
     }
-  }, [brandEntityId, brands, categories, categoryEntityId])
+  }, [
+    brandEntityId,
+    brands,
+    categories,
+    categoryEntityId,
+    collections,
+    fabrics,
+    fits,
+  ])
 
   const { count } = useFilterPreview(filterPreviewFilters)
 
@@ -67,197 +99,219 @@ const FilterDialog = ({
       setFilterState({
         brands: activeBrands,
         categories: activeCategories,
+        collections: activeCollections,
+        fabrics: activeFabrics,
+        fits: activeFits,
       })
     }
-  }, [activeBrands, activeCategories, open])
+  }, [
+    activeBrands,
+    activeCategories,
+    activeCollections,
+    activeFabrics,
+    activeFits,
+    open,
+  ])
 
   const handleSubmit = () => {
-    setFilters({ brands, categories }, { scroll })
+    setFilters({ brands, categories, collections, fabrics, fits }, { scroll })
 
     onClose()
   }
 
-  const handleToggleBrand = (brandId: number) => {
-    if (brands?.includes(brandId)) {
+  const handleToggle = (id: number, type: keyof typeof filterState) => {
+    if (filterState[type]?.includes(id)) {
       setFilterState({
         ...filterState,
-        brands: brands.filter(brand => brand !== brandId),
+        [type]: filterState[type]?.filter(item => item !== id),
       })
     } else {
       setFilterState({
         ...filterState,
-        brands: [...(brands || []), brandId],
-      })
-    }
-  }
-
-  const handleToggleCategory = (categoryId: number) => {
-    if (categories?.includes(categoryId)) {
-      setFilterState({
-        ...filterState,
-        categories: categories.filter(category => category !== categoryId),
-      })
-    } else {
-      setFilterState({
-        ...filterState,
-        categories: [...(categories || []), categoryId],
+        [type]: [...(filterState[type] || []), id],
       })
     }
   }
 
   const handleReset = () => {
-    setFilterState({ brands: [], categories: [] })
+    setFilterState({
+      brands: [],
+      categories: [],
+      collections: [],
+      fabrics: [],
+      fits: [],
+    })
   }
 
   return (
-    <AnimatePresence>
-      {open && (
-        <Dialog.Root
-          open={open}
-          onOpenChange={val => val === false && onClose()}
+    <FilterDialogContainer open={open} onClose={onClose}>
+      <DialogSectionPadding>
+        <Dialog.Title
+          className="text-lg leading-6 font-medium text-gray-900"
+          asChild
         >
-          <Dialog.Portal>
-            <div className="relative z-40">
-              <Dialog.Overlay
-                className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-                asChild
-              >
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                />
-              </Dialog.Overlay>
-
-              <div className="fixed inset-0 flex justify-center items-center p-4">
-                <Dialog.Content
-                  forceMount
-                  className={cx(
-                    'align-bottom bg-white overflow-scroll shadow-xl transform transition-all sm:align-middle sm:w-full flex flex-col max-h-[93%] sm:max-w-4xl fixed bottom-0 left-0 right-0 sm:right-auto sm:left-auto sm:bottom-auto sm:flex sm:relative rounded-t-lg sm:rounded-lg sm:my-8 text-sm',
-                  )}
-                >
-                  <DialogSectionPadding>
-                    <Dialog.Title
-                      className="text-lg leading-6 font-medium text-gray-900"
-                      asChild
-                    >
-                      <div className="grid grid-cols-3">
-                        <div>
-                          <Dialog.Close>
-                            <IconButton variant="ghost" disableGutters>
-                              <XIcon width={20} height={20} />
-                            </IconButton>
-                          </Dialog.Close>
-                        </div>
-
-                        <div className="text-center font-heading font-bold flex items-center justify-center">
-                          Filters
-                        </div>
-                        <div />
-                      </div>
-                    </Dialog.Title>
-                  </DialogSectionPadding>
-
-                  <Divider className="mt-4 sm:mt-6" />
-                  <div className="overflow-scroll">
-                    <motion.div
-                      initial={{
-                        height: 0,
-                      }}
-                      animate={{
-                        height: 500,
-                      }}
-                      exit={{
-                        height: 0,
-                      }}
-                      transition={{
-                        type: 'spring',
-                        bounce: 0,
-                        duration: 0.3,
-                        delay: 0,
-                      }}
-                    >
-                      <div className="flex-1 pb-4 sm:pb-6">
-                        <DialogSectionPadding>
-                          <fieldset>
-                            {availableFilters.brands.length &&
-                            !brandEntityId ? (
-                              <>
-                                <FilterSection
-                                  title="Brands"
-                                  subtitle="A unique and outstanding selection of brands"
-                                >
-                                  <CheckboxGroup>
-                                    {availableFilters.brands.map(brand => (
-                                      <CheckboxFilter
-                                        key={brand.id}
-                                        active={Boolean(
-                                          brands?.includes(brand.id),
-                                        )}
-                                        value={brand.id}
-                                        label={brand.name}
-                                        onChange={() =>
-                                          handleToggleBrand(brand.id)
-                                        }
-                                        sectionName="Brands"
-                                      />
-                                    ))}
-                                  </CheckboxGroup>
-                                </FilterSection>
-                                <FilterSectionSpacer />
-                              </>
-                            ) : null}
-
-                            {availableFilters.categories.length &&
-                            !categoryEntityId ? (
-                              <FilterSection title="Categories">
-                                <CategoryTree
-                                  categories={availableFilters.categories}
-                                  onToggle={handleToggleCategory}
-                                  activeCategoryIds={categories}
-                                />
-                              </FilterSection>
-                            ) : null}
-                          </fieldset>
-                        </DialogSectionPadding>
-                      </div>
-                    </motion.div>
-                  </div>
-
-                  <Divider />
-
-                  <DialogSectionPadding>
-                    <div className="justify-between flex">
-                      <Button
-                        variant="naked"
-                        onClick={handleReset}
-                        className="whitespace-nowrap"
-                      >
-                        Clear all
-                      </Button>
-                      <Button
-                        onClick={handleSubmit}
-                        className="whitespace-nowrap"
-                        disabled={count === 0}
-                      >
-                        {count === 0 ? (
-                          'No products found'
-                        ) : (
-                          <>
-                            Show {count} {pluralize('product', count || 0)}
-                          </>
-                        )}
-                      </Button>
-                    </div>
-                  </DialogSectionPadding>
-                  <DialogSectionPadding />
-                </Dialog.Content>
-              </div>
+          <div className="grid grid-cols-3">
+            <div>
+              <Dialog.Close>
+                <IconButton variant="ghost" disableGutters>
+                  <XIcon width={20} height={20} />
+                </IconButton>
+              </Dialog.Close>
             </div>
-          </Dialog.Portal>
-        </Dialog.Root>
-      )}
-    </AnimatePresence>
+
+            <div className="text-center font-heading font-bold flex items-center justify-center">
+              Filters
+            </div>
+            <div />
+          </div>
+        </Dialog.Title>
+      </DialogSectionPadding>
+
+      <Divider className="mt-4 sm:mt-6" />
+      <div className="overflow-scroll">
+        <motion.div
+          initial={{
+            height: 0,
+          }}
+          animate={{
+            height: 500,
+          }}
+          exit={{
+            height: 0,
+          }}
+          transition={{
+            type: 'spring',
+            bounce: 0,
+            duration: 0.3,
+            delay: 0,
+          }}
+        >
+          <div className="flex-1 pb-4 sm:pb-6">
+            <DialogSectionPadding>
+              <fieldset>
+                {availableFilters.brands.length && !brandEntityId ? (
+                  <>
+                    <FilterSection
+                      title="Brands"
+                      subtitle="A unique and outstanding selection of brands"
+                    >
+                      <CheckboxGroup>
+                        {availableFilters.brands.map(brand => (
+                          <CheckboxFilter
+                            key={brand.id}
+                            active={Boolean(brands?.includes(brand.id))}
+                            value={brand.id}
+                            label={brand.name}
+                            onChange={() => handleToggle(brand.id, 'brands')}
+                            sectionName="Brands"
+                          />
+                        ))}
+                      </CheckboxGroup>
+                    </FilterSection>
+                    <FilterSectionSpacer />
+                  </>
+                ) : null}
+
+                {availableFilters.categories.length && !categoryEntityId ? (
+                  <>
+                    <FilterSection title="Categories">
+                      <CategoryTree
+                        categories={availableFilters.categories}
+                        onToggle={id => handleToggle(id, 'categories')}
+                        activeCategoryIds={categories}
+                      />
+                    </FilterSection>
+                    <FilterSectionSpacer />
+                  </>
+                ) : null}
+
+                <FilterSection title="Fabric">
+                  <CheckboxGroup>
+                    {availableFilters.fabrics.map(fabric => (
+                      <CheckboxFilter
+                        key={fabric.entityId}
+                        active={Boolean(fabrics?.includes(fabric.entityId))}
+                        value={fabric.entityId}
+                        label={fabric.name}
+                        onChange={() =>
+                          handleToggle(fabric.entityId, 'fabrics')
+                        }
+                        sectionName="Fabric"
+                      />
+                    ))}
+                  </CheckboxGroup>
+                </FilterSection>
+                <FilterSectionSpacer />
+
+                <FilterSection title="Collections">
+                  <CheckboxGroup>
+                    {availableFilters.collections.map(collection => (
+                      <CheckboxFilter
+                        key={collection.entityId}
+                        active={Boolean(
+                          collections?.includes(collection.entityId),
+                        )}
+                        value={collection.entityId}
+                        label={collection.name}
+                        onChange={() =>
+                          handleToggle(collection.entityId, 'collections')
+                        }
+                        sectionName="Collections"
+                      />
+                    ))}
+                  </CheckboxGroup>
+                </FilterSection>
+
+                <FilterSectionSpacer />
+
+                <FilterSection title="Fit">
+                  <CheckboxGroup>
+                    {availableFilters.fits.map(fit => (
+                      <CheckboxFilter
+                        key={fit.entityId}
+                        active={Boolean(fits?.includes(fit.entityId))}
+                        value={fit.entityId}
+                        label={fit.name}
+                        onChange={() => handleToggle(fit.entityId, 'fits')}
+                        sectionName="Fit"
+                      />
+                    ))}
+                  </CheckboxGroup>
+                </FilterSection>
+              </fieldset>
+            </DialogSectionPadding>
+          </div>
+        </motion.div>
+      </div>
+
+      <Divider />
+
+      <DialogSectionPadding>
+        <div className="justify-between flex">
+          <Button
+            variant="naked"
+            onClick={handleReset}
+            className="whitespace-nowrap"
+          >
+            Clear all
+          </Button>
+          <Button
+            onClick={handleSubmit}
+            className="whitespace-nowrap"
+            disabled={count === 0}
+          >
+            {count === 0 ? (
+              'No products found'
+            ) : (
+              <>
+                Show {count} {pluralize('product', count || 0)}
+              </>
+            )}
+          </Button>
+        </div>
+      </DialogSectionPadding>
+      <DialogSectionPadding />
+    </FilterDialogContainer>
   )
 }
 

@@ -8,7 +8,11 @@ const NEXT_PUBLIC_MIXPANEL_PROJECT_TOKEN = getOrThrow(
   'NEXT_PUBLIC_MIXPANEL_PROJECT_TOKEN',
 )
 
-mixpanel.init(NEXT_PUBLIC_MIXPANEL_PROJECT_TOKEN)
+const mixpanelEnabled = process.env.NEXT_PUBLIC_MIXPANEL_ENABLED === 'true'
+
+if (mixpanelEnabled) {
+  mixpanel.init(NEXT_PUBLIC_MIXPANEL_PROJECT_TOKEN)
+}
 
 // Register super properties.
 // https://help.mixpanel.com/hc/en-us/articles/115004561786-Track-UTM-Tags
