@@ -7,10 +7,10 @@
 // GraphQL query operation: ProductPageGetDataQuery
 // ====================================================
 
-export interface ProductPageGetDataQuery_site_route_node_Variant {
-  __typename: "Variant";
+export interface ProductPageGetDataQuery_site_route_node_Banner {
+  __typename: "Banner" | "Blog" | "BlogPost" | "Variant";
   /**
-   * The ID of an object
+   * The id of the object.
    */
   id: string;
 }
@@ -617,7 +617,7 @@ export interface ProductPageGetDataQuery_site_route_node_Category {
   seo: ProductPageGetDataQuery_site_route_node_Category_seo;
 }
 
-export type ProductPageGetDataQuery_site_route_node = ProductPageGetDataQuery_site_route_node_Variant | ProductPageGetDataQuery_site_route_node_Brand | ProductPageGetDataQuery_site_route_node_Product | ProductPageGetDataQuery_site_route_node_Category;
+export type ProductPageGetDataQuery_site_route_node = ProductPageGetDataQuery_site_route_node_Banner | ProductPageGetDataQuery_site_route_node_Brand | ProductPageGetDataQuery_site_route_node_Product | ProductPageGetDataQuery_site_route_node_Category;
 
 export interface ProductPageGetDataQuery_site_route {
   __typename: "Route";

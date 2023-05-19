@@ -10,6 +10,7 @@ import Dropdown from './Popover'
 import NavbarDesktopDropdown from './NavbarDesktopDropdown'
 import NavbarDesktopLearnContents from './NavbarDesktopLearnContents'
 import { Popover } from '@headlessui/react'
+import { track } from '@lib/analytics'
 
 interface Props {
   anchorEl: HTMLElement | null
@@ -81,6 +82,9 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
         variant="ghost"
         slim
         href={routes.internal.getStarted.href()}
+        onClick={() => {
+          track.navbarCtaCliced({ view: 'desktop' })
+        }}
       >
         Work with us
       </Button>

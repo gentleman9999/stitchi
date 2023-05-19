@@ -4,6 +4,7 @@ import FilterDialogButton from './FilterDialogButton'
 import useIntersectionObserver from '@hooks/useIntersectionObserver'
 import { Transition } from '@components/ui'
 import FeaturedFilters from './FeaturedFilters'
+import { track } from '@lib/analytics'
 
 interface Props {
   catalogEndRef: React.RefObject<any>
@@ -21,8 +22,13 @@ const CatalogFilters = ({
   const catalogEnd = useIntersectionObserver(catalogEndRef, {})
   const [dialogOpen, setDialogOpen] = React.useState(false)
 
+  const handleFilterClick = (expanded: boolean) => {
+    track.catalogFilterClicked()
+    setDialogOpen(expanded)
+  }
+
   const Button = ({ floating = false }) => (
-    <FilterDialogButton onClick={setDialogOpen} floating={floating} />
+    <FilterDialogButton onClick={handleFilterClick} floating={floating} />
   )
 
   const showFloatingFilter =

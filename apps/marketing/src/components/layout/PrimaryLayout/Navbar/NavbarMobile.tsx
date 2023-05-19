@@ -9,6 +9,7 @@ import cx from 'classnames'
 import NavbarMobileDropdown from './NavbarMobileDropdown'
 import Popover from './Popover'
 import { Popover as HeadlessPopover } from '@headlessui/react'
+import { track } from '@lib/analytics'
 
 interface Props {
   anchorEl: HTMLElement | null
@@ -147,7 +148,15 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
           <div className={s.item}>
             <Link href={routes.internal.getStarted.href()}>
               <HeadlessPopover.Button as="div">
-                <Button bold shadow color="brandPrimary" className="w-full">
+                <Button
+                  bold
+                  shadow
+                  color="brandPrimary"
+                  className="w-full"
+                  onClick={() => {
+                    track.navbarCtaCliced({ view: 'mobile' })
+                  }}
+                >
                   Work with us
                 </Button>
               </HeadlessPopover.Button>
