@@ -43,7 +43,7 @@ const CatalogIndexPage = ({}: CatalogIndexPageProps) => {
                   href={routes.internal.getStarted.href()}
                   endIcon={<ArrowRight />}
                 >
-                  Talk to a designer
+                  Work with a designer
                 </Button>
               </div>
             </div>

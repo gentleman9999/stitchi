@@ -32,8 +32,8 @@ const FilterDialog = ({
     brands: activeBrands,
     categories: activeCategories,
     collections: activeCollections,
-    fabric: activeFabrics,
-    fit: activeFits,
+    fabrics: activeFabrics,
+    fits: activeFits,
   } = useActiveFilters()
 
   const { availableFilters, setFilters } = useCatalogFilters({
