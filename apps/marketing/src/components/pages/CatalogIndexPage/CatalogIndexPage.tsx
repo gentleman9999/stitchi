@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container } from '@components/ui'
 import Catalog from '@components/common/Catalog'
-import { NeedleThread } from 'icons'
+import { ArrowRight, NeedleThread } from 'icons'
 import Link from 'next/link'
 import routes from '@lib/routes'
 import { Section } from '@components/common'
@@ -26,7 +26,7 @@ const CatalogIndexPage = ({}: CatalogIndexPageProps) => {
         <Section>
           <div className="md:pr-0 mt-2 text-center sm:text-left  rounded-xl flex items-center">
             <div className="md:w-[70%]">
-              <h1 className="text-lg md:text-xl lg:text-xl font-bold font-heading">
+              <h1 className="text-lg md:text-xl lg:text-3xl font-bold font-heading">
                 Browse our curated selection of products
               </h1>
               <p className="text text-gray-700 mt-2">
@@ -38,9 +38,10 @@ const CatalogIndexPage = ({}: CatalogIndexPageProps) => {
               <div className="mt-6">
                 <Button
                   slim
+                  variant="naked"
                   Component={Link}
                   href={routes.internal.getStarted.href()}
-                  color="brandPrimary"
+                  endIcon={<ArrowRight />}
                 >
                   Talk to a designer
                 </Button>

@@ -81,10 +81,16 @@ const navigation = {
         href: routes.internal.glossary.href(),
       },
       {
+        label: 'Design Lookbook',
+        icon: Support,
+        href: routes.internal.lookbook.href(),
+      },
+      {
         label: 'How To: Start a Merch Business',
         icon: Support,
         href: routes.internal.ebooks.studentMerchBusiness.href(),
       },
+
       // {
       //   label: 'About us',
       //   icon: Support,

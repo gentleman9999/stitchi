@@ -76,6 +76,9 @@ const routes = {
         },
       },
     },
+    lookbook: {
+      href: () => buildRoute('/lookbook'),
+    },
     blog: {
       href: () => buildRoute(`/learn`),
       show: {

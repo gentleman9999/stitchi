@@ -67,6 +67,7 @@ const createApolloClient = () =>
         Query: {
           fields: {
             allArticles: firstSkipPagination(['filter']),
+            allDesigns: firstSkipPagination(['filter']),
           },
         },
       },

@@ -66,6 +66,13 @@ const NavbarDesktopLearnContents = () => {
             Promotional Products Directory
           </Popover.Button>
         </Link>
+        <Link
+          href={routes.internal.lookbook.href()}
+          passHref
+          className="font-semibold hover:bg-primary p-1 rounded-sm"
+        >
+          <Popover.Button as="div">Design Lookbook</Popover.Button>
+        </Link>
       </div>
     </div>
   )
