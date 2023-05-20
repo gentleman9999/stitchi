@@ -1387,6 +1387,26 @@
       "custom_url": { "url": "/fabric/sustainable/", "is_customized": false }
     },
     {
+      "id": 218,
+      "parent_id": 29,
+      "name": "Snapback",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/apparel/headwear/hats/snapback/",
+        "is_customized": false
+      }
+    },
+    {
       "id": 221,
       "parent_id": 508,
       "name": "Hook and Loop",
@@ -1421,6 +1441,66 @@
       "custom_url": {
         "url": "/fabric/100-percent-cotton-face/",
         "is_customized": true
+      }
+    },
+    {
+      "id": 284,
+      "parent_id": 29,
+      "name": "Pre-Curved Visor",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/apparel/headwear/hats/pre-curved-visor/",
+        "is_customized": false
+      }
+    },
+    {
+      "id": 286,
+      "parent_id": 29,
+      "name": "Unstructured",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/apparel/headwear/hats/unstructured/",
+        "is_customized": false
+      }
+    },
+    {
+      "id": 289,
+      "parent_id": 29,
+      "name": "Bucket",
+      "description": "",
+      "views": 0,
+      "sort_order": 2,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/apparel/headwear/hats/bucket/",
+        "is_customized": false
       }
     },
     {
@@ -1459,6 +1539,46 @@
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": { "url": "/knit/", "is_customized": false }
+    },
+    {
+      "id": 292,
+      "parent_id": 29,
+      "name": "Six-Panel",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/apparel/headwear/hats/six-panel/",
+        "is_customized": false
+      }
+    },
+    {
+      "id": 293,
+      "parent_id": 29,
+      "name": "Five-Panel",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/apparel/headwear/hats/five-panel/",
+        "is_customized": false
+      }
     },
     {
       "id": 295,
@@ -1855,6 +1975,60 @@
       "custom_url": { "url": "/fabric/canvas/", "is_customized": false }
     },
     {
+      "id": 344,
+      "parent_id": 426,
+      "name": "Totes",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/accessories/bags/totes/",
+        "is_customized": false
+      }
+    },
+    {
+      "id": 347,
+      "parent_id": 510,
+      "name": "Tagged",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": { "url": "/tag/tagged/", "is_customized": false }
+    },
+    {
+      "id": 348,
+      "parent_id": 510,
+      "name": "Tagless",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": { "url": "/tag/tagless/", "is_customized": false }
+    },
+    {
       "id": 372,
       "parent_id": 508,
       "name": "Tubular",
@@ -1904,6 +2078,43 @@
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": { "url": "/fit/side-seams/", "is_customized": false }
+    },
+    {
+      "id": 375,
+      "parent_id": 29,
+      "name": "Low Profiles",
+      "description": "",
+      "views": 0,
+      "sort_order": 1,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": { "url": "/low-profiles/", "is_customized": false }
+    },
+    {
+      "id": 376,
+      "parent_id": 29,
+      "name": "Mid Profiles",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/apparel/headwear/hats/mid-profiles/",
+        "is_customized": false
+      }
     },
     {
       "id": 377,
@@ -1957,6 +2168,83 @@
       "custom_url": { "url": "/fit/fitted/", "is_customized": false }
     },
     {
+      "id": 383,
+      "parent_id": 29,
+      "name": "Truckers",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/apparel/headwear/hats/truckers/",
+        "is_customized": false
+      }
+    },
+    {
+      "id": 396,
+      "parent_id": 426,
+      "name": "Messengers",
+      "description": "",
+      "views": 0,
+      "sort_order": 1,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": { "url": "/messengers/", "is_customized": false }
+    },
+    {
+      "id": 400,
+      "parent_id": 29,
+      "name": "Flat Bills",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/apparel/headwear/hats/flat-bills/",
+        "is_customized": false
+      }
+    },
+    {
+      "id": 401,
+      "parent_id": 426,
+      "name": "Duffels",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/accessories/bags/duffels/",
+        "is_customized": false
+      }
+    },
+    {
       "id": 409,
       "parent_id": 497,
       "name": "Beanies",
@@ -1994,6 +2282,40 @@
       "custom_url": { "url": "/fit/adjustable/", "is_customized": false }
     },
     {
+      "id": 418,
+      "parent_id": 426,
+      "name": "Backpacks",
+      "description": "",
+      "views": 0,
+      "sort_order": 2,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": { "url": "/backpacks/", "is_customized": false }
+    },
+    {
+      "id": 423,
+      "parent_id": 202,
+      "name": "Sweatpants",
+      "description": "",
+      "views": 0,
+      "sort_order": 9,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": { "url": "/bottoms/sweatpants/", "is_customized": false }
+    },
+    {
       "id": 426,
       "parent_id": 33,
       "name": "Bags",
@@ -2028,6 +2350,23 @@
       "custom_url": { "url": "/fit/flowy/", "is_customized": false }
     },
     {
+      "id": 430,
+      "parent_id": 510,
+      "name": "Tear Away",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": { "url": "/tag/tear-away/", "is_customized": false }
+    },
+    {
       "id": 432,
       "parent_id": 506,
       "name": "Triblends",
@@ -2060,6 +2399,43 @@
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": { "url": "/polyester-100-percent/", "is_customized": true }
+    },
+    {
+      "id": 441,
+      "parent_id": 202,
+      "name": "Socks",
+      "description": "",
+      "views": 0,
+      "sort_order": 4,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": { "url": "/apparel/socks/", "is_customized": false }
+    },
+    {
+      "id": 442,
+      "parent_id": 518,
+      "name": "3/4 Sleeves",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/sleeve-length/34-sleeves/",
+        "is_customized": false
+      }
     },
     {
       "id": 445,
@@ -2164,6 +2540,103 @@
       "custom_url": { "url": "/fit/talls/", "is_customized": false }
     },
     {
+      "id": 457,
+      "parent_id": 25,
+      "name": "Tank Tops",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/apparel/t-shirts/tank-tops/",
+        "is_customized": false
+      }
+    },
+    {
+      "id": 458,
+      "parent_id": 518,
+      "name": "Sleeveless",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/sleeve-length/sleeveless/",
+        "is_customized": false
+      }
+    },
+    {
+      "id": 459,
+      "parent_id": 518,
+      "name": "Vests",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": { "url": "/sleeve-length/vests/", "is_customized": false }
+    },
+    {
+      "id": 461,
+      "parent_id": 518,
+      "name": "Short Sleeves",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/sleeve-length/short-sleeves/",
+        "is_customized": false
+      }
+    },
+    {
+      "id": 462,
+      "parent_id": 518,
+      "name": "Long Sleeves",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/sleeve-length/long-sleeves/",
+        "is_customized": false
+      }
+    },
+    {
       "id": 465,
       "parent_id": 201,
       "name": "Polos",
@@ -2179,6 +2652,23 @@
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": { "url": "/apparel/polos/", "is_customized": false }
+    },
+    {
+      "id": 473,
+      "parent_id": 202,
+      "name": "Shorts",
+      "description": "",
+      "views": 0,
+      "sort_order": 3,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": { "url": "/apparel/shorts/", "is_customized": false }
     },
     {
       "id": 492,
@@ -2283,6 +2773,23 @@
       "custom_url": { "url": "/accessories/aprons/", "is_customized": false }
     },
     {
+      "id": 510,
+      "parent_id": 0,
+      "name": "Tag",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "category.html",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": { "url": "/tag/", "is_customized": false }
+    },
+    {
       "id": 514,
       "parent_id": 0,
       "name": "Home Goods",
@@ -2298,6 +2805,23 @@
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": { "url": "/home-goods/", "is_customized": false }
+    },
+    {
+      "id": 518,
+      "parent_id": 0,
+      "name": "Sleeve Length",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "category.html",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": { "url": "/sleeve-length/", "is_customized": false }
     }
   ]
 }
