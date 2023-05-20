@@ -60,7 +60,7 @@ const DesignLibraryPage = (props: Props) => {
         <Section>
           <div className="md:pr-0 mt-2 text-center sm:text-left  rounded-xl flex items-center">
             <div className="md:w-[70%]">
-              <h1 className="text-lg md:text-xl lg:text-5xl font-bold font-heading">
+              <h1 className="text-4xl lg:text-5xl font-bold font-heading">
                 Inspirational custom shirt designs
               </h1>
               <p className="text text-gray-700 mt-2">
@@ -99,7 +99,27 @@ const DesignLibraryPage = (props: Props) => {
           ) : null}
 
           <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 md:-gap-4 lg:gap-6">
-            {data?.allDesigns.map(design => {
+            {data?.allDesigns.map((design, index) => {
+              if (index === 8) {
+                return (
+                  <li key="cta" className="col-span-2 ">
+                    <Link
+                      href={routes.internal.features.design.href()}
+                      className="flex flex-col items-center justify-center h-full bg-gray-100 rounded-md py-10 px-10 drop-shadow-md group"
+                    >
+                      <Customization className="w-12 h-12 text-primary" />
+                      <span className="mt-2 text-sm font-semibold text-gray-700 group-hover:underline">
+                        Learn about the design process.
+                      </span>
+                      <span className="text-xs text-gray-600 text-center mt-1">
+                        Work directly with a designer <u>for free</u> when
+                        choose Stitchi as your merch partner.
+                      </span>
+                    </Link>
+                  </li>
+                )
+              }
+
               const image = design.primaryImage?.responsiveImage
               if (!image) {
                 return null
