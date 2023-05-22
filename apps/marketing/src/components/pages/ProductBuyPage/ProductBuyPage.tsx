@@ -46,9 +46,7 @@ const GET_DATA = gql`
       route(path: $path) {
         node {
           id
-          ... on Variant {
 
-          }
           ... on Product {
             id
           }

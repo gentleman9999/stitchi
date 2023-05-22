@@ -24,6 +24,10 @@ export const Order: yup.ObjectSchema<OrderSchema> = yup
     customerEmail: yup.string().email().nullable().defined(),
     customerPhone: yup.string().nullable().defined(),
     totalPriceCents: yup.number().min(0).required(),
+    subtotalPriceCents: yup.number().min(0).required(),
+    totalTaxCents: yup.number().min(0).required(),
+    totalShippingCents: yup.number().min(0).required(),
+    totalProcessingFeeCents: yup.number().min(0).required(),
     paymentStatus: yup
       .mixed<OrderRecordPaymentStatus>()
       .oneOf(Object.values(OrderRecordPaymentStatus))

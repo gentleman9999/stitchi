@@ -127,10 +127,19 @@ export interface NexusGenObjects {
     node?: NexusGenRootTypes['NewsletterIssue'] | null; // NewsletterIssue
   }
   Order: { // root type
+    customerEmail?: string | null; // String
+    customerFullName?: string | null; // String
+    customerPhone?: string | null; // String
     humanOrderId: string; // String!
+    humanPaymentStatus: string; // String!
     id: string; // ID!
     items: NexusGenRootTypes['OrderItem'][]; // [OrderItem!]!
     paymentStatus: NexusGenEnums['OrderPaymentStatus']; // OrderPaymentStatus!
+    subtotalPriceCents: number; // Int!
+    totalPriceCents: number; // Int!
+    totalProcessingFeeCents: number; // Int!
+    totalShippingCents: number; // Int!
+    totalTaxCents: number; // Int!
     type: NexusGenEnums['OrderType']; // OrderType!
     userId?: string | null; // String
   }
@@ -257,11 +266,20 @@ export interface NexusGenFieldTypes {
   }
   Order: { // field return type
     customer: NexusGenRootTypes['User'] | null; // User
+    customerEmail: string | null; // String
+    customerFullName: string | null; // String
     customerId: string | null; // String
+    customerPhone: string | null; // String
     humanOrderId: string; // String!
+    humanPaymentStatus: string; // String!
     id: string; // ID!
     items: NexusGenRootTypes['OrderItem'][]; // [OrderItem!]!
     paymentStatus: NexusGenEnums['OrderPaymentStatus']; // OrderPaymentStatus!
+    subtotalPriceCents: number; // Int!
+    totalPriceCents: number; // Int!
+    totalProcessingFeeCents: number; // Int!
+    totalShippingCents: number; // Int!
+    totalTaxCents: number; // Int!
     type: NexusGenEnums['OrderType']; // OrderType!
     userId: string | null; // String
   }
@@ -386,11 +404,20 @@ export interface NexusGenFieldTypeNames {
   }
   Order: { // field return type name
     customer: 'User'
+    customerEmail: 'String'
+    customerFullName: 'String'
     customerId: 'String'
+    customerPhone: 'String'
     humanOrderId: 'String'
+    humanPaymentStatus: 'String'
     id: 'ID'
     items: 'OrderItem'
     paymentStatus: 'OrderPaymentStatus'
+    subtotalPriceCents: 'Int'
+    totalPriceCents: 'Int'
+    totalProcessingFeeCents: 'Int'
+    totalShippingCents: 'Int'
+    totalTaxCents: 'Int'
     type: 'OrderType'
     userId: 'String'
   }

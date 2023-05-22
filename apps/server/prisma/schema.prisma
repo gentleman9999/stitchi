@@ -85,6 +85,17 @@ model Order {
   customerEmail    String?
   customerPhone    String?
 
+  // Subtotal of order pre tax, shipping, and fees
+  subtotalPriceCents Int
+
+  // The total tax applied to the order
+  totalTaxCents Int
+
+  // The total shipping price of the order
+  totalShippingCents Int
+
+  totalProcessingFeeCents Int
+
   // The total price of the order
   totalPriceCents Int
 

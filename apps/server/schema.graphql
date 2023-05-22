@@ -96,11 +96,20 @@ enum NewsletterIssueStatus {
 
 type Order {
   customer: User
+  customerEmail: String
+  customerFullName: String
   customerId: String
+  customerPhone: String
   humanOrderId: String!
+  humanPaymentStatus: String!
   id: ID!
   items: [OrderItem!]!
   paymentStatus: OrderPaymentStatus!
+  subtotalPriceCents: Int!
+  totalPriceCents: Int!
+  totalProcessingFeeCents: Int!
+  totalShippingCents: Int!
+  totalTaxCents: Int!
   type: OrderType!
   userId: String
 }

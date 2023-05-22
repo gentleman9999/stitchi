@@ -5,6 +5,7 @@ import { table as makeOrderTable } from '../db/order-table'
 import * as yup from 'yup'
 import { OrderItem } from '../db/order-item-table'
 import createHumanizedId from '../helpers/create-humanized-id'
+import { calculateOrderAmounts } from './helpers/calculate-order-amounts'
 
 const inputSchema = Order.omit([
   'id',
@@ -13,6 +14,10 @@ const inputSchema = Order.omit([
   'humanReadableId',
   'paymentStatus',
   'totalPriceCents',
+  'totalTaxCents',
+  'subtotalPriceCents',
+  'totalShippingCents',
+  'totalProcessingFeeCents',
 ]).concat(
   yup.object().shape({
     items: yup
@@ -50,28 +55,49 @@ const makeCreateOrder: MakeCreateOrderFn =
 
     const { items, ...restValidInput } = validInput
 
-    const newOrder = await orderTable.create({
-      data: {
-        ...restValidInput,
-        humanReadableId: await createHumanizedId(
-          {
-            organizationId: validInput.organizationId,
-            userId: validInput.userId,
-          },
-          { orderTable },
-        ),
-        paymentStatus: 'NOT_PAID',
-        totalPriceCents: 0,
-        OrderItems: {
-          createMany: {
-            data: validInput.items,
+    const {
+      totalPriceCents,
+      totalTaxCents,
+      totalProcessingFeeCents,
+      totalShippingCents,
+      subtotalPriceCents,
+    } = calculateOrderAmounts({ items })
+
+    const humanReadableId = await createHumanizedId(
+      {
+        organizationId: validInput.organizationId,
+        userId: validInput.userId,
+      },
+      { orderTable },
+    )
+
+    let newOrder
+
+    try {
+      newOrder = await orderTable.create({
+        data: {
+          ...restValidInput,
+          humanReadableId,
+          totalPriceCents,
+          totalTaxCents,
+          totalProcessingFeeCents,
+          totalShippingCents,
+          subtotalPriceCents,
+          paymentStatus: 'NOT_PAID',
+          OrderItems: {
+            createMany: {
+              data: validInput.items,
+            },
           },
         },
-      },
-      include: {
-        OrderItems: true,
-      },
-    })
+        include: {
+          OrderItems: true,
+        },
+      })
+    } catch (error) {
+      console.error(error)
+      throw new Error('Failed to create order')
+    }
 
     return orderFactory({
       orderRecord: newOrder,

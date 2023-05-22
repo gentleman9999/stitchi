@@ -1,4 +1,4 @@
-import { enumType, nonNull, objectType } from 'nexus'
+import { enumType, objectType } from 'nexus'
 
 export const OrderItemType = enumType({
   name: 'OrderItemType',
@@ -58,9 +58,21 @@ export const Order = objectType({
       resolve: order => order.userId || null,
     })
 
+    t.nullable.string('customerFullName')
+    t.nullable.string('customerEmail')
+    t.nullable.string('customerPhone')
+
+    t.nonNull.int('totalPriceCents')
+    t.nonNull.int('subtotalPriceCents')
+    t.nonNull.int('totalTaxCents')
+    t.nonNull.int('totalShippingCents')
+    t.nonNull.int('totalProcessingFeeCents')
+
     t.nonNull.field('paymentStatus', {
       type: 'OrderPaymentStatus',
     })
+
+    t.nonNull.string('humanPaymentStatus')
 
     t.nonNull.field('type', {
       type: 'OrderType',
