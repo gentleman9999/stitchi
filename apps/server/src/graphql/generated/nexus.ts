@@ -42,6 +42,22 @@ export interface NexusGenInputs {
     first: number; // Int!
     skip?: number | null; // Int
   }
+  OrderCartCreateInput: { // input type
+    includeFulfillment: boolean; // Boolean!
+    items: NexusGenInputs['OrderCartCreateItemsInput'][]; // [OrderCartCreateItemsInput!]!
+    printLocations: NexusGenInputs['OrderCartCreatePrintLocationInput'][]; // [OrderCartCreatePrintLocationInput!]!
+    productEntityId: number; // Int!
+  }
+  OrderCartCreateItemsInput: { // input type
+    productVariantEntityId: number; // Int!
+    quantity: number; // Int!
+  }
+  OrderCartCreatePrintLocationInput: { // input type
+    colorCount: number; // Int!
+  }
+  OrderCartUpdateInput: { // input type
+    orderId: string; // ID!
+  }
   ProductKey: { // input type
     id: string; // ID!
     prices: NexusGenInputs['ProductPrice']; // ProductPrice!
@@ -64,6 +80,9 @@ export interface NexusGenEnums {
   GlobalRole: "CUSTOMER" | "SUPERADMIN"
   MembershipRole: "OWNER"
   NewsletterIssueStatus: "ARCHIVED" | "CONFIRMED" | "DRAFT"
+  OrderItemType: "BIG_COMMERCE_PRODUCT" | "CUSTOM"
+  OrderPaymentStatus: "NOT_PAID" | "PAID" | "PARTIALLY_PAID" | "PARTIALLY_REFUNDED" | "REFUNDED"
+  OrderType: "CART"
 }
 
 export interface NexusGenScalars {
@@ -106,6 +125,32 @@ export interface NexusGenObjects {
   NewsletterIssueEdge: { // root type
     cursor: string; // String!
     node?: NexusGenRootTypes['NewsletterIssue'] | null; // NewsletterIssue
+  }
+  Order: { // root type
+    humanOrderId: string; // String!
+    id: string; // ID!
+    items: NexusGenRootTypes['OrderItem'][]; // [OrderItem!]!
+    paymentStatus: NexusGenEnums['OrderPaymentStatus']; // OrderPaymentStatus!
+    type: NexusGenEnums['OrderType']; // OrderType!
+    userId?: string | null; // String
+  }
+  OrderCartCreatePayload: { // root type
+    order?: NexusGenRootTypes['Order'] | null; // Order
+  }
+  OrderCartUpdatePayload: { // root type
+    order?: NexusGenRootTypes['Order'] | null; // Order
+  }
+  OrderItem: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    orderId: string; // String!
+    productId?: string | null; // String
+    productVariantId?: string | null; // String
+    quantity: number; // Int!
+    title: string; // String!
+    type: NexusGenEnums['OrderItemType']; // OrderItemType!
+    unitPriceCents: number; // Int!
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
   }
   Organization: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -181,6 +226,7 @@ export interface NexusGenFieldTypes {
     userId: string; // String!
   }
   Mutation: { // field return type
+    orderCartCreate: NexusGenRootTypes['OrderCartCreatePayload'] | null; // OrderCartCreatePayload
     subscriberCreate: NexusGenRootTypes['SubscriberCreatePayload'] | null; // SubscriberCreatePayload
     userBoostrap: NexusGenRootTypes['User'] | null; // User
   }
@@ -209,6 +255,34 @@ export interface NexusGenFieldTypes {
     cursor: string; // String!
     node: NexusGenRootTypes['NewsletterIssue'] | null; // NewsletterIssue
   }
+  Order: { // field return type
+    customer: NexusGenRootTypes['User'] | null; // User
+    customerId: string | null; // String
+    humanOrderId: string; // String!
+    id: string; // ID!
+    items: NexusGenRootTypes['OrderItem'][]; // [OrderItem!]!
+    paymentStatus: NexusGenEnums['OrderPaymentStatus']; // OrderPaymentStatus!
+    type: NexusGenEnums['OrderType']; // OrderType!
+    userId: string | null; // String
+  }
+  OrderCartCreatePayload: { // field return type
+    order: NexusGenRootTypes['Order'] | null; // Order
+  }
+  OrderCartUpdatePayload: { // field return type
+    order: NexusGenRootTypes['Order'] | null; // Order
+  }
+  OrderItem: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    orderId: string; // String!
+    productId: string | null; // String
+    productVariantId: string | null; // String
+    quantity: number; // Int!
+    title: string; // String!
+    type: NexusGenEnums['OrderItemType']; // OrderItemType!
+    unitPriceCents: number; // Int!
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+  }
   Organization: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
@@ -233,6 +307,7 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     _products: Array<NexusGenRootTypes['Product'] | null> | null; // [Product]
     newsletter: NexusGenRootTypes['Newsletter'] | null; // Newsletter
+    order: NexusGenRootTypes['Order'] | null; // Order
     viewer: NexusGenRootTypes['Membership'] | null; // Membership
   }
   Quote: { // field return type
@@ -280,6 +355,7 @@ export interface NexusGenFieldTypeNames {
     userId: 'String'
   }
   Mutation: { // field return type name
+    orderCartCreate: 'OrderCartCreatePayload'
     subscriberCreate: 'SubscriberCreatePayload'
     userBoostrap: 'User'
   }
@@ -308,6 +384,34 @@ export interface NexusGenFieldTypeNames {
     cursor: 'String'
     node: 'NewsletterIssue'
   }
+  Order: { // field return type name
+    customer: 'User'
+    customerId: 'String'
+    humanOrderId: 'String'
+    id: 'ID'
+    items: 'OrderItem'
+    paymentStatus: 'OrderPaymentStatus'
+    type: 'OrderType'
+    userId: 'String'
+  }
+  OrderCartCreatePayload: { // field return type name
+    order: 'Order'
+  }
+  OrderCartUpdatePayload: { // field return type name
+    order: 'Order'
+  }
+  OrderItem: { // field return type name
+    createdAt: 'DateTime'
+    id: 'ID'
+    orderId: 'String'
+    productId: 'String'
+    productVariantId: 'String'
+    quantity: 'Int'
+    title: 'String'
+    type: 'OrderItemType'
+    unitPriceCents: 'Int'
+    updatedAt: 'DateTime'
+  }
   Organization: { // field return type name
     createdAt: 'DateTime'
     id: 'ID'
@@ -332,6 +436,7 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     _products: 'Product'
     newsletter: 'Newsletter'
+    order: 'Order'
     viewer: 'Membership'
   }
   Quote: { // field return type name
@@ -369,6 +474,9 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    orderCartCreate: { // args
+      input: NexusGenInputs['OrderCartCreateInput']; // OrderCartCreateInput!
+    }
     subscriberCreate: { // args
       input: NexusGenInputs['SubscriberCreateInput']; // SubscriberCreateInput!
     }
@@ -392,6 +500,9 @@ export interface NexusGenArgTypes {
   Query: {
     _products: { // args
       products: NexusGenInputs['ProductKey'][]; // [ProductKey!]!
+    }
+    order: { // args
+      id: string; // ID!
     }
   }
 }

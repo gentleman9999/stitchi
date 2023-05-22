@@ -17,7 +17,7 @@ const getMarkupMultiplier = (unitCost: number) => {
   return markup
 }
 
-const calculate = async ({
+const calculate = ({
   productPriceCents,
   includeFulfillment,
   quantity,

@@ -78,7 +78,7 @@ const ProductShowPageHero = ({ product }: Props) => {
       <div className="col-span-12 sm:col-span-6 lg:col-span-5">
         <div className="flex flex-col gap-6">
           {activeVariant ? (
-            <div className="p-6 border rounded-md">
+            <div className="p-6 border rounded-sm">
               <CalculatorForm
                 productName={product.name}
                 productVariantEntityId={activeVariant?.entityId}

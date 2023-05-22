@@ -19,12 +19,16 @@ const auth0 = new ManagementClient({
 })
 
 export interface Context {
-  prisma: PrismaClient
-  auth0: ManagementClient
-  newsletter: typeof services.newsletter
   membershipId?: string
   userId?: string
   organizationId?: string
+  prisma: PrismaClient
+  auth0: ManagementClient
+  newsletter: typeof services.newsletter
+  order: typeof services.order
+  catalog: typeof services.catalog
+  quote: typeof services.quote
+  design: typeof services.design
 }
 
 interface ContextCreatorParams {
@@ -57,10 +61,14 @@ function makeContext(
       return {
         auth0,
         prisma,
-        newsletter: services.newsletter,
         userId: payload?.sub,
         membershipId: membership?.id,
         organizationId: membership?.organizationId ?? undefined,
+        newsletter: services.newsletter,
+        order: services.order,
+        catalog: services.catalog,
+        quote: services.quote,
+        design: services.design,
       }
     } catch (error) {
       console.error(error)

@@ -33,6 +33,9 @@ enum MembershipRole {
 }
 
 type Mutation {
+  """Creates a new order during user Cart"""
+  orderCartCreate(input: OrderCartCreateInput!): OrderCartCreatePayload
+
   """Creates a new subscriber"""
   subscriberCreate(input: SubscriberCreateInput!): SubscriberCreatePayload
 
@@ -91,6 +94,75 @@ enum NewsletterIssueStatus {
   DRAFT
 }
 
+type Order {
+  customer: User
+  customerId: String
+  humanOrderId: String!
+  id: ID!
+  items: [OrderItem!]!
+  paymentStatus: OrderPaymentStatus!
+  type: OrderType!
+  userId: String
+}
+
+input OrderCartCreateInput {
+  includeFulfillment: Boolean!
+  items: [OrderCartCreateItemsInput!]!
+  printLocations: [OrderCartCreatePrintLocationInput!]!
+  productEntityId: Int!
+}
+
+input OrderCartCreateItemsInput {
+  productVariantEntityId: Int!
+  quantity: Int!
+}
+
+type OrderCartCreatePayload {
+  order: Order
+}
+
+input OrderCartCreatePrintLocationInput {
+  colorCount: Int!
+}
+
+input OrderCartUpdateInput {
+  orderId: ID!
+}
+
+type OrderCartUpdatePayload {
+  order: Order
+}
+
+type OrderItem {
+  createdAt: DateTime!
+  id: ID!
+  orderId: String!
+  productId: String
+  productVariantId: String
+  quantity: Int!
+  title: String!
+  type: OrderItemType!
+  unitPriceCents: Int!
+  updatedAt: DateTime
+}
+
+enum OrderItemType {
+  BIG_COMMERCE_PRODUCT
+  CUSTOM
+}
+
+enum OrderPaymentStatus {
+  NOT_PAID
+  PAID
+  PARTIALLY_PAID
+  PARTIALLY_REFUNDED
+  REFUNDED
+}
+
+enum OrderType {
+  CART
+}
+
 type Organization {
   createdAt: DateTime!
   id: ID!
@@ -132,6 +204,7 @@ input ProductPriceValue {
 type Query {
   _products(products: [ProductKey!]!): [Product]
   newsletter: Newsletter
+  order(id: ID!): Order
   viewer: Membership
 }
 
