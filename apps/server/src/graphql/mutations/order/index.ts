@@ -147,6 +147,9 @@ export const orderCartCreate = mutationField('orderCartCreate', {
               productId: input.productEntityId.toString(),
               productVariantId: item.productVariantEntityId.toString(),
               unitPriceCents: productQuote.productUnitCostCents,
+              totalPriceCents:
+                productQuote.productUnitCostCents * item.quantity,
+
               type: OrderItemRecordType.BIG_C_PRODUCT,
               title: `${product.name} - ${productVariant.option_values
                 ?.map(v => v.label)

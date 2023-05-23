@@ -42,6 +42,12 @@ export interface NexusGenInputs {
     first: number; // Int!
     skip?: number | null; // Int
   }
+  FulfillmentCreateInput: { // input type
+    carrier: string; // String!
+    orderId: string; // String!
+    trackingNumber: string; // String!
+    trackingUrl: string; // String!
+  }
   OrderCartCreateInput: { // input type
     includeFulfillment: boolean; // Boolean!
     items: NexusGenInputs['OrderCartCreateItemsInput'][]; // [OrderCartCreateItemsInput!]!
@@ -95,6 +101,36 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Fulfillment: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    fulfillmentOrderItems: NexusGenRootTypes['FulfillmentOrderItem'][]; // [FulfillmentOrderItem!]!
+    fulfillmentTrackingInfoId: string; // String!
+    id: string; // ID!
+    orderId: string; // String!
+    organizationId: string; // String!
+    trackingInfo: NexusGenRootTypes['FulfillmentTrackingInfo']; // FulfillmentTrackingInfo!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    userId: string; // String!
+  }
+  FulfillmentCreatePayload: { // root type
+    fulfillment?: NexusGenRootTypes['Fulfillment'] | null; // Fulfillment
+  }
+  FulfillmentOrderItem: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    fulfillmentId: string; // String!
+    id: string; // ID!
+    orderItemId: string; // String!
+    quantity: number; // Int!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  FulfillmentTrackingInfo: { // root type
+    carrier: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    trackingNumber: string; // String!
+    trackingUrl: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
   Membership: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
@@ -157,6 +193,7 @@ export interface NexusGenObjects {
     productVariantId?: string | null; // String
     quantity: number; // Int!
     title: string; // String!
+    totalPriceCents: number; // Int!
     type: NexusGenEnums['OrderItemType']; // OrderItemType!
     unitPriceCents: number; // Int!
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
@@ -224,6 +261,36 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  Fulfillment: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    fulfillmentOrderItems: NexusGenRootTypes['FulfillmentOrderItem'][]; // [FulfillmentOrderItem!]!
+    fulfillmentTrackingInfoId: string; // String!
+    id: string; // ID!
+    orderId: string; // String!
+    organizationId: string; // String!
+    trackingInfo: NexusGenRootTypes['FulfillmentTrackingInfo']; // FulfillmentTrackingInfo!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    userId: string; // String!
+  }
+  FulfillmentCreatePayload: { // field return type
+    fulfillment: NexusGenRootTypes['Fulfillment'] | null; // Fulfillment
+  }
+  FulfillmentOrderItem: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    fulfillmentId: string; // String!
+    id: string; // ID!
+    orderItemId: string; // String!
+    quantity: number; // Int!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  FulfillmentTrackingInfo: { // field return type
+    carrier: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    trackingNumber: string; // String!
+    trackingUrl: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
   Membership: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
@@ -235,6 +302,7 @@ export interface NexusGenFieldTypes {
     userId: string; // String!
   }
   Mutation: { // field return type
+    fulfillmentCreate: NexusGenRootTypes['FulfillmentCreatePayload'] | null; // FulfillmentCreatePayload
     orderCartCreate: NexusGenRootTypes['OrderCartCreatePayload'] | null; // OrderCartCreatePayload
     subscriberCreate: NexusGenRootTypes['SubscriberCreatePayload'] | null; // SubscriberCreatePayload
     userBoostrap: NexusGenRootTypes['User'] | null; // User
@@ -270,6 +338,7 @@ export interface NexusGenFieldTypes {
     customerFullName: string | null; // String
     customerId: string | null; // String
     customerPhone: string | null; // String
+    fulfillments: NexusGenRootTypes['Fulfillment'][]; // [Fulfillment!]!
     humanOrderId: string; // String!
     humanPaymentStatus: string; // String!
     id: string; // ID!
@@ -297,6 +366,7 @@ export interface NexusGenFieldTypes {
     productVariantId: string | null; // String
     quantity: number; // Int!
     title: string; // String!
+    totalPriceCents: number; // Int!
     type: NexusGenEnums['OrderItemType']; // OrderItemType!
     unitPriceCents: number; // Int!
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
@@ -362,6 +432,36 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  Fulfillment: { // field return type name
+    createdAt: 'DateTime'
+    fulfillmentOrderItems: 'FulfillmentOrderItem'
+    fulfillmentTrackingInfoId: 'String'
+    id: 'ID'
+    orderId: 'String'
+    organizationId: 'String'
+    trackingInfo: 'FulfillmentTrackingInfo'
+    updatedAt: 'DateTime'
+    userId: 'String'
+  }
+  FulfillmentCreatePayload: { // field return type name
+    fulfillment: 'Fulfillment'
+  }
+  FulfillmentOrderItem: { // field return type name
+    createdAt: 'DateTime'
+    fulfillmentId: 'String'
+    id: 'ID'
+    orderItemId: 'String'
+    quantity: 'Int'
+    updatedAt: 'DateTime'
+  }
+  FulfillmentTrackingInfo: { // field return type name
+    carrier: 'String'
+    createdAt: 'DateTime'
+    id: 'ID'
+    trackingNumber: 'String'
+    trackingUrl: 'String'
+    updatedAt: 'DateTime'
+  }
   Membership: { // field return type name
     createdAt: 'DateTime'
     id: 'ID'
@@ -373,6 +473,7 @@ export interface NexusGenFieldTypeNames {
     userId: 'String'
   }
   Mutation: { // field return type name
+    fulfillmentCreate: 'FulfillmentCreatePayload'
     orderCartCreate: 'OrderCartCreatePayload'
     subscriberCreate: 'SubscriberCreatePayload'
     userBoostrap: 'User'
@@ -408,6 +509,7 @@ export interface NexusGenFieldTypeNames {
     customerFullName: 'String'
     customerId: 'String'
     customerPhone: 'String'
+    fulfillments: 'Fulfillment'
     humanOrderId: 'String'
     humanPaymentStatus: 'String'
     id: 'ID'
@@ -435,6 +537,7 @@ export interface NexusGenFieldTypeNames {
     productVariantId: 'String'
     quantity: 'Int'
     title: 'String'
+    totalPriceCents: 'Int'
     type: 'OrderItemType'
     unitPriceCents: 'Int'
     updatedAt: 'DateTime'
@@ -501,6 +604,9 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    fulfillmentCreate: { // args
+      input: NexusGenInputs['FulfillmentCreateInput']; // FulfillmentCreateInput!
+    }
     orderCartCreate: { // args
       input: NexusGenInputs['OrderCartCreateInput']; // OrderCartCreateInput!
     }

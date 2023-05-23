@@ -32,6 +32,7 @@ const OrderDetailsPage = ({ order }: Props) => {
               <td>Name</td>
               <td>Quantity</td>
               <td>Unit Price</td>
+              <td>Total</td>
             </tr>
           </thead>
           <tbody>
@@ -49,13 +50,18 @@ const OrderDetailsPage = ({ order }: Props) => {
                       fromCents: true,
                     }).format()}
                   </td>
+                  <td className="py-2 text-right">
+                    {currency(item.totalPriceCents, {
+                      fromCents: true,
+                    }).format()}
+                  </td>
                 </tr>
               )
             })}
           </tbody>
-          <tfoot>
+          <tfoot className="border-t">
             <tr>
-              <td className="py-2 text-right" colSpan={2}>
+              <td className="py-2 text-right" colSpan={3}>
                 Subtotal
               </td>
               <td className="py-2 text-right">
@@ -65,7 +71,7 @@ const OrderDetailsPage = ({ order }: Props) => {
               </td>
             </tr>
             <tr>
-              <td className="py-2 text-right" colSpan={2}>
+              <td className="py-2 text-right" colSpan={3}>
                 Shipping
               </td>
               <td className="py-2 text-right">
@@ -75,7 +81,7 @@ const OrderDetailsPage = ({ order }: Props) => {
               </td>
             </tr>
             <tr>
-              <td className="py-2 text-right" colSpan={2}>
+              <td className="py-2 text-right" colSpan={3}>
                 Tax
               </td>
               <td className="py-2 text-right">
@@ -85,7 +91,7 @@ const OrderDetailsPage = ({ order }: Props) => {
               </td>
             </tr>
             <tr>
-              <td className="py-2 text-right" colSpan={2}>
+              <td className="py-2 text-right" colSpan={3}>
                 Processing Fee
               </td>
               <td className="py-2 text-right">
@@ -95,7 +101,7 @@ const OrderDetailsPage = ({ order }: Props) => {
               </td>
             </tr>
             <tr>
-              <td className="py-2 text-right" colSpan={2}>
+              <td className="py-2 text-right" colSpan={3}>
                 Total
               </td>
               <td className="py-2 text-right">
@@ -128,6 +134,7 @@ OrderDetailsPage.fragments = {
         quantity
         title
         unitPriceCents
+        totalPriceCents
       }
     }
   `,

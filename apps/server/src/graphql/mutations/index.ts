@@ -13,6 +13,8 @@ export {
   OrderCartCreateItemsInput,
 } from './order'
 
+export * from './fulfillment'
+
 export const Mutation = mutationType({
   definition: () => {},
 })

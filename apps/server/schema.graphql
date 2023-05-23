@@ -12,6 +12,47 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+type Fulfillment {
+  createdAt: DateTime!
+  fulfillmentOrderItems: [FulfillmentOrderItem!]!
+  fulfillmentTrackingInfoId: String!
+  id: ID!
+  orderId: String!
+  organizationId: String!
+  trackingInfo: FulfillmentTrackingInfo!
+  updatedAt: DateTime!
+  userId: String!
+}
+
+input FulfillmentCreateInput {
+  carrier: String!
+  orderId: String!
+  trackingNumber: String!
+  trackingUrl: String!
+}
+
+type FulfillmentCreatePayload {
+  fulfillment: Fulfillment
+}
+
+type FulfillmentOrderItem {
+  createdAt: DateTime!
+  fulfillmentId: String!
+  id: ID!
+  orderItemId: String!
+  quantity: Int!
+  updatedAt: DateTime!
+}
+
+type FulfillmentTrackingInfo {
+  carrier: String!
+  createdAt: DateTime!
+  id: ID!
+  trackingNumber: String!
+  trackingUrl: String!
+  updatedAt: DateTime!
+}
+
 enum GlobalRole {
   CUSTOMER
   SUPERADMIN
@@ -33,6 +74,8 @@ enum MembershipRole {
 }
 
 type Mutation {
+  fulfillmentCreate(input: FulfillmentCreateInput!): FulfillmentCreatePayload
+
   """Creates a new order during user Cart"""
   orderCartCreate(input: OrderCartCreateInput!): OrderCartCreatePayload
 
@@ -100,6 +143,7 @@ type Order {
   customerFullName: String
   customerId: String
   customerPhone: String
+  fulfillments: [Fulfillment!]!
   humanOrderId: String!
   humanPaymentStatus: String!
   id: ID!
@@ -150,6 +194,7 @@ type OrderItem {
   productVariantId: String
   quantity: Int!
   title: String!
+  totalPriceCents: Int!
   type: OrderItemType!
   unitPriceCents: Int!
   updatedAt: DateTime

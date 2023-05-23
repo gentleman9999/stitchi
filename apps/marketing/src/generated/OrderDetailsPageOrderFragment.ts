@@ -13,6 +13,7 @@ export interface OrderDetailsPageOrderFragment_items {
   quantity: number;
   title: string;
   unitPriceCents: number;
+  totalPriceCents: number;
 }
 
 export interface OrderDetailsPageOrderFragment {

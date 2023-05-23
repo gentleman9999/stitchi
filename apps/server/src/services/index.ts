@@ -3,6 +3,7 @@ import { makeClient as makeOrderClient } from './order'
 import { makeClient as makeCatalogClient } from './catalog'
 import { makeClient as makeQuoteClient } from './quote'
 import { makeClient as makeDesignClient } from './design'
+import { makeClient as makeFulfillmentClient } from './fulfillment'
 
 interface ServiceList {
   newsletter: ReturnType<typeof makeNewsletterClient>
@@ -10,6 +11,7 @@ interface ServiceList {
   catalog: ReturnType<typeof makeCatalogClient>
   quote: ReturnType<typeof makeQuoteClient>
   design: ReturnType<typeof makeDesignClient>
+  fulfillment: ReturnType<typeof makeFulfillmentClient>
 }
 
 const services: ServiceList = {
@@ -18,6 +20,7 @@ const services: ServiceList = {
   catalog: makeCatalogClient(),
   quote: makeQuoteClient(),
   design: makeDesignClient(),
+  fulfillment: makeFulfillmentClient(),
 }
 
 export default services

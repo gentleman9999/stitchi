@@ -15,6 +15,7 @@ export const OrderItem = objectType({
 
     t.nonNull.int('quantity')
     t.nonNull.int('unitPriceCents')
+    t.nonNull.int('totalPriceCents')
 
     t.nonNull.field('type', { type: 'OrderItemType' })
 

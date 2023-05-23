@@ -17,9 +17,11 @@ export const OrderItem: yup.ObjectSchema<OrderItemSchema> = yup
   .shape({
     id: yup.string().uuid().required(),
     orderId: yup.string().uuid().required(),
+    designId: yup.string().nullable().defined(),
     title: yup.string().required(),
     quantity: yup.number().min(1).required(),
     unitPriceCents: yup.number().min(0).required(),
+    totalPriceCents: yup.number().min(0).required(),
 
     productId: yup.string().nullable().defined(),
     productVariantId: yup.string().nullable().defined(),

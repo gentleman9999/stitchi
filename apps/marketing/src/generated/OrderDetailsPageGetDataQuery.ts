@@ -13,6 +13,7 @@ export interface OrderDetailsPageGetDataQuery_order_items {
   quantity: number;
   title: string;
   unitPriceCents: number;
+  totalPriceCents: number;
 }
 
 export interface OrderDetailsPageGetDataQuery_order {
