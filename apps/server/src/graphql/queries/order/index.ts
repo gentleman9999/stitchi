@@ -3,6 +3,8 @@ import { extendType, idArg, list, nonNull, queryField } from 'nexus'
 import * as uuid from 'uuid'
 import { orderFactoryOrderToGraphQL } from '../../serializers/order'
 
+export * from './mailing-address'
+
 export const order = queryField('order', {
   type: 'Order',
   args: {

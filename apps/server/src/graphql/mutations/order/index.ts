@@ -6,6 +6,8 @@ import { OrderItemRecordType } from '../../../services/order/db/order-item-table
 import { OrderRecordType } from '../../../services/order/db/order-table'
 import { orderFactoryOrderToGraphQL } from '../../serializers/order'
 
+export * from './mailing-address'
+
 export const OrderCartCreatePrintLocationInput = inputObjectType({
   name: 'OrderCartCreatePrintLocationInput',
   definition(t) {
@@ -32,6 +34,7 @@ export const OrderCartCreateInput = inputObjectType({
     t.nonNull.list.nonNull.field('items', {
       type: 'OrderCartCreateItemsInput',
     })
+    t.nullable.string('shippingAddressId')
   },
 })
 
@@ -137,6 +140,7 @@ export const orderCartCreate = mutationField('orderCartCreate', {
           customerFullName: null,
           customerPhone: null,
           organizationId: ctx.organizationId || null,
+          shippingAddressId: input.shippingAddressId || null,
           userId: ctx.userId || null,
           type: OrderRecordType.CART,
           items: orderItems.map(({ item, productVariant, productQuote }) => {

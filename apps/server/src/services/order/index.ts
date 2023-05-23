@@ -3,10 +3,10 @@ import makeOrderRepository, { OrderRepository } from './repository'
 import { CreateOrderFnInput } from './repository/create-order'
 
 export interface OrderClientService {
-  createOrder: (input: {
-    order: CreateOrderFnInput['order']
-  }) => Promise<OrderFactoryOrder>
-  getOrder: (input: { orderId: string }) => Promise<OrderFactoryOrder>
+  createOrder: (input: CreateOrderFnInput) => Promise<OrderFactoryOrder>
+  getOrder: OrderRepository['getOrder']
+  createMailingAddress: OrderRepository['createMailingAddress']
+  getMailingAddress: OrderRepository['getMailingAddress']
 }
 
 interface MakeClientParams {
@@ -35,6 +35,26 @@ const makeClient: MakeClientFn = (
       } catch (error) {
         console.error(error)
         throw new Error('Failed to get order')
+      }
+    },
+    createMailingAddress: async input => {
+      try {
+        return orderRepository.createMailingAddress({
+          mailingAddress: input.mailingAddress,
+        })
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to create mailing address')
+      }
+    },
+    getMailingAddress: async input => {
+      try {
+        return orderRepository.getMailingAddress({
+          mailingAddressId: input.mailingAddressId,
+        })
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to get mailing address')
       }
     },
   }

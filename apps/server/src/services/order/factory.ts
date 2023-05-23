@@ -1,3 +1,4 @@
+import { MailingAddressRecord } from './db/mailing-address-table'
 import { OrderItemRecord } from './db/order-item-table'
 import { OrderRecord } from './db/order-table'
 
@@ -17,4 +18,14 @@ const orderFactory = ({
   return { ...orderRecord, items: orderItemRecords }
 }
 
-export { orderFactory }
+export interface OrderFactoryMailingAddress extends MailingAddressRecord {}
+
+const mailingAddressFactory = ({
+  mailingAddressRecord,
+}: {
+  mailingAddressRecord: MailingAddressRecord
+}): OrderFactoryMailingAddress => {
+  return { ...mailingAddressRecord }
+}
+
+export { orderFactory, mailingAddressFactory }

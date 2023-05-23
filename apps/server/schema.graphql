@@ -18,10 +18,10 @@ type Fulfillment {
   fulfillmentTrackingInfoId: String!
   id: ID!
   orderId: String!
-  organizationId: String!
+  organizationId: String
   trackingInfo: FulfillmentTrackingInfo!
   updatedAt: DateTime!
-  userId: String!
+  userId: String
 }
 
 input FulfillmentCreateInput {
@@ -58,6 +58,47 @@ enum GlobalRole {
   SUPERADMIN
 }
 
+type MailingAddress {
+  address1: String
+  address2: String
+  city: String
+  company: String
+  country: String
+  createdAt: DateTime!
+  firstName: String
+  id: ID!
+  lastName: String
+  latitude: Float
+  longitude: Float
+  name: String
+  organizationId: String
+  phone: String
+  province: String
+  provinceCode: String
+  updatedAt: DateTime!
+  userId: String
+  zip: String
+}
+
+input MailingAddressCreateInput {
+  address1: String
+  address2: String
+  city: String
+  company: String
+  country: String
+  firstName: String
+  lastName: String
+  name: String
+  phone: String
+  province: String
+  provinceCode: String
+  zip: String
+}
+
+type MailingAddressCreatePayload {
+  mailingAddress: MailingAddress
+}
+
 type Membership {
   createdAt: DateTime!
   id: ID!
@@ -75,6 +116,9 @@ enum MembershipRole {
 
 type Mutation {
   fulfillmentCreate(input: FulfillmentCreateInput!): FulfillmentCreatePayload
+
+  """Creates a new mailing address for the user"""
+  mailingAddressCreate(input: MailingAddressCreateInput!): MailingAddressCreatePayload
 
   """Creates a new order during user Cart"""
   orderCartCreate(input: OrderCartCreateInput!): OrderCartCreatePayload
@@ -149,6 +193,8 @@ type Order {
   id: ID!
   items: [OrderItem!]!
   paymentStatus: OrderPaymentStatus!
+  shippingAddress: MailingAddress
+  shippingAddressId: String
   subtotalPriceCents: Int!
   totalPriceCents: Int!
   totalProcessingFeeCents: Int!
@@ -163,6 +209,7 @@ input OrderCartCreateInput {
   items: [OrderCartCreateItemsInput!]!
   printLocations: [OrderCartCreatePrintLocationInput!]!
   productEntityId: Int!
+  shippingAddressId: String
 }
 
 input OrderCartCreateItemsInput {

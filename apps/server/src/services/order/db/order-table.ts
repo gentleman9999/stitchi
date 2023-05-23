@@ -20,6 +20,7 @@ export const Order: yup.ObjectSchema<OrderSchema> = yup
     humanReadableId: yup.string().required(),
     userId: yup.string().nullable().defined(),
     organizationId: yup.string().uuid().nullable().defined(),
+    shippingAddressId: yup.string().uuid().nullable().defined(),
     customerFullName: yup.string().nullable().defined(),
     customerEmail: yup.string().email().nullable().defined(),
     customerPhone: yup.string().nullable().defined(),

@@ -4,6 +4,8 @@ import { Container } from '@components/ui'
 import { OrderDetailsPageOrderFragment } from '@generated/OrderDetailsPageOrderFragment'
 import currency from 'currency.js'
 import React from 'react'
+import OrderDetailsPageBillingDetails from './OrderDetailsPageBillingDetails'
+import OrderDetailsPageShippingDetails from './OrderDetailsPageShippingDetails'
 
 interface Props {
   order: OrderDetailsPageOrderFragment
@@ -59,59 +61,13 @@ const OrderDetailsPage = ({ order }: Props) => {
               )
             })}
           </tbody>
-          <tfoot className="border-t">
-            <tr>
-              <td className="py-2 text-right" colSpan={3}>
-                Subtotal
-              </td>
-              <td className="py-2 text-right">
-                {currency(order.subtotalPriceCents, {
-                  fromCents: true,
-                }).format()}
-              </td>
-            </tr>
-            <tr>
-              <td className="py-2 text-right" colSpan={3}>
-                Shipping
-              </td>
-              <td className="py-2 text-right">
-                {currency(order.totalShippingCents, {
-                  fromCents: true,
-                }).format()}
-              </td>
-            </tr>
-            <tr>
-              <td className="py-2 text-right" colSpan={3}>
-                Tax
-              </td>
-              <td className="py-2 text-right">
-                {currency(order.totalTaxCents, {
-                  fromCents: true,
-                }).format()}
-              </td>
-            </tr>
-            <tr>
-              <td className="py-2 text-right" colSpan={3}>
-                Processing Fee
-              </td>
-              <td className="py-2 text-right">
-                {currency(order.totalProcessingFeeCents, {
-                  fromCents: true,
-                }).format()}
-              </td>
-            </tr>
-            <tr>
-              <td className="py-2 text-right" colSpan={3}>
-                Total
-              </td>
-              <td className="py-2 text-right">
-                {currency(order.totalPriceCents, {
-                  fromCents: true,
-                }).format()}
-              </td>
-            </tr>
-          </tfoot>
         </table>
+      </Section>
+      <Section gutter="sm">
+        <OrderDetailsPageShippingDetails order={order} />
+      </Section>
+      <Section gutter="sm">
+        <OrderDetailsPageBillingDetails order={order} />
       </Section>
     </Container>
   )
@@ -119,6 +75,8 @@ const OrderDetailsPage = ({ order }: Props) => {
 
 OrderDetailsPage.fragments = {
   order: gql`
+    ${OrderDetailsPageBillingDetails.fragments.order}
+    ${OrderDetailsPageShippingDetails.fragments.order}
     fragment OrderDetailsPageOrderFragment on Order {
       id
       humanOrderId
@@ -136,6 +94,8 @@ OrderDetailsPage.fragments = {
         unitPriceCents
         totalPriceCents
       }
+      ...OrderDetailsPageBillingDetailsOrderFragment
+      ...OrderDetailsPageShippingDetailsOrderFragment
     }
   `,
 }

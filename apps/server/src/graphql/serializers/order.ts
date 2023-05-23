@@ -1,6 +1,7 @@
 import {
   OrderFactoryOrder,
   OrderFactoryOrderItem,
+  OrderFactoryMailingAddress,
 } from '../../services/order/factory'
 import { NexusGenObjects } from '../generated/nexus'
 
@@ -52,5 +53,13 @@ export const orderFactoryOrderToGraphQL = (
     humanPaymentStatus: humanizePaymentStatus(order.paymentStatus),
     humanOrderId: order.humanReadableId,
     items: order.items.map(orderItemToGraphQl),
+  }
+}
+
+export const mailingAddressFactoryToGraphQL = (
+  mailindAddress: OrderFactoryMailingAddress,
+): NexusGenObjects['MailingAddress'] => {
+  return {
+    ...mailindAddress,
   }
 }

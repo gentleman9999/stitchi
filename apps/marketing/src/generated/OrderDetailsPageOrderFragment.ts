@@ -16,6 +16,35 @@ export interface OrderDetailsPageOrderFragment_items {
   totalPriceCents: number;
 }
 
+export interface OrderDetailsPageOrderFragment_fulfillments_trackingInfo {
+  __typename: "FulfillmentTrackingInfo";
+  id: string;
+  trackingNumber: string;
+  trackingUrl: string;
+}
+
+export interface OrderDetailsPageOrderFragment_fulfillments {
+  __typename: "Fulfillment";
+  id: string;
+  trackingInfo: OrderDetailsPageOrderFragment_fulfillments_trackingInfo;
+}
+
+export interface OrderDetailsPageOrderFragment_shippingAddress {
+  __typename: "MailingAddress";
+  id: string;
+  firstName: string | null;
+  lastName: string | null;
+  company: string | null;
+  phone: string | null;
+  address1: string | null;
+  address2: string | null;
+  city: string | null;
+  country: string | null;
+  province: string | null;
+  provinceCode: string | null;
+  zip: string | null;
+}
+
 export interface OrderDetailsPageOrderFragment {
   __typename: "Order";
   id: string;
@@ -28,4 +57,6 @@ export interface OrderDetailsPageOrderFragment {
   totalProcessingFeeCents: number;
   totalPriceCents: number;
   items: OrderDetailsPageOrderFragment_items[];
+  fulfillments: OrderDetailsPageOrderFragment_fulfillments[];
+  shippingAddress: OrderDetailsPageOrderFragment_shippingAddress | null;
 }
