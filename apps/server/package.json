@@ -12,7 +12,8 @@
     "codegen": "yarn codegen:prisma",
     "codegen:prisma": "prisma generate",
     "db:migrate": "npx prisma db push",
-    "db:inspect": "npx prisma studio"
+    "db:inspect": "npx prisma studio",
+    "stripe:listen": "stripe listen --forward-to localhost:5000/api/v1/stripe/webhook"
   },
   "devDependencies": {
     "@types/auth0": "^2.34.13",
@@ -49,6 +50,7 @@
     "mathjs": "^11.8.0",
     "nexus": "^1.3.0",
     "slugify": "^1.6.5",
+    "stripe": "^12.6.0",
     "uuid": "^9.0.0",
     "yup": "^1.0.2"
   }

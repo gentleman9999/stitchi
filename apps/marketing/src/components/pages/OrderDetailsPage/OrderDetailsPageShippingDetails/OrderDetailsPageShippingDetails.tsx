@@ -2,6 +2,7 @@ import { gql } from '@apollo/client'
 import { OrderDetailsPageShippingDetailsOrderFragment } from '@generated/OrderDetailsPageShippingDetailsOrderFragment'
 import pluralize from 'pluralize'
 import React from 'react'
+import ProgressBar from './ProgressBar'
 
 interface Props {
   order: OrderDetailsPageShippingDetailsOrderFragment
@@ -11,8 +12,8 @@ const OrderDetailsPageShippingDetails = ({ order }: Props) => {
   const { shippingAddress, fulfillments } = order
 
   return (
-    <div className="bg-gray-100 p-4 rounded-md">
-      <div className="grid grid-cols-2 gap-4">
+    <div className="border p-6 rounded-sm">
+      <div className="grid grid-cols-3 gap-4">
         <div className="flex flex-col text-gray-600 text-sm">
           <h2 className="font-semibold text-gray-900 mb-2">Delivery address</h2>
           <span>
@@ -32,34 +33,33 @@ const OrderDetailsPageShippingDetails = ({ order }: Props) => {
           <h2 className="font-semibold text-gray-900 mb-2">Shipping updates</h2>
           <span>{shippingAddress?.phone}</span>
         </div>
+        <div className="flex flex-col text-gray-600 text-sm">
+          <h2 className="font-semibold text-gray-900 mb-2">Tracking</h2>
+          <span>
+            {fulfillments.length
+              ? fulfillments.map(({ trackingInfo }, i) =>
+                  trackingInfo ? (
+                    <>
+                      <a
+                        key={trackingInfo.id}
+                        href={trackingInfo.trackingUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline"
+                      >
+                        {trackingInfo.trackingNumber}
+                      </a>
+                      {i < fulfillments.length - 1 ? ', ' : null}
+                    </>
+                  ) : null,
+                )
+              : 'No tracking information available at this time.'}
+          </span>
+        </div>
       </div>
 
-      <div>
-        <span>
-          Tracking {pluralize('number', fulfillments.length)}:{' '}
-          {fulfillments
-            .map(({ trackingInfo }) =>
-              trackingInfo ? (
-                <a
-                  key={trackingInfo.id}
-                  href={trackingInfo.trackingUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="underline"
-                >
-                  {trackingInfo.trackingNumber}
-                </a>
-              ) : null,
-            )
-            .reduce((acc, curr) => [acc, ', ', curr])}
-        </span>
-        <div className="w-full h-2 bg-primary rounded-full" />
-        <div className="grid grid-cols-4">
-          <span>Order placed</span>
-          <span className="text-center">Processing</span>
-          <span className="text-center">Shipped</span>
-          <span className="text-right">Delivered</span>
-        </div>
+      <div className="mt-4">
+        <ProgressBar />
       </div>
     </div>
   )

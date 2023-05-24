@@ -114,6 +114,7 @@ model Order {
   Organization    Organization?   @relation(fields: [organizationId], references: [id])
   Fulfillment     Fulfillment[]
   ShippingAddress MailingAddress? @relation(fields: [shippingAddressId], references: [id])
+  PaymentIntent   PaymentIntent[]
 
   @@unique([humanReadableId, organizationId, userId])
   @@index([organizationId])
@@ -337,4 +338,39 @@ model MailingAddress {
   updatedAt DateTime @updatedAt
 
   Order Order[]
+}
+
+model PaymentIntent {
+  id String @id @default(uuid())
+
+  // The order that this payment intent belongs to
+  orderId String
+
+  // The Stripe payment intent ID
+  stripePaymentIntentId String
+
+  // The Stripe payment intent client secret
+  stripePaymentIntentClientSecret String?
+
+  amount Int
+
+  // The Stripe payment intent status
+  stripePaymentIntentStatus PaymentIntentStatus
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Order Order @relation(fields: [orderId], references: [id])
+
+  @@index([orderId])
+}
+
+enum PaymentIntentStatus {
+  REQUIRES_PAYMENT_METHOD
+  REQUIRES_CAPTURE
+  REQUIRES_CONFIRMATION
+  REQUIRES_ACTION
+  PROCESSING
+  SUCCEEDED
+  CANCELED
 }

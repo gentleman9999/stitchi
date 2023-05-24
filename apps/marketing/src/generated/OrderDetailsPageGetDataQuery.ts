@@ -16,6 +16,12 @@ export interface OrderDetailsPageGetDataQuery_order_items {
   totalPriceCents: number;
 }
 
+export interface OrderDetailsPageGetDataQuery_order_paymentIntents {
+  __typename: "PaymentIntent";
+  id: string;
+  amount: number;
+}
+
 export interface OrderDetailsPageGetDataQuery_order_fulfillments_trackingInfo {
   __typename: "FulfillmentTrackingInfo";
   id: string;
@@ -48,6 +54,7 @@ export interface OrderDetailsPageGetDataQuery_order_shippingAddress {
 export interface OrderDetailsPageGetDataQuery_order {
   __typename: "Order";
   id: string;
+  createdAt: any;
   humanOrderId: string;
   customerFullName: string | null;
   humanPaymentStatus: string;
@@ -57,6 +64,7 @@ export interface OrderDetailsPageGetDataQuery_order {
   totalProcessingFeeCents: number;
   totalPriceCents: number;
   items: OrderDetailsPageGetDataQuery_order_items[];
+  paymentIntents: OrderDetailsPageGetDataQuery_order_paymentIntents[];
   fulfillments: OrderDetailsPageGetDataQuery_order_fulfillments[];
   shippingAddress: OrderDetailsPageGetDataQuery_order_shippingAddress | null;
 }

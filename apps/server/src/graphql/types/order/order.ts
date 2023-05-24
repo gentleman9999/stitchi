@@ -95,5 +95,8 @@ export const Order = objectType({
         return { ...user, id: user.user_id }
       },
     })
+
+    t.nonNull.field('createdAt', { type: 'DateTime' })
+    t.field('updatedAt', { type: 'DateTime' })
   },
 })

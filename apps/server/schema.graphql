@@ -122,6 +122,7 @@ type Mutation {
 
   """Creates a new order during user Cart"""
   orderCartCreate(input: OrderCartCreateInput!): OrderCartCreatePayload
+  paymentIntentCreate(input: PaymentIntentCreateInput!): PaymentIntentCreatePayload
 
   """Creates a new subscriber"""
   subscriberCreate(input: SubscriberCreateInput!): SubscriberCreatePayload
@@ -182,6 +183,7 @@ enum NewsletterIssueStatus {
 }
 
 type Order {
+  createdAt: DateTime!
   customer: User
   customerEmail: String
   customerFullName: String
@@ -192,6 +194,7 @@ type Order {
   humanPaymentStatus: String!
   id: ID!
   items: [OrderItem!]!
+  paymentIntents: [PaymentIntent!]!
   paymentStatus: OrderPaymentStatus!
   shippingAddress: MailingAddress
   shippingAddressId: String
@@ -201,6 +204,7 @@ type Order {
   totalShippingCents: Int!
   totalTaxCents: Int!
   type: OrderType!
+  updatedAt: DateTime
   userId: String
 }
 
@@ -276,6 +280,20 @@ type Organization {
 type PageInfo {
   endCursor: String
   hasNextPage: Boolean!
+}
+
+type PaymentIntent {
+  amount: Int!
+  clientSecret: String
+  id: String!
+}
+
+input PaymentIntentCreateInput {
+  orderId: String!
+}
+
+type PaymentIntentCreatePayload {
+  paymentIntent: PaymentIntent
 }
 
 type PrintLocation {

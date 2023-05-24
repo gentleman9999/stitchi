@@ -4,22 +4,15 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: OrderDetailsPageBillingDetailsOrderFragment
+// GraphQL fragment: OrderPayPageOrderFragment
 // ====================================================
 
-export interface OrderDetailsPageBillingDetailsOrderFragment_paymentIntents {
-  __typename: "PaymentIntent";
-  id: string;
-  amount: number;
-}
-
-export interface OrderDetailsPageBillingDetailsOrderFragment {
+export interface OrderPayPageOrderFragment {
   __typename: "Order";
   id: string;
   totalTaxCents: number;
-  totalShippingCents: number;
   totalPriceCents: number;
+  totalShippingCents: number;
   subtotalPriceCents: number;
   totalProcessingFeeCents: number;
-  paymentIntents: OrderDetailsPageBillingDetailsOrderFragment_paymentIntents[];
 }

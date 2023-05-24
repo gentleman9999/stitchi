@@ -4,6 +4,7 @@ import { Container } from '@components/ui'
 import { OrderDetailsPageOrderFragment } from '@generated/OrderDetailsPageOrderFragment'
 import currency from 'currency.js'
 import React from 'react'
+import { format, parseISO } from 'date-fns'
 import OrderDetailsPageBillingDetails from './OrderDetailsPageBillingDetails'
 import OrderDetailsPageShippingDetails from './OrderDetailsPageShippingDetails'
 
@@ -19,14 +20,27 @@ const OrderDetailsPage = ({ order }: Props) => {
 
         <div className="flex flex-row gap-4 items-center">
           <span className="text-sm text-gray-500">
-            Order <b className="text-gray-900">{order.humanOrderId}</b>
+            Order number <b className="text-gray-900">{order.humanOrderId}</b>
           </span>
+          <span>·</span>
+          <span className="text-sm">
+            <b>{format(parseISO(order.createdAt), 'PPP')}</b>
+          </span>
+          <span>·</span>
           <span className="text-xs font-bold px-2 py-0.5 bg-primary text-gray-950/70 rounded-sm">
             {order.humanPaymentStatus}
           </span>
         </div>
       </Section>
-      <hr className="mt-4" />
+
+      <div className="my-4" />
+
+      <Section>
+        <OrderDetailsPageShippingDetails order={order} />
+      </Section>
+
+      <hr className="my-4" />
+
       <Section gutter="sm">
         <table className="w-full">
           <thead className="sr-only">
@@ -63,9 +77,9 @@ const OrderDetailsPage = ({ order }: Props) => {
           </tbody>
         </table>
       </Section>
-      <Section gutter="sm">
-        <OrderDetailsPageShippingDetails order={order} />
-      </Section>
+
+      <hr className="my-4" />
+
       <Section gutter="sm">
         <OrderDetailsPageBillingDetails order={order} />
       </Section>
@@ -79,6 +93,7 @@ OrderDetailsPage.fragments = {
     ${OrderDetailsPageShippingDetails.fragments.order}
     fragment OrderDetailsPageOrderFragment on Order {
       id
+      createdAt
       humanOrderId
       customerFullName
       humanPaymentStatus

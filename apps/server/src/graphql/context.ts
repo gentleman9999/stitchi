@@ -6,6 +6,7 @@ import { ApolloError, AuthenticationError } from 'apollo-server-core'
 import { ContextFunction } from 'apollo-server-core'
 import { ExpressContext } from 'apollo-server-express'
 import services from '../services'
+import makeStripeClient from '../stripe'
 
 const prisma = new PrismaClient()
 const auth0 = new ManagementClient({
@@ -18,18 +19,22 @@ const auth0 = new ManagementClient({
   scope: 'read:users',
 })
 
+const stripe = makeStripeClient()
+
 export interface Context {
   membershipId?: string
   userId?: string
   organizationId?: string
   prisma: PrismaClient
   auth0: ManagementClient
+  stripe: typeof stripe
   newsletter: typeof services.newsletter
   order: typeof services.order
   catalog: typeof services.catalog
   quote: typeof services.quote
   design: typeof services.design
   fulfillment: typeof services.fulfillment
+  payment: typeof services.payment
 }
 
 interface ContextCreatorParams {
@@ -62,6 +67,7 @@ function makeContext(
       return {
         auth0,
         prisma,
+        stripe,
         userId: payload?.sub,
         membershipId: membership?.id,
         organizationId: membership?.organizationId ?? undefined,
@@ -71,6 +77,7 @@ function makeContext(
         quote: services.quote,
         design: services.design,
         fulfillment: services.fulfillment,
+        payment: services.payment,
       }
     } catch (error) {
       console.error(error)

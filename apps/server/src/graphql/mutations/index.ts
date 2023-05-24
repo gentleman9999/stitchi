@@ -5,6 +5,7 @@ export { subscriberCreate, SubscriberCreateInput } from './newsletter'
 
 export * from './order'
 export * from './fulfillment'
+export * from './payment'
 
 export const Mutation = mutationType({
   definition: () => {},

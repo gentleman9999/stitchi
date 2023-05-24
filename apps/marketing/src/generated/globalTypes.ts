@@ -127,6 +127,10 @@ export interface LinksFilter {
   exists?: any | null;
 }
 
+export interface PaymentIntentCreateInput {
+  orderId: string;
+}
+
 /**
  * Search by price range. At least a minPrice or maxPrice must be supplied.
  */

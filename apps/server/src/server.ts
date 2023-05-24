@@ -9,6 +9,7 @@ import { makeExecutableSchema } from '@graphql-tools/schema'
 import { stitchSchemas } from '@graphql-tools/stitch'
 import { makeSchema as makeDatoCmsSchema } from './dato-cms-schema'
 import { makeSchema as makeBigCommerceSchema } from './bigcommerce-schema'
+import createRestApi from './rest'
 
 process
   .on('unhandledRejection', (reason, p) => {
@@ -63,6 +64,9 @@ async function startApolloServer() {
 
   await server.start()
   server.applyMiddleware({ app })
+
+  createRestApi(app)
+
   await new Promise<void>(resolve => httpServer.listen({ port: PORT }, resolve))
   console.log(`🚀 Server ready at http://localhost:5000${server.graphqlPath}`)
 }

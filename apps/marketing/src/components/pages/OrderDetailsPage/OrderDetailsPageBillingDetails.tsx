@@ -10,9 +10,27 @@ interface Props {
 
 const OrderDetailsPageBillingDetails = ({ order }: Props) => {
   return (
-    <div className="bg-gray-100 p-4 rounded-md">
-      <div className="grid grid-cols-4">
-        <div className="col-span-2"></div>
+    <>
+      <ul>
+        {order.paymentIntents?.map(paymentIntent => (
+          <li key={paymentIntent.id}>
+            {paymentIntent.id} - {paymentIntent.amount}
+          </li>
+        ))}
+      </ul>
+      <div className="grid grid-cols-4 text-sm">
+        <div className="col-span-1">
+          <h2 className="mb-1">
+            <b>Billing address</b>
+          </h2>
+          <span className="text-gray-500">No billing address supplied.</span>
+        </div>
+        <div className="col-span-1">
+          <h2 className="mb-1">
+            <b>Payment method</b>
+          </h2>
+          <span className="text-gray-500">No method supplied.</span>
+        </div>
         <div className="col-span-2">
           <table className="table-auto w-full">
             <tbody className="divide-y">
@@ -43,7 +61,7 @@ const OrderDetailsPageBillingDetails = ({ order }: Props) => {
           </table>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
@@ -81,6 +99,10 @@ OrderDetailsPageBillingDetails.fragments = {
       totalPriceCents
       subtotalPriceCents
       totalProcessingFeeCents
+      paymentIntents {
+        id
+        amount
+      }
     }
   `,
 }
