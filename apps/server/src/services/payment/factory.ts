@@ -5,6 +5,7 @@ export interface PaymentIntentFactoryPaymentIntent {
   amount: number
   clientSecret: string | null
   paymentMethodId: string | null
+  status: Stripe.PaymentIntent.Status
 }
 
 export const paymentIntentFactory = ({
@@ -20,6 +21,7 @@ export const paymentIntentFactory = ({
       typeof stripePaymentIntent.payment_method === 'string'
         ? stripePaymentIntent.payment_method
         : null,
+    status: stripePaymentIntent.status,
   }
 }
 

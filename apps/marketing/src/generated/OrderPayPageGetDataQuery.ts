@@ -10,6 +10,7 @@
 export interface OrderPayPageGetDataQuery_order {
   __typename: "Order";
   id: string;
+  totalAmountDueCents: number;
   totalTaxCents: number;
   totalPriceCents: number;
   totalShippingCents: number;

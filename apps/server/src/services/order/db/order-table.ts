@@ -24,14 +24,15 @@ export const Order: yup.ObjectSchema<OrderSchema> = yup
     customerFullName: yup.string().nullable().defined(),
     customerEmail: yup.string().email().nullable().defined(),
     customerPhone: yup.string().nullable().defined(),
-    totalPriceCents: yup.number().min(0).required(),
-    subtotalPriceCents: yup.number().min(0).required(),
-    totalAmountPaidCents: yup.number().min(0).required(),
-    totalAmountRefundedCents: yup.number().min(0).required(),
-    totalAmountDueCents: yup.number().min(0).required(),
-    totalTaxCents: yup.number().min(0).required(),
-    totalShippingCents: yup.number().min(0).required(),
-    totalProcessingFeeCents: yup.number().min(0).required(),
+    totalPriceCents: yup.number().integer().min(0).required(),
+    subtotalPriceCents: yup.number().integer().min(0).required(),
+    totalAmountPaidCents: yup.number().integer().min(0).required(),
+    totalAmountRefundedCents: yup.number().integer().min(0).required(),
+    // If somehow the customer overpays this could become negative
+    totalAmountDueCents: yup.number().integer().required(),
+    totalTaxCents: yup.number().integer().min(0).required(),
+    totalShippingCents: yup.number().integer().min(0).required(),
+    totalProcessingFeeCents: yup.number().integer().min(0).required(),
     paymentStatus: yup
       .mixed<OrderRecordPaymentStatus>()
       .oneOf(Object.values(OrderRecordPaymentStatus))

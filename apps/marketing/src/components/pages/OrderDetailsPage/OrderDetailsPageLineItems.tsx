@@ -38,7 +38,7 @@ const OrderDetailsPageLineItems = ({ items }: Props) => {
           )
         })}
       </ul>
-      <table className="w-full sr-only sm:not-sr-only">
+      <table className="!w-full sr-only sm:not-sr-only">
         <thead className="sr-only">
           <tr>
             <td>Name</td>

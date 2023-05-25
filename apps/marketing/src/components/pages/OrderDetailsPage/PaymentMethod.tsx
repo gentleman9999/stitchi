@@ -1,10 +1,10 @@
 import React from 'react'
 
 interface Card {
-  brand: string
-  expMonth: number
-  expYear: number
-  last4: string
+  brand: string | null
+  expMonth: number | null
+  expYear: number | null
+  last4: string | null
 }
 
 interface Props {

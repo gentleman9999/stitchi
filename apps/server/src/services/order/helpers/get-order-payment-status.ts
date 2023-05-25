@@ -12,22 +12,25 @@ const getOrderPaymentStatus = ({
   totalAmountRefundedCents: number
   totalAmountDueCents: number
 }): OrderFactoryOrder['paymentStatus'] => {
+  if (totalAmountCents === 0) {
+    return OrderRecordPaymentStatus.NOT_PAID
+  }
+
   if (totalAmountPaidCents === 0) {
     return OrderRecordPaymentStatus.NOT_PAID
   }
 
-  if (
-    totalAmountRefundedCents > 0 &&
-    totalAmountRefundedCents === totalAmountCents
-  ) {
-    return OrderRecordPaymentStatus.REFUNDED
-  } else if (totalAmountRefundedCents > 0) {
-    return OrderRecordPaymentStatus.PARTIALLY_REFUNDED
+  if (totalAmountRefundedCents > 0) {
+    if (totalAmountCents === totalAmountPaidCents) {
+      return OrderRecordPaymentStatus.REFUNDED
+    } else {
+      return OrderRecordPaymentStatus.PARTIALLY_REFUNDED
+    }
   }
 
-  if (totalAmountDueCents === 0) {
+  if (totalAmountPaidCents >= totalAmountCents) {
     return OrderRecordPaymentStatus.PAID
-  } else if (totalAmountDueCents > 0) {
+  } else if (totalAmountPaidCents > 0) {
     return OrderRecordPaymentStatus.PARTIALLY_PAID
   }
 

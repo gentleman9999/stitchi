@@ -35,12 +35,16 @@ export const paymentIntentCreate = mutationField('paymentIntentCreate', {
       throw new GraphQLError('Error fetching order')
     }
 
+    if (order.totalAmountDueCents <= 0) {
+      return null
+    }
+
     let paymentIntent
 
     try {
       paymentIntent = await ctx.payment.createPaymentIntent({
         orderId: input.orderId,
-        amountCents: order.totalPriceCents,
+        amountCents: order.totalAmountDueCents,
       })
     } catch (error) {
       console.error(

@@ -76,6 +76,12 @@ const routes = {
         },
       },
     },
+    order: {
+      show: {
+        href: ({ orderId }: { orderId: string }) =>
+          buildRoute(`/orders/${orderId}`),
+      },
+    },
     lookbook: {
       href: () => buildRoute('/lookbook'),
     },
