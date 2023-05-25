@@ -40,6 +40,14 @@ export enum ItemStatus {
   updated = "updated",
 }
 
+export enum OrderPaymentStatus {
+  NOT_PAID = "NOT_PAID",
+  PAID = "PAID",
+  PARTIALLY_PAID = "PARTIALLY_PAID",
+  PARTIALLY_REFUNDED = "PARTIALLY_REFUNDED",
+  REFUNDED = "REFUNDED",
+}
+
 export interface ArticleModelFilter {
   _createdAt?: CreatedAtFilter | null;
   createdAt?: CreatedAtFilter | null;

@@ -1,4 +1,7 @@
-import { PaymentIntentFactoryPaymentIntent } from '../../services/payment/factory'
+import {
+  PaymentIntentFactoryPaymentIntent,
+  PaymentMethodFactoryPaymentMethod,
+} from '../../services/payment/factory'
 import { NexusGenObjects } from '../generated/nexus'
 
 export const paymentIntentFactoryPaymentIntentToGraphQL = (
@@ -6,6 +9,13 @@ export const paymentIntentFactoryPaymentIntentToGraphQL = (
 ): NexusGenObjects['PaymentIntent'] => {
   return {
     ...paymentIntent,
-    clientSecret: paymentIntent.stripePaymentIntentClientSecret,
+  }
+}
+
+export const paymentMethodFactoryPaymentMethodToGraphQL = (
+  paymentMethod: PaymentMethodFactoryPaymentMethod,
+): NexusGenObjects['PaymentMethod'] => {
+  return {
+    ...paymentMethod,
   }
 }

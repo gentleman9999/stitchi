@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { OrderPaymentStatus } from "./globalTypes";
+
 // ====================================================
 // GraphQL query operation: OrderDetailsPageGetDataQuery
 // ====================================================
@@ -10,16 +12,36 @@
 export interface OrderDetailsPageGetDataQuery_order_items {
   __typename: "OrderItem";
   id: string;
-  quantity: number;
   title: string;
+  quantity: number;
   unitPriceCents: number;
   totalPriceCents: number;
 }
 
-export interface OrderDetailsPageGetDataQuery_order_paymentIntents {
-  __typename: "PaymentIntent";
+export interface OrderDetailsPageGetDataQuery_order_lastPaymentMethod_card {
+  __typename: "PaymentMethodCard";
+  brand: string | null;
+  last4: string | null;
+  expMonth: number | null;
+  expYear: number | null;
+}
+
+export interface OrderDetailsPageGetDataQuery_order_lastPaymentMethod_billingDetails {
+  __typename: "PaymentMethodBillingDetails";
+  line1: string | null;
+  line2: string | null;
+  city: string | null;
+  state: string | null;
+  postalCode: string | null;
+  country: string | null;
+}
+
+export interface OrderDetailsPageGetDataQuery_order_lastPaymentMethod {
+  __typename: "PaymentMethod";
   id: string;
-  amount: number;
+  type: string;
+  card: OrderDetailsPageGetDataQuery_order_lastPaymentMethod_card | null;
+  billingDetails: OrderDetailsPageGetDataQuery_order_lastPaymentMethod_billingDetails | null;
 }
 
 export interface OrderDetailsPageGetDataQuery_order_fulfillments_trackingInfo {
@@ -57,6 +79,7 @@ export interface OrderDetailsPageGetDataQuery_order {
   createdAt: any;
   humanOrderId: string;
   customerFullName: string | null;
+  paymentStatus: OrderPaymentStatus;
   humanPaymentStatus: string;
   totalTaxCents: number;
   totalShippingCents: number;
@@ -64,7 +87,9 @@ export interface OrderDetailsPageGetDataQuery_order {
   totalProcessingFeeCents: number;
   totalPriceCents: number;
   items: OrderDetailsPageGetDataQuery_order_items[];
-  paymentIntents: OrderDetailsPageGetDataQuery_order_paymentIntents[];
+  totalAmountDueCents: number;
+  totalAmountRefundedCents: number;
+  lastPaymentMethod: OrderDetailsPageGetDataQuery_order_lastPaymentMethod | null;
   fulfillments: OrderDetailsPageGetDataQuery_order_fulfillments[];
   shippingAddress: OrderDetailsPageGetDataQuery_order_shippingAddress | null;
 }

@@ -69,6 +69,9 @@ export const Order = objectType({
     t.nonNull.int('totalTaxCents')
     t.nonNull.int('totalShippingCents')
     t.nonNull.int('totalProcessingFeeCents')
+    t.nonNull.int('totalAmountPaidCents')
+    t.nonNull.int('totalAmountDueCents')
+    t.nonNull.int('totalAmountRefundedCents')
 
     t.nonNull.field('paymentStatus', {
       type: 'OrderPaymentStatus',

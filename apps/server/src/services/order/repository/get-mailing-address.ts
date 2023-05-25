@@ -14,7 +14,7 @@ export interface GetMailingAddressFnInput {
 
 type GetMailingAddressFn = (
   input: GetMailingAddressFnInput,
-) => Promise<OrderFactoryMailingAddress>
+) => Promise<OrderFactoryMailingAddress | null>
 
 type MakeGetMailingAddressFn = (
   config?: GetMailingAddressConfig,
@@ -31,10 +31,6 @@ const makeGetMailingAddress: MakeGetMailingAddressFn =
           id: input.mailingAddressId,
         },
       })
-
-      if (!mailingAddressRecord) {
-        throw new Error('Mailing address not found')
-      }
     } catch (error) {
       console.error(
         `Failed to get mailing address: ${input.mailingAddressId}`,
@@ -43,6 +39,10 @@ const makeGetMailingAddress: MakeGetMailingAddressFn =
         },
       )
       throw new Error('Failed to get mailing address')
+    }
+
+    if (!mailingAddressRecord) {
+      return null
     }
 
     return mailingAddressFactory({ mailingAddressRecord })

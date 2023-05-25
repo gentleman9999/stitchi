@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client'
 import { OrderDetailsPageShippingDetailsOrderFragment } from '@generated/OrderDetailsPageShippingDetailsOrderFragment'
-import pluralize from 'pluralize'
 import React from 'react'
 import ProgressBar from './ProgressBar'
 
@@ -12,26 +11,34 @@ const OrderDetailsPageShippingDetails = ({ order }: Props) => {
   const { shippingAddress, fulfillments } = order
 
   return (
-    <div className="border p-6 rounded-sm">
-      <div className="grid grid-cols-3 gap-4">
+    <div className="sm:border sm:p-8 rounded-sm flex flex-col-reverse sm:flex-col gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4">
         <div className="flex flex-col text-gray-600 text-sm">
           <h2 className="font-semibold text-gray-900 mb-2">Delivery address</h2>
-          <span>
-            {shippingAddress?.firstName} {shippingAddress?.lastName}
-          </span>
-          <span>{shippingAddress?.company}</span>
-          <span>{shippingAddress?.address1}</span>
-          <span>{shippingAddress?.address2}</span>
-          <span>
-            {shippingAddress?.city}, {shippingAddress?.provinceCode}{' '}
-            {shippingAddress?.zip}
-          </span>
-          <span>{shippingAddress?.country}</span>
+          {shippingAddress ? (
+            <>
+              <span>
+                {shippingAddress?.firstName} {shippingAddress?.lastName}
+              </span>
+              <span>{shippingAddress?.company}</span>
+              <span>{shippingAddress?.address1}</span>
+              <span>{shippingAddress?.address2}</span>
+              <span>
+                {shippingAddress?.city}, {shippingAddress?.provinceCode}{' '}
+                {shippingAddress?.zip}
+              </span>
+              <span>{shippingAddress?.country}</span>
+            </>
+          ) : (
+            <span>No shipping address provided.</span>
+          )}
         </div>
 
         <div className="flex flex-col text-gray-600 text-sm">
           <h2 className="font-semibold text-gray-900 mb-2">Shipping updates</h2>
-          <span>{shippingAddress?.phone}</span>
+          <span>
+            {shippingAddress?.phone || 'No contact information provided'}
+          </span>
         </div>
         <div className="flex flex-col text-gray-600 text-sm">
           <h2 className="font-semibold text-gray-900 mb-2">Tracking</h2>
@@ -58,8 +65,8 @@ const OrderDetailsPageShippingDetails = ({ order }: Props) => {
         </div>
       </div>
 
-      <div className="mt-4">
-        <ProgressBar />
+      <div>
+        <ProgressBar step={0} />
       </div>
     </div>
   )

@@ -11,13 +11,13 @@ const webhookSecret = getOrThrow(
 
 interface Config {
   stripe: Stripe
-  paymentClient: ServiceList['payment']
+  orderClient: ServiceList['order']
 }
 
 const makeRoutes = (
-  { stripe, paymentClient }: Config = {
+  { stripe, orderClient }: Config = {
     stripe: makeStripeClient(),
-    paymentClient: services.payment,
+    orderClient: services.order,
   },
 ) => {
   const router = Router()
@@ -46,9 +46,17 @@ const makeRoutes = (
 
       if (event.type.startsWith('payment_intent')) {
         try {
-          await paymentClient.updatePaymentIntent({
-            stripePaymentIntentId: (event.data.object as any)?.id,
-          })
+          const orderId = (event.data.object as any)?.metadata?.orderId
+
+          if (!orderId) {
+            console.error('Payment intent is missing orderId', {
+              context: { event },
+            })
+
+            throw new Error('Payment intent is missing orderId')
+          }
+
+          await orderClient.reconcileOrderPayments({ orderId })
         } catch (error) {
           console.error(`Failed to update payment intent`, {
             context: { error },

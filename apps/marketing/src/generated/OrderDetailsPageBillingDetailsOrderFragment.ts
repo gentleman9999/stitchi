@@ -7,10 +7,30 @@
 // GraphQL fragment: OrderDetailsPageBillingDetailsOrderFragment
 // ====================================================
 
-export interface OrderDetailsPageBillingDetailsOrderFragment_paymentIntents {
-  __typename: "PaymentIntent";
+export interface OrderDetailsPageBillingDetailsOrderFragment_lastPaymentMethod_card {
+  __typename: "PaymentMethodCard";
+  brand: string | null;
+  last4: string | null;
+  expMonth: number | null;
+  expYear: number | null;
+}
+
+export interface OrderDetailsPageBillingDetailsOrderFragment_lastPaymentMethod_billingDetails {
+  __typename: "PaymentMethodBillingDetails";
+  line1: string | null;
+  line2: string | null;
+  city: string | null;
+  state: string | null;
+  postalCode: string | null;
+  country: string | null;
+}
+
+export interface OrderDetailsPageBillingDetailsOrderFragment_lastPaymentMethod {
+  __typename: "PaymentMethod";
   id: string;
-  amount: number;
+  type: string;
+  card: OrderDetailsPageBillingDetailsOrderFragment_lastPaymentMethod_card | null;
+  billingDetails: OrderDetailsPageBillingDetailsOrderFragment_lastPaymentMethod_billingDetails | null;
 }
 
 export interface OrderDetailsPageBillingDetailsOrderFragment {
@@ -21,5 +41,7 @@ export interface OrderDetailsPageBillingDetailsOrderFragment {
   totalPriceCents: number;
   subtotalPriceCents: number;
   totalProcessingFeeCents: number;
-  paymentIntents: OrderDetailsPageBillingDetailsOrderFragment_paymentIntents[];
+  totalAmountDueCents: number;
+  totalAmountRefundedCents: number;
+  lastPaymentMethod: OrderDetailsPageBillingDetailsOrderFragment_lastPaymentMethod | null;
 }

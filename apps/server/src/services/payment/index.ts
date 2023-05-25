@@ -1,41 +1,73 @@
 import {
   paymentIntentFactory,
   PaymentIntentFactoryPaymentIntent,
+  paymentMethodFactory,
+  PaymentMethodFactoryPaymentMethod,
 } from './factory'
-import makePaymentIntentRepository, {
-  PaymentIntentRepository,
-} from './repository'
 import { Stripe } from 'stripe'
 import makeStripeClient from '../../stripe'
-import { stripePaymentStatusToRecord } from './helpers/stripe-payment-status-to-record'
 
-export interface PaymentIntentClientService {
+const orderIdMetadataKey = 'orderId'
+
+export interface PaymentClientService {
   createPaymentIntent: (input: {
     orderId: string
     amountCents: number
   }) => Promise<PaymentIntentFactoryPaymentIntent>
-  updatePaymentIntent: (input: {
-    id?: string
-    stripePaymentIntentId?: string
-  }) => Promise<PaymentIntentFactoryPaymentIntent>
-  listPaymentIntents: PaymentIntentRepository['listPaymentIntents']
+
+  listPaymentIntents: (input: {
+    orderId: string
+    limit?: number
+    filter?: {
+      status?: Stripe.PaymentIntent.Status
+    }
+  }) => Promise<PaymentIntentFactoryPaymentIntent[]>
+
+  getPaymentMethod: (input: {
+    paymentMethodId: string
+  }) => Promise<PaymentMethodFactoryPaymentMethod>
 }
 
 interface MakeClientParams {
   stripe: Stripe
-  paymentIntentRepository: PaymentIntentRepository
 }
 
-type MakeClientFn = (params?: MakeClientParams) => PaymentIntentClientService
+type MakeClientFn = (params?: MakeClientParams) => PaymentClientService
 
 const makeClient: MakeClientFn = (
-  { paymentIntentRepository, stripe } = {
-    paymentIntentRepository: makePaymentIntentRepository(),
+  { stripe } = {
     stripe: makeStripeClient(),
   },
 ) => {
   return {
-    listPaymentIntents: paymentIntentRepository.listPaymentIntents,
+    listPaymentIntents: async ({ limit = 100, orderId, filter }) => {
+      let query = `metadata[\'${orderIdMetadataKey}\']:\'${orderId}\'`
+
+      if (filter?.status) {
+        query = `${query} AND status:\"${filter.status}\"`
+      }
+
+      let stripePaymentIntents
+
+      try {
+        stripePaymentIntents = await stripe.paymentIntents.search({
+          limit,
+          query,
+        })
+      } catch (error) {
+        console.error(
+          `Failed to list stripe payment intents for order ${orderId}`,
+          {
+            context: { error },
+          },
+        )
+        throw new Error('Failed to list stripe payment intents')
+      }
+
+      return stripePaymentIntents.data.map(stripePaymentIntent =>
+        paymentIntentFactory({ stripePaymentIntent }),
+      )
+    },
     createPaymentIntent: async ({ amountCents, orderId }) => {
       let stripePaymentIntent
 
@@ -45,6 +77,9 @@ const makeClient: MakeClientFn = (
           currency: 'usd',
           automatic_payment_methods: {
             enabled: true,
+          },
+          metadata: {
+            [`${orderIdMetadataKey}`]: orderId,
           },
         })
       } catch (error) {
@@ -57,97 +92,27 @@ const makeClient: MakeClientFn = (
         throw new Error('Failed to create stripe payment intent')
       }
 
-      let paymentIntentRecord
-
-      try {
-        paymentIntentRecord = await paymentIntentRepository.createPaymentIntent(
-          {
-            amount: amountCents,
-            orderId,
-            stripePaymentIntentClientSecret: stripePaymentIntent.client_secret,
-            stripePaymentIntentId: stripePaymentIntent.id,
-            stripePaymentIntentStatus: stripePaymentStatusToRecord(
-              stripePaymentIntent.status,
-            ),
-          },
-        )
-      } catch (error) {
-        console.error(`Failed to create payment intent for order ${orderId}`, {
-          context: { error },
-        })
-        throw new Error('Failed to create payment intent')
-      }
-
-      return paymentIntentFactory({
-        paymentIntentRecord,
-      })
+      return paymentIntentFactory({ stripePaymentIntent })
     },
-    updatePaymentIntent: async ({ id, stripePaymentIntentId }) => {
-      const logId = id || stripePaymentIntentId
-
-      if (!id && !stripePaymentIntentId) {
-        throw new Error('Must provide either id or stripePaymentIntentId')
-      }
-
-      let paymentIntentRecordToUpdate
+    getPaymentMethod: async ({ paymentMethodId }) => {
+      let stripePaymentMethod
 
       try {
-        paymentIntentRecordToUpdate =
-          await paymentIntentRepository.getPaymentIntent({
-            id,
-            stripePaymentIntentId,
-          })
-      } catch (error) {
-        console.error(`Failed to get payment intent for id ${logId}`, {
-          context: { error },
-        })
-        throw new Error('Failed to get payment intent')
-      }
-
-      // Get the latest payment intent from Stripe
-
-      let stripePaymentIntent
-
-      try {
-        stripePaymentIntent = await stripe.paymentIntents.retrieve(
-          paymentIntentRecordToUpdate.stripePaymentIntentId,
+        stripePaymentMethod = await stripe.paymentMethods.retrieve(
+          paymentMethodId,
         )
+        stripePaymentMethod.type
       } catch (error) {
         console.error(
-          `Failed to retrieve stripe payment intent for id ${logId}`,
+          `Failed to retrieve stripe payment method for payment intent ${paymentMethodId}`,
           {
             context: { error },
           },
         )
-        throw new Error('Failed to retrieve stripe payment intent')
+        throw new Error('Failed to retrieve stripe payment method')
       }
 
-      // Update the payment intent record
-
-      let paymentIntentRecord
-
-      try {
-        paymentIntentRecord = await paymentIntentRepository.updatePaymentIntent(
-          {
-            id: paymentIntentRecordToUpdate.id,
-            amount: stripePaymentIntent.amount,
-            orderId: paymentIntentRecordToUpdate.orderId,
-            stripePaymentIntentClientSecret: stripePaymentIntent.client_secret,
-            stripePaymentIntentStatus: stripePaymentStatusToRecord(
-              stripePaymentIntent.status,
-            ),
-          },
-        )
-      } catch (error) {
-        console.error(`Failed to update payment intent for id ${logId}`, {
-          context: { error },
-        })
-        throw new Error('Failed to update payment intent')
-      }
-
-      return paymentIntentFactory({
-        paymentIntentRecord,
-      })
+      return paymentMethodFactory({ stripePaymentMethod })
     },
   }
 }

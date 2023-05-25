@@ -18,6 +18,9 @@ const inputSchema = Order.omit([
   'subtotalPriceCents',
   'totalShippingCents',
   'totalProcessingFeeCents',
+  'totalAmountPaidCents',
+  'totalAmountDueCents',
+  'totalAmountRefundedCents',
 ]).concat(
   yup.object().shape({
     items: yup
@@ -83,6 +86,9 @@ const makeCreateOrder: MakeCreateOrderFn =
           totalProcessingFeeCents,
           totalShippingCents,
           subtotalPriceCents,
+          totalAmountDueCents: totalPriceCents,
+          totalAmountPaidCents: 0,
+          totalAmountRefundedCents: 0,
           paymentStatus: 'NOT_PAID',
           OrderItems: {
             createMany: {

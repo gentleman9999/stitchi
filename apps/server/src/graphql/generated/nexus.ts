@@ -216,6 +216,9 @@ export interface NexusGenObjects {
     paymentStatus: NexusGenEnums['OrderPaymentStatus']; // OrderPaymentStatus!
     shippingAddressId?: string | null; // String
     subtotalPriceCents: number; // Int!
+    totalAmountDueCents: number; // Int!
+    totalAmountPaidCents: number; // Int!
+    totalAmountRefundedCents: number; // Int!
     totalPriceCents: number; // Int!
     totalProcessingFeeCents: number; // Int!
     totalShippingCents: number; // Int!
@@ -261,6 +264,29 @@ export interface NexusGenObjects {
   }
   PaymentIntentCreatePayload: { // root type
     paymentIntent?: NexusGenRootTypes['PaymentIntent'] | null; // PaymentIntent
+  }
+  PaymentMethod: { // root type
+    billingDetails?: NexusGenRootTypes['PaymentMethodBillingDetails'] | null; // PaymentMethodBillingDetails
+    card?: NexusGenRootTypes['PaymentMethodCard'] | null; // PaymentMethodCard
+    id: string; // String!
+    type: string; // String!
+  }
+  PaymentMethodBillingDetails: { // root type
+    city?: string | null; // String
+    country?: string | null; // String
+    email?: string | null; // String
+    line1?: string | null; // String
+    line2?: string | null; // String
+    name?: string | null; // String
+    phone?: string | null; // String
+    postalCode?: string | null; // String
+    state?: string | null; // String
+  }
+  PaymentMethodCard: { // root type
+    brand?: string | null; // String
+    expMonth?: number | null; // Int
+    expYear?: number | null; // Int
+    last4?: string | null; // String
   }
   PrintLocation: { // root type
     colorCount: number; // Int!
@@ -423,11 +449,15 @@ export interface NexusGenFieldTypes {
     humanPaymentStatus: string; // String!
     id: string; // ID!
     items: NexusGenRootTypes['OrderItem'][]; // [OrderItem!]!
+    lastPaymentMethod: NexusGenRootTypes['PaymentMethod'] | null; // PaymentMethod
     paymentIntents: NexusGenRootTypes['PaymentIntent'][]; // [PaymentIntent!]!
     paymentStatus: NexusGenEnums['OrderPaymentStatus']; // OrderPaymentStatus!
     shippingAddress: NexusGenRootTypes['MailingAddress'] | null; // MailingAddress
     shippingAddressId: string | null; // String
     subtotalPriceCents: number; // Int!
+    totalAmountDueCents: number; // Int!
+    totalAmountPaidCents: number; // Int!
+    totalAmountRefundedCents: number; // Int!
     totalPriceCents: number; // Int!
     totalProcessingFeeCents: number; // Int!
     totalShippingCents: number; // Int!
@@ -474,6 +504,29 @@ export interface NexusGenFieldTypes {
   }
   PaymentIntentCreatePayload: { // field return type
     paymentIntent: NexusGenRootTypes['PaymentIntent'] | null; // PaymentIntent
+  }
+  PaymentMethod: { // field return type
+    billingDetails: NexusGenRootTypes['PaymentMethodBillingDetails'] | null; // PaymentMethodBillingDetails
+    card: NexusGenRootTypes['PaymentMethodCard'] | null; // PaymentMethodCard
+    id: string; // String!
+    type: string; // String!
+  }
+  PaymentMethodBillingDetails: { // field return type
+    city: string | null; // String
+    country: string | null; // String
+    email: string | null; // String
+    line1: string | null; // String
+    line2: string | null; // String
+    name: string | null; // String
+    phone: string | null; // String
+    postalCode: string | null; // String
+    state: string | null; // String
+  }
+  PaymentMethodCard: { // field return type
+    brand: string | null; // String
+    expMonth: number | null; // Int
+    expYear: number | null; // Int
+    last4: string | null; // String
   }
   PrintLocation: { // field return type
     colorCount: number; // Int!
@@ -633,11 +686,15 @@ export interface NexusGenFieldTypeNames {
     humanPaymentStatus: 'String'
     id: 'ID'
     items: 'OrderItem'
+    lastPaymentMethod: 'PaymentMethod'
     paymentIntents: 'PaymentIntent'
     paymentStatus: 'OrderPaymentStatus'
     shippingAddress: 'MailingAddress'
     shippingAddressId: 'String'
     subtotalPriceCents: 'Int'
+    totalAmountDueCents: 'Int'
+    totalAmountPaidCents: 'Int'
+    totalAmountRefundedCents: 'Int'
     totalPriceCents: 'Int'
     totalProcessingFeeCents: 'Int'
     totalShippingCents: 'Int'
@@ -684,6 +741,29 @@ export interface NexusGenFieldTypeNames {
   }
   PaymentIntentCreatePayload: { // field return type name
     paymentIntent: 'PaymentIntent'
+  }
+  PaymentMethod: { // field return type name
+    billingDetails: 'PaymentMethodBillingDetails'
+    card: 'PaymentMethodCard'
+    id: 'String'
+    type: 'String'
+  }
+  PaymentMethodBillingDetails: { // field return type name
+    city: 'String'
+    country: 'String'
+    email: 'String'
+    line1: 'String'
+    line2: 'String'
+    name: 'String'
+    phone: 'String'
+    postalCode: 'String'
+    state: 'String'
+  }
+  PaymentMethodCard: { // field return type name
+    brand: 'String'
+    expMonth: 'Int'
+    expYear: 'Int'
+    last4: 'String'
   }
   PrintLocation: { // field return type name
     colorCount: 'Int'
