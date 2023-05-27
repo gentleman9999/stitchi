@@ -7,6 +7,14 @@
 // GraphQL fragment: OrderPayPageOrderFragment
 // ====================================================
 
+export interface OrderPayPageOrderFragment_itemSummaries {
+  __typename: "OrderItemSummary";
+  id: string;
+  title: string;
+  quantity: number;
+  totalPriceCents: number;
+}
+
 export interface OrderPayPageOrderFragment {
   __typename: "Order";
   id: string;
@@ -15,4 +23,7 @@ export interface OrderPayPageOrderFragment {
   totalShippingCents: number;
   subtotalPriceCents: number;
   totalProcessingFeeCents: number;
+  totalAmountPaidCents: number;
+  totalAmountDueCents: number;
+  itemSummaries: OrderPayPageOrderFragment_itemSummaries[];
 }

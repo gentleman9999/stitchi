@@ -2,6 +2,11 @@ import { gql, useQuery } from '@apollo/client'
 import { PrimaryLayout } from '@components/layout'
 import OrderPayPage from '@components/pages/OrderPayPage'
 import {
+  OrderPayPageCreatepaymentIntent,
+  OrderPayPageCreatepaymentIntentVariables,
+  OrderPayPageCreatepaymentIntent_paymentIntentCreate_paymentIntent as PaymentIntent,
+} from '@generated/OrderPayPageCreatepaymentIntent'
+import {
   OrderPayPageGetDataQuery,
   OrderPayPageGetDataQueryVariables,
 } from '@generated/OrderPayPageGetDataQuery'
@@ -47,18 +52,42 @@ const getServerSideProps: GetServerSideProps<Props> = async ({ query }) => {
     }
   }
 
+  const { data: paymentIntentData, errors } = await client.mutate<
+    OrderPayPageCreatepaymentIntent,
+    OrderPayPageCreatepaymentIntentVariables
+  >({
+    mutation: CREATE_PAYMENT_INTENT,
+    variables: {
+      input: { orderId },
+    },
+  })
+
+  if (!paymentIntentData?.paymentIntentCreate?.paymentIntent) {
+    console.error(`Failed to create payment intent for order ${orderId}`, {
+      context: { paymentIntentData, errors },
+    })
+    return {
+      redirect: {
+        destination: routes.internal.order.show.href({ orderId }),
+        permanent: false,
+      },
+    }
+  }
+
   return addApolloState(client, {
     props: {
       orderId,
+      paymentIntent: paymentIntentData.paymentIntentCreate.paymentIntent,
     },
   })
 }
 
 interface Props {
   orderId: string
+  paymentIntent: PaymentIntent
 }
 
-const Page = ({ orderId }: Props) => {
+const Page = ({ orderId, paymentIntent }: Props) => {
   const { data } = useQuery<
     OrderPayPageGetDataQuery,
     OrderPayPageGetDataQueryVariables
@@ -68,7 +97,7 @@ const Page = ({ orderId }: Props) => {
     return null
   }
 
-  return <OrderPayPage order={data.order} />
+  return <OrderPayPage order={data.order} paymentIntent={paymentIntent} />
 }
 
 Page.getLayout = (page: ReactElement) => <PrimaryLayout>{page}</PrimaryLayout>
@@ -80,6 +109,18 @@ const GET_DATA = gql`
       id
       totalAmountDueCents
       ...OrderPayPageOrderFragment
+    }
+  }
+`
+
+const CREATE_PAYMENT_INTENT = gql`
+  ${OrderPayPage.fragments.paymentIntent}
+  mutation OrderPayPageCreatepaymentIntent($input: PaymentIntentCreateInput!) {
+    paymentIntentCreate(input: $input) {
+      paymentIntent {
+        id
+        ...OrderPayPagePaymentIntentFragment
+      }
     }
   }
 `

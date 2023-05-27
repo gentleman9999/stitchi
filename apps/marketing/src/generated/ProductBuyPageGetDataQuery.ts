@@ -8,7 +8,7 @@
 // ====================================================
 
 export interface ProductBuyPageGetDataQuery_site_route_node_Banner {
-  __typename: "Banner" | "Blog" | "BlogPost" | "Brand" | "Category" | "Variant";
+  __typename: "Banner" | "Blog" | "BlogPost" | "Brand" | "Category" | "ContactPage" | "NormalPage" | "RawHtmlPage" | "Variant";
   /**
    * The id of the object.
    */

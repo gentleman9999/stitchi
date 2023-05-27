@@ -1,16 +1,21 @@
 import { Button } from '@components/ui'
+import routes from '@lib/routes'
 import {
   PaymentElement,
-  LinkAuthenticationElement,
+  AddressElement,
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js'
 import { StripePaymentElementOptions } from '@stripe/stripe-js'
+import makeAbsoluteUrl from '@utils/get-absolute-url'
 import currency from 'currency.js'
+import Link from 'next/link'
 import React from 'react'
 
 interface Props {
   amountCents: number
+  orderId: string
+  renderOrderPreview: () => React.ReactNode
 }
 
 const OrderPaymentForm = (props: Props) => {
@@ -67,7 +72,9 @@ const OrderPaymentForm = (props: Props) => {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: 'http://localhost:3000',
+        return_url: makeAbsoluteUrl(
+          routes.internal.order.show.href({ orderId: props.orderId }),
+        ),
       },
     })
 
@@ -86,22 +93,76 @@ const OrderPaymentForm = (props: Props) => {
   }
 
   const paymentElementOptions: StripePaymentElementOptions = {
-    layout: 'tabs',
+    layout: {
+      type: 'accordion',
+      defaultCollapsed: true,
+      radios: true,
+      spacedAccordionItems: false,
+    },
   }
 
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
-      <LinkAuthenticationElement
-        id="link-authentication-element"
-        onChange={e => setEmail(e.value.email)}
-      />
-      <PaymentElement id="payment-element" options={paymentElementOptions} />
-      <br />
-      <Button color="brandPrimary">
-        Pay {currency(props.amountCents, { fromCents: true }).format()}
-      </Button>
-      {/* Show any error or success messages */}
-      {message && <div id="payment-message">{message}</div>}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
+        <div>
+          <h2 className="text-lg font-semibold mb-2 text-gray-400">
+            Shipping details
+          </h2>
+          <AddressElement
+            options={{
+              mode: 'shipping',
+              allowedCountries: ['US'],
+              display: { name: 'split' },
+              blockPoBox: true,
+              validation: {
+                phone: {
+                  required: 'always',
+                },
+              },
+              fields: {
+                phone: 'always',
+              },
+            }}
+          />
+          <br />
+          <h2 className="text-lg font-semibold mb-2 text-gray-400">
+            Payment details
+          </h2>
+          <PaymentElement
+            id="payment-element"
+            options={paymentElementOptions}
+          />
+        </div>
+
+        <div className="flex flex-col gap-4">
+          {props.renderOrderPreview()}
+
+          <div className="text-xs text-gray-500">
+            By submitting this order you acknowledge that you have read and
+            accept Stitchi{' '}
+            <Link
+              href={routes.internal.legal.privacy.href()}
+              className="underline"
+            >
+              Privacy Policy
+            </Link>
+            , including that Stitchi may email and SMS you about the service it
+            provides.
+          </div>
+          <div className="flex justify-end">
+            <Button color="brandPrimary" className="w-full" loading={isLoading}>
+              Pay ({currency(props.amountCents, { fromCents: true }).format()})
+            </Button>
+          </div>
+
+          {/* Show any error or success messages */}
+          {message && (
+            <div id="payment-message" className="text-red-600">
+              {message}
+            </div>
+          )}
+        </div>
+      </div>
     </form>
   )
 }

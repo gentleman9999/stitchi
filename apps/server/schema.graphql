@@ -193,6 +193,7 @@ type Order {
   humanOrderId: String!
   humanPaymentStatus: String!
   id: ID!
+  itemSummaries: [OrderItemSummary!]!
   items: [OrderItem!]!
   lastPaymentMethod: PaymentMethod
   paymentIntents: [PaymentIntent!]!
@@ -253,6 +254,13 @@ type OrderItem {
   type: OrderItemType!
   unitPriceCents: Int!
   updatedAt: DateTime
+}
+
+type OrderItemSummary {
+  id: ID!
+  quantity: Int!
+  title: String!
+  totalPriceCents: Int!
 }
 
 enum OrderItemType {

@@ -5,6 +5,8 @@ import { orderFactoryOrderToGraphQL } from '../../serializers/order'
 
 export * from './mailing-address'
 
+import { NexusGenObjects } from '../../generated/nexus'
+
 export const order = queryField('order', {
   type: 'Order',
   args: {
@@ -15,7 +17,7 @@ export const order = queryField('order', {
   },
 })
 
-export const ProductAddQuote = extendType({
+export const ProductExtendsQuote = extendType({
   type: 'Product',
   definition(t) {
     t.nonNull.field('quote', {
@@ -50,6 +52,79 @@ export const ProductAddQuote = extendType({
             `Unable to get quote for product: ${parent.id}`,
           )
         }
+      },
+    })
+  },
+})
+
+export const OrderItemSummaries = extendType({
+  type: 'Order',
+  definition(t) {
+    t.nonNull.list.nonNull.field('itemSummaries', {
+      type: 'OrderItemSummary',
+      resolve: async (parent, _, context) => {
+        const itemGroupMap = new Map<string, NexusGenObjects['OrderItem'][]>()
+        const unGroupedItems: NexusGenObjects['OrderItem'][] = []
+
+        parent.items.forEach(item => {
+          if (item.productId) {
+            // Group by product id
+            const existingItems = itemGroupMap.get(item.productId)
+
+            if (existingItems) {
+              itemGroupMap.set(item.productId, [...existingItems, item])
+            } else {
+              itemGroupMap.set(item.productId, [item])
+            }
+          } else {
+            unGroupedItems.push(item)
+          }
+        })
+
+        const itemSummaries: NexusGenObjects['OrderItemSummary'][] = []
+
+        for (const productId of itemGroupMap.keys()) {
+          const group = itemGroupMap.get(productId)
+
+          if (!group) {
+            continue
+          }
+
+          let quantity = 0
+          let totalPriceCents = 0
+          let optionsMap = new Map()
+
+          let product
+
+          try {
+            product = await context.catalog.getBigCommerceProduct({
+              productEntityId: parseInt(productId),
+            })
+          } catch (error) {
+            console.error(`Failed to get product: ${productId}`, {
+              context: { error },
+            })
+            throw new GraphQLError(`Unable to get product: ${productId}`)
+          }
+
+          for (const item of group) {
+            quantity = quantity + item.quantity
+            totalPriceCents = totalPriceCents + item.totalPriceCents
+          }
+
+          itemSummaries.push({
+            quantity,
+            totalPriceCents,
+            id: product.id.toString(),
+            title: product.name,
+          })
+        }
+
+        for (const item of unGroupedItems) {
+          itemSummaries.push(item)
+        }
+
+        return itemSummaries
       },
     })
   },

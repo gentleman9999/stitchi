@@ -1,5 +1,15 @@
 import { enumType, objectType } from 'nexus'
 
+export const OrderItemSummary = objectType({
+  name: 'OrderItemSummary',
+  definition(t) {
+    t.nonNull.id('id')
+    t.nonNull.string('title')
+    t.nonNull.int('quantity')
+    t.nonNull.int('totalPriceCents')
+  },
+})
+
 export const OrderItemType = enumType({
   name: 'OrderItemType',
   members: ['BIG_COMMERCE_PRODUCT', 'CUSTOM'],

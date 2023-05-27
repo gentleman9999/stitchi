@@ -246,6 +246,12 @@ export interface NexusGenObjects {
     unitPriceCents: number; // Int!
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
   }
+  OrderItemSummary: { // root type
+    id: string; // ID!
+    quantity: number; // Int!
+    title: string; // String!
+    totalPriceCents: number; // Int!
+  }
   Organization: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
@@ -448,6 +454,7 @@ export interface NexusGenFieldTypes {
     humanOrderId: string; // String!
     humanPaymentStatus: string; // String!
     id: string; // ID!
+    itemSummaries: NexusGenRootTypes['OrderItemSummary'][]; // [OrderItemSummary!]!
     items: NexusGenRootTypes['OrderItem'][]; // [OrderItem!]!
     lastPaymentMethod: NexusGenRootTypes['PaymentMethod'] | null; // PaymentMethod
     paymentIntents: NexusGenRootTypes['PaymentIntent'][]; // [PaymentIntent!]!
@@ -484,6 +491,12 @@ export interface NexusGenFieldTypes {
     type: NexusGenEnums['OrderItemType']; // OrderItemType!
     unitPriceCents: number; // Int!
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  OrderItemSummary: { // field return type
+    id: string; // ID!
+    quantity: number; // Int!
+    title: string; // String!
+    totalPriceCents: number; // Int!
   }
   Organization: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -685,6 +698,7 @@ export interface NexusGenFieldTypeNames {
     humanOrderId: 'String'
     humanPaymentStatus: 'String'
     id: 'ID'
+    itemSummaries: 'OrderItemSummary'
     items: 'OrderItem'
     lastPaymentMethod: 'PaymentMethod'
     paymentIntents: 'PaymentIntent'
@@ -721,6 +735,12 @@ export interface NexusGenFieldTypeNames {
     type: 'OrderItemType'
     unitPriceCents: 'Int'
     updatedAt: 'DateTime'
+  }
+  OrderItemSummary: { // field return type name
+    id: 'ID'
+    quantity: 'Int'
+    title: 'String'
+    totalPriceCents: 'Int'
   }
   Organization: { // field return type name
     createdAt: 'DateTime'

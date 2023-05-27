@@ -4,10 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: OrderPayPageGetDataQuery
+// GraphQL fragment: OrderPayPageOrderPreviewItemFragment
 // ====================================================
 
-export interface OrderPayPageGetDataQuery_order_itemSummaries {
+export interface OrderPayPageOrderPreviewItemFragment_itemSummaries {
   __typename: "OrderItemSummary";
   id: string;
   title: string;
@@ -15,23 +15,15 @@ export interface OrderPayPageGetDataQuery_order_itemSummaries {
   totalPriceCents: number;
 }
 
-export interface OrderPayPageGetDataQuery_order {
+export interface OrderPayPageOrderPreviewItemFragment {
   __typename: "Order";
   id: string;
-  totalAmountDueCents: number;
   totalTaxCents: number;
   totalPriceCents: number;
+  totalAmountPaidCents: number;
+  totalAmountDueCents: number;
   totalShippingCents: number;
   subtotalPriceCents: number;
   totalProcessingFeeCents: number;
-  totalAmountPaidCents: number;
-  itemSummaries: OrderPayPageGetDataQuery_order_itemSummaries[];
-}
-
-export interface OrderPayPageGetDataQuery {
-  order: OrderPayPageGetDataQuery_order | null;
-}
-
-export interface OrderPayPageGetDataQueryVariables {
-  orderId: string;
+  itemSummaries: OrderPayPageOrderPreviewItemFragment_itemSummaries[];
 }
