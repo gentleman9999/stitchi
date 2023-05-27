@@ -82,6 +82,10 @@ const ProductShowPageHero = ({ product }: Props) => {
               <CalculatorForm
                 productName={product.name}
                 productVariantEntityId={activeVariant?.entityId}
+                productSlug={routes.internal.catalog.product.purchase.href({
+                  productSlug: product.path,
+                  brandSlug: product.brand?.path || '',
+                })}
               />
             </div>
           ) : null}
@@ -115,10 +119,15 @@ ProductShowPageHero.fragments = {
       id
       entityId
       name
+      path
       defaultImage {
         urlOriginal
         altText
         url(width: 300)
+      }
+      brand {
+        id
+        path
       }
 
       variants(first: 250) {

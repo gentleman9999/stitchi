@@ -99,6 +99,18 @@ export interface ProductShowPageHeroProductFragment_defaultImage {
   url: string;
 }
 
+export interface ProductShowPageHeroProductFragment_brand {
+  __typename: "Brand";
+  /**
+   * The ID of an object
+   */
+  id: string;
+  /**
+   * Path for the brand page.
+   */
+  path: string;
+}
+
 export interface ProductShowPageHeroProductFragment_variants_edges_node_defaultImage {
   __typename: "Image";
   /**
@@ -214,9 +226,17 @@ export interface ProductShowPageHeroProductFragment {
    */
   name: string;
   /**
+   * Relative URL path to product page.
+   */
+  path: string;
+  /**
    * Default image for a product.
    */
   defaultImage: ProductShowPageHeroProductFragment_defaultImage | null;
+  /**
+   * Brand associated with the product.
+   */
+  brand: ProductShowPageHeroProductFragment_brand | null;
   /**
    * Variants associated with the product.
    */

@@ -37,6 +37,7 @@ const schema = yup.object({
 type FormInput = yup.Asserts<typeof schema>
 
 interface Props {
+  productSlug: string
   productName: string
   productVariantEntityId: number
 }
@@ -115,7 +116,7 @@ const CalculatorForm = (props: Props) => {
 
     track.productPrimaryCtaClicked({ name: props.productName })
 
-    await router.push(routes.internal.getStarted.href())
+    await router.push(props.productSlug)
     setSubmitting(false)
   }
 
