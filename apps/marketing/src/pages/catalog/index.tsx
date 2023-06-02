@@ -24,7 +24,7 @@ const Catalog = () => {
     <>
       <NextSeo
         title="Browse premium and ethical promotional products"
-        description="We work with brands that you wont find anywhere else. Our team of experts is continually procuring the highest-quality, ethical, and unique products so that you can deliver experiences people love."
+        description="Discover over 5,000 customizable promotional products. From shirts and hats to unique accessories, create your personalized style with our ethical, quality brands."
         canonical={url}
         openGraph={{ url }}
       />

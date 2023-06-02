@@ -8,7 +8,7 @@
 // ====================================================
 
 export interface ProductPageGetDataQuery_site_route_node_Banner {
-  __typename: "Banner" | "Blog" | "BlogPost" | "Variant";
+  __typename: "Banner" | "Blog" | "BlogPost" | "ContactPage" | "NormalPage" | "RawHtmlPage" | "Variant";
   /**
    * The id of the object.
    */
@@ -535,10 +535,6 @@ export interface ProductPageGetDataQuery_site_route_node_Product {
    */
   path: string;
   /**
-   * Description of the product in plain text.
-   */
-  plainTextDescription: string;
-  /**
    * Global trade item number.
    */
   gtin: string | null;
@@ -547,6 +543,10 @@ export interface ProductPageGetDataQuery_site_route_node_Product {
    */
   sku: string;
   priceCents: number;
+  /**
+   * Description of the product in plain text.
+   */
+  plainTextDescription: string;
   /**
    * Default image for a product.
    */

@@ -46,13 +46,16 @@ const ProductShowPage = ({ product }: Props) => {
     }),
   )
 
+  const description = makeSeoDescription(product)
+
   const seoProps: NextSeoProps = {
+    description,
     canonical: url,
     title: seoTitle,
-    description: product.seo.metaDescription || product.plainTextDescription,
     openGraph: {
-      title: seoTitle,
       url,
+      description,
+      title: seoTitle,
       images: makeImages(product),
     },
   }
@@ -60,8 +63,8 @@ const ProductShowPage = ({ product }: Props) => {
   const jsonLDData: ProductJsonLdProps & { id: string } = {
     url,
     id: product.id,
+    description: product.plainTextDescription || description,
     productName: product.name,
-    description: product.plainTextDescription,
     brand: product.brand?.name,
     images: product.defaultImage ? [product.defaultImage.url] : [],
     offers: product.variants.edges
@@ -184,6 +187,18 @@ const makeBreadcrumbs = (params: {
   ]
 }
 
+const makeSeoDescription = (product: ProductShowPageHeroFragment) => {
+  if (product.seo.metaDescription) {
+    return product.seo.metaDescription
+  }
+
+  const { brand, name } = product
+
+  return `Customize ${name}${
+    brand?.name ? ` by ${brand.name}` : ''
+  }. We offer free design, fast delivery, $1 fulfillment. Shop sustainable, high quality custom merch today.`
+}
+
 export const fragments = {
   product: gql`
     ${ProductShowPageHero.fragments.product}
@@ -193,10 +208,10 @@ export const fragments = {
       id
       name
       path
-      plainTextDescription
       gtin
       sku
       priceCents
+      plainTextDescription
       defaultImage {
         seoImageUrl: url(width: 1000)
       }
