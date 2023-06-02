@@ -30,7 +30,7 @@ const CheckboxGroup = ({ children }: { children: React.ReactElement[] }) => {
         <div>
           <div
             className={cx(
-              'grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-h-[2000px] transition-all duration-500 h-auto overflow-hidden',
+              'grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 transition-all duration-500 h-auto overflow-hidden',
               {
                 '!max-h-0': !expanded,
               },

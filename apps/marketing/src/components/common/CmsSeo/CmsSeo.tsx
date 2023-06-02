@@ -27,6 +27,7 @@ export interface CmsSeoProps {
  */
 const CmsSeo = (props: CmsSeoProps) => {
   const seo = props.seo as SeoOrFaviconTag[]
+
   return (
     <NextSeo
       title={seo.find(isTitle)?.content || undefined}
@@ -39,10 +40,20 @@ const CmsSeo = (props: CmsSeoProps) => {
         })) as any
       }
       additionalMetaTags={
-        seo.filter(isMeta).map(({ attributes }) => ({
-          ...attributes,
-          key: 'name' in attributes ? attributes.name : attributes.property,
-        })) as any
+        seo
+          .filter(isMeta)
+          // We want to remove these tags and let NextSeo handle them
+          .filter(({ attributes }) =>
+            'name' in attributes
+              ? !['twitter:title', 'twitter:description'].includes(
+                  attributes.name,
+                )
+              : !['article:modified_time'].includes(attributes.property),
+          )
+          .map(({ attributes }) => ({
+            ...attributes,
+            key: 'name' in attributes ? attributes.name : attributes.property,
+          })) as any
       }
       canonical={props.canonicalUrl}
     />
