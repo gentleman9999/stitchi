@@ -27,6 +27,7 @@ export interface CmsSeoProps {
  */
 const CmsSeo = (props: CmsSeoProps) => {
   const seo = props.seo as SeoOrFaviconTag[]
+
   return (
     <NextSeo
       title={seo.find(isTitle)?.content || undefined}
