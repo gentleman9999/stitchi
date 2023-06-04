@@ -12,7 +12,9 @@ const ComponentErrorMessage = (props: Props) => {
       : props.error?.graphQLErrors.map(error => error.message).join(', ')
 
   React.useEffect(() => {
-    console.error(props.error)
+    if (props.error) {
+      console.error(props.error)
+    }
   }, [message, props.error])
 
   if (!message) {

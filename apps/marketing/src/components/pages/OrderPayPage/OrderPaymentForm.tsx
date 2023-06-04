@@ -22,7 +22,6 @@ const OrderPaymentForm = (props: Props) => {
   const stripe = useStripe()
   const elements = useElements()
 
-  const [email, setEmail] = React.useState('')
   const [message, setMessage] = React.useState<string | null>(null)
   const [isLoading, setIsLoading] = React.useState(false)
 
@@ -83,10 +82,9 @@ const OrderPaymentForm = (props: Props) => {
     // your `return_url`. For some payment methods like iDEAL, your customer will
     // be redirected to an intermediate site first to authorize the payment, then
     // redirected to the `return_url`.
-    if (error.type === 'card_error' || error.type === 'validation_error') {
+    if (error.type !== 'validation_error') {
+      // Validatoin errors are handled by the Stripe Elements
       setMessage(error.message || 'An unexpected error occurred.')
-    } else {
-      setMessage('An unexpected error occurred.')
     }
 
     setIsLoading(false)
@@ -133,34 +131,41 @@ const OrderPaymentForm = (props: Props) => {
             options={paymentElementOptions}
           />
         </div>
+        {/* Need this <div /> for sticky positioning to work properly */}
+        <div>
+          <div className="sm:sticky sm:top-20 flex flex-col gap-4">
+            {props.renderOrderPreview()}
 
-        <div className="flex flex-col gap-4">
-          {props.renderOrderPreview()}
-
-          <div className="text-xs text-gray-500">
-            By submitting this order you acknowledge that you have read and
-            accept Stitchi{' '}
-            <Link
-              href={routes.internal.legal.privacy.href()}
-              className="underline"
-            >
-              Privacy Policy
-            </Link>
-            , including that Stitchi may email and SMS you about the service it
-            provides.
-          </div>
-          <div className="flex justify-end">
-            <Button color="brandPrimary" className="w-full" loading={isLoading}>
-              Pay ({currency(props.amountCents, { fromCents: true }).format()})
-            </Button>
-          </div>
-
-          {/* Show any error or success messages */}
-          {message && (
-            <div id="payment-message" className="text-red-600">
-              {message}
+            <div className="text-xs text-gray-500">
+              By submitting this order you acknowledge that you have read and
+              accept Stitchi{' '}
+              <Link
+                href={routes.internal.legal.privacy.href()}
+                className="underline"
+              >
+                Privacy Policy
+              </Link>
+              , including that Stitchi may email and SMS you about the service
+              it provides.
             </div>
-          )}
+            <div className="flex justify-end">
+              <Button
+                color="brandPrimary"
+                className="w-full"
+                loading={isLoading}
+              >
+                Pay ({currency(props.amountCents, { fromCents: true }).format()}
+                )
+              </Button>
+            </div>
+
+            {/* Show any error or success messages */}
+            {message && (
+              <div id="payment-message" className="text-red-600">
+                {message}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </form>

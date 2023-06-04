@@ -102,6 +102,10 @@ export interface ProductBuyPageFormProductFragment {
    */
   id: string;
   /**
+   * Id of the product.
+   */
+  entityId: number;
+  /**
    * Product options.
    */
   productOptions: ProductBuyPageFormProductFragment_productOptions;

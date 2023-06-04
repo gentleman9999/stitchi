@@ -3,7 +3,7 @@ import React from 'react'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { Button, RangeSlider, Skeleton, TextField } from '@components/ui'
-import useCalculatorFormQuote from './useCalculatorFormQuote'
+import useProductQuote from '../../../ProductBuyPage/SubmitBanner/useProductQuote'
 import currency from 'currency.js'
 import pluralize from 'pluralize'
 import Link from 'next/link'
@@ -39,7 +39,7 @@ type FormInput = yup.Asserts<typeof schema>
 interface Props {
   productSlug: string
   productName: string
-  productVariantEntityId: number
+  productEntityId: number
 }
 
 const CalculatorForm = (props: Props) => {
@@ -65,8 +65,8 @@ const CalculatorForm = (props: Props) => {
 
   const { printLocations, quantity, includeFulfillment } = form.watch()
 
-  const [getQuote, { data }] = useCalculatorFormQuote({
-    catalogProductVariantId: props.productVariantEntityId,
+  const [getQuote, { data }] = useProductQuote({
+    catalogProductEntityId: props.productEntityId,
   })
 
   if (

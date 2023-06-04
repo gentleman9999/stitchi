@@ -1,5 +1,5 @@
 import { gql, useQuery } from '@apollo/client'
-import { PrimaryLayout } from '@components/layout'
+import { FocusedLayout } from '@components/layout'
 import OrderPayPage from '@components/pages/OrderPayPage'
 import {
   OrderPayPageCreatepaymentIntent,
@@ -13,7 +13,6 @@ import {
 import { addApolloState, initializeApollo } from '@lib/apollo'
 import routes from '@lib/routes'
 import { GetServerSideProps } from 'next'
-import { useRouter } from 'next/router'
 import React, { ReactElement } from 'react'
 
 const getServerSideProps: GetServerSideProps<Props> = async ({ query }) => {
@@ -100,7 +99,7 @@ const Page = ({ orderId, paymentIntent }: Props) => {
   return <OrderPayPage order={data.order} paymentIntent={paymentIntent} />
 }
 
-Page.getLayout = (page: ReactElement) => <PrimaryLayout>{page}</PrimaryLayout>
+Page.getLayout = (page: ReactElement) => <FocusedLayout>{page}</FocusedLayout>
 
 const GET_DATA = gql`
   ${OrderPayPage.fragments.order}

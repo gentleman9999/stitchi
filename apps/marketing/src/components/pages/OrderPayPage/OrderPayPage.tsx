@@ -22,6 +22,7 @@ const OrderPayPage = ({ order, paymentIntent }: Props) => {
     <>
       <NextSeo nofollow noindex />
       <Container>
+        <div className="h-8" />
         <Section>
           <div className="flex justify-between items-center">
             <h1 className="text-4xl font-semibold font-heading">Checkout</h1>
@@ -30,7 +31,7 @@ const OrderPayPage = ({ order, paymentIntent }: Props) => {
             </button>
           </div>
         </Section>
-        <Section gutter="sm">
+        <Section gutter="md">
           {paymentIntent.clientSecret ? (
             <StripeFormWrapper clientSecret={paymentIntent.clientSecret}>
               <OrderPaymentForm

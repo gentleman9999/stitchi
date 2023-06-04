@@ -1,19 +1,19 @@
 import {
-  ProductPricingCalculatorGetQuoteQuery,
-  ProductPricingCalculatorGetQuoteQueryVariables,
-} from '@generated/ProductPricingCalculatorGetQuoteQuery'
+  UseProductQuoteGetQuoteQuery,
+  UseProductQuoteGetQuoteQueryVariables,
+} from '@generated/UseProductQuoteGetQuoteQuery'
 import { gql, useLazyQuery } from '@apollo/client'
 import { QuoteGeneratePrintLocationInput } from '@generated/globalTypes'
 import { useCallback } from 'react'
 
 interface Props {
-  catalogProductVariantId: number
+  catalogProductEntityId: number
 }
 
-const useCalculatorFormQuote = ({ catalogProductVariantId }: Props) => {
+const useProductQuote = ({ catalogProductEntityId }: Props) => {
   const [fetchMore, query] = useLazyQuery<
-    ProductPricingCalculatorGetQuoteQuery,
-    ProductPricingCalculatorGetQuoteQueryVariables
+    UseProductQuoteGetQuoteQuery,
+    UseProductQuoteGetQuoteQueryVariables
   >(GET_QUOTE, {
     notifyOnNetworkStatusChange: true,
     fetchPolicy: 'network-only',
@@ -25,23 +25,26 @@ const useCalculatorFormQuote = ({ catalogProductVariantId }: Props) => {
       printLocations: QuoteGeneratePrintLocationInput[]
       includeFulfillment: boolean
     }) => {
-      await fetchMore({ variables: { ...input, catalogProductVariantId } })
+      await fetchMore({ variables: { ...input, catalogProductEntityId } })
     },
-    [catalogProductVariantId, fetchMore],
+    [catalogProductEntityId, fetchMore],
   )
 
-  return [getQuote, query] as const
+  return [
+    getQuote,
+    { ...query, quote: query.data?.site.product?.quote },
+  ] as const
 }
 
 export const GET_QUOTE = gql`
-  query ProductPricingCalculatorGetQuoteQuery(
-    $catalogProductVariantId: Int!
+  query UseProductQuoteGetQuoteQuery(
+    $catalogProductEntityId: Int!
     $printLocations: [QuoteGeneratePrintLocationInput!]!
     $quantity: Int!
     $includeFulfillment: Boolean
   ) {
     site {
-      product(variantEntityId: $catalogProductVariantId) {
+      product(entityId: $catalogProductEntityId) {
         id
         quote(
           printLocations: $printLocations
@@ -57,4 +60,4 @@ export const GET_QUOTE = gql`
   }
 `
 
-export default useCalculatorFormQuote
+export default useProductQuote

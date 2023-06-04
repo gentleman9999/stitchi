@@ -8,6 +8,7 @@ import {
   ProductBuyPageGetDataQuery_site_route_node_Product_variants_edges_node as ProductVariant,
 } from '@generated/ProductBuyPageGetDataQuery'
 import routes from '@lib/routes'
+import { makeProductTitle } from '@utils/catalog'
 import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -97,8 +98,6 @@ const ProductBuyPage = (props: Props) => {
         })
       }
 
-      console.log('OPTION VALUE IDS', optionValueIds)
-
       const variant = await getProductVariantByOptions({
         optionValueIds,
         productEntityId: product.entityId,
@@ -129,25 +128,29 @@ const ProductBuyPage = (props: Props) => {
     )
   }
 
-  // Select product variants (colors, size, quantity)
-  // Gather art requirements
-
   return (
     <>
       <NextSeo nofollow noindex />
       <Container>
-        <div className="grid grid-cols-2 gap-8">
-          <div>
-            <CatalogProductVariantPreview product={product} />
-          </div>
-          <div>
-            <Section>
+        <div className="grid grid-cols-12 gap-14">
+          <div className="col-span-5">
+            <Section gutter="sm">
+              <h1 className="text-4xl font-heading font-semibold">
+                {makeProductTitle(product)}
+              </h1>
+            </Section>
+            <Section gutter="sm">
               <ProductBuyPageForm
                 product={product}
                 onSubmit={handleCreateCart}
                 error={addToCartError?.message}
               />
             </Section>
+          </div>
+          <div className="col-span-7">
+            <div className="sticky top-14">
+              <CatalogProductVariantPreview product={product} />
+            </div>
           </div>
         </div>
       </Container>
@@ -167,7 +170,11 @@ const GET_DATA = gql`
           ... on Product {
             id
             entityId
-
+            name
+            brand {
+              id
+              name
+            }
             productOptions {
               edges {
                 node {

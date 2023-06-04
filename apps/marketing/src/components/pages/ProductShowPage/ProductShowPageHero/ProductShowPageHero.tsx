@@ -32,7 +32,7 @@ const ProductShowPageHero = ({ product }: Props) => {
             <div className="p-6 border rounded-sm">
               <CalculatorForm
                 productName={product.name}
-                productVariantEntityId={variant.entityId}
+                productEntityId={product.entityId}
                 productSlug={routes.internal.catalog.product.purchase.href({
                   productSlug: product.path,
                   brandSlug: product.brand?.path || '',

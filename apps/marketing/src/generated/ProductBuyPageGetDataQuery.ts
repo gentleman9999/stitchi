@@ -15,6 +15,18 @@ export interface ProductBuyPageGetDataQuery_site_route_node_Banner {
   id: string;
 }
 
+export interface ProductBuyPageGetDataQuery_site_route_node_Product_brand {
+  __typename: "Brand";
+  /**
+   * The ID of an object
+   */
+  id: string;
+  /**
+   * Name of the brand.
+   */
+  name: string;
+}
+
 export interface ProductBuyPageGetDataQuery_site_route_node_Product_productOptions_edges_node_CheckboxOption {
   __typename: "CheckboxOption" | "DateFieldOption" | "FileUploadFieldOption" | "MultiLineTextFieldOption" | "NumberFieldOption" | "TextFieldOption";
   /**
@@ -226,13 +238,17 @@ export interface ProductBuyPageGetDataQuery_site_route_node_Product {
    */
   entityId: number;
   /**
-   * Product options.
-   */
-  productOptions: ProductBuyPageGetDataQuery_site_route_node_Product_productOptions;
-  /**
    * Name of the product.
    */
   name: string;
+  /**
+   * Brand associated with the product.
+   */
+  brand: ProductBuyPageGetDataQuery_site_route_node_Product_brand | null;
+  /**
+   * Product options.
+   */
+  productOptions: ProductBuyPageGetDataQuery_site_route_node_Product_productOptions;
   /**
    * Default image for a product.
    */

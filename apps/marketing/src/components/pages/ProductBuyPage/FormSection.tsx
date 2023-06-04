@@ -7,8 +7,8 @@ interface Props {
 
 const FormSection = (props: Props) => {
   return (
-    <div className="border rounded-md p-6 flex flex-col gap-4">
-      <span className="whitespace-nowrap font-medium text-xl text-gray-700">
+    <div className="flex flex-col gap-4">
+      <span className="whitespace-nowrap font-medium text-2xl text-gray-700">
         {props.title}
       </span>
 
