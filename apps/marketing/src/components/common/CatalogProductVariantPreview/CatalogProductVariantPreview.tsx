@@ -15,7 +15,7 @@ interface ProductOptionValues {
 
 interface Props {
   product: CatalogProductVariantPreviewProductFragment
-  onVariantChange: (variant: ProductVariant | null) => void
+  onVariantChange?: (variant: ProductVariant | null) => void
 }
 
 const CatalogProductVariantPreview = ({ product, onVariantChange }: Props) => {
@@ -43,7 +43,7 @@ const CatalogProductVariantPreview = ({ product, onVariantChange }: Props) => {
   )
 
   React.useEffect(() => {
-    onVariantChange(activeVariant || null)
+    onVariantChange?.(activeVariant || null)
   }, [activeVariant, onVariantChange])
 
   const image = activeVariant?.defaultImage || product.defaultImage
@@ -105,7 +105,7 @@ CatalogProductVariantPreview.fragments = {
         altText
       }
 
-      variants(first: $variantLimit) {
+      variants(first: $variantsFirst) {
         edges {
           node {
             id

@@ -2,6 +2,7 @@ import { gql } from '@apollo/client'
 import CatalogProductColorSwatch from '@components/common/CatalogProductColorSwatch'
 import { VariantQuantityMatrixFormProductFragment } from '@generated/VariantQuantityMatrixFormProductFragment'
 import useProductOptions from '@hooks/useProductOptions'
+import { AnimatePresence, motion } from 'framer-motion'
 import { XIcon } from 'icons'
 import React from 'react'
 import { useFieldArray, UseFormReturn } from 'react-hook-form'
@@ -60,26 +61,31 @@ const VariantQuantityMatrixForm = ({ product, form }: Props) => {
 
   return (
     <>
-      <div className="flex-col gap-2">
-        <span className="whitespace-nowrap font-medium">Choose colors</span>
-        <ul className="flex flex-wrap gap-1">
+      <ul className="flex flex-wrap gap-1">
+        <AnimatePresence>
           {availableColors.map(({ hexColors, entityId, label }) => (
-            <li key={entityId}>
+            <motion.li
+              key={entityId}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
               <CatalogProductColorSwatch
                 onClick={() => handleAddColor({ colorEntityId: entityId })}
                 hexCode={hexColors[0]}
                 label={label}
-                selected={selectedColorEntityIds.includes(entityId)}
+                width="w-8"
+                height="h-8"
               />
-            </li>
+            </motion.li>
           ))}
-        </ul>
-      </div>
-
-      <hr className="my-4" />
+        </AnimatePresence>
+      </ul>
 
       {colorFields.fields.length > 0 ? (
         <>
+          <hr className="my-4" />
+
           <table className="table-fixed">
             <thead>
               <tr>
@@ -100,39 +106,54 @@ const VariantQuantityMatrixForm = ({ product, form }: Props) => {
               </tr>
             </thead>
             <tbody>
-              {colorFields.fields.map(({ colorEntityId }, index) => {
-                const color = colors.find(
-                  ({ entityId }) => entityId === colorEntityId,
-                )
+              <AnimatePresence>
+                {colorFields.fields.map(({ colorEntityId }, index) => {
+                  const color = colors.find(
+                    ({ entityId }) => entityId === colorEntityId,
+                  )
 
-                if (!color) return null
+                  if (!color) return null
 
-                return (
-                  <tr key={colorEntityId}>
-                    <td className="flex items-center p-0.5 text-xs">
-                      <CatalogProductColorSwatch hexCode={color.hexColors[0]} />
+                  return (
+                    <motion.tr
+                      key={colorEntityId}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                    >
+                      <td className="p-1.5">
+                        <div className="flex items-center text-xs">
+                          <CatalogProductColorSwatch
+                            hexCode={color.hexColors[0]}
+                          />
 
-                      <span className="ml-1 w-full">{color.label}</span>
-                    </td>
-                    <ColorSizesInput form={form} colorFieldIndex={index} />
-                    <td>
-                      <button
-                        className="p-1 hover:bg-gray-100 rounded-sm"
-                        onClick={() => handleRemoveColor({ colorEntityId })}
-                      >
-                        <XIcon className="w-4 h-4" />
-                      </button>
-                    </td>
-                  </tr>
-                )
-              })}
+                          <span className="ml-1 w-full">{color.label}</span>
+                        </div>
+                      </td>
+                      <ColorSizesInput
+                        form={form}
+                        colorFieldIndex={index}
+                        colorFieldHex={color.hexColors[0]}
+                      />
+                      <td>
+                        <button
+                          className="p-1 hover:bg-gray-100 rounded-sm"
+                          onClick={() => handleRemoveColor({ colorEntityId })}
+                        >
+                          <XIcon className="w-4 h-4 text-gray-400" />
+                        </button>
+                      </td>
+                    </motion.tr>
+                  )
+                })}
+              </AnimatePresence>
             </tbody>
           </table>
 
           <hr className="my-2" />
 
-          <div className="text-sm text-right">
-            Total quantity <b>{totalQuantity.toLocaleString()}</b>
+          <div className="text-xl text-right font-medium">
+            Qty. {totalQuantity.toLocaleString()}
           </div>
         </>
       ) : null}

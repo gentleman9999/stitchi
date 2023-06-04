@@ -135,6 +135,31 @@ export interface LinksFilter {
   exists?: any | null;
 }
 
+/**
+ * A variant option value id input object
+ */
+export interface OptionValueId {
+  optionEntityId: number;
+  valueEntityId: number;
+}
+
+export interface OrderCartCreateInput {
+  productEntityId: number;
+  includeFulfillment: boolean;
+  printLocations: OrderCartCreatePrintLocationInput[];
+  items: OrderCartCreateItemsInput[];
+  shippingAddressId?: string | null;
+}
+
+export interface OrderCartCreateItemsInput {
+  productVariantEntityId: number;
+  quantity: number;
+}
+
+export interface OrderCartCreatePrintLocationInput {
+  colorCount: number;
+}
+
 export interface PaymentIntentCreateInput {
   orderId: string;
 }

@@ -17,6 +17,14 @@ export interface ProductBuyPageGetDataQuery_site_route_node_Banner {
 
 export interface ProductBuyPageGetDataQuery_site_route_node_Product_productOptions_edges_node_CheckboxOption {
   __typename: "CheckboxOption" | "DateFieldOption" | "FileUploadFieldOption" | "MultiLineTextFieldOption" | "NumberFieldOption" | "TextFieldOption";
+  /**
+   * Unique ID for the option.
+   */
+  entityId: number;
+  /**
+   * Display name for the option.
+   */
+  displayName: string;
 }
 
 export interface ProductBuyPageGetDataQuery_site_route_node_Product_productOptions_edges_node_MultipleChoiceOption_values_edges_node_MultipleChoiceOptionValue {
@@ -67,6 +75,10 @@ export interface ProductBuyPageGetDataQuery_site_route_node_Product_productOptio
 
 export interface ProductBuyPageGetDataQuery_site_route_node_Product_productOptions_edges_node_MultipleChoiceOption {
   __typename: "MultipleChoiceOption";
+  /**
+   * Unique ID for the option.
+   */
+  entityId: number;
   /**
    * Display name for the option.
    */
@@ -210,6 +222,10 @@ export interface ProductBuyPageGetDataQuery_site_route_node_Product {
    */
   id: string;
   /**
+   * Id of the product.
+   */
+  entityId: number;
+  /**
    * Product options.
    */
   productOptions: ProductBuyPageGetDataQuery_site_route_node_Product_productOptions;
@@ -254,5 +270,5 @@ export interface ProductBuyPageGetDataQuery {
 
 export interface ProductBuyPageGetDataQueryVariables {
   path: string;
-  variantLimit: number;
+  variantsFirst?: number | null;
 }

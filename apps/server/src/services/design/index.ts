@@ -20,7 +20,7 @@ const designSchema = Design.omit(['id', 'createdAt', 'updatedAt']).concat(
           'updatedAt',
         ]).required(),
       )
-      .min(1)
+      .min(0)
       .required(),
   }),
 )

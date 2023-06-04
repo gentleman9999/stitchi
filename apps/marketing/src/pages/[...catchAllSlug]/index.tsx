@@ -20,8 +20,6 @@ import { fragments as productShowPageFragments } from '@components/pages/Product
 import { fragments as categoryShowPageFragments } from '@components/pages/CategoryShowPage'
 import { notEmpty } from '@utils/typescript'
 
-const VARIANT_LIMIT = 250
-
 const BrandShowPage = dynamic(() => import('@components/pages/BrandShowPage'))
 const ProductShowPage = dynamic(
   () => import('@components/pages/ProductShowPage'),
@@ -94,7 +92,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     ProductPageGetDataQueryVariables
   >({
     query: GET_DATA,
-    variables: { path, variantLimit: VARIANT_LIMIT },
+    variables: { path },
   })
 
   if (data.site.route.node?.__typename === 'Brand') {
@@ -128,7 +126,7 @@ const CatchAllPage = () => {
     ProductPageGetDataQuery,
     ProductPageGetDataQueryVariables
   >(GET_DATA, {
-    variables: { path: path || '', variantLimit: VARIANT_LIMIT },
+    variables: { path: path || '' },
     skip: !path,
   })
 
@@ -170,7 +168,7 @@ const GET_DATA = gql`
   ${productShowPageFragments.product}
   ${brandShowPageFragments.brand}
   ${categoryShowPageFragments.category}
-  query ProductPageGetDataQuery($path: String!, $variantLimit: Int!) {
+  query ProductPageGetDataQuery($path: String!, $variantsFirst: Int = 250) {
     site {
       route(path: $path) {
         node {

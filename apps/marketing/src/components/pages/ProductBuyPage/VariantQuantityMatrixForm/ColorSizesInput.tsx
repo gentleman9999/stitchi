@@ -4,11 +4,12 @@ import cx from 'classnames'
 import { FormValues } from '../ProductBuyPageForm'
 
 interface Props {
+  colorFieldHex: string
   colorFieldIndex: number
   form: UseFormReturn<FormValues>
 }
 
-const ColorSizesInput = ({ form, colorFieldIndex }: Props) => {
+const ColorSizesInput = ({ form, colorFieldIndex, colorFieldHex }: Props) => {
   const sizeFields = useFieldArray({
     control: form.control,
     name: `colors.${colorFieldIndex}.sizes`,
@@ -26,13 +27,13 @@ const ColorSizesInput = ({ form, colorFieldIndex }: Props) => {
   return (
     <>
       {controlledFields.map((size, sizeFieldIndex) => (
-        <td key={size.id} className="p-0.5 w-14">
+        <td key={size.id} className="p-1.5 w-14">
           <input
             type="number"
             min={0}
             placeholder="0"
             className={cx(
-              'w-full border rounded-sm border-gray-200 text-center py-1 px-0 text-sm focus:border-primary focus:ring-primary',
+              `w-full border rounded-md border-gray-200 text-center py-2 px-0 text-sm focus:border-primary focus:ring-primary`,
               { 'text-gray-300': size.quantity === 0 },
             )}
             {...form.register(

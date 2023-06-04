@@ -53,6 +53,10 @@ export interface ProductShowPageHeroFragment_seo {
 
 export interface ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_CheckboxOption {
   __typename: "CheckboxOption" | "DateFieldOption" | "FileUploadFieldOption" | "MultiLineTextFieldOption" | "NumberFieldOption" | "TextFieldOption";
+  /**
+   * Unique ID for the option.
+   */
+  entityId: number;
 }
 
 export interface ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node_MultipleChoiceOptionValue {
@@ -103,6 +107,10 @@ export interface ProductShowPageHeroFragment_relatedProducts_edges_node_productO
 
 export interface ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption {
   __typename: "MultipleChoiceOption";
+  /**
+   * Unique ID for the option.
+   */
+  entityId: number;
   /**
    * Display name for the option.
    */
@@ -362,6 +370,10 @@ export interface ProductShowPageHeroFragment_variants {
 
 export interface ProductShowPageHeroFragment_productOptions_edges_node_CheckboxOption {
   __typename: "CheckboxOption" | "DateFieldOption" | "FileUploadFieldOption" | "MultiLineTextFieldOption" | "NumberFieldOption" | "TextFieldOption";
+  /**
+   * Unique ID for the option.
+   */
+  entityId: number;
 }
 
 export interface ProductShowPageHeroFragment_productOptions_edges_node_MultipleChoiceOption_values_edges_node_MultipleChoiceOptionValue {
@@ -412,6 +424,10 @@ export interface ProductShowPageHeroFragment_productOptions_edges_node_MultipleC
 
 export interface ProductShowPageHeroFragment_productOptions_edges_node_MultipleChoiceOption {
   __typename: "MultipleChoiceOption";
+  /**
+   * Unique ID for the option.
+   */
+  entityId: number;
   /**
    * Display name for the option.
    */

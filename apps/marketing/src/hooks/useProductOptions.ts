@@ -66,6 +66,7 @@ useProductOptions.fragments = {
       productOptions {
         edges {
           node {
+            entityId
             ... on MultipleChoiceOption {
               displayName
               values {

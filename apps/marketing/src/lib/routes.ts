@@ -95,6 +95,11 @@ const routes = {
       show: {
         href: ({ orderId }: { orderId: string }) =>
           buildRoute(`/orders/${orderId}`),
+
+        pay: {
+          href: ({ orderId }: { orderId: string }) =>
+            buildRoute(`/orders/${orderId}/pay`),
+        },
       },
     },
     lookbook: {

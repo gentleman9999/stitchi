@@ -81,7 +81,7 @@ ProductShowPageHero.fragments = {
         path
       }
 
-      variants(first: $variantLimit) {
+      variants(first: $variantsFirst) {
         edges {
           node {
             id

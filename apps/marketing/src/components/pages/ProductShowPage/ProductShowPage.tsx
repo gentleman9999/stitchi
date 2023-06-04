@@ -231,7 +231,7 @@ export const fragments = {
           }
         }
       }
-      variants(first: $variantLimit) {
+      variants(first: $variantsFirst) {
         edges {
           node {
             id
