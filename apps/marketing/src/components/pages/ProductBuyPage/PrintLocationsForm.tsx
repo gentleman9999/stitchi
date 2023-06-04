@@ -96,10 +96,9 @@ const PrintLocationsForm = ({ form }: Props) => {
           type="button"
           onClick={handleAddPrintLocation}
           className="w-full"
-          slim
           variant="ghost"
         >
-          + Add print location
+          + Add customization
         </Button>
       ) : null}
     </div>

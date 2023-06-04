@@ -2,6 +2,7 @@ import { gql } from '@apollo/client'
 import CatalogProductColorSwatch from '@components/common/CatalogProductColorSwatch'
 import { VariantQuantityMatrixFormProductFragment } from '@generated/VariantQuantityMatrixFormProductFragment'
 import useProductOptions from '@hooks/useProductOptions'
+import { notEmpty } from '@utils/typescript'
 import { AnimatePresence, motion } from 'framer-motion'
 import { XIcon } from 'icons'
 import React from 'react'
@@ -44,10 +45,29 @@ const VariantQuantityMatrixForm = ({ product, form }: Props) => {
     colorFields.append(
       {
         colorEntityId,
-        sizes: sizes.map(size => ({
-          quantity: null,
-          sizeEntityId: size.entityId,
-        })),
+        sizes: sizes.map(size => {
+          const foundVariant = product.variants.edges?.find(edge => {
+            const optionValueEntityIds =
+              edge?.node.options.edges
+                ?.flatMap(edge =>
+                  edge?.node.values.edges?.map(edge => edge?.node.entityId),
+                )
+                .filter(notEmpty) || []
+
+            if (!optionValueEntityIds?.length) return false
+
+            return (
+              optionValueEntityIds.includes(size.entityId) &&
+              optionValueEntityIds.includes(colorEntityId)
+            )
+          })
+
+          return {
+            disabled: !foundVariant,
+            quantity: null,
+            sizeEntityId: size.entityId,
+          }
+        }),
       },
       { focusName: `colors.${colorFields.fields.length}.sizes.0.quantity` },
     )
@@ -90,7 +110,7 @@ const VariantQuantityMatrixForm = ({ product, form }: Props) => {
             <table className="table-fixed w-full">
               <thead>
                 <tr>
-                  <th className="w-24 sticky left-0 bg-white"></th>
+                  <th className="w-28 sticky left-0 bg-white"></th>
                   {sizes.length ? (
                     sizes.map(size => (
                       <th
@@ -131,11 +151,7 @@ const VariantQuantityMatrixForm = ({ product, form }: Props) => {
                             <span className="ml-1 w-full">{color.label}</span>
                           </div>
                         </td>
-                        <ColorSizesInput
-                          form={form}
-                          colorFieldIndex={index}
-                          colorFieldHex={color.hexColors[0]}
-                        />
+                        <ColorSizesInput form={form} colorFieldIndex={index} />
                         <td className="w-4">
                           <button
                             className="p-1 hover:bg-gray-100 rounded-sm"
@@ -166,6 +182,26 @@ VariantQuantityMatrixForm.fragments = {
     ${useProductOptions.fragments.product}
     fragment VariantQuantityMatrixFormProductFragment on Product {
       id
+      variants(first: $variantsFirst) {
+        edges {
+          node {
+            id
+            options {
+              edges {
+                node {
+                  values {
+                    edges {
+                      node {
+                        entityId
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
       ...UseProductColorsProductFragment
     }
   `,

@@ -76,10 +76,10 @@ export interface OrderDetailsPageGetDataQuery_order_shippingAddress {
 export interface OrderDetailsPageGetDataQuery_order {
   __typename: "Order";
   id: string;
+  paymentStatus: OrderPaymentStatus;
   createdAt: any;
   humanOrderId: string;
   customerFullName: string | null;
-  paymentStatus: OrderPaymentStatus;
   humanPaymentStatus: string;
   totalTaxCents: number;
   totalShippingCents: number;

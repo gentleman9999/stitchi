@@ -249,6 +249,7 @@ export interface ProductShowPageHeroProductFragment {
    * Relative URL path to product page.
    */
   path: string;
+  priceCents: number;
   /**
    * Brand associated with the product.
    */

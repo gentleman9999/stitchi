@@ -13,6 +13,7 @@ interface BaseProps {
   required?: InputElementAttributes['required']
   readonly?: InputElementAttributes['readOnly']
   value?: InputElementAttributes['value']
+  disabled?: InputElementAttributes['disabled']
   error?: boolean
   placeholder?: string
   inputClassName?: string
@@ -38,7 +39,7 @@ const TextField = (props: TextFieldProps) => {
 
   const minRows = 'minRows' in props ? props.minRows : 4
   const className = cx(
-    'block w-full shadow-sm sm:text-sm focus:ring-primary focus:border-primary border-gray-300 rounded-md',
+    'block w-full shadow-sm sm:text-sm focus:ring-primary focus:border-primary border-gray-300 rounded-md disabled:text-gray-200',
     {
       'border-red-500 focus:border-red-500 focus:ring-red-500': props.error,
     },
@@ -81,6 +82,7 @@ const TextField = (props: TextFieldProps) => {
             defaultValue={''}
             rows={minRows}
             aria-describedby={props.description && `${props.name}-description`}
+            disabled={props.disabled}
             className={className}
           />
         ) : (
@@ -95,6 +97,7 @@ const TextField = (props: TextFieldProps) => {
             autoComplete={props.autoComplete}
             required={props.required}
             readOnly={props.readonly}
+            disabled={props.disabled}
             aria-describedby={props.description && `${props.name}-description`}
             className={className}
           />

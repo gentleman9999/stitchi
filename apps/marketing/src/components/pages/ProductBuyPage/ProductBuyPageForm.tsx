@@ -19,6 +19,7 @@ const printLocationSchema = yup.object({
 const sizeSchema = yup.object().shape({
   sizeEntityId: yup.number().nullable().defined(),
   quantity: yup.number().min(0).nullable().optional().label('Quantity'),
+  disabled: yup.boolean().nullable().optional(),
 })
 
 const colorSchema = yup.object().shape({
@@ -34,6 +35,7 @@ const schema = yup.object().shape({
     .required()
     .label('Print locations'),
   includeFulfillment: yup.boolean().required(),
+  includeDesign: yup.boolean().required(),
   colors: yup
     .array()
     .of(colorSchema.required())
@@ -60,6 +62,7 @@ const ProductBuyPageForm = ({ product, onSubmit, error }: Props) => {
   const form = useForm<FormValues>({
     defaultValues: {
       includeFulfillment: false,
+      includeDesign: false,
       colors: [],
       printLocations: [],
     },
@@ -98,7 +101,7 @@ const ProductBuyPageForm = ({ product, onSubmit, error }: Props) => {
     //   return
     // }
 
-    // get()
+    get()
   }, [getQuote, includeFulfillment, printLocations, totalQuantity, trigger])
 
   React.useEffect(() => {
@@ -132,20 +135,21 @@ const ProductBuyPageForm = ({ product, onSubmit, error }: Props) => {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-20">
-      <FormSection title="Choose colors & sizes">
+      <FormSection title="Colors & sizes">
         <VariantQuantityMatrixForm form={form} product={product} />
         <ComponentErrorMessage error={formErrors.colors?.message} />
       </FormSection>
-      <FormSection title="Add customizations">
+      <FormSection title="Customizations">
         <PrintLocationsForm form={form} />
       </FormSection>
-      <FormSection title="Choose services">
+      <FormSection title="Services">
         <AddonsForm form={form} />
       </FormSection>
       <ComponentErrorMessage error={error} />
       <ComponentErrorMessage error={formErrors.root?.message} />
       <SubmitBanner
         priceCents={quote?.productTotalCostCents || null}
+        unitPriceCents={quote?.productUnitCostCents || null}
         loading={quoteLoading}
         submitting={submitting}
         error={Boolean(Object.keys(formErrors).length)}

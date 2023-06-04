@@ -7,6 +7,82 @@
 // GraphQL fragment: VariantQuantityMatrixFormProductFragment
 // ====================================================
 
+export interface VariantQuantityMatrixFormProductFragment_variants_edges_node_options_edges_node_values_edges_node {
+  __typename: "ProductOptionValue";
+  /**
+   * Unique ID for the option value.
+   */
+  entityId: number;
+}
+
+export interface VariantQuantityMatrixFormProductFragment_variants_edges_node_options_edges_node_values_edges {
+  __typename: "OptionValueEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: VariantQuantityMatrixFormProductFragment_variants_edges_node_options_edges_node_values_edges_node;
+}
+
+export interface VariantQuantityMatrixFormProductFragment_variants_edges_node_options_edges_node_values {
+  __typename: "OptionValueConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (VariantQuantityMatrixFormProductFragment_variants_edges_node_options_edges_node_values_edges | null)[] | null;
+}
+
+export interface VariantQuantityMatrixFormProductFragment_variants_edges_node_options_edges_node {
+  __typename: "ProductOption";
+  /**
+   * Option values.
+   */
+  values: VariantQuantityMatrixFormProductFragment_variants_edges_node_options_edges_node_values;
+}
+
+export interface VariantQuantityMatrixFormProductFragment_variants_edges_node_options_edges {
+  __typename: "OptionEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: VariantQuantityMatrixFormProductFragment_variants_edges_node_options_edges_node;
+}
+
+export interface VariantQuantityMatrixFormProductFragment_variants_edges_node_options {
+  __typename: "OptionConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (VariantQuantityMatrixFormProductFragment_variants_edges_node_options_edges | null)[] | null;
+}
+
+export interface VariantQuantityMatrixFormProductFragment_variants_edges_node {
+  __typename: "Variant";
+  /**
+   * The ID of an object
+   */
+  id: string;
+  /**
+   * The options which define a variant.
+   */
+  options: VariantQuantityMatrixFormProductFragment_variants_edges_node_options;
+}
+
+export interface VariantQuantityMatrixFormProductFragment_variants_edges {
+  __typename: "VariantEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: VariantQuantityMatrixFormProductFragment_variants_edges_node;
+}
+
+export interface VariantQuantityMatrixFormProductFragment_variants {
+  __typename: "VariantConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (VariantQuantityMatrixFormProductFragment_variants_edges | null)[] | null;
+}
+
 export interface VariantQuantityMatrixFormProductFragment_productOptions_edges_node_CheckboxOption {
   __typename: "CheckboxOption" | "DateFieldOption" | "FileUploadFieldOption" | "MultiLineTextFieldOption" | "NumberFieldOption" | "TextFieldOption";
   /**
@@ -101,6 +177,10 @@ export interface VariantQuantityMatrixFormProductFragment {
    * The ID of an object
    */
   id: string;
+  /**
+   * Variants associated with the product.
+   */
+  variants: VariantQuantityMatrixFormProductFragment_variants;
   /**
    * Product options.
    */

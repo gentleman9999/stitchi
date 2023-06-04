@@ -1,6 +1,7 @@
 import { gql, useQuery } from '@apollo/client'
 import { PrimaryLayout } from '@components/layout'
 import OrderDetailsPage from '@components/pages/OrderDetailsPage'
+import { OrderPaymentStatus } from '@generated/globalTypes'
 import {
   OrderDetailsPageGetDataQuery,
   OrderDetailsPageGetDataQueryVariables,
@@ -36,12 +37,33 @@ interface Props {
 }
 
 const Page = ({ orderId }: Props) => {
-  const { data, error } = useQuery<
+  const { data, error, startPolling, stopPolling } = useQuery<
     OrderDetailsPageGetDataQuery,
     OrderDetailsPageGetDataQueryVariables
   >(GET_DATA, { variables: { orderId } })
 
   const { order } = data || {}
+
+  React.useEffect(() => {
+    // Payment processing happens async so if we land on an order we should poll for an updated payment status
+
+    if (order?.paymentStatus === OrderPaymentStatus.NOT_PAID) {
+      startPolling(10000)
+
+      setTimeout(
+        () => {
+          stopPolling()
+        },
+        15 * 1000, // 15 seconds
+      )
+    } else {
+      stopPolling()
+    }
+
+    return () => {
+      stopPolling()
+    }
+  }, [order?.paymentStatus, startPolling, stopPolling])
 
   if (error) {
     return <div>{error.message}</div>
@@ -61,6 +83,7 @@ const GET_DATA = gql`
   query OrderDetailsPageGetDataQuery($orderId: ID!) {
     order(id: $orderId) {
       id
+      paymentStatus
       ...OrderDetailsPageOrderFragment
     }
   }

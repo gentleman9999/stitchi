@@ -7,6 +7,82 @@
 // GraphQL fragment: ProductBuyPageFormProductFragment
 // ====================================================
 
+export interface ProductBuyPageFormProductFragment_variants_edges_node_options_edges_node_values_edges_node {
+  __typename: "ProductOptionValue";
+  /**
+   * Unique ID for the option value.
+   */
+  entityId: number;
+}
+
+export interface ProductBuyPageFormProductFragment_variants_edges_node_options_edges_node_values_edges {
+  __typename: "OptionValueEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: ProductBuyPageFormProductFragment_variants_edges_node_options_edges_node_values_edges_node;
+}
+
+export interface ProductBuyPageFormProductFragment_variants_edges_node_options_edges_node_values {
+  __typename: "OptionValueConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (ProductBuyPageFormProductFragment_variants_edges_node_options_edges_node_values_edges | null)[] | null;
+}
+
+export interface ProductBuyPageFormProductFragment_variants_edges_node_options_edges_node {
+  __typename: "ProductOption";
+  /**
+   * Option values.
+   */
+  values: ProductBuyPageFormProductFragment_variants_edges_node_options_edges_node_values;
+}
+
+export interface ProductBuyPageFormProductFragment_variants_edges_node_options_edges {
+  __typename: "OptionEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: ProductBuyPageFormProductFragment_variants_edges_node_options_edges_node;
+}
+
+export interface ProductBuyPageFormProductFragment_variants_edges_node_options {
+  __typename: "OptionConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (ProductBuyPageFormProductFragment_variants_edges_node_options_edges | null)[] | null;
+}
+
+export interface ProductBuyPageFormProductFragment_variants_edges_node {
+  __typename: "Variant";
+  /**
+   * The ID of an object
+   */
+  id: string;
+  /**
+   * The options which define a variant.
+   */
+  options: ProductBuyPageFormProductFragment_variants_edges_node_options;
+}
+
+export interface ProductBuyPageFormProductFragment_variants_edges {
+  __typename: "VariantEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: ProductBuyPageFormProductFragment_variants_edges_node;
+}
+
+export interface ProductBuyPageFormProductFragment_variants {
+  __typename: "VariantConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (ProductBuyPageFormProductFragment_variants_edges | null)[] | null;
+}
+
 export interface ProductBuyPageFormProductFragment_productOptions_edges_node_CheckboxOption {
   __typename: "CheckboxOption" | "DateFieldOption" | "FileUploadFieldOption" | "MultiLineTextFieldOption" | "NumberFieldOption" | "TextFieldOption";
   /**
@@ -105,6 +181,10 @@ export interface ProductBuyPageFormProductFragment {
    * Id of the product.
    */
   entityId: number;
+  /**
+   * Variants associated with the product.
+   */
+  variants: ProductBuyPageFormProductFragment_variants;
   /**
    * Product options.
    */

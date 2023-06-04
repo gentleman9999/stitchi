@@ -1,16 +1,14 @@
 import React from 'react'
 import { Controller, useFieldArray, UseFormReturn } from 'react-hook-form'
-import cx from 'classnames'
 import { FormValues } from '../ProductBuyPageForm'
 import { TextField } from '@components/ui'
 
 interface Props {
-  colorFieldHex: string
   colorFieldIndex: number
   form: UseFormReturn<FormValues>
 }
 
-const ColorSizesInput = ({ form, colorFieldIndex, colorFieldHex }: Props) => {
+const ColorSizesInput = ({ form, colorFieldIndex }: Props) => {
   const sizeFields = useFieldArray({
     control: form.control,
     name: `colors.${colorFieldIndex}.sizes`,
@@ -37,6 +35,9 @@ const ColorSizesInput = ({ form, colorFieldIndex, colorFieldHex }: Props) => {
                 inputClassName="px-1.5"
                 name={field.name}
                 value={size.quantity ?? 0}
+                disabled={Boolean(size.disabled)}
+                inputRef={field.ref}
+                type="number"
                 onChange={e => {
                   const value = parseInt(e.target.value)
 
@@ -46,25 +47,9 @@ const ColorSizesInput = ({ form, colorFieldIndex, colorFieldHex }: Props) => {
                     field.onChange(value)
                   }
                 }}
-                inputRef={field.ref}
-                type="number"
               />
             )}
           />
-
-          {/* <input
-            type="number"
-            min={0}
-            placeholder="0"
-            className={cx(
-              `w-full border rounded-md border-gray-200 text-center py-1 px-0 text-xs focus:border-primary focus:ring-primary`,
-              { 'text-gray-300': size.quantity === 0 },
-            )}
-            {...form.register(
-              `colors.${colorFieldIndex}.sizes.${sizeFieldIndex}.quantity` as const,
-              { valueAsNumber: true },
-            )}
-          /> */}
         </td>
       ))}
     </>
