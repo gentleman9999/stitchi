@@ -8,7 +8,7 @@
 // ====================================================
 
 export interface ProductPageGetDataQuery_site_route_node_Banner {
-  __typename: "Banner" | "Blog" | "BlogPost" | "ContactPage" | "NormalPage" | "RawHtmlPage" | "Variant";
+  __typename: "Banner" | "Blog" | "BlogPost" | "Cart" | "Checkout" | "ContactPage" | "NormalPage" | "RawHtmlPage" | "Variant";
   /**
    * The id of the object.
    */
@@ -70,17 +70,17 @@ export interface ProductPageGetDataQuery_site_route_node_Product_defaultImage {
    */
   seoImageUrl: string;
   /**
-   * Absolute path to original image using store CDN.
+   * Absolute path to image using store CDN.
    */
-  urlOriginal: string;
+  url: string;
   /**
    * Text description of an image that can be used for SEO and/or accessibility purposes.
    */
   altText: string;
   /**
-   * Absolute path to image using store CDN.
+   * Absolute path to original image using store CDN.
    */
-  url: string;
+  urlOriginal: string;
 }
 
 export interface ProductPageGetDataQuery_site_route_node_Product_brand {
@@ -109,6 +109,10 @@ export interface ProductPageGetDataQuery_site_route_node_Product_seo {
 
 export interface ProductPageGetDataQuery_site_route_node_Product_relatedProducts_edges_node_productOptions_edges_node_CheckboxOption {
   __typename: "CheckboxOption" | "DateFieldOption" | "FileUploadFieldOption" | "MultiLineTextFieldOption" | "NumberFieldOption" | "TextFieldOption";
+  /**
+   * Unique ID for the option.
+   */
+  entityId: number;
 }
 
 export interface ProductPageGetDataQuery_site_route_node_Product_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node_MultipleChoiceOptionValue {
@@ -117,6 +121,10 @@ export interface ProductPageGetDataQuery_site_route_node_Product_relatedProducts
    * Unique ID for the option value.
    */
   entityId: number;
+  /**
+   * Label for the option value.
+   */
+  label: string;
 }
 
 export interface ProductPageGetDataQuery_site_route_node_Product_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node_SwatchOptionValue {
@@ -155,6 +163,10 @@ export interface ProductPageGetDataQuery_site_route_node_Product_relatedProducts
 
 export interface ProductPageGetDataQuery_site_route_node_Product_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption {
   __typename: "MultipleChoiceOption";
+  /**
+   * Unique ID for the option.
+   */
+  entityId: number;
   /**
    * Display name for the option.
    */
@@ -414,6 +426,10 @@ export interface ProductPageGetDataQuery_site_route_node_Product_variants {
 
 export interface ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node_CheckboxOption {
   __typename: "CheckboxOption" | "DateFieldOption" | "FileUploadFieldOption" | "MultiLineTextFieldOption" | "NumberFieldOption" | "TextFieldOption";
+  /**
+   * Unique ID for the option.
+   */
+  entityId: number;
 }
 
 export interface ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node_MultipleChoiceOption_values_edges_node_MultipleChoiceOptionValue {
@@ -422,6 +438,10 @@ export interface ProductPageGetDataQuery_site_route_node_Product_productOptions_
    * Unique ID for the option value.
    */
   entityId: number;
+  /**
+   * Label for the option value.
+   */
+  label: string;
 }
 
 export interface ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node_MultipleChoiceOption_values_edges_node_SwatchOptionValue {
@@ -460,6 +480,10 @@ export interface ProductPageGetDataQuery_site_route_node_Product_productOptions_
 
 export interface ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node_MultipleChoiceOption {
   __typename: "MultipleChoiceOption";
+  /**
+   * Unique ID for the option.
+   */
+  entityId: number;
   /**
    * Display name for the option.
    */
@@ -644,4 +668,5 @@ export interface ProductPageGetDataQuery {
 
 export interface ProductPageGetDataQueryVariables {
   path: string;
+  variantsFirst?: number | null;
 }

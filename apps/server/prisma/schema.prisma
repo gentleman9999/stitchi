@@ -2,14 +2,13 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider             = "mysql"
-  url                  = env("DATABASE_URL")
-  referentialIntegrity = "prisma"
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model Organization {
@@ -21,6 +20,8 @@ model Organization {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Order     Order[]
+  Design    Design[]
 }
 
 // The owners of the SaaS (you) can have a SUPERADMIN role to access all data
@@ -66,4 +67,284 @@ model Image {
 
 enum ImageType {
   CLOUDINARY
+}
+
+model Order {
+  // We want an auto-incrementing numeric ID to make a human-readable order number
+  id String @id @default(uuid())
+
+  humanReadableId String
+
+  // The organization that this order belongs to
+  organizationId String?
+
+  // The user that placed the order
+  userId String?
+
+  customerFullName String?
+  customerEmail    String?
+  customerPhone    String?
+
+  // Subtotal of order pre tax, shipping, and fees
+  subtotalPriceCents Int
+
+  // The total tax applied to the order
+  totalTaxCents Int
+
+  // The total shipping price of the order
+  totalShippingCents Int
+
+  totalProcessingFeeCents Int
+
+  // The total price of the order
+  totalPriceCents Int
+
+  // The total amount that has been paid by the customer
+  totalAmountPaidCents Int
+
+  // The total amount that has been refunded by the customer
+  totalAmountRefundedCents Int
+
+  // The amount owed by the customer
+  totalAmountDueCents Int
+
+  // Order payment status
+  paymentStatus OrderPaymentStatus @default(NOT_PAID)
+
+  // The type of order
+  type OrderType
+
+  shippingAddressId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  OrderItems      OrderItem[]
+  Organization    Organization?   @relation(fields: [organizationId], references: [id])
+  Fulfillment     Fulfillment[]
+  ShippingAddress MailingAddress? @relation(fields: [shippingAddressId], references: [id])
+
+  @@unique([humanReadableId, organizationId, userId])
+  @@index([organizationId])
+  @@index([shippingAddressId])
+}
+
+enum OrderPaymentStatus {
+  // Product is in the cart
+  NOT_PAID
+
+  // Product is in the cart
+  PARTIALLY_PAID
+
+  // Product is in the cart
+  PAID
+
+  // Product is in the cart
+  PARTIALLY_REFUNDED
+
+  // Product is in the cart
+  REFUNDED
+}
+
+enum OrderType {
+  CART
+}
+
+model OrderItem {
+  id String @id @default(uuid())
+
+  // The order that this item belongs to
+  order   Order  @relation(fields: [orderId], references: [id], onUpdate: NoAction)
+  orderId String
+
+  // The fulfillment status of the line item
+  fulfillmentStatus OrderItemFulfillmentStatus @default(NOT_FULFILLED)
+
+  // The quantity of the line item
+  quantity Int
+
+  // The price of the line item at the time of purchase
+  unitPriceCents Int
+
+  totalPriceCents Int
+
+  // The name of the line item
+  title String
+
+  // The type of the line item
+  type OrderItemType
+
+  // The product ID (could be BicCommerce or Shopify or internal, etc..)
+  productId String?
+
+  // The product variant ID (could be BicCommerce or Shopify or internal, etc..)
+  productVariantId String?
+
+  // The optional design ID
+  designId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Design               Design?                @relation(fields: [designId], references: [id])
+  FulfillmentOrderItem FulfillmentOrderItem[]
+
+  @@index([orderId])
+  @@index([designId])
+}
+
+enum OrderItemFulfillmentStatus {
+  // Product is in the cart
+  NOT_FULFILLED
+
+  // Product is in the cart
+  PARTIALLY_FULFILLED
+
+  // Product is in the cart
+  FULFILLED
+}
+
+enum OrderItemType {
+  // BigCommerce product
+  BIG_C_PRODUCT
+
+  // Custom line item (no product associated)
+  CUSTOM
+}
+
+model Fulfillment {
+  id String @id @default(uuid())
+
+  // The order that this fulfillment belongs to
+  orderId String
+
+  fulfillmentTrackingInfoId String
+
+  // The user that created the fulfillment
+  userId         String?
+  organizationId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  FulfillmentOrderItems   FulfillmentOrderItem[]
+  Order                   Order                   @relation(fields: [orderId], references: [id])
+  FulfillmentTrackingInfo FulfillmentTrackingInfo @relation(fields: [fulfillmentTrackingInfoId], references: [id])
+
+  @@index([orderId])
+  @@index([fulfillmentTrackingInfoId])
+}
+
+model FulfillmentTrackingInfo {
+  id String @id @default(uuid())
+
+  // The tracking number
+  trackingNumber String
+
+  // The tracking URL
+  trackingUrl String
+
+  // The carrier
+  carrier String
+
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  Fulfillments Fulfillment[]
+}
+
+model FulfillmentOrderItem {
+  id String @id @default(uuid())
+
+  // The order item that this fulfillment belongs to
+  orderItem   OrderItem @relation(fields: [orderItemId], references: [id], onUpdate: NoAction)
+  orderItemId String
+
+  fulfillment   Fulfillment @relation(fields: [fulfillmentId], references: [id], onUpdate: NoAction)
+  fulfillmentId String
+
+  // The quantity of the line item
+  quantity Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orderItemId])
+  @@index([fulfillmentId])
+}
+
+model Design {
+  id String @id @default(uuid())
+
+  // The organization that this design belongs to
+  organization   Organization? @relation(fields: [organizationId], references: [id], onUpdate: NoAction)
+  organizationId String?
+
+  // The user that created the design
+  userId String?
+
+  // The name of the design
+  name String
+
+  // The description of the design
+  description String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  DesignLocation DesignLocation[]
+  OrderItem      OrderItem[]
+
+  @@index([organizationId])
+}
+
+model DesignLocation {
+  id String @id @default(uuid())
+
+  // The design that this location belongs to
+  design   Design @relation(fields: [designId], references: [id], onUpdate: NoAction)
+  designId String
+
+  colorCount Int
+
+  // The name of the location
+  name String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([designId])
+}
+
+model MailingAddress {
+  id String @id @default(uuid())
+
+  userId         String?
+  organizationId String?
+
+  name    String?
+  phone   String?
+  company String?
+
+  address1 String?
+  address2 String?
+  city     String?
+  country  String?
+
+  // The region of the address, such as the province, state, or district.
+  province String?
+
+  // The two-letter code for the region. (For example, ON.)
+  provinceCode String?
+  zip          String?
+
+  firstName String?
+  lastName  String?
+
+  latitude  Float?
+  longitude Float?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Order Order[]
 }

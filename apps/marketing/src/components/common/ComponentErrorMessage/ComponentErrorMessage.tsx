@@ -12,7 +12,9 @@ const ComponentErrorMessage = (props: Props) => {
       : props.error?.graphQLErrors.map(error => error.message).join(', ')
 
   React.useEffect(() => {
-    console.error(props.error)
+    if (props.error) {
+      console.error(props.error)
+    }
   }, [message, props.error])
 
   if (!message) {
@@ -20,7 +22,7 @@ const ComponentErrorMessage = (props: Props) => {
   }
 
   return (
-    <div className="w-full p-4 rounded-sm text-xs text-white bg-red-500 flex justify-center items-center">
+    <div className="w-full p-4 rounded-sm text-xs text-white bg-red-500 flex items-center">
       <div>
         <h6 className="text-sm font-bold">Error!</h6>
         <p>{message}</p>

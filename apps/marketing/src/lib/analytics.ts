@@ -5,6 +5,7 @@ enum MixpanelEvents {
 
   PRODUCT_FAVORITED = 'Product Favorited',
   PRODUCT_PRIMARY_CTA_CLICKED = 'Product Primary CTA Clicked',
+  PRODUCT_SECONDARY_CTA_CLICKED = 'Product Secondary CTA Clicked',
   PRODUCT_CUSTOM_DESIGN_CLICKED = 'Product Custom Design Clicked',
 
   CATALOG_FILTER_CLICKED = 'Catalog Filter Clicked',
@@ -23,6 +24,7 @@ interface TrackEvents {
 
   productFavorited: (product: Product) => void
   productPrimaryCtaClicked: (product: Product) => void
+  productSecondaryCtaClicked: (product: Product) => void
   productCustomDesignClicked: (product: Product) => void
 
   catalogFilterClicked: () => void
@@ -44,6 +46,9 @@ const track: TrackEvents = {
   },
   productPrimaryCtaClicked: product => {
     mixpanel.track(MixpanelEvents.PRODUCT_PRIMARY_CTA_CLICKED, { product })
+  },
+  productSecondaryCtaClicked: product => {
+    mixpanel.track(MixpanelEvents.PRODUCT_SECONDARY_CTA_CLICKED, { product })
   },
   productCustomDesignClicked: product => {
     mixpanel.track(MixpanelEvents.PRODUCT_CUSTOM_DESIGN_CLICKED, { product })

@@ -4,7 +4,7 @@ import { gql } from '@apollo/client'
 import { CatalogProductProductFragment } from '@generated/CatalogProductProductFragment'
 import routes from '@lib/routes'
 import Link from 'next/link'
-import useProductColors from '@hooks/useProductColors'
+import useProductOptions from '@hooks/useProductOptions'
 import SwatchGroup from '../Catalog/SwatchGroup'
 import { makeProductTitle } from '@utils/catalog'
 import { generateImageSizes } from '@utils/image'
@@ -17,7 +17,7 @@ export interface Props {
 }
 
 const CatalogProduct = ({ product, priority }: Props) => {
-  const { colors } = useProductColors({ product })
+  const { colors } = useProductOptions({ product })
 
   if (!product.brand) {
     console.warn('Product must have a brand')
@@ -79,7 +79,7 @@ const CatalogProduct = ({ product, priority }: Props) => {
 
 CatalogProduct.fragments = {
   product: gql`
-    ${useProductColors.fragments.product}
+    ${useProductOptions.fragments.product}
     fragment CatalogProductProductFragment on Product {
       ...UseProductColorsProductFragment
       id

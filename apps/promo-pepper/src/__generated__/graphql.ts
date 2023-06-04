@@ -256,6 +256,134 @@ export type AuthorRecordSeoMetaTagsArgs = {
   locale?: InputMaybe<SiteLocale>;
 };
 
+/** Banner details. */
+export type Banner = Node & {
+  __typename: 'Banner';
+  /** The content of the Banner. */
+  content: Scalars['String'];
+  /** The id of the Banner. */
+  entityId: Scalars['Long'];
+  /** The id of the object. */
+  id: Scalars['ID'];
+  /** The location of the Banner. */
+  location: BannerLocation;
+  /** The name of the Banner. */
+  name: Scalars['String'];
+};
+
+/** A connection to a list of items. */
+export type BannerConnection = {
+  __typename: 'BannerConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<Maybe<BannerEdge>>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type BannerEdge = {
+  __typename: 'BannerEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: Banner;
+};
+
+/** Banner location */
+export enum BannerLocation {
+  BOTTOM = 'BOTTOM',
+  TOP = 'TOP'
+}
+
+/** Banners details. */
+export type Banners = {
+  __typename: 'Banners';
+  /** List of brand page banners. */
+  brandPage: BrandPageBannerConnection;
+  /** List of category page banners. */
+  categoryPage: CategoryPageBannerConnection;
+  /** List of home page banners. */
+  homePage: BannerConnection;
+  /** List of search page banners. */
+  searchPage: BannerConnection;
+};
+
+
+/** Banners details. */
+export type BannersBrandPageArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  brandEntityId: Scalars['Int'];
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+/** Banners details. */
+export type BannersCategoryPageArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  categoryEntityId: Scalars['Int'];
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+/** Banners details. */
+export type BannersHomePageArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+
+/** Banners details. */
+export type BannersSearchPageArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+};
+
+/** Blog details. */
+export type Blog = Node & {
+  __typename: 'Blog';
+  /** The description of the Blog. */
+  description: Scalars['String'];
+  /** The ID of an object */
+  id: Scalars['ID'];
+  /** Whether or not the blog should be visible in the navigation menu. */
+  isVisibleInNavigation: Scalars['Boolean'];
+  /** The name of the Blog. */
+  name: Scalars['String'];
+  /** The path of the Blog. */
+  path: Scalars['String'];
+  /** Blog post details. */
+  post?: Maybe<BlogPost>;
+  /** Details of the Blog posts. */
+  posts: BlogPostConnection;
+  /** The rendered regions for the blog index. */
+  renderedRegions: RenderedRegionsByPageType;
+};
+
+
+/** Blog details. */
+export type BlogPostArgs = {
+  entityId: Scalars['Int'];
+};
+
+
+/** Blog details. */
+export type BlogPostsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  filters?: InputMaybe<BlogPostsFiltersInput>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<SortBy>;
+};
+
 /** Record of type Blog Index Page (blog_index_page) */
 export type BlogIndexPageRecord = RecordInterface & {
   __typename: 'BlogIndexPageRecord';
@@ -280,6 +408,69 @@ export type BlogIndexPageRecord = RecordInterface & {
 /** Record of type Blog Index Page (blog_index_page) */
 export type BlogIndexPageRecordSeoMetaTagsArgs = {
   locale?: InputMaybe<SiteLocale>;
+};
+
+/** Blog post details. */
+export type BlogPost = Node & {
+  __typename: 'BlogPost';
+  /** Blog post author. */
+  author?: Maybe<Scalars['String']>;
+  /** Unique ID for the blog post. */
+  entityId: Scalars['Int'];
+  /** The body of the Blog post. */
+  htmlBody: Scalars['String'];
+  /** The ID of an object */
+  id: Scalars['ID'];
+  /** Blog post name. */
+  name: Scalars['String'];
+  /** Blog post path. */
+  path: Scalars['String'];
+  /** The plain text summary of the Blog post. */
+  plainTextSummary: Scalars['String'];
+  /** Blog post published date. */
+  publishedDate: DateTimeExtended;
+  /** The rendered regions for the blog post. */
+  renderedRegions: RenderedRegionsByPageType;
+  /** Blog post SEO details. */
+  seo: SeoDetails;
+  /** Blog post tags. */
+  tags: Array<Scalars['String']>;
+  /** Blog post thumbnail image. */
+  thumbnailImage?: Maybe<Image>;
+};
+
+
+/** Blog post details. */
+export type BlogPostPlainTextSummaryArgs = {
+  characterLimit?: InputMaybe<Scalars['Int']>;
+};
+
+/** A connection to a list of items. */
+export type BlogPostConnection = {
+  __typename: 'BlogPostConnection';
+  /** Collection info */
+  collectionInfo?: Maybe<CollectionInfo>;
+  /** A list of edges. */
+  edges?: Maybe<Array<Maybe<BlogPostEdge>>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type BlogPostEdge = {
+  __typename: 'BlogPostEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: BlogPost;
+};
+
+/** Object containing the filters for querying blog posts */
+export type BlogPostsFiltersInput = {
+  /** Ids of the expected blog posts. */
+  entityIds?: InputMaybe<Array<Scalars['Int']>>;
+  /** Tags of the expected blog posts. */
+  tags?: InputMaybe<Array<Scalars['String']>>;
 };
 
 /** Specifies how to filter Boolean fields */
@@ -363,6 +554,24 @@ export type BrandEdge = {
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
   node: Brand;
+};
+
+/** A connection to a list of items. */
+export type BrandPageBannerConnection = {
+  __typename: 'BrandPageBannerConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<Maybe<BrandPageBannerEdge>>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type BrandPageBannerEdge = {
+  __typename: 'BrandPageBannerEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: Banner;
 };
 
 /** Brand Filter */
@@ -667,6 +876,24 @@ export enum CategoryModelOrderBy {
   UPDATEDAT_DESC = 'updatedAt_DESC'
 }
 
+/** A connection to a list of items. */
+export type CategoryPageBannerConnection = {
+  __typename: 'CategoryPageBannerConnection';
+  /** A list of edges. */
+  edges?: Maybe<Array<Maybe<CategoryPageBannerEdge>>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+/** An edge in a connection. */
+export type CategoryPageBannerEdge = {
+  __typename: 'CategoryPageBannerEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: Banner;
+};
+
 /** Product sorting by categories. */
 export enum CategoryProductSort {
   A_TO_Z = 'A_TO_Z',
@@ -894,6 +1121,10 @@ export type ContactField = {
 /** The page content. */
 export type Content = {
   __typename: 'Content';
+  /** Banners details. */
+  banners?: Maybe<Banners>;
+  /** Blog details. */
+  blog?: Maybe<Blog>;
   /** The rendered regions by specific page. */
   renderedRegionsByPageType: RenderedRegionsByPageType;
   /** The rendered regions by specific page and id. */
@@ -1232,6 +1463,78 @@ export type DeleteWishlistResult = {
 export type DeleteWishlistsInput = {
   /** The wishlist ids */
   entityIds: Array<Scalars['Int']>;
+};
+
+export type DesignModelFilter = {
+  AND?: InputMaybe<Array<InputMaybe<DesignModelFilter>>>;
+  OR?: InputMaybe<Array<InputMaybe<DesignModelFilter>>>;
+  _createdAt?: InputMaybe<CreatedAtFilter>;
+  _firstPublishedAt?: InputMaybe<PublishedAtFilter>;
+  _isValid?: InputMaybe<BooleanFilter>;
+  _publicationScheduledAt?: InputMaybe<PublishedAtFilter>;
+  _publishedAt?: InputMaybe<PublishedAtFilter>;
+  _status?: InputMaybe<StatusFilter>;
+  _unpublishingScheduledAt?: InputMaybe<PublishedAtFilter>;
+  _updatedAt?: InputMaybe<UpdatedAtFilter>;
+  createdAt?: InputMaybe<CreatedAtFilter>;
+  id?: InputMaybe<ItemIdFilter>;
+  name?: InputMaybe<StringFilter>;
+  primaryImage?: InputMaybe<FileFilter>;
+  updatedAt?: InputMaybe<UpdatedAtFilter>;
+};
+
+export enum DesignModelOrderBy {
+  _CREATEDAT_ASC = '_createdAt_ASC',
+  _CREATEDAT_DESC = '_createdAt_DESC',
+  _FIRSTPUBLISHEDAT_ASC = '_firstPublishedAt_ASC',
+  _FIRSTPUBLISHEDAT_DESC = '_firstPublishedAt_DESC',
+  _ISVALID_ASC = '_isValid_ASC',
+  _ISVALID_DESC = '_isValid_DESC',
+  _PUBLICATIONSCHEDULEDAT_ASC = '_publicationScheduledAt_ASC',
+  _PUBLICATIONSCHEDULEDAT_DESC = '_publicationScheduledAt_DESC',
+  _PUBLISHEDAT_ASC = '_publishedAt_ASC',
+  _PUBLISHEDAT_DESC = '_publishedAt_DESC',
+  _STATUS_ASC = '_status_ASC',
+  _STATUS_DESC = '_status_DESC',
+  _UNPUBLISHINGSCHEDULEDAT_ASC = '_unpublishingScheduledAt_ASC',
+  _UNPUBLISHINGSCHEDULEDAT_DESC = '_unpublishingScheduledAt_DESC',
+  _UPDATEDAT_ASC = '_updatedAt_ASC',
+  _UPDATEDAT_DESC = '_updatedAt_DESC',
+  CREATEDAT_ASC = 'createdAt_ASC',
+  CREATEDAT_DESC = 'createdAt_DESC',
+  ID_ASC = 'id_ASC',
+  ID_DESC = 'id_DESC',
+  NAME_ASC = 'name_ASC',
+  NAME_DESC = 'name_DESC',
+  UPDATEDAT_ASC = 'updatedAt_ASC',
+  UPDATEDAT_DESC = 'updatedAt_DESC'
+}
+
+/** Record of type Design (design) */
+export type DesignRecord = RecordInterface & {
+  __typename: 'DesignRecord';
+  _createdAt: Scalars['DateTime'];
+  _firstPublishedAt?: Maybe<Scalars['DateTime']>;
+  _isValid: Scalars['BooleanType'];
+  _modelApiKey: Scalars['String'];
+  _publicationScheduledAt?: Maybe<Scalars['DateTime']>;
+  _publishedAt?: Maybe<Scalars['DateTime']>;
+  /** SEO meta tags */
+  _seoMetaTags: Array<Tag>;
+  _status: ItemStatus;
+  _unpublishingScheduledAt?: Maybe<Scalars['DateTime']>;
+  _updatedAt: Scalars['DateTime'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['ItemId'];
+  name?: Maybe<Scalars['String']>;
+  primaryImage?: Maybe<FileField>;
+  updatedAt: Scalars['DateTime'];
+};
+
+
+/** Record of type Design (design) */
+export type DesignRecordSeoMetaTagsArgs = {
+  locale?: InputMaybe<SiteLocale>;
 };
 
 /** Display field */
@@ -1593,6 +1896,7 @@ export type GlossaryCategoryRecord = RecordInterface & {
 /** Record of type Glossary Category (glossary_category) */
 export type GlossaryCategoryRecordAllReferencingGlossaryEntriesArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<GlossaryEntryModelFilter>;
   first?: InputMaybe<Scalars['IntType']>;
   locale?: InputMaybe<SiteLocale>;
   orderBy?: InputMaybe<Array<InputMaybe<GlossaryEntryModelOrderBy>>>;
@@ -1603,6 +1907,8 @@ export type GlossaryCategoryRecordAllReferencingGlossaryEntriesArgs = {
 
 /** Record of type Glossary Category (glossary_category) */
 export type GlossaryCategoryRecordAllReferencingGlossaryEntriesMetaArgs = {
+  filter?: InputMaybe<GlossaryEntryModelFilter>;
+  locale?: InputMaybe<SiteLocale>;
   through?: InputMaybe<InverseRelationshipFilterBetweenGlossaryEntryAndGlossaryCategory>;
 };
 
@@ -1733,6 +2039,7 @@ export type GlossaryEntryRecord = RecordInterface & {
 /** Record of type Glossary Entry (glossary_entry) */
 export type GlossaryEntryRecordAllReferencingArticlesArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<ArticleModelFilter>;
   first?: InputMaybe<Scalars['IntType']>;
   locale?: InputMaybe<SiteLocale>;
   orderBy?: InputMaybe<Array<InputMaybe<ArticleModelOrderBy>>>;
@@ -1743,6 +2050,8 @@ export type GlossaryEntryRecordAllReferencingArticlesArgs = {
 
 /** Record of type Glossary Entry (glossary_entry) */
 export type GlossaryEntryRecordAllReferencingArticlesMetaArgs = {
+  filter?: InputMaybe<ArticleModelFilter>;
+  locale?: InputMaybe<SiteLocale>;
   through?: InputMaybe<InverseRelationshipFilterBetweenArticleAndGlossaryEntry>;
 };
 
@@ -1750,6 +2059,7 @@ export type GlossaryEntryRecordAllReferencingArticlesMetaArgs = {
 /** Record of type Glossary Entry (glossary_entry) */
 export type GlossaryEntryRecordAllReferencingGlossaryEntriesArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<GlossaryEntryModelFilter>;
   first?: InputMaybe<Scalars['IntType']>;
   locale?: InputMaybe<SiteLocale>;
   orderBy?: InputMaybe<Array<InputMaybe<GlossaryEntryModelOrderBy>>>;
@@ -1760,6 +2070,8 @@ export type GlossaryEntryRecordAllReferencingGlossaryEntriesArgs = {
 
 /** Record of type Glossary Entry (glossary_entry) */
 export type GlossaryEntryRecordAllReferencingGlossaryEntriesMetaArgs = {
+  filter?: InputMaybe<GlossaryEntryModelFilter>;
+  locale?: InputMaybe<SiteLocale>;
   through?: InputMaybe<InverseRelationshipFilterBetweenGlossaryEntryAndGlossaryEntry>;
 };
 
@@ -4804,13 +5116,15 @@ export type Query = {
   /** Returns meta information regarding a record collection */
   _allCustomComponentsMeta: CollectionMetadata;
   /** Returns meta information regarding a record collection */
+  _allDesignsMeta: CollectionMetadata;
+  /** Returns meta information regarding a record collection */
   _allGlossaryCategoriesMeta: CollectionMetadata;
   /** Returns meta information regarding a record collection */
   _allGlossaryEntriesMeta: CollectionMetadata;
   /** Returns meta information regarding a record collection */
   _allTablesMeta: CollectionMetadata;
   /** Returns meta information regarding an assets collection */
-  _allUploadsMeta?: Maybe<CollectionMetadata>;
+  _allUploadsMeta: CollectionMetadata;
   _products?: Maybe<Array<Maybe<Product>>>;
   /** Returns the single instance record */
   _site: Site;
@@ -4822,6 +5136,8 @@ export type Query = {
   allCategories: Array<CategoryRecord>;
   /** Returns a collection of records */
   allCustomComponents: Array<CustomComponentRecord>;
+  /** Returns a collection of records */
+  allDesigns: Array<DesignRecord>;
   /** Returns a collection of records */
   allGlossaryCategories: Array<GlossaryCategoryRecord>;
   /** Returns a collection of records */
@@ -4844,6 +5160,8 @@ export type Query = {
   customComponent?: Maybe<CustomComponentRecord>;
   /** The currently logged in customer. */
   customer?: Maybe<Customer>;
+  /** Returns a specific record */
+  design?: Maybe<DesignRecord>;
   /** Returns a specific record */
   glossaryCategory?: Maybe<GlossaryCategoryRecord>;
   /** Returns a specific record */
@@ -4895,6 +5213,13 @@ export type QueryAllCategoriesMetaArgs = {
 export type QueryAllCustomComponentsMetaArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
   filter?: InputMaybe<CustomComponentModelFilter>;
+  locale?: InputMaybe<SiteLocale>;
+};
+
+
+export type QueryAllDesignsMetaArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<DesignModelFilter>;
   locale?: InputMaybe<SiteLocale>;
 };
 
@@ -4977,6 +5302,16 @@ export type QueryAllCustomComponentsArgs = {
 };
 
 
+export type QueryAllDesignsArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<DesignModelFilter>;
+  first?: InputMaybe<Scalars['IntType']>;
+  locale?: InputMaybe<SiteLocale>;
+  orderBy?: InputMaybe<Array<InputMaybe<DesignModelOrderBy>>>;
+  skip?: InputMaybe<Scalars['IntType']>;
+};
+
+
 export type QueryAllGlossaryCategoriesArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
   filter?: InputMaybe<GlossaryCategoryModelFilter>;
@@ -5052,6 +5387,14 @@ export type QueryCustomComponentArgs = {
   filter?: InputMaybe<CustomComponentModelFilter>;
   locale?: InputMaybe<SiteLocale>;
   orderBy?: InputMaybe<Array<InputMaybe<CustomComponentModelOrderBy>>>;
+};
+
+
+export type QueryDesignArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<DesignModelFilter>;
+  locale?: InputMaybe<SiteLocale>;
+  orderBy?: InputMaybe<Array<InputMaybe<DesignModelOrderBy>>>;
 };
 
 
@@ -7296,6 +7639,12 @@ export type FocalPoint = {
   x: Scalars['FloatType'];
   y: Scalars['FloatType'];
 };
+
+/** Blog post sort */
+export enum SortBy {
+  NEWEST = 'NEWEST',
+  OLDEST = 'OLDEST'
+}
 
 export type CompanyCategorySectionCompanyFragment = { __typename: 'GlossaryCategoryRecord', id: any, slug?: string | null, children?: Array<{ __typename: 'GlossaryCategoryRecord', id: any, title?: string | null, slug?: string | null } | null> | null } & { ' $fragmentName'?: 'CompanyCategorySectionCompanyFragment' };
 

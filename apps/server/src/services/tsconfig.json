@@ -3,5 +3,9 @@
   "compilerOptions": {
     "rootDir": "."
   },
-  "references": [{ "path": "../beehiiv" }]
+  "references": [
+    { "path": "../beehiiv" },
+    { "path": "../bigcommerce" },
+    { "path": "../stripe" }
+  ]
 }

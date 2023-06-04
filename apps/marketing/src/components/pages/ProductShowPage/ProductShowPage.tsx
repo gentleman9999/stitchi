@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import { Container } from '@components/ui'
 import { ProductShowPageHeroFragment } from '@generated/ProductShowPageHeroFragment'
 import React from 'react'
-import ProductShowPageHero from './ProductShowPageHero/ProductShowPageHero'
+import ProductShowPageHero from './ProductShowPageHero'
 import {
   NextSeo,
   NextSeoProps,
@@ -231,7 +231,7 @@ export const fragments = {
           }
         }
       }
-      variants(first: 250) {
+      variants(first: $variantsFirst) {
         edges {
           node {
             id

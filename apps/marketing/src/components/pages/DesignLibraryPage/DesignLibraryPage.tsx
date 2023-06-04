@@ -7,7 +7,9 @@ import {
   DesignLibraryPageGetDataQuery_allDesigns_primaryImage_responsiveImage as ResponsiveImage,
 } from '@generated/DesignLibraryPageGetDataQuery'
 import routes from '@lib/routes'
+import makeAbsoluteUrl from '@utils/get-absolute-url'
 import { ArrowRight, Customization, Expand, NeedleThread } from 'icons'
+import { NextSeo } from 'next-seo'
 import { queryTypes, useQueryState } from 'next-usequerystate'
 import Link from 'next/link'
 import React from 'react'
@@ -18,6 +20,8 @@ const PAGE_SIZE = 20
 interface Props {}
 
 const DesignLibraryPage = (props: Props) => {
+  const url = makeAbsoluteUrl(routes.internal.designLibrary.href())
+
   const [activeImageId, setActiveImageId] = useQueryState(
     'image',
     queryTypes.string,
@@ -56,6 +60,12 @@ const DesignLibraryPage = (props: Props) => {
 
   return (
     <>
+      <NextSeo
+        title="Browse custom merch design inspiration"
+        description="Get inspired by our library of custom shirt designs or work directly with a designer to bring your vision to life (for free)."
+        canonical={url}
+        openGraph={{ url }}
+      />
       <Container>
         <Section>
           <div className="md:pr-0 mt-2 text-center sm:text-left  rounded-xl flex items-center">

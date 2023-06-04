@@ -168,7 +168,7 @@ const GET_DATA = gql`
   ${productShowPageFragments.product}
   ${brandShowPageFragments.brand}
   ${categoryShowPageFragments.category}
-  query ProductPageGetDataQuery($path: String!) {
+  query ProductPageGetDataQuery($path: String!, $variantsFirst: Int = 250) {
     site {
       route(path: $path) {
         node {

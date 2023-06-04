@@ -9,6 +9,10 @@
 
 export interface CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_CheckboxOption {
   __typename: "CheckboxOption" | "DateFieldOption" | "FileUploadFieldOption" | "MultiLineTextFieldOption" | "NumberFieldOption" | "TextFieldOption";
+  /**
+   * Unique ID for the option.
+   */
+  entityId: number;
 }
 
 export interface CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node_MultipleChoiceOptionValue {
@@ -17,6 +21,10 @@ export interface CatalogProductGridSiteFragment_search_searchProducts_products_e
    * Unique ID for the option value.
    */
   entityId: number;
+  /**
+   * Label for the option value.
+   */
+  label: string;
 }
 
 export interface CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node_SwatchOptionValue {
@@ -55,6 +63,10 @@ export interface CatalogProductGridSiteFragment_search_searchProducts_products_e
 
 export interface CatalogProductGridSiteFragment_search_searchProducts_products_edges_node_productOptions_edges_node_MultipleChoiceOption {
   __typename: "MultipleChoiceOption";
+  /**
+   * Unique ID for the option.
+   */
+  entityId: number;
   /**
    * Display name for the option.
    */

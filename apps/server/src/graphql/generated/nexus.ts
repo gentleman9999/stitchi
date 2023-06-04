@@ -42,6 +42,46 @@ export interface NexusGenInputs {
     first: number; // Int!
     skip?: number | null; // Int
   }
+  FulfillmentCreateInput: { // input type
+    carrier: string; // String!
+    orderId: string; // String!
+    trackingNumber: string; // String!
+    trackingUrl: string; // String!
+  }
+  MailingAddressCreateInput: { // input type
+    address1?: string | null; // String
+    address2?: string | null; // String
+    city?: string | null; // String
+    company?: string | null; // String
+    country?: string | null; // String
+    firstName?: string | null; // String
+    lastName?: string | null; // String
+    name?: string | null; // String
+    phone?: string | null; // String
+    province?: string | null; // String
+    provinceCode?: string | null; // String
+    zip?: string | null; // String
+  }
+  OrderCartCreateInput: { // input type
+    includeFulfillment: boolean; // Boolean!
+    items: NexusGenInputs['OrderCartCreateItemsInput'][]; // [OrderCartCreateItemsInput!]!
+    printLocations: NexusGenInputs['OrderCartCreatePrintLocationInput'][]; // [OrderCartCreatePrintLocationInput!]!
+    productEntityId: number; // Int!
+    shippingAddressId?: string | null; // String
+  }
+  OrderCartCreateItemsInput: { // input type
+    productVariantEntityId: number; // Int!
+    quantity: number; // Int!
+  }
+  OrderCartCreatePrintLocationInput: { // input type
+    colorCount: number; // Int!
+  }
+  OrderCartUpdateInput: { // input type
+    orderId: string; // ID!
+  }
+  PaymentIntentCreateInput: { // input type
+    orderId: string; // String!
+  }
   ProductKey: { // input type
     id: string; // ID!
     prices: NexusGenInputs['ProductPrice']; // ProductPrice!
@@ -64,6 +104,9 @@ export interface NexusGenEnums {
   GlobalRole: "CUSTOMER" | "SUPERADMIN"
   MembershipRole: "OWNER"
   NewsletterIssueStatus: "ARCHIVED" | "CONFIRMED" | "DRAFT"
+  OrderItemType: "BIG_COMMERCE_PRODUCT" | "CUSTOM"
+  OrderPaymentStatus: "NOT_PAID" | "PAID" | "PARTIALLY_PAID" | "PARTIALLY_REFUNDED" | "REFUNDED"
+  OrderType: "CART"
 }
 
 export interface NexusGenScalars {
@@ -76,6 +119,60 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Fulfillment: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    fulfillmentOrderItems: NexusGenRootTypes['FulfillmentOrderItem'][]; // [FulfillmentOrderItem!]!
+    fulfillmentTrackingInfoId: string; // String!
+    id: string; // ID!
+    orderId: string; // String!
+    organizationId?: string | null; // String
+    trackingInfo: NexusGenRootTypes['FulfillmentTrackingInfo']; // FulfillmentTrackingInfo!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    userId?: string | null; // String
+  }
+  FulfillmentCreatePayload: { // root type
+    fulfillment?: NexusGenRootTypes['Fulfillment'] | null; // Fulfillment
+  }
+  FulfillmentOrderItem: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    fulfillmentId: string; // String!
+    id: string; // ID!
+    orderItemId: string; // String!
+    quantity: number; // Int!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  FulfillmentTrackingInfo: { // root type
+    carrier: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    trackingNumber: string; // String!
+    trackingUrl: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  MailingAddress: { // root type
+    address1?: string | null; // String
+    address2?: string | null; // String
+    city?: string | null; // String
+    company?: string | null; // String
+    country?: string | null; // String
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    firstName?: string | null; // String
+    id: string; // ID!
+    lastName?: string | null; // String
+    latitude?: number | null; // Float
+    longitude?: number | null; // Float
+    name?: string | null; // String
+    organizationId?: string | null; // String
+    phone?: string | null; // String
+    province?: string | null; // String
+    provinceCode?: string | null; // String
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    userId?: string | null; // String
+    zip?: string | null; // String
+  }
+  MailingAddressCreatePayload: { // root type
+    mailingAddress?: NexusGenRootTypes['MailingAddress'] | null; // MailingAddress
+  }
   Membership: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
@@ -107,6 +204,54 @@ export interface NexusGenObjects {
     cursor: string; // String!
     node?: NexusGenRootTypes['NewsletterIssue'] | null; // NewsletterIssue
   }
+  Order: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    customerEmail?: string | null; // String
+    customerFullName?: string | null; // String
+    customerPhone?: string | null; // String
+    humanOrderId: string; // String!
+    humanPaymentStatus: string; // String!
+    id: string; // ID!
+    items: NexusGenRootTypes['OrderItem'][]; // [OrderItem!]!
+    paymentStatus: NexusGenEnums['OrderPaymentStatus']; // OrderPaymentStatus!
+    shippingAddressId?: string | null; // String
+    subtotalPriceCents: number; // Int!
+    totalAmountDueCents: number; // Int!
+    totalAmountPaidCents: number; // Int!
+    totalAmountRefundedCents: number; // Int!
+    totalPriceCents: number; // Int!
+    totalProcessingFeeCents: number; // Int!
+    totalShippingCents: number; // Int!
+    totalTaxCents: number; // Int!
+    type: NexusGenEnums['OrderType']; // OrderType!
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    userId?: string | null; // String
+  }
+  OrderCartCreatePayload: { // root type
+    order?: NexusGenRootTypes['Order'] | null; // Order
+  }
+  OrderCartUpdatePayload: { // root type
+    order?: NexusGenRootTypes['Order'] | null; // Order
+  }
+  OrderItem: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    orderId: string; // String!
+    productId?: string | null; // String
+    productVariantId?: string | null; // String
+    quantity: number; // Int!
+    title: string; // String!
+    totalPriceCents: number; // Int!
+    type: NexusGenEnums['OrderItemType']; // OrderItemType!
+    unitPriceCents: number; // Int!
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  OrderItemSummary: { // root type
+    id: string; // ID!
+    quantity: number; // Int!
+    title: string; // String!
+    totalPriceCents: number; // Int!
+  }
   Organization: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
@@ -117,6 +262,37 @@ export interface NexusGenObjects {
   PageInfo: { // root type
     endCursor?: string | null; // String
     hasNextPage: boolean; // Boolean!
+  }
+  PaymentIntent: { // root type
+    amount: number; // Int!
+    clientSecret?: string | null; // String
+    id: string; // String!
+  }
+  PaymentIntentCreatePayload: { // root type
+    paymentIntent?: NexusGenRootTypes['PaymentIntent'] | null; // PaymentIntent
+  }
+  PaymentMethod: { // root type
+    billingDetails?: NexusGenRootTypes['PaymentMethodBillingDetails'] | null; // PaymentMethodBillingDetails
+    card?: NexusGenRootTypes['PaymentMethodCard'] | null; // PaymentMethodCard
+    id: string; // String!
+    type: string; // String!
+  }
+  PaymentMethodBillingDetails: { // root type
+    city?: string | null; // String
+    country?: string | null; // String
+    email?: string | null; // String
+    line1?: string | null; // String
+    line2?: string | null; // String
+    name?: string | null; // String
+    phone?: string | null; // String
+    postalCode?: string | null; // String
+    state?: string | null; // String
+  }
+  PaymentMethodCard: { // root type
+    brand?: string | null; // String
+    expMonth?: number | null; // Int
+    expYear?: number | null; // Int
+    last4?: string | null; // String
   }
   PrintLocation: { // root type
     colorCount: number; // Int!
@@ -170,6 +346,60 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  Fulfillment: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    fulfillmentOrderItems: NexusGenRootTypes['FulfillmentOrderItem'][]; // [FulfillmentOrderItem!]!
+    fulfillmentTrackingInfoId: string; // String!
+    id: string; // ID!
+    orderId: string; // String!
+    organizationId: string | null; // String
+    trackingInfo: NexusGenRootTypes['FulfillmentTrackingInfo']; // FulfillmentTrackingInfo!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    userId: string | null; // String
+  }
+  FulfillmentCreatePayload: { // field return type
+    fulfillment: NexusGenRootTypes['Fulfillment'] | null; // Fulfillment
+  }
+  FulfillmentOrderItem: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    fulfillmentId: string; // String!
+    id: string; // ID!
+    orderItemId: string; // String!
+    quantity: number; // Int!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  FulfillmentTrackingInfo: { // field return type
+    carrier: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    trackingNumber: string; // String!
+    trackingUrl: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  MailingAddress: { // field return type
+    address1: string | null; // String
+    address2: string | null; // String
+    city: string | null; // String
+    company: string | null; // String
+    country: string | null; // String
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    firstName: string | null; // String
+    id: string; // ID!
+    lastName: string | null; // String
+    latitude: number | null; // Float
+    longitude: number | null; // Float
+    name: string | null; // String
+    organizationId: string | null; // String
+    phone: string | null; // String
+    province: string | null; // String
+    provinceCode: string | null; // String
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    userId: string | null; // String
+    zip: string | null; // String
+  }
+  MailingAddressCreatePayload: { // field return type
+    mailingAddress: NexusGenRootTypes['MailingAddress'] | null; // MailingAddress
+  }
   Membership: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
@@ -181,6 +411,10 @@ export interface NexusGenFieldTypes {
     userId: string; // String!
   }
   Mutation: { // field return type
+    fulfillmentCreate: NexusGenRootTypes['FulfillmentCreatePayload'] | null; // FulfillmentCreatePayload
+    mailingAddressCreate: NexusGenRootTypes['MailingAddressCreatePayload'] | null; // MailingAddressCreatePayload
+    orderCartCreate: NexusGenRootTypes['OrderCartCreatePayload'] | null; // OrderCartCreatePayload
+    paymentIntentCreate: NexusGenRootTypes['PaymentIntentCreatePayload'] | null; // PaymentIntentCreatePayload
     subscriberCreate: NexusGenRootTypes['SubscriberCreatePayload'] | null; // SubscriberCreatePayload
     userBoostrap: NexusGenRootTypes['User'] | null; // User
   }
@@ -209,6 +443,61 @@ export interface NexusGenFieldTypes {
     cursor: string; // String!
     node: NexusGenRootTypes['NewsletterIssue'] | null; // NewsletterIssue
   }
+  Order: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    customer: NexusGenRootTypes['User'] | null; // User
+    customerEmail: string | null; // String
+    customerFullName: string | null; // String
+    customerId: string | null; // String
+    customerPhone: string | null; // String
+    fulfillments: NexusGenRootTypes['Fulfillment'][]; // [Fulfillment!]!
+    humanOrderId: string; // String!
+    humanPaymentStatus: string; // String!
+    id: string; // ID!
+    itemSummaries: NexusGenRootTypes['OrderItemSummary'][]; // [OrderItemSummary!]!
+    items: NexusGenRootTypes['OrderItem'][]; // [OrderItem!]!
+    lastPaymentMethod: NexusGenRootTypes['PaymentMethod'] | null; // PaymentMethod
+    paymentIntents: NexusGenRootTypes['PaymentIntent'][]; // [PaymentIntent!]!
+    paymentStatus: NexusGenEnums['OrderPaymentStatus']; // OrderPaymentStatus!
+    shippingAddress: NexusGenRootTypes['MailingAddress'] | null; // MailingAddress
+    shippingAddressId: string | null; // String
+    subtotalPriceCents: number; // Int!
+    totalAmountDueCents: number; // Int!
+    totalAmountPaidCents: number; // Int!
+    totalAmountRefundedCents: number; // Int!
+    totalPriceCents: number; // Int!
+    totalProcessingFeeCents: number; // Int!
+    totalShippingCents: number; // Int!
+    totalTaxCents: number; // Int!
+    type: NexusGenEnums['OrderType']; // OrderType!
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    userId: string | null; // String
+  }
+  OrderCartCreatePayload: { // field return type
+    order: NexusGenRootTypes['Order'] | null; // Order
+  }
+  OrderCartUpdatePayload: { // field return type
+    order: NexusGenRootTypes['Order'] | null; // Order
+  }
+  OrderItem: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    orderId: string; // String!
+    productId: string | null; // String
+    productVariantId: string | null; // String
+    quantity: number; // Int!
+    title: string; // String!
+    totalPriceCents: number; // Int!
+    type: NexusGenEnums['OrderItemType']; // OrderItemType!
+    unitPriceCents: number; // Int!
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  OrderItemSummary: { // field return type
+    id: string; // ID!
+    quantity: number; // Int!
+    title: string; // String!
+    totalPriceCents: number; // Int!
+  }
   Organization: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
@@ -220,6 +509,37 @@ export interface NexusGenFieldTypes {
   PageInfo: { // field return type
     endCursor: string | null; // String
     hasNextPage: boolean; // Boolean!
+  }
+  PaymentIntent: { // field return type
+    amount: number; // Int!
+    clientSecret: string | null; // String
+    id: string; // String!
+  }
+  PaymentIntentCreatePayload: { // field return type
+    paymentIntent: NexusGenRootTypes['PaymentIntent'] | null; // PaymentIntent
+  }
+  PaymentMethod: { // field return type
+    billingDetails: NexusGenRootTypes['PaymentMethodBillingDetails'] | null; // PaymentMethodBillingDetails
+    card: NexusGenRootTypes['PaymentMethodCard'] | null; // PaymentMethodCard
+    id: string; // String!
+    type: string; // String!
+  }
+  PaymentMethodBillingDetails: { // field return type
+    city: string | null; // String
+    country: string | null; // String
+    email: string | null; // String
+    line1: string | null; // String
+    line2: string | null; // String
+    name: string | null; // String
+    phone: string | null; // String
+    postalCode: string | null; // String
+    state: string | null; // String
+  }
+  PaymentMethodCard: { // field return type
+    brand: string | null; // String
+    expMonth: number | null; // Int
+    expYear: number | null; // Int
+    last4: string | null; // String
   }
   PrintLocation: { // field return type
     colorCount: number; // Int!
@@ -233,6 +553,7 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     _products: Array<NexusGenRootTypes['Product'] | null> | null; // [Product]
     newsletter: NexusGenRootTypes['Newsletter'] | null; // Newsletter
+    order: NexusGenRootTypes['Order'] | null; // Order
     viewer: NexusGenRootTypes['Membership'] | null; // Membership
   }
   Quote: { // field return type
@@ -269,6 +590,60 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  Fulfillment: { // field return type name
+    createdAt: 'DateTime'
+    fulfillmentOrderItems: 'FulfillmentOrderItem'
+    fulfillmentTrackingInfoId: 'String'
+    id: 'ID'
+    orderId: 'String'
+    organizationId: 'String'
+    trackingInfo: 'FulfillmentTrackingInfo'
+    updatedAt: 'DateTime'
+    userId: 'String'
+  }
+  FulfillmentCreatePayload: { // field return type name
+    fulfillment: 'Fulfillment'
+  }
+  FulfillmentOrderItem: { // field return type name
+    createdAt: 'DateTime'
+    fulfillmentId: 'String'
+    id: 'ID'
+    orderItemId: 'String'
+    quantity: 'Int'
+    updatedAt: 'DateTime'
+  }
+  FulfillmentTrackingInfo: { // field return type name
+    carrier: 'String'
+    createdAt: 'DateTime'
+    id: 'ID'
+    trackingNumber: 'String'
+    trackingUrl: 'String'
+    updatedAt: 'DateTime'
+  }
+  MailingAddress: { // field return type name
+    address1: 'String'
+    address2: 'String'
+    city: 'String'
+    company: 'String'
+    country: 'String'
+    createdAt: 'DateTime'
+    firstName: 'String'
+    id: 'ID'
+    lastName: 'String'
+    latitude: 'Float'
+    longitude: 'Float'
+    name: 'String'
+    organizationId: 'String'
+    phone: 'String'
+    province: 'String'
+    provinceCode: 'String'
+    updatedAt: 'DateTime'
+    userId: 'String'
+    zip: 'String'
+  }
+  MailingAddressCreatePayload: { // field return type name
+    mailingAddress: 'MailingAddress'
+  }
   Membership: { // field return type name
     createdAt: 'DateTime'
     id: 'ID'
@@ -280,6 +655,10 @@ export interface NexusGenFieldTypeNames {
     userId: 'String'
   }
   Mutation: { // field return type name
+    fulfillmentCreate: 'FulfillmentCreatePayload'
+    mailingAddressCreate: 'MailingAddressCreatePayload'
+    orderCartCreate: 'OrderCartCreatePayload'
+    paymentIntentCreate: 'PaymentIntentCreatePayload'
     subscriberCreate: 'SubscriberCreatePayload'
     userBoostrap: 'User'
   }
@@ -308,6 +687,61 @@ export interface NexusGenFieldTypeNames {
     cursor: 'String'
     node: 'NewsletterIssue'
   }
+  Order: { // field return type name
+    createdAt: 'DateTime'
+    customer: 'User'
+    customerEmail: 'String'
+    customerFullName: 'String'
+    customerId: 'String'
+    customerPhone: 'String'
+    fulfillments: 'Fulfillment'
+    humanOrderId: 'String'
+    humanPaymentStatus: 'String'
+    id: 'ID'
+    itemSummaries: 'OrderItemSummary'
+    items: 'OrderItem'
+    lastPaymentMethod: 'PaymentMethod'
+    paymentIntents: 'PaymentIntent'
+    paymentStatus: 'OrderPaymentStatus'
+    shippingAddress: 'MailingAddress'
+    shippingAddressId: 'String'
+    subtotalPriceCents: 'Int'
+    totalAmountDueCents: 'Int'
+    totalAmountPaidCents: 'Int'
+    totalAmountRefundedCents: 'Int'
+    totalPriceCents: 'Int'
+    totalProcessingFeeCents: 'Int'
+    totalShippingCents: 'Int'
+    totalTaxCents: 'Int'
+    type: 'OrderType'
+    updatedAt: 'DateTime'
+    userId: 'String'
+  }
+  OrderCartCreatePayload: { // field return type name
+    order: 'Order'
+  }
+  OrderCartUpdatePayload: { // field return type name
+    order: 'Order'
+  }
+  OrderItem: { // field return type name
+    createdAt: 'DateTime'
+    id: 'ID'
+    orderId: 'String'
+    productId: 'String'
+    productVariantId: 'String'
+    quantity: 'Int'
+    title: 'String'
+    totalPriceCents: 'Int'
+    type: 'OrderItemType'
+    unitPriceCents: 'Int'
+    updatedAt: 'DateTime'
+  }
+  OrderItemSummary: { // field return type name
+    id: 'ID'
+    quantity: 'Int'
+    title: 'String'
+    totalPriceCents: 'Int'
+  }
   Organization: { // field return type name
     createdAt: 'DateTime'
     id: 'ID'
@@ -319,6 +753,37 @@ export interface NexusGenFieldTypeNames {
   PageInfo: { // field return type name
     endCursor: 'String'
     hasNextPage: 'Boolean'
+  }
+  PaymentIntent: { // field return type name
+    amount: 'Int'
+    clientSecret: 'String'
+    id: 'String'
+  }
+  PaymentIntentCreatePayload: { // field return type name
+    paymentIntent: 'PaymentIntent'
+  }
+  PaymentMethod: { // field return type name
+    billingDetails: 'PaymentMethodBillingDetails'
+    card: 'PaymentMethodCard'
+    id: 'String'
+    type: 'String'
+  }
+  PaymentMethodBillingDetails: { // field return type name
+    city: 'String'
+    country: 'String'
+    email: 'String'
+    line1: 'String'
+    line2: 'String'
+    name: 'String'
+    phone: 'String'
+    postalCode: 'String'
+    state: 'String'
+  }
+  PaymentMethodCard: { // field return type name
+    brand: 'String'
+    expMonth: 'Int'
+    expYear: 'Int'
+    last4: 'String'
   }
   PrintLocation: { // field return type name
     colorCount: 'Int'
@@ -332,6 +797,7 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     _products: 'Product'
     newsletter: 'Newsletter'
+    order: 'Order'
     viewer: 'Membership'
   }
   Quote: { // field return type name
@@ -369,6 +835,18 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    fulfillmentCreate: { // args
+      input: NexusGenInputs['FulfillmentCreateInput']; // FulfillmentCreateInput!
+    }
+    mailingAddressCreate: { // args
+      input: NexusGenInputs['MailingAddressCreateInput']; // MailingAddressCreateInput!
+    }
+    orderCartCreate: { // args
+      input: NexusGenInputs['OrderCartCreateInput']; // OrderCartCreateInput!
+    }
+    paymentIntentCreate: { // args
+      input: NexusGenInputs['PaymentIntentCreateInput']; // PaymentIntentCreateInput!
+    }
     subscriberCreate: { // args
       input: NexusGenInputs['SubscriberCreateInput']; // SubscriberCreateInput!
     }
@@ -392,6 +870,9 @@ export interface NexusGenArgTypes {
   Query: {
     _products: { // args
       products: NexusGenInputs['ProductKey'][]; // [ProductKey!]!
+    }
+    order: { // args
+      id: string; // ID!
     }
   }
 }

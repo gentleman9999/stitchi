@@ -12,9 +12,91 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+type Fulfillment {
+  createdAt: DateTime!
+  fulfillmentOrderItems: [FulfillmentOrderItem!]!
+  fulfillmentTrackingInfoId: String!
+  id: ID!
+  orderId: String!
+  organizationId: String
+  trackingInfo: FulfillmentTrackingInfo!
+  updatedAt: DateTime!
+  userId: String
+}
+
+input FulfillmentCreateInput {
+  carrier: String!
+  orderId: String!
+  trackingNumber: String!
+  trackingUrl: String!
+}
+
+type FulfillmentCreatePayload {
+  fulfillment: Fulfillment
+}
+
+type FulfillmentOrderItem {
+  createdAt: DateTime!
+  fulfillmentId: String!
+  id: ID!
+  orderItemId: String!
+  quantity: Int!
+  updatedAt: DateTime!
+}
+
+type FulfillmentTrackingInfo {
+  carrier: String!
+  createdAt: DateTime!
+  id: ID!
+  trackingNumber: String!
+  trackingUrl: String!
+  updatedAt: DateTime!
+}
+
 enum GlobalRole {
   CUSTOMER
   SUPERADMIN
+}
+
+type MailingAddress {
+  address1: String
+  address2: String
+  city: String
+  company: String
+  country: String
+  createdAt: DateTime!
+  firstName: String
+  id: ID!
+  lastName: String
+  latitude: Float
+  longitude: Float
+  name: String
+  organizationId: String
+  phone: String
+  province: String
+  provinceCode: String
+  updatedAt: DateTime!
+  userId: String
+  zip: String
+}
+
+input MailingAddressCreateInput {
+  address1: String
+  address2: String
+  city: String
+  company: String
+  country: String
+  firstName: String
+  lastName: String
+  name: String
+  phone: String
+  province: String
+  provinceCode: String
+  zip: String
+}
+
+type MailingAddressCreatePayload {
+  mailingAddress: MailingAddress
 }
 
 type Membership {
@@ -33,6 +115,15 @@ enum MembershipRole {
 }
 
 type Mutation {
+  fulfillmentCreate(input: FulfillmentCreateInput!): FulfillmentCreatePayload
+
+  """Creates a new mailing address for the user"""
+  mailingAddressCreate(input: MailingAddressCreateInput!): MailingAddressCreatePayload
+
+  """Creates a new order during user Cart"""
+  orderCartCreate(input: OrderCartCreateInput!): OrderCartCreatePayload
+  paymentIntentCreate(input: PaymentIntentCreateInput!): PaymentIntentCreatePayload
+
   """Creates a new subscriber"""
   subscriberCreate(input: SubscriberCreateInput!): SubscriberCreatePayload
 
@@ -91,6 +182,104 @@ enum NewsletterIssueStatus {
   DRAFT
 }
 
+type Order {
+  createdAt: DateTime!
+  customer: User
+  customerEmail: String
+  customerFullName: String
+  customerId: String
+  customerPhone: String
+  fulfillments: [Fulfillment!]!
+  humanOrderId: String!
+  humanPaymentStatus: String!
+  id: ID!
+  itemSummaries: [OrderItemSummary!]!
+  items: [OrderItem!]!
+  lastPaymentMethod: PaymentMethod
+  paymentIntents: [PaymentIntent!]!
+  paymentStatus: OrderPaymentStatus!
+  shippingAddress: MailingAddress
+  shippingAddressId: String
+  subtotalPriceCents: Int!
+  totalAmountDueCents: Int!
+  totalAmountPaidCents: Int!
+  totalAmountRefundedCents: Int!
+  totalPriceCents: Int!
+  totalProcessingFeeCents: Int!
+  totalShippingCents: Int!
+  totalTaxCents: Int!
+  type: OrderType!
+  updatedAt: DateTime
+  userId: String
+}
+
+input OrderCartCreateInput {
+  includeFulfillment: Boolean!
+  items: [OrderCartCreateItemsInput!]!
+  printLocations: [OrderCartCreatePrintLocationInput!]!
+  productEntityId: Int!
+  shippingAddressId: String
+}
+
+input OrderCartCreateItemsInput {
+  productVariantEntityId: Int!
+  quantity: Int!
+}
+
+type OrderCartCreatePayload {
+  order: Order
+}
+
+input OrderCartCreatePrintLocationInput {
+  colorCount: Int!
+}
+
+input OrderCartUpdateInput {
+  orderId: ID!
+}
+
+type OrderCartUpdatePayload {
+  order: Order
+}
+
+type OrderItem {
+  createdAt: DateTime!
+  id: ID!
+  orderId: String!
+  productId: String
+  productVariantId: String
+  quantity: Int!
+  title: String!
+  totalPriceCents: Int!
+  type: OrderItemType!
+  unitPriceCents: Int!
+  updatedAt: DateTime
+}
+
+type OrderItemSummary {
+  id: ID!
+  quantity: Int!
+  title: String!
+  totalPriceCents: Int!
+}
+
+enum OrderItemType {
+  BIG_COMMERCE_PRODUCT
+  CUSTOM
+}
+
+enum OrderPaymentStatus {
+  NOT_PAID
+  PAID
+  PARTIALLY_PAID
+  PARTIALLY_REFUNDED
+  REFUNDED
+}
+
+enum OrderType {
+  CART
+}
+
 type Organization {
   createdAt: DateTime!
   id: ID!
@@ -103,6 +292,46 @@ type Organization {
 type PageInfo {
   endCursor: String
   hasNextPage: Boolean!
+}
+
+type PaymentIntent {
+  amount: Int!
+  clientSecret: String
+  id: String!
+}
+
+input PaymentIntentCreateInput {
+  orderId: String!
+}
+
+type PaymentIntentCreatePayload {
+  paymentIntent: PaymentIntent
+}
+
+type PaymentMethod {
+  billingDetails: PaymentMethodBillingDetails
+  card: PaymentMethodCard
+  id: String!
+  type: String!
+}
+
+type PaymentMethodBillingDetails {
+  city: String
+  country: String
+  email: String
+  line1: String
+  line2: String
+  name: String
+  phone: String
+  postalCode: String
+  state: String
+}
+
+type PaymentMethodCard {
+  brand: String
+  expMonth: Int
+  expYear: Int
+  last4: String
 }
 
 type PrintLocation {
@@ -132,6 +361,7 @@ input ProductPriceValue {
 type Query {
   _products(products: [ProductKey!]!): [Product]
   newsletter: Newsletter
+  order(id: ID!): Order
   viewer: Membership
 }
 
