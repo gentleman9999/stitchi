@@ -17,6 +17,10 @@ export interface ProductShowPageHeroProductFragment_productOptions_edges_node_Mu
    * Unique ID for the option value.
    */
   entityId: number;
+  /**
+   * Label for the option value.
+   */
+  label: string;
 }
 
 export interface ProductShowPageHeroProductFragment_productOptions_edges_node_MultipleChoiceOption_values_edges_node_SwatchOptionValue {
@@ -86,29 +90,17 @@ export interface ProductShowPageHeroProductFragment_productOptions {
 export interface ProductShowPageHeroProductFragment_defaultImage {
   __typename: "Image";
   /**
-   * Absolute path to original image using store CDN.
+   * Absolute path to image using store CDN.
    */
-  urlOriginal: string;
+  url: string;
   /**
    * Text description of an image that can be used for SEO and/or accessibility purposes.
    */
   altText: string;
   /**
-   * Absolute path to image using store CDN.
+   * Absolute path to original image using store CDN.
    */
-  url: string;
-}
-
-export interface ProductShowPageHeroProductFragment_brand {
-  __typename: "Brand";
-  /**
-   * The ID of an object
-   */
-  id: string;
-  /**
-   * Path for the brand page.
-   */
-  path: string;
+  urlOriginal: string;
 }
 
 export interface ProductShowPageHeroProductFragment_variants_edges_node_defaultImage {
@@ -207,6 +199,18 @@ export interface ProductShowPageHeroProductFragment_variants {
   edges: (ProductShowPageHeroProductFragment_variants_edges | null)[] | null;
 }
 
+export interface ProductShowPageHeroProductFragment_brand {
+  __typename: "Brand";
+  /**
+   * The ID of an object
+   */
+  id: string;
+  /**
+   * Path for the brand page.
+   */
+  path: string;
+}
+
 export interface ProductShowPageHeroProductFragment {
   __typename: "Product";
   /**
@@ -218,27 +222,27 @@ export interface ProductShowPageHeroProductFragment {
    */
   productOptions: ProductShowPageHeroProductFragment_productOptions;
   /**
-   * Id of the product.
-   */
-  entityId: number;
-  /**
    * Name of the product.
    */
   name: string;
-  /**
-   * Relative URL path to product page.
-   */
-  path: string;
   /**
    * Default image for a product.
    */
   defaultImage: ProductShowPageHeroProductFragment_defaultImage | null;
   /**
-   * Brand associated with the product.
-   */
-  brand: ProductShowPageHeroProductFragment_brand | null;
-  /**
    * Variants associated with the product.
    */
   variants: ProductShowPageHeroProductFragment_variants;
+  /**
+   * Id of the product.
+   */
+  entityId: number;
+  /**
+   * Relative URL path to product page.
+   */
+  path: string;
+  /**
+   * Brand associated with the product.
+   */
+  brand: ProductShowPageHeroProductFragment_brand | null;
 }

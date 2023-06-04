@@ -8,7 +8,7 @@
 // ====================================================
 
 export interface ProductPageGetDataQuery_site_route_node_Banner {
-  __typename: "Banner" | "Blog" | "BlogPost" | "ContactPage" | "NormalPage" | "RawHtmlPage" | "Variant";
+  __typename: "Banner" | "Blog" | "BlogPost" | "Cart" | "Checkout" | "ContactPage" | "NormalPage" | "RawHtmlPage" | "Variant";
   /**
    * The id of the object.
    */
@@ -70,17 +70,17 @@ export interface ProductPageGetDataQuery_site_route_node_Product_defaultImage {
    */
   seoImageUrl: string;
   /**
-   * Absolute path to original image using store CDN.
+   * Absolute path to image using store CDN.
    */
-  urlOriginal: string;
+  url: string;
   /**
    * Text description of an image that can be used for SEO and/or accessibility purposes.
    */
   altText: string;
   /**
-   * Absolute path to image using store CDN.
+   * Absolute path to original image using store CDN.
    */
-  url: string;
+  urlOriginal: string;
 }
 
 export interface ProductPageGetDataQuery_site_route_node_Product_brand {
@@ -117,6 +117,10 @@ export interface ProductPageGetDataQuery_site_route_node_Product_relatedProducts
    * Unique ID for the option value.
    */
   entityId: number;
+  /**
+   * Label for the option value.
+   */
+  label: string;
 }
 
 export interface ProductPageGetDataQuery_site_route_node_Product_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node_SwatchOptionValue {
@@ -422,6 +426,10 @@ export interface ProductPageGetDataQuery_site_route_node_Product_productOptions_
    * Unique ID for the option value.
    */
   entityId: number;
+  /**
+   * Label for the option value.
+   */
+  label: string;
 }
 
 export interface ProductPageGetDataQuery_site_route_node_Product_productOptions_edges_node_MultipleChoiceOption_values_edges_node_SwatchOptionValue {
@@ -644,4 +652,5 @@ export interface ProductPageGetDataQuery {
 
 export interface ProductPageGetDataQueryVariables {
   path: string;
+  variantLimit: number;
 }

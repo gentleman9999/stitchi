@@ -14,17 +14,17 @@ export interface ProductShowPageHeroFragment_defaultImage {
    */
   seoImageUrl: string;
   /**
-   * Absolute path to original image using store CDN.
+   * Absolute path to image using store CDN.
    */
-  urlOriginal: string;
+  url: string;
   /**
    * Text description of an image that can be used for SEO and/or accessibility purposes.
    */
   altText: string;
   /**
-   * Absolute path to image using store CDN.
+   * Absolute path to original image using store CDN.
    */
-  url: string;
+  urlOriginal: string;
 }
 
 export interface ProductShowPageHeroFragment_brand {
@@ -61,6 +61,10 @@ export interface ProductShowPageHeroFragment_relatedProducts_edges_node_productO
    * Unique ID for the option value.
    */
   entityId: number;
+  /**
+   * Label for the option value.
+   */
+  label: string;
 }
 
 export interface ProductShowPageHeroFragment_relatedProducts_edges_node_productOptions_edges_node_MultipleChoiceOption_values_edges_node_SwatchOptionValue {
@@ -366,6 +370,10 @@ export interface ProductShowPageHeroFragment_productOptions_edges_node_MultipleC
    * Unique ID for the option value.
    */
   entityId: number;
+  /**
+   * Label for the option value.
+   */
+  label: string;
 }
 
 export interface ProductShowPageHeroFragment_productOptions_edges_node_MultipleChoiceOption_values_edges_node_SwatchOptionValue {

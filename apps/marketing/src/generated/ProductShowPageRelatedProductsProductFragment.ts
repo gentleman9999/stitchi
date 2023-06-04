@@ -17,6 +17,10 @@ export interface ProductShowPageRelatedProductsProductFragment_productOptions_ed
    * Unique ID for the option value.
    */
   entityId: number;
+  /**
+   * Label for the option value.
+   */
+  label: string;
 }
 
 export interface ProductShowPageRelatedProductsProductFragment_productOptions_edges_node_MultipleChoiceOption_values_edges_node_SwatchOptionValue {

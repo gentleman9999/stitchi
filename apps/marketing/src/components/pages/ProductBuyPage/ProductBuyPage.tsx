@@ -1,5 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
 import { Section } from '@components/common'
+import CatalogProductVariantPreview from '@components/common/CatalogProductVariantPreview'
 import { Container } from '@components/ui'
 import {
   ProductBuyPageGetDataQuery,
@@ -9,7 +10,9 @@ import routes from '@lib/routes'
 import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
 import React from 'react'
-import VariantQuanittyMatrixForm from './VariantQuantityMatrixForm'
+import ProductBuyPageForm from './ProductBuyPageForm'
+
+const VARIANT_LIMIT = 250
 
 interface Props {
   productSlug: string
@@ -20,15 +23,18 @@ const ProductBuyPage = (props: Props) => {
   const { data, loading, error } = useQuery<
     ProductBuyPageGetDataQuery,
     ProductBuyPageGetDataQueryVariables
-  >(GET_DATA, { variables: { path: props.productSlug } })
+  >(GET_DATA, {
+    variables: { path: props.productSlug, variantLimit: VARIANT_LIMIT },
+  })
 
   const product = data?.site.route.node
 
-  if (product && product?.__typename !== 'Product') {
+  if (product?.__typename !== 'Product') {
     console.error(
       `Invalid node type passed to product page: ${product?.__typename}. Redirecting to catalog...`,
     )
     router.push(routes.internal.catalog.href())
+    return null
   }
 
   // Select product variants (colors, size, quantity)
@@ -39,10 +45,15 @@ const ProductBuyPage = (props: Props) => {
       <NextSeo nofollow noindex />
       <Container>
         <div className="grid grid-cols-2 gap-8">
-          <div />
+          <div>
+            <CatalogProductVariantPreview
+              product={product}
+              onVariantChange={() => {}}
+            />
+          </div>
           <div>
             <Section>
-              <VariantQuanittyMatrixForm />
+              <ProductBuyPageForm product={product} />
             </Section>
           </div>
         </div>
@@ -52,7 +63,9 @@ const ProductBuyPage = (props: Props) => {
 }
 
 const GET_DATA = gql`
-  query ProductBuyPageGetDataQuery($path: String!) {
+  ${CatalogProductVariantPreview.fragments.product}
+  ${ProductBuyPageForm.fragments.product}
+  query ProductBuyPageGetDataQuery($path: String!, $variantLimit: Int!) {
     site {
       route(path: $path) {
         node {
@@ -60,6 +73,8 @@ const GET_DATA = gql`
 
           ... on Product {
             id
+            ...CatalogProductVariantPreviewProductFragment
+            ...ProductBuyPageFormProductFragment
           }
         }
       }
