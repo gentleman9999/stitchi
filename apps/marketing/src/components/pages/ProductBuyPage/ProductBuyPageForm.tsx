@@ -74,6 +74,18 @@ const ProductBuyPageForm = ({ product, onSubmit, error }: Props) => {
 
   const { colors, includeFulfillment, printLocations } = form.watch()
 
+  const [memoizedPrintLocations, setMemoizedPrintLocations] = React.useState<
+    FormValues['printLocations']
+  >([])
+
+  if (
+    JSON.stringify(printLocations) !== JSON.stringify(memoizedPrintLocations)
+  ) {
+    setMemoizedPrintLocations([
+      ...printLocations.map(location => ({ ...location })),
+    ])
+  }
+
   let totalQuantity = 0
 
   colors.forEach(({ sizes }) => {
@@ -88,21 +100,27 @@ const ProductBuyPageForm = ({ product, onSubmit, error }: Props) => {
     const get = async () => {
       await getQuote({
         includeFulfillment,
-        printLocations,
-        // printLocations: memoizedPrintLocations,
+        // printLocations,
+        printLocations: memoizedPrintLocations,
         quantity: totalQuantity,
       })
     }
 
-    // if (
-    //   memoizedPrintLocations.some(location => Number.isNaN(location.colorCount))
-    // ) {
-    //   // We don't want to trigger validation since user hasn't entered anything yet
-    //   return
-    // }
+    if (
+      memoizedPrintLocations.some(location => Number.isNaN(location.colorCount))
+    ) {
+      // We don't want to trigger validation since user hasn't entered anything yet
+      return
+    }
 
     get()
-  }, [getQuote, includeFulfillment, printLocations, totalQuantity, trigger])
+  }, [
+    getQuote,
+    includeFulfillment,
+    memoizedPrintLocations,
+    totalQuantity,
+    trigger,
+  ])
 
   React.useEffect(() => {
     if (

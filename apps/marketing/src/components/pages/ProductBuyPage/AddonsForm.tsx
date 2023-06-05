@@ -2,7 +2,7 @@ import React from 'react'
 import { Controller, UseFormReturn } from 'react-hook-form'
 import { FormValues } from './ProductBuyPageForm'
 import * as Switch from '@radix-ui/react-switch'
-import { GlobalDistribution2 } from 'icons'
+import { Customization, GlobalDistribution2 } from 'icons'
 import Link from 'next/link'
 import routes from '@lib/routes'
 import currency from 'currency.js'
@@ -23,6 +23,7 @@ const AddonsForm = ({ form }: Props) => {
             price={100}
             value={field.value}
             onChange={field.onChange}
+            Icon={<GlobalDistribution2 />}
             description={
               <>
                 Save money, time, and worry less when you let Stitchi fulfill
@@ -48,6 +49,7 @@ const AddonsForm = ({ form }: Props) => {
             price={0}
             value={field.value}
             onChange={field.onChange}
+            Icon={<Customization />}
             description={
               <>
                 Our team of designers will work with you to create a design that
@@ -74,16 +76,21 @@ const AddonField = ({
   price,
   value,
   onChange,
+  Icon,
 }: {
   label: string
   description: React.ReactNode
   price: number
   value: boolean
   onChange: (value: boolean) => void
+  Icon: React.ReactElement<{ className: string }>
 }) => (
-  <div className="p-4 rounded-md bg-gray-900">
+  <div className="p-4 rounded-md bg-gray-900 @container">
     <div className="flex gap-4 items-center">
-      <GlobalDistribution2 className="w-10 h-10 shrink-0 stroke-2" />
+      {React.cloneElement(Icon, {
+        className: 'w-10 h-10 shrink-0 stroke-2 hidden @xs:block',
+      })}
+
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <label className="text-sm text-white flex whitespace-nowrap gap-1 relative">

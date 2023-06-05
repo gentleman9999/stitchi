@@ -129,7 +129,6 @@ const VariantQuantityMatrixForm = ({ product, form }: Props) => {
                 )}
                 <div></div>
 
-                {/* <AnimatePresence> */}
                 {colorFields.fields.map(({ colorEntityId }, index) => {
                   const color = colors.find(
                     ({ entityId }) => entityId === colorEntityId,
@@ -138,14 +137,7 @@ const VariantQuantityMatrixForm = ({ product, form }: Props) => {
                   if (!color) return null
 
                   return (
-                    <
-                      // motion.div
-                      // className="grid grid-flow-col"
-                      // key={colorEntityId}
-                      // initial={{ opacity: 0 }}
-                      // animate={{ opacity: 1 }}
-                      // exit={{ opacity: 0 }}
-                    >
+                    <>
                       <div className="p-1 sticky left-0 bg-white flex">
                         <div className="flex items-center text-xs">
                           <CatalogProductColorSwatch
@@ -164,12 +156,9 @@ const VariantQuantityMatrixForm = ({ product, form }: Props) => {
                           <XIcon className="w-4 h-4 text-gray-400" />
                         </button>
                       </div>
-                    </
-                      // motion.div
-                    >
+                    </>
                   )
                 })}
-                {/* </AnimatePresence> */}
               </div>
             </div>
           </div>

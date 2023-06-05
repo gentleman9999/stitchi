@@ -1028,6 +1028,16 @@
       "image_url": "",
       "search_keywords": "",
       "custom_url": { "url": "/valucap/", "is_customized": false }
+    },
+    {
+      "id": 3053,
+      "name": "Stitchi",
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "image_url": "",
+      "search_keywords": "",
+      "custom_url": { "url": "/stitchi/", "is_customized": false }
     }
   ],
   "categories": [
