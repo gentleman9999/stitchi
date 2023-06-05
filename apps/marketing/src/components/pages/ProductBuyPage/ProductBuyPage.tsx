@@ -132,8 +132,13 @@ const ProductBuyPage = (props: Props) => {
     <>
       <NextSeo nofollow noindex />
       <Container>
-        <div className="grid grid-cols-12 gap-14">
-          <div className="col-span-5">
+        <div className="grid grid-cols-12 md:gap-14">
+          <div className="col-span-12 md:col-span-6 lg:col-span-7 md:order-2">
+            <div className="md:sticky top-14">
+              <CatalogProductVariantPreview product={product} />
+            </div>
+          </div>
+          <div className="col-span-12 md:col-span-6 lg:col-span-5">
             <Section gutter="sm">
               <h1 className="text-4xl font-heading font-semibold">
                 {makeProductTitle(product)}
@@ -146,11 +151,6 @@ const ProductBuyPage = (props: Props) => {
                 error={addToCartError?.message}
               />
             </Section>
-          </div>
-          <div className="col-span-7">
-            <div className="sticky top-14">
-              <CatalogProductVariantPreview product={product} />
-            </div>
           </div>
         </div>
       </Container>

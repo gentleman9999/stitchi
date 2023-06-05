@@ -10,7 +10,7 @@ interface Props {
 const OrderDetailsPageLineItems = ({ items }: Props) => {
   return (
     <>
-      <ul className="sm:sr-only flex flex-col gap-8">
+      <ul className="sm:hidden flex flex-col gap-8">
         {items.map(item => {
           const [name, ...rest] = item.title.split(' - ')
           return (
@@ -38,13 +38,13 @@ const OrderDetailsPageLineItems = ({ items }: Props) => {
           )
         })}
       </ul>
-      <table className="!w-full sr-only sm:not-sr-only">
-        <thead className="sr-only">
-          <tr>
-            <td>Name</td>
-            <td>Quantity</td>
-            <td>Unit Price</td>
-            <td>Total</td>
+      <table className="hidden sm:block table-auto">
+        <thead>
+          <tr className="font-semibold text-sm">
+            <td className="sr-only">Name</td>
+            <td className="px-3 text-right">Quantity</td>
+            <td className="px-3 whitespace-nowrap text-right">Unit Price</td>
+            <td className="pl-3 text-right">Total</td>
           </tr>
         </thead>
         <tbody>
@@ -52,17 +52,17 @@ const OrderDetailsPageLineItems = ({ items }: Props) => {
             const [name, ...rest] = item.title.split(' - ')
             return (
               <tr key={item.id}>
-                <td className="py-2">
+                <td className="py-2 w-full">
                   <span className="text-gray-900 font-bold">{name}</span>
                   {rest.length ? <> - {rest.join(' - ')}</> : null}
                 </td>
-                <td className="py-2 text-right">{item.quantity}</td>
-                <td className="py-2 text-right">
+                <td className="py-2 text-right px-3">{item.quantity}</td>
+                <td className="py-2 text-right px-3">
                   {currency(item.unitPriceCents, {
                     fromCents: true,
                   }).format()}
                 </td>
-                <td className="py-2 text-right">
+                <td className="py-2 text-right pl-3">
                   {currency(item.totalPriceCents, {
                     fromCents: true,
                   }).format()}

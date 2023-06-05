@@ -26,10 +26,10 @@ const SubmitBanner = ({
     <>
       {/* Used to create spacing for the fixed-positioned banner */}
       <div className="h-16" />
-      <div className="fixed bottom-0 left-0 right-0 py-4 bg-primary/95 text-black z-40 border-t-2 border-black">
+      <div className="fixed bottom-0 left-0 right-0 py-2 sm:py-4 bg-primary/95 text-black z-40 border-t-2 border-black">
         <Container>
-          <div className="flex justify-between items-center">
-            <div className="text-2xl font-medium">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div className="text-xl sm:text-2xl font-medium text-center">
               {loading ? (
                 <div className="text-gray-400">
                   ${' '}
@@ -57,11 +57,12 @@ const SubmitBanner = ({
                 </>
               )}
             </div>
-            <div className="flex gap-8 items-center">
+            <div className="flex flex-col-reverse sm:flex-row gap-2 sm:gap-8 items-center">
               <Button
                 Component={Link}
                 href={routes.internal.getStarted.href()}
                 variant="naked"
+                className="!text-sm sm:!text-lg"
                 {...{ target: '_blank' }}
               >
                 Need help?
