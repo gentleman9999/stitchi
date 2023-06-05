@@ -20,7 +20,7 @@ const PAGE_SIZE = 20
 interface Props {}
 
 const DesignLibraryPage = (props: Props) => {
-  const url = makeAbsoluteUrl(routes.internal.designLibrary.href())
+  const url = makeAbsoluteUrl(routes.internal.lookbook.href())
 
   const [activeImageId, setActiveImageId] = useQueryState(
     'image',
