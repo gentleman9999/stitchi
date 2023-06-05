@@ -45,11 +45,19 @@ const getPath = (slugIn?: string | string[]) => {
   const slug = Array.isArray(slugIn) ? slugIn.join('/') : slugIn
 
   if (allBrandSlugs.includes(slug) || allCategorySlugs.includes(slug)) {
+    // This slug is either for a brand or for a category
     return `/${slug}/`
   }
 
-  const brandSlug = allBrandSlugs.find(
+  // This slug is for a product
+
+  const possibleBrandSlugs = allBrandSlugs.filter(
     brandSlug => slug.indexOf(brandSlug) === 0,
+  )
+
+  // Brand slug is the longest one
+  const brandSlug = possibleBrandSlugs.reduce((prev, curr) =>
+    prev.length > curr.length ? prev : curr,
   )
 
   if (!brandSlug) {

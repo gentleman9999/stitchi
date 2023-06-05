@@ -5,6 +5,8 @@ import staticWebsiteData from '@generated/static.json'
 import { notEmpty } from '@utils/typescript'
 import { NextSeo } from 'next-seo'
 import { FocusedLayout } from '@components/layout'
+import routes from '@lib/routes'
+import makeAbsoluteUrl from '@utils/get-absolute-url'
 
 const allBrandSlugs = staticWebsiteData.brands
   .map(brand => brand.custom_url?.url.replace(/\//g, ''))
@@ -29,10 +31,17 @@ const Page = () => {
 
   const actualProductSlug = `/${productSlug.replace(`${brandSlug}-`, '')}/`
 
+  const url = makeAbsoluteUrl(
+    routes.internal.catalog.product.purchase.href({
+      brandSlug,
+      productSlug: actualProductSlug,
+    }),
+  )
+
   return (
     <>
       {/* These pages should not be index by Google or other search engines */}
-      <NextSeo nofollow noindex />
+      <NextSeo nofollow noindex canonical={url} />
       <ProductBuyPage productSlug={actualProductSlug} />
     </>
   )
