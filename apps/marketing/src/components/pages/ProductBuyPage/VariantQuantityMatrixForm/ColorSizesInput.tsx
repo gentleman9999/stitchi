@@ -26,7 +26,7 @@ const ColorSizesInput = ({ form, colorFieldIndex }: Props) => {
   return (
     <>
       {controlledFields.map((size, sizeFieldIndex) => (
-        <td key={size.id} className="p-1 w-14">
+        <div key={size.id} className="p-1">
           <Controller
             name={`colors.${colorFieldIndex}.sizes.${sizeFieldIndex}.quantity`}
             control={form.control}
@@ -50,7 +50,7 @@ const ColorSizesInput = ({ form, colorFieldIndex }: Props) => {
               />
             )}
           />
-        </td>
+        </div>
       ))}
     </>
   )

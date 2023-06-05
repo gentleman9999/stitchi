@@ -106,66 +106,72 @@ const VariantQuantityMatrixForm = ({ product, form }: Props) => {
         <>
           <hr className="my-4" />
 
-          <div className="overflow-scroll">
-            <table className="table-fixed w-full">
-              <thead>
-                <tr>
-                  <th className="w-28 sticky left-0 bg-white"></th>
-                  {sizes.length ? (
-                    sizes.map(size => (
-                      <th
-                        key={size.entityId}
-                        className="text-center text-sm w-14 whitespace-nowrap"
-                      >
-                        {size.label}
-                      </th>
-                    ))
-                  ) : (
-                    <th className="text-center text-sm">Quantity</th>
-                  )}
-                  <th className="sr-only">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <AnimatePresence>
-                  {colorFields.fields.map(({ colorEntityId }, index) => {
-                    const color = colors.find(
-                      ({ entityId }) => entityId === colorEntityId,
-                    )
+          <div className="flex overflow-x-auto">
+            <div className="w-full overflow-x-auto">
+              <div
+                className="grid grid-flow-row"
+                style={{
+                  gridTemplateColumns: `1fr repeat(${sizes.length}, 70px) 24px`,
+                }}
+              >
+                <div className="sticky left-0 bg-white"></div>
+                {sizes.length ? (
+                  sizes.map(size => (
+                    <div
+                      key={size.entityId}
+                      className="text-center text-sm whitespace-nowrap"
+                    >
+                      {size.label}
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center text-sm">Quantity</div>
+                )}
+                <div></div>
 
-                    if (!color) return null
+                {/* <AnimatePresence> */}
+                {colorFields.fields.map(({ colorEntityId }, index) => {
+                  const color = colors.find(
+                    ({ entityId }) => entityId === colorEntityId,
+                  )
 
-                    return (
-                      <motion.tr
-                        key={colorEntityId}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                      >
-                        <td className="p-1 sticky left-0 bg-white">
-                          <div className="flex items-center text-xs">
-                            <CatalogProductColorSwatch
-                              hexCode={color.hexColors[0]}
-                            />
+                  if (!color) return null
 
-                            <span className="ml-1 w-full">{color.label}</span>
-                          </div>
-                        </td>
-                        <ColorSizesInput form={form} colorFieldIndex={index} />
-                        <td className="w-4">
-                          <button
-                            className="p-1 hover:bg-gray-100 rounded-sm"
-                            onClick={() => handleRemoveColor({ colorEntityId })}
-                          >
-                            <XIcon className="w-4 h-4 text-gray-400" />
-                          </button>
-                        </td>
-                      </motion.tr>
-                    )
-                  })}
-                </AnimatePresence>
-              </tbody>
-            </table>
+                  return (
+                    <
+                      // motion.div
+                      // className="grid grid-flow-col"
+                      // key={colorEntityId}
+                      // initial={{ opacity: 0 }}
+                      // animate={{ opacity: 1 }}
+                      // exit={{ opacity: 0 }}
+                    >
+                      <div className="p-1 sticky left-0 bg-white flex">
+                        <div className="flex items-center text-xs">
+                          <CatalogProductColorSwatch
+                            hexCode={color.hexColors[0]}
+                          />
+
+                          <span className="ml-1 w-full">{color.label}</span>
+                        </div>
+                      </div>
+                      <ColorSizesInput form={form} colorFieldIndex={index} />
+                      <div className="flex items-center">
+                        <button
+                          className="p-1 hover:bg-gray-100 rounded-sm"
+                          onClick={() => handleRemoveColor({ colorEntityId })}
+                        >
+                          <XIcon className="w-4 h-4 text-gray-400" />
+                        </button>
+                      </div>
+                    </
+                      // motion.div
+                    >
+                  )
+                })}
+                {/* </AnimatePresence> */}
+              </div>
+            </div>
           </div>
 
           <div className="text-xl text-right font-medium">
