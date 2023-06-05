@@ -4,11 +4,10 @@ import { Button, Container } from '@components/ui'
 import {
   DesignLibraryPageGetDataQuery,
   DesignLibraryPageGetDataQueryVariables,
-  DesignLibraryPageGetDataQuery_allDesigns_primaryImage_responsiveImage as ResponsiveImage,
 } from '@generated/DesignLibraryPageGetDataQuery'
 import routes from '@lib/routes'
 import makeAbsoluteUrl from '@utils/get-absolute-url'
-import { ArrowRight, Customization, Expand, NeedleThread } from 'icons'
+import { ArrowRight, Customization, Expand } from 'icons'
 import { NextSeo } from 'next-seo'
 import { queryTypes, useQueryState } from 'next-usequerystate'
 import Link from 'next/link'
