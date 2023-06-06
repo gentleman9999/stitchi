@@ -160,6 +160,30 @@ export interface OrderCartCreatePrintLocationInput {
   colorCount: number;
 }
 
+export interface OrderConfirmInput {
+  orderId: string;
+  customerEmail: string;
+  customerFirstName: string;
+  customerLastName: string;
+  customerPhone: string;
+  shippingAddress: OrderConfirmMailingAddressInput;
+}
+
+export interface OrderConfirmMailingAddressInput {
+  name?: string | null;
+  phone?: string | null;
+  company?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  address1?: string | null;
+  address2?: string | null;
+  city?: string | null;
+  country?: string | null;
+  province?: string | null;
+  provinceCode?: string | null;
+  zip?: string | null;
+}
+
 export interface PaymentIntentCreateInput {
   orderId: string;
 }

@@ -79,7 +79,6 @@ export interface OrderDetailsPageGetDataQuery_order {
   paymentStatus: OrderPaymentStatus;
   createdAt: any;
   humanOrderId: string;
-  customerFullName: string | null;
   humanPaymentStatus: string;
   totalTaxCents: number;
   totalShippingCents: number;
@@ -90,6 +89,8 @@ export interface OrderDetailsPageGetDataQuery_order {
   totalAmountDueCents: number;
   totalAmountRefundedCents: number;
   lastPaymentMethod: OrderDetailsPageGetDataQuery_order_lastPaymentMethod | null;
+  customerEmail: string | null;
+  customerPhone: string | null;
   fulfillments: OrderDetailsPageGetDataQuery_order_fulfillments[];
   shippingAddress: OrderDetailsPageGetDataQuery_order_shippingAddress | null;
 }

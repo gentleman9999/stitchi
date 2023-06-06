@@ -5,7 +5,6 @@ import { Container } from '@components/ui'
 import { OrderPayPageOrderFragment } from '@generated/OrderPayPageOrderFragment'
 import { OrderPayPagePaymentIntentFragment } from '@generated/OrderPayPagePaymentIntentFragment'
 import { NextSeo } from 'next-seo'
-import { useRouter } from 'next/router'
 import React from 'react'
 import OrderPaymentForm from './OrderPaymentForm'
 import OrderPayPageOrderPreview from './OrderPayPageOrderPreview'
@@ -16,21 +15,11 @@ interface Props {
 }
 
 const OrderPayPage = ({ order, paymentIntent }: Props) => {
-  const router = useRouter()
-
   return (
     <>
       <NextSeo nofollow noindex />
       <Container>
-        <div className="h-8" />
-        <Section>
-          <div className="flex justify-between items-center">
-            <h1 className="text-4xl font-semibold font-heading">Checkout</h1>
-            <button onClick={() => router.back()} className="underline">
-              Return to previous page
-            </button>
-          </div>
-        </Section>
+        <h1 className="sr-only">Checkout</h1>
         <Section gutter="md">
           {paymentIntent.clientSecret ? (
             <StripeFormWrapper clientSecret={paymentIntent.clientSecret}>

@@ -78,7 +78,6 @@ export interface OrderDetailsPageOrderFragment {
   id: string;
   createdAt: any;
   humanOrderId: string;
-  customerFullName: string | null;
   paymentStatus: OrderPaymentStatus;
   humanPaymentStatus: string;
   totalTaxCents: number;
@@ -90,6 +89,8 @@ export interface OrderDetailsPageOrderFragment {
   totalAmountDueCents: number;
   totalAmountRefundedCents: number;
   lastPaymentMethod: OrderDetailsPageOrderFragment_lastPaymentMethod | null;
+  customerEmail: string | null;
+  customerPhone: string | null;
   fulfillments: OrderDetailsPageOrderFragment_fulfillments[];
   shippingAddress: OrderDetailsPageOrderFragment_shippingAddress | null;
 }

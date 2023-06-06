@@ -77,7 +77,6 @@ OrderDetailsPage.fragments = {
       id
       createdAt
       humanOrderId
-      customerFullName
       paymentStatus
       humanPaymentStatus
       totalTaxCents
