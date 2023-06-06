@@ -3,6 +3,8 @@ import {
   PaymentIntentFactoryPaymentIntent,
   paymentMethodFactory,
   PaymentMethodFactoryPaymentMethod,
+  refundFactory,
+  RefundFactoryRefund,
 } from './factory'
 import { Stripe } from 'stripe'
 import makeStripeClient from '../../stripe'
@@ -26,6 +28,10 @@ export interface PaymentClientService {
   getPaymentMethod: (input: {
     paymentMethodId: string
   }) => Promise<PaymentMethodFactoryPaymentMethod>
+
+  listRefunds: (input: {
+    paymentIntentId: string
+  }) => Promise<RefundFactoryRefund[]>
 }
 
 interface MakeClientParams {
@@ -113,6 +119,27 @@ const makeClient: MakeClientFn = (
       }
 
       return paymentMethodFactory({ stripePaymentMethod })
+    },
+    listRefunds: async ({ paymentIntentId }) => {
+      let stripeRefunds
+
+      try {
+        stripeRefunds = await stripe.refunds.list({
+          payment_intent: paymentIntentId,
+        })
+      } catch (error) {
+        console.error(
+          `Failed to list stripe refunds for payment intent ${paymentIntentId}`,
+          {
+            context: { error },
+          },
+        )
+        throw new Error('Failed to list stripe refunds')
+      }
+
+      return stripeRefunds.data.map(stripeRefund =>
+        refundFactory({ stripeRefund }),
+      )
     },
   }
 }

@@ -211,7 +211,8 @@ const routes = {
   external: {
     support: {
       email: {
-        href: () => buildRoute(`mailto:${supportEmail}`),
+        href: ({ params }: { params?: QueryParams } = {}) =>
+          buildRoute(`mailto:${supportEmail}`, params),
       },
       phone: {
         href: () => buildRoute(`tel:+1-248-221-1863`),

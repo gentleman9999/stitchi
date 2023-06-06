@@ -6,6 +6,7 @@ import { OrderFactoryOrder } from './factory'
 import { getOrderPaymentStatus } from './helpers/get-order-payment-status'
 import makeOrderRepository, { OrderRepository } from './repository'
 import { CreateOrderFnInput } from './repository/create-order'
+import { RefundFactoryRefund } from '../payment/factory'
 
 export interface OrderClientService {
   createOrder: (input: CreateOrderFnInput) => Promise<OrderFactoryOrder>
@@ -94,6 +95,21 @@ const makeClient: MakeClientFn = (
         throw new Error('Failed to list payment intents')
       }
 
+      let refunds: RefundFactoryRefund[] = []
+
+      try {
+        for (const paymentIntent of paymentIntents) {
+          const refundList = await paymentService.listRefunds({
+            paymentIntentId: paymentIntent.id,
+          })
+
+          refunds.push(...refundList)
+        }
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to list refunds')
+      }
+
       let totalAmountPaidCents = 0
       let totalAmountRefundedCents = 0
 
@@ -101,6 +117,14 @@ const makeClient: MakeClientFn = (
         switch (paymentIntent.status) {
           case 'succeeded':
             totalAmountPaidCents += paymentIntent.amount
+            break
+        }
+      }
+
+      for (const refund of refunds) {
+        switch (refund.status) {
+          case 'succeeded':
+            totalAmountRefundedCents += refund.amount
             break
         }
       }

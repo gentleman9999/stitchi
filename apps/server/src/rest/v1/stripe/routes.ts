@@ -44,21 +44,21 @@ const makeRoutes = (
         return res.status(400).json()
       }
 
-      if (event.type.startsWith('payment_intent')) {
+      if (event.type.startsWith('charge')) {
         try {
           const orderId = (event.data.object as any)?.metadata?.orderId
 
           if (!orderId) {
-            console.error('Payment intent is missing orderId', {
+            console.error('Charge is missing orderId', {
               context: { event },
             })
 
-            throw new Error('Payment intent is missing orderId')
+            throw new Error('Charge is missing orderId')
           }
 
           await orderClient.reconcileOrderPayments({ orderId })
         } catch (error) {
-          console.error(`Failed to update payment intent`, {
+          console.error(`Failed to update Charge`, {
             context: { error },
           })
         }

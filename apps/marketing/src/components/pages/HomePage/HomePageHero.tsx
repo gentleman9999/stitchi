@@ -38,16 +38,18 @@ const HomePageHero = () => {
     <Hero
       title={
         <>
-          <span className="inline font-headingDisplay">
+          <div className="inline font-headingDisplay">
             Make the stitch.
-            <span className="flex flex-wrap whitespace-nowrap gap-x-2 text-black">
-              Merch for
-              <mark className="relative sm:w-auto bg-primary px-2 lowercase rounded-md">
-                {useCase}
-              </mark>
-              .<span className="sr-only">{words.join(` ,`)}</span>
-            </span>
-          </span>
+            <div className="text-black">
+              Merch for{' '}
+              <div className="flex mt-2 sm:mt-0 sm:inline-flex">
+                <mark className="relative sm:w-auto bg-primary px-2 lowercase rounded-md">
+                  {useCase}
+                </mark>
+                .<span className="sr-only">{words.join(` ,`)}</span>
+              </div>
+            </div>
+          </div>
         </>
       }
       subtitle={

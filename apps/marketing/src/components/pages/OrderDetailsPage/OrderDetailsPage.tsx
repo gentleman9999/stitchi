@@ -8,7 +8,7 @@ import OrderDetailsPageBillingDetails from './OrderDetailsPageBillingDetails'
 import OrderDetailsPageShippingDetails from './OrderDetailsPageShippingDetails'
 import cx from 'classnames'
 import OrderDetailsPageLineItems from './OrderDetailsPageLineItems'
-import { NextSeo } from 'next-seo'
+import ContactUs from './ContactUs'
 
 interface Props {
   order: OrderDetailsPageOrderFragment
@@ -16,24 +16,21 @@ interface Props {
 
 const OrderDetailsPage = ({ order }: Props) => {
   return (
-    <>
-      <NextSeo nofollow noindex />
-      <Container>
-        <Section>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Order Details
-          </h1>
+    <Container>
+      <Section>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Order Details</h1>
 
-          <div className="flex flex-col sm:flex-row sm:gap-4 sm:items-center">
-            <span className="text-sm text-gray-500">
-              Order number <b className="text-gray-900">{order.humanOrderId}</b>
+        <div className="flex flex-col sm:flex-row sm:gap-4 sm:items-center">
+          <span className="text-sm text-gray-500">
+            Order number <b className="text-gray-900">{order.humanOrderId}</b>
+          </span>
+          <span className="sr-only sm:not-sr-only">·</span>
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 sm:items-center">
+            <span className="text-sm">
+              <b>{format(parseISO(order.createdAt), 'PPP')}</b>
             </span>
-            <span className="sr-only sm:not-sr-only">·</span>
-            <div className="flex flex-row gap-4 items-center">
-              <span className="text-sm">
-                <b>{format(parseISO(order.createdAt), 'PPP')}</b>
-              </span>
-              <span>·</span>
+            <span className="hidden sm:block">·</span>
+            <div>
               <span
                 className={cx('text-sm font-bold px-2 py-0.5 rounded-sm', {
                   'bg-primary text-xs text-gray-950/70':
@@ -44,27 +41,31 @@ const OrderDetailsPage = ({ order }: Props) => {
               </span>
             </div>
           </div>
-        </Section>
+        </div>
+      </Section>
 
-        <div className="my-4" />
+      <div className="my-4" />
 
-        <Section>
-          <OrderDetailsPageShippingDetails order={order} />
-        </Section>
+      <Section>
+        <OrderDetailsPageShippingDetails order={order} />
+      </Section>
 
-        <hr className="my-4" />
+      <hr className="my-4" />
 
-        <Section gutter="sm">
-          <OrderDetailsPageLineItems items={order.items} />
-        </Section>
+      <Section gutter="sm">
+        <OrderDetailsPageLineItems items={order.items} />
+      </Section>
 
-        <hr className="my-4" />
+      <hr className="my-4" />
 
-        <Section gutter="sm">
-          <OrderDetailsPageBillingDetails order={order} />
-        </Section>
-      </Container>
-    </>
+      <Section gutter="sm">
+        <OrderDetailsPageBillingDetails order={order} />
+      </Section>
+
+      <Section gutter="md">
+        <ContactUs humanOrderId={order.humanOrderId} />
+      </Section>
+    </Container>
   )
 }
 

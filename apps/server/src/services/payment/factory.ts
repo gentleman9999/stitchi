@@ -1,5 +1,31 @@
 import Stripe from 'stripe'
 
+export interface RefundFactoryRefund {
+  id: string
+  amount: number
+  reason: Stripe.Refund.Reason | null
+  status: Stripe.Refund['status']
+  paymentIntentId: string | null
+}
+
+export const refundFactory = ({
+  stripeRefund,
+}: {
+  stripeRefund: Stripe.Refund
+}): RefundFactoryRefund => {
+  stripeRefund
+  return {
+    id: stripeRefund.id,
+    amount: stripeRefund.amount,
+    reason: stripeRefund.reason,
+    status: stripeRefund.status,
+    paymentIntentId:
+      typeof stripeRefund.payment_intent === 'string'
+        ? stripeRefund.payment_intent
+        : null,
+  }
+}
+
 export interface PaymentIntentFactoryPaymentIntent {
   id: string
   amount: number
@@ -13,6 +39,7 @@ export const paymentIntentFactory = ({
 }: {
   stripePaymentIntent: Stripe.PaymentIntent
 }): PaymentIntentFactoryPaymentIntent => {
+  stripePaymentIntent
   return {
     id: stripePaymentIntent.id,
     amount: stripePaymentIntent.amount,

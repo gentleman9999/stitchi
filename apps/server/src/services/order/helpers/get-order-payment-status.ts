@@ -21,7 +21,7 @@ const getOrderPaymentStatus = ({
   }
 
   if (totalAmountRefundedCents > 0) {
-    if (totalAmountCents === totalAmountPaidCents) {
+    if (totalAmountCents === totalAmountRefundedCents) {
       return OrderRecordPaymentStatus.REFUNDED
     } else {
       return OrderRecordPaymentStatus.PARTIALLY_REFUNDED

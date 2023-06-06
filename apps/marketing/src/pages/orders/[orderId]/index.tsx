@@ -8,6 +8,7 @@ import {
 } from '@generated/OrderDetailsPageGetDataQuery'
 import { addApolloState, initializeApollo } from '@lib/apollo'
 import { GetServerSideProps } from 'next'
+import { NextSeo } from 'next-seo'
 import React, { ReactElement } from 'react'
 
 const getServerSideProps: GetServerSideProps<Props> = async ({ query }) => {
@@ -73,7 +74,12 @@ const Page = ({ orderId }: Props) => {
     return null
   }
 
-  return <OrderDetailsPage order={order} />
+  return (
+    <>
+      <NextSeo nofollow noindex />
+      <OrderDetailsPage order={order} />
+    </>
+  )
 }
 
 Page.getLayout = (page: ReactElement) => <PrimaryLayout>{page}</PrimaryLayout>
