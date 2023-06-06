@@ -76,8 +76,27 @@ export interface NexusGenInputs {
   OrderCartCreatePrintLocationInput: { // input type
     colorCount: number; // Int!
   }
-  OrderCartUpdateInput: { // input type
+  OrderConfirmInput: { // input type
+    customerEmail: string; // String!
+    customerFirstName: string; // String!
+    customerLastName: string; // String!
+    customerPhone: string; // String!
     orderId: string; // ID!
+    shippingAddress: NexusGenInputs['OrderConfirmMailingAddressInput']; // OrderConfirmMailingAddressInput!
+  }
+  OrderConfirmMailingAddressInput: { // input type
+    address1?: string | null; // String
+    address2?: string | null; // String
+    city?: string | null; // String
+    company?: string | null; // String
+    country?: string | null; // String
+    firstName?: string | null; // String
+    lastName?: string | null; // String
+    name?: string | null; // String
+    phone?: string | null; // String
+    province?: string | null; // String
+    provinceCode?: string | null; // String
+    zip?: string | null; // String
   }
   PaymentIntentCreateInput: { // input type
     orderId: string; // String!
@@ -207,7 +226,8 @@ export interface NexusGenObjects {
   Order: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     customerEmail?: string | null; // String
-    customerFullName?: string | null; // String
+    customerFirstName?: string | null; // String
+    customerLastName?: string | null; // String
     customerPhone?: string | null; // String
     humanOrderId: string; // String!
     humanPaymentStatus: string; // String!
@@ -230,7 +250,7 @@ export interface NexusGenObjects {
   OrderCartCreatePayload: { // root type
     order?: NexusGenRootTypes['Order'] | null; // Order
   }
-  OrderCartUpdatePayload: { // root type
+  OrderConfirmPayload: { // root type
     order?: NexusGenRootTypes['Order'] | null; // Order
   }
   OrderItem: { // root type
@@ -414,6 +434,7 @@ export interface NexusGenFieldTypes {
     fulfillmentCreate: NexusGenRootTypes['FulfillmentCreatePayload'] | null; // FulfillmentCreatePayload
     mailingAddressCreate: NexusGenRootTypes['MailingAddressCreatePayload'] | null; // MailingAddressCreatePayload
     orderCartCreate: NexusGenRootTypes['OrderCartCreatePayload'] | null; // OrderCartCreatePayload
+    orderConfirm: NexusGenRootTypes['OrderConfirmPayload'] | null; // OrderConfirmPayload
     paymentIntentCreate: NexusGenRootTypes['PaymentIntentCreatePayload'] | null; // PaymentIntentCreatePayload
     subscriberCreate: NexusGenRootTypes['SubscriberCreatePayload'] | null; // SubscriberCreatePayload
     userBoostrap: NexusGenRootTypes['User'] | null; // User
@@ -447,8 +468,9 @@ export interface NexusGenFieldTypes {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     customer: NexusGenRootTypes['User'] | null; // User
     customerEmail: string | null; // String
-    customerFullName: string | null; // String
+    customerFirstName: string | null; // String
     customerId: string | null; // String
+    customerLastName: string | null; // String
     customerPhone: string | null; // String
     fulfillments: NexusGenRootTypes['Fulfillment'][]; // [Fulfillment!]!
     humanOrderId: string; // String!
@@ -476,7 +498,7 @@ export interface NexusGenFieldTypes {
   OrderCartCreatePayload: { // field return type
     order: NexusGenRootTypes['Order'] | null; // Order
   }
-  OrderCartUpdatePayload: { // field return type
+  OrderConfirmPayload: { // field return type
     order: NexusGenRootTypes['Order'] | null; // Order
   }
   OrderItem: { // field return type
@@ -658,6 +680,7 @@ export interface NexusGenFieldTypeNames {
     fulfillmentCreate: 'FulfillmentCreatePayload'
     mailingAddressCreate: 'MailingAddressCreatePayload'
     orderCartCreate: 'OrderCartCreatePayload'
+    orderConfirm: 'OrderConfirmPayload'
     paymentIntentCreate: 'PaymentIntentCreatePayload'
     subscriberCreate: 'SubscriberCreatePayload'
     userBoostrap: 'User'
@@ -691,8 +714,9 @@ export interface NexusGenFieldTypeNames {
     createdAt: 'DateTime'
     customer: 'User'
     customerEmail: 'String'
-    customerFullName: 'String'
+    customerFirstName: 'String'
     customerId: 'String'
+    customerLastName: 'String'
     customerPhone: 'String'
     fulfillments: 'Fulfillment'
     humanOrderId: 'String'
@@ -720,7 +744,7 @@ export interface NexusGenFieldTypeNames {
   OrderCartCreatePayload: { // field return type name
     order: 'Order'
   }
-  OrderCartUpdatePayload: { // field return type name
+  OrderConfirmPayload: { // field return type name
     order: 'Order'
   }
   OrderItem: { // field return type name
@@ -843,6 +867,9 @@ export interface NexusGenArgTypes {
     }
     orderCartCreate: { // args
       input: NexusGenInputs['OrderCartCreateInput']; // OrderCartCreateInput!
+    }
+    orderConfirm: { // args
+      input: NexusGenInputs['OrderConfirmInput']; // OrderConfirmInput!
     }
     paymentIntentCreate: { // args
       input: NexusGenInputs['PaymentIntentCreateInput']; // PaymentIntentCreateInput!

@@ -122,6 +122,9 @@ type Mutation {
 
   """Creates a new order during user Cart"""
   orderCartCreate(input: OrderCartCreateInput!): OrderCartCreatePayload
+
+  """Confirms an order with a customers details"""
+  orderConfirm(input: OrderConfirmInput!): OrderConfirmPayload
   paymentIntentCreate(input: PaymentIntentCreateInput!): PaymentIntentCreatePayload
 
   """Creates a new subscriber"""
@@ -186,8 +189,9 @@ type Order {
   createdAt: DateTime!
   customer: User
   customerEmail: String
-  customerFullName: String
+  customerFirstName: String
   customerId: String
+  customerLastName: String
   customerPhone: String
   fulfillments: [Fulfillment!]!
   humanOrderId: String!
@@ -234,11 +238,31 @@ input OrderCartCreatePrintLocationInput {
   colorCount: Int!
 }
 
-input OrderCartUpdateInput {
+input OrderConfirmInput {
+  customerEmail: String!
+  customerFirstName: String!
+  customerLastName: String!
+  customerPhone: String!
   orderId: ID!
+  shippingAddress: OrderConfirmMailingAddressInput!
 }
 
-type OrderCartUpdatePayload {
+input OrderConfirmMailingAddressInput {
+  address1: String
+  address2: String
+  city: String
+  company: String
+  country: String
+  firstName: String
+  lastName: String
+  name: String
+  phone: String
+  province: String
+  provinceCode: String
+  zip: String
+}
+
+type OrderConfirmPayload {
   order: Order
 }
 

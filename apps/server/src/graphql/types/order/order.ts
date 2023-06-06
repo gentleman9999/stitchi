@@ -70,7 +70,8 @@ export const Order = objectType({
     })
     t.nullable.string('shippingAddressId')
 
-    t.nullable.string('customerFullName')
+    t.nullable.string('customerFirstName')
+    t.nullable.string('customerLastName')
     t.nullable.string('customerEmail')
     t.nullable.string('customerPhone')
 
