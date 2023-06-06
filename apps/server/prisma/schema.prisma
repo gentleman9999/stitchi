@@ -81,9 +81,10 @@ model Order {
   // The user that placed the order
   userId String?
 
-  customerFullName String?
-  customerEmail    String?
-  customerPhone    String?
+  customerFirstName String?
+  customerLastName  String?
+  customerEmail     String?
+  customerPhone     String?
 
   // Subtotal of order pre tax, shipping, and fees
   subtotalPriceCents Int

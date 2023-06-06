@@ -80,7 +80,8 @@ const makeUpdateOrder: MakeUpdateOrderFn =
         data: {
           updatedAt: new Date(),
           customerEmail: validInput.customerEmail,
-          customerFullName: validInput.customerFullName,
+          customerFirstName: validInput.customerFirstName,
+          customerLastName: validInput.customerLastName,
           customerPhone: validInput.customerPhone,
           shippingAddressId: validInput.shippingAddressId,
           totalAmountDueCents: validInput.totalAmountDueCents,

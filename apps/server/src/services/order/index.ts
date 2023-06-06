@@ -9,6 +9,7 @@ import { CreateOrderFnInput } from './repository/create-order'
 
 export interface OrderClientService {
   createOrder: (input: CreateOrderFnInput) => Promise<OrderFactoryOrder>
+  updateOrder: OrderRepository['updateOrder']
   getOrder: OrderRepository['getOrder']
   createMailingAddress: OrderRepository['createMailingAddress']
   getMailingAddress: OrderRepository['getMailingAddress']
@@ -65,6 +66,14 @@ const makeClient: MakeClientFn = (
       } catch (error) {
         console.error(error)
         throw new Error('Failed to get mailing address')
+      }
+    },
+    updateOrder: async input => {
+      try {
+        return orderRepository.updateOrder({ order: input.order })
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to update order')
       }
     },
     reconcileOrderPayments: async input => {

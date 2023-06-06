@@ -137,7 +137,8 @@ export const orderCartCreate = mutationField('orderCartCreate', {
       const order = await ctx.order.createOrder({
         order: {
           customerEmail: null,
-          customerFullName: null,
+          customerFirstName: null,
+          customerLastName: null,
           customerPhone: null,
           organizationId: ctx.organizationId || null,
           shippingAddressId: input.shippingAddressId || null,
@@ -171,15 +172,40 @@ export const orderCartCreate = mutationField('orderCartCreate', {
   },
 })
 
-export const OrderCartUpdateInput = inputObjectType({
-  name: 'OrderCartUpdateInput',
+export const OrderConfirmMailingAddressInput = inputObjectType({
+  name: 'OrderConfirmMailingAddressInput',
   definition(t) {
-    t.nonNull.id('orderId')
+    t.nullable.string('name')
+    t.nullable.string('phone')
+    t.nullable.string('company')
+    t.nullable.string('firstName')
+    t.nullable.string('lastName')
+    t.nullable.string('address1')
+    t.nullable.string('address2')
+    t.nullable.string('city')
+    t.nullable.string('country')
+    t.nullable.string('province')
+    t.nullable.string('provinceCode')
+    t.nullable.string('zip')
   },
 })
 
-export const OrderCartUpdatePayload = objectType({
-  name: 'OrderCartUpdatePayload',
+export const OrderConfirmInput = inputObjectType({
+  name: 'OrderConfirmInput',
+  definition(t) {
+    t.nonNull.id('orderId')
+    t.nonNull.string('customerEmail')
+    t.nonNull.string('customerFirstName')
+    t.nonNull.string('customerLastName')
+    t.nonNull.string('customerPhone')
+    t.nonNull.field('shippingAddress', {
+      type: 'OrderConfirmMailingAddressInput',
+    })
+  },
+})
+
+export const OrderConfirmPayload = objectType({
+  name: 'OrderConfirmPayload',
   definition(t) {
     t.field('order', {
       type: 'Order',
@@ -187,25 +213,75 @@ export const OrderCartUpdatePayload = objectType({
   },
 })
 
-// export const orderCartUpdate = mutationField('orderCartUpdate', {
-//   description: 'Updates an existing order during user Cart',
-//   type: 'OrderCartCreatePayload',
-//   args: {
-//     input: nonNull('OrderCartUpdateInput'),
-//   },
-//   resolve: async (_, { input }, ctx) => {
-//     if (!ctx.userId || !ctx.organizationId) throw new Error('Not authenticated')
+export const orderConfirm = mutationField('orderConfirm', {
+  description: 'Confirms an order with a customers details',
+  type: 'OrderConfirmPayload',
+  args: {
+    input: nonNull('OrderConfirmInput'),
+  },
+  resolve: async (_, { input }, ctx) => {
+    let order
 
-//     try {
-//       const order = await ctx.prisma.order.update({
-//         where: { id: input.orderId },
-//         data: {},
-//       })
+    try {
+      order = await ctx.order.getOrder({
+        orderId: input.orderId,
+      })
+    } catch (error) {
+      console.error(`Failed to get order: ${input.orderId}`, {
+        context: { error },
+      })
+      throw new GraphQLError('Failed to get order')
+    }
 
-//       return { order }
-//     } catch (error) {
-//       console.error(error)
-//       throw new Error('Failed to update order')
-//     }
-//   },
-// })
+    let shippingAddress
+
+    try {
+      shippingAddress = await ctx.order.createMailingAddress({
+        // mailingAddress: {} as any,
+        mailingAddress: {
+          address1: input.shippingAddress.address1 || null,
+          address2: input.shippingAddress.address2 || null,
+          city: input.shippingAddress.city || null,
+          company: input.shippingAddress.company || null,
+          country: input.shippingAddress.country || null,
+          firstName: input.shippingAddress.firstName || null,
+          lastName: input.shippingAddress.lastName || null,
+          name: input.shippingAddress.name || null,
+          phone: input.shippingAddress.phone || null,
+          province: input.shippingAddress.province || null,
+          provinceCode: input.shippingAddress.provinceCode || null,
+          zip: input.shippingAddress.zip || null,
+          organizationId: ctx.organizationId || null,
+          userId: ctx.userId || null,
+          latitude: null,
+          longitude: null,
+        },
+      })
+    } catch (error) {
+      console.error(`Failed to create mailing address`, {
+        context: { error },
+      })
+      throw new GraphQLError('Failed to create mailing address')
+    }
+
+    try {
+      order = await ctx.order.updateOrder({
+        order: {
+          ...order,
+          customerEmail: input.customerEmail || null,
+          customerFirstName: input.customerFirstName || null,
+          customerLastName: input.customerLastName || null,
+          customerPhone: input.customerPhone || null,
+          shippingAddressId: shippingAddress.id,
+        },
+      })
+    } catch (error) {
+      console.error(`Failed to update order: ${input.orderId}`, {
+        context: { error },
+      })
+      throw new GraphQLError('Failed to update order')
+    }
+
+    return { order: orderFactoryOrderToGraphQL(order) }
+  },
+})
