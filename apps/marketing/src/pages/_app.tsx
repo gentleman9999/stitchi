@@ -54,13 +54,7 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
       <div className={`${inter.variable}`}>
         <ApolloProvider client={apolloClient}>
           {/* https://www.datocms.com/docs/next-js/seo-management */}
-          <SeoDefault
-            seo={
-              globalSeo.data.homepage._seoMetaTags.concat(
-                globalSeo.data.site.faviconMetaTags as any,
-              ) as any
-            }
-          />
+          <SeoDefault />
           <MixpanelProvider>
             <StandoutProvider>
               <WishlistProvider>
