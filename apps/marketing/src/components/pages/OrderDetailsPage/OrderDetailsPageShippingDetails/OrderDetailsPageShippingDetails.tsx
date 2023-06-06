@@ -36,9 +36,14 @@ const OrderDetailsPageShippingDetails = ({ order }: Props) => {
 
         <div className="flex flex-col text-gray-600 text-sm">
           <h2 className="font-semibold text-gray-900 mb-2">Shipping updates</h2>
-          <span>
-            {shippingAddress?.phone || 'No contact information provided'}
-          </span>
+          {order.customerEmail || order.customerPhone ? (
+            <>
+              <span>{order.customerEmail}</span>
+              <span>{order.customerPhone}</span>
+            </>
+          ) : (
+            'No contact information provided'
+          )}
         </div>
         <div className="flex flex-col text-gray-600 text-sm">
           <h2 className="font-semibold text-gray-900 mb-2">Tracking</h2>
@@ -76,6 +81,8 @@ OrderDetailsPageShippingDetails.fragments = {
   order: gql`
     fragment OrderDetailsPageShippingDetailsOrderFragment on Order {
       id
+      customerEmail
+      customerPhone
       fulfillments {
         id
         trackingInfo {

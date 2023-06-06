@@ -39,6 +39,8 @@ export interface OrderDetailsPageShippingDetailsOrderFragment_shippingAddress {
 export interface OrderDetailsPageShippingDetailsOrderFragment {
   __typename: "Order";
   id: string;
+  customerEmail: string | null;
+  customerPhone: string | null;
   fulfillments: OrderDetailsPageShippingDetailsOrderFragment_fulfillments[];
   shippingAddress: OrderDetailsPageShippingDetailsOrderFragment_shippingAddress | null;
 }
