@@ -168,8 +168,11 @@ const getCatalogProductSlugs = async () => {
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.stitchi.co',
-  generateRobotsTxt: true,
   exclude: ['/learn/page/*'],
+  generateRobotsTxt: true,
+  robotsTxtOptions: {
+    policies: [{ userAgent: '*', disallow: ['/orders', '/buy'] }],
+  },
   additionalPaths: async () => {
     const productSlugs = await getCatalogProductSlugs()
     const productCategorySlugs = await getBigCommerceCategorySlugs()
