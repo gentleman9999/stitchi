@@ -205,6 +205,7 @@ module.exports = {
   additionalPaths: async () => {
     const productSlugs = await getCatalogProductSlugs()
     const productCategorySlugs = await getBigCommerceCategorySlugs()
+    const productDesignCategorySlugs = await getDesignCategorySlugs()
 
     return [
       {
@@ -225,7 +226,7 @@ module.exports = {
         priority: 0.7,
         lastmod: new Date().toISOString(),
       })),
-      ...getDesignCategorySlugs.map(slug => ({
+      ...productDesignCategorySlugs.map(slug => ({
         loc: slug,
         changefreq: 'daily',
         priority: 0.7,
