@@ -30,24 +30,41 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
       <BlogPostShowPageSeo article={post} />
       <BlogPostJsonLD post={post} />
       <Container className="!max-w-4xl">
-        {post.title && post.slug ? (
-          <div className="mb-3">
-            <Breadcrumbs
-              breadcrumbs={[
-                {
-                  label: 'Articles & Guides',
-                  href: routes.internal.blog.href(),
-                },
-                {
-                  label: post.title,
-                  href: routes.internal.blog.show.href(post.slug),
-                },
-              ]}
-            />
-          </div>
-        ) : null}
+        <article className="prose prose-stone prose-headings:font-heading lg:prose-lg m-auto max-w-none prose-h1:md:text-6xl prose-h1:lg:text-7xl">
+          <Section gutter="lg">
+            <h1 className="text-center !mb-12">{post.title}</h1>
 
-        <article className="prose prose-stone prose-headings:font-heading lg:prose-lg m-auto max-w-none">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-4">
+              {post.author && (
+                <div className="not-prose">
+                  <BlogPostShowPageAuthor author={post.author} />
+                </div>
+              )}
+              <div className="text-center">
+                <time>
+                  <span>{humanizeDate(post._createdAt)}</span>
+                </time>
+              </div>
+            </div>
+
+            {post.title && post.slug ? (
+              <div className="!mb-20 flex justify-center sr-only sm:not-sr-only not-prose">
+                <Breadcrumbs
+                  breadcrumbs={[
+                    {
+                      label: 'Articles & Guides',
+                      href: routes.internal.blog.href(),
+                    },
+                    {
+                      label: post.title,
+                      href: routes.internal.blog.show.href(post.slug),
+                    },
+                  ]}
+                />
+              </div>
+            ) : null}
+          </Section>
+
           {post.image?.responsiveImage && (
             <div className="not-prose mb-12 max-h-[60vh] overflow-hidden rounded-lg">
               <CmsImage
@@ -63,21 +80,8 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
           <div className="relative mx-auto max-w-4xl">
             <BackgroundTexture />
 
-            <div className="mb-3">
-              <time>
-                <span>{humanizeDate(post._createdAt)}</span>
-              </time>
-            </div>
-
-            <h1>{post.title}</h1>
-            <div className="divide-y divide-gray-200">
-              {post.author && (
-                <div className="not-prose mb-10">
-                  <BlogPostShowPageAuthor author={post.author} />
-                </div>
-              )}
-
-              <div className="py-8">
+            <div>
+              <div>
                 <section className="p-4 prose-a:text-current prose-a:no-underline hover:prose-a:underline bg-gray-100 rounded-md ">
                   <div className="not-prose">
                     <p className="text-2xl md:text-3xl lg:text-4xl font-headingDisplay font-bold text-gray-600 mt-0 mb-4">

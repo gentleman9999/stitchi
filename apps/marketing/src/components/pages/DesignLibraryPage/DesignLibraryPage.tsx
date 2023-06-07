@@ -67,17 +67,19 @@ const DesignLibraryPage = (props: Props) => {
       />
       <Container>
         <Section>
-          <div className="md:pr-0 mt-2 text-center sm:text-left  rounded-xl flex items-center">
-            <div className="md:w-[70%]">
-              <h1 className="text-4xl lg:text-5xl font-bold font-heading">
-                Inspirational custom shirt designs
-              </h1>
-              <p className="text text-gray-700 mt-2">
-                Spark your imagination with our library of custom shirt designs
-                or work directly with a designer to bring your vision to life
-                (for free).
-              </p>
-              <div className="mt-6">
+          <div className="md:pr-0 mt-2 text-center sm:text-left rounded-xl flex items-center">
+            <div className="w-full">
+              <div className="md:w-[70%]">
+                <h1 className="text-4xl lg:text-5xl font-bold font-heading">
+                  Inspirational custom shirt designs
+                </h1>
+                <p className="text text-gray-700 mt-2">
+                  Spark your imagination with our library of custom shirt
+                  designs or work directly with a designer to bring your vision
+                  to life (for free).
+                </p>
+              </div>
+              <div className="mt-6 flex justify-between">
                 <Button
                   slim
                   Component={Link}
@@ -86,6 +88,15 @@ const DesignLibraryPage = (props: Props) => {
                   endIcon={<ArrowRight />}
                 >
                   Work with a designer
+                </Button>
+
+                <Button
+                  slim
+                  Component={Link}
+                  href={routes.internal.lookbook.categories.href()}
+                  variant="naked"
+                >
+                  Categories
                 </Button>
               </div>
             </div>

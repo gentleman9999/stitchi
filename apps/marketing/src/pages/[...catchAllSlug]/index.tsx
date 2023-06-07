@@ -19,6 +19,11 @@ import { fragments as brandShowPageFragments } from '@components/pages/BrandShow
 import { fragments as productShowPageFragments } from '@components/pages/ProductShowPage'
 import { fragments as categoryShowPageFragments } from '@components/pages/CategoryShowPage'
 import { notEmpty } from '@utils/typescript'
+import {
+  ProductPageGetDesignCategoryData,
+  ProductPageGetDesignCategoryDataVariables,
+} from '@generated/ProductPageGetDesignCategoryData'
+import DesignLibraryCategoryShowPage from '@components/pages/DesignLibraryCategoryShowPage'
 
 const BrandShowPage = dynamic(() => import('@components/pages/BrandShowPage'))
 const ProductShowPage = dynamic(
@@ -37,12 +42,10 @@ const allCategorySlugs = staticWebsiteData.categories.map(
   category => category.custom_url.url.replace(/^\/|\/$/g, ''),
 )
 
-const getPath = (slugIn?: string | string[]) => {
-  if (slugIn === undefined) {
+const getPath = (slug?: string) => {
+  if (slug === undefined) {
     return null
   }
-
-  const slug = Array.isArray(slugIn) ? slugIn.join('/') : slugIn
 
   if (allBrandSlugs.includes(slug) || allCategorySlugs.includes(slug)) {
     // This slug is either for a brand or for a category
@@ -85,36 +88,62 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     }
   }
 
-  const path = getPath(catchAllSlug)
-
-  if (!path) {
-    return {
-      notFound: true,
-    }
-  }
-
   const client = initializeApollo()
 
-  const { data } = await client.query<
-    ProductPageGetDataQuery,
-    ProductPageGetDataQueryVariables
-  >({
-    query: GET_DATA,
-    variables: { path },
-  })
+  const slug = Array.isArray(catchAllSlug)
+    ? catchAllSlug.join('/')
+    : catchAllSlug
 
-  if (data.site.route.node?.__typename === 'Brand') {
-    // Hydrate server-side data for catalog
-    await getServerSideData(client, {
-      brandEntityId: data.site.route.node.entityId,
-    })
-  }
+  const designCategorySlugMatch = slug.match(/custom-(.*?)-shirts/)
 
-  if (data.site.route.node?.__typename === 'Category') {
-    // Hydrate server-side data for catalog
-    await getServerSideData(client, {
-      categoryEntityId: data.site.route.node.entityId,
+  if (designCategorySlugMatch?.[1].length) {
+    // This is a design category page
+
+    const { data } = await client.query<
+      ProductPageGetDesignCategoryData,
+      ProductPageGetDesignCategoryDataVariables
+    >({
+      query: GET_DESIGN_CATEGORY_DATA,
+      variables: { designCategorySlug: { eq: designCategorySlugMatch[1] } },
     })
+
+    if (!data.designCategory?.id) {
+      return {
+        notFound: true,
+      }
+    }
+  } else {
+    // This is a catalog page
+
+    const path = getPath(slug)
+
+    if (!path) {
+      return {
+        notFound: true,
+      }
+    }
+
+    const { data } = await client.query<
+      ProductPageGetDataQuery,
+      ProductPageGetDataQueryVariables
+    >({
+      query: GET_DATA,
+      variables: { path },
+    })
+
+    if (data.site.route.node?.__typename === 'Brand') {
+      // Hydrate server-side data for catalog
+      await getServerSideData(client, {
+        brandEntityId: data.site.route.node.entityId,
+      })
+    }
+
+    if (data.site.route.node?.__typename === 'Category') {
+      // Hydrate server-side data for catalog
+      await getServerSideData(client, {
+        categoryEntityId: data.site.route.node.entityId,
+      })
+    }
   }
 
   return addApolloState(client, {
@@ -128,7 +157,13 @@ const CatchAllPage = () => {
   const { query } = useRouter()
   const { catchAllSlug } = query
 
-  const path = getPath(catchAllSlug)
+  const slug = Array.isArray(catchAllSlug)
+    ? catchAllSlug.join('/')
+    : catchAllSlug
+
+  const designCategorySlugMatch = slug?.match(/custom-(.*?)-shirts/)
+
+  const path = getPath(designCategorySlugMatch?.[1] ? undefined : slug)
 
   const { data, loading, error } = useQuery<
     ProductPageGetDataQuery,
@@ -138,10 +173,33 @@ const CatchAllPage = () => {
     skip: !path,
   })
 
+  const {
+    data: designCategoryData,
+    loading: designCategoryLoading,
+    error: designCategoryError,
+  } = useQuery<
+    ProductPageGetDesignCategoryData,
+    ProductPageGetDesignCategoryDataVariables
+  >(GET_DESIGN_CATEGORY_DATA, {
+    variables: { designCategorySlug: { eq: designCategorySlugMatch?.[1] } },
+    skip: !designCategorySlugMatch,
+  })
+
   const { site } = data || {}
 
-  if (error) {
-    return <ComponentErrorMessage error={error} />
+  if (error || designCategoryError) {
+    return <ComponentErrorMessage error={error || designCategoryError} />
+  }
+
+  const { designCategory, site: designCategorySite } = designCategoryData || {}
+
+  if (designCategory && designCategorySite) {
+    return (
+      <DesignLibraryCategoryShowPage
+        category={designCategory}
+        site={designCategorySite}
+      />
+    )
   }
 
   const node = site?.route.node
@@ -160,7 +218,7 @@ const CatchAllPage = () => {
     }
 
     default: {
-      if (!loading) {
+      if (!loading || !designCategoryLoading) {
         console.error('Unknown node type', node)
       }
       return null
@@ -171,6 +229,20 @@ const CatchAllPage = () => {
 CatchAllPage.getLayout = (page: ReactElement) => (
   <PrimaryLayout>{page}</PrimaryLayout>
 )
+
+const GET_DESIGN_CATEGORY_DATA = gql`
+  ${DesignLibraryCategoryShowPage.fragments.category}
+  ${DesignLibraryCategoryShowPage.fragments.site}
+  query ProductPageGetDesignCategoryData($designCategorySlug: SlugFilter!) {
+    site {
+      ...DesignLibraryCategoryShowPageCatalogFragment
+    }
+    designCategory(filter: { slug: $designCategorySlug }) {
+      id
+      ...DesignLibraryCategoryShowPageDesignCategoryFragment
+    }
+  }
+`
 
 const GET_DATA = gql`
   ${productShowPageFragments.product}

@@ -7,7 +7,7 @@ import {
 import routes from '@lib/routes'
 import { notEmpty } from '@utils/typescript'
 import { ArrowRight, ChevronRight } from 'icons'
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image'
 import Link from 'next/link'
 import React from 'react'
 import Section from '../Section'
@@ -24,23 +24,28 @@ const FeaturedProductsGrid = ({ catalog }: FeaturedProductsGridProps) => {
 
   return (
     <Section gutter="md">
-      <SectionHeader title="Popular products" />
-      <div className="flex justify-center">
-        <LinkInline
-          href={routes.internal.catalog.href()}
-          className="mt-4 no-underline flex items-center"
-        >
-          View catalog{' '}
-          <span className="ml=2">
-            <ArrowRight width={14} strokeWidth={2} />
-          </span>
-        </LinkInline>
-      </div>
-
-      <div className="grid grid-cols-4 gap-2 mt-6">
-        {products?.map(product => (
-          <Product key={product.id} product={product} />
-        ))}
+      <div className="border rounded-md shadow-magical">
+        <div className="px-6 pt-6">
+          <h2 className="capitalize font-medium text-2xl">Popular products</h2>
+          <div className="flex">
+            <LinkInline
+              href={routes.internal.catalog.href()}
+              className="mt-4 no-underline flex items-center"
+            >
+              View catalog{' '}
+              <span className="ml=2">
+                <ArrowRight width={14} strokeWidth={2} />
+              </span>
+            </LinkInline>
+          </div>
+        </div>
+        <div className="px-6 pb-6 overflow-scroll no-scrollbar">
+          <div className="flex gap-8 mt-6 w-full">
+            {products?.map(product => (
+              <Product key={product.id} product={product} />
+            ))}
+          </div>
+        </div>
       </div>
     </Section>
   )
@@ -53,27 +58,27 @@ const Product = ({
 }) => {
   if (!product.brand?.path) return null
   return (
-    (<Link
-      href={routes.internal.catalog.product.href({
-        brandSlug: product.brand.path,
-        productSlug: product.path,
-      })}
-    >
-
-      {product.defaultImage?.url && (
-        <div className="relative w-full h-[200px]">
-          <Image
-            src={product.defaultImage.url}
-            alt={product.name}
-            layout="fill"
-            objectFit="contain"
-          />
-        </div>
-      )}
-      <h3 className="font-medium font-heading">{product.name}</h3>
-
-    </Link>)
-  );
+    <div className="min-w-[150px] flex-1">
+      <Link
+        href={routes.internal.catalog.product.href({
+          brandSlug: product.brand.path,
+          productSlug: product.path,
+        })}
+      >
+        {product.defaultImage?.url && (
+          <div className="relative w-full h-[200px]">
+            <Image
+              src={product.defaultImage.url}
+              alt={product.name}
+              layout="fill"
+              objectFit="contain"
+            />
+          </div>
+        )}
+        <h3 className="font-medium font-heading text-center">{product.name}</h3>
+      </Link>
+    </div>
+  )
 }
 
 FeaturedProductsGrid.fragments = {
