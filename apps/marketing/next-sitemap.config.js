@@ -78,6 +78,15 @@ const brandQuery = /* GraphQL */ `
   }
 `
 
+const designCategoryQuery = /* GraphQL */ `
+  query {
+    allDesignCategories(first: 100) {
+      id
+      slug
+    }
+  }
+`
+
 const fetchGraphQlData = async body => {
   const res = await fetch(endpoint, {
     body,
@@ -165,6 +174,26 @@ const getCatalogProductSlugs = async () => {
   return paths
 }
 
+const getDesignCategorySlugs = async () => {
+  const res = await fetchGraphQlData(
+    JSON.stringify({
+      query: designCategoryQuery,
+    }),
+  )
+
+  if (
+    res &&
+    res.data &&
+    res.data.allDesignCategories &&
+    res.data.allDesignCategories
+  ) {
+    const categories = res.data.allDesignCategories
+    return categories.map(category => `/custom-${category.slug}-shirts`)
+  }
+
+  return []
+}
+
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.stitchi.co',
@@ -191,6 +220,12 @@ module.exports = {
         lastmod: new Date().toISOString(),
       })),
       ...productCategorySlugs.map(slug => ({
+        loc: slug,
+        changefreq: 'daily',
+        priority: 0.7,
+        lastmod: new Date().toISOString(),
+      })),
+      ...getDesignCategorySlugs.map(slug => ({
         loc: slug,
         changefreq: 'daily',
         priority: 0.7,
