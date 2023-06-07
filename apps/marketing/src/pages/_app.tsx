@@ -9,15 +9,15 @@ import { useApollo } from '@lib/apollo'
 import { SeoDefault } from '@components/common'
 import globalSeo from '@generated/global-seo.json'
 import { StandoutProvider, WishlistProvider } from '@components/context'
-import { Inter } from 'next/font/google'
+import { Outfit } from 'next/font/google'
 import Script from 'next/script'
 import { GTM_ID } from '@lib/events'
 import MixpanelProvider from '@components/context/mixpanel-context'
 
-const inter = Inter({
+const outfit = Outfit({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-inter',
+  variable: '--font-outfit',
 })
 
 type ExtendedNextPage = NextPage & {
@@ -51,7 +51,7 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
         }}
       />
       {/* Google Tag Manager - Global base code - end */}
-      <div className={`${inter.variable}`}>
+      <div className={`${outfit.variable}`}>
         <ApolloProvider client={apolloClient}>
           {/* https://www.datocms.com/docs/next-js/seo-management */}
           <SeoDefault />
