@@ -1,6 +1,13 @@
 import fetch from 'node-fetch'
 import { writeFile } from 'fs'
 
+import nextEnv from '@next/env'
+
+const { loadEnvConfig } = nextEnv
+
+const projectDir = process.cwd()
+loadEnvConfig(projectDir)
+
 const getBigCommerceCategories = async () => {
   let page = 1
   let hasNextPage = true
@@ -57,11 +64,44 @@ const getBigCommerceBrands = async () => {
   return brands
 }
 
+const endpoint = process.env.NEXT_PUBLIC_STITCHI_GRAPHQL_URI
+
+const designCategoryQuery = `
+  query DesignCategoryQuery {
+    allDesignCategories(first: 100) {
+      id
+      slug
+    }
+  }
+`
+
+const getDesignLibraryCategories = async () => {
+  try {
+    const result = await fetch(endpoint, {
+      method: 'POST',
+      headers: Object.assign({
+        'Content-Type': 'application/json',
+      }),
+      body: JSON.stringify({ variables: {}, query: designCategoryQuery }),
+    })
+    const json = await result.json()
+
+    if (json.errors) {
+      throw json.errors
+    }
+
+    return json.data?.allDesignCategories?.map(({ slug }) => slug) || []
+  } catch (error) {
+    return console.error(error)
+  }
+}
+
 async function fetchSeoData() {
   try {
     return {
       brands: await getBigCommerceBrands(),
       categories: await getBigCommerceCategories(),
+      designCategorySlugs: await getDesignLibraryCategories(),
     }
   } catch (error) {
     return console.error(error)

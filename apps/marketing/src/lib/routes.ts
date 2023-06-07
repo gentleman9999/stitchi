@@ -104,6 +104,15 @@ const routes = {
     },
     lookbook: {
       href: () => buildRoute('/lookbook'),
+
+      categories: {
+        href: () => buildRoute('/lookbook/categories'),
+
+        show: {
+          href: ({ categorySlug }: { categorySlug: string }) =>
+            `/custom-${categorySlug}-shirts`,
+        },
+      },
     },
     blog: {
       href: () => buildRoute(`/learn`),

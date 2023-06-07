@@ -2833,5 +2833,38 @@
       "default_product_sort": "use_store_settings",
       "custom_url": { "url": "/sleeve-length/", "is_customized": false }
     }
+  ],
+  "designCategorySlugs": [
+    "outdoors",
+    "wilderness",
+    "fishing",
+    "dee-jay",
+    "detroit",
+    "city",
+    "ocean",
+    "beach",
+    "tropical",
+    "soccer",
+    "baseball",
+    "football",
+    "basketball",
+    "athletic",
+    "newsletter",
+    "cryptocurrency",
+    "bitcoin",
+    "sorority",
+    "fraternity",
+    "university",
+    "collegiate",
+    "musician",
+    "western",
+    "motorcycle",
+    "mountain",
+    "nature",
+    "skyline",
+    "music-festival",
+    "band",
+    "surfing",
+    "christian"
   ]
 }
