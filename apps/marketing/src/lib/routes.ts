@@ -199,6 +199,10 @@ const routes = {
     },
     closet: {
       href: () => buildRoute('/closet'),
+
+      orders: {
+        href: () => buildRoute('/closet/orders'),
+      },
     },
 
     account: {

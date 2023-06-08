@@ -4,14 +4,14 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: ClosetHomePageGetDataQuery
+// GraphQL query operation: ClosetOrdersIndexPageGetDataQuery
 // ====================================================
 
-export interface ClosetHomePageGetDataQuery_viewer {
+export interface ClosetOrdersIndexPageGetDataQuery_viewer {
   __typename: "Membership";
   id: string;
 }
 
-export interface ClosetHomePageGetDataQuery {
-  viewer: ClosetHomePageGetDataQuery_viewer | null;
+export interface ClosetOrdersIndexPageGetDataQuery {
+  viewer: ClosetOrdersIndexPageGetDataQuery_viewer | null;
 }

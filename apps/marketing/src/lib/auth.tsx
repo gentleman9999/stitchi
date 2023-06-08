@@ -2,6 +2,7 @@ import { gql, useQuery } from '@apollo/client'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import { WithAuthenticationGetDataQuery } from '@generated/WithAuthenticationGetDataQuery'
 import { useRouter } from 'next/router'
+import hoistNonReactStatic from 'hoist-non-react-statics'
 import routes from './routes'
 
 export const withAuthentication = (Component: React.ComponentType<any>) => {
@@ -29,7 +30,7 @@ export const withAuthentication = (Component: React.ComponentType<any>) => {
     return <Component {...props} />
   })
 
-  return AuthenticatedPage
+  return hoistNonReactStatic(AuthenticatedPage, Component)
 }
 
 const GET_DATA = gql`

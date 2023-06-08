@@ -200,7 +200,9 @@ module.exports = {
   exclude: ['/learn/page/*'],
   generateRobotsTxt: true,
   robotsTxtOptions: {
-    policies: [{ userAgent: '*', disallow: ['/orders', '/buy'] }],
+    policies: [
+      { userAgent: '*', disallow: ['/orders', '/buy', '/closet', '/account'] },
+    ],
   },
   additionalPaths: async () => {
     const productSlugs = await getCatalogProductSlugs()
