@@ -197,6 +197,16 @@ const routes = {
         href: () => buildRoute('/how-to-start-student-merch-business'),
       },
     },
+    closet: {
+      href: () => buildRoute('/closet'),
+    },
+
+    account: {
+      setup: {
+        href: (params: { redirectUrl: string }) =>
+          buildRoute('/account/setup', params),
+      },
+    },
   },
   api: {
     formResponse: {

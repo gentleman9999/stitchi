@@ -6,6 +6,7 @@ import {
   Section,
   SectionHeader,
 } from '@components/common'
+import CustomerLogoBanner from '@components/common/CustomerLogoBanner'
 import { Container, LinkInline } from '@components/ui'
 import { DesignLibraryCategoryShowPageCatalogFragment } from '@generated/DesignLibraryCategoryShowPageCatalogFragment'
 import { DesignLibraryCategoryShowPageDesignCategoryFragment } from '@generated/DesignLibraryCategoryShowPageDesignCategoryFragment'
@@ -20,6 +21,8 @@ interface Props {
 }
 
 const DesignLibraryCategoryShowPage = ({ site, category }: Props) => {
+  const featuredImage = category?._allReferencingDesigns?.[0]?.primaryImage
+
   return (
     <>
       <CmsSeo
@@ -34,17 +37,30 @@ const DesignLibraryCategoryShowPage = ({ site, category }: Props) => {
       />
       <Container>
         <Section gutter="md">
-          <h1 className="text-5xl font-headingDisplay font-bold capitalize mb-4">
-            Custom {category.name} shirts
-          </h1>
-          <p className="max-w-3xl text-xl">
-            Boost your brand with our {category.name?.toLocaleLowerCase()}
-            -themed promotional products. Uniquely designed to resonate with
-            your target audience, our range provides an engaging touch to any
-            event or campaign.
-          </p>
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 md:gap-12 lg:gap-20">
+            <div>
+              <h1 className="text-5xl font-headingDisplay font-bold capitalize mb-4">
+                Custom {category.name} shirts
+              </h1>
+              <p className="max-w-3xl text-xl">
+                Boost your brand with our {category.name?.toLocaleLowerCase()}
+                -themed promotional products. Uniquely designed to resonate with
+                your target audience, our range provides an engaging touch to
+                any event or campaign.
+              </p>
+            </div>
+            <div className="relative max-w-xs sm:max-w-[200px] md:max-w-[225px] lg:max-w-xs">
+              {featuredImage?.responsiveImage ? (
+                <CmsImage data={featuredImage.responsiveImage} />
+              ) : null}
+            </div>
+          </div>
         </Section>
       </Container>
+
+      <Section gutter="md">
+        <CustomerLogoBanner />
+      </Section>
 
       <Container>
         <Section gutter="md">

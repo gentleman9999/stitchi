@@ -27,23 +27,39 @@ const endpoint = getOrThrow(
 
 const httpLink = createHttpLink({
   uri: endpoint,
+  credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
 })
 
-const authLink = setContext((_, { headers }) => {
-  return {
-    headers: Object.assign(headers || {}, {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    }),
-  }
-})
+const makeAuthLink = () =>
+  setContext(async (_, { headers }) => {
+    let accessToken
 
+    try {
+      // Auth0 only provides access to the accessToken on the server.
+      // So we must make a call the the Next.js server to retrieve token.
+      const response = await fetch('/api/auth/accessToken')
+      const data = await response.json()
+      accessToken = data.accessToken
+    } catch (error) {
+      console.error(error)
+    }
+
+    return {
+      headers: Object.assign(headers || {}, {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+      }),
+    }
+  })
+
+// Allows us to share the apollo client instance (including auth) across client and server
 let apolloClient: ApolloClient<NormalizedCacheObject>
 
 const createApolloClient = () =>
   new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: authLink.concat(httpLink),
+    link: makeAuthLink().concat(httpLink),
     cache: new InMemoryCache({
       dataIdFromObject(responseObj) {
         switch (responseObj.__typename) {

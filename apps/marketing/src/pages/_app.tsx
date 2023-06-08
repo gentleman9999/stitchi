@@ -7,12 +7,12 @@ import { NextPage } from 'next'
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '@lib/apollo'
 import { SeoDefault } from '@components/common'
-import globalSeo from '@generated/global-seo.json'
 import { StandoutProvider, WishlistProvider } from '@components/context'
 import { Outfit } from 'next/font/google'
 import Script from 'next/script'
 import { GTM_ID } from '@lib/events'
 import MixpanelProvider from '@components/context/mixpanel-context'
+import { UserProvider } from '@auth0/nextjs-auth0/client'
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -52,17 +52,19 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
       />
       {/* Google Tag Manager - Global base code - end */}
       <div className={`${outfit.variable}`}>
-        <ApolloProvider client={apolloClient}>
-          {/* https://www.datocms.com/docs/next-js/seo-management */}
-          <SeoDefault />
-          <MixpanelProvider>
-            <StandoutProvider>
-              <WishlistProvider>
-                {getLayout(<Component {...pageProps} />)}
-              </WishlistProvider>
-            </StandoutProvider>
-          </MixpanelProvider>
-        </ApolloProvider>
+        <UserProvider>
+          <ApolloProvider client={apolloClient}>
+            {/* https://www.datocms.com/docs/next-js/seo-management */}
+            <SeoDefault />
+            <MixpanelProvider>
+              <StandoutProvider>
+                <WishlistProvider>
+                  {getLayout(<Component {...pageProps} />)}
+                </WishlistProvider>
+              </StandoutProvider>
+            </MixpanelProvider>
+          </ApolloProvider>
+        </UserProvider>
       </div>
     </>
   )

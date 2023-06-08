@@ -2,7 +2,7 @@ import { gql, useQuery } from '@apollo/client'
 import { queryTypes, useQueryStates } from 'next-usequerystate'
 import { UseCatalogFiltersGetDataQuery } from '@generated/UseCatalogFiltersGetDataQuery'
 import { notEmpty } from '@utils/typescript'
-import { brands } from '@generated/static.json'
+import staticData from '@generated/static.json'
 
 interface Props {
   brandEntityId?: number
@@ -25,7 +25,9 @@ const useCatalogFilters = ({ brandEntityId, categoryEntityId }: Props = {}) => {
 
   const { data } = useQuery<UseCatalogFiltersGetDataQuery>(GET_DATA)
 
-  const defaultBrand = brands.find(brand => brand.id === brandEntityId)
+  const defaultBrand = staticData.brands.find(
+    brand => brand.id === brandEntityId,
+  )
 
   const defaultCategory = data?.site.categoryTree?.find(
     category => category.entityId === categoryEntityId,
@@ -34,7 +36,7 @@ const useCatalogFilters = ({ brandEntityId, categoryEntityId }: Props = {}) => {
   const filters = {
     brands: defaultBrand
       ? [defaultBrand]
-      : brands.sort((a, b) => a.name.localeCompare(b.name)) || [],
+      : staticData.brands.sort((a, b) => a.name.localeCompare(b.name)) || [],
 
     categories: defaultCategory
       ? [defaultCategory]
