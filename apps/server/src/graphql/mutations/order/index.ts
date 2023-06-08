@@ -273,6 +273,10 @@ export const orderConfirm = mutationField('orderConfirm', {
           customerLastName: input.customerLastName || null,
           customerPhone: input.customerPhone || null,
           shippingAddressId: shippingAddress.id,
+
+          // Update these values if the don't already exist
+          userId: order.userId || ctx.userId || null,
+          organizationId: order.organizationId || ctx.organizationId || null,
         },
       })
     } catch (error) {

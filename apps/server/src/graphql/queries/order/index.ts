@@ -129,3 +129,58 @@ export const OrderItemSummaries = extendType({
     })
   },
 })
+
+export const OrdersExtendsMember = extendType({
+  type: 'Membership',
+  definition(t) {
+    t.connectionField('orders', {
+      type: 'Order',
+      resolve: async (
+        _,
+        { first, last, after, before },
+        { order, userId, organizationId },
+      ) => {
+        if (!userId) {
+          throw new GraphQLError('Forbidden')
+        }
+
+        if (!organizationId) {
+          throw new GraphQLError('Forbidden')
+        }
+
+        const limit = first || last || 50
+
+        // Add one to see if there's a next page
+        const limitPlusOne = limit + 1
+
+        const orders = await order.listOrders({
+          where: { AND: { organizationId, userId } },
+          // skip the cursor
+          skip: 1,
+          take: limitPlusOne,
+          ...(after ? { cursor: { id: after } } : {}),
+        })
+
+        let hasNextElement = false
+
+        if (orders.length > limit) {
+          hasNextElement = true
+          orders.pop()
+        }
+
+        return {
+          edges: orders.map(order => ({
+            cursor: order.id,
+            node: orderFactoryOrderToGraphQL(order),
+          })),
+          pageInfo: {
+            startCursor: orders[0]?.id,
+            endCursor: orders[orders.length - 1]?.id,
+            hasNextPage: Boolean(before) || hasNextElement,
+            hasPreviousPage: Boolean(after) || hasNextElement,
+          },
+        }
+      },
+    })
+  },
+})

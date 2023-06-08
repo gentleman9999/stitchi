@@ -8,7 +8,7 @@ export const MailingAddress: yup.ObjectSchema<MailingAddressSchema> = yup
   .object()
   .shape({
     id: yup.string().uuid().required(),
-    userId: yup.string().uuid().nullable().defined(),
+    userId: yup.string().nullable().defined(),
     organizationId: yup.string().uuid().nullable().defined(),
     name: yup.string().nullable().defined(),
     phone: yup.string().nullable().defined(),

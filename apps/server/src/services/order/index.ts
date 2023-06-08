@@ -12,6 +12,7 @@ export interface OrderClientService {
   createOrder: (input: CreateOrderFnInput) => Promise<OrderFactoryOrder>
   updateOrder: OrderRepository['updateOrder']
   getOrder: OrderRepository['getOrder']
+  listOrders: OrderRepository['listOrders']
   createMailingAddress: OrderRepository['createMailingAddress']
   getMailingAddress: OrderRepository['getMailingAddress']
   reconcileOrderPayments: (input: {
@@ -75,6 +76,14 @@ const makeClient: MakeClientFn = (
       } catch (error) {
         console.error(error)
         throw new Error('Failed to update order')
+      }
+    },
+    listOrders: async input => {
+      try {
+        return orderRepository.listOrders(input)
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to list orders')
       }
     },
     reconcileOrderPayments: async input => {

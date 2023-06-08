@@ -253,6 +253,14 @@ export interface NexusGenObjects {
   OrderConfirmPayload: { // root type
     order?: NexusGenRootTypes['Order'] | null; // Order
   }
+  OrderConnection: { // root type
+    edges?: Array<NexusGenRootTypes['OrderEdge'] | null> | null; // [OrderEdge]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  OrderEdge: { // root type
+    cursor: string; // String!
+    node?: NexusGenRootTypes['Order'] | null; // Order
+  }
   OrderItem: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
@@ -423,6 +431,7 @@ export interface NexusGenFieldTypes {
   Membership: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
+    orders: NexusGenRootTypes['OrderConnection'] | null; // OrderConnection
     organization: NexusGenRootTypes['Organization'] | null; // Organization
     organizationId: string; // String!
     role: NexusGenEnums['MembershipRole'] | null; // MembershipRole
@@ -500,6 +509,14 @@ export interface NexusGenFieldTypes {
   }
   OrderConfirmPayload: { // field return type
     order: NexusGenRootTypes['Order'] | null; // Order
+  }
+  OrderConnection: { // field return type
+    edges: Array<NexusGenRootTypes['OrderEdge'] | null> | null; // [OrderEdge]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  OrderEdge: { // field return type
+    cursor: string; // String!
+    node: NexusGenRootTypes['Order'] | null; // Order
   }
   OrderItem: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -669,6 +686,7 @@ export interface NexusGenFieldTypeNames {
   Membership: { // field return type name
     createdAt: 'DateTime'
     id: 'ID'
+    orders: 'OrderConnection'
     organization: 'Organization'
     organizationId: 'String'
     role: 'MembershipRole'
@@ -746,6 +764,14 @@ export interface NexusGenFieldTypeNames {
   }
   OrderConfirmPayload: { // field return type name
     order: 'Order'
+  }
+  OrderConnection: { // field return type name
+    edges: 'OrderEdge'
+    pageInfo: 'PageInfo'
+  }
+  OrderEdge: { // field return type name
+    cursor: 'String'
+    node: 'Order'
   }
   OrderItem: { // field return type name
     createdAt: 'DateTime'
@@ -858,6 +884,14 @@ export interface NexusGenFieldTypeNames {
 }
 
 export interface NexusGenArgTypes {
+  Membership: {
+    orders: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+  }
   Mutation: {
     fulfillmentCreate: { // args
       input: NexusGenInputs['FulfillmentCreateInput']; // FulfillmentCreateInput!
