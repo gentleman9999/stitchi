@@ -42,6 +42,13 @@ export interface NexusGenInputs {
     first: number; // Int!
     skip?: number | null; // Int
   }
+  DateFilterInput: { // input type
+    equals?: string | null; // String
+    gt?: string | null; // String
+    gte?: string | null; // String
+    lt?: string | null; // String
+    lte?: string | null; // String
+  }
   FulfillmentCreateInput: { // input type
     carrier: string; // String!
     orderId: string; // String!
@@ -63,7 +70,10 @@ export interface NexusGenInputs {
     zip?: string | null; // String
   }
   MembershipOrdersFilterInput: { // input type
-    search?: string | null; // String
+    where?: NexusGenInputs['MembershipOrdersWhereFilterInput'] | null; // MembershipOrdersWhereFilterInput
+  }
+  MembershipOrdersWhereFilterInput: { // input type
+    createdAt?: NexusGenInputs['DateFilterInput'] | null; // DateFilterInput
   }
   OrderCartCreateInput: { // input type
     includeFulfillment: boolean; // Boolean!

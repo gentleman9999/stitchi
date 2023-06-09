@@ -15,3 +15,14 @@ export const StringFilterInput = inputObjectType({
     t.list.nonNull.string('notIn')
   },
 })
+
+export const DateFilterInput = inputObjectType({
+  name: 'DateFilterInput',
+  definition(t) {
+    t.string('equals')
+    t.string('gt')
+    t.string('gte')
+    t.string('lt')
+    t.string('lte')
+  },
+})

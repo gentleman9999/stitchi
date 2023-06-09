@@ -139,16 +139,21 @@ export const OrderItemSummaries = extendType({
   },
 })
 
-// export const MembershipOrdersWhereFilterInput = inputObjectType({
-//   name: 'MembershipOrdersWhereFilterInput',
-//   definition(t) {},
-// })
+export const MembershipOrdersWhereFilterInput = inputObjectType({
+  name: 'MembershipOrdersWhereFilterInput',
+  definition(t) {
+    t.field('createdAt', {
+      type: 'DateFilterInput',
+    })
+  },
+})
 
 export const MembershipOrdersFilterInput = inputObjectType({
   name: 'MembershipOrdersFilterInput',
   definition(t) {
-    t.string('search')
-    // t.field('where', { type: 'MembershipOrdersWhereFilterInput' })
+    t.field('where', {
+      type: 'MembershipOrdersWhereFilterInput',
+    })
   },
 })
 
@@ -182,31 +187,13 @@ export const OrdersExtendsMember = extendType({
           where: {
             organizationId,
             userId,
-
-            OR: filter?.search
-              ? [
-                  {
-                    customerEmail: {
-                      contains: filter.search,
-                    },
-                  },
-                  {
-                    customerFirstName: {
-                      contains: filter.search,
-                    },
-                  },
-                  {
-                    customerLastName: {
-                      contains: filter.search,
-                    },
-                  },
-                  {
-                    customerPhone: {
-                      contains: filter.search,
-                    },
-                  },
-                ]
-              : undefined,
+            createdAt: {
+              equals: filter?.where?.createdAt?.equals || undefined,
+              gt: filter?.where?.createdAt?.gt || undefined,
+              gte: filter?.where?.createdAt?.gte || undefined,
+              lt: filter?.where?.createdAt?.lt || undefined,
+              lte: filter?.where?.createdAt?.lte || undefined,
+            },
           },
           // skip the cursor
           skip: 1,

@@ -9,7 +9,7 @@ import Section from '../Section'
 import { notEmpty } from '@utils/typescript'
 import ClosetOrdersDesktopTable from './ClosetOrdersDesktopTable'
 import ClosetOrdersMobileTable from './ClosetOrdersMobileTable'
-import ClosetOrdersTableFilters from './ClosetOrdersTableFilters'
+import ClosetOrdersTableFilters from './ClosetOrdersTableFilters/ClosetOrdersTableFilters'
 import { MembershipOrdersFilterInput } from '@generated/globalTypes'
 import { useDebouncedCallback } from 'use-debounce'
 
