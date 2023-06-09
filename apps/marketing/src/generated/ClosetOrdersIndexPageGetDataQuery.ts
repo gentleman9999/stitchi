@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { MembershipOrdersFilterInput, OrderPaymentStatus } from "./globalTypes";
+
 // ====================================================
 // GraphQL query operation: ClosetOrdersIndexPageGetDataQuery
 // ====================================================
@@ -11,6 +13,7 @@ export interface ClosetOrdersIndexPageGetDataQuery_viewer_orders_edges_node {
   __typename: "Order";
   id: string;
   humanOrderId: string;
+  paymentStatus: OrderPaymentStatus;
   humanPaymentStatus: string;
   totalTaxCents: number;
   totalPriceCents: number;
@@ -31,14 +34,6 @@ export interface ClosetOrdersIndexPageGetDataQuery_viewer_orders_pageInfo {
    * When paginating forwards, are there more items?
    */
   hasNextPage: boolean;
-  /**
-   * When paginating backwards, are there more items?
-   */
-  hasPreviousPage: boolean;
-  /**
-   * When paginating backwards, the cursor to continue.
-   */
-  startCursor: string | null;
   /**
    * When paginating forwards, the cursor to continue.
    */
@@ -65,4 +60,8 @@ export interface ClosetOrdersIndexPageGetDataQuery_viewer {
 
 export interface ClosetOrdersIndexPageGetDataQuery {
   viewer: ClosetOrdersIndexPageGetDataQuery_viewer | null;
+}
+
+export interface ClosetOrdersIndexPageGetDataQueryVariables {
+  filter?: MembershipOrdersFilterInput | null;
 }

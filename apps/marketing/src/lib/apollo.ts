@@ -86,6 +86,11 @@ const createApolloClient = () =>
             allDesigns: firstSkipPagination(['filter']),
           },
         },
+        Membership: {
+          fields: {
+            orders: relayStylePagination(),
+          },
+        },
       },
     }),
   })

@@ -1,6 +1,15 @@
 import { GraphQLError } from 'graphql'
-import { extendType, idArg, list, nonNull, queryField } from 'nexus'
+import {
+  arg,
+  extendType,
+  idArg,
+  inputObjectType,
+  list,
+  nonNull,
+  queryField,
+} from 'nexus'
 import * as uuid from 'uuid'
+import { connectionFromArray } from 'graphql-relay'
 import { orderFactoryOrderToGraphQL } from '../../serializers/order'
 
 export * from './mailing-address'
@@ -130,14 +139,30 @@ export const OrderItemSummaries = extendType({
   },
 })
 
+// export const MembershipOrdersWhereFilterInput = inputObjectType({
+//   name: 'MembershipOrdersWhereFilterInput',
+//   definition(t) {},
+// })
+
+export const MembershipOrdersFilterInput = inputObjectType({
+  name: 'MembershipOrdersFilterInput',
+  definition(t) {
+    t.string('search')
+    // t.field('where', { type: 'MembershipOrdersWhereFilterInput' })
+  },
+})
+
 export const OrdersExtendsMember = extendType({
   type: 'Membership',
   definition(t) {
     t.connectionField('orders', {
       type: 'Order',
+      additionalArgs: {
+        filter: arg({ type: 'MembershipOrdersFilterInput' }),
+      },
       resolve: async (
         _,
-        { first, last, after, before },
+        { first, last, after, before, filter },
         { order, userId, organizationId },
       ) => {
         if (!userId) {
@@ -154,32 +179,53 @@ export const OrdersExtendsMember = extendType({
         const limitPlusOne = limit + 1
 
         const orders = await order.listOrders({
-          where: { AND: { organizationId, userId } },
+          where: {
+            organizationId,
+            userId,
+
+            OR: filter?.search
+              ? [
+                  {
+                    customerEmail: {
+                      contains: filter.search,
+                    },
+                  },
+                  {
+                    customerFirstName: {
+                      contains: filter.search,
+                    },
+                  },
+                  {
+                    customerLastName: {
+                      contains: filter.search,
+                    },
+                  },
+                  {
+                    customerPhone: {
+                      contains: filter.search,
+                    },
+                  },
+                ]
+              : undefined,
+          },
           // skip the cursor
           skip: 1,
-          take: limitPlusOne,
+          take: after ? limitPlusOne : -limitPlusOne,
           ...(after ? { cursor: { id: after } } : {}),
+          ...(before ? { cursor: { id: before } } : {}),
         })
 
-        let hasNextElement = false
-
-        if (orders.length > limit) {
-          hasNextElement = true
-          orders.pop()
-        }
-
-        return {
-          edges: orders.map(order => ({
-            cursor: order.id,
-            node: orderFactoryOrderToGraphQL(order),
-          })),
-          pageInfo: {
-            startCursor: orders[0]?.id,
-            endCursor: orders[orders.length - 1]?.id,
-            hasNextPage: Boolean(before) || hasNextElement,
-            hasPreviousPage: Boolean(after) || hasNextElement,
+        const connection = connectionFromArray(
+          orders.map(orderFactoryOrderToGraphQL),
+          {
+            first,
+            last,
+            after,
+            before,
           },
-        }
+        )
+
+        return connection
       },
     })
   },

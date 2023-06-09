@@ -27,8 +27,6 @@ const makeListOrders: MakeListOrdersFn =
   async input => {
     let orderRecords
 
-    console.log('INPUT', input)
-
     try {
       orderRecords = await orderTable.findMany({
         ...input,
@@ -42,8 +40,6 @@ const makeListOrders: MakeListOrdersFn =
       })
       throw new Error('Failed to get orders')
     }
-
-    console.log('ORDER RECORDS', orderRecords)
 
     return orderRecords.map(order =>
       orderFactory({

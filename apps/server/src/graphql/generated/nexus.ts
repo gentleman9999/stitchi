@@ -62,6 +62,9 @@ export interface NexusGenInputs {
     provinceCode?: string | null; // String
     zip?: string | null; // String
   }
+  MembershipOrdersFilterInput: { // input type
+    search?: string | null; // String
+  }
   OrderCartCreateInput: { // input type
     includeFulfillment: boolean; // Boolean!
     items: NexusGenInputs['OrderCartCreateItemsInput'][]; // [OrderCartCreateItemsInput!]!
@@ -113,6 +116,18 @@ export interface NexusGenInputs {
   }
   QuoteGeneratePrintLocationInput: { // input type
     colorCount: number; // Int!
+  }
+  StringFilterInput: { // input type
+    contains?: string | null; // String
+    endsWith?: string | null; // String
+    equals?: string | null; // String
+    gt?: string | null; // String
+    gte?: string | null; // String
+    in?: string[] | null; // [String!]
+    lt?: string | null; // String
+    lte?: string | null; // String
+    notIn?: string[] | null; // [String!]
+    startsWith?: string | null; // String
   }
   SubscriberCreateInput: { // input type
     email: string; // String!
@@ -220,7 +235,7 @@ export interface NexusGenObjects {
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
   }
   NewsletterIssueEdge: { // root type
-    cursor: string; // String!
+    cursor?: string | null; // String
     node?: NexusGenRootTypes['NewsletterIssue'] | null; // NewsletterIssue
   }
   Order: { // root type
@@ -258,7 +273,7 @@ export interface NexusGenObjects {
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
   }
   OrderEdge: { // root type
-    cursor: string; // String!
+    cursor?: string | null; // String
     node?: NexusGenRootTypes['Order'] | null; // Order
   }
   OrderItem: { // root type
@@ -470,7 +485,7 @@ export interface NexusGenFieldTypes {
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
   }
   NewsletterIssueEdge: { // field return type
-    cursor: string; // String!
+    cursor: string | null; // String
     node: NexusGenRootTypes['NewsletterIssue'] | null; // NewsletterIssue
   }
   Order: { // field return type
@@ -515,7 +530,7 @@ export interface NexusGenFieldTypes {
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
   }
   OrderEdge: { // field return type
-    cursor: string; // String!
+    cursor: string | null; // String
     node: NexusGenRootTypes['Order'] | null; // Order
   }
   OrderItem: { // field return type
@@ -888,6 +903,7 @@ export interface NexusGenArgTypes {
     orders: { // args
       after?: string | null; // String
       before?: string | null; // String
+      filter?: NexusGenInputs['MembershipOrdersFilterInput'] | null; // MembershipOrdersFilterInput
       first?: number | null; // Int
       last?: number | null; // Int
     }

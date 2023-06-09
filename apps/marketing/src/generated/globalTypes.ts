@@ -135,6 +135,10 @@ export interface LinksFilter {
   exists?: any | null;
 }
 
+export interface MembershipOrdersFilterInput {
+  search?: string | null;
+}
+
 /**
  * A variant option value id input object
  */
