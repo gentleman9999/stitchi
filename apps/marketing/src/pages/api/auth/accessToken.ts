@@ -1,10 +1,6 @@
-import { getAccessToken } from '@auth0/nextjs-auth0'
-import { NextApiRequest, NextApiResponse } from 'next'
+import { getAccessToken, withApiAuthRequired } from '@auth0/nextjs-auth0'
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
+export default withApiAuthRequired(async function handler(req, res) {
   try {
     switch (req.method) {
       case 'GET': {
@@ -20,4 +16,4 @@ export default async function handler(
     console.error(e)
     res.status(500).json({ message: e })
   }
-}
+})

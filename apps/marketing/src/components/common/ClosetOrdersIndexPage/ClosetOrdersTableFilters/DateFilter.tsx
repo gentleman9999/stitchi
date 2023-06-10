@@ -5,11 +5,11 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 export const schema = yup.object().shape({
-  equals: yup.string().nullable(),
-  gt: yup.string().nullable(),
-  gte: yup.string().nullable(),
-  lt: yup.string().nullable(),
-  lte: yup.string().nullable(),
+  equals: yup.string(),
+  gt: yup.string(),
+  gte: yup.string(),
+  lt: yup.string(),
+  lte: yup.string(),
 })
 
 type FormValues = yup.InferType<typeof schema>

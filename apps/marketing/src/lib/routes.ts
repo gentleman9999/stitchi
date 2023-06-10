@@ -32,6 +32,12 @@ const routes = {
     home: {
       href: () => buildRoute('/'),
     },
+    login: {
+      href: () => buildRoute('/login'),
+    },
+    logout: {
+      href: () => buildRoute('/logout'),
+    },
     getStarted: {
       href: () => buildRoute('/start'),
 
