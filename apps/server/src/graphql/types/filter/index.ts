@@ -19,10 +19,7 @@ export const StringFilterInput = inputObjectType({
 export const DateFilterInput = inputObjectType({
   name: 'DateFilterInput',
   definition(t) {
-    t.string('equals')
-    t.string('gt')
     t.string('gte')
-    t.string('lt')
     t.string('lte')
   },
 })

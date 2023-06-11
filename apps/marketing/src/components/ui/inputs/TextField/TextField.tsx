@@ -29,6 +29,8 @@ interface MultilineProps extends BaseProps {
 interface SinglelineProps extends BaseProps {
   multiline?: false
   inputRef?: React.Ref<any>
+  max?: InputElementAttributes['max']
+  min?: InputElementAttributes['min']
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
@@ -93,6 +95,8 @@ const TextField = (props: TextFieldProps) => {
             placeholder={props.placeholder}
             value={props.value}
             onChange={props.onChange}
+            max={props.max}
+            min={props.min}
             type={type}
             autoComplete={props.autoComplete}
             required={props.required}

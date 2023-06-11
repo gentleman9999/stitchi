@@ -8,17 +8,10 @@ interface ListOrdersConfig {
   orderTable: OrderTable
 }
 
-interface ListOrdersFilter {
-  userId?: string
-}
+export interface ListOrdersFnInput
+  extends Omit<Prisma.OrderFindManyArgs, 'include' | 'select'> {}
 
-export interface ListOrdersFnInput {
-  filter?: ListOrdersFilter
-}
-
-type ListOrdersFn = (
-  input: Omit<Prisma.OrderFindManyArgs, 'include' | 'select'>,
-) => Promise<OrderFactoryOrder[]>
+type ListOrdersFn = (input: ListOrdersFnInput) => Promise<OrderFactoryOrder[]>
 
 type MakeListOrdersFn = (config?: ListOrdersConfig) => ListOrdersFn
 

@@ -10,32 +10,49 @@ import { notEmpty } from '@utils/typescript'
 import ClosetOrdersDesktopTable from './ClosetOrdersDesktopTable'
 import ClosetOrdersMobileTable from './ClosetOrdersMobileTable'
 import ClosetOrdersTableFilters from './ClosetOrdersTableFilters/ClosetOrdersTableFilters'
-import { MembershipOrdersFilterInput } from '@generated/globalTypes'
+import {
+  MembershipOrdersFilterInput,
+  MembershipOrdersWhereFilterInput,
+} from '@generated/globalTypes'
 import { useDebouncedCallback } from 'use-debounce'
+import { useQueryState } from 'next-usequerystate'
 
 interface Props {}
 
 const ClosetOrdersIndexPage = (props: Props) => {
-  const { data, fetchMore, refetch } = useQuery<
+  const [filter, setFilter] = useQueryState<
+    MembershipOrdersFilterInput | undefined
+  >('filter', {
+    defaultValue: undefined,
+    serialize: value => btoa(JSON.stringify(value)),
+    parse: value => JSON.parse(atob(value)),
+  })
+
+  const { data, fetchMore, refetch, variables } = useQuery<
     ClosetOrdersIndexPageGetDataQuery,
     ClosetOrdersIndexPageGetDataQueryVariables
   >(GET_DATA)
 
   const { pageInfo, edges } = data?.viewer?.orders || {}
 
+  React.useEffect(() => {
+    if (JSON.stringify(variables?.filter) === JSON.stringify(filter)) return
+
+    fetchMore({ variables: { filter } })
+  }, [fetchMore, filter, variables?.filter])
+
   const handleNextPage = async () => {
     if (!pageInfo?.hasNextPage) return
 
     await fetchMore({
-      variables: {
-        after: pageInfo?.endCursor,
-      },
+      variables: { after: pageInfo?.endCursor },
     })
   }
 
   const handleChange = useDebouncedCallback(
-    (filter: MembershipOrdersFilterInput) => {
-      refetch({ filter })
+    (newFilter: MembershipOrdersFilterInput) => {
+      if (JSON.stringify(newFilter) === JSON.stringify(filter)) return
+      setFilter(newFilter)
     },
     1000,
   )
@@ -55,7 +72,13 @@ const ClosetOrdersIndexPage = (props: Props) => {
           <h1 className="text-4xl">Your orders</h1>
         </Section>
 
-        <ClosetOrdersTableFilters onChange={handleChange} />
+        <ClosetOrdersTableFilters
+          onChange={value => {
+            const { date, ...rest } = value
+
+            handleChange({ where: { ...rest, createdAt: date } })
+          }}
+        />
 
         <div className="hidden md:block">
           <ClosetOrdersDesktopTable {...tableProps} />

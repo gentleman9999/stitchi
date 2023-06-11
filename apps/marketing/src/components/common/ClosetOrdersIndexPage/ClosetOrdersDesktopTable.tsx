@@ -1,13 +1,15 @@
 import React from 'react'
 import OrderPaymentStatusBadge from '../OrderPaymentStatusBadge'
 import routes from '@lib/routes'
-import { format, parseISO } from 'date-fns'
+import { parseISO } from 'date-fns'
 import currency from 'currency.js'
 import { LinkInline } from '@components/ui'
 import { gql } from '@apollo/client'
 import cx from 'classnames'
 import { ClosetOrdersDesktopTableOrderFragment } from '@generated/ClosetOrdersDesktopTableOrderFragment'
 import InfiniteScrollContainer from '../InfiniteScrollContainer'
+import useTimeZone from '@hooks/useTimeZone'
+import { format } from 'date-fns-tz'
 
 interface Props {
   orders: ClosetOrdersDesktopTableOrderFragment[]
@@ -20,6 +22,8 @@ const ClosetOrdersDesktopTable = ({
   hasNextPage,
   onNextPage,
 }: Props) => {
+  const { timeZone } = useTimeZone()
+
   const handleNextPage = async () => {
     await onNextPage()
   }
@@ -38,7 +42,7 @@ const ClosetOrdersDesktopTable = ({
       {orders?.map(order => (
         <>
           <Cell className="font-medium text-gray-500">
-            {format(parseISO(order.createdAt), 'PP')}
+            {format(parseISO(order.createdAt), 'PP', { timeZone })}
           </Cell>
           <Cell>
             <div className="flex flex-col gap-2">

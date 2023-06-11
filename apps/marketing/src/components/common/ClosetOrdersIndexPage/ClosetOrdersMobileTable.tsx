@@ -1,9 +1,11 @@
 import { gql } from '@apollo/client'
 import { LinkInline } from '@components/ui'
 import { ClosetOrdersMobileTableOrderFragment } from '@generated/ClosetOrdersMobileTableOrderFragment'
+import useTimeZone from '@hooks/useTimeZone'
 import routes from '@lib/routes'
 import currency from 'currency.js'
-import { format, parseISO } from 'date-fns'
+import { parseISO } from 'date-fns'
+import { format } from 'date-fns-tz'
 import React from 'react'
 import InfiniteScrollContainer from '../InfiniteScrollContainer'
 import OrderPaymentStatusBadge from '../OrderPaymentStatusBadge'
@@ -19,6 +21,8 @@ const ClosetOrdersMobileTable = ({
   hasNextPage,
   onNextPage,
 }: Props) => {
+  const { timeZone } = useTimeZone()
+
   const handleNextPage = async () => {
     await onNextPage()
   }
@@ -30,7 +34,7 @@ const ClosetOrdersMobileTable = ({
           <div className="flex flex-col gap-4">
             <div>
               <span className="text-gray-500 text-xs mb-1">
-                {format(parseISO(order.createdAt), 'PP')}
+                {format(parseISO(order.createdAt), 'PP', { timeZone })}
               </span>
               <div className="flex items-center gap-4 font-medium justify-between">
                 {currency(order.totalPriceCents, {

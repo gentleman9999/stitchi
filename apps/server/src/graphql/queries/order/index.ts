@@ -11,10 +11,9 @@ import {
 import * as uuid from 'uuid'
 import { connectionFromArray } from 'graphql-relay'
 import { orderFactoryOrderToGraphQL } from '../../serializers/order'
-
 export * from './mailing-address'
-
-import { NexusGenObjects } from '../../generated/nexus'
+import { NexusGenObjects, NexusGenInputs } from '../../generated/nexus'
+import { endOfDay, parseISO, startOfDay } from 'date-fns'
 
 export const order = queryField('order', {
   type: 'Order',
@@ -187,13 +186,12 @@ export const OrdersExtendsMember = extendType({
           where: {
             organizationId,
             userId,
-            createdAt: {
-              equals: filter?.where?.createdAt?.equals || undefined,
-              gt: filter?.where?.createdAt?.gt || undefined,
-              gte: filter?.where?.createdAt?.gte || undefined,
-              lt: filter?.where?.createdAt?.lt || undefined,
-              lte: filter?.where?.createdAt?.lte || undefined,
-            },
+            createdAt: filter?.where?.createdAt
+              ? {
+                  gte: filter.where.createdAt.gte || undefined,
+                  lte: filter.where.createdAt.lte || undefined,
+                }
+              : undefined,
           },
           // skip the cursor
           skip: 1,
