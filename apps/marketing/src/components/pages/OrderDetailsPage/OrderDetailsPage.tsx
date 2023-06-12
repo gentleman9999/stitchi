@@ -9,6 +9,7 @@ import OrderDetailsPageShippingDetails from './OrderDetailsPageShippingDetails'
 import cx from 'classnames'
 import OrderDetailsPageLineItems from './OrderDetailsPageLineItems'
 import ContactUs from './ContactUs'
+import OrderPaymentStatusBadge from '@components/common/OrderPaymentStatusBadge'
 
 interface Props {
   order: OrderDetailsPageOrderFragment
@@ -31,14 +32,11 @@ const OrderDetailsPage = ({ order }: Props) => {
             </span>
             <span className="hidden sm:block">·</span>
             <div>
-              <span
-                className={cx('text-sm font-bold px-2 py-0.5 rounded-sm', {
-                  'bg-primary text-xs text-gray-950/70':
-                    order.paymentStatus !== 'PAID',
-                })}
-              >
-                {order.humanPaymentStatus}
-              </span>
+              <OrderPaymentStatusBadge
+                size="small"
+                humanStatus={order.humanPaymentStatus}
+                status={order.paymentStatus}
+              />
             </div>
           </div>
         </div>

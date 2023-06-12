@@ -7,6 +7,11 @@ input AllNewsletterIssuesFilter {
   skip: Int
 }
 
+input DateFilterInput {
+  gte: String
+  lte: String
+}
+
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
@@ -102,12 +107,34 @@ type MailingAddressCreatePayload {
 type Membership {
   createdAt: DateTime!
   id: ID!
+  orders(
+    """Returns the elements in the list that come after the specified cursor"""
+    after: String
+
+    """Returns the elements in the list that come before the specified cursor"""
+    before: String
+    filter: MembershipOrdersFilterInput
+
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+  ): OrderConnection
   organization: Organization
   organizationId: String!
   role: MembershipRole
   updatedAt: DateTime
   user: User
   userId: String!
+}
+
+input MembershipOrdersFilterInput {
+  where: MembershipOrdersWhereFilterInput
+}
+
+input MembershipOrdersWhereFilterInput {
+  createdAt: DateFilterInput
 }
 
 enum MembershipRole {
@@ -173,7 +200,7 @@ type NewsletterIssueConnection {
 
 type NewsletterIssueEdge {
   """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
-  cursor: String!
+  cursor: String
 
   """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
   node: NewsletterIssue
@@ -264,6 +291,26 @@ input OrderConfirmMailingAddressInput {
 
 type OrderConfirmPayload {
   order: Order
+}
+
+type OrderConnection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [OrderEdge]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+}
+
+type OrderEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: Order
 }
 
 type OrderItem {
@@ -403,6 +450,19 @@ type Quote {
 
 input QuoteGeneratePrintLocationInput {
   colorCount: Int!
+}
+
+input StringFilterInput {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  notIn: [String!]
+  startsWith: String
 }
 
 type Subscriber {

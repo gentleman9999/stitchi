@@ -32,6 +32,12 @@ const routes = {
     home: {
       href: () => buildRoute('/'),
     },
+    login: {
+      href: () => buildRoute('/login'),
+    },
+    logout: {
+      href: () => buildRoute('/logout'),
+    },
     getStarted: {
       href: () => buildRoute('/start'),
 
@@ -195,6 +201,20 @@ const routes = {
     ebooks: {
       studentMerchBusiness: {
         href: () => buildRoute('/how-to-start-student-merch-business'),
+      },
+    },
+    closet: {
+      href: () => buildRoute('/closet'),
+
+      orders: {
+        href: () => buildRoute('/closet/orders'),
+      },
+    },
+
+    account: {
+      setup: {
+        href: (params: { redirectUrl: string }) =>
+          buildRoute('/account/setup', params),
       },
     },
   },

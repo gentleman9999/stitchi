@@ -33,6 +33,21 @@ module.exports = withBundleAnalyzer({
   async redirects() {
     return [
       {
+        source: '/closet',
+        destination: '/closet/orders',
+        permanent: false,
+      },
+      {
+        source: '/login',
+        destination: '/api/auth/login',
+        permanent: true,
+      },
+      {
+        source: '/logout',
+        destination: '/api/auth/logout',
+        permanent: true,
+      },
+      {
         source: '/promotional-product-glossary/:path*',
         destination: '/directory/:path*',
         permanent: true,

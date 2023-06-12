@@ -26,6 +26,11 @@ export const schema = makeSchema({
   },
   plugins: [
     // Relay pagination
-    connectionPlugin(),
+    connectionPlugin({
+      cursorFromNode(node) {
+        return node.id
+      },
+      cursorType: 'String',
+    }),
   ],
 })

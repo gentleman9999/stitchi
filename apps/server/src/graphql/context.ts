@@ -52,6 +52,8 @@ function makeContext(
       const payload = authHeader ? await verify(authHeader).catch() : null
       // Grabs the first created membership.
       // In the future, can use this membershipId to control access to current organization.
+
+      // This is innefficient to do on every request, in the future we will need to cache this // store it in the JWT
       const membership = await (async () => {
         if (payload?.sub) {
           const membership = await params.prisma.membership.findFirst({

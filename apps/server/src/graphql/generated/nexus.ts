@@ -42,6 +42,10 @@ export interface NexusGenInputs {
     first: number; // Int!
     skip?: number | null; // Int
   }
+  DateFilterInput: { // input type
+    gte?: string | null; // String
+    lte?: string | null; // String
+  }
   FulfillmentCreateInput: { // input type
     carrier: string; // String!
     orderId: string; // String!
@@ -61,6 +65,12 @@ export interface NexusGenInputs {
     province?: string | null; // String
     provinceCode?: string | null; // String
     zip?: string | null; // String
+  }
+  MembershipOrdersFilterInput: { // input type
+    where?: NexusGenInputs['MembershipOrdersWhereFilterInput'] | null; // MembershipOrdersWhereFilterInput
+  }
+  MembershipOrdersWhereFilterInput: { // input type
+    createdAt?: NexusGenInputs['DateFilterInput'] | null; // DateFilterInput
   }
   OrderCartCreateInput: { // input type
     includeFulfillment: boolean; // Boolean!
@@ -113,6 +123,18 @@ export interface NexusGenInputs {
   }
   QuoteGeneratePrintLocationInput: { // input type
     colorCount: number; // Int!
+  }
+  StringFilterInput: { // input type
+    contains?: string | null; // String
+    endsWith?: string | null; // String
+    equals?: string | null; // String
+    gt?: string | null; // String
+    gte?: string | null; // String
+    in?: string[] | null; // [String!]
+    lt?: string | null; // String
+    lte?: string | null; // String
+    notIn?: string[] | null; // [String!]
+    startsWith?: string | null; // String
   }
   SubscriberCreateInput: { // input type
     email: string; // String!
@@ -220,7 +242,7 @@ export interface NexusGenObjects {
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
   }
   NewsletterIssueEdge: { // root type
-    cursor: string; // String!
+    cursor?: string | null; // String
     node?: NexusGenRootTypes['NewsletterIssue'] | null; // NewsletterIssue
   }
   Order: { // root type
@@ -252,6 +274,14 @@ export interface NexusGenObjects {
   }
   OrderConfirmPayload: { // root type
     order?: NexusGenRootTypes['Order'] | null; // Order
+  }
+  OrderConnection: { // root type
+    edges?: Array<NexusGenRootTypes['OrderEdge'] | null> | null; // [OrderEdge]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  OrderEdge: { // root type
+    cursor?: string | null; // String
+    node?: NexusGenRootTypes['Order'] | null; // Order
   }
   OrderItem: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -423,6 +453,7 @@ export interface NexusGenFieldTypes {
   Membership: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
+    orders: NexusGenRootTypes['OrderConnection'] | null; // OrderConnection
     organization: NexusGenRootTypes['Organization'] | null; // Organization
     organizationId: string; // String!
     role: NexusGenEnums['MembershipRole'] | null; // MembershipRole
@@ -461,7 +492,7 @@ export interface NexusGenFieldTypes {
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
   }
   NewsletterIssueEdge: { // field return type
-    cursor: string; // String!
+    cursor: string | null; // String
     node: NexusGenRootTypes['NewsletterIssue'] | null; // NewsletterIssue
   }
   Order: { // field return type
@@ -500,6 +531,14 @@ export interface NexusGenFieldTypes {
   }
   OrderConfirmPayload: { // field return type
     order: NexusGenRootTypes['Order'] | null; // Order
+  }
+  OrderConnection: { // field return type
+    edges: Array<NexusGenRootTypes['OrderEdge'] | null> | null; // [OrderEdge]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  OrderEdge: { // field return type
+    cursor: string | null; // String
+    node: NexusGenRootTypes['Order'] | null; // Order
   }
   OrderItem: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -669,6 +708,7 @@ export interface NexusGenFieldTypeNames {
   Membership: { // field return type name
     createdAt: 'DateTime'
     id: 'ID'
+    orders: 'OrderConnection'
     organization: 'Organization'
     organizationId: 'String'
     role: 'MembershipRole'
@@ -746,6 +786,14 @@ export interface NexusGenFieldTypeNames {
   }
   OrderConfirmPayload: { // field return type name
     order: 'Order'
+  }
+  OrderConnection: { // field return type name
+    edges: 'OrderEdge'
+    pageInfo: 'PageInfo'
+  }
+  OrderEdge: { // field return type name
+    cursor: 'String'
+    node: 'Order'
   }
   OrderItem: { // field return type name
     createdAt: 'DateTime'
@@ -858,6 +906,15 @@ export interface NexusGenFieldTypeNames {
 }
 
 export interface NexusGenArgTypes {
+  Membership: {
+    orders: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      filter?: NexusGenInputs['MembershipOrdersFilterInput'] | null; // MembershipOrdersFilterInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+  }
   Mutation: {
     fulfillmentCreate: { // args
       input: NexusGenInputs['FulfillmentCreateInput']; // FulfillmentCreateInput!

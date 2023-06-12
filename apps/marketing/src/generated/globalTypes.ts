@@ -92,6 +92,14 @@ export interface CreatedAtFilter {
   exists?: any | null;
 }
 
+export interface DateFilterInput {
+  equals?: string | null;
+  gt?: string | null;
+  gte?: string | null;
+  lt?: string | null;
+  lte?: string | null;
+}
+
 /**
  * Specifies how to filter Single-file/image fields
  */
@@ -133,6 +141,14 @@ export interface LinksFilter {
   anyIn?: (any | null)[] | null;
   notIn?: (any | null)[] | null;
   exists?: any | null;
+}
+
+export interface MembershipOrdersFilterInput {
+  where?: MembershipOrdersWhereFilterInput | null;
+}
+
+export interface MembershipOrdersWhereFilterInput {
+  createdAt?: DateFilterInput | null;
 }
 
 /**

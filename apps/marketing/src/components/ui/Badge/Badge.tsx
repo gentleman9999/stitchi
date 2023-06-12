@@ -1,25 +1,41 @@
 import React from 'react'
 import cx from 'classnames'
 
+const severityClasses = {
+  success: 'text-green-700 bg-green-50 ring-green-600/20',
+  default: 'text-gray-600 bg-gray-50 ring-gray-500/10',
+  error: 'text-red-700 bg-red-50 ring-red-600/10',
+  warning: 'text-orange-700 bg-orange-50 ring-orange-600/10',
+}
+
 export interface BadgeProps {
   label: string
   onClose?: () => void
   size?: 'small' | 'normal'
   className?: string
+  severity?: keyof typeof severityClasses
 }
 
-const Badge = ({ label, onClose, className, size = 'normal' }: BadgeProps) => {
+const Badge = ({
+  label,
+  onClose,
+  className,
+  size = 'normal',
+  severity = 'default',
+}: BadgeProps) => {
   return (
     <span
       className={cx(
-        'm-1 inline-flex rounded-full border border-gray-200 items-center font-medium bg-white text-gray-900',
+        severityClasses[severity],
+        'rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset',
         { 'pr-2': Boolean(onClose) },
         { 'py-1.5 px-3 text-sm': size === 'normal' },
         { 'py-0.5 px-2 text-xs': size === 'small' },
+
         className,
       )}
     >
-      <span>{label}</span>
+      <span className="text-">{label}</span>
       {onClose && (
         <button
           type="button"

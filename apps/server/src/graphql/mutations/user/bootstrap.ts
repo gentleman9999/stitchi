@@ -11,30 +11,29 @@ export const userBootstrap = mutationField('userBoostrap', {
 
     console.info('Starting to bootstrap user')
 
-    if (
-      await ctx.prisma.membership.findFirst({ where: { userId: ctx.userId } })
-    ) {
-      console.info('Could not bootstrap user, membership already exists')
-      return null
-    }
-
     const user = await ctx.auth0.getUser({ id: ctx.userId }).catch(error => {
       console.error(error)
       throw new ApolloError('Failed to get user from Auth0')
     })
 
-    await ctx.prisma.membership.create({
-      data: {
-        userId: ctx.userId,
-        role: 'OWNER',
-        organization: {
-          create: {
-            name: `${user.name} - Default Organization`,
-            role: 'CUSTOMER',
+    if (
+      await ctx.prisma.membership.findFirst({ where: { userId: ctx.userId } })
+    ) {
+      // do nothing
+    } else {
+      await ctx.prisma.membership.create({
+        data: {
+          userId: ctx.userId,
+          role: 'OWNER',
+          organization: {
+            create: {
+              name: `Default Organization`,
+              role: 'CUSTOMER',
+            },
           },
         },
-      },
-    })
+      })
+    }
 
     console.info(`Successfully bootstrapped user ${ctx.userId}`)
 
