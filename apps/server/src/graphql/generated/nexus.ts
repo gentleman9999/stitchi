@@ -43,10 +43,7 @@ export interface NexusGenInputs {
     skip?: number | null; // Int
   }
   DateFilterInput: { // input type
-    equals?: string | null; // String
-    gt?: string | null; // String
     gte?: string | null; // String
-    lt?: string | null; // String
     lte?: string | null; // String
   }
   FulfillmentCreateInput: { // input type

@@ -8,10 +8,7 @@ input AllNewsletterIssuesFilter {
 }
 
 input DateFilterInput {
-  equals: String
-  gt: String
   gte: String
-  lt: String
   lte: String
 }
 

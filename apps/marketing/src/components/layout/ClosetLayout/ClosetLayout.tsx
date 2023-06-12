@@ -4,6 +4,7 @@ import { ClosetLayoutGetDataQuery } from '@generated/ClosetLayoutGetDataQuery'
 import routes from '@lib/routes'
 import Link from 'next/link'
 import React from 'react'
+import AccountDropdown from './AccountDropdown'
 
 interface Props {
   children: React.ReactNode
@@ -22,8 +23,8 @@ const ClosetLayout = (props: Props) => {
             <div>
               <ul className="flex gap-8">
                 {[
-                  { href: routes.internal.closet.href(), label: 'Closet' },
-                  { href: '#', label: 'Designs' },
+                  // { href: routes.internal.closet.href(), label: 'Closet' },
+                  // { href: '#', label: 'Designs' },
                   {
                     href: routes.internal.closet.orders.href(),
                     label: 'Orders',
@@ -40,18 +41,23 @@ const ClosetLayout = (props: Props) => {
                 ))}
               </ul>
             </div>
-            <div className="flex items-center gap-2">
-              {user?.picture ? (
-                <img
-                  src={user.picture}
-                  alt={user?.nickname || 'Avatar'}
-                  className="w-8 h-8 rounded-md border"
-                />
-              ) : null}
-              <span className="capitalize font-medium text-lg">
-                {user?.nickname}
-              </span>
-            </div>
+
+            <AccountDropdown
+              renderTrigger={() => (
+                <div className="flex items-center gap-2 hover:bg-gray-100 py-1 px-2 rounded-md">
+                  {user?.picture ? (
+                    <img
+                      src={user.picture}
+                      alt={user?.nickname || 'Avatar'}
+                      className="w-8 h-8 rounded-md border"
+                    />
+                  ) : null}
+                  <span className="capitalize font-medium text-lg">
+                    {user?.nickname}
+                  </span>
+                </div>
+              )}
+            />
           </div>
         </Container>
       </nav>

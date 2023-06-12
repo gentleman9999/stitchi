@@ -102,7 +102,7 @@ const ClosetOrdersTableFilters = ({ onChange }: Props) => {
             sideOffset={8}
             side="bottom"
             align="start"
-            className="p-2 bg-paper rounded-md border shadow-magical"
+            className="p-2 bg-paper rounded-md border shadow-magical min-w-[320px]"
           >
             <DateFilter
               onChange={dateFilter => {

@@ -162,6 +162,7 @@ const DateEquality = (props: Props) => {
                 />
               )}
             />
+            <span className="text-xs text-gray-500">and</span>
             <Controller
               name="lte"
               control={form.control}

@@ -38,8 +38,8 @@ const ClosetOrdersIndexPage = (props: Props) => {
   React.useEffect(() => {
     if (JSON.stringify(variables?.filter) === JSON.stringify(filter)) return
 
-    fetchMore({ variables: { filter } })
-  }, [fetchMore, filter, variables?.filter])
+    refetch({ filter })
+  }, [filter, refetch, variables?.filter])
 
   const handleNextPage = async () => {
     if (!pageInfo?.hasNextPage) return
@@ -76,7 +76,9 @@ const ClosetOrdersIndexPage = (props: Props) => {
           onChange={value => {
             const { date, ...rest } = value
 
-            handleChange({ where: { ...rest, createdAt: date } })
+            const { equality, ...dateRest } = date || {}
+
+            handleChange({ where: { ...rest, createdAt: dateRest } })
           }}
         />
 
