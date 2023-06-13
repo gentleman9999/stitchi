@@ -2,6 +2,7 @@ import { gql } from '@apollo/client'
 import { OrderPayPageOrderPreviewItemFragment } from '@generated/OrderPayPageOrderPreviewItemFragment'
 import currency from 'currency.js'
 import React from 'react'
+import cx from 'classnames'
 
 interface Props {
   order: OrderPayPageOrderPreviewItemFragment
@@ -10,107 +11,75 @@ interface Props {
 const OrderPayPageOrderPreview = ({ order }: Props) => {
   const { itemSummaries: items } = order
   return (
-    <div className="border p-4 rounded-md shadow-sm bg-gray-50">
+    <div className="border p-4 sm:p-6 rounded-md shadow-sm bg-paper">
       <h2 className="text-lg font-semibold text-gray-400 mb-2">Summary</h2>
 
-      <table className="w-full text-sm">
-        <tbody>
-          {items.map(item => (
-            <tr key={item.id}>
-              <td className="py-1">
-                <b>{item.title}</b>
-              </td>
-              <td className="text-gray-600">{item.quantity} qty.</td>
-              <td className="text-right text-gray-600">
+      <div className="w-full text-sm flex flex-col gap-5">
+        {items.map(item => (
+          <div key={item.id}>
+            <div className="py-1">
+              <b>{item.title}</b>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="text-gray-600">{item.quantity} qty.</div>
+              <div className="text-right text-gray-600 font-medium">
                 {currency(item.totalPriceCents, {
                   fromCents: true,
                 }).format()}
-              </td>
-            </tr>
-          ))}
-          <tr className="h-3" />
-        </tbody>
-        <tfoot className="border-t">
-          <tr className="h-3" />
+              </div>
+            </div>
+          </div>
+        ))}
 
-          <tr>
-            <td></td>
-            <td className="py-1 text-gray-600">Subtotal</td>
-            <td className="text-right text-gray-600">
-              {currency(order.subtotalPriceCents, {
-                fromCents: true,
-              }).format()}
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td className="py-1 text-gray-600">Shipping</td>
-            <td className="text-right text-gray-600">
-              {currency(order.totalShippingCents, {
-                fromCents: true,
-              }).format()}
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td className="py-1 text-gray-600">Tax</td>
-            <td className="text-right text-gray-600">
-              {currency(order.totalTaxCents, {
-                fromCents: true,
-              }).format()}
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td className="py-1 text-gray-600">Processing Fee</td>
-            <td className="text-right text-gray-600">
-              {currency(order.totalProcessingFeeCents, {
-                fromCents: true,
-              }).format()}
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td className="py-1">
-              <b>Total</b>
-            </td>
-            <td className="text-right">
-              <b>
-                {currency(order.totalPriceCents, {
-                  fromCents: true,
-                }).format()}
-              </b>
-            </td>
-          </tr>
+        <div className="border-t border-gray-200" />
 
-          {order.totalAmountPaidCents > 0 ? (
-            <>
-              <tr>
-                <td></td>
-                <td className="py-1">Amount Paid</td>
-                <td className="text-right">
-                  {currency(order.totalAmountPaidCents, {
-                    fromCents: true,
-                  }).format()}
-                </td>
-              </tr>
+        <LineItem item="Subtotal" amount={order.subtotalPriceCents} />
+        <LineItem item="Shipping" amount={order.totalShippingCents} />
+        <LineItem item="Tax" amount={order.totalTaxCents} />
+        <LineItem
+          item="Processing Fee"
+          amount={order.totalProcessingFeeCents}
+        />
 
-              <tr>
-                <td></td>
-                <td className="py-1">Amount Due</td>
-                <td className="text-right">
-                  {currency(order.totalAmountDueCents, {
-                    fromCents: true,
-                  }).format()}
-                </td>
-              </tr>
-            </>
-          ) : null}
-        </tfoot>
-      </table>
+        <div className="border-t border-gray-200" />
+
+        <LineItem
+          className="text-lg font-medium"
+          item="Total"
+          amount={order.totalPriceCents}
+        />
+
+        {order.totalAmountPaidCents > 0 ? (
+          <>
+            <div className="border-t border-gray-200" />
+
+            <LineItem item="Amount Paid" amount={order.totalAmountPaidCents} />
+            <LineItem item="Amount Due" amount={order.totalAmountDueCents} />
+          </>
+        ) : null}
+      </div>
     </div>
   )
 }
+
+const LineItem = ({
+  item,
+  amount,
+  className,
+}: {
+  item: React.ReactNode
+  amount: number
+  className?: string
+}) => (
+  <div className={cx('flex items-center justify-between', className)}>
+    <div className="">{item}</div>
+    <div className="font-medium">
+      {currency(amount, {
+        fromCents: true,
+      }).format()}
+    </div>
+  </div>
+)
 
 OrderPayPageOrderPreview.fragments = {
   order: gql`

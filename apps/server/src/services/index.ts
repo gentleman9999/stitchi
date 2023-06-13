@@ -5,6 +5,7 @@ import { makeClient as makeQuoteClient } from './quote'
 import { makeClient as makeDesignClient } from './design'
 import { makeClient as makeFulfillmentClient } from './fulfillment'
 import { makeClient as makePaymentClient } from './payment'
+import { makeClient as makeNotificationClient } from './notification'
 
 export interface ServiceList {
   newsletter: ReturnType<typeof makeNewsletterClient>
@@ -14,6 +15,7 @@ export interface ServiceList {
   design: ReturnType<typeof makeDesignClient>
   fulfillment: ReturnType<typeof makeFulfillmentClient>
   payment: ReturnType<typeof makePaymentClient>
+  notification: ReturnType<typeof makeNotificationClient>
 }
 
 const services: ServiceList = {
@@ -24,6 +26,7 @@ const services: ServiceList = {
   design: makeDesignClient(),
   fulfillment: makeFulfillmentClient(),
   payment: makePaymentClient(),
+  notification: makeNotificationClient(),
 }
 
 export default services

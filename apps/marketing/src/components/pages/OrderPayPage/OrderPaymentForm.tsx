@@ -153,8 +153,8 @@ const OrderPaymentForm = (props: Props) => {
 
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
-        <div className="flex flex-col gap-10">
+      <div className="grid grid-cols-12 gap-4 sm:gap-8">
+        <div className="flex flex-col gap-10 col-span-12 sm:col-span-6 lg:col-span-7">
           <div>
             <SectionTitle>Contact</SectionTitle>
             <LinkAuthenticationElement
@@ -192,7 +192,7 @@ const OrderPaymentForm = (props: Props) => {
           </div>
         </div>
         {/* Need this <div /> for sticky positioning to work properly */}
-        <div>
+        <div className="col-span-12 sm:col-span-6 lg:col-span-5">
           <div className="sm:sticky sm:top-20 flex flex-col gap-4">
             {props.renderOrderPreview()}
 
@@ -214,8 +214,7 @@ const OrderPaymentForm = (props: Props) => {
                 className="w-full"
                 loading={isLoading}
               >
-                Pay ({currency(props.amountCents, { fromCents: true }).format()}
-                )
+                Confirm order
               </Button>
             </div>
 

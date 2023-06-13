@@ -6,6 +6,7 @@
   "references": [
     { "path": "../beehiiv" },
     { "path": "../bigcommerce" },
-    { "path": "../stripe" }
+    { "path": "../stripe" },
+    { "path": "../sendgrid" }
   ]
 }

@@ -11,6 +11,7 @@ export enum OrderRecordPaymentStatus {
 
 export enum OrderRecordType {
   CART = 'CART',
+  CONFIRMED = 'CONFIRMED',
 }
 
 export const Order: yup.ObjectSchema<OrderSchema> = yup

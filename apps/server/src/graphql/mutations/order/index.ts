@@ -268,6 +268,7 @@ export const orderConfirm = mutationField('orderConfirm', {
       order = await ctx.order.updateOrder({
         order: {
           ...order,
+          type: OrderRecordType.CONFIRMED,
           customerEmail: input.customerEmail || null,
           customerFirstName: input.customerFirstName || null,
           customerLastName: input.customerLastName || null,
