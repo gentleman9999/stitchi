@@ -2,11 +2,6 @@
 ### Do not make changes to this file directly
 
 
-input AllNewsletterIssuesFilter {
-  first: Int!
-  skip: Int
-}
-
 input DateFilterInput {
   gte: String
   lte: String
@@ -154,62 +149,11 @@ type Mutation {
   orderConfirm(input: OrderConfirmInput!): OrderConfirmPayload
   paymentIntentCreate(input: PaymentIntentCreateInput!): PaymentIntentCreatePayload
 
-  """Creates a new subscriber"""
+  """Creates a new email subscriber"""
   subscriberCreate(input: SubscriberCreateInput!): SubscriberCreatePayload
 
   """Bootstraps a new user with necessary resources"""
   userBoostrap: User
-}
-
-type Newsletter {
-  allNewsletterIssues(
-    """Returns the elements in the list that come after the specified cursor"""
-    after: String
-
-    """Returns the first n elements from the list."""
-    first: Int!
-  ): NewsletterIssueConnection
-  newsletterIssue(slug: String!): NewsletterIssue!
-}
-
-type NewsletterIssue {
-  authorNames: [String]!
-  contentHtml: String!
-  createdAt: DateTime!
-  displayAt: DateTime
-  id: ID!
-  publishedAt: DateTime
-  slug: String!
-  status: NewsletterIssueStatus!
-  subtitle: String!
-  thumbnailUrl: String
-  title: String!
-}
-
-type NewsletterIssueConnection {
-  """
-  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
-  """
-  edges: [NewsletterIssueEdge]
-
-  """
-  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
-  """
-  pageInfo: PageInfo!
-}
-
-type NewsletterIssueEdge {
-  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
-  cursor: String
-
-  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
-  node: NewsletterIssue
-}
-
-enum NewsletterIssueStatus {
-  ARCHIVED
-  CONFIRMED
-  DRAFT
 }
 
 type Order {
@@ -431,7 +375,6 @@ input ProductPriceValue {
 
 type Query {
   _products(products: [ProductKey!]!): [Product]
-  newsletter: Newsletter
   order(id: ID!): Order
   viewer: Membership
 }

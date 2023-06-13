@@ -29,10 +29,6 @@ interface FormResponseCreateBody {
   budget?: string
 }
 
-interface MailListSubscriptionCreateBody {
-  email: string
-}
-
 const makeApi = ({
   ctx,
 }: {
@@ -54,27 +50,6 @@ const makeApi = ({
           return response.json()
         } else {
           console.error('Failed to create a form response', {
-            context: { response },
-          })
-          throw new Error(`${response.status} ${response.statusText}`)
-        }
-      },
-    },
-    mailingListSubscription: {
-      create: async (args: MailListSubscriptionCreateBody) => {
-        track.mailingListSubscribeClicked(args)
-        const response = await fetch(
-          routes.api.mailingListSubscription.create.href(),
-          {
-            method: 'POST',
-            body: JSON.stringify(args),
-          },
-        )
-
-        if (response.ok) {
-          return response.json()
-        } else {
-          console.error('Failed to create a mailing list subscription', {
             context: { response },
           })
           throw new Error(`${response.status} ${response.statusText}`)

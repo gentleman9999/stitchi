@@ -8,21 +8,21 @@ export const SubscriberCreateInput = inputObjectType({
 })
 
 export const subscriberCreate = mutationField('subscriberCreate', {
-  description: 'Creates a new subscriber',
+  description: 'Creates a new email subscriber',
   type: 'SubscriberCreatePayload',
   args: {
     input: nonNull('SubscriberCreateInput'),
   },
   resolve: async (_, { input }, ctx) => {
     try {
-      const subscriber = await ctx.newsletter.createSubscriber({
-        email: input.email,
+      await ctx.sendgrid.addMarketingContacts({
+        contacts: [{ email: input.email }],
       })
 
       return {
         subscriber: {
-          id: subscriber.id,
-          email: subscriber.email,
+          id: input.email,
+          email: input.email,
         },
       }
     } catch (error) {

@@ -72,7 +72,7 @@ interface SendTransactionalEmailInput {
   message: yup.InferType<typeof messageSchema>
 }
 
-interface SendgridClient {
+export interface SendgridClient {
   sendTransactionalEmail: (input: SendTransactionalEmailInput) => Promise<void>
   addMarketingContacts: (input: AddMarketingContactsInput) => Promise<void>
 }

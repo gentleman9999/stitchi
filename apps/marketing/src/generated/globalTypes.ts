@@ -93,10 +93,7 @@ export interface CreatedAtFilter {
 }
 
 export interface DateFilterInput {
-  equals?: string | null;
-  gt?: string | null;
   gte?: string | null;
-  lt?: string | null;
   lte?: string | null;
 }
 
@@ -319,6 +316,10 @@ export interface StructuredTextFilter {
   isBlank?: any | null;
   isPresent?: any | null;
   exists?: any | null;
+}
+
+export interface SubscriberCreateInput {
+  email: string;
 }
 
 /**

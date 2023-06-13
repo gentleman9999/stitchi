@@ -38,10 +38,6 @@ declare global {
 }
 
 export interface NexusGenInputs {
-  AllNewsletterIssuesFilter: { // input type
-    first: number; // Int!
-    skip?: number | null; // Int
-  }
   DateFilterInput: { // input type
     gte?: string | null; // String
     lte?: string | null; // String
@@ -144,7 +140,6 @@ export interface NexusGenInputs {
 export interface NexusGenEnums {
   GlobalRole: "CUSTOMER" | "SUPERADMIN"
   MembershipRole: "OWNER"
-  NewsletterIssueStatus: "ARCHIVED" | "CONFIRMED" | "DRAFT"
   OrderItemType: "BIG_COMMERCE_PRODUCT" | "CUSTOM"
   OrderPaymentStatus: "NOT_PAID" | "PAID" | "PARTIALLY_PAID" | "PARTIALLY_REFUNDED" | "REFUNDED"
   OrderType: "CART"
@@ -223,28 +218,6 @@ export interface NexusGenObjects {
     userId: string; // String!
   }
   Mutation: {};
-  Newsletter: {};
-  NewsletterIssue: { // root type
-    authorNames: Array<string | null>; // [String]!
-    contentHtml: string; // String!
-    createdAt: NexusGenScalars['DateTime']; // DateTime!
-    displayAt?: NexusGenScalars['DateTime'] | null; // DateTime
-    id: string; // ID!
-    publishedAt?: NexusGenScalars['DateTime'] | null; // DateTime
-    slug: string; // String!
-    status: NexusGenEnums['NewsletterIssueStatus']; // NewsletterIssueStatus!
-    subtitle: string; // String!
-    thumbnailUrl?: string | null; // String
-    title: string; // String!
-  }
-  NewsletterIssueConnection: { // root type
-    edges?: Array<NexusGenRootTypes['NewsletterIssueEdge'] | null> | null; // [NewsletterIssueEdge]
-    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
-  }
-  NewsletterIssueEdge: { // root type
-    cursor?: string | null; // String
-    node?: NexusGenRootTypes['NewsletterIssue'] | null; // NewsletterIssue
-  }
   Order: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     customerEmail?: string | null; // String
@@ -470,31 +443,6 @@ export interface NexusGenFieldTypes {
     subscriberCreate: NexusGenRootTypes['SubscriberCreatePayload'] | null; // SubscriberCreatePayload
     userBoostrap: NexusGenRootTypes['User'] | null; // User
   }
-  Newsletter: { // field return type
-    allNewsletterIssues: NexusGenRootTypes['NewsletterIssueConnection'] | null; // NewsletterIssueConnection
-    newsletterIssue: NexusGenRootTypes['NewsletterIssue']; // NewsletterIssue!
-  }
-  NewsletterIssue: { // field return type
-    authorNames: Array<string | null>; // [String]!
-    contentHtml: string; // String!
-    createdAt: NexusGenScalars['DateTime']; // DateTime!
-    displayAt: NexusGenScalars['DateTime'] | null; // DateTime
-    id: string; // ID!
-    publishedAt: NexusGenScalars['DateTime'] | null; // DateTime
-    slug: string; // String!
-    status: NexusGenEnums['NewsletterIssueStatus']; // NewsletterIssueStatus!
-    subtitle: string; // String!
-    thumbnailUrl: string | null; // String
-    title: string; // String!
-  }
-  NewsletterIssueConnection: { // field return type
-    edges: Array<NexusGenRootTypes['NewsletterIssueEdge'] | null> | null; // [NewsletterIssueEdge]
-    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
-  }
-  NewsletterIssueEdge: { // field return type
-    cursor: string | null; // String
-    node: NexusGenRootTypes['NewsletterIssue'] | null; // NewsletterIssue
-  }
   Order: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     customer: NexusGenRootTypes['User'] | null; // User
@@ -613,7 +561,6 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     _products: Array<NexusGenRootTypes['Product'] | null> | null; // [Product]
-    newsletter: NexusGenRootTypes['Newsletter'] | null; // Newsletter
     order: NexusGenRootTypes['Order'] | null; // Order
     viewer: NexusGenRootTypes['Membership'] | null; // Membership
   }
@@ -724,31 +671,6 @@ export interface NexusGenFieldTypeNames {
     paymentIntentCreate: 'PaymentIntentCreatePayload'
     subscriberCreate: 'SubscriberCreatePayload'
     userBoostrap: 'User'
-  }
-  Newsletter: { // field return type name
-    allNewsletterIssues: 'NewsletterIssueConnection'
-    newsletterIssue: 'NewsletterIssue'
-  }
-  NewsletterIssue: { // field return type name
-    authorNames: 'String'
-    contentHtml: 'String'
-    createdAt: 'DateTime'
-    displayAt: 'DateTime'
-    id: 'ID'
-    publishedAt: 'DateTime'
-    slug: 'String'
-    status: 'NewsletterIssueStatus'
-    subtitle: 'String'
-    thumbnailUrl: 'String'
-    title: 'String'
-  }
-  NewsletterIssueConnection: { // field return type name
-    edges: 'NewsletterIssueEdge'
-    pageInfo: 'PageInfo'
-  }
-  NewsletterIssueEdge: { // field return type name
-    cursor: 'String'
-    node: 'NewsletterIssue'
   }
   Order: { // field return type name
     createdAt: 'DateTime'
@@ -868,7 +790,6 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     _products: 'Product'
-    newsletter: 'Newsletter'
     order: 'Order'
     viewer: 'Membership'
   }
@@ -933,15 +854,6 @@ export interface NexusGenArgTypes {
     }
     subscriberCreate: { // args
       input: NexusGenInputs['SubscriberCreateInput']; // SubscriberCreateInput!
-    }
-  }
-  Newsletter: {
-    allNewsletterIssues: { // args
-      after?: string | null; // String
-      first: number; // Int!
-    }
-    newsletterIssue: { // args
-      slug: string; // String!
     }
   }
   Product: {

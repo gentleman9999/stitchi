@@ -224,11 +224,7 @@ const routes = {
         href: () => buildRoute('/api/form-response'),
       },
     },
-    mailingListSubscription: {
-      create: {
-        href: () => buildRoute('/api/mailing-list-subscription'),
-      },
-    },
+   
     downloads: {
       studentEbook: {
         show: {
