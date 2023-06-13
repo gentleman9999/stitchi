@@ -3,6 +3,7 @@ import * as yup from 'yup'
 import { OrderItem } from '../db/order-item-table'
 import { PrismaClient } from '@prisma/client'
 import { orderFactory, OrderFactoryOrder } from '../factory'
+import { makeEvents } from '../events'
 
 const inputSchema = Order.omit(['createdAt', 'updatedAt']).concat(
   yup
@@ -28,6 +29,7 @@ const prisma = new PrismaClient()
 
 interface UpdateOrderConfig {
   orderTable: OrderTable
+  orderEvents: ReturnType<typeof makeEvents>
 }
 
 export interface UpdateOrderFnInput {
@@ -38,7 +40,12 @@ type UpdateOrderFn = (input: UpdateOrderFnInput) => Promise<OrderFactoryOrder>
 type MakeUpdateOrderFn = (config?: UpdateOrderConfig) => UpdateOrderFn
 
 const makeUpdateOrder: MakeUpdateOrderFn =
-  ({ orderTable } = { orderTable: makeOrderTable(prisma) }) =>
+  (
+    { orderTable, orderEvents } = {
+      orderTable: makeOrderTable(prisma),
+      orderEvents: makeEvents(),
+    },
+  ) =>
   async input => {
     let validInput
     try {
@@ -79,6 +86,7 @@ const makeUpdateOrder: MakeUpdateOrderFn =
         include: { OrderItems: true },
         data: {
           updatedAt: new Date(),
+          type: validInput.type,
           customerEmail: validInput.customerEmail,
           customerFirstName: validInput.customerFirstName,
           customerLastName: validInput.customerLastName,
@@ -120,10 +128,22 @@ const makeUpdateOrder: MakeUpdateOrderFn =
       throw new Error('Failed to update order')
     }
 
-    return orderFactory({
+    const prevOrder = orderFactory({
+      orderRecord: existingOrder,
+      orderItemRecords: existingOrder.OrderItems,
+    })
+
+    const nextOrder = orderFactory({
       orderRecord: updatedOrder,
       orderItemRecords: updatedOrder.OrderItems,
     })
+
+    orderEvents.emit({
+      type: 'order.updated',
+      payload: { prevOrder, nextOrder },
+    })
+
+    return nextOrder
   }
 
 export default makeUpdateOrder

@@ -148,7 +148,11 @@ enum OrderPaymentStatus {
 }
 
 enum OrderType {
+  // Order has been created for the purposes of storing a users cart
   CART
+
+  // Order has been confirmed by either the user or Stitchi admin
+  CONFIRMED
 }
 
 model OrderItem {
@@ -348,4 +352,54 @@ model MailingAddress {
   updatedAt DateTime @updatedAt
 
   Order Order[]
+}
+
+model Notification {
+  id String @id @default(uuid())
+
+  // The user that this notification belongs to
+  userId String?
+
+  // The organization that this notification belongs to
+  organizationId String?
+
+  notificationEmailId String?
+  NotificationEmail   NotificationEmail? @relation(fields: [notificationEmailId], references: [id], onUpdate: NoAction)
+
+  sendAt DateTime?
+
+  // The type of notification
+  type NotificationType
+
+  // The status of the notification
+  sendStatus NotificationSendStatus @default(NOT_SENT)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([notificationEmailId])
+}
+
+enum NotificationType {
+  ORDER_CONFIRMED
+}
+
+enum NotificationSendStatus {
+  NOT_SENT
+  SENT
+}
+
+model NotificationEmail {
+  id String @id @default(uuid())
+
+  subject String
+
+  htmlBody String
+
+  textBody String?
+
+  recipientEmail String
+  recipientName  String?
+
+  Notification Notification[]
 }

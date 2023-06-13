@@ -2,8 +2,9 @@ import React from 'react'
 import { InlineTextForm, InlineTextFormProps } from '@components/ui'
 import cx from 'classnames'
 import * as yup from 'yup'
-import makeApi from '@lib/api'
 import dynamic from 'next/dynamic'
+import { track } from '@lib/analytics'
+import useSubscribeInline from './useSubscribeInline'
 
 const SubscribeInlineSuccessAlert = dynamic(
   () => import('./SubscribeInlineSuccessAlert'),
@@ -17,28 +18,24 @@ export interface SubscribeInlineProps {
 }
 
 const SubscribeInline = (props: SubscribeInlineProps) => {
-  const [api] = React.useState(makeApi())
-  const [subscribedEmail, setSubscribeEmail] = React.useState<string | null>(
-    null,
-  )
+  const [subscribe, { subscriber }] = useSubscribeInline()
 
-  const subscribe: InlineTextFormProps<'email'>['onSubmit'] = async ({
+  const handleSubscribe: InlineTextFormProps<'email'>['onSubmit'] = async ({
     email,
   }) => {
     console.info(`Subscribing ${email} to the mailing list`)
+    track.mailingListSubscribeClicked({ email })
 
-    await api.mailingListSubscription.create({ email })
+    await subscribe({ email })
 
     console.info(`Subscribed ${email} to the mailing list`)
-
-    setSubscribeEmail(email)
   }
 
-  if (subscribedEmail) {
+  if (subscriber) {
     return (
       <SubscribeInlineSuccessAlert
         className={props.className}
-        email={subscribedEmail}
+        email={subscriber.email}
       />
     )
   }
@@ -57,7 +54,7 @@ const SubscribeInline = (props: SubscribeInlineProps) => {
         className={cx(props.className)}
         placeholder="Enter your email"
         defaultValue={props.defaultValue}
-        onSubmit={subscribe}
+        onSubmit={handleSubscribe}
         validation={yup
           .string()
           .email('🛑 This email address appears to be invalid')

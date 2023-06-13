@@ -18,26 +18,28 @@ const OrderPayPage = ({ order, paymentIntent }: Props) => {
   return (
     <>
       <NextSeo nofollow noindex />
-      <Container>
-        <h1 className="sr-only">Checkout</h1>
-        <Section gutter="md">
-          {paymentIntent.clientSecret ? (
-            <StripeFormWrapper clientSecret={paymentIntent.clientSecret}>
-              <OrderPaymentForm
-                amountCents={paymentIntent?.amount || 0}
-                orderId={order.id}
-                renderOrderPreview={() => (
-                  <OrderPayPageOrderPreview order={order} />
-                )}
-              />
-            </StripeFormWrapper>
-          ) : (
-            <div className="text-red-600 p-2">
-              Failed to load payment form. Please contact support.
-            </div>
-          )}
-        </Section>
-      </Container>
+      <div className="bg-gray-50">
+        <Container>
+          <h1 className="sr-only">Checkout</h1>
+          <Section gutter="md">
+            {paymentIntent.clientSecret ? (
+              <StripeFormWrapper clientSecret={paymentIntent.clientSecret}>
+                <OrderPaymentForm
+                  amountCents={paymentIntent?.amount || 0}
+                  orderId={order.id}
+                  renderOrderPreview={() => (
+                    <OrderPayPageOrderPreview order={order} />
+                  )}
+                />
+              </StripeFormWrapper>
+            ) : (
+              <div className="text-red-600 p-2">
+                Failed to load payment form. Please contact support.
+              </div>
+            )}
+          </Section>
+        </Container>
+      </div>
     </>
   )
 }

@@ -7,19 +7,9 @@ import { ContextFunction } from 'apollo-server-core'
 import { ExpressContext } from 'apollo-server-express'
 import services from '../services'
 import makeStripeClient from '../stripe'
+import { SendgridClient, makeClient as makeSendgridClient } from '../sendgrid'
 
-const prisma = new PrismaClient()
-const auth0 = new ManagementClient({
-  domain: getOrThrow(process.env.AUTH0_DOMAIN, 'AUTH0_DOMAIN'),
-  clientId: getOrThrow(process.env.AUTH0_CLIENT_ID, 'AUTH0_CLIENT_ID'),
-  clientSecret: getOrThrow(
-    process.env.AUTH0_CLIENT_SECRET,
-    'AUTH0_CLIENT_SECRET',
-  ),
-  scope: 'read:users',
-})
-
-const stripe = makeStripeClient()
+type StripeClient = ReturnType<typeof makeStripeClient>
 
 export interface Context {
   membershipId?: string
@@ -27,7 +17,8 @@ export interface Context {
   organizationId?: string
   prisma: PrismaClient
   auth0: ManagementClient
-  stripe: typeof stripe
+  sendgrid: SendgridClient
+  stripe: StripeClient
   newsletter: typeof services.newsletter
   order: typeof services.order
   catalog: typeof services.catalog
@@ -40,10 +31,25 @@ export interface Context {
 interface ContextCreatorParams {
   prisma: PrismaClient
   auth0: ManagementClient
+  sendgrid: SendgridClient
+  stripe: StripeClient
 }
 
 function makeContext(
-  params: ContextCreatorParams,
+  params: ContextCreatorParams = {
+    prisma: new PrismaClient(),
+    auth0: new ManagementClient({
+      domain: getOrThrow(process.env.AUTH0_DOMAIN, 'AUTH0_DOMAIN'),
+      clientId: getOrThrow(process.env.AUTH0_CLIENT_ID, 'AUTH0_CLIENT_ID'),
+      clientSecret: getOrThrow(
+        process.env.AUTH0_CLIENT_SECRET,
+        'AUTH0_CLIENT_SECRET',
+      ),
+      scope: 'read:users',
+    }),
+    stripe: makeStripeClient(),
+    sendgrid: makeSendgridClient(),
+  },
 ): ContextFunction<ExpressContext> {
   return async function createContext(expressContext) {
     const authHeader = expressContext.req.headers['authorization']
@@ -67,9 +73,10 @@ function makeContext(
       })()
 
       return {
-        auth0,
-        prisma,
-        stripe,
+        auth0: params.auth0,
+        prisma: params.prisma,
+        stripe: params.stripe,
+        sendgrid: params.sendgrid,
         userId: payload?.sub,
         membershipId: membership?.id,
         organizationId: membership?.organizationId ?? undefined,
@@ -102,5 +109,5 @@ function makeContext(
 }
 
 export default {
-  makeDefaultContext: () => makeContext({ prisma, auth0 }),
+  makeDefaultContext: () => makeContext(),
 }

@@ -3,5 +3,9 @@
   "compilerOptions": {
     "rootDir": "."
   },
-  "references": [{ "path": "../services" }, { "path": "../stripe" }]
+  "references": [
+    { "path": "../services" },
+    { "path": "../stripe" },
+    { "path": "../sendgrid" }
+  ]
 }
