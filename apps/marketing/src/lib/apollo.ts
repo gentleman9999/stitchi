@@ -20,6 +20,11 @@ import { GetStaticPropsResult } from 'next'
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__' as const
 
+const appUrl = getOrThrow(
+  process.env.NEXT_PUBLIC_SITE_URL,
+  'NEXT_PUBLIC_SITE_URL',
+)
+
 const endpoint = getOrThrow(
   process.env.NEXT_PUBLIC_STITCHI_GRAPHQL_URI,
   'NEXT_PUBLIC_STITCHI_GRAPHQL_URI',
@@ -37,7 +42,7 @@ const makeAuthLink = () =>
     try {
       // Auth0 only provides access to the accessToken on the server.
       // So we must make a call the the Next.js server to retrieve token.
-      const response = await fetch('/api/auth/accessToken')
+      const response = await fetch(`${appUrl}/api/auth/accessToken`)
       const data = await response.json()
       accessToken = data.accessToken
     } catch (error) {

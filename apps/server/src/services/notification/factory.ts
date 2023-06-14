@@ -23,4 +23,9 @@ const notificationFactory = ({
   return { ...notificationRecord, ...notificationEmailRecord, method: 'email' }
 }
 
+export interface NotificationFactoryNotificationTemplate {
+  subject: string
+  htmlBody: string
+}
+
 export { notificationFactory }

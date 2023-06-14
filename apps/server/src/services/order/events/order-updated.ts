@@ -32,6 +32,11 @@ const makeHandler =
       switch (nextOrder.type) {
         case OrderRecordType.CONFIRMED: {
           try {
+            const template = notification.renderNotificationTemplate({
+              id: 'customer.order.confirmed',
+              params: { order: nextOrder },
+            })
+
             await notification.createNotification({
               notification: {
                 organizationId: nextOrder.organizationId,
@@ -45,8 +50,8 @@ const makeHandler =
                     nextOrder.customerFirstName +
                     ' ' +
                     nextOrder.customerLastName,
-                  subject: 'Thank you for your order!',
-                  htmlBody: 'Thank you for placing an order with us.',
+                  subject: template.subject,
+                  htmlBody: template.htmlBody,
                   textBody: '',
                 },
               },

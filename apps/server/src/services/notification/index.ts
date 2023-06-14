@@ -4,6 +4,7 @@ import makeNotificationRepository, {
 import { makeClient as makeSendgridClient } from '../../sendgrid'
 import { getOrThrow } from '../../utils'
 import { getUnixTime } from 'date-fns'
+import templatesFactory, { TemplateFactory } from './templates'
 
 const replyTo = getOrThrow(
   process.env.NOTIFICATION_EMAIL_REPLY_TO,
@@ -12,6 +13,7 @@ const replyTo = getOrThrow(
 
 export interface NotificationClientService {
   createNotification: NotificationRepository['createNotification']
+  renderNotificationTemplate: TemplateFactory['render']
 }
 
 interface MakeClientParams {
@@ -28,6 +30,20 @@ const makeClient: MakeClientFn = (
   },
 ) => {
   return {
+    renderNotificationTemplate: params => {
+      let template
+
+      try {
+        template = templatesFactory.render(params)
+      } catch (error) {
+        console.error(`Failed to render template: ${params.id}`, {
+          context: { params },
+        })
+        throw error
+      }
+
+      return template
+    },
     createNotification: async input => {
       try {
         const notification = await notificationRepository.createNotification({
@@ -35,6 +51,10 @@ const makeClient: MakeClientFn = (
         })
 
         if (notification.method === 'email') {
+          console.info(`Sending email notification: ${notification.id}`, {
+            context: { notification },
+          })
+
           await sendgridClient.sendTransactionalEmail({
             message: {
               subject: notification.subject,
