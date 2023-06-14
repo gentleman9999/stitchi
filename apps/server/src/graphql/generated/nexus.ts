@@ -142,7 +142,7 @@ export interface NexusGenEnums {
   MembershipRole: "OWNER"
   OrderItemType: "BIG_COMMERCE_PRODUCT" | "CUSTOM"
   OrderPaymentStatus: "NOT_PAID" | "PAID" | "PARTIALLY_PAID" | "PARTIALLY_REFUNDED" | "REFUNDED"
-  OrderType: "CART"
+  OrderType: "CART" | "CONFIRMED"
 }
 
 export interface NexusGenScalars {
