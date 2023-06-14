@@ -31,7 +31,7 @@ export interface TemplateFactory {
 }
 
 const templatesFactory: TemplateFactory = {
-  render: ({ id }) => {
+  render: ({ id, params }) => {
     const [audience, resource, action] = id.split('.')
 
     const template = accessDeepObject(templates, [audience, resource, action])
@@ -40,12 +40,12 @@ const templatesFactory: TemplateFactory = {
       throw new Error(`Unknown templateId: ${id}`)
     }
 
-    const renderSubject = compile(template.subject)
-    const renderHtmlBody = compile(template.htmlBody)
+    const renderSubject = compile<typeof params>(template.subject)
+    const renderHtmlBody = compile<typeof params>(template.htmlBody)
 
     return {
-      subject: renderSubject({}),
-      htmlBody: renderHtmlBody({}),
+      subject: renderSubject(params),
+      htmlBody: renderHtmlBody(params),
     }
   },
 }

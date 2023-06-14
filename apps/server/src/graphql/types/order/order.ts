@@ -55,7 +55,7 @@ export const OrderPaymentStatus = enumType({
 
 export const OrderType = enumType({
   name: 'OrderType',
-  members: ['CART'],
+  members: ['CART', 'CONFIRMED'],
 })
 
 export const Order = objectType({

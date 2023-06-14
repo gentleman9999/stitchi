@@ -394,9 +394,9 @@ model NotificationEmail {
 
   subject String
 
-  htmlBody String
+  htmlBody String @db.Text
 
-  textBody String?
+  textBody String? @db.Text
 
   recipientEmail String
   recipientName  String?
