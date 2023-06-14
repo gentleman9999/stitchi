@@ -23,8 +23,7 @@ const ClosetLayout = (props: Props) => {
             <div>
               <ul className="flex gap-8">
                 {[
-                  // { href: routes.internal.closet.href(), label: 'Closet' },
-                  // { href: '#', label: 'Designs' },
+                  { href: routes.internal.closet.href(), label: 'Closet' },
                   {
                     href: routes.internal.closet.orders.href(),
                     label: 'Orders',
