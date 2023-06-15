@@ -101,6 +101,7 @@ type MailingAddressCreatePayload {
 
 type Membership {
   createdAt: DateTime!
+  hasOrders: Boolean!
   id: ID!
   orders(
     """Returns the elements in the list that come after the specified cursor"""

@@ -19,30 +19,30 @@ export enum Equality {
   LTE = 'on or before',
 }
 
-const dateInputProps = { disableFutureDates: true }
+const dateInputProps = { maxDate: new Date() }
 
-export const schema = yup.object().shape({
+const schema = yup.object().shape({
   equality: yup.string().oneOf(Object.values(Equality)).required(),
   gte: yup.string().optional(),
   lte: yup.string().optional(),
 })
 
-type FormValues = yup.InferType<typeof schema>
+export type DateFilterValue = yup.InferType<typeof schema>
 
 interface Props {
-  defaultValues?: Partial<FormValues>
-  onChange: (values: FormValues) => Promise<void> | void
+  defaultValues?: Partial<DateFilterValue>
+  onChange: (values: DateFilterValue) => Promise<void> | void
 }
 
 const DateEquality = (props: Props) => {
   const { timeZone } = useTimeZone()
 
-  const form = useForm<FormValues>({
+  const form = useForm<DateFilterValue>({
     defaultValues: { equality: Equality.EQUALS, ...props.defaultValues },
     resolver: yupResolver(schema),
   })
 
-  const equality = form.watch('equality')
+  const [equality, gte, lte] = form.watch(['equality', 'gte', 'lte'])
 
   const handleSubmit = form.handleSubmit(async ({ gte, lte, equality }) => {
     switch (equality) {
@@ -156,9 +156,7 @@ const DateEquality = (props: Props) => {
                 <DateInput
                   {...field}
                   {...dateInputProps}
-                  onChange={value => {
-                    field.onChange(value)
-                  }}
+                  maxDate={lte ? parseISO(lte) : dateInputProps.maxDate}
                 />
               )}
             />
@@ -170,9 +168,7 @@ const DateEquality = (props: Props) => {
                 <DateInput
                   {...field}
                   {...dateInputProps}
-                  onChange={value => {
-                    field.onChange(value)
-                  }}
+                  minDate={gte ? parseISO(gte) : undefined}
                 />
               )}
             />

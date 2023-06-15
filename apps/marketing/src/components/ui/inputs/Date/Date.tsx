@@ -4,28 +4,20 @@ import TextField from '../TextField'
 interface Props {
   value?: string
   onChange?: (value: string) => void
-  disableFutureDates?: boolean
-  disablePastDates?: boolean
+  minDate?: Date
+  maxDate?: Date
 }
 
 const DateInput = (props: Props) => {
   return (
     <TextField
       type="date"
-      value={props.value}
+      value={props.value?.split('T')[0]}
+      max={props.maxDate?.toISOString().split('T')[0]}
+      min={props.minDate?.toISOString().split('T')[0]}
       onChange={e => {
         props.onChange?.(e.target.value)
       }}
-      max={
-        props.disableFutureDates
-          ? new Date().toISOString().split('T')[0]
-          : undefined
-      }
-      min={
-        props.disablePastDates
-          ? new Date().toISOString().split('T')[0]
-          : undefined
-      }
     />
   )
 }

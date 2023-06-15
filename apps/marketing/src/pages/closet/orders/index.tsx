@@ -1,4 +1,4 @@
-import ClosetOrdersIndexPage from '@components/common/ClosetOrdersIndexPage'
+import ClosetOrdersIndexPage from '@components/pages/ClosetOrdersIndexPage'
 import { ClosetLayout } from '@components/layout'
 import { withAuthentication } from '@lib/auth'
 import React from 'react'

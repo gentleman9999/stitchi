@@ -7,8 +7,8 @@ import currency from 'currency.js'
 import { parseISO } from 'date-fns'
 import { format } from 'date-fns-tz'
 import React from 'react'
-import InfiniteScrollContainer from '../InfiniteScrollContainer'
-import OrderPaymentStatusBadge from '../OrderPaymentStatusBadge'
+import InfiniteScrollContainer from '../../common/InfiniteScrollContainer'
+import OrderPaymentStatusBadge from '../../common/OrderPaymentStatusBadge'
 
 interface Props {
   orders: ClosetOrdersMobileTableOrderFragment[]

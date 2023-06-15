@@ -425,6 +425,7 @@ export interface NexusGenFieldTypes {
   }
   Membership: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
+    hasOrders: boolean; // Boolean!
     id: string; // ID!
     orders: NexusGenRootTypes['OrderConnection'] | null; // OrderConnection
     organization: NexusGenRootTypes['Organization'] | null; // Organization
@@ -654,6 +655,7 @@ export interface NexusGenFieldTypeNames {
   }
   Membership: { // field return type name
     createdAt: 'DateTime'
+    hasOrders: 'Boolean'
     id: 'ID'
     orders: 'OrderConnection'
     organization: 'Organization'

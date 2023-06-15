@@ -2,11 +2,14 @@ import { Badge, Container } from '@components/ui'
 import { format } from 'date-fns'
 import Link from 'next/link'
 import React from 'react'
+import ClosetFilters from './ClosetFilters'
 
 const ClosetHomePage = () => {
   return (
     <>
       <Container>
+        <ClosetFilters onChange={({ date }) => {}} />
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[...Array(8)].map((_, i) => (
             <Link

@@ -5,17 +5,21 @@ import {
   ClosetOrdersIndexPageGetDataQueryVariables,
 } from '@generated/ClosetOrdersIndexPageGetDataQuery'
 import React from 'react'
-import Section from '../Section'
 import { notEmpty } from '@utils/typescript'
 import ClosetOrdersDesktopTable from './ClosetOrdersDesktopTable'
 import ClosetOrdersMobileTable from './ClosetOrdersMobileTable'
-import ClosetOrdersTableFilters from './ClosetOrdersTableFilters/ClosetOrdersTableFilters'
-import {
-  MembershipOrdersFilterInput,
-  MembershipOrdersWhereFilterInput,
-} from '@generated/globalTypes'
+import ClosetOrdersTableFilters from './ClosetOrdersTableFilters'
+import { MembershipOrdersFilterInput } from '@generated/globalTypes'
 import { useDebouncedCallback } from 'use-debounce'
 import { useQueryState } from 'next-usequerystate'
+import ClosetPageTitle, {
+  ClosetPageTitleActions,
+} from '@components/common/ClosetPageTitle'
+import ClosetPageContainer from '@components/common/ClosetPageContainer'
+import routes from '@lib/routes'
+import ClosetPageEmptyState from '@components/common/ClosetPageEmptyState'
+import TableZeroState from '@components/ui/Table/TableZeroState'
+import Table from '@components/ui/Table/Table'
 
 interface Props {}
 
@@ -28,10 +32,15 @@ const ClosetOrdersIndexPage = (props: Props) => {
     parse: value => JSON.parse(atob(value)),
   })
 
-  const { data, fetchMore, refetch, variables } = useQuery<
+  const { data, fetchMore, refetch, variables, loading } = useQuery<
     ClosetOrdersIndexPageGetDataQuery,
     ClosetOrdersIndexPageGetDataQueryVariables
-  >(GET_DATA)
+  >(GET_DATA, {
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: 'cache-and-network',
+  })
+
+  const { hasOrders } = data?.viewer || {}
 
   const { pageInfo, edges } = data?.viewer?.orders || {}
 
@@ -55,6 +64,9 @@ const ClosetOrdersIndexPage = (props: Props) => {
       setFilter(newFilter)
     },
     1000,
+    {
+      leading: true,
+    },
   )
 
   const orders = edges?.map(edge => edge?.node).filter(notEmpty) || []
@@ -66,31 +78,63 @@ const ClosetOrdersIndexPage = (props: Props) => {
   }
 
   return (
-    <>
+    <ClosetPageContainer>
       <Container>
-        <Section gutter="md">
-          <h1 className="text-4xl">Your orders</h1>
-        </Section>
-
-        <ClosetOrdersTableFilters
-          onChange={value => {
-            const { date, ...rest } = value
-
-            const { equality, ...dateRest } = date || {}
-
-            handleChange({ where: { ...rest, createdAt: dateRest } })
-          }}
+        <ClosetPageTitle
+          title="Your orders"
+          actions={
+            <ClosetPageTitleActions
+              actions={[
+                {
+                  label: 'Create',
+                  primary: true,
+                  href: routes.internal.catalog.href(),
+                },
+              ]}
+            />
+          }
         />
 
-        <div className="hidden md:block">
-          <ClosetOrdersDesktopTable {...tableProps} />
-        </div>
+        {!loading && !hasOrders ? (
+          <ClosetPageEmptyState
+            title="Start your first order"
+            description="Placing an order sends your products to production."
+            cta={{
+              label: 'Start order',
+              href: routes.internal.catalog.href(),
+            }}
+          />
+        ) : (
+          <>
+            <ClosetOrdersTableFilters
+              onChange={value => {
+                const { date, ...rest } = value
 
-        <div className="md:hidden">
-          <ClosetOrdersMobileTable {...tableProps} />
-        </div>
+                const { equality, ...dateRest } = date || {}
+
+                handleChange({ where: { ...rest, createdAt: dateRest } })
+              }}
+            />
+
+            <Table loading={loading}>
+              {!orders.length ? (
+                <TableZeroState />
+              ) : (
+                <>
+                  <div className="hidden md:block">
+                    <ClosetOrdersDesktopTable {...tableProps} />
+                  </div>
+
+                  <div className="md:hidden">
+                    <ClosetOrdersMobileTable {...tableProps} />
+                  </div>
+                </>
+              )}
+            </Table>
+          </>
+        )}
       </Container>
-    </>
+    </ClosetPageContainer>
   )
 }
 
@@ -102,6 +146,7 @@ const GET_DATA = gql`
   ) {
     viewer {
       id
+      hasOrders
       orders(first: 50, filter: $filter) {
         edges {
           node {

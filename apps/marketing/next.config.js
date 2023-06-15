@@ -38,11 +38,6 @@ module.exports = withBundleAnalyzer({
         permanent: false,
       },
       {
-        source: '/closet',
-        destination: '/closet/orders',
-        permanent: false,
-      },
-      {
         source: '/login',
         destination: '/api/auth/login',
         permanent: true,
