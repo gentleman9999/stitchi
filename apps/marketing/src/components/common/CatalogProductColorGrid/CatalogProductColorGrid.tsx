@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import { CatalogProductColorGridProductFragment } from '@generated/CatalogProductColorGridProductFragment'
 import useProductOptions from '@hooks/useProductOptions'
 import React from 'react'
-import CatalogProductColorSwatch from '../CatalogProductColorSwatch'
+import ColorSwatch from '../ColorSwatch'
 
 interface Props {
   product: CatalogProductColorGridProductFragment
@@ -21,7 +21,7 @@ const CatalogProductColorGrid = ({
     <ul className="flex flex-wrap gap-1">
       {colors.map(({ hexColors, entityId, label }) => (
         <li key={entityId}>
-          <CatalogProductColorSwatch
+          <ColorSwatch
             onClick={() => onColorSelect({ colorEntityId: entityId, label })}
             hexCode={hexColors[0]}
             label={label}

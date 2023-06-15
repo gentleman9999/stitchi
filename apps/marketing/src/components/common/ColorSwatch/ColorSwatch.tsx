@@ -11,7 +11,7 @@ interface Props {
   height?: string
 }
 
-const CatalogProductColorSwatch = (props: Props) => {
+const ColorSwatch = (props: Props) => {
   const { width = 'w-5', height = 'h-5' } = props
   const color = Color(props.hexCode)
 
@@ -38,4 +38,4 @@ const CatalogProductColorSwatch = (props: Props) => {
   )
 }
 
-export default CatalogProductColorSwatch
+export default ColorSwatch

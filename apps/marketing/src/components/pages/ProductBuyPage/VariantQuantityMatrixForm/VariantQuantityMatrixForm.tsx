@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import CatalogProductColorSwatch from '@components/common/CatalogProductColorSwatch'
+import ColorSwatch from '@components/common/ColorSwatch'
 import { VariantQuantityMatrixFormProductFragment } from '@generated/VariantQuantityMatrixFormProductFragment'
 import useProductOptions from '@hooks/useProductOptions'
 import { notEmpty } from '@utils/typescript'
@@ -90,7 +90,7 @@ const VariantQuantityMatrixForm = ({ product, form }: Props) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              <CatalogProductColorSwatch
+              <ColorSwatch
                 onClick={() => handleAddColor({ colorEntityId: entityId })}
                 hexCode={hexColors[0]}
                 label={label}
@@ -140,9 +140,7 @@ const VariantQuantityMatrixForm = ({ product, form }: Props) => {
                     <>
                       <div className="p-1 sticky left-0 bg-white flex">
                         <div className="flex items-center text-xs">
-                          <CatalogProductColorSwatch
-                            hexCode={color.hexColors[0]}
-                          />
+                          <ColorSwatch hexCode={color.hexColors[0]} />
 
                           <span className="ml-1 w-full">{color.label}</span>
                         </div>
