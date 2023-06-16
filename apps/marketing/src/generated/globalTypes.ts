@@ -34,6 +34,15 @@ export enum ArticleModelOrderBy {
   updatedAt_DESC = "updatedAt_DESC",
 }
 
+export enum DesignRequestStatus {
+  APPROVED = "APPROVED",
+  AWAITING_APPROVAL = "AWAITING_APPROVAL",
+  AWAITING_REVISION = "AWAITING_REVISION",
+  DRAFT = "DRAFT",
+  REJECTED = "REJECTED",
+  SUBMITTED = "SUBMITTED",
+}
+
 export enum ItemStatus {
   draft = "draft",
   published = "published",
@@ -95,6 +104,12 @@ export interface CreatedAtFilter {
 export interface DateFilterInput {
   gte?: string | null;
   lte?: string | null;
+}
+
+export interface DesignRequestUpdateInput {
+  designRequestId: string;
+  name?: string | null;
+  description?: string | null;
 }
 
 /**

@@ -1,3 +1,4 @@
+export * from './design'
 export * from './user'
 export * from './membership'
 export * from './organization'

@@ -86,6 +86,8 @@ const makeUpdateOrder: MakeUpdateOrderFn =
         include: { OrderItems: true },
         data: {
           updatedAt: new Date(),
+          organizationId: validInput.organizationId,
+          userId: validInput.userId,
           type: validInput.type,
           customerEmail: validInput.customerEmail,
           customerFirstName: validInput.customerFirstName,

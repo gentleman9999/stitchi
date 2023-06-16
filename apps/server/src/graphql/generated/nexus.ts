@@ -42,6 +42,15 @@ export interface NexusGenInputs {
     gte?: string | null; // String
     lte?: string | null; // String
   }
+  DesignRequestCreateInput: { // input type
+    description?: string | null; // String
+    name?: string | null; // String
+  }
+  DesignRequestUpdateInput: { // input type
+    description?: string | null; // String
+    designRequestId: string; // ID!
+    name?: string | null; // String
+  }
   FulfillmentCreateInput: { // input type
     carrier: string; // String!
     orderId: string; // String!
@@ -61,6 +70,12 @@ export interface NexusGenInputs {
     province?: string | null; // String
     provinceCode?: string | null; // String
     zip?: string | null; // String
+  }
+  MembershipDesignRequestsFilterInput: { // input type
+    where?: NexusGenInputs['MembershipDesignRequestsWhereFilterInput'] | null; // MembershipDesignRequestsWhereFilterInput
+  }
+  MembershipDesignRequestsWhereFilterInput: { // input type
+    createdAt?: NexusGenInputs['DateFilterInput'] | null; // DateFilterInput
   }
   MembershipOrdersFilterInput: { // input type
     where?: NexusGenInputs['MembershipOrdersWhereFilterInput'] | null; // MembershipOrdersWhereFilterInput
@@ -138,6 +153,7 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
+  DesignRequestStatus: "APPROVED" | "AWAITING_APPROVAL" | "AWAITING_REVISION" | "DRAFT" | "REJECTED" | "SUBMITTED"
   GlobalRole: "CUSTOMER" | "SUPERADMIN"
   MembershipRole: "OWNER"
   OrderItemType: "BIG_COMMERCE_PRODUCT" | "CUSTOM"
@@ -155,6 +171,28 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  DesignRequest: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    description?: string | null; // String
+    id: string; // ID!
+    name: string; // String!
+    status: NexusGenEnums['DesignRequestStatus']; // DesignRequestStatus!
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  DesignRequestConnection: { // root type
+    edges?: Array<NexusGenRootTypes['DesignRequestEdge'] | null> | null; // [DesignRequestEdge]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  DesignRequestCreatePayload: { // root type
+    designRequest?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+  }
+  DesignRequestEdge: { // root type
+    cursor?: string | null; // String
+    node?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+  }
+  DesignRequestUpdatePayload: { // root type
+    designRequest?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+  }
   Fulfillment: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     fulfillmentOrderItems: NexusGenRootTypes['FulfillmentOrderItem'][]; // [FulfillmentOrderItem!]!
@@ -369,6 +407,28 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  DesignRequest: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    description: string | null; // String
+    id: string; // ID!
+    name: string; // String!
+    status: NexusGenEnums['DesignRequestStatus']; // DesignRequestStatus!
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  DesignRequestConnection: { // field return type
+    edges: Array<NexusGenRootTypes['DesignRequestEdge'] | null> | null; // [DesignRequestEdge]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  DesignRequestCreatePayload: { // field return type
+    designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+  }
+  DesignRequestEdge: { // field return type
+    cursor: string | null; // String
+    node: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+  }
+  DesignRequestUpdatePayload: { // field return type
+    designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+  }
   Fulfillment: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     fulfillmentOrderItems: NexusGenRootTypes['FulfillmentOrderItem'][]; // [FulfillmentOrderItem!]!
@@ -425,6 +485,7 @@ export interface NexusGenFieldTypes {
   }
   Membership: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
+    designRequests: NexusGenRootTypes['DesignRequestConnection']; // DesignRequestConnection!
     hasOrders: boolean; // Boolean!
     id: string; // ID!
     orders: NexusGenRootTypes['OrderConnection'] | null; // OrderConnection
@@ -436,6 +497,8 @@ export interface NexusGenFieldTypes {
     userId: string; // String!
   }
   Mutation: { // field return type
+    designRequestCreate: NexusGenRootTypes['DesignRequestCreatePayload'] | null; // DesignRequestCreatePayload
+    designRequestUpdate: NexusGenRootTypes['DesignRequestUpdatePayload'] | null; // DesignRequestUpdatePayload
     fulfillmentCreate: NexusGenRootTypes['FulfillmentCreatePayload'] | null; // FulfillmentCreatePayload
     mailingAddressCreate: NexusGenRootTypes['MailingAddressCreatePayload'] | null; // MailingAddressCreatePayload
     orderCartCreate: NexusGenRootTypes['OrderCartCreatePayload'] | null; // OrderCartCreatePayload
@@ -562,6 +625,7 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     _products: Array<NexusGenRootTypes['Product'] | null> | null; // [Product]
+    designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
     order: NexusGenRootTypes['Order'] | null; // Order
     viewer: NexusGenRootTypes['Membership'] | null; // Membership
   }
@@ -599,6 +663,28 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  DesignRequest: { // field return type name
+    createdAt: 'DateTime'
+    description: 'String'
+    id: 'ID'
+    name: 'String'
+    status: 'DesignRequestStatus'
+    updatedAt: 'DateTime'
+  }
+  DesignRequestConnection: { // field return type name
+    edges: 'DesignRequestEdge'
+    pageInfo: 'PageInfo'
+  }
+  DesignRequestCreatePayload: { // field return type name
+    designRequest: 'DesignRequest'
+  }
+  DesignRequestEdge: { // field return type name
+    cursor: 'String'
+    node: 'DesignRequest'
+  }
+  DesignRequestUpdatePayload: { // field return type name
+    designRequest: 'DesignRequest'
+  }
   Fulfillment: { // field return type name
     createdAt: 'DateTime'
     fulfillmentOrderItems: 'FulfillmentOrderItem'
@@ -655,6 +741,7 @@ export interface NexusGenFieldTypeNames {
   }
   Membership: { // field return type name
     createdAt: 'DateTime'
+    designRequests: 'DesignRequestConnection'
     hasOrders: 'Boolean'
     id: 'ID'
     orders: 'OrderConnection'
@@ -666,6 +753,8 @@ export interface NexusGenFieldTypeNames {
     userId: 'String'
   }
   Mutation: { // field return type name
+    designRequestCreate: 'DesignRequestCreatePayload'
+    designRequestUpdate: 'DesignRequestUpdatePayload'
     fulfillmentCreate: 'FulfillmentCreatePayload'
     mailingAddressCreate: 'MailingAddressCreatePayload'
     orderCartCreate: 'OrderCartCreatePayload'
@@ -792,6 +881,7 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     _products: 'Product'
+    designRequest: 'DesignRequest'
     order: 'Order'
     viewer: 'Membership'
   }
@@ -830,6 +920,13 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Membership: {
+    designRequests: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      filter?: NexusGenInputs['MembershipDesignRequestsFilterInput'] | null; // MembershipDesignRequestsFilterInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
     orders: { // args
       after?: string | null; // String
       before?: string | null; // String
@@ -839,6 +936,12 @@ export interface NexusGenArgTypes {
     }
   }
   Mutation: {
+    designRequestCreate: { // args
+      input: NexusGenInputs['DesignRequestCreateInput']; // DesignRequestCreateInput!
+    }
+    designRequestUpdate: { // args
+      input: NexusGenInputs['DesignRequestUpdateInput']; // DesignRequestUpdateInput!
+    }
     fulfillmentCreate: { // args
       input: NexusGenInputs['FulfillmentCreateInput']; // FulfillmentCreateInput!
     }
@@ -868,6 +971,9 @@ export interface NexusGenArgTypes {
   Query: {
     _products: { // args
       products: NexusGenInputs['ProductKey'][]; // [ProductKey!]!
+    }
+    designRequest: { // args
+      id: string; // ID!
     }
     order: { // args
       id: string; // ID!

@@ -320,6 +320,43 @@ model DesignLocation {
   @@index([designId])
 }
 
+model DesignRequest {
+  id String @id @default(uuid())
+
+  // The user that this design request belongs to
+  userId String?
+
+  // The organization that this design request belongs to
+  organizationId String?
+
+  // The name of the design request
+  name String
+
+  // The description of the design request
+  description String?
+
+  // The status of the design request
+  status DesignRequestStatus @default(DRAFT)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum DesignRequestStatus {
+  // Design request is a draft and hasn't been submitted yet
+  DRAFT
+  // Design request has been submitted and work has begun
+  SUBMITTED
+  // Design request has been approved
+  APPROVED
+  // Design request is awaiting revision from Stitchi
+  AWAITING_REVISION
+  // Design request is awaiting approval from the user
+  AWAITING_APPROVAL
+  // Design request is rejected (by Stitchi). This can happen if design subject is not appropriate.
+  REJECTED
+}
+
 model MailingAddress {
   id String @id @default(uuid())
 

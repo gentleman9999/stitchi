@@ -12,8 +12,7 @@ import * as uuid from 'uuid'
 import { connectionFromArray } from 'graphql-relay'
 import { orderFactoryOrderToGraphQL } from '../../serializers/order'
 export * from './mailing-address'
-import { NexusGenObjects, NexusGenInputs } from '../../generated/nexus'
-import { endOfDay, parseISO, startOfDay } from 'date-fns'
+import { NexusGenObjects } from '../../generated/nexus'
 
 export const order = queryField('order', {
   type: 'Order',
