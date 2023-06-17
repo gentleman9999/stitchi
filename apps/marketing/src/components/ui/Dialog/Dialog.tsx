@@ -10,15 +10,17 @@ import Transition from '../Transition'
 import useBreakpoints from '@hooks/useBreakpoints'
 import DialogSectionPadding from './DialogSectionPadding'
 
+type Children = ReturnType<
+  | typeof DialogTitle
+  | typeof DialogIcon
+  | typeof DialogContent
+  | typeof DialogActions
+>
+
 export interface DialogProps {
   open: boolean
   onClose: () => void
-  children: ReturnType<
-    | typeof DialogTitle
-    | typeof DialogIcon
-    | typeof DialogContent
-    | typeof DialogActions
-  >[]
+  children: Children | Children[]
   size?: 'sm' | 'md' | 'lg'
   className?: string
   mobileFullScreen?: boolean

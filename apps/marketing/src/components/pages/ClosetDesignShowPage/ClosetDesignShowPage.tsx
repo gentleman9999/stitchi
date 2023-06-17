@@ -1,6 +1,8 @@
 import { gql, useQuery } from '@apollo/client'
 import { Section } from '@components/common'
-import ClosetPageTitle from '@components/common/ClosetPageTitle'
+import ClosetPageTitle, {
+  ClosetPageTitleActions,
+} from '@components/common/ClosetPageTitle'
 import { Container } from '@components/ui'
 import React from 'react'
 import {
@@ -32,6 +34,18 @@ const ClosetDesignShowPage = ({ designId }: Props) => {
             name={designRequest?.name}
             loading={loading}
             designRequestId={designId}
+          />
+        }
+        actions={
+          <ClosetPageTitleActions
+            actions={[
+              {
+                disabled: false,
+                label: 'Submit design request',
+                primary: true,
+                onClick: () => {},
+              },
+            ]}
           />
         }
       />

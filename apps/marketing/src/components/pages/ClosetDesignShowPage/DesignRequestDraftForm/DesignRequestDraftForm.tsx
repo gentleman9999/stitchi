@@ -1,92 +1,113 @@
-import { LinkInline } from '@components/ui'
-import { XIcon } from 'icons'
-import React from 'react'
-import DesignLocationForm from './DesignLocationForm'
+import { Button, Dialog, InputGroup, TextField } from '@components/ui'
+import { Plus } from 'icons'
+import React, { useState } from 'react'
+import AddDesignLocationButton from './AddDesignLocationButton'
+import AdditionalInformationForm from './AdditionalInformationForm'
+import DesignLocationForm, {
+  Props as DesignLocationFormProps,
+} from './DesignLocationForm/DesignLocationForm'
+import DesignLocationPreview from './DesignLocationPreview'
 
-const designLocatoins = [
-  {
-    id: 1,
-    placement: 'Front',
-    description:
-      'Design on the front of the shirt. Design on the front of the shirt. Design on the front of the shirt. Design on the front of the shirt.',
-    referenceFiles: [
-      {
-        type: 'image',
-        url: 'https://www.stitchi.co/_next/image?url=https%3A%2F%2Fcdn11.bigcommerce.com%2Fs-ycjcgspsys%2Fimages%2Fstencil%2F300w%2Fattribute_rule_images%2F166304_source_1684166140.jpg&w=1200&q=75',
-      },
-    ],
-  },
-]
+interface DesignLocation {
+  id: number
+  placement: string
+  description: string
+  referenceFiles: { type: string; url: string }[]
+}
 
 interface Props {}
 
 const DesignRequestDraftForm = (props: Props) => {
+  const [showLocationForm, setShowLocationForm] = useState(false)
+  const [designLocations, setDesignLocations] = useState<DesignLocation[]>([])
+
+  const handleAddDesignLocation: DesignLocationFormProps['onSubmit'] = data => {
+    setShowLocationForm(false)
+    setDesignLocations(prev => [
+      ...prev,
+      {
+        ...data,
+        id: prev.length + 1,
+      },
+    ])
+  }
+
   return (
-    <div>
-      <div className="grid grid-cols-4">
-        {designLocatoins.map(location => (
-          <div
-            key={location.id}
-            className="relative rounded-lg bg-gray-50 shadow-sm ring-1 ring-gray-900/5"
-          >
-            <button className="absolute top-4 right-4">
-              <XIcon className="w-5 h-5" />
-            </button>
-            <dl className="flex flex-wrap">
-              <div className="flex-auto pl-6 pt-6">
-                <dt className="text-sm font-semibold leading-6 text-gray-900">
-                  Placement
-                </dt>
-                <dd className="mt-1 text-base font-semibold leading-6 text-gray-900">
-                  {location.placement}
-                </dd>
-              </div>
-            </dl>
-            <div className="mt-6 border-t border-gray-900/5">
-              <dl className="px-6 pt-6 flex-auto line-clamp-3">
-                <dt className="text-sm font-semibold leading-6 text-gray-900">
-                  Description
-                </dt>
-                <dd className="mt-1 text-sm font-medium text-gray-700">
-                  {location.description}
-                </dd>
-              </dl>
-
-              <dl className="px-6 pt-6 flex-auto line-clamp-3">
-                <dt className="text-sm font-semibold leading-6 text-gray-900">
-                  Reference files
-                </dt>
-                <dd className="mt-1 text-sm font-semibold text-gray-700">
-                  {location.referenceFiles.length ? (
-                    <>
-                      {location.referenceFiles.map(file => (
-                        <LinkInline
-                          external
-                          key={file.url}
-                          href={file.url}
-                          className="line-clamp-1"
-                        >
-                          {file.url}
-                        </LinkInline>
-                      ))}
-                    </>
-                  ) : (
-                    <>No reference files</>
-                  )}
-                </dd>
-              </dl>
-            </div>
-
-            <div className="mt-6 border-t border-gray-900/5 px-6 py-6 flex justify-between">
-              <button className="text-sm font-semibold leading-6 text-gray-900">
-                Modfy <span aria-hidden="true">&rarr;</span>
-              </button>
-            </div>
-          </div>
-        ))}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div>
+        <AdditionalInformationForm onSubmit={() => {}} />
       </div>
 
-      <DesignLocationForm />
+      <div>
+        <div>
+          <h2 className="text-2xl font-semibold leading-loose">
+            Design locations
+          </h2>
+          <div className="grid grid-cols-2 gap-6">
+            {designLocations.map((location, index) => (
+              <DesignLocationPreview
+                key={location.id}
+                location={location}
+                onRemove={() => {
+                  setDesignLocations(prev => {
+                    const newLocations = [...prev]
+                    newLocations.splice(index, 1)
+                    return newLocations
+                  })
+                }}
+              />
+            ))}
+
+            {showLocationForm ? (
+              <DesignLocationForm
+                onSubmit={handleAddDesignLocation}
+                defaultValues={{
+                  placement: 'Front',
+                  description:
+                    'Design on the front of the shirt. Design on the front of the shirt. Design on the front of the shirt. Design on the front of the shirt.',
+                  referenceFiles: [
+                    {
+                      type: 'image',
+                      url: 'https://www.stitchi.co/_next/image?url=https%3A%2F%2Fcdn11.bigcommerce.com%2Fs-ycjcgspsys%2Fimages%2Fstencil%2F300w%2Fattribute_rule_images%2F166304_source_1684166140.jpg&w=1200&q=75',
+                    },
+                  ],
+                }}
+                renderContainer={props => (
+                  <Dialog
+                    open
+                    mobileFullScreen
+                    onClose={() => setShowLocationForm(false)}
+                  >
+                    <Dialog.Title className="flex items-center justify-between">
+                      Add design location
+                      <Button
+                        slim
+                        variant="naked"
+                        className="!text-sm"
+                        onClick={() => setShowLocationForm(false)}
+                      >
+                        Cancel
+                      </Button>
+                    </Dialog.Title>
+                    <Dialog.Content dividers>{props.children}</Dialog.Content>
+                    <Dialog.Actions className="flex justify-end">
+                      <Button color="brandPrimary" onClick={props.onSubmit}>
+                        Add location
+                      </Button>
+                    </Dialog.Actions>
+                  </Dialog>
+                )}
+              />
+            ) : (
+              <InputGroup>
+                <AddDesignLocationButton
+                  onClick={() => setShowLocationForm(true)}
+                />
+              </InputGroup>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

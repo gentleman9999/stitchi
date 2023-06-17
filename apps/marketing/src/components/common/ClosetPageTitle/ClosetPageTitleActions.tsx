@@ -5,6 +5,7 @@ import React from 'react'
 interface BaseAction {
   label: string
   primary?: boolean
+  disabled?: boolean
 }
 
 interface LinkAction extends BaseAction {
@@ -28,6 +29,7 @@ const ClosetPageTitleActions = ({ actions }: Props) => {
         const shared = {
           children: action.label,
           slim: true,
+          disabled: action.disabled,
           color: action.primary ? 'brandPrimary' : 'primary',
         } as const
 
