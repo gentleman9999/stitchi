@@ -1,11 +1,16 @@
 import s from './LoadingDots.module.css'
+import cx from 'classnames'
 
-const LoadingDots: React.FC = () => {
+const Dot = ({ className }: { className?: string }) => (
+  <span className={cx(s.dot, className)} />
+)
+
+const LoadingDots = ({ dotClassName }: { dotClassName?: string }) => {
   return (
     <span className={s.root}>
-      <span className={s.dot} key={`dot_1`} />
-      <span className={s.dot} key={`dot_2`} />
-      <span className={s.dot} key={`dot_3`} />
+      {Array.from({ length: 3 }).map((_, i) => (
+        <Dot key={i} className={dotClassName} />
+      ))}
     </span>
   )
 }

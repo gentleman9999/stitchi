@@ -1,18 +1,17 @@
-import { gql, useQuery } from '@apollo/client'
 import { Section } from '@components/common'
-import ClosetPageTitle, {
-  ClosetPageTitleActions,
-} from '@components/common/ClosetPageTitle'
 import { Container } from '@components/ui'
 import React from 'react'
+import ProgressBar from './ProgressBar'
+import DesignRequestDraft from './DesignRequestDraft'
+import { DesignRequestStatus } from '@generated/globalTypes'
+import DesignRequestSubmitted from './DesignRequestSubmitted'
+import { DesignProvider } from './design-context'
 import {
   ClosetDesignShowPageGetDataQuery,
   ClosetDesignShowPageGetDataQueryVariables,
 } from '@generated/ClosetDesignShowPageGetDataQuery'
-import ProgressBar from './ProgressBar'
-import DesignRequestEditableName from './DesignRequestEditableName/DesignRequestEditableName'
-import DesignRequestDraftForm from './DesignRequestDraftForm/DesignRequestDraftForm'
-import { DesignRequestStatus } from '@generated/globalTypes'
+import { gql, useQuery } from '@apollo/client'
+import DesignRequestHeader from './DesignRequestHeader'
 
 interface Props {
   designId: string
@@ -27,46 +26,46 @@ const ClosetDesignShowPage = ({ designId }: Props) => {
   const { designRequest } = data || {}
 
   return (
-    <Container>
-      <ClosetPageTitle
-        title={
-          <DesignRequestEditableName
-            name={designRequest?.name}
-            loading={loading}
-            designRequestId={designId}
-          />
-        }
-        actions={
-          <ClosetPageTitleActions
-            actions={[
-              {
-                disabled: false,
-                label: 'Submit design request',
-                primary: true,
-                onClick: () => {},
-              },
-            ]}
-          />
-        }
-      />
-      <Section>
-        <ProgressBar step={0} />
-      </Section>
-      <Section gutter="sm">
-        {designRequest?.status === DesignRequestStatus.DRAFT ? (
-          <DesignRequestDraftForm />
-        ) : null}
-      </Section>
-    </Container>
+    <DesignProvider>
+      <Container>
+        <DesignRequestHeader loading={loading} designRequest={designRequest} />
+
+        <Section>
+          <ProgressBar status={designRequest?.status} />
+        </Section>
+        <Section gutter="md">
+          {designRequest ? (
+            <>
+              {[DesignRequestStatus.DRAFT].includes(designRequest.status) ? (
+                <DesignRequestDraft designRequest={designRequest} />
+              ) : null}
+
+              {[DesignRequestStatus.SUBMITTED].includes(
+                designRequest.status,
+              ) ? (
+                <DesignRequestSubmitted designRequest={designRequest} />
+              ) : null}
+            </>
+          ) : null}
+        </Section>
+      </Container>
+    </DesignProvider>
   )
 }
 
 const GET_DATA = gql`
+  ${DesignRequestHeader.fragments.designRequest}
+  ${DesignRequestDraft.fragments.designRequest}
+  ${DesignRequestSubmitted.fragments.designRequest}
   query ClosetDesignShowPageGetDataQuery($designId: ID!) {
     designRequest(id: $designId) {
       id
       name
       status
+      description
+      ...DesignRequestHeaderDesignRequesetFragment
+      ...DesignRequestSubmittedDesignRequestFragment
+      ...DesignRequestDraftDesignRequestFragments
     }
   }
 `

@@ -46,6 +46,9 @@ export interface NexusGenInputs {
     description?: string | null; // String
     name?: string | null; // String
   }
+  DesignRequestSubmitInput: { // input type
+    designRequestId: string; // ID!
+  }
   DesignRequestUpdateInput: { // input type
     description?: string | null; // String
     designRequestId: string; // ID!
@@ -189,6 +192,9 @@ export interface NexusGenObjects {
   DesignRequestEdge: { // root type
     cursor?: string | null; // String
     node?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+  }
+  DesignRequestSubmitPayload: { // root type
+    designRequest?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
   }
   DesignRequestUpdatePayload: { // root type
     designRequest?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
@@ -426,6 +432,9 @@ export interface NexusGenFieldTypes {
     cursor: string | null; // String
     node: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
   }
+  DesignRequestSubmitPayload: { // field return type
+    designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+  }
   DesignRequestUpdatePayload: { // field return type
     designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
   }
@@ -498,6 +507,7 @@ export interface NexusGenFieldTypes {
   }
   Mutation: { // field return type
     designRequestCreate: NexusGenRootTypes['DesignRequestCreatePayload'] | null; // DesignRequestCreatePayload
+    designRequestSubmit: NexusGenRootTypes['DesignRequestSubmitPayload'] | null; // DesignRequestSubmitPayload
     designRequestUpdate: NexusGenRootTypes['DesignRequestUpdatePayload'] | null; // DesignRequestUpdatePayload
     fulfillmentCreate: NexusGenRootTypes['FulfillmentCreatePayload'] | null; // FulfillmentCreatePayload
     mailingAddressCreate: NexusGenRootTypes['MailingAddressCreatePayload'] | null; // MailingAddressCreatePayload
@@ -682,6 +692,9 @@ export interface NexusGenFieldTypeNames {
     cursor: 'String'
     node: 'DesignRequest'
   }
+  DesignRequestSubmitPayload: { // field return type name
+    designRequest: 'DesignRequest'
+  }
   DesignRequestUpdatePayload: { // field return type name
     designRequest: 'DesignRequest'
   }
@@ -754,6 +767,7 @@ export interface NexusGenFieldTypeNames {
   }
   Mutation: { // field return type name
     designRequestCreate: 'DesignRequestCreatePayload'
+    designRequestSubmit: 'DesignRequestSubmitPayload'
     designRequestUpdate: 'DesignRequestUpdatePayload'
     fulfillmentCreate: 'FulfillmentCreatePayload'
     mailingAddressCreate: 'MailingAddressCreatePayload'
@@ -938,6 +952,9 @@ export interface NexusGenArgTypes {
   Mutation: {
     designRequestCreate: { // args
       input: NexusGenInputs['DesignRequestCreateInput']; // DesignRequestCreateInput!
+    }
+    designRequestSubmit: { // args
+      input: NexusGenInputs['DesignRequestSubmitInput']; // DesignRequestSubmitInput!
     }
     designRequestUpdate: { // args
       input: NexusGenInputs['DesignRequestUpdateInput']; // DesignRequestUpdateInput!

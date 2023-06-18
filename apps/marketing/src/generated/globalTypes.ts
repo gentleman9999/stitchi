@@ -106,6 +106,10 @@ export interface DateFilterInput {
   lte?: string | null;
 }
 
+export interface DesignRequestSubmitInput {
+  designRequestId: string;
+}
+
 export interface DesignRequestUpdateInput {
   designRequestId: string;
   name?: string | null;

@@ -6,6 +6,7 @@ interface BaseAction {
   label: string
   primary?: boolean
   disabled?: boolean
+  loading?: boolean
 }
 
 interface LinkAction extends BaseAction {
@@ -31,6 +32,7 @@ const ClosetPageTitleActions = ({ actions }: Props) => {
           slim: true,
           disabled: action.disabled,
           color: action.primary ? 'brandPrimary' : 'primary',
+          loading: action.loading,
         } as const
 
         if ('href' in action) {

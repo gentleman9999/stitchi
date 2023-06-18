@@ -4,42 +4,28 @@ import cx from 'classnames'
 type InputElementAttributes = React.InputHTMLAttributes<HTMLInputElement>
 
 interface BaseProps {
-  name?: string
   className?: string
   label?: string
   description?: string
-  autoComplete?: InputElementAttributes['autoComplete']
-  type?: InputElementAttributes['type']
-  required?: InputElementAttributes['required']
-  readonly?: InputElementAttributes['readOnly']
-  value?: InputElementAttributes['value']
-  disabled?: InputElementAttributes['disabled']
   error?: boolean
-  placeholder?: string
   inputClassName?: string
 }
 
-interface MultilineProps extends BaseProps {
+interface MultilineProps
+  extends BaseProps,
+    React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   multiline: true
   inputRef?: React.Ref<any>
-  minRows?: number
-  onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
 }
 
-interface SinglelineProps extends BaseProps {
+interface SinglelineProps extends BaseProps, InputElementAttributes {
   multiline?: false
   inputRef?: React.Ref<any>
-  max?: InputElementAttributes['max']
-  min?: InputElementAttributes['min']
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export type TextFieldProps = MultilineProps | SinglelineProps
 
 const TextField = (props: TextFieldProps) => {
-  const { type = 'text' } = props
-
-  const minRows = 'minRows' in props ? props.minRows : 4
   const className = cx(
     'block w-full shadow-sm sm:text-sm focus:ring-primary focus:border-primary border-gray-300 rounded-md disabled:text-gray-200',
     {
@@ -48,26 +34,35 @@ const TextField = (props: TextFieldProps) => {
     props.inputClassName,
   )
 
+  const {
+    description,
+    className: containerClassName,
+    label,
+    error,
+    inputClassName,
+    ...inputProps
+  } = props
+
   return (
-    <div className={props.className}>
+    <div className={containerClassName}>
       <div className="flex justify-between">
-        {props.label && (
+        {label && (
           <label
             htmlFor={props.name}
             className="block text-sm font-medium text-gray-700"
           >
-            {`${props.label}${props.required ? '*' : ''}`}
+            {`${label}${props.required ? '*' : ''}`}
           </label>
         )}
 
-        {props.description && (
+        {description && (
           <span
             id={`${props.name}-description`}
             className={cx('text-sm text-gray-500', {
-              'text-red-500': props.error,
+              'text-red-500': error,
             })}
           >
-            {props.description}
+            {description}
           </span>
         )}
       </div>
@@ -75,33 +70,17 @@ const TextField = (props: TextFieldProps) => {
       <div className="">
         {props.multiline === true ? (
           <textarea
-            id={props.name}
+            {...(inputProps as MultilineProps)}
             ref={props.inputRef}
-            name={props.name}
-            placeholder={props.placeholder}
-            value={props.value}
-            onChange={props.onChange}
-            defaultValue={''}
-            rows={minRows}
+            rows={props.rows || 4}
             aria-describedby={props.description && `${props.name}-description`}
-            disabled={props.disabled}
             className={className}
           />
         ) : (
           <input
-            id={props.name}
+            {...(inputProps as SinglelineProps)}
             ref={props.inputRef}
-            name={props.name}
-            placeholder={props.placeholder}
-            value={props.value}
-            onChange={props.onChange}
-            max={props.max}
-            min={props.min}
-            type={type}
-            autoComplete={props.autoComplete}
-            required={props.required}
-            readOnly={props.readonly}
-            disabled={props.disabled}
+            type={props.type || 'text'}
             aria-describedby={props.description && `${props.name}-description`}
             className={className}
           />

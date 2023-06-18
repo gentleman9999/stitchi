@@ -6,21 +6,12 @@
 import { DesignRequestStatus } from "./globalTypes";
 
 // ====================================================
-// GraphQL query operation: ClosetDesignShowPageGetDataQuery
+// GraphQL fragment: DesignRequestHeaderDesignRequesetFragment
 // ====================================================
 
-export interface ClosetDesignShowPageGetDataQuery_designRequest {
+export interface DesignRequestHeaderDesignRequesetFragment {
   __typename: "DesignRequest";
   id: string;
   name: string;
   status: DesignRequestStatus;
-  description: string | null;
-}
-
-export interface ClosetDesignShowPageGetDataQuery {
-  designRequest: ClosetDesignShowPageGetDataQuery_designRequest | null;
-}
-
-export interface ClosetDesignShowPageGetDataQueryVariables {
-  designId: string;
 }

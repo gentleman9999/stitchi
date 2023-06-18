@@ -59,6 +59,14 @@ enum DesignRequestStatus {
   SUBMITTED
 }
 
+input DesignRequestSubmitInput {
+  designRequestId: ID!
+}
+
+type DesignRequestSubmitPayload {
+  designRequest: DesignRequest
+}
+
 input DesignRequestUpdateInput {
   description: String
   designRequestId: ID!
@@ -218,6 +226,7 @@ enum MembershipRole {
 
 type Mutation {
   designRequestCreate(input: DesignRequestCreateInput!): DesignRequestCreatePayload
+  designRequestSubmit(input: DesignRequestSubmitInput!): DesignRequestSubmitPayload
   designRequestUpdate(input: DesignRequestUpdateInput!): DesignRequestUpdatePayload
   fulfillmentCreate(input: FulfillmentCreateInput!): FulfillmentCreatePayload
 

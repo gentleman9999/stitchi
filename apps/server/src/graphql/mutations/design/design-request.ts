@@ -115,3 +115,61 @@ export const designRequestUpdate = mutationField('designRequestUpdate', {
     }
   },
 })
+
+export const DesignRequestSubmitInput = inputObjectType({
+  name: 'DesignRequestSubmitInput',
+  definition(t) {
+    t.nonNull.id('designRequestId')
+  },
+})
+
+export const DesignRequestSubmitPayload = objectType({
+  name: 'DesignRequestSubmitPayload',
+  definition(t) {
+    t.nullable.field('designRequest', { type: 'DesignRequest' })
+  },
+})
+
+export const designRequestSubmit = mutationField('designRequestSubmit', {
+  type: 'DesignRequestSubmitPayload',
+  args: {
+    input: nonNull(DesignRequestSubmitInput),
+  },
+  resolve: async (_, { input }, { design, organizationId, userId }) => {
+    let foundDesignRequest
+
+    try {
+      foundDesignRequest = await design.getDesignRequest({
+        designRequestId: input.designRequestId,
+      })
+    } catch (error) {
+      console.log(error)
+      throw new GraphQLError('Unable to find design request')
+    }
+
+    if (
+      notEmpty(foundDesignRequest.organizationId) &&
+      foundDesignRequest.organizationId !== organizationId
+    ) {
+      throw new GraphQLError('Forbidden')
+    }
+
+    let designRequest
+
+    try {
+      designRequest = await design.updateDesignRequest({
+        desingRequest: {
+          ...foundDesignRequest,
+          status: 'SUBMITTED',
+        },
+      })
+    } catch (error) {
+      console.log(error)
+      throw new GraphQLError('Unable to update design request')
+    }
+
+    return {
+      designRequest: designRequestFactoryToGrahpql(designRequest),
+    }
+  },
+})

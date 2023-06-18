@@ -1,12 +1,14 @@
-import { Button, Dialog, InputGroup, TextField } from '@components/ui'
-import { Plus } from 'icons'
+import { Button, Dialog, InputGroup } from '@components/ui'
 import React, { useState } from 'react'
 import AddDesignLocationButton from './AddDesignLocationButton'
 import AdditionalInformationForm from './AdditionalInformationForm'
 import DesignLocationForm, {
   Props as DesignLocationFormProps,
 } from './DesignLocationForm/DesignLocationForm'
-import DesignLocationPreview from './DesignLocationPreview'
+import DesignLocationPreview from '../DesignLocationPreview'
+import useDesignRequestDraft from './useDesignRequestDraft'
+import { gql } from '@apollo/client'
+import { DesignRequestDraftDesignRequestFragments } from '@generated/DesignRequestDraftDesignRequestFragments'
 
 interface DesignLocation {
   id: number
@@ -15,35 +17,42 @@ interface DesignLocation {
   referenceFiles: { type: string; url: string }[]
 }
 
-interface Props {}
+interface Props {
+  designRequest: DesignRequestDraftDesignRequestFragments
+}
 
-const DesignRequestDraftForm = (props: Props) => {
+const DesignRequestDraft = ({ designRequest }: Props) => {
+  const { handleUpdateDesignRequest } = useDesignRequestDraft({
+    designRequestId: designRequest.id,
+  })
+
   const [showLocationForm, setShowLocationForm] = useState(false)
   const [designLocations, setDesignLocations] = useState<DesignLocation[]>([])
 
   const handleAddDesignLocation: DesignLocationFormProps['onSubmit'] = data => {
     setShowLocationForm(false)
-    setDesignLocations(prev => [
-      ...prev,
-      {
-        ...data,
-        id: prev.length + 1,
-      },
-    ])
+    setDesignLocations(prev => [...prev, { ...data, id: prev.length + 1 }])
   }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
       <div>
-        <AdditionalInformationForm onSubmit={() => {}} />
+        <AdditionalInformationForm
+          defaultValues={{
+            description: designRequest.description || undefined,
+          }}
+          onSubmit={input =>
+            handleUpdateDesignRequest({
+              description: input.description,
+            })
+          }
+        />
       </div>
 
       <div>
         <div>
-          <h2 className="text-2xl font-semibold leading-loose">
-            Design locations
-          </h2>
-          <div className="grid grid-cols-2 gap-6">
+          <h2 className="text-2xl font-semibold leading-7">Design locations</h2>
+          <div className="mt-10 grid grid-cols-1 gap-y-8">
             {designLocations.map((location, index) => (
               <DesignLocationPreview
                 key={location.id}
@@ -112,4 +121,13 @@ const DesignRequestDraftForm = (props: Props) => {
   )
 }
 
-export default DesignRequestDraftForm
+DesignRequestDraft.fragments = {
+  designRequest: gql`
+    fragment DesignRequestDraftDesignRequestFragments on DesignRequest {
+      id
+      description
+    }
+  `,
+}
+
+export default DesignRequestDraft
