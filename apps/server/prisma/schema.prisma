@@ -11,6 +11,39 @@ datasource db {
   relationMode = "prisma"
 }
 
+model File {
+  id             String  @id @default(uuid())
+  userId         String?
+  organizationId String?
+
+  fileType FileType
+
+  url String
+
+  bytes Int
+
+  originalFilename String
+  name             String
+
+  cloudinaryAssetId String?
+
+  width  Int?
+  height Int?
+
+  format String
+
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  DesignRequestFile DesignRequestFile[]
+}
+
+enum FileType {
+  IMAGE
+  VIDEO
+  PDF
+  UNKNOWN
+}
+
 model Organization {
   id   String     @id @default(uuid())
   name String
@@ -51,22 +84,6 @@ model Membership {
 
 enum MembershipRole {
   OWNER
-}
-
-model Image {
-  id     String    @id @default(uuid())
-  // Cloudinary URL
-  url    String
-  type   ImageType
-  width  Int
-  height Int
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-enum ImageType {
-  CLOUDINARY
 }
 
 model Order {
@@ -291,7 +308,7 @@ model Design {
   name String
 
   // The description of the design
-  description String?
+  description String? @db.Text
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -333,13 +350,16 @@ model DesignRequest {
   name String
 
   // The description of the design request
-  description String?
+  description String? @db.Text
 
   // The status of the design request
   status DesignRequestStatus @default(DRAFT)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  printLocations DesignRequestPrintLocation[]
+
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  DesignRequestFiles DesignRequestFile[]
 }
 
 enum DesignRequestStatus {
@@ -355,6 +375,33 @@ enum DesignRequestStatus {
   AWAITING_APPROVAL
   // Design request is rejected (by Stitchi). This can happen if design subject is not appropriate.
   REJECTED
+}
+
+model DesignRequestPrintLocation {
+  id String @id @default(uuid())
+
+  designRequestId String
+
+  // The description of the print location
+  description String? @db.Text
+
+  DesignRequest DesignRequest @relation(fields: [designRequestId], references: [id])
+
+  @@index([designRequestId])
+}
+
+model DesignRequestFile {
+  id String @id @default(uuid())
+
+  // The design request that this file belongs to
+  designRequestId String
+  fileId          String
+
+  DesignRequest DesignRequest @relation(fields: [designRequestId], references: [id])
+  File          File          @relation(fields: [fileId], references: [id])
+
+  @@index([designRequestId])
+  @@index([fileId])
 }
 
 model MailingAddress {

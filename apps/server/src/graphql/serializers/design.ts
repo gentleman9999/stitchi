@@ -4,5 +4,8 @@ import { NexusGenObjects } from '../generated/nexus'
 export const designRequestFactoryToGrahpql = (
   designRequest: DesignFactoryDesignRequest,
 ): NexusGenObjects['DesignRequest'] => {
-  return { ...designRequest }
+  return {
+    ...designRequest,
+    fileIds: designRequest.files.map(file => file.fileId),
+  }
 }

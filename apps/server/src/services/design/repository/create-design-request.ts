@@ -3,11 +3,22 @@ import {
   DesignRequest,
   DesignRequestTable,
   table as makeDesignRequestTable,
-} from '../db/design-request'
+} from '../db/design-request-table'
 import * as yup from 'yup'
 import { DesignFactoryDesignRequest, designRequestFactory } from '../factory'
+import { DesignRequestFile } from '../db/design-request-file-table'
 
-const inputSchema = DesignRequest.omit(['id', 'createdAt', 'updatedAt'])
+const inputSchema = DesignRequest.omit(['id', 'createdAt', 'updatedAt']).concat(
+  yup
+    .object()
+    .shape({
+      files: yup
+        .array()
+        .of(DesignRequestFile.omit(['id', 'designRequestId']).required())
+        .required(),
+    })
+    .required(),
+)
 
 const prisma = new PrismaClient()
 
@@ -16,7 +27,7 @@ interface CreateDesignRequestConfig {
 }
 
 export interface CreateDesignRequestFnInput {
-  desingRequest: yup.InferType<typeof inputSchema>
+  designRequest: yup.InferType<typeof inputSchema>
 }
 
 type CreateDesignRequestFn = (
@@ -34,7 +45,7 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
     },
   ) =>
   async input => {
-    const validInput = await inputSchema.validate(input.desingRequest)
+    const validInput = await inputSchema.validate(input.designRequest)
 
     let designRequest
 
@@ -46,6 +57,16 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
           name: validInput.name,
           description: validInput.description,
           status: validInput.status,
+          DesignRequestFiles: {
+            createMany: {
+              data: validInput.files.map(file => ({
+                fileId: file.fileId,
+              })),
+            },
+          },
+        },
+        include: {
+          DesignRequestFiles: true,
         },
       })
     } catch (error) {
@@ -55,7 +76,10 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
       throw new Error('Failed to create design request')
     }
 
-    return designRequestFactory({ designRequest })
+    return designRequestFactory({
+      designRequest,
+      files: designRequest.DesignRequestFiles,
+    })
   }
 
 export default makeCreateDesignRequest

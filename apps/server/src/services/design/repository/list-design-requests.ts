@@ -1,5 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client'
-import { DesignRequestTable } from '../db/design-request'
+import { DesignRequestTable } from '../db/design-request-table'
 import { DesignFactoryDesignRequest, designRequestFactory } from '../factory'
 
 const prisma = new PrismaClient()
@@ -27,6 +27,9 @@ const makeListDesignRequests: MakeListDesignRequestsFn =
     try {
       designRequestRecords = await designRequestTable.findMany({
         ...input,
+        include: {
+          DesignRequestFiles: true,
+        },
       })
     } catch (error) {
       console.error(`Failed to get design requests`, {
@@ -36,7 +39,10 @@ const makeListDesignRequests: MakeListDesignRequestsFn =
     }
 
     return designRequestRecords.map(designRequest =>
-      designRequestFactory({ designRequest }),
+      designRequestFactory({
+        designRequest,
+        files: designRequest.DesignRequestFiles,
+      }),
     )
   }
 

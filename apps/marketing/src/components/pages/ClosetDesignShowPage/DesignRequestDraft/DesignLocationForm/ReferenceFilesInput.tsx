@@ -1,27 +1,31 @@
 import React from 'react'
-import { useFieldArray, UseFormReturn } from 'react-hook-form'
+import { Controller, Path, UseFormReturn } from 'react-hook-form'
 import FileInput from '../../FileInput'
 
-interface File {
-  type: string
-  value: string
-}
-
 interface Props<T extends Record<string, any>> {
-  fieldName: keyof T
+  fieldName: Path<T>
   form: UseFormReturn<T>
+  folder: string
 }
 
 const ReferenceFilesInput = <T extends Record<string, any>>({
   fieldName,
   form,
+  folder,
 }: Props<T>) => {
-  const fileArray = useFieldArray({
-    name: fieldName as any,
-    control: form.control,
-  })
-
-  return <FileInput />
+  return (
+    <Controller
+      name={fieldName}
+      control={form.control}
+      render={({ field }) => (
+        <FileInput
+          folder={folder}
+          fileIds={field.value}
+          onChange={field.onChange}
+        />
+      )}
+    />
+  )
 }
 
 export default ReferenceFilesInput

@@ -6,6 +6,7 @@ import { makeClient as makeDesignClient } from './design'
 import { makeClient as makeFulfillmentClient } from './fulfillment'
 import { makeClient as makePaymentClient } from './payment'
 import { makeClient as makeNotificationClient } from './notification'
+import { makeClient as makeFileClient } from './file'
 
 export interface ServiceList {
   newsletter: ReturnType<typeof makeNewsletterClient>
@@ -16,6 +17,7 @@ export interface ServiceList {
   fulfillment: ReturnType<typeof makeFulfillmentClient>
   payment: ReturnType<typeof makePaymentClient>
   notification: ReturnType<typeof makeNotificationClient>
+  file: ReturnType<typeof makeFileClient>
 }
 
 const services: ServiceList = {
@@ -27,6 +29,7 @@ const services: ServiceList = {
   fulfillment: makeFulfillmentClient(),
   payment: makePaymentClient(),
   notification: makeNotificationClient(),
+  file: makeFileClient(),
 }
 
 export default services

@@ -9,32 +9,22 @@ import ReferenceFilesInput from './ReferenceFilesInput'
 const schema = yup.object().shape({
   placement: yup.string().required(),
   description: yup.string().required(),
-  referenceFiles: yup
-    .array()
-    .of(
-      yup
-        .object()
-        .shape({
-          type: yup.string().required(),
-          url: yup.string().required(),
-        })
-        .required(),
-    )
-    .required(),
+  referenceFileIds: yup.array().of(yup.string().required()).required(),
 })
 
 export type FormValues = yup.InferType<typeof schema>
 
 const locations = [
   'Front',
-  'Front Breast',
   'Back',
+  'Pocket',
   'Left Sleeve',
   'Right Sleeve',
   'Other',
 ]
 
 export interface Props {
+  fileFolder: string
   onSubmit: (data: FormValues) => void
   defaultValues?: Partial<FormValues>
   renderContainer?: (props: {
@@ -128,7 +118,11 @@ const DesignLocationForm = (props: Props) => {
                 </>
               }
             >
-              <ReferenceFilesInput form={form} fieldName="referenceFiles" />
+              <ReferenceFilesInput
+                form={form}
+                folder={props.fileFolder}
+                fieldName="referenceFileIds"
+              />
             </InputGroup>
           </div>
         ),

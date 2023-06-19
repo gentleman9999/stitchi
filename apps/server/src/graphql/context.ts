@@ -26,6 +26,7 @@ export interface Context {
   design: typeof services.design
   fulfillment: typeof services.fulfillment
   payment: typeof services.payment
+  file: typeof services.file
 }
 
 interface ContextCreatorParams {
@@ -87,6 +88,7 @@ function makeContext(
         design: services.design,
         fulfillment: services.fulfillment,
         payment: services.payment,
+        file: services.file,
       }
     } catch (error) {
       console.error(error)

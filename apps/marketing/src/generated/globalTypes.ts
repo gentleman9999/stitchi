@@ -43,6 +43,13 @@ export enum DesignRequestStatus {
   SUBMITTED = "SUBMITTED",
 }
 
+export enum FileType {
+  IMAGE = "IMAGE",
+  PDF = "PDF",
+  UNKNOWN = "UNKNOWN",
+  VIDEO = "VIDEO",
+}
+
 export enum ItemStatus {
   draft = "draft",
   published = "published",
@@ -114,6 +121,23 @@ export interface DesignRequestUpdateInput {
   designRequestId: string;
   name?: string | null;
   description?: string | null;
+  fileIds?: string[] | null;
+}
+
+export interface FileCreateBatchInput {
+  files: FileCreateInput[];
+}
+
+export interface FileCreateInput {
+  fileType: FileType;
+  name: string;
+  originalFilename: string;
+  url: string;
+  bytes: number;
+  format: string;
+  cloudinaryAssetId?: string | null;
+  width?: number | null;
+  height?: number | null;
 }
 
 /**

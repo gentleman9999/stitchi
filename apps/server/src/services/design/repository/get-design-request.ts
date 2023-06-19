@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { DesignRequestTable } from '../db/design-request'
+import { DesignRequestTable } from '../db/design-request-table'
 import { DesignFactoryDesignRequest, designRequestFactory } from '../factory'
 
 const primsa = new PrismaClient()
@@ -27,13 +27,19 @@ const makeGetDesignRequest: MakeGetDesignRequestFn =
       where: {
         id: input.designRequestId,
       },
+      include: {
+        DesignRequestFiles: true,
+      },
     })
 
     if (!designRequest) {
       throw new Error(`Design request not found: ${input}`)
     }
 
-    return designRequestFactory({ designRequest })
+    return designRequestFactory({
+      designRequest,
+      files: designRequest.DesignRequestFiles,
+    })
   }
 
 export default makeGetDesignRequest

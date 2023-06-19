@@ -19,7 +19,15 @@ export const DesignRequest = objectType({
     t.nonNull.string('name')
     t.nullable.string('description')
 
+    t.nonNull.string('fileUploadDirectory', {
+      resolve: root => {
+        return `design-requests/${root.id}`
+      },
+    })
+
     t.nonNull.field('status', { type: 'DesignRequestStatus' })
+
+    t.nonNull.list.nonNull.id('fileIds')
 
     t.nonNull.DateTime('createdAt')
     t.nullable.DateTime('updatedAt')

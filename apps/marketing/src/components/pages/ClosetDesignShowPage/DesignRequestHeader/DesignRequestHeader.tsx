@@ -23,7 +23,7 @@ const DesignRequestHeader = ({ loading, designRequest }: Props) => {
         <>
           <div
             className={cx(
-              'text-xs inline-flex items-center gap-1 px-1 border rounded-full',
+              'text-xs inline-flex items-center gap-1 px-1 border rounded-full text-gray-400',
               {
                 'pr-0.5': !saving,
               },

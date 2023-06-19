@@ -14,7 +14,7 @@ interface DesignLocation {
   id: number
   placement: string
   description: string
-  referenceFiles: { type: string; url: string }[]
+  referenceFileIds: string[]
 }
 
 interface Props {
@@ -38,11 +38,15 @@ const DesignRequestDraft = ({ designRequest }: Props) => {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
       <div>
         <AdditionalInformationForm
+          designRequest={designRequest}
+          fileFolder={designRequest.fileUploadDirectory}
           defaultValues={{
             description: designRequest.description || undefined,
+            referenceFileIds: designRequest.fileIds || [],
           }}
-          onSubmit={input =>
+          onSubmit={async input =>
             handleUpdateDesignRequest({
+              fileIds: input.referenceFileIds,
               description: input.description,
             })
           }
@@ -69,17 +73,13 @@ const DesignRequestDraft = ({ designRequest }: Props) => {
 
             {showLocationForm ? (
               <DesignLocationForm
+                fileFolder={designRequest.fileUploadDirectory}
                 onSubmit={handleAddDesignLocation}
                 defaultValues={{
                   placement: 'Front',
                   description:
                     'Design on the front of the shirt. Design on the front of the shirt. Design on the front of the shirt. Design on the front of the shirt.',
-                  referenceFiles: [
-                    {
-                      type: 'image',
-                      url: 'https://www.stitchi.co/_next/image?url=https%3A%2F%2Fcdn11.bigcommerce.com%2Fs-ycjcgspsys%2Fimages%2Fstencil%2F300w%2Fattribute_rule_images%2F166304_source_1684166140.jpg&w=1200&q=75',
-                    },
-                  ],
+                  referenceFileIds: [],
                 }}
                 renderContainer={props => (
                   <Dialog
@@ -123,9 +123,13 @@ const DesignRequestDraft = ({ designRequest }: Props) => {
 
 DesignRequestDraft.fragments = {
   designRequest: gql`
+    ${AdditionalInformationForm.fragments.designRequest}
     fragment DesignRequestDraftDesignRequestFragments on DesignRequest {
       id
       description
+      fileUploadDirectory
+      fileIds
+      ...AdditionalInformationFormDesignRequestFragment
     }
   `,
 }

@@ -15,6 +15,9 @@ scalar DateTime
 type DesignRequest {
   createdAt: DateTime!
   description: String
+  fileIds: [ID!]!
+  fileUploadDirectory: String!
+  files: [File!]!
   id: ID!
   name: String!
   status: DesignRequestStatus!
@@ -70,11 +73,101 @@ type DesignRequestSubmitPayload {
 input DesignRequestUpdateInput {
   description: String
   designRequestId: ID!
+  fileIds: [ID!]
   name: String
 }
 
 type DesignRequestUpdatePayload {
   designRequest: DesignRequest
+}
+
+interface File {
+  bytes: Int!
+  createdAt: DateTime!
+  fileType: FileType!
+  format: String!
+  humanizedBytes: String!
+  id: ID!
+  name: String!
+  organizationId: String
+  updatedAt: DateTime
+  url: String!
+  userId: String
+}
+
+input FileCreateBatchInput {
+  files: [FileCreateInput!]!
+}
+
+type FileCreateBatchPayload {
+  files: [File!]
+}
+
+input FileCreateInput {
+  bytes: Int!
+  cloudinaryAssetId: String
+  fileType: FileType!
+  format: String!
+  height: Int
+  name: String!
+  originalFilename: String!
+  url: String!
+  width: Int
+}
+
+type FileCreatePayload {
+  file: File
+}
+
+type FileImage implements File {
+  bytes: Int!
+  createdAt: DateTime!
+  fileType: FileType!
+  format: String!
+  height: Int!
+  humanizedBytes: String!
+  id: ID!
+  name: String!
+  organizationId: String
+  updatedAt: DateTime
+  url: String!
+  userId: String
+  width: Int!
+}
+
+type FilePdf implements File {
+  bytes: Int!
+  createdAt: DateTime!
+  fileType: FileType!
+  format: String!
+  humanizedBytes: String!
+  id: ID!
+  name: String!
+  organizationId: String
+  updatedAt: DateTime
+  url: String!
+  userId: String
+}
+
+enum FileType {
+  IMAGE
+  PDF
+  UNKNOWN
+  VIDEO
+}
+
+type FileUnknown implements File {
+  bytes: Int!
+  createdAt: DateTime!
+  fileType: FileType!
+  format: String!
+  humanizedBytes: String!
+  id: ID!
+  name: String!
+  organizationId: String
+  updatedAt: DateTime
+  url: String!
+  userId: String
 }
 
 type Fulfillment {
@@ -228,6 +321,8 @@ type Mutation {
   designRequestCreate(input: DesignRequestCreateInput!): DesignRequestCreatePayload
   designRequestSubmit(input: DesignRequestSubmitInput!): DesignRequestSubmitPayload
   designRequestUpdate(input: DesignRequestUpdateInput!): DesignRequestUpdatePayload
+  fileCreate(input: FileCreateInput!): FileCreatePayload
+  fileCreateBatch(input: FileCreateBatchInput!): FileCreateBatchPayload
   fulfillmentCreate(input: FulfillmentCreateInput!): FulfillmentCreatePayload
 
   """Creates a new mailing address for the user"""

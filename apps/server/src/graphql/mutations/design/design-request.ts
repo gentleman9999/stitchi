@@ -1,11 +1,5 @@
 import { GraphQLError } from 'graphql'
-import {
-  idArg,
-  inputObjectType,
-  mutationField,
-  nonNull,
-  objectType,
-} from 'nexus'
+import { inputObjectType, mutationField, nonNull, objectType } from 'nexus'
 import { notEmpty } from '../../../utils'
 import { designRequestFactoryToGrahpql } from '../../serializers/design'
 
@@ -34,12 +28,13 @@ export const designRequestCreate = mutationField('designRequestCreate', {
 
     try {
       designRequest = await design.createDesignRequest({
-        desingRequest: {
+        designRequest: {
           organizationId: organizationId || null,
           userId: userId || null,
           status: 'DRAFT',
           name: input.name || 'No name',
           description: input.description || null,
+          files: [],
         },
       })
     } catch (error) {
@@ -59,6 +54,7 @@ export const DesignRequestUpdateInput = inputObjectType({
     t.nonNull.id('designRequestId')
     t.nullable.string('name')
     t.nullable.string('description')
+    t.nullable.list.nonNull.id('fileIds')
   },
 })
 
@@ -104,6 +100,9 @@ export const designRequestUpdate = mutationField('designRequestUpdate', {
           status: foundDesignRequest.status,
           organizationId: foundDesignRequest.organizationId,
           userId: foundDesignRequest.userId,
+          files:
+            input.fileIds?.map(fileId => ({ fileId })) ||
+            foundDesignRequest.files.map(file => ({ fileId: file.id })),
         },
       })
     } catch (error) {

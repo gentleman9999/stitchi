@@ -1,8 +1,9 @@
 import { queryType } from 'nexus'
 
-export { viewer } from './viewer'
-export { products } from './product'
+export * from './viewer'
+export * from './product'
 export * from './design'
+export * from './file'
 export * from './order'
 export * from './fulfillment'
 export * from './payment'

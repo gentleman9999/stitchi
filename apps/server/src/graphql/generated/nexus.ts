@@ -52,7 +52,22 @@ export interface NexusGenInputs {
   DesignRequestUpdateInput: { // input type
     description?: string | null; // String
     designRequestId: string; // ID!
+    fileIds?: string[] | null; // [ID!]
     name?: string | null; // String
+  }
+  FileCreateBatchInput: { // input type
+    files: NexusGenInputs['FileCreateInput'][]; // [FileCreateInput!]!
+  }
+  FileCreateInput: { // input type
+    bytes: number; // Int!
+    cloudinaryAssetId?: string | null; // String
+    fileType: NexusGenEnums['FileType']; // FileType!
+    format: string; // String!
+    height?: number | null; // Int
+    name: string; // String!
+    originalFilename: string; // String!
+    url: string; // String!
+    width?: number | null; // Int
   }
   FulfillmentCreateInput: { // input type
     carrier: string; // String!
@@ -157,6 +172,7 @@ export interface NexusGenInputs {
 
 export interface NexusGenEnums {
   DesignRequestStatus: "APPROVED" | "AWAITING_APPROVAL" | "AWAITING_REVISION" | "DRAFT" | "REJECTED" | "SUBMITTED"
+  FileType: "IMAGE" | "PDF" | "UNKNOWN" | "VIDEO"
   GlobalRole: "CUSTOMER" | "SUPERADMIN"
   MembershipRole: "OWNER"
   OrderItemType: "BIG_COMMERCE_PRODUCT" | "CUSTOM"
@@ -177,6 +193,7 @@ export interface NexusGenObjects {
   DesignRequest: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     description?: string | null; // String
+    fileIds: string[]; // [ID!]!
     id: string; // ID!
     name: string; // String!
     status: NexusGenEnums['DesignRequestStatus']; // DesignRequestStatus!
@@ -198,6 +215,50 @@ export interface NexusGenObjects {
   }
   DesignRequestUpdatePayload: { // root type
     designRequest?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+  }
+  FileCreateBatchPayload: { // root type
+    files?: NexusGenRootTypes['File'][] | null; // [File!]
+  }
+  FileCreatePayload: { // root type
+    file?: NexusGenRootTypes['File'] | null; // File
+  }
+  FileImage: { // root type
+    bytes: number; // Int!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    fileType: NexusGenEnums['FileType']; // FileType!
+    format: string; // String!
+    height: number; // Int!
+    id: string; // ID!
+    name: string; // String!
+    organizationId?: string | null; // String
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    url: string; // String!
+    userId?: string | null; // String
+    width: number; // Int!
+  }
+  FilePdf: { // root type
+    bytes: number; // Int!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    fileType: NexusGenEnums['FileType']; // FileType!
+    format: string; // String!
+    id: string; // ID!
+    name: string; // String!
+    organizationId?: string | null; // String
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    url: string; // String!
+    userId?: string | null; // String
+  }
+  FileUnknown: { // root type
+    bytes: number; // Int!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    fileType: NexusGenEnums['FileType']; // FileType!
+    format: string; // String!
+    id: string; // ID!
+    name: string; // String!
+    organizationId?: string | null; // String
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    url: string; // String!
+    userId?: string | null; // String
   }
   Fulfillment: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -403,12 +464,13 @@ export interface NexusGenObjects {
 }
 
 export interface NexusGenInterfaces {
+  File: NexusGenRootTypes['FileImage'] | NexusGenRootTypes['FilePdf'] | NexusGenRootTypes['FileUnknown'];
 }
 
 export interface NexusGenUnions {
 }
 
-export type NexusGenRootTypes = NexusGenObjects
+export type NexusGenRootTypes = NexusGenInterfaces & NexusGenObjects
 
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
@@ -416,6 +478,9 @@ export interface NexusGenFieldTypes {
   DesignRequest: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     description: string | null; // String
+    fileIds: string[]; // [ID!]!
+    fileUploadDirectory: string; // String!
+    files: NexusGenRootTypes['File'][]; // [File!]!
     id: string; // ID!
     name: string; // String!
     status: NexusGenEnums['DesignRequestStatus']; // DesignRequestStatus!
@@ -437,6 +502,53 @@ export interface NexusGenFieldTypes {
   }
   DesignRequestUpdatePayload: { // field return type
     designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+  }
+  FileCreateBatchPayload: { // field return type
+    files: NexusGenRootTypes['File'][] | null; // [File!]
+  }
+  FileCreatePayload: { // field return type
+    file: NexusGenRootTypes['File'] | null; // File
+  }
+  FileImage: { // field return type
+    bytes: number; // Int!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    fileType: NexusGenEnums['FileType']; // FileType!
+    format: string; // String!
+    height: number; // Int!
+    humanizedBytes: string; // String!
+    id: string; // ID!
+    name: string; // String!
+    organizationId: string | null; // String
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    url: string; // String!
+    userId: string | null; // String
+    width: number; // Int!
+  }
+  FilePdf: { // field return type
+    bytes: number; // Int!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    fileType: NexusGenEnums['FileType']; // FileType!
+    format: string; // String!
+    humanizedBytes: string; // String!
+    id: string; // ID!
+    name: string; // String!
+    organizationId: string | null; // String
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    url: string; // String!
+    userId: string | null; // String
+  }
+  FileUnknown: { // field return type
+    bytes: number; // Int!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    fileType: NexusGenEnums['FileType']; // FileType!
+    format: string; // String!
+    humanizedBytes: string; // String!
+    id: string; // ID!
+    name: string; // String!
+    organizationId: string | null; // String
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    url: string; // String!
+    userId: string | null; // String
   }
   Fulfillment: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -509,6 +621,8 @@ export interface NexusGenFieldTypes {
     designRequestCreate: NexusGenRootTypes['DesignRequestCreatePayload'] | null; // DesignRequestCreatePayload
     designRequestSubmit: NexusGenRootTypes['DesignRequestSubmitPayload'] | null; // DesignRequestSubmitPayload
     designRequestUpdate: NexusGenRootTypes['DesignRequestUpdatePayload'] | null; // DesignRequestUpdatePayload
+    fileCreate: NexusGenRootTypes['FileCreatePayload'] | null; // FileCreatePayload
+    fileCreateBatch: NexusGenRootTypes['FileCreateBatchPayload'] | null; // FileCreateBatchPayload
     fulfillmentCreate: NexusGenRootTypes['FulfillmentCreatePayload'] | null; // FulfillmentCreatePayload
     mailingAddressCreate: NexusGenRootTypes['MailingAddressCreatePayload'] | null; // MailingAddressCreatePayload
     orderCartCreate: NexusGenRootTypes['OrderCartCreatePayload'] | null; // OrderCartCreatePayload
@@ -670,12 +784,28 @@ export interface NexusGenFieldTypes {
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     username: string | null; // String
   }
+  File: { // field return type
+    bytes: number; // Int!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    fileType: NexusGenEnums['FileType']; // FileType!
+    format: string; // String!
+    humanizedBytes: string; // String!
+    id: string; // ID!
+    name: string; // String!
+    organizationId: string | null; // String
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    url: string; // String!
+    userId: string | null; // String
+  }
 }
 
 export interface NexusGenFieldTypeNames {
   DesignRequest: { // field return type name
     createdAt: 'DateTime'
     description: 'String'
+    fileIds: 'ID'
+    fileUploadDirectory: 'String'
+    files: 'File'
     id: 'ID'
     name: 'String'
     status: 'DesignRequestStatus'
@@ -697,6 +827,53 @@ export interface NexusGenFieldTypeNames {
   }
   DesignRequestUpdatePayload: { // field return type name
     designRequest: 'DesignRequest'
+  }
+  FileCreateBatchPayload: { // field return type name
+    files: 'File'
+  }
+  FileCreatePayload: { // field return type name
+    file: 'File'
+  }
+  FileImage: { // field return type name
+    bytes: 'Int'
+    createdAt: 'DateTime'
+    fileType: 'FileType'
+    format: 'String'
+    height: 'Int'
+    humanizedBytes: 'String'
+    id: 'ID'
+    name: 'String'
+    organizationId: 'String'
+    updatedAt: 'DateTime'
+    url: 'String'
+    userId: 'String'
+    width: 'Int'
+  }
+  FilePdf: { // field return type name
+    bytes: 'Int'
+    createdAt: 'DateTime'
+    fileType: 'FileType'
+    format: 'String'
+    humanizedBytes: 'String'
+    id: 'ID'
+    name: 'String'
+    organizationId: 'String'
+    updatedAt: 'DateTime'
+    url: 'String'
+    userId: 'String'
+  }
+  FileUnknown: { // field return type name
+    bytes: 'Int'
+    createdAt: 'DateTime'
+    fileType: 'FileType'
+    format: 'String'
+    humanizedBytes: 'String'
+    id: 'ID'
+    name: 'String'
+    organizationId: 'String'
+    updatedAt: 'DateTime'
+    url: 'String'
+    userId: 'String'
   }
   Fulfillment: { // field return type name
     createdAt: 'DateTime'
@@ -769,6 +946,8 @@ export interface NexusGenFieldTypeNames {
     designRequestCreate: 'DesignRequestCreatePayload'
     designRequestSubmit: 'DesignRequestSubmitPayload'
     designRequestUpdate: 'DesignRequestUpdatePayload'
+    fileCreate: 'FileCreatePayload'
+    fileCreateBatch: 'FileCreateBatchPayload'
     fulfillmentCreate: 'FulfillmentCreatePayload'
     mailingAddressCreate: 'MailingAddressCreatePayload'
     orderCartCreate: 'OrderCartCreatePayload'
@@ -930,6 +1109,19 @@ export interface NexusGenFieldTypeNames {
     updatedAt: 'DateTime'
     username: 'String'
   }
+  File: { // field return type name
+    bytes: 'Int'
+    createdAt: 'DateTime'
+    fileType: 'FileType'
+    format: 'String'
+    humanizedBytes: 'String'
+    id: 'ID'
+    name: 'String'
+    organizationId: 'String'
+    updatedAt: 'DateTime'
+    url: 'String'
+    userId: 'String'
+  }
 }
 
 export interface NexusGenArgTypes {
@@ -958,6 +1150,12 @@ export interface NexusGenArgTypes {
     }
     designRequestUpdate: { // args
       input: NexusGenInputs['DesignRequestUpdateInput']; // DesignRequestUpdateInput!
+    }
+    fileCreate: { // args
+      input: NexusGenInputs['FileCreateInput']; // FileCreateInput!
+    }
+    fileCreateBatch: { // args
+      input: NexusGenInputs['FileCreateBatchInput']; // FileCreateBatchInput!
     }
     fulfillmentCreate: { // args
       input: NexusGenInputs['FulfillmentCreateInput']; // FulfillmentCreateInput!
@@ -999,9 +1197,13 @@ export interface NexusGenArgTypes {
 }
 
 export interface NexusGenAbstractTypeMembers {
+  File: "FileImage" | "FilePdf" | "FileUnknown"
 }
 
 export interface NexusGenTypeInterfaces {
+  FileImage: "File"
+  FilePdf: "File"
+  FileUnknown: "File"
 }
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
@@ -1010,7 +1212,7 @@ export type NexusGenInputNames = keyof NexusGenInputs;
 
 export type NexusGenEnumNames = keyof NexusGenEnums;
 
-export type NexusGenInterfaceNames = never;
+export type NexusGenInterfaceNames = keyof NexusGenInterfaces;
 
 export type NexusGenScalarNames = keyof NexusGenScalars;
 
@@ -1018,7 +1220,7 @@ export type NexusGenUnionNames = never;
 
 export type NexusGenObjectsUsingAbstractStrategyIsTypeOf = never;
 
-export type NexusGenAbstractsUsingStrategyResolveType = never;
+export type NexusGenAbstractsUsingStrategyResolveType = "File";
 
 export type NexusGenFeaturesConfig = {
   abstractTypeStrategies: {

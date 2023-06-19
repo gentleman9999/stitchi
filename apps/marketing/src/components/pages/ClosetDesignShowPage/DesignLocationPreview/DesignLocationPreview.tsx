@@ -6,7 +6,7 @@ interface DesignLocation {
   id: number
   placement: string
   description: string
-  referenceFiles: { type: string; url: string }[]
+  referenceFileIds: string[]
 }
 
 interface Props {
@@ -32,9 +32,9 @@ const DesignLocationPreview = ({ location, onRemove }: Props) => {
           Reference files
         </dt>
         <dd className="mt-1 text-sm font-semibold text-gray-700">
-          {location.referenceFiles.length ? (
+          {location.referenceFileIds.length ? (
             <>
-              {location.referenceFiles.map(file => (
+              {/* {location.referenceFileIds.map(file => (
                 <LinkInline
                   external
                   key={file.url}
@@ -46,7 +46,7 @@ const DesignLocationPreview = ({ location, onRemove }: Props) => {
                   </div>
                   <div className="line-clamp-1">{file.url}</div>
                 </LinkInline>
-              ))}
+              ))} */}
             </>
           ) : (
             <>No reference files</>

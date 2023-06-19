@@ -3,12 +3,23 @@ import {
   DesignRequest,
   DesignRequestTable,
   table as makeDesignRequestTable,
-} from '../db/design-request'
+} from '../db/design-request-table'
 import * as yup from 'yup'
 import { DesignFactoryDesignRequest, designRequestFactory } from '../factory'
 import { makeEvents } from '../events'
+import { DesignRequestFile } from '../db/design-request-file-table'
 
-const inputSchema = DesignRequest.omit(['createdAt', 'updatedAt'])
+const inputSchema = DesignRequest.omit(['createdAt', 'updatedAt']).concat(
+  yup
+    .object()
+    .shape({
+      files: yup
+        .array()
+        .of(DesignRequestFile.omit(['id', 'designRequestId']).required())
+        .required(),
+    })
+    .required(),
+)
 
 const prisma = new PrismaClient()
 
@@ -46,6 +57,9 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
         where: {
           id: validInput.id,
         },
+        include: {
+          DesignRequestFiles: true,
+        },
       })
 
       if (!existingDesignRequest) {
@@ -71,6 +85,15 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
           status: validInput.status,
           organizationId: validInput.organizationId,
           userId: validInput.userId,
+          DesignRequestFiles: {
+            create: validInput.files,
+            delete: existingDesignRequest.DesignRequestFiles.map(({ id }) => ({
+              id,
+            })),
+          },
+        },
+        include: {
+          DesignRequestFiles: true,
         },
       })
     } catch (error) {
@@ -82,9 +105,13 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
 
     const prevDesignRequest = designRequestFactory({
       designRequest: existingDesignRequest,
+      files: existingDesignRequest.DesignRequestFiles,
     })
 
-    const nextDesignRequest = designRequestFactory({ designRequest })
+    const nextDesignRequest = designRequestFactory({
+      designRequest,
+      files: designRequest.DesignRequestFiles,
+    })
 
     designEvents.emit({
       type: 'designRequest.updated',

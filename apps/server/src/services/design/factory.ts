@@ -1,5 +1,6 @@
 import { DesignLocationRecord } from './db/design-location-table'
-import { DesignRequestRecord } from './db/design-request'
+import { DesignRequestFileRecord } from './db/design-request-file-table'
+import { DesignRequestRecord } from './db/design-request-table'
 import { DesignRecord } from './db/design-table'
 
 interface DesignFactoryDesignLocation extends DesignLocationRecord {}
@@ -21,14 +22,20 @@ const designFactory = ({
   }
 }
 
-export interface DesignFactoryDesignRequest extends DesignRequestRecord {}
+interface DesignFactoryDesignRequestFile extends DesignRequestFileRecord {}
+
+export interface DesignFactoryDesignRequest extends DesignRequestRecord {
+  files: DesignFactoryDesignRequestFile[]
+}
 
 const designRequestFactory = ({
   designRequest,
+  files,
 }: {
   designRequest: DesignRequestRecord
+  files: DesignRequestFileRecord[]
 }): DesignFactoryDesignRequest => {
-  return { ...designRequest }
+  return { ...designRequest, files }
 }
 
 export { designFactory, designRequestFactory }
