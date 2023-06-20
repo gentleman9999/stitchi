@@ -1,5 +1,12 @@
 import { gql, useMutation } from '@apollo/client'
-import { DesignRequestUpdateInput } from '@generated/globalTypes'
+import {
+  DesignRequestDesignLocationDeleteInput,
+  DesignRequestUpdateInput,
+} from '@generated/globalTypes'
+import {
+  UseDesignRequestDraftRemoveDesignRequestLocationMutation,
+  UseDesignRequestDraftRemoveDesignRequestLocationMutationVariables,
+} from '@generated/UseDesignRequestDraftRemoveDesignRequestLocationMutation'
 import {
   UseDesignRequestDraftUpdateDesignRequestMutation,
   UseDesignRequestDraftUpdateDesignRequestMutationVariables,
@@ -20,6 +27,21 @@ const useDesignRequestDraft = ({ designRequestId }: Props) => {
   >(UPDATE_DESIGN_REQUEST, {
     update(cache, { data }) {
       const designRequest = data?.designRequestUpdate?.designRequest
+      if (designRequest) {
+        cache.evict({ id: cache.identify({ ...designRequest }) })
+        cache.gc()
+      }
+    },
+  })
+
+  const [removeDesignRequestLocation] = useMutation<
+    UseDesignRequestDraftRemoveDesignRequestLocationMutation,
+    UseDesignRequestDraftRemoveDesignRequestLocationMutationVariables
+  >(REMOVE_DESIGN_REQUEST_LOCATION, {
+    update(cache, { data }) {
+      const designRequest =
+        data?.designRequestDesignLocationDelete?.designRequest
+
       if (designRequest) {
         cache.evict({ id: cache.identify({ ...designRequest }) })
         cache.gc()
@@ -49,7 +71,27 @@ const useDesignRequestDraft = ({ designRequestId }: Props) => {
     { leading: true },
   )
 
-  return { handleUpdateDesignRequest }
+  const handleRemoveDesignRequestLocation = async (
+    input: Omit<DesignRequestDesignLocationDeleteInput, 'designRequestId'>,
+  ) => {
+    setSaving(true)
+    try {
+      await removeDesignRequestLocation({
+        variables: {
+          input: {
+            designRequestId,
+            ...input,
+          },
+        },
+      })
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return { handleUpdateDesignRequest, handleRemoveDesignRequestLocation }
 }
 
 const UPDATE_DESIGN_REQUEST = gql`
@@ -57,6 +99,18 @@ const UPDATE_DESIGN_REQUEST = gql`
     $input: DesignRequestUpdateInput!
   ) {
     designRequestUpdate(input: $input) {
+      designRequest {
+        id
+      }
+    }
+  }
+`
+
+const REMOVE_DESIGN_REQUEST_LOCATION = gql`
+  mutation UseDesignRequestDraftRemoveDesignRequestLocationMutation(
+    $input: DesignRequestDesignLocationDeleteInput!
+  ) {
+    designRequestDesignLocationDelete(input: $input) {
       designRequest {
         id
       }

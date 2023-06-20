@@ -5,8 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import ReferenceFilePreview from '../../ReferenceFilePreview'
-import ReferenceFilesInput from '../DesignLocationForm/ReferenceFilesInput'
+import ReferenceFilesInput from '../../ReferenceFilesInput/ReferenceFilesInput'
 
 const schema = yup.object().shape({
   description: yup.string().required().label('Description'),
@@ -27,7 +26,7 @@ interface Props {
   designRequest: AdditionalInformationFormDesignRequestFragment
 }
 
-const AdditionalInformationForm = ({
+const GeneralInformation = ({
   onSubmit,
   defaultValues,
   fileFolder,
@@ -73,7 +72,7 @@ const AdditionalInformationForm = ({
     <form onSubmit={handleSubmit}>
       <h2 className="text-2xl font-semibold leading-7">Overview</h2>
 
-      <div className="mt-6 grid grid-cols-1 gap-y-8">
+      <div className="mt-6 grid grid-cols-1 gap-y-12">
         <Controller
           name="description"
           control={form.control}
@@ -81,9 +80,14 @@ const AdditionalInformationForm = ({
           render={({ field, fieldState }) => (
             <InputGroup
               label="Describe your vision"
+              helperText="Provide detailed information in your description. The more specific you are, the more accurately we can bring your design vision to life."
               error={fieldState.error?.message}
             >
-              <TextField multiline {...field} />
+              <TextField
+                multiline
+                {...field}
+                placeholder='e.g. "Design for a t-shirt for our tech conference, with logo, `TechFest 2023`, futuristic theme, in blue and white."'
+              />
             </InputGroup>
           )}
         />
@@ -97,7 +101,10 @@ const AdditionalInformationForm = ({
               label="What will this be used for?"
               error={fieldState.error?.message}
             >
-              <TextField {...field} />
+              <TextField
+                {...field}
+                placeholder="e.g. band merch, employee carepackage, charity event"
+              />
             </InputGroup>
           )}
         />
@@ -106,48 +113,52 @@ const AdditionalInformationForm = ({
           optional
           label={
             <>
-              Additional reference files{' '}
+              Reference files{' '}
               <span className="text-gray-400">
                 (design files, logos, inspiration, etc...)
               </span>
             </>
           }
         >
-          <div className="flex flex-col gap-8">
-            <ReferenceFilesInput
-              form={form}
-              folder={fileFolder}
-              fieldName="referenceFileIds"
-            />
-
-            <ReferenceFilePreview
-              visibleFileIds={values.referenceFileIds}
-              designRequest={designRequest}
-              onDelete={id => {
-                form.setValue(
-                  'referenceFileIds',
-                  form
-                    .getValues('referenceFileIds')
-                    .filter(value => value !== id),
-                  { shouldDirty: true },
-                )
-              }}
-            />
-          </div>
+          <Controller
+            name="referenceFileIds"
+            control={form.control}
+            render={({ field }) => (
+              <ReferenceFilesInput
+                value={field.value}
+                onChange={field.onChange}
+                folder={fileFolder}
+                referenceFiles={designRequest.files.map(file => ({
+                  ...file,
+                  bytes: file.humanizedBytes,
+                }))}
+              />
+            )}
+          />
         </InputGroup>
       </div>
     </form>
   )
 }
 
-AdditionalInformationForm.fragments = {
+GeneralInformation.fragments = {
   designRequest: gql`
-    ${ReferenceFilePreview.fragments.designRequest}
     fragment AdditionalInformationFormDesignRequestFragment on DesignRequest {
       id
-      ...ReferenceFilePreviewDesignRequestFragment
+      files {
+        id
+        humanizedBytes
+        name
+        url
+        fileType
+
+        ... on FileImage {
+          width
+          height
+        }
+      }
     }
   `,
 }
 
-export default AdditionalInformationForm
+export default GeneralInformation

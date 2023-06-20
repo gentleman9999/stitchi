@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { FileType } from "./globalTypes";
+
 // ====================================================
 // GraphQL fragment: AdditionalInformationFormDesignRequestFragment
 // ====================================================
@@ -10,17 +12,19 @@
 export interface AdditionalInformationFormDesignRequestFragment_files_FileUnknown {
   __typename: "FileUnknown" | "FilePdf";
   id: string;
-  url: string;
-  name: string;
   humanizedBytes: string;
+  name: string;
+  url: string;
+  fileType: FileType;
 }
 
 export interface AdditionalInformationFormDesignRequestFragment_files_FileImage {
   __typename: "FileImage";
   id: string;
-  url: string;
-  name: string;
   humanizedBytes: string;
+  name: string;
+  url: string;
+  fileType: FileType;
   width: number;
   height: number;
 }

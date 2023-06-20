@@ -1,22 +1,60 @@
-import { LinkInline } from '@components/ui'
-import { Link, XIcon } from 'icons'
+import { gql } from '@apollo/client'
+import { Button, LoadingDots } from '@components/ui'
+import { DesignLocationPreviewDesignLocationFragment } from '@generated/DesignLocationPreviewDesignLocationFragment'
 import React from 'react'
-
-interface DesignLocation {
-  id: number
-  placement: string
-  description: string
-  referenceFileIds: string[]
-}
+import ReferenceFilesPreview from '../ReferenceFilePreview'
 
 interface Props {
-  location: DesignLocation
-  onRemove?: () => void
+  location: DesignLocationPreviewDesignLocationFragment
+  onRemove?: () => Promise<void> | void
+  onUpdate?: () => Promise<void> | void
+  defaultExpanded?: boolean
 }
 
-const DesignLocationPreview = ({ location, onRemove }: Props) => {
+const DesignLocationPreview = ({
+  location,
+  onRemove,
+  onUpdate,
+  defaultExpanded = true,
+}: Props) => {
+  const [expanded, setExpanded] = React.useState(defaultExpanded)
+  const [removing, setRemoving] = React.useState(false)
+  const [updating, setUpdating] = React.useState(false)
+
+  const handleRemove = async () => {
+    setRemoving(true)
+    await onRemove?.()
+    setRemoving(false)
+  }
+
+  const handleUpdate = async () => {
+    setUpdating(true)
+    await onUpdate?.()
+    setUpdating(false)
+  }
+
+  if (!expanded) {
+    return (
+      <div className="relative rounded-md ring-1 ring-gray-900/5 shadow-sm">
+        <div className="px-4 py-2">
+          <div className="flex justify-between items-center">
+            <span className="text-sm font-semibold">{location.placement}</span>
+            <Button
+              slim
+              onClick={() => setExpanded(true)}
+              variant="naked"
+              className="!text-sm !no-underline hover:!underline"
+            >
+              Show
+            </Button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className="relative rounded-lg  ring-1 ring-gray-900/5 shadow-sm">
+    <div className="relative rounded-md ring-1 ring-gray-900/5 shadow-sm">
       <dl className="flex flex-wrap">
         <div className="flex-auto pl-6 pt-6">
           <dt className="font-semibold leading-6 text-gray-900">
@@ -32,43 +70,73 @@ const DesignLocationPreview = ({ location, onRemove }: Props) => {
           Reference files
         </dt>
         <dd className="mt-1 text-sm font-semibold text-gray-700">
-          {location.referenceFileIds.length ? (
-            <>
-              {/* {location.referenceFileIds.map(file => (
-                <LinkInline
-                  external
-                  key={file.url}
-                  href={file.url}
-                  className="flex items-center gap-1"
-                >
-                  <div>
-                    <Link className="w-4 h-4 stroke-2" />
-                  </div>
-                  <div className="line-clamp-1">{file.url}</div>
-                </LinkInline>
-              ))} */}
-            </>
+          {location.files.length ? (
+            <ReferenceFilesPreview
+              files={location.files.map(file => ({
+                ...file,
+                bytes: file.humanizedBytes,
+              }))}
+            />
           ) : (
-            <>No reference files</>
+            <span className="text-gray-500 font-normal">
+              No reference files
+            </span>
           )}
         </dd>
       </dl>
 
-      <div className="mt-6 border-t border-gray-900/5 grid grid-cols-2 divide-x">
-        {onRemove && (
-          <button
-            className="py-4 px-6 text-sm font-semibold leading-6 text-gray-900"
-            onClick={onRemove}
-          >
-            Remove
-          </button>
-        )}
-        <button className="py-4 px-6 text-sm font-semibold leading-6 text-gray-900">
-          Modify <span aria-hidden="true">&rarr;</span>
-        </button>
-      </div>
+      {onRemove || onUpdate ? (
+        <div className="mt-6 border-t border-gray-900/5 grid grid-cols-2 divide-x">
+          {onRemove && (
+            <button
+              className="py-4 px-6 text-sm font-semibold leading-6 text-gray-900"
+              onClick={handleRemove}
+            >
+              {removing ? <LoadingDots /> : <>Remove</>}
+            </button>
+          )}
+          {onUpdate && (
+            <button
+              className="py-4 px-6 text-sm font-semibold leading-6 text-gray-900"
+              onClick={handleUpdate}
+            >
+              {updating ? (
+                <LoadingDots />
+              ) : (
+                <>
+                  Modify <span aria-hidden="true">&rarr;</span>
+                </>
+              )}
+            </button>
+          )}
+        </div>
+      ) : (
+        <div className="mt-6" />
+      )}
     </div>
   )
+}
+
+DesignLocationPreview.fragments = {
+  designLocation: gql`
+    fragment DesignLocationPreviewDesignLocationFragment on DesignRequestDesignLocation {
+      id
+      description
+      placement
+      files {
+        id
+        humanizedBytes
+        name
+        url
+        fileType
+
+        ... on FileImage {
+          width
+          height
+        }
+      }
+    }
+  `,
 }
 
 export default DesignLocationPreview

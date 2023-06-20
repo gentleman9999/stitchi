@@ -32,9 +32,10 @@ model File {
 
   format String
 
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  DesignRequestFile DesignRequestFile[]
+  createdAt                      DateTime                          @default(now())
+  updatedAt                      DateTime                          @updatedAt
+  DesignRequestFile              DesignRequestFile[]
+  DesignRequestPrintLocationFile DesignRequestDesignLocationFile[]
 }
 
 enum FileType {
@@ -352,14 +353,16 @@ model DesignRequest {
   // The description of the design request
   description String? @db.Text
 
+  metadata Json?
+
   // The status of the design request
   status DesignRequestStatus @default(DRAFT)
 
-  printLocations DesignRequestPrintLocation[]
+  designLocations DesignRequestDesignLocation[]
 
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
-  DesignRequestFiles DesignRequestFile[]
+  designRequestFiles DesignRequestFile[]
 }
 
 enum DesignRequestStatus {
@@ -377,19 +380,6 @@ enum DesignRequestStatus {
   REJECTED
 }
 
-model DesignRequestPrintLocation {
-  id String @id @default(uuid())
-
-  designRequestId String
-
-  // The description of the print location
-  description String? @db.Text
-
-  DesignRequest DesignRequest @relation(fields: [designRequestId], references: [id])
-
-  @@index([designRequestId])
-}
-
 model DesignRequestFile {
   id String @id @default(uuid())
 
@@ -397,10 +387,40 @@ model DesignRequestFile {
   designRequestId String
   fileId          String
 
-  DesignRequest DesignRequest @relation(fields: [designRequestId], references: [id])
-  File          File          @relation(fields: [fileId], references: [id])
+  designRequest DesignRequest @relation(fields: [designRequestId], references: [id])
+  file          File          @relation(fields: [fileId], references: [id])
 
   @@index([designRequestId])
+  @@index([fileId])
+}
+
+model DesignRequestDesignLocation {
+  id String @id @default(uuid())
+
+  designRequestId String
+
+  // The description of the print location
+  description String? @db.Text
+
+  placement String?
+
+  designRequest                    DesignRequest                     @relation(fields: [designRequestId], references: [id])
+  designRequestDesignLocationFiles DesignRequestDesignLocationFile[]
+
+  @@index([designRequestId])
+}
+
+model DesignRequestDesignLocationFile {
+  id String @id @default(uuid())
+
+  // The design request print location that this file belongs to
+  designRequestDesignLocationId String
+  fileId                        String
+
+  designRequestPrintLocation DesignRequestDesignLocation @relation(fields: [designRequestDesignLocationId], references: [id], onDelete: Cascade)
+  File                       File                        @relation(fields: [fileId], references: [id])
+
+  @@index([designRequestDesignLocationId])
   @@index([fileId])
 }
 

@@ -28,7 +28,12 @@ const makeGetDesignRequest: MakeGetDesignRequestFn =
         id: input.designRequestId,
       },
       include: {
-        DesignRequestFiles: true,
+        designRequestFiles: true,
+        designLocations: {
+          include: {
+            designRequestDesignLocationFiles: true,
+          },
+        },
       },
     })
 
@@ -38,7 +43,11 @@ const makeGetDesignRequest: MakeGetDesignRequestFn =
 
     return designRequestFactory({
       designRequest,
-      files: designRequest.DesignRequestFiles,
+      files: designRequest.designRequestFiles,
+      designLocations: designRequest.designLocations,
+      designLocationFiles: designRequest.designLocations.flatMap(
+        designLocation => designLocation.designRequestDesignLocationFiles,
+      ),
     })
   }
 

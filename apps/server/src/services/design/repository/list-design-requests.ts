@@ -28,7 +28,12 @@ const makeListDesignRequests: MakeListDesignRequestsFn =
       designRequestRecords = await designRequestTable.findMany({
         ...input,
         include: {
-          DesignRequestFiles: true,
+          designRequestFiles: true,
+          designLocations: {
+            include: {
+              designRequestDesignLocationFiles: true,
+            },
+          },
         },
       })
     } catch (error) {
@@ -41,7 +46,11 @@ const makeListDesignRequests: MakeListDesignRequestsFn =
     return designRequestRecords.map(designRequest =>
       designRequestFactory({
         designRequest,
-        files: designRequest.DesignRequestFiles,
+        files: designRequest.designRequestFiles,
+        designLocations: designRequest.designLocations,
+        designLocationFiles: designRequest.designLocations.flatMap(
+          designLocation => designLocation.designRequestDesignLocationFiles,
+        ),
       }),
     )
   }

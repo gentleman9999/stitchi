@@ -8,6 +8,36 @@ import * as yup from 'yup'
 import { DesignFactoryDesignRequest, designRequestFactory } from '../factory'
 import { makeEvents } from '../events'
 import { DesignRequestFile } from '../db/design-request-file-table'
+import { DesignRequestDesignLocation } from '../db/design-request-design-location-table'
+import { DesignRequestDesignLocationFile } from '../db/design-request-design-location-file-table'
+
+const filesInputSchema = yup
+  .array()
+  .of(
+    DesignRequestDesignLocationFile.omit([
+      'id',
+      'designRequestDesignLocationId',
+    ])
+      .concat(
+        yup.object().shape({
+          // If ID, update, otherwise create
+          id: yup.string().uuid().optional(),
+        }),
+      )
+      .required(),
+  )
+  .required()
+
+const designLocationinputSchema = DesignRequestDesignLocation.omit([
+  'id',
+  'designRequestId',
+]).concat(
+  yup.object().shape({
+    // If ID, update, otherwise create
+    id: yup.string().uuid().optional(),
+    files: filesInputSchema.required(),
+  }),
+)
 
 const inputSchema = DesignRequest.omit(['createdAt', 'updatedAt']).concat(
   yup
@@ -15,7 +45,20 @@ const inputSchema = DesignRequest.omit(['createdAt', 'updatedAt']).concat(
     .shape({
       files: yup
         .array()
-        .of(DesignRequestFile.omit(['id', 'designRequestId']).required())
+        .of(
+          DesignRequestFile.omit(['id', 'designRequestId'])
+            .concat(
+              yup.object().shape({
+                // If ID, update, otherwise create
+                id: yup.string().uuid().optional(),
+              }),
+            )
+            .required(),
+        )
+        .required(),
+      designLocations: yup
+        .array()
+        .of(designLocationinputSchema.required())
         .required(),
     })
     .required(),
@@ -29,7 +72,7 @@ interface UpdateDesignRequestConfig {
 }
 
 export interface UpdateDesignRequestFnInput {
-  desingRequest: yup.InferType<typeof inputSchema>
+  designRequest: yup.InferType<typeof inputSchema>
 }
 
 type UpdateDesignRequestFn = (
@@ -48,7 +91,7 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
     },
   ) =>
   async input => {
-    const validInput = await inputSchema.validate(input.desingRequest)
+    const validInput = await inputSchema.validate(input.designRequest)
 
     let existingDesignRequest
 
@@ -58,7 +101,12 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
           id: validInput.id,
         },
         include: {
-          DesignRequestFiles: true,
+          designRequestFiles: true,
+          designLocations: {
+            include: {
+              designRequestDesignLocationFiles: true,
+            },
+          },
         },
       })
 
@@ -71,6 +119,15 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
       })
       throw new Error('Failed to find design request')
     }
+
+    const locationsToCreate = validInput.designLocations.filter(({ id }) => !id)
+    const locationsToUpdate = validInput.designLocations.filter(({ id }) => id)
+    const locationsToDelete = existingDesignRequest.designLocations.filter(
+      ({ id }) =>
+        !validInput.designLocations.some(location => location.id === id),
+    )
+
+    const existingDesignTsHack = { ...existingDesignRequest }
 
     let designRequest
 
@@ -85,32 +142,101 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
           status: validInput.status,
           organizationId: validInput.organizationId,
           userId: validInput.userId,
-          DesignRequestFiles: {
-            create: validInput.files,
-            delete: existingDesignRequest.DesignRequestFiles.map(({ id }) => ({
+          metadata: validInput.metadata || undefined,
+          designRequestFiles: {
+            create: validInput.files.map(file => ({
+              fileId: file.fileId,
+            })),
+            delete: existingDesignRequest.designRequestFiles.map(({ id }) => ({
               id,
             })),
           },
+          designLocations: {
+            create: locationsToCreate.map(({ files, ...location }) => {
+              return {
+                description: location.description || undefined,
+                placement: location.placement || undefined,
+                designRequestDesignLocationFiles: {
+                  create: files.map(file => ({
+                    fileId: file.fileId,
+                  })),
+                },
+              }
+            }),
+            update: locationsToUpdate.map(({ id, ...rest }) => {
+              const { files, ...location } = rest
+
+              const existingLocation =
+                existingDesignTsHack.designLocations.find(
+                  ({ id: locationId }) => locationId === id,
+                )
+
+              const filesToCreate = files.filter(({ id }) => !id)
+              const filesToUpdate = files.filter(({ id }) => id)
+              const filesToDelete =
+                existingLocation?.designRequestDesignLocationFiles.filter(
+                  ({ id }) => !files.some(file => file.id === id),
+                )
+
+              return {
+                data: {
+                  description: location.description,
+                  placement: location.placement,
+                  designRequestDesignLocationFiles: {
+                    create: filesToCreate.map(file => ({
+                      fileId: file.fileId,
+                    })),
+                    update: filesToUpdate.map(({ id, ...rest }) => {
+                      return {
+                        where: { id },
+                        data: {
+                          fileId: rest.fileId,
+                        },
+                      }
+                    }),
+                    delete: filesToDelete?.map(({ id }) => ({ id })),
+                  },
+                },
+                where: { id },
+              }
+            }),
+            delete: locationsToDelete.map(({ id }) => ({ id })),
+          },
         },
         include: {
-          DesignRequestFiles: true,
+          designRequestFiles: true,
+          designLocations: {
+            include: {
+              designRequestDesignLocationFiles: true,
+            },
+          },
         },
       })
     } catch (error) {
-      console.error(`Failed to create design request: ${input}`, {
+      console.error(`Failed to update design request: ${input}`, {
         context: { error, input },
       })
-      throw new Error('Failed to create design request')
+      throw new Error('Failed to update design request')
     }
 
     const prevDesignRequest = designRequestFactory({
       designRequest: existingDesignRequest,
-      files: existingDesignRequest.DesignRequestFiles,
+      files: existingDesignRequest.designRequestFiles,
+      designLocations: existingDesignRequest.designLocations,
+      designLocationFiles: existingDesignRequest.designLocations.flatMap(
+        ({ designRequestDesignLocationFiles }) =>
+          designRequestDesignLocationFiles,
+      ),
     })
 
     const nextDesignRequest = designRequestFactory({
       designRequest,
-      files: designRequest.DesignRequestFiles,
+      files: designRequest.designRequestFiles,
+      designLocations: designRequest.designLocations,
+      designLocationFiles: designRequest.designLocations.flatMap(
+        ({ designRequestDesignLocationFiles }) =>
+          designRequestDesignLocationFiles,
+      ),
     })
 
     designEvents.emit({

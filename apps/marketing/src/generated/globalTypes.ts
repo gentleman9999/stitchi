@@ -113,6 +113,26 @@ export interface DateFilterInput {
   lte?: string | null;
 }
 
+export interface DesignRequestDesignLocationCreateInput {
+  designRequestId: string;
+  description?: string | null;
+  placement: string;
+  fileIds: string[];
+}
+
+export interface DesignRequestDesignLocationDeleteInput {
+  designRequestId: string;
+  designRequestDesignLocationId: string;
+}
+
+export interface DesignRequestDesignLocationUpdateInput {
+  designRequestId: string;
+  designRequestDesignLocationId: string;
+  description?: string | null;
+  placement?: string | null;
+  fileIds: string[];
+}
+
 export interface DesignRequestSubmitInput {
   designRequestId: string;
 }
@@ -121,6 +141,7 @@ export interface DesignRequestUpdateInput {
   designRequestId: string;
   name?: string | null;
   description?: string | null;
+  useCase?: string | null;
   fileIds?: string[] | null;
 }
 

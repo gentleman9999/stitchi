@@ -18,6 +18,7 @@ export const DesignRequest = objectType({
     t.nonNull.id('id')
     t.nonNull.string('name')
     t.nullable.string('description')
+    t.nullable.string('useCase')
 
     t.nonNull.string('fileUploadDirectory', {
       resolve: root => {
@@ -28,6 +29,10 @@ export const DesignRequest = objectType({
     t.nonNull.field('status', { type: 'DesignRequestStatus' })
 
     t.nonNull.list.nonNull.id('fileIds')
+    t.nonNull.list.nonNull.id('designLocationIds')
+    t.nonNull.list.nonNull.field('designLocations', {
+      type: 'DesignRequestDesignLocation',
+    })
 
     t.nonNull.DateTime('createdAt')
     t.nullable.DateTime('updatedAt')

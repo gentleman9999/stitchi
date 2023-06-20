@@ -1,46 +1,41 @@
 import { Button, Dialog, InputGroup } from '@components/ui'
 import React, { useState } from 'react'
 import AddDesignLocationButton from './AddDesignLocationButton'
-import AdditionalInformationForm from './AdditionalInformationForm'
-import DesignLocationForm, {
-  Props as DesignLocationFormProps,
-} from './DesignLocationForm/DesignLocationForm'
+import GeneralInformation from './GeneralInformation'
+import DesignLocationForm from './DesignLocationForm/DesignLocationForm'
 import DesignLocationPreview from '../DesignLocationPreview'
 import useDesignRequestDraft from './useDesignRequestDraft'
 import { gql } from '@apollo/client'
 import { DesignRequestDraftDesignRequestFragments } from '@generated/DesignRequestDraftDesignRequestFragments'
-
-interface DesignLocation {
-  id: number
-  placement: string
-  description: string
-  referenceFileIds: string[]
-}
 
 interface Props {
   designRequest: DesignRequestDraftDesignRequestFragments
 }
 
 const DesignRequestDraft = ({ designRequest }: Props) => {
-  const { handleUpdateDesignRequest } = useDesignRequestDraft({
-    designRequestId: designRequest.id,
-  })
+  const { handleUpdateDesignRequest, handleRemoveDesignRequestLocation } =
+    useDesignRequestDraft({
+      designRequestId: designRequest.id,
+    })
 
-  const [showLocationForm, setShowLocationForm] = useState(false)
-  const [designLocations, setDesignLocations] = useState<DesignLocation[]>([])
+  const [locationForm, setLocationForm] = useState<boolean | string>(false)
 
-  const handleAddDesignLocation: DesignLocationFormProps['onSubmit'] = data => {
-    setShowLocationForm(false)
-    setDesignLocations(prev => [...prev, { ...data, id: prev.length + 1 }])
+  const handleAddDesignLocation = () => {
+    setLocationForm(false)
   }
+
+  const activeLocation = designRequest.designLocations.find(
+    location => location.id === locationForm,
+  )
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
       <div>
-        <AdditionalInformationForm
+        <GeneralInformation
           designRequest={designRequest}
           fileFolder={designRequest.fileUploadDirectory}
           defaultValues={{
+            useCase: designRequest.useCase || undefined,
             description: designRequest.description || undefined,
             referenceFileIds: designRequest.fileIds || [],
           }}
@@ -48,6 +43,7 @@ const DesignRequestDraft = ({ designRequest }: Props) => {
             handleUpdateDesignRequest({
               fileIds: input.referenceFileIds,
               description: input.description,
+              useCase: input.useCase,
             })
           }
         />
@@ -57,51 +53,51 @@ const DesignRequestDraft = ({ designRequest }: Props) => {
         <div>
           <h2 className="text-2xl font-semibold leading-7">Design locations</h2>
           <div className="mt-10 grid grid-cols-1 gap-y-8">
-            {designLocations.map((location, index) => (
+            {designRequest.designLocations.map(location => (
               <DesignLocationPreview
                 key={location.id}
                 location={location}
-                onRemove={() => {
-                  setDesignLocations(prev => {
-                    const newLocations = [...prev]
-                    newLocations.splice(index, 1)
-                    return newLocations
+                onRemove={async () =>
+                  handleRemoveDesignRequestLocation({
+                    designRequestDesignLocationId: location.id,
                   })
-                }}
+                }
+                onUpdate={() => setLocationForm(location.id)}
               />
             ))}
 
-            {showLocationForm ? (
+            {locationForm ? (
               <DesignLocationForm
+                designRequestId={designRequest.id}
+                designLocation={activeLocation}
                 fileFolder={designRequest.fileUploadDirectory}
                 onSubmit={handleAddDesignLocation}
-                defaultValues={{
-                  placement: 'Front',
-                  description:
-                    'Design on the front of the shirt. Design on the front of the shirt. Design on the front of the shirt. Design on the front of the shirt.',
-                  referenceFileIds: [],
-                }}
                 renderContainer={props => (
                   <Dialog
                     open
                     mobileFullScreen
-                    onClose={() => setShowLocationForm(false)}
+                    onClose={() => setLocationForm(false)}
                   >
                     <Dialog.Title className="flex items-center justify-between">
-                      Add design location
+                      {activeLocation ? 'Update' : 'Add'} design location
                       <Button
                         slim
                         variant="naked"
                         className="!text-sm"
-                        onClick={() => setShowLocationForm(false)}
+                        onClick={() => setLocationForm(false)}
                       >
                         Cancel
                       </Button>
                     </Dialog.Title>
                     <Dialog.Content dividers>{props.children}</Dialog.Content>
                     <Dialog.Actions className="flex justify-end">
-                      <Button color="brandPrimary" onClick={props.onSubmit}>
-                        Add location
+                      <Button
+                        slim
+                        color="brandPrimary"
+                        onClick={props.onSubmit}
+                        loading={props.loading}
+                      >
+                        {activeLocation ? 'Update' : 'Add'} location
                       </Button>
                     </Dialog.Actions>
                   </Dialog>
@@ -110,7 +106,7 @@ const DesignRequestDraft = ({ designRequest }: Props) => {
             ) : (
               <InputGroup>
                 <AddDesignLocationButton
-                  onClick={() => setShowLocationForm(true)}
+                  onClick={() => setLocationForm(true)}
                 />
               </InputGroup>
             )}
@@ -123,12 +119,23 @@ const DesignRequestDraft = ({ designRequest }: Props) => {
 
 DesignRequestDraft.fragments = {
   designRequest: gql`
-    ${AdditionalInformationForm.fragments.designRequest}
+    ${GeneralInformation.fragments.designRequest}
+    ${DesignLocationPreview.fragments.designLocation}
+    ${DesignLocationForm.fragments.designLocation}
     fragment DesignRequestDraftDesignRequestFragments on DesignRequest {
       id
       description
       fileUploadDirectory
+      useCase
       fileIds
+      designLocations {
+        id
+        description
+        placement
+        fileIds
+        ...DesignLocationPreviewDesignLocationFragment
+        ...DesignLocationFormDesignLocationFragment
+      }
       ...AdditionalInformationFormDesignRequestFragment
     }
   `,

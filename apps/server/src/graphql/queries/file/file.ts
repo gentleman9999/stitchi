@@ -16,3 +16,19 @@ export const FileExtendsDesignRequest = extendType({
     })
   },
 })
+
+export const FileExtendsDesignRequestDesignLocation = extendType({
+  type: 'DesignRequestDesignLocation',
+  definition(t) {
+    t.nonNull.list.nonNull.field('files', {
+      type: 'File',
+      resolve: async (designRequestDesignLocation, _, ctx) => {
+        const files = await ctx.file.listFiles({
+          where: { id: { in: designRequestDesignLocation.fileIds } },
+        })
+
+        return files.map(fileFactoryToGrahpql)
+      },
+    })
+  },
+})

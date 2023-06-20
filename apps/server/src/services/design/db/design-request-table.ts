@@ -1,8 +1,20 @@
 import {
   PrismaClient,
-  DesignRequest as DesignRequestSchema,
+  DesignRequest as DesignRequestBaseSchema,
 } from '@prisma/client'
 import * as yup from 'yup'
+
+export const DesignRequestMetadata = yup
+  .object()
+  .shape({
+    useCase: yup.string().optional(),
+  })
+  .nullable()
+
+interface DesignRequestSchema
+  extends Omit<DesignRequestBaseSchema, 'metadata'> {
+  metadata: yup.InferType<typeof DesignRequestMetadata>
+}
 
 export enum DesignRequestStatus {
   DRAFT = 'DRAFT',
@@ -22,6 +34,8 @@ export const DesignRequest: yup.ObjectSchema<DesignRequestSchema> = yup
 
     name: yup.string().required(),
     description: yup.string().nullable().defined(),
+
+    metadata: DesignRequestMetadata,
 
     status: yup
       .mixed<DesignRequestStatus>()

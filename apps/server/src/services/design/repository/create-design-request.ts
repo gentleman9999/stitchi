@@ -7,6 +7,32 @@ import {
 import * as yup from 'yup'
 import { DesignFactoryDesignRequest, designRequestFactory } from '../factory'
 import { DesignRequestFile } from '../db/design-request-file-table'
+import { DesignRequestDesignLocation } from '../db/design-request-design-location-table'
+import { DesignRequestDesignLocationFile } from '../db/design-request-design-location-file-table'
+
+const filesInputSchema = yup
+  .array()
+  .of(
+    DesignRequestDesignLocationFile.omit([
+      'id',
+      'designRequestDesignLocationId',
+    ]).required(),
+  )
+  .required()
+
+const designLocationInputSchema = DesignRequestDesignLocation.omit([
+  'id',
+  'designRequestId',
+])
+  .concat(
+    yup
+      .object()
+      .shape({
+        files: filesInputSchema,
+      })
+      .required(),
+  )
+  .required()
 
 const inputSchema = DesignRequest.omit(['id', 'createdAt', 'updatedAt']).concat(
   yup
@@ -15,6 +41,10 @@ const inputSchema = DesignRequest.omit(['id', 'createdAt', 'updatedAt']).concat(
       files: yup
         .array()
         .of(DesignRequestFile.omit(['id', 'designRequestId']).required())
+        .required(),
+      designLocations: yup
+        .array()
+        .of(designLocationInputSchema.required())
         .required(),
     })
     .required(),
@@ -57,16 +87,37 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
           name: validInput.name,
           description: validInput.description,
           status: validInput.status,
-          DesignRequestFiles: {
+          metadata: validInput.metadata || undefined,
+          designRequestFiles: {
             createMany: {
               data: validInput.files.map(file => ({
                 fileId: file.fileId,
               })),
             },
           },
+          designLocations: {
+            createMany: {
+              data: validInput.designLocations.map(designLocation => ({
+                description: designLocation.description,
+                placement: designLocation.placement,
+                designRequestDesignLocationFiles: {
+                  createMany: {
+                    data: designLocation.files.map(file => ({
+                      fileId: file.fileId,
+                    })),
+                  },
+                },
+              })),
+            },
+          },
         },
         include: {
-          DesignRequestFiles: true,
+          designRequestFiles: true,
+          designLocations: {
+            include: {
+              designRequestDesignLocationFiles: true,
+            },
+          },
         },
       })
     } catch (error) {
@@ -78,7 +129,11 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
 
     return designRequestFactory({
       designRequest,
-      files: designRequest.DesignRequestFiles,
+      files: designRequest.designRequestFiles,
+      designLocations: designRequest.designLocations,
+      designLocationFiles: designRequest.designLocations.flatMap(
+        designLocation => designLocation.designRequestDesignLocationFiles,
+      ),
     })
   }
 

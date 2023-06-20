@@ -8,6 +8,7 @@ export const DesignRequestCreateInput = inputObjectType({
   definition(t) {
     t.nullable.string('name')
     t.nullable.string('description')
+    t.nullable.string('useCase')
   },
 })
 
@@ -34,7 +35,11 @@ export const designRequestCreate = mutationField('designRequestCreate', {
           status: 'DRAFT',
           name: input.name || 'No name',
           description: input.description || null,
+          metadata: {
+            useCase: input.useCase || undefined,
+          },
           files: [],
+          designLocations: [],
         },
       })
     } catch (error) {
@@ -54,6 +59,7 @@ export const DesignRequestUpdateInput = inputObjectType({
     t.nonNull.id('designRequestId')
     t.nullable.string('name')
     t.nullable.string('description')
+    t.nullable.string('useCase')
     t.nullable.list.nonNull.id('fileIds')
   },
 })
@@ -93,16 +99,21 @@ export const designRequestUpdate = mutationField('designRequestUpdate', {
 
     try {
       designRequest = await design.updateDesignRequest({
-        desingRequest: {
+        designRequest: {
           id: foundDesignRequest.id,
           description: input.description || foundDesignRequest.description,
           name: input.name || foundDesignRequest.name,
           status: foundDesignRequest.status,
           organizationId: foundDesignRequest.organizationId,
           userId: foundDesignRequest.userId,
+          metadata: {
+            useCase: input.useCase || foundDesignRequest.metadata?.useCase,
+          },
           files:
             input.fileIds?.map(fileId => ({ fileId })) ||
             foundDesignRequest.files.map(file => ({ fileId: file.id })),
+          // We provided dedicated mutations for adding and removing design locations
+          designLocations: foundDesignRequest.designLocations,
         },
       })
     } catch (error) {
@@ -157,7 +168,7 @@ export const designRequestSubmit = mutationField('designRequestSubmit', {
 
     try {
       designRequest = await design.updateDesignRequest({
-        desingRequest: {
+        designRequest: {
           ...foundDesignRequest,
           status: 'SUBMITTED',
         },

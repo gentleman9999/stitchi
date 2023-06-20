@@ -8,9 +8,10 @@ interface Props {
   folder: string
   fileIds: string[]
   onChange: (fileIds: string[]) => void
+  keepUploadStatus?: boolean
 }
 
-const FileInput = ({ folder, fileIds, onChange }: Props) => {
+const FileInput = ({ folder, fileIds, onChange, keepUploadStatus }: Props) => {
   const [isDragging, setIsDragging] = React.useState(false)
   const { handleUpload, uploadingFiles } = useFileUpload()
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -110,37 +111,35 @@ const FileInput = ({ folder, fileIds, onChange }: Props) => {
         </div>
       </div>
 
-      <div>
-        <AnimatePresence>
-          {uploadingFiles.map(file =>
-            file.pctComplete === 1 ? null : (
-              <motion.div
-                key={file.fileName}
-                className="flex items-center justify-between gap-4"
-                initial={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                <span className="text-sm font-medium text-gray-900">
-                  {file.fileName}
+      <AnimatePresence>
+        {uploadingFiles.map(file =>
+          file.pctComplete === 1 && !keepUploadStatus ? null : (
+            <motion.div
+              key={file.fileName}
+              className="flex items-center justify-between gap-4"
+              initial={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <span className="text-sm font-medium text-gray-900">
+                {file.fileName}
+              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-medium">
+                  {(file.pctComplete * 100).toFixed()}%
                 </span>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-medium">
-                    {(file.pctComplete * 100).toFixed()}%
-                  </span>
-                  <span className="relative ml-auto text-sm bg-gray-100 w-[150px] h-2 rounded-full overflow-hidden">
-                    <span
-                      className="absolute inset-0 bg-primary transition-all"
-                      style={{
-                        width: `${file.pctComplete * 100}%`,
-                      }}
-                    />
-                  </span>
-                </div>
-              </motion.div>
-            ),
-          )}
-        </AnimatePresence>
-      </div>
+                <span className="relative ml-auto text-sm bg-gray-100 w-[150px] h-2 rounded-full overflow-hidden">
+                  <span
+                    className="absolute inset-0 bg-primary transition-all"
+                    style={{
+                      width: `${file.pctComplete * 100}%`,
+                    }}
+                  />
+                </span>
+              </div>
+            </motion.div>
+          ),
+        )}
+      </AnimatePresence>
     </>
   )
 }

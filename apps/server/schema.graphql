@@ -15,6 +15,8 @@ scalar DateTime
 type DesignRequest {
   createdAt: DateTime!
   description: String
+  designLocationIds: [ID!]!
+  designLocations: [DesignRequestDesignLocation!]!
   fileIds: [ID!]!
   fileUploadDirectory: String!
   files: [File!]!
@@ -22,6 +24,7 @@ type DesignRequest {
   name: String!
   status: DesignRequestStatus!
   updatedAt: DateTime
+  useCase: String
 }
 
 type DesignRequestConnection {
@@ -39,10 +42,54 @@ type DesignRequestConnection {
 input DesignRequestCreateInput {
   description: String
   name: String
+  useCase: String
 }
 
 type DesignRequestCreatePayload {
   designRequest: DesignRequest
+}
+
+type DesignRequestDesignLocation {
+  description: String
+  fileIds: [ID!]!
+  fileUploadDirectory: String!
+  files: [File!]!
+  id: ID!
+  placement: String
+}
+
+input DesignRequestDesignLocationCreateInput {
+  description: String
+  designRequestId: ID!
+  fileIds: [ID!]!
+  placement: String!
+}
+
+type DesignRequestDesignLocationCreatePayload {
+  designRequest: DesignRequest
+  designRequestDesignLocation: DesignRequestDesignLocation
+}
+
+input DesignRequestDesignLocationDeleteInput {
+  designRequestDesignLocationId: ID!
+  designRequestId: ID!
+}
+
+type DesignRequestDesignLocationDeletePayload {
+  designRequest: DesignRequest
+}
+
+input DesignRequestDesignLocationUpdateInput {
+  description: String
+  designRequestDesignLocationId: ID!
+  designRequestId: ID!
+  fileIds: [ID!]!
+  placement: String
+}
+
+type DesignRequestDesignLocationUpdatePayload {
+  designRequest: DesignRequest
+  designRequestDesignLocation: DesignRequestDesignLocation
 }
 
 type DesignRequestEdge {
@@ -75,6 +122,7 @@ input DesignRequestUpdateInput {
   designRequestId: ID!
   fileIds: [ID!]
   name: String
+  useCase: String
 }
 
 type DesignRequestUpdatePayload {
@@ -319,6 +367,9 @@ enum MembershipRole {
 
 type Mutation {
   designRequestCreate(input: DesignRequestCreateInput!): DesignRequestCreatePayload
+  designRequestDesignLocationCreate(input: DesignRequestDesignLocationCreateInput!): DesignRequestDesignLocationCreatePayload
+  designRequestDesignLocationDelete(input: DesignRequestDesignLocationDeleteInput!): DesignRequestDesignLocationDeletePayload
+  designRequestDesignLocationUpdate(input: DesignRequestDesignLocationUpdateInput!): DesignRequestDesignLocationUpdatePayload
   designRequestSubmit(input: DesignRequestSubmitInput!): DesignRequestSubmitPayload
   designRequestUpdate(input: DesignRequestUpdateInput!): DesignRequestUpdatePayload
   fileCreate(input: FileCreateInput!): FileCreatePayload

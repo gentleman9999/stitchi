@@ -4,12 +4,16 @@ import * as RadioGroup from '@radix-ui/react-radio-group'
 import * as yup from 'yup'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import ReferenceFilesInput from './ReferenceFilesInput'
+import ReferenceFilesInput from '../../ReferenceFilesInput/ReferenceFilesInput'
+import useDesignLocationForm from './useDesignLocationForm'
+import { gql } from '@apollo/client'
+import { DesignLocationFormDesignLocationFragment } from '@generated/DesignLocationFormDesignLocationFragment'
 
 const schema = yup.object().shape({
-  placement: yup.string().required(),
-  description: yup.string().required(),
-  referenceFileIds: yup.array().of(yup.string().required()).required(),
+  id: yup.string().optional().defined(),
+  placement: yup.string().defined(),
+  description: yup.string().defined(),
+  fileIds: yup.array().of(yup.string().required()).required(),
 })
 
 export type FormValues = yup.InferType<typeof schema>
@@ -25,18 +29,29 @@ const locations = [
 
 export interface Props {
   fileFolder: string
-  onSubmit: (data: FormValues) => void
-  defaultValues?: Partial<FormValues>
+  designRequestId: string
+  designLocation?: DesignLocationFormDesignLocationFragment
+  onSubmit: () => void
   renderContainer?: (props: {
     children: React.ReactNode
+    loading: boolean
     onSubmit: () => void
   }) => React.ReactNode
 }
 
 const DesignLocationForm = (props: Props) => {
+  const { handleLocationChange, loading } = useDesignLocationForm({
+    designRequestId: props.designRequestId,
+  })
+
   const form = useForm<FormValues>({
     resolver: yupResolver(schema),
-    defaultValues: props.defaultValues,
+    defaultValues: {
+      placement: props.designLocation?.placement || '',
+      description: props.designLocation?.description || '',
+      fileIds: props.designLocation?.fileIds || [],
+      id: props.designLocation?.id || undefined,
+    },
   })
 
   const { setFocus } = form
@@ -45,23 +60,31 @@ const DesignLocationForm = (props: Props) => {
     setFocus('description')
   }, [setFocus])
 
-  const handleSubmit = form.handleSubmit(data => {
-    props.onSubmit(data)
+  const handleSubmit = form.handleSubmit(async data => {
+    await handleLocationChange({
+      designRequestDesignLocationId: data.id,
+      fileIds: data.fileIds,
+      description: data.description,
+      placement: data.placement,
+    })
+
+    props.onSubmit()
   })
 
   const renderContainer =
     props.renderContainer ?? (props => <>{props.children}</>)
 
+  const fileIds = form.watch('fileIds')
+
   return (
     <form onSubmit={handleSubmit}>
+      <input hidden readOnly {...form.register('id')} />
+
       {renderContainer({
+        loading,
         onSubmit: handleSubmit,
         children: (
           <div className="flex flex-col gap-8">
-            <h2 className="text-2xl font-semibold leading-loose">
-              Add design location
-            </h2>
-
             <Controller
               name="placement"
               control={form.control}
@@ -118,10 +141,23 @@ const DesignLocationForm = (props: Props) => {
                 </>
               }
             >
-              <ReferenceFilesInput
-                form={form}
-                folder={props.fileFolder}
-                fieldName="referenceFileIds"
+              <Controller
+                name="fileIds"
+                control={form.control}
+                render={({ field }) => (
+                  <ReferenceFilesInput
+                    keepUploadStatus
+                    folder={props.fileFolder}
+                    value={field.value}
+                    onChange={field.onChange}
+                    referenceFiles={
+                      props.designLocation?.files.map(file => ({
+                        ...file,
+                        bytes: file.humanizedBytes,
+                      })) || []
+                    }
+                  />
+                )}
               />
             </InputGroup>
           </div>
@@ -129,6 +165,24 @@ const DesignLocationForm = (props: Props) => {
       })}
     </form>
   )
+}
+
+DesignLocationForm.fragments = {
+  designLocation: gql`
+    fragment DesignLocationFormDesignLocationFragment on DesignRequestDesignLocation {
+      id
+      placement
+      description
+      fileIds
+      files {
+        id
+        humanizedBytes
+        fileType
+        url
+        name
+      }
+    }
+  `,
 }
 
 export default DesignLocationForm

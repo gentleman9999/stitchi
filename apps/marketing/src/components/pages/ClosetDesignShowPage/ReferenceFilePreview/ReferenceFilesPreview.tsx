@@ -1,49 +1,66 @@
-import { gql } from '@apollo/client'
 import { Button } from '@components/ui'
-import { ReferenceFilePreviewDesignRequestFragment } from '@generated/ReferenceFilePreviewDesignRequestFragment'
+import { FileType } from '@generated/globalTypes'
 import { PaperClip } from 'icons'
 import React from 'react'
 
+interface File {
+  fileType: FileType
+  id: string
+  url: string
+  name: string
+  bytes: string
+}
+
+interface ImageFile extends File {
+  fileType: FileType.IMAGE
+  width: number
+  height: number
+}
+
+interface PdfFile extends File {
+  fileType: FileType.PDF
+}
+
+export type ReferenceFile = ImageFile | PdfFile | File
+
 interface Props {
-  designRequest: ReferenceFilePreviewDesignRequestFragment
+  files: ReferenceFile[]
   onDelete?: (fileId: string) => void
   visibleFileIds?: string[]
 }
 
-const ReferenceFilesPreview = ({
-  designRequest,
-  onDelete,
-  visibleFileIds,
-}: Props) => {
+const ReferenceFilesPreview = ({ files, onDelete, visibleFileIds }: Props) => {
+  if (!files.length) {
+    return null
+  }
+
   return (
-    <div className="flex flex-col border rounded-lg divide-y">
-      {designRequest.files
+    <div className="flex flex-col border rounded-lg divide-y overflow-hidden">
+      {files
         .filter(file =>
           visibleFileIds?.length ? visibleFileIds.includes(file.id) : true,
         )
         .map(file => {
           let Icon
 
-          switch (file.__typename) {
-            case 'FileImage':
+          switch (file.fileType) {
+            case FileType.IMAGE:
               Icon = (
-                <div>
-                  <img
-                    src={file.url}
-                    alt={file.name}
-                    className="w-[50px] max-h-10 object-contain"
-                  />
-                </div>
+                <img
+                  src={file.url}
+                  alt={file.name}
+                  className="w-[50px] h-12 object-contain rounded-md overflow-hidden"
+                />
               )
 
               break
 
-            case 'FilePdf':
+            case FileType.PDF:
               Icon = (
                 <img
                   src={file.url.replace('.pdf', '.jpg')}
                   alt={file.name}
-                  className="w-[50px] max-h-10 object-contain"
+                  className="w-[50px] h-12 object-contain rounded-md overflow-hidden"
                 />
               )
               break
@@ -59,13 +76,13 @@ const ReferenceFilesPreview = ({
           return (
             <div
               key={file.id}
-              className="p-4 flex items-center justify-between gap-4"
+              className="pl-1 pr-4 py-1 flex items-center justify-between gap-4"
             >
               <div className="flex items-center gap-4 text-sm">
                 {Icon}
                 <div>
                   <span className="font-medium">{file.name}</span>{' '}
-                  <span className="text-gray-400">{file.humanizedBytes}</span>
+                  <span className="text-gray-400">{file.bytes}</span>
                 </div>
               </div>
 
@@ -97,25 +114,6 @@ const ReferenceFilesPreview = ({
         })}
     </div>
   )
-}
-
-ReferenceFilesPreview.fragments = {
-  designRequest: gql`
-    fragment ReferenceFilePreviewDesignRequestFragment on DesignRequest {
-      id
-      files {
-        id
-        url
-        name
-        humanizedBytes
-
-        ... on FileImage {
-          width
-          height
-        }
-      }
-    }
-  `,
 }
 
 export default ReferenceFilesPreview
