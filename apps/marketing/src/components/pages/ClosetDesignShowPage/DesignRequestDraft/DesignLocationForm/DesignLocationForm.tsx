@@ -11,8 +11,8 @@ import { DesignLocationFormDesignLocationFragment } from '@generated/DesignLocat
 
 const schema = yup.object().shape({
   id: yup.string().optional().defined(),
-  placement: yup.string().defined(),
-  description: yup.string().defined(),
+  placement: yup.string().required().label('Placement'),
+  description: yup.string().defined().label('Description'),
   fileIds: yup.array().of(yup.string().required()).required(),
 })
 
@@ -73,8 +73,6 @@ const DesignLocationForm = (props: Props) => {
 
   const renderContainer =
     props.renderContainer ?? (props => <>{props.children}</>)
-
-  const fileIds = form.watch('fileIds')
 
   return (
     <form onSubmit={handleSubmit}>

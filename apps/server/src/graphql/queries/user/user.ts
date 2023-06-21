@@ -1,0 +1,72 @@
+import { GraphQLError } from 'graphql'
+import { extendType } from 'nexus'
+import { auth0UserToGraphl } from '../../serializers/user'
+
+export const UserExtendsConversationMessage = extendType({
+  type: 'ConversationMessage',
+  definition(t) {
+    t.nullable.field('sender', {
+      type: 'User',
+      resolve: async (coversationMessage, _, ctx) => {
+        let user
+
+        try {
+          user = await ctx.auth0.getUser({ id: coversationMessage.senderId })
+        } catch (error) {
+          console.error(error)
+          throw new GraphQLError('Unable to fetch user')
+        }
+
+        return auth0UserToGraphl(user)
+      },
+    })
+  },
+})
+
+export const UserExtendsMembership = extendType({
+  type: 'Membership',
+  definition(t) {
+    t.field('user', {
+      type: 'User',
+      resolve: async (membership, _, ctx) => {
+        let user
+
+        try {
+          user = await ctx.auth0.getUser({ id: membership.userId })
+        } catch (error) {
+          console.error(error)
+          throw new GraphQLError('Unable to fetch user')
+        }
+
+        return auth0UserToGraphl(user)
+      },
+    })
+  },
+})
+
+export const UserExtendsDesignRequestHistoryItemDesignRequestEvent = extendType(
+  {
+    type: 'DesignRequestHistoryItemDesignRequestEvent',
+    definition(t) {
+      t.nullable.field('user', {
+        type: 'User',
+        resolve: async (designRequestHistoryItemDesignRequestEvent, _, ctx) => {
+          if (!designRequestHistoryItemDesignRequestEvent.userId) return null
+
+          let user
+
+          try {
+            user = await ctx.auth0.getUser({
+              id: designRequestHistoryItemDesignRequestEvent.userId,
+            })
+          } catch (error) {
+            console.error(error)
+            throw new GraphQLError('Unable to fetch user')
+          }
+
+          return auth0UserToGraphl(user)
+        },
+      })
+    },
+  },
+)

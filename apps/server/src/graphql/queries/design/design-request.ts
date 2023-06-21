@@ -8,7 +8,10 @@ import {
   queryField,
 } from 'nexus'
 import { notEmpty } from '../../../utils'
+import { NexusGenObjects } from '../../generated/nexus'
+import { conversationMessageFactoryToGraphQl } from '../../serializers/conversation'
 import { designRequestFactoryToGrahpql } from '../../serializers/design'
+import * as uuid from 'uuid'
 
 export const designRequest = queryField('designRequest', {
   type: 'DesignRequest',
@@ -94,6 +97,41 @@ export const DesignRequestsExtendsMembership = extendType({
         )
 
         return connection
+      },
+    })
+  },
+})
+
+export const ExtendDesignRequests = extendType({
+  type: 'DesignRequest',
+  definition(t) {
+    t.nonNull.list.nonNull.field('history', {
+      type: 'DesignRequestHistoryItem',
+      resolve: async (parent, _, ctx) => {
+        const desingRequestEvents: NexusGenObjects['DesignRequestHistoryItemDesignRequestEvent'][] =
+          [
+            {
+              id: uuid.v4(),
+              method: 'CREATE',
+              timestamp: parent.createdAt,
+              userId: parent.userId,
+            },
+          ]
+
+        const messages = Array.from({ length: 2 }).map((_, i) =>
+          conversationMessageFactoryToGraphQl(i),
+        )
+
+        const historyItems = [...desingRequestEvents, ...messages].sort(
+          (a, b) => {
+            const aTimestamp = 'timestamp' in a ? a.timestamp : a.createdAt
+            const bTimestamp = 'timestamp' in b ? b.timestamp : b.createdAt
+
+            return bTimestamp - aTimestamp
+          },
+        )
+
+        return historyItems
       },
     })
   },

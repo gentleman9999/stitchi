@@ -1,23 +1,16 @@
 import { gql } from '@apollo/client'
-import { Button, LoadingDots } from '@components/ui'
+import { LoadingDots } from '@components/ui'
 import { DesignLocationPreviewDesignLocationFragment } from '@generated/DesignLocationPreviewDesignLocationFragment'
 import React from 'react'
-import ReferenceFilesPreview from '../ReferenceFilePreview'
+import ReferenceFilesPreview from '../../ReferenceFilePreview'
 
 interface Props {
   location: DesignLocationPreviewDesignLocationFragment
   onRemove?: () => Promise<void> | void
   onUpdate?: () => Promise<void> | void
-  defaultExpanded?: boolean
 }
 
-const DesignLocationPreview = ({
-  location,
-  onRemove,
-  onUpdate,
-  defaultExpanded = true,
-}: Props) => {
-  const [expanded, setExpanded] = React.useState(defaultExpanded)
+const DesignLocationPreview = ({ location, onRemove, onUpdate }: Props) => {
   const [removing, setRemoving] = React.useState(false)
   const [updating, setUpdating] = React.useState(false)
 
@@ -33,30 +26,10 @@ const DesignLocationPreview = ({
     setUpdating(false)
   }
 
-  if (!expanded) {
-    return (
-      <div className="relative rounded-md ring-1 ring-gray-900/5 shadow-sm">
-        <div className="px-4 py-2">
-          <div className="flex justify-between items-center">
-            <span className="text-sm font-semibold">{location.placement}</span>
-            <Button
-              slim
-              onClick={() => setExpanded(true)}
-              variant="naked"
-              className="!text-sm !no-underline hover:!underline"
-            >
-              Show
-            </Button>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="relative rounded-md ring-1 ring-gray-900/5 shadow-sm">
       <dl className="flex flex-wrap">
-        <div className="flex-auto pl-6 pt-6">
+        <div className="flex-auto px-6 pt-6">
           <dt className="font-semibold leading-6 text-gray-900">
             {location.placement}
           </dt>

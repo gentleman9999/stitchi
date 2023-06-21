@@ -34,6 +34,10 @@ export enum ArticleModelOrderBy {
   updatedAt_DESC = "updatedAt_DESC",
 }
 
+export enum DesignRequestHistoryItemDesignRequestEventMethod {
+  CREATE = "CREATE",
+}
+
 export enum DesignRequestStatus {
   APPROVED = "APPROVED",
   AWAITING_APPROVAL = "AWAITING_APPROVAL",

@@ -3,11 +3,43 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { DesignRequestStatus, FileType } from "./globalTypes";
+import { DesignRequestStatus, DesignRequestHistoryItemDesignRequestEventMethod, FileType } from "./globalTypes";
 
 // ====================================================
 // GraphQL query operation: ClosetDesignShowPageGetDataQuery
 // ====================================================
+
+export interface ClosetDesignShowPageGetDataQuery_designRequest_history_ConversationMessage_sender {
+  __typename: "User";
+  id: string | null;
+  picture: string | null;
+  name: string | null;
+}
+
+export interface ClosetDesignShowPageGetDataQuery_designRequest_history_ConversationMessage {
+  __typename: "ConversationMessage";
+  id: string;
+  content: string;
+  createdAt: any;
+  sender: ClosetDesignShowPageGetDataQuery_designRequest_history_ConversationMessage_sender | null;
+}
+
+export interface ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestHistoryItemDesignRequestEvent_user {
+  __typename: "User";
+  id: string | null;
+  name: string | null;
+  picture: string | null;
+}
+
+export interface ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestHistoryItemDesignRequestEvent {
+  __typename: "DesignRequestHistoryItemDesignRequestEvent";
+  id: string;
+  timestamp: any;
+  method: DesignRequestHistoryItemDesignRequestEventMethod;
+  user: ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestHistoryItemDesignRequestEvent_user | null;
+}
+
+export type ClosetDesignShowPageGetDataQuery_designRequest_history = ClosetDesignShowPageGetDataQuery_designRequest_history_ConversationMessage | ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestHistoryItemDesignRequestEvent;
 
 export interface ClosetDesignShowPageGetDataQuery_designRequest_designLocations_files_FileUnknown {
   __typename: "FileUnknown" | "FilePdf";
@@ -68,6 +100,7 @@ export interface ClosetDesignShowPageGetDataQuery_designRequest {
   name: string;
   status: DesignRequestStatus;
   description: string | null;
+  history: ClosetDesignShowPageGetDataQuery_designRequest_history[];
   useCase: string | null;
   designLocations: ClosetDesignShowPageGetDataQuery_designRequest_designLocations[];
   fileUploadDirectory: string;

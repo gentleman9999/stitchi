@@ -2,6 +2,20 @@
 ### Do not make changes to this file directly
 
 
+type Conversation {
+  id: ID!
+  messages: [ConversationMessage!]!
+}
+
+type ConversationMessage {
+  content: String!
+  conversationId: ID!
+  createdAt: DateTime!
+  id: ID!
+  sender: User
+  senderId: ID!
+}
+
 input DateFilterInput {
   gte: String
   lte: String
@@ -20,11 +34,13 @@ type DesignRequest {
   fileIds: [ID!]!
   fileUploadDirectory: String!
   files: [File!]!
+  history: [DesignRequestHistoryItem!]!
   id: ID!
   name: String!
   status: DesignRequestStatus!
   updatedAt: DateTime
   useCase: String
+  userId: ID
 }
 
 type DesignRequestConnection {
@@ -98,6 +114,20 @@ type DesignRequestEdge {
 
   """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
   node: DesignRequest
+}
+
+union DesignRequestHistoryItem = ConversationMessage | DesignRequestHistoryItemDesignRequestEvent
+
+type DesignRequestHistoryItemDesignRequestEvent {
+  id: ID!
+  method: DesignRequestHistoryItemDesignRequestEventMethod!
+  timestamp: DateTime!
+  user: User
+  userId: ID
+}
+
+enum DesignRequestHistoryItemDesignRequestEventMethod {
+  CREATE
 }
 
 enum DesignRequestStatus {

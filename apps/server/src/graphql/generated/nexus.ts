@@ -190,6 +190,7 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
+  DesignRequestHistoryItemDesignRequestEventMethod: "CREATE"
   DesignRequestStatus: "APPROVED" | "AWAITING_APPROVAL" | "AWAITING_REVISION" | "DRAFT" | "REJECTED" | "SUBMITTED"
   FileType: "IMAGE" | "PDF" | "UNKNOWN" | "VIDEO"
   GlobalRole: "CUSTOMER" | "SUPERADMIN"
@@ -209,6 +210,17 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Conversation: { // root type
+    id: string; // ID!
+    messages: NexusGenRootTypes['ConversationMessage'][]; // [ConversationMessage!]!
+  }
+  ConversationMessage: { // root type
+    content: string; // String!
+    conversationId: string; // ID!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    senderId: string; // ID!
+  }
   DesignRequest: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     description?: string | null; // String
@@ -220,6 +232,7 @@ export interface NexusGenObjects {
     status: NexusGenEnums['DesignRequestStatus']; // DesignRequestStatus!
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     useCase?: string | null; // String
+    userId?: string | null; // ID
   }
   DesignRequestConnection: { // root type
     edges?: Array<NexusGenRootTypes['DesignRequestEdge'] | null> | null; // [DesignRequestEdge]
@@ -248,6 +261,12 @@ export interface NexusGenObjects {
   DesignRequestEdge: { // root type
     cursor?: string | null; // String
     node?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+  }
+  DesignRequestHistoryItemDesignRequestEvent: { // root type
+    id: string; // ID!
+    method: NexusGenEnums['DesignRequestHistoryItemDesignRequestEventMethod']; // DesignRequestHistoryItemDesignRequestEventMethod!
+    timestamp: NexusGenScalars['DateTime']; // DateTime!
+    userId?: string | null; // ID
   }
   DesignRequestSubmitPayload: { // root type
     designRequest?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
@@ -507,13 +526,26 @@ export interface NexusGenInterfaces {
 }
 
 export interface NexusGenUnions {
+  DesignRequestHistoryItem: NexusGenRootTypes['ConversationMessage'] | NexusGenRootTypes['DesignRequestHistoryItemDesignRequestEvent'];
 }
 
-export type NexusGenRootTypes = NexusGenInterfaces & NexusGenObjects
+export type NexusGenRootTypes = NexusGenInterfaces & NexusGenObjects & NexusGenUnions
 
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  Conversation: { // field return type
+    id: string; // ID!
+    messages: NexusGenRootTypes['ConversationMessage'][]; // [ConversationMessage!]!
+  }
+  ConversationMessage: { // field return type
+    content: string; // String!
+    conversationId: string; // ID!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    sender: NexusGenRootTypes['User'] | null; // User
+    senderId: string; // ID!
+  }
   DesignRequest: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     description: string | null; // String
@@ -522,11 +554,13 @@ export interface NexusGenFieldTypes {
     fileIds: string[]; // [ID!]!
     fileUploadDirectory: string; // String!
     files: NexusGenRootTypes['File'][]; // [File!]!
+    history: NexusGenRootTypes['DesignRequestHistoryItem'][]; // [DesignRequestHistoryItem!]!
     id: string; // ID!
     name: string; // String!
     status: NexusGenEnums['DesignRequestStatus']; // DesignRequestStatus!
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     useCase: string | null; // String
+    userId: string | null; // ID
   }
   DesignRequestConnection: { // field return type
     edges: Array<NexusGenRootTypes['DesignRequestEdge'] | null> | null; // [DesignRequestEdge]
@@ -557,6 +591,13 @@ export interface NexusGenFieldTypes {
   DesignRequestEdge: { // field return type
     cursor: string | null; // String
     node: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+  }
+  DesignRequestHistoryItemDesignRequestEvent: { // field return type
+    id: string; // ID!
+    method: NexusGenEnums['DesignRequestHistoryItemDesignRequestEventMethod']; // DesignRequestHistoryItemDesignRequestEventMethod!
+    timestamp: NexusGenScalars['DateTime']; // DateTime!
+    user: NexusGenRootTypes['User'] | null; // User
+    userId: string | null; // ID
   }
   DesignRequestSubmitPayload: { // field return type
     designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
@@ -864,6 +905,18 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  Conversation: { // field return type name
+    id: 'ID'
+    messages: 'ConversationMessage'
+  }
+  ConversationMessage: { // field return type name
+    content: 'String'
+    conversationId: 'ID'
+    createdAt: 'DateTime'
+    id: 'ID'
+    sender: 'User'
+    senderId: 'ID'
+  }
   DesignRequest: { // field return type name
     createdAt: 'DateTime'
     description: 'String'
@@ -872,11 +925,13 @@ export interface NexusGenFieldTypeNames {
     fileIds: 'ID'
     fileUploadDirectory: 'String'
     files: 'File'
+    history: 'DesignRequestHistoryItem'
     id: 'ID'
     name: 'String'
     status: 'DesignRequestStatus'
     updatedAt: 'DateTime'
     useCase: 'String'
+    userId: 'ID'
   }
   DesignRequestConnection: { // field return type name
     edges: 'DesignRequestEdge'
@@ -907,6 +962,13 @@ export interface NexusGenFieldTypeNames {
   DesignRequestEdge: { // field return type name
     cursor: 'String'
     node: 'DesignRequest'
+  }
+  DesignRequestHistoryItemDesignRequestEvent: { // field return type name
+    id: 'ID'
+    method: 'DesignRequestHistoryItemDesignRequestEventMethod'
+    timestamp: 'DateTime'
+    user: 'User'
+    userId: 'ID'
   }
   DesignRequestSubmitPayload: { // field return type name
     designRequest: 'DesignRequest'
@@ -1295,6 +1357,7 @@ export interface NexusGenArgTypes {
 }
 
 export interface NexusGenAbstractTypeMembers {
+  DesignRequestHistoryItem: "ConversationMessage" | "DesignRequestHistoryItemDesignRequestEvent"
   File: "FileImage" | "FilePdf" | "FileUnknown"
 }
 
@@ -1314,11 +1377,11 @@ export type NexusGenInterfaceNames = keyof NexusGenInterfaces;
 
 export type NexusGenScalarNames = keyof NexusGenScalars;
 
-export type NexusGenUnionNames = never;
+export type NexusGenUnionNames = keyof NexusGenUnions;
 
 export type NexusGenObjectsUsingAbstractStrategyIsTypeOf = never;
 
-export type NexusGenAbstractsUsingStrategyResolveType = "File";
+export type NexusGenAbstractsUsingStrategyResolveType = "DesignRequestHistoryItem" | "File";
 
 export type NexusGenFeaturesConfig = {
   abstractTypeStrategies: {

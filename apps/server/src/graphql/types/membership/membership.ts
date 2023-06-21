@@ -21,13 +21,5 @@ export const Membership = objectType({
         })
       },
     })
-
-    t.field('user', {
-      type: 'User',
-      resolve: async (membership, _, ctx) => {
-        const user = await ctx.auth0.getUser({ id: membership.userId })
-        return { ...user, id: user.user_id }
-      },
-    })
   },
 })

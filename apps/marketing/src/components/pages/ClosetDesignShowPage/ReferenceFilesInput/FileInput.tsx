@@ -96,6 +96,7 @@ const FileInput = ({ folder, fileIds, onChange, keepUploadStatus }: Props) => {
               >
                 <span>Upload a file</span>
                 <input
+                  multiple
                   type="file"
                   className="sr-only"
                   ref={fileInputRef}
