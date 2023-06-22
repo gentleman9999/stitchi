@@ -21,6 +21,7 @@ export interface DesignRequestSubmittedDesignRequestFragment_history_Conversatio
   id: string;
   content: string;
   createdAt: any;
+  viewerIsSender: boolean;
   sender: DesignRequestSubmittedDesignRequestFragment_history_ConversationMessage_sender | null;
 }
 
@@ -39,7 +40,21 @@ export interface DesignRequestSubmittedDesignRequestFragment_history_DesignReque
   user: DesignRequestSubmittedDesignRequestFragment_history_DesignRequestHistoryItemDesignRequestEvent_user | null;
 }
 
-export type DesignRequestSubmittedDesignRequestFragment_history = DesignRequestSubmittedDesignRequestFragment_history_ConversationMessage | DesignRequestSubmittedDesignRequestFragment_history_DesignRequestHistoryItemDesignRequestEvent;
+export interface DesignRequestSubmittedDesignRequestFragment_history_DesignRequestProof_artist {
+  __typename: "User";
+  id: string | null;
+  name: string | null;
+}
+
+export interface DesignRequestSubmittedDesignRequestFragment_history_DesignRequestProof {
+  __typename: "DesignRequestProof";
+  id: string;
+  createdAt: any;
+  artistNote: string | null;
+  artist: DesignRequestSubmittedDesignRequestFragment_history_DesignRequestProof_artist | null;
+}
+
+export type DesignRequestSubmittedDesignRequestFragment_history = DesignRequestSubmittedDesignRequestFragment_history_ConversationMessage | DesignRequestSubmittedDesignRequestFragment_history_DesignRequestHistoryItemDesignRequestEvent | DesignRequestSubmittedDesignRequestFragment_history_DesignRequestProof;
 
 export interface DesignRequestSubmittedDesignRequestFragment_designLocations_files_FileUnknown {
   __typename: "FileUnknown" | "FilePdf";
@@ -71,6 +86,13 @@ export interface DesignRequestSubmittedDesignRequestFragment_designLocations {
   files: DesignRequestSubmittedDesignRequestFragment_designLocations_files[];
 }
 
+export interface DesignRequestSubmittedDesignRequestFragment_user {
+  __typename: "User";
+  id: string | null;
+  name: string | null;
+  picture: string | null;
+}
+
 export interface DesignRequestSubmittedDesignRequestFragment {
   __typename: "DesignRequest";
   id: string;
@@ -78,4 +100,5 @@ export interface DesignRequestSubmittedDesignRequestFragment {
   description: string | null;
   useCase: string | null;
   designLocations: DesignRequestSubmittedDesignRequestFragment_designLocations[];
+  user: DesignRequestSubmittedDesignRequestFragment_user | null;
 }

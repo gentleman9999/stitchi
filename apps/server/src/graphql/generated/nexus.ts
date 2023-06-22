@@ -220,6 +220,7 @@ export interface NexusGenObjects {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
     senderId: string; // ID!
+    viewerIsSender: boolean; // Boolean!
   }
   DesignRequest: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -267,6 +268,14 @@ export interface NexusGenObjects {
     method: NexusGenEnums['DesignRequestHistoryItemDesignRequestEventMethod']; // DesignRequestHistoryItemDesignRequestEventMethod!
     timestamp: NexusGenScalars['DateTime']; // DateTime!
     userId?: string | null; // ID
+  }
+  DesignRequestProof: { // root type
+    artistNote?: string | null; // String
+    artistUserId: string; // ID!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    designRequestId: string; // ID!
+    fileIds: string[]; // [ID!]!
+    id: string; // ID!
   }
   DesignRequestSubmitPayload: { // root type
     designRequest?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
@@ -526,7 +535,7 @@ export interface NexusGenInterfaces {
 }
 
 export interface NexusGenUnions {
-  DesignRequestHistoryItem: NexusGenRootTypes['ConversationMessage'] | NexusGenRootTypes['DesignRequestHistoryItemDesignRequestEvent'];
+  DesignRequestHistoryItem: NexusGenRootTypes['ConversationMessage'] | NexusGenRootTypes['DesignRequestHistoryItemDesignRequestEvent'] | NexusGenRootTypes['DesignRequestProof'];
 }
 
 export type NexusGenRootTypes = NexusGenInterfaces & NexusGenObjects & NexusGenUnions
@@ -545,6 +554,7 @@ export interface NexusGenFieldTypes {
     id: string; // ID!
     sender: NexusGenRootTypes['User'] | null; // User
     senderId: string; // ID!
+    viewerIsSender: boolean; // Boolean!
   }
   DesignRequest: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -557,9 +567,11 @@ export interface NexusGenFieldTypes {
     history: NexusGenRootTypes['DesignRequestHistoryItem'][]; // [DesignRequestHistoryItem!]!
     id: string; // ID!
     name: string; // String!
+    proofs: NexusGenRootTypes['DesignRequestProof'][]; // [DesignRequestProof!]!
     status: NexusGenEnums['DesignRequestStatus']; // DesignRequestStatus!
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     useCase: string | null; // String
+    user: NexusGenRootTypes['User'] | null; // User
     userId: string | null; // ID
   }
   DesignRequestConnection: { // field return type
@@ -598,6 +610,15 @@ export interface NexusGenFieldTypes {
     timestamp: NexusGenScalars['DateTime']; // DateTime!
     user: NexusGenRootTypes['User'] | null; // User
     userId: string | null; // ID
+  }
+  DesignRequestProof: { // field return type
+    artist: NexusGenRootTypes['User'] | null; // User
+    artistNote: string | null; // String
+    artistUserId: string; // ID!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    designRequestId: string; // ID!
+    fileIds: string[]; // [ID!]!
+    id: string; // ID!
   }
   DesignRequestSubmitPayload: { // field return type
     designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
@@ -765,6 +786,7 @@ export interface NexusGenFieldTypes {
     totalTaxCents: number; // Int!
     type: NexusGenEnums['OrderType']; // OrderType!
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    user: NexusGenRootTypes['User'] | null; // User
     userId: string | null; // String
   }
   OrderCartCreatePayload: { // field return type
@@ -916,6 +938,7 @@ export interface NexusGenFieldTypeNames {
     id: 'ID'
     sender: 'User'
     senderId: 'ID'
+    viewerIsSender: 'Boolean'
   }
   DesignRequest: { // field return type name
     createdAt: 'DateTime'
@@ -928,9 +951,11 @@ export interface NexusGenFieldTypeNames {
     history: 'DesignRequestHistoryItem'
     id: 'ID'
     name: 'String'
+    proofs: 'DesignRequestProof'
     status: 'DesignRequestStatus'
     updatedAt: 'DateTime'
     useCase: 'String'
+    user: 'User'
     userId: 'ID'
   }
   DesignRequestConnection: { // field return type name
@@ -969,6 +994,15 @@ export interface NexusGenFieldTypeNames {
     timestamp: 'DateTime'
     user: 'User'
     userId: 'ID'
+  }
+  DesignRequestProof: { // field return type name
+    artist: 'User'
+    artistNote: 'String'
+    artistUserId: 'ID'
+    createdAt: 'DateTime'
+    designRequestId: 'ID'
+    fileIds: 'ID'
+    id: 'ID'
   }
   DesignRequestSubmitPayload: { // field return type name
     designRequest: 'DesignRequest'
@@ -1136,6 +1170,7 @@ export interface NexusGenFieldTypeNames {
     totalTaxCents: 'Int'
     type: 'OrderType'
     updatedAt: 'DateTime'
+    user: 'User'
     userId: 'String'
   }
   OrderCartCreatePayload: { // field return type name
@@ -1357,7 +1392,7 @@ export interface NexusGenArgTypes {
 }
 
 export interface NexusGenAbstractTypeMembers {
-  DesignRequestHistoryItem: "ConversationMessage" | "DesignRequestHistoryItemDesignRequestEvent"
+  DesignRequestHistoryItem: "ConversationMessage" | "DesignRequestHistoryItemDesignRequestEvent" | "DesignRequestProof"
   File: "FileImage" | "FilePdf" | "FileUnknown"
 }
 

@@ -21,6 +21,7 @@ export interface DesignRequestHistoryDesignRequestFragment_history_ConversationM
   id: string;
   content: string;
   createdAt: any;
+  viewerIsSender: boolean;
   sender: DesignRequestHistoryDesignRequestFragment_history_ConversationMessage_sender | null;
 }
 
@@ -39,7 +40,21 @@ export interface DesignRequestHistoryDesignRequestFragment_history_DesignRequest
   user: DesignRequestHistoryDesignRequestFragment_history_DesignRequestHistoryItemDesignRequestEvent_user | null;
 }
 
-export type DesignRequestHistoryDesignRequestFragment_history = DesignRequestHistoryDesignRequestFragment_history_ConversationMessage | DesignRequestHistoryDesignRequestFragment_history_DesignRequestHistoryItemDesignRequestEvent;
+export interface DesignRequestHistoryDesignRequestFragment_history_DesignRequestProof_artist {
+  __typename: "User";
+  id: string | null;
+  name: string | null;
+}
+
+export interface DesignRequestHistoryDesignRequestFragment_history_DesignRequestProof {
+  __typename: "DesignRequestProof";
+  id: string;
+  createdAt: any;
+  artistNote: string | null;
+  artist: DesignRequestHistoryDesignRequestFragment_history_DesignRequestProof_artist | null;
+}
+
+export type DesignRequestHistoryDesignRequestFragment_history = DesignRequestHistoryDesignRequestFragment_history_ConversationMessage | DesignRequestHistoryDesignRequestFragment_history_DesignRequestHistoryItemDesignRequestEvent | DesignRequestHistoryDesignRequestFragment_history_DesignRequestProof;
 
 export interface DesignRequestHistoryDesignRequestFragment {
   __typename: "DesignRequest";

@@ -14,6 +14,7 @@ type ConversationMessage {
   id: ID!
   sender: User
   senderId: ID!
+  viewerIsSender: Boolean!
 }
 
 input DateFilterInput {
@@ -37,9 +38,11 @@ type DesignRequest {
   history: [DesignRequestHistoryItem!]!
   id: ID!
   name: String!
+  proofs: [DesignRequestProof!]!
   status: DesignRequestStatus!
   updatedAt: DateTime
   useCase: String
+  user: User
   userId: ID
 }
 
@@ -116,7 +119,7 @@ type DesignRequestEdge {
   node: DesignRequest
 }
 
-union DesignRequestHistoryItem = ConversationMessage | DesignRequestHistoryItemDesignRequestEvent
+union DesignRequestHistoryItem = ConversationMessage | DesignRequestHistoryItemDesignRequestEvent | DesignRequestProof
 
 type DesignRequestHistoryItemDesignRequestEvent {
   id: ID!
@@ -128,6 +131,16 @@ type DesignRequestHistoryItemDesignRequestEvent {
 
 enum DesignRequestHistoryItemDesignRequestEventMethod {
   CREATE
+}
+
+type DesignRequestProof {
+  artist: User
+  artistNote: String
+  artistUserId: ID!
+  createdAt: DateTime!
+  designRequestId: ID!
+  fileIds: [ID!]!
+  id: ID!
 }
 
 enum DesignRequestStatus {
@@ -452,6 +465,7 @@ type Order {
   totalTaxCents: Int!
   type: OrderType!
   updatedAt: DateTime
+  user: User
   userId: String
 }
 

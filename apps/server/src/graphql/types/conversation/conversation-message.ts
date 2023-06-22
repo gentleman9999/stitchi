@@ -7,6 +7,7 @@ export const ConversationMessage = objectType({
     t.nonNull.id('conversationId')
     t.nonNull.id('senderId')
     t.nonNull.string('content')
+    t.nonNull.boolean('viewerIsSender')
 
     t.nonNull.DateTime('createdAt')
   },

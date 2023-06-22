@@ -12,6 +12,7 @@ import { NexusGenObjects } from '../../generated/nexus'
 import { conversationMessageFactoryToGraphQl } from '../../serializers/conversation'
 import { designRequestFactoryToGrahpql } from '../../serializers/design'
 import * as uuid from 'uuid'
+import { addDays } from 'date-fns'
 
 export const designRequest = queryField('designRequest', {
   type: 'DesignRequest',
@@ -119,17 +120,35 @@ export const ExtendDesignRequests = extendType({
           ]
 
         const messages = Array.from({ length: 2 }).map((_, i) =>
-          conversationMessageFactoryToGraphQl(i),
+          conversationMessageFactoryToGraphQl({
+            index: i,
+            viewerId: ctx.userId,
+          }),
         )
 
-        const historyItems = [...desingRequestEvents, ...messages].sort(
-          (a, b) => {
-            const aTimestamp = 'timestamp' in a ? a.timestamp : a.createdAt
-            const bTimestamp = 'timestamp' in b ? b.timestamp : b.createdAt
+        const makeProof = (
+          i: number,
+        ): NexusGenObjects['DesignRequestProof'] => ({
+          id: uuid.v4(),
+          artistUserId: parent.userId || '',
+          designRequestId: parent.id,
+          fileIds: [],
+          artistNote: 'This is a note from the artist',
+          createdAt: addDays(new Date(), i),
+        })
 
-            return bTimestamp - aTimestamp
-          },
-        )
+        const proofs = Array.from({ length: 2 }).map((_, i) => makeProof(i))
+
+        const historyItems = [
+          ...desingRequestEvents,
+          ...messages,
+          ...proofs,
+        ].sort((a, b) => {
+          const aTimestamp = 'timestamp' in a ? a.timestamp : a.createdAt
+          const bTimestamp = 'timestamp' in b ? b.timestamp : b.createdAt
+
+          return bTimestamp - aTimestamp
+        })
 
         return historyItems
       },

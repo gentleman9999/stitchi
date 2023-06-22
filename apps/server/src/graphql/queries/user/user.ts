@@ -70,3 +70,72 @@ export const UserExtendsDesignRequestHistoryItemDesignRequestEvent = extendType(
     },
   },
 )
+
+export const UserExtendsOrder = extendType({
+  type: 'Order',
+  definition(t) {
+    t.field('user', {
+      type: 'User',
+      resolve: async (order, _, ctx) => {
+        if (!order.userId) return null
+
+        let user
+
+        try {
+          user = await ctx.auth0.getUser({ id: order.userId })
+        } catch (error) {
+          console.error(error)
+          throw new GraphQLError('Unable to fetch user')
+        }
+
+        return auth0UserToGraphl(user)
+      },
+    })
+  },
+})
+
+export const UserExtendsDesignRequest = extendType({
+  type: 'DesignRequest',
+  definition(t) {
+    t.field('user', {
+      type: 'User',
+      resolve: async (designRequest, _, ctx) => {
+        if (!designRequest.userId) return null
+
+        let user
+
+        try {
+          user = await ctx.auth0.getUser({ id: designRequest.userId })
+        } catch (error) {
+          console.error(error)
+          throw new GraphQLError('Unable to fetch user')
+        }
+
+        return auth0UserToGraphl(user)
+      },
+    })
+  },
+})
+
+export const UserExtendsDesignRequestProof = extendType({
+  type: 'DesignRequestProof',
+  definition(t) {
+    t.field('artist', {
+      type: 'User',
+      resolve: async (designRequestProof, _, ctx) => {
+        let user
+
+        try {
+          user = await ctx.auth0.getUser({
+            id: designRequestProof.artistUserId,
+          })
+        } catch (error) {
+          console.error(error)
+          throw new GraphQLError('Unable to fetch user')
+        }
+
+        return auth0UserToGraphl(user)
+      },
+    })
+  },
+})

@@ -23,6 +23,7 @@ export const DesignRequestHistoryItem = unionType({
     t.members(
       'ConversationMessage',
       'DesignRequestHistoryItemDesignRequestEvent',
+      'DesignRequestProof',
     )
   },
   resolveType(item) {
@@ -32,6 +33,10 @@ export const DesignRequestHistoryItem = unionType({
 
     if ('method' in item) {
       return 'DesignRequestHistoryItemDesignRequestEvent'
+    }
+
+    if ('artistUserId' in item) {
+      return 'DesignRequestProof'
     }
 
     return null

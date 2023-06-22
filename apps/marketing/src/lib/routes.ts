@@ -209,6 +209,23 @@ const routes = {
       orders: {
         href: () => buildRoute('/closet/orders'),
       },
+
+      designs: {
+        show: {
+          href: ({ designId }: { designId: string }) =>
+            buildRoute(`/closet/designs/${designId}`),
+
+          proofs: {
+            href: ({ designId }: { designId: string }) =>
+              buildRoute(`/closet/designs/${designId}/proofs`),
+          },
+
+          activity: {
+            href: ({ designId }: { designId: string }) =>
+              buildRoute(`/closet/designs/${designId}/activity`),
+          },
+        },
+      },
     },
 
     account: {
@@ -224,7 +241,7 @@ const routes = {
         href: () => buildRoute('/api/form-response'),
       },
     },
-   
+
     downloads: {
       studentEbook: {
         show: {

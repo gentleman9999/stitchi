@@ -1,17 +1,20 @@
-import { Section } from '@components/common'
 import { Container } from '@components/ui'
 import React from 'react'
 import ProgressBar from './ProgressBar'
-import DesignRequestDraft from './DesignRequestDraft'
-import { DesignRequestStatus } from '@generated/globalTypes'
-import DesignRequestSubmitted from './DesignRequestSubmitted'
 import { DesignProvider } from './design-context'
 import {
   ClosetDesignShowPageGetDataQuery,
   ClosetDesignShowPageGetDataQueryVariables,
 } from '@generated/ClosetDesignShowPageGetDataQuery'
 import { gql, useQuery } from '@apollo/client'
-import DesignRequestHeader from './DesignRequestHeader'
+import DesignRequestTitle from './DesignRequestTitle'
+import ClosetPageHeader from '@components/common/ClosetPageHeader'
+import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
+import ClosetSectionHeaderTabs from '@components/common/ClosetSectionHeaderTabs'
+import ClosetSection from '@components/common/ClosetSection'
+import routes from '@lib/routes'
+import DesignRequestOverview from './DesignRequestOverview'
+import DesignRequestActivity from './DesignRequestActivity'
 
 interface Props {
   designId: string
@@ -28,44 +31,82 @@ const ClosetDesignShowPage = ({ designId }: Props) => {
   return (
     <DesignProvider>
       <Container>
-        <DesignRequestHeader loading={loading} designRequest={designRequest} />
+        <ClosetPageHeader>
+          <DesignRequestTitle loading={loading} designRequest={designRequest} />
 
-        <Section>
-          <ProgressBar status={designRequest?.status} />
-        </Section>
-        <Section gutter="md">
-          {designRequest ? (
+          <div className="mb-8">
+            <ProgressBar status={designRequest?.status} />
+          </div>
+        </ClosetPageHeader>
+
+        <ClosetSection
+          tabs={[
+            {
+              id: 'overview',
+              href: routes.internal.closet.designs.show.href({
+                designId: designId,
+              }),
+              label: 'Overview',
+            },
+            {
+              id: 'activity',
+              href: routes.internal.closet.designs.show.activity.href({
+                designId: designId,
+              }),
+              label: 'Activity',
+            },
+            {
+              id: 'proofs',
+              href: routes.internal.closet.designs.show.proofs.href({
+                designId: designId,
+              }),
+              label: 'Proofs',
+            },
+            {
+              id: 'order-history',
+              href: '#',
+              label: 'Order History',
+            },
+          ]}
+        >
+          {({ activeTab }) => (
             <>
-              {[DesignRequestStatus.DRAFT].includes(designRequest.status) ? (
-                <DesignRequestDraft designRequest={designRequest} />
-              ) : null}
+              <ClosetSectionHeader>
+                <ClosetSectionHeaderTabs />
+              </ClosetSectionHeader>
 
-              {[DesignRequestStatus.SUBMITTED].includes(
-                designRequest.status,
-              ) ? (
-                <DesignRequestSubmitted designRequest={designRequest} />
+              {designRequest && activeTab ? (
+                <>
+                  {activeTab.id === 'overview' ? (
+                    <DesignRequestOverview designRequest={designRequest} />
+                  ) : null}
+
+                  {activeTab.id === 'activity' ? (
+                    <DesignRequestActivity designRequest={designRequest} />
+                  ) : null}
+                </>
               ) : null}
             </>
-          ) : null}
-        </Section>
+          )}
+        </ClosetSection>
       </Container>
     </DesignProvider>
   )
 }
 
 const GET_DATA = gql`
-  ${DesignRequestHeader.fragments.designRequest}
-  ${DesignRequestDraft.fragments.designRequest}
-  ${DesignRequestSubmitted.fragments.designRequest}
+  ${DesignRequestTitle.fragments.designRequest}
+  ${DesignRequestOverview.fragments.designRequest}
+  ${DesignRequestActivity.fragments.designRequest}
   query ClosetDesignShowPageGetDataQuery($designId: ID!) {
     designRequest(id: $designId) {
       id
       name
       status
       description
-      ...DesignRequestHeaderDesignRequesetFragment
-      ...DesignRequestSubmittedDesignRequestFragment
-      ...DesignRequestDraftDesignRequestFragments
+      ...DesignRequestTitleDesignRequesetFragment
+      ...DesignRequestOverviewDesignRequestFragment
+      ...DesignRequestActivityDesignRequestFragment
     }
   }
 `
