@@ -9,6 +9,11 @@ import services from '../services'
 import makeStripeClient from '../stripe'
 import { SendgridClient, makeClient as makeSendgridClient } from '../sendgrid'
 
+const organizationHeaderKey = getOrThrow(
+  process.env.HEADER_KEY_ORGANIZATION_ID,
+  'HEADER_KEY_ORGANIZATION_ID',
+)
+
 type StripeClient = ReturnType<typeof makeStripeClient>
 
 export interface Context {
@@ -57,19 +62,15 @@ function makeContext(
 
     try {
       const payload = authHeader ? await verify(authHeader).catch() : null
-      // Grabs the first created membership.
-      // In the future, can use this membershipId to control access to current organization.
 
-      // This is innefficient to do on every request, in the future we will need to cache this // store it in the JWT
-      const membership = await (async () => {
+      const userMembership = await (async () => {
         if (payload?.sub) {
-          const membership = await params.prisma.membership.findFirst({
-            where: { userId: payload.sub },
-            orderBy: { createdAt: 'asc' },
-            select: { id: true, userId: true, organizationId: true },
-          })
+          const userMembership =
+            await params.prisma.activeUserMembership.findFirst({
+              where: { userId: payload.sub },
+            })
 
-          return membership
+          return userMembership
         }
       })()
 
@@ -79,8 +80,8 @@ function makeContext(
         stripe: params.stripe,
         sendgrid: params.sendgrid,
         userId: payload?.sub,
-        membershipId: membership?.id,
-        organizationId: membership?.organizationId ?? undefined,
+        membershipId: userMembership?.membershipId ?? undefined,
+        organizationId: userMembership?.organizationId ?? undefined,
         newsletter: services.newsletter,
         order: services.order,
         catalog: services.catalog,

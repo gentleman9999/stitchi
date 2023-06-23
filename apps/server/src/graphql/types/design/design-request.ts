@@ -24,6 +24,7 @@ export const DesignRequestHistoryItem = unionType({
       'ConversationMessage',
       'DesignRequestHistoryItemDesignRequestEvent',
       'DesignRequestProof',
+      'DesignRequestRevision',
     )
   },
   resolveType(item) {
@@ -37,6 +38,10 @@ export const DesignRequestHistoryItem = unionType({
 
     if ('artistUserId' in item) {
       return 'DesignRequestProof'
+    }
+
+    if ('description' in item && 'fileIds' in item) {
+      return 'DesignRequestRevision'
     }
 
     return null

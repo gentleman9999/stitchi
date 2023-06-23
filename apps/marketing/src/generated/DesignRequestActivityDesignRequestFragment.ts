@@ -54,7 +54,21 @@ export interface DesignRequestActivityDesignRequestFragment_history_DesignReques
   artist: DesignRequestActivityDesignRequestFragment_history_DesignRequestProof_artist | null;
 }
 
-export type DesignRequestActivityDesignRequestFragment_history = DesignRequestActivityDesignRequestFragment_history_ConversationMessage | DesignRequestActivityDesignRequestFragment_history_DesignRequestHistoryItemDesignRequestEvent | DesignRequestActivityDesignRequestFragment_history_DesignRequestProof;
+export interface DesignRequestActivityDesignRequestFragment_history_DesignRequestRevision_user {
+  __typename: "User";
+  id: string | null;
+  name: string | null;
+}
+
+export interface DesignRequestActivityDesignRequestFragment_history_DesignRequestRevision {
+  __typename: "DesignRequestRevision";
+  id: string;
+  createdAt: any;
+  description: string;
+  user: DesignRequestActivityDesignRequestFragment_history_DesignRequestRevision_user | null;
+}
+
+export type DesignRequestActivityDesignRequestFragment_history = DesignRequestActivityDesignRequestFragment_history_ConversationMessage | DesignRequestActivityDesignRequestFragment_history_DesignRequestHistoryItemDesignRequestEvent | DesignRequestActivityDesignRequestFragment_history_DesignRequestProof | DesignRequestActivityDesignRequestFragment_history_DesignRequestRevision;
 
 export interface DesignRequestActivityDesignRequestFragment_user {
   __typename: "User";

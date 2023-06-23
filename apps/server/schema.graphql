@@ -119,7 +119,7 @@ type DesignRequestEdge {
   node: DesignRequest
 }
 
-union DesignRequestHistoryItem = ConversationMessage | DesignRequestHistoryItemDesignRequestEvent | DesignRequestProof
+union DesignRequestHistoryItem = ConversationMessage | DesignRequestHistoryItemDesignRequestEvent | DesignRequestProof | DesignRequestRevision
 
 type DesignRequestHistoryItemDesignRequestEvent {
   id: ID!
@@ -141,6 +141,15 @@ type DesignRequestProof {
   designRequestId: ID!
   fileIds: [ID!]!
   id: ID!
+}
+
+type DesignRequestRevision {
+  createdAt: DateTime!
+  description: String!
+  fileIds: [ID!]!
+  id: ID!
+  user: User
+  userId: ID!
 }
 
 enum DesignRequestStatus {
@@ -406,6 +415,7 @@ input MembershipOrdersWhereFilterInput {
 
 enum MembershipRole {
   OWNER
+  STITCHI_DESIGNER
 }
 
 type Mutation {
@@ -434,6 +444,7 @@ type Mutation {
 
   """Bootstraps a new user with necessary resources"""
   userBoostrap: User
+  userSetOrganization(input: UserSetOrganizationInput!): UserSetOrganizationPayload
 }
 
 type Order {
@@ -659,6 +670,7 @@ type Query {
   _products(products: [ProductKey!]!): [Product]
   designRequest(id: ID!): DesignRequest
   order(id: ID!): Order
+  userMemberships: [Membership!]!
   viewer: Membership
 }
 
@@ -715,9 +727,20 @@ type User {
   loginsCount: Int
   name: String
   nickname: String
+  organizations: [Organization!]!
   phoneNumber: String
   phoneVerified: Boolean
   picture: String
   updatedAt: DateTime
   username: String
+}
+
+input UserSetOrganizationInput {
+  membershipId: ID!
+  organizationId: ID!
+}
+
+type UserSetOrganizationPayload {
+  membershipId: String
+  organizationId: String
 }

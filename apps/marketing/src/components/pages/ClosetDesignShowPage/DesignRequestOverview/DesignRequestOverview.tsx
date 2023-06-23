@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client'
 import { DesignRequestOverviewDesignRequestFragment } from '@generated/DesignRequestOverviewDesignRequestFragment'
 import React from 'react'
+import ProgressBar from './ProgressBar'
 import DesignRequestDraft from './DesignRequestDraft'
 import GeneralInformation from './GeneralInformation'
 
@@ -12,7 +13,14 @@ const DesignRequestOverview = ({ designRequest }: Props) => {
   if (designRequest.status === 'DRAFT') {
     return <DesignRequestDraft designRequest={designRequest} />
   }
-  return <GeneralInformation designRequest={designRequest} />
+  return (
+    <>
+      <div className="mb-8">
+        <ProgressBar status={designRequest?.status} />
+      </div>
+      <GeneralInformation designRequest={designRequest} />
+    </>
+  )
 }
 
 DesignRequestOverview.fragments = {

@@ -2,6 +2,28 @@ import { GraphQLError } from 'graphql'
 import { extendType } from 'nexus'
 import { auth0UserToGraphl } from '../../serializers/user'
 
+export const userMemberships = extendType({
+  type: 'Query',
+  definition(t) {
+    t.nonNull.list.nonNull.field('userMemberships', {
+      type: 'Membership',
+      resolve: async (_, __, ctx) => {
+        const { userId } = ctx
+
+        if (!userId) {
+          throw new GraphQLError('Not authenticated')
+        }
+
+        const memberships = await ctx.prisma.membership.findMany({
+          where: { userId },
+        })
+
+        return memberships
+      },
+    })
+  },
+})
+
 export const UserExtendsConversationMessage = extendType({
   type: 'ConversationMessage',
   definition(t) {
@@ -128,6 +150,29 @@ export const UserExtendsDesignRequestProof = extendType({
         try {
           user = await ctx.auth0.getUser({
             id: designRequestProof.artistUserId,
+          })
+        } catch (error) {
+          console.error(error)
+          throw new GraphQLError('Unable to fetch user')
+        }
+
+        return auth0UserToGraphl(user)
+      },
+    })
+  },
+})
+
+export const UserExtendsDesignRequestRevision = extendType({
+  type: 'DesignRequestRevision',
+  definition(t) {
+    t.field('user', {
+      type: 'User',
+      resolve: async (designRequestRevision, _, ctx) => {
+        let user
+
+        try {
+          user = await ctx.auth0.getUser({
+            id: designRequestRevision.userId,
           })
         } catch (error) {
           console.error(error)

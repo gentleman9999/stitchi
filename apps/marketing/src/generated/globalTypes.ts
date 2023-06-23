@@ -414,6 +414,11 @@ export interface UpdatedAtFilter {
   exists?: any | null;
 }
 
+export interface UserSetOrganizationInput {
+  membershipId: string;
+  organizationId: string;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

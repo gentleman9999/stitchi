@@ -16,9 +16,16 @@ import getOrThrow from '@utils/get-or-throw'
 import { AppProps } from 'next/app'
 import { useMemo } from 'react'
 import { isEqual } from 'lodash-es'
-import { GetStaticPropsResult } from 'next'
+import fetch from 'node-fetch'
+import { GetStaticPropsResult, GetServerSidePropsContext } from 'next'
+import { getAccessToken } from '@auth0/nextjs-auth0'
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__' as const
+
+const organizationHeaderKey = getOrThrow(
+  process.env.NEXT_PUBLIC_HEADER_KEY_ORGANIZATION_ID,
+  'NEXT_PUBLIC_HEADER_KEY_ORGANIZATION_ID',
+)
 
 const appUrl = getOrThrow(
   process.env.NEXT_PUBLIC_SITE_URL,
@@ -35,25 +42,35 @@ const httpLink = createHttpLink({
   credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
 })
 
-const makeAuthLink = () =>
+const makeAuthLink = (ctx?: GetServerSidePropsContext) =>
   setContext(async (_, { headers }) => {
     let accessToken
 
     try {
-      // Auth0 only provides access to the accessToken on the server.
-      // So we must make a call the the Next.js server to retrieve token.
-      const response = await fetch(`${appUrl}/api/auth/accessToken`)
-      const data = await response.json()
-      accessToken = data.accessToken
+      if (ctx) {
+        accessToken = (await getAccessToken(ctx.req, ctx.res)).accessToken
+      } else {
+        // Auth0 only provides access to the accessToken on the server.
+        // So we must make a call the the Next.js server to retrieve token.
+        const response = await fetch(`${appUrl}/api/auth/accessToken`)
+        const data = await response.json()
+        accessToken = data.accessToken
+      }
     } catch (error) {
       console.error(error)
     }
+
+    const organizationId =
+      typeof window !== 'undefined'
+        ? localStorage.getItem('organizationId') || ''
+        : ''
 
     return {
       headers: Object.assign(headers || {}, {
         'Content-Type': 'application/json',
         Accept: 'application/json',
         Authorization: accessToken ? `Bearer ${accessToken}` : '',
+        [`${organizationHeaderKey}`]: organizationId,
       }),
     }
   })
@@ -61,10 +78,10 @@ const makeAuthLink = () =>
 // Allows us to share the apollo client instance (including auth) across client and server
 let apolloClient: ApolloClient<NormalizedCacheObject>
 
-const createApolloClient = () =>
+const createApolloClient = (ctx?: GetServerSidePropsContext) =>
   new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: makeAuthLink().concat(httpLink),
+    link: makeAuthLink(ctx).concat(httpLink),
     cache: new InMemoryCache({
       dataIdFromObject(responseObj) {
         switch (responseObj.__typename) {
@@ -102,8 +119,9 @@ const createApolloClient = () =>
 
 export function initializeApollo(
   initialState: NormalizedCacheObject | null = null,
+  ctx?: GetServerSidePropsContext,
 ) {
-  const _apolloClient = apolloClient ?? createApolloClient()
+  const _apolloClient = apolloClient ?? createApolloClient(ctx)
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
   // gets hydrated here

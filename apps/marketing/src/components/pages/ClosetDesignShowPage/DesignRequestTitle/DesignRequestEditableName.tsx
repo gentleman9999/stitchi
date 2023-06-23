@@ -102,12 +102,12 @@ const Form = ({
 
   return (
     <div className="relative flex flex-col">
-      <div ref={shadowInput} className="invisible absolute whitespace-pre px-2">
+      <div ref={shadowInput} className="invisible absolute whitespace-pre">
         {name}
       </div>
       <input
         disabled={!edit}
-        className="disabled:bg-transparent px-2 outline-primary"
+        className="disabled:bg-transparent outline-primary"
         onFocus={() => setEdit(true)}
         style={{ width: `${inputWidthPx}px` }}
         {...form.register('name', {

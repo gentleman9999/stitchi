@@ -7,9 +7,15 @@
 // GraphQL mutation operation: AccountSetupPageBootstrapAccount
 // ====================================================
 
+export interface AccountSetupPageBootstrapAccount_userBoostrap_organizations {
+  __typename: "Organization";
+  id: string;
+}
+
 export interface AccountSetupPageBootstrapAccount_userBoostrap {
   __typename: "User";
   id: string | null;
+  organizations: AccountSetupPageBootstrapAccount_userBoostrap_organizations[];
 }
 
 export interface AccountSetupPageBootstrapAccount {

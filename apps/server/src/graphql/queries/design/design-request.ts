@@ -126,6 +126,18 @@ export const ExtendDesignRequests = extendType({
           }),
         )
 
+        const designRequestRevision: NexusGenObjects['DesignRequestRevision'][] =
+          [
+            {
+              id: uuid.v4(),
+              userId: parent.userId || '',
+              fileIds: [],
+              createdAt: addDays(new Date(), 1),
+              description:
+                'Please update the design to include all of the amazing things that will make this design go viral to the republic of social media.',
+            },
+          ]
+
         const makeProof = (
           i: number,
         ): NexusGenObjects['DesignRequestProof'] => ({
@@ -143,6 +155,7 @@ export const ExtendDesignRequests = extendType({
           ...desingRequestEvents,
           ...messages,
           ...proofs,
+          ...designRequestRevision,
         ].sort((a, b) => {
           const aTimestamp = 'timestamp' in a ? a.timestamp : a.createdAt
           const bTimestamp = 'timestamp' in b ? b.timestamp : b.createdAt

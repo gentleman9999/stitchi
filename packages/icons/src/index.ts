@@ -3,6 +3,7 @@ export * from './process'
 export * from './catalog'
 
 export { default as Adjustments } from './Adjustments'
+export { default as ArrowPath } from './ArrowPath'
 export { default as Bag } from './Bag'
 export { default as Heart } from './Heart'
 export { default as Trash } from './Trash'

@@ -83,8 +83,16 @@ model Membership {
   @@unique([organizationId, invitedEmail])
 }
 
+model ActiveUserMembership {
+  id             String @id @default(uuid())
+  userId         String @unique
+  membershipId   String
+  organizationId String
+}
+
 enum MembershipRole {
   OWNER
+  STITCHI_DESIGNER
 }
 
 model Order {

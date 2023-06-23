@@ -187,6 +187,10 @@ export interface NexusGenInputs {
   SubscriberCreateInput: { // input type
     email: string; // String!
   }
+  UserSetOrganizationInput: { // input type
+    membershipId: string; // ID!
+    organizationId: string; // ID!
+  }
 }
 
 export interface NexusGenEnums {
@@ -194,7 +198,7 @@ export interface NexusGenEnums {
   DesignRequestStatus: "APPROVED" | "AWAITING_APPROVAL" | "AWAITING_REVISION" | "DRAFT" | "REJECTED" | "SUBMITTED"
   FileType: "IMAGE" | "PDF" | "UNKNOWN" | "VIDEO"
   GlobalRole: "CUSTOMER" | "SUPERADMIN"
-  MembershipRole: "OWNER"
+  MembershipRole: "OWNER" | "STITCHI_DESIGNER"
   OrderItemType: "BIG_COMMERCE_PRODUCT" | "CUSTOM"
   OrderPaymentStatus: "NOT_PAID" | "PAID" | "PARTIALLY_PAID" | "PARTIALLY_REFUNDED" | "REFUNDED"
   OrderType: "CART" | "CONFIRMED"
@@ -276,6 +280,13 @@ export interface NexusGenObjects {
     designRequestId: string; // ID!
     fileIds: string[]; // [ID!]!
     id: string; // ID!
+  }
+  DesignRequestRevision: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    description: string; // String!
+    fileIds: string[]; // [ID!]!
+    id: string; // ID!
+    userId: string; // ID!
   }
   DesignRequestSubmitPayload: { // root type
     designRequest?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
@@ -528,6 +539,10 @@ export interface NexusGenObjects {
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     username?: string | null; // String
   }
+  UserSetOrganizationPayload: { // root type
+    membershipId?: string | null; // String
+    organizationId?: string | null; // String
+  }
 }
 
 export interface NexusGenInterfaces {
@@ -535,7 +550,7 @@ export interface NexusGenInterfaces {
 }
 
 export interface NexusGenUnions {
-  DesignRequestHistoryItem: NexusGenRootTypes['ConversationMessage'] | NexusGenRootTypes['DesignRequestHistoryItemDesignRequestEvent'] | NexusGenRootTypes['DesignRequestProof'];
+  DesignRequestHistoryItem: NexusGenRootTypes['ConversationMessage'] | NexusGenRootTypes['DesignRequestHistoryItemDesignRequestEvent'] | NexusGenRootTypes['DesignRequestProof'] | NexusGenRootTypes['DesignRequestRevision'];
 }
 
 export type NexusGenRootTypes = NexusGenInterfaces & NexusGenObjects & NexusGenUnions
@@ -619,6 +634,14 @@ export interface NexusGenFieldTypes {
     designRequestId: string; // ID!
     fileIds: string[]; // [ID!]!
     id: string; // ID!
+  }
+  DesignRequestRevision: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    description: string; // String!
+    fileIds: string[]; // [ID!]!
+    id: string; // ID!
+    user: NexusGenRootTypes['User'] | null; // User
+    userId: string; // ID!
   }
   DesignRequestSubmitPayload: { // field return type
     designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
@@ -756,6 +779,7 @@ export interface NexusGenFieldTypes {
     paymentIntentCreate: NexusGenRootTypes['PaymentIntentCreatePayload'] | null; // PaymentIntentCreatePayload
     subscriberCreate: NexusGenRootTypes['SubscriberCreatePayload'] | null; // SubscriberCreatePayload
     userBoostrap: NexusGenRootTypes['User'] | null; // User
+    userSetOrganization: NexusGenRootTypes['UserSetOrganizationPayload'] | null; // UserSetOrganizationPayload
   }
   Order: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -878,6 +902,7 @@ export interface NexusGenFieldTypes {
     _products: Array<NexusGenRootTypes['Product'] | null> | null; // [Product]
     designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
     order: NexusGenRootTypes['Order'] | null; // Order
+    userMemberships: NexusGenRootTypes['Membership'][]; // [Membership!]!
     viewer: NexusGenRootTypes['Membership'] | null; // Membership
   }
   Quote: { // field return type
@@ -905,11 +930,16 @@ export interface NexusGenFieldTypes {
     loginsCount: number | null; // Int
     name: string | null; // String
     nickname: string | null; // String
+    organizations: NexusGenRootTypes['Organization'][]; // [Organization!]!
     phoneNumber: string | null; // String
     phoneVerified: boolean | null; // Boolean
     picture: string | null; // String
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     username: string | null; // String
+  }
+  UserSetOrganizationPayload: { // field return type
+    membershipId: string | null; // String
+    organizationId: string | null; // String
   }
   File: { // field return type
     bytes: number; // Int!
@@ -1003,6 +1033,14 @@ export interface NexusGenFieldTypeNames {
     designRequestId: 'ID'
     fileIds: 'ID'
     id: 'ID'
+  }
+  DesignRequestRevision: { // field return type name
+    createdAt: 'DateTime'
+    description: 'String'
+    fileIds: 'ID'
+    id: 'ID'
+    user: 'User'
+    userId: 'ID'
   }
   DesignRequestSubmitPayload: { // field return type name
     designRequest: 'DesignRequest'
@@ -1140,6 +1178,7 @@ export interface NexusGenFieldTypeNames {
     paymentIntentCreate: 'PaymentIntentCreatePayload'
     subscriberCreate: 'SubscriberCreatePayload'
     userBoostrap: 'User'
+    userSetOrganization: 'UserSetOrganizationPayload'
   }
   Order: { // field return type name
     createdAt: 'DateTime'
@@ -1262,6 +1301,7 @@ export interface NexusGenFieldTypeNames {
     _products: 'Product'
     designRequest: 'DesignRequest'
     order: 'Order'
+    userMemberships: 'Membership'
     viewer: 'Membership'
   }
   Quote: { // field return type name
@@ -1289,11 +1329,16 @@ export interface NexusGenFieldTypeNames {
     loginsCount: 'Int'
     name: 'String'
     nickname: 'String'
+    organizations: 'Organization'
     phoneNumber: 'String'
     phoneVerified: 'Boolean'
     picture: 'String'
     updatedAt: 'DateTime'
     username: 'String'
+  }
+  UserSetOrganizationPayload: { // field return type name
+    membershipId: 'String'
+    organizationId: 'String'
   }
   File: { // field return type name
     bytes: 'Int'
@@ -1370,6 +1415,9 @@ export interface NexusGenArgTypes {
     subscriberCreate: { // args
       input: NexusGenInputs['SubscriberCreateInput']; // SubscriberCreateInput!
     }
+    userSetOrganization: { // args
+      input: NexusGenInputs['UserSetOrganizationInput']; // UserSetOrganizationInput!
+    }
   }
   Product: {
     quote: { // args
@@ -1392,7 +1440,7 @@ export interface NexusGenArgTypes {
 }
 
 export interface NexusGenAbstractTypeMembers {
-  DesignRequestHistoryItem: "ConversationMessage" | "DesignRequestHistoryItemDesignRequestEvent" | "DesignRequestProof"
+  DesignRequestHistoryItem: "ConversationMessage" | "DesignRequestHistoryItemDesignRequestEvent" | "DesignRequestProof" | "DesignRequestRevision"
   File: "FileImage" | "FilePdf" | "FileUnknown"
 }
 
