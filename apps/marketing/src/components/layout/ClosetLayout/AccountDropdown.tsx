@@ -1,14 +1,17 @@
 import routes from '@lib/routes'
-import { LockClosed } from 'icons'
+import { ArrowPath, LockClosed } from 'icons'
 import Link from 'next/link'
 import React from 'react'
 import * as Dropdown from '@radix-ui/react-dropdown-menu'
+import { useRouter } from 'next/router'
 
 interface Props {
   renderTrigger: () => React.ReactNode
 }
 
 const AccountDropdown = (props: Props) => {
+  const router = useRouter()
+
   return (
     <Dropdown.Root>
       <Dropdown.Trigger>{props.renderTrigger()}</Dropdown.Trigger>
@@ -17,8 +20,16 @@ const AccountDropdown = (props: Props) => {
           side="bottom"
           sideOffset={6}
           align="end"
-          className="p-2 rounded-md bg-white shadow-magical min-w-[200px] flex"
+          className="p-2 rounded-md bg-white shadow-magical min-w-[200px] flex flex-col"
         >
+          <Item
+            href={routes.internal.account.setup.href({
+              redirectUrl: router.asPath,
+            })}
+            icon={<ArrowPath className="w-4 h-4" />}
+          >
+            Switch closet
+          </Item>
           <Item
             href={routes.internal.logout.href()}
             icon={<LockClosed className="w-4 h-4" />}

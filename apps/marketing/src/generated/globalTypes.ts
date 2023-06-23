@@ -208,6 +208,14 @@ export interface LinksFilter {
   exists?: any | null;
 }
 
+export interface MembershipDesignRequestsFilterInput {
+  where?: MembershipDesignRequestsWhereFilterInput | null;
+}
+
+export interface MembershipDesignRequestsWhereFilterInput {
+  createdAt?: DateFilterInput | null;
+}
+
 export interface MembershipOrdersFilterInput {
   where?: MembershipOrdersWhereFilterInput | null;
 }

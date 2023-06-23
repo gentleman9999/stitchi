@@ -24,11 +24,14 @@ const makeListDesignRequests: MakeListDesignRequestsFn =
   async input => {
     let designRequestRecords
 
+    console.log('INPUT', input)
+
     try {
       designRequestRecords = await designRequestTable.findMany({
         ...input,
         include: {
           designRequestFiles: true,
+          designRequestArtists: true,
           designLocations: {
             include: {
               designRequestDesignLocationFiles: true,
@@ -46,6 +49,7 @@ const makeListDesignRequests: MakeListDesignRequestsFn =
     return designRequestRecords.map(designRequest =>
       designRequestFactory({
         designRequest,
+        artists: designRequest.designRequestArtists,
         files: designRequest.designRequestFiles,
         designLocations: designRequest.designLocations,
         designLocationFiles: designRequest.designLocations.flatMap(

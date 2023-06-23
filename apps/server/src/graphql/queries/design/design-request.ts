@@ -13,16 +13,18 @@ import { conversationMessageFactoryToGraphQl } from '../../serializers/conversat
 import { designRequestFactoryToGrahpql } from '../../serializers/design'
 import * as uuid from 'uuid'
 import { addDays } from 'date-fns'
+import { Prisma } from '@prisma/client'
 
 export const designRequest = queryField('designRequest', {
   type: 'DesignRequest',
   args: {
     id: nonNull(idArg()),
   },
-  resolve: async (_, { id }, { design, organizationId }) => {
+  resolve: async (_, { id }, { design, organizationId, role }) => {
     const designRequest = await design.getDesignRequest({ designRequestId: id })
 
     if (
+      role === 'OWNER' &&
       notEmpty(designRequest.organizationId) &&
       designRequest.organizationId !== organizationId
     ) {
@@ -69,22 +71,54 @@ export const DesignRequestsExtendsMembership = extendType({
         // Add one to see if there's a next page
         const limitPlusOne = limit + 1
 
+        const take = notEmpty(after)
+          ? limitPlusOne
+          : notEmpty(before)
+          ? -limitPlusOne
+          : limitPlusOne
+
+        const isArtist = parent.role === 'STITCHI_DESIGNER'
+
+        const resourceOwnerFilter: Prisma.Enumerable<Prisma.DesignRequestWhereInput> =
+          [
+            {
+              organizationId: parent.organizationId,
+              userId: parent.userId,
+            },
+          ]
+
+        if (isArtist) {
+          resourceOwnerFilter.push({
+            designRequestArtists: {
+              some: {
+                artistUserId: parent.userId,
+              },
+            },
+          })
+        }
+
         const designRequests = await design.listDesignRequests({
           where: {
-            organizationId: parent.organizationId,
-            userId: parent.userId,
-            createdAt: filter?.where?.createdAt
-              ? {
-                  gte: filter.where.createdAt.gte || undefined,
-                  lte: filter.where.createdAt.lte || undefined,
-                }
-              : undefined,
+            AND: [
+              {
+                createdAt: filter?.where?.createdAt
+                  ? {
+                      gte: filter.where.createdAt.gte || undefined,
+                      lte: filter.where.createdAt.lte || undefined,
+                    }
+                  : undefined,
+              },
+
+              {
+                OR: resourceOwnerFilter,
+              },
+            ],
           },
-          // skip the cursor
-          skip: 1,
-          take: after ? limitPlusOne : -limitPlusOne,
-          ...(after ? { cursor: { id: after } } : {}),
-          ...(before ? { cursor: { id: before } } : {}),
+          take,
+          // skip the cursor unless no cursor
+          skip: notEmpty(after) || notEmpty(before) ? 1 : 0,
+          ...(notEmpty(after) ? { cursor: { id: after } } : {}),
+          ...(notEmpty(before) ? { cursor: { id: before } } : {}),
         })
 
         const connection = connectionFromArray(

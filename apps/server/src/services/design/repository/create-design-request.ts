@@ -9,6 +9,7 @@ import { DesignFactoryDesignRequest, designRequestFactory } from '../factory'
 import { DesignRequestFile } from '../db/design-request-file-table'
 import { DesignRequestDesignLocation } from '../db/design-request-design-location-table'
 import { DesignRequestDesignLocationFile } from '../db/design-request-design-location-file-table'
+import { DesignRequestArtist } from '../db/design-request-artist-table'
 
 const filesInputSchema = yup
   .array()
@@ -34,6 +35,13 @@ const designLocationInputSchema = DesignRequestDesignLocation.omit([
   )
   .required()
 
+const artistInputSchema = DesignRequestArtist.omit([
+  'id',
+  'createdAt',
+  'updatedAt',
+  'designRequestId',
+])
+
 const inputSchema = DesignRequest.omit(['id', 'createdAt', 'updatedAt']).concat(
   yup
     .object()
@@ -46,6 +54,7 @@ const inputSchema = DesignRequest.omit(['id', 'createdAt', 'updatedAt']).concat(
         .array()
         .of(designLocationInputSchema.required())
         .required(),
+      artists: yup.array().of(artistInputSchema.required()).required(),
     })
     .required(),
 )
@@ -110,6 +119,14 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
               })),
             },
           },
+          designRequestArtists: {
+            createMany: {
+              data: validInput.artists.map(artist => ({
+                artistUserId: artist.artistUserId,
+                isActive: artist.isActive,
+              })),
+            },
+          },
         },
         include: {
           designRequestFiles: true,
@@ -118,6 +135,7 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
               designRequestDesignLocationFiles: true,
             },
           },
+          designRequestArtists: true,
         },
       })
     } catch (error) {
@@ -129,6 +147,7 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
 
     return designRequestFactory({
       designRequest,
+      artists: designRequest.designRequestArtists,
       files: designRequest.designRequestFiles,
       designLocations: designRequest.designLocations,
       designLocationFiles: designRequest.designLocations.flatMap(

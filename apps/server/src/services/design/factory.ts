@@ -1,5 +1,6 @@
 import { Prisma } from '@prisma/client'
 import { DesignLocationRecord } from './db/design-location-table'
+import { DesignRequestArtistRecord } from './db/design-request-artist-table'
 import { DesignRequestDesignLocationFileRecord } from './db/design-request-design-location-file-table'
 import { DesignRequestDesignLocationRecord } from './db/design-request-design-location-table'
 import { DesignRequestFileRecord } from './db/design-request-file-table'
@@ -28,6 +29,8 @@ const designFactory = ({
   }
 }
 
+interface DesignRequestArtist extends DesignRequestArtistRecord {}
+
 interface DesignFactoryDesignRequestDesignLocationFile
   extends DesignRequestDesignLocationFileRecord {}
 
@@ -41,6 +44,7 @@ interface DesignFactoryDesignRequestFile extends DesignRequestFileRecord {}
 export interface DesignFactoryDesignRequest extends DesignRequestRecord {
   files: DesignFactoryDesignRequestFile[]
   designLocations: DesignFactoryDesignRequestDesignLocation[]
+  artists: DesignRequestArtist[]
 }
 
 const designRequestFactory = ({
@@ -48,6 +52,7 @@ const designRequestFactory = ({
   files,
   designLocations,
   designLocationFiles,
+  artists,
 }: {
   designRequest: Omit<DesignRequestRecord, 'metadata'> & {
     metadata: Prisma.JsonValue
@@ -55,10 +60,12 @@ const designRequestFactory = ({
   files: DesignRequestFileRecord[]
   designLocations: DesignRequestDesignLocationRecord[]
   designLocationFiles: DesignRequestDesignLocationFileRecord[]
+  artists: DesignRequestArtistRecord[]
 }): DesignFactoryDesignRequest => {
   return {
     ...designRequest,
     files,
+    artists,
     designLocations: designLocations.map(designLocation => {
       return {
         ...designLocation,

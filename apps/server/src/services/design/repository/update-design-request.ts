@@ -10,6 +10,7 @@ import { makeEvents } from '../events'
 import { DesignRequestFile } from '../db/design-request-file-table'
 import { DesignRequestDesignLocation } from '../db/design-request-design-location-table'
 import { DesignRequestDesignLocationFile } from '../db/design-request-design-location-file-table'
+import { DesignRequestArtist } from '../db/design-request-artist-table'
 
 const filesInputSchema = yup
   .array()
@@ -39,10 +40,23 @@ const designLocationinputSchema = DesignRequestDesignLocation.omit([
   }),
 )
 
+const artistInputSchema = DesignRequestArtist.omit([
+  'id',
+  'createdAt',
+  'updatedAt',
+  'designRequestId',
+]).concat(
+  yup.object().shape({
+    // If ID, update, otherwise create
+    id: yup.string().uuid().optional(),
+  }),
+)
+
 const inputSchema = DesignRequest.omit(['createdAt', 'updatedAt']).concat(
   yup
     .object()
     .shape({
+      artists: yup.array().of(artistInputSchema.required()).required(),
       files: yup
         .array()
         .of(
@@ -102,6 +116,7 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
         },
         include: {
           designRequestFiles: true,
+          designRequestArtists: true,
           designLocations: {
             include: {
               designRequestDesignLocationFiles: true,
@@ -125,6 +140,12 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
     const locationsToDelete = existingDesignRequest.designLocations.filter(
       ({ id }) =>
         !validInput.designLocations.some(location => location.id === id),
+    )
+
+    const artistsToCreate = validInput.artists.filter(({ id }) => !id)
+    const artistsToUpdate = validInput.artists.filter(({ id }) => id)
+    const artistsToDelete = existingDesignRequest.designRequestArtists.filter(
+      ({ id }) => !validInput.artists.some(artist => artist.id === id),
     )
 
     const existingDesignTsHack = { ...existingDesignRequest }
@@ -202,9 +223,25 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
             }),
             delete: locationsToDelete.map(({ id }) => ({ id })),
           },
+          designRequestArtists: {
+            create: artistsToCreate.map(artist => ({
+              artistUserId: artist.artistUserId,
+              isActive: artist.isActive,
+            })),
+            update: artistsToUpdate.map(({ id, ...rest }) => {
+              return {
+                data: {
+                  isActive: rest.isActive,
+                },
+                where: { id },
+              }
+            }),
+            delete: artistsToDelete.map(({ id }) => ({ id })),
+          },
         },
         include: {
           designRequestFiles: true,
+          designRequestArtists: true,
           designLocations: {
             include: {
               designRequestDesignLocationFiles: true,
@@ -221,6 +258,7 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
 
     const prevDesignRequest = designRequestFactory({
       designRequest: existingDesignRequest,
+      artists: existingDesignRequest.designRequestArtists,
       files: existingDesignRequest.designRequestFiles,
       designLocations: existingDesignRequest.designLocations,
       designLocationFiles: existingDesignRequest.designLocations.flatMap(
@@ -231,6 +269,7 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
 
     const nextDesignRequest = designRequestFactory({
       designRequest,
+      artists: designRequest.designRequestArtists,
       files: designRequest.designRequestFiles,
       designLocations: designRequest.designLocations,
       designLocationFiles: designRequest.designLocations.flatMap(

@@ -40,6 +40,7 @@ export const designRequestCreate = mutationField('designRequestCreate', {
           },
           files: [],
           designLocations: [],
+          artists: [],
         },
       })
     } catch (error) {
@@ -114,6 +115,7 @@ export const designRequestUpdate = mutationField('designRequestUpdate', {
             foundDesignRequest.files.map(file => ({ fileId: file.id })),
           // We provided dedicated mutations for adding and removing design locations
           designLocations: foundDesignRequest.designLocations,
+          artists: foundDesignRequest.artists,
         },
       })
     } catch (error) {

@@ -29,6 +29,7 @@ const makeGetDesignRequest: MakeGetDesignRequestFn =
       },
       include: {
         designRequestFiles: true,
+        designRequestArtists: true,
         designLocations: {
           include: {
             designRequestDesignLocationFiles: true,
@@ -43,6 +44,7 @@ const makeGetDesignRequest: MakeGetDesignRequestFn =
 
     return designRequestFactory({
       designRequest,
+      artists: designRequest.designRequestArtists,
       files: designRequest.designRequestFiles,
       designLocations: designRequest.designLocations,
       designLocationFiles: designRequest.designLocations.flatMap(

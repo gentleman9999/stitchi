@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { MembershipRole, PrismaClient } from '@prisma/client'
 import { ManagementClient } from 'auth0'
 import { verify } from './jwt'
 import { getOrThrow } from '../utils'
@@ -17,6 +17,7 @@ const organizationHeaderKey = getOrThrow(
 type StripeClient = ReturnType<typeof makeStripeClient>
 
 export interface Context {
+  role?: MembershipRole
   membershipId?: string
   userId?: string
   organizationId?: string
@@ -68,6 +69,7 @@ function makeContext(
           const userMembership =
             await params.prisma.activeUserMembership.findFirst({
               where: { userId: payload.sub },
+              include: { membership: true },
             })
 
           return userMembership
@@ -75,6 +77,7 @@ function makeContext(
       })()
 
       return {
+        role: userMembership?.membership.role ?? undefined,
         auth0: params.auth0,
         prisma: params.prisma,
         stripe: params.stripe,

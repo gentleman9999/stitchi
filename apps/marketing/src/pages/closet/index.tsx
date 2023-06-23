@@ -1,14 +1,30 @@
 import { gql, useQuery } from '@apollo/client'
 import ClosetHomePage from '@components/pages/ClosetHomePage'
-import { ClosetHomePageGetDataQuery } from '@generated/ClosetHomePageGetDataQuery'
+import {
+  ClosetHomePageGetDataQuery,
+  ClosetHomePageGetDataQueryVariables,
+} from '@generated/ClosetHomePageGetDataQuery'
 import { withAuthentication } from '@lib/auth'
 import React from 'react'
 import { ClosetLayout } from '@components/layout'
+import { notEmpty } from '@utils/typescript'
 
 const Page = () => {
-  const { data } = useQuery<ClosetHomePageGetDataQuery>(GET_DATA)
+  const { data } = useQuery<
+    ClosetHomePageGetDataQuery,
+    ClosetHomePageGetDataQueryVariables
+  >(GET_DATA, {
+    variables: {
+      first: 10,
+    },
+  })
 
-  return <ClosetHomePage />
+  const designRequests =
+    data?.viewer?.designRequests.edges
+      ?.map(edge => edge?.node)
+      .filter(notEmpty) || []
+
+  return <ClosetHomePage designRequests={designRequests} />
 }
 
 Page.getLayout = (page: React.ReactElement) => (
@@ -16,9 +32,22 @@ Page.getLayout = (page: React.ReactElement) => (
 )
 
 const GET_DATA = gql`
-  query ClosetHomePageGetDataQuery {
+  ${ClosetHomePage.fragments.designRequest}
+  query ClosetHomePageGetDataQuery(
+    $first: Int
+    $after: String
+    $filter: MembershipDesignRequestsFilterInput
+  ) {
     viewer {
       id
+      designRequests(first: $first, after: $after, filter: $filter) {
+        edges {
+          node {
+            id
+            ...ClosetHomePageDesignRequestFragment
+          }
+        }
+      }
     }
   }
 `

@@ -52,10 +52,11 @@ model Organization {
 
   memberships Membership[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Order     Order[]
-  Design    Design[]
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  Order                Order[]
+  Design               Design[]
+  ActiveUserMembership ActiveUserMembership[]
 }
 
 // The owners of the SaaS (you) can have a SUPERADMIN role to access all data
@@ -77,8 +78,9 @@ model Membership {
   invitedName  String?
   invitedEmail String?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  ActiveUserMembership ActiveUserMembership[]
 
   @@unique([organizationId, invitedEmail])
 }
@@ -88,6 +90,12 @@ model ActiveUserMembership {
   userId         String @unique
   membershipId   String
   organizationId String
+
+  membership   Membership   @relation(fields: [membershipId], references: [id], onUpdate: NoAction)
+  organization Organization @relation(fields: [organizationId], references: [id], onUpdate: NoAction)
+
+  @@index([membershipId])
+  @@index([organizationId])
 }
 
 enum MembershipRole {
@@ -368,9 +376,28 @@ model DesignRequest {
 
   designLocations DesignRequestDesignLocation[]
 
-  createdAt          DateTime            @default(now())
-  updatedAt          DateTime            @updatedAt
-  designRequestFiles DesignRequestFile[]
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  designRequestFiles   DesignRequestFile[]
+  designRequestArtists DesignRequestArtist[]
+}
+
+model DesignRequestArtist {
+  id String @id @default(uuid())
+
+  isActive Boolean @default(true)
+
+  designRequestId String
+
+  artistUserId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  designRequest DesignRequest @relation(fields: [designRequestId], references: [id])
+
+  @@index([artistUserId])
+  @@index([designRequestId])
 }
 
 enum DesignRequestStatus {
