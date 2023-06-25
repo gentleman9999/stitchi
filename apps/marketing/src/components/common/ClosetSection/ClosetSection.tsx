@@ -22,7 +22,7 @@ const ClosetSection = ({ children, tabs }: Props) => {
 const ClosetSectionInner = ({ children }: Props) => {
   const state = useClosetSectionContext()
   return (
-    <div className="pb-8">
+    <div className="pb-12">
       {typeof children === 'function' ? children(state) : children}
     </div>
   )

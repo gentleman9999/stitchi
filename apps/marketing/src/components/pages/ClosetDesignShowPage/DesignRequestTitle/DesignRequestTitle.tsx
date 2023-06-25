@@ -19,6 +19,11 @@ const DesignRequestTitle = ({ loading, designRequest }: Props) => {
 
   return (
     <ClosetPageTitle
+      actions={
+        designRequest ? (
+          <DesignRequestActions designRequest={designRequest} />
+        ) : null
+      }
       title={
         <>
           <div
@@ -50,11 +55,6 @@ const DesignRequestTitle = ({ loading, designRequest }: Props) => {
             designRequestId={designRequest?.id}
           />
         </>
-      }
-      actions={
-        designRequest ? (
-          <DesignRequestActions designRequest={designRequest} />
-        ) : null
       }
     />
   )

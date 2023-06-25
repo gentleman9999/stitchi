@@ -27,18 +27,41 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+type DesignProof {
+  artist: User
+  artistUserId: ID!
+  createdAt: DateTime!
+  fileIds: [ID!]!
+  files: [File!]!
+  id: ID!
+  locations: [DesignProofLocation!]!
+  note: String
+  user: User
+}
+
+type DesignProofLocation {
+  colorCount: Int
+  designProofId: ID!
+  file: File
+  fileId: ID!
+  id: ID!
+  placement: String
+}
+
 type DesignRequest {
   createdAt: DateTime!
   description: String
   designLocationIds: [ID!]!
   designLocations: [DesignRequestDesignLocation!]!
+  designProofIds: [ID!]!
   fileIds: [ID!]!
   fileUploadDirectory: String!
   files: [File!]!
   history: [DesignRequestHistoryItem!]!
+  humanizedStatus: String!
   id: ID!
   name: String!
-  proofs: [DesignRequestProof!]!
+  proofs: [DesignProof!]!
   status: DesignRequestStatus!
   updatedAt: DateTime
   useCase: String
@@ -119,7 +142,7 @@ type DesignRequestEdge {
   node: DesignRequest
 }
 
-union DesignRequestHistoryItem = ConversationMessage | DesignRequestHistoryItemDesignRequestEvent | DesignRequestProof | DesignRequestRevision
+union DesignRequestHistoryItem = ConversationMessage | DesignProof | DesignRequestHistoryItemDesignRequestEvent | DesignRequestRevision
 
 type DesignRequestHistoryItemDesignRequestEvent {
   id: ID!
@@ -133,14 +156,21 @@ enum DesignRequestHistoryItemDesignRequestEventMethod {
   CREATE
 }
 
-type DesignRequestProof {
-  artist: User
-  artistNote: String
-  artistUserId: ID!
-  createdAt: DateTime!
+input DesignRequestProofCreateInput {
   designRequestId: ID!
-  fileIds: [ID!]!
-  id: ID!
+  fileIds: [String!]!
+  note: String
+  proofLocations: [DesignRequestProofCreateProofLocationInput!]!
+}
+
+type DesignRequestProofCreatePayload {
+  designRequest: DesignRequest
+}
+
+input DesignRequestProofCreateProofLocationInput {
+  colorCount: Int
+  fileId: ID!
+  placement: String!
 }
 
 type DesignRequestRevision {
@@ -392,6 +422,7 @@ type Membership {
   organization: Organization
   organizationId: String!
   role: MembershipRole
+  scopes: [Scope!]!
   updatedAt: DateTime
   user: User
   userId: String!
@@ -423,6 +454,7 @@ type Mutation {
   designRequestDesignLocationCreate(input: DesignRequestDesignLocationCreateInput!): DesignRequestDesignLocationCreatePayload
   designRequestDesignLocationDelete(input: DesignRequestDesignLocationDeleteInput!): DesignRequestDesignLocationDeletePayload
   designRequestDesignLocationUpdate(input: DesignRequestDesignLocationUpdateInput!): DesignRequestDesignLocationUpdatePayload
+  designRequestProofCreate(input: DesignRequestProofCreateInput!): DesignRequestProofCreatePayload
   designRequestSubmit(input: DesignRequestSubmitInput!): DesignRequestSubmitPayload
   designRequestUpdate(input: DesignRequestUpdateInput!): DesignRequestUpdatePayload
   fileCreate(input: FileCreateInput!): FileCreatePayload
@@ -688,6 +720,22 @@ type Quote {
 
 input QuoteGeneratePrintLocationInput {
   colorCount: Int!
+}
+
+type Scope {
+  action: ScopeAction!
+  resource: ScopeResource!
+}
+
+enum ScopeAction {
+  CREATE
+  DELETE
+  READ
+  UPDATE
+}
+
+enum ScopeResource {
+  DesignProof
 }
 
 input StringFilterInput {

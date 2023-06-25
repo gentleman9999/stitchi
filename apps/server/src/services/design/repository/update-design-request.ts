@@ -11,23 +11,40 @@ import { DesignRequestFile } from '../db/design-request-file-table'
 import { DesignRequestDesignLocation } from '../db/design-request-design-location-table'
 import { DesignRequestDesignLocationFile } from '../db/design-request-design-location-file-table'
 import { DesignRequestArtist } from '../db/design-request-artist-table'
+import { DesignRequestDesignProof } from '../db/design-request-design-proof-table'
 
-const filesInputSchema = yup
-  .array()
-  .of(
-    DesignRequestDesignLocationFile.omit([
-      'id',
-      'designRequestDesignLocationId',
-    ])
-      .concat(
-        yup.object().shape({
-          // If ID, update, otherwise create
-          id: yup.string().uuid().optional(),
-        }),
-      )
-      .required(),
-  )
-  .required()
+const proofsInputSchema = yup.array().of(
+  DesignRequestDesignProof.omit(['id', 'designRequestId'])
+    .concat(
+      yup.object().shape({
+        // If ID, update, otherwise create
+        id: yup.string().uuid().optional(),
+      }),
+    )
+    .required(),
+)
+
+const designLocationFilesInputSchema = yup.array().of(
+  DesignRequestDesignLocationFile.omit(['id', 'designRequestDesignLocationId'])
+    .concat(
+      yup.object().shape({
+        // If ID, update, otherwise create
+        id: yup.string().uuid().optional(),
+      }),
+    )
+    .required(),
+)
+
+const designRequestFilesInputSchema = yup.array().of(
+  DesignRequestFile.omit(['id', 'designRequestId'])
+    .concat(
+      yup.object().shape({
+        // If ID, update, otherwise create
+        id: yup.string().uuid().optional(),
+      }),
+    )
+    .required(),
+)
 
 const designLocationinputSchema = DesignRequestDesignLocation.omit([
   'id',
@@ -36,7 +53,7 @@ const designLocationinputSchema = DesignRequestDesignLocation.omit([
   yup.object().shape({
     // If ID, update, otherwise create
     id: yup.string().uuid().optional(),
-    files: filesInputSchema.required(),
+    files: designLocationFilesInputSchema.required(),
   }),
 )
 
@@ -57,19 +74,8 @@ const inputSchema = DesignRequest.omit(['createdAt', 'updatedAt']).concat(
     .object()
     .shape({
       artists: yup.array().of(artistInputSchema.required()).required(),
-      files: yup
-        .array()
-        .of(
-          DesignRequestFile.omit(['id', 'designRequestId'])
-            .concat(
-              yup.object().shape({
-                // If ID, update, otherwise create
-                id: yup.string().uuid().optional(),
-              }),
-            )
-            .required(),
-        )
-        .required(),
+      proofs: proofsInputSchema,
+      files: designRequestFilesInputSchema.required(),
       designLocations: yup
         .array()
         .of(designLocationinputSchema.required())
@@ -117,6 +123,7 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
         include: {
           designRequestFiles: true,
           designRequestArtists: true,
+          designRequestDesignProofs: true,
           designLocations: {
             include: {
               designRequestDesignLocationFiles: true,
@@ -148,6 +155,17 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
       ({ id }) => !validInput.artists.some(artist => artist.id === id),
     )
 
+    const filesToCreate = validInput.files.filter(({ id }) => !id)
+    const filesToDelete = existingDesignRequest.designRequestFiles.filter(
+      ({ id }) => !validInput.files.some(file => file.id === id),
+    )
+
+    const proofsToCreate = validInput.proofs?.filter(({ id }) => !id)
+    const proofsToDelete =
+      existingDesignRequest.designRequestDesignProofs.filter(
+        ({ id }) => !validInput.proofs?.some(proof => proof.id === id),
+      )
+
     const existingDesignTsHack = { ...existingDesignRequest }
 
     let designRequest
@@ -164,11 +182,19 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
           organizationId: validInput.organizationId,
           userId: validInput.userId,
           metadata: validInput.metadata || undefined,
-          designRequestFiles: {
-            create: validInput.files.map(file => ({
-              fileId: file.fileId,
+          designRequestDesignProofs: {
+            create: proofsToCreate?.map(({ designProofId }) => ({
+              designProofId,
             })),
-            delete: existingDesignRequest.designRequestFiles.map(({ id }) => ({
+            delete: proofsToDelete?.map(({ id }) => ({
+              id,
+            })),
+          },
+          designRequestFiles: {
+            create: filesToCreate.map(({ fileId }) => ({
+              fileId,
+            })),
+            delete: filesToDelete.map(({ id }) => ({
               id,
             })),
           },
@@ -242,6 +268,7 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
         include: {
           designRequestFiles: true,
           designRequestArtists: true,
+          designRequestDesignProofs: true,
           designLocations: {
             include: {
               designRequestDesignLocationFiles: true,
@@ -260,6 +287,7 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
       designRequest: existingDesignRequest,
       artists: existingDesignRequest.designRequestArtists,
       files: existingDesignRequest.designRequestFiles,
+      proofs: existingDesignRequest.designRequestDesignProofs,
       designLocations: existingDesignRequest.designLocations,
       designLocationFiles: existingDesignRequest.designLocations.flatMap(
         ({ designRequestDesignLocationFiles }) =>
@@ -271,6 +299,7 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
       designRequest,
       artists: designRequest.designRequestArtists,
       files: designRequest.designRequestFiles,
+      proofs: designRequest.designRequestDesignProofs,
       designLocations: designRequest.designLocations,
       designLocationFiles: designRequest.designLocations.flatMap(
         ({ designRequestDesignLocationFiles }) =>

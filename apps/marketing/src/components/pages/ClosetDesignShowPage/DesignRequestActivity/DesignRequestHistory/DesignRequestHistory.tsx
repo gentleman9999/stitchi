@@ -82,7 +82,7 @@ const DesignRequestHistory = ({ designRequest }: Props) => {
             </>
           ) : null}
 
-          {item.__typename === 'DesignRequestProof' ? (
+          {item.__typename === 'DesignProof' ? (
             <>
               <div className="relative bg-gray-50 rounded-full w-6 h-6 flex-none">
                 <div className="flex items-center justify-center h-full">
@@ -111,17 +111,22 @@ const DesignRequestHistory = ({ designRequest }: Props) => {
                   </time>
                 </div>
                 <div className="flex gap-2">
-                  {Array.from(new Array(3)).map((_, index) => (
-                    <div
-                      key={index}
-                      className=" bg-gray-100 rounded-md h-24 w-24"
-                    />
-                  ))}
+                  {item.files.map((file, index) => {
+                    return file.__typename === 'FileImage' ? (
+                      <img
+                        src={file.url}
+                        width={file.width}
+                        height={file.height}
+                        key={index}
+                        className=" bg-gray-100 rounded-md h-24 w-24 object-contain overflow-hidden"
+                      />
+                    ) : null
+                  })}
                 </div>
 
                 <div className="flex justify-between gap-x-4 text-sm border-t pt-2">
                   <span className="font-semibold">Artist note</span>
-                  <p className=" leading-6 text-gray-500">{item.artistNote}</p>
+                  <p className=" leading-6 text-gray-500">{item.note}</p>
                 </div>
               </div>
             </>
@@ -204,14 +209,23 @@ DesignRequestHistory.fragments = {
           }
         }
 
-        ... on DesignRequestProof {
+        ... on DesignProof {
           id
           createdAt
-          artistNote
+          note
 
           artist {
             id
             name
+          }
+
+          files {
+            id
+            ... on FileImage {
+              url
+              width
+              height
+            }
           }
         }
 

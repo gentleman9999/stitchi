@@ -64,6 +64,17 @@ export interface NexusGenInputs {
     fileIds: string[]; // [ID!]!
     placement?: string | null; // String
   }
+  DesignRequestProofCreateInput: { // input type
+    designRequestId: string; // ID!
+    fileIds: string[]; // [String!]!
+    note?: string | null; // String
+    proofLocations: NexusGenInputs['DesignRequestProofCreateProofLocationInput'][]; // [DesignRequestProofCreateProofLocationInput!]!
+  }
+  DesignRequestProofCreateProofLocationInput: { // input type
+    colorCount?: number | null; // Int
+    fileId: string; // ID!
+    placement: string; // String!
+  }
   DesignRequestSubmitInput: { // input type
     designRequestId: string; // ID!
   }
@@ -202,6 +213,8 @@ export interface NexusGenEnums {
   OrderItemType: "BIG_COMMERCE_PRODUCT" | "CUSTOM"
   OrderPaymentStatus: "NOT_PAID" | "PAID" | "PARTIALLY_PAID" | "PARTIALLY_REFUNDED" | "REFUNDED"
   OrderType: "CART" | "CONFIRMED"
+  ScopeAction: "CREATE" | "DELETE" | "READ" | "UPDATE"
+  ScopeResource: "DesignProof"
 }
 
 export interface NexusGenScalars {
@@ -226,12 +239,29 @@ export interface NexusGenObjects {
     senderId: string; // ID!
     viewerIsSender: boolean; // Boolean!
   }
+  DesignProof: { // root type
+    artistUserId: string; // ID!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    fileIds: string[]; // [ID!]!
+    id: string; // ID!
+    locations: NexusGenRootTypes['DesignProofLocation'][]; // [DesignProofLocation!]!
+    note?: string | null; // String
+  }
+  DesignProofLocation: { // root type
+    colorCount?: number | null; // Int
+    designProofId: string; // ID!
+    fileId: string; // ID!
+    id: string; // ID!
+    placement?: string | null; // String
+  }
   DesignRequest: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     description?: string | null; // String
     designLocationIds: string[]; // [ID!]!
     designLocations: NexusGenRootTypes['DesignRequestDesignLocation'][]; // [DesignRequestDesignLocation!]!
+    designProofIds: string[]; // [ID!]!
     fileIds: string[]; // [ID!]!
+    humanizedStatus: string; // String!
     id: string; // ID!
     name: string; // String!
     status: NexusGenEnums['DesignRequestStatus']; // DesignRequestStatus!
@@ -273,13 +303,8 @@ export interface NexusGenObjects {
     timestamp: NexusGenScalars['DateTime']; // DateTime!
     userId?: string | null; // ID
   }
-  DesignRequestProof: { // root type
-    artistNote?: string | null; // String
-    artistUserId: string; // ID!
-    createdAt: NexusGenScalars['DateTime']; // DateTime!
-    designRequestId: string; // ID!
-    fileIds: string[]; // [ID!]!
-    id: string; // ID!
+  DesignRequestProofCreatePayload: { // root type
+    designRequest?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
   }
   DesignRequestRevision: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -515,6 +540,10 @@ export interface NexusGenObjects {
     productTotalCostCents: number; // Int!
     productUnitCostCents: number; // Int!
   }
+  Scope: { // root type
+    action: NexusGenEnums['ScopeAction']; // ScopeAction!
+    resource: NexusGenEnums['ScopeResource']; // ScopeResource!
+  }
   Subscriber: { // root type
     email: string; // String!
     id: string; // String!
@@ -550,7 +579,7 @@ export interface NexusGenInterfaces {
 }
 
 export interface NexusGenUnions {
-  DesignRequestHistoryItem: NexusGenRootTypes['ConversationMessage'] | NexusGenRootTypes['DesignRequestHistoryItemDesignRequestEvent'] | NexusGenRootTypes['DesignRequestProof'] | NexusGenRootTypes['DesignRequestRevision'];
+  DesignRequestHistoryItem: NexusGenRootTypes['ConversationMessage'] | NexusGenRootTypes['DesignProof'] | NexusGenRootTypes['DesignRequestHistoryItemDesignRequestEvent'] | NexusGenRootTypes['DesignRequestRevision'];
 }
 
 export type NexusGenRootTypes = NexusGenInterfaces & NexusGenObjects & NexusGenUnions
@@ -571,18 +600,39 @@ export interface NexusGenFieldTypes {
     senderId: string; // ID!
     viewerIsSender: boolean; // Boolean!
   }
+  DesignProof: { // field return type
+    artist: NexusGenRootTypes['User'] | null; // User
+    artistUserId: string; // ID!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    fileIds: string[]; // [ID!]!
+    files: NexusGenRootTypes['File'][]; // [File!]!
+    id: string; // ID!
+    locations: NexusGenRootTypes['DesignProofLocation'][]; // [DesignProofLocation!]!
+    note: string | null; // String
+    user: NexusGenRootTypes['User'] | null; // User
+  }
+  DesignProofLocation: { // field return type
+    colorCount: number | null; // Int
+    designProofId: string; // ID!
+    file: NexusGenRootTypes['File'] | null; // File
+    fileId: string; // ID!
+    id: string; // ID!
+    placement: string | null; // String
+  }
   DesignRequest: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     description: string | null; // String
     designLocationIds: string[]; // [ID!]!
     designLocations: NexusGenRootTypes['DesignRequestDesignLocation'][]; // [DesignRequestDesignLocation!]!
+    designProofIds: string[]; // [ID!]!
     fileIds: string[]; // [ID!]!
     fileUploadDirectory: string; // String!
     files: NexusGenRootTypes['File'][]; // [File!]!
     history: NexusGenRootTypes['DesignRequestHistoryItem'][]; // [DesignRequestHistoryItem!]!
+    humanizedStatus: string; // String!
     id: string; // ID!
     name: string; // String!
-    proofs: NexusGenRootTypes['DesignRequestProof'][]; // [DesignRequestProof!]!
+    proofs: NexusGenRootTypes['DesignProof'][]; // [DesignProof!]!
     status: NexusGenEnums['DesignRequestStatus']; // DesignRequestStatus!
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     useCase: string | null; // String
@@ -626,14 +676,8 @@ export interface NexusGenFieldTypes {
     user: NexusGenRootTypes['User'] | null; // User
     userId: string | null; // ID
   }
-  DesignRequestProof: { // field return type
-    artist: NexusGenRootTypes['User'] | null; // User
-    artistNote: string | null; // String
-    artistUserId: string; // ID!
-    createdAt: NexusGenScalars['DateTime']; // DateTime!
-    designRequestId: string; // ID!
-    fileIds: string[]; // [ID!]!
-    id: string; // ID!
+  DesignRequestProofCreatePayload: { // field return type
+    designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
   }
   DesignRequestRevision: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -759,6 +803,7 @@ export interface NexusGenFieldTypes {
     organization: NexusGenRootTypes['Organization'] | null; // Organization
     organizationId: string; // String!
     role: NexusGenEnums['MembershipRole'] | null; // MembershipRole
+    scopes: NexusGenRootTypes['Scope'][]; // [Scope!]!
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     user: NexusGenRootTypes['User'] | null; // User
     userId: string; // String!
@@ -768,6 +813,7 @@ export interface NexusGenFieldTypes {
     designRequestDesignLocationCreate: NexusGenRootTypes['DesignRequestDesignLocationCreatePayload'] | null; // DesignRequestDesignLocationCreatePayload
     designRequestDesignLocationDelete: NexusGenRootTypes['DesignRequestDesignLocationDeletePayload'] | null; // DesignRequestDesignLocationDeletePayload
     designRequestDesignLocationUpdate: NexusGenRootTypes['DesignRequestDesignLocationUpdatePayload'] | null; // DesignRequestDesignLocationUpdatePayload
+    designRequestProofCreate: NexusGenRootTypes['DesignRequestProofCreatePayload'] | null; // DesignRequestProofCreatePayload
     designRequestSubmit: NexusGenRootTypes['DesignRequestSubmitPayload'] | null; // DesignRequestSubmitPayload
     designRequestUpdate: NexusGenRootTypes['DesignRequestUpdatePayload'] | null; // DesignRequestUpdatePayload
     fileCreate: NexusGenRootTypes['FileCreatePayload'] | null; // FileCreatePayload
@@ -912,6 +958,10 @@ export interface NexusGenFieldTypes {
     productTotalCostCents: number; // Int!
     productUnitCostCents: number; // Int!
   }
+  Scope: { // field return type
+    action: NexusGenEnums['ScopeAction']; // ScopeAction!
+    resource: NexusGenEnums['ScopeResource']; // ScopeResource!
+  }
   Subscriber: { // field return type
     email: string; // String!
     id: string; // String!
@@ -970,18 +1020,39 @@ export interface NexusGenFieldTypeNames {
     senderId: 'ID'
     viewerIsSender: 'Boolean'
   }
+  DesignProof: { // field return type name
+    artist: 'User'
+    artistUserId: 'ID'
+    createdAt: 'DateTime'
+    fileIds: 'ID'
+    files: 'File'
+    id: 'ID'
+    locations: 'DesignProofLocation'
+    note: 'String'
+    user: 'User'
+  }
+  DesignProofLocation: { // field return type name
+    colorCount: 'Int'
+    designProofId: 'ID'
+    file: 'File'
+    fileId: 'ID'
+    id: 'ID'
+    placement: 'String'
+  }
   DesignRequest: { // field return type name
     createdAt: 'DateTime'
     description: 'String'
     designLocationIds: 'ID'
     designLocations: 'DesignRequestDesignLocation'
+    designProofIds: 'ID'
     fileIds: 'ID'
     fileUploadDirectory: 'String'
     files: 'File'
     history: 'DesignRequestHistoryItem'
+    humanizedStatus: 'String'
     id: 'ID'
     name: 'String'
-    proofs: 'DesignRequestProof'
+    proofs: 'DesignProof'
     status: 'DesignRequestStatus'
     updatedAt: 'DateTime'
     useCase: 'String'
@@ -1025,14 +1096,8 @@ export interface NexusGenFieldTypeNames {
     user: 'User'
     userId: 'ID'
   }
-  DesignRequestProof: { // field return type name
-    artist: 'User'
-    artistNote: 'String'
-    artistUserId: 'ID'
-    createdAt: 'DateTime'
-    designRequestId: 'ID'
-    fileIds: 'ID'
-    id: 'ID'
+  DesignRequestProofCreatePayload: { // field return type name
+    designRequest: 'DesignRequest'
   }
   DesignRequestRevision: { // field return type name
     createdAt: 'DateTime'
@@ -1158,6 +1223,7 @@ export interface NexusGenFieldTypeNames {
     organization: 'Organization'
     organizationId: 'String'
     role: 'MembershipRole'
+    scopes: 'Scope'
     updatedAt: 'DateTime'
     user: 'User'
     userId: 'String'
@@ -1167,6 +1233,7 @@ export interface NexusGenFieldTypeNames {
     designRequestDesignLocationCreate: 'DesignRequestDesignLocationCreatePayload'
     designRequestDesignLocationDelete: 'DesignRequestDesignLocationDeletePayload'
     designRequestDesignLocationUpdate: 'DesignRequestDesignLocationUpdatePayload'
+    designRequestProofCreate: 'DesignRequestProofCreatePayload'
     designRequestSubmit: 'DesignRequestSubmitPayload'
     designRequestUpdate: 'DesignRequestUpdatePayload'
     fileCreate: 'FileCreatePayload'
@@ -1311,6 +1378,10 @@ export interface NexusGenFieldTypeNames {
     productTotalCostCents: 'Int'
     productUnitCostCents: 'Int'
   }
+  Scope: { // field return type name
+    action: 'ScopeAction'
+    resource: 'ScopeResource'
+  }
   Subscriber: { // field return type name
     email: 'String'
     id: 'String'
@@ -1385,6 +1456,9 @@ export interface NexusGenArgTypes {
     designRequestDesignLocationUpdate: { // args
       input: NexusGenInputs['DesignRequestDesignLocationUpdateInput']; // DesignRequestDesignLocationUpdateInput!
     }
+    designRequestProofCreate: { // args
+      input: NexusGenInputs['DesignRequestProofCreateInput']; // DesignRequestProofCreateInput!
+    }
     designRequestSubmit: { // args
       input: NexusGenInputs['DesignRequestSubmitInput']; // DesignRequestSubmitInput!
     }
@@ -1440,7 +1514,7 @@ export interface NexusGenArgTypes {
 }
 
 export interface NexusGenAbstractTypeMembers {
-  DesignRequestHistoryItem: "ConversationMessage" | "DesignRequestHistoryItemDesignRequestEvent" | "DesignRequestProof" | "DesignRequestRevision"
+  DesignRequestHistoryItem: "ConversationMessage" | "DesignProof" | "DesignRequestHistoryItemDesignRequestEvent" | "DesignRequestRevision"
   File: "FileImage" | "FilePdf" | "FileUnknown"
 }
 

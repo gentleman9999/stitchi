@@ -70,6 +70,7 @@ const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
       ref={mergeRefs([ref, buttonRef])}
       className={rootClassName}
       disabled={disabled}
+      type={Component === 'button' ? props.type || 'button' : undefined}
       style={{
         width,
         ...style,

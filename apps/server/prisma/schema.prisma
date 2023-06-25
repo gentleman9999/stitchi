@@ -32,10 +32,12 @@ model File {
 
   format String
 
-  createdAt                      DateTime                          @default(now())
-  updatedAt                      DateTime                          @updatedAt
-  DesignRequestFile              DesignRequestFile[]
-  DesignRequestPrintLocationFile DesignRequestDesignLocationFile[]
+  createdAt                       DateTime                          @default(now())
+  updatedAt                       DateTime                          @updatedAt
+  designRequestFiles              DesignRequestFile[]
+  designRequestPrintLocationFiles DesignRequestDesignLocationFile[]
+  designProofFiles                DesignProofFile[]
+  designProofLocations            DesignProofLocation[]
 }
 
 enum FileType {
@@ -376,10 +378,11 @@ model DesignRequest {
 
   designLocations DesignRequestDesignLocation[]
 
-  createdAt            DateTime              @default(now())
-  updatedAt            DateTime              @updatedAt
-  designRequestFiles   DesignRequestFile[]
-  designRequestArtists DesignRequestArtist[]
+  createdAt                 DateTime                   @default(now())
+  updatedAt                 DateTime                   @updatedAt
+  designRequestFiles        DesignRequestFile[]
+  designRequestArtists      DesignRequestArtist[]
+  designRequestDesignProofs DesignRequestDesignProof[]
 }
 
 model DesignRequestArtist {
@@ -457,6 +460,66 @@ model DesignRequestDesignLocationFile {
 
   @@index([designRequestDesignLocationId])
   @@index([fileId])
+}
+
+model DesignRequestDesignProof {
+  id String @id @default(uuid())
+
+  // The design request that this proof belongs to
+  designRequestId String
+  designProofId   String
+
+  designRequest DesignRequest @relation(fields: [designRequestId], references: [id])
+  designProof   DesignProof   @relation(fields: [designProofId], references: [id])
+
+  @@index([designRequestId])
+  @@index([designProofId])
+}
+
+model DesignProof {
+  id String @id @default(uuid())
+
+  artistUserId String
+
+  note String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  designProofLocations      DesignProofLocation[]
+  designProofFiles          DesignProofFile[]
+  designRequestDesignProofs DesignRequestDesignProof[]
+}
+
+model DesignProofLocation {
+  id String @id @default(uuid())
+
+  designProofId String
+  fileId        String
+
+  placement  String?
+  colorCount Int?
+
+  designProof DesignProof @relation(fields: [designProofId], references: [id], onDelete: Cascade)
+  file        File        @relation(fields: [fileId], references: [id])
+
+  @@index([designProofId])
+  @@index([fileId])
+}
+
+model DesignProofFile {
+  id String @id @default(uuid())
+
+  // The design request proof print location that this file belongs to
+  fileId        String
+  designProofId String
+
+  file File @relation(fields: [fileId], references: [id])
+
+  designProof DesignProof @relation(fields: [designProofId], references: [id])
+
+  @@index([fileId])
+  @@index([designProofId])
 }
 
 model MailingAddress {

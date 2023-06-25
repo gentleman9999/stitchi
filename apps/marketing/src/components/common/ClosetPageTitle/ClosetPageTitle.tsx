@@ -1,10 +1,6 @@
-import { useDesignContext } from '@components/pages/ClosetDesignShowPage/design-context'
-import { LoadingDots } from '@components/ui'
-import { Check } from 'icons'
 import React from 'react'
-import cx from 'classnames'
 
-interface Props {
+export interface Props {
   title: React.ReactNode
   actions?: React.ReactNode
 }

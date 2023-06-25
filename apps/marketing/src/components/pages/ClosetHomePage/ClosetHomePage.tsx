@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client'
-import { Badge, Container } from '@components/ui'
+import { Badge, BadgeProps, Container } from '@components/ui'
 import { ClosetHomePageDesignRequestFragment } from '@generated/ClosetHomePageDesignRequestFragment'
+import { DesignRequestStatus } from '@generated/globalTypes'
 import routes from '@lib/routes'
 import { format } from 'date-fns'
 import Link from 'next/link'
@@ -29,10 +30,8 @@ const ClosetHomePage = ({ designRequests }: Props) => {
               <div className="absolute right-0 top-0">
                 <div className="p-2">
                   <Badge
-                    label={
-                      i % 2 === 0 ? 'Making revisions' : 'Approval requested'
-                    }
-                    severity={i % 2 === 0 ? 'warning' : 'success'}
+                    label={designRequest.humanizedStatus}
+                    severity={getStatusBadgeSeverity(designRequest.status)}
                     className="opacity-90"
                   />
                 </div>
@@ -61,12 +60,33 @@ const ClosetHomePage = ({ designRequests }: Props) => {
   )
 }
 
+const getStatusBadgeSeverity = (
+  status: DesignRequestStatus,
+): BadgeProps['severity'] => {
+  switch (status) {
+    case DesignRequestStatus.APPROVED:
+      return 'success'
+    case DesignRequestStatus.REJECTED:
+      return 'error'
+
+    case DesignRequestStatus.SUBMITTED:
+    case DesignRequestStatus.AWAITING_REVISION:
+    case DesignRequestStatus.AWAITING_APPROVAL:
+      return 'info'
+    case DesignRequestStatus.DRAFT:
+    default:
+      return 'default'
+  }
+}
+
 ClosetHomePage.fragments = {
   designRequest: gql`
     fragment ClosetHomePageDesignRequestFragment on DesignRequest {
       id
       name
       createdAt
+      status
+      humanizedStatus
     }
   `,
 }

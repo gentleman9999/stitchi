@@ -7,6 +7,7 @@ export * from './file'
 export * from './order'
 export * from './fulfillment'
 export * from './payment'
+export * from './scope'
 export * from './user'
 export * from './organization'
 

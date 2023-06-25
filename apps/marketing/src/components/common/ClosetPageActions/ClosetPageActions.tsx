@@ -17,13 +17,13 @@ interface ButtonAction extends BaseAction {
   onClick: () => void
 }
 
-type Action = LinkAction | ButtonAction
+export type Action = LinkAction | ButtonAction
 
 interface Props {
   actions: Action[]
 }
 
-const ClosetPageTitleActions = ({ actions }: Props) => {
+const ClosetPageActions = ({ actions }: Props) => {
   return (
     <div>
       {actions.map(action => {
@@ -46,7 +46,12 @@ const ClosetPageTitleActions = ({ actions }: Props) => {
           )
         } else {
           return (
-            <Button {...shared} key={action.label} onClick={action.onClick} />
+            <Button
+              type="button" // default, can be overriden
+              {...shared}
+              key={action.label}
+              onClick={action.onClick}
+            />
           )
         }
       })}
@@ -54,4 +59,4 @@ const ClosetPageTitleActions = ({ actions }: Props) => {
   )
 }
 
-export default ClosetPageTitleActions
+export default ClosetPageActions

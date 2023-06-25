@@ -40,18 +40,34 @@ export interface DesignRequestActivityDesignRequestFragment_history_DesignReques
   user: DesignRequestActivityDesignRequestFragment_history_DesignRequestHistoryItemDesignRequestEvent_user | null;
 }
 
-export interface DesignRequestActivityDesignRequestFragment_history_DesignRequestProof_artist {
+export interface DesignRequestActivityDesignRequestFragment_history_DesignProof_artist {
   __typename: "User";
   id: string | null;
   name: string | null;
 }
 
-export interface DesignRequestActivityDesignRequestFragment_history_DesignRequestProof {
-  __typename: "DesignRequestProof";
+export interface DesignRequestActivityDesignRequestFragment_history_DesignProof_files_FileUnknown {
+  __typename: "FileUnknown" | "FilePdf";
+  id: string;
+}
+
+export interface DesignRequestActivityDesignRequestFragment_history_DesignProof_files_FileImage {
+  __typename: "FileImage";
+  id: string;
+  url: string;
+  width: number;
+  height: number;
+}
+
+export type DesignRequestActivityDesignRequestFragment_history_DesignProof_files = DesignRequestActivityDesignRequestFragment_history_DesignProof_files_FileUnknown | DesignRequestActivityDesignRequestFragment_history_DesignProof_files_FileImage;
+
+export interface DesignRequestActivityDesignRequestFragment_history_DesignProof {
+  __typename: "DesignProof";
   id: string;
   createdAt: any;
-  artistNote: string | null;
-  artist: DesignRequestActivityDesignRequestFragment_history_DesignRequestProof_artist | null;
+  note: string | null;
+  artist: DesignRequestActivityDesignRequestFragment_history_DesignProof_artist | null;
+  files: DesignRequestActivityDesignRequestFragment_history_DesignProof_files[];
 }
 
 export interface DesignRequestActivityDesignRequestFragment_history_DesignRequestRevision_user {
@@ -68,7 +84,7 @@ export interface DesignRequestActivityDesignRequestFragment_history_DesignReques
   user: DesignRequestActivityDesignRequestFragment_history_DesignRequestRevision_user | null;
 }
 
-export type DesignRequestActivityDesignRequestFragment_history = DesignRequestActivityDesignRequestFragment_history_ConversationMessage | DesignRequestActivityDesignRequestFragment_history_DesignRequestHistoryItemDesignRequestEvent | DesignRequestActivityDesignRequestFragment_history_DesignRequestProof | DesignRequestActivityDesignRequestFragment_history_DesignRequestRevision;
+export type DesignRequestActivityDesignRequestFragment_history = DesignRequestActivityDesignRequestFragment_history_ConversationMessage | DesignRequestActivityDesignRequestFragment_history_DesignRequestHistoryItemDesignRequestEvent | DesignRequestActivityDesignRequestFragment_history_DesignProof | DesignRequestActivityDesignRequestFragment_history_DesignRequestRevision;
 
 export interface DesignRequestActivityDesignRequestFragment_user {
   __typename: "User";

@@ -218,6 +218,11 @@ const routes = {
           proofs: {
             href: ({ designId }: { designId: string }) =>
               buildRoute(`/closet/designs/${designId}/proofs`),
+
+            create: {
+              href: ({ designId }: { designId: string }) =>
+                buildRoute(`/closet/designs/${designId}/proofs/create`),
+            },
           },
 
           activity: {

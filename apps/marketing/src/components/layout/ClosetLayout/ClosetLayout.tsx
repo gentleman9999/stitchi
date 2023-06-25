@@ -1,6 +1,7 @@
 import { gql, useQuery } from '@apollo/client'
-import { Container } from '@components/ui'
+import { Badge, Container } from '@components/ui'
 import { ClosetLayoutGetDataQuery } from '@generated/ClosetLayoutGetDataQuery'
+import { MembershipRole } from '@generated/globalTypes'
 import routes from '@lib/routes'
 import Link from 'next/link'
 import React from 'react'
@@ -13,7 +14,7 @@ interface Props {
 const ClosetLayout = (props: Props) => {
   const { data } = useQuery<ClosetLayoutGetDataQuery>(GET_DATA)
 
-  const { user } = data?.viewer || {}
+  const { user, role, organization } = data?.viewer || {}
 
   return (
     <>
@@ -41,22 +42,27 @@ const ClosetLayout = (props: Props) => {
               </ul>
             </div>
 
-            <AccountDropdown
-              renderTrigger={() => (
-                <div className="flex items-center gap-2 hover:bg-gray-100 py-1 px-2 rounded-md">
-                  {user?.picture ? (
-                    <img
-                      src={user.picture}
-                      alt={user?.nickname || 'Avatar'}
-                      className="w-8 h-8 rounded-md border"
-                    />
-                  ) : null}
-                  <span className="capitalize font-medium text-lg">
-                    {user?.nickname}
-                  </span>
-                </div>
-              )}
-            />
+            <div className="flex items-center gap-2">
+              {role === MembershipRole.STITCHI_DESIGNER ? (
+                <Badge label="Designer" size="small" />
+              ) : null}
+              {organization?.name ? (
+                <Badge label={organization.name} size="small" />
+              ) : null}
+              <AccountDropdown
+                renderTrigger={() => (
+                  <div className="hover:bg-gray-100 p-1 rounded-md">
+                    {user?.picture ? (
+                      <img
+                        src={user.picture}
+                        alt={user?.nickname || 'Avatar'}
+                        className="w-8 h-8 rounded-md border"
+                      />
+                    ) : null}
+                  </div>
+                )}
+              />
+            </div>
           </div>
         </Container>
       </nav>
@@ -69,6 +75,11 @@ const GET_DATA = gql`
   query ClosetLayoutGetDataQuery {
     viewer {
       id
+      role
+      organization {
+        id
+        name
+      }
       user {
         id
         nickname

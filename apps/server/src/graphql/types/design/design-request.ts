@@ -23,7 +23,7 @@ export const DesignRequestHistoryItem = unionType({
     t.members(
       'ConversationMessage',
       'DesignRequestHistoryItemDesignRequestEvent',
-      'DesignRequestProof',
+      'DesignProof',
       'DesignRequestRevision',
     )
   },
@@ -37,7 +37,7 @@ export const DesignRequestHistoryItem = unionType({
     }
 
     if ('artistUserId' in item) {
-      return 'DesignRequestProof'
+      return 'DesignProof'
     }
 
     if ('description' in item && 'fileIds' in item) {
@@ -76,9 +76,11 @@ export const DesignRequest = objectType({
     })
 
     t.nonNull.field('status', { type: 'DesignRequestStatus' })
+    t.nonNull.string('humanizedStatus')
 
     t.nonNull.list.nonNull.id('fileIds')
     t.nonNull.list.nonNull.id('designLocationIds')
+    t.nonNull.list.nonNull.id('designProofIds')
     t.nonNull.list.nonNull.field('designLocations', {
       type: 'DesignRequestDesignLocation',
     })

@@ -6,6 +6,7 @@ const severityClasses = {
   default: 'text-gray-600 bg-gray-50 ring-gray-500/10',
   error: 'text-red-700 bg-red-50 ring-red-600/10',
   warning: 'text-orange-700 bg-orange-50 ring-orange-600/10',
+  info: 'text-blue-700 bg-blue-50 ring-blue-600/10',
 }
 
 export interface BadgeProps {

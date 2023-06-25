@@ -3,6 +3,7 @@ import { ComponentErrorMessage } from '@components/common'
 import { LoadingDots, Logo } from '@components/ui'
 import { AccountSetupPageMembershipFragment } from '@generated/AccountSetupPageMembershipFragment'
 import { AccountSetupPageOrganizationFragment } from '@generated/AccountSetupPageOrganizationFragment'
+import routes from '@lib/routes'
 
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -14,10 +15,11 @@ interface Props {
 }
 
 const AccountSetupPage = (props: Props) => {
+  const [loading, setLoading] = React.useState(false)
   const router = useRouter()
   const [
     bootstrapAccount,
-    { error: bootstrappingError, user, loading: bootstrappingAccount },
+    { error: bootstrappingError, loading: bootstrappingAccount },
   ] = useBootstrapUser()
   const [
     setMembership,
@@ -26,8 +28,42 @@ const AccountSetupPage = (props: Props) => {
 
   const { redirectUrl } = router.query
 
+  const nextPath =
+    typeof redirectUrl === 'string'
+      ? redirectUrl
+      : routes.internal.closet.href()
+
+  const handleSetMembership = async (input: {
+    organizationId: string
+    membershipId: string
+  }) => {
+    setLoading(true)
+    try {
+      await setMembership(input)
+      window.location.href = nextPath
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleBootstrapAccount = async () => {
+    setLoading(true)
+    try {
+      const account = await bootstrapAccount()
+      if (account) {
+        window.location.href = nextPath
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
+
   if (props.memberships.length === 1) {
-    // do something
+    handleSetMembership({
+      organizationId: props.memberships[0].organization?.id || '',
+      membershipId: props.memberships[0].id,
+    })
+
     return null
   }
 
@@ -36,9 +72,9 @@ const AccountSetupPage = (props: Props) => {
       <div className="rounded-md shadow-magical max-w-md p-8 flex flex-col items-center gap-8 bg-white">
         <Logo className="w-16" />
         {props.memberships.length ? (
-          <UserSelectOrganization {...props} onSelect={setMembership} />
+          <UserSelectOrganization {...props} onSelect={handleSetMembership} />
         ) : (
-          <UserBootstrap {...props} onBootstrap={bootstrapAccount} />
+          <UserBootstrap {...props} onBootstrap={handleBootstrapAccount} />
         )}
 
         {bootstrappingError || membershipError ? (

@@ -139,8 +139,8 @@ export const UserExtendsDesignRequest = extendType({
   },
 })
 
-export const UserExtendsDesignRequestProof = extendType({
-  type: 'DesignRequestProof',
+export const UserExtendsDesignProof = extendType({
+  type: 'DesignProof',
   definition(t) {
     t.field('artist', {
       type: 'User',
@@ -173,6 +173,29 @@ export const UserExtendsDesignRequestRevision = extendType({
         try {
           user = await ctx.auth0.getUser({
             id: designRequestRevision.userId,
+          })
+        } catch (error) {
+          console.error(error)
+          throw new GraphQLError('Unable to fetch user')
+        }
+
+        return auth0UserToGraphl(user)
+      },
+    })
+  },
+})
+
+export const UserExtendsDesingProof = extendType({
+  type: 'DesignProof',
+  definition(t) {
+    t.field('user', {
+      type: 'User',
+      resolve: async (designProof, _, ctx) => {
+        let user
+
+        try {
+          user = await ctx.auth0.getUser({
+            id: designProof.artistUserId,
           })
         } catch (error) {
           console.error(error)

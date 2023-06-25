@@ -10,10 +10,14 @@ import {
 import { notEmpty } from '../../../utils'
 import { NexusGenObjects } from '../../generated/nexus'
 import { conversationMessageFactoryToGraphQl } from '../../serializers/conversation'
-import { designRequestFactoryToGrahpql } from '../../serializers/design'
+import {
+  designProofFactoryToGraphql,
+  designRequestFactoryToGrahpql,
+} from '../../serializers/design'
 import * as uuid from 'uuid'
 import { addDays } from 'date-fns'
 import { Prisma } from '@prisma/client'
+import { GraphQLError } from 'graphql'
 
 export const designRequest = queryField('designRequest', {
   type: 'DesignRequest',
@@ -90,7 +94,7 @@ export const DesignRequestsExtendsMembership = extendType({
         if (isArtist) {
           resourceOwnerFilter.push({
             designRequestArtists: {
-              some: {
+              every: {
                 artistUserId: parent.userId,
               },
             },
@@ -172,23 +176,27 @@ export const ExtendDesignRequests = extendType({
             },
           ]
 
-        const makeProof = (
-          i: number,
-        ): NexusGenObjects['DesignRequestProof'] => ({
-          id: uuid.v4(),
-          artistUserId: parent.userId || '',
-          designRequestId: parent.id,
-          fileIds: [],
-          artistNote: 'This is a note from the artist',
-          createdAt: addDays(new Date(), i),
-        })
+        let proofs
 
-        const proofs = Array.from({ length: 2 }).map((_, i) => makeProof(i))
+        try {
+          proofs = await ctx.design.listDesignProofs({
+            where: {
+              designRequestDesignProofs: {
+                every: {
+                  designRequestId: parent.id,
+                },
+              },
+            },
+          })
+        } catch (error) {
+          console.log(error)
+          throw new GraphQLError('Failed to get proofs')
+        }
 
         const historyItems = [
           ...desingRequestEvents,
           ...messages,
-          ...proofs,
+          ...proofs.map(designProofFactoryToGraphql),
           ...designRequestRevision,
         ].sort((a, b) => {
           const aTimestamp = 'timestamp' in a ? a.timestamp : a.createdAt

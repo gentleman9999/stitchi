@@ -13,7 +13,7 @@ import { MembershipOrdersFilterInput } from '@generated/globalTypes'
 import { useDebouncedCallback } from 'use-debounce'
 import { useQueryState } from 'next-usequerystate'
 import ClosetPageTitle, {
-  ClosetPageTitleActions,
+  ClosetPageActions,
 } from '@components/common/ClosetPageTitle'
 import ClosetPageContainer from '@components/common/ClosetPageContainer'
 import routes from '@lib/routes'
@@ -83,7 +83,7 @@ const ClosetOrdersIndexPage = (props: Props) => {
         <ClosetPageTitle
           title="Your orders"
           actions={
-            <ClosetPageTitleActions
+            <ClosetPageActions
               actions={[
                 {
                   label: 'Create',

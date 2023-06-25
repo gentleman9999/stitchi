@@ -136,6 +136,7 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
             },
           },
           designRequestArtists: true,
+          designRequestDesignProofs: true,
         },
       })
     } catch (error) {
@@ -149,6 +150,7 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
       designRequest,
       artists: designRequest.designRequestArtists,
       files: designRequest.designRequestFiles,
+      proofs: designRequest.designRequestDesignProofs,
       designLocations: designRequest.designLocations,
       designLocationFiles: designRequest.designLocations.flatMap(
         designLocation => designLocation.designRequestDesignLocationFiles,

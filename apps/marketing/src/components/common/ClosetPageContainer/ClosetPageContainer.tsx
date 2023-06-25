@@ -4,8 +4,8 @@ interface Props {
   children: React.ReactNode
 }
 
-const ClosetPageConatiner = ({ children }: Props) => {
+const ClosetPageContainer = ({ children }: Props) => {
   return <div className="mt-6">{children}</div>
 }
 
-export default ClosetPageConatiner
+export default ClosetPageContainer

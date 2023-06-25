@@ -38,6 +38,10 @@ export interface DesignService {
   updateDesignRequest: DesignRepository['updateDesignRequest']
   getDesignRequest: DesignRepository['getDesignRequest']
   listDesignRequests: DesignRepository['listDesignRequests']
+
+  createDesignProof: DesignRepository['createDesignProof']
+  getDesignProof: DesignRepository['getDesignProof']
+  listDesignProofs: DesignRepository['listDesignProofs']
 }
 
 interface MakeClientParams {
@@ -136,6 +140,33 @@ const makeClient: MakeClientFn = (
       } catch (error) {
         console.error(error)
         throw new Error('Failed to list design requests')
+      }
+    },
+
+    createDesignProof: async input => {
+      try {
+        return designRepository.createDesignProof(input)
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to create design proof')
+      }
+    },
+
+    getDesignProof: async input => {
+      try {
+        return designRepository.getDesignProof(input)
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to get design proof')
+      }
+    },
+
+    listDesignProofs: async input => {
+      try {
+        return designRepository.listDesignProofs(input)
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to list design proofs')
       }
     },
   }

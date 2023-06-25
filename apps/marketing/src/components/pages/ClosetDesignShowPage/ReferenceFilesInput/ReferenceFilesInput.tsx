@@ -1,5 +1,5 @@
+import FileInput from '@components/ui/inputs/FileInput'
 import React from 'react'
-import FileInput from './FileInput'
 import ReferenceFilePreview, { ReferenceFile } from '../ReferenceFilePreview'
 
 interface Props {

@@ -1,6 +1,5 @@
 import { Container } from '@components/ui'
 import React from 'react'
-import ProgressBar from './DesignRequestOverview/ProgressBar'
 import { DesignProvider } from './design-context'
 import {
   ClosetDesignShowPageGetDataQuery,
@@ -15,7 +14,7 @@ import ClosetSection from '@components/common/ClosetSection'
 import routes from '@lib/routes'
 import DesignRequestOverview from './DesignRequestOverview'
 import DesignRequestActivity from './DesignRequestActivity'
-import DesignRequestProofs from './DesignRequestProofs'
+import DesignProofs from './DesignProofs'
 
 interface Props {
   designId: string
@@ -68,7 +67,7 @@ const ClosetDesignShowPage = ({ designId }: Props) => {
         >
           {({ activeTab }) => (
             <>
-              <ClosetSectionHeader>
+              <ClosetSectionHeader divider>
                 <ClosetSectionHeaderTabs />
               </ClosetSectionHeader>
 
@@ -83,7 +82,7 @@ const ClosetDesignShowPage = ({ designId }: Props) => {
                   ) : null}
 
                   {activeTab.id === 'proofs' ? (
-                    <DesignRequestProofs designRequest={designRequest} />
+                    <DesignProofs designRequest={designRequest} />
                   ) : null}
                 </>
               ) : null}
@@ -99,7 +98,7 @@ const GET_DATA = gql`
   ${DesignRequestTitle.fragments.designRequest}
   ${DesignRequestOverview.fragments.designRequest}
   ${DesignRequestActivity.fragments.designRequest}
-  ${DesignRequestProofs.fragments.designRequest}
+  ${DesignProofs.fragments.designRequest}
   query ClosetDesignShowPageGetDataQuery($designId: ID!) {
     designRequest(id: $designId) {
       id
@@ -109,7 +108,7 @@ const GET_DATA = gql`
       ...DesignRequestTitleDesignRequesetFragment
       ...DesignRequestOverviewDesignRequestFragment
       ...DesignRequestActivityDesignRequestFragment
-      ...DesignRequestProofDesignRequestFragment
+      ...DesignProofDesignRequestFragment
     }
   }
 `

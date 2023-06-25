@@ -60,12 +60,28 @@ export enum ItemStatus {
   updated = "updated",
 }
 
+export enum MembershipRole {
+  OWNER = "OWNER",
+  STITCHI_DESIGNER = "STITCHI_DESIGNER",
+}
+
 export enum OrderPaymentStatus {
   NOT_PAID = "NOT_PAID",
   PAID = "PAID",
   PARTIALLY_PAID = "PARTIALLY_PAID",
   PARTIALLY_REFUNDED = "PARTIALLY_REFUNDED",
   REFUNDED = "REFUNDED",
+}
+
+export enum ScopeAction {
+  CREATE = "CREATE",
+  DELETE = "DELETE",
+  READ = "READ",
+  UPDATE = "UPDATE",
+}
+
+export enum ScopeResource {
+  DesignProof = "DesignProof",
 }
 
 export interface ArticleModelFilter {
@@ -135,6 +151,19 @@ export interface DesignRequestDesignLocationUpdateInput {
   description?: string | null;
   placement?: string | null;
   fileIds: string[];
+}
+
+export interface DesignRequestProofCreateInput {
+  designRequestId: string;
+  note?: string | null;
+  fileIds: string[];
+  proofLocations: DesignRequestProofCreateProofLocationInput[];
+}
+
+export interface DesignRequestProofCreateProofLocationInput {
+  colorCount?: number | null;
+  placement: string;
+  fileId: string;
 }
 
 export interface DesignRequestSubmitInput {

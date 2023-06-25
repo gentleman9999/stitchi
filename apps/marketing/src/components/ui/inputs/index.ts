@@ -15,3 +15,6 @@ export * from './TextField'
 
 export { default as InputGroup } from './InputGroup'
 export * from './InputGroup'
+
+export { default as FileInput } from './FileInput'
+export * from './FileInput'

@@ -110,6 +110,11 @@ const Form = ({
         className="disabled:bg-transparent outline-primary"
         onFocus={() => setEdit(true)}
         style={{ width: `${inputWidthPx}px` }}
+        onKeyDown={event => {
+          if (event.key === 'Enter') {
+            event.currentTarget.blur()
+          }
+        }}
         {...form.register('name', {
           onBlur: () => {
             setEdit(false)

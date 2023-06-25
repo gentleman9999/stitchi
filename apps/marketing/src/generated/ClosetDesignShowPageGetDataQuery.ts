@@ -93,18 +93,34 @@ export interface ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRe
   user: ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestHistoryItemDesignRequestEvent_user | null;
 }
 
-export interface ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestProof_artist {
+export interface ClosetDesignShowPageGetDataQuery_designRequest_history_DesignProof_artist {
   __typename: "User";
   id: string | null;
   name: string | null;
 }
 
-export interface ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestProof {
-  __typename: "DesignRequestProof";
+export interface ClosetDesignShowPageGetDataQuery_designRequest_history_DesignProof_files_FileUnknown {
+  __typename: "FileUnknown" | "FilePdf";
+  id: string;
+}
+
+export interface ClosetDesignShowPageGetDataQuery_designRequest_history_DesignProof_files_FileImage {
+  __typename: "FileImage";
+  id: string;
+  url: string;
+  width: number;
+  height: number;
+}
+
+export type ClosetDesignShowPageGetDataQuery_designRequest_history_DesignProof_files = ClosetDesignShowPageGetDataQuery_designRequest_history_DesignProof_files_FileUnknown | ClosetDesignShowPageGetDataQuery_designRequest_history_DesignProof_files_FileImage;
+
+export interface ClosetDesignShowPageGetDataQuery_designRequest_history_DesignProof {
+  __typename: "DesignProof";
   id: string;
   createdAt: any;
-  artistNote: string | null;
-  artist: ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestProof_artist | null;
+  note: string | null;
+  artist: ClosetDesignShowPageGetDataQuery_designRequest_history_DesignProof_artist | null;
+  files: ClosetDesignShowPageGetDataQuery_designRequest_history_DesignProof_files[];
 }
 
 export interface ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestRevision_user {
@@ -121,7 +137,7 @@ export interface ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRe
   user: ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestRevision_user | null;
 }
 
-export type ClosetDesignShowPageGetDataQuery_designRequest_history = ClosetDesignShowPageGetDataQuery_designRequest_history_ConversationMessage | ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestHistoryItemDesignRequestEvent | ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestProof | ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestRevision;
+export type ClosetDesignShowPageGetDataQuery_designRequest_history = ClosetDesignShowPageGetDataQuery_designRequest_history_ConversationMessage | ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestHistoryItemDesignRequestEvent | ClosetDesignShowPageGetDataQuery_designRequest_history_DesignProof | ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestRevision;
 
 export interface ClosetDesignShowPageGetDataQuery_designRequest_user {
   __typename: "User";
@@ -130,6 +146,21 @@ export interface ClosetDesignShowPageGetDataQuery_designRequest_user {
   picture: string | null;
 }
 
+export interface ClosetDesignShowPageGetDataQuery_designRequest_proofs_files_FileUnknown {
+  __typename: "FileUnknown" | "FilePdf";
+  id: string;
+}
+
+export interface ClosetDesignShowPageGetDataQuery_designRequest_proofs_files_FileImage {
+  __typename: "FileImage";
+  id: string;
+  url: string;
+  width: number;
+  height: number;
+}
+
+export type ClosetDesignShowPageGetDataQuery_designRequest_proofs_files = ClosetDesignShowPageGetDataQuery_designRequest_proofs_files_FileUnknown | ClosetDesignShowPageGetDataQuery_designRequest_proofs_files_FileImage;
+
 export interface ClosetDesignShowPageGetDataQuery_designRequest_proofs_artist {
   __typename: "User";
   id: string | null;
@@ -137,10 +168,11 @@ export interface ClosetDesignShowPageGetDataQuery_designRequest_proofs_artist {
 }
 
 export interface ClosetDesignShowPageGetDataQuery_designRequest_proofs {
-  __typename: "DesignRequestProof";
+  __typename: "DesignProof";
   id: string;
-  artistNote: string | null;
   createdAt: any;
+  note: string | null;
+  files: ClosetDesignShowPageGetDataQuery_designRequest_proofs_files[];
   artist: ClosetDesignShowPageGetDataQuery_designRequest_proofs_artist | null;
 }
 

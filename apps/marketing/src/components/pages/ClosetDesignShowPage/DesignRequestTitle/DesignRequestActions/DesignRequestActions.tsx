@@ -1,7 +1,15 @@
 import { gql } from '@apollo/client'
-import { ClosetPageTitleActions } from '@components/common/ClosetPageTitle'
+import ClosetPageActions, {
+  ClosetPageActionType,
+} from '@components/common/ClosetPageActions'
 import { DesignRequestActionsDesignRequestFragment } from '@generated/DesignRequestActionsDesignRequestFragment'
-import { DesignRequestStatus } from '@generated/globalTypes'
+import {
+  DesignRequestStatus,
+  ScopeAction,
+  ScopeResource,
+} from '@generated/globalTypes'
+import { useAuthorizedComponent } from '@lib/auth'
+import routes from '@lib/routes'
 import React from 'react'
 import useDesignRequestActions from './useDesignRequestActions'
 
@@ -14,38 +22,37 @@ const DesignRequestActions = ({ designRequest }: Props) => {
     designRequestId: designRequest.id,
   })
 
-  switch (designRequest.status) {
-    case DesignRequestStatus.DRAFT:
-      return (
-        <ClosetPageTitleActions
-          actions={[
-            {
-              primary: true,
-              label: 'Submit design request',
-              loading: submitting,
-              onClick: handleSubmitDesignRequest,
-            },
-          ]}
-        />
-      )
+  const { can, loading } = useAuthorizedComponent()
 
+  const actions: ClosetPageActionType[] = []
+
+  switch (designRequest.status) {
+    case DesignRequestStatus.DRAFT: {
+      actions.push({
+        primary: true,
+        label: 'Submit design request',
+        loading: submitting,
+        onClick: handleSubmitDesignRequest,
+      })
+    }
+
+    case DesignRequestStatus.SUBMITTED:
     case DesignRequestStatus.AWAITING_APPROVAL:
-    case DesignRequestStatus.AWAITING_REVISION:
-      return (
-        <ClosetPageTitleActions
-          actions={[
-            {
-              primary: true,
-              label: 'Submit revision',
-              loading: submitting,
-              onClick: handleSubmitDesignRequest,
-            },
-          ]}
-        />
-      )
+    case DesignRequestStatus.AWAITING_REVISION: {
+      if (!loading && can(ScopeResource.DesignProof, ScopeAction.CREATE)) {
+        actions.push({
+          primary: true,
+          loading: false,
+          label: 'Upload proof',
+          href: routes.internal.closet.designs.show.proofs.create.href({
+            designId: designRequest.id,
+          }),
+        })
+      }
+    }
   }
 
-  return null
+  return <ClosetPageActions actions={actions} />
 }
 
 DesignRequestActions.fragments = {

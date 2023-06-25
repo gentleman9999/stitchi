@@ -16,7 +16,7 @@ export const DesignLocation: yup.ObjectSchema<DesignLocationSchema> = yup
     createdAt: yup.date().required(),
     updatedAt: yup.date().required(),
   })
-  .label('DesignLocation')
+  .label('Design Location')
 
 export type DesignLocationRecord = yup.Asserts<typeof DesignLocation>
 

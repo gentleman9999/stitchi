@@ -7,6 +7,7 @@ interface Props {
   error?: String
   helperText?: String
   optional?: boolean
+  className?: string
 }
 
 const InputGroup = ({
@@ -15,14 +16,15 @@ const InputGroup = ({
   helperText,
   label,
   optional,
+  className,
 }: Props) => {
   return (
-    <div>
+    <div className={className}>
       <div className="flex justify-between">
         {label && (
           <label
             htmlFor={typeof label === 'string' ? label : undefined}
-            className="block text-sm font-medium leading-6 text-gray-900"
+            className="block w-full text-sm font-medium leading-6 text-gray-900"
           >
             {label}
           </label>

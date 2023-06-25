@@ -185,3 +185,104 @@ export const designRequestSubmit = mutationField('designRequestSubmit', {
     }
   },
 })
+
+export const DesignRequestProofCreateProofLocationInput = inputObjectType({
+  name: 'DesignRequestProofCreateProofLocationInput',
+  definition(t) {
+    t.nullable.int('colorCount')
+    t.nonNull.string('placement')
+    t.nonNull.id('fileId')
+  },
+})
+
+export const DesignRequestProofCreateInput = inputObjectType({
+  name: 'DesignRequestProofCreateInput',
+  definition(t) {
+    t.nonNull.id('designRequestId')
+    t.nullable.string('note')
+    t.nonNull.list.nonNull.string('fileIds')
+    t.nonNull.list.nonNull.field('proofLocations', {
+      type: 'DesignRequestProofCreateProofLocationInput',
+    })
+  },
+})
+
+export const DesignRequestProofCreatePayload = objectType({
+  name: 'DesignRequestProofCreatePayload',
+  definition(t) {
+    t.nullable.field('designRequest', { type: 'DesignRequest' })
+  },
+})
+
+export const designRequestProofCreate = mutationField(
+  'designRequestProofCreate',
+  {
+    type: 'DesignRequestProofCreatePayload',
+    args: {
+      input: nonNull(DesignRequestProofCreateInput),
+    },
+    resolve: async (_, { input }, { design, userId }) => {
+      if (!userId) {
+        throw new GraphQLError('Unauthorized')
+      }
+
+      let designRequest
+
+      try {
+        designRequest = await design.getDesignRequest({
+          designRequestId: input.designRequestId,
+        })
+      } catch (error) {
+        console.log(error)
+        throw new GraphQLError('Unable to find design request')
+      }
+
+      let proof
+
+      try {
+        proof = await design.createDesignProof({
+          designProof: {
+            artistUserId: userId,
+            note: input.note || null,
+            files: input.fileIds.map(fileId => ({ fileId })),
+            locations: input.proofLocations.map(location => ({
+              colorCount: location.colorCount || null,
+              fileId: location.fileId,
+              placement: location.placement,
+            })),
+          },
+        })
+
+        if (!proof) {
+          throw new GraphQLError('Unable to create design proof')
+        }
+      } catch (error) {
+        console.log(error)
+        throw new GraphQLError('Unable to create design proof')
+      }
+
+      let updatedDesignRequest
+
+      try {
+        updatedDesignRequest = await design.updateDesignRequest({
+          designRequest: {
+            ...designRequest,
+            proofs: [
+              ...designRequest.proofs.map(p => ({
+                designProofId: p.id,
+              })),
+              { designProofId: proof.id },
+            ],
+          },
+        })
+      } catch (error) {
+        console.log(error)
+        throw new GraphQLError('Unable to update design request')
+      }
+
+      return {
+        designRequest: designRequestFactoryToGrahpql(updatedDesignRequest),
+      }
+    },
+  },
+)

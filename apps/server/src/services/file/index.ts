@@ -3,6 +3,7 @@ import makeFileRepository, { FileRepository } from './repository'
 export interface FileService {
   createFile: FileRepository['createFile']
   listFiles: FileRepository['listFiles']
+  getFile: FileRepository['getFile']
 }
 
 interface MakeClientParams {
@@ -17,6 +18,7 @@ const makeClient: MakeClientFn = (
   return {
     createFile: fileRepository.createFile,
     listFiles: fileRepository.listFiles,
+    getFile: fileRepository.getFile,
   }
 }
 
