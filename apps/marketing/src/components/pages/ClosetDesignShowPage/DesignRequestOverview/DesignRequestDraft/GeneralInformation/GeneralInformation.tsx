@@ -69,74 +69,70 @@ const GeneralInformation = ({
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2 className="text-2xl font-semibold leading-7">Overview</h2>
+    <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-y-12">
+      <Controller
+        name="description"
+        control={form.control}
+        rules={{ onBlur: autoSave }}
+        render={({ field, fieldState }) => (
+          <InputGroup
+            label="Describe your vision"
+            helperText="Provide detailed information in your description. The more specific you are, the more accurately we can bring your design vision to life."
+            error={fieldState.error?.message}
+          >
+            <TextField
+              multiline
+              {...field}
+              placeholder='e.g. "Design for a t-shirt for our tech conference, with logo, `TechFest 2023`, futuristic theme, in blue and white."'
+            />
+          </InputGroup>
+        )}
+      />
 
-      <div className="mt-6 grid grid-cols-1 gap-y-12">
+      <Controller
+        name="useCase"
+        control={form.control}
+        rules={{ onBlur: autoSave }}
+        render={({ field, fieldState }) => (
+          <InputGroup
+            label="What will this be used for?"
+            error={fieldState.error?.message}
+          >
+            <TextField
+              {...field}
+              placeholder="e.g. band merch, employee carepackage, charity event"
+            />
+          </InputGroup>
+        )}
+      />
+
+      <InputGroup
+        optional
+        label={
+          <>
+            Reference files{' '}
+            <span className="text-gray-400">
+              (design files, logos, inspiration, etc...)
+            </span>
+          </>
+        }
+      >
         <Controller
-          name="description"
+          name="referenceFileIds"
           control={form.control}
-          rules={{ onBlur: autoSave }}
-          render={({ field, fieldState }) => (
-            <InputGroup
-              label="Describe your vision"
-              helperText="Provide detailed information in your description. The more specific you are, the more accurately we can bring your design vision to life."
-              error={fieldState.error?.message}
-            >
-              <TextField
-                multiline
-                {...field}
-                placeholder='e.g. "Design for a t-shirt for our tech conference, with logo, `TechFest 2023`, futuristic theme, in blue and white."'
-              />
-            </InputGroup>
+          render={({ field }) => (
+            <ReferenceFilesInput
+              value={field.value}
+              onChange={field.onChange}
+              folder={fileFolder}
+              referenceFiles={designRequest.files.map(file => ({
+                ...file,
+                bytes: file.humanizedBytes,
+              }))}
+            />
           )}
         />
-
-        <Controller
-          name="useCase"
-          control={form.control}
-          rules={{ onBlur: autoSave }}
-          render={({ field, fieldState }) => (
-            <InputGroup
-              label="What will this be used for?"
-              error={fieldState.error?.message}
-            >
-              <TextField
-                {...field}
-                placeholder="e.g. band merch, employee carepackage, charity event"
-              />
-            </InputGroup>
-          )}
-        />
-
-        <InputGroup
-          optional
-          label={
-            <>
-              Reference files{' '}
-              <span className="text-gray-400">
-                (design files, logos, inspiration, etc...)
-              </span>
-            </>
-          }
-        >
-          <Controller
-            name="referenceFileIds"
-            control={form.control}
-            render={({ field }) => (
-              <ReferenceFilesInput
-                value={field.value}
-                onChange={field.onChange}
-                folder={fileFolder}
-                referenceFiles={designRequest.files.map(file => ({
-                  ...file,
-                  bytes: file.humanizedBytes,
-                }))}
-              />
-            )}
-          />
-        </InputGroup>
-      </div>
+      </InputGroup>
     </form>
   )
 }

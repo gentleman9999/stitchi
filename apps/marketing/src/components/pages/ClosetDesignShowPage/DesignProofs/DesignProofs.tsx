@@ -1,11 +1,13 @@
 import { gql } from '@apollo/client'
+import BlurredComponent from '@components/common/BlurredComponent'
+import ClosetSection from '@components/common/ClosetSection'
+import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
+import ClosetSectionTitle from '@components/common/ClosetSectionTitle'
 import { Badge } from '@components/ui'
-import {
-  DesignProofDesignRequestFragment,
-  DesignProofDesignRequestFragment_proofs_files_FileImage,
-} from '@generated/DesignProofDesignRequestFragment'
-import { format } from 'date-fns'
+import Alert from '@components/ui/Alert'
+import { DesignProofDesignRequestFragment } from '@generated/DesignProofDesignRequestFragment'
 import React from 'react'
+import DesignProofCard from '../DesignProofCard'
 
 interface Props {
   designRequest: DesignProofDesignRequestFragment
@@ -13,70 +15,47 @@ interface Props {
 
 const DesignProofs = ({ designRequest }: Props) => {
   return (
-    <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-      {designRequest.proofs.map((proof, index) => {
-        const featuredImage =
-          proof.files.find<DesignProofDesignRequestFragment_proofs_files_FileImage>(
-            (
-              file,
-            ): file is DesignProofDesignRequestFragment_proofs_files_FileImage =>
-              file.__typename === 'FileImage',
-          )
+    <div className="relative">
+      {designRequest.status === 'DRAFT' ? (
+        <BlurredComponent
+          message={
+            <Alert
+              severity="info"
+              description="Proofs are only available for design requests that have been submitted. Once submitted, come back here to view your design proofs."
+            />
+          }
+        />
+      ) : null}
 
-        return (
-          <div
-            key={proof.id}
-            className="border rounded-md shadow-magical flex flex-col"
-          >
-            <div className="p-4 flex-1">
-              <img
-                src={featuredImage?.url}
-                width={featuredImage?.width}
-                height={featuredImage?.height}
-                alt="Featured"
-                className="w-full aspect-square bg-gray-50 rounded-md object-contain"
-              />
-              <div className="text-sm text-gray-500 text-center mt-2">
-                <div>{format(new Date(proof.createdAt), 'PPP')}</div>
-                <div>Artist: {proof.artist?.name || '-'}</div>
-                {index === 0 ? (
-                  <div className="mt-3">
-                    <Badge label="Latest" severity="default" />{' '}
-                  </div>
-                ) : null}
-              </div>
-            </div>
-            <div className="border-t text-lg font-semibold">
-              <button className="text-center p-3 w-full">View</button>
-            </div>
-          </div>
-        )
-      })}
+      <ClosetSection>
+        <ClosetSectionHeader>
+          <ClosetSectionTitle title="Proofs" />
+        </ClosetSectionHeader>
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          {designRequest.proofs.map((proof, index) => (
+            <DesignProofCard
+              designProof={proof}
+              key={proof.id}
+              badges={
+                index === 0 ? <Badge label="Latest" severity="default" /> : null
+              }
+            />
+          ))}
+        </div>
+      </ClosetSection>
     </div>
   )
 }
 
 DesignProofs.fragments = {
   designRequest: gql`
+    ${DesignProofCard.fragments.designProof}
     fragment DesignProofDesignRequestFragment on DesignRequest {
       id
+      status
       proofs {
         id
-        createdAt
-        note
-        files {
-          id
-
-          ... on FileImage {
-            url
-            width
-            height
-          }
-        }
-        artist {
-          id
-          name
-        }
+        ...DesignProofCardDesignProofFragment
       }
     }
   `,

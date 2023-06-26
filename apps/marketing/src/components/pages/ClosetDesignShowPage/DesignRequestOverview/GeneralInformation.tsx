@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import { Button } from '@components/ui'
 import {
   DesignRequestSubmittedDesignRequestGeneralInformationFragment,
-  DesignRequestSubmittedDesignRequestGeneralInformationFragment_designLocations,
+  DesignRequestSubmittedDesignRequestGeneralInformationFragment_designRequestLocations,
 } from '@generated/DesignRequestSubmittedDesignRequestGeneralInformationFragment'
 import React from 'react'
 import ReferenceFilesPreview from '../ReferenceFilePreview/ReferenceFilesPreview'
@@ -28,13 +28,13 @@ const GeneralInformation = ({ designRequest }: Props) => {
         </div>
 
         <div className="p-6">
-          {designRequest.designLocations.length ? (
+          {designRequest.designRequestLocations.length ? (
             <>
               <h2 className="text-sm font-semibold leading-7">
                 Design locations
               </h2>
               <div className="mt-2 flex flex-col divide-y">
-                {designRequest.designLocations.map(location => (
+                {designRequest.designRequestLocations.map(location => (
                   <div key={location.id} className="py-2">
                     <DesignLocation location={location} />
                   </div>
@@ -70,7 +70,7 @@ const Item = ({
 const DesignLocation = ({
   location,
 }: {
-  location: DesignRequestSubmittedDesignRequestGeneralInformationFragment_designLocations
+  location: DesignRequestSubmittedDesignRequestGeneralInformationFragment_designRequestLocations
 }) => {
   const [showDetails, setShowDetails] = React.useState(false)
 
@@ -137,7 +137,7 @@ GeneralInformation.fragments = {
       id
       description
       useCase
-      designLocations {
+      designRequestLocations {
         id
         description
         placement

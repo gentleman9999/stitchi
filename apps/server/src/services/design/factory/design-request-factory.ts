@@ -4,10 +4,19 @@ import { DesignRequestDesignLocationFileRecord } from '../db/design-request-desi
 import { DesignRequestDesignLocationRecord } from '../db/design-request-design-location-table'
 import { DesignRequestDesignProofRecord } from '../db/design-request-design-proof-table'
 import { DesignRequestFileRecord } from '../db/design-request-file-table'
+import { DesignRequestRevisionFileRecord } from '../db/design-request-revision-file-table'
+import { DesignRequestRevisionRecord } from '../db/design-request-revision-table'
 import {
   DesignRequestMetadata,
   DesignRequestRecord,
 } from '../db/design-request-table'
+
+interface DesignRequestRevisionRequestFile
+  extends DesignRequestRevisionFileRecord {}
+
+interface DesignRequestRevisionRequest extends DesignRequestRevisionRecord {
+  files: DesignRequestRevisionRequestFile[]
+}
 
 interface DesignRequestDesignProof extends DesignRequestDesignProofRecord {}
 
@@ -28,40 +37,46 @@ export interface DesignFactoryDesignRequest extends DesignRequestRecord {
   designLocations: DesignFactoryDesignRequestDesignLocation[]
   artists: DesignRequestArtist[]
   proofs: DesignRequestDesignProof[]
+  revisionRequests: DesignRequestRevisionRequest[]
 }
 
 const designRequestFactory = ({
   designRequest,
   files,
   designLocations,
-  designLocationFiles,
   artists,
   proofs,
+  revisions,
 }: {
   designRequest: Omit<DesignRequestRecord, 'metadata'> & {
     metadata: Prisma.JsonValue
   }
   files: DesignRequestFileRecord[]
-  designLocations: DesignRequestDesignLocationRecord[]
-  designLocationFiles: DesignRequestDesignLocationFileRecord[]
   artists: DesignRequestArtistRecord[]
   proofs: DesignRequestDesignProofRecord[]
+  designLocations: (DesignRequestDesignLocationRecord & {
+    files: DesignRequestDesignLocationFileRecord[]
+  })[]
+
+  revisions: (DesignRequestRevisionRecord & {
+    files: DesignRequestRevisionFileRecord[]
+  })[]
 }): DesignFactoryDesignRequest => {
   return {
-    ...designRequest,
     files,
     artists,
     proofs,
-    designLocations: designLocations.map(designLocation => {
-      return {
-        ...designLocation,
-        files: designLocationFiles.filter(
-          designLocationFile =>
-            designLocationFile.designRequestDesignLocationId ===
-            designLocation.id,
-        ),
-      }
-    }),
+    designLocations,
+    id: designRequest.id,
+    userId: designRequest.userId,
+    organizationId: designRequest.organizationId,
+    conversationId: designRequest.conversationId,
+    createdAt: designRequest.createdAt,
+    description: designRequest.description,
+    name: designRequest.name,
+    status: designRequest.status,
+    updatedAt: designRequest.updatedAt,
+    revisionRequests: revisions,
     metadata: DesignRequestMetadata.validateSync(designRequest.metadata),
   }
 }

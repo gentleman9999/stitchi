@@ -7,7 +7,10 @@ export const DesignProofExtendsDesignRequest = extendType({
   definition(t) {
     t.nonNull.list.nonNull.field('proofs', {
       type: 'DesignProof',
-      resolve: async (parent, _args, ctx) => {
+      args: {
+        limit: 'Int',
+      },
+      resolve: async (parent, args, ctx) => {
         let designProofs
 
         try {
@@ -21,6 +24,10 @@ export const DesignProofExtendsDesignRequest = extendType({
                 },
               },
             },
+            orderBy: {
+              createdAt: 'desc',
+            },
+            take: args.limit || undefined,
           })
         } catch (error) {
           console.error(error)

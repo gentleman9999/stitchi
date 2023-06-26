@@ -76,7 +76,7 @@ export const designRequestDesignLocationCreate = mutationField(
 
       const foundDesignRequestTsHack = { ...foundDesignRequest }
 
-      const newDesignLocation = designRequest.designLocations.find(
+      const newDesignLocation = designRequest.designRequestLocations.find(
         location =>
           !foundDesignRequestTsHack.designLocations.find(
             l => l.id === location.id,
@@ -167,7 +167,7 @@ export const designRequestDesignLocationUpdate = mutationField(
 
       const foundDesignRequestTsHack = { ...foundDesignRequest }
 
-      const updatedDesignLocation = designRequest.designLocations.find(
+      const updatedDesignLocation = designRequest.designRequestLocations.find(
         location =>
           !foundDesignRequestTsHack.designLocations.find(
             l => l.id === location.id,

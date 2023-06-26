@@ -3,11 +3,56 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { DesignRequestHistoryItemDesignRequestEventMethod } from "./globalTypes";
+import { DesignRequestStatus, DesignRequestHistoryItemDesignRequestEventMethod } from "./globalTypes";
 
 // ====================================================
 // GraphQL fragment: DesignRequestActivityDesignRequestFragment
 // ====================================================
+
+export interface DesignRequestActivityDesignRequestFragment_latestProofs_files_FileUnknown {
+  __typename: "FileUnknown" | "FilePdf";
+  id: string;
+}
+
+export interface DesignRequestActivityDesignRequestFragment_latestProofs_files_FileImage {
+  __typename: "FileImage";
+  id: string;
+  url: string;
+  width: number;
+  height: number;
+}
+
+export type DesignRequestActivityDesignRequestFragment_latestProofs_files = DesignRequestActivityDesignRequestFragment_latestProofs_files_FileUnknown | DesignRequestActivityDesignRequestFragment_latestProofs_files_FileImage;
+
+export interface DesignRequestActivityDesignRequestFragment_latestProofs_artist {
+  __typename: "User";
+  id: string | null;
+  name: string | null;
+}
+
+export interface DesignRequestActivityDesignRequestFragment_latestProofs {
+  __typename: "DesignProof";
+  id: string;
+  createdAt: any;
+  note: string | null;
+  files: DesignRequestActivityDesignRequestFragment_latestProofs_files[];
+  artist: DesignRequestActivityDesignRequestFragment_latestProofs_artist | null;
+}
+
+export interface DesignRequestActivityDesignRequestFragment_history_ConversationMessage_files_FileUnknown {
+  __typename: "FileUnknown" | "FilePdf";
+  id: string;
+}
+
+export interface DesignRequestActivityDesignRequestFragment_history_ConversationMessage_files_FileImage {
+  __typename: "FileImage";
+  id: string;
+  url: string;
+  width: number;
+  height: number;
+}
+
+export type DesignRequestActivityDesignRequestFragment_history_ConversationMessage_files = DesignRequestActivityDesignRequestFragment_history_ConversationMessage_files_FileUnknown | DesignRequestActivityDesignRequestFragment_history_ConversationMessage_files_FileImage;
 
 export interface DesignRequestActivityDesignRequestFragment_history_ConversationMessage_sender {
   __typename: "User";
@@ -19,9 +64,10 @@ export interface DesignRequestActivityDesignRequestFragment_history_Conversation
 export interface DesignRequestActivityDesignRequestFragment_history_ConversationMessage {
   __typename: "ConversationMessage";
   id: string;
-  content: string;
+  message: string;
   createdAt: any;
   viewerIsSender: boolean;
+  files: DesignRequestActivityDesignRequestFragment_history_ConversationMessage_files[];
   sender: DesignRequestActivityDesignRequestFragment_history_ConversationMessage_sender | null;
 }
 
@@ -70,21 +116,37 @@ export interface DesignRequestActivityDesignRequestFragment_history_DesignProof 
   files: DesignRequestActivityDesignRequestFragment_history_DesignProof_files[];
 }
 
-export interface DesignRequestActivityDesignRequestFragment_history_DesignRequestRevision_user {
+export interface DesignRequestActivityDesignRequestFragment_history_DesignRequestRevisionRequest_files_FileUnknown {
+  __typename: "FileUnknown" | "FilePdf";
+  id: string;
+}
+
+export interface DesignRequestActivityDesignRequestFragment_history_DesignRequestRevisionRequest_files_FileImage {
+  __typename: "FileImage";
+  id: string;
+  url: string;
+  width: number;
+  height: number;
+}
+
+export type DesignRequestActivityDesignRequestFragment_history_DesignRequestRevisionRequest_files = DesignRequestActivityDesignRequestFragment_history_DesignRequestRevisionRequest_files_FileUnknown | DesignRequestActivityDesignRequestFragment_history_DesignRequestRevisionRequest_files_FileImage;
+
+export interface DesignRequestActivityDesignRequestFragment_history_DesignRequestRevisionRequest_user {
   __typename: "User";
   id: string | null;
   name: string | null;
 }
 
-export interface DesignRequestActivityDesignRequestFragment_history_DesignRequestRevision {
-  __typename: "DesignRequestRevision";
+export interface DesignRequestActivityDesignRequestFragment_history_DesignRequestRevisionRequest {
+  __typename: "DesignRequestRevisionRequest";
   id: string;
   createdAt: any;
   description: string;
-  user: DesignRequestActivityDesignRequestFragment_history_DesignRequestRevision_user | null;
+  files: DesignRequestActivityDesignRequestFragment_history_DesignRequestRevisionRequest_files[];
+  user: DesignRequestActivityDesignRequestFragment_history_DesignRequestRevisionRequest_user | null;
 }
 
-export type DesignRequestActivityDesignRequestFragment_history = DesignRequestActivityDesignRequestFragment_history_ConversationMessage | DesignRequestActivityDesignRequestFragment_history_DesignRequestHistoryItemDesignRequestEvent | DesignRequestActivityDesignRequestFragment_history_DesignProof | DesignRequestActivityDesignRequestFragment_history_DesignRequestRevision;
+export type DesignRequestActivityDesignRequestFragment_history = DesignRequestActivityDesignRequestFragment_history_ConversationMessage | DesignRequestActivityDesignRequestFragment_history_DesignRequestHistoryItemDesignRequestEvent | DesignRequestActivityDesignRequestFragment_history_DesignProof | DesignRequestActivityDesignRequestFragment_history_DesignRequestRevisionRequest;
 
 export interface DesignRequestActivityDesignRequestFragment_user {
   __typename: "User";
@@ -96,6 +158,9 @@ export interface DesignRequestActivityDesignRequestFragment_user {
 export interface DesignRequestActivityDesignRequestFragment {
   __typename: "DesignRequest";
   id: string;
+  status: DesignRequestStatus;
+  latestProofs: DesignRequestActivityDesignRequestFragment_latestProofs[];
   history: DesignRequestActivityDesignRequestFragment_history[];
+  fileUploadDirectory: string;
   user: DesignRequestActivityDesignRequestFragment_user | null;
 }

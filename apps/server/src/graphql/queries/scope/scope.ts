@@ -37,6 +37,34 @@ export const ScopeExtendsMembership = extendType({
                 resource: 'DesignProof',
                 action: 'DELETE',
               },
+
+              {
+                resource: 'DesignRequestRevisionRequest',
+                action: 'READ',
+              },
+            ] as const),
+          )
+        }
+
+        if (membershipHasRole(['OWNER'], membership)) {
+          scopes.push(
+            ...([
+              {
+                resource: 'DesignRequestRevisionRequest',
+                action: 'CREATE',
+              },
+              {
+                resource: 'DesignRequestRevisionRequest',
+                action: 'READ',
+              },
+              {
+                resource: 'DesignRequestRevisionRequest',
+                action: 'UPDATE',
+              },
+              {
+                resource: 'DesignRequestRevisionRequest',
+                action: 'DELETE',
+              },
             ] as const),
           )
         }

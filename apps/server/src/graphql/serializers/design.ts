@@ -25,18 +25,41 @@ export const designRequestFactoryToGrahpql = (
   designRequest: DesignFactoryDesignRequest,
 ): NexusGenObjects['DesignRequest'] => {
   return {
-    ...designRequest,
-    humanizedStatus: humanizedStatus(designRequest.status),
-    useCase: designRequest.metadata?.useCase,
+    id: designRequest.id,
+    conversationId: designRequest.conversationId,
+    userId: designRequest.userId,
     fileIds: designRequest.files.map(file => file.fileId),
+    updatedAt: designRequest.updatedAt,
+    createdAt: designRequest.createdAt,
+
+    name: designRequest.name,
+    description: designRequest.description,
+    status: designRequest.status,
+    humanizedStatus: humanizedStatus(designRequest.status),
+
+    useCase: designRequest.metadata?.useCase,
     designProofIds: designRequest.proofs.map(proof => proof.designProofId),
-    designLocationIds: designRequest.designLocations.map(
+
+    designRequestLocationIds: designRequest.designLocations.map(
       designLocation => designLocation.id,
     ),
-    designLocations: designRequest.designLocations.map(designLocation => {
+    designRequestLocations: designRequest.designLocations.map(
+      designLocation => {
+        return {
+          ...designLocation,
+          fileIds: designLocation.files.map(file => file.fileId),
+        }
+      },
+    ),
+
+    designRevisionRequestIds: designRequest.revisionRequests.map(
+      revision => revision.id,
+    ),
+
+    designRevisionRequests: designRequest.revisionRequests.map(revision => {
       return {
-        ...designLocation,
-        fileIds: designLocation.files.map(file => file.fileId),
+        ...revision,
+        fileIds: revision.files.map(file => file.fileId),
       }
     }),
   }

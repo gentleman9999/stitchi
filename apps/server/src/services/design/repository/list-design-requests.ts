@@ -31,6 +31,11 @@ const makeListDesignRequests: MakeListDesignRequestsFn =
           designRequestFiles: true,
           designRequestArtists: true,
           designRequestDesignProofs: true,
+          designRequestRevisions: {
+            include: {
+              designRequestRevisionFiles: true,
+            },
+          },
           designLocations: {
             include: {
               designRequestDesignLocationFiles: true,
@@ -51,10 +56,14 @@ const makeListDesignRequests: MakeListDesignRequestsFn =
         artists: designRequest.designRequestArtists,
         files: designRequest.designRequestFiles,
         proofs: designRequest.designRequestDesignProofs,
-        designLocations: designRequest.designLocations,
-        designLocationFiles: designRequest.designLocations.flatMap(
-          designLocation => designLocation.designRequestDesignLocationFiles,
-        ),
+        designLocations: designRequest.designLocations.map(location => ({
+          ...location,
+          files: location.designRequestDesignLocationFiles,
+        })),
+        revisions: designRequest.designRequestRevisions.map(revision => ({
+          ...revision,
+          files: revision.designRequestRevisionFiles,
+        })),
       }),
     )
   }

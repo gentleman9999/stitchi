@@ -33,7 +33,9 @@ export const UserExtendsConversationMessage = extendType({
         let user
 
         try {
-          user = await ctx.auth0.getUser({ id: coversationMessage.senderId })
+          user = await ctx.auth0.getUser({
+            id: coversationMessage.senderUserId,
+          })
         } catch (error) {
           console.error(error)
           throw new GraphQLError('Unable to fetch user')
@@ -162,8 +164,8 @@ export const UserExtendsDesignProof = extendType({
   },
 })
 
-export const UserExtendsDesignRequestRevision = extendType({
-  type: 'DesignRequestRevision',
+export const UserExtendsDesignRequestRevisionRequest = extendType({
+  type: 'DesignRequestRevisionRequest',
   definition(t) {
     t.field('user', {
       type: 'User',

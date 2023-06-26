@@ -66,3 +66,35 @@ export const FileExtendsDesignProofLocation = extendType({
     })
   },
 })
+
+export const FileExtendsDesignRequestRevisionRequest = extendType({
+  type: 'DesignRequestRevisionRequest',
+  definition(t) {
+    t.nonNull.list.nonNull.field('files', {
+      type: 'File',
+      resolve: async (designRequestRevisionRequest, _, ctx) => {
+        const files = await ctx.file.listFiles({
+          where: { id: { in: designRequestRevisionRequest.fileIds } },
+        })
+
+        return files.map(fileFactoryToGrahpql)
+      },
+    })
+  },
+})
+
+export const FileExtendsConversationMessage = extendType({
+  type: 'ConversationMessage',
+  definition(t) {
+    t.nonNull.list.nonNull.field('files', {
+      type: 'File',
+      resolve: async (conversationMessageFile, _, ctx) => {
+        const files = await ctx.file.listFiles({
+          where: { id: { in: conversationMessageFile.fileIds } },
+        })
+
+        return files.map(fileFactoryToGrahpql)
+      },
+    })
+  },
+})

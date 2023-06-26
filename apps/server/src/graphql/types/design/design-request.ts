@@ -24,7 +24,7 @@ export const DesignRequestHistoryItem = unionType({
       'ConversationMessage',
       'DesignRequestHistoryItemDesignRequestEvent',
       'DesignProof',
-      'DesignRequestRevision',
+      'DesignRequestRevisionRequest',
     )
   },
   resolveType(item) {
@@ -41,7 +41,7 @@ export const DesignRequestHistoryItem = unionType({
     }
 
     if ('description' in item && 'fileIds' in item) {
-      return 'DesignRequestRevision'
+      return 'DesignRequestRevisionRequest'
     }
 
     return null
@@ -65,6 +65,7 @@ export const DesignRequest = objectType({
   definition(t) {
     t.nonNull.id('id')
     t.nullable.id('userId')
+    t.nullable.id('conversationId')
     t.nonNull.string('name')
     t.nullable.string('description')
     t.nullable.string('useCase')
@@ -79,10 +80,16 @@ export const DesignRequest = objectType({
     t.nonNull.string('humanizedStatus')
 
     t.nonNull.list.nonNull.id('fileIds')
-    t.nonNull.list.nonNull.id('designLocationIds')
+    t.nonNull.list.nonNull.id('designRequestLocationIds')
     t.nonNull.list.nonNull.id('designProofIds')
-    t.nonNull.list.nonNull.field('designLocations', {
+
+    t.nonNull.list.nonNull.field('designRequestLocations', {
       type: 'DesignRequestDesignLocation',
+    })
+
+    t.nonNull.list.nonNull.id('designRevisionRequestIds')
+    t.nonNull.list.nonNull.field('designRevisionRequests', {
+      type: 'DesignRequestRevisionRequest',
     })
 
     t.nonNull.DateTime('createdAt')

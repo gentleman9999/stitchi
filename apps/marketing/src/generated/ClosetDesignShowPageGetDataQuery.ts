@@ -9,7 +9,7 @@ import { DesignRequestStatus, FileType, DesignRequestHistoryItemDesignRequestEve
 // GraphQL query operation: ClosetDesignShowPageGetDataQuery
 // ====================================================
 
-export interface ClosetDesignShowPageGetDataQuery_designRequest_designLocations_files_FileUnknown {
+export interface ClosetDesignShowPageGetDataQuery_designRequest_designRequestLocations_files_FileUnknown {
   __typename: "FileUnknown" | "FilePdf";
   id: string;
   humanizedBytes: string;
@@ -18,7 +18,7 @@ export interface ClosetDesignShowPageGetDataQuery_designRequest_designLocations_
   fileType: FileType;
 }
 
-export interface ClosetDesignShowPageGetDataQuery_designRequest_designLocations_files_FileImage {
+export interface ClosetDesignShowPageGetDataQuery_designRequest_designRequestLocations_files_FileImage {
   __typename: "FileImage";
   id: string;
   humanizedBytes: string;
@@ -29,15 +29,15 @@ export interface ClosetDesignShowPageGetDataQuery_designRequest_designLocations_
   height: number;
 }
 
-export type ClosetDesignShowPageGetDataQuery_designRequest_designLocations_files = ClosetDesignShowPageGetDataQuery_designRequest_designLocations_files_FileUnknown | ClosetDesignShowPageGetDataQuery_designRequest_designLocations_files_FileImage;
+export type ClosetDesignShowPageGetDataQuery_designRequest_designRequestLocations_files = ClosetDesignShowPageGetDataQuery_designRequest_designRequestLocations_files_FileUnknown | ClosetDesignShowPageGetDataQuery_designRequest_designRequestLocations_files_FileImage;
 
-export interface ClosetDesignShowPageGetDataQuery_designRequest_designLocations {
+export interface ClosetDesignShowPageGetDataQuery_designRequest_designRequestLocations {
   __typename: "DesignRequestDesignLocation";
   id: string;
   description: string | null;
   placement: string | null;
   fileIds: string[];
-  files: ClosetDesignShowPageGetDataQuery_designRequest_designLocations_files[];
+  files: ClosetDesignShowPageGetDataQuery_designRequest_designRequestLocations_files[];
 }
 
 export interface ClosetDesignShowPageGetDataQuery_designRequest_files_FileUnknown {
@@ -62,6 +62,51 @@ export interface ClosetDesignShowPageGetDataQuery_designRequest_files_FileImage 
 
 export type ClosetDesignShowPageGetDataQuery_designRequest_files = ClosetDesignShowPageGetDataQuery_designRequest_files_FileUnknown | ClosetDesignShowPageGetDataQuery_designRequest_files_FileImage;
 
+export interface ClosetDesignShowPageGetDataQuery_designRequest_latestProofs_files_FileUnknown {
+  __typename: "FileUnknown" | "FilePdf";
+  id: string;
+}
+
+export interface ClosetDesignShowPageGetDataQuery_designRequest_latestProofs_files_FileImage {
+  __typename: "FileImage";
+  id: string;
+  url: string;
+  width: number;
+  height: number;
+}
+
+export type ClosetDesignShowPageGetDataQuery_designRequest_latestProofs_files = ClosetDesignShowPageGetDataQuery_designRequest_latestProofs_files_FileUnknown | ClosetDesignShowPageGetDataQuery_designRequest_latestProofs_files_FileImage;
+
+export interface ClosetDesignShowPageGetDataQuery_designRequest_latestProofs_artist {
+  __typename: "User";
+  id: string | null;
+  name: string | null;
+}
+
+export interface ClosetDesignShowPageGetDataQuery_designRequest_latestProofs {
+  __typename: "DesignProof";
+  id: string;
+  createdAt: any;
+  note: string | null;
+  files: ClosetDesignShowPageGetDataQuery_designRequest_latestProofs_files[];
+  artist: ClosetDesignShowPageGetDataQuery_designRequest_latestProofs_artist | null;
+}
+
+export interface ClosetDesignShowPageGetDataQuery_designRequest_history_ConversationMessage_files_FileUnknown {
+  __typename: "FileUnknown" | "FilePdf";
+  id: string;
+}
+
+export interface ClosetDesignShowPageGetDataQuery_designRequest_history_ConversationMessage_files_FileImage {
+  __typename: "FileImage";
+  id: string;
+  url: string;
+  width: number;
+  height: number;
+}
+
+export type ClosetDesignShowPageGetDataQuery_designRequest_history_ConversationMessage_files = ClosetDesignShowPageGetDataQuery_designRequest_history_ConversationMessage_files_FileUnknown | ClosetDesignShowPageGetDataQuery_designRequest_history_ConversationMessage_files_FileImage;
+
 export interface ClosetDesignShowPageGetDataQuery_designRequest_history_ConversationMessage_sender {
   __typename: "User";
   id: string | null;
@@ -72,9 +117,10 @@ export interface ClosetDesignShowPageGetDataQuery_designRequest_history_Conversa
 export interface ClosetDesignShowPageGetDataQuery_designRequest_history_ConversationMessage {
   __typename: "ConversationMessage";
   id: string;
-  content: string;
+  message: string;
   createdAt: any;
   viewerIsSender: boolean;
+  files: ClosetDesignShowPageGetDataQuery_designRequest_history_ConversationMessage_files[];
   sender: ClosetDesignShowPageGetDataQuery_designRequest_history_ConversationMessage_sender | null;
 }
 
@@ -123,21 +169,37 @@ export interface ClosetDesignShowPageGetDataQuery_designRequest_history_DesignPr
   files: ClosetDesignShowPageGetDataQuery_designRequest_history_DesignProof_files[];
 }
 
-export interface ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestRevision_user {
+export interface ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestRevisionRequest_files_FileUnknown {
+  __typename: "FileUnknown" | "FilePdf";
+  id: string;
+}
+
+export interface ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestRevisionRequest_files_FileImage {
+  __typename: "FileImage";
+  id: string;
+  url: string;
+  width: number;
+  height: number;
+}
+
+export type ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestRevisionRequest_files = ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestRevisionRequest_files_FileUnknown | ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestRevisionRequest_files_FileImage;
+
+export interface ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestRevisionRequest_user {
   __typename: "User";
   id: string | null;
   name: string | null;
 }
 
-export interface ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestRevision {
-  __typename: "DesignRequestRevision";
+export interface ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestRevisionRequest {
+  __typename: "DesignRequestRevisionRequest";
   id: string;
   createdAt: any;
   description: string;
-  user: ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestRevision_user | null;
+  files: ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestRevisionRequest_files[];
+  user: ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestRevisionRequest_user | null;
 }
 
-export type ClosetDesignShowPageGetDataQuery_designRequest_history = ClosetDesignShowPageGetDataQuery_designRequest_history_ConversationMessage | ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestHistoryItemDesignRequestEvent | ClosetDesignShowPageGetDataQuery_designRequest_history_DesignProof | ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestRevision;
+export type ClosetDesignShowPageGetDataQuery_designRequest_history = ClosetDesignShowPageGetDataQuery_designRequest_history_ConversationMessage | ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestHistoryItemDesignRequestEvent | ClosetDesignShowPageGetDataQuery_designRequest_history_DesignProof | ClosetDesignShowPageGetDataQuery_designRequest_history_DesignRequestRevisionRequest;
 
 export interface ClosetDesignShowPageGetDataQuery_designRequest_user {
   __typename: "User";
@@ -185,8 +247,9 @@ export interface ClosetDesignShowPageGetDataQuery_designRequest {
   fileUploadDirectory: string;
   useCase: string | null;
   fileIds: string[];
-  designLocations: ClosetDesignShowPageGetDataQuery_designRequest_designLocations[];
+  designRequestLocations: ClosetDesignShowPageGetDataQuery_designRequest_designRequestLocations[];
   files: ClosetDesignShowPageGetDataQuery_designRequest_files[];
+  latestProofs: ClosetDesignShowPageGetDataQuery_designRequest_latestProofs[];
   history: ClosetDesignShowPageGetDataQuery_designRequest_history[];
   user: ClosetDesignShowPageGetDataQuery_designRequest_user | null;
   proofs: ClosetDesignShowPageGetDataQuery_designRequest_proofs[];

@@ -17,5 +17,6 @@ export interface DesignRequestMessageInputDesignRequestFragment_user {
 export interface DesignRequestMessageInputDesignRequestFragment {
   __typename: "DesignRequest";
   id: string;
+  fileUploadDirectory: string;
   user: DesignRequestMessageInputDesignRequestFragment_user | null;
 }

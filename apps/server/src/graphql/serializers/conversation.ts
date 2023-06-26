@@ -1,19 +1,23 @@
+import { ConversationFactoryConversation } from '../../services/conversation/factory'
 import { NexusGenObjects } from '../generated/nexus'
 
-export const conversationMessageFactoryToGraphQl = ({
-  index,
+export const conversationFactoryToGraphQl = ({
   viewerId,
+  conversation,
 }: {
-  index: number
   viewerId?: string
-}): NexusGenObjects['ConversationMessage'] => {
+  conversation: ConversationFactoryConversation
+}): NexusGenObjects['Conversation'] => {
   return {
-    id: index.toString(),
-    conversationId: 'conversationId',
-    senderId: viewerId || '',
-    content:
-      'This is the message content of a conversation that is being sent to the client.',
-    createdAt: new Date(),
-    viewerIsSender: viewerId === viewerId,
+    id: conversation.id,
+    messages: conversation.messages.map(message => ({
+      id: message.id,
+      conversationId: message.conversationId,
+      senderUserId: message.senderUserId,
+      message: message.message,
+      fileIds: message.files.map(file => file.fileId),
+      createdAt: message.createdAt,
+      viewerIsSender: message.senderUserId === viewerId,
+    })),
   }
 }

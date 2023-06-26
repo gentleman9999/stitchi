@@ -12,14 +12,13 @@ import ClosetOrdersTableFilters from './ClosetOrdersTableFilters'
 import { MembershipOrdersFilterInput } from '@generated/globalTypes'
 import { useDebouncedCallback } from 'use-debounce'
 import { useQueryState } from 'next-usequerystate'
-import ClosetPageTitle, {
-  ClosetPageActions,
-} from '@components/common/ClosetPageTitle'
+import ClosetPageTitle from '@components/common/ClosetPageTitle'
 import ClosetPageContainer from '@components/common/ClosetPageContainer'
 import routes from '@lib/routes'
 import ClosetPageEmptyState from '@components/common/ClosetPageEmptyState'
 import TableZeroState from '@components/ui/Table/TableZeroState'
 import Table from '@components/ui/Table/Table'
+import ClosetPageActions from '@components/common/ClosetPageActions'
 
 interface Props {}
 

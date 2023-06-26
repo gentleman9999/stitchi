@@ -30,6 +30,7 @@ export const designRequestCreate = mutationField('designRequestCreate', {
     try {
       designRequest = await design.createDesignRequest({
         designRequest: {
+          conversationId: null,
           organizationId: organizationId || null,
           userId: userId || null,
           status: 'DRAFT',
@@ -102,6 +103,7 @@ export const designRequestUpdate = mutationField('designRequestUpdate', {
       designRequest = await design.updateDesignRequest({
         designRequest: {
           id: foundDesignRequest.id,
+          conversationId: foundDesignRequest.conversationId,
           description: input.description || foundDesignRequest.description,
           name: input.name || foundDesignRequest.name,
           status: foundDesignRequest.status,
@@ -116,6 +118,8 @@ export const designRequestUpdate = mutationField('designRequestUpdate', {
           // We provided dedicated mutations for adding and removing design locations
           designLocations: foundDesignRequest.designLocations,
           artists: foundDesignRequest.artists,
+          revisionRequests: foundDesignRequest.revisionRequests,
+          proofs: foundDesignRequest.proofs,
         },
       })
     } catch (error) {
@@ -282,6 +286,166 @@ export const designRequestProofCreate = mutationField(
 
       return {
         designRequest: designRequestFactoryToGrahpql(updatedDesignRequest),
+      }
+    },
+  },
+)
+
+export const DesignRequestRevisionRequestCreatePayload = objectType({
+  name: 'DesignRequestRevisionRequestCreatePayload',
+  definition(t) {
+    t.nullable.field('designRequest', { type: 'DesignRequest' })
+  },
+})
+
+export const DesignRequestRevisionRequestCreateInput = inputObjectType({
+  name: 'DesignRequestRevisionRequestCreateInput',
+  definition(t) {
+    t.nonNull.id('designRequestId')
+    t.nonNull.string('description')
+    t.nonNull.list.nonNull.string('fileIds')
+  },
+})
+
+export const designRequestRevisionRequestCreate = mutationField(
+  'designRequestRevisionRequestCreate',
+  {
+    type: 'DesignRequestRevisionRequestCreatePayload',
+    args: {
+      input: nonNull(DesignRequestRevisionRequestCreateInput),
+    },
+    resolve: async (_, { input }, { design, userId }) => {
+      if (!userId) {
+        throw new GraphQLError('Unauthorized')
+      }
+
+      let designRequest
+
+      try {
+        designRequest = await design.getDesignRequest({
+          designRequestId: input.designRequestId,
+        })
+      } catch (error) {
+        console.log(error)
+        throw new GraphQLError('Unable to find design request')
+      }
+
+      let updatedDesignRequest
+
+      try {
+        updatedDesignRequest = await design.updateDesignRequest({
+          designRequest: {
+            ...designRequest,
+            revisionRequests: [
+              ...designRequest.revisionRequests,
+              {
+                userId,
+                description: input.description,
+                files: input.fileIds.map(fileId => ({ fileId })),
+              },
+            ],
+          },
+        })
+      } catch (error) {
+        console.log(error)
+        throw new GraphQLError('Unable to update design request')
+      }
+
+      return {
+        designRequest: designRequestFactoryToGrahpql(updatedDesignRequest),
+      }
+    },
+  },
+)
+
+export const DesignRequestConversationMessageCreatePayload = objectType({
+  name: 'DesignRequestConversationMessageCreatePayload',
+  definition(t) {
+    t.nullable.field('designRequest', { type: 'DesignRequest' })
+  },
+})
+
+export const DesignRequestConversationMessageCreateInput = inputObjectType({
+  name: 'DesignRequestConversationMessageCreateInput',
+  definition(t) {
+    t.nonNull.id('designRequestId')
+    t.nonNull.string('message')
+    t.nonNull.list.nonNull.string('fileIds')
+  },
+})
+
+export const designRequestConversationMessageCreate = mutationField(
+  'designRequestConversationMessageCreate',
+  {
+    type: 'DesignRequestConversationMessageCreatePayload',
+    args: {
+      input: nonNull(DesignRequestConversationMessageCreateInput),
+    },
+    resolve: async (_, { input }, ctx) => {
+      if (!ctx.userId) {
+        throw new GraphQLError('Unauthorized')
+      }
+
+      let designRequest
+
+      try {
+        designRequest = await ctx.design.getDesignRequest({
+          designRequestId: input.designRequestId,
+        })
+
+        if (!designRequest) {
+          throw new GraphQLError('Unable to find design request')
+        }
+      } catch (error) {
+        console.log(error)
+        throw new GraphQLError('Unable to find design request')
+      }
+
+      let conversation
+
+      if (designRequest.conversationId) {
+        conversation = await ctx.conversation.getConversation({
+          conversationId: designRequest.conversationId,
+        })
+      } else {
+        try {
+          conversation = await ctx.conversation.createConversation({
+            conversation: {},
+          })
+
+          designRequest = await ctx.design.updateDesignRequest({
+            designRequest: {
+              ...designRequest,
+              conversationId: conversation.id,
+            },
+          })
+        } catch (error) {
+          console.log(error)
+          throw new GraphQLError('Unable to create conversation')
+        }
+      }
+
+      try {
+        await ctx.conversation.updateConversation({
+          conversation: {
+            id: conversation.id,
+            messages: [
+              ...conversation.messages,
+              {
+                senderUserId: ctx.userId,
+                message: input.message,
+                files: input.fileIds.map(fileId => ({ fileId })),
+              },
+            ],
+          },
+        })
+      } catch (error) {
+        console.log(error)
+        throw new GraphQLError('Unable to update conversation')
+      }
+
+      return {
+        designRequest: designRequestFactoryToGrahpql(designRequest),
       }
     },
   },

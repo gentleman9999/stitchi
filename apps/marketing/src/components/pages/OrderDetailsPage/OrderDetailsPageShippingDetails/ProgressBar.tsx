@@ -13,7 +13,7 @@ interface Props {
   step: number
 }
 
-const ProgressBar = ({ step }: Props) => {
+const Progress = ({ step }: Props) => {
   return (
     <>
       <div className="sm:sr-only mb-2 mt-4 text-bold text-3xl text-gray-700">
@@ -46,4 +46,4 @@ const ProgressBar = ({ step }: Props) => {
   )
 }
 
-export default ProgressBar
+export default Progress

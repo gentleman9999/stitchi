@@ -85,16 +85,20 @@ const Form = ({
   const handleUpdateName = useDebouncedCallback(
     async () => {
       setSaving(true)
-      const valid = await form.trigger('name', { shouldFocus: true })
 
-      if (valid) {
-        const name = form.getValues('name')
+      try {
+        const valid = await form.trigger('name', { shouldFocus: true })
 
-        if (name === defaultName) return
+        if (valid) {
+          const name = form.getValues('name')
 
-        await updateName(name)
+          if (name === defaultName) return
+
+          await updateName(name)
+        }
+      } finally {
+        setSaving(false)
       }
-      setSaving(false)
     },
     800,
     { leading: true },

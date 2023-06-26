@@ -5,8 +5,10 @@ export const ConversationMessage = objectType({
   definition(t) {
     t.nonNull.id('id')
     t.nonNull.id('conversationId')
-    t.nonNull.id('senderId')
-    t.nonNull.string('content')
+    t.nonNull.id('senderUserId')
+    t.nonNull.string('message')
+    t.nonNull.list.nonNull.id('fileIds')
+
     t.nonNull.boolean('viewerIsSender')
 
     t.nonNull.DateTime('createdAt')

@@ -25,6 +25,7 @@ export interface Context {
   auth0: ManagementClient
   sendgrid: SendgridClient
   stripe: StripeClient
+  conversation: typeof services.conversation
   newsletter: typeof services.newsletter
   order: typeof services.order
   catalog: typeof services.catalog
@@ -85,6 +86,7 @@ function makeContext(
         userId: payload?.sub,
         membershipId: userMembership?.membershipId ?? undefined,
         organizationId: userMembership?.organizationId ?? undefined,
+        conversation: services.conversation,
         newsletter: services.newsletter,
         order: services.order,
         catalog: services.catalog,

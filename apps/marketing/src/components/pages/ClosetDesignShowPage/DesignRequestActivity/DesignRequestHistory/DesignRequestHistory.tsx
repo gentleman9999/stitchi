@@ -47,8 +47,23 @@ const DesignRequestHistory = ({ designRequest }: Props) => {
                   </time>
                 </div>
                 <p className="text-sm leading-6 text-gray-500">
-                  {item.content}
+                  {item.message}
                 </p>
+                {item.files.length ? (
+                  <div className="flex gap-2">
+                    {item.files.map((file, index) => {
+                      return file.__typename === 'FileImage' ? (
+                        <img
+                          src={file.url}
+                          width={file.width}
+                          height={file.height}
+                          key={index}
+                          className=" bg-gray-100 rounded-md h-24 w-24 object-contain overflow-hidden"
+                        />
+                      ) : null
+                    })}
+                  </div>
+                ) : null}
               </div>
             </>
           ) : null}
@@ -124,15 +139,17 @@ const DesignRequestHistory = ({ designRequest }: Props) => {
                   })}
                 </div>
 
-                <div className="flex justify-between gap-x-4 text-sm border-t pt-2">
-                  <span className="font-semibold">Artist note</span>
-                  <p className=" leading-6 text-gray-500">{item.note}</p>
-                </div>
+                {item.note?.length ? (
+                  <div className="flex justify-between gap-x-4 text-sm border-t pt-2">
+                    <span className="font-semibold">Artist note</span>
+                    <p className=" leading-6 text-gray-500">{item.note}</p>
+                  </div>
+                ) : null}
               </div>
             </>
           ) : null}
 
-          {item.__typename === 'DesignRequestRevision' ? (
+          {item.__typename === 'DesignRequestRevisionRequest' ? (
             <>
               <div className="relative bg-gray-50 rounded-full w-6 h-6 flex-none">
                 <div className="flex items-center justify-center h-full">
@@ -163,14 +180,21 @@ const DesignRequestHistory = ({ designRequest }: Props) => {
                 <div className="flex justify-between gap-x-4 text-sm border-t pt-2">
                   <p className=" leading-6 text-gray-500">{item.description}</p>
                 </div>
-                <div className="flex gap-2">
-                  {Array.from(new Array(3)).map((_, index) => (
-                    <div
-                      key={index}
-                      className=" bg-gray-100 rounded-md h-24 w-24"
-                    />
-                  ))}
-                </div>
+                {item.files.length ? (
+                  <div className="flex gap-2">
+                    {item.files.map((file, index) => {
+                      return file.__typename === 'FileImage' ? (
+                        <img
+                          src={file.url}
+                          width={file.width}
+                          height={file.height}
+                          key={index}
+                          className=" bg-gray-100 rounded-md h-24 w-24 object-contain overflow-hidden"
+                        />
+                      ) : null
+                    })}
+                  </div>
+                ) : null}
               </div>
             </>
           ) : null}
@@ -188,9 +212,18 @@ DesignRequestHistory.fragments = {
       history {
         ... on ConversationMessage {
           id
-          content
+          message
           createdAt
           viewerIsSender
+
+          files {
+            id
+            ... on FileImage {
+              url
+              width
+              height
+            }
+          }
 
           sender {
             id
@@ -229,10 +262,19 @@ DesignRequestHistory.fragments = {
           }
         }
 
-        ... on DesignRequestRevision {
+        ... on DesignRequestRevisionRequest {
           id
           createdAt
           description
+          files {
+            id
+
+            ... on FileImage {
+              url
+              width
+              height
+            }
+          }
           user {
             id
             name

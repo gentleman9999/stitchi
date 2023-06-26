@@ -9,13 +9,12 @@ import {
 } from 'nexus'
 import { notEmpty } from '../../../utils'
 import { NexusGenObjects } from '../../generated/nexus'
-import { conversationMessageFactoryToGraphQl } from '../../serializers/conversation'
+import { conversationFactoryToGraphQl } from '../../serializers/conversation'
 import {
   designProofFactoryToGraphql,
   designRequestFactoryToGrahpql,
 } from '../../serializers/design'
 import * as uuid from 'uuid'
-import { addDays } from 'date-fns'
 import { Prisma } from '@prisma/client'
 import { GraphQLError } from 'graphql'
 
@@ -94,7 +93,7 @@ export const DesignRequestsExtendsMembership = extendType({
         if (isArtist) {
           resourceOwnerFilter.push({
             designRequestArtists: {
-              every: {
+              some: {
                 artistUserId: parent.userId,
               },
             },
@@ -102,6 +101,9 @@ export const DesignRequestsExtendsMembership = extendType({
         }
 
         const designRequests = await design.listDesignRequests({
+          orderBy: {
+            createdAt: 'desc',
+          },
           where: {
             AND: [
               {
@@ -157,47 +159,61 @@ export const ExtendDesignRequests = extendType({
             },
           ]
 
-        const messages = Array.from({ length: 2 }).map((_, i) =>
-          conversationMessageFactoryToGraphQl({
-            index: i,
-            viewerId: ctx.userId,
-          }),
-        )
+        let designRequest
 
-        const designRequestRevision: NexusGenObjects['DesignRequestRevision'][] =
-          [
-            {
-              id: uuid.v4(),
-              userId: parent.userId || '',
-              fileIds: [],
-              createdAt: addDays(new Date(), 1),
-              description:
-                'Please update the design to include all of the amazing things that will make this design go viral to the republic of social media.',
-            },
-          ]
+        try {
+          const response = await ctx.design.getDesignRequest({
+            designRequestId: parent.id,
+          })
+
+          designRequest = designRequestFactoryToGrahpql(response)
+        } catch (error) {
+          console.log(error)
+          throw new GraphQLError('Failed to get design request')
+        }
 
         let proofs
 
         try {
-          proofs = await ctx.design.listDesignProofs({
+          const response = await ctx.design.listDesignProofs({
             where: {
               designRequestDesignProofs: {
-                every: {
+                some: {
                   designRequestId: parent.id,
                 },
               },
             },
           })
+
+          proofs = response.map(designProofFactoryToGraphql)
         } catch (error) {
           console.log(error)
           throw new GraphQLError('Failed to get proofs')
         }
 
+        let conversation
+
+        if (parent.conversationId) {
+          try {
+            const response = await ctx.conversation.getConversation({
+              conversationId: parent.conversationId,
+            })
+
+            conversation = conversationFactoryToGraphQl({
+              conversation: response,
+              viewerId: ctx.userId,
+            })
+          } catch (error) {
+            console.log(error)
+            throw new GraphQLError('Failed to get conversation')
+          }
+        }
+
         const historyItems = [
           ...desingRequestEvents,
-          ...messages,
-          ...proofs.map(designProofFactoryToGraphql),
-          ...designRequestRevision,
+          ...proofs,
+          ...designRequest.designRevisionRequests,
+          ...(conversation?.messages || []),
         ].sort((a, b) => {
           const aTimestamp = 'timestamp' in a ? a.timestamp : a.createdAt
           const bTimestamp = 'timestamp' in b ? b.timestamp : b.createdAt

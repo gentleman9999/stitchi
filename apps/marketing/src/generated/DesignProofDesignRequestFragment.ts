@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { DesignRequestStatus } from "./globalTypes";
+
 // ====================================================
 // GraphQL fragment: DesignProofDesignRequestFragment
 // ====================================================
@@ -40,5 +42,6 @@ export interface DesignProofDesignRequestFragment_proofs {
 export interface DesignProofDesignRequestFragment {
   __typename: "DesignRequest";
   id: string;
+  status: DesignRequestStatus;
   proofs: DesignProofDesignRequestFragment_proofs[];
 }

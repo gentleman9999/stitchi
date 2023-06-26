@@ -9,7 +9,7 @@ import { FileType } from "./globalTypes";
 // GraphQL fragment: DesignRequestSubmittedDesignRequestGeneralInformationFragment
 // ====================================================
 
-export interface DesignRequestSubmittedDesignRequestGeneralInformationFragment_designLocations_files_FileUnknown {
+export interface DesignRequestSubmittedDesignRequestGeneralInformationFragment_designRequestLocations_files_FileUnknown {
   __typename: "FileUnknown" | "FilePdf";
   id: string;
   humanizedBytes: string;
@@ -18,7 +18,7 @@ export interface DesignRequestSubmittedDesignRequestGeneralInformationFragment_d
   fileType: FileType;
 }
 
-export interface DesignRequestSubmittedDesignRequestGeneralInformationFragment_designLocations_files_FileImage {
+export interface DesignRequestSubmittedDesignRequestGeneralInformationFragment_designRequestLocations_files_FileImage {
   __typename: "FileImage";
   id: string;
   humanizedBytes: string;
@@ -29,14 +29,14 @@ export interface DesignRequestSubmittedDesignRequestGeneralInformationFragment_d
   height: number;
 }
 
-export type DesignRequestSubmittedDesignRequestGeneralInformationFragment_designLocations_files = DesignRequestSubmittedDesignRequestGeneralInformationFragment_designLocations_files_FileUnknown | DesignRequestSubmittedDesignRequestGeneralInformationFragment_designLocations_files_FileImage;
+export type DesignRequestSubmittedDesignRequestGeneralInformationFragment_designRequestLocations_files = DesignRequestSubmittedDesignRequestGeneralInformationFragment_designRequestLocations_files_FileUnknown | DesignRequestSubmittedDesignRequestGeneralInformationFragment_designRequestLocations_files_FileImage;
 
-export interface DesignRequestSubmittedDesignRequestGeneralInformationFragment_designLocations {
+export interface DesignRequestSubmittedDesignRequestGeneralInformationFragment_designRequestLocations {
   __typename: "DesignRequestDesignLocation";
   id: string;
   description: string | null;
   placement: string | null;
-  files: DesignRequestSubmittedDesignRequestGeneralInformationFragment_designLocations_files[];
+  files: DesignRequestSubmittedDesignRequestGeneralInformationFragment_designRequestLocations_files[];
 }
 
 export interface DesignRequestSubmittedDesignRequestGeneralInformationFragment {
@@ -44,5 +44,5 @@ export interface DesignRequestSubmittedDesignRequestGeneralInformationFragment {
   id: string;
   description: string | null;
   useCase: string | null;
-  designLocations: DesignRequestSubmittedDesignRequestGeneralInformationFragment_designLocations[];
+  designRequestLocations: DesignRequestSubmittedDesignRequestGeneralInformationFragment_designRequestLocations[];
 }

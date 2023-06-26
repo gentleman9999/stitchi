@@ -9,7 +9,7 @@ import { FileType } from "./globalTypes";
 // GraphQL fragment: DesignRequestDraftDesignRequestFragments
 // ====================================================
 
-export interface DesignRequestDraftDesignRequestFragments_designLocations_files_FileUnknown {
+export interface DesignRequestDraftDesignRequestFragments_designRequestLocations_files_FileUnknown {
   __typename: "FileUnknown" | "FilePdf";
   id: string;
   humanizedBytes: string;
@@ -18,7 +18,7 @@ export interface DesignRequestDraftDesignRequestFragments_designLocations_files_
   fileType: FileType;
 }
 
-export interface DesignRequestDraftDesignRequestFragments_designLocations_files_FileImage {
+export interface DesignRequestDraftDesignRequestFragments_designRequestLocations_files_FileImage {
   __typename: "FileImage";
   id: string;
   humanizedBytes: string;
@@ -29,15 +29,15 @@ export interface DesignRequestDraftDesignRequestFragments_designLocations_files_
   height: number;
 }
 
-export type DesignRequestDraftDesignRequestFragments_designLocations_files = DesignRequestDraftDesignRequestFragments_designLocations_files_FileUnknown | DesignRequestDraftDesignRequestFragments_designLocations_files_FileImage;
+export type DesignRequestDraftDesignRequestFragments_designRequestLocations_files = DesignRequestDraftDesignRequestFragments_designRequestLocations_files_FileUnknown | DesignRequestDraftDesignRequestFragments_designRequestLocations_files_FileImage;
 
-export interface DesignRequestDraftDesignRequestFragments_designLocations {
+export interface DesignRequestDraftDesignRequestFragments_designRequestLocations {
   __typename: "DesignRequestDesignLocation";
   id: string;
   description: string | null;
   placement: string | null;
   fileIds: string[];
-  files: DesignRequestDraftDesignRequestFragments_designLocations_files[];
+  files: DesignRequestDraftDesignRequestFragments_designRequestLocations_files[];
 }
 
 export interface DesignRequestDraftDesignRequestFragments_files_FileUnknown {
@@ -69,6 +69,6 @@ export interface DesignRequestDraftDesignRequestFragments {
   fileUploadDirectory: string;
   useCase: string | null;
   fileIds: string[];
-  designLocations: DesignRequestDraftDesignRequestFragments_designLocations[];
+  designRequestLocations: DesignRequestDraftDesignRequestFragments_designRequestLocations[];
   files: DesignRequestDraftDesignRequestFragments_files[];
 }

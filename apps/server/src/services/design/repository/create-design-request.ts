@@ -137,6 +137,11 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
           },
           designRequestArtists: true,
           designRequestDesignProofs: true,
+          designRequestRevisions: {
+            include: {
+              designRequestRevisionFiles: true,
+            },
+          },
         },
       })
     } catch (error) {
@@ -151,10 +156,14 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
       artists: designRequest.designRequestArtists,
       files: designRequest.designRequestFiles,
       proofs: designRequest.designRequestDesignProofs,
-      designLocations: designRequest.designLocations,
-      designLocationFiles: designRequest.designLocations.flatMap(
-        designLocation => designLocation.designRequestDesignLocationFiles,
-      ),
+      revisions: designRequest.designRequestRevisions.map(revision => ({
+        ...revision,
+        files: revision.designRequestRevisionFiles,
+      })),
+      designLocations: designRequest.designLocations.map(location => ({
+        ...location,
+        files: location.designRequestDesignLocationFiles,
+      })),
     })
   }
 

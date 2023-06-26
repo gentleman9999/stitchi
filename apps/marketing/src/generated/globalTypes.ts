@@ -82,6 +82,7 @@ export enum ScopeAction {
 
 export enum ScopeResource {
   DesignProof = "DesignProof",
+  DesignRequestRevisionRequest = "DesignRequestRevisionRequest",
 }
 
 export interface ArticleModelFilter {
@@ -133,6 +134,12 @@ export interface DateFilterInput {
   lte?: string | null;
 }
 
+export interface DesignRequestConversationMessageCreateInput {
+  designRequestId: string;
+  message: string;
+  fileIds: string[];
+}
+
 export interface DesignRequestDesignLocationCreateInput {
   designRequestId: string;
   description?: string | null;
@@ -164,6 +171,12 @@ export interface DesignRequestProofCreateProofLocationInput {
   colorCount?: number | null;
   placement: string;
   fileId: string;
+}
+
+export interface DesignRequestRevisionRequestCreateInput {
+  designRequestId: string;
+  description: string;
+  fileIds: string[];
 }
 
 export interface DesignRequestSubmitInput {

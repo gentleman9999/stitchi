@@ -9,6 +9,21 @@ import { DesignRequestHistoryItemDesignRequestEventMethod } from "./globalTypes"
 // GraphQL fragment: DesignRequestHistoryDesignRequestFragment
 // ====================================================
 
+export interface DesignRequestHistoryDesignRequestFragment_history_ConversationMessage_files_FileUnknown {
+  __typename: "FileUnknown" | "FilePdf";
+  id: string;
+}
+
+export interface DesignRequestHistoryDesignRequestFragment_history_ConversationMessage_files_FileImage {
+  __typename: "FileImage";
+  id: string;
+  url: string;
+  width: number;
+  height: number;
+}
+
+export type DesignRequestHistoryDesignRequestFragment_history_ConversationMessage_files = DesignRequestHistoryDesignRequestFragment_history_ConversationMessage_files_FileUnknown | DesignRequestHistoryDesignRequestFragment_history_ConversationMessage_files_FileImage;
+
 export interface DesignRequestHistoryDesignRequestFragment_history_ConversationMessage_sender {
   __typename: "User";
   id: string | null;
@@ -19,9 +34,10 @@ export interface DesignRequestHistoryDesignRequestFragment_history_ConversationM
 export interface DesignRequestHistoryDesignRequestFragment_history_ConversationMessage {
   __typename: "ConversationMessage";
   id: string;
-  content: string;
+  message: string;
   createdAt: any;
   viewerIsSender: boolean;
+  files: DesignRequestHistoryDesignRequestFragment_history_ConversationMessage_files[];
   sender: DesignRequestHistoryDesignRequestFragment_history_ConversationMessage_sender | null;
 }
 
@@ -70,21 +86,37 @@ export interface DesignRequestHistoryDesignRequestFragment_history_DesignProof {
   files: DesignRequestHistoryDesignRequestFragment_history_DesignProof_files[];
 }
 
-export interface DesignRequestHistoryDesignRequestFragment_history_DesignRequestRevision_user {
+export interface DesignRequestHistoryDesignRequestFragment_history_DesignRequestRevisionRequest_files_FileUnknown {
+  __typename: "FileUnknown" | "FilePdf";
+  id: string;
+}
+
+export interface DesignRequestHistoryDesignRequestFragment_history_DesignRequestRevisionRequest_files_FileImage {
+  __typename: "FileImage";
+  id: string;
+  url: string;
+  width: number;
+  height: number;
+}
+
+export type DesignRequestHistoryDesignRequestFragment_history_DesignRequestRevisionRequest_files = DesignRequestHistoryDesignRequestFragment_history_DesignRequestRevisionRequest_files_FileUnknown | DesignRequestHistoryDesignRequestFragment_history_DesignRequestRevisionRequest_files_FileImage;
+
+export interface DesignRequestHistoryDesignRequestFragment_history_DesignRequestRevisionRequest_user {
   __typename: "User";
   id: string | null;
   name: string | null;
 }
 
-export interface DesignRequestHistoryDesignRequestFragment_history_DesignRequestRevision {
-  __typename: "DesignRequestRevision";
+export interface DesignRequestHistoryDesignRequestFragment_history_DesignRequestRevisionRequest {
+  __typename: "DesignRequestRevisionRequest";
   id: string;
   createdAt: any;
   description: string;
-  user: DesignRequestHistoryDesignRequestFragment_history_DesignRequestRevision_user | null;
+  files: DesignRequestHistoryDesignRequestFragment_history_DesignRequestRevisionRequest_files[];
+  user: DesignRequestHistoryDesignRequestFragment_history_DesignRequestRevisionRequest_user | null;
 }
 
-export type DesignRequestHistoryDesignRequestFragment_history = DesignRequestHistoryDesignRequestFragment_history_ConversationMessage | DesignRequestHistoryDesignRequestFragment_history_DesignRequestHistoryItemDesignRequestEvent | DesignRequestHistoryDesignRequestFragment_history_DesignProof | DesignRequestHistoryDesignRequestFragment_history_DesignRequestRevision;
+export type DesignRequestHistoryDesignRequestFragment_history = DesignRequestHistoryDesignRequestFragment_history_ConversationMessage | DesignRequestHistoryDesignRequestFragment_history_DesignRequestHistoryItemDesignRequestEvent | DesignRequestHistoryDesignRequestFragment_history_DesignProof | DesignRequestHistoryDesignRequestFragment_history_DesignRequestRevisionRequest;
 
 export interface DesignRequestHistoryDesignRequestFragment {
   __typename: "DesignRequest";

@@ -8,12 +8,14 @@ type Conversation {
 }
 
 type ConversationMessage {
-  content: String!
   conversationId: ID!
   createdAt: DateTime!
+  fileIds: [ID!]!
+  files: [File!]!
   id: ID!
+  message: String!
   sender: User
-  senderId: ID!
+  senderUserId: ID!
   viewerIsSender: Boolean!
 }
 
@@ -49,11 +51,14 @@ type DesignProofLocation {
 }
 
 type DesignRequest {
+  conversationId: ID
   createdAt: DateTime!
   description: String
-  designLocationIds: [ID!]!
-  designLocations: [DesignRequestDesignLocation!]!
   designProofIds: [ID!]!
+  designRequestLocationIds: [ID!]!
+  designRequestLocations: [DesignRequestDesignLocation!]!
+  designRevisionRequestIds: [ID!]!
+  designRevisionRequests: [DesignRequestRevisionRequest!]!
   fileIds: [ID!]!
   fileUploadDirectory: String!
   files: [File!]!
@@ -61,7 +66,7 @@ type DesignRequest {
   humanizedStatus: String!
   id: ID!
   name: String!
-  proofs: [DesignProof!]!
+  proofs(limit: Int): [DesignProof!]!
   status: DesignRequestStatus!
   updatedAt: DateTime
   useCase: String
@@ -79,6 +84,16 @@ type DesignRequestConnection {
   https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
   """
   pageInfo: PageInfo!
+}
+
+input DesignRequestConversationMessageCreateInput {
+  designRequestId: ID!
+  fileIds: [String!]!
+  message: String!
+}
+
+type DesignRequestConversationMessageCreatePayload {
+  designRequest: DesignRequest
 }
 
 input DesignRequestCreateInput {
@@ -142,7 +157,7 @@ type DesignRequestEdge {
   node: DesignRequest
 }
 
-union DesignRequestHistoryItem = ConversationMessage | DesignProof | DesignRequestHistoryItemDesignRequestEvent | DesignRequestRevision
+union DesignRequestHistoryItem = ConversationMessage | DesignProof | DesignRequestHistoryItemDesignRequestEvent | DesignRequestRevisionRequest
 
 type DesignRequestHistoryItemDesignRequestEvent {
   id: ID!
@@ -173,13 +188,25 @@ input DesignRequestProofCreateProofLocationInput {
   placement: String!
 }
 
-type DesignRequestRevision {
+type DesignRequestRevisionRequest {
   createdAt: DateTime!
   description: String!
+  designRequestId: ID!
   fileIds: [ID!]!
+  files: [File!]!
   id: ID!
   user: User
   userId: ID!
+}
+
+input DesignRequestRevisionRequestCreateInput {
+  description: String!
+  designRequestId: ID!
+  fileIds: [String!]!
+}
+
+type DesignRequestRevisionRequestCreatePayload {
+  designRequest: DesignRequest
 }
 
 enum DesignRequestStatus {
@@ -450,11 +477,13 @@ enum MembershipRole {
 }
 
 type Mutation {
+  designRequestConversationMessageCreate(input: DesignRequestConversationMessageCreateInput!): DesignRequestConversationMessageCreatePayload
   designRequestCreate(input: DesignRequestCreateInput!): DesignRequestCreatePayload
   designRequestDesignLocationCreate(input: DesignRequestDesignLocationCreateInput!): DesignRequestDesignLocationCreatePayload
   designRequestDesignLocationDelete(input: DesignRequestDesignLocationDeleteInput!): DesignRequestDesignLocationDeletePayload
   designRequestDesignLocationUpdate(input: DesignRequestDesignLocationUpdateInput!): DesignRequestDesignLocationUpdatePayload
   designRequestProofCreate(input: DesignRequestProofCreateInput!): DesignRequestProofCreatePayload
+  designRequestRevisionRequestCreate(input: DesignRequestRevisionRequestCreateInput!): DesignRequestRevisionRequestCreatePayload
   designRequestSubmit(input: DesignRequestSubmitInput!): DesignRequestSubmitPayload
   designRequestUpdate(input: DesignRequestUpdateInput!): DesignRequestUpdatePayload
   fileCreate(input: FileCreateInput!): FileCreatePayload
@@ -736,6 +765,7 @@ enum ScopeAction {
 
 enum ScopeResource {
   DesignProof
+  DesignRequestRevisionRequest
 }
 
 input StringFilterInput {

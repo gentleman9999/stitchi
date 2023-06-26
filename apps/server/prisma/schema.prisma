@@ -38,6 +38,8 @@ model File {
   designRequestPrintLocationFiles DesignRequestDesignLocationFile[]
   designProofFiles                DesignProofFile[]
   designProofLocations            DesignProofLocation[]
+  designRequestRevisionFiles      DesignRequestRevisionFile[]
+  conversationMessageFiles        ConversationMessageFile[]
 }
 
 enum FileType {
@@ -371,6 +373,8 @@ model DesignRequest {
   // The description of the design request
   description String? @db.Text
 
+  conversationId String?
+
   metadata Json?
 
   // The status of the design request
@@ -383,6 +387,7 @@ model DesignRequest {
   designRequestFiles        DesignRequestFile[]
   designRequestArtists      DesignRequestArtist[]
   designRequestDesignProofs DesignRequestDesignProof[]
+  designRequestRevisions    DesignRequestRevision[]
 }
 
 model DesignRequestArtist {
@@ -429,6 +434,37 @@ model DesignRequestFile {
   file          File          @relation(fields: [fileId], references: [id])
 
   @@index([designRequestId])
+  @@index([fileId])
+}
+
+model DesignRequestRevision {
+  id String @id @default(uuid())
+
+  userId          String
+  designRequestId String
+
+  description String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  designRequest              DesignRequest               @relation(fields: [designRequestId], references: [id])
+  designRequestRevisionFiles DesignRequestRevisionFile[]
+
+  @@index([designRequestId])
+}
+
+model DesignRequestRevisionFile {
+  id String @id @default(uuid())
+
+  // The design request that this file belongs to
+  designRequestRevisionId String
+  fileId                  String
+
+  designRequestRevision DesignRequestRevision @relation(fields: [designRequestRevisionId], references: [id])
+  file                  File                  @relation(fields: [fileId], references: [id])
+
+  @@index([designRequestRevisionId])
   @@index([fileId])
 }
 
@@ -604,4 +640,45 @@ model NotificationEmail {
   recipientName  String?
 
   Notification Notification[]
+}
+
+model Conversation {
+  id String @id @default(uuid())
+
+  createdAt                DateTime                  @default(now())
+  updatedAt                DateTime                  @updatedAt
+  conversationMessageFiles ConversationMessageFile[]
+  conversationMessages     ConversationMessage[]
+}
+
+model ConversationMessage {
+  id String @id @default(uuid())
+
+  conversationId String
+  senderUserId   String
+
+  message String @db.Text
+
+  createdAt                DateTime                  @default(now())
+  updatedAt                DateTime                  @updatedAt
+  conversationMessageFiles ConversationMessageFile[]
+  conversation             Conversation              @relation(fields: [conversationId], references: [id])
+
+  @@index([conversationId])
+}
+
+model ConversationMessageFile {
+  id String @id @default(uuid())
+
+  conversationId        String
+  conversationMessageId String
+  fileId                String
+
+  conversation        Conversation        @relation(fields: [conversationId], references: [id])
+  conversationMessage ConversationMessage @relation(fields: [conversationMessageId], references: [id])
+  file                File                @relation(fields: [fileId], references: [id])
+
+  @@index([conversationMessageId])
+  @@index([conversationId])
+  @@index([fileId])
 }

@@ -9,7 +9,7 @@ import { DesignRequestStatus, FileType } from "./globalTypes";
 // GraphQL fragment: DesignRequestOverviewDesignRequestFragment
 // ====================================================
 
-export interface DesignRequestOverviewDesignRequestFragment_designLocations_files_FileUnknown {
+export interface DesignRequestOverviewDesignRequestFragment_designRequestLocations_files_FileUnknown {
   __typename: "FileUnknown" | "FilePdf";
   id: string;
   humanizedBytes: string;
@@ -18,7 +18,7 @@ export interface DesignRequestOverviewDesignRequestFragment_designLocations_file
   fileType: FileType;
 }
 
-export interface DesignRequestOverviewDesignRequestFragment_designLocations_files_FileImage {
+export interface DesignRequestOverviewDesignRequestFragment_designRequestLocations_files_FileImage {
   __typename: "FileImage";
   id: string;
   humanizedBytes: string;
@@ -29,15 +29,15 @@ export interface DesignRequestOverviewDesignRequestFragment_designLocations_file
   height: number;
 }
 
-export type DesignRequestOverviewDesignRequestFragment_designLocations_files = DesignRequestOverviewDesignRequestFragment_designLocations_files_FileUnknown | DesignRequestOverviewDesignRequestFragment_designLocations_files_FileImage;
+export type DesignRequestOverviewDesignRequestFragment_designRequestLocations_files = DesignRequestOverviewDesignRequestFragment_designRequestLocations_files_FileUnknown | DesignRequestOverviewDesignRequestFragment_designRequestLocations_files_FileImage;
 
-export interface DesignRequestOverviewDesignRequestFragment_designLocations {
+export interface DesignRequestOverviewDesignRequestFragment_designRequestLocations {
   __typename: "DesignRequestDesignLocation";
   id: string;
   description: string | null;
   placement: string | null;
   fileIds: string[];
-  files: DesignRequestOverviewDesignRequestFragment_designLocations_files[];
+  files: DesignRequestOverviewDesignRequestFragment_designRequestLocations_files[];
 }
 
 export interface DesignRequestOverviewDesignRequestFragment_files_FileUnknown {
@@ -70,6 +70,6 @@ export interface DesignRequestOverviewDesignRequestFragment {
   fileUploadDirectory: string;
   useCase: string | null;
   fileIds: string[];
-  designLocations: DesignRequestOverviewDesignRequestFragment_designLocations[];
+  designRequestLocations: DesignRequestOverviewDesignRequestFragment_designRequestLocations[];
   files: DesignRequestOverviewDesignRequestFragment_files[];
 }

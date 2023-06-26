@@ -12,6 +12,31 @@ import { DesignRequestDesignLocation } from '../db/design-request-design-locatio
 import { DesignRequestDesignLocationFile } from '../db/design-request-design-location-file-table'
 import { DesignRequestArtist } from '../db/design-request-artist-table'
 import { DesignRequestDesignProof } from '../db/design-request-design-proof-table'
+import { DesignRequestRevision } from '../db/design-request-revision-table'
+import { DesignRequestRevisionFile } from '../db/design-request-revision-file-table'
+
+const revisionRequestFileInputSchema = DesignRequestRevisionFile.omit([
+  'designRequestRevisionId',
+  'id',
+]).concat(
+  yup.object().shape({
+    // If ID, update, otherwise create
+    id: yup.string().uuid().optional(),
+  }),
+)
+
+const revisionRequestInputSchema = DesignRequestRevision.omit([
+  'id',
+  'createdAt',
+  'updatedAt',
+  'designRequestId',
+]).concat(
+  yup.object().shape({
+    // If ID, update, otherwise create
+    id: yup.string().uuid().optional(),
+    files: yup.array().of(revisionRequestFileInputSchema.required()).required(),
+  }),
+)
 
 const proofsInputSchema = yup.array().of(
   DesignRequestDesignProof.omit(['id', 'designRequestId'])
@@ -74,8 +99,12 @@ const inputSchema = DesignRequest.omit(['createdAt', 'updatedAt']).concat(
     .object()
     .shape({
       artists: yup.array().of(artistInputSchema.required()).required(),
-      proofs: proofsInputSchema,
+      proofs: proofsInputSchema.required(),
       files: designRequestFilesInputSchema.required(),
+      revisionRequests: yup
+        .array()
+        .of(revisionRequestInputSchema.required())
+        .required(),
       designLocations: yup
         .array()
         .of(designLocationinputSchema.required())
@@ -129,6 +158,11 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
               designRequestDesignLocationFiles: true,
             },
           },
+          designRequestRevisions: {
+            include: {
+              designRequestRevisionFiles: true,
+            },
+          },
         },
       })
 
@@ -166,6 +200,17 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
         ({ id }) => !validInput.proofs?.some(proof => proof.id === id),
       )
 
+    const revisionRequestsToCreate = validInput.revisionRequests.filter(
+      ({ id }) => !id,
+    )
+    const revisionRequestsToDelete =
+      existingDesignRequest.designRequestRevisions.filter(
+        ({ id }) =>
+          !validInput.revisionRequests.some(
+            revisionRequest => revisionRequest.id === id,
+          ),
+      )
+
     const existingDesignTsHack = { ...existingDesignRequest }
 
     let designRequest
@@ -180,6 +225,7 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
           description: validInput.description,
           status: validInput.status,
           organizationId: validInput.organizationId,
+          conversationId: validInput.conversationId,
           userId: validInput.userId,
           metadata: validInput.metadata || undefined,
           designRequestDesignProofs: {
@@ -204,9 +250,11 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
                 description: location.description || undefined,
                 placement: location.placement || undefined,
                 designRequestDesignLocationFiles: {
-                  create: files.map(file => ({
-                    fileId: file.fileId,
-                  })),
+                  createMany: {
+                    data: files.map(file => ({
+                      fileId: file.fileId,
+                    })),
+                  },
                 },
               }
             }),
@@ -264,6 +312,20 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
             }),
             delete: artistsToDelete.map(({ id }) => ({ id })),
           },
+          designRequestRevisions: {
+            create: revisionRequestsToCreate.map(revisionRequest => ({
+              description: revisionRequest.description,
+              userId: revisionRequest.userId,
+              designRequestRevisionFiles: {
+                createMany: {
+                  data: revisionRequest.files.map(file => ({
+                    fileId: file.fileId,
+                  })),
+                },
+              },
+            })),
+            delete: revisionRequestsToDelete.map(({ id }) => ({ id })),
+          },
         },
         include: {
           designRequestFiles: true,
@@ -272,6 +334,11 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
           designLocations: {
             include: {
               designRequestDesignLocationFiles: true,
+            },
+          },
+          designRequestRevisions: {
+            include: {
+              designRequestRevisionFiles: true,
             },
           },
         },
@@ -288,11 +355,14 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
       artists: existingDesignRequest.designRequestArtists,
       files: existingDesignRequest.designRequestFiles,
       proofs: existingDesignRequest.designRequestDesignProofs,
-      designLocations: existingDesignRequest.designLocations,
-      designLocationFiles: existingDesignRequest.designLocations.flatMap(
-        ({ designRequestDesignLocationFiles }) =>
-          designRequestDesignLocationFiles,
-      ),
+      designLocations: existingDesignRequest.designLocations.map(location => ({
+        ...location,
+        files: location.designRequestDesignLocationFiles,
+      })),
+      revisions: existingDesignRequest.designRequestRevisions.map(revision => ({
+        ...revision,
+        files: revision.designRequestRevisionFiles,
+      })),
     })
 
     const nextDesignRequest = designRequestFactory({
@@ -300,11 +370,14 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
       artists: designRequest.designRequestArtists,
       files: designRequest.designRequestFiles,
       proofs: designRequest.designRequestDesignProofs,
-      designLocations: designRequest.designLocations,
-      designLocationFiles: designRequest.designLocations.flatMap(
-        ({ designRequestDesignLocationFiles }) =>
-          designRequestDesignLocationFiles,
-      ),
+      designLocations: designRequest.designLocations.map(location => ({
+        ...location,
+        files: location.designRequestDesignLocationFiles,
+      })),
+      revisions: designRequest.designRequestRevisions.map(revision => ({
+        ...revision,
+        files: revision.designRequestRevisionFiles,
+      })),
     })
 
     designEvents.emit({

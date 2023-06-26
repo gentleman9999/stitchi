@@ -7,6 +7,9 @@ import DesignLocationPreview from './DesignLocationPreview'
 import useDesignRequestDraft from './useDesignRequestDraft'
 import { gql } from '@apollo/client'
 import { DesignRequestDraftDesignRequestFragments } from '@generated/DesignRequestDraftDesignRequestFragments'
+import ClosetSection from '@components/common/ClosetSection'
+import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
+import ClosetSectionTitle from '@components/common/ClosetSectionTitle'
 
 interface Props {
   designRequest: DesignRequestDraftDesignRequestFragments
@@ -24,13 +27,17 @@ const DesignRequestDraft = ({ designRequest }: Props) => {
     setLocationForm(false)
   }
 
-  const activeLocation = designRequest.designLocations.find(
+  const activeLocation = designRequest.designRequestLocations.find(
     location => location.id === locationForm,
   )
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-      <div>
+    <div className="flex flex-col-reverse gap-12">
+      <ClosetSection>
+        <ClosetSectionHeader>
+          <ClosetSectionTitle title="Additional information" />
+        </ClosetSectionHeader>
+
         <GeneralInformation
           designRequest={designRequest}
           fileFolder={designRequest.fileUploadDirectory}
@@ -47,72 +54,69 @@ const DesignRequestDraft = ({ designRequest }: Props) => {
             })
           }
         />
-      </div>
+      </ClosetSection>
 
-      <div>
-        <div>
-          <h2 className="text-2xl font-semibold leading-7">Design locations</h2>
-          <div className="mt-10 grid grid-cols-1 gap-y-8">
-            {designRequest.designLocations.map(location => (
-              <DesignLocationPreview
-                key={location.id}
-                location={location}
-                onRemove={async () =>
-                  handleRemoveDesignRequestLocation({
-                    designRequestDesignLocationId: location.id,
-                  })
-                }
-                onUpdate={() => setLocationForm(location.id)}
-              />
-            ))}
+      <ClosetSection>
+        <ClosetSectionHeader>
+          <ClosetSectionTitle title="Design locations" />
+        </ClosetSectionHeader>
 
-            {locationForm ? (
-              <DesignLocationForm
-                designRequestId={designRequest.id}
-                designLocation={activeLocation}
-                fileFolder={designRequest.fileUploadDirectory}
-                onSubmit={handleAddDesignLocation}
-                renderContainer={props => (
-                  <Dialog
-                    open
-                    mobileFullScreen
-                    onClose={() => setLocationForm(false)}
-                  >
-                    <Dialog.Title className="flex items-center justify-between">
-                      {activeLocation ? 'Update' : 'Add'} design location
-                      <Button
-                        slim
-                        variant="naked"
-                        className="!text-sm"
-                        onClick={() => setLocationForm(false)}
-                      >
-                        Cancel
-                      </Button>
-                    </Dialog.Title>
-                    <Dialog.Content dividers>{props.children}</Dialog.Content>
-                    <Dialog.Actions className="flex justify-end">
-                      <Button
-                        slim
-                        color="brandPrimary"
-                        onClick={props.onSubmit}
-                        loading={props.loading}
-                      >
-                        {activeLocation ? 'Update' : 'Add'} location
-                      </Button>
-                    </Dialog.Actions>
-                  </Dialog>
-                )}
-              />
-            ) : (
-              <InputGroup>
-                <AddDesignLocationButton
-                  onClick={() => setLocationForm(true)}
-                />
-              </InputGroup>
-            )}
-          </div>
+        <div className="grid grid-cols-1 gap-y-8">
+          {designRequest.designRequestLocations.map(location => (
+            <DesignLocationPreview
+              key={location.id}
+              location={location}
+              onRemove={async () =>
+                handleRemoveDesignRequestLocation({
+                  designRequestDesignLocationId: location.id,
+                })
+              }
+              onUpdate={() => setLocationForm(location.id)}
+            />
+          ))}
+
+          {locationForm ? (
+            <DesignLocationForm
+              designRequestId={designRequest.id}
+              designLocation={activeLocation}
+              fileFolder={designRequest.fileUploadDirectory}
+              onSubmit={handleAddDesignLocation}
+              renderContainer={props => (
+                <Dialog
+                  open
+                  mobileFullScreen
+                  onClose={() => setLocationForm(false)}
+                >
+                  <Dialog.Title className="flex items-center justify-between">
+                    {activeLocation ? 'Update' : 'Add'} design location
+                    <Button
+                      slim
+                      variant="naked"
+                      className="!text-sm"
+                      onClick={() => setLocationForm(false)}
+                    >
+                      Cancel
+                    </Button>
+                  </Dialog.Title>
+                  <Dialog.Content dividers>{props.children}</Dialog.Content>
+                  <Dialog.Actions className="flex justify-end">
+                    <Button
+                      slim
+                      color="brandPrimary"
+                      onClick={props.onSubmit}
+                      loading={props.loading}
+                    >
+                      {activeLocation ? 'Update' : 'Add'} location
+                    </Button>
+                  </Dialog.Actions>
+                </Dialog>
+              )}
+            />
+          ) : (
+            <AddDesignLocationButton onClick={() => setLocationForm(true)} />
+          )}
         </div>
-      </div>
+      </ClosetSection>
     </div>
   )
 }
@@ -128,7 +132,7 @@ DesignRequestDraft.fragments = {
       fileUploadDirectory
       useCase
       fileIds
-      designLocations {
+      designRequestLocations {
         id
         description
         placement

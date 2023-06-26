@@ -60,6 +60,7 @@ const makeCreateDesignProof: MakeCreateDesignProofFn =
     try {
       designProof = await designProofTable.create({
         data: {
+          note: validInput.note,
           artistUserId: validInput.artistUserId,
           designProofFiles: {
             createMany: {
