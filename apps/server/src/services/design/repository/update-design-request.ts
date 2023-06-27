@@ -14,6 +14,36 @@ import { DesignRequestArtist } from '../db/design-request-artist-table'
 import { DesignRequestDesignProof } from '../db/design-request-design-proof-table'
 import { DesignRequestRevision } from '../db/design-request-revision-table'
 import { DesignRequestRevisionFile } from '../db/design-request-revision-file-table'
+import { DesignRequestProduct } from '../db/design-request-product-table'
+import { DesignRequestProductColor } from '../db/design-request-product-color-table'
+
+const productInputSchema = DesignRequestProduct.omit([
+  'id',
+  'createdAt',
+  'updatedAt',
+  'designRequestId',
+]).concat(
+  yup.object().shape({
+    id: yup.string().uuid().optional(),
+    colors: yup
+      .array()
+      .of(
+        DesignRequestProductColor.omit([
+          'id',
+          'designRequestProductId',
+          'createdAt',
+          'updatedAt',
+        ])
+          .concat(
+            yup.object().shape({
+              id: yup.string().uuid().optional(),
+            }),
+          )
+          .required(),
+      )
+      .required(),
+  }),
+)
 
 const revisionRequestFileInputSchema = DesignRequestRevisionFile.omit([
   'designRequestRevisionId',
@@ -109,6 +139,7 @@ const inputSchema = DesignRequest.omit(['createdAt', 'updatedAt']).concat(
         .array()
         .of(designLocationinputSchema.required())
         .required(),
+      products: yup.array().of(productInputSchema.required()).required(),
     })
     .required(),
 )
@@ -163,6 +194,11 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
               designRequestRevisionFiles: true,
             },
           },
+          designRequestProducts: {
+            include: {
+              designRequestProductColors: true,
+            },
+          },
         },
       })
 
@@ -210,6 +246,12 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
             revisionRequest => revisionRequest.id === id,
           ),
       )
+
+    const productsToCreate = validInput.products.filter(({ id }) => !id)
+    const productsToUpdate = validInput.products.filter(({ id }) => id)
+    const productsToDelete = existingDesignRequest.designRequestProducts.filter(
+      ({ id }) => !validInput.products.some(product => product.id === id),
+    )
 
     const existingDesignTsHack = { ...existingDesignRequest }
 
@@ -326,6 +368,49 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
             })),
             delete: revisionRequestsToDelete.map(({ id }) => ({ id })),
           },
+          designRequestProducts: {
+            delete: productsToDelete.map(({ id }) => ({ id })),
+            create: productsToCreate.map(product => ({
+              bigCommerceProductId: product.bigCommerceProductId,
+              designRequestProductColors: {
+                create: product.colors.map(color => ({
+                  bigCommerceColorId: color.bigCommerceColorId,
+                })),
+              },
+            })),
+            update: productsToUpdate.map(({ id, ...rest }) => {
+              const { colors, ...product } = rest
+
+              const colorsToCreate = colors.filter(({ id }) => !id)
+              const colorsToUpdate = colors.filter(({ id }) => id)
+              const colorsToDelete = existingDesignTsHack.designRequestProducts
+                .find(({ id: productId }) => productId === id)
+                ?.designRequestProductColors.filter(
+                  ({ id }) => !colors.some(color => color.id === id),
+                )
+
+              return {
+                where: { id },
+                data: {
+                  bigCommerceProductId: product.bigCommerceProductId,
+                  designRequestProductColors: {
+                    create: colorsToCreate.map(color => ({
+                      bigCommerceColorId: color.bigCommerceColorId,
+                    })),
+                    update: colorsToUpdate.map(({ id, ...rest }) => {
+                      return {
+                        where: { id },
+                        data: {
+                          bigCommerceColorId: rest.bigCommerceColorId,
+                        },
+                      }
+                    }),
+                    delete: colorsToDelete?.map(({ id }) => ({ id })),
+                  },
+                },
+              }
+            }),
+          },
         },
         include: {
           designRequestFiles: true,
@@ -339,6 +424,11 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
           designRequestRevisions: {
             include: {
               designRequestRevisionFiles: true,
+            },
+          },
+          designRequestProducts: {
+            include: {
+              designRequestProductColors: true,
             },
           },
         },
@@ -363,6 +453,10 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
         ...revision,
         files: revision.designRequestRevisionFiles,
       })),
+      products: existingDesignRequest.designRequestProducts.map(product => ({
+        ...product,
+        colors: product.designRequestProductColors,
+      })),
     })
 
     const nextDesignRequest = designRequestFactory({
@@ -377,6 +471,10 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
       revisions: designRequest.designRequestRevisions.map(revision => ({
         ...revision,
         files: revision.designRequestRevisionFiles,
+      })),
+      products: designRequest.designRequestProducts.map(product => ({
+        ...product,
+        colors: product.designRequestProductColors,
       })),
     })
 

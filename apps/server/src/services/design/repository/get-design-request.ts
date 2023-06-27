@@ -41,6 +41,11 @@ const makeGetDesignRequest: MakeGetDesignRequestFn =
             designRequestRevisionFiles: true,
           },
         },
+        designRequestProducts: {
+          include: {
+            designRequestProductColors: true,
+          },
+        },
       },
     })
 
@@ -60,6 +65,10 @@ const makeGetDesignRequest: MakeGetDesignRequestFn =
       revisions: designRequest.designRequestRevisions.map(revision => ({
         ...revision,
         files: revision.designRequestRevisionFiles,
+      })),
+      products: designRequest.designRequestProducts.map(product => ({
+        ...product,
+        colors: product.designRequestProductColors,
       })),
     })
   }

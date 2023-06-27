@@ -10,6 +10,29 @@ import { DesignRequestFile } from '../db/design-request-file-table'
 import { DesignRequestDesignLocation } from '../db/design-request-design-location-table'
 import { DesignRequestDesignLocationFile } from '../db/design-request-design-location-file-table'
 import { DesignRequestArtist } from '../db/design-request-artist-table'
+import { DesignRequestProduct } from '../db/design-request-product-table'
+import { DesignRequestProductColor } from '../db/design-request-product-color-table'
+
+const productInputSchema = DesignRequestProduct.omit([
+  'id',
+  'createdAt',
+  'updatedAt',
+  'designRequestId',
+]).concat(
+  yup.object().shape({
+    colors: yup
+      .array()
+      .of(
+        DesignRequestProductColor.omit([
+          'id',
+          'designRequestProductId',
+          'createdAt',
+          'updatedAt',
+        ]).required(),
+      )
+      .required(),
+  }),
+)
 
 const filesInputSchema = yup
   .array()
@@ -55,6 +78,7 @@ const inputSchema = DesignRequest.omit(['id', 'createdAt', 'updatedAt']).concat(
         .of(designLocationInputSchema.required())
         .required(),
       artists: yup.array().of(artistInputSchema.required()).required(),
+      products: yup.array().of(productInputSchema.required()).required(),
     })
     .required(),
 )
@@ -105,19 +129,17 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
             },
           },
           designLocations: {
-            createMany: {
-              data: validInput.designLocations.map(designLocation => ({
-                description: designLocation.description,
-                placement: designLocation.placement,
-                designRequestDesignLocationFiles: {
-                  createMany: {
-                    data: designLocation.files.map(file => ({
-                      fileId: file.fileId,
-                    })),
-                  },
+            create: validInput.designLocations.map(designLocation => ({
+              description: designLocation.description,
+              placement: designLocation.placement,
+              designRequestDesignLocationFiles: {
+                createMany: {
+                  data: designLocation.files.map(file => ({
+                    fileId: file.fileId,
+                  })),
                 },
-              })),
-            },
+              },
+            })),
           },
           designRequestArtists: {
             createMany: {
@@ -127,16 +149,33 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
               })),
             },
           },
+          designRequestProducts: {
+            create: validInput.products.map(product => ({
+              bigCommerceProductId: product.bigCommerceProductId,
+              designRequestProductColors: {
+                createMany: {
+                  data: product.colors.map(color => ({
+                    bigCommerceColorId: color.bigCommerceColorId,
+                  })),
+                },
+              },
+            })),
+          },
         },
         include: {
           designRequestFiles: true,
+          designRequestArtists: true,
+          designRequestDesignProofs: true,
           designLocations: {
             include: {
               designRequestDesignLocationFiles: true,
             },
           },
-          designRequestArtists: true,
-          designRequestDesignProofs: true,
+          designRequestProducts: {
+            include: {
+              designRequestProductColors: true,
+            },
+          },
           designRequestRevisions: {
             include: {
               designRequestRevisionFiles: true,
@@ -163,6 +202,10 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
       designLocations: designRequest.designLocations.map(location => ({
         ...location,
         files: location.designRequestDesignLocationFiles,
+      })),
+      products: designRequest.designRequestProducts.map(product => ({
+        ...product,
+        colors: product.designRequestProductColors,
       })),
     })
   }

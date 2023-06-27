@@ -57,6 +57,8 @@ type DesignRequest {
   designProofIds: [ID!]!
   designRequestLocationIds: [ID!]!
   designRequestLocations: [DesignRequestDesignLocation!]!
+  designRequestProductIds: [ID!]!
+  designRequestProducts: [DesignRequestProduct!]!
   designRevisionRequestIds: [ID!]!
   designRevisionRequests: [DesignRequestRevisionRequest!]!
   fileIds: [ID!]!
@@ -99,6 +101,7 @@ type DesignRequestConversationMessageCreatePayload {
 input DesignRequestCreateInput {
   description: String
   name: String
+  products: [DesignRequestProductCreateInput!]!
   useCase: String
 }
 
@@ -169,6 +172,17 @@ type DesignRequestHistoryItemDesignRequestEvent {
 
 enum DesignRequestHistoryItemDesignRequestEventMethod {
   CREATE
+}
+
+type DesignRequestProduct {
+  bigCommerceProductId: String!
+  id: ID!
+  product: Product
+}
+
+input DesignRequestProductCreateInput {
+  bigCommerceProductColorIds: [ID!]!
+  bigCommerceProductId: ID!
 }
 
 input DesignRequestProofCreateInput {

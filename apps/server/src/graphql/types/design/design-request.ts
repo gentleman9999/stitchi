@@ -91,6 +91,10 @@ export const DesignRequest = objectType({
     t.nonNull.list.nonNull.field('designRevisionRequests', {
       type: 'DesignRequestRevisionRequest',
     })
+    t.nonNull.list.nonNull.id('designRequestProductIds')
+    t.nonNull.list.nonNull.field('designRequestProducts', {
+      type: 'DesignRequestProduct',
+    })
 
     t.nonNull.DateTime('createdAt')
     t.nullable.DateTime('updatedAt')

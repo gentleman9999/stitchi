@@ -55,11 +55,22 @@ export const designRequestFactoryToGrahpql = (
     designRevisionRequestIds: designRequest.revisionRequests.map(
       revision => revision.id,
     ),
-
     designRevisionRequests: designRequest.revisionRequests.map(revision => {
       return {
         ...revision,
         fileIds: revision.files.map(file => file.fileId),
+      }
+    }),
+
+    designRequestProductIds: designRequest.products.map(product => product.id),
+    designRequestProducts: designRequest.products.map(product => {
+      return {
+        ...product,
+        colors: product.colors.map(color => {
+          return {
+            ...color,
+          }
+        }),
       }
     }),
   }

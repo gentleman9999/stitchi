@@ -12,28 +12,29 @@ interface Props {
 }
 
 const ColorSwatch = (props: Props) => {
-  const { width = 'w-5', height = 'h-5' } = props
+  const { width = 'w-8', height = 'h-8' } = props
   const color = Color(props.hexCode)
 
   return (
-    <div className={`${width} ${height}`}>
+    <div
+      onClick={props.onClick}
+      style={{
+        outlineColor: color.toString(),
+      }}
+      className={cx(
+        props.selected ? 'outline outline-4 ' : '',
+        'relative flex cursor-pointer items-center justify-center rounded-full p-0.5',
+      )}
+    >
+      <label className="sr-only">{props.label}</label>
       <span
-        role="button"
-        className={cx(
-          `inline-flex rounded-md border cursor-pointer ${width} ${height}`,
-          {
-            // 'outline outline-2 outline-primary shadow-sm':
-            //   selectedColorEntityIds.includes(entityId),
-            'shadow-sm': props.selected,
-          },
-        )}
+        aria-hidden="true"
         style={{
           backgroundColor: color.toString(),
           borderColor: color.darken(0.1).toString(),
         }}
-        onClick={props.onClick}
+        className={cx(`${width} ${height} rounded-full border`)}
       />
-      <span className="sr-only">{props.label}</span>
     </div>
   )
 }

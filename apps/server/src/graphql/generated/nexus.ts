@@ -50,6 +50,7 @@ export interface NexusGenInputs {
   DesignRequestCreateInput: { // input type
     description?: string | null; // String
     name?: string | null; // String
+    products: NexusGenInputs['DesignRequestProductCreateInput'][]; // [DesignRequestProductCreateInput!]!
     useCase?: string | null; // String
   }
   DesignRequestDesignLocationCreateInput: { // input type
@@ -68,6 +69,10 @@ export interface NexusGenInputs {
     designRequestId: string; // ID!
     fileIds: string[]; // [ID!]!
     placement?: string | null; // String
+  }
+  DesignRequestProductCreateInput: { // input type
+    bigCommerceProductColorIds: string[]; // [ID!]!
+    bigCommerceProductId: string; // ID!
   }
   DesignRequestProofCreateInput: { // input type
     designRequestId: string; // ID!
@@ -272,6 +277,8 @@ export interface NexusGenObjects {
     designProofIds: string[]; // [ID!]!
     designRequestLocationIds: string[]; // [ID!]!
     designRequestLocations: NexusGenRootTypes['DesignRequestDesignLocation'][]; // [DesignRequestDesignLocation!]!
+    designRequestProductIds: string[]; // [ID!]!
+    designRequestProducts: NexusGenRootTypes['DesignRequestProduct'][]; // [DesignRequestProduct!]!
     designRevisionRequestIds: string[]; // [ID!]!
     designRevisionRequests: NexusGenRootTypes['DesignRequestRevisionRequest'][]; // [DesignRequestRevisionRequest!]!
     fileIds: string[]; // [ID!]!
@@ -319,6 +326,11 @@ export interface NexusGenObjects {
     method: NexusGenEnums['DesignRequestHistoryItemDesignRequestEventMethod']; // DesignRequestHistoryItemDesignRequestEventMethod!
     timestamp: NexusGenScalars['DateTime']; // DateTime!
     userId?: string | null; // ID
+  }
+  DesignRequestProduct: { // root type
+    bigCommerceProductId: string; // String!
+    id: string; // ID!
+    product?: NexusGenRootTypes['Product'] | null; // Product
   }
   DesignRequestProofCreatePayload: { // root type
     designRequest?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
@@ -649,6 +661,8 @@ export interface NexusGenFieldTypes {
     designProofIds: string[]; // [ID!]!
     designRequestLocationIds: string[]; // [ID!]!
     designRequestLocations: NexusGenRootTypes['DesignRequestDesignLocation'][]; // [DesignRequestDesignLocation!]!
+    designRequestProductIds: string[]; // [ID!]!
+    designRequestProducts: NexusGenRootTypes['DesignRequestProduct'][]; // [DesignRequestProduct!]!
     designRevisionRequestIds: string[]; // [ID!]!
     designRevisionRequests: NexusGenRootTypes['DesignRequestRevisionRequest'][]; // [DesignRequestRevisionRequest!]!
     fileIds: string[]; // [ID!]!
@@ -704,6 +718,11 @@ export interface NexusGenFieldTypes {
     timestamp: NexusGenScalars['DateTime']; // DateTime!
     user: NexusGenRootTypes['User'] | null; // User
     userId: string | null; // ID
+  }
+  DesignRequestProduct: { // field return type
+    bigCommerceProductId: string; // String!
+    id: string; // ID!
+    product: NexusGenRootTypes['Product'] | null; // Product
   }
   DesignRequestProofCreatePayload: { // field return type
     designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
@@ -1084,6 +1103,8 @@ export interface NexusGenFieldTypeNames {
     designProofIds: 'ID'
     designRequestLocationIds: 'ID'
     designRequestLocations: 'DesignRequestDesignLocation'
+    designRequestProductIds: 'ID'
+    designRequestProducts: 'DesignRequestProduct'
     designRevisionRequestIds: 'ID'
     designRevisionRequests: 'DesignRequestRevisionRequest'
     fileIds: 'ID'
@@ -1139,6 +1160,11 @@ export interface NexusGenFieldTypeNames {
     timestamp: 'DateTime'
     user: 'User'
     userId: 'ID'
+  }
+  DesignRequestProduct: { // field return type name
+    bigCommerceProductId: 'String'
+    id: 'ID'
+    product: 'Product'
   }
   DesignRequestProofCreatePayload: { // field return type name
     designRequest: 'DesignRequest'

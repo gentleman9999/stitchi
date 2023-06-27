@@ -41,6 +41,11 @@ const makeListDesignRequests: MakeListDesignRequestsFn =
               designRequestDesignLocationFiles: true,
             },
           },
+          designRequestProducts: {
+            include: {
+              designRequestProductColors: true,
+            },
+          },
         },
       })
     } catch (error) {
@@ -63,6 +68,10 @@ const makeListDesignRequests: MakeListDesignRequestsFn =
         revisions: designRequest.designRequestRevisions.map(revision => ({
           ...revision,
           files: revision.designRequestRevisionFiles,
+        })),
+        products: designRequest.designRequestProducts.map(product => ({
+          ...product,
+          colors: product.designRequestProductColors,
         })),
       }),
     )

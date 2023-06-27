@@ -4,12 +4,20 @@ import { DesignRequestDesignLocationFileRecord } from '../db/design-request-desi
 import { DesignRequestDesignLocationRecord } from '../db/design-request-design-location-table'
 import { DesignRequestDesignProofRecord } from '../db/design-request-design-proof-table'
 import { DesignRequestFileRecord } from '../db/design-request-file-table'
+import { DesignRequestProductColorRecord } from '../db/design-request-product-color-table'
+import { DesignRequestProductRecord } from '../db/design-request-product-table'
 import { DesignRequestRevisionFileRecord } from '../db/design-request-revision-file-table'
 import { DesignRequestRevisionRecord } from '../db/design-request-revision-table'
 import {
   DesignRequestMetadata,
   DesignRequestRecord,
 } from '../db/design-request-table'
+
+interface DesignRequestProductColor extends DesignRequestProductColorRecord {}
+
+interface DesignRequestProduct extends DesignRequestProductRecord {
+  colors: DesignRequestProductColor[]
+}
 
 interface DesignRequestRevisionRequestFile
   extends DesignRequestRevisionFileRecord {}
@@ -38,6 +46,7 @@ export interface DesignFactoryDesignRequest extends DesignRequestRecord {
   artists: DesignRequestArtist[]
   proofs: DesignRequestDesignProof[]
   revisionRequests: DesignRequestRevisionRequest[]
+  products: DesignRequestProduct[]
 }
 
 const designRequestFactory = ({
@@ -47,13 +56,17 @@ const designRequestFactory = ({
   artists,
   proofs,
   revisions,
+  products,
 }: {
-  designRequest: Omit<DesignRequestRecord, 'metadata'> & {
-    metadata: Prisma.JsonValue
-  }
   files: DesignRequestFileRecord[]
   artists: DesignRequestArtistRecord[]
   proofs: DesignRequestDesignProofRecord[]
+  designRequest: Omit<DesignRequestRecord, 'metadata'> & {
+    metadata: Prisma.JsonValue
+  }
+  products: (DesignRequestProductRecord & {
+    colors: DesignRequestProductColorRecord[]
+  })[]
   designLocations: (DesignRequestDesignLocationRecord & {
     files: DesignRequestDesignLocationFileRecord[]
   })[]
@@ -67,6 +80,7 @@ const designRequestFactory = ({
     artists,
     proofs,
     designLocations,
+    products,
     id: designRequest.id,
     userId: designRequest.userId,
     organizationId: designRequest.organizationId,

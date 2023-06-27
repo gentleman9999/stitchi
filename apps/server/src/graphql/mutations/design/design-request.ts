@@ -3,12 +3,23 @@ import { inputObjectType, mutationField, nonNull, objectType } from 'nexus'
 import { notEmpty } from '../../../utils'
 import { designRequestFactoryToGrahpql } from '../../serializers/design'
 
+export const DesignRequestProductCreateInput = inputObjectType({
+  name: 'DesignRequestProductCreateInput',
+  definition(t) {
+    t.nonNull.id('bigCommerceProductId')
+    t.nonNull.list.nonNull.id('bigCommerceProductColorIds')
+  },
+})
+
 export const DesignRequestCreateInput = inputObjectType({
   name: 'DesignRequestCreateInput',
   definition(t) {
     t.nullable.string('name')
     t.nullable.string('description')
     t.nullable.string('useCase')
+    t.nonNull.list.nonNull.field('products', {
+      type: 'DesignRequestProductCreateInput',
+    })
   },
 })
 
@@ -42,6 +53,12 @@ export const designRequestCreate = mutationField('designRequestCreate', {
           files: [],
           designLocations: [],
           artists: [],
+          products: input.products.map(product => ({
+            bigCommerceProductId: product.bigCommerceProductId,
+            colors: product.bigCommerceProductColorIds.map(color => ({
+              bigCommerceColorId: color,
+            })),
+          })),
         },
       })
     } catch (error) {
@@ -120,6 +137,7 @@ export const designRequestUpdate = mutationField('designRequestUpdate', {
           artists: foundDesignRequest.artists,
           revisionRequests: foundDesignRequest.revisionRequests,
           proofs: foundDesignRequest.proofs,
+          products: foundDesignRequest.products,
         },
       })
     } catch (error) {

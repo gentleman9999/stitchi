@@ -140,6 +140,13 @@ export interface DesignRequestConversationMessageCreateInput {
   fileIds: string[];
 }
 
+export interface DesignRequestCreateInput {
+  name?: string | null;
+  description?: string | null;
+  useCase?: string | null;
+  products: DesignRequestProductCreateInput[];
+}
+
 export interface DesignRequestDesignLocationCreateInput {
   designRequestId: string;
   description?: string | null;
@@ -158,6 +165,11 @@ export interface DesignRequestDesignLocationUpdateInput {
   description?: string | null;
   placement?: string | null;
   fileIds: string[];
+}
+
+export interface DesignRequestProductCreateInput {
+  bigCommerceProductId: string;
+  bigCommerceProductColorIds: string[];
 }
 
 export interface DesignRequestProofCreateInput {
