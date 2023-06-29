@@ -1,6 +1,6 @@
 import { GraphQLError } from 'graphql'
 import { inputObjectType, mutationField, nonNull, objectType } from 'nexus'
-import { ProductFactoryProduct } from '../../../services/catalog/factory'
+import { CatalogFactoryCatalogProduct } from '../../../services/catalog/factory'
 import { DesignFactoryDesign } from '../../../services/design/factory'
 import { OrderItemRecordType } from '../../../services/order/db/order-item-table'
 import { OrderRecordType } from '../../../services/order/db/order-table'
@@ -60,10 +60,10 @@ export const orderCartCreate = mutationField('orderCartCreate', {
       0,
     )
 
-    let product: ProductFactoryProduct
+    let product: CatalogFactoryCatalogProduct
     try {
-      product = await ctx.catalog.getBigCommerceProduct({
-        productEntityId: input.productEntityId,
+      product = await ctx.catalog.getCatalogProduct({
+        productEntityId: input.productEntityId.toString(),
       })
     } catch (error) {
       console.error(`Failed to get product: ${input.productEntityId}`, {
@@ -97,9 +97,9 @@ export const orderCartCreate = mutationField('orderCartCreate', {
       let productVariant
 
       try {
-        productVariant = await ctx.catalog.getBigCommerceProductVariant({
-          productEntityId: input.productEntityId,
-          variantEntityId: item.productVariantEntityId,
+        productVariant = await ctx.catalog.getCatalogProductVariant({
+          productEntityId: input.productEntityId.toString(),
+          variantEntityId: item.productVariantEntityId.toString(),
         })
       } catch (error) {
         console.error(

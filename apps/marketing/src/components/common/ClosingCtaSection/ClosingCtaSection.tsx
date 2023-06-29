@@ -19,7 +19,7 @@ const ClosingCtaSection = () => {
         <Link href={routes.internal.getStarted.href()} passHref legacyBehavior>
           <Button Component="a" color="primary" bold shadow>
             <div className="flex items-center group">
-              Work with us{' '}
+              Go to my closet{' '}
               <ArrowRight
                 strokeWidth="2"
                 className="ml-2 group-hover:translate-x-2 transition-all"

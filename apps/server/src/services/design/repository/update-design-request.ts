@@ -371,9 +371,11 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
           designRequestProducts: {
             delete: productsToDelete.map(({ id }) => ({ id })),
             create: productsToCreate.map(product => ({
-              bigCommerceProductId: product.bigCommerceProductId,
+              catalogProductId: product.catalogProductId,
               designRequestProductColors: {
                 create: product.colors.map(color => ({
+                  hexCode: color.hexCode,
+                  name: color.name,
                   bigCommerceColorId: color.bigCommerceColorId,
                 })),
               },
@@ -392,15 +394,19 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
               return {
                 where: { id },
                 data: {
-                  bigCommerceProductId: product.bigCommerceProductId,
+                  catalogProductId: product.catalogProductId,
                   designRequestProductColors: {
                     create: colorsToCreate.map(color => ({
+                      hexCode: color.hexCode,
+                      name: color.name,
                       bigCommerceColorId: color.bigCommerceColorId,
                     })),
                     update: colorsToUpdate.map(({ id, ...rest }) => {
                       return {
                         where: { id },
                         data: {
+                          name: rest.name,
+                          hexCode: rest.hexCode,
                           bigCommerceColorId: rest.bigCommerceColorId,
                         },
                       }

@@ -146,24 +146,17 @@ export const DesignRequestsExtendsMembership = extendType({
 export const ExtendDesignRequests = extendType({
   type: 'DesignRequest',
   definition(t) {
-    t.nonNull.list.nonNull.field('history', {
+    t.nonNull.list.nonNull.field('designRequestHistory', {
       type: 'DesignRequestHistoryItem',
-      resolve: async (parent, _, ctx) => {
-        const desingRequestEvents: NexusGenObjects['DesignRequestHistoryItemDesignRequestEvent'][] =
-          [
-            {
-              id: uuid.v4(),
-              method: 'CREATE',
-              timestamp: parent.createdAt,
-              userId: parent.userId,
-            },
-          ]
-
+      args: {
+        designRequestId: nonNull(idArg()),
+      },
+      resolve: async (parent, { designRequestId }, ctx) => {
         let designRequest
 
         try {
           const response = await ctx.design.getDesignRequest({
-            designRequestId: parent.id,
+            designRequestId,
           })
 
           designRequest = designRequestFactoryToGrahpql(response)
@@ -171,6 +164,16 @@ export const ExtendDesignRequests = extendType({
           console.log(error)
           throw new GraphQLError('Failed to get design request')
         }
+
+        const desingRequestEvents: NexusGenObjects['DesignRequestHistoryItemDesignRequestEvent'][] =
+          [
+            {
+              id: uuid.v4(),
+              method: 'CREATE',
+              timestamp: designRequest.createdAt,
+              userId: designRequest.userId,
+            },
+          ]
 
         let proofs
 

@@ -1,7 +1,7 @@
 import { gql, QueryResult } from '@apollo/client'
 import React from 'react'
 import { notEmpty } from '@utils/typescript'
-import CatalogProduct from '../CatalogProduct'
+import CatalogProductLegacy from '../CatalogProductLegacy'
 import {
   CatalogIndexPageGetDataQuery,
   CatalogIndexPageGetDataQueryVariables,
@@ -43,7 +43,7 @@ const CatalogProductGrid = ({ site, loading, fetchMore }: Props) => {
     <>
       <Grid>
         {products.map((product, i) => (
-          <CatalogProduct
+          <CatalogProductLegacy
             key={product.entityId}
             product={product}
             priority={i < 3}
@@ -81,7 +81,7 @@ const Grid = ({ children }: { children: React.ReactNode }) => (
 
 CatalogProductGrid.fragments = {
   site: gql`
-    ${CatalogProduct.fragments.product}
+    ${CatalogProductLegacy.fragments.product}
     fragment CatalogProductGridSiteFragment on Site {
       search {
         searchProducts(filters: $filters, sort: FEATURED) {
@@ -90,7 +90,7 @@ CatalogProductGrid.fragments = {
               node {
                 id
                 entityId
-                ...CatalogProductProductFragment
+                ...CatalogProductLegacyProductFragment
               }
             }
             pageInfo {

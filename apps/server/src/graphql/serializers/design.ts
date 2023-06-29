@@ -63,16 +63,7 @@ export const designRequestFactoryToGrahpql = (
     }),
 
     designRequestProductIds: designRequest.products.map(product => product.id),
-    designRequestProducts: designRequest.products.map(product => {
-      return {
-        ...product,
-        colors: product.colors.map(color => {
-          return {
-            ...color,
-          }
-        }),
-      }
-    }),
+    designRequestProducts: designRequest.products,
   }
 }
 

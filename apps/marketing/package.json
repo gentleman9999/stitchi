@@ -52,6 +52,7 @@
     "global": "^4.4.0",
     "google-auth-library": "^8.7.0",
     "googleapis": "^118.0.0",
+    "graphql-ws": "^5.14.0",
     "hoist-non-react-statics": "^3.3.2",
     "hooks": "*",
     "icons": "*",

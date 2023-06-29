@@ -8,11 +8,7 @@ import { ExpressContext } from 'apollo-server-express'
 import services from '../services'
 import makeStripeClient from '../stripe'
 import { SendgridClient, makeClient as makeSendgridClient } from '../sendgrid'
-
-const organizationHeaderKey = getOrThrow(
-  process.env.HEADER_KEY_ORGANIZATION_ID,
-  'HEADER_KEY_ORGANIZATION_ID',
-)
+import { PubSub } from 'graphql-subscriptions'
 
 type StripeClient = ReturnType<typeof makeStripeClient>
 
@@ -34,6 +30,7 @@ export interface Context {
   fulfillment: typeof services.fulfillment
   payment: typeof services.payment
   file: typeof services.file
+  subscriptions: PubSub
 }
 
 interface ContextCreatorParams {
@@ -78,6 +75,7 @@ function makeContext(
       })()
 
       return {
+        subscriptions: new PubSub(),
         role: userMembership?.membership.role ?? undefined,
         auth0: params.auth0,
         prisma: params.prisma,

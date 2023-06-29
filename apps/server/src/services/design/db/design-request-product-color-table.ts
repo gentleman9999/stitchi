@@ -13,6 +13,9 @@ export const DesignRequestProductColor: yup.ObjectSchema<DesignRequestProductCol
       designRequestProductId: yup.string().uuid().required(),
       bigCommerceColorId: yup.string().required(),
 
+      hexCode: yup.string().nullable().defined(),
+      name: yup.string().nullable().defined(),
+
       createdAt: yup.date().required(),
       updatedAt: yup.date().required(),
     })

@@ -70,9 +70,14 @@ export interface NexusGenInputs {
     fileIds: string[]; // [ID!]!
     placement?: string | null; // String
   }
+  DesignRequestProductColorCreateInput: { // input type
+    bigCommerceColorId: string; // ID!
+    hexCode?: string | null; // String
+    name?: string | null; // String
+  }
   DesignRequestProductCreateInput: { // input type
-    bigCommerceProductColorIds: string[]; // [ID!]!
-    bigCommerceProductId: string; // ID!
+    catalogProductId: string; // ID!
+    colors: NexusGenInputs['DesignRequestProductColorCreateInput'][]; // [DesignRequestProductColorCreateInput!]!
   }
   DesignRequestProofCreateInput: { // input type
     designRequestId: string; // ID!
@@ -242,6 +247,30 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  CatalogBrand: { // root type
+    id: string; // ID!
+    name: string; // String!
+    slug: string; // String!
+  }
+  CatalogProduct: { // root type
+    brandId?: string | null; // ID
+    categoryIds: string[]; // [ID!]!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    description: string; // String!
+    id: string; // ID!
+    images: NexusGenRootTypes['CatalogProductImage'][]; // [CatalogProductImage!]!
+    name: string; // String!
+    priceCents: number; // Int!
+    primaryImage?: NexusGenRootTypes['CatalogProductImage'] | null; // CatalogProductImage
+    relatedProductIds: string[]; // [ID!]!
+    slug: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    visible: boolean; // Boolean!
+  }
+  CatalogProductImage: { // root type
+    order?: number | null; // Int
+    url: string; // String!
+  }
   Conversation: { // root type
     id: string; // ID!
     messages: NexusGenRootTypes['ConversationMessage'][]; // [ConversationMessage!]!
@@ -252,7 +281,7 @@ export interface NexusGenObjects {
     fileIds: string[]; // [ID!]!
     id: string; // ID!
     message: string; // String!
-    senderUserId: string; // ID!
+    senderUserId?: string | null; // ID
     viewerIsSender: boolean; // Boolean!
   }
   DesignProof: { // root type
@@ -328,9 +357,14 @@ export interface NexusGenObjects {
     userId?: string | null; // ID
   }
   DesignRequestProduct: { // root type
-    bigCommerceProductId: string; // String!
+    catalogProductId: string; // String!
+    colors: NexusGenRootTypes['DesignRequestProductColors'][]; // [DesignRequestProductColors!]!
     id: string; // ID!
-    product?: NexusGenRootTypes['Product'] | null; // Product
+  }
+  DesignRequestProductColors: { // root type
+    bigCommerceColorId: string; // ID!
+    hexCode?: string | null; // String
+    name?: string | null; // String
   }
   DesignRequestProofCreatePayload: { // root type
     designRequest?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
@@ -620,6 +654,31 @@ export type NexusGenRootTypes = NexusGenInterfaces & NexusGenObjects & NexusGenU
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  CatalogBrand: { // field return type
+    id: string; // ID!
+    name: string; // String!
+    slug: string; // String!
+  }
+  CatalogProduct: { // field return type
+    brand: NexusGenRootTypes['CatalogBrand'] | null; // CatalogBrand
+    brandId: string | null; // ID
+    categoryIds: string[]; // [ID!]!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    description: string; // String!
+    id: string; // ID!
+    images: NexusGenRootTypes['CatalogProductImage'][]; // [CatalogProductImage!]!
+    name: string; // String!
+    priceCents: number; // Int!
+    primaryImage: NexusGenRootTypes['CatalogProductImage'] | null; // CatalogProductImage
+    relatedProductIds: string[]; // [ID!]!
+    slug: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    visible: boolean; // Boolean!
+  }
+  CatalogProductImage: { // field return type
+    order: number | null; // Int
+    url: string; // String!
+  }
   Conversation: { // field return type
     id: string; // ID!
     messages: NexusGenRootTypes['ConversationMessage'][]; // [ConversationMessage!]!
@@ -632,7 +691,7 @@ export interface NexusGenFieldTypes {
     id: string; // ID!
     message: string; // String!
     sender: NexusGenRootTypes['User'] | null; // User
-    senderUserId: string; // ID!
+    senderUserId: string | null; // ID
     viewerIsSender: boolean; // Boolean!
   }
   DesignProof: { // field return type
@@ -659,6 +718,7 @@ export interface NexusGenFieldTypes {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     description: string | null; // String
     designProofIds: string[]; // [ID!]!
+    designRequestHistory: NexusGenRootTypes['DesignRequestHistoryItem'][]; // [DesignRequestHistoryItem!]!
     designRequestLocationIds: string[]; // [ID!]!
     designRequestLocations: NexusGenRootTypes['DesignRequestDesignLocation'][]; // [DesignRequestDesignLocation!]!
     designRequestProductIds: string[]; // [ID!]!
@@ -668,7 +728,6 @@ export interface NexusGenFieldTypes {
     fileIds: string[]; // [ID!]!
     fileUploadDirectory: string; // String!
     files: NexusGenRootTypes['File'][]; // [File!]!
-    history: NexusGenRootTypes['DesignRequestHistoryItem'][]; // [DesignRequestHistoryItem!]!
     humanizedStatus: string; // String!
     id: string; // ID!
     name: string; // String!
@@ -720,9 +779,15 @@ export interface NexusGenFieldTypes {
     userId: string | null; // ID
   }
   DesignRequestProduct: { // field return type
-    bigCommerceProductId: string; // String!
+    catalogProduct: NexusGenRootTypes['CatalogProduct'] | null; // CatalogProduct
+    catalogProductId: string; // String!
+    colors: NexusGenRootTypes['DesignRequestProductColors'][]; // [DesignRequestProductColors!]!
     id: string; // ID!
-    product: NexusGenRootTypes['Product'] | null; // Product
+  }
+  DesignRequestProductColors: { // field return type
+    bigCommerceColorId: string; // ID!
+    hexCode: string | null; // String
+    name: string | null; // String
   }
   DesignRequestProofCreatePayload: { // field return type
     designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
@@ -1062,6 +1127,31 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  CatalogBrand: { // field return type name
+    id: 'ID'
+    name: 'String'
+    slug: 'String'
+  }
+  CatalogProduct: { // field return type name
+    brand: 'CatalogBrand'
+    brandId: 'ID'
+    categoryIds: 'ID'
+    createdAt: 'DateTime'
+    description: 'String'
+    id: 'ID'
+    images: 'CatalogProductImage'
+    name: 'String'
+    priceCents: 'Int'
+    primaryImage: 'CatalogProductImage'
+    relatedProductIds: 'ID'
+    slug: 'String'
+    updatedAt: 'DateTime'
+    visible: 'Boolean'
+  }
+  CatalogProductImage: { // field return type name
+    order: 'Int'
+    url: 'String'
+  }
   Conversation: { // field return type name
     id: 'ID'
     messages: 'ConversationMessage'
@@ -1101,6 +1191,7 @@ export interface NexusGenFieldTypeNames {
     createdAt: 'DateTime'
     description: 'String'
     designProofIds: 'ID'
+    designRequestHistory: 'DesignRequestHistoryItem'
     designRequestLocationIds: 'ID'
     designRequestLocations: 'DesignRequestDesignLocation'
     designRequestProductIds: 'ID'
@@ -1110,7 +1201,6 @@ export interface NexusGenFieldTypeNames {
     fileIds: 'ID'
     fileUploadDirectory: 'String'
     files: 'File'
-    history: 'DesignRequestHistoryItem'
     humanizedStatus: 'String'
     id: 'ID'
     name: 'String'
@@ -1162,9 +1252,15 @@ export interface NexusGenFieldTypeNames {
     userId: 'ID'
   }
   DesignRequestProduct: { // field return type name
-    bigCommerceProductId: 'String'
+    catalogProduct: 'CatalogProduct'
+    catalogProductId: 'String'
+    colors: 'DesignRequestProductColors'
     id: 'ID'
-    product: 'Product'
+  }
+  DesignRequestProductColors: { // field return type name
+    bigCommerceColorId: 'ID'
+    hexCode: 'String'
+    name: 'String'
   }
   DesignRequestProofCreatePayload: { // field return type name
     designRequest: 'DesignRequest'
@@ -1505,6 +1601,9 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   DesignRequest: {
+    designRequestHistory: { // args
+      designRequestId: string; // ID!
+    }
     proofs: { // args
       limit?: number | null; // Int
     }

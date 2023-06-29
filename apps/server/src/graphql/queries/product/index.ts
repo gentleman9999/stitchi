@@ -1,20 +1,4 @@
-import {
-  extendType,
-  inputObjectType,
-  list,
-  nonNull,
-  objectType,
-  queryField,
-} from 'nexus'
-
-export const ProductExtendsDesignRequestProduct = extendType({
-  type: 'DesignRequestProduct',
-  definition: t => {
-    t.nullable.field('product', {
-      type: 'Product',
-    })
-  },
-})
+import { inputObjectType, list, nonNull, queryField } from 'nexus'
 
 export const products = queryField('_products', {
   type: list('Product'),

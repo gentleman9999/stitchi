@@ -10,10 +10,9 @@ import { stitchSchemas } from '@graphql-tools/stitch'
 import { makeSchema as makeDatoCmsSchema } from './dato-cms-schema'
 import { makeSchema as makeBigCommerceSchema } from './bigcommerce-schema'
 import createRestApi from './rest'
-import { delegateToSchema } from '@graphql-tools/delegate'
-import { Kind, OperationTypeNode } from 'graphql'
-import { WrapQuery } from '@graphql-tools/wrap'
-import { NestedDelegationTransform } from './utils/schema'
+import { WebSocketServer } from 'ws'
+import { useServer } from 'graphql-ws/lib/use/ws'
+import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core'
 
 process
   .on('unhandledRejection', (reason, p) => {
@@ -52,86 +51,50 @@ const makeGatewaySchema = async () => {
         batch: true,
       },
     ],
-    resolvers: {
-      DesignRequestProduct: {
-        product: {
-          selectionSet: '{ bigCommerceProductId }',
-          resolve: async (parent, _, context, info) => {
-            if (!parent.bigCommerceProductId) {
-              return null
-            }
-
-            return delegateToSchema({
-              schema: bigCommerceSchema,
-              operation: OperationTypeNode.QUERY,
-              fieldName: 'site.product',
-              args: {
-                entityId: parseInt(parent.bigCommerceProductId),
-              },
-              context,
-              info,
-              transforms: [
-                new NestedDelegationTransform(),
-                /**
-                 * Use WrapQuery to delegate to a sub-field of userSchema, approximately equivalent to:
-                 *
-                 * query {
-                 *   viewer(token: $token) {
-                 *     user(username: $username) {
-                 *       ...subtree
-                 *     }
-                 *   }
-                 * }
-                 */
-                // new WrapQuery(
-                //   ['site'],
-                //   subtree => ({
-                //     kind: Kind.SELECTION_SET,
-                //     selections: [
-                //       {
-                //         kind: Kind.FIELD,
-                //         name: {
-                //           kind: Kind.NAME,
-                //           value: 'product',
-                //         },
-                //         arguments: [
-                //           {
-                //             kind: Kind.ARGUMENT,
-                //             name: { kind: Kind.NAME, value: 'entityId' },
-                //             value: {
-                //               kind: Kind.INT,
-                //               value: parent.bigCommerceProductId,
-                //             },
-                //           },
-                //         ],
-                //         selectionSet: subtree,
-                //       },
-                //     ],
-                //   }),
-                //   result => result && result.product,
-                // ),
-              ],
-            })
-          },
-        },
-      },
-    },
   })
 }
 
 async function startApolloServer() {
+  const schema = await makeGatewaySchema()
+  const app = express()
+  const httpServer = http.createServer(app)
+
+  // Creating the WebSocket server
+  const wsServer = new WebSocketServer({
+    server: httpServer,
+    // Pass a different path here if app.use
+    // serves expressMiddleware at a different path
+    path: '/graphql',
+  })
+
+  // Hand in the schema we just created and have the
+  // WebSocketServer start listening.
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const serverCleanup = useServer({ schema }, wsServer)
+
   const server = new ApolloServer({
-    schema: await makeGatewaySchema(),
+    schema,
     context: context.makeDefaultContext(),
     introspection:
       getOrThrow(
         process.env.GRAPHQL_INTROSPECTION_ENABLED,
         'GRAPHQL_INTROSPECTION_ENABLED',
       ) === 'true',
+    plugins: [
+      // Proper shutdown for the HTTP server.
+      ApolloServerPluginDrainHttpServer({ httpServer }),
+      // Proper shutdown for the WebSocket server.
+      {
+        async serverWillStart() {
+          return {
+            async drainServer() {
+              await serverCleanup.dispose()
+            },
+          }
+        },
+      },
+    ],
   })
-
-  const app = express()
-  const httpServer = http.createServer(app)
 
   await server.start()
   server.applyMiddleware({ app })

@@ -11,7 +11,7 @@ export const DesignRequestProduct: yup.ObjectSchema<DesignRequestProductSchema> 
       id: yup.string().uuid().required(),
       designRequestId: yup.string().uuid().required(),
 
-      bigCommerceProductId: yup.string().required(),
+      catalogProductId: yup.string().required(),
 
       createdAt: yup.date().required(),
       updatedAt: yup.date().required(),

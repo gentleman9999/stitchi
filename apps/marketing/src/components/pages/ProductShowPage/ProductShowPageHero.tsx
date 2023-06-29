@@ -9,6 +9,8 @@ import CatalogProductVariantPreview from '@components/common/CatalogProductVaria
 import ProductForm, { FormValues } from './ProductForm'
 import useProductShowPageHero from './useProductShowPageHero'
 import { useRouter } from 'next/router'
+import useProductOptions from '@hooks/useProductOptions'
+import { DesignRequestCreateInput } from '@generated/globalTypes'
 
 interface Props {
   product: ProductShowPageHeroProductFragment
@@ -16,14 +18,33 @@ interface Props {
 
 const ProductShowPageHero = ({ product }: Props) => {
   const router = useRouter()
+  const { colors } = useProductOptions({ product })
+
   const { handleCreateDesignRequest } = useProductShowPageHero({
     productEntityId: product.entityId,
     productName: product.name,
   })
 
   const handleSubmit = async (data: FormValues) => {
+    const serializedColors: DesignRequestCreateInput['products'][number]['colors'] =
+      []
+
+    data.colorEntityIds.forEach(colorEntityId => {
+      const color = colors.find(color => color.entityId === colorEntityId)
+
+      if (!color?.entityId) {
+        return
+      }
+
+      serializedColors.push({
+        bigCommerceColorId: color.entityId.toString(),
+        hexCode: color.hexColors[0],
+        name: color.label,
+      })
+    })
+
     const designRequest = await handleCreateDesignRequest({
-      colorEntityIds: data.colorEntityIds,
+      colors: serializedColors,
     })
 
     if (!designRequest) {
@@ -47,7 +68,11 @@ const ProductShowPageHero = ({ product }: Props) => {
       <div className="col-span-12 sm:col-span-6 lg:col-span-5">
         <div className="sticky top-24 flex flex-col gap-6">
           <div className="p-6 border rounded-sm @container">
-            <ProductForm onSubmit={handleSubmit} product={product} />
+            <ProductForm
+              onSubmit={handleSubmit}
+              product={product}
+              colors={colors}
+            />
           </div>
 
           <div className="flex flex-col gap-4">
@@ -76,6 +101,7 @@ ProductShowPageHero.fragments = {
   product: gql`
     ${CatalogProductVariantPreview.fragments.product}
     ${ProductForm.fragments.product}
+    ${useProductOptions.fragments.product}
     fragment ProductShowPageHeroProductFragment on Product {
       ...CatalogProductVariantPreviewProductFragment
       ...ProductShowPageProductFormProductFragment
@@ -102,6 +128,7 @@ ProductShowPageHero.fragments = {
           }
         }
       }
+      ...UseProductColorsProductFragment
     }
   `,
 }

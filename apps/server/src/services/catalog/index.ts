@@ -1,20 +1,25 @@
-import { BigCommerceClient } from '../../bigcommerce'
 import {
-  productFactory,
+  catalogFactoryCatalogProduct,
   productVariantFactory,
-  ProductFactoryProduct,
-  ProductFactoryProductVariant,
+  CatalogFactoryProductVariant,
+  CatalogFactoryCatalogProduct,
+  catalogFactoryBrand,
+  CatalogFactoryBrand,
 } from './factory'
-import { makeClient as makeBigCommerceClient } from '../../bigcommerce'
+import {
+  BigCommerceClient,
+  makeClient as makeCatalogClient,
+} from '../../bigcommerce'
 
 export interface OrderClientService {
-  getBigCommerceProduct: (input: {
-    productEntityId: number
-  }) => Promise<ProductFactoryProduct>
-  getBigCommerceProductVariant: (input: {
-    productEntityId: number
-    variantEntityId: number
-  }) => Promise<ProductFactoryProductVariant>
+  getCatalogProduct: (input: {
+    productEntityId: string
+  }) => Promise<CatalogFactoryCatalogProduct>
+  getCatalogProductVariant: (input: {
+    productEntityId: string
+    variantEntityId: string
+  }) => Promise<CatalogFactoryProductVariant>
+  getBrand: (input: { brandEntityId: string }) => Promise<CatalogFactoryBrand>
 }
 
 interface MakeClientParams {
@@ -24,16 +29,16 @@ interface MakeClientParams {
 type MakeClientFn = (params?: MakeClientParams) => OrderClientService
 
 const makeClient: MakeClientFn = (
-  { bigCommerceClient } = { bigCommerceClient: makeBigCommerceClient() },
+  { bigCommerceClient } = { bigCommerceClient: makeCatalogClient() },
 ) => {
   return {
-    getBigCommerceProduct: async input => {
+    getCatalogProduct: async input => {
       try {
         const product = await bigCommerceClient.getProduct({
-          productEntityId: input.productEntityId,
+          productEntityId: parseInt(input.productEntityId),
         })
 
-        return productFactory({ bigCommerceProduct: product })
+        return catalogFactoryCatalogProduct({ bigCommerceProduct: product })
       } catch (error) {
         console.error(`Failed to get product: ${input.productEntityId}`, {
           context: { error, productEntityId: input.productEntityId },
@@ -42,11 +47,11 @@ const makeClient: MakeClientFn = (
       }
     },
 
-    getBigCommerceProductVariant: async input => {
+    getCatalogProductVariant: async input => {
       try {
         const productVariant = await bigCommerceClient.getProductVariant({
-          productEntityId: input.productEntityId,
-          variantEntityId: input.variantEntityId,
+          productEntityId: parseInt(input.productEntityId),
+          variantEntityId: parseInt(input.variantEntityId),
         })
 
         return productVariantFactory({
@@ -64,6 +69,20 @@ const makeClient: MakeClientFn = (
           },
         )
         throw new Error('Failed to get product variant')
+      }
+    },
+    getBrand: async input => {
+      try {
+        const brand = await bigCommerceClient.getBrand({
+          brandEntityId: parseInt(input.brandEntityId),
+        })
+
+        return catalogFactoryBrand({ bigCommerceBrand: brand })
+      } catch (error) {
+        console.error(`Failed to get brand: ${input.brandEntityId}`, {
+          context: { error, brandEntityId: input.brandEntityId },
+        })
+        throw new Error('Failed to get brand')
       }
     },
   }

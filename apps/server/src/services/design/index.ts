@@ -8,6 +8,11 @@ import { designFactory, DesignFactoryDesign } from './factory'
 import * as yup from 'yup'
 import { DesignLocation } from './db/design-location-table'
 import makeDesignRepository, { DesignRepository } from './repository'
+import { CreateDesignRequestFnInput } from './repository/create-design-request'
+import {
+  ConversationService,
+  makeClient as makeConversationServiceClient,
+} from '../conversation'
 
 const designSchema = Design.omit(['id', 'createdAt', 'updatedAt']).concat(
   yup.object().shape({
@@ -34,7 +39,12 @@ export interface DesignService {
     input: yup.InferType<typeof designSchema>,
   ) => Promise<DesignFactoryDesign>
 
-  createDesignRequest: DesignRepository['createDesignRequest']
+  createDesignRequest(input: {
+    designRequest: Omit<
+      CreateDesignRequestFnInput['designRequest'],
+      'conversationId'
+    >
+  }): ReturnType<DesignRepository['createDesignRequest']>
   updateDesignRequest: DesignRepository['updateDesignRequest']
   getDesignRequest: DesignRepository['getDesignRequest']
   listDesignRequests: DesignRepository['listDesignRequests']
@@ -47,14 +57,16 @@ export interface DesignService {
 interface MakeClientParams {
   designTable: DesignTable
   designRepository: DesignRepository
+  conversationClient: ConversationService
 }
 
 type MakeClientFn = (params?: MakeClientParams) => DesignService
 
 const makeClient: MakeClientFn = (
-  { designTable, designRepository } = {
+  { designTable, designRepository, conversationClient } = {
     designTable: makeDesignTable(prisma),
     designRepository: makeDesignRepository(),
+    conversationClient: makeConversationServiceClient(),
   },
 ) => {
   return {
@@ -108,8 +120,24 @@ const makeClient: MakeClientFn = (
     },
 
     createDesignRequest: async input => {
+      let conversation
+
       try {
-        return designRepository.createDesignRequest(input)
+        conversation = await conversationClient.createConversation({
+          conversation: {},
+        })
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to create conversation')
+      }
+
+      try {
+        return designRepository.createDesignRequest({
+          designRequest: {
+            ...input.designRequest,
+            conversationId: conversation.id,
+          },
+        })
       } catch (error) {
         console.error(error)
         throw new Error('Failed to create design request')

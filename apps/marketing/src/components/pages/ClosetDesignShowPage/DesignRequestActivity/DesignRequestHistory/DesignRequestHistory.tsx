@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql, useSubscription } from '@apollo/client'
 import cx from 'classnames'
 import { DesignRequestHistoryDesignRequestFragment } from '@generated/DesignRequestHistoryDesignRequestFragment'
 import { formatDistanceToNow } from 'date-fns'
@@ -6,10 +6,12 @@ import UserAvatar from '@components/common/UserAvatar'
 import { ArrowPath, PaintBrush } from 'icons'
 
 interface Props {
-  designRequest: DesignRequestHistoryDesignRequestFragment
+  designRequestId: string
 }
 
-const DesignRequestHistory = ({ designRequest }: Props) => {
+const DesignRequestHistory = ({ designRequestId }: Props) => {
+  const { data, loading } = useSubscription(USE_HISTORY)
+
   return (
     <ul role="list" className="space-y-6">
       {designRequest.history.map((item, index) => (
@@ -25,7 +27,18 @@ const DesignRequestHistory = ({ designRequest }: Props) => {
 
           {item.__typename === 'ConversationMessage' ? (
             <>
-              <UserAvatar width="w-6" height="h-6" user={item.sender} />
+              <UserAvatar
+                width="w-6"
+                height="h-6"
+                user={
+                  item.sender || {
+                    __typename: 'User',
+                    id: 'stitchi',
+                    name: 'Stitchi',
+                    picture: '/stitchi_icon.svg',
+                  }
+                }
+              />
 
               <div className="flex-auto rounded-md p-3 ring-1 ring-inset ring-gray-200">
                 <div className="flex justify-between gap-x-4">
@@ -33,7 +46,7 @@ const DesignRequestHistory = ({ designRequest }: Props) => {
                     <span className="font-medium text-gray-900">
                       {item.viewerIsSender
                         ? 'You'
-                        : item.sender?.name || 'Unknown'}
+                        : item.sender?.name || 'Stitchi'}
                     </span>{' '}
                     commented
                   </div>
@@ -204,85 +217,83 @@ const DesignRequestHistory = ({ designRequest }: Props) => {
   )
 }
 
-DesignRequestHistory.fragments = {
-  designRequest: gql`
-    ${UserAvatar.fragments.user}
-    fragment DesignRequestHistoryDesignRequestFragment on DesignRequest {
-      id
-      history {
-        ... on ConversationMessage {
+const USE_HISTORY = gql`
+  subscription DesignRequestHistoryUseHistorySubscription(
+    $designRequestId: String!
+  ) {
+    designRequestHistory(designRequestId: $designRequestId) {
+      ... on ConversationMessage {
+        id
+        message
+        createdAt
+        viewerIsSender
+
+        files {
           id
-          message
-          createdAt
-          viewerIsSender
-
-          files {
-            id
-            ... on FileImage {
-              url
-              width
-              height
-            }
-          }
-
-          sender {
-            id
-            picture
-            name
+          ... on FileImage {
+            url
+            width
+            height
           }
         }
 
-        ... on DesignRequestHistoryItemDesignRequestEvent {
+        sender {
           id
-          timestamp
-          method
-          user {
-            id
-            ...UserAvatarUserFragment
-          }
+          picture
+          name
+        }
+      }
+
+      ... on DesignRequestHistoryItemDesignRequestEvent {
+        id
+        timestamp
+        method
+        user {
+          id
+          ...UserAvatarUserFragment
+        }
+      }
+
+      ... on DesignProof {
+        id
+        createdAt
+        note
+
+        artist {
+          id
+          name
         }
 
-        ... on DesignProof {
+        files {
           id
-          createdAt
-          note
-
-          artist {
-            id
-            name
-          }
-
-          files {
-            id
-            ... on FileImage {
-              url
-              width
-              height
-            }
-          }
-        }
-
-        ... on DesignRequestRevisionRequest {
-          id
-          createdAt
-          description
-          files {
-            id
-
-            ... on FileImage {
-              url
-              width
-              height
-            }
-          }
-          user {
-            id
-            name
+          ... on FileImage {
+            url
+            width
+            height
           }
         }
       }
+
+      ... on DesignRequestRevisionRequest {
+        id
+        createdAt
+        description
+        files {
+          id
+
+          ... on FileImage {
+            url
+            width
+            height
+          }
+        }
+        user {
+          id
+          name
+        }
+      }
     }
-  `,
-}
+  }
+`
 
 export default DesignRequestHistory

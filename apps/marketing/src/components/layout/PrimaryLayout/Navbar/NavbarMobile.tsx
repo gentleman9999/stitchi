@@ -157,7 +157,7 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
                     track.navbarCtaCliced({ view: 'mobile' })
                   }}
                 >
-                  Work with us
+                  My closet
                 </Button>
               </HeadlessPopover.Button>
             </Link>

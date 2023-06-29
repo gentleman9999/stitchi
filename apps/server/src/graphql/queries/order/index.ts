@@ -104,8 +104,8 @@ export const OrderItemSummaries = extendType({
           let product
 
           try {
-            product = await context.catalog.getBigCommerceProduct({
-              productEntityId: parseInt(productId),
+            product = await context.catalog.getCatalogProduct({
+              productEntityId: productId,
             })
           } catch (error) {
             console.error(`Failed to get product: ${productId}`, {

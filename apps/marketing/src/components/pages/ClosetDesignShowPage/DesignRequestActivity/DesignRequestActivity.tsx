@@ -36,7 +36,7 @@ const DesignRequestActivity = ({ designRequest }: Props) => {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
           <div className="col-span-1 md:col-span-8 flex flex-col gap-8">
             <DesignRequestMessageInput designRequest={designRequest} />
-            <DesignRequestHistory designRequest={designRequest} />
+            <DesignRequestHistory designRequestId={designRequest.id} />
           </div>
           <div className="col-span-1 md:col-span-4 flex flex-col gap-8">
             <div className="sticky top-10">
@@ -58,7 +58,6 @@ const DesignRequestActivity = ({ designRequest }: Props) => {
 
 DesignRequestActivity.fragments = {
   designRequest: gql`
-    ${DesignRequestHistory.fragments.designRequest}
     ${DesignRequestMessageInput.fragments.designRequest}
     ${DesignProofCard.fragments.designProof}
     fragment DesignRequestActivityDesignRequestFragment on DesignRequest {
@@ -68,7 +67,6 @@ DesignRequestActivity.fragments = {
         id
         ...DesignProofCardDesignProofFragment
       }
-      ...DesignRequestHistoryDesignRequestFragment
       ...DesignRequestMessageInputDesignRequestFragment
     }
   `,

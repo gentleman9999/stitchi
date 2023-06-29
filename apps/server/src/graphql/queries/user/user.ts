@@ -30,6 +30,8 @@ export const UserExtendsConversationMessage = extendType({
     t.nullable.field('sender', {
       type: 'User',
       resolve: async (coversationMessage, _, ctx) => {
+        if (!coversationMessage.senderUserId) return null
+
         let user
 
         try {

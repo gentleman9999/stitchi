@@ -13,13 +13,13 @@ interface Props {
 
 const ColorSwatch = (props: Props) => {
   const { width = 'w-8', height = 'h-8' } = props
-  const color = Color(props.hexCode)
+  const color = new Color(props.hexCode)
 
   return (
     <div
       onClick={props.onClick}
       style={{
-        outlineColor: color.toString(),
+        outlineColor: ensureMaximumLightness(color, 96).toString(),
       }}
       className={cx(
         props.selected ? 'outline outline-4 ' : '',
@@ -37,6 +37,21 @@ const ColorSwatch = (props: Props) => {
       />
     </div>
   )
+}
+
+function ensureMaximumLightness(inputColorHex: Color, maxLightness: number) {
+  let color = Color(inputColorHex)
+
+  // Get the lightness value
+  let lightness = color.lightness()
+
+  // If it's below the minimum, set it to the minimum
+  if (lightness > maxLightness) {
+    color = color.lightness(maxLightness)
+  }
+
+  // Return the color
+  return color
 }
 
 export default ColorSwatch

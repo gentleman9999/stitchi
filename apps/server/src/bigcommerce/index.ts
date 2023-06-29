@@ -4,11 +4,13 @@ import {
   Product,
   makeProductVariant,
   ProductVariant,
+  Brand,
 } from './serialize'
 
 export type {
   Product as BigCommerceProduct,
   ProductVariant as BigCommerceProductVariant,
+  Brand as BigCommerceBrand,
 }
 
 export interface BigCommerceClient {
@@ -17,6 +19,7 @@ export interface BigCommerceClient {
     productEntityId: number
     variantEntityId: number
   }) => Promise<ProductVariant>
+  getBrand: (input: { brandEntityId: number }) => Promise<Brand>
 }
 
 interface BigCommerceClientConfig {}
@@ -28,7 +31,7 @@ const makeClient = (
     getProduct: async input => {
       try {
         const res = await bigCommerceClient(
-          `/catalog/products/${input.productEntityId}`,
+          `/catalog/products/${input.productEntityId}?include=images`,
         )
 
         const { data, errors } = await res.json()
@@ -72,6 +75,27 @@ const makeClient = (
         )
 
         throw new Error('Failed to get product variant')
+      }
+    },
+    getBrand: async input => {
+      try {
+        const res = await bigCommerceClient(
+          `/catalog/brands/${input.brandEntityId}`,
+        )
+
+        const { data, errors } = await res.json()
+
+        if (errors) {
+          console.error(errors)
+        }
+
+        return data
+      } catch (error) {
+        console.error(`Failed to get brand: ${input.brandEntityId}`, {
+          context: { error, brandEntityId: input.brandEntityId },
+        })
+
+        throw new Error('Failed to get brand')
       }
     },
   }

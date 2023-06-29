@@ -16,7 +16,7 @@ export interface Props {
   priority: boolean
 }
 
-const CatalogProduct = ({ product, priority }: Props) => {
+const CatalogProductLegacy = ({ product, priority }: Props) => {
   const { colors } = useProductOptions({ product })
 
   if (!product.brand) {
@@ -77,14 +77,26 @@ const CatalogProduct = ({ product, priority }: Props) => {
   )
 }
 
-CatalogProduct.fragments = {
+CatalogProductLegacy.fragments = {
   product: gql`
     ${useProductOptions.fragments.product}
-    fragment CatalogProductLegacyProductFragment on CatalogProduct {
+    fragment CatalogProductLegacyProductFragment on Product {
+      ...UseProductColorsProductFragment
       id
       name
-      slug
+      path
       priceCents
+      brand {
+        id
+        name
+        path
+      }
+
+      defaultImage {
+        urlOriginal
+        altText
+        url(width: 150)
+      }
     }
   `,
 }

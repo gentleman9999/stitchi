@@ -11,7 +11,12 @@ import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 const schema = yup.object().shape({
-  colorEntityIds: yup.array().of(yup.number().required()).required(),
+  colorEntityIds: yup
+    .array()
+    .of(yup.number().required())
+    .min(1, 'Please select a color')
+    .required()
+    .label('Color'),
 })
 
 export type FormValues = yup.InferType<typeof schema>
@@ -19,11 +24,10 @@ export type FormValues = yup.InferType<typeof schema>
 interface Props {
   product: ProductShowPageProductFormProductFragment
   onSubmit: (data: FormValues) => Promise<void>
+  colors: ReturnType<typeof useProductOptions>['colors']
 }
 
-const ProductForm = ({ onSubmit, product }: Props) => {
-  const { colors: availableColors } = useProductOptions({ product })
-
+const ProductForm = ({ onSubmit, product, colors: availableColors }: Props) => {
   const [submitting, setSubmitting] = React.useState(false)
   const form = useForm<FormValues>({
     defaultValues: {
@@ -119,12 +123,10 @@ const ProductForm = ({ onSubmit, product }: Props) => {
 
 ProductForm.fragments = {
   product: gql`
-    ${useProductOptions.fragments.product}
     fragment ProductShowPageProductFormProductFragment on Product {
       id
       name
       priceCents
-      ...UseProductColorsProductFragment
     }
   `,
 }

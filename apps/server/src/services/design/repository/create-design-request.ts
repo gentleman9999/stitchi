@@ -65,7 +65,12 @@ const artistInputSchema = DesignRequestArtist.omit([
   'designRequestId',
 ])
 
-const inputSchema = DesignRequest.omit(['id', 'createdAt', 'updatedAt']).concat(
+const inputSchema = DesignRequest.omit([
+  'id',
+  'createdAt',
+  'updatedAt',
+  'conversationId',
+]).concat(
   yup
     .object()
     .shape({
@@ -79,6 +84,7 @@ const inputSchema = DesignRequest.omit(['id', 'createdAt', 'updatedAt']).concat(
         .required(),
       artists: yup.array().of(artistInputSchema.required()).required(),
       products: yup.array().of(productInputSchema.required()).required(),
+      conversationId: yup.string().uuid().required(),
     })
     .required(),
 )
@@ -120,6 +126,7 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
           name: validInput.name,
           description: validInput.description,
           status: validInput.status,
+          conversationId: validInput.conversationId,
           metadata: validInput.metadata || undefined,
           designRequestFiles: {
             createMany: {
@@ -151,11 +158,13 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
           },
           designRequestProducts: {
             create: validInput.products.map(product => ({
-              bigCommerceProductId: product.bigCommerceProductId,
+              catalogProductId: product.catalogProductId,
               designRequestProductColors: {
                 createMany: {
                   data: product.colors.map(color => ({
                     bigCommerceColorId: color.bigCommerceColorId,
+                    hexCode: color.hexCode,
+                    name: color.name,
                   })),
                 },
               },

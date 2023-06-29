@@ -167,9 +167,15 @@ export interface DesignRequestDesignLocationUpdateInput {
   fileIds: string[];
 }
 
+export interface DesignRequestProductColorCreateInput {
+  bigCommerceColorId: string;
+  hexCode?: string | null;
+  name?: string | null;
+}
+
 export interface DesignRequestProductCreateInput {
-  bigCommerceProductId: string;
-  bigCommerceProductColorIds: string[];
+  catalogProductId: string;
+  colors: DesignRequestProductColorCreateInput[];
 }
 
 export interface DesignRequestProofCreateInput {

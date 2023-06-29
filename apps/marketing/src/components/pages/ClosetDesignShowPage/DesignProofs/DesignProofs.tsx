@@ -25,6 +25,15 @@ const DesignProofs = ({ designRequest }: Props) => {
             />
           }
         />
+      ) : designRequest.proofs.length === 0 ? (
+        <BlurredComponent
+          message={
+            <Alert
+              severity="info"
+              description="Check back here soon for your design proofs."
+            />
+          }
+        />
       ) : null}
 
       <ClosetSection>

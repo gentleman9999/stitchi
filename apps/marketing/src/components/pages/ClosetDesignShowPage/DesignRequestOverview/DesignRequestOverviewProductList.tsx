@@ -1,34 +1,84 @@
 import { gql } from '@apollo/client'
-import CatalogProduct from '@components/common/CatalogProduct'
-import { DesignRequestOverviewProductListProductFragment } from '@generated/DesignRequestOverviewProductListProductFragment'
+import ColorSwatch from '@components/common/ColorSwatch'
+import { DesignRequestOverviewProductListDesignRequestProductFragment } from '@generated/DesignRequestOverviewProductListDesignRequestProductFragment'
+import routes from '@lib/routes'
+import Link from 'next/link'
 import React from 'react'
 
 interface Props {
-  products: DesignRequestOverviewProductListProductFragment[]
+  products: DesignRequestOverviewProductListDesignRequestProductFragment[]
 }
 
 const DesignRequestOverviewProductList = ({ products }: Props) => {
   return (
     <div>
-      {products.map(product =>
-        product.product ? (
-          <div key={product.id}>
-            <CatalogProduct product={product.product} priority />
+      {products.map(({ catalogProduct, colors }) => {
+        return catalogProduct ? (
+          <div
+            key={catalogProduct.id}
+            className="rounded-md shadow-sm border border-gray-50 p-4"
+          >
+            <Link
+              target={'_blank'}
+              className="text-sm flex items-center justify-between gap-4"
+              href={
+                catalogProduct.brand?.slug
+                  ? routes.internal.catalog.product.href({
+                      brandSlug: catalogProduct.brand.slug,
+                      productSlug: catalogProduct.slug,
+                    })
+                  : '#'
+              }
+            >
+              <div>
+                <h3 className="font-semibold">{catalogProduct.name}</h3>
+                <p className="text-gray-400">{catalogProduct.brand?.name}</p>
+                <div>
+                  {colors.map(color =>
+                    color.hexCode ? (
+                      <ColorSwatch
+                        key={color.hexCode}
+                        hexCode={color.hexCode}
+                      />
+                    ) : null,
+                  )}
+                </div>
+              </div>
+              {catalogProduct.primaryImage?.url ? (
+                <img
+                  className="aspect-square object-contain max-h-16"
+                  src={catalogProduct.primaryImage.url}
+                  alt={catalogProduct.name}
+                />
+              ) : null}
+            </Link>
           </div>
-        ) : null,
-      )}
+        ) : null
+      })}
     </div>
   )
 }
 
 DesignRequestOverviewProductList.fragments = {
-  product: gql`
-    ${CatalogProduct.fragments.product}
-    fragment DesignRequestOverviewProductListProductFragment on DesignRequestProduct {
+  designRequestProduct: gql`
+    fragment DesignRequestOverviewProductListDesignRequestProductFragment on DesignRequestProduct {
       id
-      product {
+      colors {
+        hexCode
+        name
+      }
+      catalogProduct {
         id
-        ...CatalogProductProductFragment
+        name
+        slug
+        primaryImage {
+          url
+        }
+        brand {
+          id
+          name
+          slug
+        }
       }
     }
   `,

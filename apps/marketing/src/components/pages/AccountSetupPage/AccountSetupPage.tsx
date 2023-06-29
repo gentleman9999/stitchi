@@ -19,7 +19,11 @@ const AccountSetupPage = (props: Props) => {
   const router = useRouter()
   const [
     bootstrapAccount,
-    { error: bootstrappingError, loading: bootstrappingAccount },
+    {
+      user: bootstrappedUser,
+      error: bootstrappingError,
+      loading: bootstrappingAccount,
+    },
   ] = useBootstrapUser()
   const [
     setMembership,
@@ -47,6 +51,8 @@ const AccountSetupPage = (props: Props) => {
   }
 
   const handleBootstrapAccount = async () => {
+    if (loading || bootstrappedUser?.id) return
+
     setLoading(true)
     try {
       const account = await bootstrapAccount()

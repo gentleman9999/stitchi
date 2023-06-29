@@ -5,7 +5,7 @@ export const ConversationMessage = objectType({
   definition(t) {
     t.nonNull.id('id')
     t.nonNull.id('conversationId')
-    t.nonNull.id('senderUserId')
+    t.nullable.id('senderUserId')
     t.nonNull.string('message')
     t.nonNull.list.nonNull.id('fileIds')
 

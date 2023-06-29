@@ -10,6 +10,7 @@ export * from './payment'
 export * from './scope'
 export * from './user'
 export * from './organization'
+export * from './catalog'
 
 export const Query = queryType({
   definition: () => {},

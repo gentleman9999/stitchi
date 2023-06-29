@@ -1,4 +1,5 @@
 import { gql, useMutation } from '@apollo/client'
+import { DesignRequestCreateInput } from '@generated/globalTypes'
 import {
   UseProductShowPageHeroCreateDesignRequestMutation,
   UseProductShowPageHeroCreateDesignRequestMutationVariables,
@@ -16,9 +17,9 @@ const useProductShowPageHero = ({ productEntityId, productName }: Props) => {
   >(CREATE_DESIGN_REQUEST)
 
   const handleCreateDesignRequest = async ({
-    colorEntityIds,
+    colors,
   }: {
-    colorEntityIds: number[]
+    colors: DesignRequestCreateInput['products'][number]['colors']
   }) => {
     const { data } = await createDesignRequest({
       variables: {
@@ -26,10 +27,8 @@ const useProductShowPageHero = ({ productEntityId, productName }: Props) => {
           name: productName,
           products: [
             {
-              bigCommerceProductId: productEntityId.toString(),
-              bigCommerceProductColorIds: colorEntityIds.map(id =>
-                id.toString(),
-              ),
+              colors,
+              catalogProductId: productEntityId.toString(),
             },
           ],
         },

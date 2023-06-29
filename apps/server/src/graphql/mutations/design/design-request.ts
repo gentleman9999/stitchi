@@ -3,11 +3,22 @@ import { inputObjectType, mutationField, nonNull, objectType } from 'nexus'
 import { notEmpty } from '../../../utils'
 import { designRequestFactoryToGrahpql } from '../../serializers/design'
 
+export const DesignRequestProductColorCreateInput = inputObjectType({
+  name: 'DesignRequestProductColorCreateInput',
+  definition(t) {
+    t.nonNull.id('bigCommerceColorId')
+    t.nullable.string('hexCode')
+    t.nullable.string('name')
+  },
+})
+
 export const DesignRequestProductCreateInput = inputObjectType({
   name: 'DesignRequestProductCreateInput',
   definition(t) {
-    t.nonNull.id('bigCommerceProductId')
-    t.nonNull.list.nonNull.id('bigCommerceProductColorIds')
+    t.nonNull.id('catalogProductId')
+    t.nonNull.list.nonNull.field('colors', {
+      type: 'DesignRequestProductColorCreateInput',
+    })
   },
 })
 
@@ -41,7 +52,6 @@ export const designRequestCreate = mutationField('designRequestCreate', {
     try {
       designRequest = await design.createDesignRequest({
         designRequest: {
-          conversationId: null,
           organizationId: organizationId || null,
           userId: userId || null,
           status: 'DRAFT',
@@ -54,9 +64,11 @@ export const designRequestCreate = mutationField('designRequestCreate', {
           designLocations: [],
           artists: [],
           products: input.products.map(product => ({
-            bigCommerceProductId: product.bigCommerceProductId,
-            colors: product.bigCommerceProductColorIds.map(color => ({
-              bigCommerceColorId: color,
+            catalogProductId: product.catalogProductId,
+            colors: product.colors.map(color => ({
+              bigCommerceColorId: color.bigCommerceColorId,
+              hexCode: color.hexCode || null,
+              name: color.name || null,
             })),
           })),
         },
@@ -137,7 +149,16 @@ export const designRequestUpdate = mutationField('designRequestUpdate', {
           artists: foundDesignRequest.artists,
           revisionRequests: foundDesignRequest.revisionRequests,
           proofs: foundDesignRequest.proofs,
-          products: foundDesignRequest.products,
+          products: foundDesignRequest.products.map(product => ({
+            id: product.id,
+            catalogProductId: product.catalogProductId,
+            colors: product.colors.map(color => ({
+              id: color.id,
+              bigCommerceColorId: color.bigCommerceColorId,
+              hexCode: color.hexCode || null,
+              name: color.name || null,
+            })),
+          })),
         },
       })
     } catch (error) {
@@ -419,28 +440,19 @@ export const designRequestConversationMessageCreate = mutationField(
         throw new GraphQLError('Unable to find design request')
       }
 
+      if (!designRequest.conversationId) {
+        throw new GraphQLError('Unable to find conversation')
+      }
+
       let conversation
 
-      if (designRequest.conversationId) {
+      try {
         conversation = await ctx.conversation.getConversation({
           conversationId: designRequest.conversationId,
         })
-      } else {
-        try {
-          conversation = await ctx.conversation.createConversation({
-            conversation: {},
-          })
-
-          designRequest = await ctx.design.updateDesignRequest({
-            designRequest: {
-              ...designRequest,
-              conversationId: conversation.id,
-            },
-          })
-        } catch (error) {
-          console.log(error)
-          throw new GraphQLError('Unable to create conversation')
-        }
+      } catch (error) {
+        console.log(error)
+        throw new GraphQLError('Unable to create conversation')
       }
 
       try {

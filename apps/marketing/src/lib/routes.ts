@@ -39,7 +39,7 @@ const routes = {
       href: () => buildRoute('/logout'),
     },
     getStarted: {
-      href: () => buildRoute('/start'),
+      href: () => buildRoute('/closet'),
 
       success: {
         href: ({ email = '' }) => buildRoute('/start/success', { email }),

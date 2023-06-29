@@ -2,6 +2,34 @@
 ### Do not make changes to this file directly
 
 
+type CatalogBrand {
+  id: ID!
+  name: String!
+  slug: String!
+}
+
+type CatalogProduct {
+  brand: CatalogBrand
+  brandId: ID
+  categoryIds: [ID!]!
+  createdAt: DateTime!
+  description: String!
+  id: ID!
+  images: [CatalogProductImage!]!
+  name: String!
+  priceCents: Int!
+  primaryImage: CatalogProductImage
+  relatedProductIds: [ID!]!
+  slug: String!
+  updatedAt: DateTime!
+  visible: Boolean!
+}
+
+type CatalogProductImage {
+  order: Int
+  url: String!
+}
+
 type Conversation {
   id: ID!
   messages: [ConversationMessage!]!
@@ -15,7 +43,7 @@ type ConversationMessage {
   id: ID!
   message: String!
   sender: User
-  senderUserId: ID!
+  senderUserId: ID
   viewerIsSender: Boolean!
 }
 
@@ -55,6 +83,7 @@ type DesignRequest {
   createdAt: DateTime!
   description: String
   designProofIds: [ID!]!
+  designRequestHistory(designRequestId: ID!): [DesignRequestHistoryItem!]!
   designRequestLocationIds: [ID!]!
   designRequestLocations: [DesignRequestDesignLocation!]!
   designRequestProductIds: [ID!]!
@@ -64,7 +93,6 @@ type DesignRequest {
   fileIds: [ID!]!
   fileUploadDirectory: String!
   files: [File!]!
-  history: [DesignRequestHistoryItem!]!
   humanizedStatus: String!
   id: ID!
   name: String!
@@ -175,14 +203,27 @@ enum DesignRequestHistoryItemDesignRequestEventMethod {
 }
 
 type DesignRequestProduct {
-  bigCommerceProductId: String!
+  catalogProduct: CatalogProduct
+  catalogProductId: String!
+  colors: [DesignRequestProductColors!]!
   id: ID!
-  product: Product
+}
+
+input DesignRequestProductColorCreateInput {
+  bigCommerceColorId: ID!
+  hexCode: String
+  name: String
+}
+
+type DesignRequestProductColors {
+  bigCommerceColorId: ID!
+  hexCode: String
+  name: String
 }
 
 input DesignRequestProductCreateInput {
-  bigCommerceProductColorIds: [ID!]!
-  bigCommerceProductId: ID!
+  catalogProductId: ID!
+  colors: [DesignRequestProductColorCreateInput!]!
 }
 
 input DesignRequestProofCreateInput {

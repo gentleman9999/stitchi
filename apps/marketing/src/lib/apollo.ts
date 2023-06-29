@@ -5,9 +5,11 @@ import {
   NormalizedCacheObject,
   defaultDataIdFromObject,
   FieldPolicy,
+  split,
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import {
+  getMainDefinition,
   mergeDeep,
   Reference,
   relayStylePagination,
@@ -19,6 +21,8 @@ import { isEqual } from 'lodash-es'
 import fetch from 'node-fetch'
 import { GetStaticPropsResult, GetServerSidePropsContext } from 'next'
 import { getAccessToken } from '@auth0/nextjs-auth0'
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
+import { createClient } from 'graphql-ws'
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__' as const
 
@@ -41,6 +45,29 @@ const httpLink = createHttpLink({
   uri: endpoint,
   credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
 })
+
+const wsLink = new GraphQLWsLink(
+  createClient({
+    url: 'ws://localhost:4000/subscriptions',
+  }),
+)
+
+// The split function takes three parameters:
+//
+// * A function that's called for each operation to execute
+// * The Link to use for an operation if the function returns a "truthy" value
+// * The Link to use for an operation if the function returns a "falsy" value
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query)
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+    )
+  },
+  wsLink,
+  httpLink,
+)
 
 const makeAuthLink = (ctx?: GetServerSidePropsContext) =>
   setContext(async (_, { headers }) => {
@@ -81,7 +108,7 @@ let apolloClient: ApolloClient<NormalizedCacheObject>
 const createApolloClient = (ctx?: GetServerSidePropsContext) =>
   new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: makeAuthLink(ctx).concat(httpLink),
+    link: makeAuthLink(ctx).concat(splitLink),
     cache: new InMemoryCache({
       dataIdFromObject(responseObj) {
         switch (responseObj.__typename) {
