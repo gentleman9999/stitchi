@@ -1,25 +1,61 @@
-import { gql } from '@apollo/client'
+import { gql, useQuery, useSubscription } from '@apollo/client'
 import BlurredComponent from '@components/common/BlurredComponent'
 import ClosetSection from '@components/common/ClosetSection'
 import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
 import ClosetSectionTitle from '@components/common/ClosetSectionTitle'
 import Alert from '@components/ui/Alert'
-import { DesignRequestActivityDesignRequestFragment } from '@generated/DesignRequestActivityDesignRequestFragment'
+import {
+  DesignRequestActivityActivitySubscription,
+  DesignRequestActivityActivitySubscriptionVariables,
+} from '@generated/DesignRequestActivityActivitySubscription'
+import {
+  DesignRequestActivityGetDataQuery,
+  DesignRequestActivityGetDataQueryVariables,
+} from '@generated/DesignRequestActivityGetDataQuery'
 import React from 'react'
 import DesignProofCard from '../DesignProofCard'
 import DesignRequestHistory from './DesignRequestHistory'
 import DesignRequestMessageInput from './DesignRequestMessageInput'
 
 interface Props {
-  designRequest: DesignRequestActivityDesignRequestFragment
+  designRequestId: string
 }
 
-const DesignRequestActivity = ({ designRequest }: Props) => {
-  const latestProof = designRequest.latestProofs[0]
+const DesignRequestActivity = ({ designRequestId }: Props) => {
+  useSubscription<
+    DesignRequestActivityActivitySubscription,
+    DesignRequestActivityActivitySubscriptionVariables
+  >(ACTIVITY_SUBSCRIPTION, {
+    variables: { designRequestId },
+    onData: ({ client: { cache }, data: { data } }) => {
+      const success = Boolean(
+        data?.designRequestHistoryItemAdded?.historyItemAdded,
+      )
+
+      if (success) {
+        cache.evict({
+          fieldName: 'history',
+          id: cache.identify({ ...designRequest }),
+        })
+        cache.gc()
+      }
+    },
+  })
+
+  const { data, loading } = useQuery<
+    DesignRequestActivityGetDataQuery,
+    DesignRequestActivityGetDataQueryVariables
+  >(GET_DATA, {
+    variables: { designRequestId },
+  })
+
+  const { designRequest } = data || {}
+
+  const latestProof = designRequest?.latestProofs[0]
 
   return (
     <div className="relative">
-      {designRequest.status === 'DRAFT' ? (
+      {designRequest?.status === 'DRAFT' ? (
         <BlurredComponent
           message={
             <Alert
@@ -29,47 +65,69 @@ const DesignRequestActivity = ({ designRequest }: Props) => {
           }
         />
       ) : null}
-      <ClosetSection>
-        <ClosetSectionHeader>
-          <ClosetSectionTitle title="Activity" />
-        </ClosetSectionHeader>
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
-          <div className="col-span-1 md:col-span-8 flex flex-col gap-8">
-            <DesignRequestMessageInput designRequest={designRequest} />
-            <DesignRequestHistory designRequestId={designRequest.id} />
-          </div>
-          <div className="col-span-1 md:col-span-4 flex flex-col gap-8">
-            <div className="sticky top-10">
-              <h2 className="text-lg font-semibold leading-6 mb-2 text-center text-gray-700">
-                Latest proof
-              </h2>
-              {latestProof ? (
-                <DesignProofCard designProof={latestProof} />
-              ) : (
-                <p>Once a proof has been submitted it will appear hear.</p>
-              )}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
+        <div className="col-span-1 md:col-span-8">
+          <ClosetSection>
+            <ClosetSectionHeader>
+              <ClosetSectionTitle title="Activity" />
+            </ClosetSectionHeader>
+
+            <div className="flex flex-col gap-8">
+              <DesignRequestMessageInput
+                loading={loading}
+                designRequest={designRequest}
+              />
+              <DesignRequestHistory
+                loading={loading}
+                designRequest={designRequest}
+              />
             </div>
+          </ClosetSection>
+        </div>
+
+        <div className="col-span-1 md:col-span-4 flex flex-col gap-8">
+          <div className="sticky top-10">
+            <h2 className="text-lg font-semibold leading-6 mb-2 text-center text-gray-700">
+              Latest proof
+            </h2>
+            {latestProof ? (
+              <DesignProofCard designProof={latestProof} />
+            ) : (
+              <p>Once a proof has been submitted it will appear hear.</p>
+            )}
           </div>
         </div>
-      </ClosetSection>
+      </div>
     </div>
   )
 }
 
-DesignRequestActivity.fragments = {
-  designRequest: gql`
-    ${DesignRequestMessageInput.fragments.designRequest}
-    ${DesignProofCard.fragments.designProof}
-    fragment DesignRequestActivityDesignRequestFragment on DesignRequest {
+const ACTIVITY_SUBSCRIPTION = gql`
+  subscription DesignRequestActivityActivitySubscription(
+    $designRequestId: ID!
+  ) {
+    designRequestHistoryItemAdded(designRequestId: $designRequestId) {
+      historyItemAdded
+    }
+  }
+`
+
+const GET_DATA = gql`
+  ${DesignRequestHistory.fragments.designRequest}
+  ${DesignRequestMessageInput.fragments.designRequest}
+  ${DesignProofCard.fragments.designProof}
+  query DesignRequestActivityGetDataQuery($designRequestId: ID!) {
+    designRequest(id: $designRequestId) {
       id
       status
       latestProofs: proofs(limit: 1) {
         id
         ...DesignProofCardDesignProofFragment
       }
+      ...DesignRequestHistoryDesignRequestFragment
       ...DesignRequestMessageInputDesignRequestFragment
     }
-  `,
-}
+  }
+`
 
 export default DesignRequestActivity

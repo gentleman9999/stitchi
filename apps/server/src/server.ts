@@ -54,27 +54,27 @@ const makeGatewaySchema = async () => {
   })
 }
 
-async function startApolloServer() {
+const app = express()
+const httpServer = http.createServer(app)
+
+async function start() {
+  createRestApi(app)
+
   const schema = await makeGatewaySchema()
-  const app = express()
-  const httpServer = http.createServer(app)
+  const ctx = context.makeDefaultContext()
 
   // Creating the WebSocket server
   const wsServer = new WebSocketServer({
     server: httpServer,
-    // Pass a different path here if app.use
-    // serves expressMiddleware at a different path
     path: '/graphql',
   })
 
-  // Hand in the schema we just created and have the
-  // WebSocketServer start listening.
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const serverCleanup = useServer({ schema }, wsServer)
+  const serverCleanup = useServer({ schema, context: ctx }, wsServer)
 
-  const server = new ApolloServer({
+  const gqlServer = new ApolloServer({
     schema,
-    context: context.makeDefaultContext(),
+    context: ctx,
     introspection:
       getOrThrow(
         process.env.GRAPHQL_INTROSPECTION_ENABLED,
@@ -96,13 +96,17 @@ async function startApolloServer() {
     ],
   })
 
-  await server.start()
-  server.applyMiddleware({ app })
-
-  createRestApi(app)
+  await gqlServer.start()
+  gqlServer.applyMiddleware({ app })
 
   await new Promise<void>(resolve => httpServer.listen({ port: PORT }, resolve))
-  console.log(`🚀 Server ready at http://localhost:5000${server.graphqlPath}`)
+
+  console.log(
+    `🚀 Server ready at http://localhost:5000${gqlServer.graphqlPath}`,
+  )
+  console.log(
+    `🚀 Web Socket ready at ws://localhost:5000${gqlServer.graphqlPath}`,
+  )
 }
 
-startApolloServer()
+start()

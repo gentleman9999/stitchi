@@ -35,7 +35,7 @@ export const UserExtendsConversationMessage = extendType({
         let user
 
         try {
-          user = await ctx.auth0.getUser({
+          user = await ctx.user.getUser({
             id: coversationMessage.senderUserId,
           })
         } catch (error) {
@@ -58,7 +58,7 @@ export const UserExtendsMembership = extendType({
         let user
 
         try {
-          user = await ctx.auth0.getUser({ id: membership.userId })
+          user = await ctx.user.getUser({ id: membership.userId })
         } catch (error) {
           console.error(error)
           throw new GraphQLError('Unable to fetch user')
@@ -82,7 +82,7 @@ export const UserExtendsDesignRequestHistoryItemDesignRequestEvent = extendType(
           let user
 
           try {
-            user = await ctx.auth0.getUser({
+            user = await ctx.user.getUser({
               id: designRequestHistoryItemDesignRequestEvent.userId,
             })
           } catch (error) {
@@ -108,7 +108,7 @@ export const UserExtendsOrder = extendType({
         let user
 
         try {
-          user = await ctx.auth0.getUser({ id: order.userId })
+          user = await ctx.user.getUser({ id: order.userId })
         } catch (error) {
           console.error(error)
           throw new GraphQLError('Unable to fetch user')
@@ -131,7 +131,7 @@ export const UserExtendsDesignRequest = extendType({
         let user
 
         try {
-          user = await ctx.auth0.getUser({ id: designRequest.userId })
+          user = await ctx.user.getUser({ id: designRequest.userId })
         } catch (error) {
           console.error(error)
           throw new GraphQLError('Unable to fetch user')
@@ -152,7 +152,7 @@ export const UserExtendsDesignProof = extendType({
         let user
 
         try {
-          user = await ctx.auth0.getUser({
+          user = await ctx.user.getUser({
             id: designRequestProof.artistUserId,
           })
         } catch (error) {
@@ -175,7 +175,7 @@ export const UserExtendsDesignRequestRevisionRequest = extendType({
         let user
 
         try {
-          user = await ctx.auth0.getUser({
+          user = await ctx.user.getUser({
             id: designRequestRevision.userId,
           })
         } catch (error) {
@@ -198,7 +198,7 @@ export const UserExtendsDesingProof = extendType({
         let user
 
         try {
-          user = await ctx.auth0.getUser({
+          user = await ctx.user.getUser({
             id: designProof.artistUserId,
           })
         } catch (error) {

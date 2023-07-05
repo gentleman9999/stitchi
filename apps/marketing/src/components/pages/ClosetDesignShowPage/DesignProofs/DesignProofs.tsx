@@ -1,22 +1,34 @@
-import { gql } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 import BlurredComponent from '@components/common/BlurredComponent'
 import ClosetSection from '@components/common/ClosetSection'
 import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
 import ClosetSectionTitle from '@components/common/ClosetSectionTitle'
 import { Badge } from '@components/ui'
 import Alert from '@components/ui/Alert'
-import { DesignProofDesignRequestFragment } from '@generated/DesignProofDesignRequestFragment'
+import {
+  DesignProofsGetDataQuery,
+  DesignProofsGetDataQueryVariables,
+} from '@generated/DesignProofsGetDataQuery'
 import React from 'react'
 import DesignProofCard from '../DesignProofCard'
 
 interface Props {
-  designRequest: DesignProofDesignRequestFragment
+  designRequestId: string
 }
 
-const DesignProofs = ({ designRequest }: Props) => {
+const DesignProofs = ({ designRequestId }: Props) => {
+  const { data } = useQuery<
+    DesignProofsGetDataQuery,
+    DesignProofsGetDataQueryVariables
+  >(GET_DATA, {
+    variables: { designRequestId },
+  })
+
+  const { designRequest } = data || {}
+
   return (
     <div className="relative">
-      {designRequest.status === 'DRAFT' ? (
+      {designRequest?.status === 'DRAFT' ? (
         <BlurredComponent
           message={
             <Alert
@@ -25,7 +37,7 @@ const DesignProofs = ({ designRequest }: Props) => {
             />
           }
         />
-      ) : designRequest.proofs.length === 0 ? (
+      ) : designRequest?.proofs.length === 0 ? (
         <BlurredComponent
           message={
             <Alert
@@ -41,7 +53,7 @@ const DesignProofs = ({ designRequest }: Props) => {
           <ClosetSectionTitle title="Proofs" />
         </ClosetSectionHeader>
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {designRequest.proofs.map((proof, index) => (
+          {designRequest?.proofs.map((proof, index) => (
             <DesignProofCard
               designProof={proof}
               key={proof.id}
@@ -56,10 +68,10 @@ const DesignProofs = ({ designRequest }: Props) => {
   )
 }
 
-DesignProofs.fragments = {
-  designRequest: gql`
-    ${DesignProofCard.fragments.designProof}
-    fragment DesignProofDesignRequestFragment on DesignRequest {
+const GET_DATA = gql`
+  ${DesignProofCard.fragments.designProof}
+  query DesignProofsGetDataQuery($designRequestId: ID!) {
+    designRequest(id: $designRequestId) {
       id
       status
       proofs {
@@ -67,7 +79,7 @@ DesignProofs.fragments = {
         ...DesignProofCardDesignProofFragment
       }
     }
-  `,
-}
+  }
+`
 
 export default DesignProofs

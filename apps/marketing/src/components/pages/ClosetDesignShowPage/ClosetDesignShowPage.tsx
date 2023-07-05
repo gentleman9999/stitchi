@@ -71,18 +71,18 @@ const ClosetDesignShowPage = ({ designId }: Props) => {
                 <ClosetSectionHeaderTabs />
               </ClosetSectionHeader>
 
-              {designRequest && activeTab ? (
+              {activeTab ? (
                 <>
                   {activeTab.id === 'overview' ? (
-                    <DesignRequestOverview designRequest={designRequest} />
+                    <DesignRequestOverview designRequestId={designId} />
                   ) : null}
 
                   {activeTab.id === 'activity' ? (
-                    <DesignRequestActivity designRequest={designRequest} />
+                    <DesignRequestActivity designRequestId={designId} />
                   ) : null}
 
                   {activeTab.id === 'proofs' ? (
-                    <DesignProofs designRequest={designRequest} />
+                    <DesignProofs designRequestId={designId} />
                   ) : null}
                 </>
               ) : null}
@@ -96,19 +96,10 @@ const ClosetDesignShowPage = ({ designId }: Props) => {
 
 const GET_DATA = gql`
   ${DesignRequestTitle.fragments.designRequest}
-  ${DesignRequestOverview.fragments.designRequest}
-  ${DesignRequestActivity.fragments.designRequest}
-  ${DesignProofs.fragments.designRequest}
   query ClosetDesignShowPageGetDataQuery($designId: ID!) {
     designRequest(id: $designId) {
       id
-      name
-      status
-      description
       ...DesignRequestTitleDesignRequesetFragment
-      ...DesignRequestOverviewDesignRequestFragment
-      ...DesignRequestActivityDesignRequestFragment
-      ...DesignProofDesignRequestFragment
     }
   }
 `

@@ -14,10 +14,11 @@ const steps = [
 ]
 
 interface Props {
+  loading: boolean
   status?: DesignRequestStatus | null
 }
 
-const Progress = ({ status }: Props) => {
+const Progress = ({ status, loading }: Props) => {
   const activeStepIndex = status
     ? steps.findIndex(step => step.includes(status))
     : 0
@@ -26,6 +27,10 @@ const Progress = ({ status }: Props) => {
     <ol role="list" className="overflow-hidden">
       {steps.map((_, stepIdx) => {
         const completionStatus = (() => {
+          if (loading) {
+            return 'upcoming'
+          }
+
           if (activeStepIndex > stepIdx) {
             return 'completed'
           }
@@ -110,6 +115,7 @@ const humanizeStep = (step: number) => {
 const humanizeStepDescription = (
   step: number,
   completionStatus: 'completed' | 'current' | 'upcoming',
+  status: DesignRequestStatus,
 ) => {
   switch (step) {
     case 0:
@@ -124,7 +130,11 @@ const humanizeStepDescription = (
         case 'completed':
           return 'Your design has been perfected.'
         case 'current':
-          return 'Your design is being perfected.'
+          if (status === DesignRequestStatus.AWAITING_APPROVAL) {
+            return 'Artist has submitted proof. Design awaiting your approval.'
+          } else {
+            return 'An artist is currently perfecting your design.'
+          }
         default:
           return `Submit your design request once you're ready for an artist to start working on it.`
       }

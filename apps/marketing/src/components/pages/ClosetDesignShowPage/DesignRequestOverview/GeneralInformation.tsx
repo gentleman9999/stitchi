@@ -1,14 +1,14 @@
 import { gql } from '@apollo/client'
 import { Button } from '@components/ui'
 import {
-  DesignRequestSubmittedDesignRequestGeneralInformationFragment,
-  DesignRequestSubmittedDesignRequestGeneralInformationFragment_designRequestLocations,
-} from '@generated/DesignRequestSubmittedDesignRequestGeneralInformationFragment'
+  DesignRequestSubmittedDesignRequestDesignRequestDraftFormFragment,
+  DesignRequestSubmittedDesignRequestDesignRequestDraftFormFragment_designRequestLocations,
+} from '@generated/DesignRequestSubmittedDesignRequestDesignRequestDraftFormFragment'
 import React from 'react'
 import ReferenceFilesPreview from '../ReferenceFilePreview/ReferenceFilesPreview'
 
 interface Props {
-  designRequest: DesignRequestSubmittedDesignRequestGeneralInformationFragment
+  designRequest: DesignRequestSubmittedDesignRequestDesignRequestDraftFormFragment
 }
 
 const GeneralInformation = ({ designRequest }: Props) => {
@@ -16,7 +16,10 @@ const GeneralInformation = ({ designRequest }: Props) => {
     <div className="flex flex-col gap-12 rounded-md border bg-gray-50">
       <div className="flex flex-col gap-6 divide-y">
         <div className="px-6 pt-6 flex flex-col gap-4">
-          <Item label="Description" value={designRequest.description} />
+          {designRequest.description ? (
+            <Item label="Description" value={designRequest.description} />
+          ) : null}
+
           <Item
             label="Use case"
             value={
@@ -34,11 +37,13 @@ const GeneralInformation = ({ designRequest }: Props) => {
                 Design locations
               </h2>
               <div className="mt-2 flex flex-col divide-y">
-                {designRequest.designRequestLocations.map(location => (
-                  <div key={location.id} className="py-2">
-                    <DesignLocation location={location} />
-                  </div>
-                ))}
+                {designRequest.designRequestLocations.map(location =>
+                  location.description?.length || location.files.length ? (
+                    <div key={location.id} className="py-2">
+                      <DesignLocation location={location} />
+                    </div>
+                  ) : null,
+                )}
               </div>
             </>
           ) : (
@@ -70,7 +75,7 @@ const Item = ({
 const DesignLocation = ({
   location,
 }: {
-  location: DesignRequestSubmittedDesignRequestGeneralInformationFragment_designRequestLocations
+  location: DesignRequestSubmittedDesignRequestDesignRequestDraftFormFragment_designRequestLocations
 }) => {
   const [showDetails, setShowDetails] = React.useState(false)
 

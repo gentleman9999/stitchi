@@ -83,7 +83,6 @@ type DesignRequest {
   createdAt: DateTime!
   description: String
   designProofIds: [ID!]!
-  designRequestHistory(designRequestId: ID!): [DesignRequestHistoryItem!]!
   designRequestLocationIds: [ID!]!
   designRequestLocations: [DesignRequestDesignLocation!]!
   designRequestProductIds: [ID!]!
@@ -93,6 +92,7 @@ type DesignRequest {
   fileIds: [ID!]!
   fileUploadDirectory: String!
   files: [File!]!
+  history: [DesignRequestHistoryItem!]!
   humanizedStatus: String!
   id: ID!
   name: String!
@@ -190,6 +190,10 @@ type DesignRequestEdge {
 
 union DesignRequestHistoryItem = ConversationMessage | DesignProof | DesignRequestHistoryItemDesignRequestEvent | DesignRequestRevisionRequest
 
+type DesignRequestHistoryItemAddedPayload {
+  historyItemAdded: Boolean!
+}
+
 type DesignRequestHistoryItemDesignRequestEvent {
   id: ID!
   method: DesignRequestHistoryItemDesignRequestEventMethod!
@@ -285,8 +289,16 @@ input DesignRequestUpdateInput {
   description: String
   designRequestId: ID!
   fileIds: [ID!]
+  locations: [DesignRequestUpdateLocationInput!]
   name: String
   useCase: String
+}
+
+input DesignRequestUpdateLocationInput {
+  description: String
+  designLocationId: ID
+  fileIds: [ID!]
+  placement: String
 }
 
 type DesignRequestUpdatePayload {
@@ -847,6 +859,10 @@ input SubscriberCreateInput {
 
 type SubscriberCreatePayload {
   subscriber: Subscriber
+}
+
+type Subscription {
+  designRequestHistoryItemAdded(designRequestId: ID!): DesignRequestHistoryItemAddedPayload
 }
 
 type User {

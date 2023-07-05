@@ -27,10 +27,11 @@ const DesignRequestEditableName = ({
 }: Props) => {
   return (
     <div className="flex relative">
-      {/* Design{' '} */}
-      <span className="text-gray-800 font-semibold">
+      <span className="text-gray-800 font-semibold flex-1">
         {loading ? (
-          <Skeleton className="w-32" />
+          <>
+            <Skeleton className="w-32" />
+          </>
         ) : designRequestId ? (
           <Form defaultName={name} designRequestId={designRequestId} />
         ) : (

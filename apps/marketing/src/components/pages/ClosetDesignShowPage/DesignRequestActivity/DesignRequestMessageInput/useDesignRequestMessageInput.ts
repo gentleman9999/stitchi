@@ -12,11 +12,7 @@ import {
   UseDesignRequestMessageInputSubmitRevisionRequestMutationVariables,
 } from '@generated/UseDesignRequestMessageInputSubmitRevisionRequestMutation'
 
-interface Props {
-  designRequestId: string
-}
-
-const useDesignRequestMessageInput = ({ designRequestId }: Props) => {
+const useDesignRequestMessageInput = () => {
   const [submitRevisionRequest, submitRevisionRequestMutation] = useMutation<
     UseDesignRequestMessageInputSubmitRevisionRequestMutation,
     UseDesignRequestMessageInputSubmitRevisionRequestMutationVariables
@@ -48,18 +44,18 @@ const useDesignRequestMessageInput = ({ designRequestId }: Props) => {
   })
 
   const handleSubmitRevisionRequest = async (
-    input: Omit<DesignRequestRevisionRequestCreateInput, 'designRequestId'>,
+    input: DesignRequestRevisionRequestCreateInput,
   ) => {
     await submitRevisionRequest({
-      variables: { input: { ...input, designRequestId } },
+      variables: { input: { ...input } },
     })
   }
 
   const handleSubmitComment = async (
-    input: Omit<DesignRequestConversationMessageCreateInput, 'designRequestId'>,
+    input: DesignRequestConversationMessageCreateInput,
   ) => {
     await addComment({
-      variables: { input: { ...input, designRequestId } },
+      variables: { input: { ...input } },
     })
   }
 

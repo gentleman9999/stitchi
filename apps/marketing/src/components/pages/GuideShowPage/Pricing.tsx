@@ -18,7 +18,6 @@ const Pricing = () => {
   })
 
   const handleSubmit = form.handleSubmit(async data => {
-    console.log('EMAIL', data.email)
     setDownloading(true)
     try {
       const response = await fetch(
@@ -31,8 +30,6 @@ const Pricing = () => {
           body: JSON.stringify({ email: data.email }),
         },
       )
-
-      console.log('RESPONSEEEEE', response)
 
       if (!response.ok) {
         throw new Error('Error downloading PDF')

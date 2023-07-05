@@ -1,134 +1,89 @@
-import { Button, Dialog, InputGroup } from '@components/ui'
-import React, { useState } from 'react'
-import AddDesignLocationButton from './AddDesignLocationButton'
-import GeneralInformation from './GeneralInformation'
-import DesignLocationForm from './DesignLocationForm'
-import DesignLocationPreview from './DesignLocationPreview'
+import React from 'react'
 import useDesignRequestDraft from './useDesignRequestDraft'
 import { gql } from '@apollo/client'
 import { DesignRequestDraftDesignRequestFragments } from '@generated/DesignRequestDraftDesignRequestFragments'
-import ClosetSection from '@components/common/ClosetSection'
-import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
-import ClosetSectionTitle from '@components/common/ClosetSectionTitle'
+import DesignRequestDraftForm from './DesignRequestDraftForm'
+
+const defaultPrintLocations = [
+  {
+    placement: 'Front',
+    description: '',
+    fileIds: [],
+  },
+  {
+    placement: 'Back',
+    description: '',
+    fileIds: [],
+  },
+  {
+    placement: 'Pocket',
+    description: '',
+    fileIds: [],
+  },
+  {
+    placement: 'Left Sleeve',
+    description: '',
+    fileIds: [],
+  },
+  {
+    placement: 'Right Sleeve',
+    description: '',
+    fileIds: [],
+  },
+  {
+    placement: 'Other',
+    description: '',
+    fileIds: [],
+  },
+]
 
 interface Props {
   designRequest: DesignRequestDraftDesignRequestFragments
 }
 
 const DesignRequestDraft = ({ designRequest }: Props) => {
-  const { handleUpdateDesignRequest, handleRemoveDesignRequestLocation } =
-    useDesignRequestDraft({
-      designRequestId: designRequest.id,
-    })
-
-  const [locationForm, setLocationForm] = useState<boolean | string>(false)
-
-  const handleAddDesignLocation = () => {
-    setLocationForm(false)
-  }
-
-  const activeLocation = designRequest.designRequestLocations.find(
-    location => location.id === locationForm,
-  )
+  const { handleUpdateDesignRequest } = useDesignRequestDraft({
+    designRequestId: designRequest.id,
+  })
 
   return (
-    <div className="flex flex-col-reverse gap-12">
-      <ClosetSection>
-        <ClosetSectionHeader>
-          <ClosetSectionTitle title="Additional information" />
-        </ClosetSectionHeader>
-
-        <GeneralInformation
-          designRequest={designRequest}
-          fileFolder={designRequest.fileUploadDirectory}
-          defaultValues={{
-            useCase: designRequest.useCase || undefined,
-            description: designRequest.description || undefined,
-            referenceFileIds: designRequest.fileIds || [],
-          }}
-          onSubmit={async input =>
-            handleUpdateDesignRequest({
-              fileIds: input.referenceFileIds,
-              description: input.description,
-              useCase: input.useCase,
-            })
-          }
-        />
-      </ClosetSection>
-
-      <ClosetSection>
-        <ClosetSectionHeader>
-          <ClosetSectionTitle title="Design locations" />
-        </ClosetSectionHeader>
-
-        <div className="grid grid-cols-1 gap-y-8">
-          {designRequest.designRequestLocations.map(location => (
-            <DesignLocationPreview
-              key={location.id}
-              location={location}
-              onRemove={async () =>
-                handleRemoveDesignRequestLocation({
-                  designRequestDesignLocationId: location.id,
-                })
-              }
-              onUpdate={() => setLocationForm(location.id)}
-            />
-          ))}
-
-          {locationForm ? (
-            <DesignLocationForm
-              designRequestId={designRequest.id}
-              designLocation={activeLocation}
-              fileFolder={designRequest.fileUploadDirectory}
-              onSubmit={handleAddDesignLocation}
-              renderContainer={props => (
-                <Dialog
-                  open
-                  mobileFullScreen
-                  onClose={() => setLocationForm(false)}
-                >
-                  <Dialog.Title className="flex items-center justify-between">
-                    {activeLocation ? 'Update' : 'Add'} design location
-                    <Button
-                      slim
-                      variant="naked"
-                      className="!text-sm"
-                      onClick={() => setLocationForm(false)}
-                    >
-                      Cancel
-                    </Button>
-                  </Dialog.Title>
-                  <Dialog.Content dividers>{props.children}</Dialog.Content>
-                  <Dialog.Actions className="flex justify-end">
-                    <Button
-                      slim
-                      color="brandPrimary"
-                      onClick={props.onSubmit}
-                      loading={props.loading}
-                    >
-                      {activeLocation ? 'Update' : 'Add'} location
-                    </Button>
-                  </Dialog.Actions>
-                </Dialog>
-              )}
-            />
-          ) : (
-            <AddDesignLocationButton onClick={() => setLocationForm(true)} />
-          )}
-        </div>
-      </ClosetSection>
-    </div>
+    <DesignRequestDraftForm
+      designRequest={designRequest}
+      fileFolder={designRequest.fileUploadDirectory}
+      defaultValues={{
+        useCase: designRequest.useCase || undefined,
+        referenceFileIds: designRequest.fileIds || [],
+        locations: designRequest.designRequestLocations.length
+          ? designRequest.designRequestLocations.map(location => ({
+              id: location.id,
+              placement: location.placement || '',
+              description: location.description || '',
+              fileIds: location.fileIds || [],
+            }))
+          : defaultPrintLocations,
+      }}
+      onSubmit={async input =>
+        handleUpdateDesignRequest({
+          fileIds: input.referenceFileIds,
+          useCase: input.useCase,
+          locations: input.locations.map(location => ({
+            designLocationId: location.id,
+            description: location.description,
+            placement: location.placement,
+            fileIds: location.fileIds,
+          })),
+        })
+      }
+    />
   )
 }
 
 DesignRequestDraft.fragments = {
   designRequest: gql`
-    ${GeneralInformation.fragments.designRequest}
-    ${DesignLocationPreview.fragments.designLocation}
-    ${DesignLocationForm.fragments.designLocation}
+    ${DesignRequestDraftForm.fragments.designRequest}
+
     fragment DesignRequestDraftDesignRequestFragments on DesignRequest {
       id
-      description
       fileUploadDirectory
       useCase
       fileIds
@@ -137,8 +92,6 @@ DesignRequestDraft.fragments = {
         description
         placement
         fileIds
-        ...DesignLocationPreviewDesignLocationFragment
-        ...DesignLocationFormDesignLocationFragment
       }
       ...AdditionalInformationFormDesignRequestFragment
     }

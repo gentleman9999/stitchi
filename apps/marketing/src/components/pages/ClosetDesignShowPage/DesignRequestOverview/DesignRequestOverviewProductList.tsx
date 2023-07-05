@@ -33,16 +33,20 @@ const DesignRequestOverviewProductList = ({ products }: Props) => {
               <div>
                 <h3 className="font-semibold">{catalogProduct.name}</h3>
                 <p className="text-gray-400">{catalogProduct.brand?.name}</p>
-                <div>
-                  {colors.map(color =>
-                    color.hexCode ? (
-                      <ColorSwatch
-                        key={color.hexCode}
-                        hexCode={color.hexCode}
-                      />
-                    ) : null,
-                  )}
-                </div>
+                {colors.length ? (
+                  <div className="mt-2 flex flex-wrap">
+                    {colors.map(color =>
+                      color.hexCode ? (
+                        <ColorSwatch
+                          key={color.hexCode}
+                          hexCode={color.hexCode}
+                          width="w-5"
+                          height="h-5"
+                        />
+                      ) : null,
+                    )}
+                  </div>
+                ) : null}
               </div>
               {catalogProduct.primaryImage?.url ? (
                 <img

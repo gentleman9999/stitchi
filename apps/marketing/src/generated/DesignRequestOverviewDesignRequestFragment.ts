@@ -9,14 +9,37 @@ import { DesignRequestStatus, FileType } from "./globalTypes";
 // GraphQL fragment: DesignRequestOverviewDesignRequestFragment
 // ====================================================
 
+export interface DesignRequestOverviewDesignRequestFragment_designRequestProducts_colors {
+  __typename: "DesignRequestProductColors";
+  hexCode: string | null;
+  name: string | null;
+}
+
+export interface DesignRequestOverviewDesignRequestFragment_designRequestProducts_catalogProduct_primaryImage {
+  __typename: "CatalogProductImage";
+  url: string;
+}
+
+export interface DesignRequestOverviewDesignRequestFragment_designRequestProducts_catalogProduct_brand {
+  __typename: "CatalogBrand";
+  id: string;
+  name: string;
+  slug: string;
+}
+
 export interface DesignRequestOverviewDesignRequestFragment_designRequestProducts_catalogProduct {
   __typename: "CatalogProduct";
   id: string;
+  name: string;
+  slug: string;
+  primaryImage: DesignRequestOverviewDesignRequestFragment_designRequestProducts_catalogProduct_primaryImage | null;
+  brand: DesignRequestOverviewDesignRequestFragment_designRequestProducts_catalogProduct_brand | null;
 }
 
 export interface DesignRequestOverviewDesignRequestFragment_designRequestProducts {
   __typename: "DesignRequestProduct";
   id: string;
+  colors: DesignRequestOverviewDesignRequestFragment_designRequestProducts_colors[];
   catalogProduct: DesignRequestOverviewDesignRequestFragment_designRequestProducts_catalogProduct | null;
 }
 

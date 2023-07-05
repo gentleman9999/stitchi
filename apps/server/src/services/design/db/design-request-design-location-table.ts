@@ -9,8 +9,8 @@ export const DesignRequestDesignLocation: yup.ObjectSchema<DesignRequestDesignLo
   yup.object().shape({
     id: yup.string().uuid().required(),
     designRequestId: yup.string().uuid().required(),
-    description: yup.string().required(),
-    placement: yup.string().required(),
+    description: yup.string().nullable().defined(),
+    placement: yup.string().nullable().defined(),
   })
 
 export type DesignRequestDesignLocationRecord = yup.InferType<

@@ -1,20 +1,48 @@
-import { gql, useSubscription } from '@apollo/client'
+import { gql } from '@apollo/client'
 import cx from 'classnames'
 import { DesignRequestHistoryDesignRequestFragment } from '@generated/DesignRequestHistoryDesignRequestFragment'
 import { formatDistanceToNow } from 'date-fns'
 import UserAvatar from '@components/common/UserAvatar'
 import { ArrowPath, PaintBrush } from 'icons'
+import Skeleton from 'react-loading-skeleton'
 
 interface Props {
-  designRequestId: string
+  loading: boolean
+  designRequest?: DesignRequestHistoryDesignRequestFragment | null
 }
 
-const DesignRequestHistory = ({ designRequestId }: Props) => {
-  const { data, loading } = useSubscription(USE_HISTORY)
-
+const DesignRequestHistory = ({ loading, designRequest }: Props) => {
   return (
     <ul role="list" className="space-y-6">
-      {designRequest.history.map((item, index) => (
+      {loading && !designRequest ? (
+        <li className="relative flex gap-x-4">
+          <div
+            className={cx(
+              'h-6',
+              'absolute left-0 top-0 flex w-6 justify-center',
+            )}
+          >
+            <div className="w-px bg-gray-200" />
+          </div>
+
+          <>
+            <div className="relative flex h-6 w-6 flex-none items-center justify-center bg-white">
+              {/* {activityItem.type === 'paid' ? (
+                      <CheckCircleIcon
+                        className="h-6 w-6 text-indigo-600"
+                        aria-hidden="true"
+                      />
+                    ) : ( */}
+              <div className="h-1.5 w-1.5 rounded-full bg-gray-100 ring-1 ring-gray-300" />
+              {/* )} */}
+            </div>
+            <p className="flex-auto py-0.5 text-xs leading-5 text-gray-500">
+              <Skeleton className="w-20" />
+            </p>
+          </>
+        </li>
+      ) : null}
+      {designRequest?.history.map((item, index) => (
         <li key={item.id} className="relative flex gap-x-4">
           <div
             className={cx(
@@ -217,83 +245,85 @@ const DesignRequestHistory = ({ designRequestId }: Props) => {
   )
 }
 
-const USE_HISTORY = gql`
-  subscription DesignRequestHistoryUseHistorySubscription(
-    $designRequestId: String!
-  ) {
-    designRequestHistory(designRequestId: $designRequestId) {
-      ... on ConversationMessage {
-        id
-        message
-        createdAt
-        viewerIsSender
-
-        files {
+DesignRequestHistory.fragments = {
+  designRequest: gql`
+    ${UserAvatar.fragments.user}
+    fragment DesignRequestHistoryDesignRequestFragment on DesignRequest {
+      id
+      history {
+        ... on ConversationMessage {
           id
-          ... on FileImage {
-            url
-            width
-            height
+          message
+          createdAt
+          viewerIsSender
+
+          files {
+            id
+            ... on FileImage {
+              url
+              width
+              height
+            }
+          }
+
+          sender {
+            id
+            picture
+            name
           }
         }
 
-        sender {
+        ... on DesignRequestHistoryItemDesignRequestEvent {
           id
-          picture
-          name
-        }
-      }
-
-      ... on DesignRequestHistoryItemDesignRequestEvent {
-        id
-        timestamp
-        method
-        user {
-          id
-          ...UserAvatarUserFragment
-        }
-      }
-
-      ... on DesignProof {
-        id
-        createdAt
-        note
-
-        artist {
-          id
-          name
-        }
-
-        files {
-          id
-          ... on FileImage {
-            url
-            width
-            height
+          timestamp
+          method
+          user {
+            id
+            ...UserAvatarUserFragment
           }
         }
-      }
 
-      ... on DesignRequestRevisionRequest {
-        id
-        createdAt
-        description
-        files {
+        ... on DesignProof {
           id
+          createdAt
+          note
 
-          ... on FileImage {
-            url
-            width
-            height
+          artist {
+            id
+            name
+          }
+
+          files {
+            id
+            ... on FileImage {
+              url
+              width
+              height
+            }
           }
         }
-        user {
+
+        ... on DesignRequestRevisionRequest {
           id
-          name
+          createdAt
+          description
+          files {
+            id
+
+            ... on FileImage {
+              url
+              width
+              height
+            }
+          }
+          user {
+            id
+            name
+          }
         }
       }
     }
-  }
-`
+  `,
+}
 
 export default DesignRequestHistory

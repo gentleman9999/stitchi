@@ -6,7 +6,7 @@ import Link from 'next/link'
 interface Props {}
 
 const ClosetSectionHeaderTabs = ({}: Props) => {
-  const { tabs, activeTab } = useClosetSectionContext()
+  const { tabs, activeTab, setActiveTab } = useClosetSectionContext()
 
   return (
     <div>
@@ -20,9 +20,12 @@ const ClosetSectionHeaderTabs = ({}: Props) => {
           name="tabs"
           className="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
           defaultValue={activeTab?.label}
+          onChange={e => setActiveTab(e.target.value)}
         >
           {tabs.map(tab => (
-            <option key={tab.label}>{tab.label}</option>
+            <option key={tab.label} value={tab.id}>
+              {tab.label}
+            </option>
           ))}
         </select>
       </div>

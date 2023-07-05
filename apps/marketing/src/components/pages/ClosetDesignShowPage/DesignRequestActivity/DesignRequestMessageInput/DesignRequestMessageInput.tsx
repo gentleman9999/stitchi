@@ -13,33 +13,34 @@ import { useAuthorizedComponent } from '@lib/auth'
 import { ScopeAction, ScopeResource } from '@generated/globalTypes'
 
 interface Props {
-  designRequest: DesignRequestMessageInputDesignRequestFragment
+  loading: boolean
+  designRequest?: DesignRequestMessageInputDesignRequestFragment | null
 }
 
-const DesignRequestMessageInput = ({ designRequest }: Props) => {
-  const { can, loading } = useAuthorizedComponent()
+const DesignRequestMessageInput = ({ designRequest, loading }: Props) => {
+  const { can } = useAuthorizedComponent()
 
   const { handleSubmitRevisionRequest, handleSubmitComment } =
-    useDesignRequestMessageInput({
-      designRequestId: designRequest.id,
-    })
+    useDesignRequestMessageInput()
 
   const handleSubmit = async (values: FormValues) => {
+    if (!designRequest?.id) {
+      return
+    }
+
     if (values.isRevisionRequest) {
       await handleSubmitRevisionRequest({
         description: values.message,
         fileIds: values.fileIds,
+        designRequestId: designRequest.id,
       })
     } else {
       await handleSubmitComment({
         message: values.message,
         fileIds: values.fileIds,
+        designRequestId: designRequest.id,
       })
     }
-  }
-
-  if (loading) {
-    return null
   }
 
   const canCreateRevisionRequest = can(
@@ -49,10 +50,11 @@ const DesignRequestMessageInput = ({ designRequest }: Props) => {
 
   return (
     <div className="flex gap-x-4">
-      <UserAvatar user={designRequest.user} />
+      <UserAvatar user={designRequest?.user} />
       <Form
+        loading={loading}
         onSubmit={handleSubmit}
-        uploadFolder={designRequest.fileUploadDirectory}
+        uploadFolder={designRequest?.fileUploadDirectory}
         canCreateRevisionRequest={canCreateRevisionRequest}
       />
     </div>
@@ -68,11 +70,13 @@ const schema = yup.object().shape({
 type FormValues = yup.InferType<typeof schema>
 
 const Form = ({
+  loading,
   uploadFolder,
   onSubmit,
   canCreateRevisionRequest,
 }: {
-  uploadFolder: string
+  loading: boolean
+  uploadFolder?: string
   canCreateRevisionRequest: boolean
   onSubmit: (values: FormValues) => Promise<void>
 }) => {
@@ -83,10 +87,16 @@ const Form = ({
     resolver: yupResolver(schema),
     defaultValues: {
       message: '',
-      isRevisionRequest: canCreateRevisionRequest ? true : false,
+      isRevisionRequest: true,
       fileIds: [],
     },
   })
+
+  React.useEffect(() => {
+    if (!canCreateRevisionRequest) {
+      form.setValue('isRevisionRequest', false)
+    }
+  }, [canCreateRevisionRequest, form])
 
   const handleSubmit = form.handleSubmit(async data => {
     setSubmitting(true)
@@ -129,7 +139,7 @@ const Form = ({
         name="fileIds"
         control={form.control}
         render={({ field }) =>
-          showFileInput ? (
+          showFileInput && uploadFolder ? (
             <div className="p-2 border-t">
               <FileInput
                 keepUploadStatus
@@ -149,6 +159,7 @@ const Form = ({
           <button
             type="button"
             className="flex items-center justify-center gap-1 rounded-full text-gray-400 hover:text-gray-500"
+            disabled={loading || !uploadFolder}
             onClick={() => setShowFileInput(!showFileInput)}
           >
             <PaperClip className="h-5 w-5" aria-hidden="true" />
@@ -160,7 +171,11 @@ const Form = ({
             name="isRevisionRequest"
             control={form.control}
             render={({ field }) => (
-              <div className={cx({ invisible: !canCreateRevisionRequest })}>
+              <div
+                className={cx({
+                  invisible: !canCreateRevisionRequest || loading,
+                })}
+              >
                 <Checkbox
                   {...field}
                   size={1}
@@ -174,20 +189,21 @@ const Form = ({
             )}
           />
           <button
+            disabled={loading}
             type="submit"
             className="relative rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
           >
             <div
               className={cx(
                 'absolute inset-0 items-center justify-center flex opacity-0',
-                { 'opacity-100': submitting },
+                { 'opacity-100': submitting || loading },
               )}
             >
               <LoadingDots />
             </div>
             <div
               className={cx({
-                'opacity-0': submitting,
+                'opacity-0': submitting || loading,
               })}
             >
               {isRevisionRequest ? 'Request revision' : 'Comment'}

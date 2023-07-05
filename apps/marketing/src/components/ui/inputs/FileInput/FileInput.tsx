@@ -154,11 +154,14 @@ const FileInput = ({
 }
 
 const isValidFileType = (file: File, accept: HTMLInputElement['accept']) => {
-  const types = accept.replaceAll(' ', '').split(',')
+  if (!accept.length) return true
 
-  return types.some(type => {
+  const acceptedTypes = accept.replaceAll(' ', '').split(',')
+
+  return acceptedTypes.some(type => {
     if (type.endsWith('/*')) {
-      const typePrefix = accept.slice(0, -1)
+      const typePrefix = type.slice(0, -1)
+
       return file.type.startsWith(typePrefix)
     } else {
       return file.type === type

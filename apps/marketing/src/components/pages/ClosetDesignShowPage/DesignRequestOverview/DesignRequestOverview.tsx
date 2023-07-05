@@ -1,45 +1,70 @@
-import { gql } from '@apollo/client'
-import { DesignRequestOverviewDesignRequestFragment } from '@generated/DesignRequestOverviewDesignRequestFragment'
+import { gql, useQuery } from '@apollo/client'
 import React from 'react'
 import Progress from './Progress'
 import DesignRequestDraft from './DesignRequestDraft'
-import GeneralInformation from './GeneralInformation'
 import DesignRequestOverviewProductList from './DesignRequestOverviewProductList'
-import { notEmpty } from '@utils/typescript'
+import {
+  DesignRequestOverviewGetDataQuery,
+  DesignRequestOverviewGetDataQueryVariables,
+} from '@generated/DesignRequestOverviewGetDataQuery'
+import { ComponentErrorMessage } from '@components/common'
+import { LoadingDots } from '@components/ui'
+import GeneralInformation from './GeneralInformation'
 
 interface Props {
-  designRequest: DesignRequestOverviewDesignRequestFragment
+  designRequestId: string
 }
 
-const DesignRequestOverview = ({ designRequest }: Props) => {
-  const designRequestProducts = designRequest.designRequestProducts || []
+const DesignRequestOverview = ({ designRequestId }: Props) => {
+  const { data, error, loading } = useQuery<
+    DesignRequestOverviewGetDataQuery,
+    DesignRequestOverviewGetDataQueryVariables
+  >(GET_DATA, {
+    variables: { designRequestId },
+  })
+
+  const { designRequest } = data || {}
+
+  const designRequestProducts = designRequest?.designRequestProducts || []
+
+  if (error) {
+    return <ComponentErrorMessage error={error} />
+  }
 
   return (
     <div className="grid grid-cols-12 gap-8">
       <div className="col-span-12 md:col-span-8">
-        {designRequest.status === 'DRAFT' ? (
-          <DesignRequestDraft designRequest={designRequest} />
-        ) : (
-          <GeneralInformation designRequest={designRequest} />
-        )}
+        {designRequest ? (
+          <>
+            {designRequest.status === 'DRAFT' ? (
+              <DesignRequestDraft designRequest={designRequest} />
+            ) : (
+              <GeneralInformation designRequest={designRequest} />
+            )}
+          </>
+        ) : loading ? (
+          <div className="flex justify-center items-center h-20">
+            <LoadingDots />
+          </div>
+        ) : null}
       </div>
 
       <div className="col-span-12 md:col-span-4 flex flex-col gap-8">
         {designRequestProducts.length ? (
           <DesignRequestOverviewProductList products={designRequestProducts} />
         ) : null}
-        <Progress status={designRequest?.status} />
+        <Progress loading={loading} status={designRequest?.status} />
       </div>
     </div>
   )
 }
 
-DesignRequestOverview.fragments = {
-  designRequest: gql`
-    ${DesignRequestDraft.fragments.designRequest}
-    ${GeneralInformation.fragments.designRequest}
-    ${DesignRequestOverviewProductList.fragments.designRequestProduct}
-    fragment DesignRequestOverviewDesignRequestFragment on DesignRequest {
+const GET_DATA = gql`
+  ${GeneralInformation.fragments.designRequest}
+  ${DesignRequestOverviewProductList.fragments.designRequestProduct}
+  ${DesignRequestDraft.fragments.designRequest}
+  query DesignRequestOverviewGetDataQuery($designRequestId: ID!) {
+    designRequest(id: $designRequestId) {
       id
       status
       designRequestProducts {
@@ -49,7 +74,7 @@ DesignRequestOverview.fragments = {
       ...DesignRequestDraftDesignRequestFragments
       ...DesignRequestSubmittedDesignRequestGeneralInformationFragment
     }
-  `,
-}
+  }
+`
 
 export default DesignRequestOverview

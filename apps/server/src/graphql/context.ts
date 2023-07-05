@@ -1,14 +1,12 @@
 import { MembershipRole, PrismaClient } from '@prisma/client'
-import { ManagementClient } from 'auth0'
 import { verify } from './jwt'
-import { getOrThrow } from '../utils'
 import { ApolloError, AuthenticationError } from 'apollo-server-core'
 import { ContextFunction } from 'apollo-server-core'
 import { ExpressContext } from 'apollo-server-express'
 import services from '../services'
 import makeStripeClient from '../stripe'
 import { SendgridClient, makeClient as makeSendgridClient } from '../sendgrid'
-import { PubSub } from 'graphql-subscriptions'
+import PubSubClient from './pubsub'
 
 type StripeClient = ReturnType<typeof makeStripeClient>
 
@@ -18,7 +16,6 @@ export interface Context {
   userId?: string
   organizationId?: string
   prisma: PrismaClient
-  auth0: ManagementClient
   sendgrid: SendgridClient
   stripe: StripeClient
   conversation: typeof services.conversation
@@ -30,34 +27,27 @@ export interface Context {
   fulfillment: typeof services.fulfillment
   payment: typeof services.payment
   file: typeof services.file
-  subscriptions: PubSub
+  user: typeof services.user
+  subscriptions: PubSubClient
 }
 
 interface ContextCreatorParams {
   prisma: PrismaClient
-  auth0: ManagementClient
   sendgrid: SendgridClient
   stripe: StripeClient
+  pubsub: PubSubClient
 }
 
 function makeContext(
   params: ContextCreatorParams = {
     prisma: new PrismaClient(),
-    auth0: new ManagementClient({
-      domain: getOrThrow(process.env.AUTH0_DOMAIN, 'AUTH0_DOMAIN'),
-      clientId: getOrThrow(process.env.AUTH0_CLIENT_ID, 'AUTH0_CLIENT_ID'),
-      clientSecret: getOrThrow(
-        process.env.AUTH0_CLIENT_SECRET,
-        'AUTH0_CLIENT_SECRET',
-      ),
-      scope: 'read:users',
-    }),
+    pubsub: new PubSubClient(),
     stripe: makeStripeClient(),
     sendgrid: makeSendgridClient(),
   },
 ): ContextFunction<ExpressContext> {
   return async function createContext(expressContext) {
-    const authHeader = expressContext.req.headers['authorization']
+    const authHeader = expressContext.req?.headers?.['authorization']
 
     try {
       const payload = authHeader ? await verify(authHeader).catch() : null
@@ -75,9 +65,8 @@ function makeContext(
       })()
 
       return {
-        subscriptions: new PubSub(),
+        subscriptions: params.pubsub,
         role: userMembership?.membership.role ?? undefined,
-        auth0: params.auth0,
         prisma: params.prisma,
         stripe: params.stripe,
         sendgrid: params.sendgrid,
@@ -93,6 +82,7 @@ function makeContext(
         fulfillment: services.fulfillment,
         payment: services.payment,
         file: services.file,
+        user: services.user,
       }
     } catch (error) {
       console.error(error)

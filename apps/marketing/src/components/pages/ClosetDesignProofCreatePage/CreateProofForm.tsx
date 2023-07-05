@@ -70,8 +70,6 @@ const CreateProofForm = ({ initialValues, onSubmit, uploadFolder }: Props) => {
     }
   })
 
-  console.log(form.formState.errors)
-
   return (
     <form onSubmit={handleSubmit}>
       <ClosetSection>

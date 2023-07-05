@@ -159,7 +159,7 @@ const parseHtml = (html?: string | null) => {
   try {
     return removeStyleFromAllNodes(parse(html).getElementById('content-blocks'))
   } catch (e) {
-    console.log(e)
+    console.error(e)
     return null
   }
 }

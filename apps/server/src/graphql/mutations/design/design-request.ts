@@ -84,6 +84,16 @@ export const designRequestCreate = mutationField('designRequestCreate', {
   },
 })
 
+export const DesignRequestUpdateLocationInput = inputObjectType({
+  name: 'DesignRequestUpdateLocationInput',
+  definition(t) {
+    t.nullable.id('designLocationId')
+    t.nullable.string('placement')
+    t.nullable.string('description')
+    t.nullable.list.nonNull.id('fileIds')
+  },
+})
+
 export const DesignRequestUpdateInput = inputObjectType({
   name: 'DesignRequestUpdateInput',
   definition(t) {
@@ -92,6 +102,9 @@ export const DesignRequestUpdateInput = inputObjectType({
     t.nullable.string('description')
     t.nullable.string('useCase')
     t.nullable.list.nonNull.id('fileIds')
+    t.nullable.list.nonNull.field('locations', {
+      type: 'DesignRequestUpdateLocationInput',
+    })
   },
 })
 
@@ -105,7 +118,7 @@ export const DesignRequestUpdatePayload = objectType({
 export const designRequestUpdate = mutationField('designRequestUpdate', {
   type: 'DesignRequestUpdatePayload',
   args: {
-    input: nonNull(DesignRequestUpdateInput),
+    input: nonNull('DesignRequestUpdateInput'),
   },
   resolve: async (_, { input }, { design, organizationId, userId }) => {
     let foundDesignRequest
@@ -144,8 +157,14 @@ export const designRequestUpdate = mutationField('designRequestUpdate', {
           files:
             input.fileIds?.map(fileId => ({ fileId })) ||
             foundDesignRequest.files.map(file => ({ fileId: file.id })),
-          // We provided dedicated mutations for adding and removing design locations
-          designLocations: foundDesignRequest.designLocations,
+          designLocations: input.locations?.length
+            ? input.locations.map(location => ({
+                id: location.designLocationId || undefined,
+                description: location.description || '',
+                placement: location.placement || null,
+                files: location.fileIds?.map(fileId => ({ fileId })) || [],
+              }))
+            : foundDesignRequest.designLocations,
           artists: foundDesignRequest.artists,
           revisionRequests: foundDesignRequest.revisionRequests,
           proofs: foundDesignRequest.proofs,
@@ -264,7 +283,7 @@ export const designRequestProofCreate = mutationField(
     args: {
       input: nonNull(DesignRequestProofCreateInput),
     },
-    resolve: async (_, { input }, { design, userId }) => {
+    resolve: async (_, { input }, { design, subscriptions, userId }) => {
       if (!userId) {
         throw new GraphQLError('Unauthorized')
       }
@@ -323,6 +342,10 @@ export const designRequestProofCreate = mutationField(
         throw new GraphQLError('Unable to update design request')
       }
 
+      subscriptions.publish('DESIGN_REQUEST_HISTORY_ITEM_ADDED', {
+        designRequestId: designRequest.id,
+      })
+
       return {
         designRequest: designRequestFactoryToGrahpql(updatedDesignRequest),
       }
@@ -353,7 +376,7 @@ export const designRequestRevisionRequestCreate = mutationField(
     args: {
       input: nonNull(DesignRequestRevisionRequestCreateInput),
     },
-    resolve: async (_, { input }, { design, userId }) => {
+    resolve: async (_, { input }, { subscriptions, design, userId }) => {
       if (!userId) {
         throw new GraphQLError('Unauthorized')
       }
@@ -389,6 +412,10 @@ export const designRequestRevisionRequestCreate = mutationField(
         console.log(error)
         throw new GraphQLError('Unable to update design request')
       }
+
+      subscriptions.publish('DESIGN_REQUEST_HISTORY_ITEM_ADDED', {
+        designRequestId: designRequest.id,
+      })
 
       return {
         designRequest: designRequestFactoryToGrahpql(updatedDesignRequest),
@@ -473,6 +500,10 @@ export const designRequestConversationMessageCreate = mutationField(
         console.log(error)
         throw new GraphQLError('Unable to update conversation')
       }
+
+      ctx.subscriptions.publish('DESIGN_REQUEST_HISTORY_ITEM_ADDED', {
+        designRequestId: designRequest.id,
+      })
 
       return {
         designRequest: designRequestFactoryToGrahpql(designRequest),

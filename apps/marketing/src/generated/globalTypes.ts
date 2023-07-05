@@ -147,26 +147,6 @@ export interface DesignRequestCreateInput {
   products: DesignRequestProductCreateInput[];
 }
 
-export interface DesignRequestDesignLocationCreateInput {
-  designRequestId: string;
-  description?: string | null;
-  placement: string;
-  fileIds: string[];
-}
-
-export interface DesignRequestDesignLocationDeleteInput {
-  designRequestId: string;
-  designRequestDesignLocationId: string;
-}
-
-export interface DesignRequestDesignLocationUpdateInput {
-  designRequestId: string;
-  designRequestDesignLocationId: string;
-  description?: string | null;
-  placement?: string | null;
-  fileIds: string[];
-}
-
 export interface DesignRequestProductColorCreateInput {
   bigCommerceColorId: string;
   hexCode?: string | null;
@@ -206,6 +186,14 @@ export interface DesignRequestUpdateInput {
   name?: string | null;
   description?: string | null;
   useCase?: string | null;
+  fileIds?: string[] | null;
+  locations?: DesignRequestUpdateLocationInput[] | null;
+}
+
+export interface DesignRequestUpdateLocationInput {
+  designLocationId?: string | null;
+  placement?: string | null;
+  description?: string | null;
   fileIds?: string[] | null;
 }
 

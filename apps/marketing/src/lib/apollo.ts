@@ -46,45 +46,76 @@ const httpLink = createHttpLink({
   credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
 })
 
-const wsLink = new GraphQLWsLink(
-  createClient({
-    url: 'ws://localhost:4000/subscriptions',
-  }),
-)
+const makeWsLink = (ctx?: GetServerSidePropsContext) =>
+  new GraphQLWsLink(
+    createClient({
+      url: 'ws://localhost:5000/graphql',
+      //   connectionParams: async () => {
+      //     let accessToken
+
+      //     try {
+      //       if (ctx) {
+      //         accessToken = (await getAccessToken(ctx.req, ctx.res)).accessToken
+      //       } else {
+      //         // Auth0 only provides access to the accessToken on the server.
+      //         // So we must make a call the the Next.js server to retrieve token.
+      //         const response = await fetch(`${appUrl}/api/auth/accessToken`)
+      //         const data = await response.json()
+      //         accessToken = data.accessToken
+      //       }
+      //     } catch (error) {
+      //       console.error(error)
+      //     }
+
+      //     const organizationId =
+      //       typeof window !== 'undefined'
+      //         ? localStorage.getItem('organizationId') || ''
+      //         : ''
+
+      //     return {
+      //       Authorization: accessToken ? `Bearer ${accessToken}` : '',
+      //       [`${organizationHeaderKey}`]: organizationId,
+      //     }
+      //   },
+    }),
+  )
 
 // The split function takes three parameters:
 //
 // * A function that's called for each operation to execute
 // * The Link to use for an operation if the function returns a "truthy" value
 // * The Link to use for an operation if the function returns a "falsy" value
-const splitLink = split(
-  ({ query }) => {
-    const definition = getMainDefinition(query)
-    return (
-      definition.kind === 'OperationDefinition' &&
-      definition.operation === 'subscription'
-    )
-  },
-  wsLink,
-  httpLink,
-)
+const makeSplitLink = (ctx?: GetServerSidePropsContext) =>
+  split(
+    ({ query }) => {
+      const definition = getMainDefinition(query)
+      return (
+        definition.kind === 'OperationDefinition' &&
+        definition.operation === 'subscription'
+      )
+    },
+    makeWsLink(ctx),
+    httpLink,
+  )
+
+let accessToken: string | undefined
 
 const makeAuthLink = (ctx?: GetServerSidePropsContext) =>
   setContext(async (_, { headers }) => {
-    let accessToken
-
-    try {
-      if (ctx) {
-        accessToken = (await getAccessToken(ctx.req, ctx.res)).accessToken
-      } else {
-        // Auth0 only provides access to the accessToken on the server.
-        // So we must make a call the the Next.js server to retrieve token.
-        const response = await fetch(`${appUrl}/api/auth/accessToken`)
-        const data = await response.json()
-        accessToken = data.accessToken
+    if (!accessToken) {
+      try {
+        if (ctx) {
+          accessToken = (await getAccessToken(ctx.req, ctx.res)).accessToken
+        } else {
+          // Auth0 only provides access to the accessToken on the server.
+          // So we must make a call the the Next.js server to retrieve token.
+          const response = await fetch(`${appUrl}/api/auth/accessToken`)
+          const data = await response.json()
+          accessToken = data.accessToken
+        }
+      } catch (error) {
+        console.error(error)
       }
-    } catch (error) {
-      console.error(error)
     }
 
     const organizationId =
@@ -108,7 +139,7 @@ let apolloClient: ApolloClient<NormalizedCacheObject>
 const createApolloClient = (ctx?: GetServerSidePropsContext) =>
   new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: makeAuthLink(ctx).concat(splitLink),
+    link: makeAuthLink(ctx).concat(makeSplitLink(ctx)),
     cache: new InMemoryCache({
       dataIdFromObject(responseObj) {
         switch (responseObj.__typename) {

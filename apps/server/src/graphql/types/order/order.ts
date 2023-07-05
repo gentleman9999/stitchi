@@ -105,7 +105,7 @@ export const Order = objectType({
           return null
         }
 
-        const user = await ctx.auth0.getUser({ id: order.userId })
+        const user = await ctx.user.getUser({ id: order.userId })
         return { ...user, id: user.user_id }
       },
     })

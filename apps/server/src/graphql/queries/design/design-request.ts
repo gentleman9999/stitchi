@@ -146,17 +146,14 @@ export const DesignRequestsExtendsMembership = extendType({
 export const ExtendDesignRequests = extendType({
   type: 'DesignRequest',
   definition(t) {
-    t.nonNull.list.nonNull.field('designRequestHistory', {
+    t.nonNull.list.nonNull.field('history', {
       type: 'DesignRequestHistoryItem',
-      args: {
-        designRequestId: nonNull(idArg()),
-      },
-      resolve: async (parent, { designRequestId }, ctx) => {
+      resolve: async (parent, _, ctx) => {
         let designRequest
 
         try {
           const response = await ctx.design.getDesignRequest({
-            designRequestId,
+            designRequestId: parent.id,
           })
 
           designRequest = designRequestFactoryToGrahpql(response)

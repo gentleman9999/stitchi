@@ -124,6 +124,7 @@ const useAccountSetup = () => {
 const GET_DATA = gql`
   query UseAuthorizedComponentGetDataQuery {
     viewer {
+      id
       scopes {
         resource
         action

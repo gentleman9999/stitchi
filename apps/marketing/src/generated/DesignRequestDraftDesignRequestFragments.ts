@@ -9,35 +9,12 @@ import { FileType } from "./globalTypes";
 // GraphQL fragment: DesignRequestDraftDesignRequestFragments
 // ====================================================
 
-export interface DesignRequestDraftDesignRequestFragments_designRequestLocations_files_FileUnknown {
-  __typename: "FileUnknown" | "FilePdf";
-  id: string;
-  humanizedBytes: string;
-  name: string;
-  url: string;
-  fileType: FileType;
-}
-
-export interface DesignRequestDraftDesignRequestFragments_designRequestLocations_files_FileImage {
-  __typename: "FileImage";
-  id: string;
-  humanizedBytes: string;
-  name: string;
-  url: string;
-  fileType: FileType;
-  width: number;
-  height: number;
-}
-
-export type DesignRequestDraftDesignRequestFragments_designRequestLocations_files = DesignRequestDraftDesignRequestFragments_designRequestLocations_files_FileUnknown | DesignRequestDraftDesignRequestFragments_designRequestLocations_files_FileImage;
-
 export interface DesignRequestDraftDesignRequestFragments_designRequestLocations {
   __typename: "DesignRequestDesignLocation";
   id: string;
   description: string | null;
   placement: string | null;
   fileIds: string[];
-  files: DesignRequestDraftDesignRequestFragments_designRequestLocations_files[];
 }
 
 export interface DesignRequestDraftDesignRequestFragments_files_FileUnknown {

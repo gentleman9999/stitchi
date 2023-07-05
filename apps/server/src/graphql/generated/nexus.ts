@@ -102,8 +102,15 @@ export interface NexusGenInputs {
     description?: string | null; // String
     designRequestId: string; // ID!
     fileIds?: string[] | null; // [ID!]
+    locations?: NexusGenInputs['DesignRequestUpdateLocationInput'][] | null; // [DesignRequestUpdateLocationInput!]
     name?: string | null; // String
     useCase?: string | null; // String
+  }
+  DesignRequestUpdateLocationInput: { // input type
+    description?: string | null; // String
+    designLocationId?: string | null; // ID
+    fileIds?: string[] | null; // [ID!]
+    placement?: string | null; // String
   }
   FileCreateBatchInput: { // input type
     files: NexusGenInputs['FileCreateInput'][]; // [FileCreateInput!]!
@@ -349,6 +356,9 @@ export interface NexusGenObjects {
   DesignRequestEdge: { // root type
     cursor?: string | null; // String
     node?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+  }
+  DesignRequestHistoryItemAddedPayload: { // root type
+    historyItemAdded: boolean; // Boolean!
   }
   DesignRequestHistoryItemDesignRequestEvent: { // root type
     id: string; // ID!
@@ -618,6 +628,7 @@ export interface NexusGenObjects {
   SubscriberCreatePayload: { // root type
     subscriber?: NexusGenRootTypes['Subscriber'] | null; // Subscriber
   }
+  Subscription: {};
   User: { // root type
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
     email?: string | null; // String
@@ -718,7 +729,6 @@ export interface NexusGenFieldTypes {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     description: string | null; // String
     designProofIds: string[]; // [ID!]!
-    designRequestHistory: NexusGenRootTypes['DesignRequestHistoryItem'][]; // [DesignRequestHistoryItem!]!
     designRequestLocationIds: string[]; // [ID!]!
     designRequestLocations: NexusGenRootTypes['DesignRequestDesignLocation'][]; // [DesignRequestDesignLocation!]!
     designRequestProductIds: string[]; // [ID!]!
@@ -728,6 +738,7 @@ export interface NexusGenFieldTypes {
     fileIds: string[]; // [ID!]!
     fileUploadDirectory: string; // String!
     files: NexusGenRootTypes['File'][]; // [File!]!
+    history: NexusGenRootTypes['DesignRequestHistoryItem'][]; // [DesignRequestHistoryItem!]!
     humanizedStatus: string; // String!
     id: string; // ID!
     name: string; // String!
@@ -770,6 +781,9 @@ export interface NexusGenFieldTypes {
   DesignRequestEdge: { // field return type
     cursor: string | null; // String
     node: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+  }
+  DesignRequestHistoryItemAddedPayload: { // field return type
+    historyItemAdded: boolean; // Boolean!
   }
   DesignRequestHistoryItemDesignRequestEvent: { // field return type
     id: string; // ID!
@@ -1089,6 +1103,9 @@ export interface NexusGenFieldTypes {
   SubscriberCreatePayload: { // field return type
     subscriber: NexusGenRootTypes['Subscriber'] | null; // Subscriber
   }
+  Subscription: { // field return type
+    designRequestHistoryItemAdded: NexusGenRootTypes['DesignRequestHistoryItemAddedPayload'] | null; // DesignRequestHistoryItemAddedPayload
+  }
   User: { // field return type
     createdAt: NexusGenScalars['DateTime'] | null; // DateTime
     email: string | null; // String
@@ -1191,7 +1208,6 @@ export interface NexusGenFieldTypeNames {
     createdAt: 'DateTime'
     description: 'String'
     designProofIds: 'ID'
-    designRequestHistory: 'DesignRequestHistoryItem'
     designRequestLocationIds: 'ID'
     designRequestLocations: 'DesignRequestDesignLocation'
     designRequestProductIds: 'ID'
@@ -1201,6 +1217,7 @@ export interface NexusGenFieldTypeNames {
     fileIds: 'ID'
     fileUploadDirectory: 'String'
     files: 'File'
+    history: 'DesignRequestHistoryItem'
     humanizedStatus: 'String'
     id: 'ID'
     name: 'String'
@@ -1243,6 +1260,9 @@ export interface NexusGenFieldTypeNames {
   DesignRequestEdge: { // field return type name
     cursor: 'String'
     node: 'DesignRequest'
+  }
+  DesignRequestHistoryItemAddedPayload: { // field return type name
+    historyItemAdded: 'Boolean'
   }
   DesignRequestHistoryItemDesignRequestEvent: { // field return type name
     id: 'ID'
@@ -1562,6 +1582,9 @@ export interface NexusGenFieldTypeNames {
   SubscriberCreatePayload: { // field return type name
     subscriber: 'Subscriber'
   }
+  Subscription: { // field return type name
+    designRequestHistoryItemAdded: 'DesignRequestHistoryItemAddedPayload'
+  }
   User: { // field return type name
     createdAt: 'DateTime'
     email: 'String'
@@ -1601,9 +1624,6 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   DesignRequest: {
-    designRequestHistory: { // args
-      designRequestId: string; // ID!
-    }
     proofs: { // args
       limit?: number | null; // Int
     }
@@ -1696,6 +1716,11 @@ export interface NexusGenArgTypes {
     }
     order: { // args
       id: string; // ID!
+    }
+  }
+  Subscription: {
+    designRequestHistoryItemAdded: { // args
+      designRequestId: string; // ID!
     }
   }
 }

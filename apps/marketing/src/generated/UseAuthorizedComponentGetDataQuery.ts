@@ -17,6 +17,7 @@ export interface UseAuthorizedComponentGetDataQuery_viewer_scopes {
 
 export interface UseAuthorizedComponentGetDataQuery_viewer {
   __typename: "Membership";
+  id: string;
   scopes: UseAuthorizedComponentGetDataQuery_viewer_scopes[];
 }
 

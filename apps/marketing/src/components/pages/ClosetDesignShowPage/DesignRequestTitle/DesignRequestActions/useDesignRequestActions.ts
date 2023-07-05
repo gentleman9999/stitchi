@@ -3,6 +3,8 @@ import {
   UseDesignRequestActionsSubmitDesignRequestMutation,
   UseDesignRequestActionsSubmitDesignRequestMutationVariables,
 } from '@generated/UseDesignRequestActionsSubmitDesignRequestMutation'
+import routes from '@lib/routes'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 interface Props {
@@ -10,6 +12,7 @@ interface Props {
 }
 
 const useDesignRequestActions = ({ designRequestId }: Props) => {
+  const router = useRouter()
   const [submitting, setSubmitting] = useState(false)
 
   const [submitDesignRequest] = useMutation<
@@ -30,6 +33,11 @@ const useDesignRequestActions = ({ designRequestId }: Props) => {
     setSubmitting(true)
     try {
       await submitDesignRequest({ variables: { input: { designRequestId } } })
+      await router.push(
+        routes.internal.closet.designs.show.activity.href({
+          designId: designRequestId,
+        }),
+      )
     } catch (error) {
       throw error
     } finally {
