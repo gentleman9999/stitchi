@@ -10,6 +10,7 @@ import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
 import ClosetSectionTitle from '@components/common/ClosetSectionTitle'
 import ReferenceFilesInput from '../../../ReferenceFilesInput/ReferenceFilesInput'
 import DesignRequestLocationInput from './DesignRequestLocationInput'
+import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/Card'
 
 const locationSchema = yup.object().shape({
   id: yup.string().nullable(),
@@ -82,55 +83,70 @@ const DesignRequestDraftForm = ({
   return (
     <form onSubmit={handleSubmit}>
       <ClosetSection>
-        <Controller
-          name="useCase"
-          control={form.control}
-          rules={{ onBlur: autoSave }}
-          render={({ field, fieldState }) => (
+        <Card>
+          <CardContent>
+            <Controller
+              name="useCase"
+              control={form.control}
+              rules={{ onBlur: autoSave }}
+              render={({ field, fieldState }) => (
+                <InputGroup
+                  label="What will the merch be used for?"
+                  error={fieldState.error?.message}
+                >
+                  <TextField
+                    {...field}
+                    placeholder="e.g. employee carepackage, charity event, concert merch..."
+                  />
+                </InputGroup>
+              )}
+            />
+          </CardContent>
+        </Card>
+      </ClosetSection>
+
+      <ClosetSection>
+        <Card>
+          <CardHeader>
+            <CardTitle
+              title="Design locations"
+              subtitle="Add customizations to various locations of this product."
+            />
+          </CardHeader>
+          <CardContent divide>
+            <DesignRequestLocationInput form={form} autoSave={autoSave} />
+          </CardContent>
+        </Card>
+      </ClosetSection>
+
+      <ClosetSection>
+        <Card>
+          <CardHeader>
+            <CardTitle title="Reference files" />
+          </CardHeader>
+          <CardContent divide>
             <InputGroup
-              label="What will the merch be used for?"
-              error={fieldState.error?.message}
+              optional
+              label="Attach design files, logos, inspiration, etc..."
             >
-              <TextField
-                {...field}
-                placeholder="e.g. employee carepackage, charity event, concert merch..."
+              <Controller
+                name="referenceFileIds"
+                control={form.control}
+                render={({ field }) => (
+                  <ReferenceFilesInput
+                    value={field.value}
+                    onChange={field.onChange}
+                    folder={fileFolder}
+                    referenceFiles={designRequest.files.map(file => ({
+                      ...file,
+                      bytes: file.humanizedBytes,
+                    }))}
+                  />
+                )}
               />
             </InputGroup>
-          )}
-        />
-      </ClosetSection>
-
-      <ClosetSection>
-        <ClosetSectionHeader>
-          <ClosetSectionTitle title="Design locations" />
-        </ClosetSectionHeader>
-        <DesignRequestLocationInput form={form} autoSave={autoSave} />
-      </ClosetSection>
-
-      <ClosetSection>
-        <ClosetSectionHeader>
-          <ClosetSectionTitle title="Reference files" />
-        </ClosetSectionHeader>
-        <InputGroup
-          optional
-          label="Attach design files, logos, inspiration, etc..."
-        >
-          <Controller
-            name="referenceFileIds"
-            control={form.control}
-            render={({ field }) => (
-              <ReferenceFilesInput
-                value={field.value}
-                onChange={field.onChange}
-                folder={fileFolder}
-                referenceFiles={designRequest.files.map(file => ({
-                  ...file,
-                  bytes: file.humanizedBytes,
-                }))}
-              />
-            )}
-          />
-        </InputGroup>
+          </CardContent>
+        </Card>
       </ClosetSection>
     </form>
   )

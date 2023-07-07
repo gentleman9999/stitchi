@@ -101,12 +101,12 @@ export interface DesignRequestOverviewGetDataQuery_designRequest {
   id: string;
   status: DesignRequestStatus;
   designRequestProducts: DesignRequestOverviewGetDataQuery_designRequest_designRequestProducts[];
-  description: string | null;
   fileUploadDirectory: string;
   useCase: string | null;
   fileIds: string[];
   designRequestLocations: DesignRequestOverviewGetDataQuery_designRequest_designRequestLocations[];
   files: DesignRequestOverviewGetDataQuery_designRequest_files[];
+  description: string | null;
 }
 
 export interface DesignRequestOverviewGetDataQuery {

@@ -42,7 +42,6 @@ export type DesignRequestDraftDesignRequestFragments_files = DesignRequestDraftD
 export interface DesignRequestDraftDesignRequestFragments {
   __typename: "DesignRequest";
   id: string;
-  description: string | null;
   fileUploadDirectory: string;
   useCase: string | null;
   fileIds: string[];

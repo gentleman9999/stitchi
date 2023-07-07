@@ -1,4 +1,4 @@
-import { extendType } from 'nexus'
+import { extendType, nonNull } from 'nexus'
 import { GraphQLError } from 'graphql'
 import { designProofFactoryToGraphql } from '../../serializers/design'
 
@@ -35,6 +35,36 @@ export const DesignProofExtendsDesignRequest = extendType({
         }
 
         return designProofs.map(designProofFactoryToGraphql)
+      },
+    })
+  },
+})
+
+export const DesignProofExtendsQuery = extendType({
+  type: 'Query',
+  definition(t) {
+    t.field('designProof', {
+      type: 'DesignProof',
+      args: {
+        id: nonNull('ID'),
+      },
+      resolve: async (_, args, ctx) => {
+        let designProof
+
+        try {
+          designProof = await ctx.design.getDesignProof({
+            designProofId: args.id,
+          })
+
+          if (!designProof) {
+            throw new Error('Design proof not found')
+          }
+        } catch (error) {
+          console.error(error)
+          throw new GraphQLError('Unable to fetch design proof')
+        }
+
+        return designProofFactoryToGraphql(designProof)
       },
     })
   },

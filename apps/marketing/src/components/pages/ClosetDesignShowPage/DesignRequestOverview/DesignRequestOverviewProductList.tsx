@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client'
 import ColorSwatch from '@components/common/ColorSwatch'
+import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/Card'
 import { DesignRequestOverviewProductListDesignRequestProductFragment } from '@generated/DesignRequestOverviewProductListDesignRequestProductFragment'
 import routes from '@lib/routes'
 import Link from 'next/link'
@@ -14,49 +15,51 @@ const DesignRequestOverviewProductList = ({ products }: Props) => {
     <div>
       {products.map(({ catalogProduct, colors }) => {
         return catalogProduct ? (
-          <div
-            key={catalogProduct.id}
-            className="rounded-md shadow-sm border border-gray-50 p-4"
-          >
-            <Link
-              target={'_blank'}
-              className="text-sm flex items-center justify-between gap-4"
-              href={
-                catalogProduct.brand?.slug
-                  ? routes.internal.catalog.product.href({
-                      brandSlug: catalogProduct.brand.slug,
-                      productSlug: catalogProduct.slug,
-                    })
-                  : '#'
-              }
-            >
-              <div>
-                <h3 className="font-semibold">{catalogProduct.name}</h3>
-                <p className="text-gray-400">{catalogProduct.brand?.name}</p>
-                {colors.length ? (
-                  <div className="mt-2 flex flex-wrap">
-                    {colors.map(color =>
-                      color.hexCode ? (
-                        <ColorSwatch
-                          key={color.hexCode}
-                          hexCode={color.hexCode}
-                          width="w-5"
-                          height="h-5"
-                        />
-                      ) : null,
-                    )}
-                  </div>
+          <Card key={catalogProduct.id}>
+            <CardHeader>
+              <CardTitle title="Products" />
+            </CardHeader>
+            <CardContent divide>
+              <Link
+                target={'_blank'}
+                className="text-sm flex items-center justify-between gap-4"
+                href={
+                  catalogProduct.brand?.slug
+                    ? routes.internal.catalog.product.href({
+                        brandSlug: catalogProduct.brand.slug,
+                        productSlug: catalogProduct.slug,
+                      })
+                    : '#'
+                }
+              >
+                <div>
+                  <h3 className="font-semibold">{catalogProduct.name}</h3>
+                  <p className="text-gray-400">{catalogProduct.brand?.name}</p>
+                  {colors.length ? (
+                    <div className="mt-2 flex flex-wrap">
+                      {colors.map(color =>
+                        color.hexCode ? (
+                          <ColorSwatch
+                            key={color.hexCode}
+                            hexCode={color.hexCode}
+                            width="w-5"
+                            height="h-5"
+                          />
+                        ) : null,
+                      )}
+                    </div>
+                  ) : null}
+                </div>
+                {catalogProduct.primaryImage?.url ? (
+                  <img
+                    className="aspect-square object-contain max-h-16"
+                    src={catalogProduct.primaryImage.url}
+                    alt={catalogProduct.name}
+                  />
                 ) : null}
-              </div>
-              {catalogProduct.primaryImage?.url ? (
-                <img
-                  className="aspect-square object-contain max-h-16"
-                  src={catalogProduct.primaryImage.url}
-                  alt={catalogProduct.name}
-                />
-              ) : null}
-            </Link>
-          </div>
+              </Link>
+            </CardContent>
+          </Card>
         ) : null
       })}
     </div>

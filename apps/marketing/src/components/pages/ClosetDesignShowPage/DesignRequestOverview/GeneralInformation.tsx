@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client'
 import { Button } from '@components/ui'
+import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/Card'
 import {
   DesignRequestSubmittedDesignRequestDesignRequestDraftFormFragment,
   DesignRequestSubmittedDesignRequestDesignRequestDraftFormFragment_designRequestLocations,
@@ -13,47 +14,49 @@ interface Props {
 
 const GeneralInformation = ({ designRequest }: Props) => {
   return (
-    <div className="flex flex-col gap-12 rounded-md border bg-gray-50">
-      <div className="flex flex-col gap-6 divide-y">
-        <div className="px-6 pt-6 flex flex-col gap-4">
-          {designRequest.description ? (
-            <Item label="Description" value={designRequest.description} />
-          ) : null}
+    <Card>
+      <CardHeader>
+        <CardTitle
+          title="Design request information"
+          subtitle="Overview and design locations."
+        />
+      </CardHeader>
+      <CardContent divide>
+        {designRequest.description ? (
+          <Item label="Description" value={designRequest.description} />
+        ) : null}
 
-          <Item
-            label="Use case"
-            value={
-              designRequest.useCase || (
-                <span className="text-gray-400 font-normal">-</span>
-              )
-            }
-          />
-        </div>
+        <Item
+          label="Use case"
+          value={
+            designRequest.useCase || (
+              <span className="text-gray-400 font-normal">-</span>
+            )
+          }
+        />
 
-        <div className="p-6">
-          {designRequest.designRequestLocations.length ? (
-            <>
-              <h2 className="text-sm font-semibold leading-7">
-                Design locations
-              </h2>
-              <div className="mt-2 flex flex-col divide-y">
-                {designRequest.designRequestLocations.map(location =>
-                  location.description?.length || location.files.length ? (
-                    <div key={location.id} className="py-2">
-                      <DesignLocation location={location} />
-                    </div>
-                  ) : null,
-                )}
-              </div>
-            </>
-          ) : (
-            <span className="text-gray-400 text-sm">
-              No design locations specified
-            </span>
-          )}
-        </div>
-      </div>
-    </div>
+        {designRequest.designRequestLocations.length ? (
+          <div>
+            <h2 className="text-sm font-medium leading-7 text-gray-500">
+              Design locations
+            </h2>
+            <div className="mt-2 flex flex-col divide-y border rounded-sm">
+              {designRequest.designRequestLocations.map(location =>
+                location.description?.length || location.files.length ? (
+                  <div key={location.id} className="py-2 px-3">
+                    <DesignLocation location={location} />
+                  </div>
+                ) : null,
+              )}
+            </div>
+          </div>
+        ) : (
+          <span className="text-gray-400 text-sm">
+            No design locations specified
+          </span>
+        )}
+      </CardContent>
+    </Card>
   )
 }
 
@@ -66,8 +69,8 @@ const Item = ({
 }) => {
   return (
     <div className="text-sm">
-      <div className="font-semibold">{label}</div>
-      <div className="font-medium text-gray-400">{value}</div>
+      <div className="font-medium text-gray-500">{label}</div>
+      <div className="font-medium text-gray-800">{value}</div>
     </div>
   )
 }

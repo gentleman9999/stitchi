@@ -20,7 +20,7 @@ const RichTextEditor = ({ placeholder, editorOptions }: Props) => {
     editorProps: {
       attributes: {
         class: cx(
-          'prose prose-sm sm:prose-base p-3 focus:ring-primary focus:border-primary focus:outline-primary rounded-md border shadow-sm',
+          'min-h-[100px] prose prose-sm p-3 focus:ring-primary focus:border-primary focus:outline-primary rounded-md border shadow-sm max-w-none',
         ),
       },
     },

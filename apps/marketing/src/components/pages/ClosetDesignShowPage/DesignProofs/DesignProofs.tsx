@@ -9,14 +9,17 @@ import {
   DesignProofsGetDataQuery,
   DesignProofsGetDataQueryVariables,
 } from '@generated/DesignProofsGetDataQuery'
+import routes from '@lib/routes'
 import React from 'react'
 import DesignProofCard from '../DesignProofCard'
+import DesignProofPreview from './DesignProofPreview'
 
 interface Props {
   designRequestId: string
+  designProofId?: string
 }
 
-const DesignProofs = ({ designRequestId }: Props) => {
+const DesignProofs = ({ designRequestId, designProofId }: Props) => {
   const { data } = useQuery<
     DesignProofsGetDataQuery,
     DesignProofsGetDataQueryVariables
@@ -27,44 +30,58 @@ const DesignProofs = ({ designRequestId }: Props) => {
   const { designRequest } = data || {}
 
   return (
-    <div className="relative">
-      {designRequest?.status === 'DRAFT' ? (
-        <BlurredComponent
-          message={
-            <Alert
-              severity="info"
-              description="Proofs are only available for design requests that have been submitted. Once submitted, come back here to view your design proofs."
-            />
-          }
-        />
-      ) : designRequest?.proofs.length === 0 ? (
-        <BlurredComponent
-          message={
-            <Alert
-              severity="info"
-              description="Check back here soon for your design proofs."
-            />
-          }
+    <>
+      {designProofId ? (
+        <DesignProofPreview
+          designProofId={designProofId}
+          designRequestId={designRequestId}
         />
       ) : null}
+      <div className="relative">
+        {designRequest?.status === 'DRAFT' ? (
+          <BlurredComponent
+            message={
+              <Alert
+                severity="info"
+                description="Proofs are only available for design requests that have been submitted. Once submitted, come back here to view your design proofs."
+              />
+            }
+          />
+        ) : designRequest?.proofs.length === 0 ? (
+          <BlurredComponent
+            message={
+              <Alert
+                severity="info"
+                description="Check back here soon for your design proofs."
+              />
+            }
+          />
+        ) : null}
 
-      <ClosetSection>
-        <ClosetSectionHeader>
-          <ClosetSectionTitle title="Proofs" />
-        </ClosetSectionHeader>
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {designRequest?.proofs.map((proof, index) => (
-            <DesignProofCard
-              designProof={proof}
-              key={proof.id}
-              badges={
-                index === 0 ? <Badge label="Latest" severity="default" /> : null
-              }
-            />
-          ))}
-        </div>
-      </ClosetSection>
-    </div>
+        <ClosetSection>
+          <ClosetSectionHeader>
+            <ClosetSectionTitle title="Proofs" />
+          </ClosetSectionHeader>
+          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+            {designRequest?.proofs.map((proof, index) => (
+              <DesignProofCard
+                designProof={proof}
+                key={proof.id}
+                badges={
+                  index === 0 ? (
+                    <Badge label="Latest" severity="default" />
+                  ) : null
+                }
+                href={routes.internal.closet.designs.show.proofs.show.href({
+                  designId: designRequestId,
+                  proofId: proof.id,
+                })}
+              />
+            ))}
+          </div>
+        </ClosetSection>
+      </div>
+    </>
   )
 }
 

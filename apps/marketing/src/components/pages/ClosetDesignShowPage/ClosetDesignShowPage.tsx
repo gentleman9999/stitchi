@@ -18,9 +18,10 @@ import DesignProofs from './DesignProofs'
 
 interface Props {
   designId: string
+  designProofId?: string
 }
 
-const ClosetDesignShowPage = ({ designId }: Props) => {
+const ClosetDesignShowPage = ({ designId, designProofId }: Props) => {
   const { data, loading } = useQuery<
     ClosetDesignShowPageGetDataQuery,
     ClosetDesignShowPageGetDataQueryVariables
@@ -82,7 +83,10 @@ const ClosetDesignShowPage = ({ designId }: Props) => {
                   ) : null}
 
                   {activeTab.id === 'proofs' ? (
-                    <DesignProofs designRequestId={designId} />
+                    <DesignProofs
+                      designRequestId={designId}
+                      designProofId={designProofId}
+                    />
                   ) : null}
                 </>
               ) : null}

@@ -796,6 +796,7 @@ input ProductPriceValue {
 
 type Query {
   _products(products: [ProductKey!]!): [Product]
+  designProof(id: ID!): DesignProof
   designRequest(id: ID!): DesignRequest
   order(id: ID!): Order
   userMemberships: [Membership!]!

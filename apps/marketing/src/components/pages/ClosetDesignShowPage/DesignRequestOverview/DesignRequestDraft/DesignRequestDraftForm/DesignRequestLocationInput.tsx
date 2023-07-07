@@ -28,41 +28,41 @@ const DesignRequestLocationInput = ({ form, autoSave }: Props) => {
     }
   })
 
-  console.log('LOCATIONS', controlledLocations)
-
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex gap-2 flex-wrap">
-        {controlledLocations.map((field, index) => {
-          const configured =
-            field.description.length > 0 || field.fileIds.length > 0
+      <InputGroup label="Choose a location">
+        <div className="flex gap-2 flex-wrap">
+          {controlledLocations.map((field, index) => {
+            const configured =
+              field.description.length > 0 || field.fileIds.length > 0
 
-          return (
-            <button
-              key={field.id}
-              onClick={() => setActiveIndex(index)}
-              className={cx(
-                'relative rounded-md p-4 flex items-center justify-between border gap-4',
-                {
-                  'ring-2 ring-primary border-primary': activeIndex === index,
-                },
-              )}
-            >
-              <span className="font-semibold text-sm whitespace-nowrap">
-                {field.placement}
-              </span>
-              <div
+            return (
+              <button
+                key={field.id}
+                onClick={() => setActiveIndex(index)}
                 className={cx(
-                  'rounded-full bg-primary p-0.5 flex items-center justify-center',
-                  { 'opacity-0': !configured && activeIndex !== index },
+                  'relative rounded-md p-4 flex items-center justify-between border gap-4',
+                  {
+                    'ring-2 ring-primary border-primary': activeIndex === index,
+                  },
                 )}
               >
-                <Check className="w-3 h-3 text-gray-700" strokeWidth={3} />
-              </div>
-            </button>
-          )
-        })}
-      </div>
+                <span className="font-semibold text-sm whitespace-nowrap">
+                  {field.placement}
+                </span>
+                <div
+                  className={cx(
+                    'rounded-full bg-primary p-0.5 flex items-center justify-center',
+                    { 'opacity-0': !configured },
+                  )}
+                >
+                  <Check className="w-3 h-3 text-gray-700" strokeWidth={3} />
+                </div>
+              </button>
+            )
+          })}
+        </div>
+      </InputGroup>
 
       {controlledLocations.map((locationField, index) => {
         return (
@@ -92,7 +92,7 @@ const DesignRequestLocationInput = ({ form, autoSave }: Props) => {
                     label={
                       <>
                         Describe your vision for the{' '}
-                        <u>{locationField.placement.toLowerCase()}</u> design:
+                        <u>{locationField.placement.toLowerCase()}</u> design
                       </>
                     }
                     error={fieldState.error?.message}

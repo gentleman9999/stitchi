@@ -1080,6 +1080,7 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     _products: Array<NexusGenRootTypes['Product'] | null> | null; // [Product]
+    designProof: NexusGenRootTypes['DesignProof'] | null; // DesignProof
     designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
     order: NexusGenRootTypes['Order'] | null; // Order
     userMemberships: NexusGenRootTypes['Membership'][]; // [Membership!]!
@@ -1559,6 +1560,7 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     _products: 'Product'
+    designProof: 'DesignProof'
     designRequest: 'DesignRequest'
     order: 'Order'
     userMemberships: 'Membership'
@@ -1710,6 +1712,9 @@ export interface NexusGenArgTypes {
   Query: {
     _products: { // args
       products: NexusGenInputs['ProductKey'][]; // [ProductKey!]!
+    }
+    designProof: { // args
+      id: string; // ID!
     }
     designRequest: { // args
       id: string; // ID!

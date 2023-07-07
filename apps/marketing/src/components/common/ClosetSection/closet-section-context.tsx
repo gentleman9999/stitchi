@@ -30,7 +30,7 @@ const ClosetSectionProvider = <T extends ID>({
 }: Props<T>) => {
   const router = useRouter()
 
-  const activeTab = tabs.find(tab => tab.href === router.asPath) || null
+  const activeTab = getLongestMatch(router.asPath, tabs)
 
   const handleSetActiveTab = React.useCallback(
     (id: ID) => {
@@ -60,6 +60,20 @@ const useClosetSectionContext = () => {
   }
 
   return context
+}
+
+const getLongestMatch = (href: string, tabs: Tab<ID>[]): Tab<ID> | null => {
+  let longestMatchLength = 0
+  let longestMatch: Tab<ID> | null = null
+
+  tabs.forEach(tab => {
+    if (href.includes(tab.href) && tab.href.length > longestMatchLength) {
+      longestMatch = tab
+      longestMatchLength = tab.href.length
+    }
+  })
+
+  return longestMatch
 }
 
 export { useClosetSectionContext, ClosetSectionProvider }

@@ -9,11 +9,21 @@ const Page = () => {
 
   const designId = typeof query.designId === 'string' ? query.designId : null
 
+  let designProofId
+
+  const { designTab } = query
+
+  if (Array.isArray(designTab) && designTab[0] === 'proofs') {
+    designProofId = designTab[1]
+  }
+
   if (!designId) {
     return null
   }
 
-  return <ClosetDesignShowPage designId={designId} />
+  return (
+    <ClosetDesignShowPage designId={designId} designProofId={designProofId} />
+  )
 }
 
 Page.getLayout = (page: React.ReactElement) => {
