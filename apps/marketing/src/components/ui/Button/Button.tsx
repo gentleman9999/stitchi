@@ -27,6 +27,9 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   bold?: boolean
 }
 
+/**
+ * @deprecated Use ButtonV2 instead
+ */
 const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
   const {
     className,

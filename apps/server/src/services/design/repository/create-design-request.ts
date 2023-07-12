@@ -175,6 +175,7 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
           designRequestFiles: true,
           designRequestArtists: true,
           designRequestDesignProofs: true,
+          designRequestApprovedDesignProofs: true,
           designLocations: {
             include: {
               designRequestDesignLocationFiles: true,
@@ -204,6 +205,7 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
       artists: designRequest.designRequestArtists,
       files: designRequest.designRequestFiles,
       proofs: designRequest.designRequestDesignProofs,
+      approvedProofs: designRequest.designRequestApprovedDesignProofs,
       revisions: designRequest.designRequestRevisions.map(revision => ({
         ...revision,
         files: revision.designRequestRevisionFiles,

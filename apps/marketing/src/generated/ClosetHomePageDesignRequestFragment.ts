@@ -13,7 +13,7 @@ export interface ClosetHomePageDesignRequestFragment {
   __typename: "DesignRequest";
   id: string;
   name: string;
-  createdAt: any;
+  updatedAt: any | null;
   status: DesignRequestStatus;
   humanizedStatus: string;
 }

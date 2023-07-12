@@ -4,8 +4,8 @@ import TableFilter from '../TableFilter'
 import DateFilter, { Equality, DateFilterValue } from './DateFilter'
 
 export interface Props {
-  label?: string
   value: DateFilterValue | null
+  label?: string
   onChange: (values: DateFilterValue | null) => Promise<void> | void
 }
 

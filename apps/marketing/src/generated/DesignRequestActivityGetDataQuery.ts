@@ -9,36 +9,6 @@ import { DesignRequestStatus, DesignRequestHistoryItemDesignRequestEventMethod }
 // GraphQL query operation: DesignRequestActivityGetDataQuery
 // ====================================================
 
-export interface DesignRequestActivityGetDataQuery_designRequest_latestProofs_files_FileUnknown {
-  __typename: "FileUnknown" | "FilePdf";
-  id: string;
-}
-
-export interface DesignRequestActivityGetDataQuery_designRequest_latestProofs_files_FileImage {
-  __typename: "FileImage";
-  id: string;
-  url: string;
-  width: number;
-  height: number;
-}
-
-export type DesignRequestActivityGetDataQuery_designRequest_latestProofs_files = DesignRequestActivityGetDataQuery_designRequest_latestProofs_files_FileUnknown | DesignRequestActivityGetDataQuery_designRequest_latestProofs_files_FileImage;
-
-export interface DesignRequestActivityGetDataQuery_designRequest_latestProofs_artist {
-  __typename: "User";
-  id: string | null;
-  name: string | null;
-}
-
-export interface DesignRequestActivityGetDataQuery_designRequest_latestProofs {
-  __typename: "DesignProof";
-  id: string;
-  createdAt: any;
-  note: string | null;
-  files: DesignRequestActivityGetDataQuery_designRequest_latestProofs_files[];
-  artist: DesignRequestActivityGetDataQuery_designRequest_latestProofs_artist | null;
-}
-
 export interface DesignRequestActivityGetDataQuery_designRequest_history_ConversationMessage_files_FileUnknown {
   __typename: "FileUnknown" | "FilePdf";
   id: string;
@@ -159,7 +129,6 @@ export interface DesignRequestActivityGetDataQuery_designRequest {
   __typename: "DesignRequest";
   id: string;
   status: DesignRequestStatus;
-  latestProofs: DesignRequestActivityGetDataQuery_designRequest_latestProofs[];
   history: DesignRequestActivityGetDataQuery_designRequest_history[];
   fileUploadDirectory: string;
   user: DesignRequestActivityGetDataQuery_designRequest_user | null;

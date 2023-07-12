@@ -1,4 +1,5 @@
 import { enumType, objectType, unionType } from 'nexus'
+import { FileType } from '../../../services/file/db/file'
 
 export const DesignRequestHistoryItemDesignRequestEventMethod = enumType({
   name: 'DesignRequestHistoryItemDesignRequestEventMethod',
@@ -98,5 +99,9 @@ export const DesignRequest = objectType({
 
     t.nonNull.DateTime('createdAt')
     t.nullable.DateTime('updatedAt')
+
+    t.nullable.field('previewImage', {
+      type: 'FileImage',
+    })
   },
 })

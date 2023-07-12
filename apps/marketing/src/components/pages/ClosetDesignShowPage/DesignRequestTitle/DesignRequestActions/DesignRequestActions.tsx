@@ -24,13 +24,22 @@ const DesignRequestActions = ({ designRequest }: Props) => {
 
   const { can, loading } = useAuthorizedComponent()
 
-  const actions: ClosetPageActionType[] = []
+  const actions: ClosetPageActionType[] = [
+    {
+      label: 'Duplicate',
+      onClick: () => {},
+    },
+    {
+      label: 'Archive',
+      onClick: () => {},
+    },
+  ]
 
   switch (designRequest.status) {
     case DesignRequestStatus.DRAFT: {
       actions.push({
         primary: true,
-        label: 'Submit design request',
+        label: 'Request design',
         loading: submitting,
         onClick: handleSubmitDesignRequest,
       })

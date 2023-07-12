@@ -1,4 +1,5 @@
 import { Prisma } from '@prisma/client'
+import { DesignRequestApprovedDesignProofRecord } from '../db/design-request-approved-design-proof-table'
 import { DesignRequestArtistRecord } from '../db/design-request-artist-table'
 import { DesignRequestDesignLocationFileRecord } from '../db/design-request-design-location-file-table'
 import { DesignRequestDesignLocationRecord } from '../db/design-request-design-location-table'
@@ -12,6 +13,9 @@ import {
   DesignRequestMetadata,
   DesignRequestRecord,
 } from '../db/design-request-table'
+
+interface DesignRequestApprovedDesignProof
+  extends DesignRequestApprovedDesignProofRecord {}
 
 interface DesignRequestProductColor extends DesignRequestProductColorRecord {}
 
@@ -45,6 +49,7 @@ export interface DesignFactoryDesignRequest extends DesignRequestRecord {
   designLocations: DesignFactoryDesignRequestDesignLocation[]
   artists: DesignRequestArtist[]
   proofs: DesignRequestDesignProof[]
+  approvedProofs: DesignRequestApprovedDesignProof[]
   revisionRequests: DesignRequestRevisionRequest[]
   products: DesignRequestProduct[]
 }
@@ -55,12 +60,14 @@ const designRequestFactory = ({
   designLocations,
   artists,
   proofs,
+  approvedProofs,
   revisions,
   products,
 }: {
   files: DesignRequestFileRecord[]
   artists: DesignRequestArtistRecord[]
   proofs: DesignRequestDesignProofRecord[]
+  approvedProofs: DesignRequestApprovedDesignProofRecord[]
   designRequest: Omit<DesignRequestRecord, 'metadata'> & {
     metadata: Prisma.JsonValue
   }
@@ -79,8 +86,10 @@ const designRequestFactory = ({
     files,
     artists,
     proofs,
+    approvedProofs,
     designLocations,
     products,
+
     id: designRequest.id,
     userId: designRequest.userId,
     organizationId: designRequest.organizationId,

@@ -31,6 +31,7 @@ const makeGetDesignRequest: MakeGetDesignRequestFn =
         designRequestFiles: true,
         designRequestArtists: true,
         designRequestDesignProofs: true,
+        designRequestApprovedDesignProofs: true,
         designLocations: {
           include: {
             designRequestDesignLocationFiles: true,
@@ -58,6 +59,7 @@ const makeGetDesignRequest: MakeGetDesignRequestFn =
       artists: designRequest.designRequestArtists,
       files: designRequest.designRequestFiles,
       proofs: designRequest.designRequestDesignProofs,
+      approvedProofs: designRequest.designRequestApprovedDesignProofs,
       designLocations: designRequest.designLocations.map(location => ({
         ...location,
         files: location.designRequestDesignLocationFiles,

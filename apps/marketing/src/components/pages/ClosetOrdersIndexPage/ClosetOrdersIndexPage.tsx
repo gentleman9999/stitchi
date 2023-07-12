@@ -85,7 +85,7 @@ const ClosetOrdersIndexPage = (props: Props) => {
             <ClosetPageActions
               actions={[
                 {
-                  label: 'Create',
+                  label: 'New order',
                   primary: true,
                   href: routes.internal.catalog.href(),
                 },

@@ -1,13 +1,11 @@
 import ClosetPageTitle from '@components/common/ClosetPageTitle'
 import React from 'react'
-import cx from 'classnames'
-import { LoadingDots } from '@components/ui'
-import { Check } from 'icons'
 import DesignRequestEditableName from './DesignRequestEditableName'
 import DesignRequestActions from './DesignRequestActions'
 import { useDesignContext } from '../design-context'
 import { gql } from '@apollo/client'
 import { DesignRequestTitleDesignRequesetFragment } from '@generated/DesignRequestTitleDesignRequesetFragment'
+import SaveStateIndicator from '@components/common/SaveStateIndicator'
 
 interface Props {
   loading: boolean
@@ -26,28 +24,7 @@ const DesignRequestTitle = ({ loading, designRequest }: Props) => {
       }
       title={
         <>
-          <div
-            className={cx(
-              'text-xs inline-flex items-center gap-1 px-1 border rounded-full text-gray-400',
-              {
-                'pr-0.5': !saving,
-              },
-            )}
-          >
-            {saving ? (
-              <>
-                Saving <LoadingDots dotClassName="!w-0.5 !h-0.5" />
-              </>
-            ) : (
-              <>
-                Saved{' '}
-                <Check
-                  className="w-3 h-3 bg-primary rounded-full p-0.5"
-                  strokeWidth={3}
-                />
-              </>
-            )}
-          </div>
+          {/* <SaveStateIndicator saving={saving} /> */}
 
           <DesignRequestEditableName
             name={designRequest?.name}

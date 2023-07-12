@@ -2,6 +2,7 @@ import TableFilterDate, {
   TableFilterDateProps,
 } from '@components/ui/Table/TableFilterDate'
 import TableFilters from '@components/ui/Table/TableFilters'
+import TableFilterUser from '@components/ui/Table/TableFilterUser'
 import React from 'react'
 
 interface Filters {
@@ -23,7 +24,8 @@ const ClosetFilters = ({ onChange }: Props) => {
 
   return (
     <TableFilters>
-      <TableFilterDate label="Date" value={date} onChange={setDate} />
+      <TableFilterUser label="Owner" value={null} onChange={() => {}} />
+      <TableFilterDate label="Date modified" value={date} onChange={setDate} />
     </TableFilters>
   )
 }

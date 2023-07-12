@@ -10,6 +10,8 @@ import Skeleton from 'react-loading-skeleton'
 import { LoadingDots } from '@components/ui'
 import { useRouter } from 'next/router'
 import routes from '@lib/routes'
+import { format, parseISO } from 'date-fns'
+import UserBadge from '@components/common/UserBadge'
 
 interface Props {
   designRequestId: string
@@ -25,8 +27,10 @@ const DesignProofPreview = ({ designRequestId, designProofId }: Props) => {
 
   const { designProof } = data || {}
 
+  const { artist, files } = designProof || {}
+
   const images =
-    designProof?.files.filter(
+    files?.filter(
       (
         file,
       ): file is DesignProofPreviewGetDataQuery_designProof_files_FileImage =>
@@ -52,7 +56,18 @@ const DesignProofPreview = ({ designRequestId, designProofId }: Props) => {
               <Gallery images={images} loading={loading} />
             </div>
             <div className="col-span-12 md:col-span-5">
-              <div className="p-6">{designProof?.id}</div>
+              <div className="p-6">
+                <p className="">
+                  <span>
+                    <UserBadge />
+                  </span>
+                  {designProof ? (
+                    format(parseISO(designProof.createdAt), 'PPPp')
+                  ) : (
+                    <Skeleton />
+                  )}
+                </p>
+              </div>
             </div>
           </div>
         </Dialog.Content>
@@ -130,6 +145,12 @@ const GET_DATA = gql`
     designProof(id: $designProofId) {
       id
       note
+      createdAt
+      artist {
+        id
+        name
+        picture
+      }
       files {
         id
         ... on FileImage {

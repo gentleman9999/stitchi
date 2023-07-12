@@ -385,11 +385,12 @@ model DesignRequest {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  designRequestFiles        DesignRequestFile[]
-  designRequestArtists      DesignRequestArtist[]
-  designRequestDesignProofs DesignRequestDesignProof[]
-  designRequestRevisions    DesignRequestRevision[]
-  designRequestProducts     DesignRequestProduct[]
+  designRequestFiles                DesignRequestFile[]
+  designRequestArtists              DesignRequestArtist[]
+  designRequestDesignProofs         DesignRequestDesignProof[]
+  designRequestApprovedDesignProofs DesignRequestApprovedDesignProof[]
+  designRequestRevisions            DesignRequestRevision[]
+  designRequestProducts             DesignRequestProduct[]
 }
 
 model DesignRequestArtist {
@@ -514,6 +515,24 @@ model DesignRequestDesignProof {
   @@index([designProofId])
 }
 
+model DesignRequestApprovedDesignProof {
+  id String @id @default(uuid())
+
+  designRequestId String
+  designProofId   String
+  userId          String
+
+  termsConditionsAgreed Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  designRequest DesignRequest @relation(fields: [designRequestId], references: [id])
+  designProof   DesignProof   @relation(fields: [designProofId], references: [id])
+
+  @@index([designRequestId])
+  @@index([designProofId])
+}
+
 model DesignRequestProduct {
   id String @id @default(uuid())
 
@@ -560,9 +579,10 @@ model DesignProof {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  designProofLocations      DesignProofLocation[]
-  designProofFiles          DesignProofFile[]
-  designRequestDesignProofs DesignRequestDesignProof[]
+  designProofLocations              DesignProofLocation[]
+  designProofFiles                  DesignProofFile[]
+  designRequestDesignProofs         DesignRequestDesignProof[]
+  designRequestApprovedDesignProofs DesignRequestApprovedDesignProof[]
 }
 
 model DesignProofLocation {

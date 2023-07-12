@@ -13,7 +13,6 @@ import ClosetSectionHeaderTabs from '@components/common/ClosetSectionHeaderTabs'
 import ClosetSection from '@components/common/ClosetSection'
 import routes from '@lib/routes'
 import DesignRequestOverview from './DesignRequestOverview'
-import DesignRequestActivity from './DesignRequestActivity'
 import DesignProofs from './DesignProofs'
 
 interface Props {
@@ -45,13 +44,7 @@ const ClosetDesignShowPage = ({ designId, designProofId }: Props) => {
               }),
               label: 'Overview',
             },
-            {
-              id: 'activity',
-              href: routes.internal.closet.designs.show.activity.href({
-                designId: designId,
-              }),
-              label: 'Activity',
-            },
+
             {
               id: 'proofs',
               href: routes.internal.closet.designs.show.proofs.href({
@@ -59,11 +52,6 @@ const ClosetDesignShowPage = ({ designId, designProofId }: Props) => {
               }),
               label: 'Proofs',
             },
-            // {
-            //   id: 'order-history',
-            //   href: '#',
-            //   label: 'Order History',
-            // },
           ]}
         >
           {({ activeTab }) => (
@@ -76,10 +64,6 @@ const ClosetDesignShowPage = ({ designId, designProofId }: Props) => {
                 <>
                   {activeTab.id === 'overview' ? (
                     <DesignRequestOverview designRequestId={designId} />
-                  ) : null}
-
-                  {activeTab.id === 'activity' ? (
-                    <DesignRequestActivity designRequestId={designId} />
                   ) : null}
 
                   {activeTab.id === 'proofs' ? (

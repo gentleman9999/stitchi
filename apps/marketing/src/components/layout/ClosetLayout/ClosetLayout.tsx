@@ -29,6 +29,10 @@ const ClosetLayout = (props: Props) => {
                     href: routes.internal.closet.orders.href(),
                     label: 'Orders',
                   },
+                  {
+                    href: '',
+                    label: 'Brand Hub',
+                  },
                 ].map(link => (
                   <li key={link.href}>
                     <Link

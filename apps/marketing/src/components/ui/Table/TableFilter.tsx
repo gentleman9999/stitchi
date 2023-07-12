@@ -46,7 +46,7 @@ const TableFilter = ({ renderFilter, value, label, onRemove }: Props) => {
           sideOffset={8}
           side="bottom"
           align="start"
-          className="p-2 bg-paper rounded-md border shadow-magical min-w-[320px]"
+          className="p-3 bg-paper rounded-md border shadow-magical min-w-[320px]"
         >
           {renderFilter({ onClose: () => setOpen(false) })}
         </Popover.Content>

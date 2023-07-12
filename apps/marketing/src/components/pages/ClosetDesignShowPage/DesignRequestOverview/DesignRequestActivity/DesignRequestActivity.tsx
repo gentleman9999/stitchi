@@ -13,7 +13,6 @@ import {
   DesignRequestActivityGetDataQueryVariables,
 } from '@generated/DesignRequestActivityGetDataQuery'
 import React from 'react'
-import DesignProofCard from '../DesignProofCard'
 import DesignRequestHistory from './DesignRequestHistory'
 import DesignRequestMessageInput from './DesignRequestMessageInput'
 
@@ -51,8 +50,6 @@ const DesignRequestActivity = ({ designRequestId }: Props) => {
 
   const { designRequest } = data || {}
 
-  const latestProof = designRequest?.latestProofs[0]
-
   return (
     <div className="relative">
       {designRequest?.status === 'DRAFT' ? (
@@ -65,7 +62,7 @@ const DesignRequestActivity = ({ designRequestId }: Props) => {
           }
         />
       ) : null}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
+      <div>
         <div className="col-span-1 md:col-span-8">
           <ClosetSection>
             <ClosetSectionHeader>
@@ -83,19 +80,6 @@ const DesignRequestActivity = ({ designRequestId }: Props) => {
               />
             </div>
           </ClosetSection>
-        </div>
-
-        <div className="col-span-1 md:col-span-4 flex flex-col gap-8">
-          <div className="sticky top-10">
-            <h2 className="text-lg font-semibold leading-6 mb-2 text-center text-gray-700">
-              Latest proof
-            </h2>
-            {latestProof ? (
-              <DesignProofCard designProof={latestProof} />
-            ) : (
-              <p>Once a proof has been submitted it will appear hear.</p>
-            )}
-          </div>
         </div>
       </div>
     </div>
@@ -115,15 +99,10 @@ const ACTIVITY_SUBSCRIPTION = gql`
 const GET_DATA = gql`
   ${DesignRequestHistory.fragments.designRequest}
   ${DesignRequestMessageInput.fragments.designRequest}
-  ${DesignProofCard.fragments.designProof}
   query DesignRequestActivityGetDataQuery($designRequestId: ID!) {
     designRequest(id: $designRequestId) {
       id
       status
-      latestProofs: proofs(limit: 1) {
-        id
-        ...DesignProofCardDesignProofFragment
-      }
       ...DesignRequestHistoryDesignRequestFragment
       ...DesignRequestMessageInputDesignRequestFragment
     }

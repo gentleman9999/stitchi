@@ -37,6 +37,7 @@ const DesignProofs = ({ designRequestId, designProofId }: Props) => {
           designRequestId={designRequestId}
         />
       ) : null}
+
       <div className="relative">
         {designRequest?.status === 'DRAFT' ? (
           <BlurredComponent

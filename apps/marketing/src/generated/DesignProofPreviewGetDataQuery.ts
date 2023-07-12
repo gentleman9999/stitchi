@@ -7,6 +7,13 @@
 // GraphQL query operation: DesignProofPreviewGetDataQuery
 // ====================================================
 
+export interface DesignProofPreviewGetDataQuery_designProof_artist {
+  __typename: "User";
+  id: string | null;
+  name: string | null;
+  picture: string | null;
+}
+
 export interface DesignProofPreviewGetDataQuery_designProof_files_FileUnknown {
   __typename: "FileUnknown" | "FilePdf";
   id: string;
@@ -26,6 +33,8 @@ export interface DesignProofPreviewGetDataQuery_designProof {
   __typename: "DesignProof";
   id: string;
   note: string | null;
+  createdAt: any;
+  artist: DesignProofPreviewGetDataQuery_designProof_artist | null;
   files: DesignProofPreviewGetDataQuery_designProof_files[];
 }
 

@@ -12,6 +12,8 @@ import { LoadingDots } from '@components/ui'
 import GeneralInformation from './GeneralInformation'
 import ClosetSection from '@components/common/ClosetSection'
 import { Card, CardContent } from '@components/ui/Card'
+import DesignRequestActivity from './DesignRequestActivity'
+import DesignRequestFeaturedProof from './DesignRequestFeaturedProof'
 
 interface Props {
   designRequestId: string
@@ -34,23 +36,19 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
   }
 
   return (
-    <div className="grid grid-cols-12 gap-8">
+    <div className="grid grid-cols-12 gap-12">
       <div className="col-span-12 md:col-span-8">
-        {designRequest && designRequest.status !== 'DRAFT' ? (
+        <DesignRequestFeaturedProof designRequestId={designRequestId} />
+
+        {designRequest?.status === 'DRAFT' ? (
           <ClosetSection>
-            <GeneralInformation designRequest={designRequest} />
+            <DesignRequestDraft designRequest={designRequest} />
           </ClosetSection>
         ) : null}
 
-        {designRequest?.status === 'DRAFT' ? (
-          <DesignRequestDraft designRequest={designRequest} />
-        ) : null}
-
-        {designRequestProducts.length ? (
+        {designRequest && designRequest.status !== 'DRAFT' ? (
           <ClosetSection>
-            <DesignRequestOverviewProductList
-              products={designRequestProducts}
-            />
+            <DesignRequestActivity designRequestId={designRequest.id} />
           </ClosetSection>
         ) : null}
 
@@ -61,8 +59,24 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
         ) : null}
       </div>
 
-      <div className="col-span-12 md:col-span-4 flex flex-col gap-8">
-        <Progress loading={loading} status={designRequest?.status} />
+      <div className="col-span-12 md:col-span-4 flex flex-col">
+        <ClosetSection>
+          <Progress loading={loading} status={designRequest?.status} />
+        </ClosetSection>
+
+        {designRequest && designRequest.status !== 'DRAFT' ? (
+          <ClosetSection>
+            <GeneralInformation designRequest={designRequest} />
+          </ClosetSection>
+        ) : null}
+
+        {designRequestProducts.length ? (
+          <ClosetSection>
+            <DesignRequestOverviewProductList
+              products={designRequestProducts}
+            />
+          </ClosetSection>
+        ) : null}
       </div>
     </div>
   )

@@ -11,6 +11,7 @@ import ClosetSectionTitle from '@components/common/ClosetSectionTitle'
 import ReferenceFilesInput from '../../../ReferenceFilesInput/ReferenceFilesInput'
 import DesignRequestLocationInput from './DesignRequestLocationInput'
 import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/Card'
+import SaveStateIndicator from '@components/common/SaveStateIndicator'
 
 const locationSchema = yup.object().shape({
   id: yup.string().nullable(),

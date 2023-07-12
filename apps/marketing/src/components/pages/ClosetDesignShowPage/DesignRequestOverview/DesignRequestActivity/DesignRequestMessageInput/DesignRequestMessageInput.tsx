@@ -11,6 +11,7 @@ import cx from 'classnames'
 import useDesignRequestMessageInput from './useDesignRequestMessageInput'
 import { useAuthorizedComponent } from '@lib/auth'
 import { ScopeAction, ScopeResource } from '@generated/globalTypes'
+import Button from '@components/ui/ButtonV2/Button'
 
 interface Props {
   loading: boolean
@@ -188,27 +189,14 @@ const Form = ({
               </div>
             )}
           />
-          <button
+          <Button
+            variant="ghost"
             disabled={loading}
             type="submit"
-            className="relative rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+            loading={submitting || loading}
           >
-            <div
-              className={cx(
-                'absolute inset-0 items-center justify-center flex opacity-0',
-                { 'opacity-100': submitting || loading },
-              )}
-            >
-              <LoadingDots />
-            </div>
-            <div
-              className={cx({
-                'opacity-0': submitting || loading,
-              })}
-            >
-              {isRevisionRequest ? 'Request revision' : 'Comment'}
-            </div>
-          </button>
+            {isRevisionRequest ? 'Request revision' : 'Comment'}
+          </Button>
         </div>
       </div>
     </form>

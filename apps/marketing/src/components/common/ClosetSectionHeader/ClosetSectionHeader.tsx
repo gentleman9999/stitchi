@@ -9,7 +9,7 @@ interface Props {
 const ClosetSectionHeader = ({ children, divider }: Props) => {
   return (
     <div
-      className={cx('mb-8', {
+      className={cx('mb-12', {
         'border-b': Boolean(divider),
       })}
     >

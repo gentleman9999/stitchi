@@ -96,6 +96,7 @@ type DesignRequest {
   humanizedStatus: String!
   id: ID!
   name: String!
+  previewImage: FileImage
   proofs(limit: Int): [DesignProof!]!
   status: DesignRequestStatus!
   updatedAt: DateTime

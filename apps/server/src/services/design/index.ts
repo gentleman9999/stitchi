@@ -4,7 +4,11 @@ import {
   DesignTable,
   table as makeDesignTable,
 } from './db/design-table'
-import { designFactory, DesignFactoryDesign } from './factory'
+import {
+  designFactory,
+  DesignFactoryDesign,
+  DesignFactoryDesignRequest,
+} from './factory'
 import * as yup from 'yup'
 import { DesignLocation } from './db/design-location-table'
 import makeDesignRepository, { DesignRepository } from './repository'
@@ -13,6 +17,7 @@ import {
   ConversationService,
   makeClient as makeConversationServiceClient,
 } from '../conversation'
+import { UpdateDesignRequestFnInput } from './repository/update-design-request'
 
 const designSchema = Design.omit(['id', 'createdAt', 'updatedAt']).concat(
   yup.object().shape({
@@ -45,9 +50,20 @@ export interface DesignService {
       'conversationId'
     >
   }): ReturnType<DesignRepository['createDesignRequest']>
-  updateDesignRequest: DesignRepository['updateDesignRequest']
+  updateDesignRequest(input: {
+    designRequest: Omit<
+      UpdateDesignRequestFnInput['designRequest'],
+      'approvedProof'
+    >
+  }): ReturnType<DesignRepository['updateDesignRequest']>
+
   getDesignRequest: DesignRepository['getDesignRequest']
   listDesignRequests: DesignRepository['listDesignRequests']
+
+  // approveDesignRequest(input: {
+  //   designRequestId: string
+  //   designProofId: string
+  // }): Promise<DesignFactoryDesignRequest>
 
   createDesignProof: DesignRepository['createDesignProof']
   getDesignProof: DesignRepository['getDesignProof']
@@ -146,7 +162,12 @@ const makeClient: MakeClientFn = (
 
     updateDesignRequest: async input => {
       try {
-        return designRepository.updateDesignRequest(input)
+        return designRepository.updateDesignRequest({
+          designRequest: {
+            ...input.designRequest,
+            approvedProof: null,
+          },
+        })
       } catch (error) {
         console.error(error)
         throw new Error('Failed to update design request')

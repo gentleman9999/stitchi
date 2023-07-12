@@ -321,6 +321,7 @@ export interface NexusGenObjects {
     humanizedStatus: string; // String!
     id: string; // ID!
     name: string; // String!
+    previewImage?: NexusGenRootTypes['FileImage'] | null; // FileImage
     status: NexusGenEnums['DesignRequestStatus']; // DesignRequestStatus!
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     useCase?: string | null; // String
@@ -742,6 +743,7 @@ export interface NexusGenFieldTypes {
     humanizedStatus: string; // String!
     id: string; // ID!
     name: string; // String!
+    previewImage: NexusGenRootTypes['FileImage'] | null; // FileImage
     proofs: NexusGenRootTypes['DesignProof'][]; // [DesignProof!]!
     status: NexusGenEnums['DesignRequestStatus']; // DesignRequestStatus!
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
@@ -1222,6 +1224,7 @@ export interface NexusGenFieldTypeNames {
     humanizedStatus: 'String'
     id: 'ID'
     name: 'String'
+    previewImage: 'FileImage'
     proofs: 'DesignProof'
     status: 'DesignRequestStatus'
     updatedAt: 'DateTime'

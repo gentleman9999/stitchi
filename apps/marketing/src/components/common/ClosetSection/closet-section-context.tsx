@@ -13,6 +13,7 @@ interface State<T extends ID> {
   activeTab: Tab<T> | null
   tabs: Tab<T>[]
   setActiveTab: (id: T) => void
+  loading: boolean
 }
 
 const ClosetSectionContext = React.createContext<State<ID> | undefined>(
@@ -22,11 +23,13 @@ const ClosetSectionContext = React.createContext<State<ID> | undefined>(
 interface Props<T extends ID> {
   children: React.ReactNode
   tabs?: Tab<T>[]
+  loading?: boolean
 }
 
 const ClosetSectionProvider = <T extends ID>({
   children,
   tabs = [],
+  loading = false,
 }: Props<T>) => {
   const router = useRouter()
 
@@ -44,7 +47,7 @@ const ClosetSectionProvider = <T extends ID>({
 
   return (
     <ClosetSectionContext.Provider
-      value={{ tabs, activeTab, setActiveTab: handleSetActiveTab }}
+      value={{ tabs, activeTab, setActiveTab: handleSetActiveTab, loading }}
     >
       {children}
     </ClosetSectionContext.Provider>

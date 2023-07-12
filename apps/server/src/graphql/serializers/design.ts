@@ -38,6 +38,10 @@ export const designRequestFactoryToGrahpql = (
     humanizedStatus: humanizedStatus(designRequest.status),
 
     useCase: designRequest.metadata?.useCase,
+
+    // TODO(everest): Implement support for preview images
+    previewImage: null,
+
     designProofIds: designRequest.proofs.map(proof => proof.designProofId),
 
     designRequestLocationIds: designRequest.designLocations.map(

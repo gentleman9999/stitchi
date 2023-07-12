@@ -16,6 +16,7 @@ import { DesignRequestRevision } from '../db/design-request-revision-table'
 import { DesignRequestRevisionFile } from '../db/design-request-revision-file-table'
 import { DesignRequestProduct } from '../db/design-request-product-table'
 import { DesignRequestProductColor } from '../db/design-request-product-color-table'
+import { DesignRequestApprovedDesignProof } from '../db/design-request-approved-design-proof-table'
 
 const productInputSchema = DesignRequestProduct.omit([
   'id',
@@ -79,6 +80,17 @@ const proofsInputSchema = yup.array().of(
     .required(),
 )
 
+const approvedProofInputSchema = DesignRequestApprovedDesignProof.omit([
+  'id',
+  'createdAt',
+  'designRequestId',
+]).concat(
+  yup.object().shape({
+    // If ID, update, otherwise create
+    id: yup.string().uuid().optional(),
+  }),
+)
+
 const designLocationFilesInputSchema = yup.array().of(
   DesignRequestDesignLocationFile.omit(['id', 'designRequestDesignLocationId'])
     .concat(
@@ -130,6 +142,7 @@ const inputSchema = DesignRequest.omit(['createdAt', 'updatedAt']).concat(
     .shape({
       artists: yup.array().of(artistInputSchema.required()).required(),
       proofs: proofsInputSchema.required(),
+      approvedProof: approvedProofInputSchema.optional().nullable(),
       files: designRequestFilesInputSchema.required(),
       revisionRequests: yup
         .array()
@@ -184,6 +197,7 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
           designRequestFiles: true,
           designRequestArtists: true,
           designRequestDesignProofs: true,
+          designRequestApprovedDesignProofs: true,
           designLocations: {
             include: {
               designRequestDesignLocationFiles: true,
@@ -236,6 +250,11 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
         ({ id }) => !validInput.proofs?.some(proof => proof.id === id),
       )
 
+    // The list of approved proofs is immutable (can't be updated), we can only append new ones
+    const approvedProofToCreate = validInput.approvedProof?.id
+      ? null
+      : validInput.approvedProof
+
     const revisionRequestsToCreate = validInput.revisionRequests.filter(
       ({ id }) => !id,
     )
@@ -277,6 +296,16 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
             delete: proofsToDelete?.map(({ id }) => ({
               id,
             })),
+          },
+          designRequestApprovedDesignProofs: {
+            create: approvedProofToCreate
+              ? {
+                  userId: approvedProofToCreate.userId,
+                  designProofId: approvedProofToCreate.designProofId,
+                  termsConditionsAgreed:
+                    approvedProofToCreate.termsConditionsAgreed,
+                }
+              : undefined,
           },
           designRequestFiles: {
             create: filesToCreate.map(({ fileId }) => ({
@@ -422,6 +451,7 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
           designRequestFiles: true,
           designRequestArtists: true,
           designRequestDesignProofs: true,
+          designRequestApprovedDesignProofs: true,
           designLocations: {
             include: {
               designRequestDesignLocationFiles: true,
@@ -451,6 +481,7 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
       artists: existingDesignRequest.designRequestArtists,
       files: existingDesignRequest.designRequestFiles,
       proofs: existingDesignRequest.designRequestDesignProofs,
+      approvedProofs: existingDesignRequest.designRequestApprovedDesignProofs,
       designLocations: existingDesignRequest.designLocations.map(location => ({
         ...location,
         files: location.designRequestDesignLocationFiles,
@@ -470,6 +501,7 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
       artists: designRequest.designRequestArtists,
       files: designRequest.designRequestFiles,
       proofs: designRequest.designRequestDesignProofs,
+      approvedProofs: designRequest.designRequestApprovedDesignProofs,
       designLocations: designRequest.designLocations.map(location => ({
         ...location,
         files: location.designRequestDesignLocationFiles,

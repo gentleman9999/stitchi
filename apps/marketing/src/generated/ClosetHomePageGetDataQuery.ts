@@ -13,7 +13,7 @@ export interface ClosetHomePageGetDataQuery_viewer_designRequests_edges_node {
   __typename: "DesignRequest";
   id: string;
   name: string;
-  createdAt: any;
+  updatedAt: any | null;
   status: DesignRequestStatus;
   humanizedStatus: string;
 }

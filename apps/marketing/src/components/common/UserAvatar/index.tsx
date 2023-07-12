@@ -4,7 +4,7 @@ import { User } from 'icons'
 import React from 'react'
 
 interface Props {
-  user?: UserAvatarUserFragment | null
+  user?: Omit<UserAvatarUserFragment, '__typename' | 'id'> | null
   width?: string
   height?: string
 }
