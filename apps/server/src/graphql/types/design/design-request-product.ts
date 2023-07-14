@@ -5,7 +5,7 @@ export const DesignRequestProductColors = objectType({
   definition(t) {
     t.nullable.string('hexCode')
     t.nullable.string('name')
-    t.nonNull.id('bigCommerceColorId')
+    t.nonNull.id('catalogProductColorId')
   },
 })
 

@@ -7,61 +7,61 @@ import Link from 'next/link'
 import React from 'react'
 
 interface Props {
-  products: DesignRequestOverviewProductListDesignRequestProductFragment[]
+  product: DesignRequestOverviewProductListDesignRequestProductFragment
 }
 
-const DesignRequestOverviewProductList = ({ products }: Props) => {
+const DesignRequestOverviewProductList = ({ product }: Props) => {
+  const { catalogProduct, colors } = product
+
+  if (!catalogProduct) return null
+
   return (
     <div>
-      {products.map(({ catalogProduct, colors }) => {
-        return catalogProduct ? (
-          <Card key={catalogProduct.id}>
-            <CardHeader>
-              <CardTitle title="Products" />
-            </CardHeader>
-            <CardContent divide>
-              <Link
-                target={'_blank'}
-                className="text-sm flex items-center justify-between gap-4"
-                href={
-                  catalogProduct.brand?.slug
-                    ? routes.internal.catalog.product.href({
-                        brandSlug: catalogProduct.brand.slug,
-                        productSlug: catalogProduct.slug,
-                      })
-                    : '#'
-                }
-              >
-                <div>
-                  <h3 className="font-semibold">{catalogProduct.name}</h3>
-                  <p className="text-gray-400">{catalogProduct.brand?.name}</p>
-                  {colors.length ? (
-                    <div className="mt-2 flex flex-wrap">
-                      {colors.map(color =>
-                        color.hexCode ? (
-                          <ColorSwatch
-                            key={color.hexCode}
-                            hexCode={color.hexCode}
-                            width="w-5"
-                            height="h-5"
-                          />
-                        ) : null,
-                      )}
-                    </div>
-                  ) : null}
+      <Card key={catalogProduct.id}>
+        <CardHeader>
+          <CardTitle title="Products" />
+        </CardHeader>
+        <CardContent divide>
+          <Link
+            target={'_blank'}
+            className="text-sm flex items-center justify-between gap-4"
+            href={
+              catalogProduct.brand?.slug
+                ? routes.internal.catalog.product.href({
+                    brandSlug: catalogProduct.brand.slug,
+                    productSlug: catalogProduct.slug,
+                  })
+                : '#'
+            }
+          >
+            <div>
+              <h3 className="font-semibold">{catalogProduct.name}</h3>
+              <p className="text-gray-400">{catalogProduct.brand?.name}</p>
+              {colors.length ? (
+                <div className="mt-2 flex flex-wrap">
+                  {colors.map(color =>
+                    color.hexCode ? (
+                      <ColorSwatch
+                        key={color.hexCode}
+                        hexCode={color.hexCode}
+                        width="w-5"
+                        height="h-5"
+                      />
+                    ) : null,
+                  )}
                 </div>
-                {catalogProduct.primaryImage?.url ? (
-                  <img
-                    className="aspect-square object-contain max-h-16"
-                    src={catalogProduct.primaryImage.url}
-                    alt={catalogProduct.name}
-                  />
-                ) : null}
-              </Link>
-            </CardContent>
-          </Card>
-        ) : null
-      })}
+              ) : null}
+            </div>
+            {catalogProduct.primaryImage?.url ? (
+              <img
+                className="aspect-square object-contain max-h-16"
+                src={catalogProduct.primaryImage.url}
+                alt={catalogProduct.name}
+              />
+            ) : null}
+          </Link>
+        </CardContent>
+      </Card>
     </div>
   )
 }

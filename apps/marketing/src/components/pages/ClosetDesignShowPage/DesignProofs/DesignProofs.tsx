@@ -73,10 +73,12 @@ const DesignProofs = ({ designRequestId, designProofId }: Props) => {
                     <Badge label="Latest" severity="default" />
                   ) : null
                 }
-                href={routes.internal.closet.designs.show.proofs.show.href({
-                  designId: designRequestId,
-                  proofId: proof.id,
-                })}
+                href={routes.internal.closet.designRequests.show.proofs.show.href(
+                  {
+                    designId: designRequestId,
+                    proofId: proof.id,
+                  },
+                )}
               />
             ))}
           </div>

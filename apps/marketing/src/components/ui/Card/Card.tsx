@@ -10,7 +10,7 @@ const Card = ({ children, className }: Props) => {
   return (
     <div
       className={cx(
-        'overflow-hidden rounded-md bg-white sm:shadow-magical sm:border border-gray-100 flex flex-col pb-4 md:pb-6',
+        'overflow-hidden rounded-md bg-white sm:border border-gray-100 flex flex-col pb-4 md:pb-6',
         className,
       )}
     >

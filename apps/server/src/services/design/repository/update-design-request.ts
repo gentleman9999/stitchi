@@ -16,13 +16,11 @@ import { DesignRequestRevision } from '../db/design-request-revision-table'
 import { DesignRequestRevisionFile } from '../db/design-request-revision-file-table'
 import { DesignRequestProduct } from '../db/design-request-product-table'
 import { DesignRequestProductColor } from '../db/design-request-product-color-table'
-import { DesignRequestApprovedDesignProof } from '../db/design-request-approved-design-proof-table'
 
 const productInputSchema = DesignRequestProduct.omit([
   'id',
   'createdAt',
   'updatedAt',
-  'designRequestId',
 ]).concat(
   yup.object().shape({
     id: yup.string().uuid().optional(),
@@ -80,17 +78,6 @@ const proofsInputSchema = yup.array().of(
     .required(),
 )
 
-const approvedProofInputSchema = DesignRequestApprovedDesignProof.omit([
-  'id',
-  'createdAt',
-  'designRequestId',
-]).concat(
-  yup.object().shape({
-    // If ID, update, otherwise create
-    id: yup.string().uuid().optional(),
-  }),
-)
-
 const designLocationFilesInputSchema = yup.array().of(
   DesignRequestDesignLocationFile.omit(['id', 'designRequestDesignLocationId'])
     .concat(
@@ -136,13 +123,16 @@ const artistInputSchema = DesignRequestArtist.omit([
   }),
 )
 
-const inputSchema = DesignRequest.omit(['createdAt', 'updatedAt']).concat(
+const inputSchema = DesignRequest.omit([
+  'createdAt',
+  'updatedAt',
+  'designRequestProductId',
+]).concat(
   yup
     .object()
     .shape({
       artists: yup.array().of(artistInputSchema.required()).required(),
       proofs: proofsInputSchema.required(),
-      approvedProof: approvedProofInputSchema.optional().nullable(),
       files: designRequestFilesInputSchema.required(),
       revisionRequests: yup
         .array()
@@ -152,7 +142,7 @@ const inputSchema = DesignRequest.omit(['createdAt', 'updatedAt']).concat(
         .array()
         .of(designLocationinputSchema.required())
         .required(),
-      products: yup.array().of(productInputSchema.required()).required(),
+      product: productInputSchema.required(),
     })
     .required(),
 )
@@ -197,7 +187,6 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
           designRequestFiles: true,
           designRequestArtists: true,
           designRequestDesignProofs: true,
-          designRequestApprovedDesignProofs: true,
           designLocations: {
             include: {
               designRequestDesignLocationFiles: true,
@@ -208,7 +197,7 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
               designRequestRevisionFiles: true,
             },
           },
-          designRequestProducts: {
+          designRequestProduct: {
             include: {
               designRequestProductColors: true,
             },
@@ -250,11 +239,6 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
         ({ id }) => !validInput.proofs?.some(proof => proof.id === id),
       )
 
-    // The list of approved proofs is immutable (can't be updated), we can only append new ones
-    const approvedProofToCreate = validInput.approvedProof?.id
-      ? null
-      : validInput.approvedProof
-
     const revisionRequestsToCreate = validInput.revisionRequests.filter(
       ({ id }) => !id,
     )
@@ -265,12 +249,6 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
             revisionRequest => revisionRequest.id === id,
           ),
       )
-
-    const productsToCreate = validInput.products.filter(({ id }) => !id)
-    const productsToUpdate = validInput.products.filter(({ id }) => id)
-    const productsToDelete = existingDesignRequest.designRequestProducts.filter(
-      ({ id }) => !validInput.products.some(product => product.id === id),
-    )
 
     const existingDesignTsHack = { ...existingDesignRequest }
 
@@ -287,6 +265,7 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
           status: validInput.status,
           organizationId: validInput.organizationId,
           conversationId: validInput.conversationId,
+          approvedDesignProofId: validInput.approvedDesignProofId || undefined,
           userId: validInput.userId,
           metadata: validInput.metadata || undefined,
           designRequestDesignProofs: {
@@ -297,16 +276,7 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
               id,
             })),
           },
-          designRequestApprovedDesignProofs: {
-            create: approvedProofToCreate
-              ? {
-                  userId: approvedProofToCreate.userId,
-                  designProofId: approvedProofToCreate.designProofId,
-                  termsConditionsAgreed:
-                    approvedProofToCreate.termsConditionsAgreed,
-                }
-              : undefined,
-          },
+
           designRequestFiles: {
             create: filesToCreate.map(({ fileId }) => ({
               fileId,
@@ -397,61 +367,32 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
             })),
             delete: revisionRequestsToDelete.map(({ id }) => ({ id })),
           },
-          designRequestProducts: {
-            delete: productsToDelete.map(({ id }) => ({ id })),
-            create: productsToCreate.map(product => ({
-              catalogProductId: product.catalogProductId,
+          designRequestProduct: {
+            update: {
+              id: validInput.product.id,
+              catalogProductId: validInput.product.catalogProductId,
               designRequestProductColors: {
-                create: product.colors.map(color => ({
-                  hexCode: color.hexCode,
-                  name: color.name,
-                  bigCommerceColorId: color.bigCommerceColorId,
+                upsert: validInput.product.colors.map(color => ({
+                  where: { id: color.id },
+                  create: {
+                    hexCode: color.hexCode,
+                    name: color.name,
+                    catalogProductColorId: color.catalogProductColorId,
+                  },
+                  update: {
+                    hexCode: color.hexCode,
+                    name: color.name,
+                    catalogProductColorId: color.catalogProductColorId,
+                  },
                 })),
               },
-            })),
-            update: productsToUpdate.map(({ id, ...rest }) => {
-              const { colors, ...product } = rest
-
-              const colorsToCreate = colors.filter(({ id }) => !id)
-              const colorsToUpdate = colors.filter(({ id }) => id)
-              const colorsToDelete = existingDesignTsHack.designRequestProducts
-                .find(({ id: productId }) => productId === id)
-                ?.designRequestProductColors.filter(
-                  ({ id }) => !colors.some(color => color.id === id),
-                )
-
-              return {
-                where: { id },
-                data: {
-                  catalogProductId: product.catalogProductId,
-                  designRequestProductColors: {
-                    create: colorsToCreate.map(color => ({
-                      hexCode: color.hexCode,
-                      name: color.name,
-                      bigCommerceColorId: color.bigCommerceColorId,
-                    })),
-                    update: colorsToUpdate.map(({ id, ...rest }) => {
-                      return {
-                        where: { id },
-                        data: {
-                          name: rest.name,
-                          hexCode: rest.hexCode,
-                          bigCommerceColorId: rest.bigCommerceColorId,
-                        },
-                      }
-                    }),
-                    delete: colorsToDelete?.map(({ id }) => ({ id })),
-                  },
-                },
-              }
-            }),
+            },
           },
         },
         include: {
           designRequestFiles: true,
           designRequestArtists: true,
           designRequestDesignProofs: true,
-          designRequestApprovedDesignProofs: true,
           designLocations: {
             include: {
               designRequestDesignLocationFiles: true,
@@ -462,7 +403,7 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
               designRequestRevisionFiles: true,
             },
           },
-          designRequestProducts: {
+          designRequestProduct: {
             include: {
               designRequestProductColors: true,
             },
@@ -481,7 +422,6 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
       artists: existingDesignRequest.designRequestArtists,
       files: existingDesignRequest.designRequestFiles,
       proofs: existingDesignRequest.designRequestDesignProofs,
-      approvedProofs: existingDesignRequest.designRequestApprovedDesignProofs,
       designLocations: existingDesignRequest.designLocations.map(location => ({
         ...location,
         files: location.designRequestDesignLocationFiles,
@@ -490,10 +430,11 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
         ...revision,
         files: revision.designRequestRevisionFiles,
       })),
-      products: existingDesignRequest.designRequestProducts.map(product => ({
-        ...product,
-        colors: product.designRequestProductColors,
-      })),
+      product: {
+        ...existingDesignRequest.designRequestProduct,
+        colors:
+          existingDesignRequest.designRequestProduct.designRequestProductColors,
+      },
     })
 
     const nextDesignRequest = designRequestFactory({
@@ -501,7 +442,6 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
       artists: designRequest.designRequestArtists,
       files: designRequest.designRequestFiles,
       proofs: designRequest.designRequestDesignProofs,
-      approvedProofs: designRequest.designRequestApprovedDesignProofs,
       designLocations: designRequest.designLocations.map(location => ({
         ...location,
         files: location.designRequestDesignLocationFiles,
@@ -510,10 +450,10 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
         ...revision,
         files: revision.designRequestRevisionFiles,
       })),
-      products: designRequest.designRequestProducts.map(product => ({
-        ...product,
-        colors: product.designRequestProductColors,
-      })),
+      product: {
+        ...designRequest.designRequestProduct,
+        colors: designRequest.designRequestProduct.designRequestProductColors,
+      },
     })
 
     designEvents.emit({

@@ -1,11 +1,14 @@
+import { gql } from '@apollo/client'
 import ClosetSection from '@components/common/ClosetSection'
 import { Button, InputGroup, TextField } from '@components/ui'
 import FileInput from '@components/ui/inputs/FileInput'
+import { CreateProofFormDesignRequestFragment } from '@generated/CreateProofFormDesignRequestFragment'
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import ProofLocationInput from './ProofLocationInput'
+import ProofVariantInput from './ProofVariantInput'
 
 const fileSchema = yup.string().uuid().label('File')
 
@@ -18,20 +21,34 @@ const locationSchema = yup
   })
   .label('Print location')
 
+const variantSchema = yup
+  .object()
+  .shape({
+    catalogProductColorId: yup.string().required().label('Color'),
+    imageFileIds: yup
+      .array()
+      .of(fileSchema.required())
+      .min(1)
+      .required()
+      .label('Image'),
+  })
+  .label('Variant')
+
 const schema = yup.object().shape({
-  note: yup.string().label('Note'),
-  fileIds: yup
-    .array()
-    .of(fileSchema.required())
-    .min(1)
-    .required()
-    .label('File'),
+  message: yup.string().label('Message'),
+  primaryImageFileId: fileSchema.required().label('Primary Image'),
   proofLocations: yup
     .array()
     .of(locationSchema.required())
     .min(1)
     .required()
     .label('Print location'),
+  proofVariants: yup
+    .array()
+    .of(variantSchema)
+    .min(1)
+    .required()
+    .label('Proof variant'),
 })
 
 export type FormValues = yup.InferType<typeof schema>
@@ -39,20 +56,32 @@ export type FormValues = yup.InferType<typeof schema>
 interface Props {
   uploadFolder: string
   initialValues?: Partial<FormValues>
+  designRequest: CreateProofFormDesignRequestFragment
   onSubmit: (values: FormValues) => Promise<void>
 }
 
-const CreateProofForm = ({ initialValues, onSubmit, uploadFolder }: Props) => {
+const CreateProofForm = ({
+  initialValues,
+  onSubmit,
+  uploadFolder,
+  designRequest,
+}: Props) => {
   const [submitting, setSubmitting] = React.useState(false)
   const form = useForm<FormValues>({
     defaultValues: {
-      note: initialValues?.note || '',
-      fileIds: initialValues?.fileIds || [],
+      message: initialValues?.message || '',
+      primaryImageFileId: initialValues?.primaryImageFileId || '',
       proofLocations: initialValues?.proofLocations || [
         {
           colorCount: null,
           placement: '',
           fileId: undefined,
+        },
+      ],
+      proofVariants: initialValues?.proofVariants || [
+        {
+          catalogProductColorId: '',
+          imageFileIds: [],
         },
       ],
     },
@@ -70,38 +99,26 @@ const CreateProofForm = ({ initialValues, onSubmit, uploadFolder }: Props) => {
     }
   })
 
+  console.log('FORM>>', form.formState.errors)
+
   return (
     <form onSubmit={handleSubmit}>
       <ClosetSection>
         <div className="flex flex-col gap-6">
           <Controller
-            name="note"
+            name="primaryImageFileId"
             control={control}
             render={({ field, fieldState }) => (
               <InputGroup
-                label="Note"
-                error={fieldState.error?.message}
-                optional
-              >
-                <TextField multiline {...field} />
-              </InputGroup>
-            )}
-          />
-
-          <Controller
-            name="fileIds"
-            control={control}
-            render={({ field, fieldState }) => (
-              <InputGroup
-                label="Image previews"
+                label="Primary image"
                 error={fieldState.error?.message}
               >
                 <FileInput
                   folder={uploadFolder}
                   keepUploadStatus
-                  fileIds={field.value}
-                  onChange={field.onChange}
-                  accept="image/*,application/pdf"
+                  fileIds={[field.value]}
+                  onChange={v => field.onChange(v[1])}
+                  accept="image/jpg,image/jpeg,image/png"
                 />
               </InputGroup>
             )}
@@ -111,15 +128,52 @@ const CreateProofForm = ({ initialValues, onSubmit, uploadFolder }: Props) => {
 
       <ProofLocationInput form={form} uploadFolder={uploadFolder} />
 
+      <ProofVariantInput
+        form={form}
+        uploadFolder={uploadFolder}
+        designRequest={designRequest}
+      />
+
+      <ClosetSection>
+        <Controller
+          name="message"
+          control={control}
+          render={({ field, fieldState }) => (
+            <InputGroup
+              label="Message to customer"
+              error={fieldState.error?.message}
+              optional
+            >
+              <TextField multiline {...field} />
+            </InputGroup>
+          )}
+        />
+      </ClosetSection>
+
       <ClosetSection>
         <div className="flex justify-end">
-          <Button type="submit" color="brandPrimary" loading={submitting}>
+          <Button
+            size="xl"
+            type="submit"
+            color="brandPrimary"
+            loading={submitting}
+          >
             Upload proof
           </Button>
         </div>
       </ClosetSection>
     </form>
   )
+}
+
+CreateProofForm.fragments = {
+  designRequest: gql`
+    ${ProofVariantInput.fragments.designRequest}
+    fragment CreateProofFormDesignRequestFragment on DesignRequest {
+      id
+      ...ProofVariantInputDesignRequestFragment
+    }
+  `,
 }
 
 export default CreateProofForm

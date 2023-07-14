@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import Color from 'color'
+import { CheckIcon } from '@heroicons/react/20/solid'
 
 interface Props {
   hexCode: string
@@ -9,6 +10,7 @@ interface Props {
   onClick?: () => void
   width?: string
   height?: string
+  checked?: boolean
 }
 
 const ColorSwatch = (props: Props) => {
@@ -35,12 +37,17 @@ const ColorSwatch = (props: Props) => {
         }}
         className={cx(`${width} ${height} rounded-full border`)}
       />
+      {props.checked ? (
+        <CheckIcon
+          className={`absolute w-4 h-4 ${getContrastingTextColor(color)}`}
+        />
+      ) : null}
     </div>
   )
 }
 
 function ensureMaximumLightness(inputColorHex: Color, maxLightness: number) {
-  let color = Color(inputColorHex)
+  let color = inputColorHex
 
   // Get the lightness value
   let lightness = color.lightness()
@@ -52,6 +59,16 @@ function ensureMaximumLightness(inputColorHex: Color, maxLightness: number) {
 
   // Return the color
   return color
+}
+
+function getContrastingTextColor(inputColorHex: Color) {
+  const luminance = inputColorHex.luminosity()
+
+  if (luminance > 0.5) {
+    return 'text-gray-900'
+  } else {
+    return 'text-gray-50'
+  }
 }
 
 export default ColorSwatch

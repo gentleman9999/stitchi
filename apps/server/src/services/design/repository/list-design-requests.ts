@@ -31,7 +31,6 @@ const makeListDesignRequests: MakeListDesignRequestsFn =
           designRequestFiles: true,
           designRequestArtists: true,
           designRequestDesignProofs: true,
-          designRequestApprovedDesignProofs: true,
           designRequestRevisions: {
             include: {
               designRequestRevisionFiles: true,
@@ -42,7 +41,7 @@ const makeListDesignRequests: MakeListDesignRequestsFn =
               designRequestDesignLocationFiles: true,
             },
           },
-          designRequestProducts: {
+          designRequestProduct: {
             include: {
               designRequestProductColors: true,
             },
@@ -62,7 +61,6 @@ const makeListDesignRequests: MakeListDesignRequestsFn =
         artists: designRequest.designRequestArtists,
         files: designRequest.designRequestFiles,
         proofs: designRequest.designRequestDesignProofs,
-        approvedProofs: designRequest.designRequestApprovedDesignProofs,
         designLocations: designRequest.designLocations.map(location => ({
           ...location,
           files: location.designRequestDesignLocationFiles,
@@ -71,10 +69,10 @@ const makeListDesignRequests: MakeListDesignRequestsFn =
           ...revision,
           files: revision.designRequestRevisionFiles,
         })),
-        products: designRequest.designRequestProducts.map(product => ({
-          ...product,
-          colors: product.designRequestProductColors,
-        })),
+        product: {
+          ...designRequest.designRequestProduct,
+          colors: designRequest.designRequestProduct.designRequestProductColors,
+        },
       }),
     )
   }

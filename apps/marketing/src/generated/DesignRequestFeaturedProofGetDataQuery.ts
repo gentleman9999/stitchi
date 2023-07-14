@@ -7,14 +7,7 @@
 // GraphQL query operation: DesignRequestFeaturedProofGetDataQuery
 // ====================================================
 
-export interface DesignRequestFeaturedProofGetDataQuery_designRequest_latestProofs_files_FileUnknown {
-  __typename: "FileUnknown" | "FilePdf";
-  id: string;
-  name: string;
-  url: string;
-}
-
-export interface DesignRequestFeaturedProofGetDataQuery_designRequest_latestProofs_files_FileImage {
+export interface DesignRequestFeaturedProofGetDataQuery_designRequest_latestProofs_primaryImageFile {
   __typename: "FileImage";
   id: string;
   name: string;
@@ -22,8 +15,6 @@ export interface DesignRequestFeaturedProofGetDataQuery_designRequest_latestProo
   width: number;
   height: number;
 }
-
-export type DesignRequestFeaturedProofGetDataQuery_designRequest_latestProofs_files = DesignRequestFeaturedProofGetDataQuery_designRequest_latestProofs_files_FileUnknown | DesignRequestFeaturedProofGetDataQuery_designRequest_latestProofs_files_FileImage;
 
 export interface DesignRequestFeaturedProofGetDataQuery_designRequest_latestProofs_artist {
   __typename: "User";
@@ -35,8 +26,7 @@ export interface DesignRequestFeaturedProofGetDataQuery_designRequest_latestProo
 export interface DesignRequestFeaturedProofGetDataQuery_designRequest_latestProofs {
   __typename: "DesignProof";
   id: string;
-  note: string | null;
-  files: DesignRequestFeaturedProofGetDataQuery_designRequest_latestProofs_files[];
+  primaryImageFile: DesignRequestFeaturedProofGetDataQuery_designRequest_latestProofs_primaryImageFile | null;
   artist: DesignRequestFeaturedProofGetDataQuery_designRequest_latestProofs_artist | null;
 }
 

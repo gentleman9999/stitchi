@@ -1,16 +1,6 @@
 import { PrismaClient } from '@prisma/client'
-import {
-  Design,
-  DesignTable,
-  table as makeDesignTable,
-} from './db/design-table'
-import {
-  designFactory,
-  DesignFactoryDesign,
-  DesignFactoryDesignRequest,
-} from './factory'
-import * as yup from 'yup'
-import { DesignLocation } from './db/design-location-table'
+import { DesignTable, table as makeDesignTable } from './db/design-table'
+import { DesignFactoryDesignRequest } from './factory'
 import makeDesignRepository, { DesignRepository } from './repository'
 import { CreateDesignRequestFnInput } from './repository/create-design-request'
 import {
@@ -19,31 +9,9 @@ import {
 } from '../conversation'
 import { UpdateDesignRequestFnInput } from './repository/update-design-request'
 
-const designSchema = Design.omit(['id', 'createdAt', 'updatedAt']).concat(
-  yup.object().shape({
-    designLocations: yup
-      .array()
-      .of(
-        DesignLocation.omit([
-          'id',
-          'designId',
-          'createdAt',
-          'updatedAt',
-        ]).required(),
-      )
-      .min(0)
-      .required(),
-  }),
-)
-
 const prisma = new PrismaClient()
 
 export interface DesignService {
-  getDesign: (input: { designId: string }) => Promise<DesignFactoryDesign>
-  createDesign: (
-    input: yup.InferType<typeof designSchema>,
-  ) => Promise<DesignFactoryDesign>
-
   createDesignRequest(input: {
     designRequest: Omit<
       CreateDesignRequestFnInput['designRequest'],
@@ -60,10 +28,10 @@ export interface DesignService {
   getDesignRequest: DesignRepository['getDesignRequest']
   listDesignRequests: DesignRepository['listDesignRequests']
 
-  // approveDesignRequest(input: {
-  //   designRequestId: string
-  //   designProofId: string
-  // }): Promise<DesignFactoryDesignRequest>
+  approveDesignRequest(input: {
+    designRequestId: string
+    designProofId: string
+  }): Promise<DesignFactoryDesignRequest>
 
   createDesignProof: DesignRepository['createDesignProof']
   getDesignProof: DesignRepository['getDesignProof']
@@ -86,55 +54,6 @@ const makeClient: MakeClientFn = (
   },
 ) => {
   return {
-    getDesign: async input => {
-      try {
-        const design = await designTable.findFirst({
-          where: { id: input.designId },
-          include: { DesignLocation: true },
-        })
-
-        if (!design) {
-          throw new Error('Design not found')
-        }
-
-        return designFactory({ design, locations: design.DesignLocation })
-      } catch (error) {
-        console.error(`Failed to get design: ${input}`, {
-          context: { error, input },
-        })
-        throw new Error('Failed to get design')
-      }
-    },
-
-    createDesign: async input => {
-      const validInput = await designSchema.validate(input)
-
-      try {
-        const { designLocations, ...restValidInput } = validInput
-
-        const design = await designTable.create({
-          data: {
-            ...restValidInput,
-            DesignLocation: {
-              createMany: {
-                data: designLocations.map(designLocation => ({
-                  ...designLocation,
-                })),
-              },
-            },
-          },
-          include: { DesignLocation: true },
-        })
-
-        return designFactory({ design, locations: design.DesignLocation })
-      } catch (error) {
-        console.error(`Failed to create design: ${input}`, {
-          context: { error, input },
-        })
-        throw new Error('Failed to create design')
-      }
-    },
-
     createDesignRequest: async input => {
       let conversation
 
@@ -165,7 +84,7 @@ const makeClient: MakeClientFn = (
         return designRepository.updateDesignRequest({
           designRequest: {
             ...input.designRequest,
-            approvedProof: null,
+            approvedDesignProofId: null,
           },
         })
       } catch (error) {
@@ -190,6 +109,76 @@ const makeClient: MakeClientFn = (
         console.error(error)
         throw new Error('Failed to list design requests')
       }
+    },
+
+    approveDesignRequest: async input => {
+      let designRequest
+
+      try {
+        designRequest = await designRepository.getDesignRequest({
+          designRequestId: input.designRequestId,
+        })
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to get design request')
+      }
+
+      let approvedProof
+
+      try {
+        approvedProof = await designRepository.getDesignProof({
+          designProofId: input.designProofId,
+        })
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to get design proof')
+      }
+
+      try {
+        await designRepository.createDesign({
+          design: {
+            catalogProductId: approvedProof.catalogProductId,
+            designRequestId: designRequest.id,
+            organizationId: designRequest.organizationId,
+            primaryImageFileId: approvedProof.primaryImageFileId,
+            termsConditionsAgreed: true,
+            userId: designRequest.userId,
+            description: designRequest.description,
+            name: designRequest.name,
+            locations: approvedProof.locations.map(location => ({
+              colorCount: location.colorCount || 0,
+              placement: location.placement,
+            })),
+            variants: approvedProof.variants.map(variant => ({
+              catalogProductColorId: variant.catalogProductColorId,
+              images: variant.images.map(image => ({
+                fileId: image.imageFileId,
+                order: image.order,
+              })),
+            })),
+          },
+        })
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to create design')
+      }
+
+      let updatedDesignRequest
+
+      try {
+        updatedDesignRequest = await designRepository.updateDesignRequest({
+          designRequest: {
+            ...designRequest,
+            status: 'APPROVED',
+            approvedDesignProofId: approvedProof.id,
+          },
+        })
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to update design request')
+      }
+
+      return updatedDesignRequest
     },
 
     createDesignProof: async input => {

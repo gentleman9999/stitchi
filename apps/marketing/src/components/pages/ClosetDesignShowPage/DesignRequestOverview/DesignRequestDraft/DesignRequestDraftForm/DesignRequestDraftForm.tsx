@@ -85,7 +85,13 @@ const DesignRequestDraftForm = ({
     <form onSubmit={handleSubmit}>
       <ClosetSection>
         <Card>
-          <CardContent>
+          <CardHeader>
+            <CardTitle
+              title="Overview"
+              subtitle="Provide our designers with relevant details to help them craft the optimal design for your merchandise."
+            />
+          </CardHeader>
+          <CardContent divide>
             <Controller
               name="useCase"
               control={form.control}

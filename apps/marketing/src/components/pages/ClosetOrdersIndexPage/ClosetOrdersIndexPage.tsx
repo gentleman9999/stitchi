@@ -78,61 +78,59 @@ const ClosetOrdersIndexPage = (props: Props) => {
 
   return (
     <ClosetPageContainer>
-      <Container>
-        <ClosetPageTitle
-          title="Your orders"
-          actions={
-            <ClosetPageActions
-              actions={[
-                {
-                  label: 'New order',
-                  primary: true,
-                  href: routes.internal.catalog.href(),
-                },
-              ]}
-            />
-          }
-        />
+      <ClosetPageTitle
+        title="Your orders"
+        actions={
+          <ClosetPageActions
+            actions={[
+              {
+                label: 'New order',
+                primary: true,
+                href: routes.internal.catalog.href(),
+              },
+            ]}
+          />
+        }
+      />
 
-        {!loading && !hasOrders ? (
-          <ClosetPageEmptyState
-            title="Start your first order"
-            description="Placing an order sends your products to production."
-            cta={{
-              label: 'Start order',
-              href: routes.internal.catalog.href(),
+      {!loading && !hasOrders ? (
+        <ClosetPageEmptyState
+          title="Start your first order"
+          description="Placing an order sends your products to production."
+          cta={{
+            label: 'Start order',
+            href: routes.internal.catalog.href(),
+          }}
+        />
+      ) : (
+        <>
+          <ClosetOrdersTableFilters
+            onChange={value => {
+              const { date, ...rest } = value
+
+              const { equality, ...dateRest } = date || {}
+
+              handleChange({ where: { ...rest, createdAt: dateRest } })
             }}
           />
-        ) : (
-          <>
-            <ClosetOrdersTableFilters
-              onChange={value => {
-                const { date, ...rest } = value
 
-                const { equality, ...dateRest } = date || {}
+          <Table loading={loading}>
+            {!orders.length ? (
+              <TableZeroState />
+            ) : (
+              <>
+                <div className="hidden md:block">
+                  <ClosetOrdersDesktopTable {...tableProps} />
+                </div>
 
-                handleChange({ where: { ...rest, createdAt: dateRest } })
-              }}
-            />
-
-            <Table loading={loading}>
-              {!orders.length ? (
-                <TableZeroState />
-              ) : (
-                <>
-                  <div className="hidden md:block">
-                    <ClosetOrdersDesktopTable {...tableProps} />
-                  </div>
-
-                  <div className="md:hidden">
-                    <ClosetOrdersMobileTable {...tableProps} />
-                  </div>
-                </>
-              )}
-            </Table>
-          </>
-        )}
-      </Container>
+                <div className="md:hidden">
+                  <ClosetOrdersMobileTable {...tableProps} />
+                </div>
+              </>
+            )}
+          </Table>
+        </>
+      )}
     </ClosetPageContainer>
   )
 }

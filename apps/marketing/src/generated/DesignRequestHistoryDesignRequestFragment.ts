@@ -62,12 +62,7 @@ export interface DesignRequestHistoryDesignRequestFragment_history_DesignProof_a
   name: string | null;
 }
 
-export interface DesignRequestHistoryDesignRequestFragment_history_DesignProof_files_FileUnknown {
-  __typename: "FileUnknown" | "FilePdf";
-  id: string;
-}
-
-export interface DesignRequestHistoryDesignRequestFragment_history_DesignProof_files_FileImage {
+export interface DesignRequestHistoryDesignRequestFragment_history_DesignProof_primaryImageFile {
   __typename: "FileImage";
   id: string;
   url: string;
@@ -75,15 +70,12 @@ export interface DesignRequestHistoryDesignRequestFragment_history_DesignProof_f
   height: number;
 }
 
-export type DesignRequestHistoryDesignRequestFragment_history_DesignProof_files = DesignRequestHistoryDesignRequestFragment_history_DesignProof_files_FileUnknown | DesignRequestHistoryDesignRequestFragment_history_DesignProof_files_FileImage;
-
 export interface DesignRequestHistoryDesignRequestFragment_history_DesignProof {
   __typename: "DesignProof";
   id: string;
   createdAt: any;
-  note: string | null;
   artist: DesignRequestHistoryDesignRequestFragment_history_DesignProof_artist | null;
-  files: DesignRequestHistoryDesignRequestFragment_history_DesignProof_files[];
+  primaryImageFile: DesignRequestHistoryDesignRequestFragment_history_DesignProof_primaryImageFile | null;
 }
 
 export interface DesignRequestHistoryDesignRequestFragment_history_DesignRequestRevisionRequest_files_FileUnknown {

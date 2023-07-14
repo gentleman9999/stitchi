@@ -32,12 +32,13 @@ model File {
 
   format String
 
-  createdAt                       DateTime                          @default(now())
-  updatedAt                       DateTime                          @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   designRequestFiles              DesignRequestFile[]
   designRequestPrintLocationFiles DesignRequestDesignLocationFile[]
-  designProofFiles                DesignProofFile[]
   designProofLocations            DesignProofLocation[]
+  designProofVariantImages        DesignProofVariantImage[]
   designRequestRevisionFiles      DesignRequestRevisionFile[]
   conversationMessageFiles        ConversationMessageFile[]
 }
@@ -315,8 +316,13 @@ model FulfillmentOrderItem {
   @@index([fulfillmentId])
 }
 
+// A design is synonomys with a product. A design is a product that is created by Stitchi. A design can be a custom design or a design that is created from a design request.
+// Designs are purchasable products that can be added to a cart and purchased.
 model Design {
   id String @id @default(uuid())
+
+  designRequestId  String
+  catalogProductId String
 
   // The organization that this design belongs to
   organization   Organization? @relation(fields: [organizationId], references: [id], onUpdate: NoAction)
@@ -324,6 +330,10 @@ model Design {
 
   // The user that created the design
   userId String?
+
+  primaryImageFileId String?
+
+  termsConditionsAgreed Boolean @default(false)
 
   // The name of the design
   name String
@@ -334,23 +344,27 @@ model Design {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  DesignLocation DesignLocation[]
-  OrderItem      OrderItem[]
+  designLocations DesignLocation[]
+  orderItems      OrderItem[]
+  designRequest   DesignRequest    @relation(fields: [designRequestId], references: [id])
+  designVariants  DesignVariant[]
 
   @@index([organizationId])
+  @@index([userId])
+  @@index([designRequestId])
 }
 
+// A design location is a print location on a design. For example, a t-shirt has a front and back print location. A design location can have multiple colors.
 model DesignLocation {
   id String @id @default(uuid())
 
   // The design that this location belongs to
-  design   Design @relation(fields: [designId], references: [id], onUpdate: NoAction)
+  design   Design @relation(fields: [designId], references: [id])
   designId String
 
   colorCount Int
 
-  // The name of the location
-  name String
+  placement String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -358,14 +372,42 @@ model DesignLocation {
   @@index([designId])
 }
 
+// A design variant is a variant of the design that can be purchased. For example, each color of a garment is a variant.
+model DesignVariant {
+  id String @id @default(uuid())
+
+  designId String
+
+  catalogProductColorId String
+
+  images DesignVariantImage[]
+  design Design               @relation(fields: [designId], references: [id])
+
+  @@index([designId])
+}
+
+model DesignVariantImage {
+  designVariantId String
+  fileId          String
+  order           Int
+
+  designVariant DesignVariant @relation(fields: [designVariantId], references: [id])
+
+  @@unique([designVariantId, fileId, order])
+}
+
 model DesignRequest {
   id String @id @default(uuid())
+
+  designRequestProductId String
 
   // The user that this design request belongs to
   userId String?
 
   // The organization that this design request belongs to
   organizationId String?
+
+  approvedDesignProofId String?
 
   // The name of the design request
   name String
@@ -385,12 +427,17 @@ model DesignRequest {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  designRequestFiles                DesignRequestFile[]
-  designRequestArtists              DesignRequestArtist[]
-  designRequestDesignProofs         DesignRequestDesignProof[]
-  designRequestApprovedDesignProofs DesignRequestApprovedDesignProof[]
-  designRequestRevisions            DesignRequestRevision[]
-  designRequestProducts             DesignRequestProduct[]
+  designRequestFiles        DesignRequestFile[]
+  designRequestArtists      DesignRequestArtist[]
+  designRequestDesignProofs DesignRequestDesignProof[]
+  designRequestRevisions    DesignRequestRevision[]
+  designs                   Design[]
+  designRequestProduct      DesignRequestProduct       @relation(fields: [designRequestProductId], references: [id])
+
+  @@index([userId])
+  @@index([organizationId])
+  @@index([approvedDesignProofId])
+  @@index([designRequestProductId])
 }
 
 model DesignRequestArtist {
@@ -515,39 +562,17 @@ model DesignRequestDesignProof {
   @@index([designProofId])
 }
 
-model DesignRequestApprovedDesignProof {
-  id String @id @default(uuid())
-
-  designRequestId String
-  designProofId   String
-  userId          String
-
-  termsConditionsAgreed Boolean @default(false)
-
-  createdAt DateTime @default(now())
-
-  designRequest DesignRequest @relation(fields: [designRequestId], references: [id])
-  designProof   DesignProof   @relation(fields: [designProofId], references: [id])
-
-  @@index([designRequestId])
-  @@index([designProofId])
-}
-
 model DesignRequestProduct {
   id String @id @default(uuid())
-
-  // The design request that this product belongs to
-  designRequestId String
 
   catalogProductId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  designRequest              DesignRequest               @relation(fields: [designRequestId], references: [id])
   designRequestProductColors DesignRequestProductColor[]
 
-  @@index([designRequestId])
+  designRequests DesignRequest[]
 }
 
 model DesignRequestProductColor {
@@ -556,7 +581,7 @@ model DesignRequestProductColor {
   // The design request product that this color belongs to
   designRequestProductId String
 
-  bigCommerceColorId String
+  catalogProductColorId String
 
   hexCode String?
   name    String?
@@ -572,17 +597,44 @@ model DesignRequestProductColor {
 model DesignProof {
   id String @id @default(uuid())
 
-  artistUserId String
+  artistUserId     String
+  catalogProductId String
 
-  note String? @db.Text
+  primaryImageFileId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  designProofLocations              DesignProofLocation[]
-  designProofFiles                  DesignProofFile[]
-  designRequestDesignProofs         DesignRequestDesignProof[]
-  designRequestApprovedDesignProofs DesignRequestApprovedDesignProof[]
+  designProofLocations DesignProofLocation[]
+  designProofVariants  DesignProofVariant[]
+
+  designRequestDesignProofs DesignRequestDesignProof[]
+}
+
+model DesignProofVariant {
+  id String @id @default(uuid())
+
+  designProofId String
+
+  catalogProductColorId String
+
+  images DesignProofVariantImage[]
+
+  designProof DesignProof @relation(fields: [designProofId], references: [id])
+
+  @@index([designProofId])
+}
+
+model DesignProofVariantImage {
+  designProofVariantId String
+  imageFileId          String
+  order                Int
+
+  designProofVariant DesignProofVariant @relation(fields: [designProofVariantId], references: [id])
+  image              File               @relation(fields: [imageFileId], references: [id])
+
+  @@unique([designProofVariantId, imageFileId, order])
+  @@index([imageFileId])
 }
 
 model DesignProofLocation {
@@ -599,21 +651,6 @@ model DesignProofLocation {
 
   @@index([designProofId])
   @@index([fileId])
-}
-
-model DesignProofFile {
-  id String @id @default(uuid())
-
-  // The design request proof print location that this file belongs to
-  fileId        String
-  designProofId String
-
-  file File @relation(fields: [fileId], references: [id])
-
-  designProof DesignProof @relation(fields: [designProofId], references: [id])
-
-  @@index([fileId])
-  @@index([designProofId])
 }
 
 model MailingAddress {

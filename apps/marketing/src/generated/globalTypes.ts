@@ -60,11 +60,6 @@ export enum ItemStatus {
   updated = "updated",
 }
 
-export enum MembershipRole {
-  OWNER = "OWNER",
-  STITCHI_DESIGNER = "STITCHI_DESIGNER",
-}
-
 export enum OrderPaymentStatus {
   NOT_PAID = "NOT_PAID",
   PAID = "PAID",
@@ -144,11 +139,11 @@ export interface DesignRequestCreateInput {
   name?: string | null;
   description?: string | null;
   useCase?: string | null;
-  products: DesignRequestProductCreateInput[];
+  product: DesignRequestProductCreateInput;
 }
 
 export interface DesignRequestProductColorCreateInput {
-  bigCommerceColorId: string;
+  catalogProductColorId: string;
   hexCode?: string | null;
   name?: string | null;
 }
@@ -160,15 +155,21 @@ export interface DesignRequestProductCreateInput {
 
 export interface DesignRequestProofCreateInput {
   designRequestId: string;
-  note?: string | null;
-  fileIds: string[];
+  message?: string | null;
+  primaryImageFileId: string;
   proofLocations: DesignRequestProofCreateProofLocationInput[];
+  proofVariants: DesignRequestProofCreateProofVariantInput[];
 }
 
 export interface DesignRequestProofCreateProofLocationInput {
   colorCount?: number | null;
   placement: string;
   fileId: string;
+}
+
+export interface DesignRequestProofCreateProofVariantInput {
+  catalogProductColorId: string;
+  imageFileIds: string[];
 }
 
 export interface DesignRequestRevisionRequestCreateInput {

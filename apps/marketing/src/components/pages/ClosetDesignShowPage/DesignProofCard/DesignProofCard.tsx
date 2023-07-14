@@ -1,10 +1,6 @@
 import { gql } from '@apollo/client'
 import { Card } from '@components/ui/Card'
-import {
-  DesignProofCardDesignProofFragment,
-  DesignProofCardDesignProofFragment_files_FileImage,
-} from '@generated/DesignProofCardDesignProofFragment'
-import routes from '@lib/routes'
+import { DesignProofCardDesignProofFragment } from '@generated/DesignProofCardDesignProofFragment'
 import { format } from 'date-fns'
 import Link from 'next/link'
 import React from 'react'
@@ -16,18 +12,15 @@ interface Props {
 }
 
 const DesignProofCard = ({ designProof, badges, href }: Props) => {
-  const featuredImage = designProof.files.find(
-    (file): file is DesignProofCardDesignProofFragment_files_FileImage =>
-      file.__typename === 'FileImage',
-  )
+  const { primaryImageFile } = designProof
 
   return (
     <Card className="!pb-0">
       <div className="p-4 flex-1">
         <img
-          src={featuredImage?.url}
-          width={featuredImage?.width}
-          height={featuredImage?.height}
+          src={primaryImageFile?.url}
+          width={primaryImageFile?.width}
+          height={primaryImageFile?.height}
           alt="Featured"
           className="w-full aspect-square bg-gray-50 rounded-md object-contain"
         />
@@ -54,15 +47,12 @@ DesignProofCard.fragments = {
       id
 
       createdAt
-      note
-      files {
+      primaryImageFile {
         id
 
-        ... on FileImage {
-          url
-          width
-          height
-        }
+        url
+        width
+        height
       }
       artist {
         id

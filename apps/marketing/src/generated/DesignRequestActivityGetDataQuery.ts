@@ -62,12 +62,7 @@ export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignP
   name: string | null;
 }
 
-export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignProof_files_FileUnknown {
-  __typename: "FileUnknown" | "FilePdf";
-  id: string;
-}
-
-export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignProof_files_FileImage {
+export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignProof_primaryImageFile {
   __typename: "FileImage";
   id: string;
   url: string;
@@ -75,15 +70,12 @@ export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignP
   height: number;
 }
 
-export type DesignRequestActivityGetDataQuery_designRequest_history_DesignProof_files = DesignRequestActivityGetDataQuery_designRequest_history_DesignProof_files_FileUnknown | DesignRequestActivityGetDataQuery_designRequest_history_DesignProof_files_FileImage;
-
 export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignProof {
   __typename: "DesignProof";
   id: string;
   createdAt: any;
-  note: string | null;
   artist: DesignRequestActivityGetDataQuery_designRequest_history_DesignProof_artist | null;
-  files: DesignRequestActivityGetDataQuery_designRequest_history_DesignProof_files[];
+  primaryImageFile: DesignRequestActivityGetDataQuery_designRequest_history_DesignProof_primaryImageFile | null;
 }
 
 export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestRevisionRequest_files_FileUnknown {

@@ -2,7 +2,8 @@ import { gql } from '@apollo/client'
 import {
   GetProductVariantByOptions,
   GetProductVariantByOptionsVariables,
-} from '@generated/getProductVariantByOptions'
+} from '@generated/GetProductVariantByOptions'
+
 import { initializeApollo } from '@lib/apollo'
 
 const client = initializeApollo()

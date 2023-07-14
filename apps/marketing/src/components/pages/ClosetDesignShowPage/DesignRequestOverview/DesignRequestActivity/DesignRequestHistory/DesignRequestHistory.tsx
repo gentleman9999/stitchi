@@ -60,8 +60,6 @@ const DesignRequestHistory = ({ loading, designRequest }: Props) => {
                 height="h-6"
                 user={
                   item.sender || {
-                    __typename: 'User',
-                    id: 'stitchi',
                     name: 'Stitchi',
                     picture: '/stitchi_icon.svg',
                   }
@@ -167,25 +165,16 @@ const DesignRequestHistory = ({ loading, designRequest }: Props) => {
                   </time>
                 </div>
                 <div className="flex gap-2">
-                  {item.files.map((file, index) => {
-                    return file.__typename === 'FileImage' ? (
-                      <img
-                        src={file.url}
-                        width={file.width}
-                        height={file.height}
-                        key={index}
-                        className=" bg-gray-100 rounded-md h-24 w-24 object-contain overflow-hidden"
-                      />
-                    ) : null
-                  })}
+                  {item.primaryImageFile ? (
+                    <img
+                      src={item.primaryImageFile.url}
+                      width={item.primaryImageFile.width}
+                      height={item.primaryImageFile.height}
+                      key={index}
+                      className=" bg-gray-100 rounded-md h-24 w-24 object-contain overflow-hidden"
+                    />
+                  ) : null}
                 </div>
-
-                {item.note?.length ? (
-                  <div className="flex justify-between gap-x-4 text-sm border-t pt-2">
-                    <span className="font-semibold">Artist note</span>
-                    <p className=" leading-6 text-gray-500">{item.note}</p>
-                  </div>
-                ) : null}
               </div>
             </>
           ) : null}
@@ -286,20 +275,17 @@ DesignRequestHistory.fragments = {
         ... on DesignProof {
           id
           createdAt
-          note
 
           artist {
             id
             name
           }
 
-          files {
+          primaryImageFile {
             id
-            ... on FileImage {
-              url
-              width
-              height
-            }
+            url
+            width
+            height
           }
         }
 

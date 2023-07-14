@@ -4,7 +4,7 @@ import { gql, useQuery } from '@apollo/client'
 import {
   DesignProofPreviewGetDataQuery,
   DesignProofPreviewGetDataQueryVariables,
-  DesignProofPreviewGetDataQuery_designProof_files_FileImage,
+  DesignProofPreviewGetDataQuery_designProof_primaryImageFile,
 } from '@generated/DesignProofPreviewGetDataQuery'
 import Skeleton from 'react-loading-skeleton'
 import { LoadingDots } from '@components/ui'
@@ -27,22 +27,14 @@ const DesignProofPreview = ({ designRequestId, designProofId }: Props) => {
 
   const { designProof } = data || {}
 
-  const { artist, files } = designProof || {}
-
-  const images =
-    files?.filter(
-      (
-        file,
-      ): file is DesignProofPreviewGetDataQuery_designProof_files_FileImage =>
-        file.__typename === 'FileImage',
-    ) || []
+  const { artist, primaryImageFile } = designProof || {}
 
   return (
     <Dialog.Root
       open
       onOpenChange={() => {
         router.push(
-          routes.internal.closet.designs.show.proofs.href({
+          routes.internal.closet.designRequests.show.proofs.href({
             designId: designRequestId,
           }),
         )
@@ -53,7 +45,10 @@ const DesignProofPreview = ({ designRequestId, designProofId }: Props) => {
         <Dialog.Content className="bg-white rounded-md fixed top-1/2 left-1/2 w-full max-w-[95%] xl:max-w-7xl max-h-[95vh] h-full -translate-x-1/2 -translate-y-1/2 z-50 overflow-hidden">
           <div className="grid grid-cols-12 h-full divide-x">
             <div className="col-span-12 md:col-span-7">
-              <Gallery images={images} loading={loading} />
+              <Gallery
+                images={primaryImageFile ? [primaryImageFile] : []}
+                loading={loading}
+              />
             </div>
             <div className="col-span-12 md:col-span-5">
               <div className="p-6">
@@ -81,7 +76,7 @@ const Gallery = ({
   images,
 }: {
   loading: boolean
-  images: DesignProofPreviewGetDataQuery_designProof_files_FileImage[]
+  images: DesignProofPreviewGetDataQuery_designProof_primaryImageFile[]
 }) => {
   const [activeImage, setActiveImage] = React.useState(images[0])
 
@@ -144,20 +139,17 @@ const GET_DATA = gql`
   query DesignProofPreviewGetDataQuery($designProofId: ID!) {
     designProof(id: $designProofId) {
       id
-      note
       createdAt
       artist {
         id
         name
         picture
       }
-      files {
+      primaryImageFile {
         id
-        ... on FileImage {
-          url
-          width
-          height
-        }
+        url
+        width
+        height
       }
     }
   }

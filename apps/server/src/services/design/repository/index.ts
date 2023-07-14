@@ -1,3 +1,7 @@
+import makeCreateDesign from './create-design'
+import makeGetDesign from './get-design'
+import makeListDesigns from './list-designs'
+
 import makeCreateDesignRequest from './create-design-request'
 import makeUpdateDesignRequest from './update-design-request'
 import makeGetDesignRequest from './get-design-request'
@@ -10,6 +14,10 @@ import makeListDesignProofs from './list-design-proofs'
 export interface DesignRepositoryInit {}
 
 export interface DesignRepository {
+  createDesign: ReturnType<typeof makeCreateDesign>
+  getDesign: ReturnType<typeof makeGetDesign>
+  listDesigns: ReturnType<typeof makeListDesigns>
+
   createDesignRequest: ReturnType<typeof makeCreateDesignRequest>
   updateDesignRequest: ReturnType<typeof makeUpdateDesignRequest>
   getDesignRequest: ReturnType<typeof makeGetDesignRequest>
@@ -23,6 +31,10 @@ export interface DesignRepository {
 type MakeDesignRepositoryFn = (init?: DesignRepositoryInit) => DesignRepository
 
 const makeDesignRepository: MakeDesignRepositoryFn = init => ({
+  createDesign: makeCreateDesign(),
+  getDesign: makeGetDesign(),
+  listDesigns: makeListDesigns(),
+
   createDesignRequest: makeCreateDesignRequest(),
   updateDesignRequest: makeUpdateDesignRequest(),
   getDesignRequest: makeGetDesignRequest(),

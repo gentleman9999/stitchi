@@ -6,7 +6,7 @@ import { designRequestFactoryToGrahpql } from '../../serializers/design'
 export const DesignRequestProductColorCreateInput = inputObjectType({
   name: 'DesignRequestProductColorCreateInput',
   definition(t) {
-    t.nonNull.id('bigCommerceColorId')
+    t.nonNull.id('catalogProductColorId')
     t.nullable.string('hexCode')
     t.nullable.string('name')
   },
@@ -28,7 +28,7 @@ export const DesignRequestCreateInput = inputObjectType({
     t.nullable.string('name')
     t.nullable.string('description')
     t.nullable.string('useCase')
-    t.nonNull.list.nonNull.field('products', {
+    t.nonNull.field('product', {
       type: 'DesignRequestProductCreateInput',
     })
   },
@@ -53,6 +53,7 @@ export const designRequestCreate = mutationField('designRequestCreate', {
       designRequest = await design.createDesignRequest({
         designRequest: {
           organizationId: organizationId || null,
+          approvedDesignProofId: null,
           userId: userId || null,
           status: 'DRAFT',
           name: input.name || 'No name',
@@ -63,14 +64,14 @@ export const designRequestCreate = mutationField('designRequestCreate', {
           files: [],
           designLocations: [],
           artists: [],
-          products: input.products.map(product => ({
-            catalogProductId: product.catalogProductId,
-            colors: product.colors.map(color => ({
-              bigCommerceColorId: color.bigCommerceColorId,
+          product: {
+            catalogProductId: input.product.catalogProductId,
+            colors: input.product.colors.map(color => ({
+              catalogProductColorId: color.catalogProductColorId,
               hexCode: color.hexCode || null,
               name: color.name || null,
             })),
-          })),
+          },
         },
       })
     } catch (error) {
@@ -145,6 +146,7 @@ export const designRequestUpdate = mutationField('designRequestUpdate', {
       designRequest = await design.updateDesignRequest({
         designRequest: {
           id: foundDesignRequest.id,
+          approvedDesignProofId: foundDesignRequest.approvedDesignProofId,
           conversationId: foundDesignRequest.conversationId,
           description: input.description || foundDesignRequest.description,
           name: input.name || foundDesignRequest.name,
@@ -168,16 +170,16 @@ export const designRequestUpdate = mutationField('designRequestUpdate', {
           artists: foundDesignRequest.artists,
           revisionRequests: foundDesignRequest.revisionRequests,
           proofs: foundDesignRequest.proofs,
-          products: foundDesignRequest.products.map(product => ({
-            id: product.id,
-            catalogProductId: product.catalogProductId,
-            colors: product.colors.map(color => ({
+          product: {
+            id: foundDesignRequest.product.id,
+            catalogProductId: foundDesignRequest.product.catalogProductId,
+            colors: foundDesignRequest.product.colors.map(color => ({
               id: color.id,
-              bigCommerceColorId: color.bigCommerceColorId,
+              catalogProductColorId: color.catalogProductColorId,
               hexCode: color.hexCode || null,
               name: color.name || null,
             })),
-          })),
+          },
         },
       })
     } catch (error) {
@@ -248,6 +250,14 @@ export const designRequestSubmit = mutationField('designRequestSubmit', {
   },
 })
 
+export const DesignRequestProofCreateProofVariantInput = inputObjectType({
+  name: 'DesignRequestProofCreateProofVariantInput',
+  definition(t) {
+    t.nonNull.id('catalogProductColorId')
+    t.nonNull.list.nonNull.id('imageFileIds')
+  },
+})
+
 export const DesignRequestProofCreateProofLocationInput = inputObjectType({
   name: 'DesignRequestProofCreateProofLocationInput',
   definition(t) {
@@ -261,10 +271,13 @@ export const DesignRequestProofCreateInput = inputObjectType({
   name: 'DesignRequestProofCreateInput',
   definition(t) {
     t.nonNull.id('designRequestId')
-    t.nullable.string('note')
-    t.nonNull.list.nonNull.string('fileIds')
+    t.nullable.string('message')
+    t.nonNull.string('primaryImageFileId')
     t.nonNull.list.nonNull.field('proofLocations', {
       type: 'DesignRequestProofCreateProofLocationInput',
+    })
+    t.nonNull.list.nonNull.field('proofVariants', {
+      type: 'DesignRequestProofCreateProofVariantInput',
     })
   },
 })
@@ -305,13 +318,14 @@ export const designRequestProofCreate = mutationField(
         proof = await design.createDesignProof({
           designProof: {
             artistUserId: userId,
-            note: input.note || null,
-            files: input.fileIds.map(fileId => ({ fileId })),
+            primaryImageFileId: input.primaryImageFileId,
+            catalogProductId: designRequest.product.catalogProductId,
             locations: input.proofLocations.map(location => ({
               colorCount: location.colorCount || null,
               fileId: location.fileId,
               placement: location.placement,
             })),
+            variants: [],
           },
         })
 

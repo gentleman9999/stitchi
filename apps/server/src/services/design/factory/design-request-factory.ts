@@ -1,5 +1,4 @@
 import { Prisma } from '@prisma/client'
-import { DesignRequestApprovedDesignProofRecord } from '../db/design-request-approved-design-proof-table'
 import { DesignRequestArtistRecord } from '../db/design-request-artist-table'
 import { DesignRequestDesignLocationFileRecord } from '../db/design-request-design-location-file-table'
 import { DesignRequestDesignLocationRecord } from '../db/design-request-design-location-table'
@@ -13,9 +12,6 @@ import {
   DesignRequestMetadata,
   DesignRequestRecord,
 } from '../db/design-request-table'
-
-interface DesignRequestApprovedDesignProof
-  extends DesignRequestApprovedDesignProofRecord {}
 
 interface DesignRequestProductColor extends DesignRequestProductColorRecord {}
 
@@ -49,9 +45,8 @@ export interface DesignFactoryDesignRequest extends DesignRequestRecord {
   designLocations: DesignFactoryDesignRequestDesignLocation[]
   artists: DesignRequestArtist[]
   proofs: DesignRequestDesignProof[]
-  approvedProofs: DesignRequestApprovedDesignProof[]
   revisionRequests: DesignRequestRevisionRequest[]
-  products: DesignRequestProduct[]
+  product: DesignRequestProduct
 }
 
 const designRequestFactory = ({
@@ -60,20 +55,18 @@ const designRequestFactory = ({
   designLocations,
   artists,
   proofs,
-  approvedProofs,
   revisions,
-  products,
+  product,
 }: {
   files: DesignRequestFileRecord[]
   artists: DesignRequestArtistRecord[]
   proofs: DesignRequestDesignProofRecord[]
-  approvedProofs: DesignRequestApprovedDesignProofRecord[]
   designRequest: Omit<DesignRequestRecord, 'metadata'> & {
     metadata: Prisma.JsonValue
   }
-  products: (DesignRequestProductRecord & {
+  product: DesignRequestProductRecord & {
     colors: DesignRequestProductColorRecord[]
-  })[]
+  }
   designLocations: (DesignRequestDesignLocationRecord & {
     files: DesignRequestDesignLocationFileRecord[]
   })[]
@@ -86,14 +79,14 @@ const designRequestFactory = ({
     files,
     artists,
     proofs,
-    approvedProofs,
     designLocations,
-    products,
-
+    product,
     id: designRequest.id,
+    designRequestProductId: designRequest.designRequestProductId,
     userId: designRequest.userId,
     organizationId: designRequest.organizationId,
     conversationId: designRequest.conversationId,
+    approvedDesignProofId: designRequest.approvedDesignProofId,
     createdAt: designRequest.createdAt,
     description: designRequest.description,
     name: designRequest.name,

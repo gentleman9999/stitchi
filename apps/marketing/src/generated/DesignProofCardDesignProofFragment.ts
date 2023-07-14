@@ -7,20 +7,13 @@
 // GraphQL fragment: DesignProofCardDesignProofFragment
 // ====================================================
 
-export interface DesignProofCardDesignProofFragment_files_FileUnknown {
-  __typename: "FileUnknown" | "FilePdf";
-  id: string;
-}
-
-export interface DesignProofCardDesignProofFragment_files_FileImage {
+export interface DesignProofCardDesignProofFragment_primaryImageFile {
   __typename: "FileImage";
   id: string;
   url: string;
   width: number;
   height: number;
 }
-
-export type DesignProofCardDesignProofFragment_files = DesignProofCardDesignProofFragment_files_FileUnknown | DesignProofCardDesignProofFragment_files_FileImage;
 
 export interface DesignProofCardDesignProofFragment_artist {
   __typename: "User";
@@ -32,7 +25,6 @@ export interface DesignProofCardDesignProofFragment {
   __typename: "DesignProof";
   id: string;
   createdAt: any;
-  note: string | null;
-  files: DesignProofCardDesignProofFragment_files[];
+  primaryImageFile: DesignProofCardDesignProofFragment_primaryImageFile | null;
   artist: DesignProofCardDesignProofFragment_artist | null;
 }

@@ -66,13 +66,13 @@ export const designRequestFactoryToGrahpql = (
       }
     }),
 
-    designRequestProductIds: designRequest.products.map(product => product.id),
-    designRequestProducts: designRequest.products,
+    designRequestProductId: designRequest.product.id,
+    designRequestProduct: designRequest.product,
   }
 }
 
 export const designProofFactoryToGraphql = (
   designProof: DesignFactoryProof,
 ): NexusGenObjects['DesignProof'] => {
-  return { ...designProof, fileIds: designProof.files.map(file => file.fileId) }
+  return { ...designProof }
 }

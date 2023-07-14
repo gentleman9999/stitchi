@@ -5,11 +5,12 @@ export const DesignProof = objectType({
   definition(t) {
     t.nonNull.id('id')
     t.nonNull.id('artistUserId')
-    t.nullable.string('note')
+
+    t.nullable.id('primaryImageFileId')
+
     t.nonNull.list.nonNull.field('locations', {
       type: 'DesignProofLocation',
     })
-    t.nonNull.list.nonNull.id('fileIds')
 
     t.nonNull.DateTime('createdAt')
   },

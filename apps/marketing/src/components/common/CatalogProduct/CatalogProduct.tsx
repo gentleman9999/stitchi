@@ -89,4 +89,4 @@ CatalogProduct.fragments = {
   `,
 }
 
-export default CatalogProductLegacy
+export default CatalogProduct

@@ -5,8 +5,14 @@ export const Design: yup.ObjectSchema<DesignSchema> = yup
   .object()
   .shape({
     id: yup.string().uuid().required(),
+    designRequestId: yup.string().uuid().required(),
+    catalogProductId: yup.string().required(),
     userId: yup.string().nullable().defined(),
     organizationId: yup.string().uuid().nullable().defined(),
+    primaryImageFileId: yup.string().uuid().nullable().defined(),
+    fileId: yup.string().uuid().nullable().defined(),
+
+    termsConditionsAgreed: yup.boolean().required().default(false),
 
     name: yup.string().required(),
     description: yup.string().nullable().defined(),

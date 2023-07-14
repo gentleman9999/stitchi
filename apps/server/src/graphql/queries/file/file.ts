@@ -1,5 +1,8 @@
 import { extendType } from 'nexus'
-import { fileFactoryToGrahpql } from '../../serializers/file'
+import {
+  fileFactoryToGrahpql,
+  fileFactoryToGrahpqlFileImage,
+} from '../../serializers/file'
 
 export const FileExtendsDesignRequest = extendType({
   type: 'DesignRequest',
@@ -36,14 +39,16 @@ export const FileExtendsDesignRequestDesignLocation = extendType({
 export const FileExtendsDesignProof = extendType({
   type: 'DesignProof',
   definition(t) {
-    t.nonNull.list.nonNull.field('files', {
-      type: 'File',
+    t.nullable.field('primaryImageFile', {
+      type: 'FileImage',
       resolve: async (designProof, _, ctx) => {
-        const files = await ctx.file.listFiles({
-          where: { id: { in: designProof.fileIds } },
+        if (!designProof.primaryImageFileId) return null
+
+        const file = await ctx.file.getFile({
+          fileId: designProof.primaryImageFileId,
         })
 
-        return files.map(fileFactoryToGrahpql)
+        return fileFactoryToGrahpqlFileImage(file)
       },
     })
   },

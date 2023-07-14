@@ -7,7 +7,8 @@ export const DesignProof: yup.ObjectSchema<DesignProofSchema> = yup
     id: yup.string().uuid().required(),
 
     artistUserId: yup.string().required(),
-    note: yup.string().nullable().defined(),
+    catalogProductId: yup.string().required(),
+    primaryImageFileId: yup.string().uuid().required(),
 
     createdAt: yup.date().required(),
     updatedAt: yup.date().required(),

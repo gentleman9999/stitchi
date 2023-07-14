@@ -88,9 +88,15 @@ const Progress = ({ status, loading }: Props) => {
                   >
                     {humanizeStep(stepIdx)}
                   </span>
-                  <span className={cx('text-sm text-gray-500', {})}>
-                    {humanizeStepDescription(stepIdx, completionStatus)}
-                  </span>
+                  {status ? (
+                    <span className={cx('text-sm text-gray-500', {})}>
+                      {humanizeStepDescription(
+                        stepIdx,
+                        completionStatus,
+                        status,
+                      )}
+                    </span>
+                  ) : null}
                 </span>
               </div>
             </>

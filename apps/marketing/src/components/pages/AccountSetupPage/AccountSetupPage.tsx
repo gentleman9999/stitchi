@@ -2,13 +2,12 @@ import { gql } from '@apollo/client'
 import { ComponentErrorMessage } from '@components/common'
 import { LoadingDots, Logo } from '@components/ui'
 import { AccountSetupPageMembershipFragment } from '@generated/AccountSetupPageMembershipFragment'
-import { AccountSetupPageOrganizationFragment } from '@generated/AccountSetupPageOrganizationFragment'
+import useSetUserMembership from '@hooks/useSetUserMembership'
 import routes from '@lib/routes'
 
 import { useRouter } from 'next/router'
 import React from 'react'
 import useBootstrapUser from './useBootstrapUser'
-import useSetUserMembership from './useSetUserMembership'
 
 interface Props {
   memberships: AccountSetupPageMembershipFragment[]
@@ -17,6 +16,7 @@ interface Props {
 const AccountSetupPage = (props: Props) => {
   const [loading, setLoading] = React.useState(false)
   const router = useRouter()
+
   const [
     bootstrapAccount,
     {
@@ -25,6 +25,7 @@ const AccountSetupPage = (props: Props) => {
       loading: bootstrappingAccount,
     },
   ] = useBootstrapUser()
+
   const [
     setMembership,
     { loading: settingMembership, error: membershipError },

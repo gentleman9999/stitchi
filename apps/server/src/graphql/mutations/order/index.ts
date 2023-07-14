@@ -54,121 +54,123 @@ export const orderCartCreate = mutationField('orderCartCreate', {
     input: nonNull('OrderCartCreateInput'),
   },
   resolve: async (_, { input }, ctx) => {
-    // We want to calculate the line item printing cost using the total order quantity of prints
-    const totalPrintQuantity = input.items.reduce(
-      (acc, curr) => acc + curr.quantity,
-      0,
-    )
+    throw new GraphQLError('Not implemented')
 
-    let product: CatalogFactoryCatalogProduct
-    try {
-      product = await ctx.catalog.getCatalogProduct({
-        productEntityId: input.productEntityId.toString(),
-      })
-    } catch (error) {
-      console.error(`Failed to get product: ${input.productEntityId}`, {
-        context: { error },
-      })
-      throw new GraphQLError('Failed to get product')
-    }
+    // // We want to calculate the line item printing cost using the total order quantity of prints
+    // const totalPrintQuantity = input.items.reduce(
+    //   (acc, curr) => acc + curr.quantity,
+    //   0,
+    // )
 
-    // Start by creating design
+    // let product: CatalogFactoryCatalogProduct
+    // try {
+    //   product = await ctx.catalog.getCatalogProduct({
+    //     productEntityId: input.productEntityId.toString(),
+    //   })
+    // } catch (error) {
+    //   console.error(`Failed to get product: ${input.productEntityId}`, {
+    //     context: { error },
+    //   })
+    //   throw new GraphQLError('Failed to get product')
+    // }
 
-    let design: DesignFactoryDesign
-    try {
-      design = await ctx.design.createDesign({
-        name: product.name,
-        description: null,
-        organizationId: ctx.organizationId || null,
-        userId: ctx.userId || null,
-        designLocations: input.printLocations.map(printLocation => ({
-          name: `Print Location ${input.printLocations.length + 1}`,
-          colorCount: printLocation.colorCount,
-        })),
-      })
-    } catch (error) {
-      console.error(`Failed to create design`, { context: { error } })
-      throw new GraphQLError('Failed to create design')
-    }
+    // // Start by creating design
 
-    const orderItems = []
+    // let design: DesignFactoryDesign
+    // // try {
+    // //   design = await ctx.design.createDesign({
+    // //     name: product.name,
+    // //     description: null,
+    // //     organizationId: ctx.organizationId || null,
+    // //     userId: ctx.userId || null,
+    // //     designLocations: input.printLocations.map(printLocation => ({
+    // //       name: `Print Location ${input.printLocations.length + 1}`,
+    // //       colorCount: printLocation.colorCount,
+    // //     })),
+    // //   })
+    // // } catch (error) {
+    // //   console.error(`Failed to create design`, { context: { error } })
+    // //   throw new GraphQLError('Failed to create design')
+    // // }
 
-    for (const item of input.items) {
-      let productVariant
+    // const orderItems = []
 
-      try {
-        productVariant = await ctx.catalog.getCatalogProductVariant({
-          productEntityId: input.productEntityId.toString(),
-          variantEntityId: item.productVariantEntityId.toString(),
-        })
-      } catch (error) {
-        console.error(
-          `Failed to get product variant: ${item.productVariantEntityId}`,
-          { context: { error } },
-        )
-        throw new GraphQLError('Failed to get product variant')
-      }
+    // for (const item of input.items) {
+    //   let productVariant
 
-      let productQuote
+    //   try {
+    //     productVariant = await ctx.catalog.getCatalogProductVariant({
+    //       productEntityId: input.productEntityId.toString(),
+    //       variantEntityId: item.productVariantEntityId.toString(),
+    //     })
+    //   } catch (error) {
+    //     console.error(
+    //       `Failed to get product variant: ${item.productVariantEntityId}`,
+    //       { context: { error } },
+    //     )
+    //     throw new GraphQLError('Failed to get product variant')
+    //   }
 
-      try {
-        productQuote = await ctx.quote.generateQuote({
-          includeFulfillment: input.includeFulfillment,
-          productPriceCents: productVariant.priceCents,
-          quantity: totalPrintQuantity,
-          printLocations: design.locations.map(location => ({
-            colorCount: location.colorCount,
-          })),
-        })
-      } catch (error) {
-        console.error(
-          `Failed to generate quote for product variant: ${item.productVariantEntityId}`,
-          {
-            context: { error },
-          },
-        )
-        throw new GraphQLError('Failed to generate quote for product')
-      }
+    //   let productQuote
 
-      orderItems.push({ item, productVariant, productQuote })
-    }
+    //   try {
+    //     productQuote = await ctx.quote.generateQuote({
+    //       includeFulfillment: input.includeFulfillment,
+    //       productPriceCents: productVariant.priceCents,
+    //       quantity: totalPrintQuantity,
+    //       printLocations: design.locations.map(location => ({
+    //         colorCount: location.colorCount,
+    //       })),
+    //     })
+    //   } catch (error) {
+    //     console.error(
+    //       `Failed to generate quote for product variant: ${item.productVariantEntityId}`,
+    //       {
+    //         context: { error },
+    //       },
+    //     )
+    //     throw new GraphQLError('Failed to generate quote for product')
+    //   }
 
-    try {
-      const order = await ctx.order.createOrder({
-        order: {
-          customerEmail: null,
-          customerFirstName: null,
-          customerLastName: null,
-          customerPhone: null,
-          organizationId: ctx.organizationId || null,
-          shippingAddressId: input.shippingAddressId || null,
-          userId: ctx.userId || null,
-          type: OrderRecordType.CART,
-          items: orderItems.map(({ item, productVariant, productQuote }) => {
-            return {
-              quantity: item.quantity,
-              designId: design.id,
-              // This can represent many things (denoted by TYPE). Therefore we store all ID's as strings in the order line item.
-              productId: input.productEntityId.toString(),
-              productVariantId: item.productVariantEntityId.toString(),
-              unitPriceCents: productQuote.productUnitCostCents,
-              totalPriceCents:
-                productQuote.productUnitCostCents * item.quantity,
+    //   orderItems.push({ item, productVariant, productQuote })
+    // }
 
-              type: OrderItemRecordType.BIG_C_PRODUCT,
-              title: `${product.name} - ${productVariant.option_values
-                ?.map(v => v.label)
-                .join(', ')} - ${productVariant.sku}`,
-            }
-          }),
-        },
-      })
+    // try {
+    //   const order = await ctx.order.createOrder({
+    //     order: {
+    //       customerEmail: null,
+    //       customerFirstName: null,
+    //       customerLastName: null,
+    //       customerPhone: null,
+    //       organizationId: ctx.organizationId || null,
+    //       shippingAddressId: input.shippingAddressId || null,
+    //       userId: ctx.userId || null,
+    //       type: OrderRecordType.CART,
+    //       items: orderItems.map(({ item, productVariant, productQuote }) => {
+    //         return {
+    //           quantity: item.quantity,
+    //           designId: design.id,
+    //           // This can represent many things (denoted by TYPE). Therefore we store all ID's as strings in the order line item.
+    //           productId: input.productEntityId.toString(),
+    //           productVariantId: item.productVariantEntityId.toString(),
+    //           unitPriceCents: productQuote.productUnitCostCents,
+    //           totalPriceCents:
+    //             productQuote.productUnitCostCents * item.quantity,
 
-      return { order: orderFactoryOrderToGraphQL(order) }
-    } catch (error) {
-      console.error(error)
-      throw new GraphQLError('Failed to create order')
-    }
+    //           type: OrderItemRecordType.BIG_C_PRODUCT,
+    //           title: `${product.name} - ${productVariant.option_values
+    //             ?.map(v => v.label)
+    //             .join(', ')} - ${productVariant.sku}`,
+    //         }
+    //       }),
+    //     },
+    //   })
+
+    //   return { order: orderFactoryOrderToGraphQL(order) }
+    // } catch (error) {
+    //   console.error(error)
+    //   throw new GraphQLError('Failed to create order')
+    // }
   },
 })
 

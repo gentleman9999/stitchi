@@ -17,7 +17,6 @@ const productInputSchema = DesignRequestProduct.omit([
   'id',
   'createdAt',
   'updatedAt',
-  'designRequestId',
 ]).concat(
   yup.object().shape({
     colors: yup
@@ -70,6 +69,7 @@ const inputSchema = DesignRequest.omit([
   'createdAt',
   'updatedAt',
   'conversationId',
+  'designRequestProductId',
 ]).concat(
   yup
     .object()
@@ -83,7 +83,7 @@ const inputSchema = DesignRequest.omit([
         .of(designLocationInputSchema.required())
         .required(),
       artists: yup.array().of(artistInputSchema.required()).required(),
-      products: yup.array().of(productInputSchema.required()).required(),
+      product: productInputSchema.required(),
       conversationId: yup.string().uuid().required(),
     })
     .required(),
@@ -123,6 +123,7 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
         data: {
           userId: validInput.userId,
           organizationId: validInput.organizationId,
+          approvedDesignProofId: validInput.approvedDesignProofId,
           name: validInput.name,
           description: validInput.description,
           status: validInput.status,
@@ -156,32 +157,32 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
               })),
             },
           },
-          designRequestProducts: {
-            create: validInput.products.map(product => ({
-              catalogProductId: product.catalogProductId,
+
+          designRequestProduct: {
+            create: {
+              catalogProductId: validInput.product.catalogProductId,
               designRequestProductColors: {
                 createMany: {
-                  data: product.colors.map(color => ({
-                    bigCommerceColorId: color.bigCommerceColorId,
+                  data: validInput.product.colors.map(color => ({
+                    catalogProductColorId: color.catalogProductColorId,
                     hexCode: color.hexCode,
                     name: color.name,
                   })),
                 },
               },
-            })),
+            },
           },
         },
         include: {
           designRequestFiles: true,
           designRequestArtists: true,
           designRequestDesignProofs: true,
-          designRequestApprovedDesignProofs: true,
           designLocations: {
             include: {
               designRequestDesignLocationFiles: true,
             },
           },
-          designRequestProducts: {
+          designRequestProduct: {
             include: {
               designRequestProductColors: true,
             },
@@ -205,7 +206,6 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
       artists: designRequest.designRequestArtists,
       files: designRequest.designRequestFiles,
       proofs: designRequest.designRequestDesignProofs,
-      approvedProofs: designRequest.designRequestApprovedDesignProofs,
       revisions: designRequest.designRequestRevisions.map(revision => ({
         ...revision,
         files: revision.designRequestRevisionFiles,
@@ -214,10 +214,10 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
         ...location,
         files: location.designRequestDesignLocationFiles,
       })),
-      products: designRequest.designRequestProducts.map(product => ({
-        ...product,
-        colors: product.designRequestProductColors,
-      })),
+      product: {
+        ...designRequest.designRequestProduct,
+        colors: designRequest.designRequestProduct.designRequestProductColors,
+      },
     })
   }
 

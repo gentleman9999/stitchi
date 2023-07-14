@@ -2,14 +2,15 @@ import { gql } from '@apollo/client'
 import { Button } from '@components/ui'
 import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/Card'
 import {
-  DesignRequestSubmittedDesignRequestDesignRequestDraftFormFragment,
-  DesignRequestSubmittedDesignRequestDesignRequestDraftFormFragment_designRequestLocations,
-} from '@generated/DesignRequestSubmittedDesignRequestDesignRequestDraftFormFragment'
+  DesignRequestSubmittedDesignRequestGeneralInformationFragment,
+  DesignRequestSubmittedDesignRequestGeneralInformationFragment_designRequestLocations,
+} from '@generated/DesignRequestSubmittedDesignRequestGeneralInformationFragment'
+
 import React from 'react'
 import ReferenceFilesPreview from '../ReferenceFilePreview/ReferenceFilesPreview'
 
 interface Props {
-  designRequest: DesignRequestSubmittedDesignRequestDesignRequestDraftFormFragment
+  designRequest: DesignRequestSubmittedDesignRequestGeneralInformationFragment
 }
 
 const GeneralInformation = ({ designRequest }: Props) => {
@@ -78,7 +79,7 @@ const Item = ({
 const DesignLocation = ({
   location,
 }: {
-  location: DesignRequestSubmittedDesignRequestDesignRequestDraftFormFragment_designRequestLocations
+  location: DesignRequestSubmittedDesignRequestGeneralInformationFragment_designRequestLocations
 }) => {
   const [showDetails, setShowDetails] = React.useState(false)
 

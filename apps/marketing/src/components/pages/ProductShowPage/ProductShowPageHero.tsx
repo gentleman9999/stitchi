@@ -26,8 +26,7 @@ const ProductShowPageHero = ({ product }: Props) => {
   })
 
   const handleSubmit = async (data: FormValues) => {
-    const serializedColors: DesignRequestCreateInput['products'][number]['colors'] =
-      []
+    const serializedColors: DesignRequestCreateInput['product']['colors'] = []
 
     data.colorEntityIds.forEach(colorEntityId => {
       const color = colors.find(color => color.entityId === colorEntityId)
@@ -37,7 +36,7 @@ const ProductShowPageHero = ({ product }: Props) => {
       }
 
       serializedColors.push({
-        bigCommerceColorId: color.entityId.toString(),
+        catalogProductColorId: color.entityId.toString(),
         hexCode: color.hexColors[0],
         name: color.label,
       })
@@ -53,7 +52,7 @@ const ProductShowPageHero = ({ product }: Props) => {
     }
 
     await router.push(
-      routes.internal.closet.designs.show.href({
+      routes.internal.closet.designRequests.show.href({
         designId: designRequest.id,
       }),
     )

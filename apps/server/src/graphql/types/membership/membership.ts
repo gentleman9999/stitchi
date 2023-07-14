@@ -7,6 +7,18 @@ export const Membership = objectType({
     t.nonNull.string('organizationId')
     t.nonNull.string('userId')
     t.field('role', { type: 'MembershipRole' })
+    t.nullable.string('humanizedRole', {
+      resolve: membership => {
+        switch (membership.role) {
+          case 'OWNER':
+            return 'Owner'
+          case 'STITCHI_DESIGNER':
+            return 'Designer'
+          default:
+            return null
+        }
+      },
+    })
 
     t.nonNull.field('createdAt', { type: 'DateTime' })
     t.field('updatedAt', { type: 'DateTime' })

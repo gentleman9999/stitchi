@@ -1,7 +1,7 @@
 export * from './inputs'
 
-export { default as Button } from './Button'
-export * from './Button'
+export { default as Button } from './ButtonV2'
+export * from './ButtonV2'
 
 export { default as BackgroundTexture } from './BackgroundTexture'
 export * from './BackgroundTexture'

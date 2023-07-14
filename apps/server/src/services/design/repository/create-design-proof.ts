@@ -6,8 +6,22 @@ import {
 } from '../db/design-proof-table'
 import * as yup from 'yup'
 import { DesignFactoryProof, designProofFactory } from '../factory'
-import { DesignProofFile } from '../db/design-proof-file-table'
 import { DesignProofLocation } from '../db/design-proof-location-table'
+import { DesignProofVariant } from '../db/design-proof-variant-table'
+import { DesignProofVariantImage } from '../db/design-proof-variant-image-table'
+
+const variantImageSchema = DesignProofVariantImage.omit([
+  'designProofVariantId',
+])
+
+const variantSchema = DesignProofVariant.omit(['id', 'designProofId']).concat(
+  yup
+    .object()
+    .shape({
+      images: yup.array().of(variantImageSchema.required()).required(),
+    })
+    .required(),
+)
 
 const locationSchema = DesignProofLocation.omit(['id', 'designProofId']).concat(
   yup.object().shape({
@@ -20,10 +34,7 @@ const inputSchema = DesignProof.omit(['id', 'createdAt', 'updatedAt']).concat(
     .object()
     .shape({
       locations: yup.array().of(locationSchema.required()).required(),
-      files: yup
-        .array()
-        .of(DesignProofFile.omit(['id', 'designProofId']).required())
-        .required(),
+      variants: yup.array().of(variantSchema.required()).required(),
     })
     .required(),
 )
@@ -60,15 +71,9 @@ const makeCreateDesignProof: MakeCreateDesignProofFn =
     try {
       designProof = await designProofTable.create({
         data: {
-          note: validInput.note,
           artistUserId: validInput.artistUserId,
-          designProofFiles: {
-            createMany: {
-              data: validInput.files.map(file => ({
-                fileId: file.fileId,
-              })),
-            },
-          },
+          catalogProductId: validInput.catalogProductId,
+          primaryImageFileId: validInput.primaryImageFileId,
           designProofLocations: {
             create: validInput.locations.map(location => ({
               colorCount: location.colorCount,
@@ -76,10 +81,32 @@ const makeCreateDesignProof: MakeCreateDesignProofFn =
               fileId: location.fileId,
             })),
           },
+
+          designProofVariants: {
+            create: validInput.variants.map(variant => ({
+              catalogProductColorId: variant.catalogProductColorId,
+              images: {
+                createMany: {
+                  data: variant.images.map(image => ({
+                    imageFileId: image.imageFileId,
+                    order: image.order,
+                  })),
+                },
+              },
+            })),
+          },
         },
         include: {
-          designProofFiles: true,
           designProofLocations: true,
+          designProofVariants: {
+            include: {
+              images: {
+                orderBy: {
+                  order: 'asc',
+                },
+              },
+            },
+          },
         },
       })
     } catch (error) {
@@ -91,8 +118,8 @@ const makeCreateDesignProof: MakeCreateDesignProofFn =
 
     return designProofFactory({
       designProof,
-      files: designProof.designProofFiles,
       locations: designProof.designProofLocations,
+      variants: designProof.designProofVariants,
     })
   }
 

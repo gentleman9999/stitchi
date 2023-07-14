@@ -21,12 +21,16 @@ const ClosetDesignProofCreatePage = ({ designRequest }: Props) => {
     try {
       await createProof({
         designRequestId: designRequest.id,
-        note: data.note,
-        fileIds: data.fileIds,
+        primaryImageFileId: data.primaryImageFileId,
+        message: data.message,
         proofLocations: data.proofLocations.map(location => ({
           colorCount: location.colorCount,
           fileId: location.fileId,
           placement: location.placement,
+        })),
+        proofVariants: data.proofVariants.map(variant => ({
+          catalogProductColorId: variant.catalogProductColorId,
+          imageFileIds: variant.imageFileIds,
         })),
       })
     } catch (error) {
@@ -36,7 +40,7 @@ const ClosetDesignProofCreatePage = ({ designRequest }: Props) => {
     }
 
     await router.push(
-      routes.internal.closet.designs.show.activity.href({
+      routes.internal.closet.designRequests.show.activity.href({
         designId: designRequest.id,
       }),
     )
@@ -50,6 +54,7 @@ const ClosetDesignProofCreatePage = ({ designRequest }: Props) => {
       <CreateProofForm
         onSubmit={handleCreateProof}
         uploadFolder={designRequest.fileUploadDirectory}
+        designRequest={designRequest}
       />
     </Container>
   )
@@ -57,9 +62,11 @@ const ClosetDesignProofCreatePage = ({ designRequest }: Props) => {
 
 ClosetDesignProofCreatePage.fragments = {
   designRequest: gql`
+    ${CreateProofForm.fragments.designRequest}
     fragment ClosetDesignProofCreatePageDesignRequestFragment on DesignRequest {
       id
       fileUploadDirectory
+      ...CreateProofFormDesignRequestFragment
     }
   `,
 }

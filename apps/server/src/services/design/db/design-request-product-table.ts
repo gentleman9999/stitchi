@@ -9,7 +9,6 @@ export const DesignRequestProduct: yup.ObjectSchema<DesignRequestProductSchema> 
     .object()
     .shape({
       id: yup.string().uuid().required(),
-      designRequestId: yup.string().uuid().required(),
 
       catalogProductId: yup.string().required(),
 

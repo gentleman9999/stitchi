@@ -50,7 +50,7 @@ export interface NexusGenInputs {
   DesignRequestCreateInput: { // input type
     description?: string | null; // String
     name?: string | null; // String
-    products: NexusGenInputs['DesignRequestProductCreateInput'][]; // [DesignRequestProductCreateInput!]!
+    product: NexusGenInputs['DesignRequestProductCreateInput']; // DesignRequestProductCreateInput!
     useCase?: string | null; // String
   }
   DesignRequestDesignLocationCreateInput: { // input type
@@ -71,7 +71,7 @@ export interface NexusGenInputs {
     placement?: string | null; // String
   }
   DesignRequestProductColorCreateInput: { // input type
-    bigCommerceColorId: string; // ID!
+    catalogProductColorId: string; // ID!
     hexCode?: string | null; // String
     name?: string | null; // String
   }
@@ -81,14 +81,19 @@ export interface NexusGenInputs {
   }
   DesignRequestProofCreateInput: { // input type
     designRequestId: string; // ID!
-    fileIds: string[]; // [String!]!
-    note?: string | null; // String
+    message?: string | null; // String
+    primaryImageFileId: string; // String!
     proofLocations: NexusGenInputs['DesignRequestProofCreateProofLocationInput'][]; // [DesignRequestProofCreateProofLocationInput!]!
+    proofVariants: NexusGenInputs['DesignRequestProofCreateProofVariantInput'][]; // [DesignRequestProofCreateProofVariantInput!]!
   }
   DesignRequestProofCreateProofLocationInput: { // input type
     colorCount?: number | null; // Int
     fileId: string; // ID!
     placement: string; // String!
+  }
+  DesignRequestProofCreateProofVariantInput: { // input type
+    catalogProductColorId: string; // ID!
+    imageFileIds: string[]; // [ID!]!
   }
   DesignRequestRevisionRequestCreateInput: { // input type
     description: string; // String!
@@ -294,10 +299,9 @@ export interface NexusGenObjects {
   DesignProof: { // root type
     artistUserId: string; // ID!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
-    fileIds: string[]; // [ID!]!
     id: string; // ID!
     locations: NexusGenRootTypes['DesignProofLocation'][]; // [DesignProofLocation!]!
-    note?: string | null; // String
+    primaryImageFileId?: string | null; // ID
   }
   DesignProofLocation: { // root type
     colorCount?: number | null; // Int
@@ -313,8 +317,8 @@ export interface NexusGenObjects {
     designProofIds: string[]; // [ID!]!
     designRequestLocationIds: string[]; // [ID!]!
     designRequestLocations: NexusGenRootTypes['DesignRequestDesignLocation'][]; // [DesignRequestDesignLocation!]!
-    designRequestProductIds: string[]; // [ID!]!
-    designRequestProducts: NexusGenRootTypes['DesignRequestProduct'][]; // [DesignRequestProduct!]!
+    designRequestProduct: NexusGenRootTypes['DesignRequestProduct']; // DesignRequestProduct!
+    designRequestProductId: string; // ID!
     designRevisionRequestIds: string[]; // [ID!]!
     designRevisionRequests: NexusGenRootTypes['DesignRequestRevisionRequest'][]; // [DesignRequestRevisionRequest!]!
     fileIds: string[]; // [ID!]!
@@ -373,7 +377,7 @@ export interface NexusGenObjects {
     id: string; // ID!
   }
   DesignRequestProductColors: { // root type
-    bigCommerceColorId: string; // ID!
+    catalogProductColorId: string; // ID!
     hexCode?: string | null; // String
     name?: string | null; // String
   }
@@ -710,11 +714,10 @@ export interface NexusGenFieldTypes {
     artist: NexusGenRootTypes['User'] | null; // User
     artistUserId: string; // ID!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
-    fileIds: string[]; // [ID!]!
-    files: NexusGenRootTypes['File'][]; // [File!]!
     id: string; // ID!
     locations: NexusGenRootTypes['DesignProofLocation'][]; // [DesignProofLocation!]!
-    note: string | null; // String
+    primaryImageFile: NexusGenRootTypes['FileImage'] | null; // FileImage
+    primaryImageFileId: string | null; // ID
     user: NexusGenRootTypes['User'] | null; // User
   }
   DesignProofLocation: { // field return type
@@ -732,8 +735,8 @@ export interface NexusGenFieldTypes {
     designProofIds: string[]; // [ID!]!
     designRequestLocationIds: string[]; // [ID!]!
     designRequestLocations: NexusGenRootTypes['DesignRequestDesignLocation'][]; // [DesignRequestDesignLocation!]!
-    designRequestProductIds: string[]; // [ID!]!
-    designRequestProducts: NexusGenRootTypes['DesignRequestProduct'][]; // [DesignRequestProduct!]!
+    designRequestProduct: NexusGenRootTypes['DesignRequestProduct']; // DesignRequestProduct!
+    designRequestProductId: string; // ID!
     designRevisionRequestIds: string[]; // [ID!]!
     designRevisionRequests: NexusGenRootTypes['DesignRequestRevisionRequest'][]; // [DesignRequestRevisionRequest!]!
     fileIds: string[]; // [ID!]!
@@ -801,7 +804,7 @@ export interface NexusGenFieldTypes {
     id: string; // ID!
   }
   DesignRequestProductColors: { // field return type
-    bigCommerceColorId: string; // ID!
+    catalogProductColorId: string; // ID!
     hexCode: string | null; // String
     name: string | null; // String
   }
@@ -932,6 +935,7 @@ export interface NexusGenFieldTypes {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     designRequests: NexusGenRootTypes['DesignRequestConnection']; // DesignRequestConnection!
     hasOrders: boolean; // Boolean!
+    humanizedRole: string | null; // String
     id: string; // ID!
     orders: NexusGenRootTypes['OrderConnection'] | null; // OrderConnection
     organization: NexusGenRootTypes['Organization'] | null; // Organization
@@ -1191,11 +1195,10 @@ export interface NexusGenFieldTypeNames {
     artist: 'User'
     artistUserId: 'ID'
     createdAt: 'DateTime'
-    fileIds: 'ID'
-    files: 'File'
     id: 'ID'
     locations: 'DesignProofLocation'
-    note: 'String'
+    primaryImageFile: 'FileImage'
+    primaryImageFileId: 'ID'
     user: 'User'
   }
   DesignProofLocation: { // field return type name
@@ -1213,8 +1216,8 @@ export interface NexusGenFieldTypeNames {
     designProofIds: 'ID'
     designRequestLocationIds: 'ID'
     designRequestLocations: 'DesignRequestDesignLocation'
-    designRequestProductIds: 'ID'
-    designRequestProducts: 'DesignRequestProduct'
+    designRequestProduct: 'DesignRequestProduct'
+    designRequestProductId: 'ID'
     designRevisionRequestIds: 'ID'
     designRevisionRequests: 'DesignRequestRevisionRequest'
     fileIds: 'ID'
@@ -1282,7 +1285,7 @@ export interface NexusGenFieldTypeNames {
     id: 'ID'
   }
   DesignRequestProductColors: { // field return type name
-    bigCommerceColorId: 'ID'
+    catalogProductColorId: 'ID'
     hexCode: 'String'
     name: 'String'
   }
@@ -1413,6 +1416,7 @@ export interface NexusGenFieldTypeNames {
     createdAt: 'DateTime'
     designRequests: 'DesignRequestConnection'
     hasOrders: 'Boolean'
+    humanizedRole: 'String'
     id: 'ID'
     orders: 'OrderConnection'
     organization: 'Organization'

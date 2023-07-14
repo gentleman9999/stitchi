@@ -29,8 +29,6 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
 
   const { designRequest } = data || {}
 
-  const designRequestProducts = designRequest?.designRequestProducts || []
-
   if (error) {
     return <ComponentErrorMessage error={error} />
   }
@@ -70,10 +68,10 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
           </ClosetSection>
         ) : null}
 
-        {designRequestProducts.length ? (
+        {designRequest?.designRequestProduct ? (
           <ClosetSection>
             <DesignRequestOverviewProductList
-              products={designRequestProducts}
+              product={designRequest.designRequestProduct}
             />
           </ClosetSection>
         ) : null}
@@ -90,7 +88,7 @@ const GET_DATA = gql`
     designRequest(id: $designRequestId) {
       id
       status
-      designRequestProducts {
+      designRequestProduct {
         id
         ...DesignRequestOverviewProductListDesignRequestProductFragment
       }

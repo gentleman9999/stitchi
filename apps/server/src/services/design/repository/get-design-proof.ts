@@ -26,8 +26,16 @@ const makeGetDesignProof: MakeGetDesignProofFn =
         id: input.designProofId,
       },
       include: {
-        designProofFiles: true,
         designProofLocations: true,
+        designProofVariants: {
+          include: {
+            images: {
+              orderBy: {
+                order: 'asc',
+              },
+            },
+          },
+        },
       },
     })
 
@@ -37,8 +45,8 @@ const makeGetDesignProof: MakeGetDesignProofFn =
 
     return designProofFactory({
       designProof,
-      files: designProof.designProofFiles,
       locations: designProof.designProofLocations,
+      variants: designProof.designProofVariants,
     })
   }
 

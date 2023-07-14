@@ -19,18 +19,16 @@ const useProductShowPageHero = ({ productEntityId, productName }: Props) => {
   const handleCreateDesignRequest = async ({
     colors,
   }: {
-    colors: DesignRequestCreateInput['products'][number]['colors']
+    colors: DesignRequestCreateInput['product']['colors']
   }) => {
     const { data } = await createDesignRequest({
       variables: {
         input: {
           name: productName,
-          products: [
-            {
-              colors,
-              catalogProductId: productEntityId.toString(),
-            },
-          ],
+          product: {
+            colors,
+            catalogProductId: productEntityId.toString(),
+          },
         },
       },
     })

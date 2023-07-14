@@ -36,7 +36,7 @@ const ShareDialog = (props: Props) => {
       </Dialog.Title>
       <Dialog.Content>
         <div className="flex gap-2 items-center">
-          <TextField readonly value={window.location.href} className="flex-1" />
+          <TextField readOnly value={window.location.href} className="flex-1" />
           <Button
             slim
             color="brandPrimary"

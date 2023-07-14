@@ -28,8 +28,16 @@ const makeListDesignProofs: MakeListDesignProofsFn =
       designProofRecords = await designProofTable.findMany({
         ...input,
         include: {
-          designProofFiles: true,
           designProofLocations: true,
+          designProofVariants: {
+            include: {
+              images: {
+                orderBy: {
+                  order: 'asc',
+                },
+              },
+            },
+          },
         },
       })
     } catch (error) {
@@ -42,8 +50,8 @@ const makeListDesignProofs: MakeListDesignProofsFn =
     return designProofRecords.map(designProof =>
       designProofFactory({
         designProof,
-        files: designProof.designProofFiles,
         locations: designProof.designProofLocations,
+        variants: designProof.designProofVariants,
       }),
     )
   }

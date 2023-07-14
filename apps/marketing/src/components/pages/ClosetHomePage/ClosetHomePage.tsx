@@ -1,61 +1,22 @@
-import { gql } from '@apollo/client'
-import ClosetSection from '@components/common/ClosetSection'
-import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
-import ClosetSectionHeaderTabs from '@components/common/ClosetSectionHeaderTabs'
-import { Container } from '@components/ui'
-import { ClosetHomePageDesignRequestFragment } from '@generated/ClosetHomePageDesignRequestFragment'
-import routes from '@lib/routes'
-
+import ClosetPageContainer from '@components/common/ClosetPageContainer'
+import ClosetPageHeader from '@components/common/ClosetPageHeader'
+import ClosetPageTitle from '@components/common/ClosetPageTitle'
 import React from 'react'
-import ClosetFilters from './ClosetFilters'
-import ClosetTabAll from './ClosetTabAll/ClosetTabAll'
 
-interface Props {
-  designRequests: ClosetHomePageDesignRequestFragment[]
-}
+interface Props {}
 
-const ClosetHomePage = ({ designRequests }: Props) => {
+const ClosetHomePage = ({}: Props) => {
   return (
-    <>
-      <Container>
-        <ClosetFilters onChange={({ date }) => {}} />
+    <ClosetPageContainer>
+      <ClosetPageHeader>
+        <ClosetPageTitle title="Closet" />
+      </ClosetPageHeader>
 
-        <ClosetSection
-          tabs={[
-            { id: 'all', label: 'All', href: routes.internal.closet.href() },
-            { id: 'collections', label: 'Collections', href: '#' },
-            { id: 'designs', label: 'Designs', href: '#' },
-          ]}
-        >
-          {({ activeTab }) => (
-            <>
-              <ClosetSectionHeader>
-                <ClosetSectionHeaderTabs />
-              </ClosetSectionHeader>
-
-              {activeTab ? (
-                <>
-                  {activeTab.id === 'all' ? (
-                    <ClosetTabAll designRequests={designRequests} />
-                  ) : null}
-                </>
-              ) : null}
-            </>
-          )}
-        </ClosetSection>
-      </Container>
-    </>
+      <div className="grid grid-cols-1 sm:grid-cols-12 sm:gap-8">
+        <div className="sm:col-span-8"></div>
+      </div>
+    </ClosetPageContainer>
   )
-}
-
-ClosetHomePage.fragments = {
-  designRequest: gql`
-    ${ClosetTabAll.fragments.designRequest}
-    fragment ClosetHomePageDesignRequestFragment on DesignRequest {
-      id
-      ...ClosetTabAllDesignRequestFragment
-    }
-  `,
 }
 
 export default ClosetHomePage

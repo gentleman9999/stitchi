@@ -5,7 +5,7 @@ interface Props {
 }
 
 const ClosetPageContainer = ({ children }: Props) => {
-  return <div className="mt-6">{children}</div>
+  return <div className="px-6 w-full">{children}</div>
 }
 
 export default ClosetPageContainer

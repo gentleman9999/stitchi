@@ -9,38 +9,38 @@ import { DesignRequestStatus, FileType } from "./globalTypes";
 // GraphQL query operation: DesignRequestOverviewGetDataQuery
 // ====================================================
 
-export interface DesignRequestOverviewGetDataQuery_designRequest_designRequestProducts_colors {
+export interface DesignRequestOverviewGetDataQuery_designRequest_designRequestProduct_colors {
   __typename: "DesignRequestProductColors";
   hexCode: string | null;
   name: string | null;
 }
 
-export interface DesignRequestOverviewGetDataQuery_designRequest_designRequestProducts_catalogProduct_primaryImage {
+export interface DesignRequestOverviewGetDataQuery_designRequest_designRequestProduct_catalogProduct_primaryImage {
   __typename: "CatalogProductImage";
   url: string;
 }
 
-export interface DesignRequestOverviewGetDataQuery_designRequest_designRequestProducts_catalogProduct_brand {
+export interface DesignRequestOverviewGetDataQuery_designRequest_designRequestProduct_catalogProduct_brand {
   __typename: "CatalogBrand";
   id: string;
   name: string;
   slug: string;
 }
 
-export interface DesignRequestOverviewGetDataQuery_designRequest_designRequestProducts_catalogProduct {
+export interface DesignRequestOverviewGetDataQuery_designRequest_designRequestProduct_catalogProduct {
   __typename: "CatalogProduct";
   id: string;
   name: string;
   slug: string;
-  primaryImage: DesignRequestOverviewGetDataQuery_designRequest_designRequestProducts_catalogProduct_primaryImage | null;
-  brand: DesignRequestOverviewGetDataQuery_designRequest_designRequestProducts_catalogProduct_brand | null;
+  primaryImage: DesignRequestOverviewGetDataQuery_designRequest_designRequestProduct_catalogProduct_primaryImage | null;
+  brand: DesignRequestOverviewGetDataQuery_designRequest_designRequestProduct_catalogProduct_brand | null;
 }
 
-export interface DesignRequestOverviewGetDataQuery_designRequest_designRequestProducts {
+export interface DesignRequestOverviewGetDataQuery_designRequest_designRequestProduct {
   __typename: "DesignRequestProduct";
   id: string;
-  colors: DesignRequestOverviewGetDataQuery_designRequest_designRequestProducts_colors[];
-  catalogProduct: DesignRequestOverviewGetDataQuery_designRequest_designRequestProducts_catalogProduct | null;
+  colors: DesignRequestOverviewGetDataQuery_designRequest_designRequestProduct_colors[];
+  catalogProduct: DesignRequestOverviewGetDataQuery_designRequest_designRequestProduct_catalogProduct | null;
 }
 
 export interface DesignRequestOverviewGetDataQuery_designRequest_designRequestLocations_files_FileUnknown {
@@ -100,7 +100,7 @@ export interface DesignRequestOverviewGetDataQuery_designRequest {
   __typename: "DesignRequest";
   id: string;
   status: DesignRequestStatus;
-  designRequestProducts: DesignRequestOverviewGetDataQuery_designRequest_designRequestProducts[];
+  designRequestProduct: DesignRequestOverviewGetDataQuery_designRequest_designRequestProduct;
   fileUploadDirectory: string;
   useCase: string | null;
   fileIds: string[];

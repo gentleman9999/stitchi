@@ -227,7 +227,7 @@ export {}
 //             catalogId: catalog.id,
 //             manufacturerId: manufacturer.id,
 //             primaryVendorId: vendor.id,
-//             imageId: materialVariantImage?.id,
+//             imageFileId: materialVariantImage?.id,
 //             materialCategories: {
 //               create: {
 //                 categoryId: category.id,
@@ -345,7 +345,7 @@ export {}
 //               materialVariantImages: {
 //                 createMany: {
 //                   data: imageRecords.map(image => ({
-//                     imageId: image.id,
+//                     imageFileId: image.id,
 //                   })),
 //                 },
 //               },

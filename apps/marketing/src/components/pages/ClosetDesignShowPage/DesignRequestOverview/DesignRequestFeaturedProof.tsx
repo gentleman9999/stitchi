@@ -33,10 +33,6 @@ const DesignRequestFeaturedProof = ({ designRequestId }: Props) => {
     return null
   }
 
-  const previewImages = latestProof?.files
-    .filter(file => file.__typename === 'FileImage')
-    .slice(0, PREVIEW_LIMIT)
-
   return (
     <ClosetSection loading={loading}>
       <ClosetSectionHeader>
@@ -48,20 +44,24 @@ const DesignRequestFeaturedProof = ({ designRequestId }: Props) => {
                 <Button
                   variant="ghost"
                   Component={Link}
-                  href={routes.internal.closet.designs.show.proofs.show.href({
-                    designId: designRequestId,
-                    proofId: latestProof.id,
-                  })}
+                  href={routes.internal.closet.designRequests.show.proofs.show.href(
+                    {
+                      designId: designRequestId,
+                      proofId: latestProof.id,
+                    },
+                  )}
                 >
                   Preview
                 </Button>
                 <Button
                   variant="ghost"
                   Component={Link}
-                  href={routes.internal.closet.designs.show.proofs.show.href({
-                    designId: designRequestId,
-                    proofId: latestProof.id,
-                  })}
+                  href={routes.internal.closet.designRequests.show.proofs.show.href(
+                    {
+                      designId: designRequestId,
+                      proofId: latestProof.id,
+                    },
+                  )}
                 >
                   Approve
                 </Button>
@@ -86,14 +86,14 @@ const DesignRequestFeaturedProof = ({ designRequestId }: Props) => {
               </>
             ) : (
               <>
-                {previewImages?.map(file => (
+                {latestProof?.primaryImageFile ? (
                   <img
-                    key={file.id}
-                    src={file.url}
-                    alt={file.name}
+                    key={latestProof.primaryImageFile.id}
+                    src={latestProof.primaryImageFile.url}
+                    alt={latestProof.primaryImageFile.name}
                     className="shrink-0 object-contain h-64 w-64 rounded-md overflow-hidden bg-gray-50"
                   />
-                ))}
+                ) : null}
               </>
             )}
           </div>
@@ -109,15 +109,12 @@ const GET_DATA = gql`
       id
       latestProofs: proofs(limit: 1) {
         id
-        note
-        files {
+        primaryImageFile {
           id
           name
           url
-          ... on FileImage {
-            width
-            height
-          }
+          width
+          height
         }
         artist {
           id

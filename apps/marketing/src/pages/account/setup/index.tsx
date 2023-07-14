@@ -8,6 +8,8 @@ import React from 'react'
 
 const getServerSideProps = withPageAuthRequired({
   getServerSideProps: async ctx => {
+    console.log('HAS PAGE AUTH')
+
     const client = initializeApollo(null, ctx)
 
     await client.query<AccountSetupPageGetDataQuery>({

@@ -14,12 +14,7 @@ export interface DesignProofPreviewGetDataQuery_designProof_artist {
   picture: string | null;
 }
 
-export interface DesignProofPreviewGetDataQuery_designProof_files_FileUnknown {
-  __typename: "FileUnknown" | "FilePdf";
-  id: string;
-}
-
-export interface DesignProofPreviewGetDataQuery_designProof_files_FileImage {
+export interface DesignProofPreviewGetDataQuery_designProof_primaryImageFile {
   __typename: "FileImage";
   id: string;
   url: string;
@@ -27,15 +22,12 @@ export interface DesignProofPreviewGetDataQuery_designProof_files_FileImage {
   height: number;
 }
 
-export type DesignProofPreviewGetDataQuery_designProof_files = DesignProofPreviewGetDataQuery_designProof_files_FileUnknown | DesignProofPreviewGetDataQuery_designProof_files_FileImage;
-
 export interface DesignProofPreviewGetDataQuery_designProof {
   __typename: "DesignProof";
   id: string;
-  note: string | null;
   createdAt: any;
   artist: DesignProofPreviewGetDataQuery_designProof_artist | null;
-  files: DesignProofPreviewGetDataQuery_designProof_files[];
+  primaryImageFile: DesignProofPreviewGetDataQuery_designProof_primaryImageFile | null;
 }
 
 export interface DesignProofPreviewGetDataQuery {

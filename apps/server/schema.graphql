@@ -61,11 +61,10 @@ type DesignProof {
   artist: User
   artistUserId: ID!
   createdAt: DateTime!
-  fileIds: [ID!]!
-  files: [File!]!
   id: ID!
   locations: [DesignProofLocation!]!
-  note: String
+  primaryImageFile: FileImage
+  primaryImageFileId: ID
   user: User
 }
 
@@ -85,8 +84,8 @@ type DesignRequest {
   designProofIds: [ID!]!
   designRequestLocationIds: [ID!]!
   designRequestLocations: [DesignRequestDesignLocation!]!
-  designRequestProductIds: [ID!]!
-  designRequestProducts: [DesignRequestProduct!]!
+  designRequestProduct: DesignRequestProduct!
+  designRequestProductId: ID!
   designRevisionRequestIds: [ID!]!
   designRevisionRequests: [DesignRequestRevisionRequest!]!
   fileIds: [ID!]!
@@ -130,7 +129,7 @@ type DesignRequestConversationMessageCreatePayload {
 input DesignRequestCreateInput {
   description: String
   name: String
-  products: [DesignRequestProductCreateInput!]!
+  product: DesignRequestProductCreateInput!
   useCase: String
 }
 
@@ -215,13 +214,13 @@ type DesignRequestProduct {
 }
 
 input DesignRequestProductColorCreateInput {
-  bigCommerceColorId: ID!
+  catalogProductColorId: ID!
   hexCode: String
   name: String
 }
 
 type DesignRequestProductColors {
-  bigCommerceColorId: ID!
+  catalogProductColorId: ID!
   hexCode: String
   name: String
 }
@@ -233,9 +232,10 @@ input DesignRequestProductCreateInput {
 
 input DesignRequestProofCreateInput {
   designRequestId: ID!
-  fileIds: [String!]!
-  note: String
+  message: String
+  primaryImageFileId: String!
   proofLocations: [DesignRequestProofCreateProofLocationInput!]!
+  proofVariants: [DesignRequestProofCreateProofVariantInput!]!
 }
 
 type DesignRequestProofCreatePayload {
@@ -246,6 +246,11 @@ input DesignRequestProofCreateProofLocationInput {
   colorCount: Int
   fileId: ID!
   placement: String!
+}
+
+input DesignRequestProofCreateProofVariantInput {
+  catalogProductColorId: ID!
+  imageFileIds: [ID!]!
 }
 
 type DesignRequestRevisionRequest {
@@ -499,6 +504,7 @@ type Membership {
     last: Int
   ): DesignRequestConnection!
   hasOrders: Boolean!
+  humanizedRole: String
   id: ID!
   orders(
     """Returns the elements in the list that come after the specified cursor"""

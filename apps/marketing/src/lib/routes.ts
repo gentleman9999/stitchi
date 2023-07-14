@@ -211,17 +211,25 @@ const routes = {
       },
 
       designs: {
+        href: () => buildRoute('/closet/designs'),
+      },
+
+      designRequests: {
+        create: {
+          href: () => buildRoute('/closet/design-requests/new'),
+        },
+
         show: {
           href: ({ designId }: { designId: string }) =>
-            buildRoute(`/closet/designs/${designId}`),
+            buildRoute(`/closet/design-requests/${designId}`),
 
           proofs: {
             href: ({ designId }: { designId: string }) =>
-              buildRoute(`/closet/designs/${designId}/proofs`),
+              buildRoute(`/closet/design-requests/${designId}/proofs`),
 
             create: {
               href: ({ designId }: { designId: string }) =>
-                buildRoute(`/closet/designs/${designId}/proofs/create`),
+                buildRoute(`/closet/design-requests/${designId}/proofs/new`),
             },
 
             show: {
@@ -231,15 +239,22 @@ const routes = {
               }: {
                 designId: string
                 proofId: string
-              }) => buildRoute(`/closet/designs/${designId}/proofs/${proofId}`),
+              }) =>
+                buildRoute(
+                  `/closet/design-requests/${designId}/proofs/${proofId}`,
+                ),
             },
           },
 
           activity: {
             href: ({ designId }: { designId: string }) =>
-              buildRoute(`/closet/designs/${designId}/activity`),
+              buildRoute(`/closet/design-requests/${designId}/activity`),
           },
         },
+      },
+
+      brand: {
+        href: () => buildRoute('/closet/brand'),
       },
     },
 

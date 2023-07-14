@@ -18,7 +18,7 @@ const TableFilter = ({ renderFilter, value, label, onRemove }: Props) => {
       <Popover.Trigger asChild>
         <div
           className={cx(
-            'border border-dashed rounded-full px-2 py-2 inline-flex items-center gap-2 text-sm text-gray-500 font-semibold cursor-pointer hover:bg-gray-50',
+            'border border-dashed rounded-full px-2 py-1 inline-flex items-center gap-2 text-sm text-gray-500 font-semibold cursor-pointer hover:bg-gray-50',
           )}
         >
           <div

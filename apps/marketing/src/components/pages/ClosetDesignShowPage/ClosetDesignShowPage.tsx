@@ -14,6 +14,7 @@ import ClosetSection from '@components/common/ClosetSection'
 import routes from '@lib/routes'
 import DesignRequestOverview from './DesignRequestOverview'
 import DesignProofs from './DesignProofs'
+import ClosetPageContainer from '@components/common/ClosetPageContainer'
 
 interface Props {
   designId: string
@@ -30,7 +31,7 @@ const ClosetDesignShowPage = ({ designId, designProofId }: Props) => {
 
   return (
     <DesignProvider>
-      <Container>
+      <ClosetPageContainer>
         <ClosetPageHeader>
           <DesignRequestTitle loading={loading} designRequest={designRequest} />
         </ClosetPageHeader>
@@ -39,7 +40,7 @@ const ClosetDesignShowPage = ({ designId, designProofId }: Props) => {
           tabs={[
             {
               id: 'overview',
-              href: routes.internal.closet.designs.show.href({
+              href: routes.internal.closet.designRequests.show.href({
                 designId: designId,
               }),
               label: 'Overview',
@@ -47,7 +48,7 @@ const ClosetDesignShowPage = ({ designId, designProofId }: Props) => {
 
             {
               id: 'proofs',
-              href: routes.internal.closet.designs.show.proofs.href({
+              href: routes.internal.closet.designRequests.show.proofs.href({
                 designId: designId,
               }),
               label: 'Proofs',
@@ -61,7 +62,7 @@ const ClosetDesignShowPage = ({ designId, designProofId }: Props) => {
               </ClosetSectionHeader>
 
               {activeTab ? (
-                <>
+                <div className="max-w-6xl m-auto">
                   {activeTab.id === 'overview' ? (
                     <DesignRequestOverview designRequestId={designId} />
                   ) : null}
@@ -72,12 +73,12 @@ const ClosetDesignShowPage = ({ designId, designProofId }: Props) => {
                       designProofId={designProofId}
                     />
                   ) : null}
-                </>
+                </div>
               ) : null}
             </>
           )}
         </ClosetSection>
-      </Container>
+      </ClosetPageContainer>
     </DesignProvider>
   )
 }
