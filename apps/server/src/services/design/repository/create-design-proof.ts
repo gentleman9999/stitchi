@@ -85,6 +85,8 @@ const makeCreateDesignProof: MakeCreateDesignProofFn =
           designProofVariants: {
             create: validInput.variants.map(variant => ({
               catalogProductColorId: variant.catalogProductColorId,
+              hexCode: variant.hexCode,
+              name: variant.name,
               images: {
                 createMany: {
                   data: variant.images.map(image => ({

@@ -1,43 +1,51 @@
 import { gql, useQuery } from '@apollo/client'
 import BlurredComponent from '@components/common/BlurredComponent'
 import ClosetSection from '@components/common/ClosetSection'
+import Alert from '@components/ui/Alert'
+import React from 'react'
+import DesignProofVariantPreview from './DesignProofVariantPreview'
 import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
 import ClosetSectionTitle from '@components/common/ClosetSectionTitle'
-import { Badge } from '@components/ui'
-import Alert from '@components/ui/Alert'
+import DesignProofList from './DesignProofsList'
 import {
-  DesignProofsGetDataQuery,
-  DesignProofsGetDataQueryVariables,
-} from '@generated/DesignProofsGetDataQuery'
-import routes from '@lib/routes'
-import React from 'react'
-import DesignProofCard from '../DesignProofCard'
-import DesignProofPreview from './DesignProofPreview'
+  DesignProofGetDataQuery,
+  DesignProofGetDataQueryVariables,
+} from '@generated/DesignProofGetDataQuery'
+import ColorSwatch from '@components/common/ColorSwatch'
 
 interface Props {
   designRequestId: string
-  designProofId?: string
 }
 
-const DesignProofs = ({ designRequestId, designProofId }: Props) => {
+const DesignProofs = ({ designRequestId }: Props) => {
+  const [activeColorId, setActiveColorId] = React.useState<string | null>(null)
+  const [activeProofId, setActiveProofId] = React.useState<string | null>(null)
+
   const { data } = useQuery<
-    DesignProofsGetDataQuery,
-    DesignProofsGetDataQueryVariables
+    DesignProofGetDataQuery,
+    DesignProofGetDataQueryVariables
   >(GET_DATA, {
     variables: { designRequestId },
   })
 
   const { designRequest } = data || {}
 
+  React.useEffect(() => {
+    if (!activeProofId && designRequest?.proofs.length) {
+      setActiveProofId(designRequest?.proofs[0].id)
+    }
+  }, [activeProofId, designRequest?.proofs])
+
+  React.useEffect(() => {
+    if (!activeColorId && designRequest?.designRequestProduct?.colors.length) {
+      setActiveColorId(
+        designRequest?.designRequestProduct?.colors[0].catalogProductColorId,
+      )
+    }
+  }, [activeColorId, designRequest?.designRequestProduct?.colors])
+
   return (
     <>
-      {designProofId ? (
-        <DesignProofPreview
-          designProofId={designProofId}
-          designRequestId={designRequestId}
-        />
-      ) : null}
-
       <div className="relative">
         {designRequest?.status === 'DRAFT' ? (
           <BlurredComponent
@@ -59,44 +67,69 @@ const DesignProofs = ({ designRequestId, designProofId }: Props) => {
           />
         ) : null}
 
-        <ClosetSection>
-          <ClosetSectionHeader>
-            <ClosetSectionTitle title="Proofs" />
-          </ClosetSectionHeader>
-          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            {designRequest?.proofs.map((proof, index) => (
-              <DesignProofCard
-                designProof={proof}
-                key={proof.id}
-                badges={
-                  index === 0 ? (
-                    <Badge label="Latest" severity="default" />
-                  ) : null
-                }
-                href={routes.internal.closet.designRequests.show.proofs.show.href(
-                  {
-                    designId: designRequestId,
-                    proofId: proof.id,
-                  },
-                )}
+        <div className="flex gap-12">
+          <div className="flex-1">
+            {activeProofId ? (
+              <DesignProofVariantPreview
+                designProofId={activeProofId}
+                activeColorId={activeColorId}
               />
-            ))}
+            ) : null}
           </div>
-        </ClosetSection>
+
+          <div className="w-[280px]">
+            <ClosetSection>
+              <ClosetSectionHeader>
+                <ClosetSectionTitle title="Colors" />
+              </ClosetSectionHeader>
+
+              <ul className="flex items-center justify-center mt-4 gap-1">
+                {designRequest?.designRequestProduct?.colors?.map(color => (
+                  <ColorSwatch
+                    key={color.catalogProductColorId}
+                    hexCode={color.hexCode || ''}
+                    label={color.name || ''}
+                    selected={activeColorId === color.catalogProductColorId}
+                    onClick={() =>
+                      setActiveColorId(color.catalogProductColorId)
+                    }
+                  />
+                ))}
+              </ul>
+            </ClosetSection>
+
+            <ClosetSection>
+              <ClosetSectionHeader>
+                <ClosetSectionTitle title="Proofs" />
+              </ClosetSectionHeader>
+
+              <DesignProofList
+                designRequestId={designRequestId}
+                activeProofId={activeProofId}
+                onClick={proofId => setActiveProofId(proofId)}
+              />
+            </ClosetSection>
+          </div>
+        </div>
       </div>
     </>
   )
 }
 
 const GET_DATA = gql`
-  ${DesignProofCard.fragments.designProof}
-  query DesignProofsGetDataQuery($designRequestId: ID!) {
+  query DesignProofGetDataQuery($designRequestId: ID!) {
     designRequest(id: $designRequestId) {
       id
       status
       proofs {
         id
-        ...DesignProofCardDesignProofFragment
+      }
+      designRequestProduct {
+        colors {
+          catalogProductColorId
+          name
+          hexCode
+        }
       }
     }
   }

@@ -93,7 +93,9 @@ export interface NexusGenInputs {
   }
   DesignRequestProofCreateProofVariantInput: { // input type
     catalogProductColorId: string; // ID!
+    hexCode: string; // String!
     imageFileIds: string[]; // [ID!]!
+    name: string; // String!
   }
   DesignRequestRevisionRequestCreateInput: { // input type
     description: string; // String!
@@ -246,7 +248,7 @@ export interface NexusGenEnums {
   OrderPaymentStatus: "NOT_PAID" | "PAID" | "PARTIALLY_PAID" | "PARTIALLY_REFUNDED" | "REFUNDED"
   OrderType: "CART" | "CONFIRMED"
   ScopeAction: "CREATE" | "DELETE" | "READ" | "UPDATE"
-  ScopeResource: "DesignProof" | "DesignRequestRevisionRequest"
+  ScopeResource: "DesignProof" | "DesignRequestRevisionRequest" | "Integration" | "Order"
 }
 
 export interface NexusGenScalars {
@@ -298,10 +300,21 @@ export interface NexusGenObjects {
   }
   DesignProof: { // root type
     artistUserId: string; // ID!
+    colors: NexusGenRootTypes['DesignProofColor'][]; // [DesignProofColor!]!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
+    designProofColorIds: string[]; // [ID!]!
+    designProofLocationIds: string[]; // [ID!]!
     id: string; // ID!
     locations: NexusGenRootTypes['DesignProofLocation'][]; // [DesignProofLocation!]!
     primaryImageFileId?: string | null; // ID
+  }
+  DesignProofColor: { // root type
+    catalogProductColorId: string; // ID!
+    designProofId: string; // ID!
+    hexCode?: string | null; // String
+    id: string; // ID!
+    imageFileIds: string[]; // [ID!]!
+    name?: string | null; // String
   }
   DesignProofLocation: { // root type
     colorCount?: number | null; // Int
@@ -713,12 +726,24 @@ export interface NexusGenFieldTypes {
   DesignProof: { // field return type
     artist: NexusGenRootTypes['User'] | null; // User
     artistUserId: string; // ID!
+    colors: NexusGenRootTypes['DesignProofColor'][]; // [DesignProofColor!]!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
+    designProofColorIds: string[]; // [ID!]!
+    designProofLocationIds: string[]; // [ID!]!
     id: string; // ID!
     locations: NexusGenRootTypes['DesignProofLocation'][]; // [DesignProofLocation!]!
     primaryImageFile: NexusGenRootTypes['FileImage'] | null; // FileImage
     primaryImageFileId: string | null; // ID
     user: NexusGenRootTypes['User'] | null; // User
+  }
+  DesignProofColor: { // field return type
+    catalogProductColorId: string; // ID!
+    designProofId: string; // ID!
+    hexCode: string | null; // String
+    id: string; // ID!
+    imageFileIds: string[]; // [ID!]!
+    images: NexusGenRootTypes['FileImage'][]; // [FileImage!]!
+    name: string | null; // String
   }
   DesignProofLocation: { // field return type
     colorCount: number | null; // Int
@@ -1194,12 +1219,24 @@ export interface NexusGenFieldTypeNames {
   DesignProof: { // field return type name
     artist: 'User'
     artistUserId: 'ID'
+    colors: 'DesignProofColor'
     createdAt: 'DateTime'
+    designProofColorIds: 'ID'
+    designProofLocationIds: 'ID'
     id: 'ID'
     locations: 'DesignProofLocation'
     primaryImageFile: 'FileImage'
     primaryImageFileId: 'ID'
     user: 'User'
+  }
+  DesignProofColor: { // field return type name
+    catalogProductColorId: 'ID'
+    designProofId: 'ID'
+    hexCode: 'String'
+    id: 'ID'
+    imageFileIds: 'ID'
+    images: 'FileImage'
+    name: 'String'
   }
   DesignProofLocation: { // field return type name
     colorCount: 'Int'

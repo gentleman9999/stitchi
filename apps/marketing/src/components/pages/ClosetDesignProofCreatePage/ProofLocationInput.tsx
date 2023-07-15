@@ -90,7 +90,7 @@ const ProofLocationInput = ({ form, uploadFolder }: Props) => {
                           className="col-span-1"
                         >
                           <Select
-                            {...field}
+                            onChange={field.onChange}
                             placeholder="Choose a placement"
                             inputRef={field.ref}
                             value={field.value.length ? field.value : undefined}
@@ -131,9 +131,14 @@ const ProofLocationInput = ({ form, uploadFolder }: Props) => {
                           error={fieldState.error?.message}
                         >
                           <TextField
-                            {...field}
                             type="number"
-                            value={field.value === null ? NaN : field.value}
+                            onChange={field.onChange}
+                            onBlur={field.onBlur}
+                            value={
+                              field.value === null
+                                ? NaN.toString()
+                                : field.value
+                            }
                             className="col-span-1"
                             inputRef={field.ref}
                           />

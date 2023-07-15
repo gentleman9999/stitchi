@@ -10,7 +10,10 @@ export const DesignProofVariant: yup.ObjectSchema<DesignProofVariantSchema> =
     .shape({
       id: yup.string().uuid().required(),
       designProofId: yup.string().uuid().required(),
-      catalogProductColorId: yup.string().uuid().required(),
+      catalogProductColorId: yup.string().required(),
+
+      hexCode: yup.string().nullable().defined(),
+      name: yup.string().nullable().defined(),
     })
     .label('Design Proof Variant')
 

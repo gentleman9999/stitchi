@@ -7,14 +7,7 @@
 // GraphQL query operation: DesignProofPreviewGetDataQuery
 // ====================================================
 
-export interface DesignProofPreviewGetDataQuery_designProof_artist {
-  __typename: "User";
-  id: string | null;
-  name: string | null;
-  picture: string | null;
-}
-
-export interface DesignProofPreviewGetDataQuery_designProof_primaryImageFile {
+export interface DesignProofPreviewGetDataQuery_designProof_colors_images {
   __typename: "FileImage";
   id: string;
   url: string;
@@ -22,12 +15,20 @@ export interface DesignProofPreviewGetDataQuery_designProof_primaryImageFile {
   height: number;
 }
 
+export interface DesignProofPreviewGetDataQuery_designProof_colors {
+  __typename: "DesignProofColor";
+  id: string;
+  catalogProductColorId: string;
+  hexCode: string | null;
+  name: string | null;
+  images: DesignProofPreviewGetDataQuery_designProof_colors_images[];
+}
+
 export interface DesignProofPreviewGetDataQuery_designProof {
   __typename: "DesignProof";
   id: string;
   createdAt: any;
-  artist: DesignProofPreviewGetDataQuery_designProof_artist | null;
-  primaryImageFile: DesignProofPreviewGetDataQuery_designProof_primaryImageFile | null;
+  colors: DesignProofPreviewGetDataQuery_designProof_colors[];
 }
 
 export interface DesignProofPreviewGetDataQuery {

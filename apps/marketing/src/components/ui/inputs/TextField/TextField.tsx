@@ -40,6 +40,8 @@ const TextField = (props: TextFieldProps) => {
     label,
     error,
     inputClassName,
+    inputRef,
+    multiline,
     ...inputProps
   } = props
 
@@ -68,10 +70,10 @@ const TextField = (props: TextFieldProps) => {
       </div>
 
       <div className="">
-        {props.multiline === true ? (
+        {multiline === true ? (
           <textarea
             {...(inputProps as MultilineProps)}
-            ref={props.inputRef}
+            ref={inputRef}
             rows={props.rows || 4}
             aria-describedby={props.description && `${props.name}-description`}
             className={className}
@@ -79,7 +81,7 @@ const TextField = (props: TextFieldProps) => {
         ) : (
           <input
             {...(inputProps as SinglelineProps)}
-            ref={props.inputRef}
+            ref={inputRef}
             type={props.type || 'text'}
             aria-describedby={props.description && `${props.name}-description`}
             className={className}

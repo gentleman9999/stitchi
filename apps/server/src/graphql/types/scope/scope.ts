@@ -3,7 +3,12 @@ import { enumType, objectType } from 'nexus'
 
 export const ScopeResource = enumType({
   name: 'ScopeResource',
-  members: ['DesignProof', 'DesignRequestRevisionRequest'],
+  members: [
+    'DesignProof',
+    'DesignRequestRevisionRequest',
+    'Order',
+    'Integration',
+  ],
 })
 
 export const ScopeAction = enumType({

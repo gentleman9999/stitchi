@@ -618,6 +618,9 @@ model DesignProofVariant {
 
   catalogProductColorId String
 
+  hexCode String?
+  name    String?
+
   images DesignProofVariantImage[]
 
   designProof DesignProof @relation(fields: [designProofId], references: [id])

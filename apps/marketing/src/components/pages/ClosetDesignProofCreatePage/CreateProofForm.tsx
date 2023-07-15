@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client'
 import ClosetSection from '@components/common/ClosetSection'
-import { Button, InputGroup, TextField } from '@components/ui'
+import { InputGroup, TextField } from '@components/ui'
+import Button from '@components/ui/ButtonV2/Button'
 import FileInput from '@components/ui/inputs/FileInput'
 import { CreateProofFormDesignRequestFragment } from '@generated/CreateProofFormDesignRequestFragment'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -78,12 +79,10 @@ const CreateProofForm = ({
           fileId: undefined,
         },
       ],
-      proofVariants: initialValues?.proofVariants || [
-        {
-          catalogProductColorId: '',
-          imageFileIds: [],
-        },
-      ],
+      proofVariants: designRequest.designRequestProduct.colors.map(color => ({
+        catalogProductColorId: color.catalogProductColorId,
+        imageFileIds: [],
+      })),
     },
     resolver: yupResolver(schema),
   })
@@ -98,8 +97,6 @@ const CreateProofForm = ({
       setSubmitting(false)
     }
   })
-
-  console.log('FORM>>', form.formState.errors)
 
   return (
     <form onSubmit={handleSubmit}>
@@ -138,13 +135,13 @@ const CreateProofForm = ({
         <Controller
           name="message"
           control={control}
-          render={({ field, fieldState }) => (
+          render={({ field: { ref, ...fieldRest }, fieldState }) => (
             <InputGroup
               label="Message to customer"
               error={fieldState.error?.message}
               optional
             >
-              <TextField multiline {...field} />
+              <TextField multiline {...fieldRest} inputRef={ref} />
             </InputGroup>
           )}
         />

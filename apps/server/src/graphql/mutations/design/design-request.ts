@@ -255,6 +255,8 @@ export const DesignRequestProofCreateProofVariantInput = inputObjectType({
   definition(t) {
     t.nonNull.id('catalogProductColorId')
     t.nonNull.list.nonNull.id('imageFileIds')
+    t.nonNull.string('name')
+    t.nonNull.string('hexCode')
   },
 })
 
@@ -296,7 +298,11 @@ export const designRequestProofCreate = mutationField(
     args: {
       input: nonNull(DesignRequestProofCreateInput),
     },
-    resolve: async (_, { input }, { design, subscriptions, userId }) => {
+    resolve: async (
+      _,
+      { input },
+      { design, subscriptions, conversation, userId },
+    ) => {
       if (!userId) {
         throw new GraphQLError('Unauthorized')
       }
@@ -325,7 +331,15 @@ export const designRequestProofCreate = mutationField(
               fileId: location.fileId,
               placement: location.placement,
             })),
-            variants: [],
+            variants: input.proofVariants.map(variant => ({
+              catalogProductColorId: variant.catalogProductColorId,
+              name: variant.name,
+              hexCode: variant.hexCode,
+              images: variant.imageFileIds.map((imageFileId, index) => ({
+                imageFileId,
+                order: index,
+              })),
+            })),
           },
         })
 
@@ -345,7 +359,8 @@ export const designRequestProofCreate = mutationField(
             ...designRequest,
             proofs: [
               ...designRequest.proofs.map(p => ({
-                designProofId: p.id,
+                id: p.id,
+                designProofId: p.designProofId,
               })),
               { designProofId: proof.id },
             ],
@@ -354,6 +369,49 @@ export const designRequestProofCreate = mutationField(
       } catch (error) {
         console.log(error)
         throw new GraphQLError('Unable to update design request')
+      }
+
+      if (input.message) {
+        if (updatedDesignRequest.conversationId) {
+          let convo
+
+          try {
+            convo = await conversation.getConversation({
+              conversationId: updatedDesignRequest.conversationId,
+            })
+          } catch (error) {
+            console.log(error)
+            throw new GraphQLError('Unable to create conversation')
+          }
+
+          try {
+            await conversation.updateConversation({
+              conversation: {
+                id: updatedDesignRequest.conversationId,
+                messages: [
+                  ...convo.messages,
+                  {
+                    senderUserId: proof.artistUserId,
+                    message: input.message,
+                    files: [],
+                  },
+                ],
+              },
+            })
+          } catch (error) {
+            console.log(error)
+            throw new GraphQLError('Unable to update conversation')
+          }
+        } else {
+          console.error(
+            'Design request does not have associated conversation. This should not happen.',
+            {
+              context: {
+                designRequest: updatedDesignRequest,
+              },
+            },
+          )
+        }
       }
 
       subscriptions.publish('DESIGN_REQUEST_HISTORY_ITEM_ADDED', {

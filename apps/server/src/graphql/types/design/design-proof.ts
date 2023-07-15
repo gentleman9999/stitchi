@@ -8,10 +8,16 @@ export const DesignProof = objectType({
 
     t.nullable.id('primaryImageFileId')
 
+    t.nonNull.DateTime('createdAt')
+
+    t.nonNull.list.nonNull.id('designProofLocationIds')
     t.nonNull.list.nonNull.field('locations', {
       type: 'DesignProofLocation',
     })
 
-    t.nonNull.DateTime('createdAt')
+    t.nonNull.list.nonNull.id('designProofColorIds')
+    t.nonNull.list.nonNull.field('colors', {
+      type: 'DesignProofColor',
+    })
   },
 })

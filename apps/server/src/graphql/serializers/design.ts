@@ -74,5 +74,32 @@ export const designRequestFactoryToGrahpql = (
 export const designProofFactoryToGraphql = (
   designProof: DesignFactoryProof,
 ): NexusGenObjects['DesignProof'] => {
-  return { ...designProof }
+  return {
+    id: designProof.id,
+    artistUserId: designProof.artistUserId,
+
+    primaryImageFileId: designProof.primaryImageFileId,
+
+    designProofLocationIds: designProof.locations.map(location => location.id),
+    designProofColorIds: designProof.variants.map(variant => variant.id),
+
+    createdAt: designProof.createdAt,
+
+    locations: designProof.locations.map(location => ({
+      id: location.id,
+      designProofId: location.designProofId,
+      fileId: location.fileId,
+      colorCount: location.colorCount,
+      placement: location.placement,
+    })),
+
+    colors: designProof.variants.map(variant => ({
+      id: variant.id,
+      catalogProductColorId: variant.catalogProductColorId,
+      designProofId: variant.designProofId,
+      hexCode: variant.hexCode,
+      name: variant.name,
+      imageFileIds: variant.images.map(image => image.imageFileId),
+    })),
+  }
 }

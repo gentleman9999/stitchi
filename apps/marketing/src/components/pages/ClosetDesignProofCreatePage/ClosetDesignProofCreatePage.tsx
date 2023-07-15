@@ -18,6 +18,20 @@ const ClosetDesignProofCreatePage = ({ designRequest }: Props) => {
   const [createProof] = useCreateProof()
 
   const handleCreateProof = async (data: FormValues) => {
+    const serializedProofVariants = data.proofVariants.map(variant => {
+      const designRequestVariant =
+        designRequest.designRequestProduct.colors.find(
+          v => v.catalogProductColorId === variant.catalogProductColorId,
+        )
+
+      return {
+        catalogProductColorId: variant.catalogProductColorId,
+        imageFileIds: variant.imageFileIds,
+        name: designRequestVariant?.name || '',
+        hexCode: designRequestVariant?.hexCode || '',
+      }
+    })
+
     try {
       await createProof({
         designRequestId: designRequest.id,
@@ -28,9 +42,11 @@ const ClosetDesignProofCreatePage = ({ designRequest }: Props) => {
           fileId: location.fileId,
           placement: location.placement,
         })),
-        proofVariants: data.proofVariants.map(variant => ({
+        proofVariants: serializedProofVariants.map(variant => ({
           catalogProductColorId: variant.catalogProductColorId,
           imageFileIds: variant.imageFileIds,
+          name: variant.name,
+          hexCode: variant.hexCode,
         })),
       })
     } catch (error) {

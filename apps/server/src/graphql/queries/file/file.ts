@@ -72,6 +72,22 @@ export const FileExtendsDesignProofLocation = extendType({
   },
 })
 
+export const FileExtendsDesignProofColor = extendType({
+  type: 'DesignProofColor',
+  definition(t) {
+    t.nonNull.list.nonNull.field('images', {
+      type: 'FileImage',
+      resolve: async (designProofColor, _, ctx) => {
+        const files = await ctx.file.listFiles({
+          where: { id: { in: designProofColor.imageFileIds } },
+        })
+
+        return files.map(fileFactoryToGrahpqlFileImage)
+      },
+    })
+  },
+})
+
 export const FileExtendsDesignRequestRevisionRequest = extendType({
   type: 'DesignRequestRevisionRequest',
   definition(t) {

@@ -1,10 +1,24 @@
 import { extendType } from 'nexus'
 import { NexusGenObjects, NexusGenEnums } from '../../generated/nexus'
 
-const membershipHasRole = (
-  roles: NexusGenEnums['MembershipRole'][],
-  membership: NexusGenObjects['Membership'],
-): boolean => (membership.role ? roles.includes(membership.role) : false)
+const scopeMap: Record<
+  NexusGenEnums['MembershipRole'],
+  Record<NexusGenEnums['ScopeResource'], NexusGenEnums['ScopeAction'][]>
+> = {
+  OWNER: {
+    Order: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
+    DesignProof: [],
+    DesignRequestRevisionRequest: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
+    Integration: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
+  },
+
+  STITCHI_DESIGNER: {
+    Order: [],
+    DesignProof: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
+    DesignRequestRevisionRequest: ['READ'],
+    Integration: [],
+  },
+}
 
 export const ScopeExtendsMembership = extendType({
   type: 'Membership',
@@ -18,56 +32,16 @@ export const ScopeExtendsMembership = extendType({
 
         let scopes: NexusGenObjects['Scope'][] = []
 
-        if (membershipHasRole(['STITCHI_DESIGNER'], membership)) {
-          scopes.push(
-            ...([
-              {
-                resource: 'DesignProof',
-                action: 'CREATE',
-              },
-              {
-                resource: 'DesignProof',
-                action: 'READ',
-              },
-              {
-                resource: 'DesignProof',
-                action: 'UPDATE',
-              },
-              {
-                resource: 'DesignProof',
-                action: 'DELETE',
-              },
-
-              {
-                resource: 'DesignRequestRevisionRequest',
-                action: 'READ',
-              },
-            ] as const),
-          )
-        }
-
-        if (membershipHasRole(['OWNER'], membership)) {
-          scopes.push(
-            ...([
-              {
-                resource: 'DesignRequestRevisionRequest',
-                action: 'CREATE',
-              },
-              {
-                resource: 'DesignRequestRevisionRequest',
-                action: 'READ',
-              },
-              {
-                resource: 'DesignRequestRevisionRequest',
-                action: 'UPDATE',
-              },
-              {
-                resource: 'DesignRequestRevisionRequest',
-                action: 'DELETE',
-              },
-            ] as const),
-          )
-        }
+        Object.entries(scopeMap[membership.role]).forEach(
+          ([resource, actions]) => {
+            actions.forEach(action => {
+              scopes.push({
+                resource: resource as NexusGenEnums['ScopeResource'],
+                action,
+              })
+            })
+          },
+        )
 
         return scopes
       },

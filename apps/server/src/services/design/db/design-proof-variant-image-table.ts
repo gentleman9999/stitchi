@@ -8,7 +8,6 @@ export const DesignProofVariantImage: yup.ObjectSchema<DesignProofVariantImageSc
   yup
     .object()
     .shape({
-      id: yup.string().uuid().required(),
       designProofVariantId: yup.string().uuid().required(),
       imageFileId: yup.string().uuid().required(),
       order: yup.number().integer().min(0).required(),

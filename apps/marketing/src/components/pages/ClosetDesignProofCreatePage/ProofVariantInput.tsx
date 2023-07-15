@@ -1,12 +1,9 @@
-import ClosetPageActions from '@components/common/ClosetPageActions'
 import ClosetSection from '@components/common/ClosetSection'
 import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
 import ClosetSectionTitle from '@components/common/ClosetSectionTitle'
 import { FileInput, InputGroup } from '@components/ui'
-import Button from '@components/ui/ButtonV2/Button'
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
-import cx from 'classnames'
 import { Controller, useFieldArray, UseFormReturn } from 'react-hook-form'
 import { FormValues } from './CreateProofForm'
 import { gql } from '@apollo/client'
@@ -20,8 +17,8 @@ interface Props {
 }
 
 const ProofVariantInput = ({ uploadFolder, form, designRequest }: Props) => {
-  const [activeColorId, setActiveColorId] = React.useState<string | null>(
-    designRequest.designRequestProduct.colors[0].catalogProductColorId,
+  const [activeColor, setActiveColor] = React.useState(
+    designRequest.designRequestProduct.colors[0],
   )
 
   const proofVariants = form.watch('proofVariants')
@@ -43,10 +40,13 @@ const ProofVariantInput = ({ uploadFolder, form, designRequest }: Props) => {
             {designRequest.designRequestProduct.colors.map((color, index) => (
               <ColorSwatch
                 key={color.catalogProductColorId}
-                selected={activeColorId === color.catalogProductColorId}
+                selected={
+                  activeColor.catalogProductColorId ===
+                  color.catalogProductColorId
+                }
                 hexCode={color.hexCode || ''}
                 label={color.name || ''}
-                onClick={() => setActiveColorId(color.catalogProductColorId)}
+                onClick={() => setActiveColor(color)}
                 checked={Boolean(proofVariants[index]?.imageFileIds?.length)}
               />
             ))}
@@ -54,18 +54,27 @@ const ProofVariantInput = ({ uploadFolder, form, designRequest }: Props) => {
         </InputGroup>
 
         <AnimatePresence>
-          {designRequest.designRequestProduct.colors.map((color, index) => {
-            return (
+          {variantFields.fields.map((field, index) => {
+            const fieldColorId = form.getValues(
+              `proofVariants.${index}.catalogProductColorId`,
+            )
+
+            return activeColor.catalogProductColorId === fieldColorId ? (
               <motion.div
-                key={color.catalogProductColorId}
-                className={cx('', {
-                  hidden: activeColorId !== color.catalogProductColorId,
-                })}
+                key={field.id}
+                initial={{
+                  opacity: 0,
+                }}
+                animate={{
+                  opacity: 1,
+                }}
+                exit={{
+                  opacity: 0,
+                }}
               >
                 <input
                   readOnly
                   hidden
-                  value={color.catalogProductColorId}
                   {...form.register(
                     `proofVariants.${index}.catalogProductColorId`,
                   )}
@@ -76,7 +85,7 @@ const ProofVariantInput = ({ uploadFolder, form, designRequest }: Props) => {
                   defaultValue={[]}
                   render={({ field, fieldState }) => (
                     <InputGroup
-                      label={`${color.name} design file`}
+                      label={`${activeColor.name} design file`}
                       error={fieldState.error?.message}
                       className="sm:col-span-2"
                     >
@@ -91,7 +100,7 @@ const ProofVariantInput = ({ uploadFolder, form, designRequest }: Props) => {
                   )}
                 />
               </motion.div>
-            )
+            ) : null
           })}
         </AnimatePresence>
       </div>

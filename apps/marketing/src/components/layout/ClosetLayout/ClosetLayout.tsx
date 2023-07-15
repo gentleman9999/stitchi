@@ -21,12 +21,15 @@ import {
 import UserAvatar from '@components/common/UserAvatar'
 import Skeleton from 'react-loading-skeleton'
 import { capitalize } from 'lodash-es'
+import { useAuthorizedComponent } from '@lib/auth'
+import { ScopeAction, ScopeResource } from '@generated/globalTypes'
 
 interface Props {
   children: React.ReactNode
 }
 
 const ClosetLayout = (props: Props) => {
+  const { can, loading: authorizationLoading } = useAuthorizedComponent()
   const { data, loading } = useQuery<ClosetLayoutGetDataQuery>(GET_DATA)
 
   const { user, humanizedRole: role, organization } = data?.viewer || {}
@@ -64,6 +67,9 @@ const ClosetLayout = (props: Props) => {
                   href: routes.internal.closet.orders.href(),
                   label: 'Orders',
                   icon: <TruckIcon className="w-4 h-4" />,
+                  hidden:
+                    authorizationLoading ||
+                    !can(ScopeResource.Order, ScopeAction.READ),
                 },
 
                 {
@@ -75,20 +81,25 @@ const ClosetLayout = (props: Props) => {
                   href: '',
                   label: 'Integrations',
                   icon: <BoltIcon className="w-4 h-4" />,
+                  hidden:
+                    authorizationLoading ||
+                    !can(ScopeResource.Integration, ScopeAction.READ),
                 },
-              ].map(link => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="hover:bg-gray-50 rounded-md p-2 w-full text-sm font-medium flex items-center gap-2 text-gray-500"
-                  >
-                    <div className="w-5 h-5 inline-flex items-center justify-center">
-                      {link.icon}
-                    </div>
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+              ]
+                .filter(link => !link.hidden)
+                .map(link => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="hover:bg-gray-50 rounded-md p-2 w-full text-sm font-medium flex items-center gap-2 text-gray-500"
+                    >
+                      <div className="w-5 h-5 inline-flex items-center justify-center">
+                        {link.icon}
+                      </div>
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
             </ul>
             <hr className="my-2" />
             <ul>
@@ -110,7 +121,7 @@ const ClosetLayout = (props: Props) => {
                   icon: <ArrowRightOnRectangleIcon className="w-4 h-4" />,
                 },
               ].map(link => (
-                <li key={link.href}>
+                <li key={link.label}>
                   <Link
                     href={link.href}
                     className="hover:bg-gray-50 rounded-md p-2 w-full text-sm font-medium flex items-center gap-2 text-gray-500"

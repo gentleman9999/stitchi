@@ -60,12 +60,25 @@ scalar DateTime
 type DesignProof {
   artist: User
   artistUserId: ID!
+  colors: [DesignProofColor!]!
   createdAt: DateTime!
+  designProofColorIds: [ID!]!
+  designProofLocationIds: [ID!]!
   id: ID!
   locations: [DesignProofLocation!]!
   primaryImageFile: FileImage
   primaryImageFileId: ID
   user: User
+}
+
+type DesignProofColor {
+  catalogProductColorId: ID!
+  designProofId: ID!
+  hexCode: String
+  id: ID!
+  imageFileIds: [ID!]!
+  images: [FileImage!]!
+  name: String
 }
 
 type DesignProofLocation {
@@ -250,7 +263,9 @@ input DesignRequestProofCreateProofLocationInput {
 
 input DesignRequestProofCreateProofVariantInput {
   catalogProductColorId: ID!
+  hexCode: String!
   imageFileIds: [ID!]!
+  name: String!
 }
 
 type DesignRequestRevisionRequest {
@@ -841,6 +856,8 @@ enum ScopeAction {
 enum ScopeResource {
   DesignProof
   DesignRequestRevisionRequest
+  Integration
+  Order
 }
 
 input StringFilterInput {

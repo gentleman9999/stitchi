@@ -78,6 +78,8 @@ export enum ScopeAction {
 export enum ScopeResource {
   DesignProof = "DesignProof",
   DesignRequestRevisionRequest = "DesignRequestRevisionRequest",
+  Integration = "Integration",
+  Order = "Order",
 }
 
 export interface ArticleModelFilter {
@@ -170,6 +172,8 @@ export interface DesignRequestProofCreateProofLocationInput {
 export interface DesignRequestProofCreateProofVariantInput {
   catalogProductColorId: string;
   imageFileIds: string[];
+  name: string;
+  hexCode: string;
 }
 
 export interface DesignRequestRevisionRequestCreateInput {

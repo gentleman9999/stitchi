@@ -268,6 +268,7 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
           approvedDesignProofId: validInput.approvedDesignProofId || undefined,
           userId: validInput.userId,
           metadata: validInput.metadata || undefined,
+
           designRequestDesignProofs: {
             create: proofsToCreate?.map(({ designProofId }) => ({
               designProofId,
