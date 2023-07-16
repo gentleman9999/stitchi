@@ -131,6 +131,14 @@ export interface DateFilterInput {
   lte?: string | null;
 }
 
+export interface DesignRequestApproveInput {
+  designRequestId: string;
+  designProofId: string;
+  termsConditionsAgreed: boolean;
+  name: string;
+  description?: string | null;
+}
+
 export interface DesignRequestConversationMessageCreateInput {
   designRequestId: string;
   message: string;

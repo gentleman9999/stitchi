@@ -17,6 +17,7 @@ const Page = () => {
     variables: {
       first: 10,
     },
+    fetchPolicy: 'cache-and-network',
   })
 
   const designRequests =

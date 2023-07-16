@@ -1,4 +1,5 @@
 import {
+  DesignFactoryDesign,
   DesignFactoryDesignRequest,
   DesignFactoryProof,
 } from '../../services/design/factory'
@@ -101,5 +102,25 @@ export const designProofFactoryToGraphql = (
       name: variant.name,
       imageFileIds: variant.images.map(image => image.imageFileId),
     })),
+  }
+}
+
+export const designFactoryDesignToGraphql = (
+  design: DesignFactoryDesign,
+): NexusGenObjects['Design'] => {
+  return {
+    id: design.id,
+    catalogProductId: design.catalogProductId,
+    designRequestId: design.designRequestId,
+    organizationId: design.organizationId,
+    primaryImageFileId: design.primaryImageFileId,
+    userId: design.userId,
+
+    name: design.name,
+    description: design.description,
+    termsConditionsAgreed: design.termsConditionsAgreed,
+
+    createdAt: design.createdAt,
+    updatedAt: design.updatedAt,
   }
 }

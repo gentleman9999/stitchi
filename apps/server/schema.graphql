@@ -57,6 +57,20 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+type Design {
+  catalogProductId: ID!
+  createdAt: DateTime!
+  description: String
+  designRequestId: ID!
+  id: ID!
+  name: String!
+  organizationId: ID
+  primaryImageFileId: ID
+  termsConditionsAgreed: Boolean!
+  updatedAt: DateTime!
+  userId: ID
+}
+
 type DesignProof {
   artist: User
   artistUserId: ID!
@@ -115,6 +129,19 @@ type DesignRequest {
   useCase: String
   user: User
   userId: ID
+}
+
+input DesignRequestApproveInput {
+  description: String
+  designProofId: ID!
+  designRequestId: ID!
+  name: String!
+  termsConditionsAgreed: Boolean!
+}
+
+type DesignRequestApprovePayload {
+  design: Design
+  designRequest: DesignRequest
 }
 
 type DesignRequestConnection {
@@ -566,6 +593,7 @@ enum MembershipRole {
 }
 
 type Mutation {
+  designRequestApprove(input: DesignRequestApproveInput!): DesignRequestApprovePayload
   designRequestConversationMessageCreate(input: DesignRequestConversationMessageCreateInput!): DesignRequestConversationMessageCreatePayload
   designRequestCreate(input: DesignRequestCreateInput!): DesignRequestCreatePayload
   designRequestDesignLocationCreate(input: DesignRequestDesignLocationCreateInput!): DesignRequestDesignLocationCreatePayload
@@ -820,6 +848,7 @@ type Query {
   _products(products: [ProductKey!]!): [Product]
   designProof(id: ID!): DesignProof
   designRequest(id: ID!): DesignRequest
+  designV2(id: ID!): Design
   order(id: ID!): Order
   userMemberships: [Membership!]!
   viewer: Membership

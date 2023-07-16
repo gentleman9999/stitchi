@@ -3,21 +3,19 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { DesignRequestStatus } from "./globalTypes";
-
 // ====================================================
 // GraphQL query operation: ClosetDesignShowPageGetDataQuery
 // ====================================================
 
-export interface ClosetDesignShowPageGetDataQuery_designRequest {
-  __typename: "DesignRequest";
+export interface ClosetDesignShowPageGetDataQuery_design {
+  __typename: "Design";
   id: string;
   name: string;
-  status: DesignRequestStatus;
+  description: string | null;
 }
 
 export interface ClosetDesignShowPageGetDataQuery {
-  designRequest: ClosetDesignShowPageGetDataQuery_designRequest | null;
+  design: ClosetDesignShowPageGetDataQuery_design | null;
 }
 
 export interface ClosetDesignShowPageGetDataQueryVariables {

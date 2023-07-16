@@ -1,94 +1,71 @@
-import { Container } from '@components/ui'
-import React from 'react'
-import { DesignProvider } from './design-context'
+import { gql, useQuery } from '@apollo/client'
+import ClosetPageActions from '@components/common/ClosetPageActions'
+import ClosetPageContainer from '@components/common/ClosetPageContainer'
+import ClosetPageHeader from '@components/common/ClosetPageHeader'
+import ClosetPageTitle from '@components/common/ClosetPageTitle'
+import ClosetSection from '@components/common/ClosetSection'
+import { InputGroup } from '@components/ui'
+import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/Card'
 import {
   ClosetDesignShowPageGetDataQuery,
   ClosetDesignShowPageGetDataQueryVariables,
 } from '@generated/ClosetDesignShowPageGetDataQuery'
-import { gql, useQuery } from '@apollo/client'
-import DesignRequestTitle from './DesignRequestTitle'
-import ClosetPageHeader from '@components/common/ClosetPageHeader'
-import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
-import ClosetSectionHeaderTabs from '@components/common/ClosetSectionHeaderTabs'
-import ClosetSection from '@components/common/ClosetSection'
-import routes from '@lib/routes'
-import DesignRequestOverview from './DesignRequestOverview'
-import DesignProofs from './DesignProofs'
-import ClosetPageContainer from '@components/common/ClosetPageContainer'
+import React from 'react'
 
 interface Props {
   designId: string
-  designProofId?: string
 }
 
-const ClosetDesignShowPage = ({ designId, designProofId }: Props) => {
+const ClosetDesignShowPage = ({ designId }: Props) => {
   const { data, loading } = useQuery<
     ClosetDesignShowPageGetDataQuery,
     ClosetDesignShowPageGetDataQueryVariables
-  >(GET_DATA, { variables: { designId } })
+  >(GET_DATA, {
+    variables: { designId },
+  })
 
-  const { designRequest } = data || {}
+  const { design } = data || {}
 
   return (
-    <DesignProvider>
-      <ClosetPageContainer>
-        <ClosetPageHeader>
-          <DesignRequestTitle loading={loading} designRequest={designRequest} />
-        </ClosetPageHeader>
+    <ClosetPageContainer>
+      <ClosetPageHeader>
+        <ClosetPageTitle
+          title={design?.name}
+          actions={
+            <ClosetPageActions
+              actions={[
+                {
+                  label: 'Share',
+                  onClick: () => {},
+                },
+              ]}
+            />
+          }
+        />
+      </ClosetPageHeader>
 
-        <ClosetSection
-          tabs={[
-            {
-              id: 'overview',
-              href: routes.internal.closet.designRequests.show.href({
-                designId: designId,
-              }),
-              label: 'Overview',
-            },
-
-            {
-              id: 'proofs',
-              href: routes.internal.closet.designRequests.show.proofs.href({
-                designId: designId,
-              }),
-              label: 'Proofs',
-            },
-          ]}
-        >
-          {({ activeTab }) => (
-            <>
-              <ClosetSectionHeader divider>
-                <ClosetSectionHeaderTabs />
-              </ClosetSectionHeader>
-
-              {activeTab ? (
-                <div className="max-w-6xl m-auto">
-                  {activeTab.id === 'overview' ? (
-                    <DesignRequestOverview designRequestId={designId} />
-                  ) : null}
-
-                  {activeTab.id === 'proofs' ? (
-                    <DesignProofs
-                      designRequestId={designId}
-                      designProofId={designProofId}
-                    />
-                  ) : null}
-                </div>
-              ) : null}
-            </>
-          )}
-        </ClosetSection>
-      </ClosetPageContainer>
-    </DesignProvider>
+      <ClosetSection>
+        <Card>
+          <CardHeader>
+            <CardTitle title="Overview" />
+          </CardHeader>
+          <CardContent>
+            <InputGroup label="Description">
+              <p>{design?.description}</p>
+            </InputGroup>
+          </CardContent>
+        </Card>
+      </ClosetSection>
+    </ClosetPageContainer>
   )
 }
 
 const GET_DATA = gql`
-  ${DesignRequestTitle.fragments.designRequest}
   query ClosetDesignShowPageGetDataQuery($designId: ID!) {
-    designRequest(id: $designId) {
+    design: designV2(id: $designId) {
       id
-      ...DesignRequestTitleDesignRequesetFragment
+      name
+      description
     }
   }
 `

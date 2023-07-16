@@ -4,6 +4,7 @@ import {
   DesignProofPreviewGetDataQuery,
   DesignProofPreviewGetDataQueryVariables,
 } from '@generated/DesignProofPreviewGetDataQuery'
+import { LoadingDots } from '@components/ui'
 
 interface Props {
   designProofId: string
@@ -57,7 +58,11 @@ const DesignProofVariantPreview = ({ designProofId, activeColorId }: Props) => {
             height={activeImage?.height}
             className="w-full h-full max-h-[60vh] aspect-square object-contain"
           />
-        ) : null}
+        ) : (
+          <div className="w-full h-full max-h-[60vh] aspect-square bg-gray-50 flex items-center justify-center">
+            {loading ? <LoadingDots /> : null}
+          </div>
+        )}
       </div>
       <div className="flex gap-4 mt-4">
         {activeColor?.images.map(image => (

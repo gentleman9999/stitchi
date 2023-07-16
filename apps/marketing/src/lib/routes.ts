@@ -212,6 +212,11 @@ const routes = {
 
       designs: {
         href: () => buildRoute('/closet/designs'),
+
+        show: {
+          href: ({ designId }: { designId: string }) =>
+            buildRoute(`/closet/designs/${designId}`),
+        },
       },
 
       designRequests: {
@@ -224,25 +229,9 @@ const routes = {
             buildRoute(`/closet/design-requests/${designId}`),
 
           proofs: {
-            href: ({ designId }: { designId: string }) =>
-              buildRoute(`/closet/design-requests/${designId}/proofs`),
-
             create: {
               href: ({ designId }: { designId: string }) =>
                 buildRoute(`/closet/design-requests/${designId}/proofs/new`),
-            },
-
-            show: {
-              href: ({
-                designId,
-                proofId,
-              }: {
-                designId: string
-                proofId: string
-              }) =>
-                buildRoute(
-                  `/closet/design-requests/${designId}/proofs/${proofId}`,
-                ),
             },
           },
 

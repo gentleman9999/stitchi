@@ -9,10 +9,16 @@ import { DesignRequestStatus, FileType } from "./globalTypes";
 // GraphQL query operation: DesignRequestOverviewGetDataQuery
 // ====================================================
 
+export interface DesignRequestOverviewGetDataQuery_designRequest_proofs {
+  __typename: "DesignProof";
+  id: string;
+}
+
 export interface DesignRequestOverviewGetDataQuery_designRequest_designRequestProduct_colors {
   __typename: "DesignRequestProductColors";
-  hexCode: string | null;
+  catalogProductColorId: string;
   name: string | null;
+  hexCode: string | null;
 }
 
 export interface DesignRequestOverviewGetDataQuery_designRequest_designRequestProduct_catalogProduct_primaryImage {
@@ -100,6 +106,7 @@ export interface DesignRequestOverviewGetDataQuery_designRequest {
   __typename: "DesignRequest";
   id: string;
   status: DesignRequestStatus;
+  proofs: DesignRequestOverviewGetDataQuery_designRequest_proofs[];
   designRequestProduct: DesignRequestOverviewGetDataQuery_designRequest_designRequestProduct;
   fileUploadDirectory: string;
   useCase: string | null;
@@ -107,6 +114,7 @@ export interface DesignRequestOverviewGetDataQuery_designRequest {
   designRequestLocations: DesignRequestOverviewGetDataQuery_designRequest_designRequestLocations[];
   files: DesignRequestOverviewGetDataQuery_designRequest_files[];
   description: string | null;
+  name: string;
 }
 
 export interface DesignRequestOverviewGetDataQuery {
