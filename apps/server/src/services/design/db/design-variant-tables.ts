@@ -10,6 +10,9 @@ export const DesignVariant: yup.ObjectSchema<DesignVariantSchema> = yup
     id: yup.string().uuid().required(),
     designId: yup.string().uuid().required(),
     catalogProductColorId: yup.string().required(),
+
+    colorHexCode: yup.string().nullable().defined(),
+    colorName: yup.string().nullable().defined(),
   })
   .label('DesignVariant')
 

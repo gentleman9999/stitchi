@@ -5,6 +5,28 @@ import { designProofFactoryToGraphql } from '../../serializers/design'
 export const DesignProofExtendsDesignRequest = extendType({
   type: 'DesignRequest',
   definition(t) {
+    t.nullable.field('approvedProof', {
+      type: 'DesignProof',
+      resolve: async (parent, _, ctx) => {
+        if (!parent.approvedDesignProofId) {
+          return null
+        }
+
+        let designProof
+
+        try {
+          designProof = await ctx.design.getDesignProof({
+            designProofId: parent.approvedDesignProofId,
+          })
+        } catch (error) {
+          console.error(error)
+          throw new GraphQLError('Unable to fetch approved proof')
+        }
+
+        return designProofFactoryToGraphql(designProof)
+      },
+    })
+
     t.nonNull.list.nonNull.field('proofs', {
       type: 'DesignProof',
       args: {

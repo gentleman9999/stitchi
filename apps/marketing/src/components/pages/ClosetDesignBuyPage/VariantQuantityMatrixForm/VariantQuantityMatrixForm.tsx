@@ -1,22 +1,19 @@
 import { gql } from '@apollo/client'
 import ColorSwatch from '@components/common/ColorSwatch'
-import { VariantQuantityMatrixFormProductFragment } from '@generated/VariantQuantityMatrixFormProductFragment'
-import useProductOptions from '@hooks/useProductOptions'
-import { notEmpty } from '@utils/typescript'
+import { VariantQuantityMatrixFormDesignProductFragment } from '@generated/VariantQuantityMatrixFormDesignProductFragment'
 import { AnimatePresence, motion } from 'framer-motion'
 import { XIcon } from 'icons'
 import React from 'react'
 import { useFieldArray, UseFormReturn } from 'react-hook-form'
-import { FormValues } from '../ProductBuyPageForm'
+import { FormValues } from '../ClosetDesignBuyPageForm'
 import ColorSizesInput from './ColorSizesInput'
 
 interface Props {
-  product: VariantQuantityMatrixFormProductFragment
+  designProduct: VariantQuantityMatrixFormDesignProductFragment
   form: UseFormReturn<FormValues>
 }
 
-const VariantQuantityMatrixForm = ({ product, form }: Props) => {
-  const { colors, sizes } = useProductOptions({ product })
+const VariantQuantityMatrixForm = ({ designProduct, form }: Props) => {
   const colorFields = useFieldArray({ control: form.control, name: 'colors' })
 
   const watchColors = form.watch('colors')
@@ -33,12 +30,28 @@ const VariantQuantityMatrixForm = ({ product, form }: Props) => {
     })
   }
 
+  const sizes = React.useMemo(() => {
+    const sizeMap = new Map<string, { sizeId: string; label: string }>()
+
+    designProduct.variants.map(variant => {
+      const sizeId = variant?.catalogProductSizeId
+      const sizeName = variant?.sizeName
+
+      if (!sizeId || !sizeName) return
+
+      if (!sizeMap.has(sizeId)) {
+        sizeMap.set(sizeId, {
+          sizeId,
+          label: sizeName,
+        })
+      }
+    })
+
+    return Array.from(sizeMap.values())
+  }, [designProduct.variants])
+
   const selectedColorEntityIds = colorFields.fields.map(
     color => color.colorEntityId,
-  )
-
-  const availableColors = colors.filter(
-    ({ entityId }) => !selectedColorEntityIds.includes(entityId),
   )
 
   const handleAddColor = ({ colorEntityId }: { colorEntityId: number }) => {
@@ -46,26 +59,17 @@ const VariantQuantityMatrixForm = ({ product, form }: Props) => {
       {
         colorEntityId,
         sizes: sizes.map(size => {
-          const foundVariant = product.variants.edges?.find(edge => {
-            const optionValueEntityIds =
-              edge?.node.options.edges
-                ?.flatMap(edge =>
-                  edge?.node.values.edges?.map(edge => edge?.node.entityId),
-                )
-                .filter(notEmpty) || []
-
-            if (!optionValueEntityIds?.length) return false
-
+          const foundVariant = designProduct.variants.find(variant => {
             return (
-              optionValueEntityIds.includes(size.entityId) &&
-              optionValueEntityIds.includes(colorEntityId)
+              variant.catalogProductSizeId === size.sizeId &&
+              variant.catalogProductColorId === colorEntityId.toString()
             )
           })
 
           return {
             disabled: !foundVariant,
             quantity: null,
-            sizeEntityId: size.entityId,
+            sizeEntityId: parseInt(size.sizeId),
           }
         }),
       },
@@ -83,17 +87,21 @@ const VariantQuantityMatrixForm = ({ product, form }: Props) => {
     <>
       <ul className="flex flex-wrap gap-1">
         <AnimatePresence>
-          {availableColors.map(({ hexColors, entityId, label }) => (
+          {designProduct.colors.map(({ hex, name, catalogProductColorId }) => (
             <motion.li
-              key={entityId}
+              key={catalogProductColorId}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
               <ColorSwatch
-                onClick={() => handleAddColor({ colorEntityId: entityId })}
-                hexCode={hexColors[0]}
-                label={label}
+                onClick={() =>
+                  handleAddColor({
+                    colorEntityId: parseInt(catalogProductColorId),
+                  })
+                }
+                hexCode={hex || '#000'}
+                label={name || 'Unknown color'}
                 width="w-8"
                 height="h-8"
               />
@@ -118,7 +126,7 @@ const VariantQuantityMatrixForm = ({ product, form }: Props) => {
                 {sizes.length ? (
                   sizes.map(size => (
                     <div
-                      key={size.entityId}
+                      key={size.sizeId}
                       className="text-center text-sm whitespace-nowrap"
                     >
                       {size.label}
@@ -130,8 +138,9 @@ const VariantQuantityMatrixForm = ({ product, form }: Props) => {
                 <div></div>
 
                 {colorFields.fields.map(({ colorEntityId }, index) => {
-                  const color = colors.find(
-                    ({ entityId }) => entityId === colorEntityId,
+                  const color = designProduct.colors.find(
+                    ({ catalogProductColorId }) =>
+                      catalogProductColorId === colorEntityId.toString(),
                   )
 
                   if (!color) return null
@@ -140,9 +149,9 @@ const VariantQuantityMatrixForm = ({ product, form }: Props) => {
                     <>
                       <div className="p-1 sticky left-0 bg-white flex">
                         <div className="flex items-center text-xs">
-                          <ColorSwatch hexCode={color.hexColors[0]} />
+                          <ColorSwatch hexCode={color.hex || '#000'} />
 
-                          <span className="ml-1 w-full">{color.label}</span>
+                          <span className="ml-1 w-full">{color.name}</span>
                         </div>
                       </div>
                       <ColorSizesInput form={form} colorFieldIndex={index} />
@@ -171,31 +180,21 @@ const VariantQuantityMatrixForm = ({ product, form }: Props) => {
 }
 
 VariantQuantityMatrixForm.fragments = {
-  product: gql`
-    ${useProductOptions.fragments.product}
-    fragment VariantQuantityMatrixFormProductFragment on Product {
+  designProduct: gql`
+    fragment VariantQuantityMatrixFormDesignProductFragment on DesignProduct {
       id
-      variants(first: $variantsFirst) {
-        edges {
-          node {
-            id
-            options {
-              edges {
-                node {
-                  values {
-                    edges {
-                      node {
-                        entityId
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+      colors {
+        id
+        catalogProductColorId
+        hex
+        name
       }
-      ...UseProductColorsProductFragment
+      variants {
+        id
+        sizeName
+        catalogProductSizeId
+        catalogProductColorId
+      }
     }
   `,
 }

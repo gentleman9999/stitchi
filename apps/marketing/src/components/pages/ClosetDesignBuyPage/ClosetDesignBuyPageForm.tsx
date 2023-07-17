@@ -1,20 +1,14 @@
 import { gql } from '@apollo/client'
 import { ComponentErrorMessage } from '@components/common'
-import { ProductBuyPageFormProductFragment } from '@generated/ProductBuyPageFormProductFragment'
+import { ClosetDesignBuyPageFormDesignProductFragment } from '@generated/ClosetDesignBuyPageFormDesignProductFragment'
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import AddonsForm from './AddonsForm'
 import FormSection from './FormSection'
-import PrintLocationsForm from './PrintLocationsForm'
 import SubmitBanner from './SubmitBanner'
 import useProductQuote from './SubmitBanner/useProductQuote'
 import VariantQuantityMatrixForm from './VariantQuantityMatrixForm/VariantQuantityMatrixForm'
-
-const printLocationSchema = yup.object({
-  colorCount: yup.number().min(1).max(8).required(),
-})
 
 const sizeSchema = yup.object().shape({
   sizeEntityId: yup.number().nullable().defined(),
@@ -28,14 +22,6 @@ const colorSchema = yup.object().shape({
 })
 
 const schema = yup.object().shape({
-  printLocations: yup
-    .array(printLocationSchema.required())
-    .min(1, 'Please add at least one customization.')
-    .max(4, 'You can only add up to 4 customizations.')
-    .required()
-    .label('Print locations'),
-  includeFulfillment: yup.boolean().required(),
-  includeDesign: yup.boolean().required(),
   colors: yup
     .array()
     .of(colorSchema.required())
@@ -47,44 +33,29 @@ const schema = yup.object().shape({
 export type FormValues = yup.InferType<typeof schema>
 
 interface Props {
-  product: ProductBuyPageFormProductFragment
+  designProduct: ClosetDesignBuyPageFormDesignProductFragment
   onSubmit: (data: FormValues) => Promise<void>
   error?: string
 }
 
-const ProductBuyPageForm = ({ product, onSubmit, error }: Props) => {
+const ClosetDesignBuyPageForm = ({ designProduct, onSubmit, error }: Props) => {
   const [submitting, setSubmitting] = React.useState(false)
 
   const [getQuote, { quote, loading: quoteLoading }] = useProductQuote({
-    catalogProductEntityId: product.entityId,
+    designProductId: designProduct.id,
   })
 
   const form = useForm<FormValues>({
     defaultValues: {
-      includeFulfillment: false,
-      includeDesign: false,
       colors: [],
-      printLocations: [],
     },
     resolver: yupResolver(schema),
   })
 
-  const { trigger, formState, clearErrors } = form
+  const { formState, clearErrors } = form
   const { errors: formErrors } = formState
 
-  const { colors, includeFulfillment, printLocations } = form.watch()
-
-  const [memoizedPrintLocations, setMemoizedPrintLocations] = React.useState<
-    FormValues['printLocations']
-  >([])
-
-  if (
-    JSON.stringify(printLocations) !== JSON.stringify(memoizedPrintLocations)
-  ) {
-    setMemoizedPrintLocations([
-      ...printLocations.map(location => ({ ...location })),
-    ])
-  }
+  const { colors } = form.watch()
 
   let totalQuantity = 0
 
@@ -98,29 +69,11 @@ const ProductBuyPageForm = ({ product, onSubmit, error }: Props) => {
 
   React.useEffect(() => {
     const get = async () => {
-      await getQuote({
-        includeFulfillment,
-        // printLocations,
-        printLocations: memoizedPrintLocations,
-        quantity: totalQuantity,
-      })
-    }
-
-    if (
-      memoizedPrintLocations.some(location => Number.isNaN(location.colorCount))
-    ) {
-      // We don't want to trigger validation since user hasn't entered anything yet
-      return
+      await getQuote({ quantity: totalQuantity })
     }
 
     get()
-  }, [
-    getQuote,
-    includeFulfillment,
-    memoizedPrintLocations,
-    totalQuantity,
-    trigger,
-  ])
+  }, [getQuote, totalQuantity])
 
   React.useEffect(() => {
     if (
@@ -154,15 +107,10 @@ const ProductBuyPageForm = ({ product, onSubmit, error }: Props) => {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-20">
       <FormSection title="Colors & sizes">
-        <VariantQuantityMatrixForm form={form} product={product} />
+        <VariantQuantityMatrixForm form={form} designProduct={designProduct} />
         <ComponentErrorMessage error={formErrors.colors?.message} />
       </FormSection>
-      <FormSection title="Customizations">
-        <PrintLocationsForm form={form} />
-      </FormSection>
-      <FormSection title="Services">
-        <AddonsForm form={form} />
-      </FormSection>
+
       <ComponentErrorMessage error={error} />
       <ComponentErrorMessage error={formErrors.root?.message} />
       <SubmitBanner
@@ -176,15 +124,15 @@ const ProductBuyPageForm = ({ product, onSubmit, error }: Props) => {
   )
 }
 
-ProductBuyPageForm.fragments = {
-  product: gql`
-    ${VariantQuantityMatrixForm.fragments.product}
-    fragment ProductBuyPageFormProductFragment on Product {
+ClosetDesignBuyPageForm.fragments = {
+  designProduct: gql`
+    ${VariantQuantityMatrixForm.fragments.designProduct}
+    fragment ClosetDesignBuyPageFormDesignProductFragment on DesignProduct {
       id
-      entityId
-      ...VariantQuantityMatrixFormProductFragment
+      catalogProductId
+      ...VariantQuantityMatrixFormDesignProductFragment
     }
   `,
 }
 
-export default ProductBuyPageForm
+export default ClosetDesignBuyPageForm

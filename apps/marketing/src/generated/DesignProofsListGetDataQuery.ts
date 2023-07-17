@@ -9,6 +9,21 @@ import { DesignRequestStatus } from "./globalTypes";
 // GraphQL query operation: DesignProofsListGetDataQuery
 // ====================================================
 
+export interface DesignProofsListGetDataQuery_designRequest_approvedProof_primaryImageFile {
+  __typename: "FileImage";
+  id: string;
+  url: string;
+  width: number;
+  height: number;
+}
+
+export interface DesignProofsListGetDataQuery_designRequest_approvedProof {
+  __typename: "DesignProof";
+  id: string;
+  createdAt: any;
+  primaryImageFile: DesignProofsListGetDataQuery_designRequest_approvedProof_primaryImageFile | null;
+}
+
 export interface DesignProofsListGetDataQuery_designRequest_proofs_primaryImageFile {
   __typename: "FileImage";
   id: string;
@@ -28,6 +43,7 @@ export interface DesignProofsListGetDataQuery_designRequest {
   __typename: "DesignRequest";
   id: string;
   status: DesignRequestStatus;
+  approvedProof: DesignProofsListGetDataQuery_designRequest_approvedProof | null;
   proofs: DesignProofsListGetDataQuery_designRequest_proofs[];
 }
 

@@ -8,6 +8,7 @@ const scopeMap: Record<
   OWNER: {
     Order: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
     DesignProof: [],
+    DesignProduct: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
     DesignRequestRevisionRequest: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
     Integration: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
   },
@@ -15,6 +16,7 @@ const scopeMap: Record<
   STITCHI_DESIGNER: {
     Order: [],
     DesignProof: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
+    DesignProduct: [],
     DesignRequestRevisionRequest: ['READ'],
     Integration: [],
   },

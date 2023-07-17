@@ -18,12 +18,20 @@ import DesignRequestDraft from './DesignRequestDraft'
 import { ComponentErrorMessage } from '@components/common'
 import Button from '@components/ui/ButtonV2/Button'
 import CreateDesignSlideOver from './CreateDesignSlideOver'
+import {
+  DesignRequestStatus,
+  ScopeAction,
+  ScopeResource,
+} from '@generated/globalTypes'
+import { useAuthorizedComponent } from '@lib/auth'
+import DesignRequestAssociatedProducts from './DesignRequestAssociatedProducts'
 
 interface Props {
   designRequestId: string
 }
 
 const DesignRequestOverview = ({ designRequestId }: Props) => {
+  const { can, loading: authorizationLoading } = useAuthorizedComponent()
   const [activeColorId, setActiveColorId] = React.useState<string | null>(null)
   const [activeProofId, setActiveProofId] = React.useState<string | null>(null)
   const [proofToApproveId, setProofToApproveId] = React.useState<string | null>(
@@ -79,6 +87,8 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
       ) : null}
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
+        <DesignRequestAssociatedProducts designRequestId={designRequestId} />
+
         <div className="col-span-1 md:col-span-8">
           {error ? <ComponentErrorMessage error={error} /> : null}
 
@@ -124,25 +134,33 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
                   </ul>
                 </InputGroup>
                 <br />
-                <InputGroup label="Proofs">
-                  <DesignProofList
-                    designRequestId={designRequestId}
-                    activeProofId={activeProofId}
-                    onClick={handleActiveProofChange}
-                  />
-                </InputGroup>
-                <br />
-                <InputGroup>
-                  <Button
-                    className="w-full"
-                    color="brandPrimary"
-                    size="lg"
-                    onClick={() => setProofToApproveId(activeProofId || null)}
-                    loading={switchingProof}
-                  >
-                    Approve selected proof for production
-                  </Button>
-                </InputGroup>
+                <DesignProofList
+                  designRequestId={designRequestId}
+                  activeProofId={activeProofId}
+                  onClick={handleActiveProofChange}
+                />
+
+                {activeProofId &&
+                designRequest?.status !== DesignRequestStatus.APPROVED &&
+                !authorizationLoading &&
+                can(ScopeResource.DesignProduct, ScopeAction.CREATE) ? (
+                  <>
+                    <br />
+                    <InputGroup>
+                      <Button
+                        className="w-full"
+                        color="brandPrimary"
+                        size="lg"
+                        onClick={() =>
+                          setProofToApproveId(activeProofId || null)
+                        }
+                        loading={switchingProof}
+                      >
+                        Approve selected proof for production
+                      </Button>
+                    </InputGroup>
+                  </>
+                ) : null}
               </CardContent>
             </Card>
           </ClosetSection>

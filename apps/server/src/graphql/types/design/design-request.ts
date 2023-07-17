@@ -67,6 +67,7 @@ export const DesignRequest = objectType({
     t.nonNull.id('id')
     t.nullable.id('userId')
     t.nullable.id('conversationId')
+    t.nullable.id('approvedDesignProofId')
     t.nonNull.string('name')
     t.nullable.string('description')
     t.nullable.string('useCase')

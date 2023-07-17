@@ -34,6 +34,7 @@ const designFactory = ({
     userId: design.userId,
     organizationId: design.organizationId,
     designRequestId: design.designRequestId,
+    designProofId: design.designProofId,
     catalogProductId: design.catalogProductId,
     primaryImageFileId: design.primaryImageFileId,
 

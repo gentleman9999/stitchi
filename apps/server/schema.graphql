@@ -57,18 +57,57 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
-type Design {
+type DesignProduct {
   catalogProductId: ID!
+  colors: [DesignProductColor!]!
   createdAt: DateTime!
   description: String
+  designProofId: ID!
   designRequestId: ID!
   id: ID!
   name: String!
   organizationId: ID
+  primaryImageFile: FileImage
   primaryImageFileId: ID
+  quote(quantity: Int!): Quote
   termsConditionsAgreed: Boolean!
   updatedAt: DateTime!
   userId: ID
+  variants: [DesignProductVariant!]!
+}
+
+type DesignProductColor {
+  catalogProductColorId: ID!
+  designRequestProductId: ID!
+  hex: String
+  id: ID!
+  imageFileIds: [ID!]!
+  images: [FileImage!]!
+  name: String
+}
+
+input DesignProductCreateOrderInput {
+  designProductId: ID!
+  orderItems: [DesignProductCreateOrderItemInput!]!
+  shippingAddressId: ID
+}
+
+input DesignProductCreateOrderItemInput {
+  catalogProductVariantId: ID!
+  quantity: Int!
+}
+
+type DesignProductCreateOrderPayload {
+  order: Order
+}
+
+type DesignProductVariant {
+  catalogProductColorId: ID
+  catalogProductId: ID!
+  catalogProductSizeId: ID
+  catalogProductVariantId: ID!
+  id: ID!
+  sizeName: String
 }
 
 type DesignProof {
@@ -105,9 +144,12 @@ type DesignProofLocation {
 }
 
 type DesignRequest {
+  approvedDesignProofId: ID
+  approvedProof: DesignProof
   conversationId: ID
   createdAt: DateTime!
   description: String
+  designProducts: [DesignProduct!]!
   designProofIds: [ID!]!
   designRequestLocationIds: [ID!]!
   designRequestLocations: [DesignRequestDesignLocation!]!
@@ -140,7 +182,7 @@ input DesignRequestApproveInput {
 }
 
 type DesignRequestApprovePayload {
-  design: Design
+  design: DesignProduct
   designRequest: DesignRequest
 }
 
@@ -593,6 +635,7 @@ enum MembershipRole {
 }
 
 type Mutation {
+  designProductCreateOrder(input: DesignProductCreateOrderInput!): DesignProductCreateOrderPayload
   designRequestApprove(input: DesignRequestApproveInput!): DesignRequestApprovePayload
   designRequestConversationMessageCreate(input: DesignRequestConversationMessageCreateInput!): DesignRequestConversationMessageCreatePayload
   designRequestCreate(input: DesignRequestCreateInput!): DesignRequestCreatePayload
@@ -609,9 +652,6 @@ type Mutation {
 
   """Creates a new mailing address for the user"""
   mailingAddressCreate(input: MailingAddressCreateInput!): MailingAddressCreatePayload
-
-  """Creates a new order during user Cart"""
-  orderCartCreate(input: OrderCartCreateInput!): OrderCartCreatePayload
 
   """Confirms an order with a customers details"""
   orderConfirm(input: OrderConfirmInput!): OrderConfirmPayload
@@ -658,21 +698,9 @@ type Order {
   userId: String
 }
 
-input OrderCartCreateInput {
-  includeFulfillment: Boolean!
-  items: [OrderCartCreateItemsInput!]!
-  printLocations: [OrderCartCreatePrintLocationInput!]!
-  productEntityId: Int!
-  shippingAddressId: String
-}
-
 input OrderCartCreateItemsInput {
   productVariantEntityId: Int!
   quantity: Int!
-}
-
-type OrderCartCreatePayload {
-  order: Order
 }
 
 input OrderCartCreatePrintLocationInput {
@@ -846,9 +874,9 @@ input ProductPriceValue {
 
 type Query {
   _products(products: [ProductKey!]!): [Product]
+  designProduct(id: ID!): DesignProduct
   designProof(id: ID!): DesignProof
   designRequest(id: ID!): DesignRequest
-  designV2(id: ID!): Design
   order(id: ID!): Order
   userMemberships: [Membership!]!
   viewer: Membership
@@ -883,6 +911,7 @@ enum ScopeAction {
 }
 
 enum ScopeResource {
+  DesignProduct
   DesignProof
   DesignRequestRevisionRequest
   Integration

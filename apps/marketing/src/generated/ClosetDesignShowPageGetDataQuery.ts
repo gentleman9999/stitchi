@@ -7,15 +7,15 @@
 // GraphQL query operation: ClosetDesignShowPageGetDataQuery
 // ====================================================
 
-export interface ClosetDesignShowPageGetDataQuery_design {
-  __typename: "Design";
+export interface ClosetDesignShowPageGetDataQuery_designProduct {
+  __typename: "DesignProduct";
   id: string;
   name: string;
   description: string | null;
 }
 
 export interface ClosetDesignShowPageGetDataQuery {
-  design: ClosetDesignShowPageGetDataQuery_design | null;
+  designProduct: ClosetDesignShowPageGetDataQuery_designProduct | null;
 }
 
 export interface ClosetDesignShowPageGetDataQueryVariables {

@@ -15,7 +15,7 @@ export interface UseCreateDesignSildeOverApproveDesignMutation_designRequestAppr
 }
 
 export interface UseCreateDesignSildeOverApproveDesignMutation_designRequestApprove_design {
-  __typename: "Design";
+  __typename: "DesignProduct";
   id: string;
 }
 

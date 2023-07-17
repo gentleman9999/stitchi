@@ -19,6 +19,9 @@ export interface BigCommerceClient {
     productEntityId: number
     variantEntityId: number
   }) => Promise<ProductVariant>
+  listProductVariants: (input: {
+    productEntityId: number
+  }) => Promise<ProductVariant[]>
   getBrand: (input: { brandEntityId: number }) => Promise<Brand>
 }
 
@@ -75,6 +78,30 @@ const makeClient = (
         )
 
         throw new Error('Failed to get product variant')
+      }
+    },
+    listProductVariants: async input => {
+      try {
+        const res = await bigCommerceClient(
+          `/catalog/products/${input.productEntityId}/variants`,
+        )
+
+        const { data, errors } = await res.json()
+
+        if (errors) {
+          console.error(errors)
+        }
+
+        return data.map(makeProductVariant)
+      } catch (error) {
+        console.error(
+          `Failed to list product variants: ${input.productEntityId}`,
+          {
+            context: { error, productEntityId: input.productEntityId },
+          },
+        )
+
+        throw new Error('Failed to list product variants')
       }
     },
     getBrand: async input => {

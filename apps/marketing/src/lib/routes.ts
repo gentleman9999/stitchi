@@ -80,21 +80,6 @@ const routes = {
             params,
           )
         },
-
-        purchase: {
-          href: ({
-            brandSlug,
-            productSlug,
-          }: {
-            brandSlug: string
-            productSlug: string
-          }) => {
-            const serialize = (s: string) => s.replace(/\//g, '')
-            return buildRoute(
-              `/buy/${serialize(brandSlug)}-${serialize(productSlug)}`,
-            )
-          },
-        },
       },
     },
     order: {
@@ -216,6 +201,11 @@ const routes = {
         show: {
           href: ({ designId }: { designId: string }) =>
             buildRoute(`/closet/designs/${designId}`),
+
+          buy: {
+            href: ({ designId }: { designId: string }) =>
+              buildRoute(`/closet/designs/${designId}/buy`),
+          },
         },
       },
 

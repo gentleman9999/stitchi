@@ -3,29 +3,26 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { OrderCartCreateInput } from "./globalTypes";
+import { DesignProductCreateOrderInput } from "./globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: UseCreateOrderCreateOrderMutation
 // ====================================================
 
-export interface UseCreateOrderCreateOrderMutation_orderCartCreate_order {
+export interface UseCreateOrderCreateOrderMutation_designProductCreateOrder_order {
   __typename: "Order";
   id: string;
 }
 
-export interface UseCreateOrderCreateOrderMutation_orderCartCreate {
-  __typename: "OrderCartCreatePayload";
-  order: UseCreateOrderCreateOrderMutation_orderCartCreate_order | null;
+export interface UseCreateOrderCreateOrderMutation_designProductCreateOrder {
+  __typename: "DesignProductCreateOrderPayload";
+  order: UseCreateOrderCreateOrderMutation_designProductCreateOrder_order | null;
 }
 
 export interface UseCreateOrderCreateOrderMutation {
-  /**
-   * Creates a new order during user Cart
-   */
-  orderCartCreate: UseCreateOrderCreateOrderMutation_orderCartCreate | null;
+  designProductCreateOrder: UseCreateOrderCreateOrderMutation_designProductCreateOrder | null;
 }
 
 export interface UseCreateOrderCreateOrderMutationVariables {
-  input: OrderCartCreateInput;
+  input: DesignProductCreateOrderInput;
 }

@@ -224,17 +224,15 @@ model OrderItem {
   // The product variant ID (could be BicCommerce or Shopify or internal, etc..)
   productVariantId String?
 
-  // The optional design ID
+  // The associated design to print
   designId String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Design               Design?                @relation(fields: [designId], references: [id])
   FulfillmentOrderItem FulfillmentOrderItem[]
 
   @@index([orderId])
-  @@index([designId])
 }
 
 enum OrderItemFulfillmentStatus {
@@ -322,6 +320,7 @@ model Design {
   id String @id @default(uuid())
 
   designRequestId  String
+  designProofId    String
   catalogProductId String
 
   // The organization that this design belongs to
@@ -345,13 +344,14 @@ model Design {
   updatedAt DateTime @updatedAt
 
   designLocations DesignLocation[]
-  orderItems      OrderItem[]
   designRequest   DesignRequest    @relation(fields: [designRequestId], references: [id])
   designVariants  DesignVariant[]
+  designProof     DesignProof      @relation(fields: [designProofId], references: [id])
 
   @@index([organizationId])
   @@index([userId])
   @@index([designRequestId])
+  @@index([designProofId])
 }
 
 // A design location is a print location on a design. For example, a t-shirt has a front and back print location. A design location can have multiple colors.
@@ -379,6 +379,9 @@ model DesignVariant {
   designId String
 
   catalogProductColorId String
+
+  colorHexCode String?
+  colorName    String?
 
   images DesignVariantImage[]
   design Design               @relation(fields: [designId], references: [id])
@@ -609,6 +612,7 @@ model DesignProof {
   designProofVariants  DesignProofVariant[]
 
   designRequestDesignProofs DesignRequestDesignProof[]
+  design                    Design[]
 }
 
 model DesignProofVariant {

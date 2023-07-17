@@ -57,7 +57,9 @@ const Progress = ({ status, loading }: Props) => {
               ) : null}
               <div className="relative flex items-start">
                 <span className="flex h-9 items-center">
-                  {completionStatus === 'completed' ? (
+                  {completionStatus === 'completed' ||
+                  (completionStatus === 'current' &&
+                    stepIdx === steps.length - 1) ? (
                     <span className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full bg-green-600 ">
                       <Check
                         className="h-5 w-5 text-white"
@@ -66,7 +68,8 @@ const Progress = ({ status, loading }: Props) => {
                     </span>
                   ) : null}
 
-                  {completionStatus === 'current' ? (
+                  {completionStatus === 'current' &&
+                  stepIdx !== steps.length - 1 ? (
                     <span className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full border-2 border-green-600 bg-white">
                       <span className="h-2.5 w-2.5 rounded-full bg-green-600" />
                     </span>

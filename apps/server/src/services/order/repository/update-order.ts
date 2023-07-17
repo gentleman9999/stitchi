@@ -107,7 +107,6 @@ const makeUpdateOrder: MakeUpdateOrderFn =
             update: itemsToUpdate.map(({ id, ...item }) => ({
               where: { id },
               data: {
-                designId: item.designId,
                 title: item.title,
                 quantity: item.quantity,
                 unitPriceCents: item.unitPriceCents,
@@ -116,6 +115,7 @@ const makeUpdateOrder: MakeUpdateOrderFn =
                 productVariantId: item.productVariantId,
                 type: item.type,
                 fulfillmentStatus: item.fulfillmentStatus,
+                designId: item.designId,
               },
             })),
             create: itemsToCreate.map(({ ...item }) => ({

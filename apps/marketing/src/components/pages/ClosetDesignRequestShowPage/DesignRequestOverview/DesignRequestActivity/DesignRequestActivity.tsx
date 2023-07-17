@@ -12,7 +12,9 @@ import {
   DesignRequestActivityGetDataQuery,
   DesignRequestActivityGetDataQueryVariables,
 } from '@generated/DesignRequestActivityGetDataQuery'
+import { DesignRequestStatus } from '@generated/globalTypes'
 import React from 'react'
+import cx from 'classnames'
 import DesignRequestHistory from './DesignRequestHistory'
 import DesignRequestMessageInput from './DesignRequestMessageInput'
 
@@ -52,7 +54,7 @@ const DesignRequestActivity = ({ designRequestId }: Props) => {
 
   return (
     <div className="relative">
-      {designRequest?.status === 'DRAFT' ? (
+      {designRequest?.status === DesignRequestStatus.DRAFT ? (
         <BlurredComponent
           message={
             <Alert
@@ -62,6 +64,7 @@ const DesignRequestActivity = ({ designRequestId }: Props) => {
           }
         />
       ) : null}
+
       <div>
         <div className="col-span-1 md:col-span-8">
           <ClosetSection>
@@ -70,14 +73,28 @@ const DesignRequestActivity = ({ designRequestId }: Props) => {
             </ClosetSectionHeader>
 
             <div className="flex flex-col gap-8">
-              <DesignRequestMessageInput
-                loading={loading}
-                designRequest={designRequest}
-              />
-              <DesignRequestHistory
-                loading={loading}
-                designRequest={designRequest}
-              />
+              {designRequest?.status === DesignRequestStatus.APPROVED ? (
+                <Alert
+                  severity="info"
+                  description="This design request has been approved and modifications have been disabled. If you'd like to make a modification to this design request, please duplicate it and submit a new request."
+                />
+              ) : null}
+
+              <div
+                className={cx('flex flex-col gap-8', {
+                  'pointer-events-none opacity-60':
+                    designRequest?.status === DesignRequestStatus.APPROVED,
+                })}
+              >
+                <DesignRequestMessageInput
+                  loading={loading}
+                  designRequest={designRequest}
+                />
+                <DesignRequestHistory
+                  loading={loading}
+                  designRequest={designRequest}
+                />
+              </div>
             </div>
           </ClosetSection>
         </div>

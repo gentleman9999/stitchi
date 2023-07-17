@@ -119,3 +119,37 @@ export const FileExtendsConversationMessage = extendType({
     })
   },
 })
+
+export const FileExtendsDesignProductColor = extendType({
+  type: 'DesignProductColor',
+  definition(t) {
+    t.nonNull.list.nonNull.field('images', {
+      type: 'FileImage',
+      resolve: async (designProductColor, _, ctx) => {
+        const files = await ctx.file.listFiles({
+          where: { id: { in: designProductColor.imageFileIds } },
+        })
+
+        return files.map(fileFactoryToGrahpqlFileImage)
+      },
+    })
+  },
+})
+
+export const FileExtendsDesignProduct = extendType({
+  type: 'DesignProduct',
+  definition(t) {
+    t.nullable.field('primaryImageFile', {
+      type: 'FileImage',
+      resolve: async (designProduct, _, ctx) => {
+        if (!designProduct.primaryImageFileId) return null
+
+        const file = await ctx.file.getFile({
+          fileId: designProduct.primaryImageFileId,
+        })
+
+        return fileFactoryToGrahpqlFileImage(file)
+      },
+    })
+  },
+})

@@ -76,6 +76,7 @@ export enum ScopeAction {
 }
 
 export enum ScopeResource {
+  DesignProduct = "DesignProduct",
   DesignProof = "DesignProof",
   DesignRequestRevisionRequest = "DesignRequestRevisionRequest",
   Integration = "Integration",
@@ -129,6 +130,17 @@ export interface CreatedAtFilter {
 export interface DateFilterInput {
   gte?: string | null;
   lte?: string | null;
+}
+
+export interface DesignProductCreateOrderInput {
+  designProductId: string;
+  shippingAddressId?: string | null;
+  orderItems: DesignProductCreateOrderItemInput[];
+}
+
+export interface DesignProductCreateOrderItemInput {
+  catalogProductVariantId: string;
+  quantity: number;
 }
 
 export interface DesignRequestApproveInput {
@@ -293,23 +305,6 @@ export interface OptionValueId {
   valueEntityId: number;
 }
 
-export interface OrderCartCreateInput {
-  productEntityId: number;
-  includeFulfillment: boolean;
-  printLocations: OrderCartCreatePrintLocationInput[];
-  items: OrderCartCreateItemsInput[];
-  shippingAddressId?: string | null;
-}
-
-export interface OrderCartCreateItemsInput {
-  productVariantEntityId: number;
-  quantity: number;
-}
-
-export interface OrderCartCreatePrintLocationInput {
-  colorCount: number;
-}
-
 export interface OrderConfirmInput {
   orderId: string;
   customerEmail: string;
@@ -365,10 +360,6 @@ export interface PublishedAtFilter {
   eq?: any | null;
   neq?: any | null;
   exists?: any | null;
-}
-
-export interface QuoteGeneratePrintLocationInput {
-  colorCount: number;
 }
 
 /**

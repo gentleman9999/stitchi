@@ -1,5 +1,5 @@
 import { gql, useMutation } from '@apollo/client'
-import { OrderCartCreateInput } from '@generated/globalTypes'
+import { DesignProductCreateOrderInput } from '@generated/globalTypes'
 import {
   UseCreateOrderCreateOrderMutation,
   UseCreateOrderCreateOrderMutationVariables,
@@ -11,21 +11,24 @@ const useAddToCart = () => {
     UseCreateOrderCreateOrderMutationVariables
   >(CREATE_ORDER)
 
-  const addToCart = async (input: OrderCartCreateInput) => {
+  const addToCart = async (input: DesignProductCreateOrderInput) => {
     try {
       const { data } = await createCart({
         variables: { input },
       })
 
-      if (!data?.orderCartCreate?.order?.id) {
+      if (!data?.designProductCreateOrder?.order?.id) {
         throw new Error('Invariant violation: "order.id" is required')
       }
 
-      return data.orderCartCreate.order
+      return data.designProductCreateOrder.order
     } catch (error) {
-      console.error(`Failed to add product ${input.productEntityId} to cart`, {
-        context: { error, input },
-      })
+      console.error(
+        `Failed to add design product ${input.designProductId} to cart`,
+        {
+          context: { error, input },
+        },
+      )
     }
   }
 
@@ -33,8 +36,10 @@ const useAddToCart = () => {
 }
 
 const CREATE_ORDER = gql`
-  mutation UseCreateOrderCreateOrderMutation($input: OrderCartCreateInput!) {
-    orderCartCreate(input: $input) {
+  mutation UseCreateOrderCreateOrderMutation(
+    $input: DesignProductCreateOrderInput!
+  ) {
+    designProductCreateOrder(input: $input) {
       order {
         id
       }

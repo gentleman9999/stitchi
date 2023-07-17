@@ -1,6 +1,6 @@
 import React from 'react'
 import { Controller, useFieldArray, UseFormReturn } from 'react-hook-form'
-import { FormValues } from '../ProductBuyPageForm'
+import { FormValues } from '../ClosetDesignBuyPageForm'
 import { TextField } from '@components/ui'
 
 interface Props {

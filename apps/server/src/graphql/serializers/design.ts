@@ -28,6 +28,7 @@ export const designRequestFactoryToGrahpql = (
   return {
     id: designRequest.id,
     conversationId: designRequest.conversationId,
+    approvedDesignProofId: designRequest.approvedDesignProofId,
     userId: designRequest.userId,
     fileIds: designRequest.files.map(file => file.fileId),
     updatedAt: designRequest.updatedAt,
@@ -107,12 +108,13 @@ export const designProofFactoryToGraphql = (
 
 export const designFactoryDesignToGraphql = (
   design: DesignFactoryDesign,
-): NexusGenObjects['Design'] => {
+): NexusGenObjects['DesignProduct'] => {
   return {
     id: design.id,
     catalogProductId: design.catalogProductId,
     designRequestId: design.designRequestId,
     organizationId: design.organizationId,
+    designProofId: design.designProofId,
     primaryImageFileId: design.primaryImageFileId,
     userId: design.userId,
 
@@ -122,5 +124,15 @@ export const designFactoryDesignToGraphql = (
 
     createdAt: design.createdAt,
     updatedAt: design.updatedAt,
+
+    colors: design.variants.map(variant => ({
+      id: variant.id,
+      catalogProductColorId: variant.catalogProductColorId,
+      hex: variant.colorHexCode,
+      name: variant.colorName,
+      designRequestProductId: design.catalogProductId,
+
+      imageFileIds: variant.images.map(image => image.fileId),
+    })),
   }
 }

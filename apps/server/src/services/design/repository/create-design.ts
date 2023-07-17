@@ -70,6 +70,7 @@ const makeCreateDesign: MakeCreateDesignFn =
         data: {
           designRequestId: validInput.designRequestId,
           catalogProductId: validInput.catalogProductId,
+          designProofId: validInput.designProofId,
           userId: validInput.userId,
           organizationId: validInput.organizationId,
           primaryImageFileId: validInput.primaryImageFileId,
@@ -87,6 +88,8 @@ const makeCreateDesign: MakeCreateDesignFn =
           designVariants: {
             create: validInput.variants.map(variant => ({
               catalogProductColorId: variant.catalogProductColorId,
+              colorHexCode: variant.colorHexCode,
+              colorName: variant.colorName,
               images: {
                 createMany: {
                   data: variant.images.map(image => ({

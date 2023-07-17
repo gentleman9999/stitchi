@@ -1,15 +1,14 @@
-import { DesignFactoryDesignRequest } from './factory'
 import makeDesignRepository, { DesignRepository } from './repository'
 import { CreateDesignRequestFnInput } from './repository/create-design-request'
 import {
   ConversationService,
   makeClient as makeConversationServiceClient,
 } from '../conversation'
-import { UpdateDesignRequestFnInput } from './repository/update-design-request'
 
 export interface DesignService {
   createDesign: DesignRepository['createDesign']
   getDesign: DesignRepository['getDesign']
+  listDesigns: DesignRepository['listDesigns']
 
   createDesignRequest(input: {
     designRequest: Omit<
@@ -17,12 +16,7 @@ export interface DesignService {
       'conversationId'
     >
   }): ReturnType<DesignRepository['createDesignRequest']>
-  updateDesignRequest(input: {
-    designRequest: Omit<
-      UpdateDesignRequestFnInput['designRequest'],
-      'approvedProof'
-    >
-  }): ReturnType<DesignRepository['updateDesignRequest']>
+  updateDesignRequest: DesignRepository['updateDesignRequest']
 
   getDesignRequest: DesignRepository['getDesignRequest']
   listDesignRequests: DesignRepository['listDesignRequests']
@@ -62,6 +56,14 @@ const makeClient: MakeClientFn = (
         throw new Error('Failed to get design')
       }
     },
+    listDesigns: async input => {
+      try {
+        return designRepository.listDesigns(input)
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to list designs')
+      }
+    },
     createDesignRequest: async input => {
       let conversation
 
@@ -92,7 +94,6 @@ const makeClient: MakeClientFn = (
         return designRepository.updateDesignRequest({
           designRequest: {
             ...input.designRequest,
-            approvedDesignProofId: null,
           },
         })
       } catch (error) {

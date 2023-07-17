@@ -22,7 +22,7 @@ const ClosetDesignRequestShowPage = ({ designId }: Props) => {
   const { data, loading } = useQuery<
     ClosetDesignRequestShowPageGetDataQuery,
     ClosetDesignRequestShowPageGetDataQueryVariables
-  >(GET_DATA, { variables: { designId } })
+  >(GET_DATA, { variables: { designId }, fetchPolicy: 'cache-and-network' })
 
   const { designRequest } = data || {}
 
