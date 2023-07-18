@@ -1,31 +1,24 @@
-import TableFilterDate, {
-  TableFilterDateProps,
-} from '@components/ui/Table/TableFilterDate'
+import TableFilterDate from '@components/ui/Table/TableFilterDate'
 import TableFilters from '@components/ui/Table/TableFilters'
 import TableFilterUser from '@components/ui/Table/TableFilterUser'
 import React from 'react'
+import { useCloset } from './closet-context'
 
-interface Filters {
-  date: TableFilterDateProps['value'] | null
-}
+interface Props {}
 
-interface Props {
-  onChange: (values: Filters) => void
-}
-
-const ClosetFilters = ({ onChange }: Props) => {
-  const [date, setDate] = React.useState<TableFilterDateProps['value'] | null>(
-    null,
-  )
-
-  React.useEffect(() => {
-    onChange({ date })
-  }, [date, onChange])
+const ClosetFilters = ({}: Props) => {
+  const { filters, setDateFilter } = useCloset()
 
   return (
     <TableFilters>
       <TableFilterUser label="Owner" value={null} onChange={() => {}} />
-      <TableFilterDate label="Date modified" value={date} onChange={setDate} />
+      <TableFilterDate
+        label="Date created"
+        value={filters.date}
+        onChange={d => {
+          setDateFilter(d)
+        }}
+      />
     </TableFilters>
   )
 }

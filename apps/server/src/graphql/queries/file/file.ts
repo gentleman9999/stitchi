@@ -1,3 +1,4 @@
+import { GraphQLError } from 'graphql'
 import { extendType } from 'nexus'
 import {
   fileFactoryToGrahpql,
@@ -7,6 +8,89 @@ import {
 export const FileExtendsDesignRequest = extendType({
   type: 'DesignRequest',
   definition(t) {
+    t.nullable.field('previewImage', {
+      type: 'FileImage',
+      resolve: async (designRequest, _, ctx) => {
+        let previewImage
+
+        if (designRequest.designProofIds.length) {
+          // We pull the preview image from the approved proof or the latest proof
+          if (designRequest.approvedDesignProofId) {
+            let proof
+
+            try {
+              proof = await ctx.design.getDesignProof({
+                designProofId: designRequest.approvedDesignProofId,
+              })
+
+              if (!proof) {
+                throw new Error(
+                  'Unable to find approved design proof for design request',
+                )
+              }
+
+              previewImage = await ctx.file.getFile({
+                fileId: proof.primaryImageFileId,
+              })
+            } catch (error) {
+              console.error(error)
+
+              throw new GraphQLError(
+                'Unable to fetch approved design proof for design request',
+              )
+            }
+          } else {
+            let proofs
+
+            try {
+              proofs = await ctx.design.listDesignProofs({
+                orderBy: { createdAt: 'desc' },
+                take: 1,
+                where: {
+                  id: { in: designRequest.designProofIds },
+                },
+              })
+
+              if (!proofs.length) {
+                throw new Error(
+                  'Unable to find latest design proof for design request',
+                )
+              }
+
+              previewImage = await ctx.file.getFile({
+                fileId: proofs[0].primaryImageFileId,
+              })
+            } catch (error) {
+              console.error(error)
+
+              throw new GraphQLError(
+                'Unable to fetch latest design proof for design request',
+              )
+            }
+          }
+        } else {
+          try {
+            const files = await ctx.file.listFiles({
+              take: 1,
+              where: {
+                id: { in: designRequest.fileIds },
+                fileType: { equals: 'IMAGE' },
+              },
+            })
+
+            previewImage = files[0]
+          } catch (error) {
+            console.error(error)
+
+            throw new GraphQLError(
+              'Unable to fetch preview image for design request',
+            )
+          }
+        }
+
+        return previewImage ? fileFactoryToGrahpqlFileImage(previewImage) : null
+      },
+    })
     t.nonNull.list.nonNull.field('files', {
       type: 'File',
       resolve: async (designRequest, _, ctx) => {

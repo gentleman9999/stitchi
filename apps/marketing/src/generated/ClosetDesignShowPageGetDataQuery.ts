@@ -11,7 +11,6 @@ export interface ClosetDesignShowPageGetDataQuery_designProduct {
   __typename: "DesignProduct";
   id: string;
   name: string;
-  description: string | null;
 }
 
 export interface ClosetDesignShowPageGetDataQuery {

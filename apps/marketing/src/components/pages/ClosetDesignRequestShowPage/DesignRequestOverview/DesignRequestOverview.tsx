@@ -86,12 +86,12 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
         />
       ) : null}
 
+      <ComponentErrorMessage error={error} />
+
       <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
         <DesignRequestAssociatedProducts designRequestId={designRequestId} />
 
         <div className="col-span-1 md:col-span-8">
-          {error ? <ComponentErrorMessage error={error} /> : null}
-
           {activeProofId ? (
             <ClosetSection>
               <DesignProofVariantPreview

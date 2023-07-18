@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { MembershipDesignRequestsFilterInput, DesignRequestStatus } from "./globalTypes";
+import { MembershipDesignRequestsFilterInput } from "./globalTypes";
 
 // ====================================================
 // GraphQL query operation: ClosetDesignIndexPageGetDataQuery
@@ -12,10 +12,6 @@ import { MembershipDesignRequestsFilterInput, DesignRequestStatus } from "./glob
 export interface ClosetDesignIndexPageGetDataQuery_viewer_designRequests_edges_node {
   __typename: "DesignRequest";
   id: string;
-  name: string;
-  updatedAt: any | null;
-  status: DesignRequestStatus;
-  humanizedStatus: string;
 }
 
 export interface ClosetDesignIndexPageGetDataQuery_viewer_designRequests_edges {

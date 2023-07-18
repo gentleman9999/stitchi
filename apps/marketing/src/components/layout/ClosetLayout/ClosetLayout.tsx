@@ -12,7 +12,6 @@ import {
   Cog8ToothIcon,
   HomeIcon,
   PaintBrushIcon,
-  PlusIcon,
   QuestionMarkCircleIcon,
   RectangleStackIcon,
   SwatchIcon,

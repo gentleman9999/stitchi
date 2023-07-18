@@ -190,7 +190,6 @@ export const OrdersExtendsMember = extendType({
         const orders = await order.listOrders({
           where: {
             organizationId: parent.organizationId,
-            userId: parent.userId,
             createdAt: filter?.where?.createdAt
               ? {
                   gte: filter.where.createdAt.gte || undefined,

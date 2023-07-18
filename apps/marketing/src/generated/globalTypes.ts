@@ -281,6 +281,14 @@ export interface LinksFilter {
   exists?: any | null;
 }
 
+export interface MembershipDesignProductsFilterInput {
+  where?: MembershipDesignProductsWhereFilterInput | null;
+}
+
+export interface MembershipDesignProductsWhereFilterInput {
+  createdAt?: DateFilterInput | null;
+}
+
 export interface MembershipDesignRequestsFilterInput {
   where?: MembershipDesignRequestsWhereFilterInput | null;
 }

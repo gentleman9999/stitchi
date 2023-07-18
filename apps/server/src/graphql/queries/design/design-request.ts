@@ -86,7 +86,6 @@ export const DesignRequestsExtendsMembership = extendType({
           [
             {
               organizationId: parent.organizationId,
-              userId: parent.userId,
             },
           ]
 

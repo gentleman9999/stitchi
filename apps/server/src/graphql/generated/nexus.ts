@@ -169,6 +169,12 @@ export interface NexusGenInputs {
     provinceCode?: string | null; // String
     zip?: string | null; // String
   }
+  MembershipDesignProductsFilterInput: { // input type
+    where?: NexusGenInputs['MembershipDesignProductsWhereFilterInput'] | null; // MembershipDesignProductsWhereFilterInput
+  }
+  MembershipDesignProductsWhereFilterInput: { // input type
+    createdAt?: NexusGenInputs['DateFilterInput'] | null; // DateFilterInput
+  }
   MembershipDesignRequestsFilterInput: { // input type
     where?: NexusGenInputs['MembershipDesignRequestsWhereFilterInput'] | null; // MembershipDesignRequestsWhereFilterInput
   }
@@ -330,8 +336,16 @@ export interface NexusGenObjects {
     imageFileIds: string[]; // [ID!]!
     name?: string | null; // String
   }
+  DesignProductConnection: { // root type
+    edges?: Array<NexusGenRootTypes['DesignProductEdge'] | null> | null; // [DesignProductEdge]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
   DesignProductCreateOrderPayload: { // root type
     order?: NexusGenRootTypes['Order'] | null; // Order
+  }
+  DesignProductEdge: { // root type
+    cursor?: string | null; // String
+    node?: NexusGenRootTypes['DesignProduct'] | null; // DesignProduct
   }
   DesignProductVariant: { // root type
     catalogProductColorId?: string | null; // ID
@@ -382,7 +396,6 @@ export interface NexusGenObjects {
     humanizedStatus: string; // String!
     id: string; // ID!
     name: string; // String!
-    previewImage?: NexusGenRootTypes['FileImage'] | null; // FileImage
     status: NexusGenEnums['DesignRequestStatus']; // DesignRequestStatus!
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     useCase?: string | null; // String
@@ -795,8 +808,16 @@ export interface NexusGenFieldTypes {
     images: NexusGenRootTypes['FileImage'][]; // [FileImage!]!
     name: string | null; // String
   }
+  DesignProductConnection: { // field return type
+    edges: Array<NexusGenRootTypes['DesignProductEdge'] | null> | null; // [DesignProductEdge]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
   DesignProductCreateOrderPayload: { // field return type
     order: NexusGenRootTypes['Order'] | null; // Order
+  }
+  DesignProductEdge: { // field return type
+    cursor: string | null; // String
+    node: NexusGenRootTypes['DesignProduct'] | null; // DesignProduct
   }
   DesignProductVariant: { // field return type
     catalogProductColorId: string | null; // ID
@@ -1048,6 +1069,7 @@ export interface NexusGenFieldTypes {
   }
   Membership: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
+    designProducts: NexusGenRootTypes['DesignProductConnection']; // DesignProductConnection!
     designRequests: NexusGenRootTypes['DesignRequestConnection']; // DesignRequestConnection!
     hasOrders: boolean; // Boolean!
     humanizedRole: string | null; // String
@@ -1332,8 +1354,16 @@ export interface NexusGenFieldTypeNames {
     images: 'FileImage'
     name: 'String'
   }
+  DesignProductConnection: { // field return type name
+    edges: 'DesignProductEdge'
+    pageInfo: 'PageInfo'
+  }
   DesignProductCreateOrderPayload: { // field return type name
     order: 'Order'
+  }
+  DesignProductEdge: { // field return type name
+    cursor: 'String'
+    node: 'DesignProduct'
   }
   DesignProductVariant: { // field return type name
     catalogProductColorId: 'ID'
@@ -1585,6 +1615,7 @@ export interface NexusGenFieldTypeNames {
   }
   Membership: { // field return type name
     createdAt: 'DateTime'
+    designProducts: 'DesignProductConnection'
     designRequests: 'DesignRequestConnection'
     hasOrders: 'Boolean'
     humanizedRole: 'String'
@@ -1813,6 +1844,13 @@ export interface NexusGenArgTypes {
     }
   }
   Membership: {
+    designProducts: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      filter?: NexusGenInputs['MembershipDesignProductsFilterInput'] | null; // MembershipDesignProductsFilterInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
     designRequests: { // args
       after?: string | null; // String
       before?: string | null; // String

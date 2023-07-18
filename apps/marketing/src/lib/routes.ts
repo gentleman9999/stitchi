@@ -196,20 +196,28 @@ const routes = {
       },
 
       designs: {
-        href: () => buildRoute('/closet/designs'),
+        href: (params?: QueryParams) => buildRoute('/closet/designs', params),
+      },
+
+      designProducts: {
+        href: (params?: QueryParams) =>
+          buildRoute('/closet/approved-designs', params),
 
         show: {
           href: ({ designId }: { designId: string }) =>
-            buildRoute(`/closet/designs/${designId}`),
+            buildRoute(`/closet/approved-designs/${designId}`),
 
           buy: {
             href: ({ designId }: { designId: string }) =>
-              buildRoute(`/closet/designs/${designId}/buy`),
+              buildRoute(`/closet/approved-designs/${designId}/buy`),
           },
         },
       },
 
       designRequests: {
+        href: (params?: QueryParams) =>
+          buildRoute('/closet/design-requests', params),
+
         create: {
           href: () => buildRoute('/closet/design-requests/new'),
         },
@@ -230,6 +238,11 @@ const routes = {
               buildRoute(`/closet/design-requests/${designId}/activity`),
           },
         },
+      },
+
+      collections: {
+        href: (params?: QueryParams) =>
+          buildRoute('/closet/collections', params),
       },
 
       brand: {

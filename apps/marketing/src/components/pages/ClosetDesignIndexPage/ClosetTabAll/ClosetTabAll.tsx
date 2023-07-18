@@ -1,28 +1,24 @@
-import { gql } from '@apollo/client'
 import React from 'react'
-import { ClosetTabAllDesignRequestFragment } from '@generated/ClosetTabAllDesignRequestFragment'
 import ClosetSection from '@components/common/ClosetSection'
 import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
 import ClosetSectionTitle from '@components/common/ClosetSectionTitle'
-import ClosetTabAllRecentGrid from './ClosetTabAllRecentGrid'
 import ClosetTabAllCollections from './ClosetTabAllCollections'
 import ButtonV2 from '@components/ui/ButtonV2'
-import ClosetDesignIndexPageDesignRequestCard from '../ClosetDesignIndexPageDesignRequestCard'
+import ClosetTabAllDesignRequests from './ClosetTabAllDesignRequests'
+import ClosetTabApprovedDesignRequests from './ClosetTabApprovedDesignRequests'
 
-interface Props {
-  designRequests: ClosetTabAllDesignRequestFragment[]
-}
+interface Props {}
 
-const ClosetTabAll = ({ designRequests }: Props) => {
+const ClosetTabAll = ({}: Props) => {
   return (
     <div>
-      <ClosetSection>
+      {/* <ClosetSection>
         <ClosetSectionHeader>
           <ClosetSectionTitle title="Recent" />
         </ClosetSectionHeader>
 
         <ClosetTabAllRecentGrid />
-      </ClosetSection>
+      </ClosetSection> */}
 
       <ClosetSection>
         <ClosetSectionHeader>
@@ -39,38 +35,11 @@ const ClosetTabAll = ({ designRequests }: Props) => {
         <ClosetTabAllCollections />
       </ClosetSection>
 
-      <ClosetSection>
-        <ClosetSectionHeader>
-          <ClosetSectionTitle title="Approved Designs" />
-        </ClosetSectionHeader>
-      </ClosetSection>
+      <ClosetTabApprovedDesignRequests />
 
-      <ClosetSection>
-        <ClosetSectionHeader>
-          <ClosetSectionTitle title="Design Requests" />
-        </ClosetSectionHeader>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {designRequests.map(designRequest => (
-            <ClosetDesignIndexPageDesignRequestCard
-              key={designRequest.id}
-              designRequest={designRequest}
-            />
-          ))}
-        </div>
-      </ClosetSection>
+      <ClosetTabAllDesignRequests />
     </div>
   )
-}
-
-ClosetTabAll.fragments = {
-  designRequest: gql`
-    ${ClosetDesignIndexPageDesignRequestCard.fragments.designRequest}
-    fragment ClosetTabAllDesignRequestFragment on DesignRequest {
-      id
-      ...ClosetDesignIndexPageDesignRequestCardDesignRequestFragment
-    }
-  `,
 }
 
 export default ClosetTabAll

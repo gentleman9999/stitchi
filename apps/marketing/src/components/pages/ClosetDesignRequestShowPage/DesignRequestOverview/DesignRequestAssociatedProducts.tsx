@@ -26,7 +26,7 @@ const DesignRequestAssociatedProducts = ({ designRequestId }: Props) => {
 
   const designRequest = data?.designRequest
 
-  if (loading || !designRequest) {
+  if (loading || !designRequest || designRequest.designProducts.length === 0) {
     return null
   }
 
@@ -42,7 +42,7 @@ const DesignRequestAssociatedProducts = ({ designRequestId }: Props) => {
             <Link
               key={designProduct.id}
               className="flex justify-between gap-2 items-center border rounded-md p-4"
-              href={routes.internal.closet.designs.show.href({
+              href={routes.internal.closet.designProducts.show.href({
                 designId: designProduct.id,
               })}
             >
@@ -63,7 +63,7 @@ const DesignRequestAssociatedProducts = ({ designRequestId }: Props) => {
               </div>
 
               <Button
-                variant="naked"
+                variant="ghost"
                 size="xs"
                 endIcon={<ArrowRightIcon className="w-5" />}
               >
