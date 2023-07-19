@@ -1,6 +1,10 @@
 import { gql } from '@apollo/client'
+import SwatchGroup from '@components/common/Catalog/SwatchGroup'
+import Tooltip from '@components/ui/Tooltip'
 import { ClosetDesignIndexPageApprovedDesignCardDesignProductFragment } from '@generated/ClosetDesignIndexPageApprovedDesignCardDesignProductFragment'
 import routes from '@lib/routes'
+import { notEmpty } from '@utils/typescript'
+import currency from 'currency.js'
 import React from 'react'
 import Card from './Card'
 
@@ -25,6 +29,25 @@ const ClosetDesignIndexPageApprovedDesignCard = ({ design }: Props) => {
             }
           : undefined
       }
+      description={
+        <div className="flex justify-between items-end flex-wrap flex-1">
+          <div className="flex-1 flex items-end">
+            <SwatchGroup
+              hexColors={design.colors.map(({ hex }) => hex).filter(notEmpty)}
+            />
+          </div>
+          {design.minUnitPriceCents ? (
+            <span className=" text-gray-600 flex gap-1 items-center">
+              <span className="text-xs">from</span>
+              <span className="font-bold text-base">
+                {currency(design.minUnitPriceCents, {
+                  fromCents: true,
+                }).format()}
+              </span>
+            </span>
+          ) : null}
+        </div>
+      }
     />
   )
 }
@@ -34,6 +57,11 @@ ClosetDesignIndexPageApprovedDesignCard.fragments = {
     fragment ClosetDesignIndexPageApprovedDesignCardDesignProductFragment on DesignProduct {
       id
       name
+      minUnitPriceCents
+      colors {
+        hex
+        name
+      }
       primaryImageFile {
         id
         url

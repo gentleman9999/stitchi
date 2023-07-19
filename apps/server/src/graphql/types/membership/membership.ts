@@ -22,16 +22,5 @@ export const Membership = objectType({
 
     t.nonNull.field('createdAt', { type: 'DateTime' })
     t.field('updatedAt', { type: 'DateTime' })
-
-    t.field('organization', {
-      type: 'Organization',
-      resolve: async (membership, _, ctx) => {
-        return ctx.prisma.organization.findFirst({
-          where: {
-            id: membership.organizationId,
-          },
-        })
-      },
-    })
   },
 })

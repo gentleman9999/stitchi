@@ -1,5 +1,6 @@
 import { GraphQLError } from 'graphql'
 import { extendType } from 'nexus'
+import { organizationFactoryToGrahpql } from '../../serializers/organization'
 
 export const OrganizationExtendsUser = extendType({
   type: 'User',
@@ -17,9 +18,45 @@ export const OrganizationExtendsUser = extendType({
           membership => membership.organizationId,
         )
 
-        return await ctx.prisma.organization.findMany({
-          where: { id: { in: organizationIds } },
-        })
+        let organizations
+
+        try {
+          organizations = await ctx.organization.listOrganizations({
+            where: { id: { in: organizationIds } },
+          })
+        } catch (error) {
+          console.error('Unable to fetch organizations', {
+            context: { error, user },
+          })
+          throw new GraphQLError('Unable to fetch organizations')
+        }
+
+        return organizations.map(organizationFactoryToGrahpql)
+      },
+    })
+  },
+})
+
+export const OrganizationExtendsMembership = extendType({
+  type: 'Membership',
+  definition(t) {
+    t.nonNull.field('organization', {
+      type: 'Organization',
+      resolve: async (membership, _, ctx) => {
+        let organization
+
+        try {
+          organization = await ctx.organization.getOrganization({
+            organizationId: membership.organizationId,
+          })
+        } catch (error) {
+          console.error('Unable to fetch organization', {
+            context: { error, membership },
+          })
+          throw new GraphQLError('Unable to fetch organization')
+        }
+
+        return organizationFactoryToGrahpql(organization)
       },
     })
   },

@@ -14,7 +14,7 @@ export interface AccountSetupPageBootstrapAccount_userBoostrap_organizations {
 
 export interface AccountSetupPageBootstrapAccount_userBoostrap {
   __typename: "User";
-  id: string | null;
+  id: string;
   organizations: AccountSetupPageBootstrapAccount_userBoostrap_organizations[];
 }
 

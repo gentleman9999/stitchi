@@ -9,7 +9,7 @@
 
 export interface UserBadgeUserFramgent {
   __typename: "User";
-  id: string | null;
+  id: string;
   name: string | null;
   picture: string | null;
 }

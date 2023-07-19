@@ -44,6 +44,10 @@ export const MembershipDesignRequestsWhereFilterInput = inputObjectType({
     t.field('createdAt', {
       type: 'DateFilterInput',
     })
+
+    t.field('userId', {
+      type: 'StringFilterInput',
+    })
   },
 })
 
@@ -83,20 +87,46 @@ export const DesignRequestsExtendsMembership = extendType({
         const isArtist = parent.role === 'STITCHI_DESIGNER'
 
         const resourceOwnerFilter: Prisma.Enumerable<Prisma.DesignRequestWhereInput> =
-          [
-            {
-              organizationId: parent.organizationId,
-            },
-          ]
+          []
 
-        if (isArtist) {
-          resourceOwnerFilter.push({
-            designRequestArtists: {
-              some: {
-                artistUserId: parent.userId,
+        const { userId } = filter?.where || {}
+
+        if (!Object.keys(userId || {}).length) {
+          if (isArtist) {
+            // Artists can see all design requests, skip
+            resourceOwnerFilter.push({
+              id: {
+                not: undefined,
               },
-            },
-          })
+            })
+          } else {
+            resourceOwnerFilter.push({
+              organizationId: parent.organizationId,
+            })
+          }
+        } else {
+          if (isArtist) {
+            resourceOwnerFilter.push({
+              designRequestArtists: {
+                some: {
+                  artistUserId: {
+                    equals: userId?.equals || undefined,
+                    in: userId?.in || undefined,
+                    notIn: userId?.notIn || undefined,
+                  },
+                },
+              },
+            })
+          } else {
+            resourceOwnerFilter.push({
+              organizationId: parent.organizationId,
+              userId: {
+                equals: userId?.equals || undefined,
+                in: userId?.in || undefined,
+                notIn: userId?.notIn || undefined,
+              },
+            })
+          }
         }
 
         const designRequests = await design.listDesignRequests({

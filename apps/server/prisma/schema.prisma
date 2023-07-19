@@ -41,6 +41,7 @@ model File {
   designProofVariantImages        DesignProofVariantImage[]
   designRequestRevisionFiles      DesignRequestRevisionFile[]
   conversationMessageFiles        ConversationMessageFile[]
+  organizationFiles               OrganizationFile[]
 }
 
 enum FileType {
@@ -57,17 +58,57 @@ model Organization {
 
   memberships Membership[]
 
-  createdAt            DateTime               @default(now())
-  updatedAt            DateTime               @updatedAt
-  Order                Order[]
-  Design               Design[]
-  ActiveUserMembership ActiveUserMembership[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  orders                Order[]
+  designs               Design[]
+  activeUserMemberships ActiveUserMembership[]
+  organizationFiles     OrganizationFile[]
+  organizationColors    OrganizationColor[]
 }
 
 // The owners of the SaaS (you) can have a SUPERADMIN role to access all data
 enum GlobalRole {
   SUPERADMIN
   CUSTOMER
+}
+
+model OrganizationFile {
+  id             String @id @default(uuid())
+  organizationId String
+  userId         String
+
+  fileId String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  file         File         @relation(fields: [fileId], references: [id])
+
+  @@index([organizationId])
+  @@index([fileId])
+}
+
+model OrganizationColor {
+  id String @id @default(uuid())
+
+  organizationId String
+
+  name String
+
+  hex String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId])
 }
 
 model Membership {

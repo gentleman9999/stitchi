@@ -9,6 +9,7 @@ import { makeClient as makeNotificationClient } from './notification'
 import { makeClient as makeFileClient } from './file'
 import { makeClient as makeConversationClient } from './conversation'
 import { makeClient as makeUserClient } from './user'
+import { makeClient as makeOrganizationClient } from './organization'
 
 export interface ServiceList {
   conversation: ReturnType<typeof makeConversationClient>
@@ -22,6 +23,7 @@ export interface ServiceList {
   notification: ReturnType<typeof makeNotificationClient>
   file: ReturnType<typeof makeFileClient>
   user: ReturnType<typeof makeUserClient>
+  organization: ReturnType<typeof makeOrganizationClient>
 }
 
 const services: ServiceList = {
@@ -36,6 +38,7 @@ const services: ServiceList = {
   notification: makeNotificationClient(),
   file: makeFileClient(),
   user: makeUserClient(),
+  organization: makeOrganizationClient(),
 }
 
 export default services

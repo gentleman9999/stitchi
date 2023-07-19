@@ -16,7 +16,7 @@ export interface OrganizationDropdownGetDataQuery_userMemberships_organization {
 export interface OrganizationDropdownGetDataQuery_userMemberships {
   __typename: "Membership";
   id: string;
-  organization: OrganizationDropdownGetDataQuery_userMemberships_organization | null;
+  organization: OrganizationDropdownGetDataQuery_userMemberships_organization;
 }
 
 export interface OrganizationDropdownGetDataQuery {

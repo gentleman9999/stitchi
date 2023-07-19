@@ -1,14 +1,17 @@
 import { TableFilterDateProps } from '@components/ui/Table/TableFilterDate'
+import { TableFilterUserProps } from '@components/ui/Table/TableFilterUser'
 import { useQueryState } from 'next-usequerystate'
 import React from 'react'
 
 interface Filters {
   date: TableFilterDateProps['value'] | null
+  user: TableFilterUserProps['value'] | null
 }
 
 interface State {
   filters: Filters
   setDateFilter: (date: TableFilterDateProps['value'] | null) => void
+  setUserFilter: (user: TableFilterUserProps['value'] | null) => void
 }
 
 const ClosetClontext = React.createContext<State | undefined>(undefined)
@@ -30,14 +33,32 @@ const ClosetProvider = ({ children }: { children: React.ReactNode }) => {
     },
   })
 
+  const [userFilter, setUserFilter] = useQueryState<
+    TableFilterUserProps['value'] | null
+  >('user', {
+    defaultValue: null,
+    parse: (value: string) => {
+      try {
+        return JSON.parse(value)
+      } catch {
+        return null
+      }
+    },
+    serialize: (value: TableFilterUserProps['value'] | null) => {
+      return JSON.stringify(value)
+    },
+  })
+
   const state = React.useMemo(() => {
     return {
       setDateFilter,
+      setUserFilter,
       filters: {
         date: dateFilter,
+        user: userFilter,
       },
     }
-  }, [dateFilter, setDateFilter])
+  }, [dateFilter, setDateFilter, setUserFilter, userFilter])
 
   return (
     <ClosetClontext.Provider value={state}>{children}</ClosetClontext.Provider>

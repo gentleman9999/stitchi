@@ -17,7 +17,7 @@ export interface DesignProofCardDesignProofFragment_primaryImageFile {
 
 export interface DesignProofCardDesignProofFragment_artist {
   __typename: "User";
-  id: string | null;
+  id: string;
   name: string | null;
 }
 

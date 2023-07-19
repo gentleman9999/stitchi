@@ -65,6 +65,7 @@ type DesignProduct {
   designProofId: ID!
   designRequestId: ID!
   id: ID!
+  minUnitPriceCents: Int
   name: String!
   organizationId: ID
   primaryImageFile: FileImage
@@ -429,6 +430,18 @@ interface File {
   userId: String
 }
 
+type FileConnection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [FileEdge]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+}
+
 input FileCreateBatchInput {
   files: [FileCreateInput!]!
 }
@@ -451,6 +464,14 @@ input FileCreateInput {
 
 type FileCreatePayload {
   file: File
+}
+
+type FileEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: File
 }
 
 type FileImage implements File {
@@ -638,7 +659,7 @@ type Membership {
     """Returns the last n elements from the list."""
     last: Int
   ): OrderConnection
-  organization: Organization
+  organization: Organization!
   organizationId: String!
   role: MembershipRole
   scopes: [Scope!]!
@@ -653,6 +674,7 @@ input MembershipDesignProductsFilterInput {
 
 input MembershipDesignProductsWhereFilterInput {
   createdAt: DateFilterInput
+  userId: StringFilterInput
 }
 
 input MembershipDesignRequestsFilterInput {
@@ -661,6 +683,7 @@ input MembershipDesignRequestsFilterInput {
 
 input MembershipDesignRequestsWhereFilterInput {
   createdAt: DateFilterInput
+  userId: StringFilterInput
 }
 
 input MembershipOrdersFilterInput {
@@ -697,6 +720,8 @@ type Mutation {
 
   """Confirms an order with a customers details"""
   orderConfirm(input: OrderConfirmInput!): OrderConfirmPayload
+  organizationBrandFileCreateBatch(input: OrganizationBrandFileCreateBatchInput!): OrganizationBrandFileCreateBatchPayload
+  organizationBrandFileDeleteBatch(input: OrganizationBrandFileDeleteBatchInput!): OrganizationBrandFileDeleteBatchPayload
   paymentIntentCreate(input: PaymentIntentCreateInput!): PaymentIntentCreatePayload
 
   """Creates a new email subscriber"""
@@ -837,12 +862,55 @@ enum OrderType {
 }
 
 type Organization {
+  brand: OrganizationBrand
   createdAt: DateTime!
+  deletedAt: DateTime
   id: ID!
   memberships: [Membership]
   name: String
   role: GlobalRole
-  updatedAt: DateTime
+  updatedAt: DateTime!
+}
+
+type OrganizationBrand {
+  fileUploadDirectory: String!
+  files(
+    """Returns the elements in the list that come after the specified cursor"""
+    after: String
+
+    """Returns the elements in the list that come before the specified cursor"""
+    before: String
+
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+  ): FileConnection!
+  id: ID!
+}
+
+input OrganizationBrandFileCreateBatchFileInput {
+  fileId: ID!
+}
+
+input OrganizationBrandFileCreateBatchInput {
+  files: [OrganizationBrandFileCreateBatchFileInput!]!
+  organizationId: ID!
+}
+
+type OrganizationBrandFileCreateBatchPayload {
+  brand: OrganizationBrand
+  files: [File!]!
+}
+
+input OrganizationBrandFileDeleteBatchInput {
+  fileIds: [ID!]!
+}
+
+type OrganizationBrandFileDeleteBatchPayload {
+  brand: OrganizationBrand
+  files: [File!]!
 }
 
 type PageInfo {
@@ -996,7 +1064,7 @@ type User {
   emailVerified: Boolean
   familyName: String
   givenName: String
-  id: ID
+  id: ID!
   lastLogin: DateTime
   loginsCount: Int
   name: String

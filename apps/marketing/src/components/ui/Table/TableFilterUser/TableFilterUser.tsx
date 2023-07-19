@@ -1,14 +1,20 @@
 import React from 'react'
 import TableFilter from '../TableFilter'
-import UserFilter, { UserId } from './UserFilter'
+import UserFilter, { Props as UserFilterProps } from './UserFilter'
 
 export interface Props {
-  value: UserId | null
+  value: UserFilterProps['value']
   label?: string
-  onChange: (value: UserId | null) => Promise<void> | void
+  users: UserFilterProps['users']
+  onChange: UserFilterProps['onChange']
 }
 
-const TableFilterUser = ({ label = 'Owner', value, onChange }: Props) => {
+const TableFilterUser = ({
+  label = 'Owner',
+  value,
+  onChange,
+  users,
+}: Props) => {
   return (
     <TableFilter
       label={label}
@@ -16,6 +22,7 @@ const TableFilterUser = ({ label = 'Owner', value, onChange }: Props) => {
       onRemove={() => onChange(null)}
       renderFilter={({ onClose }) => (
         <UserFilter
+          users={users}
           value={value}
           onChange={v => {
             onChange(v)

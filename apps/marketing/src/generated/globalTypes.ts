@@ -287,6 +287,7 @@ export interface MembershipDesignProductsFilterInput {
 
 export interface MembershipDesignProductsWhereFilterInput {
   createdAt?: DateFilterInput | null;
+  userId?: StringFilterInput | null;
 }
 
 export interface MembershipDesignRequestsFilterInput {
@@ -295,6 +296,7 @@ export interface MembershipDesignRequestsFilterInput {
 
 export interface MembershipDesignRequestsWhereFilterInput {
   createdAt?: DateFilterInput | null;
+  userId?: StringFilterInput | null;
 }
 
 export interface MembershipOrdersFilterInput {
@@ -335,6 +337,19 @@ export interface OrderConfirmMailingAddressInput {
   province?: string | null;
   provinceCode?: string | null;
   zip?: string | null;
+}
+
+export interface OrganizationBrandFileCreateBatchFileInput {
+  fileId: string;
+}
+
+export interface OrganizationBrandFileCreateBatchInput {
+  organizationId: string;
+  files: OrganizationBrandFileCreateBatchFileInput[];
+}
+
+export interface OrganizationBrandFileDeleteBatchInput {
+  fileIds: string[];
 }
 
 export interface PaymentIntentCreateInput {
@@ -435,6 +450,19 @@ export interface StringFilter {
   in?: (string | null)[] | null;
   notIn?: (string | null)[] | null;
   exists?: any | null;
+}
+
+export interface StringFilterInput {
+  contains?: string | null;
+  equals?: string | null;
+  startsWith?: string | null;
+  endsWith?: string | null;
+  gt?: string | null;
+  gte?: string | null;
+  lt?: string | null;
+  lte?: string | null;
+  in?: string[] | null;
+  notIn?: string[] | null;
 }
 
 export interface StringMatchesFilter {

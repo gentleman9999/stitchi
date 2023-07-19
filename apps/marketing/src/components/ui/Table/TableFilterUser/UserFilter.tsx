@@ -1,14 +1,20 @@
 import UserAvatar from '@components/common/UserAvatar'
 import { Check } from 'icons'
 import React from 'react'
-
 import cx from 'classnames'
 
-export type UserId = string | null
+interface User {
+  id: string
+  name: string
+  picture?: string | null
+}
 
-interface Props {
+type UserId = string | null
+
+export interface Props {
   value: UserId
   onChange: (value: UserId) => Promise<void> | void
+  users: User[]
 }
 
 const UserFilter = (props: Props) => {
@@ -20,14 +26,14 @@ const UserFilter = (props: Props) => {
       >
         Any owner
       </button>
-      {Array.from({ length: 10 }).map((_, i) => (
+      {props.users.map((user, idx) => (
         <button
-          key={i}
-          onClick={() => props.onChange(i.toString())}
+          key={user.id}
+          onClick={() => props.onChange(user.id)}
           className={cx(
             'flex items-center gap-2 text-sm justify-between hover:bg-primary p-1 rounded-sm',
             {
-              'font-bold': i === 1,
+              'font-bold': idx === 1,
             },
           )}
         >
@@ -36,13 +42,13 @@ const UserFilter = (props: Props) => {
               width="w-6"
               height="h-6"
               user={{
-                name: 'John Doe',
-                picture: 'https://i.pravatar.cc/300',
+                name: user.name,
+                picture: user.picture || null,
               }}
             />
-            <span>John Doe</span>
+            <span>{user.name}</span>
           </div>
-          {i === 1 ? (
+          {idx === 1 ? (
             <div>
               <Check className="w-4 h-4" />
             </div>

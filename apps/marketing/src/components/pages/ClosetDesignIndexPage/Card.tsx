@@ -14,14 +14,17 @@ interface Props {
   href: string
   loading?: string
   title?: string
-  description?: string
+  description?: React.ReactNode
   image?: Image
   badge?: Pick<BadgeProps, 'label' | 'severity'>
 }
 
 const Card = ({ href, loading, title, description, image, badge }: Props) => {
   return (
-    <Link className="relative rounded-md overflow-hidden border" href={href}>
+    <Link
+      className="relative rounded-md overflow-hidden border flex flex-col"
+      href={href}
+    >
       {badge ? (
         <div className="absolute right-0 top-0">
           <div className="p-2">
@@ -46,24 +49,26 @@ const Card = ({ href, loading, title, description, image, badge }: Props) => {
         )}
       </div>
 
-      <div className="p-4 flex flex-col gap-1">
+      <div className="p-4 flex flex-col gap-1 flex-1">
         {loading || title ? (
-          <h2 className="font-semibold leading-tight">
+          <h2 className="text-sm font-medium leading-tight text-gray-700">
             {loading ? <Skeleton width={100} /> : title}
           </h2>
         ) : null}
         {loading || description ? (
-          <p className="text-xs text-gray-500 ">
+          <>
             {loading ? (
-              <>
+              <div>
                 <Skeleton width={50} />
                 <Skeleton width={80} />
                 <Skeleton width={60} />
-              </>
+              </div>
+            ) : typeof description === 'string' ? (
+              <p className="text-xs text-gray-500">{description}</p>
             ) : (
               description
             )}
-          </p>
+          </>
         ) : null}
       </div>
     </Link>

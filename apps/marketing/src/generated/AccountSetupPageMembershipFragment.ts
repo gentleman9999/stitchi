@@ -16,5 +16,5 @@ export interface AccountSetupPageMembershipFragment_organization {
 export interface AccountSetupPageMembershipFragment {
   __typename: "Membership";
   id: string;
-  organization: AccountSetupPageMembershipFragment_organization | null;
+  organization: AccountSetupPageMembershipFragment_organization;
 }

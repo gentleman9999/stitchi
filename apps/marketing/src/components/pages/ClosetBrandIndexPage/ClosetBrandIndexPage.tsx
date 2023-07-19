@@ -7,6 +7,7 @@ import ClosetSectionTitle from '@components/common/ClosetSectionTitle'
 import { FileInput, InputGroup } from '@components/ui'
 import React from 'react'
 import color from 'color'
+import ClosetBrandIndexPageFiles from './ClosetBrandIndexPageFiles/ClosetBrandIndexPageFiles'
 
 interface Props {}
 
@@ -22,14 +23,7 @@ const ClosetBrandIndexPage = () => {
           <ClosetSectionTitle title="Logos" />
         </ClosetSectionHeader>
 
-        <InputGroup>
-          <FileInput
-            fileIds={[]}
-            folder=""
-            onChange={() => {}}
-            accept="image/*, application/pdf"
-          />
-        </InputGroup>
+        <ClosetBrandIndexPageFiles />
       </ClosetSection>
 
       <ClosetSection>

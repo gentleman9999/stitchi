@@ -25,6 +25,7 @@ const ClosetTabApprovedDesignRequests = ({}: Props) => {
       first: 10,
       filter: {
         where: {
+          userId: { equals: filters.user || undefined },
           createdAt: {
             gte: filters.date?.gte,
             lte: filters.date?.lte,
@@ -38,6 +39,7 @@ const ClosetTabApprovedDesignRequests = ({}: Props) => {
     refetch({
       filter: {
         where: {
+          userId: { equals: filters.user || undefined },
           createdAt: {
             gte: filters.date?.gte,
             lte: filters.date?.lte,

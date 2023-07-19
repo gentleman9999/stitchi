@@ -11,7 +11,7 @@ import { useRouter } from 'next/router'
 
 import React from 'react'
 import { ClosetProvider } from './closet-context'
-import ClosetFilters from './ClosetFilters'
+import ClosetDesignFilters from './ClosetDesignFilters'
 
 const ClosetTabAll = dynamic(() => import('./ClosetTabAll'))
 const ClosetTabApprovedDesigns = dynamic(
@@ -49,7 +49,7 @@ const ClosetDesignIndexPage = ({}: Props) => {
           />
         </ClosetPageHeader>
 
-        <ClosetFilters />
+        <ClosetDesignFilters />
 
         <ClosetSection
           tabs={[

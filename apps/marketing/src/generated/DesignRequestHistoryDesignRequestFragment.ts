@@ -26,7 +26,7 @@ export type DesignRequestHistoryDesignRequestFragment_history_ConversationMessag
 
 export interface DesignRequestHistoryDesignRequestFragment_history_ConversationMessage_sender {
   __typename: "User";
-  id: string | null;
+  id: string;
   picture: string | null;
   name: string | null;
 }
@@ -43,7 +43,7 @@ export interface DesignRequestHistoryDesignRequestFragment_history_ConversationM
 
 export interface DesignRequestHistoryDesignRequestFragment_history_DesignRequestHistoryItemDesignRequestEvent_user {
   __typename: "User";
-  id: string | null;
+  id: string;
   name: string | null;
   picture: string | null;
 }
@@ -58,7 +58,7 @@ export interface DesignRequestHistoryDesignRequestFragment_history_DesignRequest
 
 export interface DesignRequestHistoryDesignRequestFragment_history_DesignProof_artist {
   __typename: "User";
-  id: string | null;
+  id: string;
   name: string | null;
 }
 
@@ -95,7 +95,7 @@ export type DesignRequestHistoryDesignRequestFragment_history_DesignRequestRevis
 
 export interface DesignRequestHistoryDesignRequestFragment_history_DesignRequestRevisionRequest_user {
   __typename: "User";
-  id: string | null;
+  id: string;
   name: string | null;
 }
 

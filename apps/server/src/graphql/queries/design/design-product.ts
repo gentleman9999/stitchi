@@ -37,6 +37,52 @@ export const designProduct = queryField('designProduct', {
 export const DesignProductExtendsDesignProduct = extendType({
   type: 'DesignProduct',
   definition(t) {
+    t.nullable.int('minUnitPriceCents', {
+      resolve: async (parent, _, ctx) => {
+        let designProof
+
+        try {
+          designProof = await ctx.design.getDesignProof({
+            designProofId: parent.designProofId,
+          })
+        } catch (error) {
+          console.error("Error getting design proof's design", {
+            context: { error, designProduct: parent },
+          })
+          throw new GraphQLError('Error getting design proof')
+        }
+
+        let product
+
+        try {
+          product = await ctx.catalog.getCatalogProduct({
+            productEntityId: parent.catalogProductId,
+          })
+
+          if (!product) {
+            throw new Error('Product not found')
+          }
+        } catch (error) {
+          console.error('Error getting catalog product', {
+            context: { error, designProduct: parent },
+          })
+
+          throw new GraphQLError('Error getting catalog product')
+        }
+
+        // TODO: Add support for Direct to Garment
+        const quote = calculate({
+          includeFulfillment: false,
+          quantity: 10_000,
+          productPriceCents: product.priceCents,
+          printLocations: designProof.locations.map(location => ({
+            colorCount: location.colorCount || 0,
+          })),
+        })
+
+        return quote.productUnitCostCents
+      },
+    })
     t.field('quote', {
       type: 'Quote',
       args: {
@@ -133,6 +179,10 @@ export const MembershipDesignProductsWhereFilterInput = inputObjectType({
     t.field('createdAt', {
       type: 'DateFilterInput',
     })
+
+    t.field('userId', {
+      type: 'StringFilterInput',
+    })
   },
 })
 
@@ -165,9 +215,23 @@ export const DesignProductExtendsMembership = extendType({
           ? -limitPlusOne
           : limitPlusOne
 
-        let resourceOwnerFilter: Prisma.Enumerable<Prisma.DesignWhereInput> = [
-          { organizationId: parent.organizationId },
-        ]
+        const resourceOwnerFilter: Prisma.Enumerable<Prisma.DesignWhereInput> =
+          []
+
+        const { userId } = filter?.where || {}
+
+        if (!Object.keys(userId || {}).length) {
+          resourceOwnerFilter.push({ organizationId: parent.organizationId })
+        } else {
+          resourceOwnerFilter.push({
+            organizationId: parent.organizationId,
+            userId: {
+              equals: userId?.equals || undefined,
+              in: userId?.in || undefined,
+              notIn: userId?.notIn || undefined,
+            },
+          })
+        }
 
         let designProducts
 

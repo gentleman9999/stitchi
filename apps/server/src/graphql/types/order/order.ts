@@ -1,4 +1,5 @@
 import { enumType, objectType } from 'nexus'
+import { auth0UserToGraphl } from '../../serializers/user'
 
 export const OrderItemSummary = objectType({
   name: 'OrderItemSummary',
@@ -106,7 +107,7 @@ export const Order = objectType({
         }
 
         const user = await ctx.user.getUser({ id: order.userId })
-        return { ...user, id: user.user_id }
+        return auth0UserToGraphl(user)
       },
     })
 

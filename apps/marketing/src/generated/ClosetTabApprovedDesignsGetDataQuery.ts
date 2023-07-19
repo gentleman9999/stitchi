@@ -9,6 +9,12 @@ import { MembershipDesignProductsFilterInput } from "./globalTypes";
 // GraphQL query operation: ClosetTabApprovedDesignsGetDataQuery
 // ====================================================
 
+export interface ClosetTabApprovedDesignsGetDataQuery_viewer_designProducts_edges_node_colors {
+  __typename: "DesignProductColor";
+  hex: string | null;
+  name: string | null;
+}
+
 export interface ClosetTabApprovedDesignsGetDataQuery_viewer_designProducts_edges_node_primaryImageFile {
   __typename: "FileImage";
   id: string;
@@ -21,6 +27,8 @@ export interface ClosetTabApprovedDesignsGetDataQuery_viewer_designProducts_edge
   __typename: "DesignProduct";
   id: string;
   name: string;
+  minUnitPriceCents: number | null;
+  colors: ClosetTabApprovedDesignsGetDataQuery_viewer_designProducts_edges_node_colors[];
   primaryImageFile: ClosetTabApprovedDesignsGetDataQuery_viewer_designProducts_edges_node_primaryImageFile | null;
 }
 

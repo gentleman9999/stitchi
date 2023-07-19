@@ -1,5 +1,7 @@
 import { GraphQLError } from 'graphql'
+import { connectionFromArray, connectionFromArraySlice } from 'graphql-relay'
 import { extendType } from 'nexus'
+import { notEmpty } from '../../../utils'
 import {
   fileFactoryToGrahpql,
   fileFactoryToGrahpqlFileImage,
@@ -233,6 +235,71 @@ export const FileExtendsDesignProduct = extendType({
         })
 
         return fileFactoryToGrahpqlFileImage(file)
+      },
+    })
+  },
+})
+
+export const FileExtendsOrganizationBrand = extendType({
+  type: 'OrganizationBrand',
+  definition(t) {
+    t.nonNull.connectionField('files', {
+      type: 'File',
+      resolve: async (organization, { first, last, after, before }, ctx) => {
+        const limit = first || last || 50
+
+        // Add one to see if there's a next page
+        const limitPlusOne = limit + 1
+
+        const take = notEmpty(after)
+          ? limitPlusOne
+          : notEmpty(before)
+          ? -limitPlusOne
+          : limitPlusOne
+
+        let organizationFiles
+
+        try {
+          organizationFiles = await ctx.organization.listOrganizationFiles({
+            take,
+            where: { organizationId: organization.id },
+            skip: notEmpty(after) || notEmpty(before) ? 1 : 0,
+            ...(notEmpty(after) ? { cursor: { id: after } } : {}),
+            ...(notEmpty(before) ? { cursor: { id: before } } : {}),
+          })
+        } catch (error) {
+          console.error("Unable to fetch organization's files", {
+            context: { error, organization },
+          })
+          throw new GraphQLError('Unable to fetch organization files')
+        }
+
+        let files
+
+        try {
+          files = await ctx.file.listFiles({
+            where: {
+              id: { in: organizationFiles.map(({ fileId }) => fileId) },
+            },
+          })
+        } catch (error) {
+          console.error("Unable to fetch organization's files", {
+            context: { error, organization },
+          })
+          throw new GraphQLError('Unable to fetch organization files')
+        }
+
+        const connection = connectionFromArray(
+          files.map(fileFactoryToGrahpql),
+          {
+            first,
+            last,
+            after,
+            before,
+          },
+        )
+
+        return connection
       },
     })
   },

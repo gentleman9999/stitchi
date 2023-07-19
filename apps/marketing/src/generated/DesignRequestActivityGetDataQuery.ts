@@ -26,7 +26,7 @@ export type DesignRequestActivityGetDataQuery_designRequest_history_Conversation
 
 export interface DesignRequestActivityGetDataQuery_designRequest_history_ConversationMessage_sender {
   __typename: "User";
-  id: string | null;
+  id: string;
   picture: string | null;
   name: string | null;
 }
@@ -43,7 +43,7 @@ export interface DesignRequestActivityGetDataQuery_designRequest_history_Convers
 
 export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestHistoryItemDesignRequestEvent_user {
   __typename: "User";
-  id: string | null;
+  id: string;
   name: string | null;
   picture: string | null;
 }
@@ -58,7 +58,7 @@ export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignR
 
 export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignProof_artist {
   __typename: "User";
-  id: string | null;
+  id: string;
   name: string | null;
 }
 
@@ -95,7 +95,7 @@ export type DesignRequestActivityGetDataQuery_designRequest_history_DesignReques
 
 export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestRevisionRequest_user {
   __typename: "User";
-  id: string | null;
+  id: string;
   name: string | null;
 }
 
@@ -112,7 +112,7 @@ export type DesignRequestActivityGetDataQuery_designRequest_history = DesignRequ
 
 export interface DesignRequestActivityGetDataQuery_designRequest_user {
   __typename: "User";
-  id: string | null;
+  id: string;
   name: string | null;
   picture: string | null;
 }

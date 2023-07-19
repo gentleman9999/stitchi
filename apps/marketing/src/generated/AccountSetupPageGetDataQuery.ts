@@ -16,7 +16,7 @@ export interface AccountSetupPageGetDataQuery_userMemberships_organization {
 export interface AccountSetupPageGetDataQuery_userMemberships {
   __typename: "Membership";
   id: string;
-  organization: AccountSetupPageGetDataQuery_userMemberships_organization | null;
+  organization: AccountSetupPageGetDataQuery_userMemberships_organization;
 }
 
 export interface AccountSetupPageGetDataQuery {

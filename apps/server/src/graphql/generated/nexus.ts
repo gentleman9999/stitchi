@@ -174,12 +174,14 @@ export interface NexusGenInputs {
   }
   MembershipDesignProductsWhereFilterInput: { // input type
     createdAt?: NexusGenInputs['DateFilterInput'] | null; // DateFilterInput
+    userId?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
   }
   MembershipDesignRequestsFilterInput: { // input type
     where?: NexusGenInputs['MembershipDesignRequestsWhereFilterInput'] | null; // MembershipDesignRequestsWhereFilterInput
   }
   MembershipDesignRequestsWhereFilterInput: { // input type
     createdAt?: NexusGenInputs['DateFilterInput'] | null; // DateFilterInput
+    userId?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
   }
   MembershipOrdersFilterInput: { // input type
     where?: NexusGenInputs['MembershipOrdersWhereFilterInput'] | null; // MembershipOrdersWhereFilterInput
@@ -215,6 +217,16 @@ export interface NexusGenInputs {
     province?: string | null; // String
     provinceCode?: string | null; // String
     zip?: string | null; // String
+  }
+  OrganizationBrandFileCreateBatchFileInput: { // input type
+    fileId: string; // ID!
+  }
+  OrganizationBrandFileCreateBatchInput: { // input type
+    files: NexusGenInputs['OrganizationBrandFileCreateBatchFileInput'][]; // [OrganizationBrandFileCreateBatchFileInput!]!
+    organizationId: string; // ID!
+  }
+  OrganizationBrandFileDeleteBatchInput: { // input type
+    fileIds: string[]; // [ID!]!
   }
   PaymentIntentCreateInput: { // input type
     orderId: string; // String!
@@ -475,11 +487,19 @@ export interface NexusGenObjects {
   DesignRequestUpdatePayload: { // root type
     designRequest?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
   }
+  FileConnection: { // root type
+    edges?: Array<NexusGenRootTypes['FileEdge'] | null> | null; // [FileEdge]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
   FileCreateBatchPayload: { // root type
     files?: NexusGenRootTypes['File'][] | null; // [File!]
   }
   FileCreatePayload: { // root type
     file?: NexusGenRootTypes['File'] | null; // File
+  }
+  FileEdge: { // root type
+    cursor?: string | null; // String
+    node?: NexusGenRootTypes['File'] | null; // File
   }
   FileImage: { // root type
     bytes: number; // Int!
@@ -638,10 +658,22 @@ export interface NexusGenObjects {
   }
   Organization: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
+    deletedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     id: string; // ID!
     name?: string | null; // String
     role?: NexusGenEnums['GlobalRole'] | null; // GlobalRole
-    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  OrganizationBrand: { // root type
+    id: string; // ID!
+  }
+  OrganizationBrandFileCreateBatchPayload: { // root type
+    brand?: NexusGenRootTypes['OrganizationBrand'] | null; // OrganizationBrand
+    files: NexusGenRootTypes['File'][]; // [File!]!
+  }
+  OrganizationBrandFileDeleteBatchPayload: { // root type
+    brand?: NexusGenRootTypes['OrganizationBrand'] | null; // OrganizationBrand
+    files: NexusGenRootTypes['File'][]; // [File!]!
   }
   PageInfo: { // root type
     endCursor?: string | null; // String
@@ -711,7 +743,7 @@ export interface NexusGenObjects {
     emailVerified?: boolean | null; // Boolean
     familyName?: string | null; // String
     givenName?: string | null; // String
-    id?: string | null; // ID
+    id: string; // ID!
     lastLogin?: NexusGenScalars['DateTime'] | null; // DateTime
     loginsCount?: number | null; // Int
     name?: string | null; // String
@@ -789,6 +821,7 @@ export interface NexusGenFieldTypes {
     designProofId: string; // ID!
     designRequestId: string; // ID!
     id: string; // ID!
+    minUnitPriceCents: number | null; // Int
     name: string; // String!
     organizationId: string | null; // ID
     primaryImageFile: NexusGenRootTypes['FileImage'] | null; // FileImage
@@ -966,11 +999,19 @@ export interface NexusGenFieldTypes {
   DesignRequestUpdatePayload: { // field return type
     designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
   }
+  FileConnection: { // field return type
+    edges: Array<NexusGenRootTypes['FileEdge'] | null> | null; // [FileEdge]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
   FileCreateBatchPayload: { // field return type
     files: NexusGenRootTypes['File'][] | null; // [File!]
   }
   FileCreatePayload: { // field return type
     file: NexusGenRootTypes['File'] | null; // File
+  }
+  FileEdge: { // field return type
+    cursor: string | null; // String
+    node: NexusGenRootTypes['File'] | null; // File
   }
   FileImage: { // field return type
     bytes: number; // Int!
@@ -1075,7 +1116,7 @@ export interface NexusGenFieldTypes {
     humanizedRole: string | null; // String
     id: string; // ID!
     orders: NexusGenRootTypes['OrderConnection'] | null; // OrderConnection
-    organization: NexusGenRootTypes['Organization'] | null; // Organization
+    organization: NexusGenRootTypes['Organization']; // Organization!
     organizationId: string; // String!
     role: NexusGenEnums['MembershipRole'] | null; // MembershipRole
     scopes: NexusGenRootTypes['Scope'][]; // [Scope!]!
@@ -1100,6 +1141,8 @@ export interface NexusGenFieldTypes {
     fulfillmentCreate: NexusGenRootTypes['FulfillmentCreatePayload'] | null; // FulfillmentCreatePayload
     mailingAddressCreate: NexusGenRootTypes['MailingAddressCreatePayload'] | null; // MailingAddressCreatePayload
     orderConfirm: NexusGenRootTypes['OrderConfirmPayload'] | null; // OrderConfirmPayload
+    organizationBrandFileCreateBatch: NexusGenRootTypes['OrganizationBrandFileCreateBatchPayload'] | null; // OrganizationBrandFileCreateBatchPayload
+    organizationBrandFileDeleteBatch: NexusGenRootTypes['OrganizationBrandFileDeleteBatchPayload'] | null; // OrganizationBrandFileDeleteBatchPayload
     paymentIntentCreate: NexusGenRootTypes['PaymentIntentCreatePayload'] | null; // PaymentIntentCreatePayload
     subscriberCreate: NexusGenRootTypes['SubscriberCreatePayload'] | null; // SubscriberCreatePayload
     userBoostrap: NexusGenRootTypes['User'] | null; // User
@@ -1168,12 +1211,27 @@ export interface NexusGenFieldTypes {
     totalPriceCents: number; // Int!
   }
   Organization: { // field return type
+    brand: NexusGenRootTypes['OrganizationBrand'] | null; // OrganizationBrand
     createdAt: NexusGenScalars['DateTime']; // DateTime!
+    deletedAt: NexusGenScalars['DateTime'] | null; // DateTime
     id: string; // ID!
     memberships: Array<NexusGenRootTypes['Membership'] | null> | null; // [Membership]
     name: string | null; // String
     role: NexusGenEnums['GlobalRole'] | null; // GlobalRole
-    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  OrganizationBrand: { // field return type
+    fileUploadDirectory: string; // String!
+    files: NexusGenRootTypes['FileConnection']; // FileConnection!
+    id: string; // ID!
+  }
+  OrganizationBrandFileCreateBatchPayload: { // field return type
+    brand: NexusGenRootTypes['OrganizationBrand'] | null; // OrganizationBrand
+    files: NexusGenRootTypes['File'][]; // [File!]!
+  }
+  OrganizationBrandFileDeleteBatchPayload: { // field return type
+    brand: NexusGenRootTypes['OrganizationBrand'] | null; // OrganizationBrand
+    files: NexusGenRootTypes['File'][]; // [File!]!
   }
   PageInfo: { // field return type
     endCursor: string | null; // String
@@ -1255,7 +1313,7 @@ export interface NexusGenFieldTypes {
     emailVerified: boolean | null; // Boolean
     familyName: string | null; // String
     givenName: string | null; // String
-    id: string | null; // ID
+    id: string; // ID!
     lastLogin: NexusGenScalars['DateTime'] | null; // DateTime
     loginsCount: number | null; // Int
     name: string | null; // String
@@ -1335,6 +1393,7 @@ export interface NexusGenFieldTypeNames {
     designProofId: 'ID'
     designRequestId: 'ID'
     id: 'ID'
+    minUnitPriceCents: 'Int'
     name: 'String'
     organizationId: 'ID'
     primaryImageFile: 'FileImage'
@@ -1512,11 +1571,19 @@ export interface NexusGenFieldTypeNames {
   DesignRequestUpdatePayload: { // field return type name
     designRequest: 'DesignRequest'
   }
+  FileConnection: { // field return type name
+    edges: 'FileEdge'
+    pageInfo: 'PageInfo'
+  }
   FileCreateBatchPayload: { // field return type name
     files: 'File'
   }
   FileCreatePayload: { // field return type name
     file: 'File'
+  }
+  FileEdge: { // field return type name
+    cursor: 'String'
+    node: 'File'
   }
   FileImage: { // field return type name
     bytes: 'Int'
@@ -1646,6 +1713,8 @@ export interface NexusGenFieldTypeNames {
     fulfillmentCreate: 'FulfillmentCreatePayload'
     mailingAddressCreate: 'MailingAddressCreatePayload'
     orderConfirm: 'OrderConfirmPayload'
+    organizationBrandFileCreateBatch: 'OrganizationBrandFileCreateBatchPayload'
+    organizationBrandFileDeleteBatch: 'OrganizationBrandFileDeleteBatchPayload'
     paymentIntentCreate: 'PaymentIntentCreatePayload'
     subscriberCreate: 'SubscriberCreatePayload'
     userBoostrap: 'User'
@@ -1714,12 +1783,27 @@ export interface NexusGenFieldTypeNames {
     totalPriceCents: 'Int'
   }
   Organization: { // field return type name
+    brand: 'OrganizationBrand'
     createdAt: 'DateTime'
+    deletedAt: 'DateTime'
     id: 'ID'
     memberships: 'Membership'
     name: 'String'
     role: 'GlobalRole'
     updatedAt: 'DateTime'
+  }
+  OrganizationBrand: { // field return type name
+    fileUploadDirectory: 'String'
+    files: 'FileConnection'
+    id: 'ID'
+  }
+  OrganizationBrandFileCreateBatchPayload: { // field return type name
+    brand: 'OrganizationBrand'
+    files: 'File'
+  }
+  OrganizationBrandFileDeleteBatchPayload: { // field return type name
+    brand: 'OrganizationBrand'
+    files: 'File'
   }
   PageInfo: { // field return type name
     endCursor: 'String'
@@ -1915,6 +1999,12 @@ export interface NexusGenArgTypes {
     orderConfirm: { // args
       input: NexusGenInputs['OrderConfirmInput']; // OrderConfirmInput!
     }
+    organizationBrandFileCreateBatch: { // args
+      input: NexusGenInputs['OrganizationBrandFileCreateBatchInput']; // OrganizationBrandFileCreateBatchInput!
+    }
+    organizationBrandFileDeleteBatch: { // args
+      input: NexusGenInputs['OrganizationBrandFileDeleteBatchInput']; // OrganizationBrandFileDeleteBatchInput!
+    }
     paymentIntentCreate: { // args
       input: NexusGenInputs['PaymentIntentCreateInput']; // PaymentIntentCreateInput!
     }
@@ -1923,6 +2013,14 @@ export interface NexusGenArgTypes {
     }
     userSetOrganization: { // args
       input: NexusGenInputs['UserSetOrganizationInput']; // UserSetOrganizationInput!
+    }
+  }
+  OrganizationBrand: {
+    files: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
     }
   }
   Product: {

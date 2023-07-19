@@ -28,6 +28,7 @@ export interface Context {
   payment: typeof services.payment
   file: typeof services.file
   user: typeof services.user
+  organization: typeof services.organization
   subscriptions: PubSubClient
 }
 
@@ -83,6 +84,7 @@ function makeContext(
         payment: services.payment,
         file: services.file,
         user: services.user,
+        organization: services.organization,
       }
     } catch (error) {
       console.error(error)
