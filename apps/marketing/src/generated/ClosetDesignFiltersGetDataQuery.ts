@@ -23,7 +23,7 @@ export interface ClosetDesignFiltersGetDataQuery_viewer_organization_memberships
 export interface ClosetDesignFiltersGetDataQuery_viewer_organization {
   __typename: "Organization";
   id: string;
-  memberships: (ClosetDesignFiltersGetDataQuery_viewer_organization_memberships | null)[] | null;
+  memberships: ClosetDesignFiltersGetDataQuery_viewer_organization_memberships[];
 }
 
 export interface ClosetDesignFiltersGetDataQuery_viewer {

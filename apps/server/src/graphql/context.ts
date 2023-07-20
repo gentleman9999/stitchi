@@ -1,4 +1,4 @@
-import { MembershipRole, PrismaClient } from '@prisma/client'
+import { MembershipRole } from '@prisma/client'
 import { verify } from './jwt'
 import { ApolloError, AuthenticationError } from 'apollo-server-core'
 import { ContextFunction } from 'apollo-server-core'
@@ -15,7 +15,6 @@ export interface Context {
   membershipId?: string
   userId?: string
   organizationId?: string
-  prisma: PrismaClient
   sendgrid: SendgridClient
   stripe: StripeClient
   conversation: typeof services.conversation
@@ -29,11 +28,12 @@ export interface Context {
   file: typeof services.file
   user: typeof services.user
   organization: typeof services.organization
+  membership: typeof services.membership
+  color: typeof services.color
   subscriptions: PubSubClient
 }
 
 interface ContextCreatorParams {
-  prisma: PrismaClient
   sendgrid: SendgridClient
   stripe: StripeClient
   pubsub: PubSubClient
@@ -41,7 +41,6 @@ interface ContextCreatorParams {
 
 function makeContext(
   params: ContextCreatorParams = {
-    prisma: new PrismaClient(),
     pubsub: new PubSubClient(),
     stripe: makeStripeClient(),
     sendgrid: makeSendgridClient(),
@@ -53,27 +52,25 @@ function makeContext(
     try {
       const payload = authHeader ? await verify(authHeader).catch() : null
 
-      const userMembership = await (async () => {
+      const userActiveMembership = await (async () => {
         if (payload?.sub) {
-          const userMembership =
-            await params.prisma.activeUserMembership.findFirst({
-              where: { userId: payload.sub },
-              include: { membership: true },
+          const userActiveMembership =
+            await services.membership.findUserActiveMembership({
+              userId: payload.sub,
             })
 
-          return userMembership
+          return userActiveMembership
         }
       })()
 
       return {
         subscriptions: params.pubsub,
-        role: userMembership?.membership.role ?? undefined,
-        prisma: params.prisma,
+        role: userActiveMembership?.role ?? undefined,
         stripe: params.stripe,
         sendgrid: params.sendgrid,
         userId: payload?.sub,
-        membershipId: userMembership?.membershipId ?? undefined,
-        organizationId: userMembership?.organizationId ?? undefined,
+        membershipId: userActiveMembership?.id ?? undefined,
+        organizationId: userActiveMembership?.organizationId ?? undefined,
         conversation: services.conversation,
         newsletter: services.newsletter,
         order: services.order,
@@ -85,6 +82,8 @@ function makeContext(
         file: services.file,
         user: services.user,
         organization: services.organization,
+        membership: services.membership,
+        color: services.color,
       }
     } catch (error) {
       console.error(error)

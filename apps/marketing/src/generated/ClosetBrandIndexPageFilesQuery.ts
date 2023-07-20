@@ -10,13 +10,19 @@
 export interface ClosetBrandIndexPageFilesQuery_viewer_organization_brand_files_edges_node_FileUnknown {
   __typename: "FileUnknown" | "FilePdf";
   id: string;
+  createdAt: any;
   url: string;
+  name: string;
+  format: string;
 }
 
 export interface ClosetBrandIndexPageFilesQuery_viewer_organization_brand_files_edges_node_FileImage {
   __typename: "FileImage";
   id: string;
+  createdAt: any;
   url: string;
+  name: string;
+  format: string;
   width: number;
   height: number;
 }
@@ -60,4 +66,9 @@ export interface ClosetBrandIndexPageFilesQuery_viewer {
 
 export interface ClosetBrandIndexPageFilesQuery {
   viewer: ClosetBrandIndexPageFilesQuery_viewer | null;
+}
+
+export interface ClosetBrandIndexPageFilesQueryVariables {
+  first: number;
+  after?: string | null;
 }

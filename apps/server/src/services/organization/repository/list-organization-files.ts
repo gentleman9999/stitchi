@@ -34,6 +34,10 @@ const makeListOrganizationFiles: MakeListOrganizationFilesFn =
     try {
       organizationFileRecords = await organizationFileTable.findMany({
         ...input,
+        where: {
+          deletedAt: null,
+          ...input.where,
+        },
       })
     } catch (error) {
       console.error(`Failed to get organization files`, {

@@ -97,18 +97,17 @@ model OrganizationColor {
   id String @id @default(uuid())
 
   organizationId String
-
-  name String
-
-  hex String
+  colorId        String
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
   organization Organization @relation(fields: [organizationId], references: [id])
+  color        Color        @relation(fields: [colorId], references: [id], onDelete: Cascade)
 
   @@index([organizationId])
+  @@index([colorId])
 }
 
 model Membership {
@@ -124,9 +123,9 @@ model Membership {
   invitedName  String?
   invitedEmail String?
 
-  createdAt            DateTime               @default(now())
-  updatedAt            DateTime               @updatedAt
-  ActiveUserMembership ActiveUserMembership[]
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  activeUserMemberships ActiveUserMembership[]
 
   @@unique([organizationId, invitedEmail])
 }
@@ -826,4 +825,21 @@ model ConversationMessageFile {
   @@index([conversationMessageId])
   @@index([conversationId])
   @@index([fileId])
+}
+
+model Color {
+  id String @id @default(uuid())
+
+  name String
+
+  hex String
+
+  cmykC Int?
+  cmykM Int?
+  cmykY Int?
+  cmykK Int?
+
+  pantone String?
+
+  organizationColors OrganizationColor[]
 }

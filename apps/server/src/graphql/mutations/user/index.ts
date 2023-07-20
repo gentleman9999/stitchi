@@ -29,44 +29,24 @@ export const userSetOrganization = mutationField('userSetOrganization', {
       throw new GraphQLError('Forbidden')
     }
 
-    const userOrganization = await ctx.prisma.activeUserMembership.findFirst({
-      where: {
-        userId: ctx.userId,
-      },
-    })
-
-    let newUserOrganization
+    let membership
 
     try {
-      if (userOrganization) {
-        // update
-        newUserOrganization = await ctx.prisma.activeUserMembership.update({
-          where: {
-            id: userOrganization.id,
-          },
-          data: {
-            organizationId: input.organizationId,
-            membershipId: input.membershipId,
-          },
-        })
-      } else {
-        // create
-        newUserOrganization = await ctx.prisma.activeUserMembership.create({
-          data: {
-            userId: ctx.userId,
-            organizationId: input.organizationId,
-            membershipId: input.membershipId,
-          },
-        })
-      }
+      membership = await ctx.membership.setUserActiveMembership({
+        membershipId: input.membershipId,
+        organizationId: input.organizationId,
+        userId: ctx.userId,
+      })
     } catch (error) {
-      console.error(error)
-      throw new GraphQLError("Couldn't set organization")
+      console.error('Failed to set active membership', {
+        context: { error, input, userId: ctx.userId },
+      })
+      throw new GraphQLError('Failed to set active membership')
     }
 
     return {
-      membershipId: newUserOrganization.membershipId || null,
-      organizationId: newUserOrganization.organizationId || null,
+      membershipId: membership.id,
+      organizationId: membership.organizationId,
     }
   },
 })

@@ -35,16 +35,30 @@ export const userBootstrap = mutationField('userBoostrap', {
       throw new ApolloError('Failed to create organization')
     }
 
-    if (
-      await ctx.prisma.membership.findFirst({ where: { userId: ctx.userId } })
-    ) {
-      // do nothing
-    } else {
-      await ctx.prisma.membership.create({
-        data: {
+    let hasExistingMembership
+
+    try {
+      const res = await ctx.membership.listMemberships({
+        where: { userId: ctx.userId },
+        take: 1,
+      })
+
+      hasExistingMembership = res.length > 0
+    } catch (error) {
+      console.error('Failed to list memberships', {
+        context: { error, userId: ctx.userId },
+      })
+      throw new ApolloError('Failed to list memberships')
+    }
+
+    if (!hasExistingMembership) {
+      await ctx.membership.createMembership({
+        membership: {
           userId: ctx.userId,
           role: 'OWNER',
           organizationId: organization.id,
+          invitedEmail: null,
+          invitedName: null,
         },
       })
     }

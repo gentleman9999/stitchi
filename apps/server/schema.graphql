@@ -30,6 +30,17 @@ type CatalogProductImage {
   url: String!
 }
 
+type Color {
+  cmykC: Int
+  cmykK: Int
+  cmykM: Int
+  cmykY: Int
+  hex: String!
+  id: String!
+  name: String!
+  pantone: String
+}
+
 type Conversation {
   id: ID!
   messages: [ConversationMessage!]!
@@ -720,6 +731,9 @@ type Mutation {
 
   """Confirms an order with a customers details"""
   orderConfirm(input: OrderConfirmInput!): OrderConfirmPayload
+  organizationBrandColorCreate(input: OrganizationBrandColorCreateInput!): OrganizationBrandColorCreatePayload
+  organizationBrandColorDelete(input: OrganizationBrandColorDeleteInput!): OrganizationBrandColorDeletePayload
+  organizationBrandColorUpdate(input: OrganizationBrandColorUpdateInput!): OrganizationBrandColorUpdatePayload
   organizationBrandFileCreateBatch(input: OrganizationBrandFileCreateBatchInput!): OrganizationBrandFileCreateBatchPayload
   organizationBrandFileDeleteBatch(input: OrganizationBrandFileDeleteBatchInput!): OrganizationBrandFileDeleteBatchPayload
   paymentIntentCreate(input: PaymentIntentCreateInput!): PaymentIntentCreatePayload
@@ -866,13 +880,14 @@ type Organization {
   createdAt: DateTime!
   deletedAt: DateTime
   id: ID!
-  memberships: [Membership]
+  memberships: [Membership!]!
   name: String
   role: GlobalRole
   updatedAt: DateTime!
 }
 
 type OrganizationBrand {
+  colors: [Color!]!
   fileUploadDirectory: String!
   files(
     """Returns the elements in the list that come after the specified cursor"""
@@ -888,6 +903,50 @@ type OrganizationBrand {
     last: Int
   ): FileConnection!
   id: ID!
+  organizationId: ID!
+}
+
+input OrganizationBrandColorCreateInput {
+  cmykC: Int!
+  cmykK: Int!
+  cmykM: Int!
+  cmykY: Int!
+  hex: String!
+  name: String!
+  organizationId: ID!
+  pantone: String
+}
+
+type OrganizationBrandColorCreatePayload {
+  brand: OrganizationBrand
+  color: Color!
+}
+
+input OrganizationBrandColorDeleteInput {
+  colorId: String!
+  organizationId: ID!
+}
+
+type OrganizationBrandColorDeletePayload {
+  brand: OrganizationBrand
+  color: Color!
+}
+
+input OrganizationBrandColorUpdateInput {
+  cmykC: Int!
+  cmykK: Int!
+  cmykM: Int!
+  cmykY: Int!
+  hex: String!
+  id: String!
+  name: String!
+  organizationId: ID!
+  pantone: String
+}
+
+type OrganizationBrandColorUpdatePayload {
+  brand: OrganizationBrand
+  color: Color!
 }
 
 input OrganizationBrandFileCreateBatchFileInput {

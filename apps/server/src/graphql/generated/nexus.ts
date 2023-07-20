@@ -218,6 +218,31 @@ export interface NexusGenInputs {
     provinceCode?: string | null; // String
     zip?: string | null; // String
   }
+  OrganizationBrandColorCreateInput: { // input type
+    cmykC: number; // Int!
+    cmykK: number; // Int!
+    cmykM: number; // Int!
+    cmykY: number; // Int!
+    hex: string; // String!
+    name: string; // String!
+    organizationId: string; // ID!
+    pantone?: string | null; // String
+  }
+  OrganizationBrandColorDeleteInput: { // input type
+    colorId: string; // String!
+    organizationId: string; // ID!
+  }
+  OrganizationBrandColorUpdateInput: { // input type
+    cmykC: number; // Int!
+    cmykK: number; // Int!
+    cmykM: number; // Int!
+    cmykY: number; // Int!
+    hex: string; // String!
+    id: string; // String!
+    name: string; // String!
+    organizationId: string; // ID!
+    pantone?: string | null; // String
+  }
   OrganizationBrandFileCreateBatchFileInput: { // input type
     fileId: string; // ID!
   }
@@ -311,6 +336,16 @@ export interface NexusGenObjects {
   CatalogProductImage: { // root type
     order?: number | null; // Int
     url: string; // String!
+  }
+  Color: { // root type
+    cmykC?: number | null; // Int
+    cmykK?: number | null; // Int
+    cmykM?: number | null; // Int
+    cmykY?: number | null; // Int
+    hex: string; // String!
+    id: string; // String!
+    name: string; // String!
+    pantone?: string | null; // String
   }
   Conversation: { // root type
     id: string; // ID!
@@ -666,6 +701,19 @@ export interface NexusGenObjects {
   }
   OrganizationBrand: { // root type
     id: string; // ID!
+    organizationId: string; // ID!
+  }
+  OrganizationBrandColorCreatePayload: { // root type
+    brand?: NexusGenRootTypes['OrganizationBrand'] | null; // OrganizationBrand
+    color: NexusGenRootTypes['Color']; // Color!
+  }
+  OrganizationBrandColorDeletePayload: { // root type
+    brand?: NexusGenRootTypes['OrganizationBrand'] | null; // OrganizationBrand
+    color: NexusGenRootTypes['Color']; // Color!
+  }
+  OrganizationBrandColorUpdatePayload: { // root type
+    brand?: NexusGenRootTypes['OrganizationBrand'] | null; // OrganizationBrand
+    color: NexusGenRootTypes['Color']; // Color!
   }
   OrganizationBrandFileCreateBatchPayload: { // root type
     brand?: NexusGenRootTypes['OrganizationBrand'] | null; // OrganizationBrand
@@ -797,6 +845,16 @@ export interface NexusGenFieldTypes {
   CatalogProductImage: { // field return type
     order: number | null; // Int
     url: string; // String!
+  }
+  Color: { // field return type
+    cmykC: number | null; // Int
+    cmykK: number | null; // Int
+    cmykM: number | null; // Int
+    cmykY: number | null; // Int
+    hex: string; // String!
+    id: string; // String!
+    name: string; // String!
+    pantone: string | null; // String
   }
   Conversation: { // field return type
     id: string; // ID!
@@ -1141,6 +1199,9 @@ export interface NexusGenFieldTypes {
     fulfillmentCreate: NexusGenRootTypes['FulfillmentCreatePayload'] | null; // FulfillmentCreatePayload
     mailingAddressCreate: NexusGenRootTypes['MailingAddressCreatePayload'] | null; // MailingAddressCreatePayload
     orderConfirm: NexusGenRootTypes['OrderConfirmPayload'] | null; // OrderConfirmPayload
+    organizationBrandColorCreate: NexusGenRootTypes['OrganizationBrandColorCreatePayload'] | null; // OrganizationBrandColorCreatePayload
+    organizationBrandColorDelete: NexusGenRootTypes['OrganizationBrandColorDeletePayload'] | null; // OrganizationBrandColorDeletePayload
+    organizationBrandColorUpdate: NexusGenRootTypes['OrganizationBrandColorUpdatePayload'] | null; // OrganizationBrandColorUpdatePayload
     organizationBrandFileCreateBatch: NexusGenRootTypes['OrganizationBrandFileCreateBatchPayload'] | null; // OrganizationBrandFileCreateBatchPayload
     organizationBrandFileDeleteBatch: NexusGenRootTypes['OrganizationBrandFileDeleteBatchPayload'] | null; // OrganizationBrandFileDeleteBatchPayload
     paymentIntentCreate: NexusGenRootTypes['PaymentIntentCreatePayload'] | null; // PaymentIntentCreatePayload
@@ -1215,15 +1276,29 @@ export interface NexusGenFieldTypes {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     deletedAt: NexusGenScalars['DateTime'] | null; // DateTime
     id: string; // ID!
-    memberships: Array<NexusGenRootTypes['Membership'] | null> | null; // [Membership]
+    memberships: NexusGenRootTypes['Membership'][]; // [Membership!]!
     name: string | null; // String
     role: NexusGenEnums['GlobalRole'] | null; // GlobalRole
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   OrganizationBrand: { // field return type
+    colors: NexusGenRootTypes['Color'][]; // [Color!]!
     fileUploadDirectory: string; // String!
     files: NexusGenRootTypes['FileConnection']; // FileConnection!
     id: string; // ID!
+    organizationId: string; // ID!
+  }
+  OrganizationBrandColorCreatePayload: { // field return type
+    brand: NexusGenRootTypes['OrganizationBrand'] | null; // OrganizationBrand
+    color: NexusGenRootTypes['Color']; // Color!
+  }
+  OrganizationBrandColorDeletePayload: { // field return type
+    brand: NexusGenRootTypes['OrganizationBrand'] | null; // OrganizationBrand
+    color: NexusGenRootTypes['Color']; // Color!
+  }
+  OrganizationBrandColorUpdatePayload: { // field return type
+    brand: NexusGenRootTypes['OrganizationBrand'] | null; // OrganizationBrand
+    color: NexusGenRootTypes['Color']; // Color!
   }
   OrganizationBrandFileCreateBatchPayload: { // field return type
     brand: NexusGenRootTypes['OrganizationBrand'] | null; // OrganizationBrand
@@ -1369,6 +1444,16 @@ export interface NexusGenFieldTypeNames {
   CatalogProductImage: { // field return type name
     order: 'Int'
     url: 'String'
+  }
+  Color: { // field return type name
+    cmykC: 'Int'
+    cmykK: 'Int'
+    cmykM: 'Int'
+    cmykY: 'Int'
+    hex: 'String'
+    id: 'String'
+    name: 'String'
+    pantone: 'String'
   }
   Conversation: { // field return type name
     id: 'ID'
@@ -1713,6 +1798,9 @@ export interface NexusGenFieldTypeNames {
     fulfillmentCreate: 'FulfillmentCreatePayload'
     mailingAddressCreate: 'MailingAddressCreatePayload'
     orderConfirm: 'OrderConfirmPayload'
+    organizationBrandColorCreate: 'OrganizationBrandColorCreatePayload'
+    organizationBrandColorDelete: 'OrganizationBrandColorDeletePayload'
+    organizationBrandColorUpdate: 'OrganizationBrandColorUpdatePayload'
     organizationBrandFileCreateBatch: 'OrganizationBrandFileCreateBatchPayload'
     organizationBrandFileDeleteBatch: 'OrganizationBrandFileDeleteBatchPayload'
     paymentIntentCreate: 'PaymentIntentCreatePayload'
@@ -1793,9 +1881,23 @@ export interface NexusGenFieldTypeNames {
     updatedAt: 'DateTime'
   }
   OrganizationBrand: { // field return type name
+    colors: 'Color'
     fileUploadDirectory: 'String'
     files: 'FileConnection'
     id: 'ID'
+    organizationId: 'ID'
+  }
+  OrganizationBrandColorCreatePayload: { // field return type name
+    brand: 'OrganizationBrand'
+    color: 'Color'
+  }
+  OrganizationBrandColorDeletePayload: { // field return type name
+    brand: 'OrganizationBrand'
+    color: 'Color'
+  }
+  OrganizationBrandColorUpdatePayload: { // field return type name
+    brand: 'OrganizationBrand'
+    color: 'Color'
   }
   OrganizationBrandFileCreateBatchPayload: { // field return type name
     brand: 'OrganizationBrand'
@@ -1998,6 +2100,15 @@ export interface NexusGenArgTypes {
     }
     orderConfirm: { // args
       input: NexusGenInputs['OrderConfirmInput']; // OrderConfirmInput!
+    }
+    organizationBrandColorCreate: { // args
+      input: NexusGenInputs['OrganizationBrandColorCreateInput']; // OrganizationBrandColorCreateInput!
+    }
+    organizationBrandColorDelete: { // args
+      input: NexusGenInputs['OrganizationBrandColorDeleteInput']; // OrganizationBrandColorDeleteInput!
+    }
+    organizationBrandColorUpdate: { // args
+      input: NexusGenInputs['OrganizationBrandColorUpdateInput']; // OrganizationBrandColorUpdateInput!
     }
     organizationBrandFileCreateBatch: { // args
       input: NexusGenInputs['OrganizationBrandFileCreateBatchInput']; // OrganizationBrandFileCreateBatchInput!

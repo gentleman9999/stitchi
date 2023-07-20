@@ -51,8 +51,7 @@ const makeCreateOrganizationColor: MakeCreateOrganizationColorFn =
       organizationColor = await organizationColorTable.create({
         data: {
           organizationId: validInput.organizationId,
-          hex: validInput.hex,
-          name: validInput.name,
+          colorId: validInput.colorId,
         },
       })
     } catch (error) {

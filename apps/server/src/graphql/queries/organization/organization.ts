@@ -10,19 +10,17 @@ export const OrganizationExtendsUser = extendType({
       resolve: async (user, _, ctx) => {
         if (!user.id) throw new GraphQLError('Unauthorized')
 
-        const memberships = await ctx.prisma.membership.findMany({
-          where: { userId: user.id },
-        })
-
-        const organizationIds = memberships.map(
-          membership => membership.organizationId,
-        )
-
         let organizations
 
         try {
           organizations = await ctx.organization.listOrganizations({
-            where: { id: { in: organizationIds } },
+            where: {
+              memberships: {
+                some: {
+                  userId: user.id,
+                },
+              },
+            },
           })
         } catch (error) {
           console.error('Unable to fetch organizations', {

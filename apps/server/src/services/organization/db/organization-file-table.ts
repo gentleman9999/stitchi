@@ -8,7 +8,7 @@ export const OrganizationFile: yup.ObjectSchema<OrganizationFileSchema> = yup
   .object()
   .shape({
     id: yup.string().uuid().required(),
-    userId: yup.string().uuid().required(),
+    userId: yup.string().required(),
     organizationId: yup.string().uuid().required(),
     fileId: yup.string().uuid().required(),
 

@@ -1,4 +1,10 @@
 import { Badge, BadgeProps, LoadingDots } from '@components/ui'
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownItemProps,
+} from '@components/ui/Dropdown'
+import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
 import React from 'react'
 import Skeleton from 'react-loading-skeleton'
@@ -17,18 +23,39 @@ interface Props {
   description?: React.ReactNode
   image?: Image
   badge?: Pick<BadgeProps, 'label' | 'severity'>
+  actions?: DropdownItemProps[]
 }
 
-const Card = ({ href, loading, title, description, image, badge }: Props) => {
+const Card = ({
+  href,
+  loading,
+  title,
+  description,
+  image,
+  badge,
+  actions,
+}: Props) => {
   return (
     <Link
-      className="relative rounded-md overflow-hidden border flex flex-col"
+      className="relative group rounded-md overflow-hidden border flex flex-col"
       href={href}
     >
-      {badge ? (
+      {badge || actions?.length ? (
         <div className="absolute right-0 top-0">
-          <div className="p-2">
-            <Badge {...badge} className="opacity-90" />
+          <div className="p-2 flex gap-1">
+            {badge ? <Badge {...badge} className="opacity-90" /> : null}
+            {actions?.length ? (
+              <Dropdown
+                trigger={
+                  <button className="opacity-0 group-hover:opacity-100 p-1 bg-gray-900/50 hover:bg-gray-900/60 data-[state=open]:opacity-100 rounded-md transition-all outline-none">
+                    <EllipsisHorizontalIcon className="w-6 h-6 text-white" />
+                  </button>
+                }
+                items={actions.map(action => (
+                  <DropdownItem key={action.label} {...action} />
+                ))}
+              />
+            ) : null}
           </div>
         </div>
       ) : null}

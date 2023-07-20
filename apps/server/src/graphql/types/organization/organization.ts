@@ -10,14 +10,5 @@ export const Organization = objectType({
     t.nonNull.field('createdAt', { type: 'DateTime' })
     t.nonNull.field('updatedAt', { type: 'DateTime' })
     t.field('deletedAt', { type: 'DateTime' })
-
-    t.list.field('memberships', {
-      type: 'Membership',
-      resolve: async (organization, _, ctx) => {
-        return await ctx.prisma.membership.findMany({
-          where: { organizationId: organization.id },
-        })
-      },
-    })
   },
 })

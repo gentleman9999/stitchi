@@ -1,6 +1,25 @@
 import makeOrganizationRepository, {
   OrganizationRepository,
 } from './repository'
+import {
+  makeCreateOrganizationColor,
+  CreateOrganizationColor,
+} from './methods/create-organization-color'
+
+import {
+  makeUpdateOrganizationColor,
+  UpdateOrganizationColor,
+} from './methods/update-organization-color'
+
+import {
+  makeDeleteOrganizationColor,
+  DeleteOrganizationColor,
+} from './methods/delete-organization-color'
+
+import {
+  makeListOrganizationColors,
+  ListOrganizationColors,
+} from './methods/list-organization-colors'
 
 export interface OrganizationService {
   createOrganization: OrganizationRepository['createOrganization']
@@ -12,10 +31,10 @@ export interface OrganizationService {
   listOrganizationFiles: OrganizationRepository['listOrganizationFiles']
   deleteOrganizationFile: OrganizationRepository['deleteOrganizationFile']
 
-  createOrganizationColor: OrganizationRepository['createOrganizationColor']
-  getOrganizationColor: OrganizationRepository['getOrganizationColor']
-  listOrganizationColors: OrganizationRepository['listOrganizationColors']
-  deleteOrganizationColor: OrganizationRepository['deleteOrganizationColor']
+  createOrganizationColor: CreateOrganizationColor
+  updateOrganizationColor: UpdateOrganizationColor
+  deleteOrganizationColor: DeleteOrganizationColor
+  listOrganizationColors: ListOrganizationColors
 }
 
 interface MakeClientParams {
@@ -30,6 +49,11 @@ const makeClient: MakeClientFn = (
   },
 ) => {
   return {
+    createOrganizationColor: makeCreateOrganizationColor(),
+    updateOrganizationColor: makeUpdateOrganizationColor(),
+    deleteOrganizationColor: makeDeleteOrganizationColor(),
+    listOrganizationColors: makeListOrganizationColors(),
+
     createOrganization: async input => {
       let organization
 
@@ -173,92 +197,6 @@ const makeClient: MakeClientFn = (
       }
 
       return organizationFile
-    },
-
-    createOrganizationColor: async input => {
-      let organizationColor
-
-      try {
-        organizationColor =
-          await organizationRepository.createOrganizationColor(input)
-      } catch (error) {
-        console.error(
-          `Error creating organization color: ${input.organizationColor.colorId}`,
-          {
-            context: {
-              error,
-              input,
-            },
-          },
-        )
-        throw error
-      }
-
-      return organizationColor
-    },
-
-    getOrganizationColor: async input => {
-      let organizationColor
-
-      try {
-        organizationColor = await organizationRepository.getOrganizationColor(
-          input,
-        )
-      } catch (error) {
-        console.error(
-          `Error getting organization color: ${input.organizationColorId}`,
-          {
-            context: {
-              error,
-              input,
-            },
-          },
-        )
-        throw error
-      }
-
-      return organizationColor
-    },
-
-    listOrganizationColors: async input => {
-      let organizationColors
-
-      try {
-        organizationColors =
-          await organizationRepository.listOrganizationColors(input)
-      } catch (error) {
-        console.error(`Error listing organization colors`, {
-          context: {
-            error,
-            input,
-          },
-        })
-        throw error
-      }
-
-      return organizationColors
-    },
-
-    deleteOrganizationColor: async input => {
-      let organizationColor
-
-      try {
-        organizationColor =
-          await organizationRepository.deleteOrganizationColor(input)
-      } catch (error) {
-        console.error(
-          `Error deleting organization color: ${input.organizationColorId}`,
-          {
-            context: {
-              error,
-              input,
-            },
-          },
-        )
-        throw error
-      }
-
-      return organizationColor
     },
   }
 }

@@ -2,6 +2,7 @@ import { gql } from '@apollo/client'
 import SwatchGroup from '@components/common/Catalog/SwatchGroup'
 import Tooltip from '@components/ui/Tooltip'
 import { ClosetDesignIndexPageApprovedDesignCardDesignProductFragment } from '@generated/ClosetDesignIndexPageApprovedDesignCardDesignProductFragment'
+import { EyeIcon, LinkIcon } from '@heroicons/react/20/solid'
 import routes from '@lib/routes'
 import { notEmpty } from '@utils/typescript'
 import currency from 'currency.js'
@@ -19,6 +20,20 @@ const ClosetDesignIndexPageApprovedDesignCard = ({ design }: Props) => {
         designId: design.id,
       })}
       title={design.name}
+      actions={[
+        {
+          label: 'Share',
+          onClick: () => {},
+          icon: <LinkIcon className="w-full" />,
+        },
+        {
+          label: 'View',
+          icon: <EyeIcon className="w-full" />,
+          href: routes.internal.closet.designProducts.show.href({
+            designId: design.id,
+          }),
+        },
+      ]}
       image={
         design.primaryImageFile
           ? {

@@ -9,24 +9,21 @@ export const OrganizationBrandExtendsOrganization = extendType({
       resolve: async (parent, _, ctx) => {
         let organization
 
-        console.log('CONTEXT', ctx)
+        try {
+          organization = await ctx.organization.getOrganization({
+            organizationId: parent.id,
+          })
+        } catch (error) {
+          console.error('Unable to fetch organization', {
+            context: { error, organization: parent },
+          })
+          throw new GraphQLError('Unable to fetch organization')
+        }
 
-        // try {
-        //   organization = await ctx.organization.getOrganization({
-        //     organizationId: parent.id,
-        //   })
-        // } catch (error) {
-        //   console.error('Unable to fetch organization', {
-        //     context: { error, organization: parent },
-        //   })
-        //   throw new GraphQLError('Unable to fetch organization')
-        // }
-
-        return null
-
-        // return {
-        //   id: organization.id,
-        // }
+        return {
+          id: organization.id,
+          organizationId: organization.id,
+        }
       },
     })
   },

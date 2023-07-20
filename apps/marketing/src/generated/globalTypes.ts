@@ -339,6 +339,34 @@ export interface OrderConfirmMailingAddressInput {
   zip?: string | null;
 }
 
+export interface OrganizationBrandColorCreateInput {
+  organizationId: string;
+  hex: string;
+  name: string;
+  cmykC: number;
+  cmykM: number;
+  cmykY: number;
+  cmykK: number;
+  pantone?: string | null;
+}
+
+export interface OrganizationBrandColorDeleteInput {
+  organizationId: string;
+  colorId: string;
+}
+
+export interface OrganizationBrandColorUpdateInput {
+  organizationId: string;
+  id: string;
+  hex: string;
+  name: string;
+  cmykC: number;
+  cmykM: number;
+  cmykY: number;
+  cmykK: number;
+  pantone?: string | null;
+}
+
 export interface OrganizationBrandFileCreateBatchFileInput {
   fileId: string;
 }

@@ -10,6 +10,8 @@ import { makeClient as makeFileClient } from './file'
 import { makeClient as makeConversationClient } from './conversation'
 import { makeClient as makeUserClient } from './user'
 import { makeClient as makeOrganizationClient } from './organization'
+import { makeClient as makeMembershipClient } from './membership'
+import { makeClient as makeColorClient } from './color'
 
 export interface ServiceList {
   conversation: ReturnType<typeof makeConversationClient>
@@ -24,6 +26,8 @@ export interface ServiceList {
   file: ReturnType<typeof makeFileClient>
   user: ReturnType<typeof makeUserClient>
   organization: ReturnType<typeof makeOrganizationClient>
+  membership: ReturnType<typeof makeMembershipClient>
+  color: ReturnType<typeof makeColorClient>
 }
 
 const services: ServiceList = {
@@ -39,6 +43,8 @@ const services: ServiceList = {
   file: makeFileClient(),
   user: makeUserClient(),
   organization: makeOrganizationClient(),
+  membership: makeMembershipClient(),
+  color: makeColorClient(),
 }
 
 export default services

@@ -1,5 +1,6 @@
 import { GraphQLError } from 'graphql'
 import { inputObjectType, mutationField, nonNull, objectType } from 'nexus'
+import { colorFactoryToGrahpql } from '../../serializers/color'
 import { fileFactoryToGrahpql } from '../../serializers/file'
 
 export const OrganizationBrandFileCreateBatchFileInput = inputObjectType({
@@ -82,6 +83,7 @@ export const organizationBrandFileCreateBatch = mutationField(
       return {
         brand: {
           id: input.organizationId,
+          organizationId: input.organizationId,
         },
         files: files.map(fileFactoryToGrahpql),
       }
@@ -166,8 +168,210 @@ export const brandFileDeleteBatch = mutationField(
       return {
         brand: {
           id: ctx.organizationId,
+          organizationId: ctx.organizationId,
         },
         files: files.map(fileFactoryToGrahpql),
+      }
+    },
+  },
+)
+
+export const OrganizationBrandColorCreateInput = inputObjectType({
+  name: 'OrganizationBrandColorCreateInput',
+  definition(t) {
+    t.nonNull.id('organizationId')
+    t.nonNull.string('hex')
+    t.nonNull.string('name')
+    t.nonNull.int('cmykC')
+    t.nonNull.int('cmykM')
+    t.nonNull.int('cmykY')
+    t.nonNull.int('cmykK')
+
+    t.nullable.string('pantone')
+  },
+})
+
+export const OrganizationBrandColorCreatePayload = objectType({
+  name: 'OrganizationBrandColorCreatePayload',
+  definition(t) {
+    t.nullable.field('brand', {
+      type: 'OrganizationBrand',
+    })
+    t.nonNull.field('color', {
+      type: 'Color',
+    })
+  },
+})
+
+export const organizationBrandColorCreate = mutationField(
+  'organizationBrandColorCreate',
+  {
+    type: 'OrganizationBrandColorCreatePayload',
+    args: {
+      input: nonNull('OrganizationBrandColorCreateInput'),
+    },
+    resolve: async (_, { input }, ctx) => {
+      if (input.organizationId !== ctx.organizationId || !ctx.userId) {
+        throw new GraphQLError('Unauthorized')
+      }
+
+      let color
+
+      try {
+        color = await ctx.organization.createOrganizationColor({
+          organizationId: input.organizationId,
+          color: {
+            name: input.name,
+            hex: input.hex,
+            cmykC: input.cmykC,
+            cmykM: input.cmykM,
+            cmykK: input.cmykK,
+            cmykY: input.cmykY,
+            pantone: input.pantone || null,
+          },
+        })
+      } catch (error) {
+        console.error('Unable to create color', {
+          context: { error, input },
+        })
+        throw new GraphQLError('Unable to create color')
+      }
+
+      return {
+        brand: {
+          id: input.organizationId,
+          organizationId: input.organizationId,
+        },
+        color: colorFactoryToGrahpql(color),
+      }
+    },
+  },
+)
+
+export const OrganizationBrandColorUpdateInput = inputObjectType({
+  name: 'OrganizationBrandColorUpdateInput',
+  definition(t) {
+    t.nonNull.id('organizationId')
+    t.nonNull.string('id')
+    t.nonNull.string('hex')
+    t.nonNull.string('name')
+    t.nonNull.int('cmykC')
+    t.nonNull.int('cmykM')
+    t.nonNull.int('cmykY')
+    t.nonNull.int('cmykK')
+
+    t.nullable.string('pantone')
+  },
+})
+
+export const OrganizationBrandColorUpdatePayload = objectType({
+  name: 'OrganizationBrandColorUpdatePayload',
+  definition(t) {
+    t.nullable.field('brand', {
+      type: 'OrganizationBrand',
+    })
+    t.nonNull.field('color', {
+      type: 'Color',
+    })
+  },
+})
+
+export const organizationBrandColorUpdate = mutationField(
+  'organizationBrandColorUpdate',
+  {
+    type: 'OrganizationBrandColorUpdatePayload',
+    args: {
+      input: nonNull('OrganizationBrandColorUpdateInput'),
+    },
+    resolve: async (_, { input }, ctx) => {
+      if (input.organizationId !== ctx.organizationId || !ctx.userId) {
+        throw new GraphQLError('Unauthorized')
+      }
+
+      let color
+
+      try {
+        color = await ctx.organization.updateOrganizationColor({
+          color: {
+            id: input.id,
+            name: input.name,
+            hex: input.hex,
+            cmykC: input.cmykC,
+            cmykM: input.cmykM,
+            cmykK: input.cmykK,
+            cmykY: input.cmykY,
+            pantone: input.pantone || null,
+          },
+        })
+      } catch (error) {
+        console.error('Unable to update color', {
+          context: { error, input },
+        })
+        throw new GraphQLError('Unable to update color')
+      }
+
+      return {
+        brand: {
+          id: input.organizationId,
+          organizationId: input.organizationId,
+        },
+        color: colorFactoryToGrahpql(color),
+      }
+    },
+  },
+)
+
+export const OrganizationBrandColorDeleteInput = inputObjectType({
+  name: 'OrganizationBrandColorDeleteInput',
+  definition(t) {
+    t.nonNull.id('organizationId')
+    t.nonNull.string('colorId')
+  },
+})
+
+export const OrganizationBrandColorDeletePayload = objectType({
+  name: 'OrganizationBrandColorDeletePayload',
+  definition(t) {
+    t.nullable.field('brand', {
+      type: 'OrganizationBrand',
+    })
+    t.nonNull.field('color', {
+      type: 'Color',
+    })
+  },
+})
+
+export const organizationBrandColorDelete = mutationField(
+  'organizationBrandColorDelete',
+  {
+    type: 'OrganizationBrandColorDeletePayload',
+    args: {
+      input: nonNull('OrganizationBrandColorDeleteInput'),
+    },
+    resolve: async (_, { input }, ctx) => {
+      if (input.organizationId !== ctx.organizationId || !ctx.userId) {
+        throw new GraphQLError('Unauthorized')
+      }
+
+      let color
+
+      try {
+        color = await ctx.organization.deleteOrganizationColor({
+          colorId: input.colorId,
+        })
+      } catch (error) {
+        console.error('Unable to delete color', {
+          context: { error, input },
+        })
+        throw new GraphQLError('Unable to delete color')
+      }
+
+      return {
+        brand: {
+          id: input.organizationId,
+          organizationId: input.organizationId,
+        },
+        color: colorFactoryToGrahpql(color),
       }
     },
   },

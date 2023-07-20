@@ -11,9 +11,7 @@ const organizationColorFactory = ({
   return {
     id: organizationColorRecord.id,
     organizationId: organizationColorRecord.organizationId,
-
-    hex: organizationColorRecord.hex,
-    name: organizationColorRecord.name,
+    colorId: organizationColorRecord.colorId,
 
     createdAt: organizationColorRecord.createdAt,
     updatedAt: organizationColorRecord.updatedAt,

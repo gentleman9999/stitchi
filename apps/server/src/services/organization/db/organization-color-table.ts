@@ -9,9 +9,7 @@ export const OrganizationColor: yup.ObjectSchema<OrganizationColorSchema> = yup
   .shape({
     id: yup.string().uuid().required(),
     organizationId: yup.string().uuid().required(),
-
-    hex: yup.string().required(),
-    name: yup.string().required(),
+    colorId: yup.string().uuid().required(),
 
     createdAt: yup.date().required(),
     updatedAt: yup.date().required(),

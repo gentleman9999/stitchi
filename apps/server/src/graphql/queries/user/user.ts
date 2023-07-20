@@ -1,5 +1,6 @@
 import { GraphQLError } from 'graphql'
 import { extendType } from 'nexus'
+import { membershipFactoryToGrahpql } from '../../serializers/membership'
 import { auth0UserToGraphl } from '../../serializers/user'
 
 export const userMemberships = extendType({
@@ -14,11 +15,22 @@ export const userMemberships = extendType({
           throw new GraphQLError('Not authenticated')
         }
 
-        const memberships = await ctx.prisma.membership.findMany({
-          where: { userId },
-        })
+        let memberships
 
-        return memberships
+        try {
+          memberships = await ctx.membership.listMemberships({
+            where: { userId },
+          })
+        } catch (error) {
+          console.error(`Error listing memberships`, {
+            context: {
+              error,
+            },
+          })
+          throw error
+        }
+
+        return memberships.map(membershipFactoryToGrahpql)
       },
     })
   },
