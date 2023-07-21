@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import { LinkInline } from '@components/ui'
 import { ClosetOrdersMobileTableOrderFragment } from '@generated/ClosetOrdersMobileTableOrderFragment'
-import useTimeZone from '@hooks/useTimeZone'
+import useTimeZone from '@components/hooks/useTimeZone'
 import routes from '@lib/routes'
 import currency from 'currency.js'
 import { parseISO } from 'date-fns'

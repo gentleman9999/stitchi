@@ -1,5 +1,7 @@
 import { GraphQLError } from 'graphql'
 import { inputObjectType, mutationField, nonNull, objectType } from 'nexus'
+import { membershipFactoryToGrahpql } from '../../serializers/membership'
+import { organizationFactoryToGrahpql } from '../../serializers/organization'
 
 export * from './bootstrap'
 
@@ -47,6 +49,73 @@ export const userSetOrganization = mutationField('userSetOrganization', {
     return {
       membershipId: membership.id,
       organizationId: membership.organizationId,
+    }
+  },
+})
+
+export const UserOrganizationCreateInput = inputObjectType({
+  name: 'UserOrganizationCreateInput',
+  definition(t) {
+    t.nonNull.string('name')
+  },
+})
+
+export const UserOrganizationCreatePayload = objectType({
+  name: 'UserOrganizationCreatePayload',
+  definition(t) {
+    t.nullable.field('organization', { type: 'Organization' })
+    t.nullable.field('membership', { type: 'Membership' })
+  },
+})
+
+export const userOrganizationCreate = mutationField('userOrganizationCreate', {
+  type: 'UserOrganizationCreatePayload',
+  args: {
+    input: nonNull('UserOrganizationCreateInput'),
+  },
+  resolve: async (_, { input }, ctx) => {
+    if (!ctx.userId) {
+      throw new GraphQLError('Forbidden')
+    }
+
+    let organization
+
+    try {
+      organization = await ctx.organization.createOrganization({
+        organization: {
+          name: input.name,
+          role: 'CUSTOMER',
+        },
+      })
+    } catch (error) {
+      console.error('Failed to create organization', {
+        context: { error, input, userId: ctx.userId },
+      })
+      throw new GraphQLError('Failed to create organization')
+    }
+
+    let membership
+
+    try {
+      membership = await ctx.membership.createMembership({
+        membership: {
+          userId: ctx.userId,
+          role: 'OWNER',
+          organizationId: organization.id,
+          invitedEmail: null,
+          invitedName: null,
+        },
+      })
+    } catch (error) {
+      console.error('Failed to create membership', {
+        context: { error, input, userId: ctx.userId },
+      })
+      throw new GraphQLError('Failed to create membership')
+    }
+
+    return {
+      organization: organizationFactoryToGrahpql(organization),
+      membership: membershipFactoryToGrahpql(membership),
     }
   },
 })

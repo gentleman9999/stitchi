@@ -7,7 +7,7 @@ import DialogContent from './DialogContent'
 import DialogContentText from './DialogContentText'
 import DialogActions from './DialogActions'
 import Transition from '../Transition'
-import useBreakpoints from '@hooks/useBreakpoints'
+import useBreakpoints from '@components/hooks/useBreakpoints'
 import DialogSectionPadding from './DialogSectionPadding'
 
 type Children = ReturnType<

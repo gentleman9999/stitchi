@@ -1,7 +1,7 @@
 import { Section } from '@components/common'
 import { Button } from '@components/ui'
 import routes from '@lib/routes'
-import { generateImageSizes } from '@utils/image'
+import { generateImageSizes } from '@lib/utils/image'
 import { ArrowRight } from 'icons'
 import Image from 'next/image'
 import Link from 'next/link'

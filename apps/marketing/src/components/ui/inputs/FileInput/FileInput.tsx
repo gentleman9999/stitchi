@@ -1,9 +1,9 @@
-import useFileUpload from '@hooks/useFileUpload'
+import useFileUpload from '@components/hooks/useFileUpload'
 import { Photo } from 'icons'
 import React, { useRef } from 'react'
 import cx from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
-import { notEmpty } from '@utils/typescript'
+import { notEmpty } from '@lib/utils/typescript'
 
 interface Props {
   folder: string

@@ -1,42 +1,111 @@
-import { useRouter } from 'next/router'
 import React from 'react'
 import dynamic from 'next/dynamic'
+import { queryTypes, useQueryState } from 'next-usequerystate'
+
+import type { Props as ClosetLinkShareDialogProps } from './ClosetLinkShareDialog'
 
 const ContactSuccessDialog = dynamic(() => import('./ContactSuccessDialog'))
-
-interface StandoutContext {}
-
-const StandoutContext = React.createContext<StandoutContext | undefined>(
-  undefined,
+const ClosetLinkShareDialog = dynamic(() => import('./ClosetLinkShareDialog'))
+const OrganizationCreateDialog = dynamic(
+  () => import('./OrganizationCreateDialog'),
 )
 
+export enum StandoutType {
+  ContactSuccess = 'contact_success',
+  ClosetLinkShare = 'closet_link_share',
+  OrganizationCreate = 'organization_create',
+}
+
+interface BaseInput {
+  type: StandoutType
+}
+
+interface ClosetLinkShareInput
+  extends BaseInput,
+    Omit<ClosetLinkShareDialogProps, 'open' | 'onClose'> {
+  type: StandoutType.ClosetLinkShare
+}
+
+interface OrganizationCreateInput extends BaseInput {
+  type: StandoutType.OrganizationCreate
+}
+
+interface ContactSuccessInput extends BaseInput {
+  type: StandoutType.ContactSuccess
+}
+
+type SetStandoutInput =
+  | ClosetLinkShareInput
+  | OrganizationCreateInput
+  | ContactSuccessInput
+
+interface State {
+  standout?: StandoutType | null
+  setStandout: (input: SetStandoutInput) => void
+}
+
+const StandoutContext = React.createContext<State | undefined>(undefined)
+
 const StandoutProvider = ({ children }: { children: React.ReactNode }) => {
-  const { query } = useRouter()
+  const [standoutProps, setStandoutProps] =
+    React.useState<SetStandoutInput | null>(null)
+
+  const [standout, setStandout] = useQueryState<StandoutType>(
+    'standout',
+    queryTypes.stringEnum(Object.values(StandoutType)),
+  )
+
+  const handleSetStandout = (input: SetStandoutInput) => {
+    setStandout(input.type, {
+      scroll: false,
+    })
+    setStandoutProps(input)
+  }
+
+  const Standout = React.useCallback(() => {
+    if (!standout) {
+      return null
+    }
+
+    const props = {
+      open: true,
+      onClose: () =>
+        setStandout(null, {
+          scroll: false,
+        }),
+    }
+
+    if (!standoutProps) return null
+
+    switch (standoutProps.type) {
+      case StandoutType.ContactSuccess:
+        return <ContactSuccessDialog {...props} {...standoutProps} />
+      case StandoutType.ClosetLinkShare:
+        return <ClosetLinkShareDialog {...props} {...standoutProps} />
+      case StandoutType.OrganizationCreate:
+        return <OrganizationCreateDialog {...props} {...standoutProps} />
+    }
+  }, [setStandout, standout, standoutProps])
 
   return (
-    <StandoutContext.Provider value={undefined}>
-      <Standout standout={query.standout} />
+    <StandoutContext.Provider
+      value={{
+        standout,
+        setStandout: handleSetStandout,
+      }}
+    >
+      <Standout />
       {children}
     </StandoutContext.Provider>
   )
 }
 
-const Standout = ({
-  standout,
-}: {
-  standout: string | string[] | undefined
-}) => {
-  const { query } = useRouter()
-
-  if (!standout) {
-    return null
+const useStandout = () => {
+  const context = React.useContext(StandoutContext)
+  if (context === undefined) {
+    throw new Error('useStandout must be used within a StandoutProvider')
   }
-  switch (standout) {
-    case 'contact_success':
-      return <ContactSuccessDialog email={query.email?.toString()} />
-    default:
-      return null
-  }
+  return context
 }
 
-export { StandoutProvider }
+export { StandoutProvider, useStandout }

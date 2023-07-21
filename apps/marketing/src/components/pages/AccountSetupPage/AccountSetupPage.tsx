@@ -2,12 +2,11 @@ import { gql } from '@apollo/client'
 import { ComponentErrorMessage } from '@components/common'
 import { LoadingDots, Logo } from '@components/ui'
 import { AccountSetupPageMembershipFragment } from '@generated/AccountSetupPageMembershipFragment'
-import useSetUserMembership from '@hooks/useSetUserMembership'
+import useSetUserMembership from '@components/hooks/useSetUserMembership'
 import routes from '@lib/routes'
 
 import { useRouter } from 'next/router'
 import React from 'react'
-import useBootstrapUser from './useBootstrapUser'
 
 interface Props {
   memberships: AccountSetupPageMembershipFragment[]
@@ -16,15 +15,6 @@ interface Props {
 const AccountSetupPage = (props: Props) => {
   const [loading, setLoading] = React.useState(false)
   const router = useRouter()
-
-  const [
-    bootstrapAccount,
-    {
-      user: bootstrappedUser,
-      error: bootstrappingError,
-      loading: bootstrappingAccount,
-    },
-  ] = useBootstrapUser()
 
   const [
     setMembership,
@@ -51,20 +41,6 @@ const AccountSetupPage = (props: Props) => {
     }
   }
 
-  const handleBootstrapAccount = async () => {
-    if (loading || bootstrappedUser?.id) return
-
-    setLoading(true)
-    try {
-      const account = await bootstrapAccount()
-      if (account) {
-        window.location.href = nextPath
-      }
-    } finally {
-      setLoading(false)
-    }
-  }
-
   if (props.memberships.length === 1) {
     handleSetMembership({
       organizationId: props.memberships[0].organization?.id || '',
@@ -81,52 +57,12 @@ const AccountSetupPage = (props: Props) => {
         {props.memberships.length ? (
           <UserSelectOrganization {...props} onSelect={handleSetMembership} />
         ) : (
-          <UserBootstrap {...props} onBootstrap={handleBootstrapAccount} />
+          <ComponentErrorMessage error="No memberships found. This should not happen." />
         )}
 
-        {bootstrappingError || membershipError ? (
-          <ComponentErrorMessage
-            error={bootstrappingError || membershipError}
-          />
-        ) : null}
-        {settingMembership || bootstrappingAccount ? <LoadingDots /> : null}
+        {settingMembership ? <LoadingDots /> : null}
       </div>
     </div>
-  )
-}
-
-const UserBootstrap = ({ onBootstrap }: { onBootstrap: () => void }) => {
-  const [canTransition, setCanTransition] = React.useState(false)
-
-  React.useEffect(() => {
-    // If user doesn't belong to any organizations, create a default organization
-    onBootstrap()
-  }, [onBootstrap])
-
-  // React.useEffect(() => {
-  //   const timeout = setTimeout(() => {
-  //     setCanTransition(true)
-  //   }, 5000)
-
-  //   return () => clearTimeout(timeout)
-  // }, [])
-
-  // React.useEffect(() => {
-  //   if (userId && canTransition) {
-  //     router.push(
-  //       typeof redirectUrl === 'string'
-  //         ? redirectUrl
-  //         : routes.internal.closet.href(),
-  //     )
-  //   }
-  // }, [canTransition, redirectUrl, router, userId])
-
-  return (
-    <>
-      <p className="text-xl text-center font-semibold text-gray-400">
-        Just a moment while we put the finishing touches on your closet...
-      </p>
-    </>
   )
 }
 

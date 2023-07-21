@@ -6,7 +6,7 @@ import {
   DesignLibraryPageGetDataQueryVariables,
 } from '@generated/DesignLibraryPageGetDataQuery'
 import routes from '@lib/routes'
-import makeAbsoluteUrl from '@utils/get-absolute-url'
+import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { ArrowRight, Customization, Expand } from 'icons'
 import { NextSeo } from 'next-seo'
 import { queryTypes, useQueryState } from 'next-usequerystate'

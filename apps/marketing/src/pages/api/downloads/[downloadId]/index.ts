@@ -1,4 +1,4 @@
-import getOrThrow from '@utils/get-or-throw'
+import getOrThrow from '@lib/utils/get-or-throw'
 import { google } from 'googleapis'
 import { NextApiHandler } from 'next'
 import * as yup from 'yup'

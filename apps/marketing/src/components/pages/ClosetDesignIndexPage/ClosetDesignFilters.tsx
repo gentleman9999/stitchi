@@ -3,7 +3,7 @@ import TableFilterDate from '@components/ui/Table/TableFilterDate'
 import TableFilters from '@components/ui/Table/TableFilters'
 import TableFilterUser from '@components/ui/Table/TableFilterUser'
 import { ClosetDesignFiltersGetDataQuery } from '@generated/ClosetDesignFiltersGetDataQuery'
-import { notEmpty } from '@utils/typescript'
+import { notEmpty } from '@lib/utils/typescript'
 import React from 'react'
 import { useCloset } from './closet-context'
 

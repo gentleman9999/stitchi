@@ -6,7 +6,7 @@ import {
   UseProductColorsProductFragment_productOptions_edges_node_MultipleChoiceOption_values_edges_node as MultipleChoiceOptionValue,
   UseProductColorsProductFragment_productOptions_edges_node_MultipleChoiceOption_values_edges_node_SwatchOptionValue as SwatchOptionValue,
 } from '@generated/UseProductColorsProductFragment'
-import { notEmpty } from '@utils/typescript'
+import { notEmpty } from '@lib/utils/typescript'
 import Color from 'color'
 
 interface Props {

@@ -1,4 +1,4 @@
-import getOrThrow from '@utils/get-or-throw'
+import getOrThrow from '@lib/utils/get-or-throw'
 import { format } from 'url'
 
 const supportEmail = getOrThrow(

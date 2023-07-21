@@ -284,6 +284,9 @@ export interface NexusGenInputs {
   SubscriberCreateInput: { // input type
     email: string; // String!
   }
+  UserOrganizationCreateInput: { // input type
+    name: string; // String!
+  }
   UserSetOrganizationInput: { // input type
     membershipId: string; // ID!
     organizationId: string; // ID!
@@ -802,6 +805,10 @@ export interface NexusGenObjects {
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     username?: string | null; // String
   }
+  UserOrganizationCreatePayload: { // root type
+    membership?: NexusGenRootTypes['Membership'] | null; // Membership
+    organization?: NexusGenRootTypes['Organization'] | null; // Organization
+  }
   UserSetOrganizationPayload: { // root type
     membershipId?: string | null; // String
     organizationId?: string | null; // String
@@ -1207,6 +1214,7 @@ export interface NexusGenFieldTypes {
     paymentIntentCreate: NexusGenRootTypes['PaymentIntentCreatePayload'] | null; // PaymentIntentCreatePayload
     subscriberCreate: NexusGenRootTypes['SubscriberCreatePayload'] | null; // SubscriberCreatePayload
     userBoostrap: NexusGenRootTypes['User'] | null; // User
+    userOrganizationCreate: NexusGenRootTypes['UserOrganizationCreatePayload'] | null; // UserOrganizationCreatePayload
     userSetOrganization: NexusGenRootTypes['UserSetOrganizationPayload'] | null; // UserSetOrganizationPayload
   }
   Order: { // field return type
@@ -1399,6 +1407,10 @@ export interface NexusGenFieldTypes {
     picture: string | null; // String
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     username: string | null; // String
+  }
+  UserOrganizationCreatePayload: { // field return type
+    membership: NexusGenRootTypes['Membership'] | null; // Membership
+    organization: NexusGenRootTypes['Organization'] | null; // Organization
   }
   UserSetOrganizationPayload: { // field return type
     membershipId: string | null; // String
@@ -1806,6 +1818,7 @@ export interface NexusGenFieldTypeNames {
     paymentIntentCreate: 'PaymentIntentCreatePayload'
     subscriberCreate: 'SubscriberCreatePayload'
     userBoostrap: 'User'
+    userOrganizationCreate: 'UserOrganizationCreatePayload'
     userSetOrganization: 'UserSetOrganizationPayload'
   }
   Order: { // field return type name
@@ -1999,6 +2012,10 @@ export interface NexusGenFieldTypeNames {
     updatedAt: 'DateTime'
     username: 'String'
   }
+  UserOrganizationCreatePayload: { // field return type name
+    membership: 'Membership'
+    organization: 'Organization'
+  }
   UserSetOrganizationPayload: { // field return type name
     membershipId: 'String'
     organizationId: 'String'
@@ -2121,6 +2138,9 @@ export interface NexusGenArgTypes {
     }
     subscriberCreate: { // args
       input: NexusGenInputs['SubscriberCreateInput']; // SubscriberCreateInput!
+    }
+    userOrganizationCreate: { // args
+      input: NexusGenInputs['UserOrganizationCreateInput']; // UserOrganizationCreateInput!
     }
     userSetOrganization: { // args
       input: NexusGenInputs['UserSetOrganizationInput']; // UserSetOrganizationInput!

@@ -1,8 +1,15 @@
 import { gql } from '@apollo/client'
+import { StandoutType, useStandout } from '@components/context'
 import { BadgeProps } from '@components/ui'
 import { ClosetDesignIndexPageDesignRequestCardDesignRequestFragment } from '@generated/ClosetDesignIndexPageDesignRequestCardDesignRequestFragment'
 import { DesignRequestStatus } from '@generated/globalTypes'
+import {
+  DocumentDuplicateIcon,
+  EyeIcon,
+  LinkIcon,
+} from '@heroicons/react/24/outline'
 import routes from '@lib/routes'
+import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { format } from 'date-fns'
 import React from 'react'
 import Card from './Card'
@@ -12,6 +19,8 @@ interface Props {
 }
 
 const ClosetDesignIndexPageDesignRequestCard = ({ designRequest }: Props) => {
+  const { setStandout } = useStandout()
+
   return (
     <Card
       href={routes.internal.closet.designRequests.show.href({
@@ -33,6 +42,33 @@ const ClosetDesignIndexPageDesignRequestCard = ({ designRequest }: Props) => {
         label: designRequest.humanizedStatus,
         severity: getStatusBadgeSeverity(designRequest.status),
       }}
+      actions={[
+        {
+          label: 'View',
+          icon: <EyeIcon className="w-full" />,
+          href: routes.internal.closet.designRequests.show.href({
+            designId: designRequest.id,
+          }),
+        },
+        {
+          label: 'Share',
+          onClick: () =>
+            setStandout({
+              type: StandoutType.ClosetLinkShare,
+              absoluteUrl: makeAbsoluteUrl(
+                routes.internal.closet.designRequests.show.href({
+                  designId: designRequest.id,
+                }),
+              ),
+            }),
+          icon: <LinkIcon className="w-full" />,
+        },
+        {
+          label: 'Duplicate',
+          onClick: () => {},
+          icon: <DocumentDuplicateIcon className="w-full" />,
+        },
+      ]}
     />
   )
 }

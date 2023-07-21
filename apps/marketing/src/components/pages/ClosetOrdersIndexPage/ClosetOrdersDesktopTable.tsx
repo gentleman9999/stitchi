@@ -8,7 +8,7 @@ import { gql } from '@apollo/client'
 import cx from 'classnames'
 import { ClosetOrdersDesktopTableOrderFragment } from '@generated/ClosetOrdersDesktopTableOrderFragment'
 import InfiniteScrollContainer from '../../common/InfiniteScrollContainer'
-import useTimeZone from '@hooks/useTimeZone'
+import useTimeZone from '@components/hooks/useTimeZone'
 import { format } from 'date-fns-tz'
 
 interface Props {

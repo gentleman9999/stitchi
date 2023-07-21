@@ -5,7 +5,7 @@ import Catalog from '@components/common/Catalog'
 import { Container } from '@components/ui'
 import { BrandShowPageBrandFragment } from '@generated/BrandShowPageBrandFragment'
 import routes from '@lib/routes'
-import makeAbsoluteUrl from '@utils/get-absolute-url'
+import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { BrandJsonLd, NextSeo } from 'next-seo'
 import React from 'react'
 

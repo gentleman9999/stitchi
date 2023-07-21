@@ -2,6 +2,7 @@ import { gql } from '@apollo/client'
 import ClosetPageActions, {
   ClosetPageActionType,
 } from '@components/common/ClosetPageActions'
+import { StandoutType, useStandout } from '@components/context'
 import { DesignRequestActionsDesignRequestFragment } from '@generated/DesignRequestActionsDesignRequestFragment'
 import {
   DesignRequestStatus,
@@ -10,6 +11,7 @@ import {
 } from '@generated/globalTypes'
 import { useAuthorizedComponent } from '@lib/auth'
 import routes from '@lib/routes'
+import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import React from 'react'
 import useDesignRequestActions from './useDesignRequestActions'
 
@@ -18,6 +20,8 @@ interface Props {
 }
 
 const DesignRequestActions = ({ designRequest }: Props) => {
+  const { setStandout } = useStandout()
+
   const { handleSubmitDesignRequest, submitting } = useDesignRequestActions({
     designRequestId: designRequest.id,
   })
@@ -25,6 +29,18 @@ const DesignRequestActions = ({ designRequest }: Props) => {
   const { can, loading } = useAuthorizedComponent()
 
   const actions: ClosetPageActionType[] = [
+    {
+      label: 'Share',
+      onClick: () =>
+        setStandout({
+          type: StandoutType.ClosetLinkShare,
+          absoluteUrl: makeAbsoluteUrl(
+            routes.internal.closet.designRequests.show.href({
+              designId: designRequest.id,
+            }),
+          ),
+        }),
+    },
     {
       label: 'Duplicate',
       onClick: () => {},

@@ -35,6 +35,8 @@ const DesignOverview = ({ designId }: Props) => {
     }
   }, [activeColorId, design, setActiveColorId])
 
+  console.log('DESIGN COLORS', design?.colors)
+
   return (
     <>
       <ComponentErrorMessage error={error} />
@@ -61,7 +63,7 @@ const DesignOverview = ({ designId }: Props) => {
                       {design?.colors?.map(color => (
                         <ColorSwatch
                           key={color.id}
-                          hexCode={color.hex || ''}
+                          hexCode={color.hex || '#FFF'}
                           label={color.name || ''}
                           selected={activeColorId === color.id}
                           onClick={() => setActiveColorId(color.id)}

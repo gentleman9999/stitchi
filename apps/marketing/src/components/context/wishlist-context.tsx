@@ -1,4 +1,4 @@
-import useLocalStorage from '@hooks/useLocalStorage'
+import useLocalStorage from '@components/hooks/useLocalStorage'
 import { track } from '@lib/analytics'
 import React from 'react'
 

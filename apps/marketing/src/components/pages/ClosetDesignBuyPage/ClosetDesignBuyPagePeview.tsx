@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import ColorSwatch from '@components/common/ColorSwatch'
 import { ClosetDesignBuyPagePeviewDesignProductFragment } from '@generated/ClosetDesignBuyPagePeviewDesignProductFragment'
 
-import { generateImageSizes } from '@utils/image'
+import { generateImageSizes } from '@lib/utils/image'
 import Image from 'next/image'
 import React from 'react'
 

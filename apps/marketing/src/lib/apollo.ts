@@ -14,7 +14,7 @@ import {
   Reference,
   relayStylePagination,
 } from '@apollo/client/utilities'
-import getOrThrow from '@utils/get-or-throw'
+import getOrThrow from '@lib/utils/get-or-throw'
 import { AppProps } from 'next/app'
 import { useMemo } from 'react'
 import { isEqual } from 'lodash-es'

@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import { BlogPostCardArticleFragment } from '@generated/BlogPostCardArticleFragment'
 import routes from '@lib/routes'
-import { humanizeDate } from '@utils/date'
+import { humanizeDate } from '@lib/utils/date'
 import Link from 'next/link'
 import React from 'react'
 import Avatar from '../Avatar'

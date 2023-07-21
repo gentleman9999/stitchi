@@ -3,7 +3,7 @@ import {
   ClosetTabApprovedDesignsGetDataQuery,
   ClosetTabApprovedDesignsGetDataQueryVariables,
 } from '@generated/ClosetTabApprovedDesignsGetDataQuery'
-import { notEmpty } from '@utils/typescript'
+import { notEmpty } from '@lib/utils/typescript'
 import React from 'react'
 import CardGrid from '../CardGrid'
 import { useCloset } from '../closet-context'

@@ -1,10 +1,16 @@
 import { gql } from '@apollo/client'
 import SwatchGroup from '@components/common/Catalog/SwatchGroup'
+import { StandoutType, useStandout } from '@components/context'
 import Tooltip from '@components/ui/Tooltip'
 import { ClosetDesignIndexPageApprovedDesignCardDesignProductFragment } from '@generated/ClosetDesignIndexPageApprovedDesignCardDesignProductFragment'
-import { EyeIcon, LinkIcon } from '@heroicons/react/20/solid'
+import {
+  DocumentDuplicateIcon,
+  EyeIcon,
+  LinkIcon,
+} from '@heroicons/react/20/solid'
 import routes from '@lib/routes'
-import { notEmpty } from '@utils/typescript'
+import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
+import { notEmpty } from '@lib/utils/typescript'
 import currency from 'currency.js'
 import React from 'react'
 import Card from './Card'
@@ -14,6 +20,8 @@ interface Props {
 }
 
 const ClosetDesignIndexPageApprovedDesignCard = ({ design }: Props) => {
+  const { setStandout } = useStandout()
+
   return (
     <Card
       href={routes.internal.closet.designProducts.show.href({
@@ -22,16 +30,29 @@ const ClosetDesignIndexPageApprovedDesignCard = ({ design }: Props) => {
       title={design.name}
       actions={[
         {
-          label: 'Share',
-          onClick: () => {},
-          icon: <LinkIcon className="w-full" />,
-        },
-        {
           label: 'View',
           icon: <EyeIcon className="w-full" />,
           href: routes.internal.closet.designProducts.show.href({
             designId: design.id,
           }),
+        },
+        {
+          label: 'Share',
+          onClick: () =>
+            setStandout({
+              type: StandoutType.ClosetLinkShare,
+              absoluteUrl: makeAbsoluteUrl(
+                routes.internal.closet.designProducts.show.href({
+                  designId: design.id,
+                }),
+              ),
+            }),
+          icon: <LinkIcon className="w-full" />,
+        },
+        {
+          label: 'Duplicate',
+          onClick: () => {},
+          icon: <DocumentDuplicateIcon className="w-full" />,
         },
       ]}
       image={

@@ -1,6 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
 import { ClosetTabAllRecentGridGetDataQuery } from '@generated/ClosetTabAllRecentGridGetDataQuery'
-import { notEmpty } from '@utils/typescript'
+import { notEmpty } from '@lib/utils/typescript'
 import React from 'react'
 
 interface Props {}

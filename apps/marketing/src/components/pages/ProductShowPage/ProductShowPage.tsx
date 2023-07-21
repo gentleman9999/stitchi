@@ -9,11 +9,11 @@ import {
   ProductJsonLd,
   ProductJsonLdProps,
 } from 'next-seo'
-import { makeProductTitle } from '@utils/catalog'
+import { makeProductTitle } from '@lib/utils/catalog'
 import { OpenGraphMedia } from 'next-seo/lib/types'
-import makeAbsoluteUrl from '@utils/get-absolute-url'
+import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import routes from '@lib/routes'
-import { notEmpty } from '@utils/typescript'
+import { notEmpty } from '@lib/utils/typescript'
 import { ProductPageGetDataQuery_site_route_node_Product } from '@generated/ProductPageGetDataQuery'
 import ProductQuickActions from './ProductQuickActions'
 import ShareDialog from '@components/common/ShareDialog'

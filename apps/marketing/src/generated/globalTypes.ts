@@ -538,6 +538,10 @@ export interface UpdatedAtFilter {
   exists?: any | null;
 }
 
+export interface UserOrganizationCreateInput {
+  name: string;
+}
+
 export interface UserSetOrganizationInput {
   membershipId: string;
   organizationId: string;

@@ -1,7 +1,7 @@
 import { Section } from '@components/common'
 import { Container } from '@components/ui'
 import routes from '@lib/routes'
-import getOrThrow from '@utils/get-or-throw'
+import getOrThrow from '@lib/utils/get-or-throw'
 import React from 'react'
 import ContactMethod from './ContactMethod'
 // import ExperienceSelector from './ExperienceSelector'

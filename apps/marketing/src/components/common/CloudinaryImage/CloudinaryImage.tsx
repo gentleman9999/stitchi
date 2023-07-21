@@ -1,4 +1,4 @@
-import getOrThrow from '@utils/get-or-throw'
+import getOrThrow from '@lib/utils/get-or-throw'
 import Image, { ImageProps } from 'next/image'
 import React from 'react'
 

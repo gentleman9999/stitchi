@@ -6,7 +6,7 @@ import {
   ClosetTabApprovedDesignRequestGetDataQuery,
   ClosetTabApprovedDesignRequestGetDataQueryVariables,
 } from '@generated/ClosetTabApprovedDesignRequestGetDataQuery'
-import { notEmpty } from '@utils/typescript'
+import { notEmpty } from '@lib/utils/typescript'
 import React from 'react'
 import { useCloset } from '../closet-context'
 import ClosetDesignIndexPageApprovedDesignCard from '../ClosetDesignIndexPageApprovedDesignCard'

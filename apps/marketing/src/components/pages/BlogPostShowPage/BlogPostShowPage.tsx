@@ -9,7 +9,7 @@ import {
 import { BlogPostShowPageArticleFragment } from '@generated/BlogPostShowPageArticleFragment'
 import React from 'react'
 import { BackgroundTexture, Container } from '@components/ui'
-import { humanizeDate } from '@utils/date'
+import { humanizeDate } from '@lib/utils/date'
 import BlogPostShowPageAuthor from './BlogPostShowPageAuthor'
 import BlogPostShowPageSeo from './BlogPostShowPageSeo'
 import BlogPostJsonLD from './BlogPostJsonLD'

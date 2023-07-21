@@ -4,7 +4,7 @@ import { TermsPagePageFragment } from '@generated/TermsPagePageFragment'
 import React from 'react'
 import { Container } from '@components/ui'
 import routes from '@lib/routes'
-import makeAbsoluteUrl from '@utils/get-absolute-url'
+import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 
 export interface TermsPageProps {
   page: TermsPagePageFragment

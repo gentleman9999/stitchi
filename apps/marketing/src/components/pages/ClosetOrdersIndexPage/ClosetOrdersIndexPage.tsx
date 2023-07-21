@@ -5,7 +5,7 @@ import {
   ClosetOrdersIndexPageGetDataQueryVariables,
 } from '@generated/ClosetOrdersIndexPageGetDataQuery'
 import React from 'react'
-import { notEmpty } from '@utils/typescript'
+import { notEmpty } from '@lib/utils/typescript'
 import ClosetOrdersDesktopTable from './ClosetOrdersDesktopTable'
 import ClosetOrdersMobileTable from './ClosetOrdersMobileTable'
 import ClosetOrdersTableFilters from './ClosetOrdersTableFilters'

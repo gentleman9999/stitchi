@@ -743,6 +743,7 @@ type Mutation {
 
   """Bootstraps a new user with necessary resources"""
   userBoostrap: User
+  userOrganizationCreate(input: UserOrganizationCreateInput!): UserOrganizationCreatePayload
   userSetOrganization(input: UserSetOrganizationInput!): UserSetOrganizationPayload
 }
 
@@ -1134,6 +1135,15 @@ type User {
   picture: String
   updatedAt: DateTime
   username: String
+}
+
+input UserOrganizationCreateInput {
+  name: String!
+}
+
+type UserOrganizationCreatePayload {
+  membership: Membership
+  organization: Organization
 }
 
 input UserSetOrganizationInput {

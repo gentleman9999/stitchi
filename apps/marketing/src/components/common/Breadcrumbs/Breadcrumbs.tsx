@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 import cx from 'classnames'
 import { BreadcrumbJsonLd } from 'next-seo'
-import makeAbsoluteUrl from '@utils/get-absolute-url'
+import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 
 interface Breadcrumb {
   label: string

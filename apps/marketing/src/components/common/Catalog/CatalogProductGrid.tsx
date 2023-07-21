@@ -1,6 +1,6 @@
 import { gql, QueryResult } from '@apollo/client'
 import React from 'react'
-import { notEmpty } from '@utils/typescript'
+import { notEmpty } from '@lib/utils/typescript'
 import CatalogProductLegacy from '../CatalogProductLegacy'
 import {
   CatalogIndexPageGetDataQuery,

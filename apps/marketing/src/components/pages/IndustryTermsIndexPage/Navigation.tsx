@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import cx from 'classnames'
 import Link from 'next/link'
-import useIntersectionObserver from '@hooks/useIntersectionObserver'
+import useIntersectionObserver from '@components/hooks/useIntersectionObserver'
 import { Container, Transition } from '@components/ui'
 
 interface Props {
@@ -48,14 +48,14 @@ const Inner = ({ termSlugs }: Props) => {
     <div className="flex gap-2 w-full justify-between">
       {Array.from(alphabetMap).map(([letter, slug]) => {
         return (
-          (<Link
+          <Link
             key={letter}
             href={`#${slug}`}
             passHref
             className={cx('text-gray-700', {
               'pointer-events-none text-gray-400': slug === null,
-            })}>
-
+            })}
+          >
             <div
               className={cx(
                 'flex justify-center items-center rounded-full w-7 h-7',
@@ -66,12 +66,11 @@ const Inner = ({ termSlugs }: Props) => {
             >
               {letter.toUpperCase()}
             </div>
-
-          </Link>)
-        );
+          </Link>
+        )
       })}
     </div>
-  );
+  )
 }
 
 export default Navigation

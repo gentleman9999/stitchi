@@ -6,11 +6,13 @@ import ClosetPageTitle from '@components/common/ClosetPageTitle'
 import ClosetSection from '@components/common/ClosetSection'
 import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
 import ClosetSectionHeaderTabs from '@components/common/ClosetSectionHeaderTabs'
+import { StandoutType, useStandout } from '@components/context'
 import {
   ClosetDesignShowPageGetDataQuery,
   ClosetDesignShowPageGetDataQueryVariables,
 } from '@generated/ClosetDesignShowPageGetDataQuery'
 import routes from '@lib/routes'
+import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import React from 'react'
 import DesignOverview from './DesignOverview'
 
@@ -19,6 +21,8 @@ interface Props {
 }
 
 const ClosetDesignShowPage = ({ designId }: Props) => {
+  const { setStandout } = useStandout()
+
   const { data } = useQuery<
     ClosetDesignShowPageGetDataQuery,
     ClosetDesignShowPageGetDataQueryVariables
@@ -38,12 +42,25 @@ const ClosetDesignShowPage = ({ designId }: Props) => {
               actions={[
                 {
                   label: 'Share',
+                  onClick: () =>
+                    setStandout({
+                      type: StandoutType.ClosetLinkShare,
+                      absoluteUrl: makeAbsoluteUrl(
+                        routes.internal.closet.designProducts.show.href({
+                          designId,
+                        }),
+                      ),
+                    }),
+                },
+                {
+                  label: 'Duplicate',
                   onClick: () => {},
                 },
                 {
                   label: 'Sell online',
                   onClick: () => {},
                 },
+
                 {
                   primary: true,
                   label: 'Place order',

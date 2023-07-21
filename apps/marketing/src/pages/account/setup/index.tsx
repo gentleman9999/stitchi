@@ -4,15 +4,32 @@ import AccountSetupPage from '@components/pages/AccountSetupPage'
 import { AccountSetupPageGetDataQuery } from '@generated/AccountSetupPageGetDataQuery'
 import { addApolloState, initializeApollo } from '@lib/apollo'
 import { withAuthentication } from '@lib/auth'
+import routes from '@lib/routes'
 import React from 'react'
 
 const getServerSideProps = withPageAuthRequired({
   getServerSideProps: async ctx => {
     const client = initializeApollo(null, ctx)
 
-    await client.query<AccountSetupPageGetDataQuery>({
+    const { data } = await client.query<AccountSetupPageGetDataQuery>({
       query: GET_DATA,
     })
+
+    const memberships = data?.userMemberships || []
+
+    if (!memberships.length) {
+      await client.mutate({
+        mutation: BOOTSTRAP_ACCOUNT,
+      })
+
+      return {
+        redirect: {
+          permanent: false,
+          destination:
+            ctx.query.redirectUrl?.toString() || routes.internal.closet.href(),
+        },
+      }
+    }
 
     return addApolloState(client, { props: {} })
   },
@@ -34,6 +51,17 @@ const GET_DATA = gql`
     userMemberships {
       id
       ...AccountSetupPageMembershipFragment
+    }
+  }
+`
+
+const BOOTSTRAP_ACCOUNT = gql`
+  mutation AccountSetupPageBootstrapAccount {
+    userBoostrap {
+      id
+      organizations {
+        id
+      }
     }
   }
 `

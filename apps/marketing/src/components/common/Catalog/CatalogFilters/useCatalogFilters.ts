@@ -1,7 +1,7 @@
 import { gql, useQuery } from '@apollo/client'
 import { queryTypes, useQueryStates } from 'next-usequerystate'
 import { UseCatalogFiltersGetDataQuery } from '@generated/UseCatalogFiltersGetDataQuery'
-import { notEmpty } from '@utils/typescript'
+import { notEmpty } from '@lib/utils/typescript'
 import staticData from '@generated/static.json'
 
 interface Props {

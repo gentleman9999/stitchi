@@ -9,7 +9,7 @@ import CatalogProductVariantPreview from '@components/common/CatalogProductVaria
 import ProductForm, { FormValues } from './ProductForm'
 import useProductShowPageHero from './useProductShowPageHero'
 import { useRouter } from 'next/router'
-import useProductOptions from '@hooks/useProductOptions'
+import useProductOptions from '@components/hooks/useProductOptions'
 import { DesignRequestCreateInput } from '@generated/globalTypes'
 
 interface Props {

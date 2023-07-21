@@ -47,7 +47,7 @@ const Card = ({
             {actions?.length ? (
               <Dropdown
                 trigger={
-                  <button className="opacity-0 group-hover:opacity-100 p-1 bg-gray-900/50 hover:bg-gray-900/60 data-[state=open]:opacity-100 rounded-md transition-all outline-none">
+                  <button className="max-w-0 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto group-hover:max-w-[60px] p-1 bg-gray-900/50 hover:bg-gray-900/60 data-[state=open]:opacity-100 data-[state=open]:pointer-events-auto data-[state=open]:max-w-none rounded-md transition-all outline-none">
                     <EllipsisHorizontalIcon className="w-6 h-6 text-white" />
                   </button>
                 }

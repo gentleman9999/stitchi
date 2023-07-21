@@ -1,15 +1,22 @@
 import React from 'react'
 import { Dialog } from '@components/ui'
 import { SubscribeInline } from '../..'
+import { useRouter } from 'next/router'
 
-const ContactSuccessDialog = ({ email }: { email?: string }) => {
-  const [open, setOpen] = React.useState(true)
+interface Props {
+  open: boolean
+  onClose: () => void
+}
+
+const ContactSuccessDialog = ({ onClose, open }: Props) => {
+  const { query } = useRouter()
+  const { email } = query
 
   return (
     <Dialog
       size="lg"
       open={open}
-      onClose={() => setOpen(false)}
+      onClose={() => onClose()}
       className="text-center"
     >
       <Dialog.Icon />
@@ -23,7 +30,11 @@ const ContactSuccessDialog = ({ email }: { email?: string }) => {
         </Dialog.ContentText>
       </Dialog.Content>
       <Dialog.Actions>
-        <SubscribeInline className="m-auto" centered defaultValue={email} />
+        <SubscribeInline
+          className="m-auto"
+          centered
+          defaultValue={typeof email === 'string' ? email : undefined}
+        />
       </Dialog.Actions>
     </Dialog>
   )

@@ -6,7 +6,7 @@ import {
   ClosetBrandIndexPageFilesQueryVariables,
 } from '@generated/ClosetBrandIndexPageFilesQuery'
 import { TrashIcon, XMarkIcon } from '@heroicons/react/20/solid'
-import { notEmpty } from '@utils/typescript'
+import { notEmpty } from '@lib/utils/typescript'
 import { formatDistanceToNow } from 'date-fns'
 import React from 'react'
 import BrandFilesForm from './BrandFilesForm'

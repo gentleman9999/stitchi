@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import { BlogPostJsonLDArticleFragment } from '@generated/BlogPostJsonLDArticleFragment'
 import routes from '@lib/routes'
-import makeAbsoluteUrl from '@utils/get-absolute-url'
+import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { ArticleJsonLd, ArticleJsonLdProps } from 'next-seo'
 import React from 'react'
 

@@ -1,6 +1,6 @@
 import { Heading, Node } from 'datocms-structured-text-utils'
 import { render as toPlainText } from 'datocms-structured-text-to-plain-text'
-import { anchorTagFromNode } from '@utils/structured-text'
+import { anchorTagFromNode } from '@lib/utils/structured-text'
 
 const listItem = (node: Node) =>
   `<li><a name="${anchorTagFromNode(node)}" href="#${anchorTagFromNode(

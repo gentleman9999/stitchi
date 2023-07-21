@@ -3,13 +3,16 @@ import React from 'react'
 import * as Dropdown from '@radix-ui/react-dropdown-menu'
 import { gql, useQuery } from '@apollo/client'
 import { OrganizationDropdownGetDataQuery } from '@generated/OrganizationDropdownGetDataQuery'
-import useSetUserMembership from '@hooks/useSetUserMembership'
+import useSetUserMembership from '@components/hooks/useSetUserMembership'
+import { PlusIcon } from '@heroicons/react/20/solid'
+import { useStandout } from '@components/context'
 
 interface Props {
   renderTrigger: () => React.ReactNode
 }
 
 const OrganizationDropdown = (props: Props) => {
+  const { setStandout } = useStandout()
   const [setMembership] = useSetUserMembership()
   const { data } = useQuery<OrganizationDropdownGetDataQuery>(GET_DATA)
 
@@ -26,7 +29,6 @@ const OrganizationDropdown = (props: Props) => {
       <Dropdown.Trigger className="outline-none">
         {props.renderTrigger()}
       </Dropdown.Trigger>
-      {/* <Dropdown.Portal> */}
       <Dropdown.Content
         side="bottom"
         sideOffset={6}
@@ -47,8 +49,17 @@ const OrganizationDropdown = (props: Props) => {
             </Item>
           ) : null
         })}
+        <Item
+          onClick={() => setStandout({ type: 'organization_create' })}
+          icon={
+            <div className="w-5 h-5 bg-paper rounded-sm">
+              <PlusIcon className="w-5 h-5" />
+            </div>
+          }
+        >
+          New account
+        </Item>
       </Dropdown.Content>
-      {/* </Dropdown.Portal> */}
     </Dropdown.Root>
   )
 }
@@ -56,9 +67,11 @@ const OrganizationDropdown = (props: Props) => {
 const Item = ({
   children,
   onClick,
+  icon,
 }: {
   children: React.ReactNode
   onClick: () => void
+  icon?: React.ReactNode
 }) => {
   return (
     <Dropdown.Item asChild>
@@ -66,7 +79,7 @@ const Item = ({
         onClick={onClick}
         className=" hover:bg-gray-50 py-1 px-2 rounded-md flex-1 flex items-center gap-2 outline-none"
       >
-        <div className="w-5 h-5 bg-gray-100 rounded-sm" />
+        <div className="w-5 h-5 bg-gray-100 rounded-sm">{icon}</div>
         {children}
       </button>
     </Dropdown.Item>

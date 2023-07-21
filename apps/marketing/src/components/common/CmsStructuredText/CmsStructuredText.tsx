@@ -8,7 +8,7 @@ import { CmsStructuredTextGlossaryDescriptionFragment } from '@generated/CmsStru
 import { CmsStructuredTextPrivacyPolicyContentFragment } from '@generated/CmsStructuredTextPrivacyPolicyContentFragment'
 import { CmsStructuredTextTermsOfUseContentFragment } from '@generated/CmsStructuredTextTermsOfUseContentFragment'
 import routes from '@lib/routes'
-import { anchorTagFromNode } from '@utils/structured-text'
+import { anchorTagFromNode } from '@lib/utils/structured-text'
 import { isLink, isHeading } from 'datocms-structured-text-utils'
 import Link from 'next/link'
 import { StructuredText, renderNodeRule } from 'react-datocms'
