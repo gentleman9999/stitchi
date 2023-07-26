@@ -6,11 +6,7 @@ import * as yup from 'yup'
 
 export enum NotificationRecordType {
   ORDER_CONFIRMED = 'ORDER_CONFIRMED',
-}
-
-export enum NotificationRecordSendStatus {
-  NOT_SENT = 'NOT_SENT',
-  SENT = 'SENT',
+  DESIGN_REQUEST_SUBMITTED = 'DESIGN_REQUEST_SUBMITTED',
 }
 
 export const Notification: yup.ObjectSchema<NotificationSchema> = yup
@@ -19,17 +15,13 @@ export const Notification: yup.ObjectSchema<NotificationSchema> = yup
     id: yup.string().uuid().required(),
     userId: yup.string().nullable().defined(),
     organizationId: yup.string().uuid().nullable().defined(),
-    notificationEmailId: yup.string().uuid().nullable().defined(),
+
     type: yup
       .mixed<NotificationRecordType>()
       .oneOf(Object.values(NotificationRecordType))
       .required(),
-    sendStatus: yup
-      .mixed<NotificationRecordSendStatus>()
-      .oneOf(Object.values(NotificationRecordSendStatus))
-      .required(),
 
-    sendAt: yup.date().optional().defined(),
+    sentAt: yup.date().optional().defined(),
 
     createdAt: yup.date().required(),
     updatedAt: yup.date().required(),

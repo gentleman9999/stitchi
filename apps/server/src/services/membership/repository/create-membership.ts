@@ -50,6 +50,8 @@ const makeCreateMembership: MakeCreateMembershipFn =
           role: validInput.role,
           invitedEmail: validInput.invitedEmail,
           invitedName: validInput.invitedName,
+          membershipNotificationSettingId:
+            validInput.membershipNotificationSettingId,
         },
       })
     } catch (error) {

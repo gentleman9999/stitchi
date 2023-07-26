@@ -5,12 +5,15 @@ import {
   makeProductVariant,
   ProductVariant,
   Brand,
+  makeCategory,
+  Category,
 } from './serialize'
 
 export type {
   Product as BigCommerceProduct,
   ProductVariant as BigCommerceProductVariant,
   Brand as BigCommerceBrand,
+  Category as BigCommerceCategory,
 }
 
 export interface BigCommerceClient {
@@ -23,6 +26,8 @@ export interface BigCommerceClient {
     productEntityId: number
   }) => Promise<ProductVariant[]>
   getBrand: (input: { brandEntityId: number }) => Promise<Brand>
+
+  listProductCategories: (input: { parentId?: number }) => Promise<Category[]>
 }
 
 interface BigCommerceClientConfig {}
@@ -123,6 +128,27 @@ const makeClient = (
         })
 
         throw new Error('Failed to get brand')
+      }
+    },
+    listProductCategories: async input => {
+      try {
+        const params = input.parentId ? `?parent_id=${input.parentId}` : ''
+
+        const res = await bigCommerceClient(`/catalog/categories${params}`)
+
+        const { data, errors } = await res.json()
+
+        if (errors) {
+          console.error(errors)
+        }
+
+        return data.map(makeCategory)
+      } catch (error) {
+        console.error(`Failed to get categories`, {
+          context: { error },
+        })
+
+        throw new Error('Failed to get categories')
       }
     },
   }

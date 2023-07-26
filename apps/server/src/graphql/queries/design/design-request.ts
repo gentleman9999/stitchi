@@ -63,6 +63,19 @@ export const MembershipDesignRequestsFilterInput = inputObjectType({
 export const DesignRequestsExtendsMembership = extendType({
   type: 'Membership',
   definition(t) {
+    t.nonNull.boolean('hasDesignRequests', {
+      resolve: async (parent, _, { design }) => {
+        const designRequests = await design.listDesignRequests({
+          where: {
+            organizationId: parent.organizationId,
+            userId: parent.userId,
+          },
+          take: 1,
+        })
+
+        return designRequests.length > 0
+      },
+    })
     t.nonNull.connectionField('designRequests', {
       type: 'DesignRequest',
       additionalArgs: {

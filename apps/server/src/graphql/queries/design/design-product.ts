@@ -198,6 +198,19 @@ export const MembershipDesignProductsFilterInput = inputObjectType({
 export const DesignProductExtendsMembership = extendType({
   type: 'Membership',
   definition(t) {
+    t.nonNull.boolean('hasDesignProducts', {
+      resolve: async (parent, _, ctx) => {
+        const designProducts = await ctx.design.listDesigns({
+          where: {
+            organizationId: parent.organizationId,
+            userId: parent.userId,
+          },
+          take: 1,
+        })
+
+        return designProducts.length > 0
+      },
+    })
     t.nonNull.connectionField('designProducts', {
       type: 'DesignProduct',
       additionalArgs: {

@@ -1,6 +1,6 @@
 import { makeCreateColor } from './create-color'
 import { makeGetColor } from './get-color'
-import { makeListColors } from './list-color'
+import { makeListColors } from './list-colors'
 import { makeUpdateColor } from './update-color'
 
 export interface ColorRepositoryInit {}

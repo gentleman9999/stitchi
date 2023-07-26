@@ -66,9 +66,15 @@ const brandSchema = yup.object().shape({
   }),
 })
 
+const categorySchema = yup.object().shape({
+  id: yup.number().required(),
+  name: yup.string().required(),
+})
+
 export type Product = yup.InferType<typeof productSchema>
 export type ProductVariant = yup.InferType<typeof productVariantSchema>
 export type Brand = yup.InferType<typeof brandSchema>
+export type Category = yup.InferType<typeof categorySchema>
 
 export const makeProduct = (data: any): Product => {
   return productSchema.validateSync(data)
@@ -80,4 +86,8 @@ export const makeProductVariant = (data: any): ProductVariant => {
 
 export const makeBrand = (data: any): Brand => {
   return brandSchema.validateSync(data)
+}
+
+export const makeCategory = (data: any): Category => {
+  return categorySchema.validateSync(data)
 }

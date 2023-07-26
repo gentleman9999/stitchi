@@ -1,8 +1,11 @@
 import { MembershipFactoryMembership } from './factory/membership'
 import makeMembershipRepository, { MembershipRepository } from './repository'
+import { CreateMembershipFnInput } from './repository/create-membership'
 
 export interface MembershipService {
-  createMembership: MembershipRepository['createMembership']
+  createMembership: (
+    input: Omit<CreateMembershipFnInput, 'membershipNotificationSettingId'>,
+  ) => Promise<MembershipFactoryMembership>
   getMembership: MembershipRepository['getMembership']
   listMemberships: MembershipRepository['listMemberships']
 
@@ -15,6 +18,9 @@ export interface MembershipService {
     membershipId: string
     organizationId: string
   }) => Promise<MembershipFactoryMembership>
+
+  getMembershipNotificationSetting: MembershipRepository['getMembershipNotificationSetting']
+  updateMembershipNotificationSetting: MembershipRepository['updateMembershipNotificationSetting']
 }
 
 interface MakeClientParams {
@@ -30,10 +36,39 @@ const makeClient: MakeClientFn = (
 ) => {
   return {
     createMembership: async input => {
+      let membershipNotificationSetting
+
+      try {
+        membershipNotificationSetting =
+          await membershipRepository.createMembershipNotificationSetting({
+            membershipNotificationSetting: {
+              emailNotificationsEnabled: true,
+              smsNotificationsEnabled: true,
+              webNotificationsEnabled: true,
+            },
+          })
+      } catch (error) {
+        console.error(
+          `Error creating membership notification setting for organization: ${input.membership.organizationId}`,
+          {
+            context: {
+              error,
+              input,
+            },
+          },
+        )
+        throw new Error('Failed to create memberhsip notification setting')
+      }
+
       let membership
 
       try {
-        membership = await membershipRepository.createMembership(input)
+        membership = await membershipRepository.createMembership({
+          membership: {
+            ...input.membership,
+            membershipNotificationSettingId: membershipNotificationSetting.id,
+          },
+        })
       } catch (error) {
         console.error(
           `Error creating membership for organization: ${input.membership.organizationId}`,
@@ -44,7 +79,7 @@ const makeClient: MakeClientFn = (
             },
           },
         )
-        throw error
+        throw new Error('Failed to create membership')
       }
 
       return membership
@@ -210,6 +245,50 @@ const makeClient: MakeClientFn = (
       }
 
       return membership
+    },
+
+    getMembershipNotificationSetting: async input => {
+      let membershipNotificationSetting
+
+      try {
+        membershipNotificationSetting =
+          await membershipRepository.getMembershipNotificationSetting(input)
+      } catch (error) {
+        console.error(
+          `Error getting membership notification setting: ${input.membershipNotificationSettingId}`,
+          {
+            context: {
+              error,
+              input,
+            },
+          },
+        )
+        throw error
+      }
+
+      return membershipNotificationSetting
+    },
+
+    updateMembershipNotificationSetting: async input => {
+      let membershipNotificationSetting
+
+      try {
+        membershipNotificationSetting =
+          await membershipRepository.updateMembershipNotificationSetting(input)
+      } catch (error) {
+        console.error(
+          `Error updating membership notification setting: ${input.membershipNotificationSetting.id}`,
+          {
+            context: {
+              error,
+              input,
+            },
+          },
+        )
+        throw error
+      }
+
+      return membershipNotificationSetting
     },
   }
 }

@@ -5,6 +5,8 @@ import {
   CatalogFactoryCatalogProduct,
   catalogFactoryBrand,
   CatalogFactoryBrand,
+  CatalogFactoryCategory,
+  catalogFactoryCategory,
 } from './factory'
 import {
   BigCommerceClient,
@@ -23,6 +25,10 @@ export interface OrderClientService {
     productEntityId: string
   }) => Promise<CatalogFactoryProductVariant[]>
   getBrand: (input: { brandEntityId: string }) => Promise<CatalogFactoryBrand>
+
+  listProductCategories: (input: {
+    parentId?: string
+  }) => Promise<CatalogFactoryCategory[]>
 }
 
 interface MakeClientParams {
@@ -106,6 +112,24 @@ const makeClient: MakeClientFn = (
           context: { error, brandEntityId: input.brandEntityId },
         })
         throw new Error('Failed to get brand')
+      }
+    },
+    listProductCategories: async input => {
+      try {
+        const productCategories = await bigCommerceClient.listProductCategories(
+          {
+            parentId: input.parentId ? parseInt(input.parentId) : undefined,
+          },
+        )
+
+        return productCategories.map(productCategory =>
+          catalogFactoryCategory({ bigCommerceCategory: productCategory }),
+        )
+      } catch (error) {
+        console.error(`Failed to get categories`, {
+          context: { error },
+        })
+        throw new Error('Failed to get categories')
       }
     },
   }

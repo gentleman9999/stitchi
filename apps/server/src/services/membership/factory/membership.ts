@@ -14,6 +14,8 @@ const membershipFactory = ({
     userId: membershipRecord.userId,
     invitedName: membershipRecord.invitedName,
     invitedEmail: membershipRecord.invitedEmail,
+    membershipNotificationSettingId:
+      membershipRecord.membershipNotificationSettingId,
 
     createdAt: membershipRecord.createdAt,
     updatedAt: membershipRecord.updatedAt,

@@ -303,7 +303,7 @@ export interface NexusGenEnums {
   OrderPaymentStatus: "NOT_PAID" | "PAID" | "PARTIALLY_PAID" | "PARTIALLY_REFUNDED" | "REFUNDED"
   OrderType: "CART" | "CONFIRMED"
   ScopeAction: "CREATE" | "DELETE" | "READ" | "UPDATE"
-  ScopeResource: "DesignProduct" | "DesignProof" | "DesignRequestRevisionRequest" | "Integration" | "Order"
+  ScopeResource: "DesignProduct" | "DesignProof" | "DesignRequestRevisionRequest" | "Integration" | "Membership" | "Order"
 }
 
 export interface NexusGenScalars {
@@ -320,6 +320,12 @@ export interface NexusGenObjects {
     id: string; // ID!
     name: string; // String!
     slug: string; // String!
+  }
+  CatalogCategory: { // root type
+    bigCommerceEntityId: string; // ID!
+    description?: string | null; // String
+    name: string; // String!
+    subcategories?: NexusGenRootTypes['CatalogCategory'] | null; // CatalogCategory
   }
   CatalogProduct: { // root type
     brandId?: string | null; // ID
@@ -833,6 +839,12 @@ export interface NexusGenFieldTypes {
     name: string; // String!
     slug: string; // String!
   }
+  CatalogCategory: { // field return type
+    bigCommerceEntityId: string; // ID!
+    description: string | null; // String
+    name: string; // String!
+    subcategories: NexusGenRootTypes['CatalogCategory'] | null; // CatalogCategory
+  }
   CatalogProduct: { // field return type
     brand: NexusGenRootTypes['CatalogBrand'] | null; // CatalogBrand
     brandId: string | null; // ID
@@ -1177,6 +1189,8 @@ export interface NexusGenFieldTypes {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     designProducts: NexusGenRootTypes['DesignProductConnection']; // DesignProductConnection!
     designRequests: NexusGenRootTypes['DesignRequestConnection']; // DesignRequestConnection!
+    hasDesignProducts: boolean; // Boolean!
+    hasDesignRequests: boolean; // Boolean!
     hasOrders: boolean; // Boolean!
     humanizedRole: string | null; // String
     id: string; // ID!
@@ -1436,6 +1450,12 @@ export interface NexusGenFieldTypeNames {
     id: 'ID'
     name: 'String'
     slug: 'String'
+  }
+  CatalogCategory: { // field return type name
+    bigCommerceEntityId: 'ID'
+    description: 'String'
+    name: 'String'
+    subcategories: 'CatalogCategory'
   }
   CatalogProduct: { // field return type name
     brand: 'CatalogBrand'
@@ -1781,6 +1801,8 @@ export interface NexusGenFieldTypeNames {
     createdAt: 'DateTime'
     designProducts: 'DesignProductConnection'
     designRequests: 'DesignRequestConnection'
+    hasDesignProducts: 'Boolean'
+    hasDesignRequests: 'Boolean'
     hasOrders: 'Boolean'
     humanizedRole: 'String'
     id: 'ID'

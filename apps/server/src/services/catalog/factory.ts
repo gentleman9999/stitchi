@@ -1,5 +1,6 @@
 import {
   BigCommerceBrand,
+  BigCommerceCategory,
   BigCommerceProduct,
   BigCommerceProductVariant,
 } from '../../bigcommerce'
@@ -116,3 +117,21 @@ export {
   productVariantFactory,
   catalogFactoryBrand,
 }
+
+export interface CatalogFactoryCategory {
+  id: string
+  name: string
+}
+
+const catalogFactoryCategory = ({
+  bigCommerceCategory,
+}: {
+  bigCommerceCategory: BigCommerceCategory
+}): CatalogFactoryCategory => {
+  return {
+    id: bigCommerceCategory.id.toString(),
+    name: bigCommerceCategory.name,
+  }
+}
+
+export { catalogFactoryCategory }

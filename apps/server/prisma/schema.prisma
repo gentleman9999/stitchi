@@ -67,6 +67,7 @@ model Organization {
   activeUserMemberships ActiveUserMembership[]
   organizationFiles     OrganizationFile[]
   organizationColors    OrganizationColor[]
+  notifications         Notification[]
 }
 
 // The owners of the SaaS (you) can have a SUPERADMIN role to access all data
@@ -119,13 +120,16 @@ model Membership {
 
   userId String
 
+  membershipNotificationSettingId String @unique
+
   // When the user joins, we will clear out the name and email and set the user.
   invitedName  String?
   invitedEmail String?
 
-  createdAt             DateTime               @default(now())
-  updatedAt             DateTime               @updatedAt
-  activeUserMemberships ActiveUserMembership[]
+  createdAt                     DateTime                      @default(now())
+  updatedAt                     DateTime                      @updatedAt
+  activeUserMemberships         ActiveUserMembership[]
+  membershipNotificationSetting MembershipNotificationSetting @relation(fields: [membershipNotificationSettingId], references: [id])
 
   @@unique([organizationId, invitedEmail])
   @@unique([organizationId, userId, role])
@@ -147,6 +151,16 @@ model ActiveUserMembership {
 enum MembershipRole {
   OWNER
   STITCHI_DESIGNER
+}
+
+model MembershipNotificationSetting {
+  id String @id @default(uuid())
+
+  emailNotificationsEnabled Boolean @default(true)
+  smsNotificationsEnabled   Boolean @default(true)
+  webNotificationsEnabled   Boolean @default(true)
+
+  membership Membership?
 }
 
 model Order {
@@ -744,45 +758,90 @@ model Notification {
   // The organization that this notification belongs to
   organizationId String?
 
-  notificationEmailId String?
-  NotificationEmail   NotificationEmail? @relation(fields: [notificationEmailId], references: [id], onUpdate: NoAction)
+  notificationGroupId String?
 
-  sendAt DateTime?
+  sentAt DateTime?
 
   // The type of notification
   type NotificationType
 
   // The status of the notification
-  sendStatus NotificationSendStatus @default(NOT_SENT)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([notificationEmailId])
+  notificationGroup    NotificationGroup?    @relation(fields: [notificationGroupId], references: [id])
+  notificationChannels NotificationChannel[]
+  organization         Organization?         @relation(fields: [organizationId], references: [id])
+
+  @@index([userId])
+  @@index([organizationId])
+  @@index([notificationGroupId])
+}
+
+model NotificationChannel {
+  id String @id @default(uuid())
+
+  notificationId String
+  childId        String @unique
+
+  type NotificationChannelType
+
+  notification Notification              @relation(fields: [notificationId], references: [id])
+  sms          NotificationChannelSms?   @relation(fields: [childId], references: [id], map: "sms_childId")
+  email        NotificationChannelEmail? @relation(fields: [childId], references: [id], map: "email_childId")
+  web          NotificationChannelWeb?   @relation(fields: [childId], references: [id], map: "web_childId")
+
+  @@unique([notificationId, type])
+  @@index([childId])
+}
+
+enum NotificationChannelType {
+  SMS
+  EMAIL
+  WEB
+}
+
+model NotificationChannelSms {
+  id String @id @default(uuid())
+
+  message             String               @db.Text
+  notificationChannel NotificationChannel?
+}
+
+model NotificationChannelEmail {
+  id String @id @default(uuid())
+
+  subject  String
+  htmlBody String  @db.Text
+  textBody String? @db.Text
+
+  recipientEmail      String
+  recipientName       String?
+  notificationChannel NotificationChannel?
+}
+
+model NotificationChannelWeb {
+  id String @id @default(uuid())
+
+  message             String               @db.Text
+  notificationChannel NotificationChannel?
 }
 
 enum NotificationType {
   ORDER_CONFIRMED
+  DESIGN_REQUEST_SUBMITTED
 }
 
-enum NotificationSendStatus {
-  NOT_SENT
-  SENT
-}
-
-model NotificationEmail {
+model NotificationGroup {
   id String @id @default(uuid())
 
-  subject String
+  type NotificationType
 
-  htmlBody String @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  textBody String? @db.Text
-
-  recipientEmail String
-  recipientName  String?
-
-  Notification Notification[]
+  notifications Notification[]
 }
 
 model Conversation {

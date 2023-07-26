@@ -17,6 +17,8 @@ export const Membership: yup.ObjectSchema<MembershipSchema> = yup
       .oneOf(Object.values(MembershipRecordRole))
       .required(),
 
+    membershipNotificationSettingId: yup.string().uuid().required(),
+
     invitedName: yup.string().nullable().defined(),
     invitedEmail: yup.string().email().nullable().defined(),
 
