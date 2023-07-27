@@ -34,7 +34,7 @@ const ClosetDesignIndexPage = ({}: Props) => {
       <ClosetPageContainer>
         <ClosetPageHeader>
           <ClosetPageTitle
-            title="Designs"
+            title="Design"
             actions={
               <ClosetPageActions
                 actions={[

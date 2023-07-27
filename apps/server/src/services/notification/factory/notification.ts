@@ -23,7 +23,7 @@ interface NotificationFactoryNotificationChannelWeb
   type: NotificationChannelType.WEB
 }
 
-type NotificationFactoryNotificationChannel =
+export type NotificationFactoryNotificationChannel =
   | NotificationFactoryNotificationChannelSms
   | NotificationFactoryNotificationChannelEmail
   | NotificationFactoryNotificationChannelWeb

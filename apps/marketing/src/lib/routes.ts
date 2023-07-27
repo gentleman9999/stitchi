@@ -81,6 +81,20 @@ const routes = {
           )
         },
       },
+
+      wizard: {
+        welcome: {
+          href: () => buildRoute('/catalog/wizard/welcome'),
+        },
+        categories: {
+          href: () => buildRoute('/catalog/wizard/categories'),
+
+          styles: {
+            href: ({ categoryId }: { categoryId: string }) =>
+              buildRoute(`/catalog/wizard/categories/${categoryId}/styles`),
+          },
+        },
+      },
     },
     order: {
       show: {
@@ -191,8 +205,20 @@ const routes = {
     closet: {
       href: () => buildRoute('/closet'),
 
+      inbox: {
+        href: () => buildRoute('/closet/inbox'),
+      },
+
+      integrations: {
+        href: () => buildRoute('/closet/integrations'),
+      },
+
       orders: {
         href: () => buildRoute('/closet/orders'),
+      },
+
+      inventory: {
+        href: () => buildRoute('/closet/inventory'),
       },
 
       designs: {
@@ -219,7 +245,7 @@ const routes = {
           buildRoute('/closet/design-requests', params),
 
         create: {
-          href: () => buildRoute('/closet/design-requests/new'),
+          href: () => buildRoute('/catalog/wizard'),
         },
 
         show: {

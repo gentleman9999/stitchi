@@ -1,5 +1,4 @@
 import ComponentErrorMessage from '@components/common/ComponentErrorMessage'
-import { Button } from '@components/ui'
 import DateInput from '@components/ui/inputs/Date'
 import Select from '@components/ui/inputs/Select'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -9,6 +8,7 @@ import { zonedTimeToUtc } from 'date-fns-tz'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import Button from '@components/ui/ButtonV2/Button'
 
 export enum Equality {
   EQUALS = 'equals',
@@ -120,7 +120,7 @@ const DateEquality = (props: Props) => {
   })
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
       {/* Register all filter fields */}
       <input hidden readOnly {...form.register('gte')} />
       <input hidden readOnly {...form.register('lte')} />
@@ -198,9 +198,7 @@ const DateEquality = (props: Props) => {
           .join(', ')}
       />
 
-      <Button slim type="submit" color="brandPrimary">
-        Apply
-      </Button>
+      <Button type="submit">Apply</Button>
     </form>
   )
 }

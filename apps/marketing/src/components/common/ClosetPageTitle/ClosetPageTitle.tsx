@@ -2,6 +2,7 @@ import React from 'react'
 
 export interface Props {
   title: React.ReactNode
+  description?: React.ReactNode
   actions?: React.ReactNode
 }
 
@@ -13,6 +14,10 @@ const ClosetPageTitle = (props: Props) => {
           <h1 className="text-3xl font-medium font-heading text-gray-800">
             {props.title}
           </h1>
+
+          {props.description && (
+            <p className="text-gray-500 mt-1">{props.description}</p>
+          )}
         </div>
 
         {props.actions}

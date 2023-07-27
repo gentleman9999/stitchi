@@ -19,19 +19,21 @@ export interface Props {
 
 const UserFilter = (props: Props) => {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col">
       <button
         onClick={() => props.onChange(null)}
-        className="flex items-center gap-2 text-sm justify-between hover:bg-primary p-1 rounded-sm"
+        className="flex items-center gap-2 text-sm justify-between hover:bg-primary p-1.5 rounded-md"
       >
         Any owner
+        {/* Makes up for avatar height */}
+        <div className="h-6" />
       </button>
       {props.users.map((user, idx) => (
         <button
           key={user.id}
           onClick={() => props.onChange(user.id)}
           className={cx(
-            'flex items-center gap-2 text-sm justify-between hover:bg-primary p-1 rounded-sm',
+            'flex items-center gap-2 text-sm justify-between hover:bg-primary p-1.5 rounded-md',
             {
               'font-bold': idx === 1,
             },

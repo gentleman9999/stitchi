@@ -1,8 +1,10 @@
 import { gql, useQuery } from '@apollo/client'
+import ClosetPageEmptyState from '@components/common/ClosetPageEmptyState'
 import {
   ClosetTabDesignRequestsGetDataQuery,
   ClosetTabDesignRequestsGetDataQueryVariables,
 } from '@generated/ClosetTabDesignRequestsGetDataQuery'
+import routes from '@lib/routes'
 import { notEmpty } from '@lib/utils/typescript'
 import React from 'react'
 import CardGrid from '../CardGrid'
@@ -52,7 +54,21 @@ const ClosetTabDesignRequests = ({}: Props) => {
       ?.map(edge => edge?.node)
       .filter(notEmpty) || []
 
-  return (
+  return !loading && !data?.viewer?.hasDesignRequests ? (
+    <ClosetPageEmptyState
+      title="You haven't submitted a design request yet."
+      description="Submit a design request to begin your merch journey."
+      cta={{
+        label: 'New design request',
+        href: routes.internal.closet.designRequests.create.href(),
+      }}
+    />
+  ) : !loading && !designRequests?.length ? (
+    <ClosetPageEmptyState
+      title="No design requests match your filters."
+      description="Try adjusting your filters or resetting them to see more designs."
+    />
+  ) : (
     <CardGrid>
       {designRequests.map(designRequest => (
         <ClosetDesignIndexPageDesignRequestCard
@@ -73,6 +89,7 @@ const GET_DATA = gql`
   ) {
     viewer {
       id
+      hasDesignRequests
       designRequests(first: $first, after: $after, filter: $filter) {
         edges {
           node {

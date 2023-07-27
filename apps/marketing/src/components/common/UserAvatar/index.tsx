@@ -30,7 +30,7 @@ const UserAvatar = (props: Props) => {
     <img
       src={user.picture || undefined}
       alt={user.name || 'avatar'}
-      className={`${width} ${height} relative flex-none rounded-full bg-gray-50`}
+      className={`${width} ${height} relative flex-none rounded-full bg-gray-50 object-cover`}
     />
   )
 }

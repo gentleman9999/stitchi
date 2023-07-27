@@ -11,13 +11,14 @@ import React from 'react'
 import { useCloset } from '../closet-context'
 import ClosetDesignIndexPageApprovedDesignCard from '../ClosetDesignIndexPageApprovedDesignCard'
 import Carousel from './Carousel'
+import EmptyState from './EmptyState'
 
 interface Props {}
 
 const ClosetTabApprovedDesignRequests = ({}: Props) => {
   const { filters } = useCloset()
 
-  const { data, refetch } = useQuery<
+  const { data, loading, refetch } = useQuery<
     ClosetTabApprovedDesignRequestGetDataQuery,
     ClosetTabApprovedDesignRequestGetDataQueryVariables
   >(GET_DATA, {
@@ -49,10 +50,10 @@ const ClosetTabApprovedDesignRequests = ({}: Props) => {
     })
   }, [filters, refetch])
 
+  const { viewer } = data || {}
+
   const designProducts =
-    data?.viewer?.designProducts.edges
-      ?.map(edge => edge?.node)
-      .filter(notEmpty) || []
+    viewer?.designProducts.edges?.map(edge => edge?.node).filter(notEmpty) || []
 
   return (
     <ClosetSection>
@@ -60,15 +61,19 @@ const ClosetTabApprovedDesignRequests = ({}: Props) => {
         <ClosetSectionTitle title="Approved Designs" />
       </ClosetSectionHeader>
 
-      <Carousel>
-        <div className="flex gap-6">
-          {designProducts.map(design => (
-            <div key={design.id} className="w-[230px] shrink-0 flex">
-              <ClosetDesignIndexPageApprovedDesignCard design={design} />
-            </div>
-          ))}
-        </div>
-      </Carousel>
+      {loading || designProducts.length ? (
+        <Carousel>
+          <div className="flex gap-6">
+            {designProducts.map(design => (
+              <div key={design.id} className="w-[230px] shrink-0 flex">
+                <ClosetDesignIndexPageApprovedDesignCard design={design} />
+              </div>
+            ))}
+          </div>
+        </Carousel>
+      ) : (
+        <EmptyState />
+      )}
     </ClosetSection>
   )
 }
@@ -82,6 +87,7 @@ const GET_DATA = gql`
   ) {
     viewer {
       id
+      hasDesignProducts
       designProducts(first: $first, after: $after, filter: $filter) {
         edges {
           node {

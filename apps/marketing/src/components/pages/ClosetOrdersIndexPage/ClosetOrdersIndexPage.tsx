@@ -1,5 +1,4 @@
 import { gql, useQuery } from '@apollo/client'
-import { Container } from '@components/ui'
 import {
   ClosetOrdersIndexPageGetDataQuery,
   ClosetOrdersIndexPageGetDataQueryVariables,
@@ -9,7 +8,11 @@ import { notEmpty } from '@lib/utils/typescript'
 import ClosetOrdersDesktopTable from './ClosetOrdersDesktopTable'
 import ClosetOrdersMobileTable from './ClosetOrdersMobileTable'
 import ClosetOrdersTableFilters from './ClosetOrdersTableFilters'
-import { MembershipOrdersFilterInput } from '@generated/globalTypes'
+import {
+  MembershipOrdersFilterInput,
+  ScopeAction,
+  ScopeResource,
+} from '@generated/globalTypes'
 import { useDebouncedCallback } from 'use-debounce'
 import { useQueryState } from 'next-usequerystate'
 import ClosetPageTitle from '@components/common/ClosetPageTitle'
@@ -19,10 +22,17 @@ import ClosetPageEmptyState from '@components/common/ClosetPageEmptyState'
 import TableZeroState from '@components/ui/Table/TableZeroState'
 import Table from '@components/ui/Table/Table'
 import ClosetPageActions from '@components/common/ClosetPageActions'
+import ClosetPageHeader from '@components/common/ClosetPageHeader'
+import ClosetSection from '@components/common/ClosetSection'
+import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
+import ClosetSectionHeaderTabs from '@components/common/ClosetSectionHeaderTabs'
+import { useAuthorizedComponent } from '@lib/auth'
 
 interface Props {}
 
 const ClosetOrdersIndexPage = (props: Props) => {
+  const { can, loading: authorizationLoading } = useAuthorizedComponent()
+
   const [filter, setFilter] = useQueryState<
     MembershipOrdersFilterInput | undefined
   >('filter', {
@@ -78,59 +88,90 @@ const ClosetOrdersIndexPage = (props: Props) => {
 
   return (
     <ClosetPageContainer>
-      <ClosetPageTitle
-        title="Your orders"
-        actions={
-          <ClosetPageActions
-            actions={[
-              {
-                label: 'New order',
-                primary: true,
-                href: routes.internal.catalog.href(),
-              },
-            ]}
-          />
-        }
-      />
-
-      {!loading && !hasOrders ? (
-        <ClosetPageEmptyState
-          title="Start your first order"
-          description="Placing an order sends your products to production."
-          cta={{
-            label: 'Start order',
-            href: routes.internal.catalog.href(),
-          }}
+      <ClosetPageHeader>
+        <ClosetPageTitle
+          title="Fulfill"
+          description=""
+          actions={
+            <ClosetPageActions
+              actions={[
+                {
+                  label: 'New order',
+                  primary: true,
+                  href: routes.internal.catalog.href(),
+                },
+              ]}
+            />
+          }
         />
-      ) : (
-        <>
-          <ClosetOrdersTableFilters
-            onChange={value => {
-              const { date, ...rest } = value
+      </ClosetPageHeader>
 
-              const { equality, ...dateRest } = date || {}
+      <ClosetSection
+        tabs={[
+          // {
+          //   id: 'inventory',
+          //   label: 'Inventory',
+          //   href: routes.internal.closet.inventory.href(),
+          // },
+          {
+            id: 'orders',
+            label: 'Orders',
+            href: routes.internal.closet.orders.href(),
+          },
+          // ...(can(ScopeResource.Integration, ScopeAction.READ)
+          //   ? [
+          //       {
+          //         id: 'integrations',
+          //         label: 'Integrations',
+          //         href: routes.internal.closet.integrations.href(),
+          //       },
+          //     ]
+          //   : []),
+        ]}
+      >
+        <ClosetSectionHeader>
+          <ClosetSectionHeaderTabs />
+        </ClosetSectionHeader>
 
-              handleChange({ where: { ...rest, createdAt: dateRest } })
+        {!loading && !hasOrders ? (
+          <ClosetPageEmptyState
+            title="Start your first order"
+            description="Placing an order sends your products to production."
+            cta={{
+              label: 'Start order',
+              href: routes.internal.catalog.href(),
             }}
           />
+        ) : (
+          <>
+            <ClosetOrdersTableFilters
+              onChange={value => {
+                const { date, ...rest } = value
 
-          <Table loading={loading}>
-            {!orders.length ? (
-              <TableZeroState />
-            ) : (
-              <>
-                <div className="hidden md:block">
-                  <ClosetOrdersDesktopTable {...tableProps} />
-                </div>
+                const { equality, ...dateRest } = date || {}
 
-                <div className="md:hidden">
-                  <ClosetOrdersMobileTable {...tableProps} />
-                </div>
-              </>
-            )}
-          </Table>
-        </>
-      )}
+                handleChange({ where: { ...rest, createdAt: dateRest } })
+              }}
+            />
+
+            <Table loading={loading}>
+              {!orders.length ? (
+                <TableZeroState />
+              ) : (
+                <>
+                  <div className="hidden md:block">
+                    <ClosetOrdersDesktopTable {...tableProps} />
+                  </div>
+
+                  <div className="md:hidden">
+                    <ClosetOrdersMobileTable {...tableProps} />
+                  </div>
+                </>
+              )}
+            </Table>
+          </>
+        )}
+      </ClosetSection>
     </ClosetPageContainer>
   )
 }

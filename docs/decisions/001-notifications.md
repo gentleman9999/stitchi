@@ -15,7 +15,7 @@ Notifications are a mechanism used by our app to comunicate with a user when a s
     - order.created.artist  (someone placed an order with your design)
     - order.created.fulfillment (order placed)
 
-3. Retrieve each user's notification preferences.
+3. Retrieve each receiver's notification preferences.
     - User notification preferences are checked to identify the preferred delivery mechanism(s) for the notification (in-app, email, SMS, or a combination of these).
 
 4. Schedule the notifications.
@@ -39,66 +39,79 @@ Notifications are a mechanism used by our app to comunicate with a user when a s
 ```ts
 // order-service/update-order.ts
 
-const updateOrder = () => {
+const createOrder = () => {
     // ...
-    events.emit('order.updated', {
-        prevOrder: {},
-        nextOrder: {},
+    events.emit('order.created', {
+        prevOrder: null,
+        nextOrder: {
+            // ...
+        },
     })
 }
 
 ```
 
 ```ts
-// order-service/events/order-updated.ts
-const handleOrderUpdated = (prevOrder, nextOrder) => {
+// order-service/events/order-created.ts
+const handleOrderCreated = (prevOrder, nextOrder) => {
     if(prevOrder.status !== nextOrder.status) {
-        if(nextOrder.status === 'PAID') {
-            const notificationChannelTemplates = notificationService.listNotificationChannelTemplates({
-                resourceType: NotificationResourceType.ORDER,
-                resourceAction: NotificationResourceAction.CREATED,
-            })
-
-            const notificationChannels = notificationChannelTemplates.map(tempalate => {
-                template.render({
-                    // ...
-                })
-            })
-
-            
-            
+        if(nextOrder.status === 'CREATED') {
+            transitionOrderToCreated()
         }
     }
 }
 ```
 
+```ts
+// order-service/transitions/order-created
+const transitionOrderToCreated = (prevOrder, nextOrder) => {
+    const notificationChannelTemplates = notificationService.listNotificationChannelTemplates({
+                    resourceType: NotificationResourceType.ORDER,
+                    resourceAction: NotificationResourceAction.CREATED,
+                })
+
+    const notificatinnels = notificationChannelTemplates.map(tempalate => {
+        template.render(onCha{
+            order: nextOrder
+        })
+    })
+
+    const notification = await notificationService.createNotification({
+        notification: {
+            resourceType: NotificationResourceType.ORDER,
+            resourceAction: NotificationResourceAction.CREATED,
+            sendAt: new Date(),
+            recipientUserIds: [''],
+            status: NotificationStatus.SCHEDULED, // NotificationStatus.PROCESSING, NotificationStatus.SENT, NotificationStatus.ERROR
+            channels: notificationChannels
+        }
+    })
+
+}
+```
 
 ```ts
-
-
-const notification = await notificationService.createNotification({
-    notification: {
-        resourceType: NotificationResourceType.ORDER,
-        resourceAction: NotificationResourceAction.CREATED,
-        sendAt: new Date(),
-        recipientUserIds: [''],
-        status: NotificationStatus.SCHEDULED, // NotificationStatus.PROCESSING, NotificationStatus.SENT, NotificationStatus.ERROR
-        channels: [{
-            type: NotificationChannel.SMS,
-            message: '',
-            readStatus: false,
-        }, 
-        {
-            type: NotificationChannel.EMAIL,
-            subject: '',
-            body: '',
-            readStatus: false,
-        }, 
-        {
-            type: NotificationChannel.WEB,
-            message: '',
-            readStatus: false
-        }]
+// notification-service/consumers/notification-created.ts
+const handleNotificationCreated = (notification) => {
+    for(const channel of notification.channels) {
+        switch(channel.type) {
+            case NotificationChannelType.EMAIL:
+                notificationService.notificationChannelEmailSend(channel)
+            case NotificationChannelType.SMS:
+                notificationService.notificationChannelSmsSend(channel)
+            case NotificationChannelType.WEB;
+                notificationService.notificationChannelWebSend(channel)
+        }
     }
-})
+}
+```
+
+```ts
+// notification/service/methods/index.ts
+
+const service = {
+    notificationChannelSmsSend: (channel) => {},
+    notificationChannelEmailSend: (channel) => {},
+    notificationChannelWebSend: (channel) => {}
+}
 ```

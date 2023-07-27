@@ -1,26 +1,24 @@
 import type { Template } from '../../../..'
 import { DesignFactoryDesignRequest } from '../../../../../../design/factory'
 
-interface Params {
+export interface Params {
   designRequest: DesignFactoryDesignRequest
 }
 
-const templates = {
-  create: ({ designRequest }: Params): Template => {
-    return {
-      web: {
-        message: '',
-      },
-      email: {
-        htmlBody: '',
-        subject: '',
-        textBody: '',
-      },
-      sms: {
-        body: '',
-      },
-    }
-  },
+const create = ({ designRequest }: Params): Template => {
+  return {
+    web: {
+      message: '',
+    },
+    email: {
+      htmlBody: '',
+      subject: '',
+      textBody: '',
+    },
+    sms: {
+      message: '',
+    },
+  }
 }
 
-export default templates
+export default create

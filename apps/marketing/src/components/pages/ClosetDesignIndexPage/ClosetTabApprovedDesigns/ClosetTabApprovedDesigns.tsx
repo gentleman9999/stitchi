@@ -1,8 +1,10 @@
 import { gql, useQuery } from '@apollo/client'
+import ClosetPageEmptyState from '@components/common/ClosetPageEmptyState'
 import {
   ClosetTabApprovedDesignsGetDataQuery,
   ClosetTabApprovedDesignsGetDataQueryVariables,
 } from '@generated/ClosetTabApprovedDesignsGetDataQuery'
+import routes from '@lib/routes'
 import { notEmpty } from '@lib/utils/typescript'
 import React from 'react'
 import CardGrid from '../CardGrid'
@@ -51,7 +53,21 @@ const ClosetTabApprovedDesigns = ({}: Props) => {
     ?.map(edge => edge?.node)
     .filter(notEmpty)
 
-  return (
+  return !loading && !data?.viewer?.hasDesignProducts ? (
+    <ClosetPageEmptyState
+      title="You don't have any approved designs yet."
+      description="Your approved designs will appear here."
+      cta={{
+        label: 'View design requests',
+        href: routes.internal.closet.designRequests.href(),
+      }}
+    />
+  ) : !loading && !approvedDesigns?.length ? (
+    <ClosetPageEmptyState
+      title="No approved designs match your filters."
+      description="Try adjusting your filters or resetting them to see more designs."
+    />
+  ) : (
     <CardGrid>
       {approvedDesigns?.map(design => (
         <ClosetDesignIndexPageApprovedDesignCard
@@ -72,6 +88,7 @@ const GET_DATA = gql`
   ) {
     viewer {
       id
+      hasDesignProducts
       designProducts(first: $first, after: $after, filter: $filter) {
         edges {
           node {

@@ -13,7 +13,10 @@ const ClosetBrandIndexPage = () => {
     <ClosetPageContainer>
       <div className="max-w-6xl m-auto">
         <ClosetPageHeader>
-          <ClosetPageTitle title="Brand" />
+          <ClosetPageTitle
+            title="Brand"
+            description="Keep on-brand by saving your logos and colors."
+          />
         </ClosetPageHeader>
 
         <ClosetSection>

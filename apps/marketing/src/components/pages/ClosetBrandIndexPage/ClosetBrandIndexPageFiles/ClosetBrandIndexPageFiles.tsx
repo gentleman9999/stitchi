@@ -46,99 +46,101 @@ const ClosetBrandIndexPageFiles = ({}: Props) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 overflow-x-scroll">
-        {files.map(file => (
-          <Card key={file.id}>
-            <CardFloatingActions
-              items={[
-                {
-                  label: 'Delete',
-                  onClick: () => handleDeleteFiles({ fileIds: [file.id] }),
-                  icon: <TrashIcon className="w-full" />,
-                },
-              ]}
-            />
-            {file.__typename === 'FileImage' ? (
-              <img
-                key={file.id}
-                src={file.url}
-                className="w-full aspect-square object-contain"
-                width={file.width}
-                height={file.height}
+      <div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 overflow-x-scroll">
+          {files.map(file => (
+            <Card key={file.id}>
+              <CardFloatingActions
+                items={[
+                  {
+                    label: 'Delete',
+                    onClick: () => handleDeleteFiles({ fileIds: [file.id] }),
+                    icon: <TrashIcon className="w-full" />,
+                  },
+                ]}
               />
-            ) : file.__typename === 'FilePdf' ? (
-              <embed
-                key={file.id}
-                src={file.url}
-                className="w-full aspect-square"
-                type="application/pdf"
-              />
-            ) : (
-              <div className="w-full aspect-square bg-gray-50 flex items-center justify-center">
-                <span className="text-sm text-gray-400">
-                  Preview unavailable
-                </span>
-              </div>
-            )}
-
-            <CardContent>
-              <div className="flex flex-col gap-1">
-                <Tooltip
-                  label={file.name}
-                  renderTrigger={() => (
-                    <h2 className="font-medium truncate">{file.name}</h2>
-                  )}
+              {file.__typename === 'FileImage' ? (
+                <img
+                  key={file.id}
+                  src={file.url}
+                  className="w-full aspect-square object-contain"
+                  width={file.width}
+                  height={file.height}
                 />
-                <span className="text-gray-400 text-sm">
-                  {file.format} ·{' '}
-                  {formatDistanceToNow(new Date(file.createdAt), {
-                    addSuffix: true,
-                  })}
-                </span>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+              ) : file.__typename === 'FilePdf' ? (
+                <embed
+                  key={file.id}
+                  src={file.url}
+                  className="w-full aspect-square"
+                  type="application/pdf"
+                />
+              ) : (
+                <div className="w-full aspect-square bg-gray-50 flex items-center justify-center">
+                  <span className="text-sm text-gray-400">
+                    Preview unavailable
+                  </span>
+                </div>
+              )}
 
-        {!showBrandFilesForm && files.length < 10 ? (
-          <div>
-            <button
-              className="w-full aspect-square bg-gray-50 flex items-center justify-center"
-              onClick={() => setShowBrandFilesForm(true)}
-            >
-              <span className="text-sm text-gray-400">Add file</span>
-            </button>
-          </div>
-        ) : null}
-      </div>
+              <CardContent>
+                <div className="flex flex-col gap-1">
+                  <Tooltip
+                    label={file.name}
+                    renderTrigger={() => (
+                      <h2 className="font-medium truncate">{file.name}</h2>
+                    )}
+                  />
+                  <span className="text-gray-400 text-sm">
+                    {file.format} ·{' '}
+                    {formatDistanceToNow(new Date(file.createdAt), {
+                      addSuffix: true,
+                    })}
+                  </span>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
 
-      {brand && showBrandFilesForm ? (
-        <div className="relative">
-          {files.length > 0 ? (
-            <div className="absolute -top-1 -right-2 z-10">
+          {!showBrandFilesForm && files.length < 10 ? (
+            <div>
               <button
-                className="p-1 rounded-md bg-gray-900/30 hover:bg-gray-900/25"
-                onClick={() => setShowBrandFilesForm(false)}
+                className="w-full aspect-square bg-gray-50 flex items-center justify-center"
+                onClick={() => setShowBrandFilesForm(true)}
               >
-                <XMarkIcon className="w-4 h-4 text-white" />
+                <span className="text-sm text-gray-400">Add file</span>
               </button>
             </div>
           ) : null}
-          <div className="z-0 relative">
-            <BrandFilesForm
-              folder={brand.fileUploadDirectory}
-              onChange={values => {
-                if (organization?.id) {
-                  handleCreateFiles({
-                    organizationId: organization.id,
-                    files: values.fileIds.map(fileId => ({ fileId })),
-                  })
-                }
-              }}
-            />
-          </div>
         </div>
-      ) : null}
+
+        {brand && showBrandFilesForm ? (
+          <div className="relative">
+            {files.length > 0 ? (
+              <div className="absolute -top-1 -right-2 z-10">
+                <button
+                  className="p-1 rounded-md bg-gray-900/30 hover:bg-gray-900/25"
+                  onClick={() => setShowBrandFilesForm(false)}
+                >
+                  <XMarkIcon className="w-4 h-4 text-white" />
+                </button>
+              </div>
+            ) : null}
+            <div className="z-0 relative">
+              <BrandFilesForm
+                folder={brand.fileUploadDirectory}
+                onChange={values => {
+                  if (organization?.id) {
+                    handleCreateFiles({
+                      organizationId: organization.id,
+                      files: values.fileIds.map(fileId => ({ fileId })),
+                    })
+                  }
+                }}
+              />
+            </div>
+          </div>
+        ) : null}
+      </div>
     </div>
   )
 }

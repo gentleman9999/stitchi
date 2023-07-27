@@ -80,6 +80,7 @@ export enum ScopeResource {
   DesignProof = "DesignProof",
   DesignRequestRevisionRequest = "DesignRequestRevisionRequest",
   Integration = "Integration",
+  Membership = "Membership",
   Order = "Order",
 }
 

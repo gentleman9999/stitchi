@@ -11,13 +11,14 @@ import React from 'react'
 import { useCloset } from '../closet-context'
 import ClosetDesignIndexPageDesignRequestCard from '../ClosetDesignIndexPageDesignRequestCard'
 import Carousel from './Carousel'
+import EmptyState from './EmptyState'
 
 interface Props {}
 
 const ClosetTabAllDesignRequests = ({}: Props) => {
   const { filters } = useCloset()
 
-  const { data, refetch } = useQuery<
+  const { data, loading, refetch } = useQuery<
     ClosetTabAllDesignRequestsGetDataQuery,
     ClosetTabAllDesignRequestsGetDataQueryVariables
   >(GET_DATA, {
@@ -49,10 +50,10 @@ const ClosetTabAllDesignRequests = ({}: Props) => {
     })
   }, [filters, refetch])
 
+  const { viewer } = data || {}
+
   const designRequests =
-    data?.viewer?.designRequests.edges
-      ?.map(edge => edge?.node)
-      .filter(notEmpty) || []
+    viewer?.designRequests.edges?.map(edge => edge?.node).filter(notEmpty) || []
 
   return (
     <ClosetSection>
@@ -60,17 +61,21 @@ const ClosetTabAllDesignRequests = ({}: Props) => {
         <ClosetSectionTitle title="Design Requests" />
       </ClosetSectionHeader>
 
-      <Carousel>
-        <div className="flex gap-6">
-          {designRequests.map(designRequest => (
-            <div className="w-[230px] shrink-0 flex" key={designRequest.id}>
-              <ClosetDesignIndexPageDesignRequestCard
-                designRequest={designRequest}
-              />
-            </div>
-          ))}
-        </div>
-      </Carousel>
+      {loading || designRequests.length ? (
+        <Carousel>
+          <div className="flex gap-6">
+            {designRequests.map(designRequest => (
+              <div className="w-[230px] shrink-0 flex" key={designRequest.id}>
+                <ClosetDesignIndexPageDesignRequestCard
+                  designRequest={designRequest}
+                />
+              </div>
+            ))}
+          </div>
+        </Carousel>
+      ) : (
+        <EmptyState />
+      )}
     </ClosetSection>
   )
 }
@@ -85,6 +90,7 @@ const GET_DATA = gql`
   ) {
     viewer {
       id
+      hasDesignRequests
       designRequests(first: $first, after: $after, filter: $filter) {
         edges {
           node {

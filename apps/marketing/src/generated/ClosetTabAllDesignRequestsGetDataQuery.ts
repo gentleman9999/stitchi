@@ -46,6 +46,7 @@ export interface ClosetTabAllDesignRequestsGetDataQuery_viewer_designRequests {
 export interface ClosetTabAllDesignRequestsGetDataQuery_viewer {
   __typename: "Membership";
   id: string;
+  hasDesignRequests: boolean;
   designRequests: ClosetTabAllDesignRequestsGetDataQuery_viewer_designRequests;
 }
 

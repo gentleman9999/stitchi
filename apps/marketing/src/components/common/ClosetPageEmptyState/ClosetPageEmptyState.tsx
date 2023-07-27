@@ -1,4 +1,4 @@
-import { Button } from '@components/ui'
+import Button from '@components/ui/ButtonV2/Button'
 import Link from 'next/link'
 import React from 'react'
 
@@ -23,7 +23,7 @@ const ClosetPageEmptyState = ({ cta, title, description }: Props) => {
         </div>
         <div>
           {cta ? (
-            <Button slim Component={Link} color="brandPrimary" href={cta.href}>
+            <Button Component={Link} color="brandPrimary" href={cta.href}>
               {cta.label}
             </Button>
           ) : null}

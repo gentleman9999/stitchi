@@ -74,6 +74,29 @@ type NotificationChannelSchemaType =
   | yup.InferType<typeof emailNotificationSchema>
   | yup.InferType<typeof webNotificationSchema>
 
+const channelInputSchema = yup
+  .mixed<NotificationChannelSchemaType>()
+  .test(
+    'dynamic object validation',
+    'dynamic object validation error',
+    object => {
+      switch (object?.type) {
+        case NotificationChannelType.SMS:
+          return smsNotificationSchema.isValidSync(object)
+        case NotificationChannelType.EMAIL:
+          return emailNotificationSchema.isValidSync(object)
+        case NotificationChannelType.WEB:
+          return webNotificationSchema.isValidSync(object)
+        default:
+          false
+      }
+    },
+  )
+
+export type CreateNotificationChannelInput = yup.InferType<
+  typeof channelInputSchema
+>
+
 const inputSchema = Notification.omit([
   'id',
   'createdAt',
@@ -81,30 +104,7 @@ const inputSchema = Notification.omit([
   'sentAt',
 ]).concat(
   yup.object().shape({
-    channels: yup
-      .array()
-      .of(
-        yup
-          .mixed<NotificationChannelSchemaType>()
-          .test(
-            'dynamic object validation',
-            'dynamic object validation error',
-            (object, context) => {
-              switch (object?.type) {
-                case NotificationChannelType.SMS:
-                  return smsNotificationSchema.isValidSync(object)
-                case NotificationChannelType.EMAIL:
-                  return emailNotificationSchema.isValidSync(object)
-                case NotificationChannelType.WEB:
-                  return webNotificationSchema.isValidSync(object)
-                default:
-                  false
-              }
-            },
-          )
-          .required(),
-      )
-      .required(),
+    channels: yup.array().of(channelInputSchema.required()).required(),
   }),
 )
 
