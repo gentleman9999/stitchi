@@ -9,29 +9,29 @@ Notifications are a mechanism used by our app to comunicate with a user when a s
 - [ ] A notification is sent to a user (or organization? spike)
 
 ## Notification Lifecycle
-1. Action occors (i.e. order.created event emitted)
-2. Look up notifications to be sent when order.created
-    - order.created.customer (thanks for your order)
-    - order.created.artist  (someone placed an order with your design)
-    - order.created.fulfillment (order placed)
-
-3. Retrieve each receiver's notification preferences.
-    - User notification preferences are checked to identify the preferred delivery mechanism(s) for the notification (in-app, email, SMS, or a combination of these).
-
-4. Schedule the notifications.
-    - Based on user preferences, notifications are scheduled. Each notification includes the necessary data like recipient, content, and delivery mechanism.
-
-5. Send the notifications.
+1. User subscribes to notification topics.
+    - Users can select which types of notifications they want to receive. These can be based on "topics" like order created, order shipped, etc. The user's selected topics are saved in their profile settings.
+2. Action occurs (i.e., order.created event emitted).
+    - Whenever an action associated with a topic occurs, a system event is triggered.
+3. Look up notifications to be sent based on user-subscribed topics.
+    - The system checks the type of event triggered against the user's subscribed topics. If there is a match, the notification process continues.
+        - order.created.customer (thanks for your order)
+        - order.created.artist (someone placed an order with your design)
+        - order.created.fulfillment (order placed)
+4. Retrieve each subscriber's notification preferences.
+    - The system retrieves user notification preferences to identify the preferred delivery mechanism(s) for the notification (in-app, email, SMS, or a combination of these).
+5. Schedule the notifications.
+    - Based on the user preferences and their topic subscriptions, notifications are scheduled. Each notification includes the necessary data like recipient, content, and delivery mechanism.
+6. Send the notifications.
     - The system initiates the process of sending the scheduled notifications to the corresponding users.
-
-6. Record the notifications.
-    - Every notification sent is recorded along with the date/time of sending, recipient, and content. This is useful for tracking and future reference.
-7. Users receive and interact with the notifications.
+7. Record the notifications.
+    - Every notification sent is recorded along with the date/time of sending, recipient, content, and topic. This is useful for tracking and future reference.
+8. Users receive and interact with the notifications.
     - Users receive the notifications through their preferred delivery mechanism(s) and can then interact with the notification, for example, by clicking on a link to view the order.
-8. Track user interaction.
+9. Track user interaction.
     - The system tracks when the user interacts with the notification and records this interaction. This helps in understanding user engagement with the platform.
-9. If the notification fails, handle the error.
-
+10. If the notification fails, handle the error.
+    - The system has mechanisms in place to handle errors if a notification fails to send, such as retrying or logging for further investigation. It should also update the user's profile with the failed notification to notify them about the missed notification if necessary.
 
 
 
