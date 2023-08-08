@@ -31,21 +31,9 @@ const HomePage = ({ featuredPosts }: HomePageProps) => {
         <Section gutter="lg" className="lg:text-center">
           <SectionHeader
             pretitle="Merch that scales"
-            title="All-in-one solution"
+            title="All-in-one solution for merchandise design, production, and fulfillment."
           />
-          <br />
-          <p className="text-2xl md:text-4xl font-heading text-center">
-            We build custom merch programs to diversify revenue and increase
-            affinity for your brand.
-          </p>
-          <br />
-          <br />
-          <p className="md:text-xl max-w-3xl text-center m-auto">
-            Our team of designers, marketers, and engineers is equipped to
-            handle your diverse needs, including promotional product ideation,
-            production, and distribution. We provide you with peace of mind
-            every step of the way.
-          </p>
+
           <br />
           <br />
           <div className="flex justify-center">

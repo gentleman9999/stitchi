@@ -38,7 +38,7 @@ const Home = () => {
 }
 
 Home.getLayout = (page: ReactElement) => (
-  <PrimaryLayout navBackgroundColor="">{page}</PrimaryLayout>
+  <PrimaryLayout disableNavSpacing>{page}</PrimaryLayout>
 )
 
 const GET_DATA = gql`

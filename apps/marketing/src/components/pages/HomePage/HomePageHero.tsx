@@ -1,67 +1,29 @@
 import { Hero } from '@components/common'
 import routes from '@lib/routes'
 import { ArrowRight } from 'icons'
-import { capitalize } from 'lodash-es'
-import pluralize from 'pluralize'
 import React from 'react'
-import Typewriter from 'typewriter-effect'
-
-const words = [
-  'business',
-  'event',
-  'band',
-  'fundraiser',
-  'drop',
-  'startup',
-  'employee',
-  'influencer',
-]
 
 const HomePageHero = () => {
-  const [useCase, setUseCase] = React.useState<React.ReactNode>('Businesses')
-
-  React.useEffect(() => {
-    setUseCase(
-      <Typewriter
-        aria-hidden="true"
-        options={{
-          strings: words.map(word => pluralize(capitalize(word), 2)),
-          autoStart: true,
-          loop: true,
-          delay: 100,
-        }}
-      />,
-    )
-  }, [])
-
   return (
     <Hero
       title={
         <>
           <div className="inline font-headingDisplay">
-            Make the stitch.
-            <div className="text-black">
-              Merch for{' '}
-              <div className="flex mt-2 sm:mt-0 sm:inline-flex">
-                <mark className="relative sm:w-auto bg-primary px-2 lowercase rounded-md">
-                  {useCase}
-                </mark>
-                .<span className="sr-only">{words.join(` ,`)}</span>
-              </div>
-            </div>
+            The merch platform built for growth
+            <span className="text-primary">.</span>
           </div>
         </>
       }
       subtitle={
         <>
-          We design high-quality custom merchandise and merch programs. We are
-          the promotional product experts.
+          The most successful merchandise programs in the world have access to
+          the best tools — and now so do you.
         </>
       }
       primaryCta={{
         title: (
           <div className="group sm:!text-2xl flex items-center">
-            <span>Get started for free</span>
+            <span>Start creating merch</span>
             <span className="ml-2 relative transition-all w-[16px] h-[16px]">
               <span className="absolute top-[2px] left-0 ml-1/2 group-hover:left-1.5 duration-200">
                 <ArrowRight strokeWidth="4" width="16px" height="16px" />
