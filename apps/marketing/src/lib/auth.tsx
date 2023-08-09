@@ -129,6 +129,9 @@ const GET_DATA = gql`
         resource
         action
       }
+      flags {
+        isBetaTester
+      }
     }
   }
 `

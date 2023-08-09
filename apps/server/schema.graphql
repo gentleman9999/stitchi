@@ -660,6 +660,7 @@ type Membership {
     """Returns the last n elements from the list."""
     last: Int
   ): DesignRequestConnection!
+  flags: MembershipFlags!
   hasDesignProducts: Boolean!
   hasDesignRequests: Boolean!
   hasOrders: Boolean!
@@ -704,6 +705,10 @@ input MembershipDesignRequestsFilterInput {
 input MembershipDesignRequestsWhereFilterInput {
   createdAt: DateFilterInput
   userId: StringFilterInput
+}
+
+type MembershipFlags {
+  isBetaTester: Boolean!
 }
 
 input MembershipOrdersFilterInput {

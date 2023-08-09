@@ -33,10 +33,10 @@ const routes = {
       href: () => buildRoute('/'),
     },
     login: {
-      href: () => buildRoute('/login'),
+      href: () => buildRoute('/api/auth/login'),
     },
     logout: {
-      href: () => buildRoute('/logout'),
+      href: () => buildRoute('/api/auth/logout'),
     },
     getStarted: {
       href: () => buildRoute('/closet'),

@@ -15,10 +15,16 @@ export interface UseAuthorizedComponentGetDataQuery_viewer_scopes {
   action: ScopeAction;
 }
 
+export interface UseAuthorizedComponentGetDataQuery_viewer_flags {
+  __typename: "MembershipFlags";
+  isBetaTester: boolean;
+}
+
 export interface UseAuthorizedComponentGetDataQuery_viewer {
   __typename: "Membership";
   id: string;
   scopes: UseAuthorizedComponentGetDataQuery_viewer_scopes[];
+  flags: UseAuthorizedComponentGetDataQuery_viewer_flags;
 }
 
 export interface UseAuthorizedComponentGetDataQuery {

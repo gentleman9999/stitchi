@@ -19,7 +19,7 @@ type Children = ReturnType<
 
 export interface DialogProps {
   open: boolean
-  onClose: () => void
+  onClose?: () => void
   children: Children | Children[]
   size?: 'sm' | 'md' | 'lg'
   className?: string
@@ -74,7 +74,9 @@ const Dialog = (props: DialogProps) => {
   return (
     <RuiDialog.Root
       open={props.open}
-      onOpenChange={val => val === false && props.onClose()}
+      onOpenChange={
+        props.onClose ? val => val === false && props.onClose?.() : undefined
+      }
     >
       <OptionalPortal disablePortal={disablePortal}>
         <Transition.Root show={props.open} as={Fragment}>

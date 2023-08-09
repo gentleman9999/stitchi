@@ -645,6 +645,9 @@ export interface NexusGenObjects {
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     userId: string; // String!
   }
+  MembershipFlags: { // root type
+    isBetaTester: boolean; // Boolean!
+  }
   Mutation: {};
   Order: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -1189,6 +1192,7 @@ export interface NexusGenFieldTypes {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     designProducts: NexusGenRootTypes['DesignProductConnection']; // DesignProductConnection!
     designRequests: NexusGenRootTypes['DesignRequestConnection']; // DesignRequestConnection!
+    flags: NexusGenRootTypes['MembershipFlags']; // MembershipFlags!
     hasDesignProducts: boolean; // Boolean!
     hasDesignRequests: boolean; // Boolean!
     hasOrders: boolean; // Boolean!
@@ -1202,6 +1206,9 @@ export interface NexusGenFieldTypes {
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     user: NexusGenRootTypes['User'] | null; // User
     userId: string; // String!
+  }
+  MembershipFlags: { // field return type
+    isBetaTester: boolean; // Boolean!
   }
   Mutation: { // field return type
     designProductCreateOrder: NexusGenRootTypes['DesignProductCreateOrderPayload'] | null; // DesignProductCreateOrderPayload
@@ -1801,6 +1808,7 @@ export interface NexusGenFieldTypeNames {
     createdAt: 'DateTime'
     designProducts: 'DesignProductConnection'
     designRequests: 'DesignRequestConnection'
+    flags: 'MembershipFlags'
     hasDesignProducts: 'Boolean'
     hasDesignRequests: 'Boolean'
     hasOrders: 'Boolean'
@@ -1814,6 +1822,9 @@ export interface NexusGenFieldTypeNames {
     updatedAt: 'DateTime'
     user: 'User'
     userId: 'String'
+  }
+  MembershipFlags: { // field return type name
+    isBetaTester: 'Boolean'
   }
   Mutation: { // field return type name
     designProductCreateOrder: 'DesignProductCreateOrderPayload'
