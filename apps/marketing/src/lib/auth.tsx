@@ -80,12 +80,26 @@ export const withAuthentication = (Component: React.ComponentType<any>) => {
   const AuthenticatedPage = ({ ...props }) => {
     const router = useRouter()
     const { user, isLoading } = useUser()
-    const { loading } = useAccountSetup()
+    const { valid, loading: validatingAccount } = useAccountValid()
 
-    if (loading || isLoading) return null
+    if (isLoading) return null
 
+    // if there is no authenticated user, redirect to login page
     if (!user) {
       router.push(routes.internal.login.href())
+      return null
+    }
+
+    const accountSetupHref = routes.internal.account.setup.href({
+      redirectUrl: router.asPath,
+    })
+
+    // this is checking if a user has completed the account setup flow
+    // this will redirect them to the account setup page if they have not
+    if (validatingAccount) return null
+
+    if (!valid && !router.pathname.startsWith(accountSetupHref.split('?')[0])) {
+      router.push(accountSetupHref)
       return null
     }
 
@@ -95,29 +109,22 @@ export const withAuthentication = (Component: React.ComponentType<any>) => {
   return hoistNonReactStatic(AuthenticatedPage, Component)
 }
 
-const useAccountSetup = () => {
-  const router = useRouter()
-
+const useAccountValid = () => {
   const { data, loading } =
     useQuery<UseAuthorizedComponentGetDataQuery>(GET_DATA)
 
-  if (loading) return { loading: true }
+  if (loading) return { loading: true, valid: false }
 
-  const accountSetupHref = routes.internal.account.setup.href({
-    redirectUrl: router.asPath,
-  })
-
-  if (
-    !loading &&
-    !data?.viewer &&
-    !router.pathname.startsWith(accountSetupHref.split('?')[0])
-  ) {
-    router.push(accountSetupHref)
-    return { loading: true }
+  if (!loading && !data?.viewer) {
+    return {
+      loading: false,
+      valid: false,
+    }
   }
 
   return {
     loading: false,
+    valid: true,
   }
 }
 

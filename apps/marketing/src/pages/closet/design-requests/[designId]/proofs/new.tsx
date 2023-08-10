@@ -6,7 +6,7 @@ import {
   DesignRequestProofCreatePageGetDataQueryVariables,
 } from '@generated/DesignRequestProofCreatePageGetDataQuery'
 import { ScopeAction, ScopeResource } from '@generated/globalTypes'
-import { withAuthentication, withAuthorization } from '@lib/auth'
+import { withAuthorization } from '@lib/auth'
 import { useRouter } from 'next/router'
 
 const Page = () => {
@@ -48,7 +48,7 @@ const GET_DATA = gql`
   }
 `
 
-export default withAuthorization(withAuthentication(Page), {
+export default withAuthorization(Page, {
   action: ScopeAction.CREATE,
   resource: ScopeResource.DesignProof,
 })

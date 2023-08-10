@@ -38,6 +38,19 @@ const routes = {
     logout: {
       href: () => buildRoute('/api/auth/logout'),
     },
+    signup: {
+      href: ({ skipRedirect }: { skipRedirect?: boolean } = {}) =>
+        buildRoute('/api/auth/signup', {
+          returnTo: skipRedirect ? undefined : '/signup/success',
+        }),
+
+      success: {
+        href: () => buildRoute('/signup/success'),
+      },
+    },
+    contact: {
+      href: () => buildRoute('/contact'),
+    },
     getStarted: {
       href: () => buildRoute('/closet'),
 

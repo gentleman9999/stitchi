@@ -58,7 +58,9 @@ export async function verify(authHeader: string) {
     })
 
     if (result.error) {
-      console.error(result.error.message, { context: { error: result.error } })
+      console.error(result.error.message, {
+        context: { error: result.error, decoded: result.decoded },
+      })
       throw new Error(result.error.message)
     }
 

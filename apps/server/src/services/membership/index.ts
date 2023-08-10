@@ -3,9 +3,12 @@ import makeMembershipRepository, { MembershipRepository } from './repository'
 import { CreateMembershipFnInput } from './repository/create-membership'
 
 export interface MembershipService {
-  createMembership: (
-    input: Omit<CreateMembershipFnInput, 'membershipNotificationSettingId'>,
-  ) => Promise<MembershipFactoryMembership>
+  createMembership: (input: {
+    membership: Omit<
+      CreateMembershipFnInput['membership'],
+      'membershipNotificationSettingId'
+    >
+  }) => Promise<MembershipFactoryMembership>
   getMembership: MembershipRepository['getMembership']
   listMemberships: MembershipRepository['listMemberships']
 

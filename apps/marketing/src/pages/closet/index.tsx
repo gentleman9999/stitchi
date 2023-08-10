@@ -1,6 +1,5 @@
 import { ClosetLayout } from '@components/layout'
 import ClosetHomePage from '@components/pages/ClosetHomePage'
-import { withAuthentication } from '@lib/auth'
 import routes from '@lib/routes'
 import { GetServerSideProps } from 'next'
 import React from 'react'
@@ -22,4 +21,4 @@ Page.getLayout = (page: React.ReactElement) => (
   <ClosetLayout>{page}</ClosetLayout>
 )
 
-export default withAuthentication(Page)
+export default Page

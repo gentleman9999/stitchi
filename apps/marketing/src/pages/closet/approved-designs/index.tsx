@@ -1,5 +1,4 @@
 import ClosetDesignIndexPage from '@components/pages/ClosetDesignIndexPage'
-import { withAuthentication } from '@lib/auth'
 import React from 'react'
 import { ClosetLayout } from '@components/layout'
 
@@ -11,4 +10,4 @@ Page.getLayout = (page: React.ReactElement) => (
   <ClosetLayout>{page}</ClosetLayout>
 )
 
-export default withAuthentication(Page)
+export default Page

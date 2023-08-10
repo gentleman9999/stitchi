@@ -8,6 +8,7 @@
     { "path": "../bigcommerce" },
     { "path": "../stripe" },
     { "path": "../sendgrid" },
-    { "path": "../redis" }
+    { "path": "../redis" },
+    { "path": "../auth0" }
   ]
 }

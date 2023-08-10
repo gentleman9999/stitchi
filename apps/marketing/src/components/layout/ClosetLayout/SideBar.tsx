@@ -58,10 +58,9 @@ const getActiveNavItem = (navigation: Navigation): NavItem | null => {
 interface Props {
   loading: boolean
   membershp?: SideBarMembershipFragment | null
-  logoutOnly?: boolean
 }
 
-const SideBar = ({ membershp, loading, logoutOnly }: Props) => {
+const SideBar = ({ membershp, loading }: Props) => {
   const router = useRouter()
   const [upcomingNavItem, setUpcomingNavItem] = React.useState<NavItem | null>(
     null,
@@ -81,75 +80,63 @@ const SideBar = ({ membershp, loading, logoutOnly }: Props) => {
 
   const { user, organization } = membershp || {}
 
-  const navigation: Navigation = logoutOnly
-    ? {
-        primary: [],
-        secondary: [
-          {
-            href: routes.internal.logout.href(),
-            label: 'Sign Out',
-            icon: <ArrowRightOnRectangleIcon className="w-4 h-4" />,
-          },
+  const navigation: Navigation = {
+    primary: [
+      // {
+      //   href: routes.internal.closet.href(),
+      //   label: 'Closet',
+      //   icon: <HomeIcon className="w-4 h-4" />,
+      // },
+      {
+        href: routes.internal.closet.inbox.href(),
+        label: 'Inbox',
+        icon: <InboxIcon className="w-4 h-4" />,
+        includedPaths: [],
+      },
+      {
+        href: routes.internal.closet.designs.href(),
+        label: 'Design',
+        icon: <PaintBrushIcon className="w-4 h-4" />,
+        includedPaths: [
+          routes.internal.closet.collections.href(),
+          routes.internal.closet.designRequests.href(),
+          routes.internal.closet.designProducts.href(),
         ],
-      }
-    : {
-        primary: [
-          // {
-          //   href: routes.internal.closet.href(),
-          //   label: 'Closet',
-          //   icon: <HomeIcon className="w-4 h-4" />,
-          // },
-          {
-            href: routes.internal.closet.inbox.href(),
-            label: 'Inbox',
-            icon: <InboxIcon className="w-4 h-4" />,
-            includedPaths: [],
-          },
-          {
-            href: routes.internal.closet.designs.href(),
-            label: 'Design',
-            icon: <PaintBrushIcon className="w-4 h-4" />,
-            includedPaths: [
-              routes.internal.closet.collections.href(),
-              routes.internal.closet.designRequests.href(),
-              routes.internal.closet.designProducts.href(),
-            ],
-          },
-          {
-            href: routes.internal.closet.orders.href(),
-            label: 'Fulfill',
-            icon: <TruckIcon className="w-4 h-4" />,
-            hidden:
-              authorizationLoading ||
-              !can(ScopeResource.Order, ScopeAction.READ),
-            includedPaths: [routes.internal.closet.orders.href()],
-          },
+      },
+      {
+        href: routes.internal.closet.orders.href(),
+        label: 'Fulfill',
+        icon: <TruckIcon className="w-4 h-4" />,
+        hidden:
+          authorizationLoading || !can(ScopeResource.Order, ScopeAction.READ),
+        includedPaths: [routes.internal.closet.orders.href()],
+      },
 
-          {
-            href: routes.internal.closet.brand.href(),
-            label: 'Brand Hub',
-            icon: <SwatchIcon className="w-4 h-4" />,
-          },
-        ],
-        secondary: [
-          {
-            href: '',
-            label: 'Settings',
-            icon: <Cog8ToothIcon className="w-4 h-4" />,
-          },
-          {
-            href: '',
-            label: 'Help',
-            icon: <QuestionMarkCircleIcon className="w-4 h-4" />,
-          },
+      {
+        href: routes.internal.closet.brand.href(),
+        label: 'Brand Hub',
+        icon: <SwatchIcon className="w-4 h-4" />,
+      },
+    ],
+    secondary: [
+      {
+        href: '',
+        label: 'Settings',
+        icon: <Cog8ToothIcon className="w-4 h-4" />,
+      },
+      {
+        href: '',
+        label: 'Help',
+        icon: <QuestionMarkCircleIcon className="w-4 h-4" />,
+      },
 
-          {
-            href: routes.internal.logout.href(),
-            label: 'Sign Out',
-            icon: <ArrowRightOnRectangleIcon className="w-4 h-4" />,
-          },
-        ],
-      }
+      {
+        href: routes.internal.logout.href(),
+        label: 'Sign Out',
+        icon: <ArrowRightOnRectangleIcon className="w-4 h-4" />,
+      },
+    ],
+  }
 
   const activeNavItem = upcomingNavItem || getActiveNavItem(navigation)
 
@@ -171,7 +158,6 @@ const SideBar = ({ membershp, loading, logoutOnly }: Props) => {
             </div>
           )}
         />
-
         <div>
           <ul className="flex flex-col gap-1">
             {navigation.primary
@@ -199,19 +185,16 @@ const SideBar = ({ membershp, loading, logoutOnly }: Props) => {
             ))}
           </ul>
         </div>
-
-        {logoutOnly ? null : (
-          <div className="mt-2 border rounded-md p-4 text-sm flex flex-col gap-4 text-gray-600 bg-gray-50">
-            <div>
-              <Badge label="Beta" size="small" severity="info" />
-            </div>
-            Welcome to our beta. We&apos;re still working out the kinks, so
-            please let us know if you have any feedback.
-            <Link href="#" className="underline font-medium">
-              Submit feedback
-            </Link>
+        <div className="mt-2 border rounded-md p-4 text-sm flex flex-col gap-4 text-gray-600 bg-gray-50">
+          <div>
+            <Badge label="Beta" size="small" severity="info" />
           </div>
-        )}
+          Welcome to our beta. We&apos;re still working out the kinks, so please
+          let us know if you have any feedback.
+          <Link href="/" className="underline font-medium">
+            Submit feedback
+          </Link>
+        </div>
 
         <div className="flex-1 flex flex-col justify-end">
           <div>
@@ -249,15 +232,14 @@ const SideBar = ({ membershp, loading, logoutOnly }: Props) => {
           </div>
 
           {!authorizationLoading &&
-          can(ScopeResource.Membership, ScopeAction.CREATE) &&
-          !logoutOnly ? (
-            <button className="hover:bg-gray-50 rounded-md p-2 w-full text-sm font-medium flex items-center gap-2 text-gray-500">
-              <div className="w-5 h-5 inline-flex items-center justify-center">
-                <RectangleStackIcon className="w-4 h-4" />
-              </div>
-              Invite members
-            </button>
-          ) : null}
+            can(ScopeResource.Membership, ScopeAction.CREATE) && (
+              <button className="hover:bg-gray-50 rounded-md p-2 w-full text-sm font-medium flex items-center gap-2 text-gray-500">
+                <div className="w-5 h-5 inline-flex items-center justify-center">
+                  <RectangleStackIcon className="w-4 h-4" />
+                </div>
+                Invite members
+              </button>
+            )}
         </div>
       </div>
     </nav>

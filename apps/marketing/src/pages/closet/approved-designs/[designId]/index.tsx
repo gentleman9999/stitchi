@@ -1,6 +1,5 @@
 import { ClosetLayout } from '@components/layout'
 import ClosetDesignShowPage from '@components/pages/ClosetDesignShowPage'
-import { withAuthentication } from '@lib/auth'
 import { useRouter } from 'next/router'
 import React from 'react'
 
@@ -18,4 +17,4 @@ Page.getLayout = (page: React.ReactElement) => (
   <ClosetLayout>{page}</ClosetLayout>
 )
 
-export default withAuthentication(Page)
+export default Page

@@ -18,7 +18,7 @@ const Footer = () => (
             <List title="Services" items={navigation.services} />
             <List title="Solutions" items={navigation.solutions} />
             <List title="Resources" items={navigation.resources} />
-            <List title="Legal" items={navigation.legal} />
+            <List title="Company" items={navigation.company} />
           </div>
           <div className="">
             <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">

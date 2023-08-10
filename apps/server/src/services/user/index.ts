@@ -1,6 +1,6 @@
 import { AppMetadata, ManagementClient, User, UserMetadata } from 'auth0'
 import redis, { RedisClient } from '../../redis'
-import { getOrThrow } from '../../utils'
+import { Auth0ManagementClient, auth0ManagementClient } from '../../auth0'
 
 export interface UserService {
   getUser: typeof ManagementClient.prototype.getUser
@@ -8,7 +8,7 @@ export interface UserService {
 
 interface MakeClientParams {
   redisClient: RedisClient
-  auth0: ManagementClient
+  auth0: Auth0ManagementClient
 }
 
 type MakeClientFn = (params?: MakeClientParams) => UserService
@@ -16,15 +16,7 @@ type MakeClientFn = (params?: MakeClientParams) => UserService
 const makeClient: MakeClientFn = (
   { redisClient, auth0 } = {
     redisClient: redis,
-    auth0: new ManagementClient({
-      domain: getOrThrow(process.env.AUTH0_DOMAIN, 'AUTH0_DOMAIN'),
-      clientId: getOrThrow(process.env.AUTH0_CLIENT_ID, 'AUTH0_CLIENT_ID'),
-      clientSecret: getOrThrow(
-        process.env.AUTH0_CLIENT_SECRET,
-        'AUTH0_CLIENT_SECRET',
-      ),
-      scope: 'read:users',
-    }),
+    auth0: auth0ManagementClient,
   },
 ) => {
   return {
@@ -50,7 +42,9 @@ const makeClient: MakeClientFn = (
           }
         }
       } catch (error) {
-        console.error(`Redis error: ${error}`)
+        console.error(`Error getting user`, {
+          context: { error, params },
+        })
       }
 
       return user

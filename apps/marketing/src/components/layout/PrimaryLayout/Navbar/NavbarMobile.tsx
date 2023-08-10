@@ -10,6 +10,7 @@ import NavbarMobileDropdown from './NavbarMobileDropdown'
 import Popover from './Popover'
 import { Popover as HeadlessPopover } from '@headlessui/react'
 import { track } from '@lib/analytics'
+import { useUser } from '@auth0/nextjs-auth0/client'
 
 interface Props {
   anchorEl: HTMLElement | null
@@ -17,6 +18,8 @@ interface Props {
 }
 
 const NavbarMobile = ({ anchorEl, navigation }: Props) => {
+  const { user } = useUser()
+
   return (
     <Popover
       anchorEl={anchorEl}
@@ -145,8 +148,24 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
             </Link>
           </div>
 
+          {!user ? (
+            <div className={s.item}>
+              <Link href={routes.internal.login.href()}>
+                <HeadlessPopover.Button className={s.link}>
+                  Login
+                </HeadlessPopover.Button>
+              </Link>
+            </div>
+          ) : null}
+
           <div className={s.item}>
-            <Link href={routes.internal.getStarted.href()}>
+            <Link
+              href={
+                user
+                  ? routes.internal.getStarted.href()
+                  : routes.internal.signup.href()
+              }
+            >
               <HeadlessPopover.Button as="div">
                 <Button
                   bold
@@ -157,7 +176,7 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
                     track.navbarCtaCliced({ view: 'mobile' })
                   }}
                 >
-                  My closet
+                  {user ? 'My closet' : 'Get started'}
                 </Button>
               </HeadlessPopover.Button>
             </Link>
