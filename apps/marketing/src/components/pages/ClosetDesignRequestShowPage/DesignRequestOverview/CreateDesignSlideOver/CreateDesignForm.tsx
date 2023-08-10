@@ -7,7 +7,7 @@ import * as yup from 'yup'
 
 const schema = yup.object().shape({
   name: yup.string().required(),
-  description: yup.string().optional(),
+  description: yup.string().optional().defined(),
   termsConditionsAgreed: yup
     .boolean()
     .oneOf([true], 'You must approve this design to continue')

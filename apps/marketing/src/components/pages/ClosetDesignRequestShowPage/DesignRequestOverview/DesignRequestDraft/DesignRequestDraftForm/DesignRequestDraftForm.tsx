@@ -21,7 +21,7 @@ const locationSchema = yup.object().shape({
 })
 
 const schema = yup.object().shape({
-  useCase: yup.string().label('Use case'),
+  useCase: yup.string().defined().label('Use case'),
   referenceFileIds: yup
     .array()
     .of(yup.string().required())

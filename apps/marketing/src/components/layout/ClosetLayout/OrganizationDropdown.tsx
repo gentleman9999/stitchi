@@ -5,7 +5,7 @@ import { gql, useQuery } from '@apollo/client'
 import { OrganizationDropdownGetDataQuery } from '@generated/OrganizationDropdownGetDataQuery'
 import useSetUserMembership from '@components/hooks/useSetUserMembership'
 import { PlusIcon } from '@heroicons/react/20/solid'
-import { useStandout } from '@components/context'
+import { StandoutType, useStandout } from '@components/context'
 
 interface Props {
   renderTrigger: () => React.ReactNode
@@ -50,7 +50,7 @@ const OrganizationDropdown = (props: Props) => {
           ) : null
         })}
         <Item
-          onClick={() => setStandout({ type: 'organization_create' })}
+          onClick={() => setStandout({ type: StandoutType.OrganizationCreate })}
           icon={
             <div className="w-5 h-5 bg-paper rounded-sm">
               <PlusIcon className="w-5 h-5" />

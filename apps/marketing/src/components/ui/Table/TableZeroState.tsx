@@ -16,7 +16,7 @@ const TableZeroState = (props: Props) => {
         <div>
           <h2 className="text-xl leading-loose">No results found</h2>
           <p className="text-sm text-gray-600">
-            There aren't any results for that query.
+            There aren&apos;t any results for that query.
           </p>
         </div>
       </div>

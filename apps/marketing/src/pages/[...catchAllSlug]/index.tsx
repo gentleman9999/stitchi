@@ -59,9 +59,9 @@ const getPath = (slug?: string) => {
   )
 
   // Brand slug is the longest one
-  const brandSlug = possibleBrandSlugs.reduce(
-    (prev, curr) => (prev.length > curr.length ? prev : curr),
-    [],
+  const brandSlug = possibleBrandSlugs.reduce<string | null>(
+    (prev, curr) => (prev && prev.length > curr.length ? prev : curr),
+    null,
   )
 
   if (!brandSlug) {

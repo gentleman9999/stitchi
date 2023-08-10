@@ -36,7 +36,7 @@ const variantSchema = yup
   .label('Variant')
 
 const schema = yup.object().shape({
-  message: yup.string().label('Message'),
+  message: yup.string().defined().label('Message'),
   primaryImageFileId: fileSchema.required().label('Primary Image'),
   proofLocations: yup
     .array()

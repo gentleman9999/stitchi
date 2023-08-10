@@ -23,8 +23,8 @@ const dateInputProps = { maxDate: new Date() }
 
 const schema = yup.object().shape({
   equality: yup.string().oneOf(Object.values(Equality)).required(),
-  gte: yup.string().optional(),
-  lte: yup.string().optional(),
+  gte: yup.string().nullable().defined(),
+  lte: yup.string().nullable().defined(),
 })
 
 export type DateFilterValue = yup.InferType<typeof schema>
@@ -51,10 +51,10 @@ const DateEquality = (props: Props) => {
           equality,
           gte: gte
             ? zonedTimeToUtc(startOfDay(parseISO(gte)), timeZone).toISOString()
-            : undefined,
+            : null,
           lte: gte
             ? zonedTimeToUtc(endOfDay(parseISO(gte)), timeZone).toISOString()
-            : undefined,
+            : null,
         })
 
         break
@@ -62,8 +62,8 @@ const DateEquality = (props: Props) => {
       case Equality.BETWEEN: {
         await props.onChange({
           equality,
-          gte: gte ? startOfDay(parseISO(gte)).toISOString() : undefined,
-          lte: lte ? startOfDay(parseISO(lte)).toISOString() : undefined,
+          gte: gte ? startOfDay(parseISO(gte)).toISOString() : null,
+          lte: lte ? startOfDay(parseISO(lte)).toISOString() : null,
         })
 
         break
@@ -72,9 +72,8 @@ const DateEquality = (props: Props) => {
       case Equality.GT: {
         await props.onChange({
           equality,
-          gte: gte
-            ? startOfDay(addDays(parseISO(gte), 1)).toISOString()
-            : undefined,
+          gte: gte ? startOfDay(addDays(parseISO(gte), 1)).toISOString() : null,
+          lte: null,
         })
 
         break
@@ -83,7 +82,8 @@ const DateEquality = (props: Props) => {
       case Equality.GTE: {
         await props.onChange({
           equality,
-          gte: gte ? startOfDay(parseISO(gte)).toISOString() : undefined,
+          gte: gte ? startOfDay(parseISO(gte)).toISOString() : null,
+          lte: null,
         })
 
         break
@@ -92,9 +92,8 @@ const DateEquality = (props: Props) => {
       case Equality.LT: {
         await props.onChange({
           equality,
-          lte: lte
-            ? endOfDay(subDays(parseISO(lte), 1)).toISOString()
-            : undefined,
+          lte: lte ? endOfDay(subDays(parseISO(lte), 1)).toISOString() : null,
+          gte: null,
         })
 
         break
@@ -103,7 +102,8 @@ const DateEquality = (props: Props) => {
       case Equality.LTE: {
         await props.onChange({
           equality,
-          lte: lte ? endOfDay(parseISO(lte)).toISOString() : undefined,
+          lte: lte ? endOfDay(parseISO(lte)).toISOString() : null,
+          gte: null,
         })
 
         break
@@ -112,8 +112,8 @@ const DateEquality = (props: Props) => {
       default: {
         await props.onChange({
           equality,
-          lte: undefined,
-          gte: undefined,
+          lte: null,
+          gte: null,
         })
       }
     }

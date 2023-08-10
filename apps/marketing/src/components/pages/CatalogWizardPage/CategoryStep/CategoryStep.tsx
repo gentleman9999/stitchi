@@ -3,12 +3,17 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import routes from '@lib/routes'
 import { useRouter } from 'next/router'
 import React from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { categories, Category, Style } from '../wizard-data'
 
+enum StepValue {
+  HasProduct = 'has_product',
+  HasNoProduct = 'has_no_product',
+}
+
 const schema = yup.object().shape({
-  value: yup.mixed().oneOf(['has_product', 'has_no_product']),
+  value: yup.mixed().oneOf(Object.values(StepValue)).required(),
 })
 
 type FormValues = yup.InferType<typeof schema>

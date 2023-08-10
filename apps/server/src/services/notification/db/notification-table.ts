@@ -15,6 +15,7 @@ export const Notification: yup.ObjectSchema<NotificationSchema> = yup
     id: yup.string().uuid().required(),
     userId: yup.string().nullable().defined(),
     organizationId: yup.string().uuid().nullable().defined(),
+    notificationGroupId: yup.string().uuid().nullable().defined(),
 
     type: yup
       .mixed<NotificationRecordType>()

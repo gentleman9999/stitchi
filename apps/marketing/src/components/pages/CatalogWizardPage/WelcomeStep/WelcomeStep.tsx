@@ -7,8 +7,13 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'
 import routes from '@lib/routes'
 
+enum StepValue {
+  HasProduct = 'has_product',
+  HasNoProduct = 'has_no_product',
+}
+
 const schema = yup.object().shape({
-  value: yup.mixed().oneOf(['has_product', 'has_no_product']),
+  value: yup.mixed().oneOf(Object.values(StepValue)).required(),
 })
 
 type FormValues = yup.InferType<typeof schema>
@@ -54,14 +59,14 @@ const WelcomeStep = (props: Props) => {
                 onValueChange={field.onChange}
                 items={[
                   {
-                    name: 'has_no_product',
+                    name: StepValue.HasNoProduct,
                     label: 'Choose a recommended product',
-                    value: 'has_no_product',
+                    value: StepValue.HasNoProduct,
                   },
                   {
-                    name: 'has_product',
+                    name: StepValue.HasProduct,
                     label: 'I have a specific product in mind',
-                    value: 'has_product',
+                    value: StepValue.HasProduct,
                   },
                 ]}
               />

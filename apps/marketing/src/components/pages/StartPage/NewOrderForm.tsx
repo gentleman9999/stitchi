@@ -10,12 +10,12 @@ import { ComponentErrorMessage } from '@components/common'
 
 const schema = object({
   email: string().email().required(),
-  first_name: string().optional(),
-  last_name: string().optional(),
-  company: string().optional(),
-  phone: string().optional(),
-  description: string().optional(),
-  budget: string().optional(),
+  first_name: string().optional().defined(),
+  last_name: string().optional().defined(),
+  company: string().optional().defined(),
+  phone: string().optional().defined(),
+  description: string().optional().defined(),
+  budget: string().optional().defined(),
 })
 
 const NewOrderForm = () => {

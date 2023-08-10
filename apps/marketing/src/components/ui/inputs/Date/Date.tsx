@@ -2,8 +2,8 @@ import React from 'react'
 import TextField from '../TextField'
 
 interface Props {
-  value?: string
-  onChange?: (value: string) => void
+  value?: string | null
+  onChange?: (value: string | null) => void
   minDate?: Date
   maxDate?: Date
 }
