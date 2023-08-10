@@ -11,6 +11,46 @@ datasource db {
   relationMode = "prisma"
 }
 
+model File {
+  id             String  @id @default(uuid())
+  userId         String?
+  organizationId String?
+
+  fileType FileType
+
+  url String
+
+  bytes Int
+
+  originalFilename String
+  name             String
+
+  cloudinaryAssetId String?
+
+  width  Int?
+  height Int?
+
+  format String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  designRequestFiles              DesignRequestFile[]
+  designRequestPrintLocationFiles DesignRequestDesignLocationFile[]
+  designProofLocations            DesignProofLocation[]
+  designProofVariantImages        DesignProofVariantImage[]
+  designRequestRevisionFiles      DesignRequestRevisionFile[]
+  conversationMessageFiles        ConversationMessageFile[]
+  organizationFiles               OrganizationFile[]
+}
+
+enum FileType {
+  IMAGE
+  VIDEO
+  PDF
+  UNKNOWN
+}
+
 model Organization {
   id   String     @id @default(uuid())
   name String
@@ -18,16 +58,57 @@ model Organization {
 
   memberships Membership[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Order     Order[]
-  Design    Design[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  orders                Order[]
+  designs               Design[]
+  activeUserMemberships ActiveUserMembership[]
+  organizationFiles     OrganizationFile[]
+  organizationColors    OrganizationColor[]
+  notifications         Notification[]
 }
 
 // The owners of the SaaS (you) can have a SUPERADMIN role to access all data
 enum GlobalRole {
   SUPERADMIN
   CUSTOMER
+}
+
+model OrganizationFile {
+  id             String @id @default(uuid())
+  organizationId String
+  userId         String
+
+  fileId String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  file         File         @relation(fields: [fileId], references: [id])
+
+  @@index([organizationId])
+  @@index([fileId])
+}
+
+model OrganizationColor {
+  id String @id @default(uuid())
+
+  organizationId String
+  colorId        String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  color        Color        @relation(fields: [colorId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@index([colorId])
 }
 
 model Membership {
@@ -39,34 +120,47 @@ model Membership {
 
   userId String
 
+  membershipNotificationSettingId String @unique
+
   // When the user joins, we will clear out the name and email and set the user.
   invitedName  String?
   invitedEmail String?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt                     DateTime                      @default(now())
+  updatedAt                     DateTime                      @updatedAt
+  activeUserMemberships         ActiveUserMembership[]
+  membershipNotificationSetting MembershipNotificationSetting @relation(fields: [membershipNotificationSettingId], references: [id])
 
   @@unique([organizationId, invitedEmail])
+  @@unique([organizationId, userId, role])
+}
+
+model ActiveUserMembership {
+  id             String @id @default(uuid())
+  userId         String @unique
+  membershipId   String
+  organizationId String
+
+  membership   Membership   @relation(fields: [membershipId], references: [id], onUpdate: NoAction)
+  organization Organization @relation(fields: [organizationId], references: [id], onUpdate: NoAction)
+
+  @@index([membershipId])
+  @@index([organizationId])
 }
 
 enum MembershipRole {
   OWNER
+  STITCHI_DESIGNER
 }
 
-model Image {
-  id     String    @id @default(uuid())
-  // Cloudinary URL
-  url    String
-  type   ImageType
-  width  Int
-  height Int
+model MembershipNotificationSetting {
+  id String @id @default(uuid())
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
+  emailNotificationsEnabled Boolean @default(true)
+  smsNotificationsEnabled   Boolean @default(true)
+  webNotificationsEnabled   Boolean @default(true)
 
-enum ImageType {
-  CLOUDINARY
+  membership Membership?
 }
 
 model Order {
@@ -185,17 +279,15 @@ model OrderItem {
   // The product variant ID (could be BicCommerce or Shopify or internal, etc..)
   productVariantId String?
 
-  // The optional design ID
+  // The associated design to print
   designId String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Design               Design?                @relation(fields: [designId], references: [id])
   FulfillmentOrderItem FulfillmentOrderItem[]
 
   @@index([orderId])
-  @@index([designId])
 }
 
 enum OrderItemFulfillmentStatus {
@@ -277,8 +369,14 @@ model FulfillmentOrderItem {
   @@index([fulfillmentId])
 }
 
+// A design is synonomys with a product. A design is a product that is created by Stitchi. A design can be a custom design or a design that is created from a design request.
+// Designs are purchasable products that can be added to a cart and purchased.
 model Design {
   id String @id @default(uuid())
+
+  designRequestId  String
+  designProofId    String
+  catalogProductId String
 
   // The organization that this design belongs to
   organization   Organization? @relation(fields: [organizationId], references: [id], onUpdate: NoAction)
@@ -287,37 +385,334 @@ model Design {
   // The user that created the design
   userId String?
 
+  primaryImageFileId String?
+
+  termsConditionsAgreed Boolean @default(false)
+
   // The name of the design
   name String
 
   // The description of the design
-  description String?
+  description String? @db.Text
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  DesignLocation DesignLocation[]
-  OrderItem      OrderItem[]
+  designLocations DesignLocation[]
+  designRequest   DesignRequest    @relation(fields: [designRequestId], references: [id])
+  designVariants  DesignVariant[]
+  designProof     DesignProof      @relation(fields: [designProofId], references: [id])
 
   @@index([organizationId])
+  @@index([userId])
+  @@index([designRequestId])
+  @@index([designProofId])
 }
 
+// A design location is a print location on a design. For example, a t-shirt has a front and back print location. A design location can have multiple colors.
 model DesignLocation {
   id String @id @default(uuid())
 
   // The design that this location belongs to
-  design   Design @relation(fields: [designId], references: [id], onUpdate: NoAction)
+  design   Design @relation(fields: [designId], references: [id])
   designId String
 
   colorCount Int
 
-  // The name of the location
-  name String
+  placement String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([designId])
+}
+
+// A design variant is a variant of the design that can be purchased. For example, each color of a garment is a variant.
+model DesignVariant {
+  id String @id @default(uuid())
+
+  designId String
+
+  catalogProductColorId String
+
+  colorHexCode String?
+  colorName    String?
+
+  images DesignVariantImage[]
+  design Design               @relation(fields: [designId], references: [id])
+
+  @@index([designId])
+}
+
+model DesignVariantImage {
+  designVariantId String
+  fileId          String
+  order           Int
+
+  designVariant DesignVariant @relation(fields: [designVariantId], references: [id])
+
+  @@unique([designVariantId, fileId, order])
+}
+
+model DesignRequest {
+  id String @id @default(uuid())
+
+  designRequestProductId String
+
+  // The user that this design request belongs to
+  userId String?
+
+  // The organization that this design request belongs to
+  organizationId String?
+
+  approvedDesignProofId String?
+
+  // The name of the design request
+  name String
+
+  // The description of the design request
+  description String? @db.Text
+
+  conversationId String?
+
+  metadata Json?
+
+  // The status of the design request
+  status DesignRequestStatus @default(DRAFT)
+
+  designLocations DesignRequestDesignLocation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  designRequestFiles        DesignRequestFile[]
+  designRequestArtists      DesignRequestArtist[]
+  designRequestDesignProofs DesignRequestDesignProof[]
+  designRequestRevisions    DesignRequestRevision[]
+  designs                   Design[]
+  designRequestProduct      DesignRequestProduct       @relation(fields: [designRequestProductId], references: [id])
+
+  @@index([userId])
+  @@index([organizationId])
+  @@index([approvedDesignProofId])
+  @@index([designRequestProductId])
+}
+
+model DesignRequestArtist {
+  id String @id @default(uuid())
+
+  isActive Boolean @default(true)
+
+  designRequestId String
+
+  artistUserId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  designRequest DesignRequest @relation(fields: [designRequestId], references: [id])
+
+  @@index([artistUserId])
+  @@index([designRequestId])
+}
+
+enum DesignRequestStatus {
+  // Design request is a draft and hasn't been submitted yet
+  DRAFT
+  // Design request has been submitted and work has begun
+  SUBMITTED
+  // Design request has been approved
+  APPROVED
+  // Design request is awaiting revision from Stitchi
+  AWAITING_REVISION
+  // Design request is awaiting approval from the user
+  AWAITING_APPROVAL
+  // Design request is rejected (by Stitchi). This can happen if design subject is not appropriate.
+  REJECTED
+}
+
+model DesignRequestFile {
+  id String @id @default(uuid())
+
+  // The design request that this file belongs to
+  designRequestId String
+  fileId          String
+
+  designRequest DesignRequest @relation(fields: [designRequestId], references: [id])
+  file          File          @relation(fields: [fileId], references: [id])
+
+  @@index([designRequestId])
+  @@index([fileId])
+}
+
+model DesignRequestRevision {
+  id String @id @default(uuid())
+
+  userId          String
+  designRequestId String
+
+  description String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  designRequest              DesignRequest               @relation(fields: [designRequestId], references: [id])
+  designRequestRevisionFiles DesignRequestRevisionFile[]
+
+  @@index([designRequestId])
+}
+
+model DesignRequestRevisionFile {
+  id String @id @default(uuid())
+
+  // The design request that this file belongs to
+  designRequestRevisionId String
+  fileId                  String
+
+  designRequestRevision DesignRequestRevision @relation(fields: [designRequestRevisionId], references: [id])
+  file                  File                  @relation(fields: [fileId], references: [id])
+
+  @@index([designRequestRevisionId])
+  @@index([fileId])
+}
+
+model DesignRequestDesignLocation {
+  id String @id @default(uuid())
+
+  designRequestId String
+
+  // The description of the print location
+  description String? @db.Text
+
+  placement String?
+
+  designRequest                    DesignRequest                     @relation(fields: [designRequestId], references: [id])
+  designRequestDesignLocationFiles DesignRequestDesignLocationFile[]
+
+  @@index([designRequestId])
+}
+
+model DesignRequestDesignLocationFile {
+  id String @id @default(uuid())
+
+  // The design request print location that this file belongs to
+  designRequestDesignLocationId String
+  fileId                        String
+
+  designRequestPrintLocation DesignRequestDesignLocation @relation(fields: [designRequestDesignLocationId], references: [id], onDelete: Cascade)
+  File                       File                        @relation(fields: [fileId], references: [id])
+
+  @@index([designRequestDesignLocationId])
+  @@index([fileId])
+}
+
+model DesignRequestDesignProof {
+  id String @id @default(uuid())
+
+  // The design request that this proof belongs to
+  designRequestId String
+  designProofId   String
+
+  designRequest DesignRequest @relation(fields: [designRequestId], references: [id])
+  designProof   DesignProof   @relation(fields: [designProofId], references: [id])
+
+  @@index([designRequestId])
+  @@index([designProofId])
+}
+
+model DesignRequestProduct {
+  id String @id @default(uuid())
+
+  catalogProductId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  designRequestProductColors DesignRequestProductColor[]
+
+  designRequests DesignRequest[]
+}
+
+model DesignRequestProductColor {
+  id String @id @default(uuid())
+
+  // The design request product that this color belongs to
+  designRequestProductId String
+
+  catalogProductColorId String
+
+  hexCode String?
+  name    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  designRequestProduct DesignRequestProduct @relation(fields: [designRequestProductId], references: [id])
+
+  @@index([designRequestProductId])
+}
+
+model DesignProof {
+  id String @id @default(uuid())
+
+  artistUserId     String
+  catalogProductId String
+
+  primaryImageFileId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  designProofLocations DesignProofLocation[]
+  designProofVariants  DesignProofVariant[]
+
+  designRequestDesignProofs DesignRequestDesignProof[]
+  design                    Design[]
+}
+
+model DesignProofVariant {
+  id String @id @default(uuid())
+
+  designProofId String
+
+  catalogProductColorId String
+
+  hexCode String?
+  name    String?
+
+  images DesignProofVariantImage[]
+
+  designProof DesignProof @relation(fields: [designProofId], references: [id])
+
+  @@index([designProofId])
+}
+
+model DesignProofVariantImage {
+  designProofVariantId String
+  imageFileId          String
+  order                Int
+
+  designProofVariant DesignProofVariant @relation(fields: [designProofVariantId], references: [id])
+  image              File               @relation(fields: [imageFileId], references: [id])
+
+  @@unique([designProofVariantId, imageFileId, order])
+  @@index([imageFileId])
+}
+
+model DesignProofLocation {
+  id String @id @default(uuid())
+
+  designProofId String
+  fileId        String
+
+  placement  String?
+  colorCount Int?
+
+  designProof DesignProof @relation(fields: [designProofId], references: [id], onDelete: Cascade)
+  file        File        @relation(fields: [fileId], references: [id])
+
+  @@index([designProofId])
+  @@index([fileId])
 }
 
 model MailingAddress {
@@ -363,43 +758,148 @@ model Notification {
   // The organization that this notification belongs to
   organizationId String?
 
-  notificationEmailId String?
-  NotificationEmail   NotificationEmail? @relation(fields: [notificationEmailId], references: [id], onUpdate: NoAction)
+  notificationGroupId String?
 
-  sendAt DateTime?
+  sentAt DateTime?
 
   // The type of notification
   type NotificationType
 
   // The status of the notification
-  sendStatus NotificationSendStatus @default(NOT_SENT)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([notificationEmailId])
+  notificationGroup    NotificationGroup?    @relation(fields: [notificationGroupId], references: [id])
+  notificationChannels NotificationChannel[]
+  organization         Organization?         @relation(fields: [organizationId], references: [id])
+
+  @@index([userId])
+  @@index([organizationId])
+  @@index([notificationGroupId])
+}
+
+model NotificationChannel {
+  id String @id @default(uuid())
+
+  notificationId String
+  childId        String @unique
+
+  type NotificationChannelType
+
+  notification Notification              @relation(fields: [notificationId], references: [id])
+  sms          NotificationChannelSms?   @relation(fields: [childId], references: [id], map: "sms_childId")
+  email        NotificationChannelEmail? @relation(fields: [childId], references: [id], map: "email_childId")
+  web          NotificationChannelWeb?   @relation(fields: [childId], references: [id], map: "web_childId")
+
+  @@unique([notificationId, type])
+  @@index([childId])
+}
+
+enum NotificationChannelType {
+  SMS
+  EMAIL
+  WEB
+}
+
+model NotificationChannelSms {
+  id String @id @default(uuid())
+
+  message             String               @db.Text
+  notificationChannel NotificationChannel?
+}
+
+model NotificationChannelEmail {
+  id String @id @default(uuid())
+
+  subject  String
+  htmlBody String  @db.Text
+  textBody String? @db.Text
+
+  recipientEmail      String
+  recipientName       String?
+  notificationChannel NotificationChannel?
+}
+
+model NotificationChannelWeb {
+  id String @id @default(uuid())
+
+  message             String               @db.Text
+  notificationChannel NotificationChannel?
 }
 
 enum NotificationType {
   ORDER_CONFIRMED
+  DESIGN_REQUEST_SUBMITTED
 }
 
-enum NotificationSendStatus {
-  NOT_SENT
-  SENT
-}
-
-model NotificationEmail {
+model NotificationGroup {
   id String @id @default(uuid())
 
-  subject String
+  type NotificationType
 
-  htmlBody String @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  textBody String? @db.Text
+  notifications Notification[]
+}
 
-  recipientEmail String
-  recipientName  String?
+model Conversation {
+  id String @id @default(uuid())
 
-  Notification Notification[]
+  createdAt                DateTime                  @default(now())
+  updatedAt                DateTime                  @updatedAt
+  conversationMessageFiles ConversationMessageFile[]
+  conversationMessages     ConversationMessage[]
+}
+
+model ConversationMessage {
+  id String @id @default(uuid())
+
+  conversationId String
+
+  // A null sender is considered a system message
+  senderUserId String?
+
+  message String @db.Text
+
+  createdAt                DateTime                  @default(now())
+  updatedAt                DateTime                  @updatedAt
+  conversationMessageFiles ConversationMessageFile[]
+  conversation             Conversation              @relation(fields: [conversationId], references: [id])
+
+  @@index([conversationId])
+}
+
+model ConversationMessageFile {
+  id String @id @default(uuid())
+
+  conversationId        String
+  conversationMessageId String
+  fileId                String
+
+  conversation        Conversation        @relation(fields: [conversationId], references: [id])
+  conversationMessage ConversationMessage @relation(fields: [conversationMessageId], references: [id])
+  file                File                @relation(fields: [fileId], references: [id])
+
+  @@index([conversationMessageId])
+  @@index([conversationId])
+  @@index([fileId])
+}
+
+model Color {
+  id String @id @default(uuid())
+
+  name String
+
+  hex String
+
+  cmykC Int?
+  cmykM Int?
+  cmykY Int?
+  cmykK Int?
+
+  pantone String?
+
+  organizationColors OrganizationColor[]
 }

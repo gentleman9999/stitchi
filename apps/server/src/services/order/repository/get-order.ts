@@ -1,4 +1,4 @@
-import { OrderTable, Order } from '../db/order-table'
+import { OrderTable } from '../db/order-table'
 import { PrismaClient } from '@prisma/client'
 import { OrderFactoryOrder, orderFactory } from '../factory'
 import { table as makeOrderTable } from '../db/order-table'

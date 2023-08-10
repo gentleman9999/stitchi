@@ -2,6 +2,69 @@
 ### Do not make changes to this file directly
 
 
+type CatalogBrand {
+  id: ID!
+  name: String!
+  slug: String!
+}
+
+type CatalogCategory {
+  bigCommerceEntityId: ID!
+  description: String
+  name: String!
+  subcategories: CatalogCategory
+}
+
+type CatalogProduct {
+  brand: CatalogBrand
+  brandId: ID
+  categoryIds: [ID!]!
+  createdAt: DateTime!
+  description: String!
+  id: ID!
+  images: [CatalogProductImage!]!
+  name: String!
+  priceCents: Int!
+  primaryImage: CatalogProductImage
+  relatedProductIds: [ID!]!
+  slug: String!
+  updatedAt: DateTime!
+  visible: Boolean!
+}
+
+type CatalogProductImage {
+  order: Int
+  url: String!
+}
+
+type Color {
+  cmykC: Int
+  cmykK: Int
+  cmykM: Int
+  cmykY: Int
+  hex: String!
+  id: String!
+  name: String!
+  pantone: String
+}
+
+type Conversation {
+  id: ID!
+  messages: [ConversationMessage!]!
+}
+
+type ConversationMessage {
+  conversationId: ID!
+  createdAt: DateTime!
+  fileIds: [ID!]!
+  files: [File!]!
+  id: ID!
+  message: String!
+  sender: User
+  senderUserId: ID
+  viewerIsSender: Boolean!
+}
+
 input DateFilterInput {
   gte: String
   lte: String
@@ -11,6 +74,474 @@ input DateFilterInput {
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
 scalar DateTime
+
+type DesignProduct {
+  catalogProductId: ID!
+  colors: [DesignProductColor!]!
+  createdAt: DateTime!
+  description: String
+  designProofId: ID!
+  designRequestId: ID!
+  id: ID!
+  minUnitPriceCents: Int
+  name: String!
+  organizationId: ID
+  primaryImageFile: FileImage
+  primaryImageFileId: ID
+  quote(quantity: Int!): Quote
+  termsConditionsAgreed: Boolean!
+  updatedAt: DateTime!
+  userId: ID
+  variants: [DesignProductVariant!]!
+}
+
+type DesignProductColor {
+  catalogProductColorId: ID!
+  designRequestProductId: ID!
+  hex: String
+  id: ID!
+  imageFileIds: [ID!]!
+  images: [FileImage!]!
+  name: String
+}
+
+type DesignProductConnection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [DesignProductEdge]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+}
+
+input DesignProductCreateOrderInput {
+  designProductId: ID!
+  orderItems: [DesignProductCreateOrderItemInput!]!
+  shippingAddressId: ID
+}
+
+input DesignProductCreateOrderItemInput {
+  catalogProductVariantId: ID!
+  quantity: Int!
+}
+
+type DesignProductCreateOrderPayload {
+  order: Order
+}
+
+type DesignProductEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: DesignProduct
+}
+
+type DesignProductVariant {
+  catalogProductColorId: ID
+  catalogProductId: ID!
+  catalogProductSizeId: ID
+  catalogProductVariantId: ID!
+  id: ID!
+  sizeName: String
+}
+
+type DesignProof {
+  artist: User
+  artistUserId: ID!
+  colors: [DesignProofColor!]!
+  createdAt: DateTime!
+  designProofColorIds: [ID!]!
+  designProofLocationIds: [ID!]!
+  id: ID!
+  locations: [DesignProofLocation!]!
+  primaryImageFile: FileImage
+  primaryImageFileId: ID
+  user: User
+}
+
+type DesignProofColor {
+  catalogProductColorId: ID!
+  designProofId: ID!
+  hexCode: String
+  id: ID!
+  imageFileIds: [ID!]!
+  images: [FileImage!]!
+  name: String
+}
+
+type DesignProofLocation {
+  colorCount: Int
+  designProofId: ID!
+  file: File
+  fileId: ID!
+  id: ID!
+  placement: String
+}
+
+type DesignRequest {
+  approvedDesignProofId: ID
+  approvedProof: DesignProof
+  conversationId: ID
+  createdAt: DateTime!
+  description: String
+  designProducts: [DesignProduct!]!
+  designProofIds: [ID!]!
+  designRequestLocationIds: [ID!]!
+  designRequestLocations: [DesignRequestDesignLocation!]!
+  designRequestProduct: DesignRequestProduct!
+  designRequestProductId: ID!
+  designRevisionRequestIds: [ID!]!
+  designRevisionRequests: [DesignRequestRevisionRequest!]!
+  fileIds: [ID!]!
+  fileUploadDirectory: String!
+  files: [File!]!
+  history: [DesignRequestHistoryItem!]!
+  humanizedStatus: String!
+  id: ID!
+  name: String!
+  previewImage: FileImage
+  proofs(limit: Int): [DesignProof!]!
+  status: DesignRequestStatus!
+  updatedAt: DateTime
+  useCase: String
+  user: User
+  userId: ID
+}
+
+input DesignRequestApproveInput {
+  description: String
+  designProofId: ID!
+  designRequestId: ID!
+  name: String!
+  termsConditionsAgreed: Boolean!
+}
+
+type DesignRequestApprovePayload {
+  design: DesignProduct
+  designRequest: DesignRequest
+}
+
+type DesignRequestConnection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [DesignRequestEdge]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+}
+
+input DesignRequestConversationMessageCreateInput {
+  designRequestId: ID!
+  fileIds: [String!]!
+  message: String!
+}
+
+type DesignRequestConversationMessageCreatePayload {
+  designRequest: DesignRequest
+}
+
+input DesignRequestCreateInput {
+  description: String
+  name: String
+  product: DesignRequestProductCreateInput!
+  useCase: String
+}
+
+type DesignRequestCreatePayload {
+  designRequest: DesignRequest
+}
+
+type DesignRequestDesignLocation {
+  description: String
+  fileIds: [ID!]!
+  fileUploadDirectory: String!
+  files: [File!]!
+  id: ID!
+  placement: String
+}
+
+input DesignRequestDesignLocationCreateInput {
+  description: String
+  designRequestId: ID!
+  fileIds: [ID!]!
+  placement: String!
+}
+
+type DesignRequestDesignLocationCreatePayload {
+  designRequest: DesignRequest
+  designRequestDesignLocation: DesignRequestDesignLocation
+}
+
+input DesignRequestDesignLocationDeleteInput {
+  designRequestDesignLocationId: ID!
+  designRequestId: ID!
+}
+
+type DesignRequestDesignLocationDeletePayload {
+  designRequest: DesignRequest
+}
+
+input DesignRequestDesignLocationUpdateInput {
+  description: String
+  designRequestDesignLocationId: ID!
+  designRequestId: ID!
+  fileIds: [ID!]!
+  placement: String
+}
+
+type DesignRequestDesignLocationUpdatePayload {
+  designRequest: DesignRequest
+  designRequestDesignLocation: DesignRequestDesignLocation
+}
+
+type DesignRequestEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: DesignRequest
+}
+
+union DesignRequestHistoryItem = ConversationMessage | DesignProof | DesignRequestHistoryItemDesignRequestEvent | DesignRequestRevisionRequest
+
+type DesignRequestHistoryItemAddedPayload {
+  historyItemAdded: Boolean!
+}
+
+type DesignRequestHistoryItemDesignRequestEvent {
+  id: ID!
+  method: DesignRequestHistoryItemDesignRequestEventMethod!
+  timestamp: DateTime!
+  user: User
+  userId: ID
+}
+
+enum DesignRequestHistoryItemDesignRequestEventMethod {
+  CREATE
+}
+
+type DesignRequestProduct {
+  catalogProduct: CatalogProduct
+  catalogProductId: String!
+  colors: [DesignRequestProductColors!]!
+  id: ID!
+}
+
+input DesignRequestProductColorCreateInput {
+  catalogProductColorId: ID!
+  hexCode: String
+  name: String
+}
+
+type DesignRequestProductColors {
+  catalogProductColorId: ID!
+  hexCode: String
+  name: String
+}
+
+input DesignRequestProductCreateInput {
+  catalogProductId: ID!
+  colors: [DesignRequestProductColorCreateInput!]!
+}
+
+input DesignRequestProofCreateInput {
+  designRequestId: ID!
+  message: String
+  primaryImageFileId: String!
+  proofLocations: [DesignRequestProofCreateProofLocationInput!]!
+  proofVariants: [DesignRequestProofCreateProofVariantInput!]!
+}
+
+type DesignRequestProofCreatePayload {
+  designRequest: DesignRequest
+}
+
+input DesignRequestProofCreateProofLocationInput {
+  colorCount: Int
+  fileId: ID!
+  placement: String!
+}
+
+input DesignRequestProofCreateProofVariantInput {
+  catalogProductColorId: ID!
+  hexCode: String!
+  imageFileIds: [ID!]!
+  name: String!
+}
+
+type DesignRequestRevisionRequest {
+  createdAt: DateTime!
+  description: String!
+  designRequestId: ID!
+  fileIds: [ID!]!
+  files: [File!]!
+  id: ID!
+  user: User
+  userId: ID!
+}
+
+input DesignRequestRevisionRequestCreateInput {
+  description: String!
+  designRequestId: ID!
+  fileIds: [String!]!
+}
+
+type DesignRequestRevisionRequestCreatePayload {
+  designRequest: DesignRequest
+}
+
+enum DesignRequestStatus {
+  APPROVED
+  AWAITING_APPROVAL
+  AWAITING_REVISION
+  DRAFT
+  REJECTED
+  SUBMITTED
+}
+
+input DesignRequestSubmitInput {
+  designRequestId: ID!
+}
+
+type DesignRequestSubmitPayload {
+  designRequest: DesignRequest
+}
+
+input DesignRequestUpdateInput {
+  description: String
+  designRequestId: ID!
+  fileIds: [ID!]
+  locations: [DesignRequestUpdateLocationInput!]
+  name: String
+  useCase: String
+}
+
+input DesignRequestUpdateLocationInput {
+  description: String
+  designLocationId: ID
+  fileIds: [ID!]
+  placement: String
+}
+
+type DesignRequestUpdatePayload {
+  designRequest: DesignRequest
+}
+
+interface File {
+  bytes: Int!
+  createdAt: DateTime!
+  fileType: FileType!
+  format: String!
+  humanizedBytes: String!
+  id: ID!
+  name: String!
+  organizationId: String
+  updatedAt: DateTime
+  url: String!
+  userId: String
+}
+
+type FileConnection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [FileEdge]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+}
+
+input FileCreateBatchInput {
+  files: [FileCreateInput!]!
+}
+
+type FileCreateBatchPayload {
+  files: [File!]
+}
+
+input FileCreateInput {
+  bytes: Int!
+  cloudinaryAssetId: String
+  fileType: FileType!
+  format: String!
+  height: Int
+  name: String!
+  originalFilename: String!
+  url: String!
+  width: Int
+}
+
+type FileCreatePayload {
+  file: File
+}
+
+type FileEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: File
+}
+
+type FileImage implements File {
+  bytes: Int!
+  createdAt: DateTime!
+  fileType: FileType!
+  format: String!
+  height: Int!
+  humanizedBytes: String!
+  id: ID!
+  name: String!
+  organizationId: String
+  updatedAt: DateTime
+  url: String!
+  userId: String
+  width: Int!
+}
+
+type FilePdf implements File {
+  bytes: Int!
+  createdAt: DateTime!
+  fileType: FileType!
+  format: String!
+  humanizedBytes: String!
+  id: ID!
+  name: String!
+  organizationId: String
+  updatedAt: DateTime
+  url: String!
+  userId: String
+}
+
+enum FileType {
+  IMAGE
+  PDF
+  UNKNOWN
+  VIDEO
+}
+
+type FileUnknown implements File {
+  bytes: Int!
+  createdAt: DateTime!
+  fileType: FileType!
+  format: String!
+  humanizedBytes: String!
+  id: ID!
+  name: String!
+  organizationId: String
+  updatedAt: DateTime
+  url: String!
+  userId: String
+}
 
 type Fulfillment {
   createdAt: DateTime!
@@ -101,6 +632,39 @@ type MailingAddressCreatePayload {
 
 type Membership {
   createdAt: DateTime!
+  designProducts(
+    """Returns the elements in the list that come after the specified cursor"""
+    after: String
+
+    """Returns the elements in the list that come before the specified cursor"""
+    before: String
+    filter: MembershipDesignProductsFilterInput
+
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+  ): DesignProductConnection!
+  designRequests(
+    """Returns the elements in the list that come after the specified cursor"""
+    after: String
+
+    """Returns the elements in the list that come before the specified cursor"""
+    before: String
+    filter: MembershipDesignRequestsFilterInput
+
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+  ): DesignRequestConnection!
+  flags: MembershipFlags!
+  hasDesignProducts: Boolean!
+  hasDesignRequests: Boolean!
+  hasOrders: Boolean!
+  humanizedRole: String
   id: ID!
   orders(
     """Returns the elements in the list that come after the specified cursor"""
@@ -116,12 +680,35 @@ type Membership {
     """Returns the last n elements from the list."""
     last: Int
   ): OrderConnection
-  organization: Organization
+  organization: Organization!
   organizationId: String!
   role: MembershipRole
+  scopes: [Scope!]!
   updatedAt: DateTime
   user: User
   userId: String!
+}
+
+input MembershipDesignProductsFilterInput {
+  where: MembershipDesignProductsWhereFilterInput
+}
+
+input MembershipDesignProductsWhereFilterInput {
+  createdAt: DateFilterInput
+  userId: StringFilterInput
+}
+
+input MembershipDesignRequestsFilterInput {
+  where: MembershipDesignRequestsWhereFilterInput
+}
+
+input MembershipDesignRequestsWhereFilterInput {
+  createdAt: DateFilterInput
+  userId: StringFilterInput
+}
+
+type MembershipFlags {
+  isBetaTester: Boolean!
 }
 
 input MembershipOrdersFilterInput {
@@ -134,19 +721,35 @@ input MembershipOrdersWhereFilterInput {
 
 enum MembershipRole {
   OWNER
+  STITCHI_DESIGNER
 }
 
 type Mutation {
+  designProductCreateOrder(input: DesignProductCreateOrderInput!): DesignProductCreateOrderPayload
+  designRequestApprove(input: DesignRequestApproveInput!): DesignRequestApprovePayload
+  designRequestConversationMessageCreate(input: DesignRequestConversationMessageCreateInput!): DesignRequestConversationMessageCreatePayload
+  designRequestCreate(input: DesignRequestCreateInput!): DesignRequestCreatePayload
+  designRequestDesignLocationCreate(input: DesignRequestDesignLocationCreateInput!): DesignRequestDesignLocationCreatePayload
+  designRequestDesignLocationDelete(input: DesignRequestDesignLocationDeleteInput!): DesignRequestDesignLocationDeletePayload
+  designRequestDesignLocationUpdate(input: DesignRequestDesignLocationUpdateInput!): DesignRequestDesignLocationUpdatePayload
+  designRequestProofCreate(input: DesignRequestProofCreateInput!): DesignRequestProofCreatePayload
+  designRequestRevisionRequestCreate(input: DesignRequestRevisionRequestCreateInput!): DesignRequestRevisionRequestCreatePayload
+  designRequestSubmit(input: DesignRequestSubmitInput!): DesignRequestSubmitPayload
+  designRequestUpdate(input: DesignRequestUpdateInput!): DesignRequestUpdatePayload
+  fileCreate(input: FileCreateInput!): FileCreatePayload
+  fileCreateBatch(input: FileCreateBatchInput!): FileCreateBatchPayload
   fulfillmentCreate(input: FulfillmentCreateInput!): FulfillmentCreatePayload
 
   """Creates a new mailing address for the user"""
   mailingAddressCreate(input: MailingAddressCreateInput!): MailingAddressCreatePayload
 
-  """Creates a new order during user Cart"""
-  orderCartCreate(input: OrderCartCreateInput!): OrderCartCreatePayload
-
   """Confirms an order with a customers details"""
   orderConfirm(input: OrderConfirmInput!): OrderConfirmPayload
+  organizationBrandColorCreate(input: OrganizationBrandColorCreateInput!): OrganizationBrandColorCreatePayload
+  organizationBrandColorDelete(input: OrganizationBrandColorDeleteInput!): OrganizationBrandColorDeletePayload
+  organizationBrandColorUpdate(input: OrganizationBrandColorUpdateInput!): OrganizationBrandColorUpdatePayload
+  organizationBrandFileCreateBatch(input: OrganizationBrandFileCreateBatchInput!): OrganizationBrandFileCreateBatchPayload
+  organizationBrandFileDeleteBatch(input: OrganizationBrandFileDeleteBatchInput!): OrganizationBrandFileDeleteBatchPayload
   paymentIntentCreate(input: PaymentIntentCreateInput!): PaymentIntentCreatePayload
 
   """Creates a new email subscriber"""
@@ -154,6 +757,8 @@ type Mutation {
 
   """Bootstraps a new user with necessary resources"""
   userBoostrap: User
+  userOrganizationCreate(input: UserOrganizationCreateInput!): UserOrganizationCreatePayload
+  userSetOrganization(input: UserSetOrganizationInput!): UserSetOrganizationPayload
 }
 
 type Order {
@@ -185,24 +790,13 @@ type Order {
   totalTaxCents: Int!
   type: OrderType!
   updatedAt: DateTime
+  user: User
   userId: String
-}
-
-input OrderCartCreateInput {
-  includeFulfillment: Boolean!
-  items: [OrderCartCreateItemsInput!]!
-  printLocations: [OrderCartCreatePrintLocationInput!]!
-  productEntityId: Int!
-  shippingAddressId: String
 }
 
 input OrderCartCreateItemsInput {
   productVariantEntityId: Int!
   quantity: Int!
-}
-
-type OrderCartCreatePayload {
-  order: Order
 }
 
 input OrderCartCreatePrintLocationInput {
@@ -297,12 +891,100 @@ enum OrderType {
 }
 
 type Organization {
+  brand: OrganizationBrand
   createdAt: DateTime!
+  deletedAt: DateTime
   id: ID!
-  memberships: [Membership]
+  memberships: [Membership!]!
   name: String
   role: GlobalRole
-  updatedAt: DateTime
+  updatedAt: DateTime!
+}
+
+type OrganizationBrand {
+  colors: [Color!]!
+  fileUploadDirectory: String!
+  files(
+    """Returns the elements in the list that come after the specified cursor"""
+    after: String
+
+    """Returns the elements in the list that come before the specified cursor"""
+    before: String
+
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+  ): FileConnection!
+  id: ID!
+  organizationId: ID!
+}
+
+input OrganizationBrandColorCreateInput {
+  cmykC: Int!
+  cmykK: Int!
+  cmykM: Int!
+  cmykY: Int!
+  hex: String!
+  name: String!
+  organizationId: ID!
+  pantone: String
+}
+
+type OrganizationBrandColorCreatePayload {
+  brand: OrganizationBrand
+  color: Color!
+}
+
+input OrganizationBrandColorDeleteInput {
+  colorId: String!
+  organizationId: ID!
+}
+
+type OrganizationBrandColorDeletePayload {
+  brand: OrganizationBrand
+  color: Color!
+}
+
+input OrganizationBrandColorUpdateInput {
+  cmykC: Int!
+  cmykK: Int!
+  cmykM: Int!
+  cmykY: Int!
+  hex: String!
+  id: String!
+  name: String!
+  organizationId: ID!
+  pantone: String
+}
+
+type OrganizationBrandColorUpdatePayload {
+  brand: OrganizationBrand
+  color: Color!
+}
+
+input OrganizationBrandFileCreateBatchFileInput {
+  fileId: ID!
+}
+
+input OrganizationBrandFileCreateBatchInput {
+  files: [OrganizationBrandFileCreateBatchFileInput!]!
+  organizationId: ID!
+}
+
+type OrganizationBrandFileCreateBatchPayload {
+  brand: OrganizationBrand
+  files: [File!]!
+}
+
+input OrganizationBrandFileDeleteBatchInput {
+  fileIds: [ID!]!
+}
+
+type OrganizationBrandFileDeleteBatchPayload {
+  brand: OrganizationBrand
+  files: [File!]!
 }
 
 type PageInfo {
@@ -376,7 +1058,11 @@ input ProductPriceValue {
 
 type Query {
   _products(products: [ProductKey!]!): [Product]
+  designProduct(id: ID!): DesignProduct
+  designProof(id: ID!): DesignProof
+  designRequest(id: ID!): DesignRequest
   order(id: ID!): Order
+  userMemberships: [Membership!]!
   viewer: Membership
 }
 
@@ -394,6 +1080,27 @@ type Quote {
 
 input QuoteGeneratePrintLocationInput {
   colorCount: Int!
+}
+
+type Scope {
+  action: ScopeAction!
+  resource: ScopeResource!
+}
+
+enum ScopeAction {
+  CREATE
+  DELETE
+  READ
+  UPDATE
+}
+
+enum ScopeResource {
+  DesignProduct
+  DesignProof
+  DesignRequestRevisionRequest
+  Integration
+  Membership
+  Order
 }
 
 input StringFilterInput {
@@ -422,20 +1129,44 @@ type SubscriberCreatePayload {
   subscriber: Subscriber
 }
 
+type Subscription {
+  designRequestHistoryItemAdded(designRequestId: ID!): DesignRequestHistoryItemAddedPayload
+}
+
 type User {
   createdAt: DateTime
   email: String
   emailVerified: Boolean
   familyName: String
   givenName: String
-  id: ID
+  id: ID!
   lastLogin: DateTime
   loginsCount: Int
   name: String
   nickname: String
+  organizations: [Organization!]!
   phoneNumber: String
   phoneVerified: Boolean
   picture: String
   updatedAt: DateTime
   username: String
+}
+
+input UserOrganizationCreateInput {
+  name: String!
+}
+
+type UserOrganizationCreatePayload {
+  membership: Membership
+  organization: Organization
+}
+
+input UserSetOrganizationInput {
+  membershipId: ID!
+  organizationId: ID!
+}
+
+type UserSetOrganizationPayload {
+  membershipId: String
+  organizationId: String
 }

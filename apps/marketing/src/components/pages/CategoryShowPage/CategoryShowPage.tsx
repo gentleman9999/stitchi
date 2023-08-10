@@ -5,7 +5,7 @@ import Catalog from '@components/common/Catalog'
 import { Container } from '@components/ui'
 import { CategoryShowPageCategoryFragment } from '@generated/CategoryShowPageCategoryFragment'
 import routes from '@lib/routes'
-import makeAbsoluteUrl from '@utils/get-absolute-url'
+import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { NextSeo } from 'next-seo'
 import React from 'react'
 

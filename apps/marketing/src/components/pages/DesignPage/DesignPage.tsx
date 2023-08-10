@@ -3,7 +3,7 @@ import { FeaturePageContainer, SectionFAQ } from '@components/common'
 import { Container } from '@components/ui'
 import { DesignPageCatalogFragment } from '@generated/DesignPageCatalogFragment'
 import routes from '@lib/routes'
-import makeAbsoluteUrl from '@utils/get-absolute-url'
+import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import React from 'react'
 import DesignPageAdvantages from './DesignPageAdvantages'
 

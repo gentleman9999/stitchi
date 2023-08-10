@@ -5,7 +5,7 @@ import {
   FeaturedProductsGridCatalogFragment_featuredProducts_edges_node,
 } from '@generated/FeaturedProductsGridCatalogFragment'
 import routes from '@lib/routes'
-import { notEmpty } from '@utils/typescript'
+import { notEmpty } from '@lib/utils/typescript'
 import { ArrowRight, ChevronRight } from 'icons'
 import Image from 'next/legacy/image'
 import Link from 'next/link'

@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/legacy/image'
 import usps from '../../../../../public/customers/morning_brew/global_fast_delivery.jpg'
-import { generateImageSizes } from '@utils/image'
+import { generateImageSizes } from '@lib/utils/image'
 import { Popover } from '@headlessui/react'
 import Link from 'next/link'
 import routes from '@lib/routes'

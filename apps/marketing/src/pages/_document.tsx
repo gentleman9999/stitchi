@@ -1,7 +1,7 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { GTM_ID } from '@lib/events'
 import Script from 'next/script'
-import getOrThrow from '@utils/get-or-throw'
+import getOrThrow from '@lib/utils/get-or-throw'
 
 const smartlookApiKey = getOrThrow(
   process.env.NEXT_PUBLIC_SMARTLOOK_API_KEY,

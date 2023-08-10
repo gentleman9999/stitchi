@@ -1,4 +1,4 @@
-import getOrThrow from '@utils/get-or-throw'
+import getOrThrow from '@lib/utils/get-or-throw'
 import mixpanel, { Mixpanel } from 'mixpanel-browser'
 import React from 'react'
 import parse from 'url-parse'

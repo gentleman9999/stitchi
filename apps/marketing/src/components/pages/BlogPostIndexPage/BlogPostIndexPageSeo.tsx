@@ -4,7 +4,7 @@ import { BlogPostIndexPageSeoPageFragment } from '@generated/BlogPostIndexPageSe
 import { BlogPostIndexPageSeoCategoryFragment } from '@generated/BlogPostIndexPageSeoCategoryFragment'
 import React from 'react'
 import routes from '@lib/routes'
-import makeAbsoluteUrl from '@utils/get-absolute-url'
+import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 
 interface Props {
   page: BlogPostIndexPageSeoPageFragment

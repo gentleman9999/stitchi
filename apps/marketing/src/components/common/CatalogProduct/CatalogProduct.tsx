@@ -1,18 +1,18 @@
 import Image from 'next/legacy/image'
 import React from 'react'
 import { gql } from '@apollo/client'
-import { CatalogProductProductFragment } from '@generated/CatalogProductProductFragment'
+import { CatalogProductLegacyProductFragment } from '@generated/CatalogProductLegacyProductFragment'
 import routes from '@lib/routes'
 import Link from 'next/link'
-import useProductOptions from '@hooks/useProductOptions'
+import useProductOptions from '@components/hooks/useProductOptions'
 import SwatchGroup from '../Catalog/SwatchGroup'
-import { makeProductTitle } from '@utils/catalog'
-import { generateImageSizes } from '@utils/image'
+import { makeProductTitle } from '@lib/utils/catalog'
+import { generateImageSizes } from '@lib/utils/image'
 import currency from 'currency.js'
 import Tooltip from '@components/ui/Tooltip'
 
 export interface Props {
-  product: CatalogProductProductFragment
+  product: CatalogProductLegacyProductFragment
   priority: boolean
 }
 
@@ -80,23 +80,11 @@ const CatalogProduct = ({ product, priority }: Props) => {
 CatalogProduct.fragments = {
   product: gql`
     ${useProductOptions.fragments.product}
-    fragment CatalogProductProductFragment on Product {
-      ...UseProductColorsProductFragment
+    fragment CatalogProductLegacyProductFragment on CatalogProduct {
       id
       name
-      path
+      slug
       priceCents
-      brand {
-        id
-        name
-        path
-      }
-
-      defaultImage {
-        urlOriginal
-        altText
-        url(width: 150)
-      }
     }
   `,
 }

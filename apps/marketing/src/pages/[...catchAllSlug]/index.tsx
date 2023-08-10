@@ -18,7 +18,7 @@ import dynamic from 'next/dynamic'
 import { fragments as brandShowPageFragments } from '@components/pages/BrandShowPage'
 import { fragments as productShowPageFragments } from '@components/pages/ProductShowPage'
 import { fragments as categoryShowPageFragments } from '@components/pages/CategoryShowPage'
-import { notEmpty } from '@utils/typescript'
+import { notEmpty } from '@lib/utils/typescript'
 import {
   ProductPageGetDesignCategoryData,
   ProductPageGetDesignCategoryDataVariables,
@@ -59,8 +59,9 @@ const getPath = (slug?: string) => {
   )
 
   // Brand slug is the longest one
-  const brandSlug = possibleBrandSlugs.reduce((prev, curr) =>
-    prev.length > curr.length ? prev : curr,
+  const brandSlug = possibleBrandSlugs.reduce<string | null>(
+    (prev, curr) => (prev && prev.length > curr.length ? prev : curr),
+    null,
   )
 
   if (!brandSlug) {

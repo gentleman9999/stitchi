@@ -29,41 +29,40 @@ const makeHandler =
     if (!nextOrder.customerEmail) return
 
     if (prevOrder.type !== nextOrder.type) {
-      switch (nextOrder.type) {
-        case OrderRecordType.CONFIRMED: {
-          try {
-            const template = notification.renderNotificationTemplate({
-              id: 'customer.order.confirmed',
-              params: { order: nextOrder },
-            })
-
-            await notification.createNotification({
-              notification: {
-                organizationId: nextOrder.organizationId,
-                userId: nextOrder.userId,
-                sendAt: addMinutes(new Date(), 0),
-                sendStatus: 'NOT_SENT',
-                type: 'ORDER_CONFIRMED',
-                email: {
-                  recipientEmail: nextOrder.customerEmail,
-                  recipientName:
-                    nextOrder.customerFirstName +
-                    ' ' +
-                    nextOrder.customerLastName,
-                  subject: template.subject,
-                  htmlBody: template.htmlBody,
-                  textBody: '',
-                },
-              },
-            })
-          } catch (error) {
-            console.error(error)
-            throw new Error('Failed to create notification')
-          }
-
-          break
-        }
-      }
+      console.error('TODO: Implement order updated notification template')
+      // switch (nextOrder.type) {
+      //   case OrderRecordType.CONFIRMED: {
+      //     try {
+      //       const template = notification.renderNotificationTemplate({
+      //         id: 'customer.order.confirmed',
+      //         params: { order: nextOrder },
+      //       })
+      //       await notification.createNotification({
+      //         notification: {
+      //           organizationId: nextOrder.organizationId,
+      //           userId: nextOrder.userId,
+      //           sendAt: addMinutes(new Date(), 0),
+      //           sendStatus: 'NOT_SENT',
+      //           type: 'ORDER_CONFIRMED',
+      //           email: {
+      //             recipientEmail: nextOrder.customerEmail,
+      //             recipientName:
+      //               nextOrder.customerFirstName +
+      //               ' ' +
+      //               nextOrder.customerLastName,
+      //             subject: template.subject,
+      //             htmlBody: template.htmlBody,
+      //             textBody: '',
+      //           },
+      //         },
+      //       })
+      //     } catch (error) {
+      //       console.error(error)
+      //       throw new Error('Failed to create notification')
+      //     }
+      //     break
+      //   }
+      // }
     }
   }
 

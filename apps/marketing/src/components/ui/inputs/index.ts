@@ -12,3 +12,11 @@ export * from './RangeSlider'
 
 export { default as TextField } from './TextField'
 export * from './TextField'
+
+export { default as InputGroup } from './InputGroup'
+export * from './InputGroup'
+
+export { default as FileInput } from './FileInput'
+export * from './FileInput'
+
+export { default as RichTextEditor } from './RichTextEditor'

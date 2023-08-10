@@ -12,8 +12,7 @@ import * as uuid from 'uuid'
 import { connectionFromArray } from 'graphql-relay'
 import { orderFactoryOrderToGraphQL } from '../../serializers/order'
 export * from './mailing-address'
-import { NexusGenObjects, NexusGenInputs } from '../../generated/nexus'
-import { endOfDay, parseISO, startOfDay } from 'date-fns'
+import { NexusGenObjects } from '../../generated/nexus'
 
 export const order = queryField('order', {
   type: 'Order',
@@ -105,8 +104,8 @@ export const OrderItemSummaries = extendType({
           let product
 
           try {
-            product = await context.catalog.getBigCommerceProduct({
-              productEntityId: parseInt(productId),
+            product = await context.catalog.getCatalogProduct({
+              productEntityId: productId,
             })
           } catch (error) {
             console.error(`Failed to get product: ${productId}`, {
@@ -159,24 +158,30 @@ export const MembershipOrdersFilterInput = inputObjectType({
 export const OrdersExtendsMember = extendType({
   type: 'Membership',
   definition(t) {
+    t.nonNull.field('hasOrders', {
+      type: 'Boolean',
+      resolve: async (parent, _, { order }) => {
+        const orders = await order.listOrders({
+          where: {
+            organizationId: parent.organizationId,
+            userId: parent.userId,
+          },
+          take: 1,
+        })
+
+        return orders.length > 0
+      },
+    })
     t.connectionField('orders', {
       type: 'Order',
       additionalArgs: {
         filter: arg({ type: 'MembershipOrdersFilterInput' }),
       },
       resolve: async (
-        _,
+        parent,
         { first, last, after, before, filter },
-        { order, userId, organizationId },
+        { order },
       ) => {
-        if (!userId) {
-          throw new GraphQLError('Forbidden')
-        }
-
-        if (!organizationId) {
-          throw new GraphQLError('Forbidden')
-        }
-
         const limit = first || last || 50
 
         // Add one to see if there's a next page
@@ -184,8 +189,7 @@ export const OrdersExtendsMember = extendType({
 
         const orders = await order.listOrders({
           where: {
-            organizationId,
-            userId,
+            organizationId: parent.organizationId,
             createdAt: filter?.where?.createdAt
               ? {
                   gte: filter.where.createdAt.gte || undefined,

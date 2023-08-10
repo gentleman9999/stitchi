@@ -1,7 +1,7 @@
 import React from 'react'
 import { Elements } from '@stripe/react-stripe-js'
 import { Appearance, loadStripe } from '@stripe/stripe-js'
-import getOrThrow from '@utils/get-or-throw'
+import getOrThrow from '@lib/utils/get-or-throw'
 import { theme } from '../../../../tailwind.config'
 
 const STRIPE_PUBLISHABLE_KEY = getOrThrow(

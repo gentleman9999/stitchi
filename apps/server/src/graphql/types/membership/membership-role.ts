@@ -4,5 +4,6 @@ export const MembershipRole = enumType({
   name: 'MembershipRole',
   members: {
     OWNER: 'OWNER',
+    STITCHI_DESIGNER: 'STITCHI_DESIGNER',
   },
 })

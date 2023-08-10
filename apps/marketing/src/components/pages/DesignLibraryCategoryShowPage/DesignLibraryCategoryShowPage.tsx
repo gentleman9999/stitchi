@@ -11,7 +11,7 @@ import { Container, LinkInline } from '@components/ui'
 import { DesignLibraryCategoryShowPageCatalogFragment } from '@generated/DesignLibraryCategoryShowPageCatalogFragment'
 import { DesignLibraryCategoryShowPageDesignCategoryFragment } from '@generated/DesignLibraryCategoryShowPageDesignCategoryFragment'
 import routes from '@lib/routes'
-import makeAbsoluteUrl from '@utils/get-absolute-url'
+import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { ArrowRight } from 'icons'
 import React from 'react'
 

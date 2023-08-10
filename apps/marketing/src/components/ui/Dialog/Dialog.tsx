@@ -7,18 +7,20 @@ import DialogContent from './DialogContent'
 import DialogContentText from './DialogContentText'
 import DialogActions from './DialogActions'
 import Transition from '../Transition'
-import useBreakpoints from '@hooks/useBreakpoints'
+import useBreakpoints from '@components/hooks/useBreakpoints'
 import DialogSectionPadding from './DialogSectionPadding'
+
+type Children = ReturnType<
+  | typeof DialogTitle
+  | typeof DialogIcon
+  | typeof DialogContent
+  | typeof DialogActions
+>
 
 export interface DialogProps {
   open: boolean
-  onClose: () => void
-  children: ReturnType<
-    | typeof DialogTitle
-    | typeof DialogIcon
-    | typeof DialogContent
-    | typeof DialogActions
-  >[]
+  onClose?: () => void
+  children: Children | Children[]
   size?: 'sm' | 'md' | 'lg'
   className?: string
   mobileFullScreen?: boolean
@@ -72,7 +74,9 @@ const Dialog = (props: DialogProps) => {
   return (
     <RuiDialog.Root
       open={props.open}
-      onOpenChange={val => val === false && props.onClose()}
+      onOpenChange={
+        props.onClose ? val => val === false && props.onClose?.() : undefined
+      }
     >
       <OptionalPortal disablePortal={disablePortal}>
         <Transition.Root show={props.open} as={Fragment}>

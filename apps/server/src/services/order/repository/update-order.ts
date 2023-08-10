@@ -86,6 +86,8 @@ const makeUpdateOrder: MakeUpdateOrderFn =
         include: { OrderItems: true },
         data: {
           updatedAt: new Date(),
+          organizationId: validInput.organizationId,
+          userId: validInput.userId,
           type: validInput.type,
           customerEmail: validInput.customerEmail,
           customerFirstName: validInput.customerFirstName,
@@ -105,7 +107,6 @@ const makeUpdateOrder: MakeUpdateOrderFn =
             update: itemsToUpdate.map(({ id, ...item }) => ({
               where: { id },
               data: {
-                designId: item.designId,
                 title: item.title,
                 quantity: item.quantity,
                 unitPriceCents: item.unitPriceCents,
@@ -114,6 +115,7 @@ const makeUpdateOrder: MakeUpdateOrderFn =
                 productVariantId: item.productVariantId,
                 type: item.type,
                 fulfillmentStatus: item.fulfillmentStatus,
+                designId: item.designId,
               },
             })),
             create: itemsToCreate.map(({ ...item }) => ({

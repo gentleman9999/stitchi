@@ -2,6 +2,8 @@
 User-agent: *
 Disallow: /orders
 Disallow: /buy
+Disallow: /closet
+Disallow: /account
 
 # Host
 Host: http://localhost:3000

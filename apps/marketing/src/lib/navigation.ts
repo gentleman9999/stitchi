@@ -96,15 +96,19 @@ const navigation = {
       //   icon: Support,
       //   href: '#',
       // },
-
+    ],
+    company: [
+      // { label: 'Claim', href: '#' },
       {
         label: 'Careers',
         icon: Support,
         href: routes.external.careers.href(),
       },
-    ],
-    legal: [
-      // { label: 'Claim', href: '#' },
+      {
+        label: 'Contact Us',
+        icon: Support,
+        href: routes.internal.contact.href(),
+      },
       { label: 'Privacy', href: routes.internal.legal.privacy.href() },
       { label: 'Terms', href: routes.internal.legal.terms.href() },
     ],

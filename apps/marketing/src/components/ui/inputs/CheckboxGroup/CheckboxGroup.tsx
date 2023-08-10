@@ -49,10 +49,6 @@ const CheckboxGroup = (props: CheckboxGroupProps) => {
     })
   }
 
-  React.useEffect(() => {
-    console.log('CHANGED')
-  }, [checkedState])
-
   const handleIsolateChecked = (index: number) => {
     setCheckedState(prev =>
       prev.map((value, i) => ({ ...value, checked: i === index })),

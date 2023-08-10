@@ -55,6 +55,7 @@ export interface ClosetOrdersIndexPageGetDataQuery_viewer_orders {
 export interface ClosetOrdersIndexPageGetDataQuery_viewer {
   __typename: "Membership";
   id: string;
+  hasOrders: boolean;
   orders: ClosetOrdersIndexPageGetDataQuery_viewer_orders | null;
 }
 

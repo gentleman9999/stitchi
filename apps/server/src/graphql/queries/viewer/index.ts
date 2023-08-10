@@ -1,12 +1,25 @@
+import { GraphQLError } from 'graphql'
 import { queryField } from 'nexus'
+import { membershipFactoryToGrahpql } from '../../serializers/membership'
 
 export const viewer = queryField('viewer', {
   type: 'Membership',
-  resolve(_, __, ctx) {
+  resolve: async (_, __, ctx) => {
     if (!ctx.membershipId || !ctx.userId) return null
 
-    return ctx.prisma.membership.findFirst({
-      where: { id: ctx.membershipId },
-    })
+    let membership
+
+    try {
+      membership = await ctx.membership.getMembership({
+        membershipId: ctx.membershipId,
+      })
+    } catch (error) {
+      console.error("Failed to get user's membership", {
+        context: { error, userId: ctx.userId },
+      })
+      throw new GraphQLError('Failed to get user membership')
+    }
+
+    return membershipFactoryToGrahpql(membership)
   },
 })

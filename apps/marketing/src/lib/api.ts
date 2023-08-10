@@ -5,7 +5,7 @@ import {
   GetStaticPathsContext,
   GetStaticPropsContext,
 } from 'next'
-import makeAbsoluteUrl from '@utils/get-absolute-url'
+import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { track } from './analytics'
 
 type Context =

@@ -1,6 +1,5 @@
-import ClosetOrdersIndexPage from '@components/common/ClosetOrdersIndexPage'
+import ClosetOrdersIndexPage from '@components/pages/ClosetOrdersIndexPage'
 import { ClosetLayout } from '@components/layout'
-import { withAuthentication } from '@lib/auth'
 import React from 'react'
 
 const Page = () => {
@@ -11,4 +10,4 @@ Page.getLayout = (page: React.ReactElement) => (
   <ClosetLayout>{page}</ClosetLayout>
 )
 
-export default withAuthentication(Page)
+export default Page

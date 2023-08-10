@@ -6,14 +6,58 @@ import React from 'react'
 import { ArrowRight } from 'icons'
 import { track } from '@lib/analytics'
 import CatalogProductVariantPreview from '@components/common/CatalogProductVariantPreview'
-import { Button } from '@components/ui'
-import currency from 'currency.js'
+import ProductForm, { FormValues } from './ProductForm'
+import useProductShowPageHero from './useProductShowPageHero'
+import { useRouter } from 'next/router'
+import useProductOptions from '@components/hooks/useProductOptions'
+import { DesignRequestCreateInput } from '@generated/globalTypes'
 
 interface Props {
   product: ProductShowPageHeroProductFragment
 }
 
 const ProductShowPageHero = ({ product }: Props) => {
+  const router = useRouter()
+  const { colors } = useProductOptions({ product })
+
+  const { handleCreateDesignRequest } = useProductShowPageHero({
+    productEntityId: product.entityId,
+    productName: product.name,
+  })
+
+  const handleSubmit = async (data: FormValues) => {
+    const serializedColors: DesignRequestCreateInput['product']['colors'] = []
+
+    data.colorEntityIds.forEach(colorEntityId => {
+      const color = colors.find(color => color.entityId === colorEntityId)
+
+      if (!color?.entityId) {
+        return
+      }
+
+      serializedColors.push({
+        catalogProductColorId: color.entityId.toString(),
+        hexCode: color.hexColors[0],
+        name: color.label,
+      })
+    })
+
+    const designRequest = await handleCreateDesignRequest({
+      colors: serializedColors,
+    })
+
+    if (!designRequest) {
+      console.error('Invariant error: designRequest is null')
+      return
+    }
+
+    await router.push(
+      routes.internal.closet.designRequests.show.href({
+        designId: designRequest.id,
+      }),
+    )
+  }
+
   return (
     <div className="grid grid-cols-12 gap-2 sm:gap-4 md:gap-10">
       <div className="col-span-12 sm:col-span-6 lg:col-span-7 flex flex-col gap-4">
@@ -23,46 +67,11 @@ const ProductShowPageHero = ({ product }: Props) => {
       <div className="col-span-12 sm:col-span-6 lg:col-span-5">
         <div className="sticky top-24 flex flex-col gap-6">
           <div className="p-6 border rounded-sm @container">
-            <div className="flex flex-col @xs:flex-row justify-between @xs:items-center gap-4">
-              <div className="flex flex-col">
-                <span className="text-gray-400 font-medium font-headingDisplay">
-                  from
-                </span>{' '}
-                <span className="text-5xl font-medium font-headingDisplay text-gray-600">
-                  {currency(product.priceCents, { fromCents: true }).format()}{' '}
-                </span>
-              </div>
-              <div className="grid grid-cols-1 gap-2 w-full @xs:w-auto">
-                <Button
-                  className="whitespace-nowrap"
-                  color="brandPrimary"
-                  Component={Link}
-                  href={routes.internal.catalog.product.purchase.href({
-                    productSlug: product.path,
-                    brandSlug: product.brand?.path || '',
-                  })}
-                  onClick={() => {
-                    track.productPrimaryCtaClicked({ name: product.name })
-                  }}
-                >
-                  Start an order
-                </Button>
-                <Button
-                  className="whitespace-nowrap"
-                  variant="ghost"
-                  Component={Link}
-                  href={routes.internal.catalog.product.purchase.href({
-                    productSlug: product.path,
-                    brandSlug: product.brand?.path || '',
-                  })}
-                  onClick={() => {
-                    track.productSecondaryCtaClicked({ name: product.name })
-                  }}
-                >
-                  Instant quote
-                </Button>
-              </div>
-            </div>
+            <ProductForm
+              onSubmit={handleSubmit}
+              product={product}
+              colors={colors}
+            />
           </div>
 
           <div className="flex flex-col gap-4">
@@ -90,13 +99,15 @@ const ProductShowPageHero = ({ product }: Props) => {
 ProductShowPageHero.fragments = {
   product: gql`
     ${CatalogProductVariantPreview.fragments.product}
+    ${ProductForm.fragments.product}
+    ${useProductOptions.fragments.product}
     fragment ProductShowPageHeroProductFragment on Product {
       ...CatalogProductVariantPreviewProductFragment
+      ...ProductShowPageProductFormProductFragment
       id
       entityId
       name
       path
-      priceCents
 
       defaultImage {
         urlOriginal
@@ -116,6 +127,7 @@ ProductShowPageHero.fragments = {
           }
         }
       }
+      ...UseProductColorsProductFragment
     }
   `,
 }

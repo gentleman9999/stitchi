@@ -4,11 +4,16 @@ import {
   Product,
   makeProductVariant,
   ProductVariant,
+  Brand,
+  makeCategory,
+  Category,
 } from './serialize'
 
 export type {
   Product as BigCommerceProduct,
   ProductVariant as BigCommerceProductVariant,
+  Brand as BigCommerceBrand,
+  Category as BigCommerceCategory,
 }
 
 export interface BigCommerceClient {
@@ -17,6 +22,12 @@ export interface BigCommerceClient {
     productEntityId: number
     variantEntityId: number
   }) => Promise<ProductVariant>
+  listProductVariants: (input: {
+    productEntityId: number
+  }) => Promise<ProductVariant[]>
+  getBrand: (input: { brandEntityId: number }) => Promise<Brand>
+
+  listProductCategories: (input: { parentId?: number }) => Promise<Category[]>
 }
 
 interface BigCommerceClientConfig {}
@@ -28,7 +39,7 @@ const makeClient = (
     getProduct: async input => {
       try {
         const res = await bigCommerceClient(
-          `/catalog/products/${input.productEntityId}`,
+          `/catalog/products/${input.productEntityId}?include=images`,
         )
 
         const { data, errors } = await res.json()
@@ -72,6 +83,72 @@ const makeClient = (
         )
 
         throw new Error('Failed to get product variant')
+      }
+    },
+    listProductVariants: async input => {
+      try {
+        const res = await bigCommerceClient(
+          `/catalog/products/${input.productEntityId}/variants`,
+        )
+
+        const { data, errors } = await res.json()
+
+        if (errors) {
+          console.error(errors)
+        }
+
+        return data.map(makeProductVariant)
+      } catch (error) {
+        console.error(
+          `Failed to list product variants: ${input.productEntityId}`,
+          {
+            context: { error, productEntityId: input.productEntityId },
+          },
+        )
+
+        throw new Error('Failed to list product variants')
+      }
+    },
+    getBrand: async input => {
+      try {
+        const res = await bigCommerceClient(
+          `/catalog/brands/${input.brandEntityId}`,
+        )
+
+        const { data, errors } = await res.json()
+
+        if (errors) {
+          console.error(errors)
+        }
+
+        return data
+      } catch (error) {
+        console.error(`Failed to get brand: ${input.brandEntityId}`, {
+          context: { error, brandEntityId: input.brandEntityId },
+        })
+
+        throw new Error('Failed to get brand')
+      }
+    },
+    listProductCategories: async input => {
+      try {
+        const params = input.parentId ? `?parent_id=${input.parentId}` : ''
+
+        const res = await bigCommerceClient(`/catalog/categories${params}`)
+
+        const { data, errors } = await res.json()
+
+        if (errors) {
+          console.error(errors)
+        }
+
+        return data.map(makeCategory)
+      } catch (error) {
+        console.error(`Failed to get categories`, {
+          context: { error },
+        })
+
+        throw new Error('Failed to get categories')
       }
     },
   }

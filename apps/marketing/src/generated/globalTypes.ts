@@ -34,6 +34,26 @@ export enum ArticleModelOrderBy {
   updatedAt_DESC = "updatedAt_DESC",
 }
 
+export enum DesignRequestHistoryItemDesignRequestEventMethod {
+  CREATE = "CREATE",
+}
+
+export enum DesignRequestStatus {
+  APPROVED = "APPROVED",
+  AWAITING_APPROVAL = "AWAITING_APPROVAL",
+  AWAITING_REVISION = "AWAITING_REVISION",
+  DRAFT = "DRAFT",
+  REJECTED = "REJECTED",
+  SUBMITTED = "SUBMITTED",
+}
+
+export enum FileType {
+  IMAGE = "IMAGE",
+  PDF = "PDF",
+  UNKNOWN = "UNKNOWN",
+  VIDEO = "VIDEO",
+}
+
 export enum ItemStatus {
   draft = "draft",
   published = "published",
@@ -46,6 +66,22 @@ export enum OrderPaymentStatus {
   PARTIALLY_PAID = "PARTIALLY_PAID",
   PARTIALLY_REFUNDED = "PARTIALLY_REFUNDED",
   REFUNDED = "REFUNDED",
+}
+
+export enum ScopeAction {
+  CREATE = "CREATE",
+  DELETE = "DELETE",
+  READ = "READ",
+  UPDATE = "UPDATE",
+}
+
+export enum ScopeResource {
+  DesignProduct = "DesignProduct",
+  DesignProof = "DesignProof",
+  DesignRequestRevisionRequest = "DesignRequestRevisionRequest",
+  Integration = "Integration",
+  Membership = "Membership",
+  Order = "Order",
 }
 
 export interface ArticleModelFilter {
@@ -97,6 +133,112 @@ export interface DateFilterInput {
   lte?: string | null;
 }
 
+export interface DesignProductCreateOrderInput {
+  designProductId: string;
+  shippingAddressId?: string | null;
+  orderItems: DesignProductCreateOrderItemInput[];
+}
+
+export interface DesignProductCreateOrderItemInput {
+  catalogProductVariantId: string;
+  quantity: number;
+}
+
+export interface DesignRequestApproveInput {
+  designRequestId: string;
+  designProofId: string;
+  termsConditionsAgreed: boolean;
+  name: string;
+  description?: string | null;
+}
+
+export interface DesignRequestConversationMessageCreateInput {
+  designRequestId: string;
+  message: string;
+  fileIds: string[];
+}
+
+export interface DesignRequestCreateInput {
+  name?: string | null;
+  description?: string | null;
+  useCase?: string | null;
+  product: DesignRequestProductCreateInput;
+}
+
+export interface DesignRequestProductColorCreateInput {
+  catalogProductColorId: string;
+  hexCode?: string | null;
+  name?: string | null;
+}
+
+export interface DesignRequestProductCreateInput {
+  catalogProductId: string;
+  colors: DesignRequestProductColorCreateInput[];
+}
+
+export interface DesignRequestProofCreateInput {
+  designRequestId: string;
+  message?: string | null;
+  primaryImageFileId: string;
+  proofLocations: DesignRequestProofCreateProofLocationInput[];
+  proofVariants: DesignRequestProofCreateProofVariantInput[];
+}
+
+export interface DesignRequestProofCreateProofLocationInput {
+  colorCount?: number | null;
+  placement: string;
+  fileId: string;
+}
+
+export interface DesignRequestProofCreateProofVariantInput {
+  catalogProductColorId: string;
+  imageFileIds: string[];
+  name: string;
+  hexCode: string;
+}
+
+export interface DesignRequestRevisionRequestCreateInput {
+  designRequestId: string;
+  description: string;
+  fileIds: string[];
+}
+
+export interface DesignRequestSubmitInput {
+  designRequestId: string;
+}
+
+export interface DesignRequestUpdateInput {
+  designRequestId: string;
+  name?: string | null;
+  description?: string | null;
+  useCase?: string | null;
+  fileIds?: string[] | null;
+  locations?: DesignRequestUpdateLocationInput[] | null;
+}
+
+export interface DesignRequestUpdateLocationInput {
+  designLocationId?: string | null;
+  placement?: string | null;
+  description?: string | null;
+  fileIds?: string[] | null;
+}
+
+export interface FileCreateBatchInput {
+  files: FileCreateInput[];
+}
+
+export interface FileCreateInput {
+  fileType: FileType;
+  name: string;
+  originalFilename: string;
+  url: string;
+  bytes: number;
+  format: string;
+  cloudinaryAssetId?: string | null;
+  width?: number | null;
+  height?: number | null;
+}
+
 /**
  * Specifies how to filter Single-file/image fields
  */
@@ -140,6 +282,24 @@ export interface LinksFilter {
   exists?: any | null;
 }
 
+export interface MembershipDesignProductsFilterInput {
+  where?: MembershipDesignProductsWhereFilterInput | null;
+}
+
+export interface MembershipDesignProductsWhereFilterInput {
+  createdAt?: DateFilterInput | null;
+  userId?: StringFilterInput | null;
+}
+
+export interface MembershipDesignRequestsFilterInput {
+  where?: MembershipDesignRequestsWhereFilterInput | null;
+}
+
+export interface MembershipDesignRequestsWhereFilterInput {
+  createdAt?: DateFilterInput | null;
+  userId?: StringFilterInput | null;
+}
+
 export interface MembershipOrdersFilterInput {
   where?: MembershipOrdersWhereFilterInput | null;
 }
@@ -154,23 +314,6 @@ export interface MembershipOrdersWhereFilterInput {
 export interface OptionValueId {
   optionEntityId: number;
   valueEntityId: number;
-}
-
-export interface OrderCartCreateInput {
-  productEntityId: number;
-  includeFulfillment: boolean;
-  printLocations: OrderCartCreatePrintLocationInput[];
-  items: OrderCartCreateItemsInput[];
-  shippingAddressId?: string | null;
-}
-
-export interface OrderCartCreateItemsInput {
-  productVariantEntityId: number;
-  quantity: number;
-}
-
-export interface OrderCartCreatePrintLocationInput {
-  colorCount: number;
 }
 
 export interface OrderConfirmInput {
@@ -195,6 +338,47 @@ export interface OrderConfirmMailingAddressInput {
   province?: string | null;
   provinceCode?: string | null;
   zip?: string | null;
+}
+
+export interface OrganizationBrandColorCreateInput {
+  organizationId: string;
+  hex: string;
+  name: string;
+  cmykC: number;
+  cmykM: number;
+  cmykY: number;
+  cmykK: number;
+  pantone?: string | null;
+}
+
+export interface OrganizationBrandColorDeleteInput {
+  organizationId: string;
+  colorId: string;
+}
+
+export interface OrganizationBrandColorUpdateInput {
+  organizationId: string;
+  id: string;
+  hex: string;
+  name: string;
+  cmykC: number;
+  cmykM: number;
+  cmykY: number;
+  cmykK: number;
+  pantone?: string | null;
+}
+
+export interface OrganizationBrandFileCreateBatchFileInput {
+  fileId: string;
+}
+
+export interface OrganizationBrandFileCreateBatchInput {
+  organizationId: string;
+  files: OrganizationBrandFileCreateBatchFileInput[];
+}
+
+export interface OrganizationBrandFileDeleteBatchInput {
+  fileIds: string[];
 }
 
 export interface PaymentIntentCreateInput {
@@ -228,10 +412,6 @@ export interface PublishedAtFilter {
   eq?: any | null;
   neq?: any | null;
   exists?: any | null;
-}
-
-export interface QuoteGeneratePrintLocationInput {
-  colorCount: number;
 }
 
 /**
@@ -301,6 +481,19 @@ export interface StringFilter {
   exists?: any | null;
 }
 
+export interface StringFilterInput {
+  contains?: string | null;
+  equals?: string | null;
+  startsWith?: string | null;
+  endsWith?: string | null;
+  gt?: string | null;
+  gte?: string | null;
+  lt?: string | null;
+  lte?: string | null;
+  in?: string[] | null;
+  notIn?: string[] | null;
+}
+
 export interface StringMatchesFilter {
   pattern: string;
   caseSensitive?: any | null;
@@ -344,6 +537,15 @@ export interface UpdatedAtFilter {
   eq?: any | null;
   neq?: any | null;
   exists?: any | null;
+}
+
+export interface UserOrganizationCreateInput {
+  name: string;
+}
+
+export interface UserSetOrganizationInput {
+  membershipId: string;
+  organizationId: string;
 }
 
 //==============================================================

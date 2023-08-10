@@ -13,6 +13,7 @@ interface Props<T extends string> {
   options: Option<T>[]
   placeholder?: string
   onChange?: (value: T) => void
+  inputRef?: React.Ref<HTMLInputElement>
 }
 
 // eslint-disable-next-line react/function-component-definition
@@ -21,11 +22,12 @@ function Select<T extends string>({
   placeholder,
   value,
   onChange,
+  inputRef,
 }: Props<T>) {
   return (
     <RuiSelect.Root value={value} onValueChange={onChange}>
-      <RuiSelect.Trigger className="inline-flex items-center justify-between border px-3 py-2 gap-2 rounded-md text-sm font-medium hover:bg-gray-50 focus:shadow">
-        <RuiSelect.Value placeholder={placeholder} />
+      <RuiSelect.Trigger className="inline-flex items-center justify-between border px-3 py-2 gap-2 rounded-md text-sm font-medium hover:bg-gray-50 focus:shadow w-full">
+        <RuiSelect.Value placeholder={placeholder} ref={inputRef} />
         <RuiSelect.Icon className="">
           <ChevronDown className="w-4 h-4" />
         </RuiSelect.Icon>

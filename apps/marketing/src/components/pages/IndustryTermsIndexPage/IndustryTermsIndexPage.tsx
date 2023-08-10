@@ -5,7 +5,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { IndustryTermCard, Section } from '@components/common'
 import Navigation from './Navigation'
-import { notEmpty } from '@utils/typescript'
+import { notEmpty } from '@lib/utils/typescript'
 
 interface Props {
   entries: IndustryTermsIndexPageEntryFragment[]

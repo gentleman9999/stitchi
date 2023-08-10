@@ -241,6 +241,7 @@ export interface ProductShowPageHeroProductFragment {
    * Variants associated with the product.
    */
   variants: ProductShowPageHeroProductFragment_variants;
+  priceCents: number;
   /**
    * Id of the product.
    */
@@ -249,7 +250,6 @@ export interface ProductShowPageHeroProductFragment {
    * Relative URL path to product page.
    */
   path: string;
-  priceCents: number;
   /**
    * Brand associated with the product.
    */

@@ -1,13 +1,19 @@
-import { gql, useQuery } from '@apollo/client'
-import ClosetHomePage from '@components/pages/ClosetHomePage'
-import { ClosetHomePageGetDataQuery } from '@generated/ClosetHomePageGetDataQuery'
-import { withAuthentication } from '@lib/auth'
-import React from 'react'
 import { ClosetLayout } from '@components/layout'
+import ClosetHomePage from '@components/pages/ClosetHomePage'
+import routes from '@lib/routes'
+import { GetServerSideProps } from 'next'
+import React from 'react'
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  return {
+    redirect: {
+      destination: routes.internal.closet.designs.href(),
+      permanent: false,
+    },
+  }
+}
 
 const Page = () => {
-  const { data } = useQuery<ClosetHomePageGetDataQuery>(GET_DATA)
-
   return <ClosetHomePage />
 }
 
@@ -15,12 +21,4 @@ Page.getLayout = (page: React.ReactElement) => (
   <ClosetLayout>{page}</ClosetLayout>
 )
 
-const GET_DATA = gql`
-  query ClosetHomePageGetDataQuery {
-    viewer {
-      id
-    }
-  }
-`
-
-export default withAuthentication(Page)
+export default Page

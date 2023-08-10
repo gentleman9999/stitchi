@@ -11,6 +11,7 @@ export interface CheckboxProps {
   onSecondaryAction?: () => void
   showSecondaryAction?: boolean
   size?: 1 | 2
+  className?: string
 }
 
 const Checkbox = (props: CheckboxProps) => {
@@ -19,7 +20,7 @@ const Checkbox = (props: CheckboxProps) => {
 
   return (
     <div
-      className="relative flex items-start"
+      className={cx('relative flex items-center', props.className)}
       onMouseOver={() => setShowSecondaryAction(true)}
       onMouseLeave={() => setShowSecondaryAction(false)}
     >

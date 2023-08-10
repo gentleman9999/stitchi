@@ -1,7 +1,7 @@
 import React from 'react'
 import FilterDialog from './FilterDialog'
 import FilterDialogButton from './FilterDialogButton'
-import useIntersectionObserver from '@hooks/useIntersectionObserver'
+import useIntersectionObserver from '@components/hooks/useIntersectionObserver'
 import { Transition } from '@components/ui'
 import FeaturedFilters from './FeaturedFilters'
 import { track } from '@lib/analytics'

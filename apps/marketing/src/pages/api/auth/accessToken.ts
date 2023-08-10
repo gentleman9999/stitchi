@@ -5,6 +5,7 @@ export default withApiAuthRequired(async function handler(req, res) {
     switch (req.method) {
       case 'GET': {
         const { accessToken } = await getAccessToken(req, res)
+
         res.status(200).json({ accessToken: accessToken || null })
         break
       }

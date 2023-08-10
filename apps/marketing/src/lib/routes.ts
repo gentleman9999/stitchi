@@ -1,4 +1,4 @@
-import getOrThrow from '@utils/get-or-throw'
+import getOrThrow from '@lib/utils/get-or-throw'
 import { format } from 'url'
 
 const supportEmail = getOrThrow(
@@ -33,13 +33,26 @@ const routes = {
       href: () => buildRoute('/'),
     },
     login: {
-      href: () => buildRoute('/login'),
+      href: () => buildRoute('/api/auth/login'),
     },
     logout: {
-      href: () => buildRoute('/logout'),
+      href: () => buildRoute('/api/auth/logout'),
+    },
+    signup: {
+      href: ({ skipRedirect }: { skipRedirect?: boolean } = {}) =>
+        buildRoute('/api/auth/signup', {
+          returnTo: skipRedirect ? undefined : '/signup/success',
+        }),
+
+      success: {
+        href: () => buildRoute('/signup/success'),
+      },
+    },
+    contact: {
+      href: () => buildRoute('/contact'),
     },
     getStarted: {
-      href: () => buildRoute('/start'),
+      href: () => buildRoute('/closet'),
 
       success: {
         href: ({ email = '' }) => buildRoute('/start/success', { email }),
@@ -80,19 +93,18 @@ const routes = {
             params,
           )
         },
+      },
 
-        purchase: {
-          href: ({
-            brandSlug,
-            productSlug,
-          }: {
-            brandSlug: string
-            productSlug: string
-          }) => {
-            const serialize = (s: string) => s.replace(/\//g, '')
-            return buildRoute(
-              `/buy/${serialize(brandSlug)}-${serialize(productSlug)}`,
-            )
+      wizard: {
+        welcome: {
+          href: () => buildRoute('/catalog/wizard/welcome'),
+        },
+        categories: {
+          href: () => buildRoute('/catalog/wizard/categories'),
+
+          styles: {
+            href: ({ categoryId }: { categoryId: string }) =>
+              buildRoute(`/catalog/wizard/categories/${categoryId}/styles`),
           },
         },
       },
@@ -206,8 +218,74 @@ const routes = {
     closet: {
       href: () => buildRoute('/closet'),
 
+      inbox: {
+        href: () => buildRoute('/closet/inbox'),
+      },
+
+      integrations: {
+        href: () => buildRoute('/closet/integrations'),
+      },
+
       orders: {
         href: () => buildRoute('/closet/orders'),
+      },
+
+      inventory: {
+        href: () => buildRoute('/closet/inventory'),
+      },
+
+      designs: {
+        href: (params?: QueryParams) => buildRoute('/closet/designs', params),
+      },
+
+      designProducts: {
+        href: (params?: QueryParams) =>
+          buildRoute('/closet/approved-designs', params),
+
+        show: {
+          href: ({ designId }: { designId: string }) =>
+            buildRoute(`/closet/approved-designs/${designId}`),
+
+          buy: {
+            href: ({ designId }: { designId: string }) =>
+              buildRoute(`/closet/approved-designs/${designId}/buy`),
+          },
+        },
+      },
+
+      designRequests: {
+        href: (params?: QueryParams) =>
+          buildRoute('/closet/design-requests', params),
+
+        create: {
+          href: () => buildRoute('/catalog/wizard'),
+        },
+
+        show: {
+          href: ({ designId }: { designId: string }) =>
+            buildRoute(`/closet/design-requests/${designId}`),
+
+          proofs: {
+            create: {
+              href: ({ designId }: { designId: string }) =>
+                buildRoute(`/closet/design-requests/${designId}/proofs/new`),
+            },
+          },
+
+          activity: {
+            href: ({ designId }: { designId: string }) =>
+              buildRoute(`/closet/design-requests/${designId}/activity`),
+          },
+        },
+      },
+
+      collections: {
+        href: (params?: QueryParams) =>
+          buildRoute('/closet/collections', params),
+      },
+
+      brand: {
+        href: () => buildRoute('/closet/brand'),
       },
     },
 
@@ -224,7 +302,7 @@ const routes = {
         href: () => buildRoute('/api/form-response'),
       },
     },
-   
+
     downloads: {
       studentEbook: {
         show: {

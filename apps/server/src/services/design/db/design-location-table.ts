@@ -11,12 +11,12 @@ export const DesignLocation: yup.ObjectSchema<DesignLocationSchema> = yup
     designId: yup.string().uuid().required(),
 
     colorCount: yup.number().min(0).required(),
-    name: yup.string().required(),
+    placement: yup.string().nullable().defined(),
 
     createdAt: yup.date().required(),
     updatedAt: yup.date().required(),
   })
-  .label('DesignLocation')
+  .label('Design Location')
 
 export type DesignLocationRecord = yup.Asserts<typeof DesignLocation>
 

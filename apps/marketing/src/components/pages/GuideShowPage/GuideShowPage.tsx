@@ -8,7 +8,7 @@ import Testimonial from './Testimonial'
 import waltBorlandHeadshot from '../../../../public/walt-borland-professor-umich.jpg'
 import { NextSeo } from 'next-seo'
 import routes from '@lib/routes'
-import makeAbsoluteUrl from '@utils/get-absolute-url'
+import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 
 const GuideShowPage = () => {
   return (

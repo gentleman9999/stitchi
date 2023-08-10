@@ -1,95 +1,149 @@
-import { PrismaClient } from '@prisma/client'
+import makeDesignRepository, { DesignRepository } from './repository'
+import { CreateDesignRequestFnInput } from './repository/create-design-request'
 import {
-  Design,
-  DesignTable,
-  table as makeDesignTable,
-} from './db/design-table'
-import { designFactory, DesignFactoryDesign } from './factory'
-import * as yup from 'yup'
-import { DesignLocation } from './db/design-location-table'
-
-const designSchema = Design.omit(['id', 'createdAt', 'updatedAt']).concat(
-  yup.object().shape({
-    designLocations: yup
-      .array()
-      .of(
-        DesignLocation.omit([
-          'id',
-          'designId',
-          'createdAt',
-          'updatedAt',
-        ]).required(),
-      )
-      .min(0)
-      .required(),
-  }),
-)
-
-const prisma = new PrismaClient()
+  ConversationService,
+  makeClient as makeConversationServiceClient,
+} from '../conversation'
 
 export interface DesignService {
-  getDesign: (input: { designId: string }) => Promise<DesignFactoryDesign>
-  createDesign: (
-    input: yup.InferType<typeof designSchema>,
-  ) => Promise<DesignFactoryDesign>
+  createDesign: DesignRepository['createDesign']
+  getDesign: DesignRepository['getDesign']
+  listDesigns: DesignRepository['listDesigns']
+
+  createDesignRequest(input: {
+    designRequest: Omit<
+      CreateDesignRequestFnInput['designRequest'],
+      'conversationId'
+    >
+  }): ReturnType<DesignRepository['createDesignRequest']>
+  updateDesignRequest: DesignRepository['updateDesignRequest']
+
+  getDesignRequest: DesignRepository['getDesignRequest']
+  listDesignRequests: DesignRepository['listDesignRequests']
+
+  createDesignProof: DesignRepository['createDesignProof']
+  getDesignProof: DesignRepository['getDesignProof']
+  listDesignProofs: DesignRepository['listDesignProofs']
 }
 
 interface MakeClientParams {
-  designTable: DesignTable
+  designRepository: DesignRepository
+  conversationClient: ConversationService
 }
 
 type MakeClientFn = (params?: MakeClientParams) => DesignService
 
 const makeClient: MakeClientFn = (
-  { designTable } = { designTable: makeDesignTable(prisma) },
+  { designRepository, conversationClient } = {
+    designRepository: makeDesignRepository(),
+    conversationClient: makeConversationServiceClient(),
+  },
 ) => {
   return {
+    createDesign: async input => {
+      try {
+        return designRepository.createDesign(input)
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to create design')
+      }
+    },
     getDesign: async input => {
       try {
-        const design = await designTable.findFirst({
-          where: { id: input.designId },
-          include: { DesignLocation: true },
-        })
-
-        if (!design) {
-          throw new Error('Design not found')
-        }
-
-        return designFactory({ design, locations: design.DesignLocation })
+        return designRepository.getDesign(input)
       } catch (error) {
-        console.error(`Failed to get design: ${input}`, {
-          context: { error, input },
-        })
+        console.error(error)
         throw new Error('Failed to get design')
       }
     },
-
-    createDesign: async input => {
-      const validInput = await designSchema.validate(input)
+    listDesigns: async input => {
+      try {
+        return designRepository.listDesigns(input)
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to list designs')
+      }
+    },
+    createDesignRequest: async input => {
+      let conversation
 
       try {
-        const { designLocations, ...restValidInput } = validInput
-
-        const design = await designTable.create({
-          data: {
-            ...restValidInput,
-            DesignLocation: {
-              createMany: {
-                data: designLocations.map(designLocation => ({
-                  ...designLocation,
-                })),
-              },
-            },
-          },
-          include: { DesignLocation: true },
+        conversation = await conversationClient.createConversation({
+          conversation: {},
         })
-
-        return designFactory({ design, locations: design.DesignLocation })
       } catch (error) {
-        console.error(`Failed to create design: ${input}`, {
-          context: { error, input },
+        console.error(error)
+        throw new Error('Failed to create conversation')
+      }
+
+      try {
+        return designRepository.createDesignRequest({
+          designRequest: {
+            ...input.designRequest,
+            conversationId: conversation.id,
+          },
         })
-        throw new Error('Failed to create design')
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to create design request')
+      }
+    },
+
+    updateDesignRequest: async input => {
+      try {
+        return designRepository.updateDesignRequest({
+          designRequest: {
+            ...input.designRequest,
+          },
+        })
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to update design request')
+      }
+    },
+
+    getDesignRequest: async input => {
+      try {
+        return designRepository.getDesignRequest(input)
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to get design request')
+      }
+    },
+
+    listDesignRequests: async input => {
+      try {
+        return designRepository.listDesignRequests(input)
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to list design requests')
+      }
+    },
+
+    createDesignProof: async input => {
+      try {
+        return designRepository.createDesignProof(input)
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to create design proof')
+      }
+    },
+
+    getDesignProof: async input => {
+      try {
+        return designRepository.getDesignProof(input)
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to get design proof')
+      }
+    },
+
+    listDesignProofs: async input => {
+      try {
+        return designRepository.listDesignProofs(input)
+      } catch (error) {
+        console.error(error)
+        throw new Error('Failed to list design proofs')
       }
     },
   }

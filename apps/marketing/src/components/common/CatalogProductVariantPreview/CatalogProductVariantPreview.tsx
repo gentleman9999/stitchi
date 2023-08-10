@@ -3,7 +3,7 @@ import {
   CatalogProductVariantPreviewProductFragment,
   CatalogProductVariantPreviewProductFragment_variants_edges_node as ProductVariant,
 } from '@generated/CatalogProductVariantPreviewProductFragment'
-import { generateImageSizes } from '@utils/image'
+import { generateImageSizes } from '@lib/utils/image'
 import Image from 'next/image'
 import React from 'react'
 import CatalogProductColorGrid from '../CatalogProductColorGrid'

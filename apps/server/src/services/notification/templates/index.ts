@@ -1,82 +1,44 @@
-import { compile } from 'handlebars'
-import { OrderFactoryOrder } from '../../order/factory'
+import { DesignFactoryDesignRequest } from '../../design/factory'
 import templates from './templates'
+import {
+  DesignRequestSubmittedAdminParams,
+  DesignRequestSubmittedUserParams,
+} from './templates/design-request/submitted'
 
-type TemplateObject = { [key: string]: Template | TemplateObject }
-
-export type TemplateId = 'customer.order.confirmed'
-
-interface Template {
-  subject: string
-  htmlBody: string
-}
-
-interface BaseRenderFnParams {
-  id: TemplateId
-}
-
-interface CustomerOrderConfirmedRenderFnParams extends BaseRenderFnParams {
-  id: 'customer.order.confirmed'
-  params: {
-    order: OrderFactoryOrder
+export interface Template {
+  web: {
+    message: string
+  }
+  email?: {
+    subject: string
+    htmlBody: string
+    textBody?: string
+  }
+  sms?: {
+    message: string
   }
 }
 
-type RenderFnParams = CustomerOrderConfirmedRenderFnParams
+type TemplateType =
+  | 'design_request.submitted.user'
+  | 'design_request.submitted.admin'
 
-type RenderFn = (params: RenderFnParams) => Template
-
-export interface TemplateFactory {
-  render: RenderFn
+type TypeToParams = {
+  'design_request.submitted.admin': DesignRequestSubmittedAdminParams
+  'design_request.submitted.user': DesignRequestSubmittedUserParams
 }
 
-const templatesFactory: TemplateFactory = {
-  render: ({ id, params }) => {
-    const [audience, resource, action] = id.split('.')
+type Params<T extends TemplateType> = TypeToParams[T]
 
-    const template = accessDeepObject(templates, [audience, resource, action])
+type MakeTemplatesFn = <T extends TemplateType>(params: Params<T>) => Template
 
-    if (!template) {
-      throw new Error(`Unknown templateId: ${id}`)
-    }
-
-    const renderSubject = compile<typeof params>(template.subject)
-    const renderHtmlBody = compile<typeof params>(template.htmlBody)
-
-    return {
-      subject: renderSubject(params),
-      htmlBody: renderHtmlBody(params),
-    }
-  },
-}
-
-const accessDeepObject = (
-  obj: TemplateObject,
-  keys: string[],
-): Template | null => {
-  if (keys.length === 0) {
-    return null
+const makeTemplates = (): Record<TemplateType, MakeTemplatesFn> => {
+  return {
+    'design_request.submitted.admin': templates.designRequest.submitted.admin,
+    'design_request.submitted.user': templates.designRequest.submitted.user,
   }
-
-  const [key, ...rest] = keys
-
-  // If the key does not exist in the object, return null
-  if (!obj.hasOwnProperty(key)) {
-    return null
-  }
-
-  // If this is the last key, and it points to a Template, return it
-  if (rest.length === 0 && isTemplate(obj[key])) {
-    return obj[key] as Template
-  }
-
-  // Otherwise, continue searching recursively
-  return accessDeepObject(obj[key] as TemplateObject, rest)
 }
 
-// Helper function to determine if an object is of type Template
-const isTemplate = (obj: any): obj is Template => {
-  return obj.hasOwnProperty('subject') && obj.hasOwnProperty('htmlBody')
-}
+export type Templates = ReturnType<typeof makeTemplates>
 
-export default templatesFactory
+export default makeTemplates

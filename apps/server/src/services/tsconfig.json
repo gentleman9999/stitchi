@@ -7,6 +7,8 @@
     { "path": "../beehiiv" },
     { "path": "../bigcommerce" },
     { "path": "../stripe" },
-    { "path": "../sendgrid" }
+    { "path": "../sendgrid" },
+    { "path": "../redis" },
+    { "path": "../auth0" }
   ]
 }

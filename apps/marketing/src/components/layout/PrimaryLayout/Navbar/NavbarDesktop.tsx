@@ -11,6 +11,7 @@ import NavbarDesktopDropdown from './NavbarDesktopDropdown'
 import NavbarDesktopLearnContents from './NavbarDesktopLearnContents'
 import { Popover } from '@headlessui/react'
 import { track } from '@lib/analytics'
+import { useUser } from '@auth0/nextjs-auth0/client'
 
 interface Props {
   anchorEl: HTMLElement | null
@@ -18,6 +19,8 @@ interface Props {
 }
 
 const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
+  const { user } = useUser()
+
   return (
     <nav className="space-x-10">
       <Popover.Group className="space-x-10 inline-flex">
@@ -74,6 +77,12 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
         Catalog
       </Link>
 
+      {!user ? (
+        <Link href={routes.internal.login.href()} passHref className={s.link}>
+          Login
+        </Link>
+      ) : null}
+
       <Button
         bold
         Component={Link}
@@ -81,12 +90,16 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
         className="!border-2 !py-1 !px-2 !border-gray-800 !lowercase"
         variant="ghost"
         slim
-        href={routes.internal.getStarted.href()}
+        href={
+          user
+            ? routes.internal.getStarted.href()
+            : routes.internal.signup.href()
+        }
         onClick={() => {
           track.navbarCtaCliced({ view: 'desktop' })
         }}
       >
-        Work with us
+        {user ? 'My closet' : 'Get started'}
       </Button>
     </nav>
   )

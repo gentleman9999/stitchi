@@ -1,24 +1,23 @@
-import { PrismaClient } from '@prisma/client'
-import { ManagementClient } from 'auth0'
+import { MembershipRole } from '@prisma/client'
 import { verify } from './jwt'
-import { getOrThrow } from '../utils'
 import { ApolloError, AuthenticationError } from 'apollo-server-core'
 import { ContextFunction } from 'apollo-server-core'
 import { ExpressContext } from 'apollo-server-express'
 import services from '../services'
 import makeStripeClient from '../stripe'
 import { SendgridClient, makeClient as makeSendgridClient } from '../sendgrid'
+import PubSubClient from './pubsub'
 
 type StripeClient = ReturnType<typeof makeStripeClient>
 
 export interface Context {
+  role?: MembershipRole
   membershipId?: string
   userId?: string
   organizationId?: string
-  prisma: PrismaClient
-  auth0: ManagementClient
   sendgrid: SendgridClient
   stripe: StripeClient
+  conversation: typeof services.conversation
   newsletter: typeof services.newsletter
   order: typeof services.order
   catalog: typeof services.catalog
@@ -26,60 +25,53 @@ export interface Context {
   design: typeof services.design
   fulfillment: typeof services.fulfillment
   payment: typeof services.payment
+  file: typeof services.file
+  user: typeof services.user
+  organization: typeof services.organization
+  membership: typeof services.membership
+  color: typeof services.color
+  subscriptions: PubSubClient
 }
 
 interface ContextCreatorParams {
-  prisma: PrismaClient
-  auth0: ManagementClient
   sendgrid: SendgridClient
   stripe: StripeClient
+  pubsub: PubSubClient
 }
 
 function makeContext(
   params: ContextCreatorParams = {
-    prisma: new PrismaClient(),
-    auth0: new ManagementClient({
-      domain: getOrThrow(process.env.AUTH0_DOMAIN, 'AUTH0_DOMAIN'),
-      clientId: getOrThrow(process.env.AUTH0_CLIENT_ID, 'AUTH0_CLIENT_ID'),
-      clientSecret: getOrThrow(
-        process.env.AUTH0_CLIENT_SECRET,
-        'AUTH0_CLIENT_SECRET',
-      ),
-      scope: 'read:users',
-    }),
+    pubsub: new PubSubClient(),
     stripe: makeStripeClient(),
     sendgrid: makeSendgridClient(),
   },
 ): ContextFunction<ExpressContext> {
   return async function createContext(expressContext) {
-    const authHeader = expressContext.req.headers['authorization']
+    const authHeader = expressContext.req?.headers?.['authorization']
 
     try {
       const payload = authHeader ? await verify(authHeader).catch() : null
-      // Grabs the first created membership.
-      // In the future, can use this membershipId to control access to current organization.
 
-      // This is innefficient to do on every request, in the future we will need to cache this // store it in the JWT
-      const membership = await (async () => {
+      const userActiveMembership = await (async () => {
         if (payload?.sub) {
-          const membership = await params.prisma.membership.findFirst({
-            where: { userId: payload.sub },
-            orderBy: { createdAt: 'asc' },
-            select: { id: true, userId: true, organizationId: true },
-          })
+          const userActiveMembership =
+            await services.membership.findUserActiveMembership({
+              userId: payload.sub,
+            })
 
-          return membership
+          return userActiveMembership
         }
       })()
 
       return {
-        auth0: params.auth0,
-        prisma: params.prisma,
+        subscriptions: params.pubsub,
+        role: userActiveMembership?.role ?? undefined,
         stripe: params.stripe,
         sendgrid: params.sendgrid,
         userId: payload?.sub,
-        membershipId: membership?.id,
-        organizationId: membership?.organizationId ?? undefined,
+        membershipId: userActiveMembership?.id ?? undefined,
+        organizationId: userActiveMembership?.organizationId ?? undefined,
+        conversation: services.conversation,
         newsletter: services.newsletter,
         order: services.order,
         catalog: services.catalog,
@@ -87,6 +79,11 @@ function makeContext(
         design: services.design,
         fulfillment: services.fulfillment,
         payment: services.payment,
+        file: services.file,
+        user: services.user,
+        organization: services.organization,
+        membership: services.membership,
+        color: services.color,
       }
     } catch (error) {
       console.error(error)

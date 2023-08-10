@@ -1,64 +1,118 @@
-import { gql, useMutation } from '@apollo/client'
+import { gql } from '@apollo/client'
 import { ComponentErrorMessage } from '@components/common'
 import { LoadingDots, Logo } from '@components/ui'
-import { AccountSetupPageBootstrapAccount } from '@generated/AccountSetupPageBootstrapAccount'
+import { AccountSetupPageMembershipFragment } from '@generated/AccountSetupPageMembershipFragment'
+import useSetUserMembership from '@components/hooks/useSetUserMembership'
 import routes from '@lib/routes'
+
 import { useRouter } from 'next/router'
 import React from 'react'
 
-interface Props {}
+interface Props {
+  memberships: AccountSetupPageMembershipFragment[]
+}
 
 const AccountSetupPage = (props: Props) => {
+  const [loading, setLoading] = React.useState(false)
   const router = useRouter()
+
+  const [
+    setMembership,
+    { loading: settingMembership, error: membershipError },
+  ] = useSetUserMembership()
+
   const { redirectUrl } = router.query
-  const [canTransition, setCanTransition] = React.useState(false)
 
-  const [bootstrapAccount, { error, data }] =
-    useMutation<AccountSetupPageBootstrapAccount>(BOOTSTRAP_ACCOUNT)
+  const nextPath =
+    typeof redirectUrl === 'string'
+      ? redirectUrl
+      : routes.internal.closet.href()
 
-  React.useEffect(() => {
-    bootstrapAccount()
-  }, [bootstrapAccount])
-
-  React.useEffect(() => {
-    const timeout = setTimeout(() => {
-      setCanTransition(true)
-    }, 5000)
-
-    return () => clearTimeout(timeout)
-  }, [])
-
-  const userId = data?.userBoostrap?.id
-
-  React.useEffect(() => {
-    if (userId && canTransition) {
-      router.push(
-        typeof redirectUrl === 'string'
-          ? redirectUrl
-          : routes.internal.closet.href(),
-      )
+  const handleSetMembership = async (input: {
+    organizationId: string
+    membershipId: string
+  }) => {
+    setLoading(true)
+    try {
+      await setMembership(input)
+      window.location.href = nextPath
+    } finally {
+      setLoading(false)
     }
-  }, [canTransition, redirectUrl, router, userId])
+  }
+
+  if (props.memberships.length === 1) {
+    handleSetMembership({
+      organizationId: props.memberships[0].organization?.id || '',
+      membershipId: props.memberships[0].id,
+    })
+
+    return null
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-primary">
       <div className="rounded-md shadow-magical max-w-md p-8 flex flex-col items-center gap-8 bg-white">
         <Logo className="w-16" />
-        <p className="text-xl text-center font-semibold text-gray-400">
-          Just a moment while we put the finishing touches on your closet...
-        </p>
-        {error ? <ComponentErrorMessage error={error} /> : <LoadingDots />}
+        {props.memberships.length ? (
+          <UserSelectOrganization {...props} onSelect={handleSetMembership} />
+        ) : (
+          <ComponentErrorMessage error="No memberships found. This should not happen." />
+        )}
+
+        {settingMembership ? <LoadingDots /> : null}
       </div>
     </div>
   )
 }
 
-const BOOTSTRAP_ACCOUNT = gql`
-  mutation AccountSetupPageBootstrapAccount {
-    userBoostrap {
+const UserSelectOrganization = ({
+  memberships,
+  onSelect,
+}: Props & {
+  onSelect: (input: { organizationId: string; membershipId: string }) => void
+}) => {
+  return (
+    <>
+      <h2 className="text-xl font-semibold text-gray-800">
+        Select an organization
+      </h2>
+      <div className="flex flex-col gap-2">
+        {memberships.map(membership => {
+          const { organization } = membership
+          if (!organization) return null
+
+          return (
+            <button
+              key={membership.id}
+              className="w-full rounded-md border border-gray-200 py-2 px-4 flex items-center justify-between gap-2 min-w-[300px]"
+              onClick={() =>
+                onSelect({
+                  membershipId: membership.id,
+                  organizationId: organization.id,
+                })
+              }
+            >
+              <span>{membership.organization?.name}</span>
+              <span className="text-gray-400 text-sm">Select</span>
+            </button>
+          )
+        })}
+      </div>
+    </>
+  )
+}
+
+AccountSetupPage.fragments = {
+  membership: gql`
+    fragment AccountSetupPageMembershipFragment on Membership {
       id
+      organization {
+        id
+        name
+      }
     }
-  }
-`
+  `,
+}
 
 export default AccountSetupPage

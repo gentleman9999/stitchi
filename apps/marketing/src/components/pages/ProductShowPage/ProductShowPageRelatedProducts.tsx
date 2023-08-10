@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import CatalogProduct from '@components/common/CatalogProduct'
+import CatalogProductLegacy from '@components/common/CatalogProductLegacy'
 import { ProductShowPageRelatedProductsProductFragment } from '@generated/ProductShowPageRelatedProductsProductFragment'
 import React from 'react'
 
@@ -16,7 +16,7 @@ const ProductShowPageRelatedProducts = (props: Props) => {
       <div className="flex flex-row gap-2 overflow-x-scroll">
         {props.products.map(product => (
           <div key={product.id} className="flex-1 min-w-[200px] flex">
-            <CatalogProduct product={product} priority={false} />
+            <CatalogProductLegacy product={product} priority={false} />
           </div>
         ))}
       </div>
@@ -26,10 +26,10 @@ const ProductShowPageRelatedProducts = (props: Props) => {
 
 ProductShowPageRelatedProducts.fragments = {
   product: gql`
-    ${CatalogProduct.fragments.product}
+    ${CatalogProductLegacy.fragments.product}
     fragment ProductShowPageRelatedProductsProductFragment on Product {
       id
-      ...CatalogProductProductFragment
+      ...CatalogProductLegacyProductFragment
     }
   `,
 }

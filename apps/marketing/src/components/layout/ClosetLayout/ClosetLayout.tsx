@@ -1,82 +1,39 @@
 import { gql, useQuery } from '@apollo/client'
-import { Container } from '@components/ui'
 import { ClosetLayoutGetDataQuery } from '@generated/ClosetLayoutGetDataQuery'
-import routes from '@lib/routes'
-import Link from 'next/link'
+import { withAuthentication } from '@lib/auth'
 import React from 'react'
-import AccountDropdown from './AccountDropdown'
+import AppBetaDialog from './AppBetaDialog'
+import SideBar from './SideBar'
 
 interface Props {
   children: React.ReactNode
 }
 
 const ClosetLayout = (props: Props) => {
-  const { data } = useQuery<ClosetLayoutGetDataQuery>(GET_DATA)
-
-  const { user } = data?.viewer || {}
+  const { data, loading: dataLoading } =
+    useQuery<ClosetLayoutGetDataQuery>(GET_DATA)
 
   return (
     <>
-      <nav>
-        <Container>
-          <div className="flex justify-between items-center py-2">
-            <div>
-              <ul className="flex gap-8">
-                {[
-                  // { href: routes.internal.closet.href(), label: 'Closet' },
-                  // { href: '#', label: 'Designs' },
-                  {
-                    href: routes.internal.closet.orders.href(),
-                    label: 'Orders',
-                  },
-                ].map(link => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="underline text-lg font-semibold"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <AccountDropdown
-              renderTrigger={() => (
-                <div className="flex items-center gap-2 hover:bg-gray-100 py-1 px-2 rounded-md">
-                  {user?.picture ? (
-                    <img
-                      src={user.picture}
-                      alt={user?.nickname || 'Avatar'}
-                      className="w-8 h-8 rounded-md border"
-                    />
-                  ) : null}
-                  <span className="capitalize font-medium text-lg">
-                    {user?.nickname}
-                  </span>
-                </div>
-              )}
-            />
-          </div>
-        </Container>
-      </nav>
-      {props.children}
+      <AppBetaDialog />
+      <div className="flex">
+        <SideBar membershp={data?.viewer} loading={dataLoading} />
+        <div className="ml-64 overflow-auto flex items-center w-full">
+          {props.children}
+        </div>
+      </div>
     </>
   )
 }
 
 const GET_DATA = gql`
+  ${SideBar.fragments.membership}
   query ClosetLayoutGetDataQuery {
     viewer {
       id
-      user {
-        id
-        nickname
-        picture
-      }
+      ...SideBarMembershipFragment
     }
   }
 `
 
-export default ClosetLayout
+export default withAuthentication(ClosetLayout)

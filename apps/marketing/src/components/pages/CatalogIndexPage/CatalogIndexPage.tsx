@@ -22,7 +22,7 @@ const CatalogIndexPage = ({}: CatalogIndexPageProps) => {
             ]}
           />
         </div>
-
+        {/* 
         <Section>
           <div className="md:pr-0 mt-2 text-center sm:text-left  rounded-xl flex items-center">
             <div className="md:w-[70%]">
@@ -51,7 +51,7 @@ const CatalogIndexPage = ({}: CatalogIndexPageProps) => {
               <NeedleThread />
             </div>
           </div>
-        </Section>
+        </Section> */}
 
         <Section className="mt-12">
           <Catalog />

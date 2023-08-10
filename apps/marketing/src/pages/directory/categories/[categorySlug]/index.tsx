@@ -5,7 +5,7 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { gql, useQuery } from '@apollo/client'
 import { addApolloState, initializeApollo } from '@lib/apollo'
 import { PromotionalProductsGlossaryCategoryGetPagesQuery } from '@generated/PromotionalProductsGlossaryCategoryGetPagesQuery'
-import { notEmpty } from '@utils/typescript'
+import { notEmpty } from '@lib/utils/typescript'
 import {
   PromotionalProductsGlossaryCategoryGetDataQuery,
   PromotionalProductsGlossaryCategoryGetDataQueryVariables,
@@ -13,7 +13,7 @@ import {
 import { useRouter } from 'next/router'
 import { ComponentErrorMessage } from '@components/common'
 import { NextSeo } from 'next-seo'
-import makeAbsoluteUrl from '@utils/get-absolute-url'
+import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import routes from '@lib/routes'
 
 const getStaticPaths: GetStaticPaths = async () => {

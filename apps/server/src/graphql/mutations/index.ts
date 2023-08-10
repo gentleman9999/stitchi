@@ -1,11 +1,13 @@
 import { mutationType } from 'nexus'
 
-export { userBootstrap } from './user'
-export { subscriberCreate, SubscriberCreateInput } from './newsletter'
-
+export * from './user'
+export * from './newsletter'
+export * from './design'
+export * from './file'
 export * from './order'
 export * from './fulfillment'
 export * from './payment'
+export * from './organization'
 
 export const Mutation = mutationType({
   definition: () => {},

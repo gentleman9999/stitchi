@@ -1,4 +1,4 @@
-import { inputObjectType, list, nonNull, objectType, queryField } from 'nexus'
+import { inputObjectType, list, nonNull, queryField } from 'nexus'
 
 export const products = queryField('_products', {
   type: list('Product'),

@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import { CmsSeo } from '@components/common'
 import { BlogPostShowPageSEOArticleFragment } from '@generated/BlogPostShowPageSEOArticleFragment'
 import routes from '@lib/routes'
-import makeAbsoluteUrl from '@utils/get-absolute-url'
+import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import React from 'react'
 
 interface Props {

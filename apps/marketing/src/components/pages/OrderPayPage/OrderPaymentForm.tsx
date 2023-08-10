@@ -13,7 +13,7 @@ import {
   StripeLinkAuthenticationElementChangeEvent,
   StripePaymentElementOptions,
 } from '@stripe/stripe-js'
-import makeAbsoluteUrl from '@utils/get-absolute-url'
+import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import currency from 'currency.js'
 import Link from 'next/link'
 import React from 'react'
