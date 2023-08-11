@@ -9,7 +9,7 @@ const HomePageHero = () => {
       title={
         <>
           <div className="inline font-headingDisplay">
-            The merch platform built for growth
+            The merch platform built for scale
             <span className="text-primary">.</span>
           </div>
         </>
