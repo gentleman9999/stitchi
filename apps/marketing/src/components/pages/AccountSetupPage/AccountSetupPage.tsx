@@ -28,25 +28,31 @@ const AccountSetupPage = (props: Props) => {
       ? redirectUrl
       : routes.internal.closet.href()
 
-  const handleSetMembership = async (input: {
-    organizationId: string
-    membershipId: string
-  }) => {
-    setLoading(true)
-    try {
-      await setMembership(input)
-      window.location.href = nextPath
-    } finally {
-      setLoading(false)
+  const handleSetMembership = React.useCallback(
+    async (input: { organizationId: string; membershipId: string }) => {
+      setLoading(true)
+      try {
+        await setMembership(input)
+        window.location.href = nextPath
+      } finally {
+        setLoading(false)
+      }
+    },
+    [nextPath, setMembership],
+  )
+
+  React.useEffect(() => {
+    if (props.memberships.length === 1 && !loading) {
+      console.log('CLIENT SIDE SET MEMBERSHIP CALLED')
+
+      handleSetMembership({
+        organizationId: props.memberships[0].organization?.id || '',
+        membershipId: props.memberships[0].id,
+      })
     }
-  }
+  }, [handleSetMembership, loading, props.memberships])
 
   if (props.memberships.length === 1) {
-    handleSetMembership({
-      organizationId: props.memberships[0].organization?.id || '',
-      membershipId: props.memberships[0].id,
-    })
-
     return null
   }
 

@@ -1,11 +1,10 @@
+import { PrismaClient } from '@prisma/client'
 import {
+  table as makeActiveUserMembershipTable,
   ActiveUserMembership,
   ActiveUserMembershipTable,
-  table as makeActiveUserMembershipTable,
 } from '../db/active-user-membership-table'
-
 import * as yup from 'yup'
-import { PrismaClient } from '@prisma/client'
 import {
   activeUserMembershipFactory,
   ActiveUserMembershipFactoryActiveUserMembership,
@@ -15,23 +14,23 @@ const inputSchema = ActiveUserMembership.omit(['id'])
 
 const prisma = new PrismaClient()
 
-interface CreateActiveUserMembershipConfig {
+interface UpsertActiveUserMembershipConfig {
   activeUserMembershipTable: ActiveUserMembershipTable
 }
 
-export interface CreateActiveUserMembershipFnInput {
+export interface UpsertActiveUserMembershipFnInput {
   activeUserMembership: yup.InferType<typeof inputSchema>
 }
 
-type CreateActiveUserMembershipFn = (
-  input: CreateActiveUserMembershipFnInput,
+type UpsertActiveUserMembershipFn = (
+  input: UpsertActiveUserMembershipFnInput,
 ) => Promise<ActiveUserMembershipFactoryActiveUserMembership>
 
-type MakeCreateActiveUserMembershipFn = (
-  config?: CreateActiveUserMembershipConfig,
-) => CreateActiveUserMembershipFn
+type MakeUpserActiveUserMembershipFn = (
+  config?: UpsertActiveUserMembershipConfig,
+) => UpsertActiveUserMembershipFn
 
-const makeCreateActiveUserMembership: MakeCreateActiveUserMembershipFn =
+export const makeUpsertActiveUserMembership: MakeUpserActiveUserMembershipFn =
   (
     { activeUserMembershipTable } = {
       activeUserMembershipTable: makeActiveUserMembershipTable(prisma),
@@ -43,21 +42,29 @@ const makeCreateActiveUserMembership: MakeCreateActiveUserMembershipFn =
     let activeUserMembership
 
     try {
-      activeUserMembership = await activeUserMembershipTable.create({
-        data: {
-          organizationId: validInput.organizationId,
+      activeUserMembership = await activeUserMembershipTable.upsert({
+        where: {
+          userId: validInput.userId,
+        },
+        create: {
           userId: validInput.userId,
           membershipId: validInput.membershipId,
+          organizationId: validInput.organizationId,
+        },
+        update: {
+          membershipId: validInput.membershipId,
+          organizationId: validInput.organizationId,
         },
       })
     } catch (error) {
-      console.error(error)
-      throw new Error('Failed to create activeUserMembership')
+      console.error(`Failed to upsert user membership`, {
+        context: { error, input },
+      })
+
+      throw error
     }
 
     return activeUserMembershipFactory({
       activeUserMembershipRecord: activeUserMembership,
     })
   }
-
-export { makeCreateActiveUserMembership }

@@ -171,64 +171,18 @@ const makeClient: MakeClientFn = (
       let activeUserMembership
 
       try {
-        const [membership] =
-          await membershipRepository.listActiveUserMemberships({
-            where: {
-              userId: input.userId,
-            },
-            take: 1,
+        activeUserMembership =
+          await membershipRepository.upsertActiveUserMembership({
+            activeUserMembership: input,
           })
-
-        activeUserMembership = membership
       } catch (error) {
-        console.error(`Error listing active user memberships`, {
+        console.error(`Error upserting active user membership`, {
           context: {
             error,
             input,
           },
         })
         throw error
-      }
-
-      if (activeUserMembership) {
-        try {
-          activeUserMembership =
-            await membershipRepository.updateActiveUserMembership({
-              activeUserMembership: {
-                id: activeUserMembership.id,
-                userId: activeUserMembership.userId,
-                membershipId: input.membershipId,
-                organizationId: input.organizationId,
-              },
-            })
-        } catch (error) {
-          console.error(`Error updating active user membership`, {
-            context: {
-              error,
-              input,
-            },
-          })
-          throw error
-        }
-      } else {
-        try {
-          activeUserMembership =
-            await membershipRepository.createActiveUserMembership({
-              activeUserMembership: {
-                userId: input.userId,
-                membershipId: input.membershipId,
-                organizationId: input.organizationId,
-              },
-            })
-        } catch (error) {
-          console.error(`Error creating active user membership`, {
-            context: {
-              error,
-              input,
-            },
-          })
-          throw error
-        }
       }
 
       let membership
