@@ -14,9 +14,7 @@ const useSetUserMembership = () => {
     membershipId: string
     organizationId: string
   }) => {
-    if (!setMembershipMutation.loading) {
-      await setMembership({ variables: { input } })
-    }
+    await setMembership({ variables: { input } })
   }
 
   return [handleSetMembership, setMembershipMutation] as const
