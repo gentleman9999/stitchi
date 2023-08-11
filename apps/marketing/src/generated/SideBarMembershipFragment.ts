@@ -24,7 +24,6 @@ export interface SideBarMembershipFragment_user {
 export interface SideBarMembershipFragment {
   __typename: "Membership";
   id: string;
-  humanizedRole: string | null;
   organization: SideBarMembershipFragment_organization;
   user: SideBarMembershipFragment_user | null;
 }

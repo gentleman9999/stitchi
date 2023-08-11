@@ -24,7 +24,6 @@ export interface ClosetLayoutGetDataQuery_viewer_user {
 export interface ClosetLayoutGetDataQuery_viewer {
   __typename: "Membership";
   id: string;
-  humanizedRole: string | null;
   organization: ClosetLayoutGetDataQuery_viewer_organization;
   user: ClosetLayoutGetDataQuery_viewer_user | null;
 }
