@@ -12,16 +12,24 @@ const NEXT_PUBLIC_SITE_URL = getOrThrow(
 )
 
 export default function middleware(request: NextRequest) {
+  console.log('MIDDLEWARE RUN')
+  console.log('REQUEST', request)
+  console.log('PATH', request.nextUrl.pathname)
+
+  const requestHeaders = new Headers(request.headers)
+  requestHeaders.set('x-forwarded-host', NEXT_PUBLIC_SITE_URL)
+
   return NextResponse.rewrite(
     new URL(request.nextUrl.pathname, STITCHI_BLOG_HOST),
     {
-      headers: {
-        x_forwarded_host: NEXT_PUBLIC_SITE_URL,
+      request: {
+        headers: requestHeaders,
       },
     },
   )
 }
 
 export const config = {
+  skipTrailingSlashRedirect: true,
   matcher: ['/blog/:path*'],
 }
