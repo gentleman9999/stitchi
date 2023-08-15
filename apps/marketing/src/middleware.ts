@@ -1,9 +1,9 @@
 import getOrThrow from '@lib/utils/get-or-throw'
 import { NextMiddleware, NextResponse } from 'next/server'
 
-const STITCHI_BLOG_HOST = getOrThrow(
-  process.env.STITCHI_BLOG_HOST,
-  'STITCHI_BLOG_HOST',
+const STITCHI_BLOG_URL = getOrThrow(
+  process.env.STITCHI_BLOG_URL,
+  'STITCHI_BLOG_URL',
 )
 
 const NEXT_PUBLIC_SITE_URL = getOrThrow(
@@ -16,9 +16,12 @@ const middleware: NextMiddleware = async request => {
 
   if (pathname.startsWith('/blog')) {
     const requestHeaders = new Headers(request.headers)
-    requestHeaders.set('x-forwarded-host', NEXT_PUBLIC_SITE_URL)
+    requestHeaders.set(
+      'x-forwarded-host',
+      NEXT_PUBLIC_SITE_URL.replace(/https?:\/\//, ''),
+    )
 
-    const nextUrl = new URL(STITCHI_BLOG_HOST)
+    const nextUrl = new URL(STITCHI_BLOG_URL)
     nextUrl.pathname = pathname.replace('/blog', '')
 
     return NextResponse.rewrite(nextUrl, {
