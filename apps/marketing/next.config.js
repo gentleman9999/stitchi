@@ -30,10 +30,6 @@ module.exports = withBundleAnalyzer({
         source: '/blog/:path*',
         destination: 'https://stitchiblog.wpengine.com/blog/:path*',
       },
-      {
-        source: '/wp-:path*',
-        destination: 'https://stitchiblog.wpengine.com/wp-:path*',
-      },
     ]
   },
   async redirects() {
