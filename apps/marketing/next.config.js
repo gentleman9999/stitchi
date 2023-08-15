@@ -26,6 +26,10 @@ module.exports = withBundleAnalyzer({
         source: '/learn/topic/:topicSlug',
         destination: '/learn/topic/:topicSlug/page/1',
       },
+      {
+        source: '/blog/:path*',
+        destination: 'https://stitchiblog.wpengine.com/blog/:path*',
+      },
     ]
   },
   async redirects() {
