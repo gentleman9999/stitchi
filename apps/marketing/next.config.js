@@ -6,6 +6,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 module.exports = withBundleAnalyzer({
   reactStrictMode: true,
+  skipTrailingSlashRedirect: true,
   transpilePackages: ['icons', 'config', 'tsconfig', 'hooks', 'lodash-es'],
 
   i18n: {

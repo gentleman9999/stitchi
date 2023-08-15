@@ -1,5 +1,5 @@
 import getOrThrow from '@lib/utils/get-or-throw'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextMiddleware, NextRequest, NextResponse } from 'next/server'
 
 const STITCHI_BLOG_HOST = getOrThrow(
   process.env.STITCHI_BLOG_HOST,
@@ -11,25 +11,37 @@ const NEXT_PUBLIC_SITE_URL = getOrThrow(
   'NEXT_PUBLIC_SITE_URL',
 )
 
-export default function middleware(request: NextRequest) {
-  console.log('MIDDLEWARE RUN')
-  console.log('REQUEST', request)
-  console.log('PATH', request.nextUrl.pathname)
+const middleware: NextMiddleware = async request => {
+  const { pathname } = request.nextUrl
 
-  const requestHeaders = new Headers(request.headers)
-  requestHeaders.set('x-forwarded-host', NEXT_PUBLIC_SITE_URL)
+  if (pathname.startsWith('/blog')) {
+    const requestHeaders = new Headers(request.headers)
+    requestHeaders.set('x-forwarded-host', NEXT_PUBLIC_SITE_URL)
 
-  return NextResponse.rewrite(
-    new URL(request.nextUrl.pathname, STITCHI_BLOG_HOST),
-    {
+    const nextUrl = new URL(STITCHI_BLOG_HOST)
+    nextUrl.pathname = pathname
+
+    console.log('NEXT URL HOST', nextUrl.hostname)
+    console.log('NEXT URL PATHNAME', nextUrl.pathname)
+
+    return NextResponse.rewrite(nextUrl, {
       request: {
         headers: requestHeaders,
       },
-    },
-  )
+    })
+  }
+
+  if (pathname.length > 1 && pathname.endsWith('/')) {
+    // // Remove trailing slash from Next.js URLs
+    const nextUrl = new URL(request.nextUrl)
+    nextUrl.pathname = nextUrl.pathname.slice(0, -1)
+
+    return NextResponse.redirect(nextUrl)
+  }
+
+  // return NextResponse.next()
 }
 
-export const config = {
-  skipTrailingSlashRedirect: true,
-  matcher: ['/blog/:path*'],
-}
+export const config = {}
+
+export default middleware
