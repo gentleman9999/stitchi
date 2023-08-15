@@ -20,7 +20,7 @@ import { useMemo } from 'react'
 import { isEqual } from 'lodash-es'
 import fetch from 'node-fetch'
 import { GetStaticPropsResult, GetServerSidePropsContext } from 'next'
-import { getAccessToken } from '@auth0/nextjs-auth0'
+// import { getAccessToken } from '@auth0/nextjs-auth0'
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
 import { createClient } from 'graphql-ws'
 
@@ -47,38 +47,7 @@ const httpLink = createHttpLink({
 })
 
 const makeWsLink = (ctx?: GetServerSidePropsContext) =>
-  new GraphQLWsLink(
-    createClient({
-      url: 'ws://localhost:5000/graphql',
-      //   connectionParams: async () => {
-      //     let accessToken
-
-      //     try {
-      //       if (ctx) {
-      //         accessToken = (await getAccessToken(ctx.req, ctx.res)).accessToken
-      //       } else {
-      //         // Auth0 only provides access to the accessToken on the server.
-      //         // So we must make a call the the Next.js server to retrieve token.
-      //         const response = await fetch(`${appUrl}/api/auth/accessToken`)
-      //         const data = await response.json()
-      //         accessToken = data.accessToken
-      //       }
-      //     } catch (error) {
-      //       console.error(error)
-      //     }
-
-      //     const organizationId =
-      //       typeof window !== 'undefined'
-      //         ? localStorage.getItem('organizationId') || ''
-      //         : ''
-
-      //     return {
-      //       Authorization: accessToken ? `Bearer ${accessToken}` : '',
-      //       [`${organizationHeaderKey}`]: organizationId,
-      //     }
-      //   },
-    }),
-  )
+  new GraphQLWsLink(createClient({ url: 'ws://localhost:5000/graphql' }))
 
 // The split function takes three parameters:
 //
@@ -104,15 +73,15 @@ const makeAuthLink = (ctx?: GetServerSidePropsContext) =>
   setContext(async (_, { headers }) => {
     if (!accessToken) {
       try {
-        if (ctx) {
-          accessToken = (await getAccessToken(ctx.req, ctx.res)).accessToken
-        } else {
-          // Auth0 only provides access to the accessToken on the server.
-          // So we must make a call the the Next.js server to retrieve token.
-          const response = await fetch(`${appUrl}/api/auth/accessToken`)
-          const data = await response.json()
-          accessToken = data.accessToken
-        }
+        // if (ctx) {
+        //   accessToken = (await getAccessToken(ctx.req, ctx.res)).accessToken
+        // } else {
+        // Auth0 only provides access to the accessToken on the server.
+        // So we must make a call the the Next.js server to retrieve token.
+        const response = await fetch(`${appUrl}/api/auth/accessToken`)
+        const data = await response.json()
+        accessToken = data.accessToken
+        // }
       } catch (error) {
         console.error(error)
       }

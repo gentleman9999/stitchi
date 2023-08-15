@@ -26,14 +26,14 @@ const defaultAuthorizationParams = {
 }
 
 export default handleAuth({
-  async login(req, res) {
+  async login(req: NextApiRequest, res: NextApiResponse) {
     return handleAction(req, res, {
       authorizationParams: {
         ...defaultAuthorizationParams,
       },
     })
   },
-  async signup(req, res) {
+  async signup(req: NextApiRequest, res: NextApiResponse) {
     return handleAction(req, res, {
       authorizationParams: {
         screen_hint: 'signup',

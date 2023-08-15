@@ -29,6 +29,7 @@ interface NavItem {
   icon: React.ReactNode
   hidden?: boolean
   includedPaths?: string[]
+  LinkComponent?: React.ElementType
 }
 
 interface Navigation {
@@ -134,6 +135,7 @@ const SideBar = ({ membershp, loading }: Props) => {
         href: routes.internal.logout.href(),
         label: 'Sign Out',
         icon: <ArrowRightOnRectangleIcon className="w-4 h-4" />,
+        LinkComponent: 'a',
       },
     ],
   }
@@ -252,23 +254,26 @@ const NavItem = ({
   icon,
   active,
   onClick,
-}: NavItem & { active?: boolean; onClick: () => void }) => (
-  <Link
-    onClick={onClick}
-    href={href}
-    className={cx(
-      'hover:bg-gray-50 rounded-md p-2 w-full text-sm font-medium flex items-center gap-2 text-gray-500',
-      {
-        'bg-gray-50 border border-gray-200': active,
-      },
-    )}
-  >
-    <div className="w-5 h-5 inline-flex items-center justify-center">
-      {icon}
-    </div>
-    {label}
-  </Link>
-)
+  LinkComponent = Link,
+}: NavItem & { active?: boolean; onClick: () => void }) => {
+  return (
+    <LinkComponent
+      onClick={onClick}
+      href={href}
+      className={cx(
+        'hover:bg-gray-50 rounded-md p-2 w-full text-sm font-medium flex items-center gap-2 text-gray-500',
+        {
+          'bg-gray-50 border border-gray-200': active,
+        },
+      )}
+    >
+      <div className="w-5 h-5 inline-flex items-center justify-center">
+        {icon}
+      </div>
+      {label}
+    </LinkComponent>
+  )
+}
 
 SideBar.fragments = {
   membership: gql`

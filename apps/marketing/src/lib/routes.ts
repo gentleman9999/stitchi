@@ -36,7 +36,10 @@ const routes = {
       href: () => buildRoute('/api/auth/login'),
     },
     logout: {
-      href: () => buildRoute('/api/auth/logout'),
+      href: () =>
+        buildRoute('/api/auth/logout', {
+          redirectTo: '/',
+        }),
     },
     signup: {
       href: ({ skipRedirect }: { skipRedirect?: boolean } = {}) =>
