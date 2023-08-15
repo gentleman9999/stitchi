@@ -1,5 +1,5 @@
 import getOrThrow from '@lib/utils/get-or-throw'
-import { NextMiddleware, NextRequest, NextResponse } from 'next/server'
+import { NextMiddleware, NextResponse } from 'next/server'
 
 const STITCHI_BLOG_HOST = getOrThrow(
   process.env.STITCHI_BLOG_HOST,
@@ -19,10 +19,7 @@ const middleware: NextMiddleware = async request => {
     requestHeaders.set('x-forwarded-host', NEXT_PUBLIC_SITE_URL)
 
     const nextUrl = new URL(STITCHI_BLOG_HOST)
-    nextUrl.pathname = pathname
-
-    console.log('NEXT URL HOST', nextUrl.hostname)
-    console.log('NEXT URL PATHNAME', nextUrl.pathname)
+    nextUrl.pathname = pathname.replace('/blog', '')
 
     return NextResponse.rewrite(nextUrl, {
       request: {
@@ -38,8 +35,6 @@ const middleware: NextMiddleware = async request => {
 
     return NextResponse.redirect(nextUrl)
   }
-
-  // return NextResponse.next()
 }
 
 export const config = {}
