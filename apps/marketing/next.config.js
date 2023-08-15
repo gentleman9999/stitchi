@@ -28,11 +28,7 @@ module.exports = withBundleAnalyzer({
       },
       {
         source: '/blog/:path*',
-        destination: 'https://stitchiblog.wpengine.com/blog/:path*',
-      },
-      {
-        source: '/blog/wp-admin:path*',
-        destination: 'https://stitchiblog.wpengine.com/blog/wp-admin:path*',
+        destination: 'https://blog.stitchi.co/:path*',
       },
     ]
   },
