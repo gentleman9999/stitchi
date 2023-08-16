@@ -73,15 +73,16 @@ const makeAuthLink = (ctx?: GetServerSidePropsContext) =>
   setContext(async (_, { headers }) => {
     if (!accessToken) {
       try {
-        // if (ctx) {
-        //   accessToken = (await getAccessToken(ctx.req, ctx.res)).accessToken
-        // } else {
-        // Auth0 only provides access to the accessToken on the server.
-        // So we must make a call the the Next.js server to retrieve token.
         const response = await fetch(`${appUrl}/api/auth/accessToken`)
-        const data = await response.json()
-        accessToken = data.accessToken
-        // }
+
+        if (response.status === 401) {
+          console.warn('Unauthorized')
+        } else {
+          console.log('API RESPONES', response)
+
+          const data = await response.json()
+          accessToken = data.accessToken
+        }
       } catch (error) {
         console.error(error)
       }

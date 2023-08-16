@@ -1,4 +1,8 @@
-import { getAccessToken, withApiAuthRequired } from '@auth0/nextjs-auth0'
+import {
+  AccessTokenError,
+  getAccessToken,
+  withApiAuthRequired,
+} from '@auth0/nextjs-auth0'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 export default withApiAuthRequired(async function handler(
@@ -19,6 +23,13 @@ export default withApiAuthRequired(async function handler(
     }
   } catch (e) {
     console.error(e)
+
+    if (e instanceof AccessTokenError) {
+      // Send a specific status code or message to indicate token expiration
+      res.redirect('/api/auth/logout')
+      return
+    }
+
     res.status(500).json({ message: e })
   }
 })
