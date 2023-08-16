@@ -11,6 +11,7 @@ import { gql } from '@apollo/client'
 import { HomePageFeaturedPostsFragment } from '@generated/HomePageFeaturedPostsFragment'
 import ClosingCtaSection from '@components/common/ClosingCtaSection'
 import CustomerLogoBanner from '@components/common/CustomerLogoBanner'
+import HomePageFeaturedImages from './HomePageFeaturedImages'
 
 export interface HomePageProps {
   featuredPosts: HomePageFeaturedPostsFragment[]
@@ -26,6 +27,8 @@ const HomePage = ({ featuredPosts }: HomePageProps) => {
       <Section>
         <CustomerLogoBanner />
       </Section>
+
+      <HomePageFeaturedImages />
 
       <Container>
         <Section gutter="lg" className="lg:text-center">

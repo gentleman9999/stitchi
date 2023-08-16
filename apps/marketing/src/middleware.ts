@@ -16,6 +16,7 @@ const middleware: NextMiddleware = async request => {
 
   if (pathname.startsWith('/blog')) {
     const requestHeaders = new Headers(request.headers)
+
     requestHeaders.set(
       'x-forwarded-for',
       NEXT_PUBLIC_SITE_URL.replace(/https?:\/\//, ''),
