@@ -78,8 +78,6 @@ const makeAuthLink = (ctx?: GetServerSidePropsContext) =>
         if (response.status === 401) {
           console.warn('Unauthorized')
         } else {
-          console.log('API RESPONES', response)
-
           const data = await response.json()
           accessToken = data.accessToken
         }
