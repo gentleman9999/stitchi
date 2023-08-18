@@ -1,39 +1,36 @@
 import { gql, useQuery } from '@apollo/client'
-import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import AccountSetupPage from '@components/pages/AccountSetupPage'
 import { AccountSetupPageGetDataQuery } from '@generated/AccountSetupPageGetDataQuery'
 import { addApolloState, initializeApollo } from '@lib/apollo'
-import { withAuthentication } from '@lib/auth'
 import routes from '@lib/routes'
+import { GetServerSideProps } from 'next'
 import React from 'react'
 
-const getServerSideProps = withPageAuthRequired({
-  getServerSideProps: async ctx => {
-    const client = initializeApollo(null, ctx)
+const getServerSideProps: GetServerSideProps = async ctx => {
+  const client = initializeApollo(null, ctx)
 
-    const { data } = await client.query<AccountSetupPageGetDataQuery>({
-      query: GET_DATA,
+  const { data } = await client.query<AccountSetupPageGetDataQuery>({
+    query: GET_DATA,
+  })
+
+  const memberships = data?.userMemberships || []
+
+  if (!memberships.length) {
+    await client.mutate({
+      mutation: BOOTSTRAP_ACCOUNT,
     })
 
-    const memberships = data?.userMemberships || []
-
-    if (!memberships.length) {
-      await client.mutate({
-        mutation: BOOTSTRAP_ACCOUNT,
-      })
-
-      return {
-        redirect: {
-          permanent: false,
-          destination:
-            ctx.query.redirectUrl?.toString() || routes.internal.closet.href(),
-        },
-      }
+    return {
+      redirect: {
+        permanent: false,
+        destination:
+          ctx.query.redirectUrl?.toString() || routes.internal.closet.href(),
+      },
     }
+  }
 
-    return addApolloState(client, { props: {} })
-  },
-})
+  return addApolloState(client, { props: {} })
+}
 
 const Page = () => {
   const { data, loading } = useQuery<AccountSetupPageGetDataQuery>(GET_DATA)
@@ -68,4 +65,4 @@ const BOOTSTRAP_ACCOUNT = gql`
 
 export { getServerSideProps }
 
-export default withAuthentication(Page)
+export default Page

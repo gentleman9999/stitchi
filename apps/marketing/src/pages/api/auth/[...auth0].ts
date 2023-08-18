@@ -28,6 +28,7 @@ const defaultAuthorizationParams = {
 export default handleAuth({
   async login(req: NextApiRequest, res: NextApiResponse) {
     return handleAction(req, res, {
+      returnTo: req.query.returnTo as string,
       authorizationParams: {
         ...defaultAuthorizationParams,
       },
@@ -40,5 +41,11 @@ export default handleAuth({
         ...defaultAuthorizationParams,
       },
     })
+  },
+  onError(req: NextApiRequest, res: NextApiResponse, error: Error) {
+    console.error('Failed to authenticate user', {
+      context: { error },
+    })
+    res.status(500).end(error.message)
   },
 })

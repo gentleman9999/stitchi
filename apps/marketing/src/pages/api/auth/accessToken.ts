@@ -1,12 +1,8 @@
-import {
-  AccessTokenError,
-  getAccessToken,
-  withApiAuthRequired,
-} from '@auth0/nextjs-auth0'
+import { AccessTokenError, getAccessToken } from '@auth0/nextjs-auth0'
 import routes from '@lib/routes'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-export default withApiAuthRequired(async function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
@@ -33,4 +29,4 @@ export default withApiAuthRequired(async function handler(
 
     res.status(500).json({ message: e })
   }
-})
+}

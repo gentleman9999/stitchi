@@ -1,5 +1,7 @@
 import getOrThrow from '@lib/utils/get-or-throw'
 import { NextMiddleware, NextResponse } from 'next/server'
+import { getSession } from '@auth0/nextjs-auth0/edge'
+import { routes } from './lib'
 
 const STITCHI_BLOG_URL = getOrThrow(
   process.env.STITCHI_BLOG_URL,
@@ -11,8 +13,8 @@ const NEXT_PUBLIC_SITE_URL = getOrThrow(
   'NEXT_PUBLIC_SITE_URL',
 )
 
-const middleware: NextMiddleware = async request => {
-  const { pathname } = request.nextUrl
+const middleware: NextMiddleware = async (request, event) => {
+  const { pathname, search, origin } = request.nextUrl
 
   if (pathname.startsWith('/blog')) {
     const requestHeaders = new Headers(request.headers)
@@ -38,6 +40,41 @@ const middleware: NextMiddleware = async request => {
     nextUrl.pathname = nextUrl.pathname.slice(0, -1)
 
     return NextResponse.redirect(nextUrl)
+  }
+
+  if (
+    pathname.startsWith('/closet') ||
+    pathname.startsWith('/account') ||
+    pathname.startsWith('/user')
+  ) {
+    const response = NextResponse.next()
+    const session = await getSession(request, response)
+
+    if (!session?.user) {
+      // Handle unauthenticated user
+
+      if (pathname.startsWith('/api')) {
+        return NextResponse.json(
+          {
+            error: 'not_authenticated',
+            description:
+              'The user does not have an active session or is not authenticated',
+          },
+          { status: 401 },
+        )
+      }
+
+      let returnTo = `${pathname}${search}`
+
+      return NextResponse.redirect(
+        new URL(
+          `${routes.internal.login.href({
+            returnTo,
+          })}`,
+          request.nextUrl.origin,
+        ),
+      )
+    }
   }
 }
 

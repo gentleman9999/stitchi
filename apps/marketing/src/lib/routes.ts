@@ -33,7 +33,8 @@ const routes = {
       href: () => buildRoute('/'),
     },
     login: {
-      href: () => buildRoute('/api/auth/login'),
+      href: (params: { returnTo?: string } = {}) =>
+        buildRoute('/api/auth/login', params),
     },
     logout: {
       href: () =>

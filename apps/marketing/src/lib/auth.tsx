@@ -1,5 +1,4 @@
 import { gql, useQuery } from '@apollo/client'
-import { useUser } from '@auth0/nextjs-auth0/client'
 import { useRouter } from 'next/router'
 import hoistNonReactStatic from 'hoist-non-react-statics'
 import routes from './routes'
@@ -74,58 +73,6 @@ export const withAuthorization = (
   }
 
   return hoistNonReactStatic(AuthorizedPage, Component)
-}
-
-export const withAuthentication = (Component: React.ComponentType<any>) => {
-  const AuthenticatedPage = ({ ...props }) => {
-    const router = useRouter()
-    const { user, isLoading } = useUser()
-    const { valid, loading: validatingAccount } = useAccountValid()
-
-    if (isLoading) return null
-
-    // if there is no authenticated user, redirect to login page
-    if (!user) {
-      router.push(routes.internal.login.href())
-      return null
-    }
-
-    const accountSetupHref = routes.internal.account.setup.href({
-      redirectUrl: router.asPath,
-    })
-
-    // this is checking if a user has completed the account setup flow
-    // this will redirect them to the account setup page if they have not
-    if (validatingAccount) return null
-
-    if (!valid && !router.pathname.startsWith(accountSetupHref.split('?')[0])) {
-      router.push(accountSetupHref)
-      return null
-    }
-
-    return <Component {...props} />
-  }
-
-  return hoistNonReactStatic(AuthenticatedPage, Component)
-}
-
-const useAccountValid = () => {
-  const { data, loading } =
-    useQuery<UseAuthorizedComponentGetDataQuery>(GET_DATA)
-
-  if (loading) return { loading: true, valid: false }
-
-  if (!loading && !data?.viewer) {
-    return {
-      loading: false,
-      valid: false,
-    }
-  }
-
-  return {
-    loading: false,
-    valid: true,
-  }
 }
 
 const GET_DATA = gql`

@@ -1,6 +1,7 @@
 import { gql, useQuery } from '@apollo/client'
 import { ClosetLayoutGetDataQuery } from '@generated/ClosetLayoutGetDataQuery'
-import { withAuthentication } from '@lib/auth'
+import routes from '@lib/routes'
+import { useRouter } from 'next/router'
 import React from 'react'
 import AppBetaDialog from './AppBetaDialog'
 import SideBar from './SideBar'
@@ -10,8 +11,17 @@ interface Props {
 }
 
 const ClosetLayout = (props: Props) => {
+  const router = useRouter()
   const { data, loading: dataLoading } =
     useQuery<ClosetLayoutGetDataQuery>(GET_DATA)
+
+  React.useEffect(() => {
+    if (!dataLoading && !data?.viewer) {
+      router.push(
+        routes.internal.account.setup.href({ redirectUrl: router.asPath }),
+      )
+    }
+  }, [data?.viewer, dataLoading, router])
 
   return (
     <>
@@ -36,4 +46,4 @@ const GET_DATA = gql`
   }
 `
 
-export default withAuthentication(ClosetLayout)
+export default ClosetLayout
