@@ -150,7 +150,11 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
 
           {!user ? (
             <div className={s.item}>
-              <Link href={routes.internal.login.href()}>
+              <Link
+                href={routes.internal.login.href({
+                  returnTo: routes.internal.closet.href(),
+                })}
+              >
                 <HeadlessPopover.Button className={s.link}>
                   Login
                 </HeadlessPopover.Button>

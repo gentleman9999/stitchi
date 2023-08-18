@@ -20,16 +20,11 @@ import { useMemo } from 'react'
 import { isEqual } from 'lodash-es'
 import fetch from 'node-fetch'
 import { GetStaticPropsResult, GetServerSidePropsContext } from 'next'
-// import { getAccessToken } from '@auth0/nextjs-auth0'
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
 import { createClient } from 'graphql-ws'
+import { getAccessToken } from '@auth0/nextjs-auth0'
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__' as const
-
-const organizationHeaderKey = getOrThrow(
-  process.env.NEXT_PUBLIC_HEADER_KEY_ORGANIZATION_ID,
-  'NEXT_PUBLIC_HEADER_KEY_ORGANIZATION_ID',
-)
 
 const appUrl = getOrThrow(
   process.env.NEXT_PUBLIC_SITE_URL,
@@ -73,31 +68,25 @@ const makeAuthLink = (ctx?: GetServerSidePropsContext) =>
   setContext(async (_, { headers }) => {
     if (!accessToken) {
       try {
-        // if (ctx) {
-        //   accessToken = (await getAccessToken(ctx.req, ctx.res)).accessToken
-        // } else {
-        // Auth0 only provides access to the accessToken on the server.
-        // So we must make a call the the Next.js server to retrieve token.
-        const response = await fetch(`${appUrl}/api/auth/accessToken`)
-        const data = await response.json()
-        accessToken = data.accessToken
-        // }
+        if (ctx) {
+          accessToken = (await getAccessToken(ctx.req, ctx.res)).accessToken
+        } else {
+          // Auth0 only provides access to the accessToken on the server.
+          // So we must make a call the the Next.js server to retrieve token.
+          const response = await fetch(`${appUrl}/api/auth/accessToken`)
+          const data = await response.json()
+          accessToken = data.accessToken
+        }
       } catch (error) {
         console.error(error)
       }
     }
-
-    const organizationId =
-      typeof window !== 'undefined'
-        ? localStorage.getItem('organizationId') || ''
-        : ''
 
     return {
       headers: Object.assign(headers || {}, {
         'Content-Type': 'application/json',
         Accept: 'application/json',
         Authorization: accessToken ? `Bearer ${accessToken}` : '',
-        [`${organizationHeaderKey}`]: organizationId,
       }),
     }
   })
