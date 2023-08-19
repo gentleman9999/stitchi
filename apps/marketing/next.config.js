@@ -39,12 +39,17 @@ module.exports = withBundleAnalyzer({
       {
         source: '/login',
         destination: '/api/auth/login',
-        permanent: true,
+        permanent: false,
       },
       {
         source: '/logout',
         destination: '/api/auth/logout',
-        permanent: true,
+        permanent: false,
+      },
+      {
+        source: '/signup',
+        destination: '/api/auth/signup',
+        permanent: false,
       },
       {
         source: '/promotional-product-glossary/:path*',

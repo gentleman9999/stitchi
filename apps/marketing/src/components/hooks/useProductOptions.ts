@@ -10,7 +10,7 @@ import { notEmpty } from '@lib/utils/typescript'
 import Color from 'color'
 
 interface Props {
-  product: UseProductColorsProductFragment
+  product?: UseProductColorsProductFragment | null
 }
 
 const useProductOptions = ({ product }: Props) => {
@@ -18,7 +18,7 @@ const useProductOptions = ({ product }: Props) => {
   let sizes: MultipleChoiceOptionValue[] = []
 
   const productOptions =
-    product.productOptions.edges?.map(edge => edge?.node) || []
+    product?.productOptions.edges?.map(edge => edge?.node) || []
 
   for (const option of productOptions) {
     if (isMultipleChoiceOption(option)) {

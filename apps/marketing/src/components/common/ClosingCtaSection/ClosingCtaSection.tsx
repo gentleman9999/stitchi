@@ -9,7 +9,7 @@ const ClosingCtaSection = () => {
   return (
     <Section
       gutter="lg"
-      className="relative sm:text-center bg-primary rounded-md p-4 sm:p-6 md:p-8"
+      className="relative sm:text-center bg-primary p-4 sm:p-6 md:p-8"
     >
       <p className="text-2xl font-semibold max-w-[650px] md:text-center m-auto font-heading">
         Make the stitch and join hundreds of businesses, brands, and creators

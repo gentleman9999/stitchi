@@ -80,7 +80,7 @@ const CatalogProduct = ({ product, priority }: Props) => {
 CatalogProduct.fragments = {
   product: gql`
     ${useProductOptions.fragments.product}
-    fragment CatalogProductLegacyProductFragment on CatalogProduct {
+    fragment CatalogProductProductFragment on CatalogProduct {
       id
       name
       slug

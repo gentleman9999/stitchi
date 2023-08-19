@@ -9,7 +9,7 @@ import { Section } from '@components/common'
 
 const FeaturePageTestimonial = () => {
   return (
-    <Section gutter="md">
+    <Section gutter="lg">
       <div className="lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-24">
         <div className="mx-auto">
           <div>

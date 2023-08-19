@@ -31,9 +31,9 @@ const FeaturePageContainer = ({
         openGraph={{ url: canonicalUrl }}
       />
       {children}
-      <Container>
-        <ClosingCtaSection />
-      </Container>
+
+      <ClosingCtaSection />
+
       <Container>
         <FeaturePageTestimonial />
       </Container>
