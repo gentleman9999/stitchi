@@ -10,24 +10,34 @@ import { makeProductTitle } from '@lib/utils/catalog'
 import { generateImageSizes } from '@lib/utils/image'
 import currency from 'currency.js'
 import Tooltip from '@components/ui/Tooltip'
+import Skeleton from 'react-loading-skeleton'
 
 export interface Props {
-  product: CatalogProductLegacyProductFragment
+  product?: CatalogProductLegacyProductFragment | null
   priority: boolean
+  loading?: boolean
 }
 
-const CatalogProductLegacy = ({ product, priority }: Props) => {
+const CatalogProductLegacy = ({ product, priority, loading }: Props) => {
   const { colors } = useProductOptions({ product })
 
-  if (!product.brand) {
+  if (!loading && !product) {
+    console.warn('Product is required')
+    return null
+  }
+
+  if (!loading && !product?.brand) {
     console.warn('Product must have a brand')
     return null
   }
 
-  const href = routes.internal.catalog.product.href({
-    brandSlug: product.brand?.path.replaceAll('/', ''),
-    productSlug: product.path.replaceAll('/', ''),
-  })
+  const href =
+    loading || !product
+      ? ''
+      : routes.internal.catalog.product.href({
+          brandSlug: product.brand?.path.replaceAll('/', '') || '',
+          productSlug: product.path.replaceAll('/', ''),
+        })
 
   return (
     <li className="flex flex-col w-full">
@@ -35,8 +45,10 @@ const CatalogProductLegacy = ({ product, priority }: Props) => {
         href={href}
         className="flex-1 flex flex-col cursor-pointer rounded-sm border border-gray-200 p-2  hover:shadow-lg transition-all"
       >
-        {product.defaultImage?.url && (
-          <div className="relative w-full h-[160px]">
+        <div className="relative w-full h-[160px] flex items-center justify-center">
+          {loading ? (
+            <Skeleton containerClassName="flex-1 h-full" className="h-full" />
+          ) : product?.defaultImage?.url ? (
             <Image
               priority={priority}
               key={product.defaultImage.url}
@@ -46,18 +58,28 @@ const CatalogProductLegacy = ({ product, priority }: Props) => {
               objectFit="contain"
               sizes={generateImageSizes([{ imageWidth: '230px' }])}
             />
-          </div>
-        )}
+          ) : (
+            <span>No image</span>
+          )}
+        </div>
         <h3 className="mt-4 text-sm font-normal leading-tight">
-          {makeProductTitle(product)}
+          {loading ? (
+            <Skeleton width={140} />
+          ) : product ? (
+            makeProductTitle(product)
+          ) : null}
         </h3>
 
         <div className="mt-4 flex justify-between items-end flex-wrap flex-1">
           <div className="flex-1 flex items-end">
-            <SwatchGroup
-              // Could add support for more colors in the future
-              hexColors={colors.map(({ hexColors }) => hexColors[0])}
-            />
+            {loading ? (
+              <Skeleton width={100} />
+            ) : (
+              <SwatchGroup
+                // Could add support for more colors in the future
+                hexColors={colors.map(({ hexColors }) => hexColors[0])}
+              />
+            )}
           </div>
           <span className=" text-gray-600 flex gap-1 items-center">
             <span className="text-xs">from</span>
@@ -66,7 +88,11 @@ const CatalogProductLegacy = ({ product, priority }: Props) => {
               delay={150}
               renderTrigger={() => (
                 <span className="font-bold">
-                  {currency(product.priceCents, { fromCents: true }).format()}
+                  {loading ? (
+                    <Skeleton width={40} />
+                  ) : product ? (
+                    currency(product.priceCents, { fromCents: true }).format()
+                  ) : null}
                 </span>
               )}
             />
