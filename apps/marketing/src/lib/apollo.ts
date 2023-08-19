@@ -22,7 +22,12 @@ import fetch from 'node-fetch'
 import { GetStaticPropsResult, GetServerSidePropsContext } from 'next'
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
 import { createClient } from 'graphql-ws'
-import { getAccessToken } from '@auth0/nextjs-auth0'
+import {
+  AccessTokenError,
+  AccessTokenErrorCode,
+  getAccessToken,
+  getSession,
+} from '@auth0/nextjs-auth0'
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__' as const
 
@@ -78,7 +83,12 @@ const makeAuthLink = (ctx?: GetServerSidePropsContext) =>
           accessToken = data.accessToken
         }
       } catch (error) {
-        console.error(error)
+        if (error instanceof AccessTokenError) {
+          if (error.code === AccessTokenErrorCode.MISSING_SESSION) {
+            // do nothing, no user is logged in
+          }
+          console.warn(error)
+        }
       }
     }
 

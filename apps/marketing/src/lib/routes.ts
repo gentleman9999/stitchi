@@ -219,6 +219,16 @@ const routes = {
         href: () => buildRoute('/how-to-start-student-merch-business'),
       },
     },
+
+    industries: {
+      href: () => buildRoute('/industries'),
+
+      show: {
+        href: (industrySlug: string) =>
+          buildRoute(`/industries/${industrySlug}`),
+      },
+    },
+
     closet: {
       href: () => buildRoute('/closet'),
 

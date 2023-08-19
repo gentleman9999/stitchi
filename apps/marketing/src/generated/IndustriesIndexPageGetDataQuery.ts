@@ -7,6 +7,13 @@
 // GraphQL query operation: IndustriesIndexPageGetDataQuery
 // ====================================================
 
+export interface IndustriesIndexPageGetDataQuery_landingPage__seoMetaTags {
+  __typename: "Tag";
+  attributes: any | null;
+  content: string | null;
+  tag: string;
+}
+
 export interface IndustriesIndexPageGetDataQuery_landingPage_content_PageHeroRecord_callToActions_icon {
   __typename: "HeroIconRecord";
   id: any;
@@ -140,6 +147,11 @@ export type IndustriesIndexPageGetDataQuery_landingPage_content = IndustriesInde
 export interface IndustriesIndexPageGetDataQuery_landingPage {
   __typename: "LandingPageRecord";
   id: any;
+  slug: string | null;
+  /**
+   * SEO meta tags
+   */
+  _seoMetaTags: IndustriesIndexPageGetDataQuery_landingPage__seoMetaTags[];
   content: IndustriesIndexPageGetDataQuery_landingPage_content[];
 }
 

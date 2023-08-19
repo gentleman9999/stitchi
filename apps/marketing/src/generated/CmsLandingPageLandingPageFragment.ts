@@ -7,6 +7,13 @@
 // GraphQL fragment: CmsLandingPageLandingPageFragment
 // ====================================================
 
+export interface CmsLandingPageLandingPageFragment__seoMetaTags {
+  __typename: "Tag";
+  attributes: any | null;
+  content: string | null;
+  tag: string;
+}
+
 export interface CmsLandingPageLandingPageFragment_content_PageHeroRecord_callToActions_icon {
   __typename: "HeroIconRecord";
   id: any;
@@ -140,5 +147,10 @@ export type CmsLandingPageLandingPageFragment_content = CmsLandingPageLandingPag
 export interface CmsLandingPageLandingPageFragment {
   __typename: "LandingPageRecord";
   id: any;
+  slug: string | null;
+  /**
+   * SEO meta tags
+   */
+  _seoMetaTags: CmsLandingPageLandingPageFragment__seoMetaTags[];
   content: CmsLandingPageLandingPageFragment_content[];
 }
