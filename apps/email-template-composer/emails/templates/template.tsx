@@ -1,72 +1,118 @@
 import React from 'react'
 import {
   Body,
+  Column,
   Container,
   Font,
   Head,
+  Hr,
   Html,
   Img,
   Preview,
+  Row,
   Section,
   Tailwind,
 } from '@react-email/components'
+import colors from 'tailwindcss/colors'
+import Heading1 from '../components/Heading1'
+import Paragraph from '../components/Paragraph'
+import { baseUrl } from '../environment'
+import InlineLink from '../components/InlineLink'
+
+export interface Recipient {
+  name: string
+}
 
 export interface Props {
   previewText: string
-  children: React.ReactNode
   templateName: string
+  recipient: Recipient
+
+  children:
+    | React.ReactNode
+    | ((props: {
+        templateName: string
+        recipient: Recipient
+      }) => React.ReactNode)
 }
 
 const EmailTemplate = ({
+  recipient = { name: 'Richard Hendricks' },
   templateName = 'Template name',
   previewText = '',
   children,
 }: Props) => (
   <Html>
     <Head>
-      <Font
-        fontFamily="Outfit"
-        fallbackFontFamily="Verdana"
-        webFont={{
-          url: 'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&display=swap',
-          format: 'woff2',
-        }}
-        fontWeight={500}
-        fontStyle="normal"
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, user-scalable=no"
       />
+      <meta
+        name="format-detection"
+        content="telephone=no, date=no, address=no, email=no, url=no"
+      />
+      <meta name="x-apple-disable-message-reformatting" />
+      <meta name="color-scheme" content="light" />
+      <meta name="supported-color-schemes" content="light" />
+
+      <style>
+        {`
+          :root {
+            color-scheme: light;
+            supported-color-schemes: light;
+          }
+        `}
+      </style>
     </Head>
     <Preview>{previewText}</Preview>
-    <Body
-      style={{
-        backgroundColor: '#f6f9fc',
-        fontFamily: 'Outfit, Verdana, sans-serif',
+    <Tailwind
+      config={{
+        theme: {
+          colors: {
+            primary: '#bdfd6d',
+            gray: colors.gray,
+            black: colors.stone[900],
+            white: colors.white,
+          },
+        },
       }}
     >
-      <Tailwind>
-        <Container className="bg-white mx-auto my-0 rounded border border-solid border-[#eaeaea] w-[465px] mb-20">
-          <Section className="px-10 pt-10 pb-2">
-            <table className="w-full">
-              <tr>
-                <td align="left" width="60">
-                  <Img
-                    src="https://www.stitchi.co/logo.png"
-                    width={60}
-                    height={60}
-                    className="object-contain"
-                  />
-                </td>
-
-                <td className="text-right text-xs font-medium">
-                  {templateName}
-                </td>
-              </tr>
-            </table>
+      <Body className="bg-white my-auto mx-auto font-sans">
+        <Container className="border border-solid border-[#eaeaea] rounded my-8 mx-auto px-8 w-[465px]">
+          <Section className="pt-4 pb-2">
+            <Row>
+              <Column align="center">
+                <Img
+                  src="https://www.stitchi.co/logo.png"
+                  width={60}
+                  height={60}
+                  className="object-contain"
+                />
+              </Column>
+            </Row>
+            <Row>
+              <Column align="center">
+                <Heading1>{templateName}</Heading1>
+              </Column>
+            </Row>
           </Section>
 
-          <div className="px-10 pb-10">{children}</div>
+          {typeof children === 'function'
+            ? children({ templateName, recipient })
+            : children}
+
+          <Hr className="mb-0 mx-0 mt-8 w-full" />
+
+          <Paragraph className="text-xs text-gray-600 py-4 text-left">
+            Stitchi LLC. -{' '}
+            <InlineLink href={baseUrl}>
+              {baseUrl.replace(/https?:\/\//, '')}
+            </InlineLink>
+          </Paragraph>
         </Container>
-      </Tailwind>
-    </Body>
+      </Body>
+    </Tailwind>
   </Html>
 )
 

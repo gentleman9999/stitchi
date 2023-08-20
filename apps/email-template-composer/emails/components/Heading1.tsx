@@ -1,3 +1,4 @@
+import { Heading } from '@react-email/components'
 import React from 'react'
 
 interface Props {
@@ -5,7 +6,9 @@ interface Props {
 }
 
 const Heading1 = ({ children }: Props) => (
-  <h1 className="text-xl font-bold text-left">{children}</h1>
+  <Heading as="h1" className="text-2xl font-medium">
+    {children}
+  </Heading>
 )
 
 export default Heading1

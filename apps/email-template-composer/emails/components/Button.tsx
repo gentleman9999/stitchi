@@ -8,8 +8,8 @@ interface Props extends REButtonProps {}
 
 const Button = ({ ...reButtonProps }: Props) => (
   <REButton
-    className="bg-black text-white rounded px-4 py-2"
     {...reButtonProps}
+    className="bg-primary text-black rounded px-8 py-4 text-sm font-semibold tracking-tight"
   />
 )
 
