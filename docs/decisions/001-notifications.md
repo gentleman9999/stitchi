@@ -4,6 +4,7 @@ Notifications are a mechanism used by our app to comunicate with a user when a s
 ## Requirements
 - [ ] System is able to schedule a notification with a single function
 - [ ] Notifications can have multiple delivery mechanisms (in-app, email, SMS)
+- [ ] Users can configure there own delivery mechanism (Slack)
 - [ ] We should know when a notification was sent, to whom, and exactly what was sent in the contents of the notification
 - [ ] Users should be able to configure their notification preference (email, sms, both)
 - [ ] A notification is sent to a user (or organization? spike)
