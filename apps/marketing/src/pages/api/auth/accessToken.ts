@@ -1,6 +1,4 @@
-import { AccessTokenError, getAccessToken } from '@auth0/nextjs-auth0'
-import routes from '@lib/routes'
-import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
+import { getAccessToken } from '@auth0/nextjs-auth0'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(

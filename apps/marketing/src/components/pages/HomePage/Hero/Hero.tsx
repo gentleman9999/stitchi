@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import React from 'react'
-import { Button, ButtonProps } from '@components/ui'
+import { ButtonProps } from '@components/ui'
 import { Section } from '../../../common'
+import Button from '@components/ui/ButtonV2'
 
 interface Cta {
   title: React.ReactNode
@@ -27,12 +28,12 @@ const Hero = (props: HeroProps) => {
         <div className="flex gap-8 max-w-4xl">
           <div className="flex-auto flex flex-col items-center">
             {props.title && (
-              <h1 className="text-center font-semibold font-headingDisplay text-gray-900 text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
+              <h1 className="text-center font-semibold font-headingDisplay text-gray-900 text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
                 {props.title}
               </h1>
             )}
             {props.subtitle && (
-              <p className="text-center mt-10 max-w-md font-light text-base text-gray-700 sm:text-lg lg:text-2xl md:max-w-2xl">
+              <p className="text-center mt-10 max-w-md font-light text-base text-gray-500 sm:text-lg lg:text-2xl md:max-w-2xl">
                 {props.subtitle}
               </p>
             )}
@@ -41,27 +42,24 @@ const Hero = (props: HeroProps) => {
               <div className="mt-12 max-w-md sm:flex">
                 {props.primaryCta && (
                   <div className="rounded-md">
-                    <Link href={props.primaryCta.href} passHref legacyBehavior>
-                      <Button
-                        Component="a"
-                        shadow
-                        endIcon={props.primaryCta.endIcon}
-                      >
-                        {props.primaryCta.title}
-                      </Button>
-                    </Link>
+                    <Button
+                      size="xl"
+                      Component={Link}
+                      href={props.primaryCta.href}
+                      endIcon={props.primaryCta.endIcon}
+                    >
+                      {props.primaryCta.title}
+                    </Button>
                   </div>
                 )}
                 {props.secondaryCta && (
-                  <Link href={props.secondaryCta.href} passHref legacyBehavior>
-                    <Button
-                      shadow
-                      Component="a"
-                      className="mt-3 sm:mt-0 sm:ml-3"
-                    >
-                      {props.secondaryCta.title}
-                    </Button>
-                  </Link>
+                  <Button
+                    size="xl"
+                    Component={Link}
+                    href={props.secondaryCta.href}
+                  >
+                    {props.secondaryCta.title}
+                  </Button>
                 )}
               </div>
             )}

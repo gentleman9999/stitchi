@@ -26,7 +26,6 @@ import {
   AccessTokenError,
   AccessTokenErrorCode,
   getAccessToken,
-  getSession,
 } from '@auth0/nextjs-auth0'
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__' as const
@@ -192,8 +191,8 @@ export function addApolloState<
 
 export function useApollo(pageProps: AppProps['pageProps']) {
   const state = pageProps[APOLLO_STATE_PROP_NAME as keyof typeof pageProps]
-  const store = useMemo(() => initializeApollo(state), [state])
-  return store
+  const apollo = useMemo(() => initializeApollo(state), [state])
+  return apollo
 }
 
 type KeyArgs = FieldPolicy<any>['keyArgs']
