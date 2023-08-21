@@ -11,6 +11,8 @@ import {
   RectangleStackIcon,
   SwatchIcon,
   TruckIcon,
+  UserCircleIcon,
+  UsersIcon,
 } from '@heroicons/react/20/solid'
 import routes from '@lib/routes'
 import { ScopeAction, ScopeResource } from '@generated/globalTypes'
@@ -23,6 +25,17 @@ import cx from 'classnames'
 import { SideBarMembershipFragment } from '@generated/SideBarMembershipFragment'
 import { useRouter } from 'next/router'
 
+interface SubNavItem {
+  type: 'subnav'
+  href: string
+  label: string
+  icon: React.ReactNode
+  hidden?: boolean
+  includedPaths?: string[]
+  LinkComponent?: React.ElementType
+  subNavItems?: NavItem[]
+}
+
 interface NavItem {
   href: string
   label: string
@@ -30,6 +43,7 @@ interface NavItem {
   hidden?: boolean
   includedPaths?: string[]
   LinkComponent?: React.ElementType
+  subNavItems?: SubNavItem[]
 }
 
 interface Navigation {
@@ -44,7 +58,13 @@ const getActiveNavItem = (navigation: Navigation): NavItem | null => {
 
   const { pathname } = window.location
 
-  const navItems = [...navigation.primary, ...navigation.secondary]
+  const navItems = [
+    ...navigation.primary,
+    ...navigation.secondary,
+    ...navigation.primary
+      .flatMap(item => item.subNavItems || [])
+      .flatMap(item => item.subNavItems || []),
+  ]
 
   return (
     navItems.find(navItem => {
@@ -63,9 +83,9 @@ interface Props {
 
 const SideBar = ({ membershp, loading }: Props) => {
   const router = useRouter()
-  const [upcomingNavItem, setUpcomingNavItem] = React.useState<NavItem | null>(
-    null,
-  )
+  const [upcomingNavItem, setUpcomingNavItem] = React.useState<
+    NavItem | SubNavItem | null
+  >(null)
 
   const { can, loading: authorizationLoading } = useAuthorizedComponent()
 
@@ -121,9 +141,23 @@ const SideBar = ({ membershp, loading }: Props) => {
     ],
     secondary: [
       {
-        href: '',
+        href: routes.internal.closet.settings.general.href(),
         label: 'Settings',
         icon: <Cog8ToothIcon className="w-4 h-4" />,
+        subNavItems: [
+          {
+            type: 'subnav',
+            href: routes.internal.closet.settings.general.href(),
+            label: 'General',
+            icon: <UserCircleIcon className="w-4 h-4" />,
+          },
+          {
+            type: 'subnav',
+            href: routes.internal.closet.settings.team.href(),
+            label: 'Team members',
+            icon: <UsersIcon className="w-4 h-4" />,
+          },
+        ],
       },
       {
         href: '',
@@ -142,7 +176,19 @@ const SideBar = ({ membershp, loading }: Props) => {
 
   const activeNavItem = upcomingNavItem || getActiveNavItem(navigation)
 
-  const handleNavItemClick = (navItem: NavItem) => {
+  const parentNavItem =
+    navigation.primary.find(navItem =>
+      navItem.subNavItems?.find(item => activeNavItem?.href === item.href),
+    ) ||
+    navigation.secondary.find(navItem =>
+      navItem.subNavItems?.find(item => activeNavItem?.href === item.href),
+    )
+
+  console.log('ACTIVE NAV ITEM', activeNavItem)
+
+  console.log('PARENT NAV ITEM', parentNavItem)
+
+  const handleNavItemClick = (navItem: NavItem | SubNavItem) => {
     setUpcomingNavItem(navItem)
   }
 
@@ -161,31 +207,51 @@ const SideBar = ({ membershp, loading }: Props) => {
           )}
         />
         <div>
-          <ul className="flex flex-col gap-1">
-            {navigation.primary
-              .filter(link => !link.hidden)
-              .map(link => (
-                <li key={link.href}>
-                  <NavItem
-                    {...link}
-                    active={activeNavItem?.href === link.href}
-                    onClick={() => handleNavItemClick(link)}
-                  />
-                </li>
-              ))}
-          </ul>
-          <hr className="my-2" />
-          <ul className="flex flex-col gap-1">
-            {navigation.secondary.map(link => (
-              <li key={link.label}>
-                <NavItem
-                  {...link}
-                  active={activeNavItem?.href === link.href}
-                  onClick={() => handleNavItemClick(link)}
-                />
-              </li>
-            ))}
-          </ul>
+          {parentNavItem ? (
+            <>
+              <ul className="flex flex-col gap-1">
+                {parentNavItem.subNavItems
+                  ?.filter(link => !link.hidden)
+                  .map(link => (
+                    <li key={link.href}>
+                      <NavItem
+                        {...link}
+                        active={activeNavItem?.href === link.href}
+                        onClick={() => handleNavItemClick(link)}
+                      />
+                    </li>
+                  ))}
+              </ul>
+            </>
+          ) : (
+            <>
+              <ul className="flex flex-col gap-1">
+                {navigation.primary
+                  .filter(link => !link.hidden)
+                  .map(link => (
+                    <li key={link.href}>
+                      <NavItem
+                        {...link}
+                        active={activeNavItem?.href === link.href}
+                        onClick={() => handleNavItemClick(link)}
+                      />
+                    </li>
+                  ))}
+              </ul>
+              <hr className="my-2" />
+              <ul className="flex flex-col gap-1">
+                {navigation.secondary.map(link => (
+                  <li key={link.label}>
+                    <NavItem
+                      {...link}
+                      active={activeNavItem?.href === link.href}
+                      onClick={() => handleNavItemClick(link)}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
         </div>
         <div className="mt-2 border rounded-md p-4 text-sm flex flex-col gap-4 text-gray-600 bg-gray-50">
           <div>
@@ -255,7 +321,7 @@ const NavItem = ({
   active,
   onClick,
   LinkComponent = Link,
-}: NavItem & { active?: boolean; onClick: () => void }) => {
+}: (NavItem | SubNavItem) & { active?: boolean; onClick: () => void }) => {
   return (
     <LinkComponent
       onClick={onClick}
