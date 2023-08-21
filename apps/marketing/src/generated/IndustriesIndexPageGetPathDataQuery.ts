@@ -19,3 +19,7 @@ export interface IndustriesIndexPageGetPathDataQuery {
    */
   allLandingPages: IndustriesIndexPageGetPathDataQuery_allLandingPages[];
 }
+
+export interface IndustriesIndexPageGetPathDataQueryVariables {
+  category: string;
+}

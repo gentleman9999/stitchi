@@ -13,6 +13,10 @@
     "@react-email/components": "0.0.6",
     "currency.js": "^2.0.4",
     "date-fns": "^2.30.0",
+    "eslint": "^8.6.0",
     "react-email": "1.9.3"
+  },
+  "devDependencies": {
+    "config": "*"
   }
 }
