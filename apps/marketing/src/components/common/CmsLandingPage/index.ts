@@ -1,1 +1,1 @@
-export { default } from './CmsLandingPage'
+export { default, makeGetStaticPaths, getStaticProps } from './CmsLandingPage'

@@ -14,6 +14,8 @@ const SectionHeader = ({
   subtitle,
   align = 'center',
 }: SectionHeaderProps) => {
+  const SubtitleComponent = typeof subtitle === 'string' ? 'p' : 'div'
+
   return (
     <div
       className={cx('flex flex-col', {
@@ -38,9 +40,9 @@ const SectionHeader = ({
 
       {subtitle && (
         <>
-          <p className="text sm:text-lg md:text-xl text-gray-600 max-w-2xl mt-6">
+          <SubtitleComponent className="text sm:text-lg md:text-xl text-gray-600 max-w-2xl mt-6">
             {subtitle}
-          </p>
+          </SubtitleComponent>
         </>
       )}
     </div>
