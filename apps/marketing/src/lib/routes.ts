@@ -301,6 +301,16 @@ const routes = {
       brand: {
         href: () => buildRoute('/closet/brand'),
       },
+
+      settings: {
+        general: {
+          href: () => buildRoute('/closet/settings/general'),
+        },
+
+        team: {
+          href: () => buildRoute('/closet/settings/team'),
+        },
+      },
     },
 
     account: {
