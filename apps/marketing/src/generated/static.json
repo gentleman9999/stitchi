@@ -3719,6 +3719,44 @@
         "url": "/bella-canvas/collar/wide-neck/",
         "is_customized": false
       }
+    },
+    {
+      "id": 572,
+      "parent_id": 0,
+      "name": "Medha",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "category.html",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": { "url": "/medha/", "is_customized": false }
+    },
+    {
+      "id": 573,
+      "parent_id": 572,
+      "name": "Swags Under $25",
+      "description": "<p>Employee gifts and promotional swags under $25. High-quality, durable, and stylish.&nbsp;</p>",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "meta_keywords": [
+        "Corporate Swags Under $25",
+        "corporate gifts under $25",
+        "gifts under $25 for employees"
+      ],
+      "meta_description": "Best corporate swags and employee gifts under $25. High-quality and durable. 20% below market rates, plus free logo/custom design imprinting services. ",
+      "layout_file": "category.html",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "Corporate Swags Under $10,  corporate gifts under $25, gifts under $25 for employees, inexpensive swags, inexpensive gifts",
+      "default_product_sort": "price_desc",
+      "custom_url": { "url": "/swags-under-25/", "is_customized": true }
     }
   ],
   "designCategorySlugs": [

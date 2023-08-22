@@ -19,5 +19,6 @@ export interface CmsLandingPageCatalogSectionCatalogSectionFragment {
   id: any;
   title: string | null;
   description: string | null;
+  disableDefaultCategories: any | null;
   categories: CmsLandingPageCatalogSectionCatalogSectionFragment_categories[];
 }

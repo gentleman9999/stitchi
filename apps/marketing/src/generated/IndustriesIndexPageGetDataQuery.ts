@@ -139,6 +139,7 @@ export interface IndustriesIndexPageGetDataQuery_landingPage_content_PageSection
   id: any;
   title: string | null;
   description: string | null;
+  disableDefaultCategories: any | null;
   categories: IndustriesIndexPageGetDataQuery_landingPage_content_PageSectionCatalogRecord_categories[];
 }
 
