@@ -30,7 +30,7 @@ const ClosetSettingsGeneralPage = ({ loading, user }: Props) => {
         <ClosetSectionHeader>
           <ClosetSectionTitle
             title="Profile"
-            description="This information will be to your team."
+            description="This information will visible be to your team."
           />
         </ClosetSectionHeader>
 
