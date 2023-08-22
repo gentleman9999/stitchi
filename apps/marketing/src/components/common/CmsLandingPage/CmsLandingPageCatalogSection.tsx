@@ -9,6 +9,7 @@ import {
   CmsLandingPageCatalogSectionGetDataQueryVariables,
 } from '@generated/CmsLandingPageCatalogSectionGetDataQuery'
 import routes from '@lib/routes'
+import { notEmpty } from '@lib/utils/typescript'
 import Link from 'next/link'
 import React from 'react'
 import Section from '../Section'
@@ -31,6 +32,7 @@ const defaultCategories = [
 
 const createCombinedCategoryMap = (
   categories: CmsLandingPageCatalogSectionCatalogSectionFragment['categories'],
+  disableDefaultCategories?: boolean,
 ): Map<number, string> => {
   const map = new Map<number, string>()
 
@@ -40,9 +42,11 @@ const createCombinedCategoryMap = (
     }
   }
 
-  for (const category of defaultCategories) {
-    if (!map.has(category.bigCommerceCategoryId)) {
-      map.set(category.bigCommerceCategoryId, category.name)
+  if (!disableDefaultCategories) {
+    for (const category of defaultCategories) {
+      if (!map.has(category.bigCommerceCategoryId)) {
+        map.set(category.bigCommerceCategoryId, category.name)
+      }
     }
   }
 
@@ -55,7 +59,10 @@ interface Props {
 
 const CmsLandingPageCatalogSection = ({ catalogSection }: Props) => {
   const categories = React.useMemo(() => {
-    const categoryMap = createCombinedCategoryMap(catalogSection.categories)
+    const categoryMap = createCombinedCategoryMap(
+      catalogSection.categories,
+      catalogSection.disableDefaultCategories,
+    )
 
     return Array.from(categoryMap.entries())
       .slice(0, 5)
@@ -63,15 +70,16 @@ const CmsLandingPageCatalogSection = ({ catalogSection }: Props) => {
         id,
         name,
       }))
-  }, [catalogSection.categories])
+  }, [catalogSection.categories, catalogSection.disableDefaultCategories])
 
-  const [categoryId, setCategoryId] = React.useState(categories[0].id)
+  const [categoryId, setCategoryId] = React.useState(categories[0]?.id)
 
   const { data, refetch, loading } = useQuery<
     CmsLandingPageCatalogSectionGetDataQuery,
     CmsLandingPageCatalogSectionGetDataQueryVariables
   >(GET_DATA, {
     variables: { categoryId },
+    skip: !notEmpty(categoryId),
   })
 
   React.useEffect(() => {
@@ -81,6 +89,10 @@ const CmsLandingPageCatalogSection = ({ catalogSection }: Props) => {
   const { products } = data?.site.category || {}
 
   const { title, description } = catalogSection
+
+  if (!loading && !products) {
+    return null
+  }
 
   return (
     <Container>
@@ -174,7 +186,7 @@ CmsLandingPageCatalogSection.fragments = {
       id
       title
       description
-
+      disableDefaultCategories
       categories {
         id
         bigCommerceCategoryId
