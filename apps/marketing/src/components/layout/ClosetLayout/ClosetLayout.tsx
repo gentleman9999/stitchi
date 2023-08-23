@@ -54,42 +54,27 @@ const ClosetLayout = (props: Props) => {
     <ClosetLayoutContextProvider>
       <AppBetaDialog />
       <div className="flex flex-col md:flex-row relative">
-        <AnimatePresence initial={false}>
-          {mobileNavExpanded ? (
-            <motion.nav
-              transition={{
-                type: 'tween',
-                ease: 'linear',
-                duration: 0.1,
-              }}
-              initial={{
-                x: '-100%',
-              }}
-              animate={{
-                x: '0%',
-              }}
-              exit={{
-                x: '-100%',
-              }}
-              className={cx(
-                'fixed h-screen border-r bg-paper w-screen md:w-64 z-10 overflow-hidden flex flex-col',
-              )}
-            >
-              <div className="md:hidden border-b py-2">
-                <Container>
-                  <IconButton
-                    className="-translate-x-2"
-                    onClick={() => setMobileNavExpanded(prev => !prev)}
-                  >
-                    <Bars3Icon className="w-5 h-5" />
-                  </IconButton>
-                </Container>
-              </div>
+        <nav
+          className={cx(
+            'fixed h-screen border-r bg-paper w-0 md:w-64 z-10 overflow-hidden flex flex-col',
+            {
+              'w-screen': mobileNavExpanded,
+            },
+          )}
+        >
+          <div className="md:hidden border-b py-2">
+            <Container>
+              <IconButton
+                className="-translate-x-2"
+                onClick={() => setMobileNavExpanded(prev => !prev)}
+              >
+                <Bars3Icon className="w-5 h-5" />
+              </IconButton>
+            </Container>
+          </div>
 
-              <SideBar membership={data?.viewer} loading={dataLoading} />
-            </motion.nav>
-          ) : null}
-        </AnimatePresence>
+          <SideBar membership={data?.viewer} loading={dataLoading} />
+        </nav>
 
         <div className="md:hidden border-b py-2">
           <Container>
