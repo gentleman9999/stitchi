@@ -16,23 +16,18 @@ const AppBetaDialog = () => {
     <Dialog open size="lg">
       <Dialog.Content>
         <h2 className="text-3xl font-semibold text-center">
-          We&apos;re happy you&apos;re here 👋
+          Welcome to Stitchi 👋
         </h2>
         <p className="mt-6 text-center text-xl font-light">
-          At Stitchi, we prioritize the quality of our service above all. As
-          we&apos;re in our launch phase, we&apos;re limiting the number of
-          customers we onboard to ensure that every user benefits from an
-          unparalleled experience, and to guarantee that we can scale
-          effectively. Please fill out the form below to express your interest
-          in being part of an exclusive group that gets to experience
-          Stitchi&apos;s offerings firsthand. Your submission will be
-          thoughtfully reviewed, and we&apos;ll reach out as we expand our
-          capacity. Join us in this journey and help shape the future of custom
-          merch.
+          We are dedicated to providing the best experience for our users. Our
+          platform is currently at capacity, and we are onboarding new users in
+          batches. Please fill out the form below to request access.
         </p>
-        <p className="mt-4 text-center text-xl">
-          <span className="font-medium">- Everest</span>
+        <p className="mt-6 text-center text-xl font-light">
+          Thank you for your interest in our platform and we look forward to
+          serving you soon! <span className="font-medium">- Everest</span>
         </p>
+
         <div
           className="mt-8"
           data-tf-widget="uFnzT21G"

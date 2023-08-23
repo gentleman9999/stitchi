@@ -89,7 +89,7 @@ const Dialog = (props: DialogProps) => {
               <div className="fixed inset-0 flex justify-center items-center">
                 <RuiDialog.Content
                   className={cx(
-                    'align-bottom bg-white overflow-scroll shadow-xl transform transition-all sm:align-middle sm:w-full flex flex-col max-h-[93%]',
+                    'align-bottom bg-white overflow-scroll shadow-xl transform transition-all sm:align-middle sm:w-full flex flex-col max-h-[93%] focus-visible:outline-none',
                     {
                       'sm:max-w-sm': size === 'sm',
                       'sm:max-w-lg': size === 'md',

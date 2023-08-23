@@ -106,7 +106,7 @@ const ClosetLayoutContextProvider = ({ children }: Props) => {
 
         {
           href: routes.internal.closet.brand.href(),
-          label: 'Brand Hub',
+          label: 'Brand Kit',
           icon: <SwatchIcon className="w-4 h-4" />,
         },
       ],
