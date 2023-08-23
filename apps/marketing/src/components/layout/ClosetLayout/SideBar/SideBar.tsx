@@ -19,7 +19,7 @@ const SideBar = ({ membership, loading }: Props) => {
     activeNavItem && 'type' in activeNavItem && activeNavItem.type === 'subnav'
 
   return (
-    <nav className="fixed h-screen border-r bg-paper w-64">
+    <>
       <AnimatePresence initial={false}>
         {isSecondary ? (
           <motion.div
@@ -45,7 +45,7 @@ const SideBar = ({ membership, loading }: Props) => {
       </AnimatePresence>
 
       <PrimarySideBar loading={loading} membership={membership} />
-    </nav>
+    </>
   )
 }
 

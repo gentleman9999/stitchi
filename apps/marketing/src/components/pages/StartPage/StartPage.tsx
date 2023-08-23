@@ -51,16 +51,19 @@ const StartPage = () => {
                 </h1>
                 <br />
                 <p className="mt-4 text-lg md:text-xl lg:text-2xl text-gray-500 sm:mt-3 text-center md:text-left max-w-3xl">
-                  Have a project? Fill out the form and our team will get back
-                  to you within 1-2 business days.
+                  Have a question? Fill out the form and our team will get back
+                  to you within 24 hours.
                 </p>
               </div>
               <div className="hidden md:block">{OtherContactOptions}</div>
             </div>
           </div>
-          <div className="col-span-6 md:col-span-4 flex flex-col gap-10 bg-gray-50 px-5 pb-5 md:px-10 md:pb-10 rounded-lg">
-            <NewOrderForm />
+          <div className="col-span-6 md:col-span-4">
+            <div className="bg-gray-50 p-5 md:p-10 rounded-lg">
+              <NewOrderForm />
+            </div>
           </div>
+
           <div className="md:hidden col-span-6">{OtherContactOptions}</div>
         </div>
         <br />

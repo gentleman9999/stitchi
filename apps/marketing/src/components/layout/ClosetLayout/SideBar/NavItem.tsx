@@ -10,11 +10,15 @@ const NavItem = ({
   active,
   onClick,
   LinkComponent = Link,
+  ...rest
 }: (NavItem | SubNavItem) & { active?: boolean; onClick: () => void }) => {
+  const external = 'external' in rest && rest.external
+
   return (
     <LinkComponent
       onClick={onClick}
       href={href}
+      target={external ? '_blank' : undefined}
       className={cx(
         'hover:bg-gray-50 rounded-md p-2 w-full text-sm font-medium flex items-center gap-2 text-gray-500',
         {

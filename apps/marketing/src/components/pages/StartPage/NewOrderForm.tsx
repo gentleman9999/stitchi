@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, RadioSelect, TextField } from '@components/ui'
+import { RadioSelect, TextField } from '@components/ui'
 import { object, string, Asserts } from 'yup'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -7,6 +7,7 @@ import makeApi from '@lib/api'
 import { useRouter } from 'next/router'
 import routes from '@lib/routes'
 import { ComponentErrorMessage } from '@components/common'
+import Button from '@components/ui/ButtonV2/Button'
 
 const schema = object({
   email: string().email().required(),
@@ -15,7 +16,6 @@ const schema = object({
   company: string().optional().defined(),
   phone: string().optional().defined(),
   description: string().optional().defined(),
-  budget: string().optional().defined(),
 })
 
 const NewOrderForm = () => {
@@ -52,7 +52,7 @@ const NewOrderForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="mt-9 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8 max-w-3xl w-full"
+      className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8 max-w-3xl w-full"
     >
       <Controller
         name="first_name"
@@ -136,44 +136,11 @@ const NewOrderForm = () => {
             {...field}
             multiline
             className="sm:col-span-2"
-            label="Tell us about your project"
+            label="How can we help?"
             description={
               formState.errors.description?.message || 'Max. 500 characters'
             }
             error={Boolean(formState.errors.description)}
-          />
-        )}
-      />
-
-      <Controller
-        name="budget"
-        control={control}
-        render={({ field }) => (
-          <RadioSelect
-            {...field}
-            label="What's your budget?"
-            options={[
-              {
-                id: 'budget-under-10k',
-                label: 'Less than $10k',
-                value: 'under_10k',
-              },
-              {
-                id: 'budget-25k-50-k',
-                label: '$10k - $25k',
-                value: '10k-25k',
-              },
-              {
-                id: 'budget-25k-75k',
-                label: '$25k - $75k',
-                value: '25k-75k',
-              },
-              {
-                id: 'budget-over-75k',
-                label: '$75k+',
-                value: 'over_75k',
-              },
-            ]}
           />
         )}
       />
@@ -185,7 +152,7 @@ const NewOrderForm = () => {
       ) : null}
 
       <div className="text-right sm:col-span-2">
-        <Button type="submit" color="brandPrimary" loading={loading}>
+        <Button size="xl" type="submit" color="brandPrimary" loading={loading}>
           Send message
         </Button>
       </div>

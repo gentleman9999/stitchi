@@ -9,11 +9,13 @@ const ClosetLinkShareDialog = dynamic(() => import('./ClosetLinkShareDialog'))
 const OrganizationCreateDialog = dynamic(
   () => import('./OrganizationCreateDialog'),
 )
+const HelpDialog = dynamic(() => import('./HelpDialog'))
 
 export enum StandoutType {
   ContactSuccess = 'contact_success',
   ClosetLinkShare = 'closet_link_share',
   OrganizationCreate = 'organization_create',
+  Help = 'help',
 }
 
 interface BaseInput {
@@ -34,10 +36,15 @@ interface ContactSuccessInput extends BaseInput {
   type: StandoutType.ContactSuccess
 }
 
+interface HelpInput extends BaseInput {
+  type: StandoutType.Help
+}
+
 type SetStandoutInput =
   | ClosetLinkShareInput
   | OrganizationCreateInput
   | ContactSuccessInput
+  | HelpInput
 
 interface State {
   standout?: StandoutType | null
@@ -84,6 +91,8 @@ const StandoutProvider = ({ children }: { children: React.ReactNode }) => {
         return <ClosetLinkShareDialog {...props} {...standoutProps} />
       case StandoutType.OrganizationCreate:
         return <OrganizationCreateDialog {...props} {...standoutProps} />
+      case StandoutType.Help:
+        return <HelpDialog {...props} {...standoutProps} />
     }
   }, [setStandout, standout, standoutProps])
 

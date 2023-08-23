@@ -34,6 +34,7 @@ export interface NavItem {
   includedPaths?: string[]
   LinkComponent?: React.ElementType
   subNavItems?: SubNavItem[]
+  external?: boolean
 }
 
 interface Navigation {
@@ -131,8 +132,9 @@ const ClosetLayoutContextProvider = ({ children }: Props) => {
           ],
         },
         {
-          href: '',
+          href: routes.internal.contact.href(),
           label: 'Help',
+          external: true,
           icon: <QuestionMarkCircleIcon className="w-4 h-4" />,
         },
 

@@ -2,6 +2,13 @@ import React from 'react'
 import * as Popover from '@radix-ui/react-popover'
 import cx from 'classnames'
 import { Plus, XIcon } from 'icons'
+import { motion } from 'framer-motion'
+
+const fadeIn = {
+  hidden: { opacity: 0.5, scale: 0.95 },
+  visible: { opacity: 1, scale: 1 },
+  exit: { scale: 0.95 },
+}
 
 interface Props {
   label: string
@@ -42,13 +49,20 @@ const TableFilter = ({ renderFilter, value, label, onRemove }: Props) => {
         </div>
       </Popover.Trigger>
       <Popover.Portal>
-        <Popover.Content
-          sideOffset={8}
-          side="bottom"
-          align="start"
-          className="p-3 bg-paper rounded-md border shadow-magical min-w-[320px]"
-        >
-          {renderFilter({ onClose: () => setOpen(false) })}
+        <Popover.Content sideOffset={8} side="bottom" align="start" asChild>
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={fadeIn}
+            transition={{
+              duration: 0.1,
+              delay: 0,
+            }}
+            className="p-3 bg-paper rounded-md border shadow-magical min-w-[320px]"
+          >
+            {renderFilter({ onClose: () => setOpen(false) })}
+          </motion.div>
         </Popover.Content>
       </Popover.Portal>
     </Popover.Root>

@@ -8,6 +8,7 @@ export interface IconButtonProps {
   shift?: ('left' | 'right' | 'up' | 'down')[]
   disableGutters?: boolean
   size?: 'sm' | 'md'
+  className?: string
 }
 
 const IconButton = (props: IconButtonProps) => {
@@ -22,7 +23,7 @@ const IconButton = (props: IconButtonProps) => {
     <button
       ref={ref}
       onClick={handleClick}
-      className={cx('transition-all rounded-md', {
+      className={cx(props.className, 'transition-all rounded-md', {
         'hover:bg-gray-100 focus:bg-gray-100': variant === 'primary',
         'bg-transparent': variant === 'ghost',
         '-translate-x-2': props.shift?.includes('left'),

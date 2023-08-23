@@ -27,7 +27,7 @@ const PrimarySideBar = ({ membership, loading }: Props) => {
   const { user, organization } = membership || {}
 
   return (
-    <div className="relative flex flex-col p-2 gap-2 h-full">
+    <div className="relative flex-1 flex flex-col p-2 gap-2 ">
       <OrganizationDropdown
         renderTrigger={() => (
           <div className="bg-gray-50 rounded-md p-2 w-full text-sm font-regular flex items-center gap-2 text-gray-800">

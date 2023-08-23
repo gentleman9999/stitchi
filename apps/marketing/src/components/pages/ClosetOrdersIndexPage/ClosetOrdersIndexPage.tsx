@@ -92,17 +92,17 @@ const ClosetOrdersIndexPage = (props: Props) => {
         <ClosetPageTitle
           title="Fulfill"
           description=""
-          actions={
-            <ClosetPageActions
-              actions={[
-                {
-                  label: 'New order',
-                  primary: true,
-                  href: routes.internal.catalog.href(),
-                },
-              ]}
-            />
-          }
+          // actions={
+          //   <ClosetPageActions
+          //     actions={[
+          //       {
+          //         label: 'New order',
+          //         primary: true,
+          //         href: routes.internal.catalog.href(),
+          //       },
+          //     ]}
+          //   />
+          // }
         />
       </ClosetPageHeader>
 
