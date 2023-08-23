@@ -58,7 +58,7 @@ const ClosetTabAllDesignRequests = ({}: Props) => {
   return (
     <ClosetSection>
       <ClosetSectionHeader>
-        <ClosetSectionTitle title="Design Requests" />
+        <ClosetSectionTitle title="In-Progress Designs" />
       </ClosetSectionHeader>
 
       {loading || designRequests.length ? (

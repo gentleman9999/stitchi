@@ -69,7 +69,7 @@ const ClosetDesignIndexPage = ({}: Props) => {
             },
             {
               id: 'design-requests',
-              label: 'Design Requests',
+              label: 'In-Progress Designs',
               href: routes.internal.closet.designRequests.href(router.query),
             },
           ]}
