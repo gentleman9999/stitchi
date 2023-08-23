@@ -1,5 +1,4 @@
 import { ApolloError } from '@apollo/client'
-import { Button } from '@components/ui'
 import routes from '@lib/routes'
 import {
   PaymentElement,
@@ -18,6 +17,7 @@ import currency from 'currency.js'
 import Link from 'next/link'
 import React from 'react'
 import useConfirmOrder from './useConfirmOrder'
+import Button from '@components/ui/ButtonV2/Button'
 
 interface Props {
   amountCents: number
@@ -210,6 +210,8 @@ const OrderPaymentForm = (props: Props) => {
             </div>
             <div className="flex justify-end">
               <Button
+                type="submit"
+                size="xl"
                 color="brandPrimary"
                 className="w-full"
                 loading={isLoading}

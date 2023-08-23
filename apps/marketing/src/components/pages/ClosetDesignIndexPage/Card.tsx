@@ -17,8 +17,8 @@ interface Image {
 }
 
 interface Props {
-  href: string
-  loading?: string
+  href?: string
+  loading?: boolean
   title?: string
   description?: React.ReactNode
   image?: Image
@@ -35,10 +35,12 @@ const Card = ({
   badge,
   actions,
 }: Props) => {
+  const LinkComponent = href ? Link : 'div'
+
   return (
-    <Link
-      className="relative group rounded-md overflow-hidden border flex flex-col"
-      href={href}
+    <LinkComponent
+      className="relative group rounded-md overflow-hidden border flex flex-col w-full"
+      href={href || ''}
     >
       {badge || actions?.length ? (
         <div className="absolute right-0 top-0">
@@ -98,7 +100,7 @@ const Card = ({
           </>
         ) : null}
       </div>
-    </Link>
+    </LinkComponent>
   )
 }
 

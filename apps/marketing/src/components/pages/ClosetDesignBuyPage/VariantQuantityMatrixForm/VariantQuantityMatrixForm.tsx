@@ -185,9 +185,9 @@ VariantQuantityMatrixForm.fragments = {
       id
       colors {
         id
-        catalogProductColorId
         hex
         name
+        catalogProductColorId
       }
       variants {
         id

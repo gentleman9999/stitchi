@@ -64,13 +64,32 @@ const ClosetTabAllDesignRequests = ({}: Props) => {
       {loading || designRequests.length ? (
         <Carousel>
           <div className="flex gap-6">
-            {designRequests.map(designRequest => (
-              <div className="w-[230px] shrink-0 flex" key={designRequest.id}>
-                <ClosetDesignIndexPageDesignRequestCard
-                  designRequest={designRequest}
-                />
-              </div>
-            ))}
+            {loading ? (
+              <>
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <div key={index} className="w-[230px] shrink-0 flex">
+                    <ClosetDesignIndexPageDesignRequestCard
+                      loading={true}
+                      designRequest={null}
+                    />
+                  </div>
+                ))}
+              </>
+            ) : (
+              <>
+                {designRequests.map(designRequest => (
+                  <div
+                    key={designRequest.id}
+                    className="w-[230px] shrink-0 flex"
+                  >
+                    <ClosetDesignIndexPageDesignRequestCard
+                      designRequest={designRequest}
+                      loading={false}
+                    />
+                  </div>
+                ))}
+              </>
+            )}
           </div>
         </Carousel>
       ) : (

@@ -69,12 +69,27 @@ const ClosetTabApprovedDesigns = ({}: Props) => {
     />
   ) : (
     <CardGrid>
-      {approvedDesigns?.map(design => (
-        <ClosetDesignIndexPageApprovedDesignCard
-          key={design.id}
-          design={design}
-        />
-      ))}
+      {loading ? (
+        <>
+          {Array.from({ length: 4 }).map((_, index) => (
+            <ClosetDesignIndexPageApprovedDesignCard
+              key={index}
+              design={null}
+              loading={true}
+            />
+          ))}
+        </>
+      ) : (
+        <>
+          {approvedDesigns?.map(design => (
+            <ClosetDesignIndexPageApprovedDesignCard
+              key={design.id}
+              design={design}
+              loading={false}
+            />
+          ))}
+        </>
+      )}
     </CardGrid>
   )
 }

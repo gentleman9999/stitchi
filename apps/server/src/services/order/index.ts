@@ -3,10 +3,10 @@ import {
   makeClient as makePaymentServiceClient,
 } from '../payment'
 import { OrderFactoryOrder } from './factory'
-import { getOrderPaymentStatus } from './helpers/get-order-payment-status'
 import makeOrderRepository, { OrderRepository } from './repository'
 import { CreateOrderFnInput } from './repository/create-order'
-import { RefundFactoryRefund } from '../payment/factory'
+import { addSeconds, isBefore } from 'date-fns'
+import { reconcileOrderPayments } from './helpers/reconcile-order-payments'
 
 export interface OrderClientService {
   createOrder: (input: CreateOrderFnInput) => Promise<OrderFactoryOrder>
@@ -44,7 +44,22 @@ const makeClient: MakeClientFn = (
     },
     getOrder: async input => {
       try {
-        return orderRepository.getOrder({ orderId: input.orderId })
+        const order = await orderRepository.getOrder({ orderId: input.orderId })
+
+        // We should update the payment status ever 60 seconds to account for any missed webhook events.
+        // Likely a better way to implement this in the future.
+        if (
+          !order.updatedAt ||
+          isBefore(addSeconds(order.updatedAt, 60), new Date())
+        ) {
+          return reconcileOrderPayments({
+            order,
+            orderRepository,
+            paymentService,
+          })
+        } else {
+          return order
+        }
       } catch (error) {
         console.error(error)
         throw new Error('Failed to get order')
@@ -93,80 +108,11 @@ const makeClient: MakeClientFn = (
         throw new Error('Order not found')
       }
 
-      let paymentIntents
-
-      try {
-        paymentIntents = await paymentService.listPaymentIntents({
-          orderId: order.id,
-        })
-      } catch (error) {
-        console.error(error)
-        throw new Error('Failed to list payment intents')
-      }
-
-      let refunds: RefundFactoryRefund[] = []
-
-      try {
-        for (const paymentIntent of paymentIntents) {
-          const refundList = await paymentService.listRefunds({
-            paymentIntentId: paymentIntent.id,
-          })
-
-          refunds.push(...refundList)
-        }
-      } catch (error) {
-        console.error(error)
-        throw new Error('Failed to list refunds')
-      }
-
-      let totalAmountPaidCents = 0
-      let totalAmountRefundedCents = 0
-
-      for (const paymentIntent of paymentIntents) {
-        switch (paymentIntent.status) {
-          case 'succeeded':
-            totalAmountPaidCents += paymentIntent.amount
-            break
-        }
-      }
-
-      for (const refund of refunds) {
-        switch (refund.status) {
-          case 'succeeded':
-            totalAmountRefundedCents += refund.amount
-            break
-        }
-      }
-
-      let totalAmountDueCents = order.totalPriceCents - totalAmountPaidCents
-
-      const paymentStatus = getOrderPaymentStatus({
-        totalAmountCents: order.totalPriceCents,
-        totalAmountDueCents,
-        totalAmountPaidCents,
-        totalAmountRefundedCents,
+      return reconcileOrderPayments({
+        order,
+        orderRepository,
+        paymentService,
       })
-
-      let updatedOrder
-
-      try {
-        updatedOrder = await orderRepository.updateOrder({
-          order: {
-            ...order,
-            totalAmountPaidCents,
-            totalAmountRefundedCents,
-            totalAmountDueCents,
-            paymentStatus,
-          },
-        })
-      } catch (error) {
-        console.error(`Failed to update order ${order.id}`, {
-          context: { error },
-        })
-        throw new Error('Failed to update order')
-      }
-
-      return updatedOrder
     },
   }
 }

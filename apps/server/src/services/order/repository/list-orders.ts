@@ -26,6 +26,9 @@ const makeListOrders: MakeListOrdersFn =
         include: {
           OrderItems: true,
         },
+        orderBy: {
+          createdAt: 'desc',
+        },
       })
     } catch (error) {
       console.error(`Failed to get orders`, {

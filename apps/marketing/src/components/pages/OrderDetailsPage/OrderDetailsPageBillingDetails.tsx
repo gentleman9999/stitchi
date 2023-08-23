@@ -21,7 +21,7 @@ const OrderDetailsPageBillingDetails = ({ order }: Props) => {
               <b>Billing address</b>
             </h2>
             {lastPaymentMethod?.billingDetails ? (
-              <>
+              <div className="flex flex-col">
                 <span className="text-gray-500">
                   {lastPaymentMethod.billingDetails.line1}
                 </span>
@@ -38,7 +38,7 @@ const OrderDetailsPageBillingDetails = ({ order }: Props) => {
                 <span className="text-gray-500">
                   {lastPaymentMethod.billingDetails.country}
                 </span>
-              </>
+              </div>
             ) : (
               <span className="text-gray-500">
                 No billing address supplied.

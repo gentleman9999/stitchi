@@ -8,7 +8,6 @@ import ClosetSectionHeaderTabs from '@components/common/ClosetSectionHeaderTabs'
 import routes from '@lib/routes'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-
 import React from 'react'
 import { ClosetProvider } from './closet-context'
 import ClosetDesignFilters from './ClosetDesignFilters'
@@ -22,7 +21,7 @@ const ClosetTabDesignRequests = dynamic(
   () => import('./ClosetTabDesignRequests'),
 )
 
-const ClosetTabCollections = dynamic(() => import('./ClosetTabCollections'))
+// const ClosetTabCollections = dynamic(() => import('./ClosetTabCollections'))
 
 interface Props {}
 
@@ -58,11 +57,11 @@ const ClosetDesignIndexPage = ({}: Props) => {
               label: 'All',
               href: routes.internal.closet.designs.href(router.query),
             },
-            {
-              id: 'collections',
-              label: 'Collections',
-              href: routes.internal.closet.collections.href(router.query),
-            },
+            // {
+            //   id: 'collections',
+            //   label: 'Collections',
+            //   href: routes.internal.closet.collections.href(router.query),
+            // },
             {
               id: 'approved-designs',
               label: 'Approved Designs',
@@ -83,9 +82,9 @@ const ClosetDesignIndexPage = ({}: Props) => {
 
               {activeTab?.id === 'designs' ? <ClosetTabAll /> : null}
 
-              {activeTab?.id === 'collections' ? (
+              {/* {activeTab?.id === 'collections' ? (
                 <ClosetTabCollections />
-              ) : null}
+              ) : null} */}
 
               {activeTab?.id === 'approved-designs' ? (
                 <ClosetTabApprovedDesigns />
