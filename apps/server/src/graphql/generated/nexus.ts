@@ -403,6 +403,10 @@ export interface NexusGenObjects {
     cursor?: string | null; // String
     node?: NexusGenRootTypes['DesignProduct'] | null; // DesignProduct
   }
+  DesignProductSize: { // root type
+    id: string; // ID!
+    name: string; // String!
+  }
   DesignProductVariant: { // root type
     catalogProductColorId?: string | null; // ID
     catalogProductId: string; // ID!
@@ -907,6 +911,7 @@ export interface NexusGenFieldTypes {
     primaryImageFile: NexusGenRootTypes['FileImage'] | null; // FileImage
     primaryImageFileId: string | null; // ID
     quote: NexusGenRootTypes['Quote'] | null; // Quote
+    sizes: NexusGenRootTypes['DesignProductSize'][] | null; // [DesignProductSize!]
     termsConditionsAgreed: boolean; // Boolean!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
     userId: string | null; // ID
@@ -931,6 +936,10 @@ export interface NexusGenFieldTypes {
   DesignProductEdge: { // field return type
     cursor: string | null; // String
     node: NexusGenRootTypes['DesignProduct'] | null; // DesignProduct
+  }
+  DesignProductSize: { // field return type
+    id: string; // ID!
+    name: string; // String!
   }
   DesignProductVariant: { // field return type
     catalogProductColorId: string | null; // ID
@@ -1523,6 +1532,7 @@ export interface NexusGenFieldTypeNames {
     primaryImageFile: 'FileImage'
     primaryImageFileId: 'ID'
     quote: 'Quote'
+    sizes: 'DesignProductSize'
     termsConditionsAgreed: 'Boolean'
     updatedAt: 'DateTime'
     userId: 'ID'
@@ -1547,6 +1557,10 @@ export interface NexusGenFieldTypeNames {
   DesignProductEdge: { // field return type name
     cursor: 'String'
     node: 'DesignProduct'
+  }
+  DesignProductSize: { // field return type name
+    id: 'ID'
+    name: 'String'
   }
   DesignProductVariant: { // field return type name
     catalogProductColorId: 'ID'

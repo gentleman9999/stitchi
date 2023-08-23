@@ -66,7 +66,7 @@ const PrimarySideBar = ({ membership, loading }: Props) => {
           ))}
         </ul>
       </div>
-      <div className="mt-2 border rounded-md p-4 text-sm flex flex-col gap-4 text-gray-600 bg-gray-50">
+      {/* <div className="mt-2 border rounded-md p-4 text-sm flex flex-col gap-4 text-gray-600 bg-gray-50">
         <div>
           <Badge label="Beta" size="small" severity="info" />
         </div>
@@ -75,7 +75,7 @@ const PrimarySideBar = ({ membership, loading }: Props) => {
         <Link href="/" className="underline font-medium">
           Submit feedback
         </Link>
-      </div>
+      </div> */}
 
       <div className="flex-1 flex flex-col justify-end">
         <div>

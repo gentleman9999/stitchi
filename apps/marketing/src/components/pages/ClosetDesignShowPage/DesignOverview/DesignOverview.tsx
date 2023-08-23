@@ -12,6 +12,9 @@ import useDesignOverview from './useDesignOverview'
 import { ComponentErrorMessage } from '@components/common'
 import ColorSwatch from '@components/common/ColorSwatch'
 import FormSection from '@components/pages/ClosetDesignBuyPage/FormSection'
+import Link from 'next/link'
+import routes from '@lib/routes'
+import Button from '@components/ui/ButtonV2/Button'
 
 interface Props {
   designId: string
@@ -34,8 +37,6 @@ const DesignOverview = ({ designId }: Props) => {
       setActiveColorId(design.colors[0]?.id || null)
     }
   }, [activeColorId, design, setActiveColorId])
-
-  console.log('DESIGN COLORS', design?.colors)
 
   return (
     <>
@@ -71,8 +72,10 @@ const DesignOverview = ({ designId }: Props) => {
                       ))}
                     </ul>
                   </InputGroup>
-                  <InputGroup label="Sizes">
-                    <p>Need to create some size thinggy here</p>
+                  <InputGroup label="Available Sizes">
+                    <div className="font-medium text-sm">
+                      {design?.sizes?.map(size => size.name).join(', ') || '-'}
+                    </div>
                   </InputGroup>
                 </FormSection>
               </CardContent>
@@ -90,26 +93,25 @@ const DesignOverview = ({ designId }: Props) => {
                     <p>{design?.description || '-'}</p>
                   </InputGroup>
 
-                  <InputGroup label="Design request">
-                    <p>link to design request</p>
-                  </InputGroup>
+                  {design?.designRequestId && (
+                    <InputGroup label="Design request">
+                      <Button
+                        Component={Link}
+                        variant="ghost"
+                        href={routes.internal.closet.designRequests.show.href({
+                          designId: design.designRequestId,
+                        })}
+                      >
+                        View design request
+                      </Button>
+                    </InputGroup>
+                  )}
                 </FormSection>
               </CardContent>
             </Card>
           </ClosetSection>
         </div>
       </div>
-
-      <ClosetSection>
-        <Card>
-          <CardHeader>
-            <CardTitle title="Inventory" />
-          </CardHeader>
-          <CardContent divide>
-            Need to create some inventory thinggy here
-          </CardContent>
-        </Card>
-      </ClosetSection>
     </>
   )
 }
@@ -120,9 +122,14 @@ const GET_DATA = gql`
     designProduct(id: $designId) {
       id
       description
+      designRequestId
       colors {
         id
         hex
+        name
+      }
+      sizes {
+        id
         name
       }
       ...DesignPreviewGalleryDesignProductFragment

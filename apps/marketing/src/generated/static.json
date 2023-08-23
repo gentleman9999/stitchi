@@ -1101,7 +1101,7 @@
       "name": "Sustainable Swag",
       "description": "",
       "views": 0,
-      "sort_order": 6,
+      "sort_order": 7,
       "page_title": "",
       "meta_keywords": [""],
       "meta_description": "",
@@ -1118,7 +1118,7 @@
       "name": "Ethical Swag",
       "description": "",
       "views": 0,
-      "sort_order": 3,
+      "sort_order": 4,
       "page_title": "",
       "meta_keywords": [""],
       "meta_description": "",
@@ -1223,7 +1223,7 @@
       "name": "Concerts",
       "description": "",
       "views": 0,
-      "sort_order": 2,
+      "sort_order": 3,
       "page_title": "",
       "meta_keywords": [""],
       "meta_description": "",
@@ -1240,7 +1240,7 @@
       "name": "Live Events",
       "description": "",
       "views": 0,
-      "sort_order": 4,
+      "sort_order": 5,
       "page_title": "",
       "meta_keywords": [""],
       "meta_description": "",
@@ -1257,7 +1257,7 @@
       "name": "Festival Season",
       "description": "",
       "views": 0,
-      "sort_order": 7,
+      "sort_order": 8,
       "page_title": "",
       "meta_keywords": [""],
       "meta_description": "",
@@ -1277,7 +1277,7 @@
       "name": "School & Team",
       "description": "",
       "views": 0,
-      "sort_order": 5,
+      "sort_order": 6,
       "page_title": "",
       "meta_keywords": [""],
       "meta_description": "",
@@ -2453,7 +2453,7 @@
       "name": "American Made",
       "description": "",
       "views": 0,
-      "sort_order": 1,
+      "sort_order": 2,
       "page_title": "",
       "meta_keywords": [""],
       "meta_description": "",
@@ -2832,23 +2832,6 @@
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": { "url": "/sleeve-length/", "is_customized": false }
-    },
-    {
-      "id": 520,
-      "parent_id": 0,
-      "name": "Stitchi",
-      "description": "",
-      "views": 0,
-      "sort_order": 0,
-      "page_title": "",
-      "meta_keywords": [""],
-      "meta_description": "",
-      "layout_file": "category.html",
-      "image_url": "",
-      "is_visible": true,
-      "search_keywords": "",
-      "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/internal-app/", "is_customized": false }
     },
     {
       "id": 521,
@@ -3288,7 +3271,7 @@
     },
     {
       "id": 550,
-      "parent_id": 547,
+      "parent_id": 515,
       "name": "Swoop Neck",
       "description": "",
       "views": 0,
@@ -3301,10 +3284,7 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": {
-        "url": "/internal-app/collar/swoop-neck/",
-        "is_customized": false
-      }
+      "custom_url": { "url": "/collar/swoop-neck/", "is_customized": false }
     },
     {
       "id": 551,
@@ -3385,7 +3365,7 @@
     },
     {
       "id": 555,
-      "parent_id": 554,
+      "parent_id": 506,
       "name": "Cotton Spandex",
       "description": "",
       "views": 0,
@@ -3398,14 +3378,11 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": {
-        "url": "/internal-app/fabrication/cotton-spandex/",
-        "is_customized": false
-      }
+      "custom_url": { "url": "/fabric/cotton-spandex/", "is_customized": false }
     },
     {
       "id": 556,
-      "parent_id": 554,
+      "parent_id": 506,
       "name": "Heather CVC",
       "description": "",
       "views": 0,
@@ -3418,10 +3395,7 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": {
-        "url": "/internal-app/fabrication/heather-cvc/",
-        "is_customized": false
-      }
+      "custom_url": { "url": "/fabric/heather-cvc/", "is_customized": false }
     },
     {
       "id": 557,
@@ -3445,7 +3419,7 @@
     },
     {
       "id": 558,
-      "parent_id": 554,
+      "parent_id": 506,
       "name": "Poly-Cotton",
       "description": "",
       "views": 0,
@@ -3458,14 +3432,11 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": {
-        "url": "/internal-app/fabrication/poly-cotton/",
-        "is_customized": false
-      }
+      "custom_url": { "url": "/fabric/poly-cotton/", "is_customized": false }
     },
     {
       "id": 559,
-      "parent_id": 554,
+      "parent_id": 506,
       "name": "Poly Viscose",
       "description": "",
       "views": 0,
@@ -3478,14 +3449,11 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": {
-        "url": "/internal-app/fabrication/poly-viscose/",
-        "is_customized": false
-      }
+      "custom_url": { "url": "/fabric/poly-viscose/", "is_customized": false }
     },
     {
       "id": 560,
-      "parent_id": 554,
+      "parent_id": 506,
       "name": "Rib",
       "description": "",
       "views": 0,
@@ -3498,14 +3466,11 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": {
-        "url": "/internal-app/fabrication/rib/",
-        "is_customized": false
-      }
+      "custom_url": { "url": "/fabric/rib/", "is_customized": false }
     },
     {
       "id": 561,
-      "parent_id": 554,
+      "parent_id": 506,
       "name": "Airlume Jersey",
       "description": "",
       "views": 0,
@@ -3518,10 +3483,7 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": {
-        "url": "/internal-app/fabrication/airlume-jersey/",
-        "is_customized": false
-      }
+      "custom_url": { "url": "/fabric/airlume-jersey/", "is_customized": false }
     },
     {
       "id": 562,
@@ -3584,23 +3546,6 @@
       }
     },
     {
-      "id": 565,
-      "parent_id": 0,
-      "name": "Tops",
-      "description": "",
-      "views": 0,
-      "sort_order": 0,
-      "page_title": "",
-      "meta_keywords": [""],
-      "meta_description": "",
-      "layout_file": "",
-      "image_url": "",
-      "is_visible": true,
-      "search_keywords": "",
-      "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/tops/", "is_customized": false }
-    },
-    {
       "id": 566,
       "parent_id": 554,
       "name": "Polyester",
@@ -3622,7 +3567,7 @@
     },
     {
       "id": 567,
-      "parent_id": 547,
+      "parent_id": 515,
       "name": "Bound Neck",
       "description": "",
       "views": 0,
@@ -3635,10 +3580,7 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": {
-        "url": "/bella-canvas/collar/bound-neck/",
-        "is_customized": false
-      }
+      "custom_url": { "url": "/collar/bound-neck/", "is_customized": false }
     },
     {
       "id": 568,
@@ -3662,7 +3604,7 @@
     },
     {
       "id": 569,
-      "parent_id": 547,
+      "parent_id": 515,
       "name": "Raw Neck",
       "description": "",
       "views": 0,
@@ -3675,10 +3617,7 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": {
-        "url": "/bella-canvas/collar/raw-neck/",
-        "is_customized": false
-      }
+      "custom_url": { "url": "/collar/raw-neck/", "is_customized": false }
     },
     {
       "id": 570,
@@ -3702,7 +3641,7 @@
     },
     {
       "id": 571,
-      "parent_id": 547,
+      "parent_id": 515,
       "name": "Wide Neck",
       "description": "",
       "views": 0,
@@ -3715,35 +3654,15 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": {
-        "url": "/bella-canvas/collar/wide-neck/",
-        "is_customized": false
-      }
-    },
-    {
-      "id": 572,
-      "parent_id": 0,
-      "name": "Medha",
-      "description": "",
-      "views": 0,
-      "sort_order": 0,
-      "page_title": "",
-      "meta_keywords": [""],
-      "meta_description": "",
-      "layout_file": "category.html",
-      "image_url": "",
-      "is_visible": true,
-      "search_keywords": "",
-      "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/medha/", "is_customized": false }
+      "custom_url": { "url": "/collar/wide-neck/", "is_customized": false }
     },
     {
       "id": 573,
-      "parent_id": 572,
-      "name": "Swags Under $25",
-      "description": "<p>Employee gifts and promotional swags under $25. High-quality, durable, and stylish.&nbsp;</p>",
+      "parent_id": 516,
+      "name": "Swag Under $25",
+      "description": "<p>Employee gifts and promotional swag under $25. High-quality, durable, and stylish.&nbsp;</p>",
       "views": 0,
-      "sort_order": 0,
+      "sort_order": 1,
       "page_title": "",
       "meta_keywords": [
         "Corporate Swags Under $25",
@@ -3756,7 +3675,10 @@
       "is_visible": true,
       "search_keywords": "Corporate Swags Under $10,  corporate gifts under $25, gifts under $25 for employees, inexpensive swags, inexpensive gifts",
       "default_product_sort": "price_desc",
-      "custom_url": { "url": "/swags-under-25/", "is_customized": true }
+      "custom_url": {
+        "url": "/collections/swag-under-25/",
+        "is_customized": true
+      }
     }
   ],
   "designCategorySlugs": [
