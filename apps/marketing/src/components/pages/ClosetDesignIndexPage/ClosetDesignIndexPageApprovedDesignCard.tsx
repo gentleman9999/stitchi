@@ -1,7 +1,6 @@
 import { gql } from '@apollo/client'
 import SwatchGroup from '@components/common/Catalog/SwatchGroup'
 import { StandoutType, useStandout } from '@components/context'
-import Tooltip from '@components/ui/Tooltip'
 import { ClosetDesignIndexPageApprovedDesignCardDesignProductFragment } from '@generated/ClosetDesignIndexPageApprovedDesignCardDesignProductFragment'
 import {
   DocumentDuplicateIcon,
@@ -16,11 +15,26 @@ import React from 'react'
 import Card from './Card'
 
 interface Props {
-  design: ClosetDesignIndexPageApprovedDesignCardDesignProductFragment
+  loading: boolean
+  design:
+    | ClosetDesignIndexPageApprovedDesignCardDesignProductFragment
+    | null
+    | undefined
 }
 
-const ClosetDesignIndexPageApprovedDesignCard = ({ design }: Props) => {
+const ClosetDesignIndexPageApprovedDesignCard = ({
+  design,
+  loading,
+}: Props) => {
   const { setStandout } = useStandout()
+
+  if (loading) {
+    return <Card loading={true} />
+  }
+
+  if (!design) {
+    return null
+  }
 
   return (
     <Card

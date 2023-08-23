@@ -15,11 +15,26 @@ import React from 'react'
 import Card from './Card'
 
 interface Props {
-  designRequest: ClosetDesignIndexPageDesignRequestCardDesignRequestFragment
+  loading: boolean
+  designRequest:
+    | ClosetDesignIndexPageDesignRequestCardDesignRequestFragment
+    | null
+    | undefined
 }
 
-const ClosetDesignIndexPageDesignRequestCard = ({ designRequest }: Props) => {
+const ClosetDesignIndexPageDesignRequestCard = ({
+  designRequest,
+  loading,
+}: Props) => {
   const { setStandout } = useStandout()
+
+  if (loading) {
+    return <Card loading={true} />
+  }
+
+  if (!designRequest) {
+    return null
+  }
 
   return (
     <Card

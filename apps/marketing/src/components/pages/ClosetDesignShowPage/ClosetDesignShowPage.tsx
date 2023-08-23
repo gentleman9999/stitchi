@@ -52,14 +52,14 @@ const ClosetDesignShowPage = ({ designId }: Props) => {
                       ),
                     }),
                 },
-                {
-                  label: 'Duplicate',
-                  onClick: () => {},
-                },
-                {
-                  label: 'Sell online',
-                  onClick: () => {},
-                },
+                // {
+                //   label: 'Duplicate',
+                //   onClick: () => {},
+                // },
+                // {
+                //   label: 'Sell online',
+                //   onClick: () => {},
+                // },
 
                 {
                   primary: true,

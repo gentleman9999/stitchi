@@ -13,6 +13,7 @@ import { connectionFromArray } from 'graphql-relay'
 import { orderFactoryOrderToGraphQL } from '../../serializers/order'
 export * from './mailing-address'
 import { NexusGenObjects } from '../../generated/nexus'
+import { notEmpty } from '../../../utils'
 
 export const order = queryField('order', {
   type: 'Order',
@@ -182,12 +183,30 @@ export const OrdersExtendsMember = extendType({
         { first, last, after, before, filter },
         { order },
       ) => {
-        const limit = first || last || 50
+        let limit = 50
+
+        let cursor
+        let cursorDirection
+
+        if (after) {
+          cursor = { id: after } // decode from base64 or use it as-is depending on your implementation
+          cursorDirection = 'after'
+          if (notEmpty(first)) {
+            limit = first
+          }
+        } else if (before) {
+          cursor = { id: before }
+          cursorDirection = 'before'
+          if (notEmpty(last)) {
+            limit = last
+          }
+        }
 
         // Add one to see if there's a next page
         const limitPlusOne = limit + 1
 
         const orders = await order.listOrders({
+          cursor,
           where: {
             organizationId: parent.organizationId,
             createdAt: filter?.where?.createdAt
@@ -198,10 +217,8 @@ export const OrdersExtendsMember = extendType({
               : undefined,
           },
           // skip the cursor
-          skip: 1,
-          take: after ? limitPlusOne : -limitPlusOne,
-          ...(after ? { cursor: { id: after } } : {}),
-          ...(before ? { cursor: { id: before } } : {}),
+          skip: cursor ? 1 : 0,
+          take: cursorDirection === 'after' ? limitPlusOne : -limitPlusOne,
         })
 
         const connection = connectionFromArray(

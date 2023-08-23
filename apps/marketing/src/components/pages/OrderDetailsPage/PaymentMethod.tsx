@@ -22,20 +22,16 @@ const PaymentMethod = ({ type, card }: Props) => {
   }
 
   return (
-    <>
+    <div className="flex flex-col">
       <span>
         {capitalizeString(card?.brand || 'Card')} ending with {card?.last4}
       </span>
       {card?.expMonth && card.expYear ? (
-        <>
-          <br />
-
-          <span className="text-gray-400">
-            Expires {card.expMonth}/{card.expYear}
-          </span>
-        </>
+        <span className="text-gray-400">
+          Expires {card.expMonth}/{card.expYear}
+        </span>
       ) : null}
-    </>
+    </div>
   )
 }
 

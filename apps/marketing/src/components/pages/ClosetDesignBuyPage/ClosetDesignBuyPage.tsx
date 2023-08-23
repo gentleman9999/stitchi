@@ -61,10 +61,12 @@ const ClosetDesignBuyPage = (props: Props) => {
     const order = await addToCart({
       designProductId: props.designId,
       shippingAddressId: null,
-      orderItems: productVariants.map(variant => ({
-        catalogProductVariantId: variant.productVariantEntityId,
-        quantity: variant.quantity,
-      })),
+      orderItems: productVariants
+        .map(variant => ({
+          catalogProductVariantId: variant.productVariantEntityId,
+          quantity: variant.quantity,
+        }))
+        .filter(item => item.quantity > 0),
     })
 
     if (!order) {

@@ -70,12 +70,27 @@ const ClosetTabDesignRequests = ({}: Props) => {
     />
   ) : (
     <CardGrid>
-      {designRequests.map(designRequest => (
-        <ClosetDesignIndexPageDesignRequestCard
-          key={designRequest.id}
-          designRequest={designRequest}
-        />
-      ))}
+      {loading ? (
+        <>
+          {Array.from({ length: 4 }).map((_, index) => (
+            <ClosetDesignIndexPageDesignRequestCard
+              key={index}
+              designRequest={null}
+              loading={true}
+            />
+          ))}
+        </>
+      ) : (
+        <>
+          {designRequests.map(designRequest => (
+            <ClosetDesignIndexPageDesignRequestCard
+              key={designRequest.id}
+              designRequest={designRequest}
+              loading={false}
+            />
+          ))}
+        </>
+      )}
     </CardGrid>
   )
 }

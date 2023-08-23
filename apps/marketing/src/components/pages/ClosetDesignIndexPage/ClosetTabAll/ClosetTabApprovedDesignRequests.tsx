@@ -64,11 +64,29 @@ const ClosetTabApprovedDesignRequests = ({}: Props) => {
       {loading || designProducts.length ? (
         <Carousel>
           <div className="flex gap-6">
-            {designProducts.map(design => (
-              <div key={design.id} className="w-[230px] shrink-0 flex">
-                <ClosetDesignIndexPageApprovedDesignCard design={design} />
-              </div>
-            ))}
+            {loading ? (
+              <>
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <div key={index} className="w-[230px] shrink-0 flex">
+                    <ClosetDesignIndexPageApprovedDesignCard
+                      loading={true}
+                      design={null}
+                    />
+                  </div>
+                ))}
+              </>
+            ) : (
+              <>
+                {designProducts.map(design => (
+                  <div key={design.id} className="w-[230px] shrink-0 flex">
+                    <ClosetDesignIndexPageApprovedDesignCard
+                      design={design}
+                      loading={false}
+                    />
+                  </div>
+                ))}
+              </>
+            )}
           </div>
         </Carousel>
       ) : (

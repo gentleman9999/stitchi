@@ -20,7 +20,7 @@ const ClosetTabAll = ({}: Props) => {
         <ClosetTabAllRecentGrid />
       </ClosetSection> */}
 
-      <ClosetSection>
+      {/* <ClosetSection>
         <ClosetSectionHeader>
           <ClosetSectionTitle
             title="Collections"
@@ -33,7 +33,7 @@ const ClosetTabAll = ({}: Props) => {
         </ClosetSectionHeader>
 
         <ClosetTabAllCollections />
-      </ClosetSection>
+      </ClosetSection> */}
 
       <ClosetTabApprovedDesignRequests />
 
