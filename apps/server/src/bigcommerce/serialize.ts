@@ -42,7 +42,7 @@ const productVariantSchema = yup.object().shape({
   id: yup.number().required(),
   product_id: yup.number().required(),
   sku: yup.string().required(),
-  price: yup.number().min(0).required(),
+  price: yup.number().min(0).optional().nullable(),
   option_values: yup
     .array(
       yup

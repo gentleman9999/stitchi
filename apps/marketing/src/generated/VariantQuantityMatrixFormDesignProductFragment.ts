@@ -10,9 +10,9 @@
 export interface VariantQuantityMatrixFormDesignProductFragment_colors {
   __typename: "DesignProductColor";
   id: string;
-  catalogProductColorId: string;
   hex: string | null;
   name: string | null;
+  catalogProductColorId: string;
 }
 
 export interface VariantQuantityMatrixFormDesignProductFragment_variants {

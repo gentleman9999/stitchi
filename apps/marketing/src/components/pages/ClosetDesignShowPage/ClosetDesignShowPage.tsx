@@ -14,6 +14,7 @@ import {
 import routes from '@lib/routes'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import React from 'react'
+import DesignInventory from './DesignInventory'
 import DesignOverview from './DesignOverview'
 
 interface Props {
@@ -84,10 +85,17 @@ const ClosetDesignShowPage = ({ designId }: Props) => {
             label: 'Overview',
           },
           {
-            id: 'orders',
-            href: '#',
-            label: 'Orders',
+            id: 'inventory',
+            href: routes.internal.closet.designProducts.show.inventory.href({
+              designId: designId,
+            }),
+            label: 'Inventory',
           },
+          // {
+          //   id: 'orders',
+          //   href: '#',
+          //   label: 'Orders',
+          // },
         ]}
       >
         {({ activeTab }) => (
@@ -100,6 +108,10 @@ const ClosetDesignShowPage = ({ designId }: Props) => {
               <div className="max-w-6xl m-auto">
                 {activeTab.id === 'overview' ? (
                   <DesignOverview designId={designId} />
+                ) : null}
+
+                {activeTab.id === 'inventory' ? (
+                  <DesignInventory designId={designId} />
                 ) : null}
               </div>
             ) : null}

@@ -7,7 +7,7 @@ interface Props {
 
 const FormSection = (props: Props) => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6">
       {props.title ? (
         <span className="whitespace-nowrap font-medium text-2xl text-gray-700">
           {props.title}

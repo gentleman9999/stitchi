@@ -142,6 +142,44 @@ export const DesignProductExtendsDesignProduct = extendType({
         }
       },
     })
+
+    t.list.nonNull.field('sizes', {
+      type: 'DesignProductSize',
+      resolve: async (parent, _, ctx) => {
+        let catalogProductVariants
+
+        try {
+          catalogProductVariants = await ctx.catalog.listCatalogProductVariants(
+            {
+              productEntityId: parent.catalogProductId,
+            },
+          )
+        } catch (error) {
+          console.error('Error getting catalog product', {
+            context: { error, designProduct: parent },
+          })
+
+          throw new GraphQLError('Error getting catalog product')
+        }
+
+        let sizeSet = new Set<string>()
+
+        for (const variant of catalogProductVariants) {
+          const sizeOption = variant.option_values?.find(
+            option => option.option_display_name === 'Size',
+          )
+
+          if (sizeOption?.label) {
+            sizeSet.add(sizeOption.label)
+          }
+        }
+
+        return Array.from(sizeSet).map(size => ({
+          id: size,
+          name: size,
+        }))
+      },
+    })
   },
 })
 

@@ -89,6 +89,7 @@ type DesignProduct {
   primaryImageFile: FileImage
   primaryImageFileId: ID
   quote(quantity: Int!): Quote
+  sizes: [DesignProductSize!]
   termsConditionsAgreed: Boolean!
   updatedAt: DateTime!
   userId: ID
@@ -138,6 +139,11 @@ type DesignProductEdge {
 
   """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
   node: DesignProduct
+}
+
+type DesignProductSize {
+  id: ID!
+  name: String!
 }
 
 type DesignProductVariant {

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { ApolloError } from '@apollo/client'
+import { track } from '@lib/analytics'
 
 interface Props {
   error?: string | ApolloError
@@ -14,6 +15,7 @@ const ComponentErrorMessage = (props: Props) => {
   React.useEffect(() => {
     if (props.error) {
       console.error(props.error)
+      track.errorShown({ error: props.error })
     }
   }, [message, props.error])
 

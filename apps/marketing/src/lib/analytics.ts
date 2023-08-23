@@ -13,6 +13,8 @@ enum MixpanelEvents {
   MAILING_LIST_SUBSCRIBE_CLICKED = 'Mailing List Subscribe Clicked',
 
   CONTACT_FORM_SUBMITTED = 'Contact Form Submitted',
+
+  ERROR_SHOWN = 'Error Shown',
 }
 
 interface Product {
@@ -32,6 +34,8 @@ interface TrackEvents {
   mailingListSubscribeClicked: (args: { email: string }) => void
 
   contactFormSubmitted: (args: { email: string }) => void
+
+  errorShown: (args: { error: Error }) => void
 }
 
 const track: TrackEvents = {
@@ -67,6 +71,10 @@ const track: TrackEvents = {
 
   contactFormSubmitted: ({ email, ...rest }) => {
     mixpanel.track(MixpanelEvents.CONTACT_FORM_SUBMITTED, { email, ...rest })
+  },
+
+  errorShown: ({ error }) => {
+    mixpanel.track(MixpanelEvents.ERROR_SHOWN, { error })
   },
 }
 

@@ -264,6 +264,11 @@ const routes = {
             href: ({ designId }: { designId: string }) =>
               buildRoute(`/closet/approved-designs/${designId}/buy`),
           },
+
+          inventory: {
+            href: ({ designId }: { designId: string }) =>
+              buildRoute(`/closet/approved-designs/${designId}/inventory`),
+          },
         },
       },
 

@@ -23,11 +23,19 @@ export interface DesignOverviewGetDataQuery_designProduct_colors {
   images: DesignOverviewGetDataQuery_designProduct_colors_images[];
 }
 
+export interface DesignOverviewGetDataQuery_designProduct_sizes {
+  __typename: "DesignProductSize";
+  id: string;
+  name: string;
+}
+
 export interface DesignOverviewGetDataQuery_designProduct {
   __typename: "DesignProduct";
   id: string;
   description: string | null;
+  designRequestId: string;
   colors: DesignOverviewGetDataQuery_designProduct_colors[];
+  sizes: DesignOverviewGetDataQuery_designProduct_sizes[] | null;
 }
 
 export interface DesignOverviewGetDataQuery {
