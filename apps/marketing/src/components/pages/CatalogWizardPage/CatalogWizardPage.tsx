@@ -1,7 +1,7 @@
 import UserAvatar from '@components/common/UserAvatar'
+import { Container } from '@components/ui'
 import React from 'react'
-import CategoryStep from './CategoryStep'
-import CategoryStyleStep from './CategoryStyleStep'
+import CategoryStepNew from './CategoryStepNew'
 import WelcomePage from './WelcomeStep'
 
 export type Step = 'welcome' | 'choose-product-category'
@@ -16,11 +16,8 @@ const CatalogWizardPage = ({ path }: Props) => {
       case 'welcome':
         return <WelcomePage />
       case 'categories':
-        if (path[1]) {
-          return <CategoryStyleStep categoryId={path[1]} />
-        } else {
-          return <CategoryStep />
-        }
+        return <CategoryStepNew />
+
       default:
         console.error(`Unknown path section: ${path[0]}`)
         return null
@@ -41,9 +38,9 @@ const CatalogWizardPage = ({ path }: Props) => {
         />
       </div>
 
-      <div className="max-w-3xl mt-20">
+      <Container className="!max-w-3xl mt-20">
         <Step />
-      </div>
+      </Container>
     </div>
   )
 }

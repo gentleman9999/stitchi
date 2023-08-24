@@ -277,7 +277,7 @@ const routes = {
           buildRoute('/closet/design-requests', params),
 
         create: {
-          href: () => buildRoute('/catalog'),
+          href: () => buildRoute('/catalog/wizard/welcome'),
         },
 
         show: {
