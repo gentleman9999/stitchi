@@ -2834,12 +2834,12 @@
       "custom_url": { "url": "/sleeve-length/", "is_customized": false }
     },
     {
-      "id": 521,
-      "parent_id": 520,
-      "name": "Tops",
+      "id": 520,
+      "parent_id": 0,
+      "name": "Wizard",
       "description": "",
       "views": 0,
-      "sort_order": 0,
+      "sort_order": 1,
       "page_title": "",
       "meta_keywords": [""],
       "meta_description": "",
@@ -2848,7 +2848,24 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/internal-app/tops/", "is_customized": false }
+      "custom_url": { "url": "/wizard/", "is_customized": false }
+    },
+    {
+      "id": 521,
+      "parent_id": 520,
+      "name": "Tops",
+      "description": "",
+      "views": 0,
+      "sort_order": 2,
+      "page_title": "",
+      "meta_keywords": [""],
+      "meta_description": "",
+      "layout_file": "category.html",
+      "image_url": "",
+      "is_visible": true,
+      "search_keywords": "",
+      "default_product_sort": "use_store_settings",
+      "custom_url": { "url": "/wizard/tops/", "is_customized": false }
     },
     {
       "id": 522,
@@ -2856,7 +2873,7 @@
       "name": "Bottoms",
       "description": "",
       "views": 0,
-      "sort_order": 0,
+      "sort_order": 3,
       "page_title": "",
       "meta_keywords": [""],
       "meta_description": "",
@@ -2865,7 +2882,7 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/internal-app/bottoms/", "is_customized": false }
+      "custom_url": { "url": "/wizard/bottoms/", "is_customized": false }
     },
     {
       "id": 525,
@@ -2883,7 +2900,7 @@
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
-        "url": "/internal-app/tops/short-sleeve-t-shirts/",
+        "url": "/wizard/tops/t-shirts/short-sleeve-t-shirts/",
         "is_customized": false
       }
     },
@@ -2903,7 +2920,7 @@
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
-        "url": "/internal-app/tops/long-sleeve-t-shirts/",
+        "url": "/wizard/tops/t-shirts/long-sleeve-t-shirts/",
         "is_customized": false
       }
     },
@@ -2923,8 +2940,8 @@
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
-        "url": "/internal-app/tops/crewnecks/",
-        "is_customized": false
+        "url": "/wizard/tops/sweatshirts-fleece/crewnecks/",
+        "is_customized": true
       }
     },
     {
@@ -2943,8 +2960,8 @@
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
-        "url": "/internal-app/tops/hoodies/",
-        "is_customized": false
+        "url": "/wizard/tops/sweatshirts-fleece/hoodies/",
+        "is_customized": true
       }
     },
     {
@@ -2962,10 +2979,7 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": {
-        "url": "/internal-app/bottoms/shorts/",
-        "is_customized": false
-      }
+      "custom_url": { "url": "/wizard/bottoms/shorts/", "is_customized": false }
     },
     {
       "id": 530,
@@ -2973,7 +2987,7 @@
       "name": "Joggers",
       "description": "",
       "views": 0,
-      "sort_order": 0,
+      "sort_order": 2,
       "page_title": "",
       "meta_keywords": [""],
       "meta_description": "",
@@ -2983,7 +2997,7 @@
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
-        "url": "/internal-app/bottoms/joggers/",
+        "url": "/wizard/bottoms/joggers/",
         "is_customized": false
       }
     },
@@ -3003,46 +3017,9 @@
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
-        "url": "/internal-app/bottoms/sweatpants/",
+        "url": "/wizard/bottoms/sweatpants/",
         "is_customized": false
       }
-    },
-    {
-      "id": 535,
-      "parent_id": 520,
-      "name": "Socks",
-      "description": "",
-      "views": 0,
-      "sort_order": 1,
-      "page_title": "",
-      "meta_keywords": [""],
-      "meta_description": "",
-      "layout_file": "category.html",
-      "image_url": "",
-      "is_visible": true,
-      "search_keywords": "",
-      "default_product_sort": "use_store_settings",
-      "custom_url": {
-        "url": "/internal-app/accessories/socks/",
-        "is_customized": false
-      }
-    },
-    {
-      "id": 537,
-      "parent_id": 520,
-      "name": "Headwear",
-      "description": "",
-      "views": 0,
-      "sort_order": 0,
-      "page_title": "",
-      "meta_keywords": [""],
-      "meta_description": "",
-      "layout_file": "category.html",
-      "image_url": "",
-      "is_visible": true,
-      "search_keywords": "",
-      "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/internal-app/headwear/", "is_customized": false }
     },
     {
       "id": 538,
@@ -3059,10 +3036,7 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": {
-        "url": "/internal-app/tops/t-shirts/",
-        "is_customized": false
-      }
+      "custom_url": { "url": "/wizard/tops/t-shirts/", "is_customized": false }
     },
     {
       "id": 539,
@@ -3119,7 +3093,7 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/internal-app/mens/", "is_customized": false }
+      "custom_url": { "url": "/wizard/fit/mens/", "is_customized": false }
     },
     {
       "id": 542,
@@ -3136,7 +3110,7 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/internal-app/womens/", "is_customized": false }
+      "custom_url": { "url": "/wizard/fit/womens/", "is_customized": false }
     },
     {
       "id": 543,
@@ -3153,7 +3127,7 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/internal-app/unisex/", "is_customized": false }
+      "custom_url": { "url": "/wizard/fit/unisex/", "is_customized": false }
     },
     {
       "id": 544,
@@ -3170,7 +3144,7 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/internal-app/youth/", "is_customized": false }
+      "custom_url": { "url": "/wizard/fit/youth/", "is_customized": false }
     },
     {
       "id": 545,
@@ -3178,7 +3152,7 @@
       "name": "Best-Sellers",
       "description": "",
       "views": 0,
-      "sort_order": 2,
+      "sort_order": 4,
       "page_title": "",
       "meta_keywords": [""],
       "meta_description": "",
@@ -3187,30 +3161,7 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": {
-        "url": "/internal-app/best-sellers/",
-        "is_customized": false
-      }
-    },
-    {
-      "id": 546,
-      "parent_id": 520,
-      "name": "Bathing Suits",
-      "description": "",
-      "views": 0,
-      "sort_order": 3,
-      "page_title": "",
-      "meta_keywords": [""],
-      "meta_description": "",
-      "layout_file": "category.html",
-      "image_url": "",
-      "is_visible": true,
-      "search_keywords": "",
-      "default_product_sort": "use_store_settings",
-      "custom_url": {
-        "url": "/internal-app/accessories/-bathing-suits/",
-        "is_customized": false
-      }
+      "custom_url": { "url": "/wizard/best-sellers/", "is_customized": false }
     },
     {
       "id": 547,
@@ -3218,7 +3169,7 @@
       "name": "Collar",
       "description": "",
       "views": 0,
-      "sort_order": 0,
+      "sort_order": 7,
       "page_title": "",
       "meta_keywords": [""],
       "meta_description": "",
@@ -3227,7 +3178,7 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/internal-app/collar/", "is_customized": false }
+      "custom_url": { "url": "/wizard/collar/", "is_customized": false }
     },
     {
       "id": 548,
@@ -3244,10 +3195,7 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": {
-        "url": "/internal-app/neckline/v-neck/",
-        "is_customized": false
-      }
+      "custom_url": { "url": "/wizard/collar/v-neck/", "is_customized": false }
     },
     {
       "id": 549,
@@ -3265,7 +3213,7 @@
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
-        "url": "/internal-app/collar/crewneck/",
+        "url": "/wizard/collar/crewneck/",
         "is_customized": false
       }
     },
@@ -3301,7 +3249,7 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/internal-app/fit/", "is_customized": false }
+      "custom_url": { "url": "/wizard/fit/", "is_customized": false }
     },
     {
       "id": 552,
@@ -3318,10 +3266,7 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": {
-        "url": "/internal-app/fit/relaxed/",
-        "is_customized": false
-      }
+      "custom_url": { "url": "/wizard/fit/relaxed/", "is_customized": false }
     },
     {
       "id": 553,
@@ -3338,10 +3283,7 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": {
-        "url": "/internal-app/fit/fitted/",
-        "is_customized": false
-      }
+      "custom_url": { "url": "/wizard/fit/fitted/", "is_customized": false }
     },
     {
       "id": 554,
@@ -3349,7 +3291,7 @@
       "name": "Fabrication",
       "description": "",
       "views": 0,
-      "sort_order": 0,
+      "sort_order": 6,
       "page_title": "",
       "meta_keywords": [""],
       "meta_description": "",
@@ -3358,10 +3300,7 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": {
-        "url": "/internal-app/fabrication/",
-        "is_customized": false
-      }
+      "custom_url": { "url": "/wizard/fabrication/", "is_customized": false }
     },
     {
       "id": 555,
@@ -3413,7 +3352,7 @@
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
-        "url": "/internal-app/fabrication/street-fleece/",
+        "url": "/wizard/fabrication/street-fleece/",
         "is_customized": false
       }
     },
@@ -3501,7 +3440,7 @@
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
-        "url": "/bella-canvas/fabrication/triblend/",
+        "url": "/wizard/fabrication/triblend/",
         "is_customized": false
       }
     },
@@ -3521,7 +3460,7 @@
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
-        "url": "/internal-app/fabrication/signature-textures/",
+        "url": "/wizard/fabrication/signature-textures/",
         "is_customized": false
       }
     },
@@ -3541,7 +3480,7 @@
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
-        "url": "/bella-canvas/tops/t-shirts/tank-tops/",
+        "url": "/wizard/tops/t-shirts/tank-tops/",
         "is_customized": false
       }
     },
@@ -3561,7 +3500,7 @@
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
-        "url": "/bella-canvas/fabrication/polyester/",
+        "url": "/wizard/fabrication/polyester/",
         "is_customized": false
       }
     },
@@ -3598,8 +3537,8 @@
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
-        "url": "/bella-canvas/tops/sweatshirts-fleece/boundnecks/",
-        "is_customized": false
+        "url": "/wizard/tops/sweatshirts-fleece/boundnecks/",
+        "is_customized": true
       }
     },
     {
@@ -3635,7 +3574,7 @@
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
-        "url": "/bella-canvas/fabrication/nylon/",
+        "url": "/wizard/fabrication/nylon/",
         "is_customized": false
       }
     },
