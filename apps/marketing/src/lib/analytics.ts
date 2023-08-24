@@ -35,7 +35,7 @@ interface TrackEvents {
 
   contactFormSubmitted: (args: { email: string }) => void
 
-  errorShown: (args: { error: Error }) => void
+  errorShown: (args: { error: Error | string }) => void
 }
 
 const track: TrackEvents = {
