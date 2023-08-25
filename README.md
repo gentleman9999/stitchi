@@ -44,6 +44,7 @@ To develop all apps and packages, run the following command:
 
 ```
 cd my-turborepo
+docker-compose up -d redis
 yarn run dev
 ```
 
