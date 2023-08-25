@@ -1,4 +1,5 @@
 import 'dotenv/config'
+import './telemetry'
 import { ApolloServer } from 'apollo-server-express'
 import { getOrThrow } from './utils'
 import { schema as mainGraphSchema } from './graphql/schema'
