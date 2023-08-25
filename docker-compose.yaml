@@ -14,7 +14,17 @@ services:
     restart: on-failure
     environment:
       PORT: 5000
-
+  redis:
+    container_name: stitchi_redis
+    image: redis:7-alpine
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis:/data
 networks:
   turbo-network:
     driver: bridge
+volumes:
+  redis:
+    driver: local
+
