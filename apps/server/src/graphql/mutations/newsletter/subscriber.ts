@@ -1,4 +1,5 @@
 import { inputObjectType, mutationField, nonNull } from 'nexus'
+import { SendgridMarketingEmailList } from '../../../sendgrid'
 
 export const SubscriberCreateInput = inputObjectType({
   name: 'SubscriberCreateInput',
@@ -14,9 +15,48 @@ export const subscriberCreate = mutationField('subscriberCreate', {
     input: nonNull('SubscriberCreateInput'),
   },
   resolve: async (_, { input }, ctx) => {
+    let customFields = {}
+
+    let organization
+
+    if (ctx.organizationId) {
+      try {
+        organization = await ctx.organization.getOrganization({
+          organizationId: ctx.organizationId,
+        })
+      } catch {
+        throw new Error('Failed to get organization')
+      }
+    }
+
+    let user
+
+    if (ctx.userId) {
+      try {
+        user = await ctx.user.getUser({ id: ctx.userId })
+      } catch {
+        throw new Error('Failed to get user')
+      }
+    }
+
+    customFields = {
+      userId: ctx.userId,
+      membershipId: ctx.membershipId,
+      organizationId: ctx.organizationId,
+      organizationName: organization?.name,
+    }
+
     try {
       await ctx.sendgrid.addMarketingContacts({
-        contacts: [{ email: input.email }],
+        lists: [SendgridMarketingEmailList.NEWSLETTER_SUBSCRIBER],
+        contacts: [
+          {
+            customFields,
+            email: input.email,
+            firstName: user?.given_name,
+            lastName: user?.family_name,
+          },
+        ],
       })
 
       return {

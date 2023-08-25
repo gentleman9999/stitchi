@@ -1,5 +1,6 @@
 import { ApolloError } from 'apollo-server-core'
 import { mutationField } from 'nexus'
+import { SendgridMarketingEmailList } from '../../../sendgrid'
 import { OrganizationRecordGlobalRole } from '../../../services/organization/db/organization-table'
 
 export const userBootstrap = mutationField('userBoostrap', {
@@ -52,19 +53,47 @@ export const userBootstrap = mutationField('userBoostrap', {
         },
       })
     } catch (error) {
-      console.error(error)
       throw new ApolloError('Failed to create organization')
     }
 
-    await ctx.membership.createMembership({
-      membership: {
-        userId: ctx.userId,
-        role: 'OWNER',
-        organizationId: organization.id,
-        invitedEmail: null,
-        invitedName: null,
-      },
-    })
+    let membership
+
+    try {
+      membership = await ctx.membership.createMembership({
+        membership: {
+          userId: ctx.userId,
+          role: 'OWNER',
+          organizationId: organization.id,
+          invitedEmail: null,
+          invitedName: null,
+        },
+      })
+    } catch (error) {
+      throw new ApolloError('Failed to create membership')
+    }
+
+    if (user.email) {
+      try {
+        await ctx.sendgrid.addMarketingContacts({
+          lists: [SendgridMarketingEmailList.NEW_USER],
+          contacts: [
+            {
+              email: user.email,
+              firstName: user.given_name,
+              lastName: user.family_name,
+              customFields: {
+                userId: user.user_id,
+                membershipId: membership.id,
+                organizationId: organization.id,
+                organizationName: organization.name,
+              },
+            },
+          ],
+        })
+      } catch (error) {
+        throw new ApolloError('Failed to add marketing contact')
+      }
+    }
 
     console.info(`Successfully bootstrapped user ${ctx.userId}`)
 

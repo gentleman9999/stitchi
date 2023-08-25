@@ -2,6 +2,26 @@ import { getOrThrow } from '../utils'
 import sendgridClient from '@sendgrid/client'
 import * as yup from 'yup'
 
+const SKIP_MARKETING_EMAILS = getOrThrow(
+  process.env.SENDGRID_SKIP_MARKETING_EMAILS,
+  'SENDGRID_SKIP_MARKETING_EMAILS',
+)
+
+const SENDGRID_NEW_USER_MAILING_LIST_ID = getOrThrow(
+  process.env.SENDGRID_NEW_USER_MAILING_LIST_ID,
+  'SENDGRID_NEW_USER_MAILING_LIST_ID',
+)
+
+const SENDGRID_NEWSLETTER_SUBSCRIBER_MAILING_LIST_ID = getOrThrow(
+  process.env.SENDGRID_NEWSLETTER_SUBSCRIBER_MAILING_LIST_ID,
+  'SENDGRID_NEWSLETTER_SUBSCRIBER_MAILING_LIST_ID',
+)
+
+export enum SendgridMarketingEmailList {
+  NEW_USER = 'NEW_USER',
+  NEWSLETTER_SUBSCRIBER = 'NEWSLETTER_SUBSCRIBER',
+}
+
 const personalizationSchema = yup
   .array()
   .of(
@@ -55,6 +75,15 @@ const contactSchema = yup.object().shape({
   email: yup.string().email().required(),
   firstName: yup.string().optional(),
   lastName: yup.string().optional(),
+  customFields: yup
+    .object()
+    .shape({
+      userId: yup.string().optional(),
+      membershipId: yup.string().optional(),
+      organizationId: yup.string().optional(),
+      organizationName: yup.string().optional(),
+    })
+    .optional(),
 })
 
 const sendgridApiKey = getOrThrow(
@@ -65,6 +94,7 @@ const sendgridApiKey = getOrThrow(
 sendgridClient.setApiKey(sendgridApiKey)
 
 interface AddMarketingContactsInput {
+  lists: SendgridMarketingEmailList[]
   contacts: yup.InferType<typeof contactSchema>[]
 }
 
@@ -135,14 +165,26 @@ const makeClient = (
         }
       })
 
+      if (SKIP_MARKETING_EMAILS === 'true') {
+        console.info('Skipping marketing emails')
+        return
+      }
+
       const [response] = await sendgrid.request({
         url: `/v3/marketing/contacts`,
         method: 'PUT',
         body: JSON.stringify({
+          list_ids: input.lists.map(listEnumToId),
           contacts: contacts.map(contact => ({
             email: contact.email,
             first_name: contact.firstName,
             last_name: contact.lastName,
+            custom_fields: {
+              user_id: contact.customFields?.userId,
+              membership_id: contact.customFields?.membershipId,
+              organization_id: contact.customFields?.organizationId,
+              organization_name: contact.customFields?.organizationName,
+            },
           })),
         }),
       })
@@ -155,6 +197,17 @@ const makeClient = (
         throw new Error(`Error sending contact form response to SendGrid`)
       }
     },
+  }
+}
+
+const listEnumToId = (list: SendgridMarketingEmailList) => {
+  switch (list) {
+    case SendgridMarketingEmailList.NEW_USER:
+      return SENDGRID_NEW_USER_MAILING_LIST_ID
+    case SendgridMarketingEmailList.NEWSLETTER_SUBSCRIBER:
+      return SENDGRID_NEWSLETTER_SUBSCRIBER_MAILING_LIST_ID
+    default:
+      throw new Error(`Invalid list: ${list}`)
   }
 }
 
