@@ -41,24 +41,28 @@ const DesignRequestActions = ({ designRequest }: Props) => {
           ),
         }),
     },
-    {
-      label: 'Duplicate',
-      onClick: () => {},
-    },
-    {
-      label: 'Archive',
-      onClick: () => {},
-    },
+    // {
+    //   label: 'Duplicate',
+    //   onClick: () => {},
+    // },
+    // {
+    //   label: 'Archive',
+    //   onClick: () => {},
+    // },
   ]
 
   switch (designRequest.status) {
     case DesignRequestStatus.DRAFT: {
-      actions.push({
-        primary: true,
-        label: 'Request design',
-        loading: submitting,
-        onClick: handleSubmitDesignRequest,
-      })
+      if (!loading && can(ScopeResource.DesignRequest, ScopeAction.UPDATE)) {
+        actions.push({
+          primary: true,
+          label: 'Request design',
+          loading: submitting,
+          onClick: handleSubmitDesignRequest,
+        })
+      }
+
+      break
     }
 
     case DesignRequestStatus.SUBMITTED:
@@ -74,6 +78,8 @@ const DesignRequestActions = ({ designRequest }: Props) => {
           }),
         })
       }
+
+      break
     }
   }
 

@@ -10,7 +10,7 @@ const ClosetSectionHeaderTabs = ({}: Props) => {
 
   return (
     <div>
-      <div className="sm:hidden">
+      <div className="sm:hidden mb-4">
         <label htmlFor="tabs" className="sr-only">
           Select a tab
         </label>

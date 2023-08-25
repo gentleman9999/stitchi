@@ -2,10 +2,8 @@ import ClosetPageTitle from '@components/common/ClosetPageTitle'
 import React from 'react'
 import DesignRequestEditableName from './DesignRequestEditableName'
 import DesignRequestActions from './DesignRequestActions'
-import { useDesignContext } from '../design-context'
 import { gql } from '@apollo/client'
 import { DesignRequestTitleDesignRequesetFragment } from '@generated/DesignRequestTitleDesignRequesetFragment'
-import SaveStateIndicator from '@components/common/SaveStateIndicator'
 
 interface Props {
   loading: boolean
@@ -13,8 +11,6 @@ interface Props {
 }
 
 const DesignRequestTitle = ({ loading, designRequest }: Props) => {
-  const { saving } = useDesignContext()
-
   return (
     <ClosetPageTitle
       actions={
@@ -24,8 +20,6 @@ const DesignRequestTitle = ({ loading, designRequest }: Props) => {
       }
       title={
         <>
-          {/* <SaveStateIndicator saving={saving} /> */}
-
           <DesignRequestEditableName
             name={designRequest?.name}
             loading={loading}

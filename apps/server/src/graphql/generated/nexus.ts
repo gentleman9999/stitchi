@@ -303,7 +303,7 @@ export interface NexusGenEnums {
   OrderPaymentStatus: "NOT_PAID" | "PAID" | "PARTIALLY_PAID" | "PARTIALLY_REFUNDED" | "REFUNDED"
   OrderType: "CART" | "CONFIRMED"
   ScopeAction: "CREATE" | "DELETE" | "READ" | "UPDATE"
-  ScopeResource: "DesignProduct" | "DesignProof" | "DesignRequestRevisionRequest" | "Integration" | "Membership" | "Order"
+  ScopeResource: "DesignProduct" | "DesignProof" | "DesignRequest" | "DesignRequestRevisionRequest" | "Integration" | "Membership" | "Order"
 }
 
 export interface NexusGenScalars {

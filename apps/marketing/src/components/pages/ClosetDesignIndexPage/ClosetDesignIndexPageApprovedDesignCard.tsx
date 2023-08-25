@@ -63,11 +63,11 @@ const ClosetDesignIndexPageApprovedDesignCard = ({
             }),
           icon: <LinkIcon className="w-full" />,
         },
-        {
-          label: 'Duplicate',
-          onClick: () => {},
-          icon: <DocumentDuplicateIcon className="w-full" />,
-        },
+        // {
+        //   label: 'Duplicate',
+        //   onClick: () => {},
+        //   icon: <DocumentDuplicateIcon className="w-full" />,
+        // },
       ]}
       image={
         design.primaryImageFile
