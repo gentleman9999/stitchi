@@ -1103,7 +1103,6 @@ enum ScopeAction {
 enum ScopeResource {
   DesignProduct
   DesignProof
-  DesignRequest
   DesignRequestRevisionRequest
   Integration
   Membership

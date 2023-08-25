@@ -108,7 +108,9 @@ const productVariantFactory = ({
 }): CatalogFactoryProductVariant => {
   return {
     ...bigCommerceProductVariant,
-    priceCents: Math.round(bigCommerceProductVariant.price * 100),
+    priceCents: bigCommerceProductVariant.price
+      ? Math.round(bigCommerceProductVariant.price * 100)
+      : 0,
   }
 }
 
