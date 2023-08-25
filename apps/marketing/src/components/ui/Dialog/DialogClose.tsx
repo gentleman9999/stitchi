@@ -3,9 +3,7 @@ import * as DC from '@radix-ui/react-dialog'
 import { XIcon } from 'icons'
 import IconButton from '../IconButton'
 
-interface Props extends DC.DialogCloseProps {}
-
-const DialogClose = (props: Props) => {
+const DialogClose = (props: DC.DialogCloseProps) => {
   return (
     <DC.Close {...props} className="absolute top-0 right-0">
       <IconButton shift={['left', 'down']}>
