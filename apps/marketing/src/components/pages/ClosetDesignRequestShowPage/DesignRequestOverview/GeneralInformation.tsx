@@ -5,7 +5,8 @@ import {
   DesignRequestSubmittedDesignRequestGeneralInformationFragment,
   DesignRequestSubmittedDesignRequestGeneralInformationFragment_designRequestLocations,
 } from '@generated/DesignRequestSubmittedDesignRequestGeneralInformationFragment'
-
+import { generateHTML } from '@tiptap/core'
+import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 import ReferenceFilesPreview from '../ReferenceFilePreview/ReferenceFilesPreview'
 
@@ -103,6 +104,10 @@ const DesignLocation = ({
     )
   }
 
+  const description = location.description?.length
+    ? generateHTML(JSON.parse(location.description), [StarterKit])
+    : null
+
   return (
     <div className="">
       <dl className="flex flex-wrap">
@@ -110,8 +115,12 @@ const DesignLocation = ({
           <dt className="font-semibold leading-6 text-gray-900">
             {location.placement}
           </dt>
-          <dd className="mt-1 text-sm font-medium text-gray-700">
-            {location.description}
+          <dd className="mt-1 text-sm font-medium text-gray-600 prose">
+            {description ? (
+              <div dangerouslySetInnerHTML={{ __html: description }} />
+            ) : (
+              'No description.'
+            )}
           </dd>
         </div>
       </dl>

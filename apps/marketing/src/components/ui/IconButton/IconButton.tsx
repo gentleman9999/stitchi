@@ -14,6 +14,7 @@ export interface IconButtonProps {
 const IconButton = (props: IconButtonProps) => {
   const { variant = 'primary', size = 'md' } = props
   const ref = React.useRef<HTMLButtonElement>(null)
+
   const handleClick: IconButtonProps['onClick'] = e => {
     ref.current?.blur()
     props.onClick?.(e)

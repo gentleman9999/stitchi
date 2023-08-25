@@ -6,6 +6,7 @@ export const ScopeResource = enumType({
   members: [
     'DesignProof',
     'DesignProduct',
+    'DesignRequest',
     'DesignRequestRevisionRequest',
     'Order',
     'Integration',

@@ -1,8 +1,9 @@
-import { Dialog, InputGroup } from '@components/ui'
+import { Dialog, IconButton } from '@components/ui'
 import Button from '@components/ui/ButtonV2/Button'
 import { CheckIcon, ClipboardIcon, LinkIcon } from '@heroicons/react/24/outline'
 import useClipboard from '@components/hooks/useClipboard'
 import React from 'react'
+import { XIcon } from 'icons'
 
 export interface Props {
   open: boolean
@@ -25,14 +26,21 @@ const ClosetLinkShareDialog = ({ open, onClose, absoluteUrl }: Props) => {
 
   return (
     <Dialog
+      mobileFullScreen
       size="sm"
       open={open}
       onClose={() => onClose()}
       className="text-center"
+      onOpenAutoFocus={e => e.preventDefault()}
     >
       <Dialog.Icon />
       <Dialog.Title>Collaboration link</Dialog.Title>
       <Dialog.Content>
+        <Dialog.Close>
+          {/* <IconButton onClick={() => onClose()} shift={['left', 'down']}> */}
+          {/* <XIcon className="w-5 h-5 text-gray-300" /> */}
+          {/* </IconButton> */}
+        </Dialog.Close>
         <Dialog.ContentText>
           <Button
             className="w-full"

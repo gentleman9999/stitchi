@@ -2836,7 +2836,7 @@
     {
       "id": 520,
       "parent_id": 0,
-      "name": "Wizard",
+      "name": "Recommended",
       "description": "",
       "views": 0,
       "sort_order": 1,
@@ -2848,7 +2848,7 @@
       "is_visible": true,
       "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/wizard/", "is_customized": false }
+      "custom_url": { "url": "/wizard/", "is_customized": true }
     },
     {
       "id": 521,

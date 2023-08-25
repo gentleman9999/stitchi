@@ -9,6 +9,7 @@ import DialogActions from './DialogActions'
 import Transition from '../Transition'
 import useBreakpoints from '@components/hooks/useBreakpoints'
 import DialogSectionPadding from './DialogSectionPadding'
+import DialogClose from './DialogClose'
 
 type Children = ReturnType<
   | typeof DialogTitle
@@ -25,6 +26,7 @@ export interface DialogProps {
   className?: string
   mobileFullScreen?: boolean
   disablePortal?: boolean
+  onOpenAutoFocus?: RuiDialog.DialogContentProps['onOpenAutoFocus']
 }
 
 const Dialog = (props: DialogProps) => {
@@ -88,6 +90,7 @@ const Dialog = (props: DialogProps) => {
             <DialogTransitionComponent>
               <div className="fixed inset-0 flex justify-center items-center">
                 <RuiDialog.Content
+                  onOpenAutoFocus={props.onOpenAutoFocus}
                   className={cx(
                     'align-bottom bg-white overflow-scroll shadow-xl transform transition-all sm:align-middle sm:w-full flex flex-col max-h-[93%] focus-visible:outline-none',
                     {
@@ -101,19 +104,22 @@ const Dialog = (props: DialogProps) => {
                     props.className,
                   )}
                 >
-                  {Icon ? (
-                    <DialogSectionPadding>{Icon}</DialogSectionPadding>
-                  ) : null}
+                  <div className="relative">
+                    {Icon ? (
+                      <DialogSectionPadding>{Icon}</DialogSectionPadding>
+                    ) : null}
 
-                  {Title && (
-                    <DialogSectionPadding>{Title}</DialogSectionPadding>
-                  )}
-                  {Content}
-                  {Actions && (
-                    <div className="">
-                      <DialogSectionPadding>{Actions}</DialogSectionPadding>
-                    </div>
-                  )}
+                    {Title && (
+                      <DialogSectionPadding>{Title}</DialogSectionPadding>
+                    )}
+                    {Content}
+                    {Actions && (
+                      <div className="">
+                        <DialogSectionPadding>{Actions}</DialogSectionPadding>
+                      </div>
+                    )}
+                  </div>
+
                   <DialogSectionPadding />
                 </RuiDialog.Content>
               </div>
@@ -144,5 +150,6 @@ Dialog.Icon = DialogIcon
 Dialog.Content = DialogContent
 Dialog.ContentText = DialogContentText
 Dialog.Actions = DialogActions
+Dialog.Close = DialogClose
 
 export default Dialog

@@ -1,4 +1,6 @@
+import { ScopeAction, ScopeResource } from '@generated/globalTypes'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { AuthorizedComponent } from '@lib/auth'
 import { Pencil } from 'icons'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -130,11 +132,16 @@ const Form = ({
       <span className="text-red-500 text-xs">
         {form.formState.errors.name?.message}
       </span>
-      {!edit ? (
-        <button className="absolute -right-3 top-0">
-          <Pencil className="w-3 h-3" onClick={handleEdit} />
-        </button>
-      ) : null}
+      <AuthorizedComponent
+        resource={ScopeResource.DesignRequest}
+        action={ScopeAction.UPDATE}
+      >
+        {!edit ? (
+          <button className="absolute -right-3 top-0">
+            <Pencil className="w-3 h-3" onClick={handleEdit} />
+          </button>
+        ) : null}
+      </AuthorizedComponent>
     </div>
   )
 }

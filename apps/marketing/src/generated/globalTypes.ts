@@ -83,6 +83,7 @@ export enum ScopeAction {
 export enum ScopeResource {
   DesignProduct = "DesignProduct",
   DesignProof = "DesignProof",
+  DesignRequest = "DesignRequest",
   DesignRequestRevisionRequest = "DesignRequestRevisionRequest",
   Integration = "Integration",
   Membership = "Membership",
