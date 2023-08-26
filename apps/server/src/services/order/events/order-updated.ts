@@ -30,6 +30,22 @@ const makeHandler =
 
     if (prevOrder.type !== nextOrder.type) {
       console.error('TODO: Implement order updated notification template')
+
+      switch (nextOrder.type) {
+        case OrderRecordType.CONFIRMED: {
+          try {
+            const customerTemplate = notification.getNotificationTemplate(
+              'order.confirmed.customer',
+            )
+
+            customerTemplate.render({
+              order: nextOrder,
+            })
+          } catch {
+            throw new Error('Failed to create notification')
+          }
+        }
+      }
       // switch (nextOrder.type) {
       //   case OrderRecordType.CONFIRMED: {
       //     try {

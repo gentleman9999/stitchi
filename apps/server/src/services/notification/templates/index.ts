@@ -1,44 +1,23 @@
 import { DesignFactoryDesignRequest } from '../../design/factory'
-import templates from './templates'
-import {
-  DesignRequestSubmittedAdminParams,
-  DesignRequestSubmittedUserParams,
-} from './templates/design-request/submitted'
+import { OrderFactoryOrder } from '../../order/factory'
 
-export interface Template {
-  web: {
-    message: string
-  }
-  email?: {
-    subject: string
-    htmlBody: string
-    textBody?: string
-  }
-  sms?: {
-    message: string
-  }
+const templates = {
+  'order.confirmed.customer': {
+    render: ({ order }: { order: OrderFactoryOrder }) => {},
+  },
+  'design_request.created.customer': {
+    render: ({
+      designRequest,
+    }: {
+      designRequest: DesignFactoryDesignRequest
+    }) => {},
+  },
 }
 
-type TemplateType =
-  | 'design_request.submitted.user'
-  | 'design_request.submitted.admin'
+export type Templates = typeof templates
 
-type TypeToParams = {
-  'design_request.submitted.admin': DesignRequestSubmittedAdminParams
-  'design_request.submitted.user': DesignRequestSubmittedUserParams
+const makeTemplates = (): Templates => {
+  return templates
 }
 
-type Params<T extends TemplateType> = TypeToParams[T]
-
-type MakeTemplatesFn = <T extends TemplateType>(params: Params<T>) => Template
-
-const makeTemplates = (): Record<TemplateType, MakeTemplatesFn> => {
-  return {
-    'design_request.submitted.admin': templates.designRequest.submitted.admin,
-    'design_request.submitted.user': templates.designRequest.submitted.user,
-  }
-}
-
-export type Templates = ReturnType<typeof makeTemplates>
-
-export default makeTemplates
+export { makeTemplates }

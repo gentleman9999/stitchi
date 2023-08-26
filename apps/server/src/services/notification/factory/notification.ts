@@ -106,9 +106,4 @@ const notificationFactory = ({
   }
 }
 
-export interface NotificationFactoryNotificationTemplate {
-  subject: string
-  htmlBody: string
-}
-
 export { notificationFactory }

@@ -7,7 +7,7 @@ import makeNotificationRepository, {
   NotificationRepository,
 } from '../repository'
 import { CreateNotificationChannelInput } from '../repository/create-notification'
-import makeTemplates, { Templates } from '../templates'
+import makeTemplates, { Templates } from '../templates_old'
 
 type CreateDesignRequestSubmittedNotificationGroup = (
   type: NotificationRecordType.DESIGN_REQUEST_SUBMITTED,

@@ -3,8 +3,6 @@ import makeNotificationRepository, {
 } from './repository'
 import { makeClient as makeSendgridClient } from '../../sendgrid'
 import { getOrThrow } from '../../utils'
-import makeTemplates, { Template } from './templates'
-import { CreateNotificationGroupFn } from './methods/create-notification-group'
 import { makeServiceMethods, Methods } from './methods'
 
 const replyTo = getOrThrow(
@@ -17,7 +15,9 @@ export interface NotificationClientService {
   getNotification: NotificationRepository['getNotification']
   listNotifications: NotificationRepository['listNotifications']
 
-  createNotificationGroup: CreateNotificationGroupFn
+  createNotificationGroup: Methods['createNotificationGroup']
+
+  getNotificationTemplate: Methods['getNotificationTemplate']
 }
 
 interface MakeClientParams {
@@ -132,15 +132,22 @@ const makeClient: MakeClientFn = (
           params,
         )
       } catch (error) {
-        console.error('Failed to create notificationg group', {
-          context: {
-            error,
-            params,
-            type,
-          },
-        })
         throw new Error('Failed to create notification group')
       }
+
+      return notificationGroup
+    },
+
+    getNotificationTemplate: id => {
+      let template
+
+      try {
+        template = serviceMethods.getNotificationTemplate(id)
+      } catch (error) {
+        throw new Error('Failed to get notification template')
+      }
+
+      return template
     },
   }
 }
