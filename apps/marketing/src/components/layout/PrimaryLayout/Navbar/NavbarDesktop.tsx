@@ -66,7 +66,7 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
         <Dropdown
           anchorEl={anchorEl}
           ButtonChildren={({ active }) => (
-            <DropdownButton active={active} label="Learn" />
+            <DropdownButton active={active} label="Resources" />
           )}
           panelChildren={<NavbarDesktopLearnContents />}
         />

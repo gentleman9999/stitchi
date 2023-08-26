@@ -70,6 +70,7 @@ const navigation = {
         icon: Support,
         href: routes.internal.blog.href(),
       },
+
       {
         label: 'Morning Brew Case Study',
         icon: Support,
@@ -90,6 +91,11 @@ const navigation = {
         icon: Support,
         href: routes.internal.ebooks.studentMerchBusiness.href(),
       },
+      {
+        label: 'Support',
+        icon: Support,
+        href: routes.external.support.href(),
+      },
 
       // {
       //   label: 'About us',
@@ -100,15 +106,20 @@ const navigation = {
     company: [
       // { label: 'Claim', href: '#' },
       {
+        label: 'Support',
+        icon: Support,
+        href: routes.external.support.href(),
+      },
+      {
         label: 'Careers',
         icon: Support,
         href: routes.external.careers.href(),
       },
-      {
-        label: 'Contact Us',
-        icon: Support,
-        href: routes.internal.contact.href(),
-      },
+      // {
+      //   label: 'Contact Us',
+      //   icon: Support,
+      //   href: routes.internal.contact.href(),
+      // },
       { label: 'Privacy', href: routes.internal.legal.privacy.href() },
       { label: 'Terms', href: routes.internal.legal.terms.href() },
     ],

@@ -6,6 +6,11 @@ const supportEmail = getOrThrow(
   'NEXT_PUBLIC_SUPPORT_EMAIL',
 )
 
+const supportUrl = getOrThrow(
+  process.env.NEXT_PUBLIC_SUPPORT_URL,
+  'NEXT_PUBLIC_SUPPORT_URL',
+)
+
 type QueryParams = Record<
   string,
   string | string[] | number | boolean | undefined
@@ -342,6 +347,7 @@ const routes = {
   },
   external: {
     support: {
+      href: () => buildRoute(supportUrl),
       email: {
         href: ({ params }: { params?: QueryParams } = {}) =>
           buildRoute(`mailto:${supportEmail}`, params),

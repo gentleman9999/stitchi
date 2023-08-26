@@ -103,7 +103,7 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
             <NavbarMobileDropdown
               ButtonChildren={({ active }) => (
                 <div className={s.link}>
-                  Learn
+                  Resources
                   <span
                     className={cx('ml-2 transition', {
                       'transform rotate-180': active,

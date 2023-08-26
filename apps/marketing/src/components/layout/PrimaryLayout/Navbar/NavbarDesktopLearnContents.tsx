@@ -7,6 +7,9 @@ import Link from 'next/link'
 import routes from '@lib/routes'
 import { Button } from '@components/ui'
 
+const linkClass =
+  'font-semibold border-2 border-transparent hover:border-primary p-2 rounded-md -translate-x-1'
+
 interface Props {}
 
 const NavbarDesktopLearnContents = () => {
@@ -48,30 +51,34 @@ const NavbarDesktopLearnContents = () => {
           </div>
         </div>
       </div>
-      <div className="col-span-1 pl-8 flex flex-col gap-3">
+      <div className="col-span-1 pl-8 flex flex-col">
         <h2 className="text-3xl font-bold font-heading p-1">Learn</h2>
-        <Link
-          href={routes.internal.blog.href()}
-          passHref
-          className="font-semibold hover:bg-primary p-1 rounded-sm"
-        >
+        <Link passHref href={routes.internal.blog.href()} className={linkClass}>
           <Popover.Button as="div">Articles & Guides</Popover.Button>
         </Link>
         <Link
-          href={routes.internal.glossary.href()}
           passHref
-          className="font-semibold hover:bg-primary p-1 rounded-sm"
+          href={routes.internal.glossary.href()}
+          className={linkClass}
         >
           <Popover.Button as="div">
             Promotional Products Directory
           </Popover.Button>
         </Link>
         <Link
-          href={routes.internal.lookbook.href()}
           passHref
-          className="font-semibold hover:bg-primary p-1 rounded-sm"
+          href={routes.internal.lookbook.href()}
+          className={linkClass}
         >
           <Popover.Button as="div">Design Lookbook</Popover.Button>
+        </Link>
+        <Link
+          passHref
+          href={routes.external.support.href()}
+          target="_blank"
+          className={linkClass}
+        >
+          <Popover.Button as="div">Support</Popover.Button>
         </Link>
       </div>
     </div>
