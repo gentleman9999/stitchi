@@ -7,6 +7,7 @@ import { Resource } from '@opentelemetry/resources'
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions'
 
 import { getOrThrow } from '../utils'
+import { logger } from '.'
 
 const AXIOM_API_KEY = getOrThrow(process.env.AXIOM_API_KEY, 'AXIOM_API_KEY')
 const AXIOM_DATASET = getOrThrow(process.env.AXIOM_DATASET, 'AXIOM_DATASET')
@@ -29,7 +30,7 @@ const sdk = new NodeSDK({
   resource: Resource.default().merge(
     new Resource({
       [SemanticResourceAttributes.SERVICE_NAME]: 'server',
-      [SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT]: 'local',
+      environment: getOrThrow(process.env.ENV, 'ENV'),
     }),
   ),
   spanProcessor: new BatchSpanProcessor(traceExporter),
@@ -44,9 +45,7 @@ sdk.start()
 process.on('SIGTERM', () => {
   sdk
     .shutdown()
-    .then(() => console.log('Tracing terminated'))
-    .catch(error => console.log('Error terminating tracing', error))
+    .then(() => logger.info('Tracing terminated'))
+    .catch(error => logger.error('Error terminating tracing', error))
     .finally(() => process.exit(0))
 })
-
-
