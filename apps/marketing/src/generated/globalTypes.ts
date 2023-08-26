@@ -60,11 +60,6 @@ export enum ItemStatus {
   updated = "updated",
 }
 
-export enum MembershipRole {
-  OWNER = "OWNER",
-  STITCHI_DESIGNER = "STITCHI_DESIGNER",
-}
-
 export enum OrderPaymentStatus {
   NOT_PAID = "NOT_PAID",
   PAID = "PAID",
@@ -385,6 +380,11 @@ export interface OrganizationBrandFileCreateBatchInput {
 
 export interface OrganizationBrandFileDeleteBatchInput {
   fileIds: string[];
+}
+
+export interface OrganizationUpdateInput {
+  organizationId: string;
+  name?: string | null;
 }
 
 export interface PaymentIntentCreateInput {

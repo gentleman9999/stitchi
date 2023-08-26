@@ -7,6 +7,7 @@ import useSetUserMembership from '@components/hooks/useSetUserMembership'
 import { PlusIcon } from '@heroicons/react/20/solid'
 import { StandoutType, useStandout } from '@components/context'
 import { motion } from 'framer-motion'
+import { Badge } from '@components/ui'
 
 const fadeIn = {
   hidden: { opacity: 0.5, scale: 0.95 },
@@ -42,7 +43,7 @@ const OrganizationDropdown = (props: Props) => {
           animate="visible"
           exit="exit"
           variants={fadeIn}
-          className="p-2 rounded-md bg-white shadow-lg flex flex-col w-[var(--radix-dropdown-menu-trigger-width)]"
+          className="p-2 rounded-md bg-white shadow-lg flex flex-col border w-[var(--radix-dropdown-menu-trigger-width)]"
         >
           {data?.userMemberships?.map(membership => {
             const { organization } = membership
@@ -54,10 +55,21 @@ const OrganizationDropdown = (props: Props) => {
                   handleOrganizationClick(organization.id, membership.id)
                 }
               >
-                {organization.name}
+                <div className="flex flex-col items-start">
+                  {organization.name}
+                  {membership.humanizedRole ? (
+                    <Badge
+                      size="small"
+                      label={membership.humanizedRole}
+                      className="!text-xs !py-0.5 !px-1.5"
+                      // severity="info"
+                    />
+                  ) : null}
+                </div>
               </Item>
             ) : null
           })}
+          <hr className="my-2" />
           <Item
             onClick={() =>
               setStandout({ type: StandoutType.OrganizationCreate })
@@ -89,7 +101,7 @@ const Item = ({
     <Dropdown.Item asChild>
       <button
         onClick={onClick}
-        className=" hover:bg-gray-50 py-1 px-2 rounded-md flex-1 flex items-center gap-2 outline-none"
+        className="border-2 border-transparent hover:border-primary hover:bg-gray-50 transition-all py-2 px-2 rounded-md flex-1 flex items-center gap-2 outline-none text-sm font-medium"
       >
         <div className="w-5 h-5 bg-gray-100 rounded-sm">{icon}</div>
         {children}
@@ -102,6 +114,7 @@ const GET_DATA = gql`
   query OrganizationDropdownGetDataQuery {
     userMemberships {
       id
+      humanizedRole
       organization {
         id
         name

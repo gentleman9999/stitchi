@@ -8,7 +8,7 @@ import routes from '@lib/routes'
 import { Button } from '@components/ui'
 
 const linkClass =
-  'font-semibold border-2 border-transparent hover:border-primary p-2 rounded-md -translate-x-1'
+  'font-semibold border-2 border-transparent hover:border-primary hover:bg-gray-50 p-2 rounded-md -translate-x-1 transition-all'
 
 interface Props {}
 

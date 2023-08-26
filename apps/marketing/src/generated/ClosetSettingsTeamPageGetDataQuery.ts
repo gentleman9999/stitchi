@@ -3,8 +3,6 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { MembershipRole } from "./globalTypes";
-
 // ====================================================
 // GraphQL query operation: ClosetSettingsTeamPageGetDataQuery
 // ====================================================
@@ -20,7 +18,7 @@ export interface ClosetSettingsTeamPageGetDataQuery_viewer_organization_membersh
   __typename: "Membership";
   id: string;
   createdAt: any;
-  role: MembershipRole | null;
+  humanizedRole: string | null;
   user: ClosetSettingsTeamPageGetDataQuery_viewer_organization_memberships_user | null;
 }
 

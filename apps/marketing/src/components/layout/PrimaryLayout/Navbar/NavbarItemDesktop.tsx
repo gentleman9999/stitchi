@@ -1,6 +1,6 @@
 import React, { ReactChild } from 'react'
 import NextLink from 'next/link'
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image'
 
 type Icon = { url: string; height: number; width: number } | ReactChild | null
 
@@ -31,7 +31,7 @@ const NavbarDropdownItemDesktop = ({
         <NextLink href={href} passHref legacyBehavior>
           <StyledATag>{children}</StyledATag>
         </NextLink>
-      );
+      )
     }
   }
 
@@ -80,7 +80,7 @@ const StyledATag = (props: {
   const linkProps = {
     ...props,
     className:
-      'cursor-pointer block p-4 text-sm hover:bg-gray-100 transition-all rounded-md ring-1 ring-transparent hover:ring-gray-200',
+      'cursor-pointer block p-4 text-sm hover:bg-gray-50 transition-all rounded-md ring-2 ring-transparent hover:ring-primary',
     ...(props.external ? { target: '_blank', rel: 'noreferrer' } : {}),
   }
   return <a {...linkProps} />

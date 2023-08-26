@@ -6,15 +6,6 @@ import { gql } from '@apollo/client'
 import { ClosetSettingsTeamPageTableDesktopMembershipFragment } from '@generated/ClosetSettingsTeamPageTableDesktopMembershipFragment'
 import { Badge } from '@components/ui'
 
-export interface Row {
-  id: string
-  createdAt: string
-  name: string
-  pictureSrc?: string
-  email: string
-  role: string
-}
-
 interface Props {
   memberships: ClosetSettingsTeamPageTableDesktopMembershipFragment[]
 }
@@ -48,7 +39,7 @@ const ClosetSettingsTeamPageTableDesktop = ({ memberships }: Props) => {
           </Cell>
           <Cell>
             <div>
-              <Badge label={membership.role || 'No role'} />
+              <Badge label={membership.humanizedRole || 'No role'} />
             </div>
           </Cell>
         </>
@@ -86,7 +77,7 @@ ClosetSettingsTeamPageTableDesktop.fragments = {
     fragment ClosetSettingsTeamPageTableDesktopMembershipFragment on Membership {
       id
       createdAt
-      role
+      humanizedRole
       user {
         id
         name

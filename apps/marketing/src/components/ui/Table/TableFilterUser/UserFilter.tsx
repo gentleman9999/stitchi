@@ -22,7 +22,7 @@ const UserFilter = (props: Props) => {
     <div className="flex flex-col">
       <button
         onClick={() => props.onChange(null)}
-        className="flex items-center gap-2 text-sm justify-between hover:bg-primary p-1.5 rounded-md"
+        className="flex items-center gap-2 text-sm justify-between hover:bg-gray-50 ring-2 transition-all ring-transparent hover:ring-primary p-1.5 rounded-md"
       >
         Any owner
         {/* Makes up for avatar height */}
@@ -33,7 +33,7 @@ const UserFilter = (props: Props) => {
           key={user.id}
           onClick={() => props.onChange(user.id)}
           className={cx(
-            'flex items-center gap-2 text-sm justify-between hover:bg-primary p-1.5 rounded-md',
+            'flex items-center gap-2 text-sm justify-between hover:gray ring-2 ring-transparent transition-all hover:ring-primary p-1.5 rounded-md',
             {
               'font-bold': idx === 1,
             },

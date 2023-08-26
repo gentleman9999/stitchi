@@ -22,7 +22,7 @@ const ClosetSettingsTeamPageTableMobile = ({ memberships }: Props) => {
                     {membership.user?.email}
                   </span>
                 </div>
-                <Badge label={membership.role || 'No role'} />
+                <Badge label={membership.humanizedRole || 'No role'} />
               </div>
 
               <div className="flex flex-col gap-2">
@@ -43,7 +43,7 @@ ClosetSettingsTeamPageTableMobile.fragments = {
     fragment ClosetSettingsTeamPageTableMobileMemberFragment on Membership {
       id
       createdAt
-      role
+      humanizedRole
       user {
         id
         name
