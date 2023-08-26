@@ -1,5 +1,6 @@
 import { GraphQLError } from 'graphql'
 import { extendType } from 'nexus'
+import { logger } from '../../../telemetry'
 import { fulfillmentFactoryFulfillmentToGraphQL } from '../../serializers/fulfillment'
 
 export const FulfillmentsExtendsOrder = extendType({
@@ -15,7 +16,7 @@ export const FulfillmentsExtendsOrder = extendType({
             filter: { orderId: parent.id },
           })
         } catch (error) {
-          console.log(`Error fetching fulfillments for order ${parent.id}`, {
+          logger.error(`Error fetching fulfillments for order ${parent.id}`, {
             context: { error },
           })
           throw new GraphQLError('Failed to fetch order fulfillments')

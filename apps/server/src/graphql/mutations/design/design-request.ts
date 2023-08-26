@@ -1,5 +1,6 @@
 import { GraphQLError } from 'graphql'
 import { inputObjectType, mutationField, nonNull, objectType } from 'nexus'
+import { logger } from '../../../telemetry'
 import { notEmpty } from '../../../utils'
 import {
   designFactoryDesignToGraphql,
@@ -78,7 +79,7 @@ export const designRequestCreate = mutationField('designRequestCreate', {
         },
       })
     } catch (error) {
-      console.log(error)
+      logger.error(error)
       throw new GraphQLError('Unable to create design request')
     }
 
@@ -132,7 +133,7 @@ export const designRequestUpdate = mutationField('designRequestUpdate', {
         designRequestId: input.designRequestId,
       })
     } catch (error) {
-      console.log(error)
+      logger.error(error)
       throw new GraphQLError('Unable to find design request')
     }
 
@@ -186,7 +187,7 @@ export const designRequestUpdate = mutationField('designRequestUpdate', {
         },
       })
     } catch (error) {
-      console.log(error)
+      logger.error(error)
       throw new GraphQLError('Unable to update design request')
     }
     return {
@@ -222,7 +223,7 @@ export const designRequestSubmit = mutationField('designRequestSubmit', {
         designRequestId: input.designRequestId,
       })
     } catch (error) {
-      console.log(error)
+      logger.error(error)
       throw new GraphQLError('Unable to find design request')
     }
 
@@ -243,7 +244,7 @@ export const designRequestSubmit = mutationField('designRequestSubmit', {
         },
       })
     } catch (error) {
-      console.log(error)
+      logger.error(error)
       throw new GraphQLError('Unable to update design request')
     }
 
@@ -317,7 +318,7 @@ export const designRequestProofCreate = mutationField(
           designRequestId: input.designRequestId,
         })
       } catch (error) {
-        console.log(error)
+        logger.error(error)
         throw new GraphQLError('Unable to find design request')
       }
 
@@ -350,7 +351,7 @@ export const designRequestProofCreate = mutationField(
           throw new GraphQLError('Unable to create design proof')
         }
       } catch (error) {
-        console.log(error)
+        logger.error(error)
         throw new GraphQLError('Unable to create design proof')
       }
 
@@ -370,7 +371,7 @@ export const designRequestProofCreate = mutationField(
           },
         })
       } catch (error) {
-        console.log(error)
+        logger.error(error)
         throw new GraphQLError('Unable to update design request')
       }
 
@@ -383,7 +384,7 @@ export const designRequestProofCreate = mutationField(
               conversationId: updatedDesignRequest.conversationId,
             })
           } catch (error) {
-            console.log(error)
+            logger.error(error)
             throw new GraphQLError('Unable to create conversation')
           }
 
@@ -402,7 +403,7 @@ export const designRequestProofCreate = mutationField(
               },
             })
           } catch (error) {
-            console.log(error)
+            logger.error(error)
             throw new GraphQLError('Unable to update conversation')
           }
         } else {
@@ -463,7 +464,7 @@ export const designRequestRevisionRequestCreate = mutationField(
           designRequestId: input.designRequestId,
         })
       } catch (error) {
-        console.log(error)
+        logger.error(error)
         throw new GraphQLError('Unable to find design request')
       }
 
@@ -484,7 +485,7 @@ export const designRequestRevisionRequestCreate = mutationField(
           },
         })
       } catch (error) {
-        console.log(error)
+        logger.error(error)
         throw new GraphQLError('Unable to update design request')
       }
 
@@ -538,7 +539,7 @@ export const designRequestConversationMessageCreate = mutationField(
           throw new GraphQLError('Unable to find design request')
         }
       } catch (error) {
-        console.log(error)
+        logger.error(error)
         throw new GraphQLError('Unable to find design request')
       }
 
@@ -553,7 +554,7 @@ export const designRequestConversationMessageCreate = mutationField(
           conversationId: designRequest.conversationId,
         })
       } catch (error) {
-        console.log(error)
+        logger.error(error)
         throw new GraphQLError('Unable to create conversation')
       }
 
@@ -572,7 +573,7 @@ export const designRequestConversationMessageCreate = mutationField(
           },
         })
       } catch (error) {
-        console.log(error)
+        logger.error(error)
         throw new GraphQLError('Unable to update conversation')
       }
 

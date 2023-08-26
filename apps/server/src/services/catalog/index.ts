@@ -12,6 +12,7 @@ import {
   BigCommerceClient,
   makeClient as makeCatalogClient,
 } from '../../bigcommerce'
+import { logger } from '../../telemetry'
 
 export interface OrderClientService {
   getCatalogProduct: (input: {
@@ -115,6 +116,7 @@ const makeClient: MakeClientFn = (
       }
     },
     listProductCategories: async input => {
+        logger
       try {
         const productCategories = await bigCommerceClient.listProductCategories(
           {

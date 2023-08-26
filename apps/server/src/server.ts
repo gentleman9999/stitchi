@@ -14,6 +14,7 @@ import createRestApi from './rest'
 import { WebSocketServer } from 'ws'
 import { useServer } from 'graphql-ws/lib/use/ws'
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core'
+import { logger } from './telemetry'
 
 process
   .on('unhandledRejection', (reason, p) => {
@@ -102,10 +103,10 @@ async function start() {
 
   await new Promise<void>(resolve => httpServer.listen({ port: PORT }, resolve))
 
-  console.log(
+  logger.info(
     `🚀 Server ready at http://localhost:5000${gqlServer.graphqlPath}`,
   )
-  console.log(
+  logger.info(
     `🚀 Web Socket ready at ws://localhost:5000${gqlServer.graphqlPath}`,
   )
 }

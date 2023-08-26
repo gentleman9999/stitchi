@@ -50,7 +50,7 @@ export const fileCreate = mutationField('fileCreate', {
         },
       })
     } catch (error) {
-      console.log(error)
+      logger.error(error)
       throw new GraphQLError('Unable to create file')
     }
 

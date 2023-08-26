@@ -9,6 +9,7 @@
     { "path": "../stripe" },
     { "path": "../sendgrid" },
     { "path": "../redis" },
-    { "path": "../auth0" }
+    { "path": "../auth0" },
+    { "path": "../telemetry" }
   ]
 }
