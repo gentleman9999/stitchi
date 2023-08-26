@@ -4,6 +4,7 @@ import {
   Cog8ToothIcon,
   InboxIcon,
   PaintBrushIcon,
+  PuzzlePieceIcon,
   QuestionMarkCircleIcon,
   SwatchIcon,
   TruckIcon,
@@ -122,6 +123,12 @@ const ClosetLayoutContextProvider = ({ children }: Props) => {
               href: routes.internal.closet.settings.general.href(),
               label: 'General',
               icon: <UserCircleIcon className="w-4 h-4" />,
+            },
+            {
+              type: 'subnav',
+              href: routes.internal.closet.settings.organization.href(),
+              label: 'Organization',
+              icon: <PuzzlePieceIcon className="w-4 h-4" />,
             },
             {
               type: 'subnav',

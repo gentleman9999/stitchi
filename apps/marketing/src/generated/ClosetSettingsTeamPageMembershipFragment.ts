@@ -3,8 +3,6 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { MembershipRole } from "./globalTypes";
-
 // ====================================================
 // GraphQL fragment: ClosetSettingsTeamPageMembershipFragment
 // ====================================================
@@ -20,6 +18,6 @@ export interface ClosetSettingsTeamPageMembershipFragment {
   __typename: "Membership";
   id: string;
   createdAt: any;
-  role: MembershipRole | null;
+  humanizedRole: string | null;
   user: ClosetSettingsTeamPageMembershipFragment_user | null;
 }

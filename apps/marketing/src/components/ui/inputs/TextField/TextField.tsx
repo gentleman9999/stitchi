@@ -9,6 +9,7 @@ interface BaseProps {
   description?: string
   error?: boolean
   inputClassName?: string
+  size?: 'sm' | 'base'
 }
 
 interface MultilineProps
@@ -18,7 +19,9 @@ interface MultilineProps
   inputRef?: React.Ref<any>
 }
 
-interface SinglelineProps extends BaseProps, InputElementAttributes {
+interface SinglelineProps
+  extends BaseProps,
+    Omit<InputElementAttributes, 'size'> {
   multiline?: false
   inputRef?: React.Ref<any>
 }
@@ -26,14 +29,6 @@ interface SinglelineProps extends BaseProps, InputElementAttributes {
 export type TextFieldProps = MultilineProps | SinglelineProps
 
 const TextField = (props: TextFieldProps) => {
-  const className = cx(
-    'block w-full shadow-sm sm:text-sm focus:ring-primary focus:border-primary border-gray-300 rounded-md disabled:text-gray-200',
-    {
-      'border-red-500 focus:border-red-500 focus:ring-red-500': props.error,
-    },
-    props.inputClassName,
-  )
-
   const {
     description,
     className: containerClassName,
@@ -42,8 +37,18 @@ const TextField = (props: TextFieldProps) => {
     inputClassName,
     inputRef,
     multiline,
+    size,
     ...inputProps
   } = props
+
+  const className = cx(
+    'block w-full shadow-sm sm:text-sm focus:ring-primary focus:border-primary border-gray-300 rounded-md disabled:text-gray-200',
+    {
+      'border-red-500 focus:border-red-500 focus:ring-red-500': props.error,
+      'py-1 px-1.5': size === 'sm',
+    },
+    inputClassName,
+  )
 
   return (
     <div className={containerClassName}>
@@ -80,7 +85,7 @@ const TextField = (props: TextFieldProps) => {
           />
         ) : (
           <input
-            {...(inputProps as SinglelineProps)}
+            {...(inputProps as Omit<SinglelineProps, 'size'>)}
             ref={inputRef}
             type={props.type || 'text'}
             aria-describedby={props.description && `${props.name}-description`}

@@ -9,7 +9,6 @@ import React from 'react'
 import AppBetaDialog from './AppBetaDialog'
 import { ClosetLayoutContextProvider } from './closet-layout-context'
 import SideBar from './SideBar'
-import { AnimatePresence, motion } from 'framer-motion'
 
 interface Props {
   children: React.ReactNode

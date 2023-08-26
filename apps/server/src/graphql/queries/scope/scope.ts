@@ -14,7 +14,6 @@ const scopeMap: Record<
     Integration: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
     Membership: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
   },
-
   STITCHI_DESIGNER: {
     Order: [],
     DesignProof: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
@@ -23,6 +22,15 @@ const scopeMap: Record<
     DesignRequestRevisionRequest: ['READ'],
     Integration: [],
     Membership: [],
+  },
+  STITCHI_ADMIN: {
+    Order: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
+    DesignProof: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
+    DesignProduct: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
+    DesignRequest: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
+    DesignRequestRevisionRequest: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
+    Integration: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
+    Membership: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
   },
 }
 

@@ -253,6 +253,10 @@ export interface NexusGenInputs {
   OrganizationBrandFileDeleteBatchInput: { // input type
     fileIds: string[]; // [ID!]!
   }
+  OrganizationUpdateInput: { // input type
+    name?: string | null; // String
+    organizationId: string; // ID!
+  }
   PaymentIntentCreateInput: { // input type
     orderId: string; // String!
   }
@@ -298,7 +302,7 @@ export interface NexusGenEnums {
   DesignRequestStatus: "APPROVED" | "AWAITING_APPROVAL" | "AWAITING_REVISION" | "DRAFT" | "REJECTED" | "SUBMITTED"
   FileType: "IMAGE" | "PDF" | "UNKNOWN" | "VIDEO"
   GlobalRole: "CUSTOMER" | "SUPERADMIN"
-  MembershipRole: "OWNER" | "STITCHI_DESIGNER"
+  MembershipRole: "OWNER" | "STITCHI_ADMIN" | "STITCHI_DESIGNER"
   OrderItemType: "BIG_COMMERCE_PRODUCT" | "CUSTOM"
   OrderPaymentStatus: "NOT_PAID" | "PAID" | "PARTIALLY_PAID" | "PARTIALLY_REFUNDED" | "REFUNDED"
   OrderType: "CART" | "CONFIRMED"
@@ -738,6 +742,9 @@ export interface NexusGenObjects {
   OrganizationBrandFileDeleteBatchPayload: { // root type
     brand?: NexusGenRootTypes['OrganizationBrand'] | null; // OrganizationBrand
     files: NexusGenRootTypes['File'][]; // [File!]!
+  }
+  OrganizationUpdatePayload: { // root type
+    organization?: NexusGenRootTypes['Organization'] | null; // Organization
   }
   PageInfo: { // root type
     endCursor?: string | null; // String
@@ -1241,6 +1248,7 @@ export interface NexusGenFieldTypes {
     organizationBrandColorUpdate: NexusGenRootTypes['OrganizationBrandColorUpdatePayload'] | null; // OrganizationBrandColorUpdatePayload
     organizationBrandFileCreateBatch: NexusGenRootTypes['OrganizationBrandFileCreateBatchPayload'] | null; // OrganizationBrandFileCreateBatchPayload
     organizationBrandFileDeleteBatch: NexusGenRootTypes['OrganizationBrandFileDeleteBatchPayload'] | null; // OrganizationBrandFileDeleteBatchPayload
+    organizationUpdate: NexusGenRootTypes['OrganizationUpdatePayload'] | null; // OrganizationUpdatePayload
     paymentIntentCreate: NexusGenRootTypes['PaymentIntentCreatePayload'] | null; // PaymentIntentCreatePayload
     subscriberCreate: NexusGenRootTypes['SubscriberCreatePayload'] | null; // SubscriberCreatePayload
     userBoostrap: NexusGenRootTypes['User'] | null; // User
@@ -1345,6 +1353,9 @@ export interface NexusGenFieldTypes {
   OrganizationBrandFileDeleteBatchPayload: { // field return type
     brand: NexusGenRootTypes['OrganizationBrand'] | null; // OrganizationBrand
     files: NexusGenRootTypes['File'][]; // [File!]!
+  }
+  OrganizationUpdatePayload: { // field return type
+    organization: NexusGenRootTypes['Organization'] | null; // Organization
   }
   PageInfo: { // field return type
     endCursor: string | null; // String
@@ -1862,6 +1873,7 @@ export interface NexusGenFieldTypeNames {
     organizationBrandColorUpdate: 'OrganizationBrandColorUpdatePayload'
     organizationBrandFileCreateBatch: 'OrganizationBrandFileCreateBatchPayload'
     organizationBrandFileDeleteBatch: 'OrganizationBrandFileDeleteBatchPayload'
+    organizationUpdate: 'OrganizationUpdatePayload'
     paymentIntentCreate: 'PaymentIntentCreatePayload'
     subscriberCreate: 'SubscriberCreatePayload'
     userBoostrap: 'User'
@@ -1966,6 +1978,9 @@ export interface NexusGenFieldTypeNames {
   OrganizationBrandFileDeleteBatchPayload: { // field return type name
     brand: 'OrganizationBrand'
     files: 'File'
+  }
+  OrganizationUpdatePayload: { // field return type name
+    organization: 'Organization'
   }
   PageInfo: { // field return type name
     endCursor: 'String'
@@ -2179,6 +2194,9 @@ export interface NexusGenArgTypes {
     }
     organizationBrandFileDeleteBatch: { // args
       input: NexusGenInputs['OrganizationBrandFileDeleteBatchInput']; // OrganizationBrandFileDeleteBatchInput!
+    }
+    organizationUpdate: { // args
+      input: NexusGenInputs['OrganizationUpdateInput']; // OrganizationUpdateInput!
     }
     paymentIntentCreate: { // args
       input: NexusGenInputs['PaymentIntentCreateInput']; // PaymentIntentCreateInput!

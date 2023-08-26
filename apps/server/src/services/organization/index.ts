@@ -25,6 +25,7 @@ export interface OrganizationService {
   createOrganization: OrganizationRepository['createOrganization']
   getOrganization: OrganizationRepository['getOrganization']
   listOrganizations: OrganizationRepository['listOrganizations']
+  updateOrganization: OrganizationRepository['updateOrganization']
 
   createOrganizationFile: OrganizationRepository['createOrganizationFile']
   getOrganizationFile: OrganizationRepository['getOrganizationFile']
@@ -108,6 +109,18 @@ const makeClient: MakeClientFn = (
       }
 
       return organizations
+    },
+
+    updateOrganization: async input => {
+      let organization
+
+      try {
+        organization = await organizationRepository.updateOrganization(input)
+      } catch (error) {
+        throw error
+      }
+
+      return organization
     },
 
     createOrganizationFile: async input => {

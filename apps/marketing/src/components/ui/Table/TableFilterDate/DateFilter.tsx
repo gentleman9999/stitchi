@@ -125,9 +125,7 @@ const DateEquality = (props: Props) => {
       <input hidden readOnly {...form.register('gte')} />
       <input hidden readOnly {...form.register('lte')} />
 
-      <span className="text-sm font-semibold text-gray-800">
-        Equality by Date
-      </span>
+      <span className="text-sm font-semibold text-gray-800">Date created</span>
       <Controller
         name="equality"
         control={form.control}

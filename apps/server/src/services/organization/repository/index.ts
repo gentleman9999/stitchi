@@ -1,6 +1,7 @@
 import { makeCreateOrganization } from './create-organization'
 import { makeGetOrganization } from './get-organization'
 import { makeListOrganizations } from './list-organizations'
+import { makeUpdateOrganization } from './update-organization'
 
 import { makeCreateOrganizationFile } from './create-organization-file'
 import { makeGetOrganizationFile } from './get-organization-file'
@@ -18,6 +19,7 @@ export interface OrganizationRepository {
   createOrganization: ReturnType<typeof makeCreateOrganization>
   getOrganization: ReturnType<typeof makeGetOrganization>
   listOrganizations: ReturnType<typeof makeListOrganizations>
+  updateOrganization: ReturnType<typeof makeUpdateOrganization>
 
   createOrganizationFile: ReturnType<typeof makeCreateOrganizationFile>
   getOrganizationFile: ReturnType<typeof makeGetOrganizationFile>
@@ -38,6 +40,7 @@ const makeOrganizationRepository: MakeOrganizationRepositoryFn = init => ({
   createOrganization: makeCreateOrganization(),
   getOrganization: makeGetOrganization(),
   listOrganizations: makeListOrganizations(),
+  updateOrganization: makeUpdateOrganization(),
 
   createOrganizationFile: makeCreateOrganizationFile(),
   getOrganizationFile: makeGetOrganizationFile(),

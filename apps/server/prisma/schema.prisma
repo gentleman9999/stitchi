@@ -151,6 +151,7 @@ model ActiveUserMembership {
 enum MembershipRole {
   OWNER
   STITCHI_DESIGNER
+  STITCHI_ADMIN
 }
 
 model MembershipNotificationSetting {

@@ -320,6 +320,10 @@ const routes = {
         team: {
           href: () => buildRoute('/closet/settings/team'),
         },
+
+        organization: {
+          href: () => buildRoute('/closet/settings/organization'),
+        },
       },
     },
 

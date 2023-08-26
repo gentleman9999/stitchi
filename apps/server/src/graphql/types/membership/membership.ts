@@ -56,8 +56,10 @@ export const Membership = objectType({
             return 'Owner'
           case 'STITCHI_DESIGNER':
             return 'Designer'
+          case 'STITCHI_ADMIN':
+            return 'Super Admin'
           default:
-            return null
+            throw new GraphQLError('Invalid membership role')
         }
       },
     })

@@ -727,6 +727,7 @@ input MembershipOrdersWhereFilterInput {
 
 enum MembershipRole {
   OWNER
+  STITCHI_ADMIN
   STITCHI_DESIGNER
 }
 
@@ -756,6 +757,7 @@ type Mutation {
   organizationBrandColorUpdate(input: OrganizationBrandColorUpdateInput!): OrganizationBrandColorUpdatePayload
   organizationBrandFileCreateBatch(input: OrganizationBrandFileCreateBatchInput!): OrganizationBrandFileCreateBatchPayload
   organizationBrandFileDeleteBatch(input: OrganizationBrandFileDeleteBatchInput!): OrganizationBrandFileDeleteBatchPayload
+  organizationUpdate(input: OrganizationUpdateInput!): OrganizationUpdatePayload
   paymentIntentCreate(input: PaymentIntentCreateInput!): PaymentIntentCreatePayload
 
   """Creates a new email subscriber"""
@@ -991,6 +993,15 @@ input OrganizationBrandFileDeleteBatchInput {
 type OrganizationBrandFileDeleteBatchPayload {
   brand: OrganizationBrand
   files: [File!]!
+}
+
+input OrganizationUpdateInput {
+  name: String
+  organizationId: ID!
+}
+
+type OrganizationUpdatePayload {
+  organization: Organization
 }
 
 type PageInfo {

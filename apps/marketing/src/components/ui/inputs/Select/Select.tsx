@@ -67,7 +67,7 @@ const SelectItem = React.forwardRef<
   return (
     <RuiSelect.Item
       className={cx(
-        'text-sm rounded-sm flex items-center relative select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[highlighted]:bg-primary cursor-pointer py-1 pr-1 pl-7',
+        'text-sm rounded-sm flex items-center relative select-none ring-2 ring-transparent hover:ring-primary transition-all data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[highlighted]:bg-gray-50 cursor-pointer py-1 pr-1 pl-7',
         className,
       )}
       {...props}
