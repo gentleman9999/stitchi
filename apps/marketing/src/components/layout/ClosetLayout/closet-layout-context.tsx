@@ -132,7 +132,7 @@ const ClosetLayoutContextProvider = ({ children }: Props) => {
           ],
         },
         {
-          href: routes.internal.contact.href(),
+          href: routes.external.support.href(),
           label: 'Help',
           external: true,
           icon: <QuestionMarkCircleIcon className="w-4 h-4" />,
