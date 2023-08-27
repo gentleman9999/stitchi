@@ -64,10 +64,9 @@ const Carousel = ({ children }: Props) => {
   return (
     <div className="flex relative">
       <motion.div
-        className={cx(
-          'absolute left-4 h-full z-10 flex flex-col justify-center items-center pr-2',
-          { hidden: !hasPrev },
-        )}
+        className={cx('absolute left-4 top-[50%] bottom-[50%] pr-2', {
+          hidden: !hasPrev,
+        })}
       >
         <button
           className="rounded-full text-gray-900 bg-gray-50 p-2 drop-shadow-md border border-gray-100"
@@ -81,7 +80,7 @@ const Carousel = ({ children }: Props) => {
       </div>
       <motion.div
         className={cx(
-          'absolute right-4 h-full z-10 flex flex-col justify-center items-center pl-2',
+          'absolute right-4 top-[50%] bottom-[50%] z-10 flex flex-col justify-center items-center pl-2',
           { hidden: !hasNext },
         )}
       >

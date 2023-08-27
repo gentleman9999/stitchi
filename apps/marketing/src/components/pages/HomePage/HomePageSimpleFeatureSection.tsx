@@ -174,7 +174,7 @@ const HomePageSimpleFeatureSection = () => {
             }}
           >
             <Section gutter="md">
-              <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
+              <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
                 <div
                   className={cx({
                     'lg:order-2': index % 2 === 0,
@@ -203,7 +203,7 @@ const HomePageSimpleFeatureSection = () => {
                 </div>
 
                 <div className="mt-10 -mx-4 relative lg:mt-0">
-                  <svg
+                  {/* <svg
                     className="absolute left-1/2 transform -translate-x-1/2 translate-y-16 lg:hidden"
                     width={784}
                     height={404}
@@ -235,7 +235,7 @@ const HomePageSimpleFeatureSection = () => {
                       height={404}
                       fill="url(#e80155a9-dfde-425a-b5ea-1f6fadd20131)"
                     />
-                  </svg>
+                  </svg> */}
                   <div className="block items-center justify-center max-h-[490px] max-w-[600px] rounded-md bg-paper p-20">
                     <section.icon aria-hidden="true" />
                   </div>
