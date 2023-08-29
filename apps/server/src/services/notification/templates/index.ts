@@ -1,5 +1,6 @@
 import { DesignFactoryDesignRequest } from '../../design/factory'
 import { OrderFactoryOrder } from '../../order/factory'
+import React from 'react'
 import OrderCreatedUserTemplate from '../../../email-template-composer/emails/order-user-created'
 import { render } from '@react-email/render'
 import { User } from 'auth0'
@@ -36,7 +37,7 @@ type TMap = {
 const templateMap: TMap = {
   'order.confirmed.customer': {
     render: ({ order, recipient }) => {
-      const Template = OrderCreatedUserTemplate({
+      const template = OrderCreatedUserTemplate({
         order,
         recipient,
       })
@@ -44,8 +45,8 @@ const templateMap: TMap = {
       return {
         email: {
           subject: `Order #${order.humanId} confirmed`,
-          htmlBody: render(Template),
-          textBody: render(Template, {
+          htmlBody: render(template),
+          textBody: render(template, {
             plainText: true,
           }),
         },

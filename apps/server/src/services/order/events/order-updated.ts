@@ -1,9 +1,12 @@
-import { addMinutes } from 'date-fns'
 import {
   NotificationClientService,
   makeClient as makeNotificationServiceClient,
 } from '../../notification'
 import { NotificationChannelType } from '../../notification/db/notification-channel-table'
+import {
+  NotificationEventKey,
+  NotificationEventResource,
+} from '../../notification/db/notification-event-group-table'
 import { OrderRecordType } from '../db/order-table'
 import { OrderFactoryOrder } from '../factory'
 
@@ -55,20 +58,32 @@ const makeHandler =
               },
             })
 
+            const notificationEventGroup =
+              await notification.createNotificationEventGroup({
+                notificationEventGroup: {
+                  resourceId: nextOrder.id,
+                  resource: NotificationEventResource.ORDER,
+                  eventKey: NotificationEventKey.ORDER_CONFIRMED,
+                },
+              })
+
             await notification.createNotification({
               notification: {
                 organizationId: nextOrder.organizationId,
                 userId: nextOrder.userId,
-                notificationGroupId: '',
-                type: 'ORDER_CONFIRMED',
+                notificationEventGroupId: notificationEventGroup.id,
                 channels: [
                   {
-                    type: NotificationChannelType.EMAIL,
+                    channelType: NotificationChannelType.EMAIL,
                     htmlBody: customerTemplate.email.htmlBody,
                     textBody: customerTemplate.email.textBody,
                     recipientEmail: nextOrder.customerEmail,
                     recipientName: nextOrder.customerFirstName,
                     subject: customerTemplate.email.subject,
+                  },
+                  {
+                    channelType: NotificationChannelType.WEB,
+                    message: customerTemplate.web.message,
                   },
                 ],
               },
@@ -78,39 +93,6 @@ const makeHandler =
           }
         }
       }
-      // switch (nextOrder.type) {
-      //   case OrderRecordType.CONFIRMED: {
-      //     try {
-      //       const template = notification.renderNotificationTemplate({
-      //         id: 'customer.order.confirmed',
-      //         params: { order: nextOrder },
-      //       })
-      //       await notification.createNotification({
-      //         notification: {
-      //           organizationId: nextOrder.organizationId,
-      //           userId: nextOrder.userId,
-      //           sendAt: addMinutes(new Date(), 0),
-      //           sendStatus: 'NOT_SENT',
-      //           type: 'ORDER_CONFIRMED',
-      //           email: {
-      //             recipientEmail: nextOrder.customerEmail,
-      //             recipientName:
-      //               nextOrder.customerFirstName +
-      //               ' ' +
-      //               nextOrder.customerLastName,
-      //             subject: template.subject,
-      //             htmlBody: template.htmlBody,
-      //             textBody: '',
-      //           },
-      //         },
-      //       })
-      //     } catch (error) {
-      //       console.error(error)
-      //       throw new Error('Failed to create notification')
-      //     }
-      //     break
-      //   }
-      // }
     }
   }
 

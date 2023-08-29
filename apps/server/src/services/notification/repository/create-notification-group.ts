@@ -1,18 +1,18 @@
 import {
-  NotificationGroup,
-  NotificationGroupTable,
-  table as makeNotificationGroupTable,
-} from '../db/notification-group-table'
+  NotificationEventGroup,
+  NotificationEventGroupTable,
+  table as makeNotificationEventGroupTable,
+} from '../db/notification-event-group-table'
 
 import * as yup from 'yup'
 import { PrismaClient } from '@prisma/client'
 import {
-  notificationGroupFactory,
-  NotificationFactoryNotificationGroup,
-} from '../factory/notification-group'
+  notificationEventGroupFactory,
+  NotificationFactoryNotificationEventGroup,
+} from '../factory/notification-event-group'
 import { notificationFactory } from '../factory/notification'
 
-const inputSchema = NotificationGroup.omit([
+const inputSchema = NotificationEventGroup.omit([
   'id',
   'createdAt',
   'updatedAt',
@@ -20,37 +20,39 @@ const inputSchema = NotificationGroup.omit([
 
 const prisma = new PrismaClient()
 
-interface CreateNotificationGroupConfig {
-  notificationGroupTable: NotificationGroupTable
+interface CreateNotificationEventGroupConfig {
+  notificationEventGroupTable: NotificationEventGroupTable
 }
 
-export interface CreateNotificationGroupFnInput {
-  notificationGroup: yup.InferType<typeof inputSchema>
+export interface CreateNotificationEventGroupFnInput {
+  notificationEventGroup: yup.InferType<typeof inputSchema>
 }
 
-type CreateNotificationGroupFn = (
-  input: CreateNotificationGroupFnInput,
-) => Promise<NotificationFactoryNotificationGroup>
+type CreateNotificationEventGroupFn = (
+  input: CreateNotificationEventGroupFnInput,
+) => Promise<NotificationFactoryNotificationEventGroup>
 
-type MakeCreateNotificationGroupFn = (
-  config?: CreateNotificationGroupConfig,
-) => CreateNotificationGroupFn
+type MakeCreateNotificationEventGroupFn = (
+  config?: CreateNotificationEventGroupConfig,
+) => CreateNotificationEventGroupFn
 
-const makeCreateNotificationGroup: MakeCreateNotificationGroupFn =
+const makeCreateNotificationEventGroup: MakeCreateNotificationEventGroupFn =
   (
-    { notificationGroupTable } = {
-      notificationGroupTable: makeNotificationGroupTable(prisma),
+    { notificationEventGroupTable } = {
+      notificationEventGroupTable: makeNotificationEventGroupTable(prisma),
     },
   ) =>
   async input => {
-    const validInput = await inputSchema.validate(input.notificationGroup)
+    const validInput = await inputSchema.validate(input.notificationEventGroup)
 
-    let notificationGroup
+    let notificationEventGroup
 
     try {
-      notificationGroup = await notificationGroupTable.create({
+      notificationEventGroup = await notificationEventGroupTable.create({
         data: {
-          type: validInput.type,
+          resourceId: validInput.resourceId,
+          resource: validInput.resource,
+          eventKey: validInput.eventKey,
         },
         include: {
           notifications: {
@@ -59,7 +61,6 @@ const makeCreateNotificationGroup: MakeCreateNotificationGroupFn =
                 include: {
                   email: true,
                   web: true,
-                  sms: true,
                 },
               },
             },
@@ -68,20 +69,21 @@ const makeCreateNotificationGroup: MakeCreateNotificationGroupFn =
       })
     } catch (error) {
       console.error(error)
-      throw new Error('Failed to create notificationGroup')
+      throw new Error('Failed to create notificationEventGroup')
     }
 
-    const notifications = notificationGroup.notifications.map(notification =>
-      notificationFactory({
-        notificationRecord: notification,
-        channels: notification.notificationChannels,
-      }),
+    const notifications = notificationEventGroup.notifications.map(
+      notification =>
+        notificationFactory({
+          notificationRecord: notification,
+          channels: notification.notificationChannels,
+        }),
     )
 
-    return notificationGroupFactory({
+    return notificationEventGroupFactory({
       notifications,
-      notificationGroupRecord: notificationGroup,
+      notificationEventGroupRecord: notificationEventGroup,
     })
   }
 
-export { makeCreateNotificationGroup }
+export { makeCreateNotificationEventGroup }

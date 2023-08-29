@@ -4,6 +4,7 @@ import makeNotificationRepository, {
 import { makeClient as makeSendgridClient } from '../../sendgrid'
 import { getOrThrow } from '../../utils'
 import { makeServiceMethods, Methods } from './methods'
+import { NotificationChannelType } from './db/notification-channel-table'
 
 const replyTo = getOrThrow(
   process.env.NOTIFICATION_EMAIL_REPLY_TO,
@@ -15,7 +16,7 @@ export interface NotificationClientService {
   getNotification: NotificationRepository['getNotification']
   listNotifications: NotificationRepository['listNotifications']
 
-  createNotificationGroup: Methods['createNotificationGroup']
+  createNotificationEventGroup: NotificationRepository['createNotificationEventGroup']
 
   getNotificationTemplate: Methods['getNotificationTemplate']
 }
@@ -44,53 +45,53 @@ const makeClient: MakeClientFn = (
         })
 
         // TODO: Send notification (async)
+        for (const channel of notification.channels) {
+          switch (channel.channelType) {
+            case NotificationChannelType.EMAIL: {
+              console.info(`Sending email notification: ${notification.id}`, {
+                context: { notification, channel },
+              })
 
-        // if (notification.method === 'email') {
-        //   console.info(`Sending email notification: ${notification.id}`, {
-        //     context: { notification },
-        //   })
-
-        //   await sendgridClient.sendTransactionalEmail({
-        //     message: {
-        //       subject: notification.subject,
-        //       content: [
-        //         {
-        //           type: 'text/html',
-        //           value: notification.htmlBody,
-        //         },
-        //         ...(notification.textBody
-        //           ? ([
-        //               {
-        //                 type: 'text/plain',
-        //                 value: notification.textBody,
-        //               },
-        //             ] as const)
-        //           : []),
-        //       ],
-        //       sendAt: notification.sendAt
-        //         ? getUnixTime(notification.sendAt)
-        //         : undefined,
-        //       from: {
-        //         email: replyTo,
-        //         name: 'Stitchi',
-        //       },
-        //       replyTo: {
-        //         email: replyTo,
-        //         name: 'Stitchi',
-        //       },
-        //       personalizations: [
-        //         {
-        //           to: [
-        //             {
-        //               email: notification.recipientEmail,
-        //               name: notification.recipientName || undefined,
-        //             },
-        //           ],
-        //         },
-        //       ],
-        //     },
-        //   })
-        // }
+              await sendgridClient.sendTransactionalEmail({
+                message: {
+                  subject: channel.subject,
+                  content: [
+                    {
+                      type: 'text/html',
+                      value: channel.htmlBody,
+                    },
+                    ...(channel.textBody
+                      ? ([
+                          {
+                            type: 'text/plain',
+                            value: channel.textBody,
+                          },
+                        ] as const)
+                      : []),
+                  ],
+                  from: {
+                    email: replyTo,
+                    name: 'Stitchi',
+                  },
+                  replyTo: {
+                    email: replyTo,
+                    name: 'Stitchi',
+                  },
+                  personalizations: [
+                    {
+                      to: [
+                        {
+                          email: channel.recipientEmail,
+                          name: channel.recipientName || undefined,
+                        },
+                      ],
+                    },
+                  ],
+                },
+              })
+            }
+          }
+        }
 
         return notification
       } catch (error) {
@@ -123,14 +124,12 @@ const makeClient: MakeClientFn = (
       }
     },
 
-    createNotificationGroup: async (type, params) => {
+    createNotificationEventGroup: async input => {
       let notificationGroup
 
       try {
-        notificationGroup = await serviceMethods.createNotificationGroup(
-          type,
-          params,
-        )
+        notificationGroup =
+          await notificationRepository.createNotificationEventGroup(input)
       } catch (error) {
         throw new Error('Failed to create notification group')
       }

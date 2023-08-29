@@ -6,7 +6,6 @@ import * as yup from 'yup'
 
 export enum NotificationChannelType {
   EMAIL = 'EMAIL',
-  SMS = 'SMS',
   WEB = 'WEB',
 }
 
@@ -16,9 +15,9 @@ export const NotificationChannel: yup.ObjectSchema<NotificationChannelSchema> =
     .shape({
       id: yup.string().uuid().required(),
       notificationId: yup.string().uuid().required(),
-      childId: yup.string().uuid().required(),
+      channelId: yup.string().uuid().required(),
 
-      type: yup
+      channelType: yup
         .mixed<NotificationChannelType>()
         .oneOf(Object.values(NotificationChannelType))
         .required(),

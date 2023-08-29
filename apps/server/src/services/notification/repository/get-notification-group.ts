@@ -1,39 +1,39 @@
 import { PrismaClient } from '@prisma/client'
-import { NotificationGroupTable } from '../db/notification-group-table'
+import { NotificationEventGroupTable } from '../db/notification-event-group-table'
 import { notificationFactory } from '../factory/notification'
 import {
-  NotificationFactoryNotificationGroup,
-  notificationGroupFactory,
-} from '../factory/notification-group'
+  NotificationFactoryNotificationEventGroup,
+  notificationEventGroupFactory,
+} from '../factory/notification-event-group'
 
 const primsa = new PrismaClient()
 
-interface GetNotificationGroupConfig {
-  notificationGroupTable: NotificationGroupTable
+interface GetNotificationEventGroupConfig {
+  notificationEventGroupTable: NotificationEventGroupTable
 }
 
-export interface GetNotificationGroupFnInput {
-  notificationGroupId: string
+export interface GetNotificationEventGroupFnInput {
+  notificationEventGroupId: string
 }
 
-type GetNotificationGroupFn = (
-  input: GetNotificationGroupFnInput,
-) => Promise<NotificationFactoryNotificationGroup>
+type GetNotificationEventGroupFn = (
+  input: GetNotificationEventGroupFnInput,
+) => Promise<NotificationFactoryNotificationEventGroup>
 
-type MakeGetNotificationGroupFn = (
-  config?: GetNotificationGroupConfig,
-) => GetNotificationGroupFn
+type MakeGetNotificationEventGroupFn = (
+  config?: GetNotificationEventGroupConfig,
+) => GetNotificationEventGroupFn
 
-const makeGetNotificationGroup: MakeGetNotificationGroupFn =
+const makeGetNotificationEventGroup: MakeGetNotificationEventGroupFn =
   (
-    { notificationGroupTable } = {
-      notificationGroupTable: primsa.notificationGroup,
+    { notificationEventGroupTable } = {
+      notificationEventGroupTable: primsa.notificationEventGroup,
     },
   ) =>
   async input => {
-    const notificationGroup = await notificationGroupTable.findFirst({
+    const notificationEventGroup = await notificationEventGroupTable.findFirst({
       where: {
-        id: input.notificationGroupId,
+        id: input.notificationEventGroupId,
       },
       include: {
         notifications: {
@@ -41,7 +41,6 @@ const makeGetNotificationGroup: MakeGetNotificationGroupFn =
             notificationChannels: {
               include: {
                 email: true,
-                sms: true,
                 web: true,
               },
             },
@@ -50,21 +49,22 @@ const makeGetNotificationGroup: MakeGetNotificationGroupFn =
       },
     })
 
-    if (!notificationGroup) {
-      throw new Error(`NotificationGroup not found: ${input}`)
+    if (!notificationEventGroup) {
+      throw new Error(`NotificationEventGroup not found: ${input}`)
     }
 
-    const notifications = notificationGroup.notifications.map(notification =>
-      notificationFactory({
-        channels: notification.notificationChannels,
-        notificationRecord: notification,
-      }),
+    const notifications = notificationEventGroup.notifications.map(
+      notification =>
+        notificationFactory({
+          channels: notification.notificationChannels,
+          notificationRecord: notification,
+        }),
     )
 
-    return notificationGroupFactory({
+    return notificationEventGroupFactory({
       notifications,
-      notificationGroupRecord: notificationGroup,
+      notificationEventGroupRecord: notificationEventGroup,
     })
   }
 
-export { makeGetNotificationGroup }
+export { makeGetNotificationEventGroup }

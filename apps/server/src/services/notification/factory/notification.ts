@@ -1,6 +1,5 @@
 import { notEmpty } from '../../../utils'
 import { NotificationChannelEmailRecord } from '../db/notification-channel-email-table'
-import { NotificationChannelSmsRecord } from '../db/notification-channel-sms-table'
 import {
   NotificationChannelRecord,
   NotificationChannelType,
@@ -8,28 +7,21 @@ import {
 import { NotificationChannelWebRecord } from '../db/notification-channel-web-table'
 import { NotificationRecord } from '../db/notification-table'
 
-interface NotificationFactoryNotificationChannelSms
-  extends NotificationChannelSmsRecord {
-  type: NotificationChannelType.SMS
-}
-
 interface NotificationFactoryNotificationChannelEmail
   extends NotificationChannelEmailRecord {
-  type: NotificationChannelType.EMAIL
+  channelType: NotificationChannelType.EMAIL
 }
 
 interface NotificationFactoryNotificationChannelWeb
   extends NotificationChannelWebRecord {
-  type: NotificationChannelType.WEB
+  channelType: NotificationChannelType.WEB
 }
 
 export type NotificationFactoryNotificationChannel =
-  | NotificationFactoryNotificationChannelSms
   | NotificationFactoryNotificationChannelEmail
   | NotificationFactoryNotificationChannelWeb
 
 interface ExtendedNotificationChannelRecord extends NotificationChannelRecord {
-  sms?: NotificationChannelSmsRecord | null
   email?: NotificationChannelEmailRecord | null
   web?: NotificationChannelWebRecord | null
 }
@@ -47,17 +39,7 @@ const notificationFactory = ({
 }): NotificationFactoryNotification => {
   const serializedChannels = channels
     .map<NotificationFactoryNotificationChannel | null>(channel => {
-      switch (channel.type) {
-        case NotificationChannelType.SMS:
-          if (!channel.sms) {
-            return null
-          }
-
-          return {
-            id: channel.id,
-            type: NotificationChannelType.SMS,
-            message: channel.sms.message,
-          }
+      switch (channel.channelType) {
         case NotificationChannelType.EMAIL:
           if (!channel.email) {
             return null
@@ -65,7 +47,7 @@ const notificationFactory = ({
 
           return {
             id: channel.id,
-            type: NotificationChannelType.EMAIL,
+            channelType: NotificationChannelType.EMAIL,
             subject: channel.email.subject,
             htmlBody: channel.email.htmlBody,
             textBody: channel.email.textBody,
@@ -80,12 +62,14 @@ const notificationFactory = ({
 
           return {
             id: channel.id,
-            type: NotificationChannelType.WEB,
+            channelType: NotificationChannelType.WEB,
             message: channel.web.message,
           }
 
         default:
-          throw new Error(`Unknown notification channel type: ${channel.type}`)
+          throw new Error(
+            `Unknown notification channel channelType: ${channel.channelType}`,
+          )
       }
     })
     .filter(notEmpty)
@@ -94,10 +78,7 @@ const notificationFactory = ({
     id: notificationRecord.id,
     userId: notificationRecord.userId,
     organizationId: notificationRecord.organizationId,
-    notificationGroupId: notificationRecord.notificationGroupId,
-
-    type: notificationRecord.type,
-    sentAt: notificationRecord.sentAt,
+    notificationEventGroupId: notificationRecord.notificationEventGroupId,
 
     channels: serializedChannels,
 

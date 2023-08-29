@@ -10,7 +10,6 @@ import {
   notificationFactory,
   NotificationFactoryNotification,
 } from '../factory/notification'
-import { NotificationChannelSms } from '../db/notification-channel-sms-table'
 import { NotificationChannelEmail } from '../db/notification-channel-email-table'
 import { NotificationChannelWeb } from '../db/notification-channel-web-table'
 import {
@@ -18,33 +17,16 @@ import {
   NotificationChannelType,
 } from '../db/notification-channel-table'
 
-const smsNotificationSchema = NotificationChannel.omit([
-  'id',
-  'type',
-  'childId',
-  'notificationId',
-])
-  .concat(NotificationChannelSms.omit(['id']))
-  .concat(
-    yup.object().shape({
-      type: yup
-        .mixed<NotificationChannelType.SMS>()
-        .oneOf([NotificationChannelType.SMS])
-        .required(),
-    }),
-  )
-  .required()
-
 const emailNotificationSchema = NotificationChannel.omit([
   'id',
-  'type',
-  'childId',
+  'channelType',
+  'channelId',
   'notificationId',
 ])
   .concat(NotificationChannelEmail.omit(['id']))
   .concat(
     yup.object().shape({
-      type: yup
+      channelType: yup
         .mixed<NotificationChannelType.EMAIL>()
         .oneOf([NotificationChannelType.EMAIL])
         .required(),
@@ -54,14 +36,14 @@ const emailNotificationSchema = NotificationChannel.omit([
 
 const webNotificationSchema = NotificationChannel.omit([
   'id',
-  'type',
-  'childId',
+  'channelType',
+  'channelId',
   'notificationId',
 ])
   .concat(NotificationChannelWeb.omit(['id']))
   .concat(
     yup.object().shape({
-      type: yup
+      channelType: yup
         .mixed<NotificationChannelType.WEB>()
         .oneOf([NotificationChannelType.WEB])
         .required(),
@@ -70,7 +52,6 @@ const webNotificationSchema = NotificationChannel.omit([
   .required()
 
 type NotificationChannelSchemaType =
-  | yup.InferType<typeof smsNotificationSchema>
   | yup.InferType<typeof emailNotificationSchema>
   | yup.InferType<typeof webNotificationSchema>
 
@@ -80,9 +61,7 @@ const channelInputSchema = yup
     'dynamic object validation',
     'dynamic object validation error',
     object => {
-      switch (object?.type) {
-        case NotificationChannelType.SMS:
-          return smsNotificationSchema.isValidSync(object)
+      switch (object?.channelType) {
         case NotificationChannelType.EMAIL:
           return emailNotificationSchema.isValidSync(object)
         case NotificationChannelType.WEB:
@@ -97,12 +76,7 @@ export type CreateNotificationChannelInput = yup.InferType<
   typeof channelInputSchema
 >
 
-const inputSchema = Notification.omit([
-  'id',
-  'createdAt',
-  'updatedAt',
-  'sentAt',
-]).concat(
+const inputSchema = Notification.omit(['id', 'createdAt', 'updatedAt']).concat(
   yup.object().shape({
     channels: yup.array().of(channelInputSchema.required()).required(),
   }),
@@ -140,24 +114,13 @@ const makeCreateNotification: MakeCreateNotificationFn =
     try {
       notification = await notificationTable.create({
         data: {
-          type: validInput.type,
           userId: validInput.userId,
           organizationId: validInput.organizationId,
-          notificationGroupId: validInput.notificationGroupId,
-          sentAt: null,
+          notificationEventGroupId: validInput.notificationEventGroupId,
           notificationChannels: {
             create: validInput.channels.map(channel => ({
-              type: channel.type,
-              ...(channel.type === NotificationChannelType.SMS
-                ? {
-                    sms: {
-                      create: {
-                        message: channel.message,
-                      },
-                    },
-                  }
-                : {}),
-              ...(channel.type === NotificationChannelType.EMAIL
+              channelType: channel.channelType,
+              ...(channel.channelType === NotificationChannelType.EMAIL
                 ? {
                     email: {
                       create: {
@@ -170,7 +133,7 @@ const makeCreateNotification: MakeCreateNotificationFn =
                     },
                   }
                 : {}),
-              ...(channel.type === NotificationChannelType.WEB
+              ...(channel.channelType === NotificationChannelType.WEB
                 ? {
                     web: {
                       create: {
@@ -186,7 +149,6 @@ const makeCreateNotification: MakeCreateNotificationFn =
           notificationChannels: {
             include: {
               email: true,
-              sms: true,
               web: true,
             },
           },

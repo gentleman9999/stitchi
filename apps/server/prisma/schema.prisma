@@ -753,61 +753,46 @@ model MailingAddress {
 model Notification {
   id String @id @default(uuid())
 
-  // The user that this notification belongs to
+  // The user that this notification belongs to. This is nullable in the event we send a notification to a non-authenticated user.
   userId String?
 
-  // The organization that this notification belongs to
+  // The organization that this notification belongs to. This is nullable in the event we send a notification to a non-authenticated user.
   organizationId String?
 
-  notificationGroupId String?
-
-  sentAt DateTime?
-
-  // The type of notification
-  type NotificationType
-
-  // The status of the notification
+  // All notifications must belong to a notification group even if the group only has a single notification.
+  notificationEventGroupId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  notificationGroup    NotificationGroup?    @relation(fields: [notificationGroupId], references: [id])
-  notificationChannels NotificationChannel[]
-  organization         Organization?         @relation(fields: [organizationId], references: [id])
+  notificationEventGroup NotificationEventGroup @relation(fields: [notificationEventGroupId], references: [id], onDelete: Cascade)
+  notificationChannels   NotificationChannel[]
+  organization           Organization?          @relation(fields: [organizationId], references: [id])
 
   @@index([userId])
   @@index([organizationId])
-  @@index([notificationGroupId])
+  @@index([notificationEventGroupId])
 }
 
 model NotificationChannel {
   id String @id @default(uuid())
 
   notificationId String
-  childId        String @unique
 
-  type NotificationChannelType
+  channelType NotificationChannelType
+  channelId   String                  @unique
 
-  notification Notification              @relation(fields: [notificationId], references: [id])
-  sms          NotificationChannelSms?   @relation(fields: [childId], references: [id], map: "sms_childId")
-  email        NotificationChannelEmail? @relation(fields: [childId], references: [id], map: "email_childId")
-  web          NotificationChannelWeb?   @relation(fields: [childId], references: [id], map: "web_childId")
+  notification Notification              @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  email        NotificationChannelEmail? @relation(fields: [channelId], references: [id], map: "email_channelId", onDelete: Cascade)
+  web          NotificationChannelWeb?   @relation(fields: [channelId], references: [id], map: "web_channelId", onDelete: Cascade)
 
-  @@unique([notificationId, type])
-  @@index([childId])
+  @@unique([notificationId, channelType])
+  @@index([channelId])
 }
 
 enum NotificationChannelType {
-  SMS
   EMAIL
   WEB
-}
-
-model NotificationChannelSms {
-  id String @id @default(uuid())
-
-  message             String               @db.Text
-  notificationChannel NotificationChannel?
 }
 
 model NotificationChannelEmail {
@@ -829,20 +814,29 @@ model NotificationChannelWeb {
   notificationChannel NotificationChannel?
 }
 
-enum NotificationType {
-  ORDER_CONFIRMED
-  DESIGN_REQUEST_SUBMITTED
-}
+model NotificationEventGroup {
+  // NotificationGroup is a group of notifications that are sent to different recipients (users, subscribers, admins, etc..) for a single event.
 
-model NotificationGroup {
   id String @id @default(uuid())
 
-  type NotificationType
+  // Every notification event group must belong to a resource
+  resource   NotificationEventResource
+  resourceId String
+
+  eventKey NotificationEventKey
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   notifications Notification[]
+}
+
+enum NotificationEventResource {
+  ORDER
+}
+
+enum NotificationEventKey {
+  ORDER_CONFIRMED
 }
 
 model Conversation {
