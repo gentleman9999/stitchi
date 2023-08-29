@@ -1,28 +1,30 @@
-import { makeTemplates, Templates } from '../templates'
+import { makeTemplateMap, TemplateMap } from '../templates'
 
-export type NotificationTemplateId = keyof Templates
+export type NotificationTemplateKey = keyof TemplateMap
 
-export type GetNotificationTemplateFn = (
-  id: NotificationTemplateId,
-) => Templates[typeof id]
+export type GetNotificationTemplateFn = <T extends NotificationTemplateKey>(
+  id: T,
+) => TemplateMap[T]
 
-const makeMethod =
+type MakeMethodFn = (params?: {
+  templateMap: TemplateMap
+}) => GetNotificationTemplateFn
+
+const makeMethod: MakeMethodFn =
   (
     {
-      templates,
+      templateMap,
     }: {
-      templates: Templates
+      templateMap: TemplateMap
     } = {
-      templates: makeTemplates(),
+      templateMap: makeTemplateMap(),
     },
-  ): GetNotificationTemplateFn =>
-  notificationTemplateId => {
-    const template = templates[notificationTemplateId]
+  ) =>
+  templateKey => {
+    const template = templateMap[templateKey]
 
     if (!template) {
-      throw new Error(
-        `Unknown notification template: ${notificationTemplateId}`,
-      )
+      throw new Error('Failed to get notification template')
     }
 
     return template

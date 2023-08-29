@@ -3,6 +3,7 @@ import {
   NotificationClientService,
   makeClient as makeNotificationServiceClient,
 } from '../../notification'
+import { NotificationChannelType } from '../../notification/db/notification-channel-table'
 import { OrderRecordType } from '../db/order-table'
 import { OrderFactoryOrder } from '../factory'
 
@@ -34,12 +35,43 @@ const makeHandler =
       switch (nextOrder.type) {
         case OrderRecordType.CONFIRMED: {
           try {
-            const customerTemplate = notification.getNotificationTemplate(
-              'order.confirmed.customer',
-            )
+            const customerTemplateRenderer =
+              notification.getNotificationTemplate('order.confirmed.customer')
 
-            customerTemplate.render({
-              order: nextOrder,
+            const customerTemplate = customerTemplateRenderer.render({
+              order: {
+                id: nextOrder.id,
+                humanId: nextOrder.humanReadableId,
+                lineItems: nextOrder.items.map(item => ({
+                  name: item.title,
+                  priceCents: item.unitPriceCents,
+                  quantity: item.quantity,
+                  description: '',
+                  imgSrc: '',
+                })),
+              },
+              recipient: {
+                name: nextOrder.customerFirstName || nextOrder.customerEmail,
+              },
+            })
+
+            await notification.createNotification({
+              notification: {
+                organizationId: nextOrder.organizationId,
+                userId: nextOrder.userId,
+                notificationGroupId: '',
+                type: 'ORDER_CONFIRMED',
+                channels: [
+                  {
+                    type: NotificationChannelType.EMAIL,
+                    htmlBody: customerTemplate.email.htmlBody,
+                    textBody: customerTemplate.email.textBody,
+                    recipientEmail: nextOrder.customerEmail,
+                    recipientName: nextOrder.customerFirstName,
+                    subject: customerTemplate.email.subject,
+                  },
+                ],
+              },
             })
           } catch {
             throw new Error('Failed to create notification')

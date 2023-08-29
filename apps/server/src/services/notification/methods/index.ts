@@ -3,18 +3,15 @@ import {
   makeMethod as makeCreateNotificationGroupMethod,
 } from './create-notification-group'
 
-import {
-  makeMethod as makeGetNotificationTemplateMethod,
-  GetNotificationTemplateFn,
-} from './get-notification-template'
+import { makeMethod as makeGetNotificationTemplateMethod } from './get-notification-template'
 
 export interface Methods {
   createNotificationGroup: CreateNotificationGroupFn
 
-  getNotificationTemplate: GetNotificationTemplateFn
+  getNotificationTemplate: ReturnType<typeof makeGetNotificationTemplateMethod>
 }
 
-interface MakeServiceMethodsParams<> {}
+interface MakeServiceMethodsParams {}
 
 type MakeServiceMethodsFn = (params?: MakeServiceMethodsParams) => Methods
 
