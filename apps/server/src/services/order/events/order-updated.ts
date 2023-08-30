@@ -6,7 +6,7 @@ import { NotificationChannelType } from '../../notification/db/notification-chan
 import {
   NotificationEventKey,
   NotificationEventResource,
-} from '../../notification/db/notification-event-group-table'
+} from '../../notification/db/notification-event-table'
 import { OrderRecordType } from '../db/order-table'
 import { OrderFactoryOrder } from '../factory'
 
@@ -33,8 +33,6 @@ const makeHandler =
     if (!nextOrder.customerEmail) return
 
     if (prevOrder.type !== nextOrder.type) {
-      console.error('TODO: Implement order updated notification template')
-
       switch (nextOrder.type) {
         case OrderRecordType.CONFIRMED: {
           try {
@@ -72,6 +70,9 @@ const makeHandler =
                 organizationId: nextOrder.organizationId,
                 userId: nextOrder.userId,
                 notificationEventGroupId: notificationEventGroup.id,
+                eventKey: notificationEventGroup.eventKey,
+                resourceId: notificationEventGroup.resourceId,
+                resource: notificationEventGroup.resource,
                 channels: [
                   {
                     channelType: NotificationChannelType.EMAIL,
@@ -89,7 +90,7 @@ const makeHandler =
               },
             })
           } catch {
-            throw new Error('Failed to create notification')
+            throw new Error('Failed to create order confirmed notification')
           }
         }
       }

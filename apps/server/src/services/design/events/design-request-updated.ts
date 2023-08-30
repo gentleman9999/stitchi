@@ -6,7 +6,7 @@ import {
   NotificationClientService,
   makeClient as makeNotificationClientServiceClient,
 } from '../../notification'
-import { NotificationRecordType } from '../../notification/db/notification-table'
+// import { NotificationRecordType } from '../../notification/db/notification-table'
 import { DesignRequestStatus } from '../db/design-request-table'
 import { DesignFactoryDesignRequest } from '../factory'
 
@@ -84,20 +84,20 @@ const makeHandler =
       prevDesignRequest.status !== DesignRequestStatus.SUBMITTED &&
       nextDesignRequest.status === DesignRequestStatus.SUBMITTED
     ) {
-      try {
-        await notificationClient.createNotificationGroup(
-          NotificationRecordType.DESIGN_REQUEST_SUBMITTED,
-          { designRequest: nextDesignRequest },
-        )
-      } catch (error) {
-        console.error('Failed to create notificationg group', {
-          context: {
-            error,
-            designRequest: nextDesignRequest,
-          },
-        })
-        throw new Error('Failed to create notification group')
-      }
+      // try {
+      //   await notificationClient.createNotificationGroup(
+      //     NotificationRecordType.DESIGN_REQUEST_SUBMITTED,
+      //     { designRequest: nextDesignRequest },
+      //   )
+      // } catch (error) {
+      //   console.error('Failed to create notification group', {
+      //     context: {
+      //       error,
+      //       designRequest: nextDesignRequest,
+      //     },
+      //   })
+      //   throw new Error('Failed to create notification group')
+      // }
     }
   }
 

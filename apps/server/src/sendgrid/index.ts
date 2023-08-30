@@ -116,44 +116,54 @@ const makeClient = (
     sendTransactionalEmail: async input => {
       const message = messageSchema.validateSync(input.message)
 
-      await sendgrid.request(
-        {
-          url: `/v3/mail/send`,
-          method: 'POST',
-          body: JSON.stringify({
-            personalizations: message.personalizations.map(personalization => ({
-              to: personalization.to.map(to => ({
-                email: to.email,
-                name: to.name,
-              })),
-            })),
-            from: {
-              email: message.from.email,
-              name: message.from.name,
-            },
-            reply_to: message.replyTo
-              ? {
-                  email: message.replyTo.email,
-                  name: message.replyTo.name,
-                }
-              : undefined,
-            content: message.content,
-            send_at: message.sendAt,
-            subject: message.subject,
-          }),
-        },
-        (error, response) => {
-          if (error) {
-            console.error('Error sending email to SendGrid', {
-              context: { error },
-            })
+      try {
+        await sendgrid.request(
+          {
+            url: `/v3/mail/send`,
+            method: 'POST',
+            body: JSON.stringify({
+              personalizations: message.personalizations.map(
+                personalization => ({
+                  to: personalization.to.map(to => ({
+                    email: to.email,
+                    name: to.name,
+                  })),
+                }),
+              ),
+              from: {
+                email: message.from.email,
+                name: message.from.name,
+              },
+              reply_to: message.replyTo
+                ? {
+                    email: message.replyTo.email,
+                    name: message.replyTo.name,
+                  }
+                : undefined,
+              content: message.content,
+              send_at: message.sendAt,
+              subject: message.subject,
+            }),
+          },
+          (error, response) => {
+            if (error) {
+              console.error('Error sending email to SendGrid', {
+                context: { error },
+              })
 
-            return
-          } else {
-            return response
-          }
-        },
-      )
+              return
+            } else {
+              return response
+            }
+          },
+        )
+      } catch (error) {
+        console.error('Failed to send Sendgrid transactional email', {
+          context: { error, input },
+        })
+
+        throw new Error('Failed to send Sendgrid transactional email')
+      }
     },
     addMarketingContacts: async input => {
       const contacts = input.contacts.map(contact => {

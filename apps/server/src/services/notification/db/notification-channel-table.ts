@@ -9,20 +9,24 @@ export enum NotificationChannelType {
   WEB = 'WEB',
 }
 
-export const NotificationChannel: yup.ObjectSchema<NotificationChannelSchema> =
-  yup
-    .object()
-    .shape({
-      id: yup.string().uuid().required(),
-      notificationId: yup.string().uuid().required(),
-      channelId: yup.string().uuid().required(),
+interface NotificationChannel
+  extends Omit<NotificationChannelSchema, 'channelType'> {
+  channelType: NotificationChannelType
+}
 
-      channelType: yup
-        .mixed<NotificationChannelType>()
-        .oneOf(Object.values(NotificationChannelType))
-        .required(),
-    })
-    .label('Notification Channel')
+export const NotificationChannel: yup.ObjectSchema<NotificationChannel> = yup
+  .object()
+  .shape({
+    id: yup.string().uuid().required(),
+    notificationId: yup.string().uuid().required(),
+    channelId: yup.string().uuid().required(),
+
+    channelType: yup
+      .mixed<NotificationChannelType>()
+      .oneOf(Object.values(NotificationChannelType))
+      .required(),
+  })
+  .label('Notification Channel')
 
 export type NotificationChannelRecord = yup.Asserts<typeof NotificationChannel>
 

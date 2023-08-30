@@ -56,10 +56,7 @@ const makeClient: MakeClientFn = (
                 message: {
                   subject: channel.subject,
                   content: [
-                    {
-                      type: 'text/html',
-                      value: channel.htmlBody,
-                    },
+                    // text/plain must be first
                     ...(channel.textBody
                       ? ([
                           {
@@ -68,6 +65,11 @@ const makeClient: MakeClientFn = (
                           },
                         ] as const)
                       : []),
+                    // followed by text/html
+                    {
+                      type: 'text/html',
+                      value: channel.htmlBody,
+                    },
                   ],
                   from: {
                     email: replyTo,
@@ -95,7 +97,6 @@ const makeClient: MakeClientFn = (
 
         return notification
       } catch (error) {
-        console.error(error)
         throw new Error('Failed to create notification')
       }
     },
@@ -131,7 +132,7 @@ const makeClient: MakeClientFn = (
         notificationGroup =
           await notificationRepository.createNotificationEventGroup(input)
       } catch (error) {
-        throw new Error('Failed to create notification group')
+        throw new Error('Failed to create notificationEventGroup')
       }
 
       return notificationGroup

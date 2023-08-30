@@ -3,13 +3,15 @@ import {
   NotificationEventGroup as NotificationEventGroupSchema,
 } from '@prisma/client'
 import * as yup from 'yup'
+import {
+  NotificationEventKey,
+  NotificationEventResource,
+} from './notification-event-table'
 
-export enum NotificationEventResource {
-  ORDER = 'ORDER',
-}
-
-export enum NotificationEventKey {
-  ORDER_CONFIRMED = 'ORDER_CONFIRMED',
+interface NotificationEventGroup
+  extends Omit<NotificationEventGroupSchema, 'resource' | 'eventKey'> {
+  resource: NotificationEventResource
+  eventKey: NotificationEventKey
 }
 
 export const NotificationEventGroup: yup.ObjectSchema<NotificationEventGroupSchema> =

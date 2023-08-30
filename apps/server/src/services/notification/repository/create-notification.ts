@@ -107,7 +107,16 @@ const makeCreateNotification: MakeCreateNotificationFn =
     },
   ) =>
   async input => {
-    const validInput = await inputSchema.validate(input.notification)
+    let validInput
+
+    try {
+      validInput = await inputSchema.validate(input.notification)
+    } catch (error) {
+      console.error(`Failed to validate input`, {
+        context: { error },
+      })
+      throw new Error('Failed to validate input')
+    }
 
     let notification
 
@@ -117,6 +126,9 @@ const makeCreateNotification: MakeCreateNotificationFn =
           userId: validInput.userId,
           organizationId: validInput.organizationId,
           notificationEventGroupId: validInput.notificationEventGroupId,
+          eventKey: validInput.eventKey,
+          resourceId: validInput.resourceId,
+          resource: validInput.resource,
           notificationChannels: {
             create: validInput.channels.map(channel => ({
               channelType: channel.channelType,
@@ -156,7 +168,7 @@ const makeCreateNotification: MakeCreateNotificationFn =
       })
     } catch (error) {
       console.error(error)
-      throw new Error('Failed to create notification')
+      throw error
     }
 
     return notificationFactory({

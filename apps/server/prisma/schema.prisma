@@ -762,6 +762,12 @@ model Notification {
   // All notifications must belong to a notification group even if the group only has a single notification.
   notificationEventGroupId String
 
+  // Every notification event group must belong to a resource
+  resource   NotificationEventResource
+  resourceId String
+
+  eventKey NotificationEventKey
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -772,6 +778,7 @@ model Notification {
   @@index([userId])
   @@index([organizationId])
   @@index([notificationEventGroupId])
+  @@index([resourceId])
 }
 
 model NotificationChannel {

@@ -5,14 +5,15 @@ import {
   NotificationChannelType,
 } from '../db/notification-channel-table'
 import { NotificationChannelWebRecord } from '../db/notification-channel-web-table'
+import { NotificationEventResource } from '../db/notification-event-table'
 import { NotificationRecord } from '../db/notification-table'
 
-interface NotificationFactoryNotificationChannelEmail
+export interface NotificationFactoryNotificationChannelEmail
   extends NotificationChannelEmailRecord {
   channelType: NotificationChannelType.EMAIL
 }
 
-interface NotificationFactoryNotificationChannelWeb
+export interface NotificationFactoryNotificationChannelWeb
   extends NotificationChannelWebRecord {
   channelType: NotificationChannelType.WEB
 }
@@ -28,6 +29,7 @@ interface ExtendedNotificationChannelRecord extends NotificationChannelRecord {
 
 export interface NotificationFactoryNotification extends NotificationRecord {
   channels: NotificationFactoryNotificationChannel[]
+  resource: NotificationEventResource
 }
 
 const notificationFactory = ({
@@ -81,6 +83,10 @@ const notificationFactory = ({
     notificationEventGroupId: notificationRecord.notificationEventGroupId,
 
     channels: serializedChannels,
+
+    resourceId: notificationRecord.resourceId,
+    resource: notificationRecord.resource,
+    eventKey: notificationRecord.eventKey,
 
     createdAt: notificationRecord.createdAt,
     updatedAt: notificationRecord.updatedAt,

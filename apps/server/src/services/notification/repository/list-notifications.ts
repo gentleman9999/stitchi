@@ -38,7 +38,6 @@ const makeListNotifications: MakeListNotificationsFn =
           notificationChannels: {
             include: {
               email: true,
-              sms: true,
               web: true,
             },
           },

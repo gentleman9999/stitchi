@@ -24,7 +24,7 @@ const orderFactory = ({
 }): OrderFactoryOrder => {
   return {
     ...orderRecord,
-    orderUrl: `${applicationHost}/api/orders/${orderRecord.id}`,
+    orderUrl: `${applicationHost}/orders/${orderRecord.id}`,
     items: orderItemRecords,
   }
 }

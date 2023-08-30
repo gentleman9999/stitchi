@@ -37,21 +37,23 @@ type TMap = {
 const templateMap: TMap = {
   'order.confirmed.customer': {
     render: ({ order, recipient }) => {
-      const template = OrderCreatedUserTemplate({
-        order,
-        recipient,
-      })
+      // const template = OrderCreatedUserTemplate({
+      //   order,
+      //   recipient,
+      // })
 
       return {
         email: {
           subject: `Order #${order.humanId} confirmed`,
-          htmlBody: render(template),
-          textBody: render(template, {
-            plainText: true,
-          }),
+          htmlBody: 'Email body',
+          textBody: 'Text body',
+          // htmlBody: render(template),
+          // textBody: render(template, {
+          //   plainText: true,
+          // }),
         },
         web: {
-          message: '',
+          message: `Order #${order.humanId} confirmed`,
         },
       }
     },

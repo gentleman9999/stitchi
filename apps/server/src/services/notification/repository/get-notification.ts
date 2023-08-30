@@ -34,7 +34,6 @@ const makeGetNotification: MakeGetNotificationFn =
         notificationChannels: {
           include: {
             email: true,
-            sms: true,
             web: true,
           },
         },
