@@ -23,9 +23,11 @@ export const OrganizationExtendsUser = extendType({
             },
           })
         } catch (error) {
-          console.error('Unable to fetch organizations', {
-            context: { error, user },
-          })
+          ctx.logger
+            .child({
+              context: { error, user },
+            })
+            .error('Unable to fetch organizations')
           throw new GraphQLError('Unable to fetch organizations')
         }
 
@@ -48,9 +50,11 @@ export const OrganizationExtendsMembership = extendType({
             organizationId: membership.organizationId,
           })
         } catch (error) {
-          console.error('Unable to fetch organization', {
-            context: { error, membership },
-          })
+          ctx.logger
+            .child({
+              context: { error, membership },
+            })
+            .error('Unable to fetch organization')
           throw new GraphQLError('Unable to fetch organization')
         }
 

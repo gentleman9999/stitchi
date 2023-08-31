@@ -1,6 +1,5 @@
 import { GraphQLError } from 'graphql'
 import { inputObjectType, mutationField, nonNull, objectType } from 'nexus'
-import { logger } from '../../../telemetry'
 import { notEmpty } from '../../../utils'
 import { designRequestFactoryToGrahpql } from '../../serializers/design'
 
@@ -39,7 +38,7 @@ export const designRequestDesignLocationCreate = mutationField(
           designRequestId: input.designRequestId,
         })
       } catch (error) {
-        logger.error(error)
+        ctx.logger.error(error)
         throw new GraphQLError('Design request not found')
       }
 
@@ -69,7 +68,7 @@ export const designRequestDesignLocationCreate = mutationField(
           },
         })
       } catch (error) {
-        logger.error(error)
+        ctx.logger.error(error)
         throw new GraphQLError('Unable to create design location')
       }
 
@@ -128,7 +127,7 @@ export const designRequestDesignLocationUpdate = mutationField(
           designRequestId: input.designRequestId,
         })
       } catch (error) {
-        logger.error(error)
+        ctx.logger.error(error)
         throw new GraphQLError('Design request not found')
       }
 
@@ -160,7 +159,7 @@ export const designRequestDesignLocationUpdate = mutationField(
           },
         })
       } catch (error) {
-        logger.error(error)
+        ctx.logger.error(error)
         throw new GraphQLError('Unable to update design location')
       }
 
@@ -215,7 +214,7 @@ export const designRequestDesignLocationDelete = mutationField(
           designRequestId: input.designRequestId,
         })
       } catch (error) {
-        logger.error(error)
+        ctx.logger.error(error)
         throw new GraphQLError('Design request not found')
       }
 
@@ -238,7 +237,7 @@ export const designRequestDesignLocationDelete = mutationField(
           },
         })
       } catch (error) {
-        logger.error(error)
+        ctx.logger.error(error)
         throw new GraphQLError('Unable to delete design location')
       }
 

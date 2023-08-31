@@ -14,9 +14,11 @@ export const viewer = queryField('viewer', {
         membershipId: ctx.membershipId,
       })
     } catch (error) {
-      console.error("Failed to get user's membership", {
-        context: { error, userId: ctx.userId },
-      })
+      ctx.logger
+        .child({
+          context: { error, userId: ctx.userId },
+        })
+        .error("Failed to get user's membership")
       throw new GraphQLError('Failed to get user membership')
     }
 

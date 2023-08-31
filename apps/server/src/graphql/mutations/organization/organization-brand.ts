@@ -58,9 +58,11 @@ export const organizationBrandFileCreateBatch = mutationField(
 
           newOrganizationFileIds.push(newFile.id)
         } catch (error) {
-          console.error('Unable to create file', {
-            context: { error, input },
-          })
+          ctx.logger
+            .child({
+              context: { error, input },
+            })
+            .error('Unable to create file')
           throw new GraphQLError('Unable to create file')
         }
       }
@@ -74,9 +76,11 @@ export const organizationBrandFileCreateBatch = mutationField(
           },
         })
       } catch (error) {
-        console.error('Unable to fetch files', {
-          context: { error, input },
-        })
+        ctx.logger
+          .child({
+            context: { error, input },
+          })
+          .error('Unable to fetch files')
         throw new GraphQLError('Unable to fetch files')
       }
 
@@ -131,9 +135,11 @@ export const brandFileDeleteBatch = mutationField(
           },
         })
       } catch (error) {
-        console.error('Unable to fetch files', {
-          context: { error, input },
-        })
+        ctx.logger
+          .child({
+            context: { error, input },
+          })
+          .error('Unable to fetch files')
         throw new GraphQLError('Unable to fetch files')
       }
 
@@ -146,9 +152,11 @@ export const brandFileDeleteBatch = mutationField(
           },
         })
       } catch (error) {
-        console.error('Unable to fetch organization files', {
-          context: { error, input },
-        })
+        ctx.logger
+          .child({
+            context: { error, input },
+          })
+          .error('Unable to fetch organization files')
         throw new GraphQLError('Unable to fetch organization files')
       }
 
@@ -158,9 +166,11 @@ export const brandFileDeleteBatch = mutationField(
             organizationFileId: organizationFile.id,
           })
         } catch (error) {
-          console.error('Unable to delete file', {
-            context: { error, input },
-          })
+          ctx.logger
+            .child({
+              context: { error, input },
+            })
+            .error('Unable to delete file')
           throw new GraphQLError('Unable to delete file')
         }
       }
@@ -231,9 +241,11 @@ export const organizationBrandColorCreate = mutationField(
           },
         })
       } catch (error) {
-        console.error('Unable to create color', {
-          context: { error, input },
-        })
+        ctx.logger
+          .child({
+            context: { error, input },
+          })
+          .error('Unable to create color')
         throw new GraphQLError('Unable to create color')
       }
 
@@ -304,9 +316,11 @@ export const organizationBrandColorUpdate = mutationField(
           },
         })
       } catch (error) {
-        console.error('Unable to update color', {
-          context: { error, input },
-        })
+        ctx.logger
+          .child({
+            context: { error, input },
+          })
+          .error('Unable to update color')
         throw new GraphQLError('Unable to update color')
       }
 
@@ -360,9 +374,11 @@ export const organizationBrandColorDelete = mutationField(
           colorId: input.colorId,
         })
       } catch (error) {
-        console.error('Unable to delete color', {
-          context: { error, input },
-        })
+        ctx.logger
+          .child({
+            context: { error, input },
+          })
+          .error('Unable to delete color')
         throw new GraphQLError('Unable to delete color')
       }
 

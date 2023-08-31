@@ -15,9 +15,11 @@ export const ColorExtendsOrganizationBrand = extendType({
             organizationId: parent.organizationId,
           })
         } catch (error) {
-          console.error(`Failed to get organization colors`, {
-            context: { error, organizationBrand: parent },
-          })
+          context.logger
+            .child({
+              context: { error, organizationBrand: parent },
+            })
+            .error(`Failed to get organization colors`)
           throw new GraphQLError('Failed to get organization colors')
         }
 

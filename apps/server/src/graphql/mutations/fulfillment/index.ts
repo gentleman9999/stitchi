@@ -32,9 +32,7 @@ export const fulfillmentCreate = mutationField('fulfillmentCreate', {
     try {
       order = await ctx.order.getOrder({ orderId: input.orderId })
     } catch (error) {
-      console.error(`Failed to get order`, {
-        context: { error },
-      })
+      ctx.logger.child({ context: { error } }).error(`Failed to get order`)
       throw new GraphQLError('Failed to get order')
     }
 
@@ -55,9 +53,9 @@ export const fulfillmentCreate = mutationField('fulfillmentCreate', {
         },
       })
     } catch (error) {
-      console.error(`Failed to create fulfillment`, {
-        context: { error },
-      })
+      ctx.logger
+        .child({ context: { error } })
+        .error(`Failed to create fulfillment`)
       throw new GraphQLError('Failed to create fulfillment')
     }
 

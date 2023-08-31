@@ -17,7 +17,6 @@ import {
 import * as uuid from 'uuid'
 import { Prisma } from '@prisma/client'
 import { GraphQLError } from 'graphql'
-import { logger } from '../../../telemetry'
 
 export const designRequest = queryField('designRequest', {
   type: 'DesignRequest',
@@ -201,7 +200,7 @@ export const ExtendDesignRequests = extendType({
 
           designRequest = designRequestFactoryToGrahpql(response)
         } catch (error) {
-          logger.error(error)
+          ctx.logger.error(error)
           throw new GraphQLError('Failed to get design request')
         }
 
@@ -230,7 +229,7 @@ export const ExtendDesignRequests = extendType({
 
           proofs = response.map(designProofFactoryToGraphql)
         } catch (error) {
-          logger.error(error)
+          ctx.logger.error(error)
           throw new GraphQLError('Failed to get proofs')
         }
 
@@ -247,7 +246,7 @@ export const ExtendDesignRequests = extendType({
               viewerId: ctx.userId,
             })
           } catch (error) {
-            logger.error(error)
+            ctx.logger.error(error)
             throw new GraphQLError('Failed to get conversation')
           }
         }

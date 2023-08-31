@@ -18,9 +18,11 @@ export const MembershipExtendsOrganization = extendType({
             where: { organizationId: organization.id },
           })
         } catch (error) {
-          console.error('Unable to fetch memberships', {
-            context: { error, organization },
-          })
+          ctx.logger
+            .child({
+              context: { error, organization },
+            })
+            .error('Unable to fetch memberships')
           throw new Error('Unable to fetch memberships')
         }
 

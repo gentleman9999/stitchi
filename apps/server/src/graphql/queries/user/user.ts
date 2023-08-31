@@ -22,11 +22,13 @@ export const userMemberships = extendType({
             where: { userId },
           })
         } catch (error) {
-          console.error(`Error listing memberships`, {
-            context: {
-              error,
-            },
-          })
+          ctx.logger
+            .child({
+              context: {
+                error,
+              },
+            })
+            .error(`Error listing memberships`)
           throw error
         }
 
@@ -51,7 +53,7 @@ export const UserExtendsConversationMessage = extendType({
             id: coversationMessage.senderUserId,
           })
         } catch (error) {
-          console.error(error)
+          ctx.logger.error(error)
           throw new GraphQLError('Unable to fetch user')
         }
 
@@ -72,7 +74,7 @@ export const UserExtendsMembership = extendType({
         try {
           user = await ctx.user.getUser({ id: membership.userId })
         } catch (error) {
-          console.error(error)
+          ctx.logger.error(error)
           throw new GraphQLError('Unable to fetch user')
         }
 
@@ -98,7 +100,7 @@ export const UserExtendsDesignRequestHistoryItemDesignRequestEvent = extendType(
               id: designRequestHistoryItemDesignRequestEvent.userId,
             })
           } catch (error) {
-            console.error(error)
+            ctx.logger.error(error)
             throw new GraphQLError('Unable to fetch user')
           }
 
@@ -122,7 +124,7 @@ export const UserExtendsOrder = extendType({
         try {
           user = await ctx.user.getUser({ id: order.userId })
         } catch (error) {
-          console.error(error)
+          ctx.logger.error(error)
           throw new GraphQLError('Unable to fetch user')
         }
 
@@ -145,7 +147,7 @@ export const UserExtendsDesignRequest = extendType({
         try {
           user = await ctx.user.getUser({ id: designRequest.userId })
         } catch (error) {
-          console.error(error)
+          ctx.logger.error(error)
           throw new GraphQLError('Unable to fetch user')
         }
 
@@ -168,7 +170,7 @@ export const UserExtendsDesignProof = extendType({
             id: designRequestProof.artistUserId,
           })
         } catch (error) {
-          console.error(error)
+          ctx.logger.error(error)
           throw new GraphQLError('Unable to fetch user')
         }
 
@@ -191,7 +193,7 @@ export const UserExtendsDesignRequestRevisionRequest = extendType({
             id: designRequestRevision.userId,
           })
         } catch (error) {
-          console.error(error)
+          ctx.logger.error(error)
           throw new GraphQLError('Unable to fetch user')
         }
 
@@ -214,7 +216,7 @@ export const UserExtendsDesingProof = extendType({
             id: designProof.artistUserId,
           })
         } catch (error) {
-          console.error(error)
+          ctx.logger.error(error)
           throw new GraphQLError('Unable to fetch user')
         }
 

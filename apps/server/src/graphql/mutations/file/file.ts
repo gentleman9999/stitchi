@@ -50,7 +50,7 @@ export const fileCreate = mutationField('fileCreate', {
         },
       })
     } catch (error) {
-      logger.error(error)
+      ctx.logger.error(error)
       throw new GraphQLError('Unable to create file')
     }
 
@@ -102,7 +102,9 @@ export const fileCreateBatch = mutationField('fileCreateBatch', {
 
         files.push(createdFile)
       } catch (error) {
-        console.error(`Failed to create file`, { context: { error, file } })
+        ctx.logger
+          .child({ context: { error, file } })
+          .error(`Failed to create file`)
         continue
       }
     }

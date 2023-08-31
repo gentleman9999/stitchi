@@ -55,7 +55,7 @@ export const ProductExtendsQuote = extendType({
             ...data,
           }
         } catch (error) {
-          console.error(error)
+          context.logger.error(error)
           throw new GraphQLError(
             `Unable to get quote for product: ${parent.id}`,
           )
@@ -100,7 +100,6 @@ export const OrderItemSummaries = extendType({
 
           let quantity = 0
           let totalPriceCents = 0
-          let optionsMap = new Map()
 
           let product
 
@@ -109,9 +108,11 @@ export const OrderItemSummaries = extendType({
               productEntityId: productId,
             })
           } catch (error) {
-            console.error(`Failed to get product: ${productId}`, {
-              context: { error },
-            })
+            context.logger
+              .child({
+                context: { error },
+              })
+              .error(`Failed to get product: ${productId}`)
             throw new GraphQLError(`Unable to get product: ${productId}`)
           }
 

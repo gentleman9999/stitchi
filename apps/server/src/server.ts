@@ -18,10 +18,10 @@ import { logger } from './telemetry'
 
 process
   .on('unhandledRejection', (reason, p) => {
-    console.error('Unhandled Rejection at Promise', reason, p)
+    logger.error('Unhandled Rejection at Promise', reason, p)
   })
   .on('uncaughtException', err => {
-    console.error('Uncaught Exception thrown', err)
+    logger.error('Uncaught Exception thrown', err)
   })
 
 const PORT = getOrThrow(process.env.PORT, 'PORT')
