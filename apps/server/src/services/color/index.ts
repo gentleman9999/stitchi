@@ -1,3 +1,4 @@
+import { logger } from '../../telemetry'
 import makeColorRepository, { ColorRepository } from './repository'
 
 export interface ColorService {
@@ -25,7 +26,9 @@ const makeClient: MakeClientFn = (
       try {
         color = await colorRepository.createColor(input)
       } catch (error) {
-        console.error('Failed to create color', { context: { error, input } })
+        logger
+          .child({ context: { error, input } })
+          .error('Failed to create color')
         throw new Error('Failed to create color')
       }
 
@@ -37,7 +40,7 @@ const makeClient: MakeClientFn = (
       try {
         color = await colorRepository.getColor(input)
       } catch (error) {
-        console.error('Failed to get color', { context: { error, input } })
+        logger.child({ context: { error, input } }).error('Failed to get color')
         throw new Error('Failed to get color')
       }
 
@@ -50,7 +53,9 @@ const makeClient: MakeClientFn = (
       try {
         colors = await colorRepository.listColors(input)
       } catch (error) {
-        console.error('Failed to list colors', { context: { error, input } })
+        logger
+          .child({ context: { error, input } })
+          .error('Failed to list colors')
         throw new Error('Failed to list colors')
       }
 
@@ -63,7 +68,9 @@ const makeClient: MakeClientFn = (
       try {
         color = await colorRepository.updateColor(input)
       } catch (error) {
-        console.error('Failed to update color', { context: { error, input } })
+        logger
+          .child({ context: { error, input } })
+          .error('Failed to update color')
         throw new Error('Failed to update color')
       }
 

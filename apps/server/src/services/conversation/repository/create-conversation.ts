@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import * as yup from 'yup'
+import { logger } from '../../../telemetry'
 import { Conversation, ConversationTable } from '../db/conversation-table'
 import {
   conversationFactory,
@@ -46,7 +47,7 @@ const makeCreateConversation: MakeCreateConversationFn =
         },
       })
     } catch (error) {
-      console.error(error)
+      logger.error(error)
       throw new Error('Unable to create conversation')
     }
 

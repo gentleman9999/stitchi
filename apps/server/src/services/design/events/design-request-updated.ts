@@ -1,3 +1,4 @@
+import { logger } from '../../../telemetry'
 import {
   ConversationService,
   makeClient as makeConversationServiceClient,
@@ -45,7 +46,7 @@ const makeHandler =
           })
         }
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to get conversation')
       }
 
@@ -65,18 +66,19 @@ const makeHandler =
             },
           })
         } catch (error) {
-          console.error(error)
+          logger.error(error)
           throw new Error('Failed to update conversation')
         }
       } else {
-        console.error(
-          `Conversation not found for design request ${nextDesignRequest.id}. This should not happen.`,
-          {
+        logger
+          .child({
             context: {
               designRequest: nextDesignRequest,
             },
-          },
-        )
+          })
+          .error(
+            `Conversation not found for design request ${nextDesignRequest.id}. This should not happen.`,
+          )
       }
     }
 
@@ -90,12 +92,14 @@ const makeHandler =
           { designRequest: nextDesignRequest },
         )
       } catch (error) {
-        console.error('Failed to create notificationg group', {
-          context: {
-            error,
-            designRequest: nextDesignRequest,
-          },
-        })
+        logger
+          .child({
+            context: {
+              error,
+              designRequest: nextDesignRequest,
+            },
+          })
+          .error('Failed to create notificationg group')
         throw new Error('Failed to create notification group')
       }
     }

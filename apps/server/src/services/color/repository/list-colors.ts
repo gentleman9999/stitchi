@@ -1,4 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client'
+import { logger } from '../../../telemetry'
 import { ColorTable } from '../db/color-table'
 import { ColorFactoryColor, colorFactory } from '../factory/color'
 
@@ -29,9 +30,11 @@ const makeListColors: MakeListColorsFn =
         ...input,
       })
     } catch (error) {
-      console.error(`Failed to list colors`, {
-        context: { error },
-      })
+      logger
+        .child({
+          context: { error },
+        })
+        .error(`Failed to list colors`)
       throw new Error('Failed to list colors')
     }
 

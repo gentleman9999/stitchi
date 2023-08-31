@@ -9,6 +9,7 @@ import {
   activeUserMembershipFactory,
   ActiveUserMembershipFactoryActiveUserMembership,
 } from '../factory/active-user-membership'
+import { logger } from '../../../telemetry'
 
 const inputSchema = ActiveUserMembership.omit(['id'])
 
@@ -57,7 +58,7 @@ export const makeUpsertActiveUserMembership: MakeUpserActiveUserMembershipFn =
         },
       })
     } catch (error) {
-      console.error(`Failed to upsert user membership`, {
+      logger.error(`Failed to upsert user membership`, {
         context: { error, input },
       })
 

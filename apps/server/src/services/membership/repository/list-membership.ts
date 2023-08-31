@@ -1,4 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client'
+import { logger } from '../../../telemetry'
 import { MembershipTable } from '../db/membership-table'
 import {
   MembershipFactoryMembership,
@@ -36,9 +37,11 @@ const makeListMemberships: MakeListMembershipsFn =
         ...input,
       })
     } catch (error) {
-      console.error(`Failed to get membership s`, {
-        context: { error },
-      })
+      logger
+        .child({
+          context: { error },
+        })
+        .error(`Failed to get membership s`)
       throw new Error('Failed to get membership s')
     }
 

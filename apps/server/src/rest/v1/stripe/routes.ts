@@ -3,6 +3,7 @@ import Stripe from 'stripe'
 import makeStripeClient from '../../../stripe'
 import { getOrThrow } from '../../../utils'
 import services, { ServiceList } from '../../../services'
+import { logger } from '../../../telemetry'
 
 const webhookSecret = getOrThrow(
   process.env.STRIPE_WEBHOOK_SECRET,
@@ -34,13 +35,17 @@ const makeRoutes = (
           webhookSecret,
         )
 
-        console.info(`Stripe webhook event: ${event.type}`, {
-          context: { event },
-        })
+        logger
+          .child({
+            context: { event },
+          })
+          .info(`Stripe webhook event: ${event.type}`)
       } catch (error) {
-        console.error(`Failed to construct Stripe event`, {
-          context: { error },
-        })
+        logger
+          .child({
+            context: { error },
+          })
+          .error(`Failed to construct Stripe event`)
         return res.status(400).json()
       }
 
@@ -49,18 +54,22 @@ const makeRoutes = (
           const orderId = (event.data.object as any)?.metadata?.orderId
 
           if (!orderId) {
-            console.error('Charge is missing orderId', {
-              context: { event },
-            })
+            logger
+              .child({
+                context: { event },
+              })
+              .error('Charge is missing orderId')
 
             throw new Error('Charge is missing orderId')
           }
 
           await orderClient.reconcileOrderPayments({ orderId })
         } catch (error) {
-          console.error(`Failed to update Charge`, {
-            context: { error },
-          })
+          logger
+            .child({
+              context: { error },
+            })
+            .error(`Failed to update Charge`)
         }
       }
 

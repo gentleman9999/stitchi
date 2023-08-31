@@ -3,6 +3,7 @@ import { Color, ColorTable, table as makeColorTable } from '../db/color-table'
 import * as yup from 'yup'
 import { PrismaClient } from '@prisma/client'
 import { colorFactory, ColorFactoryColor } from '../factory/color'
+import { logger } from '../../../telemetry'
 
 const inputSchema = Color.omit([])
 
@@ -45,7 +46,7 @@ const makeUpdateColor: MakeUpdateColorFn =
         },
       })
     } catch (error) {
-      console.error(error)
+      logger.error(error)
       throw new Error('Failed to update color')
     }
 

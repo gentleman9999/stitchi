@@ -50,9 +50,11 @@ const makeClient: MakeClientFn = (
 
         return catalogFactoryCatalogProduct({ bigCommerceProduct: product })
       } catch (error) {
-        console.error(`Failed to get product: ${input.productEntityId}`, {
-          context: { error, productEntityId: input.productEntityId },
-        })
+        logger
+          .child({
+            context: { error, productEntityId: input.productEntityId },
+          })
+          .error(`Failed to get product: ${input.productEntityId}`)
         throw new Error('Failed to get product')
       }
     },
@@ -67,7 +69,7 @@ const makeClient: MakeClientFn = (
           productVariantFactory({ bigCommerceProductVariant: productVariant }),
         )
       } catch (error) {
-        console.error(
+        logger.error(
           `Failed to list product variants: ${input.productEntityId}`,
           {
             context: { error, productEntityId: input.productEntityId },
@@ -88,16 +90,17 @@ const makeClient: MakeClientFn = (
           bigCommerceProductVariant: productVariant,
         })
       } catch (error) {
-        console.error(
-          `Failed to get product variant: ${input.productEntityId}/${input.variantEntityId}`,
-          {
+        logger
+          .child({
             context: {
               error,
               productEntityId: input.productEntityId,
               variantEntityId: input.variantEntityId,
             },
-          },
-        )
+          })
+          .error(
+            `Failed to get product variant: ${input.productEntityId}/${input.variantEntityId}`,
+          )
         throw new Error('Failed to get product variant')
       }
     },
@@ -109,14 +112,16 @@ const makeClient: MakeClientFn = (
 
         return catalogFactoryBrand({ bigCommerceBrand: brand })
       } catch (error) {
-        console.error(`Failed to get brand: ${input.brandEntityId}`, {
-          context: { error, brandEntityId: input.brandEntityId },
-        })
+        logger
+          .child({
+            context: { error, brandEntityId: input.brandEntityId },
+          })
+          .error(`Failed to get brand: ${input.brandEntityId}`)
         throw new Error('Failed to get brand')
       }
     },
     listProductCategories: async input => {
-        logger
+      logger
       try {
         const productCategories = await bigCommerceClient.listProductCategories(
           {
@@ -128,9 +133,11 @@ const makeClient: MakeClientFn = (
           catalogFactoryCategory({ bigCommerceCategory: productCategory }),
         )
       } catch (error) {
-        console.error(`Failed to get categories`, {
-          context: { error },
-        })
+        logger
+          .child({
+            context: { error },
+          })
+          .error(`Failed to get categories`)
         throw new Error('Failed to get categories')
       }
     },

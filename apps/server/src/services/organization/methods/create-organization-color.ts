@@ -4,6 +4,7 @@ import makeOrganizationRepository, {
 } from '../repository'
 import { ColorService, makeClient as makeColorServiceClient } from '../../color'
 import { colorFactory, ColorFactoryColor } from '../../color/factory/color'
+import { logger } from '../../../telemetry'
 
 const inputSchema = yup.object().shape({
   organizationId: yup.string().uuid().required(),
@@ -62,7 +63,9 @@ const makeCreateOrganizationColor: MakeCreateOrganizationColorFn =
         },
       })
     } catch (error) {
-      console.error('Failed to create color', { context: { error, input } })
+      logger
+        .child({ context: { error, input } })
+        .error('Failed to create color')
       throw new Error('Failed to create color')
     }
 
@@ -74,9 +77,11 @@ const makeCreateOrganizationColor: MakeCreateOrganizationColorFn =
         },
       })
     } catch (error) {
-      console.error('Failed to create organization color', {
-        context: { error, input },
-      })
+      logger
+        .child({
+          context: { error, input },
+        })
+        .error('Failed to create organization color')
       throw new Error('Failed to create organization color')
     }
 

@@ -1,4 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client'
+import { logger } from '../../../telemetry'
 import { OrderTable, table as makeOrderTable } from '../db/order-table'
 import { orderFactory, OrderFactoryOrder } from '../factory'
 
@@ -31,9 +32,11 @@ const makeListOrders: MakeListOrdersFn =
         },
       })
     } catch (error) {
-      console.error(`Failed to get orders`, {
-        context: { error },
-      })
+      logger
+        .child({
+          context: { error },
+        })
+        .error(`Failed to get orders`)
       throw new Error('Failed to get orders')
     }
 

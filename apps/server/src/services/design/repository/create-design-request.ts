@@ -12,6 +12,7 @@ import { DesignRequestDesignLocationFile } from '../db/design-request-design-loc
 import { DesignRequestArtist } from '../db/design-request-artist-table'
 import { DesignRequestProduct } from '../db/design-request-product-table'
 import { DesignRequestProductColor } from '../db/design-request-product-color-table'
+import { logger } from '../../../telemetry'
 
 const productInputSchema = DesignRequestProduct.omit([
   'id',
@@ -195,9 +196,11 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
         },
       })
     } catch (error) {
-      console.error(`Failed to create design request: ${input}`, {
-        context: { error, input },
-      })
+      logger
+        .child({
+          context: { error, input },
+        })
+        .error(`Failed to create design request: ${input}`)
       throw new Error('Failed to create design request')
     }
 

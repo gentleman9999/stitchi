@@ -11,6 +11,7 @@ import {
   NotificationFactoryNotificationGroup,
 } from '../factory/notification-group'
 import { notificationFactory } from '../factory/notification'
+import { logger } from '../../../telemetry'
 
 const inputSchema = NotificationGroup.omit([
   'id',
@@ -67,7 +68,7 @@ const makeCreateNotificationGroup: MakeCreateNotificationGroupFn =
         },
       })
     } catch (error) {
-      console.error(error)
+      logger.error(error)
       throw new Error('Failed to create notificationGroup')
     }
 

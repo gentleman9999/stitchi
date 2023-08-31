@@ -16,6 +16,7 @@ import { DesignRequestRevision } from '../db/design-request-revision-table'
 import { DesignRequestRevisionFile } from '../db/design-request-revision-file-table'
 import { DesignRequestProduct } from '../db/design-request-product-table'
 import { DesignRequestProductColor } from '../db/design-request-product-color-table'
+import { logger } from '../../../telemetry'
 
 const productInputSchema = DesignRequestProduct.omit([
   'id',
@@ -209,9 +210,11 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
         throw new Error(`Design request not found: ${input}`)
       }
     } catch (error) {
-      console.error(`Failed to find design request: ${input}`, {
-        context: { error, input },
-      })
+      logger
+        .child({
+          context: { error, input },
+        })
+        .error(`Failed to find design request: ${input}`)
       throw new Error('Failed to find design request')
     }
 
@@ -412,9 +415,11 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
         },
       })
     } catch (error) {
-      console.error(`Failed to update design request: ${input}`, {
-        context: { error, input },
-      })
+      logger
+        .child({
+          context: { error, input },
+        })
+        .error(`Failed to update design request: ${input}`)
       throw new Error('Failed to update design request')
     }
 

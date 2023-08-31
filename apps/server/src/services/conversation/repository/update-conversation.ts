@@ -7,6 +7,7 @@ import {
   conversationFactory,
   ConversationFactoryConversation,
 } from '../factory'
+import { logger } from '../../../telemetry'
 
 const conversationMessageFileSchema = ConversationMessageFile.omit([
   'id',
@@ -77,7 +78,7 @@ const makeUpdateConversation: MakeUpdateConversationFn =
         throw new Error('Conversation not found')
       }
     } catch (error) {
-      console.error(error)
+      logger.error(error)
       throw new Error('Unable to find conversation')
     }
 
@@ -158,7 +159,7 @@ const makeUpdateConversation: MakeUpdateConversationFn =
         },
       })
     } catch (error) {
-      console.error(error)
+      logger.error(error)
       throw new Error('Unable to update conversation')
     }
 

@@ -1,4 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client'
+import { logger } from '../../../telemetry'
 import { OrganizationFileTable } from '../db/organization-file-table'
 import {
   OrganizationFactoryOrganizationFile,
@@ -40,9 +41,11 @@ const makeListOrganizationFiles: MakeListOrganizationFilesFn =
         },
       })
     } catch (error) {
-      console.error(`Failed to get organization files`, {
-        context: { error },
-      })
+      logger
+        .child({
+          context: { error },
+        })
+        .error(`Failed to get organization files`)
       throw new Error('Failed to get organization files')
     }
 

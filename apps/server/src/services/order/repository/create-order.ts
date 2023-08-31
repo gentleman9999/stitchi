@@ -6,6 +6,7 @@ import * as yup from 'yup'
 import { OrderItem } from '../db/order-item-table'
 import createHumanizedId from '../helpers/create-humanized-id'
 import { calculateOrderAmounts } from './helpers/calculate-order-amounts'
+import { logger } from '../../../telemetry'
 
 const inputSchema = Order.omit([
   'id',
@@ -101,7 +102,7 @@ const makeCreateOrder: MakeCreateOrderFn =
         },
       })
     } catch (error) {
-      console.error(error)
+      logger.error(error)
       throw new Error('Failed to create order')
     }
 

@@ -10,6 +10,7 @@ import {
   membershipFactory,
   MembershipFactoryMembership,
 } from '../factory/membership'
+import { logger } from '../../../telemetry'
 
 const inputSchema = Membership.omit(['id', 'createdAt', 'updatedAt'])
 
@@ -55,7 +56,7 @@ const makeCreateMembership: MakeCreateMembershipFn =
         },
       })
     } catch (error) {
-      console.error(error)
+      logger.error(error)
       throw new Error('Failed to create membership')
     }
 

@@ -1,4 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client'
+import { logger } from '../../../telemetry'
 import { OrganizationColorTable } from '../db/organization-color-table'
 import {
   OrganizationFactoryOrganizationColor,
@@ -36,9 +37,11 @@ const makeListOrganizationColors: MakeListOrganizationColorsFn =
         ...input,
       })
     } catch (error) {
-      console.error(`Failed to get organization colors`, {
-        context: { error },
-      })
+      logger
+        .child({
+          context: { error },
+        })
+        .error(`Failed to get organization colors`)
       throw new Error('Failed to get organization colors')
     }
 

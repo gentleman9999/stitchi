@@ -1,6 +1,7 @@
 import { AppMetadata, ManagementClient, User, UserMetadata } from 'auth0'
 import redis, { RedisClient } from '../../redis'
 import { Auth0ManagementClient, auth0ManagementClient } from '../../auth0'
+import { logger } from '../../telemetry'
 
 export interface UserService {
   getUser: typeof ManagementClient.prototype.getUser
@@ -42,9 +43,11 @@ const makeClient: MakeClientFn = (
           }
         }
       } catch (error) {
-        console.error(`Error getting user`, {
-          context: { error, params },
-        })
+        logger
+          .child({
+            context: { error, params },
+          })
+          .error(`Error getting user`)
       }
 
       return user

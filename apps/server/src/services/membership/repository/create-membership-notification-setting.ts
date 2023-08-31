@@ -10,6 +10,7 @@ import {
   membershipNotificationSettingFactory,
   MembershipFactoryMembershipNotificationSetting,
 } from '../factory/membership-notification-setting'
+import { logger } from '../../../telemetry'
 
 const inputSchema = MembershipNotificationSetting.omit(['id'])
 
@@ -56,7 +57,7 @@ const makeCreateMembershipNotificationSetting: MakeCreateMembershipNotificationS
             },
           })
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to create membershipNotificationSetting')
       }
 

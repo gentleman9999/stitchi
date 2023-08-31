@@ -6,6 +6,7 @@ import { getOrThrow } from '../../utils'
 import makeTemplates, { Template } from './templates'
 import { CreateNotificationGroupFn } from './methods/create-notification-group'
 import { makeServiceMethods, Methods } from './methods'
+import { logger } from '../../telemetry'
 
 const replyTo = getOrThrow(
   process.env.NOTIFICATION_EMAIL_REPLY_TO,
@@ -94,7 +95,7 @@ const makeClient: MakeClientFn = (
 
         return notification
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to create notification')
       }
     },
@@ -107,7 +108,7 @@ const makeClient: MakeClientFn = (
 
         return notifications
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to list notifications')
       }
     },
@@ -118,7 +119,7 @@ const makeClient: MakeClientFn = (
 
         return notification
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to get notification')
       }
     },
@@ -132,13 +133,15 @@ const makeClient: MakeClientFn = (
           params,
         )
       } catch (error) {
-        console.error('Failed to create notificationg group', {
-          context: {
-            error,
-            params,
-            type,
-          },
-        })
+        logger
+          .child({
+            context: {
+              error,
+              params,
+              type,
+            },
+          })
+          .error('Failed to create notificationg group')
         throw new Error('Failed to create notification group')
       }
     },

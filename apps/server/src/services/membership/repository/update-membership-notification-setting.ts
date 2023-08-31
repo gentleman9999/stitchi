@@ -8,6 +8,7 @@ import {
   membershipNotificationSettingFactory,
   MembershipFactoryMembershipNotificationSetting,
 } from '../factory/membership-notification-setting'
+import { logger } from '../../../telemetry'
 
 const inputSchema = MembershipNotificationSetting.omit([])
 
@@ -56,7 +57,7 @@ const makeUpdateMembershipNotificationSetting: MakeUpdateMembershipNotificationS
           throw new Error('MembershipNotificationSetting not found')
         }
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Unable to find membershipNotificationSetting')
       }
 
@@ -75,7 +76,7 @@ const makeUpdateMembershipNotificationSetting: MakeUpdateMembershipNotificationS
             },
           })
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Unable to update membershipNotificationSetting')
       }
 

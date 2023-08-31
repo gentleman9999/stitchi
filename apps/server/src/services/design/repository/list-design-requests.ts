@@ -1,4 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client'
+import { logger } from '../../../telemetry'
 import { DesignRequestTable } from '../db/design-request-table'
 import { DesignFactoryDesignRequest, designRequestFactory } from '../factory'
 
@@ -49,9 +50,11 @@ const makeListDesignRequests: MakeListDesignRequestsFn =
         },
       })
     } catch (error) {
-      console.error(`Failed to get design requests`, {
-        context: { error },
-      })
+      logger
+        .child({
+          context: { error },
+        })
+        .error(`Failed to get design requests`)
       throw new Error('Failed to get design requests')
     }
 

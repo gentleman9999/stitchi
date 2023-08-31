@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { logger } from '../../../telemetry'
 import { OrganizationFileTable } from '../db/organization-file-table'
 import {
   OrganizationFactoryOrganizationFile,
@@ -42,9 +43,11 @@ const makeDeleteOrganizationFile: MakeDeleteOrganizationFileFn =
         },
       })
     } catch (error) {
-      console.error('Unable to delete file', {
-        context: { error, input },
-      })
+      logger
+        .child({
+          context: { error, input },
+        })
+        .error('Unable to delete file')
 
       throw new Error('Unable to delete file')
     }

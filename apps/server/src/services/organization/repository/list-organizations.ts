@@ -1,4 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client'
+import { logger } from '../../../telemetry'
 import { OrganizationTable } from '../db/organization-table'
 import {
   OrganizationFactoryOrganization,
@@ -36,9 +37,11 @@ const makeListOrganizations: MakeListOrganizationsFn =
         ...input,
       })
     } catch (error) {
-      console.error(`Failed to get organization s`, {
-        context: { error },
-      })
+      logger
+        .child({
+          context: { error },
+        })
+        .error(`Failed to get organization s`)
       throw new Error('Failed to get organization s')
     }
 

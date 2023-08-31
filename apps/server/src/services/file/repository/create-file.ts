@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client'
 import { File, FileTable } from '../db/file'
 import * as yup from 'yup'
 import { fileFactory, FileFactoryFile } from '../factory'
+import { logger } from '../../../telemetry'
 
 const inputSchema = File.omit(['id', 'createdAt', 'updatedAt'])
 
@@ -43,9 +44,11 @@ const makeCreateFile: MakeCreateFileFn =
         },
       })
     } catch (error) {
-      console.error(`Failed to create file: ${input}`, {
-        context: { error, input },
-      })
+      logger
+        .child({
+          context: { error, input },
+        })
+        .error(`Failed to create file: ${input}`)
       throw new Error('Failed to create file')
     }
 
