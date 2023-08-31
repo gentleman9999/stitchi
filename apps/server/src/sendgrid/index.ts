@@ -1,6 +1,7 @@
 import { getOrThrow } from '../utils'
 import sendgridClient from '@sendgrid/client'
 import * as yup from 'yup'
+import { logger } from '../telemetry'
 
 const SKIP_MARKETING_EMAILS = getOrThrow(
   process.env.SENDGRID_SKIP_MARKETING_EMAILS,
@@ -144,9 +145,11 @@ const makeClient = (
         },
         (error, response) => {
           if (error) {
-            console.error('Error sending email to SendGrid', {
-              context: { error },
-            })
+            logger
+              .child({
+                context: { error },
+              })
+              .error('Error sending email to SendGrid')
 
             return
           } else {
@@ -160,13 +163,13 @@ const makeClient = (
         try {
           return contactSchema.validateSync(contact)
         } catch (error) {
-          console.error(error)
+          logger.error(error)
           throw new Error('Invalid input')
         }
       })
 
       if (SKIP_MARKETING_EMAILS === 'true') {
-        console.info('Skipping marketing emails')
+        logger.info('Skipping marketing emails')
         return
       }
 
@@ -190,9 +193,11 @@ const makeClient = (
       })
 
       if (response.statusCode !== 202) {
-        console.error(`Error sending contact form response to SendGrid`, {
-          context: { response },
-        })
+        logger
+          .child({
+            context: { response },
+          })
+          .error(`Error sending contact form response to SendGrid`)
 
         throw new Error(`Error sending contact form response to SendGrid`)
       }

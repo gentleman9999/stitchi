@@ -20,6 +20,7 @@ import {
   makeListOrganizationColors,
   ListOrganizationColors,
 } from './methods/list-organization-colors'
+import { logger } from '../../telemetry'
 
 export interface OrganizationService {
   createOrganization: OrganizationRepository['createOrganization']
@@ -61,15 +62,14 @@ const makeClient: MakeClientFn = (
       try {
         organization = await organizationRepository.createOrganization(input)
       } catch (error) {
-        console.error(
-          `Error creating organization: ${input.organization.name}`,
-          {
+        logger
+          .child({
             context: {
               error,
               input,
             },
-          },
-        )
+          })
+          .error(`Error creating organization: ${input.organization.name}`)
         throw error
       }
 
@@ -81,12 +81,14 @@ const makeClient: MakeClientFn = (
       try {
         organization = await organizationRepository.getOrganization(input)
       } catch (error) {
-        console.error(`Error getting organization: ${input.organizationId}`, {
-          context: {
-            error,
-            input,
-          },
-        })
+        logger
+          .child({
+            context: {
+              error,
+              input,
+            },
+          })
+          .error(`Error getting organization: ${input.organizationId}`)
         throw error
       }
 
@@ -99,12 +101,14 @@ const makeClient: MakeClientFn = (
       try {
         organizations = await organizationRepository.listOrganizations(input)
       } catch (error) {
-        console.error(`Error listing organizations`, {
-          context: {
-            error,
-            input,
-          },
-        })
+        logger
+          .child({
+            context: {
+              error,
+              input,
+            },
+          })
+          .error(`Error listing organizations`)
         throw error
       }
 
@@ -131,15 +135,16 @@ const makeClient: MakeClientFn = (
           input,
         )
       } catch (error) {
-        console.error(
-          `Error creating organization file: ${input.organizationFile.fileId}`,
-          {
+        logger
+          .child({
             context: {
               error,
               input,
             },
-          },
-        )
+          })
+          .error(
+            `Error creating organization file: ${input.organizationFile.fileId}`,
+          )
         throw error
       }
 
@@ -154,15 +159,14 @@ const makeClient: MakeClientFn = (
           input,
         )
       } catch (error) {
-        console.error(
-          `Error getting organization file: ${input.organizationFileId}`,
-          {
+        logger
+          .child({
             context: {
               error,
               input,
             },
-          },
-        )
+          })
+          .error(`Error getting organization file: ${input.organizationFileId}`)
         throw error
       }
 
@@ -177,12 +181,14 @@ const makeClient: MakeClientFn = (
           input,
         )
       } catch (error) {
-        console.error(`Error listing organization files`, {
-          context: {
-            error,
-            input,
-          },
-        })
+        logger
+          .child({
+            context: {
+              error,
+              input,
+            },
+          })
+          .error(`Error listing organization files`)
         throw error
       }
 
@@ -197,15 +203,16 @@ const makeClient: MakeClientFn = (
           input,
         )
       } catch (error) {
-        console.error(
-          `Error deleting organization file: ${input.organizationFileId}`,
-          {
+        logger
+          .child({
             context: {
               error,
               input,
             },
-          },
-        )
+          })
+          .error(
+            `Error deleting organization file: ${input.organizationFileId}`,
+          )
         throw error
       }
 

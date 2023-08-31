@@ -1,4 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client'
+import { logger } from '../../../telemetry'
 import { ActiveUserMembershipTable } from '../db/active-user-membership-table'
 import {
   ActiveUserMembershipFactoryActiveUserMembership,
@@ -36,9 +37,11 @@ const makeListActiveUserMemberships: MakeListActiveUserMembershipsFn =
         ...input,
       })
     } catch (error) {
-      console.error(`Failed to get activeUserMemberships`, {
-        context: { error },
-      })
+      logger
+        .child({
+          context: { error },
+        })
+        .error(`Failed to get activeUserMemberships`)
       throw new Error('Failed to get activeUserMemberships')
     }
 

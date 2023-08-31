@@ -1,4 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client'
+import { logger } from '../../../telemetry'
 import { NotificationTable } from '../db/notification-table'
 import {
   NotificationFactoryNotification,
@@ -45,9 +46,11 @@ const makeListNotifications: MakeListNotificationsFn =
         },
       })
     } catch (error) {
-      console.error(`Failed to list notifications`, {
-        context: { error },
-      })
+      logger
+        .child({
+          context: { error },
+        })
+        .error(`Failed to list notifications`)
       throw new Error('Failed to list notifications')
     }
 

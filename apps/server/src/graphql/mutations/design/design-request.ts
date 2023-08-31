@@ -49,7 +49,7 @@ export const designRequestCreate = mutationField('designRequestCreate', {
   args: {
     input: nonNull(DesignRequestCreateInput),
   },
-  resolve: async (_, { input }, { design, organizationId, userId }) => {
+  resolve: async (_, { input }, { design, organizationId, userId, logger }) => {
     let designRequest
 
     try {
@@ -78,7 +78,7 @@ export const designRequestCreate = mutationField('designRequestCreate', {
         },
       })
     } catch (error) {
-      console.log(error)
+      logger.error(error)
       throw new GraphQLError('Unable to create design request')
     }
 
@@ -124,7 +124,7 @@ export const designRequestUpdate = mutationField('designRequestUpdate', {
   args: {
     input: nonNull('DesignRequestUpdateInput'),
   },
-  resolve: async (_, { input }, { design, organizationId, userId }) => {
+  resolve: async (_, { input }, { design, organizationId, logger }) => {
     let foundDesignRequest
 
     try {
@@ -132,7 +132,7 @@ export const designRequestUpdate = mutationField('designRequestUpdate', {
         designRequestId: input.designRequestId,
       })
     } catch (error) {
-      console.log(error)
+      logger.error(error)
       throw new GraphQLError('Unable to find design request')
     }
 
@@ -186,7 +186,7 @@ export const designRequestUpdate = mutationField('designRequestUpdate', {
         },
       })
     } catch (error) {
-      console.log(error)
+      logger.error(error)
       throw new GraphQLError('Unable to update design request')
     }
     return {
@@ -214,7 +214,7 @@ export const designRequestSubmit = mutationField('designRequestSubmit', {
   args: {
     input: nonNull(DesignRequestSubmitInput),
   },
-  resolve: async (_, { input }, { design, organizationId, userId }) => {
+  resolve: async (_, { input }, { design, organizationId, logger }) => {
     let foundDesignRequest
 
     try {
@@ -222,7 +222,7 @@ export const designRequestSubmit = mutationField('designRequestSubmit', {
         designRequestId: input.designRequestId,
       })
     } catch (error) {
-      console.log(error)
+      logger.error(error)
       throw new GraphQLError('Unable to find design request')
     }
 
@@ -243,7 +243,7 @@ export const designRequestSubmit = mutationField('designRequestSubmit', {
         },
       })
     } catch (error) {
-      console.log(error)
+      logger.error(error)
       throw new GraphQLError('Unable to update design request')
     }
 
@@ -304,7 +304,7 @@ export const designRequestProofCreate = mutationField(
     resolve: async (
       _,
       { input },
-      { design, subscriptions, conversation, userId },
+      { design, subscriptions, conversation, userId, logger },
     ) => {
       if (!userId) {
         throw new GraphQLError('Unauthorized')
@@ -317,7 +317,7 @@ export const designRequestProofCreate = mutationField(
           designRequestId: input.designRequestId,
         })
       } catch (error) {
-        console.log(error)
+        logger.error(error)
         throw new GraphQLError('Unable to find design request')
       }
 
@@ -350,7 +350,7 @@ export const designRequestProofCreate = mutationField(
           throw new GraphQLError('Unable to create design proof')
         }
       } catch (error) {
-        console.log(error)
+        logger.error(error)
         throw new GraphQLError('Unable to create design proof')
       }
 
@@ -370,7 +370,7 @@ export const designRequestProofCreate = mutationField(
           },
         })
       } catch (error) {
-        console.log(error)
+        logger.error(error)
         throw new GraphQLError('Unable to update design request')
       }
 
@@ -383,7 +383,7 @@ export const designRequestProofCreate = mutationField(
               conversationId: updatedDesignRequest.conversationId,
             })
           } catch (error) {
-            console.log(error)
+            logger.error(error)
             throw new GraphQLError('Unable to create conversation')
           }
 
@@ -402,11 +402,11 @@ export const designRequestProofCreate = mutationField(
               },
             })
           } catch (error) {
-            console.log(error)
+            logger.error(error)
             throw new GraphQLError('Unable to update conversation')
           }
         } else {
-          console.error(
+          logger.error(
             'Design request does not have associated conversation. This should not happen.',
             {
               context: {
@@ -451,7 +451,7 @@ export const designRequestRevisionRequestCreate = mutationField(
     args: {
       input: nonNull(DesignRequestRevisionRequestCreateInput),
     },
-    resolve: async (_, { input }, { subscriptions, design, userId }) => {
+    resolve: async (_, { input }, { subscriptions, design, userId, logger }) => {
       if (!userId) {
         throw new GraphQLError('Unauthorized')
       }
@@ -463,7 +463,7 @@ export const designRequestRevisionRequestCreate = mutationField(
           designRequestId: input.designRequestId,
         })
       } catch (error) {
-        console.log(error)
+        logger.error(error)
         throw new GraphQLError('Unable to find design request')
       }
 
@@ -484,7 +484,7 @@ export const designRequestRevisionRequestCreate = mutationField(
           },
         })
       } catch (error) {
-        console.log(error)
+        logger.error(error)
         throw new GraphQLError('Unable to update design request')
       }
 
@@ -538,7 +538,7 @@ export const designRequestConversationMessageCreate = mutationField(
           throw new GraphQLError('Unable to find design request')
         }
       } catch (error) {
-        console.log(error)
+        ctx.logger.error(error)
         throw new GraphQLError('Unable to find design request')
       }
 
@@ -553,7 +553,7 @@ export const designRequestConversationMessageCreate = mutationField(
           conversationId: designRequest.conversationId,
         })
       } catch (error) {
-        console.log(error)
+        ctx.logger.error(error)
         throw new GraphQLError('Unable to create conversation')
       }
 
@@ -572,7 +572,7 @@ export const designRequestConversationMessageCreate = mutationField(
           },
         })
       } catch (error) {
-        console.log(error)
+        ctx.logger.error(error)
         throw new GraphQLError('Unable to update conversation')
       }
 
@@ -615,7 +615,7 @@ export const designRequestApprove = mutationField('designRequestApprove', {
   args: {
     input: nonNull('DesignRequestApproveInput'),
   },
-  resolve: async (_, { input }, { design, userId, organizationId }) => {
+  resolve: async (_, { input }, { design, userId, organizationId, logger }) => {
     if (!userId || !organizationId) throw new GraphQLError('Not authenticated')
 
     let designRequest
@@ -625,7 +625,7 @@ export const designRequestApprove = mutationField('designRequestApprove', {
         designRequestId: input.designRequestId,
       })
     } catch (error) {
-      console.error(error)
+      logger.error(error)
       throw new Error('Failed to get design request')
     }
 
@@ -636,7 +636,7 @@ export const designRequestApprove = mutationField('designRequestApprove', {
         designProofId: input.designProofId,
       })
     } catch (error) {
-      console.error(error)
+      logger.error(error)
       throw new Error('Failed to get design proof')
     }
 
@@ -670,7 +670,7 @@ export const designRequestApprove = mutationField('designRequestApprove', {
         },
       })
     } catch (error) {
-      console.error(error)
+      logger.error(error)
       throw new Error('Failed to create design')
     }
 
@@ -685,7 +685,7 @@ export const designRequestApprove = mutationField('designRequestApprove', {
         },
       })
     } catch (error) {
-      console.error(error)
+      logger.error(error)
       throw new Error('Failed to update design request')
     }
 

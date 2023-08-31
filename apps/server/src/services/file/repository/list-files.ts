@@ -1,4 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client'
+import { logger } from '../../../telemetry'
 import { FileTable } from '../db/file'
 import { fileFactory, FileFactoryFile } from '../factory'
 
@@ -25,9 +26,11 @@ const makeListFiles: MakeListFilesFn =
         ...input,
       })
     } catch (error) {
-      console.error(`Failed to get files`, {
-        context: { error },
-      })
+      logger
+        .child({
+          context: { error },
+        })
+        .error(`Failed to get files`)
       throw new Error('Failed to get files')
     }
 

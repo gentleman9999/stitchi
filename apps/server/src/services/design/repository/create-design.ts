@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import * as yup from 'yup'
+import { logger } from '../../../telemetry'
 import { DesignLocation } from '../db/design-location-table'
 import {
   Design,
@@ -115,9 +116,11 @@ const makeCreateDesign: MakeCreateDesignFn =
         },
       })
     } catch (error) {
-      console.error(`Failed to create design: ${input.design.name}`, {
-        context: { error, input },
-      })
+      logger
+        .child({
+          context: { error, input },
+        })
+        .error(`Failed to create design: ${input.design.name}`)
 
       throw new Error('Failed to create design')
     }

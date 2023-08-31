@@ -51,7 +51,7 @@ export const designProductCreateOrder = mutationField(
           designId: input.designProductId,
         })
       } catch (error) {
-        console.error(error)
+        ctx.logger.error(error)
         throw new GraphQLError('Unable to fetch design product')
       }
 
@@ -66,9 +66,11 @@ export const designProductCreateOrder = mutationField(
           throw new Error('Product not found')
         }
       } catch (error) {
-        console.error('Error getting catalog product', {
-          context: { error, designProduct: parent },
-        })
+        ctx.logger
+          .child({
+            context: { error, designProduct: parent },
+          })
+          .error('Error getting catalog product')
 
         throw new GraphQLError('Error getting catalog product')
       }
@@ -80,9 +82,11 @@ export const designProductCreateOrder = mutationField(
           productEntityId: designProduct.catalogProductId,
         })
       } catch (error) {
-        console.error('Error getting catalog product variants', {
-          context: { error, designProduct: parent },
-        })
+        ctx.logger
+          .child({
+            context: { error, designProduct: parent },
+          })
+          .error('Error getting catalog product variants')
 
         throw new GraphQLError('Error getting catalog product variants')
       }
@@ -94,9 +98,11 @@ export const designProductCreateOrder = mutationField(
           designProofId: designProduct.designProofId,
         })
       } catch (error) {
-        console.error("Error getting design proof's design", {
-          context: { error, designProduct: parent },
-        })
+        ctx.logger
+          .child({
+            context: { error, designProduct: parent },
+          })
+          .error("Error getting design proof's design")
 
         throw new GraphQLError('Error getting design proof')
       }
@@ -151,7 +157,7 @@ export const designProductCreateOrder = mutationField(
           },
         })
       } catch (error) {
-        console.error(error)
+        ctx.logger.error(error)
         throw new GraphQLError('Failed to create order')
       }
 

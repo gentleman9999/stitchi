@@ -7,6 +7,7 @@ import services from '../services'
 import makeStripeClient from '../stripe'
 import { SendgridClient, makeClient as makeSendgridClient } from '../sendgrid'
 import PubSubClient from './pubsub'
+import { logger, Logger } from '../telemetry'
 
 type StripeClient = ReturnType<typeof makeStripeClient>
 
@@ -31,12 +32,14 @@ export interface Context {
   membership: typeof services.membership
   color: typeof services.color
   subscriptions: PubSubClient
+  logger: Logger
 }
 
 interface ContextCreatorParams {
   sendgrid: SendgridClient
   stripe: StripeClient
   pubsub: PubSubClient
+  logger: Logger
 }
 
 function makeContext(
@@ -44,10 +47,11 @@ function makeContext(
     pubsub: new PubSubClient(),
     stripe: makeStripeClient(),
     sendgrid: makeSendgridClient(),
+    logger: logger,
   },
 ): ContextFunction<ExpressContext> {
-  return async function createContext(expressContext) {
-    const authHeader = expressContext.req?.headers?.['authorization']
+  return async function createContext({ req, res: _res }): Promise<Context> {
+    const authHeader = req.headers?.['authorization']
 
     try {
       const payload = authHeader ? await verify(authHeader).catch() : null
@@ -71,6 +75,10 @@ function makeContext(
         userId: payload?.sub,
         membershipId: userActiveMembership?.id ?? undefined,
         organizationId: userActiveMembership?.organizationId ?? undefined,
+        logger: params.logger.child({
+          operationName: req.body.operationName,
+          query: req.body.query,
+        }),
         conversation: services.conversation,
         newsletter: services.newsletter,
         order: services.order,
@@ -86,7 +94,7 @@ function makeContext(
         color: services.color,
       }
     } catch (error) {
-      console.error(error)
+      logger.error(error)
 
       if (error instanceof AuthenticationError) {
         throw new AuthenticationError(error.message)

@@ -1,3 +1,4 @@
+import { logger } from '../../../telemetry'
 import {
   makeHandler as makeOrderUpdatedHander,
   OrderUpdatedEventPayload,
@@ -25,7 +26,7 @@ const makeEvents = (
 ) => {
   return {
     emit: async (event: OrderEvent) => {
-      console.info(`Handling event ${event.type}`, { context: { event } })
+      logger.child({ context: { event } }).info(`Handling event ${event.type}`)
 
       switch (event.type) {
         case 'order.updated':

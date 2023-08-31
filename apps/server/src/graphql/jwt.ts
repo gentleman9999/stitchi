@@ -1,5 +1,6 @@
 import jwt, { GetPublicKeyOrSecret } from 'jsonwebtoken'
 import jwksClient from 'jwks-rsa'
+import { logger } from '../telemetry'
 import { getOrThrow } from '../utils'
 
 export interface Payload {
@@ -58,9 +59,11 @@ export async function verify(authHeader: string) {
     })
 
     if (result.error) {
-      console.error(result.error.message, {
-        context: { error: result.error, decoded: result.decoded },
-      })
+      logger
+        .child({
+          context: { error: result.error, decoded: result.decoded },
+        })
+        .error(result.error.message)
       throw new Error(result.error.message)
     }
 

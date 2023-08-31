@@ -38,7 +38,7 @@ export const designRequestDesignLocationCreate = mutationField(
           designRequestId: input.designRequestId,
         })
       } catch (error) {
-        console.log(error)
+        ctx.logger.error(error)
         throw new GraphQLError('Design request not found')
       }
 
@@ -68,7 +68,7 @@ export const designRequestDesignLocationCreate = mutationField(
           },
         })
       } catch (error) {
-        console.log(error)
+        ctx.logger.error(error)
         throw new GraphQLError('Unable to create design location')
       }
 
@@ -127,7 +127,7 @@ export const designRequestDesignLocationUpdate = mutationField(
           designRequestId: input.designRequestId,
         })
       } catch (error) {
-        console.log(error)
+        ctx.logger.error(error)
         throw new GraphQLError('Design request not found')
       }
 
@@ -159,7 +159,7 @@ export const designRequestDesignLocationUpdate = mutationField(
           },
         })
       } catch (error) {
-        console.log(error)
+        ctx.logger.error(error)
         throw new GraphQLError('Unable to update design location')
       }
 
@@ -214,7 +214,7 @@ export const designRequestDesignLocationDelete = mutationField(
           designRequestId: input.designRequestId,
         })
       } catch (error) {
-        console.log(error)
+        ctx.logger.error(error)
         throw new GraphQLError('Design request not found')
       }
 
@@ -237,7 +237,7 @@ export const designRequestDesignLocationDelete = mutationField(
           },
         })
       } catch (error) {
-        console.log(error)
+        ctx.logger.error(error)
         throw new GraphQLError('Unable to delete design location')
       }
 

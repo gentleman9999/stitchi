@@ -1,4 +1,5 @@
 import { addMinutes } from 'date-fns'
+import { logger } from '../../../telemetry'
 import {
   NotificationClientService,
   makeClient as makeNotificationServiceClient,
@@ -29,7 +30,7 @@ const makeHandler =
     if (!nextOrder.customerEmail) return
 
     if (prevOrder.type !== nextOrder.type) {
-      console.error('TODO: Implement order updated notification template')
+      logger.error('TODO: Implement order updated notification template')
       // switch (nextOrder.type) {
       //   case OrderRecordType.CONFIRMED: {
       //     try {

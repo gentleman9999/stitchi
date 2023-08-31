@@ -1,3 +1,4 @@
+import { logger } from '../../telemetry'
 import { MembershipFactoryMembership } from './factory/membership'
 import makeMembershipRepository, { MembershipRepository } from './repository'
 import { CreateMembershipFnInput } from './repository/create-membership'
@@ -51,15 +52,16 @@ const makeClient: MakeClientFn = (
             },
           })
       } catch (error) {
-        console.error(
-          `Error creating membership notification setting for organization: ${input.membership.organizationId}`,
-          {
+        logger
+          .child({
             context: {
               error,
               input,
             },
-          },
-        )
+          })
+          .error(
+            `Error creating membership notification setting for organization: ${input.membership.organizationId}`,
+          )
         throw new Error('Failed to create memberhsip notification setting')
       }
 
@@ -73,7 +75,7 @@ const makeClient: MakeClientFn = (
           },
         })
       } catch (error) {
-        console.error(
+        logger.error(
           `Error creating membership for organization: ${input.membership.organizationId}`,
           {
             context: {
@@ -93,12 +95,14 @@ const makeClient: MakeClientFn = (
       try {
         membership = await membershipRepository.getMembership(input)
       } catch (error) {
-        console.error(`Error getting membership: ${input.membershipId}`, {
-          context: {
-            error,
-            input,
-          },
-        })
+        logger
+          .child({
+            context: {
+              error,
+              input,
+            },
+          })
+          .error(`Error getting membership: ${input.membershipId}`)
         throw error
       }
 
@@ -111,12 +115,14 @@ const makeClient: MakeClientFn = (
       try {
         memberships = await membershipRepository.listMemberships(input)
       } catch (error) {
-        console.error(`Error listing memberships`, {
-          context: {
-            error,
-            input,
-          },
-        })
+        logger
+          .child({
+            context: {
+              error,
+              input,
+            },
+          })
+          .error(`Error listing memberships`)
         throw error
       }
 
@@ -137,12 +143,14 @@ const makeClient: MakeClientFn = (
 
         activeUserMembership = membership
       } catch (error) {
-        console.error(`Error listing active user memberships`, {
-          context: {
-            error,
-            input,
-          },
-        })
+        logger
+          .child({
+            context: {
+              error,
+              input,
+            },
+          })
+          .error(`Error listing active user memberships`)
         throw error
       }
 
@@ -155,12 +163,14 @@ const makeClient: MakeClientFn = (
           membershipId: activeUserMembership.membershipId,
         })
       } catch (error) {
-        console.error(`Error getting active user membership`, {
-          context: {
-            error,
-            input,
-          },
-        })
+        logger
+          .child({
+            context: {
+              error,
+              input,
+            },
+          })
+          .error(`Error getting active user membership`)
         throw error
       }
 
@@ -176,12 +186,14 @@ const makeClient: MakeClientFn = (
             activeUserMembership: input,
           })
       } catch (error) {
-        console.error(`Error upserting active user membership`, {
-          context: {
-            error,
-            input,
-          },
-        })
+        logger
+          .child({
+            context: {
+              error,
+              input,
+            },
+          })
+          .error(`Error upserting active user membership`)
         throw error
       }
 
@@ -192,12 +204,14 @@ const makeClient: MakeClientFn = (
           membershipId: activeUserMembership.membershipId,
         })
       } catch (error) {
-        console.error(`Error getting active user membership`, {
-          context: {
-            error,
-            input,
-          },
-        })
+        logger
+          .child({
+            context: {
+              error,
+              input,
+            },
+          })
+          .error(`Error getting active user membership`)
         throw error
       }
 
@@ -211,15 +225,16 @@ const makeClient: MakeClientFn = (
         membershipNotificationSetting =
           await membershipRepository.getMembershipNotificationSetting(input)
       } catch (error) {
-        console.error(
-          `Error getting membership notification setting: ${input.membershipNotificationSettingId}`,
-          {
+        logger
+          .child({
             context: {
               error,
               input,
             },
-          },
-        )
+          })
+          .error(
+            `Error getting membership notification setting: ${input.membershipNotificationSettingId}`,
+          )
         throw error
       }
 
@@ -233,15 +248,16 @@ const makeClient: MakeClientFn = (
         membershipNotificationSetting =
           await membershipRepository.updateMembershipNotificationSetting(input)
       } catch (error) {
-        console.error(
-          `Error updating membership notification setting: ${input.membershipNotificationSetting.id}`,
-          {
+        logger
+          .child({
             context: {
               error,
               input,
             },
-          },
-        )
+          })
+          .error(
+            `Error updating membership notification setting: ${input.membershipNotificationSetting.id}`,
+          )
         throw error
       }
 

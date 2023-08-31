@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { logger } from '../../../telemetry'
 import { OrganizationColorTable } from '../db/organization-color-table'
 import {
   OrganizationFactoryOrganizationColor,
@@ -42,9 +43,11 @@ const makeDeleteOrganizationColor: MakeDeleteOrganizationColorFn =
         },
       })
     } catch (error) {
-      console.error('Unable to delete color', {
-        context: { error, input },
-      })
+      logger
+        .child({
+          context: { error, input },
+        })
+        .error('Unable to delete color')
 
       throw new Error('Unable to delete color')
     }

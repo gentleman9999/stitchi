@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import './telemetry'
+import './telemetry/tracing'
 import { ApolloServer } from 'apollo-server-express'
 import { getOrThrow } from './utils'
 import { schema as mainGraphSchema } from './graphql/schema'
@@ -14,13 +14,14 @@ import createRestApi from './rest'
 import { WebSocketServer } from 'ws'
 import { useServer } from 'graphql-ws/lib/use/ws'
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core'
+import { logger } from './telemetry'
 
 process
   .on('unhandledRejection', (reason, p) => {
-    console.error('Unhandled Rejection at Promise', reason, p)
+    logger.error('Unhandled Rejection at Promise', reason, p)
   })
   .on('uncaughtException', err => {
-    console.error('Uncaught Exception thrown', err)
+    logger.error('Uncaught Exception thrown', err)
   })
 
 const PORT = getOrThrow(process.env.PORT, 'PORT')
@@ -102,10 +103,10 @@ async function start() {
 
   await new Promise<void>(resolve => httpServer.listen({ port: PORT }, resolve))
 
-  console.log(
+  logger.info(
     `🚀 Server ready at http://localhost:5000${gqlServer.graphqlPath}`,
   )
-  console.log(
+  logger.info(
     `🚀 Web Socket ready at ws://localhost:5000${gqlServer.graphqlPath}`,
   )
 }

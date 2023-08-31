@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { MailingAddressTable } from '../db/mailing-address-table'
 import { mailingAddressFactory, OrderFactoryMailingAddress } from '../factory'
+import { logger } from '../../../telemetry'
 
 const prisma = new PrismaClient()
 
@@ -32,12 +33,11 @@ const makeGetMailingAddress: MakeGetMailingAddressFn =
         },
       })
     } catch (error) {
-      console.error(
-        `Failed to get mailing address: ${input.mailingAddressId}`,
-        {
+      logger
+        .child({
           context: { error },
-        },
-      )
+        })
+        .error(`Failed to get mailing address: ${input.mailingAddressId}`)
       throw new Error('Failed to get mailing address')
     }
 

@@ -200,7 +200,7 @@ export const ExtendDesignRequests = extendType({
 
           designRequest = designRequestFactoryToGrahpql(response)
         } catch (error) {
-          console.log(error)
+          ctx.logger.error(error)
           throw new GraphQLError('Failed to get design request')
         }
 
@@ -229,7 +229,7 @@ export const ExtendDesignRequests = extendType({
 
           proofs = response.map(designProofFactoryToGraphql)
         } catch (error) {
-          console.log(error)
+          ctx.logger.error(error)
           throw new GraphQLError('Failed to get proofs')
         }
 
@@ -246,7 +246,7 @@ export const ExtendDesignRequests = extendType({
               viewerId: ctx.userId,
             })
           } catch (error) {
-            console.log(error)
+            ctx.logger.error(error)
             throw new GraphQLError('Failed to get conversation')
           }
         }

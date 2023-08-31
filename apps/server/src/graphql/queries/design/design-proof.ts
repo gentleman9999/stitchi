@@ -19,7 +19,7 @@ export const DesignProofExtendsDesignRequest = extendType({
             designProofId: parent.approvedDesignProofId,
           })
         } catch (error) {
-          console.error(error)
+          ctx.logger.error(error)
           throw new GraphQLError('Unable to fetch approved proof')
         }
 
@@ -52,7 +52,7 @@ export const DesignProofExtendsDesignRequest = extendType({
             take: args.limit || undefined,
           })
         } catch (error) {
-          console.error(error)
+          ctx.logger.error(error)
           throw new GraphQLError('Unable to fetch design proofs')
         }
 
@@ -82,7 +82,7 @@ export const DesignProofExtendsQuery = extendType({
             throw new Error('Design proof not found')
           }
         } catch (error) {
-          console.error(error)
+          ctx.logger.error(error)
           throw new GraphQLError('Unable to fetch design proof')
         }
 

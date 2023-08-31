@@ -6,6 +6,7 @@ import makeOrganizationRepository, {
 import { ColorService, makeClient as makeColorServiceClient } from '../../color'
 
 import { colorFactory, ColorFactoryColor } from '../../color/factory/color'
+import { logger } from '../../../telemetry'
 
 const inputSchema = yup.object().shape({
   color: yup
@@ -68,7 +69,9 @@ const makeUpdateOrganizationColor: MakeUpdateOrganizationColorFn =
         },
       })
     } catch (error) {
-      console.error('Failed to update color', { context: { error, input } })
+      logger
+        .child({ context: { error, input } })
+        .error('Failed to update color')
       throw new Error('Failed to update color')
     }
 

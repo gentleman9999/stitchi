@@ -15,9 +15,11 @@ export const FulfillmentsExtendsOrder = extendType({
             filter: { orderId: parent.id },
           })
         } catch (error) {
-          console.log(`Error fetching fulfillments for order ${parent.id}`, {
-            context: { error },
-          })
+          ctx.logger
+            .child({
+              context: { error },
+            })
+            .error(`Error fetching fulfillments for order ${parent.id}`)
           throw new GraphQLError('Failed to fetch order fulfillments')
         }
 

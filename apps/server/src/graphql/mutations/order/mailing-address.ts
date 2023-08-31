@@ -60,7 +60,7 @@ export const mailingAddressCreate = mutationField('mailingAddressCreate', {
         },
       })
     } catch (error) {
-      console.error(error)
+      ctx.logger.error(error)
       throw new GraphQLError('Unable to create mailing address')
     }
 

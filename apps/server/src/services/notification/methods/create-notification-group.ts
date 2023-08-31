@@ -1,3 +1,4 @@
+import { logger } from '../../../telemetry'
 import { DesignFactoryDesignRequest } from '../../design/factory'
 import { NotificationChannelType } from '../db/notification-channel-table'
 import { NotificationRecordType } from '../db/notification-table'
@@ -50,13 +51,15 @@ const makeMethod: MakeMethodFn =
             throw new Error('Failed to create notification group')
           }
         } catch (error) {
-          console.error('Failed to create notification group', {
-            context: {
-              error,
-              type,
-              params,
-            },
-          })
+          logger
+            .child({
+              context: {
+                error,
+                type,
+                params,
+              },
+            })
+            .error('Failed to create notification group')
 
           throw error
         }
@@ -112,13 +115,15 @@ const makeMethod: MakeMethodFn =
 
           notifications.push(customerNotification)
         } catch (error) {
-          console.error('Failed to create customer notification', {
-            context: {
-              error,
-              type,
-              params,
-            },
-          })
+          logger
+            .child({
+              context: {
+                error,
+                type,
+                params,
+              },
+            })
+            .error('Failed to create customer notification')
         }
 
         try {
@@ -170,13 +175,15 @@ const makeMethod: MakeMethodFn =
 
           notifications.push(adminNotification)
         } catch (error) {
-          console.error('Failed to create admin notification', {
-            context: {
-              error,
-              type,
-              params,
-            },
-          })
+          logger
+            .child({
+              context: {
+                error,
+                type,
+                params,
+              },
+            })
+            .error('Failed to create admin notification')
         }
 
         try {
@@ -228,13 +235,15 @@ const makeMethod: MakeMethodFn =
 
           notifications.push(artistNotification)
         } catch (error) {
-          console.error('Failed to create artist notification', {
-            context: {
-              error,
-              type,
-              params,
-            },
-          })
+          logger
+            .child({
+              context: {
+                error,
+                type,
+                params,
+              },
+            })
+            .error('Failed to create artist notification')
         }
 
         return notificationGroupFactory({

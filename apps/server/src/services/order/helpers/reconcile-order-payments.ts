@@ -1,3 +1,4 @@
+import { logger } from '../../../telemetry'
 import { PaymentClientService } from '../../payment'
 import { RefundFactoryRefund } from '../../payment/factory'
 import { OrderRecordPaymentStatus } from '../db/order-table'
@@ -54,7 +55,7 @@ const reconcileOrderPayments = async ({
       orderId: order.id,
     })
   } catch (error) {
-    console.error(error)
+    logger.error(error)
     throw new Error('Failed to list payment intents')
   }
 
@@ -69,7 +70,7 @@ const reconcileOrderPayments = async ({
       refunds.push(...refundList)
     }
   } catch (error) {
-    console.error(error)
+    logger.error(error)
     throw new Error('Failed to list refunds')
   }
 
@@ -113,9 +114,11 @@ const reconcileOrderPayments = async ({
       },
     })
   } catch (error) {
-    console.error(`Failed to update order ${order.id}`, {
-      context: { error },
-    })
+    logger
+      .child({
+        context: { error },
+      })
+      .error(`Failed to update order ${order.id}`)
     throw new Error('Failed to update order')
   }
 

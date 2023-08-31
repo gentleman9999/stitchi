@@ -19,7 +19,7 @@ export const CatalogProductExtendsDesignRequestProduct = extendType({
             throw new Error('Catalog product not found')
           }
         } catch (error) {
-          console.error(
+          ctx.logger.error(
             `Failed to get catalog product: ${designRequestProduct.catalogProductId}`,
             {
               context: {

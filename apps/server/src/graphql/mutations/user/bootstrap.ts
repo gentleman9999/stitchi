@@ -11,7 +11,7 @@ export const userBootstrap = mutationField('userBoostrap', {
       throw new Error('User not authenticated')
     }
 
-    console.info('Starting to bootstrap user')
+    ctx.logger.info('Starting to bootstrap user')
 
     let hasExistingMembership
 
@@ -23,19 +23,21 @@ export const userBootstrap = mutationField('userBoostrap', {
 
       hasExistingMembership = res.length > 0
     } catch (error) {
-      console.error('Failed to list memberships', {
-        context: { error, userId: ctx.userId },
-      })
+      ctx.logger
+        .child({
+          context: { error, userId: ctx.userId },
+        })
+        .error('Failed to list memberships')
       throw new ApolloError('Failed to list memberships')
     }
 
     if (hasExistingMembership) {
-      console.info(`User ${ctx.userId} already has memberships`)
+      ctx.logger.info(`User ${ctx.userId} already has memberships`)
       return { id: ctx.userId }
     }
 
     const user = await ctx.user.getUser({ id: ctx.userId }).catch(error => {
-      console.error(error)
+      ctx.logger.error(error)
       throw new ApolloError('Failed to get user from Auth0')
     })
 
@@ -95,7 +97,7 @@ export const userBootstrap = mutationField('userBoostrap', {
       }
     }
 
-    console.info(`Successfully bootstrapped user ${ctx.userId}`)
+    ctx.logger.info(`Successfully bootstrapped user ${ctx.userId}`)
 
     return { ...user, id: user.user_id }
   },

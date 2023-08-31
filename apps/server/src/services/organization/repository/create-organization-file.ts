@@ -10,6 +10,7 @@ import {
   organizationFileFactory,
   OrganizationFactoryOrganizationFile,
 } from '../factory/organization-file'
+import { logger } from '../../../telemetry'
 
 const inputSchema = OrganizationFile.omit([
   'id',
@@ -56,7 +57,7 @@ const makeCreateOrganizationFile: MakeCreateOrganizationFileFn =
         },
       })
     } catch (error) {
-      console.error(error)
+      logger.error(error)
       throw new Error('Failed to create organizationFile')
     }
 

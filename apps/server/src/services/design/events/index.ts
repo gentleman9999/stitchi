@@ -1,3 +1,4 @@
+import { logger } from '../../../telemetry'
 import {
   DesignRequestUpdatedEventPayload,
   makeHandler as makeDesignRequestUpdatedHandler,
@@ -29,7 +30,7 @@ const makeEvents = (
 ) => {
   return {
     emit: async (event: DesignRequestEvent) => {
-      console.info(`Handling event ${event.type}`, { context: { event } })
+      logger.child({ context: { event } }).info(`Handling event ${event.type}`)
 
       switch (event.type) {
         case 'designRequest.updated':

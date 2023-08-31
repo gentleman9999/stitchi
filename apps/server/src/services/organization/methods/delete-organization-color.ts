@@ -4,6 +4,7 @@ import makeOrganizationRepository, {
 } from '../repository'
 import { ColorService, makeClient as makeColorServiceClient } from '../../color'
 import { colorFactory, ColorFactoryColor } from '../../color/factory/color'
+import { logger } from '../../../telemetry'
 
 const inputSchema = yup.object().shape({
   colorId: yup.string().uuid().required(),
@@ -41,7 +42,9 @@ const makeDeleteOrganizationColor: MakeDeleteOrganizationColorFn =
         colorId,
       })
     } catch (error) {
-      console.error('Failed to delete color', { context: { error, input } })
+      logger
+        .child({ context: { error, input } })
+        .error('Failed to delete color')
       throw new Error('Failed to delete color')
     }
 
@@ -60,9 +63,11 @@ const makeDeleteOrganizationColor: MakeDeleteOrganizationColorFn =
         throw new Error('Color not found')
       }
     } catch (error) {
-      console.error('Failed to delete organization color', {
-        context: { error, input },
-      })
+      logger
+        .child({
+          context: { error, input },
+        })
+        .error('Failed to delete organization color')
       throw new Error('Failed to delete organization color')
     }
 
@@ -71,9 +76,11 @@ const makeDeleteOrganizationColor: MakeDeleteOrganizationColorFn =
         organizationColorId: organizationColorToDelete.id,
       })
     } catch (error) {
-      console.error('Failed to delete organization color', {
-        context: { error, input },
-      })
+      logger
+        .child({
+          context: { error, input },
+        })
+        .error('Failed to delete organization color')
       throw new Error('Failed to delete organization color')
     }
 

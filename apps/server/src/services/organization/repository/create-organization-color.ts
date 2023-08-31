@@ -10,6 +10,7 @@ import {
   organizationColorFactory,
   OrganizationFactoryOrganizationColor,
 } from '../factory/organization-color'
+import { logger } from '../../../telemetry'
 
 const inputSchema = OrganizationColor.omit([
   'id',
@@ -55,7 +56,7 @@ const makeCreateOrganizationColor: MakeCreateOrganizationColorFn =
         },
       })
     } catch (error) {
-      console.error(error)
+      logger.error(error)
       throw new Error('Failed to create organizationColor')
     }
 

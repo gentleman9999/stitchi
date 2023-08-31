@@ -17,6 +17,7 @@ import {
   NotificationChannel,
   NotificationChannelType,
 } from '../db/notification-channel-table'
+import { logger } from '../../../telemetry'
 
 const smsNotificationSchema = NotificationChannel.omit([
   'id',
@@ -193,7 +194,7 @@ const makeCreateNotification: MakeCreateNotificationFn =
         },
       })
     } catch (error) {
-      console.error(error)
+      logger.error(error)
       throw new Error('Failed to create notification')
     }
 

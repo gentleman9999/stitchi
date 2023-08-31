@@ -1,4 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client'
+import { logger } from '../../../telemetry'
 import { DesignProofTable } from '../db/design-proof-table'
 import { DesignFactoryProof, designProofFactory } from '../factory'
 
@@ -41,9 +42,11 @@ const makeListDesignProofs: MakeListDesignProofsFn =
         },
       })
     } catch (error) {
-      console.error(`Failed to get design proofs`, {
-        context: { error },
-      })
+      logger
+        .child({
+          context: { error },
+        })
+        .error(`Failed to get design proofs`)
       throw new Error('Failed to get design proofs')
     }
 

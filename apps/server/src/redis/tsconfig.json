@@ -3,5 +3,8 @@
   "compilerOptions": {
     "rootDir": "."
   },
-  "references": [{ "path": "../utils" }]
+  "references": [
+      { "path": "../utils" },
+      { "path": "../telemetry" }
+  ]
 }

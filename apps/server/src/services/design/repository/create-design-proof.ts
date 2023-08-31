@@ -9,6 +9,7 @@ import { DesignFactoryProof, designProofFactory } from '../factory'
 import { DesignProofLocation } from '../db/design-proof-location-table'
 import { DesignProofVariant } from '../db/design-proof-variant-table'
 import { DesignProofVariantImage } from '../db/design-proof-variant-image-table'
+import { logger } from '../../../telemetry'
 
 const variantImageSchema = DesignProofVariantImage.omit([
   'designProofVariantId',
@@ -112,9 +113,11 @@ const makeCreateDesignProof: MakeCreateDesignProofFn =
         },
       })
     } catch (error) {
-      console.error(`Failed to create design proof: ${input}`, {
-        context: { error, input },
-      })
+      logger
+        .child({
+          context: { error, input },
+        })
+        .error(`Failed to create design proof: ${input}`)
       throw new Error('Failed to create design proof')
     }
 

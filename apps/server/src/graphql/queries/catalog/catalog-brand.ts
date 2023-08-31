@@ -21,7 +21,7 @@ export const CatalogBrandExtendsCatalogProduct = extendType({
             throw new Error('Catalog brand not found')
           }
         } catch (error) {
-          console.error(
+          ctx.logger.error(
             `Failed to get catalog brand: ${catalogProduct.brandId}`,
             {
               context: {

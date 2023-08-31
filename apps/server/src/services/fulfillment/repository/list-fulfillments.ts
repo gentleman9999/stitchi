@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { logger } from '../../../telemetry'
 import {
   FulfillmentTable,
   table as makeFulfillmentTable,
@@ -43,9 +44,11 @@ const makeListFulfillments: MakeListFulfillmentsFn =
         },
       })
     } catch (error) {
-      console.error(`Failed to get fulfillments`, {
-        context: { error },
-      })
+      logger
+        .child({
+          context: { error },
+        })
+        .error(`Failed to get fulfillments`)
       throw new Error('Failed to get fulfillments')
     }
 
