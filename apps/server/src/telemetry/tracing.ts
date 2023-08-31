@@ -46,6 +46,8 @@ process.on('SIGTERM', () => {
   sdk
     .shutdown()
     .then(() => logger.info('Tracing terminated'))
-    .catch(error => logger.error('Error terminating tracing', error))
+    .catch(error =>
+      logger.child({ error: JSON.stringify(error) }).error('Error terminating tracing', error),
+    )
     .finally(() => process.exit(0))
 })
