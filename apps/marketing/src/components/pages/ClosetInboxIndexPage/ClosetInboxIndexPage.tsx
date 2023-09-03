@@ -14,6 +14,7 @@ import {
   ChevronRightIcon,
   InboxIcon,
 } from '@heroicons/react/20/solid'
+import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { format, parseISO } from 'date-fns'
 import Link from 'next/link'
 import pluralize from 'pluralize'
@@ -83,7 +84,11 @@ const ClosetInboxIndexPage = ({ notifications }: Props) => {
                     {channel.ctaUrl ? (
                       <div className="flex gap-4 px-8">
                         <Button
-                          Component={Link}
+                          Component={
+                            channel.ctaUrl.startsWith(makeAbsoluteUrl('/api/'))
+                              ? 'a'
+                              : Link
+                          }
                           href={channel.ctaUrl}
                           variant="ghost"
                         >

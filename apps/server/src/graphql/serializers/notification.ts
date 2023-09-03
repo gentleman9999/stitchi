@@ -6,7 +6,13 @@ import {
   NotificationFactoryNotificationChannelEmail,
   NotificationFactoryNotificationChannelWeb,
 } from '../../services/notification/factory/notification'
+import { getOrThrow } from '../../utils'
 import { NexusGenObjects } from '../generated/nexus'
+
+const appBaseUrl = getOrThrow(
+  process.env.STITCHI_MARKETING_APPLICATION_HOST,
+  'STITCHI_MARKETING_APPLICATION_HOST',
+)
 
 export const notificationFactoryNotificationChannelEmailToGraphql = (
   channel: NotificationFactoryNotificationChannelEmail,
@@ -36,7 +42,7 @@ export const notificationFactoryNotificationChannelWebToGraphql = ({
 
   switch (resource) {
     case NotificationEventResource.ORDER: {
-      ctaUrl = `${process.env.STITCHI_MARKETING_APPLICATION_HOST}/orders/${resourceId}`
+      ctaUrl = `${appBaseUrl}/api/orders/${resourceId}`
       ctaLabel = 'View Order'
     }
   }

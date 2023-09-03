@@ -32,11 +32,6 @@ module.exports = withBundleAnalyzer({
   async redirects() {
     return [
       {
-        source: '/api/orders/:orderId',
-        destination: '/orders/:orderId',
-        permanent: false,
-      },
-      {
         source: '/login',
         destination: '/api/auth/login',
         permanent: false,
