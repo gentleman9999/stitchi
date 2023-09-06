@@ -51,7 +51,6 @@ const makeCreateOrganizationFile: MakeCreateOrganizationFileFn =
     try {
       organizationFile = await organizationFileTable.create({
         data: {
-          userId: validInput.userId,
           organizationId: validInput.organizationId,
           fileId: validInput.fileId,
         },

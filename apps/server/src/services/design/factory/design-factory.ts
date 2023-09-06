@@ -31,7 +31,7 @@ const designFactory = ({
     locations,
     variants,
     id: design.id,
-    userId: design.userId,
+    membershipId: design.membershipId,
     organizationId: design.organizationId,
     designRequestId: design.designRequestId,
     designProofId: design.designProofId,

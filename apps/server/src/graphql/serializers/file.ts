@@ -15,7 +15,7 @@ export const fileFactoryToGrahpqlFileImage = (
   return {
     id: file.id,
 
-    userId: file.userId,
+    membershipId: file.membershipId,
     organizationId: file.organizationId,
 
     url: file.url,

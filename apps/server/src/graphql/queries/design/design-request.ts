@@ -45,7 +45,7 @@ export const MembershipDesignRequestsWhereFilterInput = inputObjectType({
       type: 'DateFilterInput',
     })
 
-    t.field('userId', {
+    t.field('membershipId', {
       type: 'StringFilterInput',
     })
   },
@@ -66,10 +66,7 @@ export const DesignRequestsExtendsMembership = extendType({
     t.nonNull.boolean('hasDesignRequests', {
       resolve: async (parent, _, { design }) => {
         const designRequests = await design.listDesignRequests({
-          where: {
-            organizationId: parent.organizationId,
-            userId: parent.userId,
-          },
+          where: { membershipId: parent.id },
           take: 1,
         })
 
@@ -102,9 +99,9 @@ export const DesignRequestsExtendsMembership = extendType({
         const resourceOwnerFilter: Prisma.Enumerable<Prisma.DesignRequestWhereInput> =
           []
 
-        const { userId } = filter?.where || {}
+        const { membershipId } = filter?.where || {}
 
-        if (!Object.keys(userId || {}).length) {
+        if (!Object.keys(membershipId || {}).length) {
           if (isArtist) {
             // Artists can see all design requests, skip
             resourceOwnerFilter.push({
@@ -122,10 +119,10 @@ export const DesignRequestsExtendsMembership = extendType({
             resourceOwnerFilter.push({
               designRequestArtists: {
                 some: {
-                  artistUserId: {
-                    equals: userId?.equals || undefined,
-                    in: userId?.in || undefined,
-                    notIn: userId?.notIn || undefined,
+                  artistMembershipId: {
+                    equals: membershipId?.equals || undefined,
+                    in: membershipId?.in || undefined,
+                    notIn: membershipId?.notIn || undefined,
                   },
                 },
               },
@@ -133,10 +130,10 @@ export const DesignRequestsExtendsMembership = extendType({
           } else {
             resourceOwnerFilter.push({
               organizationId: parent.organizationId,
-              userId: {
-                equals: userId?.equals || undefined,
-                in: userId?.in || undefined,
-                notIn: userId?.notIn || undefined,
+              membershipId: {
+                equals: membershipId?.equals || undefined,
+                in: membershipId?.in || undefined,
+                notIn: membershipId?.notIn || undefined,
               },
             })
           }
@@ -210,7 +207,7 @@ export const ExtendDesignRequests = extendType({
               id: uuid.v4(),
               method: 'CREATE',
               timestamp: designRequest.createdAt,
-              userId: designRequest.userId,
+              membershipId: designRequest.membershipId,
             },
           ]
 
@@ -243,7 +240,7 @@ export const ExtendDesignRequests = extendType({
 
             conversation = conversationFactoryToGraphQl({
               conversation: response,
-              viewerId: ctx.userId,
+              viewerId: ctx.membershipId,
             })
           } catch (error) {
             ctx.logger.error(error)

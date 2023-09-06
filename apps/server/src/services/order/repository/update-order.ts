@@ -88,7 +88,7 @@ const makeUpdateOrder: MakeUpdateOrderFn =
         data: {
           updatedAt: new Date(),
           organizationId: validInput.organizationId,
-          userId: validInput.userId,
+          membershipId: validInput.membershipId,
           type: validInput.type,
           customerEmail: validInput.customerEmail,
           customerFirstName: validInput.customerFirstName,

@@ -4,7 +4,7 @@ export const MailingAddress = objectType({
   name: 'MailingAddress',
   definition(t) {
     t.nonNull.id('id')
-    t.string('userId')
+    t.string('membershipId')
     t.string('organizationId')
     t.string('name')
     t.string('phone')

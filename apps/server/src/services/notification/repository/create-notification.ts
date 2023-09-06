@@ -142,7 +142,7 @@ const makeCreateNotification: MakeCreateNotificationFn =
       notification = await notificationTable.create({
         data: {
           type: validInput.type,
-          userId: validInput.userId,
+          membershipId: validInput.membershipId,
           organizationId: validInput.organizationId,
           notificationGroupId: validInput.notificationGroupId,
           sentAt: null,

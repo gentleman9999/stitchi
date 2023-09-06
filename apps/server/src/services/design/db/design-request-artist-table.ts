@@ -10,7 +10,7 @@ export const DesignRequestArtist: yup.ObjectSchema<DesignRequestArtistSchema> =
     .shape({
       id: yup.string().uuid().required(),
       designRequestId: yup.string().uuid().required(),
-      artistUserId: yup.string().required(),
+      artistMembershipId: yup.string().uuid().required(),
       isActive: yup.boolean().required(),
 
       createdAt: yup.date().required(),

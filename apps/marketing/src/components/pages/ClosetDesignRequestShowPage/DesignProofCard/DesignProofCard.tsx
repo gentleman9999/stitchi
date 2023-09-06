@@ -26,7 +26,7 @@ const DesignProofCard = ({ designProof, badges, href }: Props) => {
         />
         <div className="text-sm text-gray-500 text-center mt-2">
           <div>{format(new Date(designProof.createdAt), 'PPP')}</div>
-          <div>Artist: {designProof.artist?.name || '-'}</div>
+          <div>Artist: {designProof.artist?.user?.name || '-'}</div>
           {badges ? <div className="mt-3">{badges}</div> : null}
         </div>
       </div>
@@ -56,7 +56,10 @@ DesignProofCard.fragments = {
       }
       artist {
         id
-        name
+        user {
+          id
+          name
+        }
       }
     }
   `,

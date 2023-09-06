@@ -31,7 +31,7 @@ const designProofFactory = ({
     locations,
     variants,
     id: designProof.id,
-    artistUserId: designProof.artistUserId,
+    artistMembershipId: designProof.artistMembershipId,
     catalogProductId: designProof.catalogProductId,
     primaryImageFileId: designProof.primaryImageFileId,
     createdAt: designProof.createdAt,

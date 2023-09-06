@@ -49,7 +49,11 @@ export const designRequestCreate = mutationField('designRequestCreate', {
   args: {
     input: nonNull(DesignRequestCreateInput),
   },
-  resolve: async (_, { input }, { design, organizationId, userId, logger }) => {
+  resolve: async (
+    _,
+    { input },
+    { design, organizationId, membershipId, logger },
+  ) => {
     let designRequest
 
     try {
@@ -57,7 +61,7 @@ export const designRequestCreate = mutationField('designRequestCreate', {
         designRequest: {
           organizationId: organizationId || null,
           approvedDesignProofId: null,
-          userId: userId || null,
+          membershipId: membershipId || null,
           status: 'DRAFT',
           name: input.name || 'No name',
           description: input.description || null,
@@ -155,7 +159,7 @@ export const designRequestUpdate = mutationField('designRequestUpdate', {
           name: input.name || foundDesignRequest.name,
           status: foundDesignRequest.status,
           organizationId: foundDesignRequest.organizationId,
-          userId: foundDesignRequest.userId,
+          membershipId: foundDesignRequest.membershipId,
           metadata: {
             useCase: input.useCase || foundDesignRequest.metadata?.useCase,
           },
@@ -304,9 +308,9 @@ export const designRequestProofCreate = mutationField(
     resolve: async (
       _,
       { input },
-      { design, subscriptions, conversation, userId, logger },
+      { design, subscriptions, conversation, membershipId, logger },
     ) => {
-      if (!userId) {
+      if (!membershipId) {
         throw new GraphQLError('Unauthorized')
       }
 
@@ -326,7 +330,7 @@ export const designRequestProofCreate = mutationField(
       try {
         proof = await design.createDesignProof({
           designProof: {
-            artistUserId: userId,
+            artistMembershipId: membershipId,
             primaryImageFileId: input.primaryImageFileId,
             catalogProductId: designRequest.product.catalogProductId,
             locations: input.proofLocations.map(location => ({
@@ -394,7 +398,7 @@ export const designRequestProofCreate = mutationField(
                 messages: [
                   ...convo.messages,
                   {
-                    senderUserId: proof.artistUserId,
+                    senderMembershipId: proof.artistMembershipId,
                     message: input.message,
                     files: [],
                   },
@@ -451,8 +455,12 @@ export const designRequestRevisionRequestCreate = mutationField(
     args: {
       input: nonNull(DesignRequestRevisionRequestCreateInput),
     },
-    resolve: async (_, { input }, { subscriptions, design, userId, logger }) => {
-      if (!userId) {
+    resolve: async (
+      _,
+      { input },
+      { subscriptions, design, membershipId, logger },
+    ) => {
+      if (!membershipId) {
         throw new GraphQLError('Unauthorized')
       }
 
@@ -476,7 +484,7 @@ export const designRequestRevisionRequestCreate = mutationField(
             revisionRequests: [
               ...designRequest.revisionRequests,
               {
-                userId,
+                membershipId,
                 description: input.description,
                 files: input.fileIds.map(fileId => ({ fileId })),
               },
@@ -523,7 +531,7 @@ export const designRequestConversationMessageCreate = mutationField(
       input: nonNull(DesignRequestConversationMessageCreateInput),
     },
     resolve: async (_, { input }, ctx) => {
-      if (!ctx.userId) {
+      if (!ctx.membershipId) {
         throw new GraphQLError('Unauthorized')
       }
 
@@ -564,7 +572,7 @@ export const designRequestConversationMessageCreate = mutationField(
             messages: [
               ...conversation.messages,
               {
-                senderUserId: ctx.userId,
+                senderMembershipId: ctx.membershipId,
                 message: input.message,
                 files: input.fileIds.map(fileId => ({ fileId })),
               },
@@ -615,8 +623,8 @@ export const designRequestApprove = mutationField('designRequestApprove', {
   args: {
     input: nonNull('DesignRequestApproveInput'),
   },
-  resolve: async (_, { input }, { design, userId, organizationId, logger }) => {
-    if (!userId || !organizationId) throw new GraphQLError('Not authenticated')
+  resolve: async (_, { input }, { design, membershipId, logger }) => {
+    if (!membershipId) throw new GraphQLError('Not authenticated')
 
     let designRequest
 
@@ -651,7 +659,7 @@ export const designRequestApprove = mutationField('designRequestApprove', {
           organizationId: designRequest.organizationId,
           primaryImageFileId: approvedProof.primaryImageFileId,
           termsConditionsAgreed: input.termsConditionsAgreed,
-          userId: userId,
+          membershipId: membershipId,
           description: input.description || '',
           name: input.name || designRequest.name,
           locations: approvedProof.locations.map(location => ({

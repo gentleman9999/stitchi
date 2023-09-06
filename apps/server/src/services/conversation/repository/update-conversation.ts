@@ -133,7 +133,7 @@ const makeUpdateConversation: MakeUpdateConversationFn =
                   id,
                 },
                 data: {
-                  senderUserId: message.senderUserId,
+                  senderMembershipId: message.senderMembershipId,
                   message: message.message,
                   conversationMessageFiles: {
                     create: filesToCreate.map(({ fileId }) => ({

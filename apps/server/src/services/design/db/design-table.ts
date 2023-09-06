@@ -8,7 +8,7 @@ export const Design: yup.ObjectSchema<DesignSchema> = yup
     designRequestId: yup.string().uuid().required(),
     designProofId: yup.string().uuid().required(),
     catalogProductId: yup.string().required(),
-    userId: yup.string().nullable().defined(),
+    membershipId: yup.string().uuid().defined(),
     organizationId: yup.string().uuid().nullable().defined(),
     primaryImageFileId: yup.string().uuid().nullable().defined(),
 

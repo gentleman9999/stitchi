@@ -1,6 +1,6 @@
 import { GraphQLError } from 'graphql'
 import { inputObjectType, mutationField, nonNull, objectType } from 'nexus'
-import { membershipFactoryToGrahpql } from '../../serializers/membership'
+import { membershipFactoryToGraphql } from '../../serializers/membership'
 import { organizationFactoryToGrahpql } from '../../serializers/organization'
 
 export * from './bootstrap'
@@ -121,7 +121,7 @@ export const userOrganizationCreate = mutationField('userOrganizationCreate', {
 
     return {
       organization: organizationFactoryToGrahpql(organization),
-      membership: membershipFactoryToGrahpql(membership),
+      membership: membershipFactoryToGraphql(membership),
     }
   },
 })

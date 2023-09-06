@@ -16,7 +16,7 @@ export const Product = objectType({
     t.nonNull.int('priceCents', {
       resolve: async (parent, _, ctx) => {
         try {
-          const { productUnitCostCents } = await calculate({
+          const { productUnitCostCents } = calculate({
             productPriceCents: (parent as any).prices.price.value * 100,
             includeFulfillment: false,
             quantity: 10_000,

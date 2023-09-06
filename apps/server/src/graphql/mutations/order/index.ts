@@ -102,7 +102,7 @@ export const orderConfirm = mutationField('orderConfirm', {
           provinceCode: input.shippingAddress.provinceCode || null,
           zip: input.shippingAddress.zip || null,
           organizationId: ctx.organizationId || null,
-          userId: ctx.userId || null,
+          membershipId: ctx.membershipId || null,
           latitude: null,
           longitude: null,
         },
@@ -128,7 +128,7 @@ export const orderConfirm = mutationField('orderConfirm', {
           shippingAddressId: shippingAddress.id,
 
           // Update these values if the don't already exist
-          userId: order.userId || ctx.userId || null,
+          membershipId: order.membershipId || ctx.membershipId || null,
           organizationId: order.organizationId || ctx.organizationId || null,
         },
       })

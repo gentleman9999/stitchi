@@ -13,7 +13,7 @@ datasource db {
 
 model File {
   id             String  @id @default(uuid())
-  userId         String?
+  membershipId   String?
   organizationId String?
 
   fileType FileType
@@ -79,7 +79,6 @@ enum GlobalRole {
 model OrganizationFile {
   id             String @id @default(uuid())
   organizationId String
-  userId         String
 
   fileId String
 
@@ -170,11 +169,12 @@ model Order {
 
   humanReadableId String
 
+  // The membership that this order belongs to
+
+  membershipId String?
+
   // The organization that this order belongs to
   organizationId String?
-
-  // The user that placed the order
-  userId String?
 
   customerFirstName String?
   customerLastName  String?
@@ -220,7 +220,7 @@ model Order {
   Fulfillment     Fulfillment[]
   ShippingAddress MailingAddress? @relation(fields: [shippingAddressId], references: [id])
 
-  @@unique([humanReadableId, organizationId, userId])
+  @@unique([humanReadableId, organizationId, membershipId])
   @@index([organizationId])
   @@index([shippingAddressId])
 }
@@ -318,8 +318,9 @@ model Fulfillment {
 
   fulfillmentTrackingInfoId String
 
-  // The user that created the fulfillment
-  userId         String?
+  // The membership that created the fulfillment
+
+  membershipId   String?
   organizationId String?
 
   createdAt DateTime @default(now())
@@ -384,7 +385,8 @@ model Design {
   organizationId String?
 
   // The user that created the design
-  userId String?
+
+  membershipId String?
 
   primaryImageFileId String?
 
@@ -405,7 +407,7 @@ model Design {
   designProof     DesignProof      @relation(fields: [designProofId], references: [id])
 
   @@index([organizationId])
-  @@index([userId])
+  @@index([membershipId])
   @@index([designRequestId])
   @@index([designProofId])
 }
@@ -461,7 +463,8 @@ model DesignRequest {
   designRequestProductId String
 
   // The user that this design request belongs to
-  userId String?
+
+  membershipId String?
 
   // The organization that this design request belongs to
   organizationId String?
@@ -493,7 +496,7 @@ model DesignRequest {
   designs                   Design[]
   designRequestProduct      DesignRequestProduct       @relation(fields: [designRequestProductId], references: [id])
 
-  @@index([userId])
+  @@index([membershipId])
   @@index([organizationId])
   @@index([approvedDesignProofId])
   @@index([designRequestProductId])
@@ -506,14 +509,14 @@ model DesignRequestArtist {
 
   designRequestId String
 
-  artistUserId String
+  artistMembershipId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   designRequest DesignRequest @relation(fields: [designRequestId], references: [id])
 
-  @@index([artistUserId])
+  @@index([artistMembershipId])
   @@index([designRequestId])
 }
 
@@ -549,7 +552,7 @@ model DesignRequestFile {
 model DesignRequestRevision {
   id String @id @default(uuid())
 
-  userId          String
+  membershipId    String
   designRequestId String
 
   description String
@@ -656,8 +659,8 @@ model DesignRequestProductColor {
 model DesignProof {
   id String @id @default(uuid())
 
-  artistUserId     String
-  catalogProductId String
+  artistMembershipId String
+  catalogProductId   String
 
   primaryImageFileId String
 
@@ -719,7 +722,7 @@ model DesignProofLocation {
 model MailingAddress {
   id String @id @default(uuid())
 
-  userId         String?
+  membershipId   String?
   organizationId String?
 
   name    String?
@@ -754,7 +757,8 @@ model Notification {
   id String @id @default(uuid())
 
   // The user that this notification belongs to
-  userId String?
+
+  membershipId String?
 
   // The organization that this notification belongs to
   organizationId String?
@@ -775,7 +779,7 @@ model Notification {
   notificationChannels NotificationChannel[]
   organization         Organization?         @relation(fields: [organizationId], references: [id])
 
-  @@index([userId])
+  @@index([membershipId])
   @@index([organizationId])
   @@index([notificationGroupId])
 }
@@ -860,7 +864,7 @@ model ConversationMessage {
   conversationId String
 
   // A null sender is considered a system message
-  senderUserId String?
+  senderMembershipId String?
 
   message String @db.Text
 

@@ -122,7 +122,7 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
     try {
       designRequest = await designRequestTable.create({
         data: {
-          userId: validInput.userId,
+          membershipId: validInput.membershipId,
           organizationId: validInput.organizationId,
           approvedDesignProofId: validInput.approvedDesignProofId,
           name: validInput.name,
@@ -153,7 +153,7 @@ const makeCreateDesignRequest: MakeCreateDesignRequestFn =
           designRequestArtists: {
             createMany: {
               data: validInput.artists.map(artist => ({
-                artistUserId: artist.artistUserId,
+                artistMembershipId: artist.artistMembershipId,
                 isActive: artist.isActive,
               })),
             },

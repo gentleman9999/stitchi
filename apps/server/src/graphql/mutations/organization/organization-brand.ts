@@ -52,7 +52,6 @@ export const organizationBrandFileCreateBatch = mutationField(
             organizationFile: {
               fileId: file.fileId,
               organizationId: input.organizationId,
-              userId: ctx.userId,
             },
           })
 

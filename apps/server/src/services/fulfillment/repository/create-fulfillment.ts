@@ -61,7 +61,7 @@ const makeCreateFulfillment: MakeCreateFulfillmentFn =
 
     const fulfillment = await fulfillmentTable.create({
       data: {
-        userId: fulfillmentInput.userId,
+        membershipId: fulfillmentInput.membershipId,
         organizationId: fulfillmentInput.organizationId,
 
         Order: {

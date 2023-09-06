@@ -58,7 +58,7 @@ const makeHandler =
               messages: [
                 ...conversation.messages,
                 {
-                  senderUserId: null,
+                  senderMembershipId: null,
                   message: `👋 Hey there, thanks for submitting your design request! 🎨 Your request has been received and one of our talented artists will review it shortly. Feel free to drop any additional details or inspiration in this chat. We'll reach out to you here as soon as we have an update or if we need any further information. Let's create something amazing together!`,
                   files: [],
                 },

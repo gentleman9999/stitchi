@@ -1,6 +1,6 @@
 import { GraphQLError } from 'graphql'
 import { queryField } from 'nexus'
-import { membershipFactoryToGrahpql } from '../../serializers/membership'
+import { membershipFactoryToGraphql } from '../../serializers/membership'
 
 export const viewer = queryField('viewer', {
   type: 'Membership',
@@ -22,6 +22,6 @@ export const viewer = queryField('viewer', {
       throw new GraphQLError('Failed to get user membership')
     }
 
-    return membershipFactoryToGrahpql(membership)
+    return membershipFactoryToGraphql(membership)
   },
 })

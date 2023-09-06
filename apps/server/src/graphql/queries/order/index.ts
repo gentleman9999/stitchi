@@ -166,7 +166,7 @@ export const OrdersExtendsMember = extendType({
         const orders = await order.listOrders({
           where: {
             organizationId: parent.organizationId,
-            userId: parent.userId,
+            membershipId: parent.id,
           },
           take: 1,
         })

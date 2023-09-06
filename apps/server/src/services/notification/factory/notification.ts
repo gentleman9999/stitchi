@@ -92,7 +92,7 @@ const notificationFactory = ({
 
   return {
     id: notificationRecord.id,
-    userId: notificationRecord.userId,
+    membershipId: notificationRecord.membershipId,
     organizationId: notificationRecord.organizationId,
     notificationGroupId: notificationRecord.notificationGroupId,
 

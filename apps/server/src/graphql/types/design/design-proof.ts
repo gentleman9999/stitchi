@@ -4,7 +4,7 @@ export const DesignProof = objectType({
   name: 'DesignProof',
   definition(t) {
     t.nonNull.id('id')
-    t.nonNull.id('artistUserId')
+    t.nonNull.id('artistMembershipId')
 
     t.nullable.id('primaryImageFileId')
 

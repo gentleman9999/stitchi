@@ -30,7 +30,7 @@ const makeCreateFile: MakeCreateFileFn =
     try {
       file = await fileTable.create({
         data: {
-          userId: validInput.userId,
+          membershipId: validInput.membershipId,
           organizationId: validInput.organizationId,
           fileType: validInput.fileType,
           name: validInput.name,

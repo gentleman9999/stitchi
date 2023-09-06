@@ -59,7 +59,7 @@ const DesignRequestHistory = ({ loading, designRequest }: Props) => {
                 width="w-6"
                 height="h-6"
                 user={
-                  item.sender || {
+                  item.sender?.user || {
                     name: 'Stitchi',
                     picture: '/stitchi_icon.svg',
                   }
@@ -72,7 +72,7 @@ const DesignRequestHistory = ({ loading, designRequest }: Props) => {
                     <span className="font-medium text-gray-900">
                       {item.viewerIsSender
                         ? 'You'
-                        : item.sender?.name || 'Stitchi'}
+                        : item.sender?.user?.name || 'Stitchi'}
                     </span>{' '}
                     commented
                   </div>
@@ -121,7 +121,7 @@ const DesignRequestHistory = ({ loading, designRequest }: Props) => {
               </div>
               <p className="flex-auto py-0.5 text-xs leading-5 text-gray-500">
                 <span className="font-medium text-gray-900">
-                  {item.user?.name}
+                  {item.actor?.user?.name}
                 </span>{' '}
                 {item.method === 'CREATE' ? 'created' : ''} the design request.
               </p>
@@ -151,7 +151,7 @@ const DesignRequestHistory = ({ loading, designRequest }: Props) => {
                 <div className="flex justify-between gap-x-4">
                   <div className="py-0.5 text-xs leading-5 text-gray-500">
                     <span className="font-medium text-gray-900">
-                      {item.artist?.name}
+                      {item.artist?.user?.name}
                     </span>{' '}
                     submitted a proof
                   </div>
@@ -194,7 +194,7 @@ const DesignRequestHistory = ({ loading, designRequest }: Props) => {
                 <div className="flex justify-between gap-x-4">
                   <div className="py-0.5 text-xs leading-5 text-gray-500">
                     <span className="font-medium text-gray-900">
-                      {item.user?.name}
+                      {item.membership?.user?.name}
                     </span>{' '}
                     requested a revision
                   </div>
@@ -257,8 +257,11 @@ DesignRequestHistory.fragments = {
 
           sender {
             id
-            picture
-            name
+            user {
+              id
+              picture
+              name
+            }
           }
         }
 
@@ -266,9 +269,12 @@ DesignRequestHistory.fragments = {
           id
           timestamp
           method
-          user {
+          actor {
             id
-            ...UserAvatarUserFragment
+            user {
+              id
+              ...UserAvatarUserFragment
+            }
           }
         }
 
@@ -278,7 +284,10 @@ DesignRequestHistory.fragments = {
 
           artist {
             id
-            name
+            user {
+              id
+              name
+            }
           }
 
           primaryImageFile {
@@ -302,9 +311,12 @@ DesignRequestHistory.fragments = {
               height
             }
           }
-          user {
+          membership {
             id
-            name
+            user {
+              id
+              name
+            }
           }
         }
       }
