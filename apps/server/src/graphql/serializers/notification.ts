@@ -1,5 +1,4 @@
 import { NotificationChannelType } from '../../services/notification/db/notification-channel-table'
-import { NotificationEventResource } from '../../services/notification/db/notification-event-table'
 import {
   NotificationFactoryNotification,
   NotificationFactoryNotificationChannel,
@@ -30,26 +29,12 @@ export const notificationFactoryNotificationChannelEmailToGraphql = (
 
 export const notificationFactoryNotificationChannelWebToGraphql = ({
   channel,
-  resourceId,
-  resource,
 }: {
   channel: NotificationFactoryNotificationChannelWeb
-  resource: NotificationEventResource
-  resourceId: string
 }): NexusGenObjects['NotificationChannelWeb'] => {
-  let ctaUrl
-  let ctaLabel
-
-  switch (resource) {
-    case NotificationEventResource.ORDER: {
-      ctaUrl = `${appBaseUrl}/api/orders/${resourceId}`
-      ctaLabel = 'View Order'
-    }
-  }
-
   return {
-    ctaUrl,
-    ctaLabel,
+    ctaUrl: 'TODO',
+    ctaLabel: 'TODO',
     id: channel.id,
     channelType: channel.channelType,
     message: channel.message,
@@ -58,12 +43,8 @@ export const notificationFactoryNotificationChannelWebToGraphql = ({
 
 export const notificationFactoryNotificationChannelToGraphql = ({
   channel,
-  resourceId,
-  resource,
 }: {
   channel: NotificationFactoryNotificationChannel
-  resource: NotificationEventResource
-  resourceId: string
 }) => {
   switch (channel.channelType) {
     case NotificationChannelType.EMAIL:
@@ -71,8 +52,6 @@ export const notificationFactoryNotificationChannelToGraphql = ({
     case NotificationChannelType.WEB:
       return notificationFactoryNotificationChannelWebToGraphql({
         channel,
-        resourceId,
-        resource,
       })
     default:
       throw new Error(
@@ -86,9 +65,10 @@ export const notificationFactoryNotificationToGraphql = (
 ): NexusGenObjects['Notification'] => {
   return {
     id: notification.id,
-    userId: notification.userId,
+    membershipId: notification.membershipId,
     organizationId: notification.organizationId,
-    notificationEventGroupId: notification.notificationEventGroupId,
+    notificationWorkflowId: notification.notificationWorkflowId,
+    notificationTopicId: notification.notificationTopicId,
 
     createdAt: notification.createdAt,
     updatedAt: notification.updatedAt,
@@ -96,8 +76,6 @@ export const notificationFactoryNotificationToGraphql = (
     channels: notification.channels.map(channel =>
       notificationFactoryNotificationChannelToGraphql({
         channel,
-        resourceId: notification.resourceId,
-        resource: notification.resource,
       }),
     ),
   }

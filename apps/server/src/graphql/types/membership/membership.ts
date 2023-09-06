@@ -29,9 +29,11 @@ export const Membership = objectType({
         try {
           user = await context.user.getUser({ id: membership.userId })
         } catch (error) {
-          console.error('Failed to get user', {
-            context: { error, userId: membership.userId },
-          })
+          context.logger
+            .child({
+              context: { error, userId: membership.userId },
+            })
+            .error('Failed to get user')
           throw new GraphQLError('Failed to get user')
         }
 

@@ -5,6 +5,7 @@ import { makeClient as makeSendgridClient } from '../../sendgrid'
 import { getOrThrow } from '../../utils'
 import { makeServiceMethods, Methods } from './methods'
 import { NotificationChannelType } from './db/notification-channel-table'
+import { logger } from '../../telemetry'
 
 const replyTo = getOrThrow(
   process.env.NOTIFICATION_EMAIL_REPLY_TO,
@@ -15,8 +16,6 @@ export interface NotificationClientService {
   createNotification: NotificationRepository['createNotification']
   getNotification: NotificationRepository['getNotification']
   listNotifications: NotificationRepository['listNotifications']
-
-  createNotificationEventGroup: NotificationRepository['createNotificationEventGroup']
 
   getNotificationTemplate: Methods['getNotificationTemplate']
 }
@@ -97,6 +96,7 @@ const makeClient: MakeClientFn = (
 
         return notification
       } catch (error) {
+        logger.error(error)
         throw new Error('Failed to create notification')
       }
     },
@@ -109,7 +109,7 @@ const makeClient: MakeClientFn = (
 
         return notifications
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to list notifications')
       }
     },
@@ -120,22 +120,9 @@ const makeClient: MakeClientFn = (
 
         return notification
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to get notification')
       }
-    },
-
-    createNotificationEventGroup: async input => {
-      let notificationGroup
-
-      try {
-        notificationGroup =
-          await notificationRepository.createNotificationEventGroup(input)
-      } catch (error) {
-        throw new Error('Failed to create notificationEventGroup')
-      }
-
-      return notificationGroup
     },
 
     getNotificationTemplate: id => {

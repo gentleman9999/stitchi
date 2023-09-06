@@ -14,9 +14,11 @@ export const OrganizationBrandExtendsOrganization = extendType({
             organizationId: parent.id,
           })
         } catch (error) {
-          console.error('Unable to fetch organization', {
-            context: { error, organization: parent },
-          })
+          ctx.logger
+            .child({
+              context: { error, organization: parent },
+            })
+            .error('Unable to fetch organization')
           throw new GraphQLError('Unable to fetch organization')
         }
 

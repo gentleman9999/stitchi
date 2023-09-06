@@ -10,7 +10,7 @@ export const NotificationExtendsMembership = extendType({
     t.connectionField('notifications', {
       type: 'Notification',
       resolve: async (
-        _,
+        membership,
         { first, last, after, before },
         { notification, userId, organizationId },
       ) => {
@@ -45,8 +45,7 @@ export const NotificationExtendsMembership = extendType({
           skip: cursor ? 1 : 0,
           take: cursorDirection === 'after' ? limitPlusOne : -limitPlusOne,
           where: {
-            userId,
-            organizationId,
+            membershipId: membership.id,
           },
           orderBy: {
             createdAt: 'desc',

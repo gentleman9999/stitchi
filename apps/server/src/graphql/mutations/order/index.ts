@@ -1,8 +1,5 @@
 import { GraphQLError } from 'graphql'
 import { inputObjectType, mutationField, nonNull, objectType } from 'nexus'
-import { CatalogFactoryCatalogProduct } from '../../../services/catalog/factory'
-import { DesignFactoryDesign } from '../../../services/design/factory'
-import { OrderItemRecordType } from '../../../services/order/db/order-item-table'
 import { OrderRecordType } from '../../../services/order/db/order-table'
 import { orderFactoryOrderToGraphQL } from '../../serializers/order'
 
@@ -78,9 +75,11 @@ export const orderConfirm = mutationField('orderConfirm', {
         orderId: input.orderId,
       })
     } catch (error) {
-      console.error(`Failed to get order: ${input.orderId}`, {
-        context: { error },
-      })
+      ctx.logger
+        .child({
+          context: { error },
+        })
+        .error(`Failed to get order: ${input.orderId}`)
       throw new GraphQLError('Failed to get order')
     }
 
@@ -103,15 +102,17 @@ export const orderConfirm = mutationField('orderConfirm', {
           provinceCode: input.shippingAddress.provinceCode || null,
           zip: input.shippingAddress.zip || null,
           organizationId: ctx.organizationId || null,
-          userId: ctx.userId || null,
+          membershipId: ctx.membershipId || null,
           latitude: null,
           longitude: null,
         },
       })
     } catch (error) {
-      console.error(`Failed to create mailing address`, {
-        context: { error },
-      })
+      ctx.logger
+        .child({
+          context: { error },
+        })
+        .error(`Failed to create mailing address`)
       throw new GraphQLError('Failed to create mailing address')
     }
 
@@ -127,14 +128,16 @@ export const orderConfirm = mutationField('orderConfirm', {
           shippingAddressId: shippingAddress.id,
 
           // Update these values if the don't already exist
-          userId: order.userId || ctx.userId || null,
+          membershipId: order.membershipId || ctx.membershipId || null,
           organizationId: order.organizationId || ctx.organizationId || null,
         },
       })
     } catch (error) {
-      console.error(`Failed to update order: ${input.orderId}`, {
-        context: { error },
-      })
+      ctx.logger
+        .child({
+          context: { error },
+        })
+        .error(`Failed to update order: ${input.orderId}`)
       throw new GraphQLError('Failed to update order')
     }
 

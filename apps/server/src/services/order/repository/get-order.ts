@@ -2,6 +2,7 @@ import { OrderTable } from '../db/order-table'
 import { PrismaClient } from '@prisma/client'
 import { OrderFactoryOrder, orderFactory } from '../factory'
 import { table as makeOrderTable } from '../db/order-table'
+import { logger } from '../../../telemetry'
 
 const prisma = new PrismaClient()
 
@@ -35,9 +36,11 @@ const makeGetOrder: MakeGetOrderFn =
         throw new Error('Order not found')
       }
     } catch (error) {
-      console.error(`Failed to get order: ${input.orderId}`, {
-        context: { error },
-      })
+      logger
+        .child({
+          context: { error },
+        })
+        .error(`Failed to get order: ${input.orderId}`)
       throw new Error('Failed to get order')
     }
 

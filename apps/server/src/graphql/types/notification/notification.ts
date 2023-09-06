@@ -9,9 +9,10 @@ export const Notification = objectType({
   name: 'Notification',
   definition(t) {
     t.nonNull.id('id')
-    t.nonNull.string('notificationEventGroupId')
-    t.nullable.string('userId')
+    t.nonNull.string('notificationWorkflowId')
+    t.nullable.string('membershipId')
     t.nullable.string('organizationId')
+    t.nullable.string('notificationTopicId')
 
     t.nonNull.list.field('channels', {
       type: 'NotificationChannel',

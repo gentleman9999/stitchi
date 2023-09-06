@@ -289,7 +289,7 @@ export interface MembershipDesignProductsFilterInput {
 
 export interface MembershipDesignProductsWhereFilterInput {
   createdAt?: DateFilterInput | null;
-  userId?: StringFilterInput | null;
+  membershipId?: StringFilterInput | null;
 }
 
 export interface MembershipDesignRequestsFilterInput {
@@ -298,7 +298,7 @@ export interface MembershipDesignRequestsFilterInput {
 
 export interface MembershipDesignRequestsWhereFilterInput {
   createdAt?: DateFilterInput | null;
-  userId?: StringFilterInput | null;
+  membershipId?: StringFilterInput | null;
 }
 
 export interface MembershipOrdersFilterInput {

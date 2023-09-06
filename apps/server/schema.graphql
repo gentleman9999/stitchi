@@ -60,8 +60,8 @@ type ConversationMessage {
   files: [File!]!
   id: ID!
   message: String!
-  sender: User
-  senderUserId: ID
+  sender: Membership
+  senderMembershipId: ID
   viewerIsSender: Boolean!
 }
 
@@ -83,6 +83,7 @@ type DesignProduct {
   designProofId: ID!
   designRequestId: ID!
   id: ID!
+  membershipId: ID
   minUnitPriceCents: Int
   name: String!
   organizationId: ID
@@ -92,7 +93,6 @@ type DesignProduct {
   sizes: [DesignProductSize!]
   termsConditionsAgreed: Boolean!
   updatedAt: DateTime!
-  userId: ID
   variants: [DesignProductVariant!]!
 }
 
@@ -156,17 +156,17 @@ type DesignProductVariant {
 }
 
 type DesignProof {
-  artist: User
-  artistUserId: ID!
+  artist: Membership
+  artistMembershipId: ID!
   colors: [DesignProofColor!]!
   createdAt: DateTime!
   designProofColorIds: [ID!]!
   designProofLocationIds: [ID!]!
   id: ID!
   locations: [DesignProofLocation!]!
+  membership: Membership
   primaryImageFile: FileImage
   primaryImageFileId: ID
-  user: User
 }
 
 type DesignProofColor {
@@ -208,14 +208,14 @@ type DesignRequest {
   history: [DesignRequestHistoryItem!]!
   humanizedStatus: String!
   id: ID!
+  membership: Membership
+  membershipId: ID
   name: String!
   previewImage: FileImage
   proofs(limit: Int): [DesignProof!]!
   status: DesignRequestStatus!
   updatedAt: DateTime
   useCase: String
-  user: User
-  userId: ID
 }
 
 input DesignRequestApproveInput {
@@ -322,11 +322,11 @@ type DesignRequestHistoryItemAddedPayload {
 }
 
 type DesignRequestHistoryItemDesignRequestEvent {
+  actor: Membership
   id: ID!
+  membershipId: ID
   method: DesignRequestHistoryItemDesignRequestEventMethod!
   timestamp: DateTime!
-  user: User
-  userId: ID
 }
 
 enum DesignRequestHistoryItemDesignRequestEventMethod {
@@ -389,8 +389,8 @@ type DesignRequestRevisionRequest {
   fileIds: [ID!]!
   files: [File!]!
   id: ID!
-  user: User
-  userId: ID!
+  membership: Membership
+  membershipId: ID!
 }
 
 input DesignRequestRevisionRequestCreateInput {
@@ -447,11 +447,11 @@ interface File {
   format: String!
   humanizedBytes: String!
   id: ID!
+  membershipId: String
   name: String!
   organizationId: String
   updatedAt: DateTime
   url: String!
-  userId: String
 }
 
 type FileConnection {
@@ -506,11 +506,11 @@ type FileImage implements File {
   height: Int!
   humanizedBytes: String!
   id: ID!
+  membershipId: String
   name: String!
   organizationId: String
   updatedAt: DateTime
   url: String!
-  userId: String
   width: Int!
 }
 
@@ -521,11 +521,11 @@ type FilePdf implements File {
   format: String!
   humanizedBytes: String!
   id: ID!
+  membershipId: String
   name: String!
   organizationId: String
   updatedAt: DateTime
   url: String!
-  userId: String
 }
 
 enum FileType {
@@ -542,11 +542,11 @@ type FileUnknown implements File {
   format: String!
   humanizedBytes: String!
   id: ID!
+  membershipId: String
   name: String!
   organizationId: String
   updatedAt: DateTime
   url: String!
-  userId: String
 }
 
 type Fulfillment {
@@ -554,11 +554,11 @@ type Fulfillment {
   fulfillmentOrderItems: [FulfillmentOrderItem!]!
   fulfillmentTrackingInfoId: String!
   id: ID!
+  membershipId: String
   orderId: String!
   organizationId: String
   trackingInfo: FulfillmentTrackingInfo!
   updatedAt: DateTime!
-  userId: String
 }
 
 input FulfillmentCreateInput {
@@ -607,13 +607,13 @@ type MailingAddress {
   lastName: String
   latitude: Float
   longitude: Float
+  membershipId: String
   name: String
   organizationId: String
   phone: String
   province: String
   provinceCode: String
   updatedAt: DateTime!
-  userId: String
   zip: String
 }
 
@@ -714,7 +714,7 @@ input MembershipDesignProductsFilterInput {
 
 input MembershipDesignProductsWhereFilterInput {
   createdAt: DateFilterInput
-  userId: StringFilterInput
+  membershipId: StringFilterInput
 }
 
 input MembershipDesignRequestsFilterInput {
@@ -723,7 +723,7 @@ input MembershipDesignRequestsFilterInput {
 
 input MembershipDesignRequestsWhereFilterInput {
   createdAt: DateFilterInput
-  userId: StringFilterInput
+  membershipId: StringFilterInput
 }
 
 type MembershipFlags {
@@ -786,10 +786,11 @@ type Notification {
   channels: [NotificationChannel]!
   createdAt: DateTime!
   id: ID!
-  notificationEventGroupId: String!
+  membershipId: String
+  notificationTopicId: String
+  notificationWorkflowId: String!
   organizationId: String
   updatedAt: DateTime
-  userId: String
 }
 
 interface NotificationChannel {
@@ -842,7 +843,6 @@ type NotificationEdge {
 
 type Order {
   createdAt: DateTime!
-  customer: User
   customerEmail: String
   customerFirstName: String
   customerId: String
@@ -855,6 +855,8 @@ type Order {
   itemSummaries: [OrderItemSummary!]!
   items: [OrderItem!]!
   lastPaymentMethod: PaymentMethod
+  membershipId: String
+  owner: Membership
   paymentIntents: [PaymentIntent!]!
   paymentStatus: OrderPaymentStatus!
   shippingAddress: MailingAddress
@@ -869,8 +871,6 @@ type Order {
   totalTaxCents: Int!
   type: OrderType!
   updatedAt: DateTime
-  user: User
-  userId: String
 }
 
 input OrderCartCreateItemsInput {

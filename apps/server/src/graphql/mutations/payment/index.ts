@@ -29,9 +29,11 @@ export const paymentIntentCreate = mutationField('paymentIntentCreate', {
     try {
       order = await ctx.order.getOrder({ orderId: input.orderId })
     } catch (error) {
-      console.error(`Error fetching order: ${input.orderId}`, {
-        context: { error },
-      })
+      ctx.logger
+        .child({
+          context: { error },
+        })
+        .error(`Error fetching order: ${input.orderId}`)
       throw new GraphQLError('Error fetching order')
     }
 
@@ -47,12 +49,11 @@ export const paymentIntentCreate = mutationField('paymentIntentCreate', {
         amountCents: order.totalAmountDueCents,
       })
     } catch (error) {
-      console.error(
-        `Error creating payment intent for order: ${input.orderId}`,
-        {
+      ctx.logger
+        .child({
           context: { error },
-        },
-      )
+        })
+        .error(`Error creating payment intent for order: ${input.orderId}`)
       throw new GraphQLError('Error creating payment intent')
     }
 

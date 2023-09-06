@@ -26,7 +26,7 @@ export const designProduct = queryField('designProduct', {
     try {
       design = await ctx.design.getDesign({ designId: id })
     } catch (error) {
-      console.error(error)
+      ctx.logger.error(error)
       throw new GraphQLError('Failed to get design')
     }
 
@@ -46,9 +46,11 @@ export const DesignProductExtendsDesignProduct = extendType({
             designProofId: parent.designProofId,
           })
         } catch (error) {
-          console.error("Error getting design proof's design", {
-            context: { error, designProduct: parent },
-          })
+          ctx.logger
+            .child({
+              context: { error, designProduct: parent },
+            })
+            .error("Error getting design proof's design")
           throw new GraphQLError('Error getting design proof')
         }
 
@@ -63,9 +65,11 @@ export const DesignProductExtendsDesignProduct = extendType({
             throw new Error('Product not found')
           }
         } catch (error) {
-          console.error('Error getting catalog product', {
-            context: { error, designProduct: parent },
-          })
+          ctx.logger
+            .child({
+              context: { error, designProduct: parent },
+            })
+            .error('Error getting catalog product')
 
           throw new GraphQLError('Error getting catalog product')
         }
@@ -96,9 +100,11 @@ export const DesignProductExtendsDesignProduct = extendType({
             designProofId: parent.designProofId,
           })
         } catch (error) {
-          console.error("Error getting design proof's design", {
-            context: { error, designProduct: parent },
-          })
+          ctx.logger
+            .child({
+              context: { error, designProduct: parent },
+            })
+            .error("Error getting design proof's design")
           throw new GraphQLError('Error getting design proof')
         }
 
@@ -113,9 +119,11 @@ export const DesignProductExtendsDesignProduct = extendType({
             throw new Error('Product not found')
           }
         } catch (error) {
-          console.error('Error getting catalog product', {
-            context: { error, designProduct: parent },
-          })
+          ctx.logger
+            .child({
+              context: { error, designProduct: parent },
+            })
+            .error('Error getting catalog product')
 
           throw new GraphQLError('Error getting catalog product')
         }
@@ -155,9 +163,11 @@ export const DesignProductExtendsDesignProduct = extendType({
             },
           )
         } catch (error) {
-          console.error('Error getting catalog product', {
-            context: { error, designProduct: parent },
-          })
+          ctx.logger
+            .child({
+              context: { error, designProduct: parent },
+            })
+            .error('Error getting catalog product')
 
           throw new GraphQLError('Error getting catalog product')
         }
@@ -198,9 +208,11 @@ export const DesignProductExtendsDesignRequest = extendType({
             },
           })
         } catch (error) {
-          console.error('Error getting design products', {
-            context: { error, designRequest: parent },
-          })
+          ctx.logger
+            .child({
+              context: { error, designRequest: parent },
+            })
+            .error('Error getting design products')
 
           throw new GraphQLError('Error getting design products')
         }
@@ -218,7 +230,7 @@ export const MembershipDesignProductsWhereFilterInput = inputObjectType({
       type: 'DateFilterInput',
     })
 
-    t.field('userId', {
+    t.field('membershipId', {
       type: 'StringFilterInput',
     })
   },
@@ -239,10 +251,7 @@ export const DesignProductExtendsMembership = extendType({
     t.nonNull.boolean('hasDesignProducts', {
       resolve: async (parent, _, ctx) => {
         const designProducts = await ctx.design.listDesigns({
-          where: {
-            organizationId: parent.organizationId,
-            userId: parent.userId,
-          },
+          where: { membershipId: parent.id },
           take: 1,
         })
 
@@ -269,17 +278,17 @@ export const DesignProductExtendsMembership = extendType({
         const resourceOwnerFilter: Prisma.Enumerable<Prisma.DesignWhereInput> =
           []
 
-        const { userId } = filter?.where || {}
+        const { membershipId } = filter?.where || {}
 
-        if (!Object.keys(userId || {}).length) {
+        if (!Object.keys(membershipId || {}).length) {
           resourceOwnerFilter.push({ organizationId: parent.organizationId })
         } else {
           resourceOwnerFilter.push({
             organizationId: parent.organizationId,
-            userId: {
-              equals: userId?.equals || undefined,
-              in: userId?.in || undefined,
-              notIn: userId?.notIn || undefined,
+            membershipId: {
+              equals: membershipId?.equals || undefined,
+              in: membershipId?.in || undefined,
+              notIn: membershipId?.notIn || undefined,
             },
           })
         }
@@ -307,9 +316,11 @@ export const DesignProductExtendsMembership = extendType({
             ...(notEmpty(before) ? { cursor: { id: before } } : {}),
           })
         } catch (error) {
-          console.error('Error getting design products', {
-            context: { error, membership: parent },
-          })
+          ctx.logger
+            .child({
+              context: { error, membership: parent },
+            })
+            .error('Error getting design products')
           throw new GraphQLError('Error getting design products')
         }
 

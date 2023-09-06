@@ -1,11 +1,8 @@
+import { NotificationChannel } from '@prisma/client'
 import { notEmpty } from '../../../utils'
 import { NotificationChannelEmailRecord } from '../db/notification-channel-email-table'
-import {
-  NotificationChannelRecord,
-  NotificationChannelType,
-} from '../db/notification-channel-table'
+import { NotificationChannelType } from '../db/notification-channel-table'
 import { NotificationChannelWebRecord } from '../db/notification-channel-web-table'
-import { NotificationEventResource } from '../db/notification-event-table'
 import { NotificationRecord } from '../db/notification-table'
 
 export interface NotificationFactoryNotificationChannelEmail
@@ -22,17 +19,16 @@ export type NotificationFactoryNotificationChannel =
   | NotificationFactoryNotificationChannelEmail
   | NotificationFactoryNotificationChannelWeb
 
-interface ExtendedNotificationChannelRecord extends NotificationChannelRecord {
+interface ExtendedNotificationChannelRecord extends NotificationChannel {
   email?: NotificationChannelEmailRecord | null
   web?: NotificationChannelWebRecord | null
 }
 
 export interface NotificationFactoryNotification extends NotificationRecord {
   channels: NotificationFactoryNotificationChannel[]
-  resource: NotificationEventResource
 }
 
-const notificationFactory = ({
+const notificationFactoryNotification = ({
   notificationRecord,
   channels,
 }: {
@@ -78,19 +74,16 @@ const notificationFactory = ({
 
   return {
     id: notificationRecord.id,
-    userId: notificationRecord.userId,
+    membershipId: notificationRecord.membershipId,
     organizationId: notificationRecord.organizationId,
-    notificationEventGroupId: notificationRecord.notificationEventGroupId,
+    notificationTopicId: notificationRecord.notificationTopicId,
+    notificationWorkflowId: notificationRecord.notificationWorkflowId,
 
     channels: serializedChannels,
-
-    resourceId: notificationRecord.resourceId,
-    resource: notificationRecord.resource,
-    eventKey: notificationRecord.eventKey,
 
     createdAt: notificationRecord.createdAt,
     updatedAt: notificationRecord.updatedAt,
   }
 }
 
-export { notificationFactory }
+export { notificationFactoryNotification }

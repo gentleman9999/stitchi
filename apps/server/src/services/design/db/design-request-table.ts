@@ -30,7 +30,7 @@ export const DesignRequest: yup.ObjectSchema<DesignRequestSchema> = yup
   .shape({
     id: yup.string().uuid().required(),
     designRequestProductId: yup.string().uuid().required(),
-    userId: yup.string().nullable().defined(),
+    membershipId: yup.string().uuid().nullable().defined(),
     organizationId: yup.string().uuid().nullable().defined(),
     conversationId: yup.string().uuid().nullable().defined(),
     approvedDesignProofId: yup.string().uuid().nullable().defined(),

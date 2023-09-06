@@ -4,6 +4,7 @@ import {
   ConversationService,
   makeClient as makeConversationServiceClient,
 } from '../conversation'
+import { logger } from '../../telemetry'
 
 export interface DesignService {
   createDesign: DesignRepository['createDesign']
@@ -44,7 +45,7 @@ const makeClient: MakeClientFn = (
       try {
         return designRepository.createDesign(input)
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to create design')
       }
     },
@@ -52,7 +53,7 @@ const makeClient: MakeClientFn = (
       try {
         return designRepository.getDesign(input)
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to get design')
       }
     },
@@ -60,7 +61,7 @@ const makeClient: MakeClientFn = (
       try {
         return designRepository.listDesigns(input)
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to list designs')
       }
     },
@@ -72,7 +73,7 @@ const makeClient: MakeClientFn = (
           conversation: {},
         })
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to create conversation')
       }
 
@@ -84,7 +85,7 @@ const makeClient: MakeClientFn = (
           },
         })
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to create design request')
       }
     },
@@ -97,7 +98,7 @@ const makeClient: MakeClientFn = (
           },
         })
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to update design request')
       }
     },
@@ -106,7 +107,7 @@ const makeClient: MakeClientFn = (
       try {
         return designRepository.getDesignRequest(input)
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to get design request')
       }
     },
@@ -115,7 +116,7 @@ const makeClient: MakeClientFn = (
       try {
         return designRepository.listDesignRequests(input)
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to list design requests')
       }
     },
@@ -124,7 +125,7 @@ const makeClient: MakeClientFn = (
       try {
         return designRepository.createDesignProof(input)
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to create design proof')
       }
     },
@@ -133,7 +134,7 @@ const makeClient: MakeClientFn = (
       try {
         return designRepository.getDesignProof(input)
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to get design proof')
       }
     },
@@ -142,7 +143,7 @@ const makeClient: MakeClientFn = (
       try {
         return designRepository.listDesignProofs(input)
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to list design proofs')
       }
     },

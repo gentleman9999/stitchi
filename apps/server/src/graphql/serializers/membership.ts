@@ -1,7 +1,7 @@
 import { MembershipFactoryMembership } from '../../services/membership/factory/membership'
 import { NexusGenObjects } from '../generated/nexus'
 
-export const membershipFactoryToGrahpql = (
+export const membershipFactoryToGraphql = (
   membership: MembershipFactoryMembership,
 ): NexusGenObjects['Membership'] => {
   return {

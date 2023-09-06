@@ -8,6 +8,7 @@ import {
 } from './factory'
 import { Stripe } from 'stripe'
 import makeStripeClient from '../../stripe'
+import { logger } from '../../telemetry'
 
 const orderIdMetadataKey = 'orderId'
 
@@ -61,12 +62,11 @@ const makeClient: MakeClientFn = (
           query,
         })
       } catch (error) {
-        console.error(
-          `Failed to list stripe payment intents for order ${orderId}`,
-          {
+        logger
+          .child({
             context: { error },
-          },
-        )
+          })
+          .error(`Failed to list stripe payment intents for order ${orderId}`)
         throw new Error('Failed to list stripe payment intents')
       }
 
@@ -89,12 +89,11 @@ const makeClient: MakeClientFn = (
           },
         })
       } catch (error) {
-        console.error(
-          `Failed to create stripe payment intent for order ${orderId}`,
-          {
+        logger
+          .child({
             context: { error },
-          },
-        )
+          })
+          .error(`Failed to create stripe payment intent for order ${orderId}`)
         throw new Error('Failed to create stripe payment intent')
       }
 
@@ -109,12 +108,13 @@ const makeClient: MakeClientFn = (
         )
         stripePaymentMethod.type
       } catch (error) {
-        console.error(
-          `Failed to retrieve stripe payment method for payment intent ${paymentMethodId}`,
-          {
+        logger
+          .child({
             context: { error },
-          },
-        )
+          })
+          .error(
+            `Failed to retrieve stripe payment method for payment intent ${paymentMethodId}`,
+          )
         throw new Error('Failed to retrieve stripe payment method')
       }
 
@@ -128,12 +128,13 @@ const makeClient: MakeClientFn = (
           payment_intent: paymentIntentId,
         })
       } catch (error) {
-        console.error(
-          `Failed to list stripe refunds for payment intent ${paymentIntentId}`,
-          {
+        logger
+          .child({
             context: { error },
-          },
-        )
+          })
+          .error(
+            `Failed to list stripe refunds for payment intent ${paymentIntentId}`,
+          )
         throw new Error('Failed to list stripe refunds')
       }
 

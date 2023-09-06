@@ -7,7 +7,7 @@ import {
 import * as yup from 'yup'
 import { PrismaClient } from '@prisma/client'
 import {
-  notificationFactory,
+  notificationFactoryNotification,
   NotificationFactoryNotification,
 } from '../factory/notification'
 import { NotificationChannelEmail } from '../db/notification-channel-email-table'
@@ -16,6 +16,7 @@ import {
   NotificationChannel,
   NotificationChannelType,
 } from '../db/notification-channel-table'
+import { logger } from '../../../telemetry'
 
 const emailNotificationSchema = NotificationChannel.omit([
   'id',
@@ -123,12 +124,10 @@ const makeCreateNotification: MakeCreateNotificationFn =
     try {
       notification = await notificationTable.create({
         data: {
-          userId: validInput.userId,
+          membershipId: validInput.membershipId,
           organizationId: validInput.organizationId,
-          notificationEventGroupId: validInput.notificationEventGroupId,
-          eventKey: validInput.eventKey,
-          resourceId: validInput.resourceId,
-          resource: validInput.resource,
+          notificationWorkflowId: validInput.notificationWorkflowId,
+          notificationTopicId: validInput.notificationTopicId,
           notificationChannels: {
             create: validInput.channels.map(channel => ({
               channelType: channel.channelType,
@@ -167,11 +166,11 @@ const makeCreateNotification: MakeCreateNotificationFn =
         },
       })
     } catch (error) {
-      console.error(error)
-      throw error
+      logger.error(error)
+      throw new Error('Failed to create notification')
     }
 
-    return notificationFactory({
+    return notificationFactoryNotification({
       notificationRecord: notification,
       channels: notification.notificationChannels,
     })

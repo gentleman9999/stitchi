@@ -36,7 +36,7 @@ export const ExtendOrderWithLastPaymentMethod = extendType({
 
           lastSuccessfulPaymentIntent = lastIntent
         } catch (error) {
-          console.error(
+          ctx.logger.error(
             `Error fetching payment intents for order ${order.id}`,
             {
               context: { error },
@@ -55,7 +55,7 @@ export const ExtendOrderWithLastPaymentMethod = extendType({
             paymentMethodId: lastSuccessfulPaymentIntent.paymentMethodId,
           })
         } catch (error) {
-          console.error(
+          ctx.logger.error(
             `Error fetching payment method for payment intent ${lastSuccessfulPaymentIntent.id}`,
             {
               context: { error },

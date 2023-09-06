@@ -29,7 +29,7 @@ export const designRequestFactoryToGrahpql = (
     id: designRequest.id,
     conversationId: designRequest.conversationId,
     approvedDesignProofId: designRequest.approvedDesignProofId,
-    userId: designRequest.userId,
+    membershipId: designRequest.membershipId,
     fileIds: designRequest.files.map(file => file.fileId),
     updatedAt: designRequest.updatedAt,
     createdAt: designRequest.createdAt,
@@ -75,7 +75,7 @@ export const designProofFactoryToGraphql = (
 ): NexusGenObjects['DesignProof'] => {
   return {
     id: designProof.id,
-    artistUserId: designProof.artistUserId,
+    artistMembershipId: designProof.artistMembershipId,
 
     primaryImageFileId: designProof.primaryImageFileId,
 
@@ -113,7 +113,7 @@ export const designFactoryDesignToGraphql = (
     organizationId: design.organizationId,
     designProofId: design.designProofId,
     primaryImageFileId: design.primaryImageFileId,
-    userId: design.userId,
+    membershipId: design.membershipId,
 
     name: design.name,
     description: design.description,

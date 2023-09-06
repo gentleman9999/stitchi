@@ -4,6 +4,7 @@ import { OrderItem } from '../db/order-item-table'
 import { PrismaClient } from '@prisma/client'
 import { orderFactory, OrderFactoryOrder } from '../factory'
 import { makeEvents } from '../events'
+import { logger } from '../../../telemetry'
 
 const inputSchema = Order.omit(['createdAt', 'updatedAt']).concat(
   yup
@@ -51,7 +52,7 @@ const makeUpdateOrder: MakeUpdateOrderFn =
     try {
       validInput = await inputSchema.validate(input.order)
     } catch (error) {
-      console.error(error)
+      logger.error(error)
       throw new Error('Invalid input')
     }
 
@@ -67,7 +68,7 @@ const makeUpdateOrder: MakeUpdateOrderFn =
         throw new Error('Order not found')
       }
     } catch (error) {
-      console.error(error)
+      logger.error(error)
       throw new Error('Failed to get order')
     }
 
@@ -87,7 +88,7 @@ const makeUpdateOrder: MakeUpdateOrderFn =
         data: {
           updatedAt: new Date(),
           organizationId: validInput.organizationId,
-          userId: validInput.userId,
+          membershipId: validInput.membershipId,
           type: validInput.type,
           customerEmail: validInput.customerEmail,
           customerFirstName: validInput.customerFirstName,
@@ -126,7 +127,7 @@ const makeUpdateOrder: MakeUpdateOrderFn =
         },
       })
     } catch (error) {
-      console.error(error)
+      logger.error(error)
       throw new Error('Failed to update order')
     }
 

@@ -1,8 +1,9 @@
 import { Prisma, PrismaClient } from '@prisma/client'
+import { logger } from '../../../telemetry'
 import { NotificationTable } from '../db/notification-table'
 import {
   NotificationFactoryNotification,
-  notificationFactory,
+  notificationFactoryNotification,
 } from '../factory/notification'
 
 const prisma = new PrismaClient()
@@ -44,14 +45,16 @@ const makeListNotifications: MakeListNotificationsFn =
         },
       })
     } catch (error) {
-      console.error(`Failed to list notifications`, {
-        context: { error },
-      })
+      logger
+        .child({
+          context: { error },
+        })
+        .error(`Failed to list notifications`)
       throw new Error('Failed to list notifications')
     }
 
     return notificationRecords.map(notification =>
-      notificationFactory({
+      notificationFactoryNotification({
         notificationRecord: notification,
         channels: notification.notificationChannels,
       }),

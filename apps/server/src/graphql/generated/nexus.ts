@@ -174,14 +174,14 @@ export interface NexusGenInputs {
   }
   MembershipDesignProductsWhereFilterInput: { // input type
     createdAt?: NexusGenInputs['DateFilterInput'] | null; // DateFilterInput
-    userId?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    membershipId?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
   }
   MembershipDesignRequestsFilterInput: { // input type
     where?: NexusGenInputs['MembershipDesignRequestsWhereFilterInput'] | null; // MembershipDesignRequestsWhereFilterInput
   }
   MembershipDesignRequestsWhereFilterInput: { // input type
     createdAt?: NexusGenInputs['DateFilterInput'] | null; // DateFilterInput
-    userId?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    membershipId?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
   }
   MembershipOrdersFilterInput: { // input type
     where?: NexusGenInputs['MembershipOrdersWhereFilterInput'] | null; // MembershipOrdersWhereFilterInput
@@ -371,7 +371,7 @@ export interface NexusGenObjects {
     fileIds: string[]; // [ID!]!
     id: string; // ID!
     message: string; // String!
-    senderUserId?: string | null; // ID
+    senderMembershipId?: string | null; // ID
     viewerIsSender: boolean; // Boolean!
   }
   DesignProduct: { // root type
@@ -382,12 +382,12 @@ export interface NexusGenObjects {
     designProofId: string; // ID!
     designRequestId: string; // ID!
     id: string; // ID!
+    membershipId?: string | null; // ID
     name: string; // String!
     organizationId?: string | null; // ID
     primaryImageFileId?: string | null; // ID
     termsConditionsAgreed: boolean; // Boolean!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
-    userId?: string | null; // ID
   }
   DesignProductColor: { // root type
     catalogProductColorId: string; // ID!
@@ -421,7 +421,7 @@ export interface NexusGenObjects {
     sizeName?: string | null; // String
   }
   DesignProof: { // root type
-    artistUserId: string; // ID!
+    artistMembershipId: string; // ID!
     colors: NexusGenRootTypes['DesignProofColor'][]; // [DesignProofColor!]!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     designProofColorIds: string[]; // [ID!]!
@@ -460,11 +460,11 @@ export interface NexusGenObjects {
     fileIds: string[]; // [ID!]!
     humanizedStatus: string; // String!
     id: string; // ID!
+    membershipId?: string | null; // ID
     name: string; // String!
     status: NexusGenEnums['DesignRequestStatus']; // DesignRequestStatus!
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     useCase?: string | null; // String
-    userId?: string | null; // ID
   }
   DesignRequestApprovePayload: { // root type
     design?: NexusGenRootTypes['DesignProduct'] | null; // DesignProduct
@@ -506,9 +506,9 @@ export interface NexusGenObjects {
   }
   DesignRequestHistoryItemDesignRequestEvent: { // root type
     id: string; // ID!
+    membershipId?: string | null; // ID
     method: NexusGenEnums['DesignRequestHistoryItemDesignRequestEventMethod']; // DesignRequestHistoryItemDesignRequestEventMethod!
     timestamp: NexusGenScalars['DateTime']; // DateTime!
-    userId?: string | null; // ID
   }
   DesignRequestProduct: { // root type
     catalogProductId: string; // String!
@@ -529,7 +529,7 @@ export interface NexusGenObjects {
     designRequestId: string; // ID!
     fileIds: string[]; // [ID!]!
     id: string; // ID!
-    userId: string; // ID!
+    membershipId: string; // ID!
   }
   DesignRequestRevisionRequestCreatePayload: { // root type
     designRequest?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
@@ -561,11 +561,11 @@ export interface NexusGenObjects {
     format: string; // String!
     height: number; // Int!
     id: string; // ID!
+    membershipId?: string | null; // String
     name: string; // String!
     organizationId?: string | null; // String
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     url: string; // String!
-    userId?: string | null; // String
     width: number; // Int!
   }
   FilePdf: { // root type
@@ -574,11 +574,11 @@ export interface NexusGenObjects {
     fileType: NexusGenEnums['FileType']; // FileType!
     format: string; // String!
     id: string; // ID!
+    membershipId?: string | null; // String
     name: string; // String!
     organizationId?: string | null; // String
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     url: string; // String!
-    userId?: string | null; // String
   }
   FileUnknown: { // root type
     bytes: number; // Int!
@@ -586,22 +586,22 @@ export interface NexusGenObjects {
     fileType: NexusGenEnums['FileType']; // FileType!
     format: string; // String!
     id: string; // ID!
+    membershipId?: string | null; // String
     name: string; // String!
     organizationId?: string | null; // String
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     url: string; // String!
-    userId?: string | null; // String
   }
   Fulfillment: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     fulfillmentOrderItems: NexusGenRootTypes['FulfillmentOrderItem'][]; // [FulfillmentOrderItem!]!
     fulfillmentTrackingInfoId: string; // String!
     id: string; // ID!
+    membershipId?: string | null; // String
     orderId: string; // String!
     organizationId?: string | null; // String
     trackingInfo: NexusGenRootTypes['FulfillmentTrackingInfo']; // FulfillmentTrackingInfo!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
-    userId?: string | null; // String
   }
   FulfillmentCreatePayload: { // root type
     fulfillment?: NexusGenRootTypes['Fulfillment'] | null; // Fulfillment
@@ -634,13 +634,13 @@ export interface NexusGenObjects {
     lastName?: string | null; // String
     latitude?: number | null; // Float
     longitude?: number | null; // Float
+    membershipId?: string | null; // String
     name?: string | null; // String
     organizationId?: string | null; // String
     phone?: string | null; // String
     province?: string | null; // String
     provinceCode?: string | null; // String
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
-    userId?: string | null; // String
     zip?: string | null; // String
   }
   MailingAddressCreatePayload: { // root type
@@ -662,10 +662,11 @@ export interface NexusGenObjects {
     channels: Array<NexusGenRootTypes['NotificationChannel'] | null>; // [NotificationChannel]!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
-    notificationEventGroupId: string; // String!
+    membershipId?: string | null; // String
+    notificationTopicId?: string | null; // String
+    notificationWorkflowId: string; // String!
     organizationId?: string | null; // String
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
-    userId?: string | null; // String
   }
   NotificationChannelEmail: { // root type
     channelType: NexusGenEnums['NotificationChannelType']; // NotificationChannelType!
@@ -701,6 +702,7 @@ export interface NexusGenObjects {
     humanPaymentStatus: string; // String!
     id: string; // ID!
     items: NexusGenRootTypes['OrderItem'][]; // [OrderItem!]!
+    membershipId?: string | null; // String
     paymentStatus: NexusGenEnums['OrderPaymentStatus']; // OrderPaymentStatus!
     shippingAddressId?: string | null; // String
     subtotalPriceCents: number; // Int!
@@ -713,7 +715,6 @@ export interface NexusGenObjects {
     totalTaxCents: number; // Int!
     type: NexusGenEnums['OrderType']; // OrderType!
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
-    userId?: string | null; // String
   }
   OrderConfirmPayload: { // root type
     order?: NexusGenRootTypes['Order'] | null; // Order
@@ -935,8 +936,8 @@ export interface NexusGenFieldTypes {
     files: NexusGenRootTypes['File'][]; // [File!]!
     id: string; // ID!
     message: string; // String!
-    sender: NexusGenRootTypes['User'] | null; // User
-    senderUserId: string | null; // ID
+    sender: NexusGenRootTypes['Membership'] | null; // Membership
+    senderMembershipId: string | null; // ID
     viewerIsSender: boolean; // Boolean!
   }
   DesignProduct: { // field return type
@@ -947,6 +948,7 @@ export interface NexusGenFieldTypes {
     designProofId: string; // ID!
     designRequestId: string; // ID!
     id: string; // ID!
+    membershipId: string | null; // ID
     minUnitPriceCents: number | null; // Int
     name: string; // String!
     organizationId: string | null; // ID
@@ -956,7 +958,6 @@ export interface NexusGenFieldTypes {
     sizes: NexusGenRootTypes['DesignProductSize'][] | null; // [DesignProductSize!]
     termsConditionsAgreed: boolean; // Boolean!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
-    userId: string | null; // ID
     variants: NexusGenRootTypes['DesignProductVariant'][]; // [DesignProductVariant!]!
   }
   DesignProductColor: { // field return type
@@ -992,17 +993,17 @@ export interface NexusGenFieldTypes {
     sizeName: string | null; // String
   }
   DesignProof: { // field return type
-    artist: NexusGenRootTypes['User'] | null; // User
-    artistUserId: string; // ID!
+    artist: NexusGenRootTypes['Membership'] | null; // Membership
+    artistMembershipId: string; // ID!
     colors: NexusGenRootTypes['DesignProofColor'][]; // [DesignProofColor!]!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     designProofColorIds: string[]; // [ID!]!
     designProofLocationIds: string[]; // [ID!]!
     id: string; // ID!
     locations: NexusGenRootTypes['DesignProofLocation'][]; // [DesignProofLocation!]!
+    membership: NexusGenRootTypes['Membership'] | null; // Membership
     primaryImageFile: NexusGenRootTypes['FileImage'] | null; // FileImage
     primaryImageFileId: string | null; // ID
-    user: NexusGenRootTypes['User'] | null; // User
   }
   DesignProofColor: { // field return type
     catalogProductColorId: string; // ID!
@@ -1041,14 +1042,14 @@ export interface NexusGenFieldTypes {
     history: NexusGenRootTypes['DesignRequestHistoryItem'][]; // [DesignRequestHistoryItem!]!
     humanizedStatus: string; // String!
     id: string; // ID!
+    membership: NexusGenRootTypes['Membership'] | null; // Membership
+    membershipId: string | null; // ID
     name: string; // String!
     previewImage: NexusGenRootTypes['FileImage'] | null; // FileImage
     proofs: NexusGenRootTypes['DesignProof'][]; // [DesignProof!]!
     status: NexusGenEnums['DesignRequestStatus']; // DesignRequestStatus!
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     useCase: string | null; // String
-    user: NexusGenRootTypes['User'] | null; // User
-    userId: string | null; // ID
   }
   DesignRequestApprovePayload: { // field return type
     design: NexusGenRootTypes['DesignProduct'] | null; // DesignProduct
@@ -1091,11 +1092,11 @@ export interface NexusGenFieldTypes {
     historyItemAdded: boolean; // Boolean!
   }
   DesignRequestHistoryItemDesignRequestEvent: { // field return type
+    actor: NexusGenRootTypes['Membership'] | null; // Membership
     id: string; // ID!
+    membershipId: string | null; // ID
     method: NexusGenEnums['DesignRequestHistoryItemDesignRequestEventMethod']; // DesignRequestHistoryItemDesignRequestEventMethod!
     timestamp: NexusGenScalars['DateTime']; // DateTime!
-    user: NexusGenRootTypes['User'] | null; // User
-    userId: string | null; // ID
   }
   DesignRequestProduct: { // field return type
     catalogProduct: NexusGenRootTypes['CatalogProduct'] | null; // CatalogProduct
@@ -1118,8 +1119,8 @@ export interface NexusGenFieldTypes {
     fileIds: string[]; // [ID!]!
     files: NexusGenRootTypes['File'][]; // [File!]!
     id: string; // ID!
-    user: NexusGenRootTypes['User'] | null; // User
-    userId: string; // ID!
+    membership: NexusGenRootTypes['Membership'] | null; // Membership
+    membershipId: string; // ID!
   }
   DesignRequestRevisionRequestCreatePayload: { // field return type
     designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
@@ -1152,11 +1153,11 @@ export interface NexusGenFieldTypes {
     height: number; // Int!
     humanizedBytes: string; // String!
     id: string; // ID!
+    membershipId: string | null; // String
     name: string; // String!
     organizationId: string | null; // String
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     url: string; // String!
-    userId: string | null; // String
     width: number; // Int!
   }
   FilePdf: { // field return type
@@ -1166,11 +1167,11 @@ export interface NexusGenFieldTypes {
     format: string; // String!
     humanizedBytes: string; // String!
     id: string; // ID!
+    membershipId: string | null; // String
     name: string; // String!
     organizationId: string | null; // String
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     url: string; // String!
-    userId: string | null; // String
   }
   FileUnknown: { // field return type
     bytes: number; // Int!
@@ -1179,22 +1180,22 @@ export interface NexusGenFieldTypes {
     format: string; // String!
     humanizedBytes: string; // String!
     id: string; // ID!
+    membershipId: string | null; // String
     name: string; // String!
     organizationId: string | null; // String
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     url: string; // String!
-    userId: string | null; // String
   }
   Fulfillment: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     fulfillmentOrderItems: NexusGenRootTypes['FulfillmentOrderItem'][]; // [FulfillmentOrderItem!]!
     fulfillmentTrackingInfoId: string; // String!
     id: string; // ID!
+    membershipId: string | null; // String
     orderId: string; // String!
     organizationId: string | null; // String
     trackingInfo: NexusGenRootTypes['FulfillmentTrackingInfo']; // FulfillmentTrackingInfo!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
-    userId: string | null; // String
   }
   FulfillmentCreatePayload: { // field return type
     fulfillment: NexusGenRootTypes['Fulfillment'] | null; // Fulfillment
@@ -1227,13 +1228,13 @@ export interface NexusGenFieldTypes {
     lastName: string | null; // String
     latitude: number | null; // Float
     longitude: number | null; // Float
+    membershipId: string | null; // String
     name: string | null; // String
     organizationId: string | null; // String
     phone: string | null; // String
     province: string | null; // String
     provinceCode: string | null; // String
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
-    userId: string | null; // String
     zip: string | null; // String
   }
   MailingAddressCreatePayload: { // field return type
@@ -1295,10 +1296,11 @@ export interface NexusGenFieldTypes {
     channels: Array<NexusGenRootTypes['NotificationChannel'] | null>; // [NotificationChannel]!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
-    notificationEventGroupId: string; // String!
+    membershipId: string | null; // String
+    notificationTopicId: string | null; // String
+    notificationWorkflowId: string; // String!
     organizationId: string | null; // String
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
-    userId: string | null; // String
   }
   NotificationChannelEmail: { // field return type
     channelType: NexusGenEnums['NotificationChannelType']; // NotificationChannelType!
@@ -1326,7 +1328,6 @@ export interface NexusGenFieldTypes {
   }
   Order: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
-    customer: NexusGenRootTypes['User'] | null; // User
     customerEmail: string | null; // String
     customerFirstName: string | null; // String
     customerId: string | null; // String
@@ -1339,6 +1340,8 @@ export interface NexusGenFieldTypes {
     itemSummaries: NexusGenRootTypes['OrderItemSummary'][]; // [OrderItemSummary!]!
     items: NexusGenRootTypes['OrderItem'][]; // [OrderItem!]!
     lastPaymentMethod: NexusGenRootTypes['PaymentMethod'] | null; // PaymentMethod
+    membershipId: string | null; // String
+    owner: NexusGenRootTypes['Membership'] | null; // Membership
     paymentIntents: NexusGenRootTypes['PaymentIntent'][]; // [PaymentIntent!]!
     paymentStatus: NexusGenEnums['OrderPaymentStatus']; // OrderPaymentStatus!
     shippingAddress: NexusGenRootTypes['MailingAddress'] | null; // MailingAddress
@@ -1353,8 +1356,6 @@ export interface NexusGenFieldTypes {
     totalTaxCents: number; // Int!
     type: NexusGenEnums['OrderType']; // OrderType!
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
-    user: NexusGenRootTypes['User'] | null; // User
-    userId: string | null; // String
   }
   OrderConfirmPayload: { // field return type
     order: NexusGenRootTypes['Order'] | null; // Order
@@ -1533,11 +1534,11 @@ export interface NexusGenFieldTypes {
     format: string; // String!
     humanizedBytes: string; // String!
     id: string; // ID!
+    membershipId: string | null; // String
     name: string; // String!
     organizationId: string | null; // String
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     url: string; // String!
-    userId: string | null; // String
   }
   NotificationChannel: { // field return type
     channelType: NexusGenEnums['NotificationChannelType']; // NotificationChannelType!
@@ -1598,8 +1599,8 @@ export interface NexusGenFieldTypeNames {
     files: 'File'
     id: 'ID'
     message: 'String'
-    sender: 'User'
-    senderUserId: 'ID'
+    sender: 'Membership'
+    senderMembershipId: 'ID'
     viewerIsSender: 'Boolean'
   }
   DesignProduct: { // field return type name
@@ -1610,6 +1611,7 @@ export interface NexusGenFieldTypeNames {
     designProofId: 'ID'
     designRequestId: 'ID'
     id: 'ID'
+    membershipId: 'ID'
     minUnitPriceCents: 'Int'
     name: 'String'
     organizationId: 'ID'
@@ -1619,7 +1621,6 @@ export interface NexusGenFieldTypeNames {
     sizes: 'DesignProductSize'
     termsConditionsAgreed: 'Boolean'
     updatedAt: 'DateTime'
-    userId: 'ID'
     variants: 'DesignProductVariant'
   }
   DesignProductColor: { // field return type name
@@ -1655,17 +1656,17 @@ export interface NexusGenFieldTypeNames {
     sizeName: 'String'
   }
   DesignProof: { // field return type name
-    artist: 'User'
-    artistUserId: 'ID'
+    artist: 'Membership'
+    artistMembershipId: 'ID'
     colors: 'DesignProofColor'
     createdAt: 'DateTime'
     designProofColorIds: 'ID'
     designProofLocationIds: 'ID'
     id: 'ID'
     locations: 'DesignProofLocation'
+    membership: 'Membership'
     primaryImageFile: 'FileImage'
     primaryImageFileId: 'ID'
-    user: 'User'
   }
   DesignProofColor: { // field return type name
     catalogProductColorId: 'ID'
@@ -1704,14 +1705,14 @@ export interface NexusGenFieldTypeNames {
     history: 'DesignRequestHistoryItem'
     humanizedStatus: 'String'
     id: 'ID'
+    membership: 'Membership'
+    membershipId: 'ID'
     name: 'String'
     previewImage: 'FileImage'
     proofs: 'DesignProof'
     status: 'DesignRequestStatus'
     updatedAt: 'DateTime'
     useCase: 'String'
-    user: 'User'
-    userId: 'ID'
   }
   DesignRequestApprovePayload: { // field return type name
     design: 'DesignProduct'
@@ -1754,11 +1755,11 @@ export interface NexusGenFieldTypeNames {
     historyItemAdded: 'Boolean'
   }
   DesignRequestHistoryItemDesignRequestEvent: { // field return type name
+    actor: 'Membership'
     id: 'ID'
+    membershipId: 'ID'
     method: 'DesignRequestHistoryItemDesignRequestEventMethod'
     timestamp: 'DateTime'
-    user: 'User'
-    userId: 'ID'
   }
   DesignRequestProduct: { // field return type name
     catalogProduct: 'CatalogProduct'
@@ -1781,8 +1782,8 @@ export interface NexusGenFieldTypeNames {
     fileIds: 'ID'
     files: 'File'
     id: 'ID'
-    user: 'User'
-    userId: 'ID'
+    membership: 'Membership'
+    membershipId: 'ID'
   }
   DesignRequestRevisionRequestCreatePayload: { // field return type name
     designRequest: 'DesignRequest'
@@ -1815,11 +1816,11 @@ export interface NexusGenFieldTypeNames {
     height: 'Int'
     humanizedBytes: 'String'
     id: 'ID'
+    membershipId: 'String'
     name: 'String'
     organizationId: 'String'
     updatedAt: 'DateTime'
     url: 'String'
-    userId: 'String'
     width: 'Int'
   }
   FilePdf: { // field return type name
@@ -1829,11 +1830,11 @@ export interface NexusGenFieldTypeNames {
     format: 'String'
     humanizedBytes: 'String'
     id: 'ID'
+    membershipId: 'String'
     name: 'String'
     organizationId: 'String'
     updatedAt: 'DateTime'
     url: 'String'
-    userId: 'String'
   }
   FileUnknown: { // field return type name
     bytes: 'Int'
@@ -1842,22 +1843,22 @@ export interface NexusGenFieldTypeNames {
     format: 'String'
     humanizedBytes: 'String'
     id: 'ID'
+    membershipId: 'String'
     name: 'String'
     organizationId: 'String'
     updatedAt: 'DateTime'
     url: 'String'
-    userId: 'String'
   }
   Fulfillment: { // field return type name
     createdAt: 'DateTime'
     fulfillmentOrderItems: 'FulfillmentOrderItem'
     fulfillmentTrackingInfoId: 'String'
     id: 'ID'
+    membershipId: 'String'
     orderId: 'String'
     organizationId: 'String'
     trackingInfo: 'FulfillmentTrackingInfo'
     updatedAt: 'DateTime'
-    userId: 'String'
   }
   FulfillmentCreatePayload: { // field return type name
     fulfillment: 'Fulfillment'
@@ -1890,13 +1891,13 @@ export interface NexusGenFieldTypeNames {
     lastName: 'String'
     latitude: 'Float'
     longitude: 'Float'
+    membershipId: 'String'
     name: 'String'
     organizationId: 'String'
     phone: 'String'
     province: 'String'
     provinceCode: 'String'
     updatedAt: 'DateTime'
-    userId: 'String'
     zip: 'String'
   }
   MailingAddressCreatePayload: { // field return type name
@@ -1958,10 +1959,11 @@ export interface NexusGenFieldTypeNames {
     channels: 'NotificationChannel'
     createdAt: 'DateTime'
     id: 'ID'
-    notificationEventGroupId: 'String'
+    membershipId: 'String'
+    notificationTopicId: 'String'
+    notificationWorkflowId: 'String'
     organizationId: 'String'
     updatedAt: 'DateTime'
-    userId: 'String'
   }
   NotificationChannelEmail: { // field return type name
     channelType: 'NotificationChannelType'
@@ -1989,7 +1991,6 @@ export interface NexusGenFieldTypeNames {
   }
   Order: { // field return type name
     createdAt: 'DateTime'
-    customer: 'User'
     customerEmail: 'String'
     customerFirstName: 'String'
     customerId: 'String'
@@ -2002,6 +2003,8 @@ export interface NexusGenFieldTypeNames {
     itemSummaries: 'OrderItemSummary'
     items: 'OrderItem'
     lastPaymentMethod: 'PaymentMethod'
+    membershipId: 'String'
+    owner: 'Membership'
     paymentIntents: 'PaymentIntent'
     paymentStatus: 'OrderPaymentStatus'
     shippingAddress: 'MailingAddress'
@@ -2016,8 +2019,6 @@ export interface NexusGenFieldTypeNames {
     totalTaxCents: 'Int'
     type: 'OrderType'
     updatedAt: 'DateTime'
-    user: 'User'
-    userId: 'String'
   }
   OrderConfirmPayload: { // field return type name
     order: 'Order'
@@ -2196,11 +2197,11 @@ export interface NexusGenFieldTypeNames {
     format: 'String'
     humanizedBytes: 'String'
     id: 'ID'
+    membershipId: 'String'
     name: 'String'
     organizationId: 'String'
     updatedAt: 'DateTime'
     url: 'String'
-    userId: 'String'
   }
   NotificationChannel: { // field return type name
     channelType: 'NotificationChannelType'

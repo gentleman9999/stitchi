@@ -1,5 +1,6 @@
 import * as beehiiv from '../../beehiiv'
 import { Subscriber } from '../../beehiiv/serialize'
+import { logger } from '../../telemetry'
 import { beehiivPostToPost } from './serializer'
 import { Post, PostList } from './types'
 
@@ -33,7 +34,7 @@ const makeClient: MakeClientFn = (
         const post = await beehiivClient.getPostBySlug(slug)
         return beehiivPostToPost(post)
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to fetch post')
       }
     },
@@ -48,7 +49,7 @@ const makeClient: MakeClientFn = (
           pageCount: posts.total_pages || 0,
         }
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to fetch post list')
       }
     },
@@ -61,7 +62,7 @@ const makeClient: MakeClientFn = (
         })
         return subscriber
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to create subscriber')
       }
     },

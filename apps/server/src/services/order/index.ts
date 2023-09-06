@@ -7,6 +7,7 @@ import makeOrderRepository, { OrderRepository } from './repository'
 import { CreateOrderFnInput } from './repository/create-order'
 import { addSeconds, isBefore } from 'date-fns'
 import { reconcileOrderPayments } from './helpers/reconcile-order-payments'
+import { logger } from '../../telemetry'
 
 export interface OrderClientService {
   createOrder: (input: CreateOrderFnInput) => Promise<OrderFactoryOrder>
@@ -38,7 +39,7 @@ const makeClient: MakeClientFn = (
       try {
         return orderRepository.createOrder({ order: input.order })
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to create order')
       }
     },
@@ -61,7 +62,7 @@ const makeClient: MakeClientFn = (
           return order
         }
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to get order')
       }
     },
@@ -71,7 +72,7 @@ const makeClient: MakeClientFn = (
           mailingAddress: input.mailingAddress,
         })
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to create mailing address')
       }
     },
@@ -81,7 +82,7 @@ const makeClient: MakeClientFn = (
           mailingAddressId: input.mailingAddressId,
         })
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to get mailing address')
       }
     },
@@ -89,7 +90,7 @@ const makeClient: MakeClientFn = (
       try {
         return orderRepository.updateOrder({ order: input.order })
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to update order')
       }
     },
@@ -97,7 +98,7 @@ const makeClient: MakeClientFn = (
       try {
         return orderRepository.listOrders(input)
       } catch (error) {
-        console.error(error)
+        logger.error(error)
         throw new Error('Failed to list orders')
       }
     },

@@ -27,14 +27,16 @@ export const fulfillmentCreate = mutationField('fulfillmentCreate', {
     input: nonNull('FulfillmentCreateInput'),
   },
   resolve: async (_, { input }, ctx) => {
+    if (!ctx.membershipId) {
+      throw new GraphQLError('Unauthorized')
+    }
+
     let order
 
     try {
       order = await ctx.order.getOrder({ orderId: input.orderId })
     } catch (error) {
-      console.error(`Failed to get order`, {
-        context: { error },
-      })
+      ctx.logger.child({ context: { error } }).error(`Failed to get order`)
       throw new GraphQLError('Failed to get order')
     }
 
@@ -44,7 +46,7 @@ export const fulfillmentCreate = mutationField('fulfillmentCreate', {
       fulfillment = await ctx.fulfillment.createFulfillment({
         fulfillment: {
           orderId: input.orderId,
-          userId: order.userId,
+          membershipId: ctx.membershipId,
           organizationId: order.organizationId,
           fulfillmentTrackingInfo: {
             trackingNumber: input.trackingNumber,
@@ -55,9 +57,9 @@ export const fulfillmentCreate = mutationField('fulfillmentCreate', {
         },
       })
     } catch (error) {
-      console.error(`Failed to create fulfillment`, {
-        context: { error },
-      })
+      ctx.logger
+        .child({ context: { error } })
+        .error(`Failed to create fulfillment`)
       throw new GraphQLError('Failed to create fulfillment')
     }
 

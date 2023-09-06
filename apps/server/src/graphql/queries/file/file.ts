@@ -35,7 +35,7 @@ export const FileExtendsDesignRequest = extendType({
                 fileId: proof.primaryImageFileId,
               })
             } catch (error) {
-              console.error(error)
+              ctx.logger.error(error)
 
               throw new GraphQLError(
                 'Unable to fetch approved design proof for design request',
@@ -63,7 +63,7 @@ export const FileExtendsDesignRequest = extendType({
                 fileId: proofs[0].primaryImageFileId,
               })
             } catch (error) {
-              console.error(error)
+              ctx.logger.error(error)
 
               throw new GraphQLError(
                 'Unable to fetch latest design proof for design request',
@@ -82,7 +82,7 @@ export const FileExtendsDesignRequest = extendType({
 
             previewImage = files[0]
           } catch (error) {
-            console.error(error)
+            ctx.logger.error(error)
 
             throw new GraphQLError(
               'Unable to fetch preview image for design request',
@@ -268,9 +268,11 @@ export const FileExtendsOrganizationBrand = extendType({
             ...(notEmpty(before) ? { cursor: { id: before } } : {}),
           })
         } catch (error) {
-          console.error("Unable to fetch organization's files", {
-            context: { error, organization },
-          })
+          ctx.logger
+            .child({
+              context: { error, organization },
+            })
+            .error("Unable to fetch organization's files")
           throw new GraphQLError('Unable to fetch organization files')
         }
 
@@ -283,9 +285,11 @@ export const FileExtendsOrganizationBrand = extendType({
             },
           })
         } catch (error) {
-          console.error("Unable to fetch organization's files", {
-            context: { error, organization },
-          })
+          ctx.logger
+            .child({
+              context: { error, organization },
+            })
+            .error("Unable to fetch organization's files")
           throw new GraphQLError('Unable to fetch organization files')
         }
 

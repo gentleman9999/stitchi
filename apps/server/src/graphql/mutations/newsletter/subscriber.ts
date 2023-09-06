@@ -66,7 +66,7 @@ export const subscriberCreate = mutationField('subscriberCreate', {
         },
       }
     } catch (error) {
-      console.error(error)
+      ctx.logger.error(error)
       throw new Error('Failed to create subscriber')
     }
   },

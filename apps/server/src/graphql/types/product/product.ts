@@ -14,9 +14,9 @@ export const Product = objectType({
   definition: t => {
     t.nonNull.id('id')
     t.nonNull.int('priceCents', {
-      resolve: async parent => {
+      resolve: async (parent, _, ctx) => {
         try {
-          const { productUnitCostCents } = await calculate({
+          const { productUnitCostCents } = calculate({
             productPriceCents: (parent as any).prices.price.value * 100,
             includeFulfillment: false,
             quantity: 10_000,
@@ -25,11 +25,13 @@ export const Product = objectType({
 
           return productUnitCostCents
         } catch (error) {
-          console.error("Error calculating product's price", {
-            context: {
-              error,
-            },
-          })
+          ctx.logger
+            .child({
+              context: {
+                error,
+              },
+            })
+            .error("Error calculating product's price")
 
           throw new GraphQLError(
             `Unable to calculate product's price: ${parent.id}`,

@@ -6,6 +6,7 @@
   "references": [
     { "path": "../services" },
     { "path": "../stripe" },
-    { "path": "../sendgrid" }
+    { "path": "../sendgrid" },
+    { "path": "../telemetry" }
   ]
 }

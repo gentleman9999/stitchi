@@ -10,6 +10,7 @@ import {
   organizationFactory,
   OrganizationFactoryOrganization,
 } from '../factory/organization'
+import { logger } from '../../../telemetry'
 
 const inputSchema = Organization.omit([
   'id',
@@ -55,7 +56,7 @@ const makeCreateOrganization: MakeCreateOrganizationFn =
         },
       })
     } catch (error) {
-      console.error(error)
+      logger.error(error)
       throw new Error('Failed to create organization')
     }
 

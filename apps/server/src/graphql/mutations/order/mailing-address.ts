@@ -54,13 +54,13 @@ export const mailingAddressCreate = mutationField('mailingAddressCreate', {
           provinceCode: input.provinceCode || null,
           zip: input.zip || null,
           organizationId: ctx.organizationId || null,
-          userId: ctx.userId || null,
+          membershipId: ctx.membershipId || null,
           latitude: null,
           longitude: null,
         },
       })
     } catch (error) {
-      console.error(error)
+      ctx.logger.error(error)
       throw new GraphQLError('Unable to create mailing address')
     }
 

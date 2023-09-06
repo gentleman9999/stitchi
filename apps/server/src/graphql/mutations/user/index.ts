@@ -1,6 +1,6 @@
 import { GraphQLError } from 'graphql'
 import { inputObjectType, mutationField, nonNull, objectType } from 'nexus'
-import { membershipFactoryToGrahpql } from '../../serializers/membership'
+import { membershipFactoryToGraphql } from '../../serializers/membership'
 import { organizationFactoryToGrahpql } from '../../serializers/organization'
 
 export * from './bootstrap'
@@ -40,9 +40,11 @@ export const userSetOrganization = mutationField('userSetOrganization', {
         userId: ctx.userId,
       })
     } catch (error) {
-      console.error('Failed to set active membership', {
-        context: { error, input, userId: ctx.userId },
-      })
+      ctx.logger
+        .child({
+          context: { error, input, userId: ctx.userId },
+        })
+        .error('Failed to set active membership')
       throw new GraphQLError('Failed to set active membership')
     }
 
@@ -88,9 +90,11 @@ export const userOrganizationCreate = mutationField('userOrganizationCreate', {
         },
       })
     } catch (error) {
-      console.error('Failed to create organization', {
-        context: { error, input, userId: ctx.userId },
-      })
+      ctx.logger
+        .child({
+          context: { error, input, userId: ctx.userId },
+        })
+        .error('Failed to create organization')
       throw new GraphQLError('Failed to create organization')
     }
 
@@ -107,15 +111,17 @@ export const userOrganizationCreate = mutationField('userOrganizationCreate', {
         },
       })
     } catch (error) {
-      console.error('Failed to create membership', {
-        context: { error, input, userId: ctx.userId },
-      })
+      ctx.logger
+        .child({
+          context: { error, input, userId: ctx.userId },
+        })
+        .error('Failed to create membership')
       throw new GraphQLError('Failed to create membership')
     }
 
     return {
       organization: organizationFactoryToGrahpql(organization),
-      membership: membershipFactoryToGrahpql(membership),
+      membership: membershipFactoryToGraphql(membership),
     }
   },
 })

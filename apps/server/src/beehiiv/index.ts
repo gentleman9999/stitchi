@@ -8,6 +8,7 @@ import {
   Subscriber,
 } from './serialize'
 import { getOrThrow } from '../utils'
+import { logger } from '../telemetry'
 
 const publicationId = getOrThrow(
   process.env.BEEHIIV_PUBLICATION_ID,
@@ -55,7 +56,7 @@ const getPostBySlug = async (slug: string): Promise<Post> => {
 
     return post
   } catch (error) {
-    console.error(error)
+    logger.error(error)
     throw new Error('Failed to fetch post')
   }
 }
@@ -83,7 +84,7 @@ const getPostList = async ({
 
     return makePostList(data)
   } catch (error) {
-    console.error(error)
+    logger.error(error)
     throw new Error('Failed to fetch post list')
   }
 }
@@ -131,7 +132,7 @@ const createSubscriber = async (
       throw new Error('Invariant exception: data.data should exist')
     }
   } catch (error) {
-    console.error(error)
+    logger.error(error)
     throw new Error('Failed to create subscriber')
   }
 }

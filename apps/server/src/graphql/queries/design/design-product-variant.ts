@@ -19,9 +19,11 @@ export const DesignProductVariantExtendsDesignProduct = extendType({
             },
           )
         } catch (error) {
-          console.error('Error getting catalog product', {
-            context: { error, designProduct: parent },
-          })
+          ctx.logger
+            .child({
+              context: { error, designProduct: parent },
+            })
+            .error('Error getting catalog product')
 
           throw new GraphQLError('Error getting catalog product')
         }

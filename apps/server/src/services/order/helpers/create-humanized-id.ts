@@ -11,10 +11,10 @@ function generateRandomId(length: number): string {
 
 const createHumanizedId = async (
   {
-    userId,
+    membershipId,
     organizationId,
   }: {
-    userId: string | null
+    membershipId: string | null
     organizationId: string | null
   },
   { orderTable }: { orderTable: OrderTable },
@@ -23,7 +23,7 @@ const createHumanizedId = async (
 
   const existingOrder = await orderTable.findFirst({
     where: {
-      userId,
+      membershipId,
       organizationId,
       humanReadableId: humanizedId,
     },
@@ -33,7 +33,7 @@ const createHumanizedId = async (
   })
 
   if (existingOrder?.id) {
-    return createHumanizedId({ userId, organizationId }, { orderTable })
+    return createHumanizedId({ membershipId, organizationId }, { orderTable })
   }
 
   return humanizedId

@@ -1,12 +1,10 @@
+import { logger } from '../../../telemetry'
 import {
   NotificationClientService,
   makeClient as makeNotificationServiceClient,
 } from '../../notification'
 import { NotificationChannelType } from '../../notification/db/notification-channel-table'
-import {
-  NotificationEventKey,
-  NotificationEventResource,
-} from '../../notification/db/notification-event-table'
+
 import { OrderRecordType } from '../db/order-table'
 import { OrderFactoryOrder } from '../factory'
 
@@ -56,39 +54,35 @@ const makeHandler =
               },
             })
 
-            const notificationEventGroup =
-              await notification.createNotificationEventGroup({
-                notificationEventGroup: {
-                  resourceId: nextOrder.id,
-                  resource: NotificationEventResource.ORDER,
-                  eventKey: NotificationEventKey.ORDER_CONFIRMED,
-                },
-              })
+            // const notificationEventGroup =
+            //   await notification.createNotificationEventGroup({
+            //     notificationEventGroup: {
+            //       resourceId: nextOrder.id,
+            //       resource: NotificationEventResource.ORDER,
+            //       eventKey: NotificationEventKey.ORDER_CONFIRMED,
+            //     },
+            //   })
 
-            await notification.createNotification({
-              notification: {
-                organizationId: nextOrder.organizationId,
-                userId: nextOrder.userId,
-                notificationEventGroupId: notificationEventGroup.id,
-                eventKey: notificationEventGroup.eventKey,
-                resourceId: notificationEventGroup.resourceId,
-                resource: notificationEventGroup.resource,
-                channels: [
-                  {
-                    channelType: NotificationChannelType.EMAIL,
-                    htmlBody: customerTemplate.email.htmlBody,
-                    textBody: customerTemplate.email.textBody,
-                    recipientEmail: nextOrder.customerEmail,
-                    recipientName: nextOrder.customerFirstName,
-                    subject: customerTemplate.email.subject,
-                  },
-                  {
-                    channelType: NotificationChannelType.WEB,
-                    message: customerTemplate.web.message,
-                  },
-                ],
-              },
-            })
+            // await notification.createNotification({
+            //   notification: {
+            //     organizationId: nextOrder.organizationId,
+            //     membershipId: nextOrder.membershipId,
+            //     channels: [
+            //       {
+            //         channelType: NotificationChannelType.EMAIL,
+            //         htmlBody: customerTemplate.email.htmlBody,
+            //         textBody: customerTemplate.email.textBody,
+            //         recipientEmail: nextOrder.customerEmail,
+            //         recipientName: nextOrder.customerFirstName,
+            //         subject: customerTemplate.email.subject,
+            //       },
+            //       {
+            //         channelType: NotificationChannelType.WEB,
+            //         message: customerTemplate.web.message,
+            //       },
+            //     ],
+            //   },
+            // })
           } catch {
             throw new Error('Failed to create order confirmed notification')
           }

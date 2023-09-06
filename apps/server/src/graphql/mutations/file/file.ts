@@ -41,7 +41,7 @@ export const fileCreate = mutationField('fileCreate', {
           url: input.url,
           bytes: input.bytes,
           format: input.format,
-          userId: ctx.userId || null,
+          membershipId: ctx.membershipId || null,
           organizationId: ctx.organizationId || null,
           cloudinaryAssetId: input.cloudinaryAssetId || null,
           fileType: input.fileType,
@@ -50,7 +50,7 @@ export const fileCreate = mutationField('fileCreate', {
         },
       })
     } catch (error) {
-      console.log(error)
+      ctx.logger.error(error)
       throw new GraphQLError('Unable to create file')
     }
 
@@ -90,7 +90,7 @@ export const fileCreateBatch = mutationField('fileCreateBatch', {
             originalFilename: file.originalFilename,
             url: file.url,
             bytes: file.bytes,
-            userId: ctx.userId || null,
+            membershipId: ctx.membershipId || null,
             organizationId: ctx.organizationId || null,
             cloudinaryAssetId: file.cloudinaryAssetId || null,
             fileType: file.fileType,
@@ -102,7 +102,9 @@ export const fileCreateBatch = mutationField('fileCreateBatch', {
 
         files.push(createdFile)
       } catch (error) {
-        console.error(`Failed to create file`, { context: { error, file } })
+        ctx.logger
+          .child({ context: { error, file } })
+          .error(`Failed to create file`)
         continue
       }
     }

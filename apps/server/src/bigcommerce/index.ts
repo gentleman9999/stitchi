@@ -8,6 +8,7 @@ import {
   makeCategory,
   Category,
 } from './serialize'
+import { logger } from '../telemetry'
 
 export type {
   Product as BigCommerceProduct,
@@ -45,14 +46,16 @@ const makeClient = (
         const { data, errors } = await res.json()
 
         if (errors) {
-          console.error(errors)
+          logger.error(errors)
         }
 
         return makeProduct(data)
       } catch (error) {
-        console.error(`Failed to get product: ${input.productEntityId}`, {
-          context: { error, productEntityId: input.productEntityId },
-        })
+        logger
+          .child({
+            context: { error, productEntityId: input.productEntityId },
+          })
+          .error(`Failed to get product: ${input.productEntityId}`)
 
         throw new Error('Failed to get product')
       }
@@ -66,21 +69,22 @@ const makeClient = (
         const { data, errors } = await res.json()
 
         if (errors) {
-          console.error(errors)
+          logger.error(errors)
         }
 
         return makeProductVariant(data)
       } catch (error) {
-        console.error(
-          `Failed to get product variant: ${input.productEntityId}/${input.variantEntityId}`,
-          {
+        logger
+          .child({
             context: {
               error,
               productEntityId: input.productEntityId,
               variantEntityId: input.variantEntityId,
             },
-          },
-        )
+          })
+          .error(
+            `Failed to get product variant: ${input.productEntityId}/${input.variantEntityId}`,
+          )
 
         throw new Error('Failed to get product variant')
       }
@@ -94,17 +98,16 @@ const makeClient = (
         const { data, errors } = await res.json()
 
         if (errors) {
-          console.error(errors)
+          logger.error(errors)
         }
 
         return data.map(makeProductVariant)
       } catch (error) {
-        console.error(
-          `Failed to list product variants: ${input.productEntityId}`,
-          {
+        logger
+          .child({
             context: { error, productEntityId: input.productEntityId },
-          },
-        )
+          })
+          .error(`Failed to list product variants: ${input.productEntityId}`)
 
         throw new Error('Failed to list product variants')
       }
@@ -118,14 +121,16 @@ const makeClient = (
         const { data, errors } = await res.json()
 
         if (errors) {
-          console.error(errors)
+          logger.error(errors)
         }
 
         return data
       } catch (error) {
-        console.error(`Failed to get brand: ${input.brandEntityId}`, {
-          context: { error, brandEntityId: input.brandEntityId },
-        })
+        logger
+          .child({
+            context: { error, brandEntityId: input.brandEntityId },
+          })
+          .error(`Failed to get brand: ${input.brandEntityId}`)
 
         throw new Error('Failed to get brand')
       }
@@ -139,14 +144,16 @@ const makeClient = (
         const { data, errors } = await res.json()
 
         if (errors) {
-          console.error(errors)
+          logger.error(errors)
         }
 
         return data.map(makeCategory)
       } catch (error) {
-        console.error(`Failed to get categories`, {
-          context: { error },
-        })
+        logger
+          .child({
+            context: { error },
+          })
+          .error(`Failed to get categories`)
 
         throw new Error('Failed to get categories')
       }

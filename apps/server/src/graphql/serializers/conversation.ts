@@ -13,11 +13,11 @@ export const conversationFactoryToGraphQl = ({
     messages: conversation.messages.map(message => ({
       id: message.id,
       conversationId: message.conversationId,
-      senderUserId: message.senderUserId,
+      senderMembershipId: message.senderMembershipId,
       message: message.message,
       fileIds: message.files.map(file => file.fileId),
       createdAt: message.createdAt,
-      viewerIsSender: message.senderUserId === viewerId,
+      viewerIsSender: message.senderMembershipId === viewerId,
     })),
   }
 }

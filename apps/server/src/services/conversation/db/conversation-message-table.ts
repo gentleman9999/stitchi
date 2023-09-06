@@ -9,7 +9,7 @@ export const ConversationMessage: yup.ObjectSchema<ConversationMessageSchema> =
     .object()
     .shape({
       id: yup.string().uuid().required(),
-      senderUserId: yup.string().nullable().defined(),
+      senderMembershipId: yup.string().uuid().nullable().defined(),
       conversationId: yup.string().uuid().required(),
 
       message: yup.string().required(),

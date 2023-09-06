@@ -7,7 +7,7 @@ export const DesignProduct = objectType({
     t.nonNull.id('designRequestId')
     t.nonNull.id('catalogProductId')
     t.nonNull.id('designProofId')
-    t.nullable.id('userId')
+    t.nullable.id('membershipId')
     t.nullable.id('organizationId')
     t.nullable.id('primaryImageFileId')
 

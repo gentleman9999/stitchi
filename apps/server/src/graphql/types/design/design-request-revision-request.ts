@@ -4,7 +4,7 @@ export const DesignRequestRevisionRequest = objectType({
   name: 'DesignRequestRevisionRequest',
   definition(t) {
     t.nonNull.id('id')
-    t.nonNull.id('userId')
+    t.nonNull.id('membershipId')
     t.nonNull.id('designRequestId')
     t.nonNull.list.nonNull.id('fileIds')
 

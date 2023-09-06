@@ -6,7 +6,7 @@ export const DesignProof: yup.ObjectSchema<DesignProofSchema> = yup
   .shape({
     id: yup.string().uuid().required(),
 
-    artistUserId: yup.string().required(),
+    artistMembershipId: yup.string().uuid().required(),
     catalogProductId: yup.string().required(),
     primaryImageFileId: yup.string().uuid().required(),
 
