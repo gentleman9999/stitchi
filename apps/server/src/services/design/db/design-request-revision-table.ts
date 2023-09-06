@@ -9,7 +9,7 @@ export const DesignRequestRevision: yup.ObjectSchema<DesignRequestRevisionSchema
     .object()
     .shape({
       id: yup.string().uuid().required(),
-      userId: yup.string().required(),
+      membershipId: yup.string().uuid().required(),
       designRequestId: yup.string().uuid().required(),
 
       description: yup.string().required(),

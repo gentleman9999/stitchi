@@ -65,9 +65,9 @@ export const Order = objectType({
     t.nonNull.id('id')
     t.nonNull.string('humanOrderId')
 
-    t.nullable.string('userId')
+    t.nullable.string('membershipId')
     t.nullable.string('customerId', {
-      resolve: order => order.userId || null,
+      resolve: order => order.membershipId || null,
     })
     t.nullable.string('shippingAddressId')
 
@@ -99,17 +99,17 @@ export const Order = objectType({
       type: 'OrderItem',
     })
 
-    t.nullable.field('customer', {
-      type: 'User',
-      resolve: async (order, _, ctx) => {
-        if (!order.userId) {
-          return null
-        }
+    // t.nullable.field('customer', {
+    //   type: 'User',
+    //   resolve: async (order, _, ctx) => {
+    //     if (!order.membershipId) {
+    //       return null
+    //     }
 
-        const user = await ctx.user.getUser({ id: order.userId })
-        return auth0UserToGraphl(user)
-      },
-    })
+    //     const user = await ctx.user.getUser({ id: order.membershipId })
+    //     return auth0UserToGraphl(user)
+    //   },
+    // })
 
     t.nonNull.field('createdAt', { type: 'DateTime' })
     t.field('updatedAt', { type: 'DateTime' })

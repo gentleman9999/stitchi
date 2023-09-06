@@ -30,7 +30,7 @@ export const Fulfillment = objectType({
   name: 'Fulfillment',
   definition(t) {
     t.nonNull.id('id')
-    t.nullable.string('userId')
+    t.nullable.string('membershipId')
     t.nullable.string('organizationId')
     t.nonNull.string('orderId')
     t.nonNull.string('fulfillmentTrackingInfoId')

@@ -1049,14 +1049,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/apparel/", "is_customized": false }
+      "custom_url": { "url": "/apparel/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 25,
@@ -1066,14 +1066,14 @@
       "views": 0,
       "sort_order": 10,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/apparel/t-shirts/", "is_customized": false }
+      "custom_url": { "url": "/apparel/t-shirts/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 26,
@@ -1083,17 +1083,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/apparel/t-shirts/short-sleeve/",
         "is_customized": true
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 27,
@@ -1103,14 +1103,14 @@
       "views": 0,
       "sort_order": 7,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/sustainable-swag/", "is_customized": false }
+      "custom_url": { "url": "/sustainable-swag/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 28,
@@ -1120,14 +1120,14 @@
       "views": 0,
       "sort_order": 4,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/ethical-swag/", "is_customized": false }
+      "custom_url": { "url": "/ethical-swag/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 29,
@@ -1137,14 +1137,14 @@
       "views": 0,
       "sort_order": 3,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/headwear/hats/", "is_customized": false }
+      "custom_url": { "url": "/headwear/hats/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 30,
@@ -1154,14 +1154,14 @@
       "views": 0,
       "sort_order": 3,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/apparel/sweatshirts/", "is_customized": false }
+      "custom_url": { "url": "/apparel/sweatshirts/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 31,
@@ -1171,17 +1171,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/apparel/t-shirts/long-sleeve/",
         "is_customized": true
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 32,
@@ -1191,14 +1191,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/sleeveless/", "is_customized": true }
+      "custom_url": { "url": "/sleeveless/", "is_customized": true },
+      "image_url": ""
     },
     {
       "id": 33,
@@ -1208,14 +1208,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/accessories/", "is_customized": false }
+      "custom_url": { "url": "/accessories/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 40,
@@ -1225,14 +1225,14 @@
       "views": 0,
       "sort_order": 3,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/concerts/", "is_customized": false }
+      "custom_url": { "url": "/concerts/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 42,
@@ -1242,14 +1242,14 @@
       "views": 0,
       "sort_order": 5,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/live-events/", "is_customized": false }
+      "custom_url": { "url": "/live-events/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 144,
@@ -1259,17 +1259,17 @@
       "views": 0,
       "sort_order": 8,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/collections/festival-season/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 166,
@@ -1279,17 +1279,17 @@
       "views": 0,
       "sort_order": 6,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/collections/school-and-team/",
         "is_customized": true
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 182,
@@ -1299,14 +1299,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/cotton/", "is_customized": false }
+      "custom_url": { "url": "/fabric/cotton/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 193,
@@ -1316,17 +1316,17 @@
       "views": 0,
       "sort_order": 9,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/apparel/sweatshirts-fleece/",
         "is_customized": true
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 194,
@@ -1336,14 +1336,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/scarves-and-gloves/", "is_customized": true }
+      "custom_url": { "url": "/scarves-and-gloves/", "is_customized": true },
+      "image_url": ""
     },
     {
       "id": 201,
@@ -1353,14 +1353,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/apparel/tops/", "is_customized": false }
+      "custom_url": { "url": "/apparel/tops/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 202,
@@ -1370,14 +1370,14 @@
       "views": 0,
       "sort_order": 1,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/bottoms/", "is_customized": false }
+      "custom_url": { "url": "/bottoms/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 217,
@@ -1387,14 +1387,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/sustainable/", "is_customized": false }
+      "custom_url": { "url": "/fabric/sustainable/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 218,
@@ -1404,17 +1404,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/apparel/headwear/hats/snapback/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 221,
@@ -1424,14 +1424,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fit/hook-and-loop/", "is_customized": false }
+      "custom_url": { "url": "/fit/hook-and-loop/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 272,
@@ -1441,17 +1441,17 @@
       "views": 0,
       "sort_order": 4,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/fabric/100-percent-cotton-face/",
         "is_customized": true
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 284,
@@ -1461,17 +1461,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/apparel/headwear/hats/pre-curved-visor/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 286,
@@ -1481,17 +1481,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/apparel/headwear/hats/unstructured/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 289,
@@ -1501,17 +1501,17 @@
       "views": 0,
       "sort_order": 2,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/apparel/headwear/hats/bucket/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 290,
@@ -1521,17 +1521,17 @@
       "views": 0,
       "sort_order": 2,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/apparel/headwear/hats/visors/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 291,
@@ -1541,14 +1541,14 @@
       "views": 0,
       "sort_order": 1,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/knit/", "is_customized": false }
+      "custom_url": { "url": "/knit/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 292,
@@ -1558,17 +1558,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/apparel/headwear/hats/six-panel/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 293,
@@ -1578,17 +1578,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/apparel/headwear/hats/five-panel/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 295,
@@ -1598,14 +1598,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/plaid/", "is_customized": false }
+      "custom_url": { "url": "/fabric/plaid/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 307,
@@ -1615,17 +1615,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/polyester-over-50-percent/",
         "is_customized": true
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 310,
@@ -1635,14 +1635,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/polyester/", "is_customized": false }
+      "custom_url": { "url": "/fabric/polyester/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 311,
@@ -1652,14 +1652,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/pique/", "is_customized": false }
+      "custom_url": { "url": "/fabric/pique/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 312,
@@ -1669,14 +1669,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/organic/", "is_customized": false }
+      "custom_url": { "url": "/fabric/organic/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 313,
@@ -1686,14 +1686,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/nylon/", "is_customized": false }
+      "custom_url": { "url": "/fabric/nylon/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 315,
@@ -1703,14 +1703,14 @@
       "views": 0,
       "sort_order": 3,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/mesh/", "is_customized": false }
+      "custom_url": { "url": "/mesh/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 318,
@@ -1720,14 +1720,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/cotton-ringspun/", "is_customized": true }
+      "custom_url": { "url": "/cotton-ringspun/", "is_customized": true },
+      "image_url": ""
     },
     {
       "id": 319,
@@ -1737,14 +1737,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/french-terry/", "is_customized": false }
+      "custom_url": { "url": "/fabric/french-terry/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 320,
@@ -1754,14 +1754,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/flannels/", "is_customized": false }
+      "custom_url": { "url": "/fabric/flannels/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 321,
@@ -1771,14 +1771,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/cotton-organic/", "is_customized": true }
+      "custom_url": { "url": "/cotton-organic/", "is_customized": true },
+      "image_url": ""
     },
     {
       "id": 322,
@@ -1788,14 +1788,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/cotton-combed/", "is_customized": true }
+      "custom_url": { "url": "/cotton-combed/", "is_customized": true },
+      "image_url": ""
     },
     {
       "id": 323,
@@ -1805,14 +1805,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/rayon/", "is_customized": false }
+      "custom_url": { "url": "/fabric/rayon/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 324,
@@ -1822,14 +1822,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/recycled/", "is_customized": false }
+      "custom_url": { "url": "/fabric/recycled/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 326,
@@ -1839,14 +1839,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/ripstop/", "is_customized": false }
+      "custom_url": { "url": "/fabric/ripstop/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 327,
@@ -1856,14 +1856,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/sherpa/", "is_customized": false }
+      "custom_url": { "url": "/fabric/sherpa/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 328,
@@ -1873,14 +1873,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/slub/", "is_customized": false }
+      "custom_url": { "url": "/fabric/slub/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 329,
@@ -1890,14 +1890,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/stripes/", "is_customized": false }
+      "custom_url": { "url": "/fabric/stripes/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 330,
@@ -1907,14 +1907,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/spandex/", "is_customized": false }
+      "custom_url": { "url": "/fabric/spandex/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 331,
@@ -1924,14 +1924,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/tricot/", "is_customized": false }
+      "custom_url": { "url": "/fabric/tricot/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 333,
@@ -1941,14 +1941,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/viscose/", "is_customized": false }
+      "custom_url": { "url": "/fabric/viscose/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 340,
@@ -1958,14 +1958,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/cashmere/", "is_customized": false }
+      "custom_url": { "url": "/fabric/cashmere/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 341,
@@ -1975,14 +1975,14 @@
       "views": 0,
       "sort_order": 2,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/canvas/", "is_customized": false }
+      "custom_url": { "url": "/fabric/canvas/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 344,
@@ -1992,17 +1992,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/accessories/bags/totes/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 347,
@@ -2012,14 +2012,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/tag/tagged/", "is_customized": false }
+      "custom_url": { "url": "/tag/tagged/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 348,
@@ -2029,14 +2029,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/tag/tagless/", "is_customized": false }
+      "custom_url": { "url": "/tag/tagless/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 372,
@@ -2046,14 +2046,14 @@
       "views": 0,
       "sort_order": 1,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/tubular/", "is_customized": false }
+      "custom_url": { "url": "/tubular/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 373,
@@ -2063,14 +2063,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fit/relaxed/", "is_customized": false }
+      "custom_url": { "url": "/fit/relaxed/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 374,
@@ -2080,14 +2080,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fit/side-seams/", "is_customized": false }
+      "custom_url": { "url": "/fit/side-seams/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 375,
@@ -2097,14 +2097,14 @@
       "views": 0,
       "sort_order": 1,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/low-profiles/", "is_customized": false }
+      "custom_url": { "url": "/low-profiles/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 376,
@@ -2114,17 +2114,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/apparel/headwear/hats/mid-profiles/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 377,
@@ -2134,14 +2134,14 @@
       "views": 0,
       "sort_order": 3,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/high-profiles/", "is_customized": false }
+      "custom_url": { "url": "/high-profiles/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 379,
@@ -2151,14 +2151,14 @@
       "views": 0,
       "sort_order": 5,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/girls/", "is_customized": false }
+      "custom_url": { "url": "/girls/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 380,
@@ -2168,14 +2168,14 @@
       "views": 0,
       "sort_order": 4,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fit/fitted/", "is_customized": false }
+      "custom_url": { "url": "/fit/fitted/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 383,
@@ -2185,17 +2185,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/apparel/headwear/hats/truckers/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 396,
@@ -2205,14 +2205,14 @@
       "views": 0,
       "sort_order": 1,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/messengers/", "is_customized": false }
+      "custom_url": { "url": "/messengers/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 400,
@@ -2222,17 +2222,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/apparel/headwear/hats/flat-bills/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 401,
@@ -2242,17 +2242,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/accessories/bags/duffels/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 409,
@@ -2262,17 +2262,17 @@
       "views": 0,
       "sort_order": 1,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/apparel/headwear/hats/beanies/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 411,
@@ -2282,14 +2282,14 @@
       "views": 0,
       "sort_order": 6,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fit/adjustable/", "is_customized": false }
+      "custom_url": { "url": "/fit/adjustable/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 418,
@@ -2299,14 +2299,14 @@
       "views": 0,
       "sort_order": 2,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/backpacks/", "is_customized": false }
+      "custom_url": { "url": "/backpacks/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 423,
@@ -2316,14 +2316,14 @@
       "views": 0,
       "sort_order": 9,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/bottoms/sweatpants/", "is_customized": false }
+      "custom_url": { "url": "/bottoms/sweatpants/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 426,
@@ -2333,14 +2333,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/accessories/bags/", "is_customized": false }
+      "custom_url": { "url": "/accessories/bags/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 429,
@@ -2350,14 +2350,14 @@
       "views": 0,
       "sort_order": 2,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fit/flowy/", "is_customized": false }
+      "custom_url": { "url": "/fit/flowy/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 430,
@@ -2367,14 +2367,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/tag/tear-away/", "is_customized": false }
+      "custom_url": { "url": "/tag/tear-away/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 432,
@@ -2384,14 +2384,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/triblends/", "is_customized": false }
+      "custom_url": { "url": "/fabric/triblends/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 439,
@@ -2401,14 +2401,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/polyester-100-percent/", "is_customized": true }
+      "custom_url": { "url": "/polyester-100-percent/", "is_customized": true },
+      "image_url": ""
     },
     {
       "id": 441,
@@ -2418,14 +2418,14 @@
       "views": 0,
       "sort_order": 4,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/apparel/socks/", "is_customized": false }
+      "custom_url": { "url": "/apparel/socks/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 442,
@@ -2435,17 +2435,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/sleeve-length/34-sleeves/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 445,
@@ -2455,14 +2455,14 @@
       "views": 0,
       "sort_order": 2,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/american-made/", "is_customized": false }
+      "custom_url": { "url": "/american-made/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 450,
@@ -2472,14 +2472,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/cotton-over-50-percent/", "is_customized": true }
+      "custom_url": {
+        "url": "/cotton-over-50-percent/",
+        "is_customized": true
+      },
+      "image_url": ""
     },
     {
       "id": 451,
@@ -2489,14 +2492,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/cotton-100-percent/", "is_customized": true }
+      "custom_url": { "url": "/cotton-100-percent/", "is_customized": true },
+      "image_url": ""
     },
     {
       "id": 452,
@@ -2506,14 +2509,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/cottonpoly-50-50/", "is_customized": true }
+      "custom_url": { "url": "/cottonpoly-50-50/", "is_customized": true },
+      "image_url": ""
     },
     {
       "id": 454,
@@ -2523,14 +2526,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/thermals/", "is_customized": false }
+      "custom_url": { "url": "/fabric/thermals/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 456,
@@ -2540,14 +2543,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fit/talls/", "is_customized": false }
+      "custom_url": { "url": "/fit/talls/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 457,
@@ -2557,17 +2560,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/apparel/t-shirts/tank-tops/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 458,
@@ -2577,17 +2580,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/sleeve-length/sleeveless/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 459,
@@ -2597,14 +2600,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/sleeve-length/vests/", "is_customized": false }
+      "custom_url": { "url": "/sleeve-length/vests/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 461,
@@ -2614,17 +2617,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/sleeve-length/short-sleeves/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 462,
@@ -2634,17 +2637,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/sleeve-length/long-sleeves/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 465,
@@ -2654,14 +2657,14 @@
       "views": 0,
       "sort_order": 4,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/apparel/polos/", "is_customized": false }
+      "custom_url": { "url": "/apparel/polos/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 473,
@@ -2671,14 +2674,14 @@
       "views": 0,
       "sort_order": 3,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/apparel/shorts/", "is_customized": false }
+      "custom_url": { "url": "/apparel/shorts/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 492,
@@ -2688,14 +2691,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/performance/", "is_customized": false }
+      "custom_url": { "url": "/fabric/performance/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 493,
@@ -2705,14 +2708,14 @@
       "views": 0,
       "sort_order": 3,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/outerwear/", "is_customized": false }
+      "custom_url": { "url": "/outerwear/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 497,
@@ -2722,14 +2725,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/apparel/headwear/", "is_customized": false }
+      "custom_url": { "url": "/apparel/headwear/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 499,
@@ -2739,14 +2742,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/fleece/", "is_customized": false }
+      "custom_url": { "url": "/fabric/fleece/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 501,
@@ -2756,14 +2759,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/denim/", "is_customized": false }
+      "custom_url": { "url": "/fabric/denim/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 505,
@@ -2773,14 +2776,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/accessories/aprons/", "is_customized": false }
+      "custom_url": { "url": "/accessories/aprons/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 510,
@@ -2790,14 +2793,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/tag/", "is_customized": false }
+      "custom_url": { "url": "/tag/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 514,
@@ -2807,14 +2810,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/home-goods/", "is_customized": false }
+      "custom_url": { "url": "/home-goods/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 518,
@@ -2824,14 +2827,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/sleeve-length/", "is_customized": false }
+      "custom_url": { "url": "/sleeve-length/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 520,
@@ -2841,14 +2844,14 @@
       "views": 0,
       "sort_order": 1,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/wizard/", "is_customized": true }
+      "custom_url": { "url": "/wizard/", "is_customized": true },
+      "image_url": ""
     },
     {
       "id": 521,
@@ -2858,14 +2861,14 @@
       "views": 0,
       "sort_order": 2,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/wizard/tops/", "is_customized": false }
+      "custom_url": { "url": "/wizard/tops/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 522,
@@ -2875,14 +2878,14 @@
       "views": 0,
       "sort_order": 3,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/wizard/bottoms/", "is_customized": false }
+      "custom_url": { "url": "/wizard/bottoms/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 525,
@@ -2892,17 +2895,17 @@
       "views": 0,
       "sort_order": 2,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/wizard/tops/t-shirts/short-sleeve-t-shirts/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 526,
@@ -2912,17 +2915,17 @@
       "views": 0,
       "sort_order": 1,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/wizard/tops/t-shirts/long-sleeve-t-shirts/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 527,
@@ -2932,17 +2935,17 @@
       "views": 0,
       "sort_order": 1,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/wizard/tops/sweatshirts-fleece/crewnecks/",
         "is_customized": true
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 528,
@@ -2952,17 +2955,17 @@
       "views": 0,
       "sort_order": 2,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/wizard/tops/sweatshirts-fleece/hoodies/",
         "is_customized": true
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 529,
@@ -2972,14 +2975,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/wizard/bottoms/shorts/", "is_customized": false }
+      "custom_url": {
+        "url": "/wizard/bottoms/shorts/",
+        "is_customized": false
+      },
+      "image_url": ""
     },
     {
       "id": 530,
@@ -2989,17 +2995,17 @@
       "views": 0,
       "sort_order": 2,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/wizard/bottoms/joggers/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 531,
@@ -3009,17 +3015,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/wizard/bottoms/sweatpants/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 538,
@@ -3029,14 +3035,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/wizard/tops/t-shirts/", "is_customized": false }
+      "custom_url": { "url": "/wizard/tops/t-shirts/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 539,
@@ -3046,17 +3052,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/internal-app/tops/sweatshirts-and-fleece/",
         "is_customized": true
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 540,
@@ -3066,17 +3072,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/internal-app/tops/sweatshirts-and-fleece/zip-ups/",
         "is_customized": true
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 541,
@@ -3086,14 +3092,14 @@
       "views": 0,
       "sort_order": 3,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/wizard/fit/mens/", "is_customized": false }
+      "custom_url": { "url": "/wizard/fit/mens/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 542,
@@ -3103,14 +3109,14 @@
       "views": 0,
       "sort_order": 1,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/wizard/fit/womens/", "is_customized": false }
+      "custom_url": { "url": "/wizard/fit/womens/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 543,
@@ -3120,14 +3126,14 @@
       "views": 0,
       "sort_order": 4,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/wizard/fit/unisex/", "is_customized": false }
+      "custom_url": { "url": "/wizard/fit/unisex/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 544,
@@ -3137,14 +3143,14 @@
       "views": 0,
       "sort_order": 2,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/wizard/fit/youth/", "is_customized": false }
+      "custom_url": { "url": "/wizard/fit/youth/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 545,
@@ -3154,14 +3160,14 @@
       "views": 0,
       "sort_order": 4,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/wizard/best-sellers/", "is_customized": false }
+      "custom_url": { "url": "/wizard/best-sellers/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 547,
@@ -3171,14 +3177,14 @@
       "views": 0,
       "sort_order": 7,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/wizard/collar/", "is_customized": false }
+      "custom_url": { "url": "/wizard/collar/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 548,
@@ -3188,14 +3194,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/wizard/collar/v-neck/", "is_customized": false }
+      "custom_url": { "url": "/wizard/collar/v-neck/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 549,
@@ -3205,17 +3211,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/wizard/collar/crewneck/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 550,
@@ -3225,14 +3231,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/collar/swoop-neck/", "is_customized": false }
+      "custom_url": { "url": "/collar/swoop-neck/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 551,
@@ -3242,14 +3248,14 @@
       "views": 0,
       "sort_order": 5,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/wizard/fit/", "is_customized": false }
+      "custom_url": { "url": "/wizard/fit/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 552,
@@ -3259,14 +3265,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/wizard/fit/relaxed/", "is_customized": false }
+      "custom_url": { "url": "/wizard/fit/relaxed/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 553,
@@ -3276,14 +3282,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/wizard/fit/fitted/", "is_customized": false }
+      "custom_url": { "url": "/wizard/fit/fitted/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 554,
@@ -3293,14 +3299,14 @@
       "views": 0,
       "sort_order": 6,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/wizard/fabrication/", "is_customized": false }
+      "custom_url": { "url": "/wizard/fabrication/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 555,
@@ -3310,14 +3316,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/cotton-spandex/", "is_customized": false }
+      "custom_url": {
+        "url": "/fabric/cotton-spandex/",
+        "is_customized": false
+      },
+      "image_url": ""
     },
     {
       "id": 556,
@@ -3327,14 +3336,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/heather-cvc/", "is_customized": false }
+      "custom_url": { "url": "/fabric/heather-cvc/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 557,
@@ -3344,17 +3353,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/wizard/fabrication/street-fleece/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 558,
@@ -3364,14 +3373,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/poly-cotton/", "is_customized": false }
+      "custom_url": { "url": "/fabric/poly-cotton/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 559,
@@ -3381,14 +3390,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/poly-viscose/", "is_customized": false }
+      "custom_url": { "url": "/fabric/poly-viscose/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 560,
@@ -3398,14 +3407,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/rib/", "is_customized": false }
+      "custom_url": { "url": "/fabric/rib/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 561,
@@ -3415,14 +3424,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/fabric/airlume-jersey/", "is_customized": false }
+      "custom_url": {
+        "url": "/fabric/airlume-jersey/",
+        "is_customized": false
+      },
+      "image_url": ""
     },
     {
       "id": 562,
@@ -3432,17 +3444,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/wizard/fabrication/triblend/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 563,
@@ -3452,17 +3464,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/wizard/fabrication/signature-textures/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 564,
@@ -3472,17 +3484,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/wizard/tops/t-shirts/tank-tops/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 566,
@@ -3492,17 +3504,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/wizard/fabrication/polyester/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 567,
@@ -3512,14 +3524,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/collar/bound-neck/", "is_customized": false }
+      "custom_url": { "url": "/collar/bound-neck/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 568,
@@ -3529,17 +3541,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/wizard/tops/sweatshirts-fleece/boundnecks/",
         "is_customized": true
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 569,
@@ -3549,14 +3561,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/collar/raw-neck/", "is_customized": false }
+      "custom_url": { "url": "/collar/raw-neck/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 570,
@@ -3566,17 +3578,17 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/wizard/fabrication/nylon/",
         "is_customized": false
-      }
+      },
+      "image_url": ""
     },
     {
       "id": 571,
@@ -3586,14 +3598,14 @@
       "views": 0,
       "sort_order": 0,
       "page_title": "",
-      "meta_keywords": [""],
+      "search_keywords": "",
+      "meta_keywords": [],
       "meta_description": "",
       "layout_file": "",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "",
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/collar/wide-neck/", "is_customized": false }
+      "custom_url": { "url": "/collar/wide-neck/", "is_customized": false },
+      "image_url": ""
     },
     {
       "id": 573,
@@ -3603,6 +3615,7 @@
       "views": 0,
       "sort_order": 1,
       "page_title": "",
+      "search_keywords": "Corporate Swags Under $10,  corporate gifts under $25, gifts under $25 for employees, inexpensive swags, inexpensive gifts",
       "meta_keywords": [
         "Corporate Swags Under $25",
         "corporate gifts under $25",
@@ -3610,14 +3623,13 @@
       ],
       "meta_description": "Best corporate swags and employee gifts under $25. High-quality and durable. 20% below market rates, plus free logo/custom design imprinting services. ",
       "layout_file": "category.html",
-      "image_url": "",
       "is_visible": true,
-      "search_keywords": "Corporate Swags Under $10,  corporate gifts under $25, gifts under $25 for employees, inexpensive swags, inexpensive gifts",
       "default_product_sort": "price_desc",
       "custom_url": {
         "url": "/collections/swag-under-25/",
         "is_customized": true
-      }
+      },
+      "image_url": ""
     }
   ],
   "designCategorySlugs": [

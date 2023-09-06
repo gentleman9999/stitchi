@@ -70,7 +70,7 @@ const makeCreateOrder: MakeCreateOrderFn =
     const humanReadableId = await createHumanizedId(
       {
         organizationId: validInput.organizationId,
-        userId: validInput.userId,
+        membershipId: validInput.membershipId,
       },
       { orderTable },
     )

@@ -12,7 +12,7 @@ export const File: yup.ObjectSchema<FileSchema> = yup
   .object()
   .shape({
     id: yup.string().uuid().required(),
-    userId: yup.string().nullable().defined(),
+    membershipId: yup.string().nullable().defined(),
     organizationId: yup.string().uuid().nullable().defined(),
     fileType: yup.mixed<FileType>().oneOf(Object.values(FileType)).required(),
     url: yup.string().required(),

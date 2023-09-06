@@ -1,5 +1,4 @@
 import { enumType, objectType, unionType } from 'nexus'
-import { FileType } from '../../../services/file/db/file'
 
 export const DesignRequestHistoryItemDesignRequestEventMethod = enumType({
   name: 'DesignRequestHistoryItemDesignRequestEventMethod',
@@ -10,7 +9,7 @@ export const DesignRequestHistoryItemDesignRequestEvent = objectType({
   name: 'DesignRequestHistoryItemDesignRequestEvent',
   definition(t) {
     t.nonNull.id('id')
-    t.nullable.id('userId')
+    t.nullable.id('membershipId')
     t.nonNull.field('method', {
       type: 'DesignRequestHistoryItemDesignRequestEventMethod',
     })
@@ -65,7 +64,7 @@ export const DesignRequest = objectType({
   name: 'DesignRequest',
   definition(t) {
     t.nonNull.id('id')
-    t.nullable.id('userId')
+    t.nullable.id('membershipId')
     t.nullable.id('conversationId')
     t.nullable.id('approvedDesignProofId')
     t.nonNull.string('name')

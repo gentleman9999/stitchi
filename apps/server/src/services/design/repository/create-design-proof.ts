@@ -72,7 +72,7 @@ const makeCreateDesignProof: MakeCreateDesignProofFn =
     try {
       designProof = await designProofTable.create({
         data: {
-          artistUserId: validInput.artistUserId,
+          artistMembershipId: validInput.artistMembershipId,
           catalogProductId: validInput.catalogProductId,
           primaryImageFileId: validInput.primaryImageFileId,
           designProofLocations: {

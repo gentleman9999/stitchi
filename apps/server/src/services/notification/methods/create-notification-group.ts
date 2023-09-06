@@ -106,7 +106,7 @@ const makeMethod: MakeMethodFn =
             await notificationRepository.createNotification({
               notification: {
                 type,
-                userId: params.designRequest.userId,
+                membershipId: params.designRequest.membershipId,
                 organizationId: params.designRequest.organizationId,
                 notificationGroupId: notificationGroup.id,
                 channels: channelInput,
@@ -166,7 +166,7 @@ const makeMethod: MakeMethodFn =
             await notificationRepository.createNotification({
               notification: {
                 type,
-                userId: '',
+                membershipId: '',
                 organizationId: '',
                 notificationGroupId: notificationGroup.id,
                 channels: channelInput,
@@ -226,7 +226,7 @@ const makeMethod: MakeMethodFn =
             await notificationRepository.createNotification({
               notification: {
                 type,
-                userId: '',
+                membershipId: '',
                 organizationId: '',
                 notificationGroupId: notificationGroup.id,
                 channels: channelInput,

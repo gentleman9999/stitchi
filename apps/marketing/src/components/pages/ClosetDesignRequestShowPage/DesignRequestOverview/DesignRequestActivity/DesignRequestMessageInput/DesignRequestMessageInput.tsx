@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import UserAvatar from '@components/common/UserAvatar'
-import { Checkbox, FileInput, LoadingDots } from '@components/ui'
+import { Checkbox, FileInput } from '@components/ui'
 import { DesignRequestMessageInputDesignRequestFragment } from '@generated/DesignRequestMessageInputDesignRequestFragment'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { PaperClip } from 'icons'
@@ -51,7 +51,7 @@ const DesignRequestMessageInput = ({ designRequest, loading }: Props) => {
 
   return (
     <div className="flex gap-x-4">
-      <UserAvatar user={designRequest?.user} />
+      <UserAvatar user={designRequest?.membership?.user} />
       <Form
         loading={loading}
         onSubmit={handleSubmit}
@@ -209,9 +209,12 @@ DesignRequestMessageInput.fragments = {
     fragment DesignRequestMessageInputDesignRequestFragment on DesignRequest {
       id
       fileUploadDirectory
-      user {
+      membership {
         id
-        ...UserAvatarUserFragment
+        user {
+          id
+          ...UserAvatarUserFragment
+        }
       }
     }
   `,

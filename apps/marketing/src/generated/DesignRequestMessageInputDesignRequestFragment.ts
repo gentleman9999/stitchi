@@ -7,16 +7,22 @@
 // GraphQL fragment: DesignRequestMessageInputDesignRequestFragment
 // ====================================================
 
-export interface DesignRequestMessageInputDesignRequestFragment_user {
+export interface DesignRequestMessageInputDesignRequestFragment_membership_user {
   __typename: "User";
   id: string;
   name: string | null;
   picture: string | null;
 }
 
+export interface DesignRequestMessageInputDesignRequestFragment_membership {
+  __typename: "Membership";
+  id: string;
+  user: DesignRequestMessageInputDesignRequestFragment_membership_user | null;
+}
+
 export interface DesignRequestMessageInputDesignRequestFragment {
   __typename: "DesignRequest";
   id: string;
   fileUploadDirectory: string;
-  user: DesignRequestMessageInputDesignRequestFragment_user | null;
+  membership: DesignRequestMessageInputDesignRequestFragment_membership | null;
 }

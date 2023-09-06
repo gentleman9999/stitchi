@@ -5,7 +5,7 @@ export const Fulfillment: yup.ObjectSchema<FulfillmentSchema> = yup
   .object()
   .shape({
     id: yup.string().uuid().required(),
-    userId: yup.string().nullable().defined(),
+    membershipId: yup.string().nullable().defined(),
     organizationId: yup.string().uuid().nullable().defined(),
     orderId: yup.string().uuid().required(),
     fulfillmentTrackingInfoId: yup.string().uuid().required(),

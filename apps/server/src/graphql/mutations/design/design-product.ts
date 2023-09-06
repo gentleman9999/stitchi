@@ -132,7 +132,7 @@ export const designProductCreateOrder = mutationField(
             customerPhone: null,
             organizationId: ctx.organizationId || null,
             shippingAddressId: input.shippingAddressId || null,
-            userId: ctx.userId || null,
+            membershipId: ctx.membershipId || null,
             type: OrderRecordType.CART,
             items: input.orderItems.map(item => {
               const productVariant = productVariants.find(

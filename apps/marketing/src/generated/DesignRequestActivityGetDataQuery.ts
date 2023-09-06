@@ -24,11 +24,17 @@ export interface DesignRequestActivityGetDataQuery_designRequest_history_Convers
 
 export type DesignRequestActivityGetDataQuery_designRequest_history_ConversationMessage_files = DesignRequestActivityGetDataQuery_designRequest_history_ConversationMessage_files_FileUnknown | DesignRequestActivityGetDataQuery_designRequest_history_ConversationMessage_files_FileImage;
 
-export interface DesignRequestActivityGetDataQuery_designRequest_history_ConversationMessage_sender {
+export interface DesignRequestActivityGetDataQuery_designRequest_history_ConversationMessage_sender_user {
   __typename: "User";
   id: string;
   picture: string | null;
   name: string | null;
+}
+
+export interface DesignRequestActivityGetDataQuery_designRequest_history_ConversationMessage_sender {
+  __typename: "Membership";
+  id: string;
+  user: DesignRequestActivityGetDataQuery_designRequest_history_ConversationMessage_sender_user | null;
 }
 
 export interface DesignRequestActivityGetDataQuery_designRequest_history_ConversationMessage {
@@ -41,11 +47,17 @@ export interface DesignRequestActivityGetDataQuery_designRequest_history_Convers
   sender: DesignRequestActivityGetDataQuery_designRequest_history_ConversationMessage_sender | null;
 }
 
-export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestHistoryItemDesignRequestEvent_user {
+export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestHistoryItemDesignRequestEvent_actor_user {
   __typename: "User";
   id: string;
   name: string | null;
   picture: string | null;
+}
+
+export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestHistoryItemDesignRequestEvent_actor {
+  __typename: "Membership";
+  id: string;
+  user: DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestHistoryItemDesignRequestEvent_actor_user | null;
 }
 
 export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestHistoryItemDesignRequestEvent {
@@ -53,13 +65,19 @@ export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignR
   id: string;
   timestamp: any;
   method: DesignRequestHistoryItemDesignRequestEventMethod;
-  user: DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestHistoryItemDesignRequestEvent_user | null;
+  actor: DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestHistoryItemDesignRequestEvent_actor | null;
 }
 
-export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignProof_artist {
+export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignProof_artist_user {
   __typename: "User";
   id: string;
   name: string | null;
+}
+
+export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignProof_artist {
+  __typename: "Membership";
+  id: string;
+  user: DesignRequestActivityGetDataQuery_designRequest_history_DesignProof_artist_user | null;
 }
 
 export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignProof_primaryImageFile {
@@ -93,10 +111,16 @@ export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignR
 
 export type DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestRevisionRequest_files = DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestRevisionRequest_files_FileUnknown | DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestRevisionRequest_files_FileImage;
 
-export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestRevisionRequest_user {
+export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestRevisionRequest_membership_user {
   __typename: "User";
   id: string;
   name: string | null;
+}
+
+export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestRevisionRequest_membership {
+  __typename: "Membership";
+  id: string;
+  user: DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestRevisionRequest_membership_user | null;
 }
 
 export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestRevisionRequest {
@@ -105,16 +129,22 @@ export interface DesignRequestActivityGetDataQuery_designRequest_history_DesignR
   createdAt: any;
   description: string;
   files: DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestRevisionRequest_files[];
-  user: DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestRevisionRequest_user | null;
+  membership: DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestRevisionRequest_membership | null;
 }
 
 export type DesignRequestActivityGetDataQuery_designRequest_history = DesignRequestActivityGetDataQuery_designRequest_history_ConversationMessage | DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestHistoryItemDesignRequestEvent | DesignRequestActivityGetDataQuery_designRequest_history_DesignProof | DesignRequestActivityGetDataQuery_designRequest_history_DesignRequestRevisionRequest;
 
-export interface DesignRequestActivityGetDataQuery_designRequest_user {
+export interface DesignRequestActivityGetDataQuery_designRequest_membership_user {
   __typename: "User";
   id: string;
   name: string | null;
   picture: string | null;
+}
+
+export interface DesignRequestActivityGetDataQuery_designRequest_membership {
+  __typename: "Membership";
+  id: string;
+  user: DesignRequestActivityGetDataQuery_designRequest_membership_user | null;
 }
 
 export interface DesignRequestActivityGetDataQuery_designRequest {
@@ -123,7 +153,7 @@ export interface DesignRequestActivityGetDataQuery_designRequest {
   status: DesignRequestStatus;
   history: DesignRequestActivityGetDataQuery_designRequest_history[];
   fileUploadDirectory: string;
-  user: DesignRequestActivityGetDataQuery_designRequest_user | null;
+  membership: DesignRequestActivityGetDataQuery_designRequest_membership | null;
 }
 
 export interface DesignRequestActivityGetDataQuery {

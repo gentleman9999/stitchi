@@ -72,7 +72,7 @@ const makeCreateDesign: MakeCreateDesignFn =
           designRequestId: validInput.designRequestId,
           catalogProductId: validInput.catalogProductId,
           designProofId: validInput.designProofId,
-          userId: validInput.userId,
+          membershipId: validInput.membershipId,
           organizationId: validInput.organizationId,
           primaryImageFileId: validInput.primaryImageFileId,
           name: validInput.name,

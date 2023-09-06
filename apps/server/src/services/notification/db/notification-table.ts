@@ -13,7 +13,7 @@ export const Notification: yup.ObjectSchema<NotificationSchema> = yup
   .object()
   .shape({
     id: yup.string().uuid().required(),
-    userId: yup.string().nullable().defined(),
+    membershipId: yup.string().nullable().defined(),
     organizationId: yup.string().uuid().nullable().defined(),
     notificationGroupId: yup.string().uuid().nullable().defined(),
 

@@ -54,7 +54,7 @@ export const mailingAddressCreate = mutationField('mailingAddressCreate', {
           provinceCode: input.provinceCode || null,
           zip: input.zip || null,
           organizationId: ctx.organizationId || null,
-          userId: ctx.userId || null,
+          membershipId: ctx.membershipId || null,
           latitude: null,
           longitude: null,
         },

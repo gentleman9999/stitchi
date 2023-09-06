@@ -83,7 +83,7 @@ const designRequestFactory = ({
     product,
     id: designRequest.id,
     designRequestProductId: designRequest.designRequestProductId,
-    userId: designRequest.userId,
+    membershipId: designRequest.membershipId,
     organizationId: designRequest.organizationId,
     conversationId: designRequest.conversationId,
     approvedDesignProofId: designRequest.approvedDesignProofId,

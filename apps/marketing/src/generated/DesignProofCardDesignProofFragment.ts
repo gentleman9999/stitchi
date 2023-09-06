@@ -15,10 +15,16 @@ export interface DesignProofCardDesignProofFragment_primaryImageFile {
   height: number;
 }
 
-export interface DesignProofCardDesignProofFragment_artist {
+export interface DesignProofCardDesignProofFragment_artist_user {
   __typename: "User";
   id: string;
   name: string | null;
+}
+
+export interface DesignProofCardDesignProofFragment_artist {
+  __typename: "Membership";
+  id: string;
+  user: DesignProofCardDesignProofFragment_artist_user | null;
 }
 
 export interface DesignProofCardDesignProofFragment {
