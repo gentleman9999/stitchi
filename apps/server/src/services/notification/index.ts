@@ -17,6 +17,9 @@ export interface NotificationClientService {
   getNotification: NotificationRepository['getNotification']
   listNotifications: NotificationRepository['listNotifications']
 
+  createNotificationTopic: NotificationRepository['createNotificationTopic']
+  listNotificationTopics: NotificationRepository['listNotificationTopics']
+
   getNotificationTemplate: Methods['getNotificationTemplate']
 }
 
@@ -123,6 +126,32 @@ const makeClient: MakeClientFn = (
         logger.error(error)
         throw new Error('Failed to get notification')
       }
+    },
+
+    createNotificationTopic: async input => {
+      let notificationTopic
+
+      try {
+        notificationTopic =
+          await notificationRepository.createNotificationTopic(input)
+      } catch (error) {
+        throw new Error('Failed to create notification topic')
+      }
+
+      return notificationTopic
+    },
+
+    listNotificationTopics: async input => {
+      let notificationTopics
+
+      try {
+        notificationTopics =
+          await notificationRepository.listNotificationTopics(input)
+      } catch (error) {
+        throw new Error('Failed to list notification topics')
+      }
+
+      return notificationTopics
     },
 
     getNotificationTemplate: id => {
