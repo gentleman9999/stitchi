@@ -10,7 +10,7 @@ import { getOrThrow } from '../utils'
 import { logger } from '.'
 
 const AXIOM_API_KEY = getOrThrow(process.env.AXIOM_API_KEY, 'AXIOM_API_KEY')
-const AXIOM_DATASET = getOrThrow(process.env.AXIOM_DATASET, 'AXIOM_DATASET')
+const AXIOM_DATASET = getOrThrow(process.env.AXIOM_DATASET_TRACING, 'AXIOM_DATASET_TRACING')
 
 // Setting the default Global logger to use the Console
 // And optionally change the logging level (Defaults to INFO)
