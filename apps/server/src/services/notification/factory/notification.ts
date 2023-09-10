@@ -75,7 +75,6 @@ const notificationFactoryNotification = ({
   return {
     id: notificationRecord.id,
     membershipId: notificationRecord.membershipId,
-    organizationId: notificationRecord.organizationId,
     notificationTopicId: notificationRecord.notificationTopicId,
     notificationWorkflowId: notificationRecord.notificationWorkflowId,
 

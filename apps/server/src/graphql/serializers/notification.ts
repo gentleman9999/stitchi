@@ -66,7 +66,6 @@ export const notificationFactoryNotificationToGraphql = (
   return {
     id: notification.id,
     membershipId: notification.membershipId,
-    organizationId: notification.organizationId,
     notificationWorkflowId: notification.notificationWorkflowId,
     notificationTopicId: notification.notificationTopicId,
 

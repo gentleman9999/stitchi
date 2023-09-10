@@ -1,9 +1,7 @@
-import { logger } from '../../../telemetry'
 import {
   NotificationClientService,
   makeClient as makeNotificationServiceClient,
 } from '../../notification'
-import { NotificationChannelType } from '../../notification/db/notification-channel-table'
 
 import { OrderRecordType } from '../db/order-table'
 import { OrderFactoryOrder } from '../factory'
@@ -14,7 +12,7 @@ export interface OrderUpdatedEventPayload {
 }
 
 interface MakeHandlerParams {
-  notification: NotificationClientService
+  notificationService: NotificationClientService
 }
 
 interface OrderUpdatedEventHandler {
@@ -23,8 +21,8 @@ interface OrderUpdatedEventHandler {
 
 const makeHandler =
   (
-    { notification }: MakeHandlerParams = {
-      notification: makeNotificationServiceClient(),
+    { notificationService }: MakeHandlerParams = {
+      notificationService: makeNotificationServiceClient(),
     },
   ): OrderUpdatedEventHandler =>
   async ({ prevOrder, nextOrder }) => {
@@ -34,55 +32,15 @@ const makeHandler =
       switch (nextOrder.type) {
         case OrderRecordType.CONFIRMED: {
           try {
-            const customerTemplateRenderer =
-              notification.getNotificationTemplate('order.confirmed.customer')
-
-            const customerTemplate = customerTemplateRenderer.render({
-              order: {
-                id: nextOrder.id,
-                humanId: nextOrder.humanReadableId,
-                lineItems: nextOrder.items.map(item => ({
-                  name: item.title,
-                  priceCents: item.unitPriceCents,
-                  quantity: item.quantity,
-                  description: '',
-                  imgSrc: '',
-                })),
+            await notificationService.sendNotification(
+              'order:confirmed',
+              {
+                order: nextOrder,
               },
-              recipient: {
-                name: nextOrder.customerFirstName || nextOrder.customerEmail,
+              {
+                topicKey: `order:${nextOrder.id}`,
               },
-            })
-
-            // const notificationEventGroup =
-            //   await notification.createNotificationEventGroup({
-            //     notificationEventGroup: {
-            //       resourceId: nextOrder.id,
-            //       resource: NotificationEventResource.ORDER,
-            //       eventKey: NotificationEventKey.ORDER_CONFIRMED,
-            //     },
-            //   })
-
-            // await notification.createNotification({
-            //   notification: {
-            //     organizationId: nextOrder.organizationId,
-            //     membershipId: nextOrder.membershipId,
-            //     channels: [
-            //       {
-            //         channelType: NotificationChannelType.EMAIL,
-            //         htmlBody: customerTemplate.email.htmlBody,
-            //         textBody: customerTemplate.email.textBody,
-            //         recipientEmail: nextOrder.customerEmail,
-            //         recipientName: nextOrder.customerFirstName,
-            //         subject: customerTemplate.email.subject,
-            //       },
-            //       {
-            //         channelType: NotificationChannelType.WEB,
-            //         message: customerTemplate.web.message,
-            //       },
-            //     ],
-            //   },
-            // })
+            )
           } catch {
             throw new Error('Failed to create order confirmed notification')
           }

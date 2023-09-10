@@ -19,9 +19,13 @@ const memberInputSchema = NotificationTopicMemberRecord.omit([
   'createdAt',
   'updatedAt',
   'notificationTopicId',
-])
+]).concat(
+  yup.object().shape({
+    id: yup.string().uuid().nullable(),
+  }),
+)
 
-const inputSchema = NotificationTopicRecord.omit(['id']).concat(
+const inputSchema = NotificationTopicRecord.concat(
   yup.object().shape({
     members: yup.array(memberInputSchema.required()).required(),
   }),
@@ -29,23 +33,23 @@ const inputSchema = NotificationTopicRecord.omit(['id']).concat(
 
 const prisma = new PrismaClient()
 
-interface CreateNotificationTopicConfig {
+interface UpdateNotificationTopicConfig {
   notificationTable: NotificationTopicTable
 }
 
-export interface CreateNotificationTopicFnInput {
+export interface UpdateNotificationTopicFnInput {
   notificationTopic: yup.InferType<typeof inputSchema>
 }
 
-type CreateNotificationTopicFn = (
-  input: CreateNotificationTopicFnInput,
+type UpdateNotificationTopicFn = (
+  input: UpdateNotificationTopicFnInput,
 ) => Promise<NotificationFactoryNotificationTopic>
 
-type MakeCreateNotificationTopicFn = (
-  config?: CreateNotificationTopicConfig,
-) => CreateNotificationTopicFn
+type MakeUpdateNotificationTopicFn = (
+  config?: UpdateNotificationTopicConfig,
+) => UpdateNotificationTopicFn
 
-const makeCreateNotificationTopic: MakeCreateNotificationTopicFn =
+const makeUpdateNotificationTopic: MakeUpdateNotificationTopicFn =
   (
     { notificationTable } = {
       notificationTable: makeNotificationTopicTable(prisma),
@@ -63,15 +67,49 @@ const makeCreateNotificationTopic: MakeCreateNotificationTopicFn =
       throw new Error('Failed to validate input')
     }
 
+    let existingNotificationTopic
+
+    try {
+      existingNotificationTopic = await notificationTable.findUnique({
+        where: {
+          topicKey: validInput.topicKey,
+        },
+        include: {
+          notificationTopicMembers: true,
+        },
+      })
+
+      if (!existingNotificationTopic) {
+        throw new Error('Failed to find notification topic')
+      }
+    } catch (error) {
+      logger.error(error)
+      throw new Error('Failed to find notification topic')
+    }
+
+    const membersToCreate = validInput.members.filter(member => !member.id)
+    const membersToUpdate = validInput.members.filter(member => member.id)
+
+    const membersToDelete =
+      existingNotificationTopic.notificationTopicMembers.filter(
+        member => !membersToUpdate.find(m => m.id === member.id),
+      )
+
     let notification
 
     try {
-      notification = await notificationTable.create({
+      notification = await notificationTable.update({
+        where: {
+          id: existingNotificationTopic.id,
+        },
         data: {
           topicKey: validInput.topicKey,
           notificationTopicMembers: {
-            create: validInput.members.map(member => ({
+            create: membersToCreate.map(member => ({
               membershipId: member.membershipId,
+            })),
+            delete: membersToDelete.map(member => ({
+              id: member.id,
             })),
           },
         },
@@ -90,4 +128,4 @@ const makeCreateNotificationTopic: MakeCreateNotificationTopicFn =
     })
   }
 
-export { makeCreateNotificationTopic }
+export { makeUpdateNotificationTopic }

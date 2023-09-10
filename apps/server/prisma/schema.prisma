@@ -67,7 +67,6 @@ model Organization {
   activeUserMemberships ActiveUserMembership[]
   organizationFiles     OrganizationFile[]
   organizationColors    OrganizationColor[]
-  notifications         Notification[]
 }
 
 // The owners of the SaaS (you) can have a SUPERADMIN role to access all data
@@ -760,9 +759,6 @@ model Notification {
   // The user that this notification belongs to. This is nullable in the event we send a notification to a non-authenticated user.
   membershipId String?
 
-  // The organization that this notification belongs to. This is nullable in the event we send a notification to a non-authenticated user.
-  organizationId String?
-
   // Every notification that is sent must belong to a notification workflow
   notificationWorkflowId String
 
@@ -775,10 +771,7 @@ model Notification {
   notificationChannels NotificationChannel[]
   notificationWorkflow NotificationWorkflow  @relation(fields: [notificationWorkflowId], references: [id])
 
-  organization Organization? @relation(fields: [organizationId], references: [id])
-
   @@index([membershipId])
-  @@index([organizationId])
   @@index([notificationWorkflowId])
 }
 

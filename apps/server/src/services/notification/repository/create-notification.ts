@@ -17,6 +17,7 @@ import {
   NotificationChannelType,
 } from '../db/notification-channel-table'
 import { logger } from '../../../telemetry'
+import { makeEvents } from '../events'
 
 const emailNotificationSchema = NotificationChannel.omit([
   'id',
@@ -87,6 +88,7 @@ const prisma = new PrismaClient()
 
 interface CreateNotificationConfig {
   notificationTable: NotificationTable
+  notificationEvents: ReturnType<typeof makeEvents>
 }
 
 export interface CreateNotificationFnInput {
@@ -103,8 +105,9 @@ type MakeCreateNotificationFn = (
 
 const makeCreateNotification: MakeCreateNotificationFn =
   (
-    { notificationTable } = {
+    { notificationTable, notificationEvents } = {
       notificationTable: makeNotificationTable(prisma),
+      notificationEvents: makeEvents(),
     },
   ) =>
   async input => {
@@ -125,7 +128,6 @@ const makeCreateNotification: MakeCreateNotificationFn =
       notification = await notificationTable.create({
         data: {
           membershipId: validInput.membershipId,
-          organizationId: validInput.organizationId,
           notificationWorkflowId: validInput.notificationWorkflowId,
           notificationTopicId: validInput.notificationTopicId,
           notificationChannels: {
@@ -170,10 +172,19 @@ const makeCreateNotification: MakeCreateNotificationFn =
       throw new Error('Failed to create notification')
     }
 
-    return notificationFactoryNotification({
+    const newNotification = notificationFactoryNotification({
       notificationRecord: notification,
       channels: notification.notificationChannels,
     })
+
+    notificationEvents.emit({
+      key: 'notification.created',
+      payload: {
+        nextNotification: newNotification,
+      },
+    })
+
+    return newNotification
   }
 
 export { makeCreateNotification }

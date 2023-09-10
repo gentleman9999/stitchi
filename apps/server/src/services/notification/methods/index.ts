@@ -1,7 +1,7 @@
-import { makeMethod as makeGetNotificationTemplateMethod } from './get-notification-template'
+import { makeMethod as makeSendNotificationMethod } from './send-notification'
 
 export interface Methods {
-  getNotificationTemplate: ReturnType<typeof makeGetNotificationTemplateMethod>
+  sendNotification: ReturnType<typeof makeSendNotificationMethod>
 }
 
 interface MakeServiceMethodsParams {}
@@ -9,7 +9,7 @@ interface MakeServiceMethodsParams {}
 type MakeServiceMethodsFn = (params?: MakeServiceMethodsParams) => Methods
 
 const makeServiceMethods: MakeServiceMethodsFn = () => ({
-  getNotificationTemplate: makeGetNotificationTemplateMethod(),
+  sendNotification: makeSendNotificationMethod(),
 })
 
 export { makeServiceMethods }

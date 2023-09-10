@@ -8,6 +8,10 @@ import { CreateOrderFnInput } from './repository/create-order'
 import { addSeconds, isBefore } from 'date-fns'
 import { reconcileOrderPayments } from './helpers/reconcile-order-payments'
 import { logger } from '../../telemetry'
+import {
+  NotificationClientService,
+  makeClient as makeNotificationServiceClient,
+} from '../notification'
 
 export interface OrderClientService {
   createOrder: (input: CreateOrderFnInput) => Promise<OrderFactoryOrder>
@@ -24,25 +28,45 @@ export interface OrderClientService {
 interface MakeClientParams {
   orderRepository: OrderRepository
   paymentService: PaymentClientService
+  notificationService: NotificationClientService
 }
 
 type MakeClientFn = (params?: MakeClientParams) => OrderClientService
 
 const makeClient: MakeClientFn = (
-  { orderRepository, paymentService } = {
+  { orderRepository, paymentService, notificationService } = {
     orderRepository: makeOrderRepository(),
     paymentService: makePaymentServiceClient(),
+    notificationService: makeNotificationServiceClient(),
   },
 ) => {
   return {
     createOrder: async input => {
+      let order
+
       try {
-        return orderRepository.createOrder({ order: input.order })
+        order = await orderRepository.createOrder({ order: input.order })
       } catch (error) {
-        logger.error(error)
         throw new Error('Failed to create order')
       }
+
+      let topicKey = `order:${order.id}`
+
+      let members: string[] = []
+
+      if (order.membershipId) {
+        members.push(order.membershipId)
+      }
+
+      try {
+        await notificationService.createNotificationTopic(topicKey, members)
+      } catch (error) {
+        throw new Error('Failed to create notification topic')
+      }
+
+      return order
     },
+
     getOrder: async input => {
       try {
         const order = await orderRepository.getOrder({ orderId: input.orderId })
@@ -66,6 +90,7 @@ const makeClient: MakeClientFn = (
         throw new Error('Failed to get order')
       }
     },
+
     createMailingAddress: async input => {
       try {
         return orderRepository.createMailingAddress({
@@ -76,6 +101,7 @@ const makeClient: MakeClientFn = (
         throw new Error('Failed to create mailing address')
       }
     },
+
     getMailingAddress: async input => {
       try {
         return orderRepository.getMailingAddress({
@@ -86,6 +112,7 @@ const makeClient: MakeClientFn = (
         throw new Error('Failed to get mailing address')
       }
     },
+
     updateOrder: async input => {
       try {
         return orderRepository.updateOrder({ order: input.order })
@@ -94,6 +121,7 @@ const makeClient: MakeClientFn = (
         throw new Error('Failed to update order')
       }
     },
+
     listOrders: async input => {
       try {
         return orderRepository.listOrders(input)
@@ -102,6 +130,7 @@ const makeClient: MakeClientFn = (
         throw new Error('Failed to list orders')
       }
     },
+
     reconcileOrderPayments: async input => {
       const order = await orderRepository.getOrder({ orderId: input.orderId })
 

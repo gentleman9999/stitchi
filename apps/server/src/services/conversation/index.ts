@@ -20,9 +20,21 @@ const makeClient: MakeClientFn = (
   },
 ) => {
   return {
-    createConversation: conversationRepository.createConversation,
     updateConversation: conversationRepository.updateConversation,
     getConversation: conversationRepository.getConversation,
+    createConversation: async input => {
+      let conversation
+
+      try {
+        conversation = await conversationRepository.createConversation({
+          conversation: input.conversation,
+        })
+      } catch (error) {
+        throw new Error('Failed to create conversation')
+      }
+
+      return conversation
+    },
   }
 }
 

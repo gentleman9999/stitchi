@@ -10,7 +10,6 @@ export const Notification: yup.ObjectSchema<NotificationSchema> = yup
     id: yup.string().uuid().required(),
     notificationWorkflowId: yup.string().uuid().required(),
     membershipId: yup.string().nullable().defined(),
-    organizationId: yup.string().uuid().nullable().defined(),
     notificationTopicId: yup.string().uuid().nullable().defined(),
 
     createdAt: yup.date().required(),

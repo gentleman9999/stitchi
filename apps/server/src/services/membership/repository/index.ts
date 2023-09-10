@@ -8,6 +8,7 @@ import { makeUpsertActiveUserMembership } from './upsert-active-user-membership'
 import { makeCreateMembershipNotificationSetting } from './create-membership-notification-setting'
 import { makeGetMembershipNotificationSetting } from './get-membership-notification-setting'
 import { makeUpdateMembershipNotificationSetting } from './update-membership-notification-setting'
+import { makeListMembershipNotificationSettings } from './list-membership-notification-settings'
 
 export interface MembershipRepositoryInit {}
 
@@ -28,6 +29,9 @@ export interface MembershipRepository {
   updateMembershipNotificationSetting: ReturnType<
     typeof makeUpdateMembershipNotificationSetting
   >
+  listMembershipNotificationSettings: ReturnType<
+    typeof makeListMembershipNotificationSettings
+  >
 }
 
 type MakeMembershipRepositoryFn = (
@@ -47,6 +51,7 @@ const makeMembershipRepository: MakeMembershipRepositoryFn = init => ({
   getMembershipNotificationSetting: makeGetMembershipNotificationSetting(),
   updateMembershipNotificationSetting:
     makeUpdateMembershipNotificationSetting(),
+  listMembershipNotificationSettings: makeListMembershipNotificationSettings(),
 })
 
 export default makeMembershipRepository

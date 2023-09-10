@@ -86,20 +86,21 @@ const makeHandler =
       prevDesignRequest.status !== DesignRequestStatus.SUBMITTED &&
       nextDesignRequest.status === DesignRequestStatus.SUBMITTED
     ) {
-      // try {
-      //   await notificationClient.createNotificationGroup(
-      //     NotificationRecordType.DESIGN_REQUEST_SUBMITTED,
-      //     { designRequest: nextDesignRequest },
-      //   )
-      // } catch (error) {
-      //   console.error('Failed to create notification group', {
-      //     context: {
-      //       error,
-      //       designRequest: nextDesignRequest,
-      //     },
-      //   })
-      //   throw new Error('Failed to create notification group')
-      // }
+      try {
+        await notificationClient.sendNotification(
+          'designRequest:submitted',
+          {
+            designRequest: nextDesignRequest,
+          },
+          {
+            topicKey: `designRequest:${nextDesignRequest.id}`,
+          },
+        )
+      } catch (error) {
+        throw new Error(
+          'Failed to create design request submitted notification',
+        )
+      }
     }
   }
 
