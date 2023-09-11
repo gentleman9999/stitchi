@@ -303,6 +303,7 @@ export interface NexusGenEnums {
   FileType: "IMAGE" | "PDF" | "UNKNOWN" | "VIDEO"
   GlobalRole: "CUSTOMER" | "SUPERADMIN"
   MembershipRole: "OWNER" | "STITCHI_ADMIN" | "STITCHI_DESIGNER"
+  NotificationChannelType: "EMAIL" | "WEB"
   OrderItemType: "BIG_COMMERCE_PRODUCT" | "CUSTOM"
   OrderPaymentStatus: "NOT_PAID" | "PAID" | "PARTIALLY_PAID" | "PARTIALLY_REFUNDED" | "REFUNDED"
   OrderType: "CART" | "CONFIRMED"
@@ -657,6 +658,40 @@ export interface NexusGenObjects {
     isBetaTester: boolean; // Boolean!
   }
   Mutation: {};
+  Notification: { // root type
+    channels: Array<NexusGenRootTypes['NotificationChannel'] | null>; // [NotificationChannel]!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    membershipId?: string | null; // String
+    notificationTopicId?: string | null; // String
+    notificationWorkflowId: string; // String!
+    organizationId?: string | null; // String
+    updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  NotificationChannelEmail: { // root type
+    channelType: NexusGenEnums['NotificationChannelType']; // NotificationChannelType!
+    htmlBody: string; // String!
+    id: string; // ID!
+    recipientEmail: string; // String!
+    recipientName?: string | null; // String
+    subject: string; // String!
+    textBody?: string | null; // String
+  }
+  NotificationChannelWeb: { // root type
+    channelType: NexusGenEnums['NotificationChannelType']; // NotificationChannelType!
+    ctaText?: string | null; // String
+    ctaUrl?: string | null; // String
+    id: string; // ID!
+    message: string; // String!
+  }
+  NotificationConnection: { // root type
+    edges?: Array<NexusGenRootTypes['NotificationEdge'] | null> | null; // [NotificationEdge]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  NotificationEdge: { // root type
+    cursor?: string | null; // String
+    node?: NexusGenRootTypes['Notification'] | null; // Notification
+  }
   Order: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     customerEmail?: string | null; // String
@@ -837,6 +872,7 @@ export interface NexusGenObjects {
 
 export interface NexusGenInterfaces {
   File: NexusGenRootTypes['FileImage'] | NexusGenRootTypes['FilePdf'] | NexusGenRootTypes['FileUnknown'];
+  NotificationChannel: NexusGenRootTypes['NotificationChannelEmail'] | NexusGenRootTypes['NotificationChannelWeb'];
 }
 
 export interface NexusGenUnions {
@@ -1214,6 +1250,7 @@ export interface NexusGenFieldTypes {
     hasOrders: boolean; // Boolean!
     humanizedRole: string | null; // String
     id: string; // ID!
+    notifications: NexusGenRootTypes['NotificationConnection'] | null; // NotificationConnection
     orders: NexusGenRootTypes['OrderConnection'] | null; // OrderConnection
     organization: NexusGenRootTypes['Organization']; // Organization!
     organizationId: string; // String!
@@ -1254,6 +1291,40 @@ export interface NexusGenFieldTypes {
     userBoostrap: NexusGenRootTypes['User'] | null; // User
     userOrganizationCreate: NexusGenRootTypes['UserOrganizationCreatePayload'] | null; // UserOrganizationCreatePayload
     userSetOrganization: NexusGenRootTypes['UserSetOrganizationPayload'] | null; // UserSetOrganizationPayload
+  }
+  Notification: { // field return type
+    channels: Array<NexusGenRootTypes['NotificationChannel'] | null>; // [NotificationChannel]!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: string; // ID!
+    membershipId: string | null; // String
+    notificationTopicId: string | null; // String
+    notificationWorkflowId: string; // String!
+    organizationId: string | null; // String
+    updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
+  }
+  NotificationChannelEmail: { // field return type
+    channelType: NexusGenEnums['NotificationChannelType']; // NotificationChannelType!
+    htmlBody: string; // String!
+    id: string; // ID!
+    recipientEmail: string; // String!
+    recipientName: string | null; // String
+    subject: string; // String!
+    textBody: string | null; // String
+  }
+  NotificationChannelWeb: { // field return type
+    channelType: NexusGenEnums['NotificationChannelType']; // NotificationChannelType!
+    ctaText: string | null; // String
+    ctaUrl: string | null; // String
+    id: string; // ID!
+    message: string; // String!
+  }
+  NotificationConnection: { // field return type
+    edges: Array<NexusGenRootTypes['NotificationEdge'] | null> | null; // [NotificationEdge]
+    pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
+  }
+  NotificationEdge: { // field return type
+    cursor: string | null; // String
+    node: NexusGenRootTypes['Notification'] | null; // Notification
   }
   Order: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -1468,6 +1539,10 @@ export interface NexusGenFieldTypes {
     organizationId: string | null; // String
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     url: string; // String!
+  }
+  NotificationChannel: { // field return type
+    channelType: NexusGenEnums['NotificationChannelType']; // NotificationChannelType!
+    id: string; // ID!
   }
 }
 
@@ -1838,6 +1913,7 @@ export interface NexusGenFieldTypeNames {
     hasOrders: 'Boolean'
     humanizedRole: 'String'
     id: 'ID'
+    notifications: 'NotificationConnection'
     orders: 'OrderConnection'
     organization: 'Organization'
     organizationId: 'String'
@@ -1878,6 +1954,40 @@ export interface NexusGenFieldTypeNames {
     userBoostrap: 'User'
     userOrganizationCreate: 'UserOrganizationCreatePayload'
     userSetOrganization: 'UserSetOrganizationPayload'
+  }
+  Notification: { // field return type name
+    channels: 'NotificationChannel'
+    createdAt: 'DateTime'
+    id: 'ID'
+    membershipId: 'String'
+    notificationTopicId: 'String'
+    notificationWorkflowId: 'String'
+    organizationId: 'String'
+    updatedAt: 'DateTime'
+  }
+  NotificationChannelEmail: { // field return type name
+    channelType: 'NotificationChannelType'
+    htmlBody: 'String'
+    id: 'ID'
+    recipientEmail: 'String'
+    recipientName: 'String'
+    subject: 'String'
+    textBody: 'String'
+  }
+  NotificationChannelWeb: { // field return type name
+    channelType: 'NotificationChannelType'
+    ctaText: 'String'
+    ctaUrl: 'String'
+    id: 'ID'
+    message: 'String'
+  }
+  NotificationConnection: { // field return type name
+    edges: 'NotificationEdge'
+    pageInfo: 'PageInfo'
+  }
+  NotificationEdge: { // field return type name
+    cursor: 'String'
+    node: 'Notification'
   }
   Order: { // field return type name
     createdAt: 'DateTime'
@@ -2093,6 +2203,10 @@ export interface NexusGenFieldTypeNames {
     updatedAt: 'DateTime'
     url: 'String'
   }
+  NotificationChannel: { // field return type name
+    channelType: 'NotificationChannelType'
+    id: 'ID'
+  }
 }
 
 export interface NexusGenArgTypes {
@@ -2118,6 +2232,12 @@ export interface NexusGenArgTypes {
       after?: string | null; // String
       before?: string | null; // String
       filter?: NexusGenInputs['MembershipDesignRequestsFilterInput'] | null; // MembershipDesignRequestsFilterInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    notifications: { // args
+      after?: string | null; // String
+      before?: string | null; // String
       first?: number | null; // Int
       last?: number | null; // Int
     }
@@ -2251,12 +2371,15 @@ export interface NexusGenArgTypes {
 export interface NexusGenAbstractTypeMembers {
   DesignRequestHistoryItem: "ConversationMessage" | "DesignProof" | "DesignRequestHistoryItemDesignRequestEvent" | "DesignRequestRevisionRequest"
   File: "FileImage" | "FilePdf" | "FileUnknown"
+  NotificationChannel: "NotificationChannelEmail" | "NotificationChannelWeb"
 }
 
 export interface NexusGenTypeInterfaces {
   FileImage: "File"
   FilePdf: "File"
   FileUnknown: "File"
+  NotificationChannelEmail: "NotificationChannel"
+  NotificationChannelWeb: "NotificationChannel"
 }
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
@@ -2273,7 +2396,7 @@ export type NexusGenUnionNames = keyof NexusGenUnions;
 
 export type NexusGenObjectsUsingAbstractStrategyIsTypeOf = never;
 
-export type NexusGenAbstractsUsingStrategyResolveType = "DesignRequestHistoryItem" | "File";
+export type NexusGenAbstractsUsingStrategyResolveType = "DesignRequestHistoryItem" | "File" | "NotificationChannel";
 
 export type NexusGenFeaturesConfig = {
   abstractTypeStrategies: {

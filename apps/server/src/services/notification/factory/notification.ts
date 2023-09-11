@@ -1,35 +1,25 @@
+import { NotificationChannel } from '@prisma/client'
 import { notEmpty } from '../../../utils'
 import { NotificationChannelEmailRecord } from '../db/notification-channel-email-table'
-import { NotificationChannelSmsRecord } from '../db/notification-channel-sms-table'
-import {
-  NotificationChannelRecord,
-  NotificationChannelType,
-} from '../db/notification-channel-table'
+import { NotificationChannelType } from '../db/notification-channel-table'
 import { NotificationChannelWebRecord } from '../db/notification-channel-web-table'
 import { NotificationRecord } from '../db/notification-table'
 
-interface NotificationFactoryNotificationChannelSms
-  extends NotificationChannelSmsRecord {
-  type: NotificationChannelType.SMS
-}
-
-interface NotificationFactoryNotificationChannelEmail
+export interface NotificationFactoryNotificationChannelEmail
   extends NotificationChannelEmailRecord {
-  type: NotificationChannelType.EMAIL
+  channelType: NotificationChannelType.EMAIL
 }
 
-interface NotificationFactoryNotificationChannelWeb
+export interface NotificationFactoryNotificationChannelWeb
   extends NotificationChannelWebRecord {
-  type: NotificationChannelType.WEB
+  channelType: NotificationChannelType.WEB
 }
 
 export type NotificationFactoryNotificationChannel =
-  | NotificationFactoryNotificationChannelSms
   | NotificationFactoryNotificationChannelEmail
   | NotificationFactoryNotificationChannelWeb
 
-interface ExtendedNotificationChannelRecord extends NotificationChannelRecord {
-  sms?: NotificationChannelSmsRecord | null
+interface ExtendedNotificationChannelRecord extends NotificationChannel {
   email?: NotificationChannelEmailRecord | null
   web?: NotificationChannelWebRecord | null
 }
@@ -38,7 +28,7 @@ export interface NotificationFactoryNotification extends NotificationRecord {
   channels: NotificationFactoryNotificationChannel[]
 }
 
-const notificationFactory = ({
+const notificationFactoryNotification = ({
   notificationRecord,
   channels,
 }: {
@@ -47,17 +37,7 @@ const notificationFactory = ({
 }): NotificationFactoryNotification => {
   const serializedChannels = channels
     .map<NotificationFactoryNotificationChannel | null>(channel => {
-      switch (channel.type) {
-        case NotificationChannelType.SMS:
-          if (!channel.sms) {
-            return null
-          }
-
-          return {
-            id: channel.id,
-            type: NotificationChannelType.SMS,
-            message: channel.sms.message,
-          }
+      switch (channel.channelType) {
         case NotificationChannelType.EMAIL:
           if (!channel.email) {
             return null
@@ -65,7 +45,7 @@ const notificationFactory = ({
 
           return {
             id: channel.id,
-            type: NotificationChannelType.EMAIL,
+            channelType: NotificationChannelType.EMAIL,
             subject: channel.email.subject,
             htmlBody: channel.email.htmlBody,
             textBody: channel.email.textBody,
@@ -80,12 +60,16 @@ const notificationFactory = ({
 
           return {
             id: channel.id,
-            type: NotificationChannelType.WEB,
+            channelType: NotificationChannelType.WEB,
             message: channel.web.message,
+            ctaText: channel.web.ctaText,
+            ctaUrl: channel.web.ctaUrl,
           }
 
         default:
-          throw new Error(`Unknown notification channel type: ${channel.type}`)
+          throw new Error(
+            `Unknown notification channel channelType: ${channel.channelType}`,
+          )
       }
     })
     .filter(notEmpty)
@@ -93,11 +77,8 @@ const notificationFactory = ({
   return {
     id: notificationRecord.id,
     membershipId: notificationRecord.membershipId,
-    organizationId: notificationRecord.organizationId,
-    notificationGroupId: notificationRecord.notificationGroupId,
-
-    type: notificationRecord.type,
-    sentAt: notificationRecord.sentAt,
+    notificationTopicId: notificationRecord.notificationTopicId,
+    notificationWorkflowId: notificationRecord.notificationWorkflowId,
 
     channels: serializedChannels,
 
@@ -106,9 +87,4 @@ const notificationFactory = ({
   }
 }
 
-export interface NotificationFactoryNotificationTemplate {
-  subject: string
-  htmlBody: string
-}
-
-export { notificationFactory }
+export { notificationFactoryNotification }

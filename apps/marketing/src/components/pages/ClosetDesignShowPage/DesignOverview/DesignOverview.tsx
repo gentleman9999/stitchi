@@ -77,6 +77,22 @@ const DesignOverview = ({ designId }: Props) => {
                       {design?.sizes?.map(size => size.name).join(', ') || '-'}
                     </div>
                   </InputGroup>
+
+                  <InputGroup>
+                    <Button
+                      size="xl"
+                      color="brandPrimary"
+                      Component={Link}
+                      variant="flat"
+                      href={routes.internal.closet.designProducts.show.buy.href(
+                        {
+                          designId,
+                        },
+                      )}
+                    >
+                      Place order
+                    </Button>
+                  </InputGroup>
                 </FormSection>
               </CardContent>
             </Card>

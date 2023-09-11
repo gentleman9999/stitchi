@@ -12,6 +12,7 @@ export * from './user'
 export * from './organization'
 export * from './catalog'
 export * from './membership'
+export * from './notification'
 export * from './color'
 
 export const Query = queryType({

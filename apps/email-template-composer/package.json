@@ -2,6 +2,7 @@
   "name": "email-template-composer",
   "version": "0.0.0",
   "private": true,
+  "main": "/static",
   "workspaces": [
     ".react-email"
   ],

@@ -7,7 +7,7 @@ import {
   NotificationClientService,
   makeClient as makeNotificationClientServiceClient,
 } from '../../notification'
-import { NotificationRecordType } from '../../notification/db/notification-table'
+// import { NotificationRecordType } from '../../notification/db/notification-table'
 import { DesignRequestStatus } from '../db/design-request-table'
 import { DesignFactoryDesignRequest } from '../factory'
 
@@ -82,25 +82,33 @@ const makeHandler =
       }
     }
 
-    if (
-      prevDesignRequest.status !== DesignRequestStatus.SUBMITTED &&
-      nextDesignRequest.status === DesignRequestStatus.SUBMITTED
-    ) {
-      try {
-        await notificationClient.createNotificationGroup(
-          NotificationRecordType.DESIGN_REQUEST_SUBMITTED,
-          { designRequest: nextDesignRequest },
-        )
-      } catch (error) {
-        logger
-          .child({
-            context: {
-              error,
-              designRequest: nextDesignRequest,
-            },
-          })
-          .error('Failed to create notificationg group')
-        throw new Error('Failed to create notification group')
+    if (prevDesignRequest.status !== nextDesignRequest.status) {
+      switch (nextDesignRequest.status) {
+        case DesignRequestStatus.SUBMITTED: {
+          try {
+            await notificationClient.sendNotification(
+              'designRequest:submitted',
+              {
+                designRequest: nextDesignRequest,
+              },
+              {
+                topicKey: `designRequest:${nextDesignRequest.id}`,
+              },
+            )
+          } catch (error) {
+            throw new Error(
+              'Failed to create design request submitted notification',
+            )
+          }
+        }
+
+        case DesignRequestStatus.REJECTED: {
+          console.error('Not implemented: Design request rejected notification')
+        }
+
+        case DesignRequestStatus.APPROVED: {
+          console.error('Not implemented: Design request approved notification')
+        }
       }
     }
   }

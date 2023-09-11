@@ -8,6 +8,8 @@ Notifications are a mechanism used by our app to comunicate with a user when a s
 - [ ] We should know when a notification was sent, to whom, and exactly what was sent in the contents of the notification
 - [ ] Users should be able to configure their notification preference (email, sms, both)
 - [ ] A notification is sent to a user (or organization? spike)
+- [ ] Notifications for a particular user can be audited
+- [ ] Notifications for a particular resource can be audited
 
 ## Notification Lifecycle
 1. User subscribes to notification topics.
@@ -34,7 +36,7 @@ Notifications are a mechanism used by our app to comunicate with a user when a s
 10. If the notification fails, handle the error.
     - The system has mechanisms in place to handle errors if a notification fails to send, such as retrying or logging for further investigation. It should also update the user's profile with the failed notification to notify them about the missed notification if necessary.
 
-
+![Notification Service Diagram](assets/001-notifications/model-diagram.png)
 
 ## Example Code
 ```ts

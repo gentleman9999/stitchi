@@ -4,25 +4,13 @@ import {
 } from '@prisma/client'
 import * as yup from 'yup'
 
-export enum NotificationRecordType {
-  ORDER_CONFIRMED = 'ORDER_CONFIRMED',
-  DESIGN_REQUEST_SUBMITTED = 'DESIGN_REQUEST_SUBMITTED',
-}
-
 export const Notification: yup.ObjectSchema<NotificationSchema> = yup
   .object()
   .shape({
     id: yup.string().uuid().required(),
+    notificationWorkflowId: yup.string().uuid().required(),
     membershipId: yup.string().nullable().defined(),
-    organizationId: yup.string().uuid().nullable().defined(),
-    notificationGroupId: yup.string().uuid().nullable().defined(),
-
-    type: yup
-      .mixed<NotificationRecordType>()
-      .oneOf(Object.values(NotificationRecordType))
-      .required(),
-
-    sentAt: yup.date().optional().defined(),
+    notificationTopicId: yup.string().uuid().nullable().defined(),
 
     createdAt: yup.date().required(),
     updatedAt: yup.date().required(),

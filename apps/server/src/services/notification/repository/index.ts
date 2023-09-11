@@ -1,8 +1,10 @@
 import { makeCreateNotification } from './create-notification'
 import { makeListNotifications } from './list-notifications'
 import { makeGetNotification } from './get-notification'
-import { makeCreateNotificationGroup } from './create-notification-group'
-import { makeGetNotificationGroup } from './get-notification-group'
+
+import { makeCreateNotificationTopic } from './create-notification-topic'
+import { makeListNotificationTopics } from './list-notification-topics'
+import { makeUpdateNotificationTopic } from './update-notification-topic'
 
 export interface NotificationRepositoryInit {}
 
@@ -11,8 +13,9 @@ export interface NotificationRepository {
   listNotifications: ReturnType<typeof makeListNotifications>
   getNotification: ReturnType<typeof makeGetNotification>
 
-  createNotificationGroup: ReturnType<typeof makeCreateNotificationGroup>
-  getNotificationGroup: ReturnType<typeof makeGetNotificationGroup>
+  createNotificationTopic: ReturnType<typeof makeCreateNotificationTopic>
+  listNotificationTopics: ReturnType<typeof makeListNotificationTopics>
+  updateNotificationTopic: ReturnType<typeof makeUpdateNotificationTopic>
 }
 
 type MakeNotificationRepositoryFn = (
@@ -24,8 +27,9 @@ const makeNotificationRepository: MakeNotificationRepositoryFn = init => ({
   listNotifications: makeListNotifications(),
   getNotification: makeGetNotification(),
 
-  createNotificationGroup: makeCreateNotificationGroup(),
-  getNotificationGroup: makeGetNotificationGroup(),
+  createNotificationTopic: makeCreateNotificationTopic(),
+  listNotificationTopics: makeListNotificationTopics(),
+  updateNotificationTopic: makeUpdateNotificationTopic(),
 })
 
 export default makeNotificationRepository

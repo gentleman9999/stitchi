@@ -30,6 +30,7 @@ export interface Context {
   user: typeof services.user
   organization: typeof services.organization
   membership: typeof services.membership
+  notification: typeof services.notification
   color: typeof services.color
   subscriptions: PubSubClient
   logger: Logger
@@ -91,6 +92,7 @@ function makeContext(
         user: services.user,
         organization: services.organization,
         membership: services.membership,
+        notification: services.notification,
         color: services.color,
       }
     } catch (error) {

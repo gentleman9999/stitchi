@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 import { NotificationTable } from '../db/notification-table'
 import {
   NotificationFactoryNotification,
-  notificationFactory,
+  notificationFactoryNotification,
 } from '../factory/notification'
 
 const primsa = new PrismaClient()
@@ -34,7 +34,6 @@ const makeGetNotification: MakeGetNotificationFn =
         notificationChannels: {
           include: {
             email: true,
-            sms: true,
             web: true,
           },
         },
@@ -45,7 +44,7 @@ const makeGetNotification: MakeGetNotificationFn =
       throw new Error(`Notification not found: ${input}`)
     }
 
-    return notificationFactory({
+    return notificationFactoryNotification({
       notificationRecord: notification,
       channels: notification.notificationChannels,
     })

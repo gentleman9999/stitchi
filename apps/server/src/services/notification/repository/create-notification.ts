@@ -7,10 +7,9 @@ import {
 import * as yup from 'yup'
 import { PrismaClient } from '@prisma/client'
 import {
-  notificationFactory,
+  notificationFactoryNotification,
   NotificationFactoryNotification,
 } from '../factory/notification'
-import { NotificationChannelSms } from '../db/notification-channel-sms-table'
 import { NotificationChannelEmail } from '../db/notification-channel-email-table'
 import { NotificationChannelWeb } from '../db/notification-channel-web-table'
 import {
@@ -18,34 +17,18 @@ import {
   NotificationChannelType,
 } from '../db/notification-channel-table'
 import { logger } from '../../../telemetry'
-
-const smsNotificationSchema = NotificationChannel.omit([
-  'id',
-  'type',
-  'childId',
-  'notificationId',
-])
-  .concat(NotificationChannelSms.omit(['id']))
-  .concat(
-    yup.object().shape({
-      type: yup
-        .mixed<NotificationChannelType.SMS>()
-        .oneOf([NotificationChannelType.SMS])
-        .required(),
-    }),
-  )
-  .required()
+import { makeEvents } from '../events'
 
 const emailNotificationSchema = NotificationChannel.omit([
   'id',
-  'type',
-  'childId',
+  'channelType',
+  'channelId',
   'notificationId',
 ])
   .concat(NotificationChannelEmail.omit(['id']))
   .concat(
     yup.object().shape({
-      type: yup
+      channelType: yup
         .mixed<NotificationChannelType.EMAIL>()
         .oneOf([NotificationChannelType.EMAIL])
         .required(),
@@ -55,14 +38,14 @@ const emailNotificationSchema = NotificationChannel.omit([
 
 const webNotificationSchema = NotificationChannel.omit([
   'id',
-  'type',
-  'childId',
+  'channelType',
+  'channelId',
   'notificationId',
 ])
   .concat(NotificationChannelWeb.omit(['id']))
   .concat(
     yup.object().shape({
-      type: yup
+      channelType: yup
         .mixed<NotificationChannelType.WEB>()
         .oneOf([NotificationChannelType.WEB])
         .required(),
@@ -71,7 +54,6 @@ const webNotificationSchema = NotificationChannel.omit([
   .required()
 
 type NotificationChannelSchemaType =
-  | yup.InferType<typeof smsNotificationSchema>
   | yup.InferType<typeof emailNotificationSchema>
   | yup.InferType<typeof webNotificationSchema>
 
@@ -81,9 +63,7 @@ const channelInputSchema = yup
     'dynamic object validation',
     'dynamic object validation error',
     object => {
-      switch (object?.type) {
-        case NotificationChannelType.SMS:
-          return smsNotificationSchema.isValidSync(object)
+      switch (object?.channelType) {
         case NotificationChannelType.EMAIL:
           return emailNotificationSchema.isValidSync(object)
         case NotificationChannelType.WEB:
@@ -98,12 +78,7 @@ export type CreateNotificationChannelInput = yup.InferType<
   typeof channelInputSchema
 >
 
-const inputSchema = Notification.omit([
-  'id',
-  'createdAt',
-  'updatedAt',
-  'sentAt',
-]).concat(
+const inputSchema = Notification.omit(['id', 'createdAt', 'updatedAt']).concat(
   yup.object().shape({
     channels: yup.array().of(channelInputSchema.required()).required(),
   }),
@@ -113,6 +88,7 @@ const prisma = new PrismaClient()
 
 interface CreateNotificationConfig {
   notificationTable: NotificationTable
+  notificationEvents: ReturnType<typeof makeEvents>
 }
 
 export interface CreateNotificationFnInput {
@@ -129,36 +105,35 @@ type MakeCreateNotificationFn = (
 
 const makeCreateNotification: MakeCreateNotificationFn =
   (
-    { notificationTable } = {
+    { notificationTable, notificationEvents } = {
       notificationTable: makeNotificationTable(prisma),
+      notificationEvents: makeEvents(),
     },
   ) =>
   async input => {
-    const validInput = await inputSchema.validate(input.notification)
+    let validInput
+
+    try {
+      validInput = await inputSchema.validate(input.notification)
+    } catch (error) {
+      console.error(`Failed to validate input`, {
+        context: { error },
+      })
+      throw new Error('Failed to validate input')
+    }
 
     let notification
 
     try {
       notification = await notificationTable.create({
         data: {
-          type: validInput.type,
           membershipId: validInput.membershipId,
-          organizationId: validInput.organizationId,
-          notificationGroupId: validInput.notificationGroupId,
-          sentAt: null,
+          notificationWorkflowId: validInput.notificationWorkflowId,
+          notificationTopicId: validInput.notificationTopicId,
           notificationChannels: {
             create: validInput.channels.map(channel => ({
-              type: channel.type,
-              ...(channel.type === NotificationChannelType.SMS
-                ? {
-                    sms: {
-                      create: {
-                        message: channel.message,
-                      },
-                    },
-                  }
-                : {}),
-              ...(channel.type === NotificationChannelType.EMAIL
+              channelType: channel.channelType,
+              ...(channel.channelType === NotificationChannelType.EMAIL
                 ? {
                     email: {
                       create: {
@@ -171,7 +146,7 @@ const makeCreateNotification: MakeCreateNotificationFn =
                     },
                   }
                 : {}),
-              ...(channel.type === NotificationChannelType.WEB
+              ...(channel.channelType === NotificationChannelType.WEB
                 ? {
                     web: {
                       create: {
@@ -187,7 +162,6 @@ const makeCreateNotification: MakeCreateNotificationFn =
           notificationChannels: {
             include: {
               email: true,
-              sms: true,
               web: true,
             },
           },
@@ -198,10 +172,19 @@ const makeCreateNotification: MakeCreateNotificationFn =
       throw new Error('Failed to create notification')
     }
 
-    return notificationFactory({
+    const newNotification = notificationFactoryNotification({
       notificationRecord: notification,
       channels: notification.notificationChannels,
     })
+
+    notificationEvents.emit({
+      key: 'notification.created',
+      payload: {
+        nextNotification: newNotification,
+      },
+    })
+
+    return newNotification
   }
 
 export { makeCreateNotification }

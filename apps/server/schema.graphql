@@ -672,6 +672,19 @@ type Membership {
   hasOrders: Boolean!
   humanizedRole: String
   id: ID!
+  notifications(
+    """Returns the elements in the list that come after the specified cursor"""
+    after: String
+
+    """Returns the elements in the list that come before the specified cursor"""
+    before: String
+
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+  ): NotificationConnection
   orders(
     """Returns the elements in the list that come after the specified cursor"""
     after: String
@@ -767,6 +780,65 @@ type Mutation {
   userBoostrap: User
   userOrganizationCreate(input: UserOrganizationCreateInput!): UserOrganizationCreatePayload
   userSetOrganization(input: UserSetOrganizationInput!): UserSetOrganizationPayload
+}
+
+type Notification {
+  channels: [NotificationChannel]!
+  createdAt: DateTime!
+  id: ID!
+  membershipId: String
+  notificationTopicId: String
+  notificationWorkflowId: String!
+  organizationId: String
+  updatedAt: DateTime
+}
+
+interface NotificationChannel {
+  channelType: NotificationChannelType!
+  id: ID!
+}
+
+type NotificationChannelEmail implements NotificationChannel {
+  channelType: NotificationChannelType!
+  htmlBody: String!
+  id: ID!
+  recipientEmail: String!
+  recipientName: String
+  subject: String!
+  textBody: String
+}
+
+enum NotificationChannelType {
+  EMAIL
+  WEB
+}
+
+type NotificationChannelWeb implements NotificationChannel {
+  channelType: NotificationChannelType!
+  ctaText: String
+  ctaUrl: String
+  id: ID!
+  message: String!
+}
+
+type NotificationConnection {
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
+  """
+  edges: [NotificationEdge]
+
+  """
+  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
+  """
+  pageInfo: PageInfo!
+}
+
+type NotificationEdge {
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
+  cursor: String
+
+  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
+  node: Notification
 }
 
 type Order {

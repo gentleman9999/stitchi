@@ -1,5 +1,6 @@
 import { logger } from '../../telemetry'
 import { MembershipFactoryMembership } from './factory/membership'
+import { MembershipFactoryMembershipNotificationSetting } from './factory/membership-notification-setting'
 import makeMembershipRepository, { MembershipRepository } from './repository'
 import { CreateMembershipFnInput } from './repository/create-membership'
 
@@ -23,7 +24,9 @@ export interface MembershipService {
     organizationId: string
   }) => Promise<MembershipFactoryMembership>
 
-  getMembershipNotificationSetting: MembershipRepository['getMembershipNotificationSetting']
+  getMembershipNotificationSetting: (
+    membershipId: string,
+  ) => Promise<MembershipFactoryMembershipNotificationSetting>
   updateMembershipNotificationSetting: MembershipRepository['updateMembershipNotificationSetting']
 }
 
@@ -218,22 +221,36 @@ const makeClient: MakeClientFn = (
       return membership
     },
 
-    getMembershipNotificationSetting: async input => {
+    getMembershipNotificationSetting: async membershipId => {
       let membershipNotificationSetting
 
       try {
-        membershipNotificationSetting =
-          await membershipRepository.getMembershipNotificationSetting(input)
+        membershipNotificationSetting = (
+          await membershipRepository.listMembershipNotificationSettings({
+            take: 1,
+            where: {
+              membership: {
+                id: membershipId,
+              },
+            },
+          })
+        )[0]
+
+        if (!membershipNotificationSetting) {
+          throw new Error(
+            `Membership notification setting not found for member: ${membershipId}`,
+          )
+        }
       } catch (error) {
         logger
           .child({
             context: {
               error,
-              input,
+              membershipId,
             },
           })
           .error(
-            `Error getting membership notification setting: ${input.membershipNotificationSettingId}`,
+            `Error getting membership notification setting for member: ${membershipId}`,
           )
         throw error
       }

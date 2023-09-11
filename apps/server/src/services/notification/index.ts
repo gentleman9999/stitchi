@@ -1,104 +1,45 @@
 import makeNotificationRepository, {
   NotificationRepository,
 } from './repository'
-import { makeClient as makeSendgridClient } from '../../sendgrid'
-import { getOrThrow } from '../../utils'
-import makeTemplates, { Template } from './templates'
-import { CreateNotificationGroupFn } from './methods/create-notification-group'
 import { makeServiceMethods, Methods } from './methods'
-import { logger } from '../../telemetry'
-
-const replyTo = getOrThrow(
-  process.env.NOTIFICATION_EMAIL_REPLY_TO,
-  'NOTIFICATION_EMAIL_REPLY_TO',
-)
+import { NotificationFactoryNotificationTopic } from './factory/notification-topic'
 
 export interface NotificationClientService {
-  createNotification: NotificationRepository['createNotification']
-  getNotification: NotificationRepository['getNotification']
+  sendNotification: Methods['sendNotification']
   listNotifications: NotificationRepository['listNotifications']
 
-  createNotificationGroup: CreateNotificationGroupFn
+  createNotificationTopic: (
+    topicKey: string,
+    membershipIds: string[],
+  ) => Promise<NotificationFactoryNotificationTopic>
+  listNotificationTopics: NotificationRepository['listNotificationTopics']
+
+  addSubscribersToNotificationTopic: (
+    topicKey: string,
+    membershipIds: string[],
+  ) => Promise<NotificationFactoryNotificationTopic>
+
+  removeSubscribersFromNotificationTopic: (
+    topicKey: string,
+    membershipIds: string[],
+  ) => Promise<NotificationFactoryNotificationTopic>
 }
 
 interface MakeClientParams {
   notificationRepository: NotificationRepository
-  sendgridClient: ReturnType<typeof makeSendgridClient>
-
   serviceMethods: Methods
 }
 
 type MakeClientFn = (params?: MakeClientParams) => NotificationClientService
 
 const makeClient: MakeClientFn = (
-  { sendgridClient, notificationRepository, serviceMethods } = {
-    sendgridClient: makeSendgridClient(),
+  { notificationRepository, serviceMethods } = {
     notificationRepository: makeNotificationRepository(),
     serviceMethods: makeServiceMethods(),
   },
 ) => {
   return {
-    createNotification: async input => {
-      try {
-        const notification = await notificationRepository.createNotification({
-          notification: input.notification,
-        })
-
-        // TODO: Send notification (async)
-
-        // if (notification.method === 'email') {
-        //   console.info(`Sending email notification: ${notification.id}`, {
-        //     context: { notification },
-        //   })
-
-        //   await sendgridClient.sendTransactionalEmail({
-        //     message: {
-        //       subject: notification.subject,
-        //       content: [
-        //         {
-        //           type: 'text/html',
-        //           value: notification.htmlBody,
-        //         },
-        //         ...(notification.textBody
-        //           ? ([
-        //               {
-        //                 type: 'text/plain',
-        //                 value: notification.textBody,
-        //               },
-        //             ] as const)
-        //           : []),
-        //       ],
-        //       sendAt: notification.sendAt
-        //         ? getUnixTime(notification.sendAt)
-        //         : undefined,
-        //       from: {
-        //         email: replyTo,
-        //         name: 'Stitchi',
-        //       },
-        //       replyTo: {
-        //         email: replyTo,
-        //         name: 'Stitchi',
-        //       },
-        //       personalizations: [
-        //         {
-        //           to: [
-        //             {
-        //               email: notification.recipientEmail,
-        //               name: notification.recipientName || undefined,
-        //             },
-        //           ],
-        //         },
-        //       ],
-        //     },
-        //   })
-        // }
-
-        return notification
-      } catch (error) {
-        logger.error(error)
-        throw new Error('Failed to create notification')
-      }
-    },
+    sendNotification: serviceMethods.sendNotification,
 
     listNotifications: async input => {
       try {
@@ -108,42 +49,123 @@ const makeClient: MakeClientFn = (
 
         return notifications
       } catch (error) {
-        logger.error(error)
         throw new Error('Failed to list notifications')
       }
     },
 
-    getNotification: async input => {
-      try {
-        const notification = await notificationRepository.getNotification(input)
-
-        return notification
-      } catch (error) {
-        logger.error(error)
-        throw new Error('Failed to get notification')
-      }
-    },
-
-    createNotificationGroup: async (type, params) => {
-      let notificationGroup
+    createNotificationTopic: async (topicKey, members) => {
+      let notificationTopic
 
       try {
-        notificationGroup = await serviceMethods.createNotificationGroup(
-          type,
-          params,
-        )
-      } catch (error) {
-        logger
-          .child({
-            context: {
-              error,
-              params,
-              type,
+        notificationTopic =
+          await notificationRepository.createNotificationTopic({
+            notificationTopic: {
+              topicKey,
+              members: members.map(membershipId => ({
+                membershipId,
+              })),
             },
           })
-          .error('Failed to create notificationg group')
-        throw new Error('Failed to create notification group')
+      } catch (error) {
+        throw new Error('Failed to create notification topic')
       }
+
+      return notificationTopic
+    },
+
+    listNotificationTopics: async input => {
+      let notificationTopics
+
+      try {
+        notificationTopics =
+          await notificationRepository.listNotificationTopics(input)
+      } catch (error) {
+        throw new Error('Failed to list notification topics')
+      }
+
+      return notificationTopics
+    },
+
+    addSubscribersToNotificationTopic: async (topicKey, membershipIds) => {
+      let existingNotificationTopic
+
+      try {
+        existingNotificationTopic = (
+          await notificationRepository.listNotificationTopics({
+            take: 1,
+            where: {
+              topicKey,
+            },
+          })
+        )[0]
+
+        if (!existingNotificationTopic) {
+          throw new Error('Notification topic not found')
+        }
+      } catch (error) {
+        throw new Error('Failed to get notification topic')
+      }
+
+      let notificationTopic
+
+      try {
+        notificationTopic =
+          await notificationRepository.updateNotificationTopic({
+            notificationTopic: {
+              id: existingNotificationTopic.id,
+              topicKey,
+              members: membershipIds
+                .map(membershipId => ({
+                  membershipId,
+                }))
+                .concat(existingNotificationTopic.members),
+            },
+          })
+      } catch (error) {
+        throw new Error('Failed to add subscribers to notification topic')
+      }
+
+      return notificationTopic
+    },
+
+    removeSubscribersFromNotificationTopic: async (topicKey, membershipIds) => {
+      let existingNotificationTopic
+
+      try {
+        existingNotificationTopic = (
+          await notificationRepository.listNotificationTopics({
+            take: 1,
+            where: {
+              topicKey,
+            },
+          })
+        )[0]
+
+        if (!existingNotificationTopic) {
+          throw new Error('Notification topic not found')
+        }
+      } catch (error) {
+        throw new Error('Failed to get notification topic')
+      }
+
+      let notificationTopic
+
+      try {
+        notificationTopic =
+          await notificationRepository.updateNotificationTopic({
+            notificationTopic: {
+              id: existingNotificationTopic.id,
+              topicKey,
+              members: existingNotificationTopic.members.filter(
+                ({ membershipId }) => !membershipIds.includes(membershipId),
+              ),
+            },
+          })
+      } catch (error) {
+        throw new Error('Failed to remove subscribers from notification topic')
+      }
+
+      return notificationTopic
     },
   }
 }

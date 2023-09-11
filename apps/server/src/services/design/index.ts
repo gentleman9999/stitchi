@@ -5,6 +5,10 @@ import {
   makeClient as makeConversationServiceClient,
 } from '../conversation'
 import { logger } from '../../telemetry'
+import {
+  NotificationClientService,
+  makeClient as makeNotificationServiceClient,
+} from '../notification'
 
 export interface DesignService {
   createDesign: DesignRepository['createDesign']
@@ -30,14 +34,16 @@ export interface DesignService {
 interface MakeClientParams {
   designRepository: DesignRepository
   conversationClient: ConversationService
+  notificationClient: NotificationClientService
 }
 
 type MakeClientFn = (params?: MakeClientParams) => DesignService
 
 const makeClient: MakeClientFn = (
-  { designRepository, conversationClient } = {
+  { designRepository, conversationClient, notificationClient } = {
     designRepository: makeDesignRepository(),
     conversationClient: makeConversationServiceClient(),
+    notificationClient: makeNotificationServiceClient(),
   },
 ) => {
   return {
@@ -73,21 +79,37 @@ const makeClient: MakeClientFn = (
           conversation: {},
         })
       } catch (error) {
-        logger.error(error)
         throw new Error('Failed to create conversation')
       }
 
+      let designRequest
+
       try {
-        return designRepository.createDesignRequest({
+        designRequest = await designRepository.createDesignRequest({
           designRequest: {
             ...input.designRequest,
             conversationId: conversation.id,
           },
         })
       } catch (error) {
-        logger.error(error)
         throw new Error('Failed to create design request')
       }
+
+      const topicKey = `designRequest:${designRequest.id}`
+
+      const members: string[] = []
+
+      if (designRequest.membershipId) {
+        members.push(designRequest.membershipId)
+      }
+
+      try {
+        await notificationClient.createNotificationTopic(topicKey, members)
+      } catch (error) {
+        throw new Error('Failed to create notification topic')
+      }
+
+      return designRequest
     },
 
     updateDesignRequest: async input => {

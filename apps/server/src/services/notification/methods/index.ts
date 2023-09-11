@@ -1,24 +1,15 @@
-import {
-  CreateNotificationGroupFn,
-  makeMethod as makeCreateNotificationGroupMethod,
-} from './create-notification-group'
+import { makeMethod as makeSendNotificationMethod } from './send-notification'
 
 export interface Methods {
-  createNotificationGroup: CreateNotificationGroupFn
+  sendNotification: ReturnType<typeof makeSendNotificationMethod>
 }
 
-interface MakeServiceMethodsParams {
-  createNotificationGroup: CreateNotificationGroupFn
-}
+interface MakeServiceMethodsParams {}
 
 type MakeServiceMethodsFn = (params?: MakeServiceMethodsParams) => Methods
 
-const makeServiceMethods: MakeServiceMethodsFn = (
-  { createNotificationGroup } = {
-    createNotificationGroup: makeCreateNotificationGroupMethod(),
-  },
-) => ({
-  createNotificationGroup,
+const makeServiceMethods: MakeServiceMethodsFn = () => ({
+  sendNotification: makeSendNotificationMethod(),
 })
 
 export { makeServiceMethods }

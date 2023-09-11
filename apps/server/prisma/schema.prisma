@@ -67,7 +67,6 @@ model Organization {
   activeUserMemberships ActiveUserMembership[]
   organizationFiles     OrganizationFile[]
   organizationColors    OrganizationColor[]
-  notifications         Notification[]
 }
 
 // The owners of the SaaS (you) can have a SUPERADMIN role to access all data
@@ -129,6 +128,7 @@ model Membership {
   updatedAt                     DateTime                      @updatedAt
   activeUserMemberships         ActiveUserMembership[]
   membershipNotificationSetting MembershipNotificationSetting @relation(fields: [membershipNotificationSettingId], references: [id])
+  notificationTopicMembers      NotificationTopicMember[]
 
   @@unique([organizationId, invitedEmail])
   @@unique([organizationId, userId, role])
@@ -756,62 +756,52 @@ model MailingAddress {
 model Notification {
   id String @id @default(uuid())
 
-  // The user that this notification belongs to
-
+  // The user that this notification belongs to. This is nullable in the event we send a notification to a non-authenticated user.
   membershipId String?
 
-  // The organization that this notification belongs to
-  organizationId String?
+  // Every notification that is sent must belong to a notification workflow
+  notificationWorkflowId String
 
-  notificationGroupId String?
-
-  sentAt DateTime?
-
-  // The type of notification
-  type NotificationType
-
-  // The status of the notification
+  // If the notification is sent to as a part of a topic, this is the topic ID
+  notificationTopicId String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  notificationGroup    NotificationGroup?    @relation(fields: [notificationGroupId], references: [id])
   notificationChannels NotificationChannel[]
-  organization         Organization?         @relation(fields: [organizationId], references: [id])
+  notificationWorkflow NotificationWorkflow  @relation(fields: [notificationWorkflowId], references: [id])
 
   @@index([membershipId])
-  @@index([organizationId])
-  @@index([notificationGroupId])
+  @@index([notificationWorkflowId])
+}
+
+model NotificationWorkflow {
+  id String @id @default(uuid())
+
+  name String
+
+  notifications Notification[]
 }
 
 model NotificationChannel {
   id String @id @default(uuid())
 
   notificationId String
-  childId        String @unique
 
-  type NotificationChannelType
+  channelType NotificationChannelType
+  channelId   String                  @unique
 
-  notification Notification              @relation(fields: [notificationId], references: [id])
-  sms          NotificationChannelSms?   @relation(fields: [childId], references: [id], map: "sms_childId")
-  email        NotificationChannelEmail? @relation(fields: [childId], references: [id], map: "email_childId")
-  web          NotificationChannelWeb?   @relation(fields: [childId], references: [id], map: "web_childId")
+  notification Notification              @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  email        NotificationChannelEmail? @relation(fields: [channelId], references: [id], map: "email_channelId", onDelete: Cascade)
+  web          NotificationChannelWeb?   @relation(fields: [channelId], references: [id], map: "web_channelId", onDelete: Cascade)
 
-  @@unique([notificationId, type])
-  @@index([childId])
+  @@unique([notificationId, channelType])
+  @@index([channelId])
 }
 
 enum NotificationChannelType {
-  SMS
   EMAIL
   WEB
-}
-
-model NotificationChannelSms {
-  id String @id @default(uuid())
-
-  message             String               @db.Text
-  notificationChannel NotificationChannel?
 }
 
 model NotificationChannelEmail {
@@ -829,24 +819,37 @@ model NotificationChannelEmail {
 model NotificationChannelWeb {
   id String @id @default(uuid())
 
-  message             String               @db.Text
+  message String @db.Text
+
+  ctaText String?
+  ctaUrl  String?
+
   notificationChannel NotificationChannel?
 }
 
-enum NotificationType {
-  ORDER_CONFIRMED
-  DESIGN_REQUEST_SUBMITTED
-}
-
-model NotificationGroup {
+model NotificationTopic {
   id String @id @default(uuid())
 
-  type NotificationType
+  topicKey                 String                    @unique
+  notificationTopicMembers NotificationTopicMember[]
+
+  @@index([topicKey])
+}
+
+model NotificationTopicMember {
+  id String @id @default(uuid())
+
+  membershipId        String
+  notificationTopicId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  notifications Notification[]
+  notificationTopic NotificationTopic @relation(fields: [notificationTopicId], references: [id])
+  membership        Membership        @relation(fields: [membershipId], references: [id])
+
+  @@index([notificationTopicId])
+  @@index([membershipId])
 }
 
 model Conversation {

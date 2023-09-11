@@ -3,7 +3,7 @@ import { logger } from '../../../telemetry'
 import { NotificationTable } from '../db/notification-table'
 import {
   NotificationFactoryNotification,
-  notificationFactory,
+  notificationFactoryNotification,
 } from '../factory/notification'
 
 const prisma = new PrismaClient()
@@ -39,7 +39,6 @@ const makeListNotifications: MakeListNotificationsFn =
           notificationChannels: {
             include: {
               email: true,
-              sms: true,
               web: true,
             },
           },
@@ -55,7 +54,7 @@ const makeListNotifications: MakeListNotificationsFn =
     }
 
     return notificationRecords.map(notification =>
-      notificationFactory({
+      notificationFactoryNotification({
         notificationRecord: notification,
         channels: notification.notificationChannels,
       }),
