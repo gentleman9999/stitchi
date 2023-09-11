@@ -124,6 +124,8 @@ const makeMethod: MakeMethodFn =
           id: '',
           channelType: NotificationChannelType.WEB,
           message: notification.web.message,
+          ctaText: notification.web.ctaText,
+          ctaUrl: notification.web.ctaUrl,
         })
       }
 

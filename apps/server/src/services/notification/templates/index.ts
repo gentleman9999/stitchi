@@ -11,6 +11,8 @@ interface Notification {
   }
   web: {
     message: string
+    ctaText: string | null
+    ctaUrl: string | null
   }
 }
 
@@ -28,6 +30,8 @@ const notifications = {
       },
       web: {
         message: `Your order #${params.order.humanReadableId} is confirmed.`,
+        ctaText: null,
+        ctaUrl: null,
       },
     }
   },
@@ -45,6 +49,8 @@ const notifications = {
       },
       web: {
         message: `Your design request ${params.designRequest.name} has been submitted and will be reviewed by an artist shortly.`,
+        ctaText: null,
+        ctaUrl: null,
       },
     }
   },

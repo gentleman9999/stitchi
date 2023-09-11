@@ -63,7 +63,7 @@ export const NotificationChannelWeb = objectType({
 
     t.nonNull.string('message')
 
-    t.nullable.string('ctaLabel')
+    t.nullable.string('ctaText')
     t.nullable.string('ctaUrl')
   },
 })

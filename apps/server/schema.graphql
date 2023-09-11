@@ -815,7 +815,7 @@ enum NotificationChannelType {
 
 type NotificationChannelWeb implements NotificationChannel {
   channelType: NotificationChannelType!
-  ctaLabel: String
+  ctaText: String
   ctaUrl: String
   id: ID!
   message: String!

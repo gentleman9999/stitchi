@@ -10,6 +10,8 @@ export const NotificationChannelWeb: yup.ObjectSchema<NotificationChannelWebSche
     .shape({
       id: yup.string().uuid().required(),
       message: yup.string().required(),
+      ctaText: yup.string().optional().defined(),
+      ctaUrl: yup.string().optional().defined(),
     })
     .label('Notification Channel Web')
 

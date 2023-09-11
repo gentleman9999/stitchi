@@ -679,7 +679,7 @@ export interface NexusGenObjects {
   }
   NotificationChannelWeb: { // root type
     channelType: NexusGenEnums['NotificationChannelType']; // NotificationChannelType!
-    ctaLabel?: string | null; // String
+    ctaText?: string | null; // String
     ctaUrl?: string | null; // String
     id: string; // ID!
     message: string; // String!
@@ -1313,7 +1313,7 @@ export interface NexusGenFieldTypes {
   }
   NotificationChannelWeb: { // field return type
     channelType: NexusGenEnums['NotificationChannelType']; // NotificationChannelType!
-    ctaLabel: string | null; // String
+    ctaText: string | null; // String
     ctaUrl: string | null; // String
     id: string; // ID!
     message: string; // String!
@@ -1976,7 +1976,7 @@ export interface NexusGenFieldTypeNames {
   }
   NotificationChannelWeb: { // field return type name
     channelType: 'NotificationChannelType'
-    ctaLabel: 'String'
+    ctaText: 'String'
     ctaUrl: 'String'
     id: 'ID'
     message: 'String'

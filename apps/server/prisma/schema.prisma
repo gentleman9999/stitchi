@@ -819,7 +819,11 @@ model NotificationChannelEmail {
 model NotificationChannelWeb {
   id String @id @default(uuid())
 
-  message             String               @db.Text
+  message String @db.Text
+
+  ctaText String?
+  ctaUrl  String?
+
   notificationChannel NotificationChannel?
 }
 

@@ -5,13 +5,7 @@ import {
   NotificationFactoryNotificationChannelEmail,
   NotificationFactoryNotificationChannelWeb,
 } from '../../services/notification/factory/notification'
-import { getOrThrow } from '../../utils'
 import { NexusGenObjects } from '../generated/nexus'
-
-const appBaseUrl = getOrThrow(
-  process.env.STITCHI_MARKETING_APPLICATION_HOST,
-  'STITCHI_MARKETING_APPLICATION_HOST',
-)
 
 export const notificationFactoryNotificationChannelEmailToGraphql = (
   channel: NotificationFactoryNotificationChannelEmail,
@@ -33,11 +27,11 @@ export const notificationFactoryNotificationChannelWebToGraphql = ({
   channel: NotificationFactoryNotificationChannelWeb
 }): NexusGenObjects['NotificationChannelWeb'] => {
   return {
-    ctaUrl: 'TODO',
-    ctaLabel: 'TODO',
     id: channel.id,
     channelType: channel.channelType,
     message: channel.message,
+    ctaText: channel.ctaText,
+    ctaUrl: channel.ctaUrl,
   }
 }
 

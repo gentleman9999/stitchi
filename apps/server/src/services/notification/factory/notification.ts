@@ -62,6 +62,8 @@ const notificationFactoryNotification = ({
             id: channel.id,
             channelType: NotificationChannelType.WEB,
             message: channel.web.message,
+            ctaText: channel.web.ctaText,
+            ctaUrl: channel.web.ctaUrl,
           }
 
         default:
