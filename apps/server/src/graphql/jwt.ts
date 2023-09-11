@@ -64,6 +64,7 @@ export async function verify(authHeader: string) {
           context: { error: result.error, decoded: result.decoded },
         })
         .error(result.error.message)
+
       throw new Error(result.error.message)
     }
 
