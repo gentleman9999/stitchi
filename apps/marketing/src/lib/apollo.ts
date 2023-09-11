@@ -18,22 +18,12 @@ import getOrThrow from '@lib/utils/get-or-throw'
 import { AppProps } from 'next/app'
 import { useMemo } from 'react'
 import { isEqual } from 'lodash-es'
-import fetch from 'node-fetch'
 import { GetStaticPropsResult, GetServerSidePropsContext } from 'next'
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
 import { createClient } from 'graphql-ws'
-import {
-  AccessTokenError,
-  AccessTokenErrorCode,
-  getAccessToken,
-} from '@auth0/nextjs-auth0'
+import { getAccessToken } from './auth'
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__' as const
-
-const appUrl = getOrThrow(
-  process.env.NEXT_PUBLIC_SITE_URL,
-  'NEXT_PUBLIC_SITE_URL',
-)
 
 const endpoint = getOrThrow(
   process.env.NEXT_PUBLIC_STITCHI_GRAPHQL_URI,
@@ -66,44 +56,11 @@ const makeSplitLink = (ctx?: GetServerSidePropsContext) =>
     httpLink,
   )
 
-let accessToken: string | undefined
+let cachedAccessToken: string | undefined
 
 const makeAuthLink = (ctx?: GetServerSidePropsContext) =>
   setContext(async (_, { headers }) => {
-    console.log('MAKING AUTH LINK')
-    if (!accessToken) {
-      console.log('THERE IS NO ACCESS TOKEN')
-
-      try {
-        if (ctx) {
-          accessToken = (await getAccessToken(ctx.req, ctx.res)).accessToken
-        } else {
-          // Auth0 only provides access to the accessToken on the server.
-          // So we must make a call the the Next.js server to retrieve token.
-          const response = await fetch(`${appUrl}/api/auth/accessToken`)
-          const data = await response.json()
-          accessToken = data.accessToken
-        }
-      } catch (error) {
-        console.log('ERRORRRRR', error)
-
-        if (error instanceof AccessTokenError) {
-          if (error.code === AccessTokenErrorCode.MISSING_SESSION) {
-            // do nothing, no user is logged in
-          } else {
-            console.warn(error)
-          }
-        } else {
-          console.error(error)
-        }
-      }
-    } else {
-      console.log('THERE IS AN ACCESS TOKEN')
-    }
-
-    console.log('ACCESS TOKEN', accessToken)
-
-    console.log('GOT HERE, NO ERROR, MAKING REQUEST')
+    const accessToken = cachedAccessToken || (await getAccessToken(ctx))
 
     return {
       headers: Object.assign(headers || {}, {

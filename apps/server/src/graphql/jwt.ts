@@ -35,8 +35,6 @@ export async function verify(authHeader: string) {
   if (authHeader) {
     const bearerToken = authHeader.split(' ')
 
-    logger.child({ bearerToken }).info('THIS IS THE BEARER')
-
     const result = await new Promise<{
       error?: jwt.VerifyErrors
       decoded?: Payload
@@ -59,8 +57,6 @@ export async function verify(authHeader: string) {
         },
       )
     })
-
-    logger.child({ result }).info('THIS IS THE RESULT')
 
     if (result.error) {
       logger

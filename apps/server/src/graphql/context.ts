@@ -54,8 +54,6 @@ function makeContext(
   return async function createContext({ req, res: _res }): Promise<Context> {
     const authHeader = req.headers?.['authorization']
 
-    console.log('AUTH HEADER', authHeader)
-
     try {
       const payload = authHeader ? await verify(authHeader).catch() : null
 
