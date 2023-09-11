@@ -70,7 +70,10 @@ let accessToken: string | undefined
 
 const makeAuthLink = (ctx?: GetServerSidePropsContext) =>
   setContext(async (_, { headers }) => {
+    console.log('MAKING AUTH LINK')
     if (!accessToken) {
+      console.log('THERE IS NO ACCESS TOKEN')
+
       try {
         if (ctx) {
           accessToken = (await getAccessToken(ctx.req, ctx.res)).accessToken
@@ -82,14 +85,25 @@ const makeAuthLink = (ctx?: GetServerSidePropsContext) =>
           accessToken = data.accessToken
         }
       } catch (error) {
+        console.log('ERRORRRRR', error)
+
         if (error instanceof AccessTokenError) {
           if (error.code === AccessTokenErrorCode.MISSING_SESSION) {
             // do nothing, no user is logged in
+          } else {
+            console.warn(error)
           }
-          console.warn(error)
+        } else {
+          console.error(error)
         }
       }
+    } else {
+      console.log('THERE IS AN ACCESS TOKEN')
     }
+
+    console.log('ACCESS TOKEN', accessToken)
+
+    console.log('GOT HERE, NO ERROR, MAKING REQUEST')
 
     return {
       headers: Object.assign(headers || {}, {
@@ -105,7 +119,7 @@ let apolloClient: ApolloClient<NormalizedCacheObject>
 
 const createApolloClient = (ctx?: GetServerSidePropsContext) =>
   new ApolloClient({
-    ssrMode: typeof window === 'undefined',
+    ssrMode: Boolean(ctx),
     link: makeAuthLink(ctx).concat(makeSplitLink(ctx)),
     cache: new InMemoryCache({
       dataIdFromObject(responseObj) {
