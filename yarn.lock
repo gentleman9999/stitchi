@@ -205,6 +205,23 @@
     tslib "^2.4.0"
     url-join "^4.0.1"
 
+"@axiomhq/js@0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@axiomhq/js/-/js-0.1.3.tgz#0c13b4ded031f01f5ffdaba10e29f99c2c487702"
+  integrity sha512-2HIHYHBw40V8Qu642aKvP6ZFNoeS0oTtsZNe9Fxv0lQgC2XxR6E9aiPmIuzmJIRKzhFMtyu1MLez15seYzyInw==
+  dependencies:
+    cross-fetch "^3.1.5"
+    fetch-retry "^5.0.3"
+    uuid "^8.3.2"
+
+"@axiomhq/pino@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@axiomhq/pino/-/pino-0.1.3.tgz#dd07ec3b87564feedd8413ee6e96715561efa967"
+  integrity sha512-+27Uv/idAxUkXYcK3fXDUpbPa0PA1tdj477fSYG7kjvNL81nvBIRM/YdNUJKMfI2OsKgyFtWTfUcmOiD72+bIg==
+  dependencies:
+    "@axiomhq/js" "0.1.3"
+    pino-abstract-transport "^1.0.0"
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.22.10", "@babel/code-frame@^7.22.5":
   version "7.22.13"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.22.13.tgz#e3c1c099402598483b7a8c46a721d1038803755e"
@@ -6931,6 +6948,11 @@ fbjs@^3.0.0:
     promise "^7.1.1"
     setimmediate "^1.0.5"
     ua-parser-js "^1.0.35"
+
+fetch-retry@^5.0.3:
+  version "5.0.6"
+  resolved "https://registry.yarnpkg.com/fetch-retry/-/fetch-retry-5.0.6.tgz#17d0bc90423405b7a88b74355bf364acd2a7fa56"
+  integrity sha512-3yurQZ2hD9VISAhJJP9bpYFNQrHHBXE2JxxjY5aLEcDi46RmAzJE2OC9FAde0yis5ElW0jTTzs0zfg/Cca4XqQ==
 
 figures@^3.0.0:
   version "3.2.0"
