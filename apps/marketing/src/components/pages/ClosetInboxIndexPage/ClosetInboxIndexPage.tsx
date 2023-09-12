@@ -17,17 +17,26 @@ import {
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { format, parseISO } from 'date-fns'
 import Link from 'next/link'
-import pluralize from 'pluralize'
 import React from 'react'
 
 interface Props {
   loading?: boolean
   notifications: ClosetInboxIndexPageNotificationFragment[]
+  hasPreviousPage: boolean
+  hasNextPage: boolean
+  onPreviousPage: () => void
+  onNextPage: () => void
 }
 
-const ClosetInboxIndexPage = ({ loading, notifications }: Props) => {
+const ClosetInboxIndexPage = ({
+  loading,
+  notifications,
+  hasNextPage,
+  hasPreviousPage,
+  onNextPage,
+  onPreviousPage,
+}: Props) => {
   // const unreadCount = notifications.filter(message => message.unread).length
-  console.log('NOTIFICATIONS', notifications)
 
   return (
     <ClosetPageContainer>
@@ -76,13 +85,11 @@ const ClosetInboxIndexPage = ({ loading, notifications }: Props) => {
                             {format(parseISO(notification.createdAt), 'PPPpp')}
                           </p>
                         </div>
-                        {channel.ctaText ? (
+                        {channel.ctaText && channel.ctaUrl ? (
                           <div className="flex gap-4 px-8">
                             <Button
                               Component={
-                                channel.ctaText.startsWith(
-                                  makeAbsoluteUrl('/api/'),
-                                )
+                                channel.ctaText.startsWith(makeAbsoluteUrl(''))
                                   ? 'a'
                                   : Link
                               }
@@ -99,14 +106,21 @@ const ClosetInboxIndexPage = ({ loading, notifications }: Props) => {
 
                   <div className="grid grid-cols-3 py-2 px-4 text-sm">
                     <div className="flex items-center">
-                      {pluralize('notification', notifications.length, true)}
+                      {/* {pluralize('notification', notifications.length, true)} */}
                     </div>
                     <div className="flex justify-center items-center gap-2">
-                      <IconButton size="sm">
+                      <IconButton
+                        size="sm"
+                        onClick={onPreviousPage}
+                        disabled={!hasPreviousPage}
+                      >
                         <ChevronLeftIcon className="w-5 h-5" />
                       </IconButton>
-                      <span>1 of 1</span>
-                      <IconButton size="sm">
+                      <IconButton
+                        size="sm"
+                        onClick={onNextPage}
+                        disabled={!hasNextPage}
+                      >
                         <ChevronRightIcon className="w-5 h-5" />
                       </IconButton>
                     </div>

@@ -1,6 +1,7 @@
 import { GraphQLError } from 'graphql'
-import { connectionFromArray } from 'graphql-relay'
+import { connectionFromArray, connectionArgs } from 'graphql-relay'
 import { extendType } from 'nexus'
+import { logger } from '../../../telemetry'
 import { notEmpty } from '../../../utils'
 import { notificationFactoryNotificationToGraphql } from '../../serializers/notification'
 
@@ -24,18 +25,22 @@ export const NotificationExtendsMembership = extendType({
         let cursorDirection
 
         if (after) {
-          cursor = { id: after } // decode from base64 or use it as-is depending on your implementation
+          cursor = { id: atob(after) } // decode from base64 or use it as-is depending on your implementation
           cursorDirection = 'after'
           if (notEmpty(first)) {
             limit = first
           }
         } else if (before) {
-          cursor = { id: before }
+          cursor = { id: atob(before) }
           cursorDirection = 'before'
           if (notEmpty(last)) {
             limit = last
           }
         }
+
+        console.log('CURSOR', cursor)
+        console.log('CURSOR DIRECTION', cursorDirection)
+        console.log('LIMIT', limit)
 
         // Add one to see if there's a next page
         const limitPlusOne = limit + 1
@@ -52,6 +57,8 @@ export const NotificationExtendsMembership = extendType({
           },
         })
 
+        console.log('NOTIFICATIONS', notifications)
+
         const connection = connectionFromArray(
           notifications.map(notificationFactoryNotificationToGraphql),
           {
@@ -61,6 +68,8 @@ export const NotificationExtendsMembership = extendType({
             before,
           },
         )
+
+        logger.child({ connection }).info('connection')
 
         return connection
       },

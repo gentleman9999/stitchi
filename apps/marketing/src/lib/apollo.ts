@@ -121,6 +121,7 @@ const createApolloClient = (ctx?: GetServerSidePropsContext) =>
         Membership: {
           fields: {
             orders: relayStylePagination(),
+            notifications: relayStylePagination(),
           },
         },
       },

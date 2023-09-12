@@ -1,4 +1,5 @@
 import { gql, useQuery } from '@apollo/client'
+import useRelayPagination from '@components/hooks/useRelayPagination'
 import { ClosetLayout } from '@components/layout'
 import ClosetInboxIndexPage from '@components/pages/ClosetInboxIndexPage'
 import {
@@ -6,15 +7,13 @@ import {
   ClosetInboxIndexPageGetDataQueryVariables,
 } from '@generated/ClosetInboxIndexPageGetDataQuery'
 import { notEmpty } from '@lib/utils/typescript'
-import { queryTypes, useQueryState } from 'next-usequerystate'
 import React from 'react'
 
 const Page = () => {
-  const [first, setFirst] = useQueryState(
-    'first',
-    queryTypes.integer.withDefault(10),
-  )
-  const [after, setAfter] = useQueryState('after', queryTypes.string)
+  const { before, after, first, last, handleNextPage, handlePreviousPage } =
+    useRelayPagination({
+      limit: 3,
+    })
 
   const { data, loading } = useQuery<
     ClosetInboxIndexPageGetDataQuery,
@@ -22,18 +21,37 @@ const Page = () => {
   >(GET_DATA, {
     fetchPolicy: 'cache-and-network',
     variables: {
-      first,
       after,
+      before,
+      first,
+      last,
     },
   })
 
-  const notifications =
-    data?.viewer?.notifications?.edges
-      ?.map(edge => edge?.node)
-      .filter(notEmpty) || []
+  const { edges, pageInfo } = data?.viewer?.notifications || {}
+
+  const notifications = edges?.map(edge => edge?.node).filter(notEmpty) || []
+
+  const { startCursor, endCursor, hasNextPage, hasPreviousPage } =
+    pageInfo || {}
 
   return (
-    <ClosetInboxIndexPage notifications={notifications} loading={loading} />
+    <ClosetInboxIndexPage
+      notifications={notifications}
+      loading={loading}
+      hasNextPage={hasNextPage || false}
+      hasPreviousPage={hasPreviousPage || false}
+      onNextPage={() => {
+        if (endCursor) {
+          handleNextPage(endCursor)
+        }
+      }}
+      onPreviousPage={() => {
+        if (startCursor) {
+          handlePreviousPage(startCursor)
+        }
+      }}
+    />
   )
 }
 
@@ -43,10 +61,20 @@ Page.getLayout = (page: React.ReactElement) => (
 
 const GET_DATA = gql`
   ${ClosetInboxIndexPage.fragments.notification}
-  query ClosetInboxIndexPageGetDataQuery($first: Int!, $after: String) {
+  query ClosetInboxIndexPageGetDataQuery(
+    $first: Int
+    $last: Int
+    $after: String
+    $before: String
+  ) {
     viewer {
       id
-      notifications(first: $first, after: $after) {
+      notifications(
+        first: $first
+        last: $last
+        before: $before
+        after: $after
+      ) {
         edges {
           node {
             id
@@ -56,7 +84,9 @@ const GET_DATA = gql`
 
         pageInfo {
           hasNextPage
+          hasPreviousPage
           endCursor
+          startCursor
         }
       }
     }
