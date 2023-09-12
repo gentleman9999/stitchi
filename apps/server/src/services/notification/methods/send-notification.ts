@@ -109,7 +109,7 @@ const makeMethod: MakeMethodFn =
 
       if (notificationSetting.emailNotificationsEnabled && user.email) {
         channels.push({
-          id: '',
+          id: undefined as any,
           channelType: NotificationChannelType.EMAIL,
           recipientEmail: user.email,
           recipientName: user.name || '',
@@ -121,7 +121,7 @@ const makeMethod: MakeMethodFn =
 
       if (notificationSetting.webNotificationsEnabled) {
         channels.push({
-          id: '',
+          id: undefined as any,
           channelType: NotificationChannelType.WEB,
           message: notification.web.message,
           ctaText: notification.web.ctaText,
@@ -142,6 +142,8 @@ const makeMethod: MakeMethodFn =
 
         continue
       }
+
+      logger.child({ context: { notification, channels } }).info('Sending')
 
       try {
         await notificationRepository.createNotification({

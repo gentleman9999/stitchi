@@ -769,18 +769,9 @@ model Notification {
   updatedAt DateTime @updatedAt
 
   notificationChannels NotificationChannel[]
-  notificationWorkflow NotificationWorkflow  @relation(fields: [notificationWorkflowId], references: [id])
 
   @@index([membershipId])
   @@index([notificationWorkflowId])
-}
-
-model NotificationWorkflow {
-  id String @id @default(uuid())
-
-  name String
-
-  notifications Notification[]
 }
 
 model NotificationChannel {

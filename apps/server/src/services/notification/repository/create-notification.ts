@@ -151,6 +151,8 @@ const makeCreateNotification: MakeCreateNotificationFn =
                     web: {
                       create: {
                         message: channel.message,
+                        ctaText: channel.ctaText,
+                        ctaUrl: channel.ctaUrl,
                       },
                     },
                   }

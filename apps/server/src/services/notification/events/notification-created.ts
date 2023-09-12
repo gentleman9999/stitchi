@@ -11,6 +11,11 @@ const replyTo = getOrThrow(
   'NOTIFICATION_EMAIL_REPLY_TO',
 )
 
+const from = getOrThrow(
+  process.env.NOTIFICATION_EMAIL_FROM,
+  'NOTIFICATION_EMAIL_FROM',
+)
+
 export interface NotificationCreatedEventPayload {
   nextNotification: NotificationFactoryNotification
 }
@@ -56,8 +61,8 @@ const makeHandler =
                 },
               ],
               from: {
-                email: replyTo,
-                name: 'Stitchi',
+                email: from,
+                name: 'Stitchi Notifications',
               },
               replyTo: {
                 email: replyTo,

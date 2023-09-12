@@ -16,8 +16,8 @@ export interface ClosetInboxIndexPageGetDataQuery_viewer_notifications_edges_nod
   __typename: "NotificationChannelWeb";
   id: string;
   message: string;
+  ctaText: string | null;
   ctaUrl: string | null;
-  ctaLabel: string | null;
 }
 
 export type ClosetInboxIndexPageGetDataQuery_viewer_notifications_edges_node_channels = ClosetInboxIndexPageGetDataQuery_viewer_notifications_edges_node_channels_NotificationChannelEmail | ClosetInboxIndexPageGetDataQuery_viewer_notifications_edges_node_channels_NotificationChannelWeb;

@@ -16,10 +16,11 @@ const Page = () => {
   )
   const [after, setAfter] = useQueryState('after', queryTypes.string)
 
-  const { data } = useQuery<
+  const { data, loading } = useQuery<
     ClosetInboxIndexPageGetDataQuery,
     ClosetInboxIndexPageGetDataQueryVariables
   >(GET_DATA, {
+    fetchPolicy: 'cache-and-network',
     variables: {
       first,
       after,
@@ -31,7 +32,9 @@ const Page = () => {
       ?.map(edge => edge?.node)
       .filter(notEmpty) || []
 
-  return <ClosetInboxIndexPage notifications={notifications} />
+  return (
+    <ClosetInboxIndexPage notifications={notifications} loading={loading} />
+  )
 }
 
 Page.getLayout = (page: React.ReactElement) => (
