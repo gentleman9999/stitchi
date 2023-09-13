@@ -16,8 +16,8 @@ export interface ClosetInboxIndexPageGetDataQuery_viewer_notifications_edges_nod
   __typename: "NotificationChannelWeb";
   id: string;
   message: string;
+  ctaText: string | null;
   ctaUrl: string | null;
-  ctaLabel: string | null;
 }
 
 export type ClosetInboxIndexPageGetDataQuery_viewer_notifications_edges_node_channels = ClosetInboxIndexPageGetDataQuery_viewer_notifications_edges_node_channels_NotificationChannelEmail | ClosetInboxIndexPageGetDataQuery_viewer_notifications_edges_node_channels_NotificationChannelWeb;
@@ -44,9 +44,17 @@ export interface ClosetInboxIndexPageGetDataQuery_viewer_notifications_pageInfo 
    */
   hasNextPage: boolean;
   /**
+   * When paginating backwards, are there more items?
+   */
+  hasPreviousPage: boolean;
+  /**
    * When paginating forwards, the cursor to continue.
    */
   endCursor: string | null;
+  /**
+   * When paginating backwards, the cursor to continue.
+   */
+  startCursor: string | null;
 }
 
 export interface ClosetInboxIndexPageGetDataQuery_viewer_notifications {
@@ -72,6 +80,8 @@ export interface ClosetInboxIndexPageGetDataQuery {
 }
 
 export interface ClosetInboxIndexPageGetDataQueryVariables {
-  first: number;
+  first?: number | null;
+  last?: number | null;
   after?: string | null;
+  before?: string | null;
 }

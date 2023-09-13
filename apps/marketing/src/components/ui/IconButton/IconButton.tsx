@@ -9,6 +9,7 @@ export interface IconButtonProps {
   disableGutters?: boolean
   size?: 'sm' | 'md'
   className?: string
+  disabled?: boolean
 }
 
 const IconButton = (props: IconButtonProps) => {
@@ -34,6 +35,7 @@ const IconButton = (props: IconButtonProps) => {
         'p-0': props.disableGutters,
         'p-2': size === 'md',
         'p-1': size === 'sm',
+        'pointer-events-none text-gray-400': props.disabled,
       })}
     >
       {props.children}

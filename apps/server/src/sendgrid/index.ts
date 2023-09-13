@@ -1,6 +1,7 @@
 import { getOrThrow } from '../utils'
 import sendgridClient from '@sendgrid/client'
 import * as yup from 'yup'
+import * as uuid from 'uuid'
 import { logger } from '../telemetry'
 
 const SKIP_MARKETING_EMAILS = getOrThrow(
@@ -122,6 +123,7 @@ const makeClient = (
           {
             url: `/v3/mail/send`,
             method: 'POST',
+
             body: JSON.stringify({
               personalizations: message.personalizations.map(
                 personalization => ({
@@ -129,6 +131,11 @@ const makeClient = (
                     email: to.email,
                     name: to.name,
                   })),
+                  headers: {
+                    // Ensure emails w/ same subject are not grouped together
+                    // https://github.com/nodemailer/nodemailer/issues/1248#issuecomment-781484713
+                    'X-Entity-Ref-ID': uuid.v4(),
+                  },
                 }),
               ),
               from: {

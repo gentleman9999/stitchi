@@ -36,7 +36,21 @@ const httpLink = createHttpLink({
 })
 
 const makeWsLink = (ctx?: GetServerSidePropsContext) =>
-  new GraphQLWsLink(createClient({ url: 'ws://localhost:5000/graphql' }))
+  new GraphQLWsLink(
+    createClient({
+      url: 'ws://localhost:5000/graphql',
+      connectionParams: async () => {
+        // Note: getSession() is a placeholder function created by you
+        const accessToken = await getAccessToken(ctx)
+        if (!accessToken) {
+          return {}
+        }
+        return {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      },
+    }),
+  )
 
 // The split function takes three parameters:
 //
@@ -107,6 +121,7 @@ const createApolloClient = (ctx?: GetServerSidePropsContext) =>
         Membership: {
           fields: {
             orders: relayStylePagination(),
+            notifications: relayStylePagination(),
           },
         },
       },

@@ -784,6 +784,8 @@ export interface NexusGenObjects {
   PageInfo: { // root type
     endCursor?: string | null; // String
     hasNextPage: boolean; // Boolean!
+    hasPreviousPage: boolean; // Boolean!
+    startCursor?: string | null; // String
   }
   PaymentIntent: { // root type
     amount: number; // Int!
@@ -1430,6 +1432,8 @@ export interface NexusGenFieldTypes {
   PageInfo: { // field return type
     endCursor: string | null; // String
     hasNextPage: boolean; // Boolean!
+    hasPreviousPage: boolean; // Boolean!
+    startCursor: string | null; // String
   }
   PaymentIntent: { // field return type
     amount: number; // Int!
@@ -2093,6 +2097,8 @@ export interface NexusGenFieldTypeNames {
   PageInfo: { // field return type name
     endCursor: 'String'
     hasNextPage: 'Boolean'
+    hasPreviousPage: 'Boolean'
+    startCursor: 'String'
   }
   PaymentIntent: { // field return type name
     amount: 'Int'

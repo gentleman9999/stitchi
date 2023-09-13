@@ -7,6 +7,7 @@ import { NotificationFactoryNotificationTopic } from './factory/notification-top
 export interface NotificationClientService {
   sendNotification: Methods['sendNotification']
   listNotifications: NotificationRepository['listNotifications']
+  listNotificationsCount: NotificationRepository['listNotificationsCount']
 
   createNotificationTopic: (
     topicKey: string,
@@ -50,6 +51,17 @@ const makeClient: MakeClientFn = (
         return notifications
       } catch (error) {
         throw new Error('Failed to list notifications')
+      }
+    },
+
+    listNotificationsCount: async input => {
+      try {
+        const notificationsCount =
+          await notificationRepository.listNotificationsCount(input)
+
+        return notificationsCount
+      } catch (error) {
+        throw new Error('Failed to list notifications count')
       }
     },
 

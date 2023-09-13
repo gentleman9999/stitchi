@@ -52,7 +52,7 @@ function makeContext(
   },
 ): ContextFunction<ExpressContext> {
   return async function createContext({ req, res: _res }): Promise<Context> {
-    const authHeader = req.headers?.['authorization']
+    const authHeader = req?.headers?.['authorization']
 
     try {
       const payload = authHeader ? await verify(authHeader).catch() : null

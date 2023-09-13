@@ -91,8 +91,11 @@ export const getAccessToken = async (ctx?: GetServerSidePropsContext) => {
   let accessToken
   try {
     if (ctx) {
-      accessToken = (await getServerSideAccessToken(ctx.req, ctx.res, {}))
-        .accessToken
+      accessToken = (
+        await getServerSideAccessToken(ctx.req, ctx.res, {
+          refresh: true,
+        })
+      ).accessToken
     } else {
       // Auth0 only provides access to the accessToken on the server.
       // So we must make a call the the Next.js server to retrieve token.
@@ -102,10 +105,15 @@ export const getAccessToken = async (ctx?: GetServerSidePropsContext) => {
     }
   } catch (error) {
     if (error instanceof AccessTokenError) {
-      if (error.code === AccessTokenErrorCode.MISSING_SESSION) {
-        // do nothing, no user is logged in
+      // If access token is invalid for whatever reason, we should log the user out to reset the session.
+      if (ctx) {
+        ctx.res.writeHead(302, {
+          Location: routes.internal.logout.href(),
+        })
+      } else if (typeof window !== 'undefined') {
+        window.location.href = routes.internal.logout.href()
       } else {
-        console.warn(error)
+        console.error(error)
       }
     } else {
       console.error(error)

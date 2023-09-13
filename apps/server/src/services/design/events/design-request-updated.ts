@@ -100,14 +100,18 @@ const makeHandler =
               'Failed to create design request submitted notification',
             )
           }
+
+          break
         }
 
         case DesignRequestStatus.REJECTED: {
           console.error('Not implemented: Design request rejected notification')
+          break
         }
 
         case DesignRequestStatus.APPROVED: {
           console.error('Not implemented: Design request approved notification')
+          break
         }
       }
     }
