@@ -807,6 +807,13 @@
   resolved "https://registry.yarnpkg.com/@csstools/selector-specificity/-/selector-specificity-2.2.0.tgz#2cbcf822bf3764c9658c4d2e568bd0c0cb748016"
   integrity sha512-+OJ9konv95ClSTOJCmMZqpd5+YGsB2S+x6w3E1oaM8UuR5j8nTNHYSz8c9BEPGDOCMQYIEEGlVPj/VY64iTbGw==
 
+"@devoxa/prisma-relay-cursor-connection@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@devoxa/prisma-relay-cursor-connection/-/prisma-relay-cursor-connection-3.1.0.tgz#327fdf04272361e8eff63956d5ab01b7adb3592d"
+  integrity sha512-JI+YJ35lenTbB2oO3YzdeSoAFThtJXMHFdJ0mrrVlJefGfycby3LR1sXV1qKgY4fL4wcGy6+Bz+tXC5zz50Ojw==
+  dependencies:
+    graphql-fields "2.0.3"
+
 "@emotion/is-prop-valid@^0.8.2":
   version "0.8.8"
   resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-0.8.8.tgz#db28b1c4368a259b60a97311d6a952d4fd01ac1a"
@@ -7452,6 +7459,11 @@ graphql-config@^4.5.0:
     minimatch "4.2.3"
     string-env-interpolation "1.0.1"
     tslib "^2.4.0"
+
+graphql-fields@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/graphql-fields/-/graphql-fields-2.0.3.tgz#5e68dff7afbb202be4f4f40623e983b22c96ab8f"
+  integrity sha512-x3VE5lUcR4XCOxPIqaO4CE+bTK8u6gVouOdpQX9+EKHr+scqtK5Pp/l8nIGqIpN1TUlkKE6jDCCycm/WtLRAwA==
 
 graphql-relay@*, graphql-relay@^0.10.0:
   version "0.10.0"

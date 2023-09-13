@@ -12,10 +12,10 @@ import React from 'react'
 const Page = () => {
   const { before, after, first, last, handleNextPage, handlePreviousPage } =
     useRelayPagination({
-      limit: 3,
+      limit: 10,
     })
 
-  const { data, loading } = useQuery<
+  const { data, loading, refetch } = useQuery<
     ClosetInboxIndexPageGetDataQuery,
     ClosetInboxIndexPageGetDataQueryVariables
   >(GET_DATA, {
@@ -27,6 +27,15 @@ const Page = () => {
       last,
     },
   })
+
+  React.useEffect(() => {
+    refetch({
+      after,
+      before,
+      first,
+      last,
+    })
+  }, [after, before, first, last, refetch])
 
   const { edges, pageInfo } = data?.viewer?.notifications || {}
 
