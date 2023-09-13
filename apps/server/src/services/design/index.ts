@@ -14,6 +14,7 @@ export interface DesignService {
   createDesign: DesignRepository['createDesign']
   getDesign: DesignRepository['getDesign']
   listDesigns: DesignRepository['listDesigns']
+  listDesignsCount: DesignRepository['listDesignsCount']
 
   createDesignRequest(input: {
     designRequest: Omit<
@@ -25,6 +26,7 @@ export interface DesignService {
 
   getDesignRequest: DesignRepository['getDesignRequest']
   listDesignRequests: DesignRepository['listDesignRequests']
+  listDesignRequestsCount: DesignRepository['listDesignRequestsCount']
 
   createDesignProof: DesignRepository['createDesignProof']
   getDesignProof: DesignRepository['getDesignProof']
@@ -51,7 +53,6 @@ const makeClient: MakeClientFn = (
       try {
         return designRepository.createDesign(input)
       } catch (error) {
-        logger.error(error)
         throw new Error('Failed to create design')
       }
     },
@@ -59,7 +60,6 @@ const makeClient: MakeClientFn = (
       try {
         return designRepository.getDesign(input)
       } catch (error) {
-        logger.error(error)
         throw new Error('Failed to get design')
       }
     },
@@ -67,8 +67,14 @@ const makeClient: MakeClientFn = (
       try {
         return designRepository.listDesigns(input)
       } catch (error) {
-        logger.error(error)
         throw new Error('Failed to list designs')
+      }
+    },
+    listDesignsCount: async input => {
+      try {
+        return designRepository.listDesignsCount(input)
+      } catch (error) {
+        throw new Error('Failed to list designs count')
       }
     },
     createDesignRequest: async input => {
@@ -120,7 +126,6 @@ const makeClient: MakeClientFn = (
           },
         })
       } catch (error) {
-        logger.error(error)
         throw new Error('Failed to update design request')
       }
     },
@@ -129,7 +134,6 @@ const makeClient: MakeClientFn = (
       try {
         return designRepository.getDesignRequest(input)
       } catch (error) {
-        logger.error(error)
         throw new Error('Failed to get design request')
       }
     },
@@ -138,8 +142,15 @@ const makeClient: MakeClientFn = (
       try {
         return designRepository.listDesignRequests(input)
       } catch (error) {
-        logger.error(error)
         throw new Error('Failed to list design requests')
+      }
+    },
+
+    listDesignRequestsCount: async input => {
+      try {
+        return designRepository.listDesignRequestsCount(input)
+      } catch (error) {
+        throw new Error('Failed to list design requests count')
       }
     },
 
@@ -147,7 +158,6 @@ const makeClient: MakeClientFn = (
       try {
         return designRepository.createDesignProof(input)
       } catch (error) {
-        logger.error(error)
         throw new Error('Failed to create design proof')
       }
     },
@@ -156,7 +166,6 @@ const makeClient: MakeClientFn = (
       try {
         return designRepository.getDesignProof(input)
       } catch (error) {
-        logger.error(error)
         throw new Error('Failed to get design proof')
       }
     },
@@ -165,7 +174,6 @@ const makeClient: MakeClientFn = (
       try {
         return designRepository.listDesignProofs(input)
       } catch (error) {
-        logger.error(error)
         throw new Error('Failed to list design proofs')
       }
     },

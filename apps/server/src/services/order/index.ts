@@ -18,6 +18,7 @@ export interface OrderClientService {
   updateOrder: OrderRepository['updateOrder']
   getOrder: OrderRepository['getOrder']
   listOrders: OrderRepository['listOrders']
+  listOrdersCount: OrderRepository['listOrdersCount']
   createMailingAddress: OrderRepository['createMailingAddress']
   getMailingAddress: OrderRepository['getMailingAddress']
   reconcileOrderPayments: (input: {
@@ -126,8 +127,15 @@ const makeClient: MakeClientFn = (
       try {
         return orderRepository.listOrders(input)
       } catch (error) {
-        logger.error(error)
         throw new Error('Failed to list orders')
+      }
+    },
+
+    listOrdersCount: async input => {
+      try {
+        return orderRepository.listOrdersCount(input)
+      } catch (error) {
+        throw new Error('Failed to list orders count')
       }
     },
 

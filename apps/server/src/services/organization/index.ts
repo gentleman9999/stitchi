@@ -31,6 +31,7 @@ export interface OrganizationService {
   createOrganizationFile: OrganizationRepository['createOrganizationFile']
   getOrganizationFile: OrganizationRepository['getOrganizationFile']
   listOrganizationFiles: OrganizationRepository['listOrganizationFiles']
+  listOrganizationFilesCount: OrganizationRepository['listOrganizationFilesCount']
   deleteOrganizationFile: OrganizationRepository['deleteOrganizationFile']
 
   createOrganizationColor: CreateOrganizationColor
@@ -193,6 +194,19 @@ const makeClient: MakeClientFn = (
       }
 
       return organizationFiles
+    },
+
+    listOrganizationFilesCount: async input => {
+      let organizationFilesCount
+
+      try {
+        organizationFilesCount =
+          await organizationRepository.listOrganizationFilesCount(input)
+      } catch (error) {
+        throw error
+      }
+
+      return organizationFilesCount
     },
 
     deleteOrganizationFile: async input => {

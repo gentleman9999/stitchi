@@ -1,11 +1,10 @@
 import { GraphQLError } from 'graphql'
-import { connectionFromArray, connectionFromArraySlice } from 'graphql-relay'
 import { extendType } from 'nexus'
-import { notEmpty } from '../../../utils'
 import {
   fileFactoryToGrahpql,
   fileFactoryToGrahpqlFileImage,
 } from '../../serializers/file'
+import { cursorPaginationFromList } from '../../utils'
 
 export const FileExtendsDesignRequest = extendType({
   type: 'DesignRequest',
@@ -246,55 +245,54 @@ export const FileExtendsOrganizationBrand = extendType({
     t.nonNull.connectionField('files', {
       type: 'File',
       resolve: async (organization, { first, last, after, before }, ctx) => {
-        const limit = first || last || 50
-
-        // Add one to see if there's a next page
-        const limitPlusOne = limit + 1
-
-        const take = notEmpty(after)
-          ? limitPlusOne
-          : notEmpty(before)
-          ? -limitPlusOne
-          : limitPlusOne
-
-        let organizationFiles
-
-        try {
-          organizationFiles = await ctx.organization.listOrganizationFiles({
-            take,
-            where: { organizationId: organization.id },
-            skip: notEmpty(after) || notEmpty(before) ? 1 : 0,
-            ...(notEmpty(after) ? { cursor: { id: after } } : {}),
-            ...(notEmpty(before) ? { cursor: { id: before } } : {}),
-          })
-        } catch (error) {
-          ctx.logger
-            .child({
-              context: { error, organization },
-            })
-            .error("Unable to fetch organization's files")
-          throw new GraphQLError('Unable to fetch organization files')
+        const where = {
+          organizationId: organization.id,
         }
 
-        let files
+        const result = cursorPaginationFromList(
+          async ({ cursor, skip, take }) => {
+            let organizationFiles
 
-        try {
-          files = await ctx.file.listFiles({
-            where: {
-              id: { in: organizationFiles.map(({ fileId }) => fileId) },
-            },
-          })
-        } catch (error) {
-          ctx.logger
-            .child({
-              context: { error, organization },
+            try {
+              organizationFiles = await ctx.organization.listOrganizationFiles({
+                take,
+                cursor,
+                skip,
+                where,
+              })
+            } catch (error) {
+              ctx.logger
+                .child({
+                  context: { error, organization },
+                })
+                .error("Unable to fetch organization's files")
+              throw new GraphQLError('Unable to fetch organization files')
+            }
+
+            let files
+
+            try {
+              files = await ctx.file.listFiles({
+                where: {
+                  id: { in: organizationFiles.map(({ fileId }) => fileId) },
+                },
+              })
+            } catch (error) {
+              ctx.logger
+                .child({
+                  context: { error, organization },
+                })
+                .error("Unable to fetch organization's files")
+              throw new GraphQLError('Unable to fetch organization files')
+            }
+
+            return files.map(fileFactoryToGrahpql)
+          },
+          async () => {
+            return ctx.organization.listOrganizationFilesCount({
+              where,
             })
-            .error("Unable to fetch organization's files")
-          throw new GraphQLError('Unable to fetch organization files')
-        }
-
-        const connection = connectionFromArray(
-          files.map(fileFactoryToGrahpql),
+          },
           {
             first,
             last,
@@ -303,7 +301,7 @@ export const FileExtendsOrganizationBrand = extendType({
           },
         )
 
-        return connection
+        return result
       },
     })
   },
