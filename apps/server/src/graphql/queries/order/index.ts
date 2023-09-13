@@ -9,11 +9,10 @@ import {
   queryField,
 } from 'nexus'
 import * as uuid from 'uuid'
-import { connectionFromArray } from 'graphql-relay'
 import { orderFactoryOrderToGraphQL } from '../../serializers/order'
 export * from './mailing-address'
 import { NexusGenObjects } from '../../generated/nexus'
-import { notEmpty } from '../../../utils'
+import { cursorPaginationFromList } from '../../utils'
 
 export const order = queryField('order', {
   type: 'Order',
@@ -184,55 +183,37 @@ export const OrdersExtendsMember = extendType({
         { first, last, after, before, filter },
         { order },
       ) => {
-        let limit = 50
-
-        let cursor
-        let cursorDirection
-
-        if (after) {
-          cursor = { id: after } // decode from base64 or use it as-is depending on your implementation
-          cursorDirection = 'after'
-          if (notEmpty(first)) {
-            limit = first
-          }
-        } else if (before) {
-          cursor = { id: before }
-          cursorDirection = 'before'
-          if (notEmpty(last)) {
-            limit = last
-          }
+        const where = {
+          organizationId: parent.organizationId,
+          createdAt: filter?.where?.createdAt
+            ? {
+                gte: filter.where.createdAt.gte || undefined,
+                lte: filter.where.createdAt.lte || undefined,
+              }
+            : undefined,
         }
 
-        // Add one to see if there's a next page
-        const limitPlusOne = limit + 1
+        const result = await cursorPaginationFromList(
+          async ({ cursor, skip, take }) => {
+            const orders = await order.listOrders({
+              where,
+              cursor,
+              skip,
+              take,
+              // skip the cursor
+            })
 
-        const orders = await order.listOrders({
-          cursor,
-          where: {
-            organizationId: parent.organizationId,
-            createdAt: filter?.where?.createdAt
-              ? {
-                  gte: filter.where.createdAt.gte || undefined,
-                  lte: filter.where.createdAt.lte || undefined,
-                }
-              : undefined,
+            return orders.map(orderFactoryOrderToGraphQL)
           },
-          // skip the cursor
-          skip: cursor ? 1 : 0,
-          take: cursorDirection === 'after' ? limitPlusOne : -limitPlusOne,
-        })
-
-        const connection = connectionFromArray(
-          orders.map(orderFactoryOrderToGraphQL),
-          {
-            first,
-            last,
-            after,
-            before,
+          async () => {
+            return order.listOrdersCount({
+              where,
+            })
           },
+          { first, last, after, before },
         )
 
-        return connection
+        return result
       },
     })
   },

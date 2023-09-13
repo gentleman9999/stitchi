@@ -6,6 +6,7 @@ import { makeUpdateOrganization } from './update-organization'
 import { makeCreateOrganizationFile } from './create-organization-file'
 import { makeGetOrganizationFile } from './get-organization-file'
 import { makeListOrganizationFiles } from './list-organization-files'
+import { makeListOrganizationFilesCount } from './list-organization-files-count'
 import { makeDeleteOrganizationFile } from './delete-organization-file'
 
 import { makeCreateOrganizationColor } from './create-organization-color'
@@ -24,6 +25,7 @@ export interface OrganizationRepository {
   createOrganizationFile: ReturnType<typeof makeCreateOrganizationFile>
   getOrganizationFile: ReturnType<typeof makeGetOrganizationFile>
   listOrganizationFiles: ReturnType<typeof makeListOrganizationFiles>
+  listOrganizationFilesCount: ReturnType<typeof makeListOrganizationFilesCount>
   deleteOrganizationFile: ReturnType<typeof makeDeleteOrganizationFile>
 
   createOrganizationColor: ReturnType<typeof makeCreateOrganizationColor>
@@ -45,6 +47,7 @@ const makeOrganizationRepository: MakeOrganizationRepositoryFn = init => ({
   createOrganizationFile: makeCreateOrganizationFile(),
   getOrganizationFile: makeGetOrganizationFile(),
   listOrganizationFiles: makeListOrganizationFiles(),
+  listOrganizationFilesCount: makeListOrganizationFilesCount(),
   deleteOrganizationFile: makeDeleteOrganizationFile(),
 
   createOrganizationColor: makeCreateOrganizationColor(),

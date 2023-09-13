@@ -1,4 +1,3 @@
-import { connectionFromArray } from 'graphql-relay'
 import {
   arg,
   extendType,
@@ -17,6 +16,7 @@ import {
 import * as uuid from 'uuid'
 import { Prisma } from '@prisma/client'
 import { GraphQLError } from 'graphql'
+import { cursorPaginationFromList } from '../../utils'
 
 export const designRequest = queryField('designRequest', {
   type: 'DesignRequest',
@@ -83,17 +83,6 @@ export const DesignRequestsExtendsMembership = extendType({
         { first, last, after, before, filter },
         { design },
       ) => {
-        const limit = first || last || 50
-
-        // Add one to see if there's a next page
-        const limitPlusOne = limit + 1
-
-        const take = notEmpty(after)
-          ? limitPlusOne
-          : notEmpty(before)
-          ? -limitPlusOne
-          : limitPlusOne
-
         const isArtist = parent.role === 'STITCHI_DESIGNER'
 
         const resourceOwnerFilter: Prisma.Enumerable<Prisma.DesignRequestWhereInput> =
@@ -139,44 +128,46 @@ export const DesignRequestsExtendsMembership = extendType({
           }
         }
 
-        const designRequests = await design.listDesignRequests({
-          orderBy: {
-            createdAt: 'desc',
-          },
-          where: {
-            AND: [
-              {
-                createdAt: filter?.where?.createdAt
-                  ? {
-                      gte: filter.where.createdAt.gte || undefined,
-                      lte: filter.where.createdAt.lte || undefined,
-                    }
-                  : undefined,
-              },
+        const where = {
+          AND: [
+            {
+              createdAt: filter?.where?.createdAt
+                ? {
+                    gte: filter.where.createdAt.gte || undefined,
+                    lte: filter.where.createdAt.lte || undefined,
+                  }
+                : undefined,
+            },
 
-              {
-                OR: resourceOwnerFilter,
-              },
-            ],
-          },
-          take,
-          // skip the cursor unless no cursor
-          skip: notEmpty(after) || notEmpty(before) ? 1 : 0,
-          ...(notEmpty(after) ? { cursor: { id: after } } : {}),
-          ...(notEmpty(before) ? { cursor: { id: before } } : {}),
-        })
+            {
+              OR: resourceOwnerFilter,
+            },
+          ],
+        }
 
-        const connection = connectionFromArray(
-          designRequests.map(designRequestFactoryToGrahpql),
-          {
-            first,
-            last,
-            after,
-            before,
+        const result = await cursorPaginationFromList(
+          async ({ cursor, skip, take }) => {
+            const designRequests = await design.listDesignRequests({
+              where,
+              cursor,
+              skip,
+              take,
+              orderBy: {
+                createdAt: 'desc',
+              },
+            })
+
+            return designRequests.map(designRequestFactoryToGrahpql)
           },
+          async () => {
+            return design.listDesignRequestsCount({
+              where,
+            })
+          },
+          { first, last, after, before },
         )
 
-        return connection
+        return result
       },
     })
   },

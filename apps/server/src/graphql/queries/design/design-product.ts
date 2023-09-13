@@ -11,9 +11,8 @@ import {
 import calculate from '../../../services/quote/calculateQuote'
 import { designFactoryDesignToGraphql } from '../../serializers/design'
 import { v4 } from 'uuid'
-import { notEmpty } from '../../../utils'
 import { Prisma } from '@prisma/client'
-import { connectionFromArray } from 'graphql-relay'
+import { cursorPaginationFromList } from '../../utils'
 
 export const designProduct = queryField('designProduct', {
   type: 'DesignProduct',
@@ -264,17 +263,6 @@ export const DesignProductExtendsMembership = extendType({
         filter: arg({ type: 'MembershipDesignProductsFilterInput' }),
       },
       resolve: async (parent, { first, last, after, before, filter }, ctx) => {
-        const limit = first || last || 50
-
-        // Add one to see if there's a next page
-        const limitPlusOne = limit + 1
-
-        const take = notEmpty(after)
-          ? limitPlusOne
-          : notEmpty(before)
-          ? -limitPlusOne
-          : limitPlusOne
-
         const resourceOwnerFilter: Prisma.Enumerable<Prisma.DesignWhereInput> =
           []
 
@@ -293,48 +281,50 @@ export const DesignProductExtendsMembership = extendType({
           })
         }
 
-        let designProducts
-
-        try {
-          designProducts = await ctx.design.listDesigns({
-            orderBy: {
-              createdAt: 'desc',
-            },
-            where: {
-              OR: resourceOwnerFilter,
-              createdAt: filter?.where?.createdAt
-                ? {
-                    gte: filter.where.createdAt.gte || undefined,
-                    lte: filter.where.createdAt.lte || undefined,
-                  }
-                : undefined,
-            },
-            take,
-            // skip the cursor unless no cursor
-            skip: notEmpty(after) || notEmpty(before) ? 1 : 0,
-            ...(notEmpty(after) ? { cursor: { id: after } } : {}),
-            ...(notEmpty(before) ? { cursor: { id: before } } : {}),
-          })
-        } catch (error) {
-          ctx.logger
-            .child({
-              context: { error, membership: parent },
-            })
-            .error('Error getting design products')
-          throw new GraphQLError('Error getting design products')
+        const where = {
+          OR: resourceOwnerFilter,
+          createdAt: filter?.where?.createdAt
+            ? {
+                gte: filter.where.createdAt.gte || undefined,
+                lte: filter.where.createdAt.lte || undefined,
+              }
+            : undefined,
         }
 
-        const connection = connectionFromArray(
-          designProducts.map(designFactoryDesignToGraphql),
-          {
-            first,
-            last,
-            before,
-            after,
+        const totalDesignProductsCount = await ctx.design.listDesignsCount({
+          where,
+        })
+
+        const result = await cursorPaginationFromList(
+          async ({ cursor, skip, take }) => {
+            let designProducts
+
+            try {
+              designProducts = await ctx.design.listDesigns({
+                take,
+                skip,
+                cursor,
+                where,
+                orderBy: {
+                  createdAt: 'desc',
+                },
+              })
+            } catch (error) {
+              ctx.logger
+                .child({
+                  context: { error, membership: parent },
+                })
+                .error('Error getting design products')
+              throw new GraphQLError('Error getting design products')
+            }
+
+            return designProducts.map(designFactoryDesignToGraphql)
           },
+          async () => totalDesignProductsCount,
+          { first, last, after, before },
         )
 
-        return connection
+        return result
       },
     })
   },

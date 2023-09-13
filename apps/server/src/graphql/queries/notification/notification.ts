@@ -1,5 +1,6 @@
 import { GraphQLError } from 'graphql'
 import { extendType } from 'nexus'
+import { notificationFactoryNotificationToGraphql } from '../../serializers/notification'
 import { cursorPaginationFromList } from '../../utils'
 
 export const NotificationExtendsMembership = extendType({
@@ -10,7 +11,7 @@ export const NotificationExtendsMembership = extendType({
       resolve: async (
         membership,
         { first, last, after, before },
-        { notification, userId, organizationId },
+        { notification, userId, organizationId, logger },
       ) => {
         if (!userId || !organizationId) {
           throw new GraphQLError('Unauthorized')
@@ -20,24 +21,41 @@ export const NotificationExtendsMembership = extendType({
           membershipId: membership.id,
         }
 
-        const totalNotifications = await notification.listNotificationsCount({
-          where,
-        })
+        const totalNotificationsCount =
+          await notification.listNotificationsCount({
+            where,
+          })
 
-        return cursorPaginationFromList(
-          async ({ cursor, skip, take }) =>
-            await notification.listNotifications({
-              cursor,
-              where,
-              skip,
-              take,
-              orderBy: {
-                createdAt: 'desc',
-              },
-            }),
-          async () => totalNotifications,
+        const result = await cursorPaginationFromList(
+          async ({ cursor, skip, take }) => {
+            let notifications
+
+            try {
+              notifications = await notification.listNotifications({
+                cursor,
+                where,
+                skip,
+                take,
+                orderBy: {
+                  createdAt: 'desc',
+                },
+              })
+            } catch (error) {
+              logger
+                .child({ context: { error } })
+                .error('Error listing notifications')
+
+              throw new GraphQLError('Error listing notifications')
+            }
+
+            return notifications.map(notificationFactoryNotificationToGraphql)
+          },
+
+          async () => totalNotificationsCount,
           { first, last, after, before },
         )
+
+        return result
       },
     })
   },
