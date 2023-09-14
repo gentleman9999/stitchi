@@ -16,10 +16,17 @@ const ClosetDesignFilters = ({}: Props) => {
 
   const users =
     data?.viewer?.organization?.memberships
-      ?.map(m => m?.user)
+      ?.map(m =>
+        m?.user
+          ? {
+              ...m.user,
+              membershipId: m.id,
+            }
+          : null,
+      )
       .filter(notEmpty) || []
 
-  const activeUser = users.find(u => u.id === filters.user)
+  const activeUser = users.find(u => u.membershipId === filters.user)
 
   return (
     <TableFilters>
@@ -30,6 +37,7 @@ const ClosetDesignFilters = ({}: Props) => {
           id: u.id,
           name: u.name || 'Unknown',
           picture: u.picture,
+          membershipId: u.membershipId,
         }))}
         onChange={u => {
           setUserFilter(u)

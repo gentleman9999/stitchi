@@ -11,7 +11,7 @@ export const NotificationExtendsMembership = extendType({
       resolve: async (
         membership,
         { first, last, after, before },
-        { notification, userId, organizationId, logger },
+        { notification, userId, organizationId, logger, user },
       ) => {
         if (!userId || !organizationId) {
           throw new GraphQLError('Unauthorized')
