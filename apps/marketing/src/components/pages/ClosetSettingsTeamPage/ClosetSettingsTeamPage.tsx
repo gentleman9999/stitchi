@@ -6,6 +6,7 @@ import ClosetPageTitle from '@components/common/ClosetPageTitle'
 import ClosetSection from '@components/common/ClosetSection'
 import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
 import ClosetSectionTitle from '@components/common/ClosetSectionTitle'
+import { StandoutType, useStandout } from '@components/context'
 import Table from '@components/ui/Table/Table'
 import TableZeroState from '@components/ui/Table/TableZeroState'
 import { ClosetSettingsTeamPageMembershipFragment } from '@generated/ClosetSettingsTeamPageMembershipFragment'
@@ -19,8 +20,10 @@ interface Props {
 }
 
 const ClosetSettingsTeamPage = ({ loading, memberships }: Props) => {
+  const { setStandout } = useStandout()
+
   return (
-    <ClosetPageContainer>
+    <ClosetPageContainer size="sm">
       <ClosetPageHeader>
         <ClosetPageTitle title="" />
       </ClosetPageHeader>
@@ -28,13 +31,18 @@ const ClosetSettingsTeamPage = ({ loading, memberships }: Props) => {
         <ClosetSectionHeader>
           <ClosetSectionTitle
             title="Team members"
+            description="Manage who has access to this workspace"
             actions={
               <ClosetPageActions
                 actions={[
                   {
-                    label: 'Add user',
+                    label: 'Invite people',
                     primary: true,
-                    href: '',
+                    onClick: () => {
+                      setStandout({
+                        type: StandoutType.UserInvite,
+                      })
+                    },
                   },
                 ]}
               />

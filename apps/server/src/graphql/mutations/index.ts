@@ -8,6 +8,7 @@ export * from './order'
 export * from './fulfillment'
 export * from './payment'
 export * from './organization'
+export * from './membership'
 
 export const Mutation = mutationType({
   definition: () => {},

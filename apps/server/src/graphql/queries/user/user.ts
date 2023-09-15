@@ -44,6 +44,10 @@ export const UserExtendsMembership = extendType({
     t.field('user', {
       type: 'User',
       resolve: async (membership, _, ctx) => {
+        if (!membership.userId) {
+          return null
+        }
+
         let user
 
         try {

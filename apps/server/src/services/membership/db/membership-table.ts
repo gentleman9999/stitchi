@@ -11,7 +11,7 @@ export const Membership: yup.ObjectSchema<MembershipSchema> = yup
   .shape({
     id: yup.string().uuid().required(),
     organizationId: yup.string().uuid().required(),
-    userId: yup.string().required(),
+    userId: yup.string().nullable().defined(),
     role: yup
       .mixed<MembershipRecordRole>()
       .oneOf(Object.values(MembershipRecordRole))

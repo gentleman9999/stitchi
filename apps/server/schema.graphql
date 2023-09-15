@@ -705,7 +705,7 @@ type Membership {
   scopes: [Scope!]!
   updatedAt: DateTime
   user: User
-  userId: String!
+  userId: String
 }
 
 input MembershipDesignProductsFilterInput {
@@ -728,6 +728,14 @@ input MembershipDesignRequestsWhereFilterInput {
 
 type MembershipFlags {
   isBetaTester: Boolean!
+}
+
+input MembershipInviteInput {
+  emails: [String!]!
+}
+
+type MembershipInvitePayload {
+  memberships: [Membership!]!
 }
 
 input MembershipOrdersFilterInput {
@@ -762,6 +770,7 @@ type Mutation {
 
   """Creates a new mailing address for the user"""
   mailingAddressCreate(input: MailingAddressCreateInput!): MailingAddressCreatePayload
+  membershipInvite(input: MembershipInviteInput!): MembershipInvitePayload
 
   """Confirms an order with a customers details"""
   orderConfirm(input: OrderConfirmInput!): OrderConfirmPayload

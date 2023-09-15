@@ -77,6 +77,11 @@ const makeMethod: MakeMethodFn =
         throw new Error('Failed to get membership')
       }
 
+      if (!membership.userId) {
+        // This is an "invited" membership, so we don't have a user to notify
+        continue
+      }
+
       let notificationSetting
 
       try {

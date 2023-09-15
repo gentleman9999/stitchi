@@ -183,6 +183,9 @@ export interface NexusGenInputs {
     createdAt?: NexusGenInputs['DateFilterInput'] | null; // DateFilterInput
     membershipId?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
   }
+  MembershipInviteInput: { // input type
+    emails: string[]; // [String!]!
+  }
   MembershipOrdersFilterInput: { // input type
     where?: NexusGenInputs['MembershipOrdersWhereFilterInput'] | null; // MembershipOrdersWhereFilterInput
   }
@@ -652,10 +655,13 @@ export interface NexusGenObjects {
     organizationId: string; // String!
     role?: NexusGenEnums['MembershipRole'] | null; // MembershipRole
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
-    userId: string; // String!
+    userId?: string | null; // String
   }
   MembershipFlags: { // root type
     isBetaTester: boolean; // Boolean!
+  }
+  MembershipInvitePayload: { // root type
+    memberships: NexusGenRootTypes['Membership'][]; // [Membership!]!
   }
   Mutation: {};
   Notification: { // root type
@@ -1260,10 +1266,13 @@ export interface NexusGenFieldTypes {
     scopes: NexusGenRootTypes['Scope'][]; // [Scope!]!
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     user: NexusGenRootTypes['User'] | null; // User
-    userId: string; // String!
+    userId: string | null; // String
   }
   MembershipFlags: { // field return type
     isBetaTester: boolean; // Boolean!
+  }
+  MembershipInvitePayload: { // field return type
+    memberships: NexusGenRootTypes['Membership'][]; // [Membership!]!
   }
   Mutation: { // field return type
     designProductCreateOrder: NexusGenRootTypes['DesignProductCreateOrderPayload'] | null; // DesignProductCreateOrderPayload
@@ -1281,6 +1290,7 @@ export interface NexusGenFieldTypes {
     fileCreateBatch: NexusGenRootTypes['FileCreateBatchPayload'] | null; // FileCreateBatchPayload
     fulfillmentCreate: NexusGenRootTypes['FulfillmentCreatePayload'] | null; // FulfillmentCreatePayload
     mailingAddressCreate: NexusGenRootTypes['MailingAddressCreatePayload'] | null; // MailingAddressCreatePayload
+    membershipInvite: NexusGenRootTypes['MembershipInvitePayload'] | null; // MembershipInvitePayload
     orderConfirm: NexusGenRootTypes['OrderConfirmPayload'] | null; // OrderConfirmPayload
     organizationBrandColorCreate: NexusGenRootTypes['OrganizationBrandColorCreatePayload'] | null; // OrganizationBrandColorCreatePayload
     organizationBrandColorDelete: NexusGenRootTypes['OrganizationBrandColorDeletePayload'] | null; // OrganizationBrandColorDeletePayload
@@ -1930,6 +1940,9 @@ export interface NexusGenFieldTypeNames {
   MembershipFlags: { // field return type name
     isBetaTester: 'Boolean'
   }
+  MembershipInvitePayload: { // field return type name
+    memberships: 'Membership'
+  }
   Mutation: { // field return type name
     designProductCreateOrder: 'DesignProductCreateOrderPayload'
     designRequestApprove: 'DesignRequestApprovePayload'
@@ -1946,6 +1959,7 @@ export interface NexusGenFieldTypeNames {
     fileCreateBatch: 'FileCreateBatchPayload'
     fulfillmentCreate: 'FulfillmentCreatePayload'
     mailingAddressCreate: 'MailingAddressCreatePayload'
+    membershipInvite: 'MembershipInvitePayload'
     orderConfirm: 'OrderConfirmPayload'
     organizationBrandColorCreate: 'OrganizationBrandColorCreatePayload'
     organizationBrandColorDelete: 'OrganizationBrandColorDeletePayload'
@@ -2300,6 +2314,9 @@ export interface NexusGenArgTypes {
     }
     mailingAddressCreate: { // args
       input: NexusGenInputs['MailingAddressCreateInput']; // MailingAddressCreateInput!
+    }
+    membershipInvite: { // args
+      input: NexusGenInputs['MembershipInviteInput']; // MembershipInviteInput!
     }
     orderConfirm: { // args
       input: NexusGenInputs['OrderConfirmInput']; // OrderConfirmInput!

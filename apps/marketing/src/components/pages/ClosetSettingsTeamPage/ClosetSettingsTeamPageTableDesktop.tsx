@@ -13,14 +13,9 @@ interface Props {
 const ClosetSettingsTeamPageTableDesktop = ({ memberships }: Props) => {
   return (
     <div
-      className="grid"
-      style={{ gridTemplateColumns: '150px repeat(3, 1fr)' }}
+      className="flex w-full"
+      // style={{ gridTemplateColumns: '150px repeat(3, 1fr)' }}
     >
-      <Cell className="text-sm font-semibold"></Cell>
-      <Cell className="text-sm font-semibold">Name</Cell>
-      <Cell className="text-sm font-semibold">Member Since</Cell>
-      <Cell className="text-sm font-semibold">Role</Cell>
-
       {memberships?.map(membership => (
         <>
           <Cell>
@@ -34,10 +29,12 @@ const ClosetSettingsTeamPageTableDesktop = ({ memberships }: Props) => {
               </span>
             </div>
           </Cell>
-          <Cell className="text-gray-500 text-sm">
-            {format(parseISO(membership.createdAt), 'PPP')}
+          <Cell className="text-gray-500 flex-1 flex justify-center">
+            <span className="text-xs">
+              Member since {format(parseISO(membership.createdAt), 'P')}
+            </span>
           </Cell>
-          <Cell>
+          <Cell right className="flex-1">
             <div>
               <Badge label={membership.humanizedRole || 'No role'} />
             </div>

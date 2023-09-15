@@ -116,7 +116,7 @@ model Membership {
   organization   Organization @relation(fields: [organizationId], references: [id], onUpdate: NoAction)
   organizationId String
 
-  userId String
+  userId String?
 
   membershipNotificationSettingId String @unique
 
