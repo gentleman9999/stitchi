@@ -10,14 +10,15 @@ const makeClient = (): RedisClient => {
     url: getOrThrow(process.env.REDIS_URL, 'REDIS_URL'),
   })
 
-  redisClient.on('error', err => logger.child({ error: err }).error(`Redis Client Error - ${err}`))
-
-  redisClient.connect()
+  redisClient.on('error', err =>
+    logger.child({ error: err }).error(`Redis Client Error - ${err}`),
+  )
 
   return redisClient
 }
 
 const client = makeClient()
+;(async () => await client.connect())()
 
 export default client
 export { makeClient }
