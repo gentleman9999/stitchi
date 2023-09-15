@@ -2,6 +2,12 @@ import { ApolloError } from 'apollo-server-core'
 import { mutationField } from 'nexus'
 import { SendgridMarketingEmailList } from '../../../sendgrid'
 import { OrganizationRecordGlobalRole } from '../../../services/organization/db/organization-table'
+import { getOrThrow } from '../../../utils'
+
+const skipMarketingEmails = getOrThrow(
+  process.env.SENDGRID_SKIP_MARKETING_EMAILS,
+  'SENDGRID_SKIP_MARKETING_EMAILS',
+)
 
 export const userBootstrap = mutationField('userBoostrap', {
   description: 'Bootstraps a new user with necessary resources',
@@ -74,7 +80,7 @@ export const userBootstrap = mutationField('userBoostrap', {
       throw new ApolloError('Failed to create membership')
     }
 
-    if (user.email) {
+    if (user.email && skipMarketingEmails !== 'true') {
       try {
         await ctx.sendgrid.addMarketingContacts({
           lists: [SendgridMarketingEmailList.NEW_USER],
@@ -95,6 +101,8 @@ export const userBootstrap = mutationField('userBoostrap', {
       } catch (error) {
         throw new ApolloError('Failed to add marketing contact')
       }
+    } else {
+      ctx.logger.error("User bootstrapped without email, can't add to Sendgrid")
     }
 
     ctx.logger.info(`Successfully bootstrapped user ${ctx.userId}`)
