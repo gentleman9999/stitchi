@@ -17,7 +17,11 @@ export default withApiAuthRequired(
           throw new Error(`Unsupported method: ${req.method}`)
       }
     } catch (e) {
-      console.error(e)
+      console.error('Failed to get access token', {
+        context: {
+          error: e,
+        },
+      })
 
       res.status(500).json({ message: e })
     }

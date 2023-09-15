@@ -22,7 +22,7 @@ const audience = getOrThrow(
 
 const defaultAuthorizationParams = {
   audience,
-  scope: 'openid profile email offline_access',
+  scope: 'openid profile email',
 }
 
 export default handleAuth({

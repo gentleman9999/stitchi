@@ -91,11 +91,8 @@ export const getAccessToken = async (ctx?: GetServerSidePropsContext) => {
   let accessToken
   try {
     if (ctx) {
-      accessToken = (
-        await getServerSideAccessToken(ctx.req, ctx.res, {
-          refresh: true,
-        })
-      ).accessToken
+      accessToken = (await getServerSideAccessToken(ctx.req, ctx.res))
+        .accessToken
     } else {
       // Auth0 only provides access to the accessToken on the server.
       // So we must make a call the the Next.js server to retrieve token.
@@ -104,7 +101,9 @@ export const getAccessToken = async (ctx?: GetServerSidePropsContext) => {
       accessToken = data.accessToken
     }
   } catch (error) {
-    console.error(error)
+    console.error("Couldn't get access token", {
+      context: { error },
+    })
   }
 
   return accessToken
