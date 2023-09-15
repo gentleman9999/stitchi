@@ -1,4 +1,5 @@
-import { getAccessToken } from '@auth0/nextjs-auth0'
+import { AccessTokenError, getAccessToken } from '@auth0/nextjs-auth0'
+import routes from '@lib/routes'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(
@@ -8,9 +9,17 @@ export default async function handler(
   try {
     switch (req.method) {
       case 'GET': {
-        const { accessToken } = await getAccessToken(req, res)
+        try {
+          const { accessToken } = await getAccessToken(req, res)
 
-        res.status(200).json({ accessToken: accessToken || null })
+          res.status(200).json({ accessToken: accessToken || null })
+        } catch (error) {
+          if (error instanceof AccessTokenError) {
+            // If access token is invalid for whatever reason, we should log the user out to reset the session.
+            res.redirect(routes.internal.logout.href())
+          }
+        }
+
         break
       }
 
