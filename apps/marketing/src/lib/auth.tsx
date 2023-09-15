@@ -104,20 +104,7 @@ export const getAccessToken = async (ctx?: GetServerSidePropsContext) => {
       accessToken = data.accessToken
     }
   } catch (error) {
-    if (error instanceof AccessTokenError) {
-      // If access token is invalid for whatever reason, we should log the user out to reset the session.
-      if (ctx) {
-        ctx.res.writeHead(302, {
-          Location: routes.internal.logout.href(),
-        })
-      } else if (typeof window !== 'undefined') {
-        window.location.href = routes.internal.logout.href()
-      } else {
-        console.error(error)
-      }
-    } else {
-      console.error(error)
-    }
+    console.error(error)
   }
 
   return accessToken
