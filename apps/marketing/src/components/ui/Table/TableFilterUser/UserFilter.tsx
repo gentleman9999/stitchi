@@ -4,7 +4,7 @@ import React from 'react'
 import cx from 'classnames'
 
 interface User {
-  id: string
+  membershipId: string
   name: string
   picture?: string | null
 }
@@ -30,8 +30,8 @@ const UserFilter = (props: Props) => {
       </button>
       {props.users.map((user, idx) => (
         <button
-          key={user.id}
-          onClick={() => props.onChange(user.id)}
+          key={user.membershipId}
+          onClick={() => props.onChange(user.membershipId)}
           className={cx(
             'flex items-center gap-2 text-sm justify-between hover:gray ring-2 ring-transparent transition-all hover:ring-primary p-1.5 rounded-md',
             {
