@@ -10,7 +10,7 @@ const makeClient = (): RedisClient => {
     url: getOrThrow(process.env.REDIS_URL, 'REDIS_URL'),
   })
 
-  redisClient.on('error', err => logger.child({ error: err }).error('Redis Client Error'))
+  redisClient.on('error', err => logger.child({ error: err }).error(`Redis Client Error - ${err}`))
 
   redisClient.connect()
 
