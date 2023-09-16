@@ -13,6 +13,7 @@ import Script from 'next/script'
 import { GTM_ID } from '@lib/events'
 import MixpanelProvider from '@components/context/mixpanel-context'
 import { UserProvider } from '@auth0/nextjs-auth0/client'
+import { SnackbarProvider } from '@components/context/snackbar-context'
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -57,11 +58,13 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
             {/* https://www.datocms.com/docs/next-js/seo-management */}
             <SeoDefault />
             <MixpanelProvider>
-              <StandoutProvider>
-                <WishlistProvider>
-                  {getLayout(<Component {...pageProps} />)}
-                </WishlistProvider>
-              </StandoutProvider>
+              <SnackbarProvider>
+                <StandoutProvider>
+                  <WishlistProvider>
+                    {getLayout(<Component {...pageProps} />)}
+                  </WishlistProvider>
+                </StandoutProvider>
+              </SnackbarProvider>
             </MixpanelProvider>
           </ApolloProvider>
         </UserProvider>

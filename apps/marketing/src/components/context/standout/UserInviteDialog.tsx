@@ -1,10 +1,17 @@
+import { gql, useMutation } from '@apollo/client'
+import { ComponentErrorMessage } from '@components/common'
 import FormSection from '@components/pages/ClosetDesignBuyPage/FormSection'
 import { Dialog, InputGroup, TextField } from '@components/ui'
 import Button from '@components/ui/ButtonV2/Button'
+import {
+  UserInviteDialogInviteMemberMutation,
+  UserInviteDialogInviteMemberMutationVariables,
+} from '@generated/UserInviteDialogInviteMemberMutation'
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import { useSnackbar } from '../snackbar-context'
 
 const schema = yup.object().shape({
   emails: yup.array().of(yup.string().email().required()).required(),
@@ -16,6 +23,8 @@ interface Props {
 }
 
 const UserInviteDialog = ({ open, onClose }: Props) => {
+  const { enqueueSnackbar } = useSnackbar()
+
   const [loading, setLoading] = React.useState(false)
   const form = useForm({
     defaultValues: {
@@ -24,41 +33,74 @@ const UserInviteDialog = ({ open, onClose }: Props) => {
     resolver: yupResolver(schema),
   })
 
+  const [inviteUser, inviteUserMutation] = useMutation<
+    UserInviteDialogInviteMemberMutation,
+    UserInviteDialogInviteMemberMutationVariables
+  >(INVITE_MEMBER)
+
   const handleSubmit = form.handleSubmit(async values => {
     setLoading(true)
 
     try {
+      await inviteUser({
+        variables: {
+          input: {
+            emails: values.emails,
+          },
+        },
+      })
+
+      onClose()
+      enqueueSnackbar({
+        title: 'Invites sent',
+        description: `Invited members have been notified by email to join ${process.env.NEXT_PUBLIC_COMPANY_NAME}.`,
+      })
     } catch (error) {
+      console.error(error)
     } finally {
       setLoading(false)
     }
   })
 
+  console.log('FORM ERRORS', form.formState.errors)
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       <Dialog size="md" open={open} onClose={onClose}>
         <Dialog.Title>Invite to your workspace</Dialog.Title>
         <Dialog.Content dividers>
           <FormSection>
+            <ComponentErrorMessage error={inviteUserMutation.error} />
             <Controller
               name="emails"
               control={form.control}
-              render={({ field, fieldState }) => (
-                <InputGroup label="Email" error={fieldState.error?.message}>
-                  <TextField
-                    multiline
-                    placeholder="example@example.com, example2@example.com..."
-                    inputRef={field.ref}
-                    name={field.name}
-                    onBlur={field.onBlur}
-                    onChange={event =>
-                      field.onChange(
-                        event.target.value.replaceAll(' ', '').split(','),
-                      )
+              render={({ field, fieldState }) => {
+                console.log('FIELD STATE', fieldState)
+                return (
+                  <InputGroup
+                    label="Email"
+                    error={
+                      form.formState.errors.emails?.message ||
+                      form.formState.errors.emails
+                        ?.map?.(emailErr => emailErr?.message)
+                        .join(', ')
                     }
-                  />
-                </InputGroup>
-              )}
+                  >
+                    <TextField
+                      multiline
+                      placeholder="example@example.com, example2@example.com..."
+                      inputRef={field.ref}
+                      name={field.name}
+                      onBlur={field.onBlur}
+                      onChange={event =>
+                        field.onChange(
+                          event.target.value.replaceAll(' ', '').split(','),
+                        )
+                      }
+                    />
+                  </InputGroup>
+                )
+              }}
             />
           </FormSection>
         </Dialog.Content>
@@ -67,7 +109,11 @@ const UserInviteDialog = ({ open, onClose }: Props) => {
             <Button variant="naked" onClick={() => onClose()}>
               Cancel
             </Button>
-            <Button type="submit" color="brandPrimary" loading={loading}>
+            <Button
+              color="brandPrimary"
+              loading={loading}
+              onClick={handleSubmit}
+            >
               Send invites
             </Button>
           </div>
@@ -76,5 +122,17 @@ const UserInviteDialog = ({ open, onClose }: Props) => {
     </form>
   )
 }
+
+const INVITE_MEMBER = gql`
+  mutation UserInviteDialogInviteMemberMutation(
+    $input: MembershipInviteInput!
+  ) {
+    membershipInvite(input: $input) {
+      memberships {
+        id
+      }
+    }
+  }
+`
 
 export default UserInviteDialog

@@ -5,7 +5,9 @@ import { logger } from '../../telemetry'
 
 export interface UserService {
   getUser: typeof ManagementClient.prototype.getUser
-  getUsersByEmail: typeof ManagementClient.prototype.getUsersByEmail
+  getUserByEmail: (
+    email: string,
+  ) => Promise<User<AppMetadata, UserMetadata> | null>
 }
 
 interface MakeClientParams {
@@ -54,11 +56,16 @@ const makeClient: MakeClientFn = (
       return user
     },
 
-    getUsersByEmail: async params => {
-      let users: User<AppMetadata, UserMetadata>[] = []
+    getUserByEmail: async params => {
+      let user = null
 
       try {
-        users = await auth0.getUsersByEmail(params)
+        const res = await auth0.getUsersByEmail(params)
+
+        // User emails are unique in Auth0, so we should return the first result
+        if (res.length > 0) {
+          user = res[0]
+        }
       } catch (error) {
         logger
           .child({
@@ -67,7 +74,7 @@ const makeClient: MakeClientFn = (
           .error(`Error getting users by email`)
       }
 
-      return users
+      return user
     },
   }
 }

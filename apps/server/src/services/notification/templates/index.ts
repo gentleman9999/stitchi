@@ -3,11 +3,14 @@ import { getOrThrow } from '../../../utils'
 import { DesignFactoryDesignRequest } from '../../design/factory'
 import { MembershipFactoryMembership } from '../../membership/factory/membership'
 import { OrderFactoryOrder } from '../../order/factory'
+import { OrganizationRecord } from '../../organization/db/organization-table'
 
 const appBaseUrl = getOrThrow(
   process.env.STITCHI_MARKETING_APPLICATION_HOST,
   'STITCHI_MARKETING_APPLICATION_HOST',
 )
+
+const companyName = getOrThrow(process.env.COMPANY_NAME, 'COMPANY_NAME')
 
 interface Notification {
   email: {
@@ -76,6 +79,24 @@ const notifications = {
         message: `A design proof was submitted for your design request ${params.designRequest.name}.`,
         ctaText: 'View',
         ctaUrl: `${appBaseUrl}/closet/design-requests/${params.designRequest.id}`,
+      },
+    }
+  },
+
+  'membership:invited': (params: {
+    invitingUser: User
+    organization: OrganizationRecord
+  }): Notification => {
+    return {
+      email: {
+        subject: `${params.invitingUser.name} invited you to join ${params.organization.name} on ${companyName}`,
+        htmlBody: `${params.invitingUser.name} invited you to join ${params.organization.name} on ${companyName}.`,
+        textBody: `${params.invitingUser.name} invited you to join ${params.organization.name} on ${companyName}.`,
+      },
+      web: {
+        message: `${params.invitingUser.name} invited you to join ${params.organization.name} on ${companyName}.`,
+        ctaText: 'View',
+        ctaUrl: `${appBaseUrl}/organizations/${params.organization.id}`,
       },
     }
   },
