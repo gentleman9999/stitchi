@@ -14,15 +14,15 @@ const makeClient = (): RedisClient => {
     },
   })
 
+  redisClient.on('ready', () => logger.info(`Redis Client Ready`))
   redisClient.on('error', err =>
     logger.child({ error: err }).error(`Redis Client Error - ${err}`),
   )
+  redisClient.on('reconnecting', () => logger.info(`Redis Client Reconnecting`))
+  redisClient.on('end', () => logger.info(`Redis Client Disconnected`))
+
 
   return redisClient
 }
 
-const client = makeClient()
-;(async () => await client.connect())()
-
-export default client
 export { makeClient }

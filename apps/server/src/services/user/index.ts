@@ -1,5 +1,5 @@
 import { AppMetadata, ManagementClient, User, UserMetadata } from 'auth0'
-import redis, { RedisClient } from '../../redis'
+import { makeClient as makeRedisClient, RedisClient } from '../../redis'
 import { Auth0ManagementClient, auth0ManagementClient } from '../../auth0'
 import { logger } from '../../telemetry'
 
@@ -16,7 +16,7 @@ type MakeClientFn = (params?: MakeClientParams) => UserService
 
 const makeClient: MakeClientFn = (
   { redisClient, auth0 } = {
-    redisClient: redis,
+    redisClient: makeRedisClient(),
     auth0: auth0ManagementClient,
   },
 ) => {
