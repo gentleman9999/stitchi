@@ -15,8 +15,8 @@ const makeClient = async (): Promise<RedisClient> => {
   await redisClient.connect()
 
   redisClient.on('ready', () => logger.info(`Redis Client Ready`))
-  redisClient.on('error', err =>
-    logger.child({ error: err }).error(`Redis Client Error - ${err}`),
+  redisClient.on('error', (err) =>
+    logger.child({ error: JSON.stringify(err) }).error(`Redis Client Error - ${err}`),
   )
   redisClient.on('reconnecting', () => logger.info(`Redis Client Reconnecting`))
   redisClient.on('end', () => logger.info(`Redis Client Disconnected`))
