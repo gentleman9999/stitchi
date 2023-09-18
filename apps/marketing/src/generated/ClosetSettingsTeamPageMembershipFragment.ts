@@ -20,4 +20,5 @@ export interface ClosetSettingsTeamPageMembershipFragment {
   createdAt: any;
   humanizedRole: string | null;
   user: ClosetSettingsTeamPageMembershipFragment_user | null;
+  invitedEmail: string | null;
 }

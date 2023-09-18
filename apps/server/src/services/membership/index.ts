@@ -1,8 +1,4 @@
 import { logger } from '../../telemetry'
-import {
-  NotificationClientService,
-  makeClient as makeNotificationService,
-} from '../notification'
 import { MembershipFactoryMembership } from './factory/membership'
 import { MembershipFactoryMembershipNotificationSetting } from './factory/membership-notification-setting'
 import makeMembershipRepository, { MembershipRepository } from './repository'
@@ -36,15 +32,13 @@ export interface MembershipService {
 
 interface MakeClientParams {
   membershipRepository: MembershipRepository
-  notificationService: NotificationClientService
 }
 
 type MakeClientFn = (params?: MakeClientParams) => MembershipService
 
 const makeClient: MakeClientFn = (
-  { membershipRepository, notificationService } = {
+  { membershipRepository } = {
     membershipRepository: makeMembershipRepository(),
-    notificationService: makeNotificationService(),
   },
 ) => {
   return {

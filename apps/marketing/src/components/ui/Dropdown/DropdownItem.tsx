@@ -11,7 +11,7 @@ interface LinkProps extends BaseProps {
 }
 
 interface ButtonProps extends BaseProps {
-  onClick: () => void
+  onClick: React.ButtonHTMLAttributes<HTMLButtonElement>['onClick']
 }
 
 export type Props = LinkProps | ButtonProps | BaseProps
@@ -21,8 +21,8 @@ const DropdownItem = (props: Props) => {
 
   return (
     <Wrapper {...props}>
-      <div className="flex items-center py-2 px-4 relative outline-none text-sm text-gray-700 cursor-pointer hover:bg-gray-100 transition-all w-full gap-4">
-        <div className="w-5">{icon}</div>
+      <div className="flex items-center py-2 px-4 relative outline-none text-sm text-gray-700 cursor-pointer hover:bg-gray-100 transition-all w-full gap-4 rounded-md">
+        {icon ? <div className="w-5">{icon}</div> : null}
         <span>{label}</span>
       </div>
     </Wrapper>

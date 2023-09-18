@@ -6,10 +6,10 @@ import { Button } from '@components/ui'
 import s from './NavbarDesktop.module.css'
 import { ChevronDown } from 'icons'
 import cx from 'classnames'
-import Dropdown from './Popover'
+import Popover from './Popover'
 import NavbarDesktopDropdown from './NavbarDesktopDropdown'
 import NavbarDesktopLearnContents from './NavbarDesktopLearnContents'
-import { Popover } from '@headlessui/react'
+import { Popover as RuiPopover } from '@headlessui/react'
 import { track } from '@lib/analytics'
 import { useUser } from '@auth0/nextjs-auth0/client'
 
@@ -23,11 +23,11 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
 
   return (
     <nav className="space-x-10">
-      <Popover.Group className="space-x-10 inline-flex">
-        <Dropdown
+      <RuiPopover.Group className="space-x-10 inline-flex">
+        <Popover
           anchorEl={anchorEl}
           ButtonChildren={({ active }) => (
-            <DropdownButton label="Services" active={active} />
+            <PopoverButton label="Services" active={active} />
           )}
           panelChildren={
             <div className="grid grid-cols-2 gap-4">
@@ -43,10 +43,10 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
             </div>
           }
         />
-        <Dropdown
+        <Popover
           anchorEl={anchorEl}
           ButtonChildren={({ active }) => (
-            <DropdownButton label="Solutions" active={active} />
+            <PopoverButton label="Solutions" active={active} />
           )}
           panelChildren={
             <div className="grid grid-cols-2 gap-4">
@@ -63,14 +63,14 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
           }
         />
 
-        <Dropdown
+        <Popover
           anchorEl={anchorEl}
           ButtonChildren={({ active }) => (
-            <DropdownButton active={active} label="Resources" />
+            <PopoverButton active={active} label="Resources" />
           )}
           panelChildren={<NavbarDesktopLearnContents />}
         />
-      </Popover.Group>
+      </RuiPopover.Group>
 
       <Link href={routes.internal.catalog.href()} passHref className={s.link}>
         Catalog
@@ -110,7 +110,7 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
   )
 }
 
-const DropdownButton = ({
+const PopoverButton = ({
   label,
   active,
 }: {

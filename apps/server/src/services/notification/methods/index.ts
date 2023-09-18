@@ -14,9 +14,7 @@ type MakeServiceMethodsFn = (params?: MakeServiceMethodsParams) => Methods
 
 const makeServiceMethods: MakeServiceMethodsFn = () => ({
   sendNotification: makeSendNotificationMethod(),
-  sendAnonymousNotification: () => {
-    throw new Error('Not implemented')
-  },
+  sendAnonymousNotification: makeSendAnonymousNotificationMethod(),
 })
 
 export { makeServiceMethods }

@@ -19,5 +19,6 @@ export interface ClosetSettingsTeamPageTableDesktopMembershipFragment {
   id: string;
   createdAt: any;
   humanizedRole: string | null;
+  invitedEmail: string | null;
   user: ClosetSettingsTeamPageTableDesktopMembershipFragment_user | null;
 }

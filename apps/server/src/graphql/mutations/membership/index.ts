@@ -38,28 +38,35 @@ export const membershipInvite = mutationField('membershipInvite', {
       }
 
       if (existingUser) {
-        let existingMembership
+        const res = await ctx.membership.listMemberships({
+          where: {
+            organizationId: ctx.organizationId,
+            userId: existingUser.user_id,
+          },
+        })
 
-        try {
-          const res = await ctx.membership.listMemberships({
-            where: {
-              organizationId: ctx.organizationId,
-              userId: existingUser.user_id,
-            },
-          })
-
-          existingMembership = res[0]
-        } catch (error) {
-          throw new GraphQLError('Failed to list memberships')
+        if (res.length > 0) {
+          console.warn(`User ${email} is already a member`)
+          continue
         }
+      } else {
+        const res = await ctx.membership.listMemberships({
+          where: {
+            organizationId: ctx.organizationId,
+            invitedEmail: email,
+          },
+        })
 
-        if (existingMembership) {
-          throw new GraphQLError('User is already a member')
+        if (res.length > 0) {
+          console.warn(`User ${email} is already invited`)
+          continue
         }
       }
 
+      let membership
+
       try {
-        const membership = await ctx.membership.createMembership({
+        membership = await ctx.membership.createMembership({
           membership: {
             invitedEmail: email,
             invitedName: null,
@@ -71,53 +78,53 @@ export const membershipInvite = mutationField('membershipInvite', {
         })
 
         memberships.push(membership)
-
-        if (!membership.userId) {
-          // This is an invited user, send email
-
-          if (!membership.invitedEmail) {
-            throw new Error('Invited email is required')
-          }
-
-          let invitingUser
-
-          try {
-            invitingUser = await ctx.user.getUser({
-              id: ctx.userId,
-            })
-          } catch (error) {
-            throw new Error('Failed to get inviting user')
-          }
-
-          let organization
-
-          try {
-            organization = await ctx.organization.getOrganization({
-              organizationId: ctx.organizationId,
-            })
-          } catch (error) {
-            throw new Error('Failed to get organization')
-          }
-
-          try {
-            await ctx.notification.sendAnonymousNotification(
-              'membership:invited',
-              {
-                invitingUser,
-                organization,
-              },
-              [
-                {
-                  email: membership.invitedEmail,
-                },
-              ],
-            )
-          } catch (error) {
-            throw new Error('Failed to send invitation email')
-          }
-        }
       } catch (error) {
         throw new GraphQLError('Failed to create membership')
+      }
+
+      if (!membership.userId) {
+        // This is an invited user, send email
+
+        if (!membership.invitedEmail) {
+          throw new Error('Invited email is required')
+        }
+
+        let invitingUser
+
+        try {
+          invitingUser = await ctx.user.getUser({
+            id: ctx.userId,
+          })
+        } catch (error) {
+          throw new Error('Failed to get inviting user')
+        }
+
+        let organization
+
+        try {
+          organization = await ctx.organization.getOrganization({
+            organizationId: ctx.organizationId,
+          })
+        } catch (error) {
+          throw new Error('Failed to get organization')
+        }
+
+        try {
+          await ctx.notification.sendAnonymousNotification(
+            'membership:invited',
+            {
+              invitingUser,
+              organization,
+            },
+            [
+              {
+                email: membership.invitedEmail,
+              },
+            ],
+          )
+        } catch (error) {
+          throw new Error('Failed to send invitation email')
+        }
       }
     }
 

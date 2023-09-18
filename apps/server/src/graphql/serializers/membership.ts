@@ -10,6 +10,7 @@ export const membershipFactoryToGraphql = (
     userId: membership.userId,
 
     role: membership.role,
+    invitedEmail: membership.invitedEmail,
 
     createdAt: membership.createdAt,
     updatedAt: membership.updatedAt,

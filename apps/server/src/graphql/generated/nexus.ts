@@ -652,6 +652,7 @@ export interface NexusGenObjects {
   Membership: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
+    invitedEmail?: string | null; // String
     organizationId: string; // String!
     role?: NexusGenEnums['MembershipRole'] | null; // MembershipRole
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
@@ -1258,6 +1259,7 @@ export interface NexusGenFieldTypes {
     hasOrders: boolean; // Boolean!
     humanizedRole: string | null; // String
     id: string; // ID!
+    invitedEmail: string | null; // String
     notifications: NexusGenRootTypes['NotificationConnection'] | null; // NotificationConnection
     orders: NexusGenRootTypes['OrderConnection'] | null; // OrderConnection
     organization: NexusGenRootTypes['Organization']; // Organization!
@@ -1927,6 +1929,7 @@ export interface NexusGenFieldTypeNames {
     hasOrders: 'Boolean'
     humanizedRole: 'String'
     id: 'ID'
+    invitedEmail: 'String'
     notifications: 'NotificationConnection'
     orders: 'OrderConnection'
     organization: 'Organization'

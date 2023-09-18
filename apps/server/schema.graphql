@@ -672,6 +672,7 @@ type Membership {
   hasOrders: Boolean!
   humanizedRole: String
   id: ID!
+  invitedEmail: String
   notifications(
     """Returns the elements in the list that come after the specified cursor"""
     after: String

@@ -4,7 +4,9 @@ import cx from 'classnames'
 import UserAvatar from '@components/common/UserAvatar'
 import { gql } from '@apollo/client'
 import { ClosetSettingsTeamPageTableDesktopMembershipFragment } from '@generated/ClosetSettingsTeamPageTableDesktopMembershipFragment'
-import { Badge } from '@components/ui'
+import { Badge, IconButton } from '@components/ui'
+import { Dropdown, DropdownItem } from '@components/ui/Dropdown'
+import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid'
 
 interface Props {
   memberships: ClosetSettingsTeamPageTableDesktopMembershipFragment[]
@@ -13,8 +15,8 @@ interface Props {
 const ClosetSettingsTeamPageTableDesktop = ({ memberships }: Props) => {
   return (
     <div
-      className="flex w-full"
-      // style={{ gridTemplateColumns: '150px repeat(3, 1fr)' }}
+      className="grid w-full"
+      style={{ gridTemplateColumns: '50px 170px repeat(2, 1fr)' }}
     >
       {memberships?.map(membership => (
         <>
@@ -23,21 +25,50 @@ const ClosetSettingsTeamPageTableDesktop = ({ memberships }: Props) => {
           </Cell>
           <Cell>
             <div className="flex flex-col">
-              <div className="font-medium">{membership.user?.name}</div>
-              <span className="text-gray-500 text-xs">
-                {membership.user?.email}
+              <div className="font-medium text-sm truncate">
+                {membership.user?.name}
+              </div>
+              <span className="text-gray-500 text-xs truncate">
+                {membership.user?.email || membership.invitedEmail}
               </span>
             </div>
           </Cell>
-          <Cell className="text-gray-500 flex-1 flex justify-center">
-            <span className="text-xs">
-              Member since {format(parseISO(membership.createdAt), 'P')}
-            </span>
-          </Cell>
           <Cell right className="flex-1">
-            <div>
-              <Badge label={membership.humanizedRole || 'No role'} />
+            <div className="flex gap-2 items-center">
+              <span className="text-sm text-gray-500">
+                {membership.humanizedRole || 'No role'}
+              </span>
+              {!membership.user && (
+                <div>
+                  <Badge label="Pending" size="small" />
+                </div>
+              )}
             </div>
+          </Cell>
+          <Cell right>
+            <Dropdown
+              renderItems={() =>
+                !membership.user
+                  ? [
+                      <DropdownItem
+                        onClick={() => {}}
+                        label="Resend invite"
+                        key={1}
+                      />,
+                      <DropdownItem
+                        onClick={() => {}}
+                        label="Revoke invite"
+                        key={1}
+                      />,
+                    ]
+                  : []
+              }
+              renderTrigger={() => (
+                <IconButton>
+                  <EllipsisHorizontalIcon className="w-5" />
+                </IconButton>
+              )}
+            />
           </Cell>
         </>
       ))}
@@ -75,6 +106,7 @@ ClosetSettingsTeamPageTableDesktop.fragments = {
       id
       createdAt
       humanizedRole
+      invitedEmail
       user {
         id
         name

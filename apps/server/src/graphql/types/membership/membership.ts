@@ -20,6 +20,7 @@ export const Membership = objectType({
     t.nonNull.id('id')
     t.nonNull.string('organizationId')
     t.nullable.string('userId')
+    t.nullable.string('invitedEmail')
 
     t.nonNull.field('flags', {
       type: 'MembershipFlags',

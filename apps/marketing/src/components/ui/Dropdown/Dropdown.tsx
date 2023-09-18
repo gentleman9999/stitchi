@@ -9,21 +9,21 @@ const fadeIn = {
 }
 
 interface Props {
-  trigger: React.ReactNode
-  items: React.ReactNode[]
+  renderTrigger: () => React.ReactNode
+  renderItems: () => React.ReactNode[]
 }
 
 const Dropdown = (props: Props) => {
+  const items = props.renderItems()
+
+  if (!items.length) {
+    return null
+  }
+
   return (
     <DropdownMenu.Root modal={false}>
-      <DropdownMenu.Trigger
-        asChild
-        onClick={e => {
-          e.preventDefault()
-          e.stopPropagation()
-        }}
-      >
-        {props.trigger}
+      <DropdownMenu.Trigger asChild>
+        {props.renderTrigger()}
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content
@@ -39,10 +39,10 @@ const Dropdown = (props: Props) => {
             animate="visible"
             exit="exit"
             variants={fadeIn}
-            className="min-w-[220px] overflow-hidden border border-gray-100 bg-paper rounded-md shadow-magical transition-all flex flex-col"
+            className="overflow-hidden border border-gray-100 bg-paper rounded-md shadow-magical transition-all flex flex-col p-1"
           >
             <DropdownMenu.Arrow className="fill-white" />
-            {props.items.map((item, idx) => {
+            {items.map((item, idx) => {
               return (
                 <DropdownMenu.Item key={idx} asChild>
                   {item}
