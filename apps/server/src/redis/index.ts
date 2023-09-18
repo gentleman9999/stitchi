@@ -7,7 +7,11 @@ export type RedisClient = RedisClientType
 
 const makeClient = (): RedisClient => {
   const redisClient: RedisClientType = redis.createClient({
-    url: getOrThrow(process.env.REDIS_URL, 'REDIS_URL'),
+    url: getOrThrow(process.env.REDIS_TLS_URL, 'REDIS_TLS_URL'),
+    socket: {
+      tls: true,
+      rejectUnauthorized: false,
+    },
   })
 
   redisClient.on('error', err =>
