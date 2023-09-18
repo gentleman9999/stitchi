@@ -1,5 +1,5 @@
 import { AppMetadata, ManagementClient, User, UserMetadata } from 'auth0'
-import { makeClient as makeRedisClient, RedisClient } from '../../redis'
+import { makeClient as makeRedisClient, RedisClientFactory } from '../../redis'
 import { Auth0ManagementClient, auth0ManagementClient } from '../../auth0'
 import { logger } from '../../telemetry'
 
@@ -8,21 +8,22 @@ export interface UserService {
 }
 
 interface MakeClientParams {
-  redisClient: RedisClient
+  redisClientFactory: RedisClientFactory
   auth0: Auth0ManagementClient
 }
 
 type MakeClientFn = (params?: MakeClientParams) => UserService
 
 const makeClient: MakeClientFn = (
-  { redisClient, auth0 } = {
-    redisClient: makeRedisClient(),
+  { redisClientFactory, auth0 } = {
+    redisClientFactory: makeRedisClient,
     auth0: auth0ManagementClient,
   },
 ) => {
   return {
     getUser: async params => {
       let user: User<AppMetadata, UserMetadata> = {}
+      let redisClient = await redisClientFactory()
 
       try {
         const found = await redisClient.get(`user:${params.id}`)

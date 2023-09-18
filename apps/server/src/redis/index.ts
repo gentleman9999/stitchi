@@ -3,9 +3,7 @@ import type { RedisClientType } from 'redis'
 import { getOrThrow } from '../utils'
 import { logger } from '../telemetry'
 
-export type RedisClient = RedisClientType
-
-const makeClient = (): RedisClient => {
+const makeClient = async (): Promise<RedisClient> => {
   const redisClient: RedisClientType = redis.createClient({
     url: getOrThrow(process.env.REDIS_TLS_URL, 'REDIS_TLS_URL'),
     socket: {
@@ -13,6 +11,8 @@ const makeClient = (): RedisClient => {
       rejectUnauthorized: false,
     },
   })
+
+  await redisClient.connect()
 
   redisClient.on('ready', () => logger.info(`Redis Client Ready`))
   redisClient.on('error', err =>
@@ -24,5 +24,8 @@ const makeClient = (): RedisClient => {
 
   return redisClient
 }
+
+export type RedisClient = RedisClientType
+export type RedisClientFactory = typeof makeClient
 
 export { makeClient }
