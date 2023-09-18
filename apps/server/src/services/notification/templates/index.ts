@@ -17,12 +17,12 @@ interface Notification {
     subject: string
     htmlBody: string
     textBody: string
-  }
+  } | null
   web: {
     message: string
     ctaText: string | null
     ctaUrl: string | null
-  }
+  } | null
 }
 
 const notifications = {
@@ -85,19 +85,16 @@ const notifications = {
 
   'membership:invited': (params: {
     invitingUser: User
+    membership: MembershipFactoryMembership
     organization: OrganizationRecord
   }): Notification => {
     return {
       email: {
         subject: `${params.invitingUser.name} invited you to join ${params.organization.name} on ${companyName}`,
-        htmlBody: `${params.invitingUser.name} invited you to join ${params.organization.name} on ${companyName}.`,
-        textBody: `${params.invitingUser.name} invited you to join ${params.organization.name} on ${companyName}.`,
+        htmlBody: `${params.invitingUser.name} invited you to join ${params.organization.name} on ${companyName}. Click <a href="${appBaseUrl}/invite/${params.membership.id}/accept">here</a> to accept the invitation.`,
+        textBody: `${params.invitingUser.name} invited you to join ${params.organization.name} on ${companyName}. Click ${appBaseUrl}/invite/${params.membership.id}/accept to accept the invitation.`,
       },
-      web: {
-        message: `${params.invitingUser.name} invited you to join ${params.organization.name} on ${companyName}.`,
-        ctaText: 'View',
-        ctaUrl: `${appBaseUrl}/organizations/${params.organization.id}`,
-      },
+      web: null,
     }
   },
 }

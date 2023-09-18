@@ -99,18 +99,18 @@ export const membershipInvite = mutationField('membershipInvite', {
             throw new Error('Failed to get organization')
           }
 
-          throw new Error('TODO: IMPLEMENT')
-
           try {
-            await ctx.notification.sendNotification(
+            await ctx.notification.sendAnonymousNotification(
               'membership:invited',
               {
                 invitingUser,
                 organization,
               },
-              {
-                topicKey: 'TODO',
-              },
+              [
+                {
+                  email: membership.invitedEmail,
+                },
+              ],
             )
           } catch (error) {
             throw new Error('Failed to send invitation email')

@@ -112,7 +112,11 @@ const makeMethod: MakeMethodFn =
 
       let channels: NotificationFactoryNotificationChannel[] = []
 
-      if (notificationSetting.emailNotificationsEnabled && user.email) {
+      if (
+        notification.email &&
+        notificationSetting.emailNotificationsEnabled &&
+        user.email
+      ) {
         channels.push({
           id: undefined as any,
           channelType: NotificationChannelType.EMAIL,
@@ -124,7 +128,7 @@ const makeMethod: MakeMethodFn =
         })
       }
 
-      if (notificationSetting.webNotificationsEnabled) {
+      if (notification.web && notificationSetting.webNotificationsEnabled) {
         channels.push({
           id: undefined as any,
           channelType: NotificationChannelType.WEB,
