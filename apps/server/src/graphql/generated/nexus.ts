@@ -667,6 +667,13 @@ export interface NexusGenObjects {
   MembershipFlags: { // root type
     isBetaTester: boolean; // Boolean!
   }
+  MembershipInvite: { // root type
+    id: string; // ID!
+    invitedEmail?: string | null; // String
+    membershipId: string; // ID!
+    organizationId: string; // ID!
+    organizationName?: string | null; // String
+  }
   MembershipInvitePayload: { // root type
     memberships: NexusGenRootTypes['Membership'][]; // [Membership!]!
   }
@@ -1285,6 +1292,13 @@ export interface NexusGenFieldTypes {
   MembershipFlags: { // field return type
     isBetaTester: boolean; // Boolean!
   }
+  MembershipInvite: { // field return type
+    id: string; // ID!
+    invitedEmail: string | null; // String
+    membershipId: string; // ID!
+    organizationId: string; // ID!
+    organizationName: string | null; // String
+  }
   MembershipInvitePayload: { // field return type
     memberships: NexusGenRootTypes['Membership'][]; // [Membership!]!
   }
@@ -1512,6 +1526,7 @@ export interface NexusGenFieldTypes {
     designProduct: NexusGenRootTypes['DesignProduct'] | null; // DesignProduct
     designProof: NexusGenRootTypes['DesignProof'] | null; // DesignProof
     designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+    membershipInvite: NexusGenRootTypes['MembershipInvite']; // MembershipInvite!
     order: NexusGenRootTypes['Order'] | null; // Order
     userMemberships: NexusGenRootTypes['Membership'][]; // [Membership!]!
     viewer: NexusGenRootTypes['Membership'] | null; // Membership
@@ -1963,6 +1978,13 @@ export interface NexusGenFieldTypeNames {
   MembershipFlags: { // field return type name
     isBetaTester: 'Boolean'
   }
+  MembershipInvite: { // field return type name
+    id: 'ID'
+    invitedEmail: 'String'
+    membershipId: 'ID'
+    organizationId: 'ID'
+    organizationName: 'String'
+  }
   MembershipInvitePayload: { // field return type name
     memberships: 'Membership'
   }
@@ -2190,6 +2212,7 @@ export interface NexusGenFieldTypeNames {
     designProduct: 'DesignProduct'
     designProof: 'DesignProof'
     designRequest: 'DesignRequest'
+    membershipInvite: 'MembershipInvite'
     order: 'Order'
     userMemberships: 'Membership'
     viewer: 'Membership'
@@ -2415,6 +2438,9 @@ export interface NexusGenArgTypes {
       id: string; // ID!
     }
     designRequest: { // args
+      id: string; // ID!
+    }
+    membershipInvite: { // args
       id: string; // ID!
     }
     order: { // args

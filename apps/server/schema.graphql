@@ -731,6 +731,14 @@ type MembershipFlags {
   isBetaTester: Boolean!
 }
 
+type MembershipInvite {
+  id: ID!
+  invitedEmail: String
+  membershipId: ID!
+  organizationId: ID!
+  organizationName: String
+}
+
 input MembershipInviteInput {
   emails: [String!]!
 }
@@ -1197,6 +1205,7 @@ type Query {
   designProduct(id: ID!): DesignProduct
   designProof(id: ID!): DesignProof
   designRequest(id: ID!): DesignRequest
+  membershipInvite(id: ID!): MembershipInvite!
   order(id: ID!): Order
   userMemberships: [Membership!]!
   viewer: Membership
