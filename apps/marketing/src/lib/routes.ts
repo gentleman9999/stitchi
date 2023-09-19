@@ -42,9 +42,9 @@ const routes = {
         buildRoute('/api/auth/login', params),
     },
     logout: {
-      href: ({ redirectTo = '/' } = {}) =>
+      href: ({ returnTo = '/' } = {}) =>
         buildRoute('/api/auth/logout', {
-          redirectTo,
+          returnTo,
         }),
     },
     signup: {

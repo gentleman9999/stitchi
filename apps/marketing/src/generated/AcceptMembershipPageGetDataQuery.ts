@@ -10,6 +10,7 @@
 export interface AcceptMembershipPageGetDataQuery_membershipInvite {
   __typename: "MembershipInvite";
   id: string;
+  membershipId: string;
   invitedEmail: string | null;
   organizationName: string | null;
 }

@@ -2,6 +2,57 @@ import { GraphQLError } from 'graphql'
 import { inputObjectType, mutationField, nonNull, objectType } from 'nexus'
 import { membershipFactoryToGraphql } from '../../serializers/membership'
 
+export const MembershipInviteAcceptInput = inputObjectType({
+  name: 'MembershipInviteAcceptInput',
+  definition(t) {
+    t.nonNull.string('membershipId')
+  },
+})
+
+export const MembershipInviteAcceptPayload = objectType({
+  name: 'MembershipInviteAcceptPayload',
+  definition(t) {
+    t.nonNull.field('membership', { type: 'Membership' })
+  },
+})
+
+export const membershipInviteAccept = mutationField('membershipInviteAccept', {
+  type: 'MembershipInviteAcceptPayload',
+  args: {
+    input: nonNull('MembershipInviteAcceptInput'),
+  },
+  resolve: async (_, { input }, ctx) => {
+    if (!ctx.userId) {
+      throw new GraphQLError('Forbidden')
+    }
+
+    let user
+
+    try {
+      user = await ctx.user.getUser({
+        id: ctx.userId,
+      })
+    } catch (error) {
+      throw new GraphQLError('Failed to get user')
+    }
+
+    let membership
+
+    try {
+      membership = await ctx.membership.acceptMembershipInvite({
+        user,
+        membershipId: input.membershipId,
+      })
+    } catch (error) {
+      throw new GraphQLError('Failed to update membership')
+    }
+
+    return {
+      membership: membershipFactoryToGraphql(membership),
+    }
+  },
+})
+
 export const MembershipInviteResendInput = inputObjectType({
   name: 'MembershipInviteResendInput',
   definition(t) {

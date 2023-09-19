@@ -301,6 +301,10 @@ export interface MembershipDesignRequestsWhereFilterInput {
   membershipId?: StringFilterInput | null;
 }
 
+export interface MembershipInviteAcceptInput {
+  membershipId: string;
+}
+
 export interface MembershipInviteInput {
   emails: string[];
 }
