@@ -1,3 +1,4 @@
+import { User } from 'auth0'
 import { logger } from '../../telemetry'
 import { MembershipFactoryMembership } from './factory/membership'
 import { MembershipFactoryMembershipNotificationSetting } from './factory/membership-notification-setting'
@@ -20,6 +21,11 @@ export interface MembershipService {
 
   unarchiveMembership: (input: {
     membershipId: string
+  }) => Promise<MembershipFactoryMembership>
+
+  acceptMembershipInvite: (input: {
+    membershipId: string
+    user: User
   }) => Promise<MembershipFactoryMembership>
 
   findUserActiveMembership: (input: {
@@ -190,6 +196,42 @@ const makeClient: MakeClientFn = (
         })
       } catch (error) {
         throw new Error('Failed to unarchive membership')
+      }
+
+      return membership
+    },
+
+    acceptMembershipInvite: async input => {
+      if (!input.user.user_id) {
+        throw new Error('User does not have an id')
+      }
+
+      let membership
+
+      try {
+        membership = await membershipRepository.getMembership({
+          membershipId: input.membershipId,
+        })
+      } catch (error) {
+        throw new Error('Failed to get membership')
+      }
+
+      if (membership.invitedEmail !== input.user.email) {
+        throw new Error('User email does not match membership invite')
+      }
+
+      try {
+        membership = await membershipRepository.updateMembership({
+          membership: {
+            id: membership.id,
+            invitedEmail: null,
+            invitedName: null,
+            role: membership.role,
+            userId: input.user.user_id,
+          },
+        })
+      } catch (error) {
+        throw new Error('Failed to accept membership invite')
       }
 
       return membership

@@ -183,6 +183,9 @@ export interface NexusGenInputs {
     createdAt?: NexusGenInputs['DateFilterInput'] | null; // DateFilterInput
     membershipId?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
   }
+  MembershipInviteAcceptInput: { // input type
+    membershipId: string; // String!
+  }
   MembershipInviteInput: { // input type
     emails: string[]; // [String!]!
   }
@@ -666,6 +669,17 @@ export interface NexusGenObjects {
   }
   MembershipFlags: { // root type
     isBetaTester: boolean; // Boolean!
+  }
+  MembershipInvite: { // root type
+    accepted: boolean; // Boolean!
+    id: string; // ID!
+    invitedEmail?: string | null; // String
+    membershipId: string; // ID!
+    organizationId: string; // ID!
+    organizationName?: string | null; // String
+  }
+  MembershipInviteAcceptPayload: { // root type
+    membership: NexusGenRootTypes['Membership']; // Membership!
   }
   MembershipInvitePayload: { // root type
     memberships: NexusGenRootTypes['Membership'][]; // [Membership!]!
@@ -1285,6 +1299,17 @@ export interface NexusGenFieldTypes {
   MembershipFlags: { // field return type
     isBetaTester: boolean; // Boolean!
   }
+  MembershipInvite: { // field return type
+    accepted: boolean; // Boolean!
+    id: string; // ID!
+    invitedEmail: string | null; // String
+    membershipId: string; // ID!
+    organizationId: string; // ID!
+    organizationName: string | null; // String
+  }
+  MembershipInviteAcceptPayload: { // field return type
+    membership: NexusGenRootTypes['Membership']; // Membership!
+  }
   MembershipInvitePayload: { // field return type
     memberships: NexusGenRootTypes['Membership'][]; // [Membership!]!
   }
@@ -1311,6 +1336,7 @@ export interface NexusGenFieldTypes {
     fulfillmentCreate: NexusGenRootTypes['FulfillmentCreatePayload'] | null; // FulfillmentCreatePayload
     mailingAddressCreate: NexusGenRootTypes['MailingAddressCreatePayload'] | null; // MailingAddressCreatePayload
     membershipInvite: NexusGenRootTypes['MembershipInvitePayload'] | null; // MembershipInvitePayload
+    membershipInviteAccept: NexusGenRootTypes['MembershipInviteAcceptPayload'] | null; // MembershipInviteAcceptPayload
     membershipInviteResend: NexusGenRootTypes['MembershipInviteResendPayload'] | null; // MembershipInviteResendPayload
     membershipInviteRevoke: NexusGenRootTypes['MembershipInviteRevokePayload'] | null; // MembershipInviteRevokePayload
     orderConfirm: NexusGenRootTypes['OrderConfirmPayload'] | null; // OrderConfirmPayload
@@ -1512,6 +1538,7 @@ export interface NexusGenFieldTypes {
     designProduct: NexusGenRootTypes['DesignProduct'] | null; // DesignProduct
     designProof: NexusGenRootTypes['DesignProof'] | null; // DesignProof
     designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+    membershipInvite: NexusGenRootTypes['MembershipInvite']; // MembershipInvite!
     order: NexusGenRootTypes['Order'] | null; // Order
     userMemberships: NexusGenRootTypes['Membership'][]; // [Membership!]!
     viewer: NexusGenRootTypes['Membership'] | null; // Membership
@@ -1963,6 +1990,17 @@ export interface NexusGenFieldTypeNames {
   MembershipFlags: { // field return type name
     isBetaTester: 'Boolean'
   }
+  MembershipInvite: { // field return type name
+    accepted: 'Boolean'
+    id: 'ID'
+    invitedEmail: 'String'
+    membershipId: 'ID'
+    organizationId: 'ID'
+    organizationName: 'String'
+  }
+  MembershipInviteAcceptPayload: { // field return type name
+    membership: 'Membership'
+  }
   MembershipInvitePayload: { // field return type name
     memberships: 'Membership'
   }
@@ -1989,6 +2027,7 @@ export interface NexusGenFieldTypeNames {
     fulfillmentCreate: 'FulfillmentCreatePayload'
     mailingAddressCreate: 'MailingAddressCreatePayload'
     membershipInvite: 'MembershipInvitePayload'
+    membershipInviteAccept: 'MembershipInviteAcceptPayload'
     membershipInviteResend: 'MembershipInviteResendPayload'
     membershipInviteRevoke: 'MembershipInviteRevokePayload'
     orderConfirm: 'OrderConfirmPayload'
@@ -2190,6 +2229,7 @@ export interface NexusGenFieldTypeNames {
     designProduct: 'DesignProduct'
     designProof: 'DesignProof'
     designRequest: 'DesignRequest'
+    membershipInvite: 'MembershipInvite'
     order: 'Order'
     userMemberships: 'Membership'
     viewer: 'Membership'
@@ -2349,6 +2389,9 @@ export interface NexusGenArgTypes {
     membershipInvite: { // args
       input: NexusGenInputs['MembershipInviteInput']; // MembershipInviteInput!
     }
+    membershipInviteAccept: { // args
+      input: NexusGenInputs['MembershipInviteAcceptInput']; // MembershipInviteAcceptInput!
+    }
     membershipInviteResend: { // args
       input: NexusGenInputs['MembershipInviteResendInput']; // MembershipInviteResendInput!
     }
@@ -2415,6 +2458,9 @@ export interface NexusGenArgTypes {
       id: string; // ID!
     }
     designRequest: { // args
+      id: string; // ID!
+    }
+    membershipInvite: { // args
       id: string; // ID!
     }
     order: { // args

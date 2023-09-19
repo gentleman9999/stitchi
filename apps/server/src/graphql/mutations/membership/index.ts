@@ -2,6 +2,68 @@ import { GraphQLError } from 'graphql'
 import { inputObjectType, mutationField, nonNull, objectType } from 'nexus'
 import { membershipFactoryToGraphql } from '../../serializers/membership'
 
+export const MembershipInviteAcceptInput = inputObjectType({
+  name: 'MembershipInviteAcceptInput',
+  definition(t) {
+    t.nonNull.string('membershipId')
+  },
+})
+
+export const MembershipInviteAcceptPayload = objectType({
+  name: 'MembershipInviteAcceptPayload',
+  definition(t) {
+    t.nonNull.field('membership', { type: 'Membership' })
+  },
+})
+
+export const membershipInviteAccept = mutationField('membershipInviteAccept', {
+  type: 'MembershipInviteAcceptPayload',
+  args: {
+    input: nonNull('MembershipInviteAcceptInput'),
+  },
+  resolve: async (_, { input }, ctx) => {
+    if (!ctx.userId) {
+      throw new GraphQLError('Forbidden')
+    }
+
+    let user
+
+    try {
+      user = await ctx.user.getUser({
+        id: ctx.userId,
+      })
+    } catch (error) {
+      throw new GraphQLError('Failed to get user')
+    }
+
+    let membership
+
+    try {
+      membership = await ctx.membership.acceptMembershipInvite({
+        user,
+        membershipId: input.membershipId,
+      })
+    } catch (error) {
+      throw new GraphQLError('Failed to update membership')
+    }
+
+    // Once a user accepts the invitation, we want to set their active membership to this one
+    try {
+      await ctx.membership.setUserActiveMembership({
+        membershipId: membership.id,
+        organizationId: membership.organizationId,
+        userId: ctx.userId,
+      })
+    } catch (error) {
+      throw new GraphQLError('Failed to set user active membership')
+    }
+
+    return {
+      membership: membershipFactoryToGraphql(membership),
+    }
+  },
+})
+
 export const MembershipInviteResendInput = inputObjectType({
   name: 'MembershipInviteResendInput',
   definition(t) {
@@ -244,7 +306,7 @@ export const membershipInvite = mutationField('membershipInvite', {
 
     for (const membership of memberships) {
       if (!membership.invitedEmail) {
-        throw new Error('Invited email is required')
+        continue
       }
 
       let invitingUser

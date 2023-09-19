@@ -93,8 +93,8 @@ const notifications = {
     return {
       email: {
         subject: `${params.invitingUser.name} invited you to join ${params.organization.name} on ${companyName}`,
-        htmlBody: `${params.invitingUser.name} invited you to join ${params.organization.name} on ${companyName}. Click <a href="${appBaseUrl}/invite/${params.membership.id}/accept">here</a> to accept the invitation.`,
-        textBody: `${params.invitingUser.name} invited you to join ${params.organization.name} on ${companyName}. Click ${appBaseUrl}/invite/${params.membership.id}/accept to accept the invitation.`,
+        htmlBody: `${params.invitingUser.name} invited you to join ${params.organization.name} on ${companyName}. Click <a href="${appBaseUrl}/invites/${params.membership.id}/accept">here</a> to accept the invitation.`,
+        textBody: `${params.invitingUser.name} invited you to join ${params.organization.name} on ${companyName}. Click ${appBaseUrl}/invites/${params.membership.id}/accept to accept the invitation.`,
       },
       web: null,
     }

@@ -26,7 +26,8 @@ const makeClient: MakeClientFn = (
   return {
     getUser: async params => {
       let user: User<AppMetadata, UserMetadata> = {}
-      let redisClient = await redisClientFactory()
+
+      const redisClient = await redisClientFactory()
 
       try {
         const found = await redisClient.get(`user:${params.id}`)

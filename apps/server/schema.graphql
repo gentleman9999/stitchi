@@ -731,6 +731,23 @@ type MembershipFlags {
   isBetaTester: Boolean!
 }
 
+type MembershipInvite {
+  accepted: Boolean!
+  id: ID!
+  invitedEmail: String
+  membershipId: ID!
+  organizationId: ID!
+  organizationName: String
+}
+
+input MembershipInviteAcceptInput {
+  membershipId: String!
+}
+
+type MembershipInviteAcceptPayload {
+  membership: Membership!
+}
+
 input MembershipInviteInput {
   emails: [String!]!
 }
@@ -788,6 +805,7 @@ type Mutation {
   """Creates a new mailing address for the user"""
   mailingAddressCreate(input: MailingAddressCreateInput!): MailingAddressCreatePayload
   membershipInvite(input: MembershipInviteInput!): MembershipInvitePayload
+  membershipInviteAccept(input: MembershipInviteAcceptInput!): MembershipInviteAcceptPayload
   membershipInviteResend(input: MembershipInviteResendInput!): MembershipInviteResendPayload
   membershipInviteRevoke(input: MembershipInviteRevokeInput!): MembershipInviteRevokePayload
 
@@ -1197,6 +1215,7 @@ type Query {
   designProduct(id: ID!): DesignProduct
   designProof(id: ID!): DesignProof
   designRequest(id: ID!): DesignRequest
+  membershipInvite(id: ID!): MembershipInvite!
   order(id: ID!): Order
   userMemberships: [Membership!]!
   viewer: Membership

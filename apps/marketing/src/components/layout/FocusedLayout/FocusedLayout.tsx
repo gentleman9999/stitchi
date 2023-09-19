@@ -5,9 +5,10 @@ import React from 'react'
 
 interface Props {
   children: React.ReactNode
+  disableNavSpacing?: boolean
 }
 
-const FocusedLayout = ({ children }: Props) => {
+const FocusedLayout = ({ children, disableNavSpacing }: Props) => {
   React.useEffect(() => {
     // Because we have a sticky nav, we want to ensure that "scroll-to-top" is offset by the height of the nav
 
@@ -33,7 +34,7 @@ const FocusedLayout = ({ children }: Props) => {
           </Link>
         </Container>
       </div>
-      <div className="h-14" />
+      {!disableNavSpacing && <div className="h-14" />}
       {children}
     </>
   )
