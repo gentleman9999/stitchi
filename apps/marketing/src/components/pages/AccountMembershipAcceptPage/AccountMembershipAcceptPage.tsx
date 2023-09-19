@@ -79,7 +79,7 @@ const AccountMembershipAcceptPage = ({
                     <Button
                       size="xl"
                       href={routes.internal.logout.href({
-                        returnTo: routes.internal.login.href(),
+                        returnTo: window.location.pathname,
                       })}
                       className="w-full"
                       color="brandPrimary"
@@ -90,7 +90,9 @@ const AccountMembershipAcceptPage = ({
                   ) : (
                     <Button
                       size="xl"
-                      href={routes.internal.login.href()}
+                      href={routes.internal.login.href({
+                        returnTo: window.location.pathname,
+                      })}
                       className="w-full"
                       color="brandPrimary"
                       Component={Link}

@@ -35,6 +35,7 @@ export const MembershipInviteExtendsQuery = extendType({
           organizationId: membership.organizationId,
           invitedEmail: membership.invitedEmail,
           organizationName: organization.name,
+          accepted: Boolean(membership.userId),
         }
       },
     })

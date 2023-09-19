@@ -9,5 +9,7 @@ export const MembershipInvite = objectType({
 
     t.nullable.string('invitedEmail')
     t.nullable.string('organizationName')
+
+    t.nonNull.boolean('accepted')
   },
 })

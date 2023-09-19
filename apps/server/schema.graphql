@@ -732,6 +732,7 @@ type MembershipFlags {
 }
 
 type MembershipInvite {
+  accepted: Boolean!
   id: ID!
   invitedEmail: String
   membershipId: ID!

@@ -47,6 +47,17 @@ export const membershipInviteAccept = mutationField('membershipInviteAccept', {
       throw new GraphQLError('Failed to update membership')
     }
 
+    // Once a user accepts the invitation, we want to set their active membership to this one
+    try {
+      await ctx.membership.setUserActiveMembership({
+        membershipId: membership.id,
+        organizationId: membership.organizationId,
+        userId: ctx.userId,
+      })
+    } catch (error) {
+      throw new GraphQLError('Failed to set user active membership')
+    }
+
     return {
       membership: membershipFactoryToGraphql(membership),
     }

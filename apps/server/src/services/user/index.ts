@@ -26,10 +26,21 @@ const makeClient: MakeClientFn = (
   return {
     getUser: async params => {
       let user: User<AppMetadata, UserMetadata> = {}
-      let redisClient = await redisClientFactory()
+
+      let redisClient
 
       try {
-        const found = await redisClient.get(`user:${params.id}`)
+        redisClient = await redisClientFactory()
+      } catch (error) {
+        logger
+          .child({
+            context: { error, params },
+          })
+          .error(`Error getting redis client`)
+      }
+
+      try {
+        const found = await redisClient?.get(`user:${params.id}`)
 
         if (found) {
           user = JSON.parse(found)
@@ -37,7 +48,7 @@ const makeClient: MakeClientFn = (
           user = await auth0.getUser(params)
 
           if (user.user_id) {
-            await redisClient.set(
+            await redisClient?.set(
               `user:${user.user_id}`,
               JSON.stringify(user),
               {

@@ -1,4 +1,9 @@
-import { handleAuth, handleLogin, LoginOptions } from '@auth0/nextjs-auth0'
+import {
+  handleAuth,
+  handleLogin,
+  initAuth0,
+  LoginOptions,
+} from '@auth0/nextjs-auth0'
 import getOrThrow from '@lib/utils/get-or-throw'
 import { NextApiRequest, NextApiResponse } from 'next'
 
@@ -44,7 +49,7 @@ export default handleAuth({
   },
   onError(req: NextApiRequest, res: NextApiResponse, error: Error) {
     console.error('Failed to authenticate user', {
-      context: { error },
+      context: { error, req, res },
     })
     res.status(500).end(error.message)
   },

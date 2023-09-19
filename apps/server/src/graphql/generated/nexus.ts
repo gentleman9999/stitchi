@@ -671,6 +671,7 @@ export interface NexusGenObjects {
     isBetaTester: boolean; // Boolean!
   }
   MembershipInvite: { // root type
+    accepted: boolean; // Boolean!
     id: string; // ID!
     invitedEmail?: string | null; // String
     membershipId: string; // ID!
@@ -1299,6 +1300,7 @@ export interface NexusGenFieldTypes {
     isBetaTester: boolean; // Boolean!
   }
   MembershipInvite: { // field return type
+    accepted: boolean; // Boolean!
     id: string; // ID!
     invitedEmail: string | null; // String
     membershipId: string; // ID!
@@ -1989,6 +1991,7 @@ export interface NexusGenFieldTypeNames {
     isBetaTester: 'Boolean'
   }
   MembershipInvite: { // field return type name
+    accepted: 'Boolean'
     id: 'ID'
     invitedEmail: 'String'
     membershipId: 'ID'
