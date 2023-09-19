@@ -20,7 +20,7 @@ export const Membership: yup.ObjectSchema<MembershipSchema> = yup
     membershipNotificationSettingId: yup.string().uuid().required(),
 
     invitedName: yup.string().nullable().defined(),
-    invitedEmail: yup.string().email().nullable().defined(),
+    invitedEmail: yup.string().email().nullable().defined().lowercase(),
 
     createdAt: yup.date().required(),
     updatedAt: yup.date().required(),

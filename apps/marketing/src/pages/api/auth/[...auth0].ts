@@ -1,6 +1,7 @@
 import {
   handleAuth,
   handleLogin,
+  handleLogout,
   initAuth0,
   LoginOptions,
 } from '@auth0/nextjs-auth0'
@@ -45,6 +46,11 @@ export default handleAuth({
         screen_hint: 'signup',
         ...defaultAuthorizationParams,
       },
+    })
+  },
+  async logout(req: NextApiRequest, res: NextApiResponse) {
+    return handleLogout(req, res, {
+      returnTo: req.query.returnTo as string,
     })
   },
   onError(req: NextApiRequest, res: NextApiResponse, error: Error) {

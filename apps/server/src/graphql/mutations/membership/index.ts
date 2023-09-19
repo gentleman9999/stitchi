@@ -306,7 +306,7 @@ export const membershipInvite = mutationField('membershipInvite', {
 
     for (const membership of memberships) {
       if (!membership.invitedEmail) {
-        throw new Error('Invited email is required')
+        continue
       }
 
       let invitingUser

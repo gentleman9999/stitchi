@@ -10,6 +10,7 @@ import {
   AcceptMembershipPageSetActiveMembershipMutationVariables,
 } from '@generated/AcceptMembershipPageSetActiveMembershipMutation'
 import { addApolloState, initializeApollo } from '@lib/apollo'
+import { getAccessToken } from '@lib/auth'
 import routes from '@lib/routes'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
@@ -37,21 +38,27 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
   })
 
   if (data.membershipInvite.accepted) {
-    const { organizationId, membershipId } = data.membershipInvite
+    const accessToken = await getAccessToken(ctx)
 
-    // Make sure we set this memberships as the active one
-    await client.mutate<
-      AcceptMembershipPageSetActiveMembershipMutation,
-      AcceptMembershipPageSetActiveMembershipMutationVariables
-    >({
-      mutation: SET_ACTIVE_MEMBERSHIP,
-      variables: {
-        input: {
-          membershipId,
-          organizationId,
+    if (accessToken) {
+      // There is a logged in user
+
+      const { organizationId, membershipId } = data.membershipInvite
+
+      // Make sure we set this memberships as the active one
+      await client.mutate<
+        AcceptMembershipPageSetActiveMembershipMutation,
+        AcceptMembershipPageSetActiveMembershipMutationVariables
+      >({
+        mutation: SET_ACTIVE_MEMBERSHIP,
+        variables: {
+          input: {
+            membershipId,
+            organizationId,
+          },
         },
-      },
-    })
+      })
+    }
 
     return {
       redirect: {

@@ -9,6 +9,7 @@ import {
 import { AccountMembershipAcceptPageMembershipInviteFragment } from '@generated/AccountMembershipAcceptPageMembershipInviteFragment'
 import routes from '@lib/routes'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React from 'react'
 
 interface Props {
@@ -20,6 +21,7 @@ const AccountMembershipAcceptPage = ({
   invite,
   loading: dataLoading,
 }: Props) => {
+  const router = useRouter()
   const { user } = useUser()
   const [acceptMembership, acceptMembershipMutation] = useMutation<
     AccountMemberhsipAcceptPageAcceptMembershipMutation,
@@ -63,7 +65,8 @@ const AccountMembershipAcceptPage = ({
                 <b>{invite?.invitedEmail}</b>.
               </p>
 
-              {user?.email === invite?.invitedEmail ? (
+              {user?.email?.toLowerCase() ===
+              invite?.invitedEmail?.toLowerCase() ? (
                 <Button
                   size="xl"
                   onClick={handleAcceptMembership}
@@ -79,11 +82,13 @@ const AccountMembershipAcceptPage = ({
                     <Button
                       size="xl"
                       href={routes.internal.logout.href({
-                        returnTo: window.location.pathname,
+                        returnTo: routes.internal.login.href({
+                          returnTo: router.asPath,
+                        }),
                       })}
                       className="w-full"
                       color="brandPrimary"
-                      Component={Link}
+                      Component="a"
                     >
                       Log in
                     </Button>
@@ -91,11 +96,11 @@ const AccountMembershipAcceptPage = ({
                     <Button
                       size="xl"
                       href={routes.internal.login.href({
-                        returnTo: window.location.pathname,
+                        returnTo: router.asPath,
                       })}
                       className="w-full"
                       color="brandPrimary"
-                      Component={Link}
+                      Component="a"
                     >
                       Log in
                     </Button>
