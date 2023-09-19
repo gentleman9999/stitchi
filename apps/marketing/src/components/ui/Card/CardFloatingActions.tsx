@@ -10,16 +10,18 @@ const CardFloatingActions = ({ items }: Props) => {
   return (
     <div>
       <Dropdown
-        trigger={
+        renderTrigger={() => (
           <button className="opacity-0 group-hover:opacity-100 p-1 bg-gray-900/60 hover:bg-gray-900/70 data-[state=open]:opacity-100 rounded-md transition-all absolute top-2 right-2 outline-none">
             <EllipsisHorizontalIcon className="w-6 text-white" />
           </button>
+        )}
+        renderItems={() =>
+          items.map(item => (
+            <React.Fragment key={item.label}>
+              <DropdownItem {...item} />
+            </React.Fragment>
+          ))
         }
-        items={items.map(item => (
-          <React.Fragment key={item.label}>
-            <DropdownItem {...item} />
-          </React.Fragment>
-        ))}
       />
     </div>
   )
