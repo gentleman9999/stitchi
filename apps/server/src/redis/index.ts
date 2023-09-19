@@ -5,11 +5,7 @@ import { logger } from '../telemetry'
 
 const makeClient = async (): Promise<RedisClient> => {
   const redisClient: RedisClientType = redis.createClient({
-    url: getOrThrow(process.env.REDIS_TLS_URL, 'REDIS_TLS_URL'),
-    socket: {
-      tls: true,
-      rejectUnauthorized: false,
-    },
+    url: getOrThrow(process.env.REDIS_URL, 'REDIS_URL'),
   })
 
   await redisClient.connect()
