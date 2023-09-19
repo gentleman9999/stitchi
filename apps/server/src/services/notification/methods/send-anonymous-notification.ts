@@ -15,10 +15,7 @@ type NotificationKey = keyof typeof notifications
 
 type SendAnonymousNotificationFn = <T extends NotificationKey>(
   notificationKey: T,
-  notificationParams: Omit<
-    Parameters<(typeof notifications)[T]>[0],
-    'membership' | 'user'
-  >,
+  notificationParams: Omit<Parameters<(typeof notifications)[T]>[0], ''>,
   recipients: Recipient[],
 ) => Promise<void>
 
@@ -33,14 +30,42 @@ const makeMethod: MakeMethodFn =
     },
   ) =>
   async (notificationKey, notificationParams, recipients): Promise<void> => {
+    if (!recipients.length) {
+      logger
+        .child({
+          context: {
+            notificationKey,
+            notificationParams,
+          },
+        })
+        .warn(`No recipients`)
+
+      return
+    }
+
     const notificationWorkflowId = v4()
 
     // For each topic member, create a notification for each active channel
     for (const recipient of recipients) {
       // Get the notification (which includes it's channels)
-      const notification = notifications[notificationKey]({
-        ...notificationParams,
-      } as any)
+      let notification
+
+      try {
+        notification = notifications[notificationKey]({
+          ...(notificationParams as any),
+        })
+      } catch (error) {
+        logger
+          .child({
+            context: {
+              error,
+              notificationKey,
+            },
+          })
+          .error(`Template not found`)
+
+        continue
+      }
 
       let channels: NotificationFactoryNotificationChannel[] = []
 
@@ -56,7 +81,7 @@ const makeMethod: MakeMethodFn =
         })
       }
 
-      if (!channels) {
+      if (!channels.length) {
         logger
           .child({
             context: {

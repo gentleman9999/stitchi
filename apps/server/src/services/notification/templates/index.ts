@@ -1,4 +1,5 @@
 import { User } from 'auth0'
+import { logger } from '../../../telemetry'
 import { getOrThrow } from '../../../utils'
 import { DesignFactoryDesignRequest } from '../../design/factory'
 import { MembershipFactoryMembership } from '../../membership/factory/membership'
@@ -88,6 +89,7 @@ const notifications = {
     membership: MembershipFactoryMembership
     organization: OrganizationRecord
   }): Notification => {
+    logger.child({ context: { params } }).info('Sending')
     return {
       email: {
         subject: `${params.invitingUser.name} invited you to join ${params.organization.name} on ${companyName}`,

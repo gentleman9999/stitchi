@@ -36,7 +36,19 @@ const UserInviteDialog = ({ open, onClose }: Props) => {
   const [inviteUser, inviteUserMutation] = useMutation<
     UserInviteDialogInviteMemberMutation,
     UserInviteDialogInviteMemberMutationVariables
-  >(INVITE_MEMBER)
+  >(INVITE_MEMBER, {
+    update(cache, { data }) {
+      const organizationId =
+        data?.membershipInvite?.memberships?.[0].organizationId
+
+      if (!organizationId) return
+
+      cache.evict({
+        id: cache.identify({ __typename: 'Organization', id: organizationId }),
+        fieldName: 'memberships',
+      })
+    },
+  })
 
   const handleSubmit = form.handleSubmit(async values => {
     setLoading(true)
@@ -62,8 +74,6 @@ const UserInviteDialog = ({ open, onClose }: Props) => {
     }
   })
 
-  console.log('FORM ERRORS', form.formState.errors)
-
   return (
     <form>
       <Dialog size="md" open={open} onClose={onClose}>
@@ -75,7 +85,6 @@ const UserInviteDialog = ({ open, onClose }: Props) => {
               name="emails"
               control={form.control}
               render={({ field, fieldState }) => {
-                console.log('FIELD STATE', fieldState)
                 return (
                   <InputGroup
                     label="Email"
@@ -83,7 +92,8 @@ const UserInviteDialog = ({ open, onClose }: Props) => {
                       form.formState.errors.emails?.message ||
                       form.formState.errors.emails
                         ?.map?.(emailErr => emailErr?.message)
-                        .join(', ')
+                        .join(', ') ||
+                      fieldState.error?.message
                     }
                   >
                     <TextField
@@ -130,6 +140,7 @@ const INVITE_MEMBER = gql`
     membershipInvite(input: $input) {
       memberships {
         id
+        organizationId
       }
     }
   }

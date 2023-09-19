@@ -1,12 +1,15 @@
 import dynamic from 'next/dynamic'
 import React, { useState } from 'react'
 
+import type { ToastProps } from '@components/ui/Toast'
+
 const Toast = dynamic(() => import('@components/ui/Toast'), { ssr: false })
 
 interface Snackbar {
   id: number
-  title?: string
-  description?: string
+  title?: ToastProps['title']
+  description?: ToastProps['description']
+  severity?: ToastProps['severity']
 }
 
 interface State {
@@ -54,11 +57,10 @@ export const SnackbarProvider = ({ children }: SnackbarProviderProps) => {
       <div className="fixed right-6 bottom-6 flex flex-col gap-4 max-w-[390px] w-full list-none z-[2147483647] outline-none">
         {snackbars.slice(0, 3).map(snackbar => (
           <Toast
+            {...snackbar}
+            key={snackbar.id}
             open
             onOpenChange={() => closeSnackbar(snackbar.id)}
-            key={snackbar.id}
-            title={snackbar.title}
-            description={snackbar.description}
           />
         ))}
       </div>

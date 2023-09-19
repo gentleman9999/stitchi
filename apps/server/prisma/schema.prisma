@@ -124,8 +124,10 @@ model Membership {
   invitedName  String?
   invitedEmail String?
 
-  createdAt                     DateTime                      @default(now())
-  updatedAt                     DateTime                      @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
   activeUserMemberships         ActiveUserMembership[]
   membershipNotificationSetting MembershipNotificationSetting @relation(fields: [membershipNotificationSettingId], references: [id])
   notificationTopicMembers      NotificationTopicMember[]

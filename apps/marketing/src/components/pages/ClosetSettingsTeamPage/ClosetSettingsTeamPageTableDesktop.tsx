@@ -1,4 +1,3 @@
-import { format, parseISO } from 'date-fns'
 import React from 'react'
 import cx from 'classnames'
 import UserAvatar from '@components/common/UserAvatar'
@@ -10,9 +9,19 @@ import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid'
 
 interface Props {
   memberships: ClosetSettingsTeamPageTableDesktopMembershipFragment[]
+  onResendInvite: (
+    membership: ClosetSettingsTeamPageTableDesktopMembershipFragment,
+  ) => void
+  onRevokeInvite: (
+    membership: ClosetSettingsTeamPageTableDesktopMembershipFragment,
+  ) => void
 }
 
-const ClosetSettingsTeamPageTableDesktop = ({ memberships }: Props) => {
+const ClosetSettingsTeamPageTableDesktop = ({
+  memberships,
+  onResendInvite,
+  onRevokeInvite,
+}: Props) => {
   return (
     <div
       className="grid w-full"
@@ -33,7 +42,7 @@ const ClosetSettingsTeamPageTableDesktop = ({ memberships }: Props) => {
               </span>
             </div>
           </Cell>
-          <Cell right className="flex-1">
+          <Cell className="flex-1">
             <div className="flex gap-2 items-center">
               <span className="text-sm text-gray-500">
                 {membership.humanizedRole || 'No role'}
@@ -51,14 +60,14 @@ const ClosetSettingsTeamPageTableDesktop = ({ memberships }: Props) => {
                 !membership.user
                   ? [
                       <DropdownItem
-                        onClick={() => {}}
+                        onClick={() => onResendInvite(membership)}
                         label="Resend invite"
                         key={1}
                       />,
                       <DropdownItem
-                        onClick={() => {}}
+                        onClick={() => onRevokeInvite(membership)}
                         label="Revoke invite"
-                        key={1}
+                        key={2}
                       />,
                     ]
                   : []

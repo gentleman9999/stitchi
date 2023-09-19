@@ -1,6 +1,7 @@
 import { makeCreateMembership } from './create-membership'
 import { makeGetMembership } from './get-membership'
 import { makeListMemberships } from './list-membership'
+import { makeUpdateMembership } from './update-membership'
 
 import { makeListActiveUserMemberships } from './list-active-user-memberships'
 import { makeUpsertActiveUserMembership } from './upsert-active-user-membership'
@@ -16,6 +17,7 @@ export interface MembershipRepository {
   createMembership: ReturnType<typeof makeCreateMembership>
   getMembership: ReturnType<typeof makeGetMembership>
   listMemberships: ReturnType<typeof makeListMemberships>
+  updateMembership: ReturnType<typeof makeUpdateMembership>
 
   listActiveUserMemberships: ReturnType<typeof makeListActiveUserMemberships>
   upsertActiveUserMembership: ReturnType<typeof makeUpsertActiveUserMembership>
@@ -42,6 +44,7 @@ const makeMembershipRepository: MakeMembershipRepositoryFn = init => ({
   createMembership: makeCreateMembership(),
   getMembership: makeGetMembership(),
   listMemberships: makeListMemberships(),
+  updateMembership: makeUpdateMembership(),
 
   listActiveUserMemberships: makeListActiveUserMemberships(),
   upsertActiveUserMembership: makeUpsertActiveUserMembership(),

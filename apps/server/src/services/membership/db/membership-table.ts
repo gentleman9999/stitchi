@@ -24,6 +24,7 @@ export const Membership: yup.ObjectSchema<MembershipSchema> = yup
 
     createdAt: yup.date().required(),
     updatedAt: yup.date().required(),
+    deletedAt: yup.date().nullable().defined(),
   })
   .label('Membership')
 

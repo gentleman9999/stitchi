@@ -39,15 +39,11 @@ const Dropdown = (props: Props) => {
             animate="visible"
             exit="exit"
             variants={fadeIn}
-            className="overflow-hidden border border-gray-100 bg-paper rounded-md shadow-magical transition-all flex flex-col p-1"
+            className="overflow-hidden border border-gray-100 bg-paper rounded-lg shadow-magical transition-all flex flex-col p-1"
           >
             <DropdownMenu.Arrow className="fill-white" />
             {items.map((item, idx) => {
-              return (
-                <DropdownMenu.Item key={idx} asChild>
-                  {item}
-                </DropdownMenu.Item>
-              )
+              return <DropdownMenu.Item key={idx}>{item}</DropdownMenu.Item>
             })}
           </motion.div>
         </DropdownMenu.Content>

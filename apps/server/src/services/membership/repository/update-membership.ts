@@ -13,31 +13,39 @@ import {
 import { logger } from '../../../telemetry'
 
 const inputSchema = Membership.omit([
-  'id',
+  'organizationId',
+  'membershipNotificationSettingId',
   'createdAt',
   'updatedAt',
   'deletedAt',
-])
+]).concat(
+  yup
+    .object()
+    .shape({
+      deletedAt: yup.date().nullable().optional(),
+    })
+    .required(),
+)
 
 const prisma = new PrismaClient()
 
-interface CreateMembershipConfig {
+interface UpdateMembershipConfig {
   membershipTable: MembershipTable
 }
 
-export interface CreateMembershipFnInput {
+export interface UpdateMembershipFnInput {
   membership: yup.InferType<typeof inputSchema>
 }
 
-type CreateMembershipFn = (
-  input: CreateMembershipFnInput,
+type UpdateMembershipFn = (
+  input: UpdateMembershipFnInput,
 ) => Promise<MembershipFactoryMembership>
 
-type MakeCreateMembershipFn = (
-  config?: CreateMembershipConfig,
-) => CreateMembershipFn
+type MakeUpdateMembershipFn = (
+  config?: UpdateMembershipConfig,
+) => UpdateMembershipFn
 
-const makeCreateMembership: MakeCreateMembershipFn =
+const makeUpdateMembership: MakeUpdateMembershipFn =
   (
     { membershipTable } = {
       membershipTable: makeMembershipTable(prisma),
@@ -49,21 +57,21 @@ const makeCreateMembership: MakeCreateMembershipFn =
     let membership
 
     try {
-      membership = await membershipTable.create({
+      membership = await membershipTable.update({
+        where: {
+          id: validInput.id,
+        },
         data: {
-          organizationId: validInput.organizationId,
           userId: validInput.userId,
           role: validInput.role,
           invitedEmail: validInput.invitedEmail,
           invitedName: validInput.invitedName,
-          membershipNotificationSettingId:
-            validInput.membershipNotificationSettingId,
-          deletedAt: null,
+          deletedAt: validInput.deletedAt,
         },
       })
     } catch (error) {
-      logger.error(error)
-      throw new Error('Failed to create membership')
+      logger.error(`Failed to update membership`, { context: { error, input } })
+      throw new Error('Failed to update membership')
     }
 
     return membershipFactory({
@@ -71,4 +79,4 @@ const makeCreateMembership: MakeCreateMembershipFn =
     })
   }
 
-export { makeCreateMembership }
+export { makeUpdateMembership }

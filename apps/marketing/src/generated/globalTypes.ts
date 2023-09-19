@@ -305,6 +305,14 @@ export interface MembershipInviteInput {
   emails: string[];
 }
 
+export interface MembershipInviteResendInput {
+  membershipId: string;
+}
+
+export interface MembershipInviteRevokeInput {
+  membershipId: string;
+}
+
 export interface MembershipOrdersFilterInput {
   where?: MembershipOrdersWhereFilterInput | null;
 }

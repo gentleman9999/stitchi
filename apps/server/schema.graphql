@@ -739,6 +739,22 @@ type MembershipInvitePayload {
   memberships: [Membership!]!
 }
 
+input MembershipInviteResendInput {
+  membershipId: String!
+}
+
+type MembershipInviteResendPayload {
+  membership: Membership!
+}
+
+input MembershipInviteRevokeInput {
+  membershipId: String!
+}
+
+type MembershipInviteRevokePayload {
+  membership: Membership!
+}
+
 input MembershipOrdersFilterInput {
   where: MembershipOrdersWhereFilterInput
 }
@@ -772,6 +788,8 @@ type Mutation {
   """Creates a new mailing address for the user"""
   mailingAddressCreate(input: MailingAddressCreateInput!): MailingAddressCreatePayload
   membershipInvite(input: MembershipInviteInput!): MembershipInvitePayload
+  membershipInviteResend(input: MembershipInviteResendInput!): MembershipInviteResendPayload
+  membershipInviteRevoke(input: MembershipInviteRevokeInput!): MembershipInviteRevokePayload
 
   """Confirms an order with a customers details"""
   orderConfirm(input: OrderConfirmInput!): OrderConfirmPayload

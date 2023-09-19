@@ -116,9 +116,12 @@ const makeCreateNotification: MakeCreateNotificationFn =
     try {
       validInput = await inputSchema.validate(input.notification)
     } catch (error) {
-      console.error(`Failed to validate input`, {
-        context: { error },
-      })
+      logger
+        .child({
+          context: { error, input },
+        })
+        .error(`Failed to validate input`)
+
       throw new Error('Failed to validate input')
     }
 
@@ -170,7 +173,10 @@ const makeCreateNotification: MakeCreateNotificationFn =
         },
       })
     } catch (error) {
-      logger.error(error)
+      logger.error(`Failed to create notification`, {
+        context: { error, input: validInput },
+      })
+
       throw new Error('Failed to create notification')
     }
 

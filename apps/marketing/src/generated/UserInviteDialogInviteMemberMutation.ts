@@ -12,6 +12,7 @@ import { MembershipInviteInput } from "./globalTypes";
 export interface UserInviteDialogInviteMemberMutation_membershipInvite_memberships {
   __typename: "Membership";
   id: string;
+  organizationId: string;
 }
 
 export interface UserInviteDialogInviteMemberMutation_membershipInvite {
