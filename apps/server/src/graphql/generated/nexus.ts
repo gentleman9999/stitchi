@@ -183,6 +183,15 @@ export interface NexusGenInputs {
     createdAt?: NexusGenInputs['DateFilterInput'] | null; // DateFilterInput
     membershipId?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
   }
+  MembershipInviteInput: { // input type
+    emails: string[]; // [String!]!
+  }
+  MembershipInviteResendInput: { // input type
+    membershipId: string; // String!
+  }
+  MembershipInviteRevokeInput: { // input type
+    membershipId: string; // String!
+  }
   MembershipOrdersFilterInput: { // input type
     where?: NexusGenInputs['MembershipOrdersWhereFilterInput'] | null; // MembershipOrdersWhereFilterInput
   }
@@ -649,13 +658,23 @@ export interface NexusGenObjects {
   Membership: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
+    invitedEmail?: string | null; // String
     organizationId: string; // String!
     role?: NexusGenEnums['MembershipRole'] | null; // MembershipRole
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
-    userId: string; // String!
+    userId?: string | null; // String
   }
   MembershipFlags: { // root type
     isBetaTester: boolean; // Boolean!
+  }
+  MembershipInvitePayload: { // root type
+    memberships: NexusGenRootTypes['Membership'][]; // [Membership!]!
+  }
+  MembershipInviteResendPayload: { // root type
+    membership: NexusGenRootTypes['Membership']; // Membership!
+  }
+  MembershipInviteRevokePayload: { // root type
+    membership: NexusGenRootTypes['Membership']; // Membership!
   }
   Mutation: {};
   Notification: { // root type
@@ -1252,6 +1271,7 @@ export interface NexusGenFieldTypes {
     hasOrders: boolean; // Boolean!
     humanizedRole: string | null; // String
     id: string; // ID!
+    invitedEmail: string | null; // String
     notifications: NexusGenRootTypes['NotificationConnection'] | null; // NotificationConnection
     orders: NexusGenRootTypes['OrderConnection'] | null; // OrderConnection
     organization: NexusGenRootTypes['Organization']; // Organization!
@@ -1260,10 +1280,19 @@ export interface NexusGenFieldTypes {
     scopes: NexusGenRootTypes['Scope'][]; // [Scope!]!
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     user: NexusGenRootTypes['User'] | null; // User
-    userId: string; // String!
+    userId: string | null; // String
   }
   MembershipFlags: { // field return type
     isBetaTester: boolean; // Boolean!
+  }
+  MembershipInvitePayload: { // field return type
+    memberships: NexusGenRootTypes['Membership'][]; // [Membership!]!
+  }
+  MembershipInviteResendPayload: { // field return type
+    membership: NexusGenRootTypes['Membership']; // Membership!
+  }
+  MembershipInviteRevokePayload: { // field return type
+    membership: NexusGenRootTypes['Membership']; // Membership!
   }
   Mutation: { // field return type
     designProductCreateOrder: NexusGenRootTypes['DesignProductCreateOrderPayload'] | null; // DesignProductCreateOrderPayload
@@ -1281,6 +1310,9 @@ export interface NexusGenFieldTypes {
     fileCreateBatch: NexusGenRootTypes['FileCreateBatchPayload'] | null; // FileCreateBatchPayload
     fulfillmentCreate: NexusGenRootTypes['FulfillmentCreatePayload'] | null; // FulfillmentCreatePayload
     mailingAddressCreate: NexusGenRootTypes['MailingAddressCreatePayload'] | null; // MailingAddressCreatePayload
+    membershipInvite: NexusGenRootTypes['MembershipInvitePayload'] | null; // MembershipInvitePayload
+    membershipInviteResend: NexusGenRootTypes['MembershipInviteResendPayload'] | null; // MembershipInviteResendPayload
+    membershipInviteRevoke: NexusGenRootTypes['MembershipInviteRevokePayload'] | null; // MembershipInviteRevokePayload
     orderConfirm: NexusGenRootTypes['OrderConfirmPayload'] | null; // OrderConfirmPayload
     organizationBrandColorCreate: NexusGenRootTypes['OrganizationBrandColorCreatePayload'] | null; // OrganizationBrandColorCreatePayload
     organizationBrandColorDelete: NexusGenRootTypes['OrganizationBrandColorDeletePayload'] | null; // OrganizationBrandColorDeletePayload
@@ -1917,6 +1949,7 @@ export interface NexusGenFieldTypeNames {
     hasOrders: 'Boolean'
     humanizedRole: 'String'
     id: 'ID'
+    invitedEmail: 'String'
     notifications: 'NotificationConnection'
     orders: 'OrderConnection'
     organization: 'Organization'
@@ -1929,6 +1962,15 @@ export interface NexusGenFieldTypeNames {
   }
   MembershipFlags: { // field return type name
     isBetaTester: 'Boolean'
+  }
+  MembershipInvitePayload: { // field return type name
+    memberships: 'Membership'
+  }
+  MembershipInviteResendPayload: { // field return type name
+    membership: 'Membership'
+  }
+  MembershipInviteRevokePayload: { // field return type name
+    membership: 'Membership'
   }
   Mutation: { // field return type name
     designProductCreateOrder: 'DesignProductCreateOrderPayload'
@@ -1946,6 +1988,9 @@ export interface NexusGenFieldTypeNames {
     fileCreateBatch: 'FileCreateBatchPayload'
     fulfillmentCreate: 'FulfillmentCreatePayload'
     mailingAddressCreate: 'MailingAddressCreatePayload'
+    membershipInvite: 'MembershipInvitePayload'
+    membershipInviteResend: 'MembershipInviteResendPayload'
+    membershipInviteRevoke: 'MembershipInviteRevokePayload'
     orderConfirm: 'OrderConfirmPayload'
     organizationBrandColorCreate: 'OrganizationBrandColorCreatePayload'
     organizationBrandColorDelete: 'OrganizationBrandColorDeletePayload'
@@ -2300,6 +2345,15 @@ export interface NexusGenArgTypes {
     }
     mailingAddressCreate: { // args
       input: NexusGenInputs['MailingAddressCreateInput']; // MailingAddressCreateInput!
+    }
+    membershipInvite: { // args
+      input: NexusGenInputs['MembershipInviteInput']; // MembershipInviteInput!
+    }
+    membershipInviteResend: { // args
+      input: NexusGenInputs['MembershipInviteResendInput']; // MembershipInviteResendInput!
+    }
+    membershipInviteRevoke: { // args
+      input: NexusGenInputs['MembershipInviteRevokeInput']; // MembershipInviteRevokeInput!
     }
     orderConfirm: { // args
       input: NexusGenInputs['OrderConfirmInput']; // OrderConfirmInput!

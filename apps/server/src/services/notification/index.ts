@@ -6,6 +6,7 @@ import { NotificationFactoryNotificationTopic } from './factory/notification-top
 
 export interface NotificationClientService {
   sendNotification: Methods['sendNotification']
+  sendAnonymousNotification: Methods['sendAnonymousNotification']
   listNotifications: NotificationRepository['listNotifications']
   listNotificationsCount: NotificationRepository['listNotificationsCount']
 
@@ -41,6 +42,7 @@ const makeClient: MakeClientFn = (
 ) => {
   return {
     sendNotification: serviceMethods.sendNotification,
+    sendAnonymousNotification: serviceMethods.sendAnonymousNotification,
 
     listNotifications: async input => {
       try {

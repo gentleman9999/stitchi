@@ -48,14 +48,22 @@ const Card = ({
             {badge ? <Badge {...badge} className="opacity-90" /> : null}
             {actions?.length ? (
               <Dropdown
-                trigger={
-                  <button className="max-w-0 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto group-hover:max-w-[60px] p-1 bg-gray-900/50 hover:bg-gray-900/60 data-[state=open]:opacity-100 data-[state=open]:pointer-events-auto data-[state=open]:max-w-none rounded-md transition-all outline-none">
+                renderTrigger={() => (
+                  <button
+                    className="max-w-0 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto group-hover:max-w-[60px] p-1 bg-gray-900/50 hover:bg-gray-900/60 data-[state=open]:opacity-100 data-[state=open]:pointer-events-auto data-[state=open]:max-w-none rounded-md transition-all outline-none"
+                    onClick={e => {
+                      e.stopPropagation()
+                      e.preventDefault()
+                    }}
+                  >
                     <EllipsisHorizontalIcon className="w-6 h-6 text-white" />
                   </button>
+                )}
+                renderItems={() =>
+                  actions.map(action => (
+                    <DropdownItem key={action.label} {...action} />
+                  ))
                 }
-                items={actions.map(action => (
-                  <DropdownItem key={action.label} {...action} />
-                ))}
               />
             ) : null}
           </div>

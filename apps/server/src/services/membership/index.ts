@@ -14,6 +14,14 @@ export interface MembershipService {
   getMembership: MembershipRepository['getMembership']
   listMemberships: MembershipRepository['listMemberships']
 
+  archiveMembership: (input: {
+    membershipId: string
+  }) => Promise<MembershipFactoryMembership>
+
+  unarchiveMembership: (input: {
+    membershipId: string
+  }) => Promise<MembershipFactoryMembership>
+
   findUserActiveMembership: (input: {
     userId: string
   }) => Promise<MembershipFactoryMembership | null>
@@ -130,6 +138,61 @@ const makeClient: MakeClientFn = (
       }
 
       return memberships
+    },
+
+    archiveMembership: async input => {
+      let membership
+
+      try {
+        membership = await membershipRepository.getMembership({
+          membershipId: input.membershipId,
+        })
+      } catch (error) {
+        throw new Error('Failed to get membership')
+      }
+
+      try {
+        membership = await membershipRepository.updateMembership({
+          membership: {
+            ...membership,
+            deletedAt: new Date(),
+          },
+        })
+      } catch (error) {
+        throw new Error('Failed to archive membership')
+      }
+
+      return membership
+    },
+
+    unarchiveMembership: async input => {
+      let membership
+
+      try {
+        membership = await membershipRepository.getMembership({
+          membershipId: input.membershipId,
+        })
+      } catch (error) {
+        throw new Error('Failed to get membership')
+      }
+
+      if (!membership.deletedAt) {
+        logger.child({ context: { input } }).warn(`Membership is not archived`)
+        return membership
+      }
+
+      try {
+        membership = await membershipRepository.updateMembership({
+          membership: {
+            ...membership,
+            deletedAt: null,
+          },
+        })
+      } catch (error) {
+        throw new Error('Failed to unarchive membership')
+      }
+
+      return membership
     },
 
     findUserActiveMembership: async input => {

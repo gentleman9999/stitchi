@@ -1,25 +1,29 @@
 import { User } from 'auth0'
+import { logger } from '../../../telemetry'
 import { getOrThrow } from '../../../utils'
 import { DesignFactoryDesignRequest } from '../../design/factory'
 import { MembershipFactoryMembership } from '../../membership/factory/membership'
 import { OrderFactoryOrder } from '../../order/factory'
+import { OrganizationRecord } from '../../organization/db/organization-table'
 
 const appBaseUrl = getOrThrow(
   process.env.STITCHI_MARKETING_APPLICATION_HOST,
   'STITCHI_MARKETING_APPLICATION_HOST',
 )
 
+const companyName = getOrThrow(process.env.COMPANY_NAME, 'COMPANY_NAME')
+
 interface Notification {
   email: {
     subject: string
     htmlBody: string
     textBody: string
-  }
+  } | null
   web: {
     message: string
     ctaText: string | null
     ctaUrl: string | null
-  }
+  } | null
 }
 
 const notifications = {
@@ -77,6 +81,22 @@ const notifications = {
         ctaText: 'View',
         ctaUrl: `${appBaseUrl}/closet/design-requests/${params.designRequest.id}`,
       },
+    }
+  },
+
+  'membership:invited': (params: {
+    invitingUser: User
+    membership: MembershipFactoryMembership
+    organization: OrganizationRecord
+  }): Notification => {
+    logger.child({ context: { params } }).info('Sending')
+    return {
+      email: {
+        subject: `${params.invitingUser.name} invited you to join ${params.organization.name} on ${companyName}`,
+        htmlBody: `${params.invitingUser.name} invited you to join ${params.organization.name} on ${companyName}. Click <a href="${appBaseUrl}/invite/${params.membership.id}/accept">here</a> to accept the invitation.`,
+        textBody: `${params.invitingUser.name} invited you to join ${params.organization.name} on ${companyName}. Click ${appBaseUrl}/invite/${params.membership.id}/accept to accept the invitation.`,
+      },
+      web: null,
     }
   },
 }

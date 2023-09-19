@@ -5,8 +5,12 @@ import { ClosetSettingsTeamPageGetDataQuery } from '@generated/ClosetSettingsTea
 import React from 'react'
 
 const Page = () => {
-  const { data, loading } =
-    useQuery<ClosetSettingsTeamPageGetDataQuery>(GET_DATA)
+  const { data, loading } = useQuery<ClosetSettingsTeamPageGetDataQuery>(
+    GET_DATA,
+    {
+      fetchPolicy: 'cache-and-network',
+    },
+  )
 
   const { memberships } = data?.viewer?.organization || {}
 

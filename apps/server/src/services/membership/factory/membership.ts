@@ -19,6 +19,7 @@ const membershipFactory = ({
 
     createdAt: membershipRecord.createdAt,
     updatedAt: membershipRecord.updatedAt,
+    deletedAt: membershipRecord.deletedAt,
   }
 }
 

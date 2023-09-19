@@ -28,10 +28,10 @@ const Badge = ({
     <span
       className={cx(
         severityClasses[severity],
-        'rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset',
+        'rounded-md font-medium ring-1 ring-inset',
         { 'pr-2': Boolean(onClose) },
         { 'py-1.5 px-3 text-sm': size === 'normal' },
-        { 'py-0.5 px-2 text-xs': size === 'small' },
+        { 'py-0.5 px-1 text-xs': size === 'small' },
 
         className,
       )}

@@ -35,6 +35,13 @@ const makeListMemberships: MakeListMembershipsFn =
     try {
       membershipRecords = await membershipTable.findMany({
         ...input,
+        where: {
+          // By default, only return memberships that have not been deleted. If
+          // the user wants to include deleted memberships, they can pass in
+          // `{ deletedAt: undefined }` as a where clause.
+          deletedAt: null,
+          ...input.where,
+        },
       })
     } catch (error) {
       logger

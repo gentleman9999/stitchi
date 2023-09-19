@@ -20,6 +20,7 @@ export interface ClosetSettingsTeamPageGetDataQuery_viewer_organization_membersh
   createdAt: any;
   humanizedRole: string | null;
   user: ClosetSettingsTeamPageGetDataQuery_viewer_organization_memberships_user | null;
+  invitedEmail: string | null;
 }
 
 export interface ClosetSettingsTeamPageGetDataQuery_viewer_organization {

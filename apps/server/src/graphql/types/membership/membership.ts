@@ -19,11 +19,14 @@ export const Membership = objectType({
   definition: t => {
     t.nonNull.id('id')
     t.nonNull.string('organizationId')
-    t.nonNull.string('userId')
+    t.nullable.string('userId')
+    t.nullable.string('invitedEmail')
 
     t.nonNull.field('flags', {
       type: 'MembershipFlags',
       resolve: async (membership, _, context) => {
+        if (!membership.userId) return { isBetaTester: false }
+
         let user
 
         try {

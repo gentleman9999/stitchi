@@ -14,6 +14,7 @@ import NavItem from './NavItem'
 import { useAuthorizedComponent } from '@lib/auth'
 import { PrimarySideBarMembershipFragment } from '@generated/PrimarySideBarMembershipFragment'
 import { useClosetLayoutContext } from '../closet-layout-context'
+import { StandoutType, useStandout } from '@components/context'
 
 interface Props {
   loading: boolean
@@ -23,6 +24,7 @@ interface Props {
 const PrimarySideBar = ({ membership, loading }: Props) => {
   const { can, loading: authorizationLoading } = useAuthorizedComponent()
   const { navigation, activeNavItem, handleNavigate } = useClosetLayoutContext()
+  const { setStandout } = useStandout()
 
   const { user, organization } = membership || {}
 
@@ -114,7 +116,14 @@ const PrimarySideBar = ({ membership, loading }: Props) => {
 
         {!authorizationLoading &&
           can(ScopeResource.Membership, ScopeAction.CREATE) && (
-            <button className="hover:bg-gray-50 rounded-md p-2 w-full text-sm font-medium flex items-center gap-2 text-gray-500">
+            <button
+              className="hover:bg-gray-50 rounded-md p-2 w-full text-sm font-medium flex items-center gap-2 text-gray-500"
+              onClick={() =>
+                setStandout({
+                  type: StandoutType.UserInvite,
+                })
+              }
+            >
               <div className="w-5 h-5 inline-flex items-center justify-center">
                 <RectangleStackIcon className="w-4 h-4" />
               </div>
