@@ -23,6 +23,7 @@ const AccountMembershipAcceptPage = ({
 }: Props) => {
   const router = useRouter()
   const { user } = useUser()
+
   const [acceptMembership, acceptMembershipMutation] = useMutation<
     AccountMemberhsipAcceptPageAcceptMembershipMutation,
     AccountMemberhsipAcceptPageAcceptMembershipMutationVariables
@@ -46,6 +47,8 @@ const AccountMembershipAcceptPage = ({
           },
         },
       })
+
+      await router.push(routes.internal.closet.href())
     }
   }
 
