@@ -19,7 +19,7 @@ const ClosetSectionHeaderTabs = ({}: Props) => {
           id="tabs"
           name="tabs"
           className="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
-          defaultValue={activeTab?.label}
+          defaultValue={activeTab?.id}
           onChange={e => setActiveTab(e.target.value)}
         >
           {tabs.map(tab => (
