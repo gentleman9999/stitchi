@@ -18,7 +18,7 @@ export default withApiAuthRequired(
               },
             })
 
-            res.redirect(routes.internal.logout.href())
+            res.redirect(302, routes.internal.logout.href())
           }
 
           break
