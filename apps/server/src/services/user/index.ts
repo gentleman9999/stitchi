@@ -1,5 +1,4 @@
 import { AppMetadata, ManagementClient, User, UserMetadata } from 'auth0'
-import { makeClient as makeRedisClient, RedisClientFactory } from '../../redis'
 import { Auth0ManagementClient, auth0ManagementClient } from '../../auth0'
 import { logger } from '../../telemetry'
 
@@ -11,15 +10,13 @@ export interface UserService {
 }
 
 interface MakeClientParams {
-  redisClientFactory: RedisClientFactory
   auth0: Auth0ManagementClient
 }
 
 type MakeClientFn = (params?: MakeClientParams) => UserService
 
 const makeClient: MakeClientFn = (
-  { redisClientFactory, auth0 } = {
-    redisClientFactory: makeRedisClient,
+  { auth0 } = {
     auth0: auth0ManagementClient,
   },
 ) => {
@@ -27,26 +24,8 @@ const makeClient: MakeClientFn = (
     getUser: async params => {
       let user: User<AppMetadata, UserMetadata> = {}
 
-      const redisClient = await redisClientFactory()
-
       try {
-        const found = await redisClient.get(`user:${params.id}`)
-
-        if (found) {
-          user = JSON.parse(found)
-        } else {
-          user = await auth0.getUser(params)
-
-          if (user.user_id) {
-            await redisClient.set(
-              `user:${user.user_id}`,
-              JSON.stringify(user),
-              {
-                EX: 30, // 30 seconds
-              },
-            )
-          }
-        }
+        user = await auth0.getUser(params)
       } catch (error) {
         logger
           .child({

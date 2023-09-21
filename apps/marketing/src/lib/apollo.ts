@@ -40,8 +40,8 @@ const makeWsLink = (ctx?: GetServerSidePropsContext) =>
     createClient({
       url: 'ws://localhost:5000/graphql',
       connectionParams: async () => {
-        // Note: getSession() is a placeholder function created by you
         const accessToken = await getAccessToken(ctx)
+
         if (!accessToken) {
           return {}
         }
@@ -70,11 +70,9 @@ const makeSplitLink = (ctx?: GetServerSidePropsContext) =>
     httpLink,
   )
 
-let cachedAccessToken: string | undefined
-
 const makeAuthLink = (ctx?: GetServerSidePropsContext) =>
   setContext(async (_, { headers }) => {
-    const accessToken = cachedAccessToken || (await getAccessToken(ctx))
+    const accessToken = await getAccessToken(ctx)
 
     return {
       headers: Object.assign(headers || {}, {
