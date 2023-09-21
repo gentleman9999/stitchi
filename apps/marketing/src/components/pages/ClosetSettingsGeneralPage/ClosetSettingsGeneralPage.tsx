@@ -22,7 +22,7 @@ const ClosetSettingsGeneralPage = ({ loading, user }: Props) => {
   }
 
   return (
-    <ClosetPageContainer>
+    <ClosetPageContainer size="sm">
       <ClosetPageHeader>
         <ClosetPageTitle title="" />
       </ClosetPageHeader>

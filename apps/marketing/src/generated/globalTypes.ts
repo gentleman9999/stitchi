@@ -299,6 +299,13 @@ export interface MembershipDesignRequestsFilterInput {
 export interface MembershipDesignRequestsWhereFilterInput {
   createdAt?: DateFilterInput | null;
   membershipId?: StringFilterInput | null;
+  status?: MembershipDesignRequestsWhereFilterStatusInput | null;
+}
+
+export interface MembershipDesignRequestsWhereFilterStatusInput {
+  equals?: DesignRequestStatus | null;
+  in?: DesignRequestStatus[] | null;
+  notIn?: DesignRequestStatus[] | null;
 }
 
 export interface MembershipInviteAcceptInput {

@@ -4,7 +4,7 @@ interface Props {
   children: React.ReactNode
 }
 
-const CardGrid = ({ children }: Props) => {
+const ClosetCardGrid = ({ children }: Props) => {
   return (
     <div className="@container">
       <div className="grid grid-cols-1 @sm:grid-cols-2 @xl:grid-cols-3 @3xl:grid-cols-4 gap-6">
@@ -14,4 +14,4 @@ const CardGrid = ({ children }: Props) => {
   )
 }
 
-export default CardGrid
+export default ClosetCardGrid

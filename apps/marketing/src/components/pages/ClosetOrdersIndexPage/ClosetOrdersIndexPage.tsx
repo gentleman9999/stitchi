@@ -108,11 +108,11 @@ const ClosetOrdersIndexPage = (props: Props) => {
 
       <ClosetSection
         tabs={[
-          // {
-          //   id: 'inventory',
-          //   label: 'Inventory',
-          //   href: routes.internal.closet.inventory.href(),
-          // },
+          {
+            id: 'inventory',
+            label: 'Inventory',
+            href: routes.internal.closet.inventory.href(),
+          },
           {
             id: 'orders',
             label: 'Orders',

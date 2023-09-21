@@ -98,12 +98,13 @@ const ClosetLayoutContextProvider = ({ children }: Props) => {
           ],
         },
         {
-          href: routes.internal.closet.orders.href(),
+          href: routes.internal.closet.inventory.href(),
           label: 'Fulfill',
           icon: <TruckIcon className="w-4 h-4" />,
           hidden:
-            authorizationLoading || !can(ScopeResource.Order, ScopeAction.READ),
-          includedPaths: [routes.internal.closet.orders.href()],
+            authorizationLoading ||
+            !can(ScopeResource.DesignProduct, ScopeAction.READ),
+          includedPaths: [routes.internal.closet.inventory.href()],
         },
 
         {

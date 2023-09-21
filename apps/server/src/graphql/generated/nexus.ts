@@ -182,6 +182,12 @@ export interface NexusGenInputs {
   MembershipDesignRequestsWhereFilterInput: { // input type
     createdAt?: NexusGenInputs['DateFilterInput'] | null; // DateFilterInput
     membershipId?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    status?: NexusGenInputs['MembershipDesignRequestsWhereFilterStatusInput'] | null; // MembershipDesignRequestsWhereFilterStatusInput
+  }
+  MembershipDesignRequestsWhereFilterStatusInput: { // input type
+    equals?: NexusGenEnums['DesignRequestStatus'] | null; // DesignRequestStatus
+    in?: NexusGenEnums['DesignRequestStatus'][] | null; // [DesignRequestStatus!]
+    notIn?: NexusGenEnums['DesignRequestStatus'][] | null; // [DesignRequestStatus!]
   }
   MembershipInviteAcceptInput: { // input type
     membershipId: string; // String!

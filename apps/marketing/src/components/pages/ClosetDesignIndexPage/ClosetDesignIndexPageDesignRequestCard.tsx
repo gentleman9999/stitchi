@@ -12,7 +12,7 @@ import routes from '@lib/routes'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { format } from 'date-fns'
 import React from 'react'
-import Card from './Card'
+import Card from '../../common/ClosetCard/ClosetCard'
 
 interface Props {
   loading: boolean

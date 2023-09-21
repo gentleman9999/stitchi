@@ -7,9 +7,10 @@ import {
 import routes from '@lib/routes'
 import { notEmpty } from '@lib/utils/typescript'
 import React from 'react'
-import CardGrid from '../CardGrid'
 import { useCloset } from '../closet-context'
-import ClosetDesignIndexPageApprovedDesignCard from '../ClosetDesignIndexPageApprovedDesignCard'
+import ClosetCardGrid from '@components/common/ClosetCardGrid'
+import ClosetDesignIndexPageDesignRequestCard from '../ClosetDesignIndexPageDesignRequestCard'
+import { DesignRequestStatus } from '@generated/globalTypes'
 
 interface Props {}
 
@@ -26,6 +27,9 @@ const ClosetTabApprovedDesigns = ({}: Props) => {
       filter: {
         where: {
           membershipId: { equals: filters.user || undefined },
+          status: {
+            equals: DesignRequestStatus.APPROVED,
+          },
           createdAt: {
             gte: filters.date?.gte,
             lte: filters.date?.lte,
@@ -39,7 +43,10 @@ const ClosetTabApprovedDesigns = ({}: Props) => {
     refetch({
       filter: {
         where: {
-          // userId: { equals: filters.user || undefined },
+          membershipId: { equals: filters.user || undefined },
+          status: {
+            equals: DesignRequestStatus.APPROVED,
+          },
           createdAt: {
             gte: filters.date?.gte,
             lte: filters.date?.lte,
@@ -49,7 +56,7 @@ const ClosetTabApprovedDesigns = ({}: Props) => {
     })
   }, [filters, refetch])
 
-  const approvedDesigns = data?.viewer?.designProducts.edges
+  const approvedDesigns = data?.viewer?.designRequests.edges
     ?.map(edge => edge?.node)
     .filter(notEmpty)
 
@@ -68,13 +75,13 @@ const ClosetTabApprovedDesigns = ({}: Props) => {
       description="Try adjusting your filters or resetting them to see more designs."
     />
   ) : (
-    <CardGrid>
+    <ClosetCardGrid>
       {loading ? (
         <>
           {Array.from({ length: 4 }).map((_, index) => (
-            <ClosetDesignIndexPageApprovedDesignCard
+            <ClosetDesignIndexPageDesignRequestCard
               key={index}
-              design={null}
+              designRequest={null}
               loading={true}
             />
           ))}
@@ -82,33 +89,33 @@ const ClosetTabApprovedDesigns = ({}: Props) => {
       ) : (
         <>
           {approvedDesigns?.map(design => (
-            <ClosetDesignIndexPageApprovedDesignCard
+            <ClosetDesignIndexPageDesignRequestCard
               key={design.id}
-              design={design}
+              designRequest={design}
               loading={false}
             />
           ))}
         </>
       )}
-    </CardGrid>
+    </ClosetCardGrid>
   )
 }
 
 const GET_DATA = gql`
-  ${ClosetDesignIndexPageApprovedDesignCard.fragments.designProduct}
+  ${ClosetDesignIndexPageDesignRequestCard.fragments.designRequest}
   query ClosetTabApprovedDesignsGetDataQuery(
     $first: Int!
     $after: String
-    $filter: MembershipDesignProductsFilterInput
+    $filter: MembershipDesignRequestsFilterInput
   ) {
     viewer {
       id
       hasDesignProducts
-      designProducts(first: $first, after: $after, filter: $filter) {
+      designRequests(first: $first, after: $after, filter: $filter) {
         edges {
           node {
             id
-            ...ClosetDesignIndexPageApprovedDesignCardDesignProductFragment
+            ...ClosetDesignIndexPageDesignRequestCardDesignRequestFragment
           }
         }
       }

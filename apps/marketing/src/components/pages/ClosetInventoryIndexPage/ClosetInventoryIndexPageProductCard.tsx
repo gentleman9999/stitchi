@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import SwatchGroup from '@components/common/Catalog/SwatchGroup'
 import { StandoutType, useStandout } from '@components/context'
-import { ClosetDesignIndexPageApprovedDesignCardDesignProductFragment } from '@generated/ClosetDesignIndexPageApprovedDesignCardDesignProductFragment'
+import { ClosetInventoryIndexPageProductCardDesignProductFragment } from '@generated/ClosetInventoryIndexPageProductCardDesignProductFragment'
 import {
   DocumentDuplicateIcon,
   EyeIcon,
@@ -12,20 +12,17 @@ import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { notEmpty } from '@lib/utils/typescript'
 import currency from 'currency.js'
 import React from 'react'
-import Card from './Card'
+import Card from '../../common/ClosetCard/ClosetCard'
 
 interface Props {
   loading: boolean
   design:
-    | ClosetDesignIndexPageApprovedDesignCardDesignProductFragment
+    | ClosetInventoryIndexPageProductCardDesignProductFragment
     | null
     | undefined
 }
 
-const ClosetDesignIndexPageApprovedDesignCard = ({
-  design,
-  loading,
-}: Props) => {
+const ClosetInventoryIndexPageProductCard = ({ design, loading }: Props) => {
   const { setStandout } = useStandout()
 
   if (loading) {
@@ -102,9 +99,9 @@ const ClosetDesignIndexPageApprovedDesignCard = ({
   )
 }
 
-ClosetDesignIndexPageApprovedDesignCard.fragments = {
+ClosetInventoryIndexPageProductCard.fragments = {
   designProduct: gql`
-    fragment ClosetDesignIndexPageApprovedDesignCardDesignProductFragment on DesignProduct {
+    fragment ClosetInventoryIndexPageProductCardDesignProductFragment on DesignProduct {
       id
       name
       minUnitPriceCents
@@ -122,4 +119,4 @@ ClosetDesignIndexPageApprovedDesignCard.fragments = {
   `,
 }
 
-export default ClosetDesignIndexPageApprovedDesignCard
+export default ClosetInventoryIndexPageProductCard

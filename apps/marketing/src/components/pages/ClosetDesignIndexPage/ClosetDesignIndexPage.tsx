@@ -62,15 +62,16 @@ const ClosetDesignIndexPage = ({}: Props) => {
             //   label: 'Collections',
             //   href: routes.internal.closet.collections.href(router.query),
             // },
-            {
-              id: 'approved-designs',
-              label: 'Approved Designs',
-              href: routes.internal.closet.designProducts.href(router.query),
-            },
+
             {
               id: 'design-requests',
-              label: 'Design Requests',
+              label: 'In-Progress',
               href: routes.internal.closet.designRequests.href(router.query),
+            },
+            {
+              id: 'approved-designs',
+              label: 'Approved',
+              href: routes.internal.closet.designProducts.href(router.query),
             },
           ]}
         >

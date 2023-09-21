@@ -26,7 +26,7 @@ const ClosetSettingsOrganizationPage = ({ organization, loading }: Props) => {
   const { handleUpdateOrganization } = useClosetSettingsOrganizationPage()
 
   return (
-    <ClosetPageContainer>
+    <ClosetPageContainer size="sm">
       <ClosetPageHeader>
         <ClosetPageTitle title="" />
       </ClosetPageHeader>

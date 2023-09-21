@@ -35,9 +35,8 @@ const ClosetTabAll = ({}: Props) => {
         <ClosetTabAllCollections />
       </ClosetSection> */}
 
-      <ClosetTabApprovedDesignRequests />
-
       <ClosetTabAllDesignRequests />
+      <ClosetTabApprovedDesignRequests />
     </div>
   )
 }
