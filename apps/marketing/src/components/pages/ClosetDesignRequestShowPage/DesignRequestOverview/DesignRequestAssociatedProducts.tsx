@@ -67,7 +67,7 @@ const DesignRequestAssociatedProducts = ({ designRequestId }: Props) => {
                 size="xs"
                 endIcon={<ArrowRightIcon className="w-5" />}
               >
-                View product
+                View inventory
               </Button>
             </Link>
           ))}

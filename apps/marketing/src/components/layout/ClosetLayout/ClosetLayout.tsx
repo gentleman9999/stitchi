@@ -51,7 +51,7 @@ const ClosetLayout = (props: Props) => {
 
   return (
     <ClosetLayoutContextProvider>
-      <AppBetaDialog />
+      {/* <AppBetaDialog /> */}
       <div className="flex flex-col md:flex-row relative">
         <nav
           className={cx(
