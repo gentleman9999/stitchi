@@ -37,7 +37,7 @@ const ClosetDesignRequestShowPage = ({ designId }: Props) => {
           tabs={[
             {
               id: 'overview',
-              href: routes.internal.closet.designRequests.show.href({
+              href: routes.internal.closet.designs.show.href({
                 designId: designId,
               }),
               label: 'Overview',

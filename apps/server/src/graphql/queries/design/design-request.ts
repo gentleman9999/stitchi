@@ -24,8 +24,10 @@ export const designRequest = queryField('designRequest', {
   args: {
     id: nonNull(idArg()),
   },
-  resolve: async (_, { id }, { design, organizationId, role }) => {
+  resolve: async (_, { id }, { logger, design, organizationId, role }) => {
     const designRequest = await design.getDesignRequest({ designRequestId: id })
+
+    logger.child({ designRequest }).info('Design Request')
 
     if (
       role === 'OWNER' &&

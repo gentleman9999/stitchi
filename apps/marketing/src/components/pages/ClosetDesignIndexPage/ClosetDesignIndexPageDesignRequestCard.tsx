@@ -38,7 +38,7 @@ const ClosetDesignIndexPageDesignRequestCard = ({
 
   return (
     <Card
-      href={routes.internal.closet.designRequests.show.href({
+      href={routes.internal.closet.designs.show.href({
         designId: designRequest.id,
       })}
       title={designRequest.name}
@@ -61,7 +61,7 @@ const ClosetDesignIndexPageDesignRequestCard = ({
         {
           label: 'View',
           icon: <EyeIcon className="w-full" />,
-          href: routes.internal.closet.designRequests.show.href({
+          href: routes.internal.closet.designs.show.href({
             designId: designRequest.id,
           }),
         },
@@ -71,7 +71,7 @@ const ClosetDesignIndexPageDesignRequestCard = ({
             setStandout({
               type: StandoutType.ClosetLinkShare,
               absoluteUrl: makeAbsoluteUrl(
-                routes.internal.closet.designRequests.show.href({
+                routes.internal.closet.designs.show.href({
                   designId: designRequest.id,
                 }),
               ),

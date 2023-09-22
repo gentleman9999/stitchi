@@ -44,7 +44,10 @@ const ClosetTabAllDesignRequests = ({}: Props) => {
     refetch({
       filter: {
         where: {
-          // userId: { equals: filters.user || undefined },
+          membershipId: { equals: filters.user || undefined },
+          status: {
+            notIn: [DesignRequestStatus.APPROVED],
+          },
           createdAt: {
             gte: filters.date?.gte,
             lte: filters.date?.lte,

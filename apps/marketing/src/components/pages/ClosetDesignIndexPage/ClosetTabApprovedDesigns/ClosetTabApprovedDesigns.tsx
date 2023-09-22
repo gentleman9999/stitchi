@@ -65,8 +65,8 @@ const ClosetTabApprovedDesigns = ({}: Props) => {
       title="You don't have any approved designs yet."
       description="Your approved designs will appear here."
       cta={{
-        label: 'View design requests',
-        href: routes.internal.closet.designRequests.href(),
+        label: 'View in-progress designs',
+        href: routes.internal.closet.designs.inProgress.href(),
       }}
     />
   ) : !loading && !approvedDesigns?.length ? (

@@ -52,6 +52,10 @@ const DesignRequestActivity = ({ designRequestId }: Props) => {
 
   const { designRequest } = data || {}
 
+  console.log('DESIGN REQUEST ID', designRequestId)
+
+  console.log('DESIGN REQUEST', designRequest)
+
   return (
     <div className="relative">
       {designRequest?.status === DesignRequestStatus.DRAFT ? (

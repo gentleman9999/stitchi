@@ -25,30 +25,25 @@ import { getAccessToken } from './auth'
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__' as const
 
-const endpoint = getOrThrow(
+const graphqlEndpoint = getOrThrow(
   process.env.NEXT_PUBLIC_STITCHI_GRAPHQL_URI,
   'NEXT_PUBLIC_STITCHI_GRAPHQL_URI',
 )
 
+const wsEndpoint = getOrThrow(
+  process.env.NEXT_PUBLIC_STITCHI_WEBSOCKET_URI,
+  'NEXT_PUBLIC_STITCHI_WEBSOCKET_URI',
+)
+
 const httpLink = createHttpLink({
-  uri: endpoint,
+  uri: graphqlEndpoint,
   credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
 })
 
-const makeWsLink = (ctx?: GetServerSidePropsContext) =>
+const makeWsLink = () =>
   new GraphQLWsLink(
     createClient({
-      url: 'ws://localhost:5000/graphql',
-      connectionParams: async () => {
-        const accessToken = await getAccessToken(ctx)
-
-        if (!accessToken) {
-          return {}
-        }
-        return {
-          Authorization: `Bearer ${accessToken}`,
-        }
-      },
+      url: wsEndpoint,
     }),
   )
 
@@ -66,7 +61,7 @@ const makeSplitLink = (ctx?: GetServerSidePropsContext) =>
         definition.operation === 'subscription'
       )
     },
-    makeWsLink(ctx),
+    makeWsLink(),
     httpLink,
   )
 

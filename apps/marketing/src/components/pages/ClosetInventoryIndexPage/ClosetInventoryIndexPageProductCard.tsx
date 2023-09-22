@@ -35,7 +35,7 @@ const ClosetInventoryIndexPageProductCard = ({ design, loading }: Props) => {
 
   return (
     <Card
-      href={routes.internal.closet.designProducts.show.href({
+      href={routes.internal.closet.inventory.show.href({
         designId: design.id,
       })}
       title={design.name}
@@ -43,7 +43,7 @@ const ClosetInventoryIndexPageProductCard = ({ design, loading }: Props) => {
         {
           label: 'View',
           icon: <EyeIcon className="w-full" />,
-          href: routes.internal.closet.designProducts.show.href({
+          href: routes.internal.closet.inventory.show.href({
             designId: design.id,
           }),
         },
@@ -53,7 +53,7 @@ const ClosetInventoryIndexPageProductCard = ({ design, loading }: Props) => {
             setStandout({
               type: StandoutType.ClosetLinkShare,
               absoluteUrl: makeAbsoluteUrl(
-                routes.internal.closet.designProducts.show.href({
+                routes.internal.closet.inventory.show.href({
                   designId: design.id,
                 }),
               ),

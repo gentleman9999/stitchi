@@ -74,9 +74,7 @@ const Inner = ({
       return
     }
 
-    await router.push(
-      routes.internal.closet.designProducts.show.href({ designId }),
-    )
+    await router.push(routes.internal.closet.inventory.show.href({ designId }))
   }
 
   return (

@@ -67,7 +67,7 @@ const ClosetTabDesignRequests = ({}: Props) => {
       description="Submit a design request to begin your merch journey."
       cta={{
         label: 'New design request',
-        href: routes.internal.closet.designRequests.create.href(),
+        href: routes.internal.closet.designs.create.href(),
       }}
     />
   ) : !loading && !designRequests?.length ? (

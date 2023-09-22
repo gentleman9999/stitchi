@@ -42,7 +42,7 @@ const DesignRequestAssociatedProducts = ({ designRequestId }: Props) => {
             <Link
               key={designProduct.id}
               className="flex justify-between gap-2 items-center border rounded-md p-4"
-              href={routes.internal.closet.designProducts.show.href({
+              href={routes.internal.closet.inventory.show.href({
                 designId: designProduct.id,
               })}
             >

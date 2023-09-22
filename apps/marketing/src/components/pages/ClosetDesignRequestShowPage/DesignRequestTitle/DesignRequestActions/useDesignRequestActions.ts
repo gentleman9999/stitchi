@@ -34,7 +34,7 @@ const useDesignRequestActions = ({ designRequestId }: Props) => {
     try {
       await submitDesignRequest({ variables: { input: { designRequestId } } })
       await router.push(
-        routes.internal.closet.designRequests.show.activity.href({
+        routes.internal.closet.designs.show.activity.href({
           designId: designRequestId,
         }),
       )

@@ -93,8 +93,7 @@ const ClosetLayoutContextProvider = ({ children }: Props) => {
           icon: <PaintBrushIcon className="w-4 h-4" />,
           includedPaths: [
             routes.internal.closet.collections.href(),
-            routes.internal.closet.designRequests.href(),
-            routes.internal.closet.designProducts.href(),
+            routes.internal.closet.designs.href(),
           ],
         },
         {
