@@ -84,9 +84,11 @@ const DesignOverview = ({ designId }: Props) => {
                       color="brandPrimary"
                       Component={Link}
                       variant="flat"
-                      href={routes.internal.closet.inventory.show.buy.href({
-                        designId,
-                      })}
+                      href={routes.internal.closet.inventory.show.products.show.buy.href(
+                        {
+                          designId,
+                        },
+                      )}
                     >
                       Place order
                     </Button>

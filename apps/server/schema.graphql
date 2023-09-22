@@ -83,6 +83,8 @@ type DesignProduct {
   designProofId: ID!
   designRequestId: ID!
   id: ID!
+  inProductionQty: Int!
+  inStockQty: Int!
   membershipId: ID
   minUnitPriceCents: Int
   name: String!

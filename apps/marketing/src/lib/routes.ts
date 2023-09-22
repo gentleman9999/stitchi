@@ -253,17 +253,23 @@ const routes = {
         href: () => buildRoute('/closet/inventory'),
 
         show: {
-          href: ({ designId }: { designId: string }) =>
-            buildRoute(`/closet/inventory/${designId}`),
+          products: {
+            show: {
+              href: ({ designId }: { designId: string }) =>
+                buildRoute(`/closet/inventory/products/${designId}`),
 
-          buy: {
-            href: ({ designId }: { designId: string }) =>
-              buildRoute(`/closet/inventory/${designId}/buy`),
-          },
+              buy: {
+                href: ({ designId }: { designId: string }) =>
+                  buildRoute(`/closet/inventory/products/${designId}/buy`),
+              },
 
-          inventory: {
-            href: ({ designId }: { designId: string }) =>
-              buildRoute(`/closet/inventory/${designId}/inventory`),
+              inventory: {
+                href: ({ designId }: { designId: string }) =>
+                  buildRoute(
+                    `/closet/inventory/products/${designId}/inventory`,
+                  ),
+              },
+            },
           },
         },
       },

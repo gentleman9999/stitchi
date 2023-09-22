@@ -3,6 +3,7 @@ import SwatchGroup from '@components/common/Catalog/SwatchGroup'
 import { StandoutType, useStandout } from '@components/context'
 import { ClosetInventoryIndexPageProductCardDesignProductFragment } from '@generated/ClosetInventoryIndexPageProductCardDesignProductFragment'
 import {
+  ArrowPathRoundedSquareIcon,
   DocumentDuplicateIcon,
   EyeIcon,
   LinkIcon,
@@ -35,7 +36,7 @@ const ClosetInventoryIndexPageProductCard = ({ design, loading }: Props) => {
 
   return (
     <Card
-      href={routes.internal.closet.inventory.show.href({
+      href={routes.internal.closet.inventory.show.products.show.href({
         designId: design.id,
       })}
       title={design.name}
@@ -43,7 +44,14 @@ const ClosetInventoryIndexPageProductCard = ({ design, loading }: Props) => {
         {
           label: 'View',
           icon: <EyeIcon className="w-full" />,
-          href: routes.internal.closet.inventory.show.href({
+          href: routes.internal.closet.inventory.show.products.show.href({
+            designId: design.id,
+          }),
+        },
+        {
+          label: 'Order',
+          icon: <ArrowPathRoundedSquareIcon className="w-full" />,
+          href: routes.internal.closet.inventory.show.products.show.buy.href({
             designId: design.id,
           }),
         },
@@ -53,7 +61,7 @@ const ClosetInventoryIndexPageProductCard = ({ design, loading }: Props) => {
             setStandout({
               type: StandoutType.ClosetLinkShare,
               absoluteUrl: makeAbsoluteUrl(
-                routes.internal.closet.inventory.show.href({
+                routes.internal.closet.inventory.show.products.show.href({
                   designId: design.id,
                 }),
               ),
@@ -85,11 +93,9 @@ const ClosetInventoryIndexPageProductCard = ({ design, loading }: Props) => {
           </div>
           {design.minUnitPriceCents ? (
             <span className=" text-gray-600 flex gap-1 items-center">
-              <span className="text-xs">from</span>
+              <span className="text-xs">In stock</span>
               <span className="font-bold text-base">
-                {currency(design.minUnitPriceCents, {
-                  fromCents: true,
-                }).format()}
+                {design.inStockQty || 0}
               </span>
             </span>
           ) : null}
@@ -105,6 +111,8 @@ ClosetInventoryIndexPageProductCard.fragments = {
       id
       name
       minUnitPriceCents
+      inStockQty
+      inProductionQty
       colors {
         hex
         name

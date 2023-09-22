@@ -120,6 +120,9 @@ export const designFactoryDesignToGraphql = (
     description: design.description,
     termsConditionsAgreed: design.termsConditionsAgreed,
 
+    inProductionQty: 0,
+    inStockQty: 0,
+
     createdAt: design.createdAt,
     updatedAt: design.updatedAt,
 

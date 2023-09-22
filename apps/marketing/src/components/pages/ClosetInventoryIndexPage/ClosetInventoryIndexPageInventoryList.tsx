@@ -13,38 +13,15 @@ import ClosetInventoryIndexPageProductCard from './ClosetInventoryIndexPageProdu
 interface Props {}
 
 const ClosetInventoryIndexPageInventoryList = ({}: Props) => {
-  const { data, loading, refetch } = useQuery<
+  const { data, loading } = useQuery<
     ClosetInventoryIndexPageInventoryListGetDataQuery,
     ClosetInventoryIndexPageInventoryListGetDataQueryVariables
   >(GET_DATA, {
     fetchPolicy: 'cache-and-network',
     variables: {
       first: 16,
-      filter: {
-        // where: {
-        //   membershipId: { equals: filters.user || undefined },
-        //   createdAt: {
-        //     gte: filters.date?.gte,
-        //     lte: filters.date?.lte,
-        //   },
-        // },
-      },
     },
   })
-
-  //   React.useEffect(() => {
-  //     refetch({
-  //       filter: {
-  //         where: {
-  //           // userId: { equals: filters.user || undefined },
-  //           createdAt: {
-  //             gte: filters.date?.gte,
-  //             lte: filters.date?.lte,
-  //           },
-  //         },
-  //       },
-  //     })
-  //   }, [filters, refetch])
 
   const approvedDesigns = data?.viewer?.designProducts.edges
     ?.map(edge => edge?.node)

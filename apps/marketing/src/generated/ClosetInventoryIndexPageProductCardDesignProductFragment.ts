@@ -26,6 +26,8 @@ export interface ClosetInventoryIndexPageProductCardDesignProductFragment {
   id: string;
   name: string;
   minUnitPriceCents: number | null;
+  inStockQty: number;
+  inProductionQty: number;
   colors: ClosetInventoryIndexPageProductCardDesignProductFragment_colors[];
   primaryImageFile: ClosetInventoryIndexPageProductCardDesignProductFragment_primaryImageFile | null;
 }

@@ -139,7 +139,7 @@ const ClosetOrdersIndexPage = (props: Props) => {
             description="Placing an order sends your products to production."
             cta={{
               label: 'Start order',
-              href: routes.internal.catalog.href(),
+              href: routes.internal.closet.inventory.href(),
             }}
           />
         ) : (

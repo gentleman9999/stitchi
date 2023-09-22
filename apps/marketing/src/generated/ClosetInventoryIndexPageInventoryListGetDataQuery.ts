@@ -28,6 +28,8 @@ export interface ClosetInventoryIndexPageInventoryListGetDataQuery_viewer_design
   id: string;
   name: string;
   minUnitPriceCents: number | null;
+  inStockQty: number;
+  inProductionQty: number;
   colors: ClosetInventoryIndexPageInventoryListGetDataQuery_viewer_designProducts_edges_node_colors[];
   primaryImageFile: ClosetInventoryIndexPageInventoryListGetDataQuery_viewer_designProducts_edges_node_primaryImageFile | null;
 }
