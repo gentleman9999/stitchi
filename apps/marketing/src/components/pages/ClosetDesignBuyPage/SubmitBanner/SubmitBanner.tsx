@@ -60,7 +60,7 @@ const SubmitBanner = ({
             <div className="flex flex-col-reverse sm:flex-row gap-2 sm:gap-8 items-center">
               <Button
                 Component={Link}
-                href={routes.internal.getStarted.href()}
+                href={routes.external.support.href()}
                 variant="naked"
                 className="!text-sm sm:!text-lg"
                 {...{ target: '_blank' }}
