@@ -39,7 +39,7 @@ const ClosetDesignIndexPage = ({}: Props) => {
                 actions={[
                   {
                     label: 'New Design',
-                    href: routes.internal.closet.designRequests.create.href(),
+                    href: routes.internal.closet.designs.create.href(),
                     primary: true,
                   },
                 ]}
@@ -62,15 +62,18 @@ const ClosetDesignIndexPage = ({}: Props) => {
             //   label: 'Collections',
             //   href: routes.internal.closet.collections.href(router.query),
             // },
-            {
-              id: 'approved-designs',
-              label: 'Approved Designs',
-              href: routes.internal.closet.designProducts.href(router.query),
-            },
+
             {
               id: 'design-requests',
-              label: 'Design Requests',
-              href: routes.internal.closet.designRequests.href(router.query),
+              label: 'In-Progress',
+              href: routes.internal.closet.designs.inProgress.href(
+                router.query,
+              ),
+            },
+            {
+              id: 'approved-designs',
+              label: 'Approved',
+              href: routes.internal.closet.designs.approved.href(router.query),
             },
           ]}
         >

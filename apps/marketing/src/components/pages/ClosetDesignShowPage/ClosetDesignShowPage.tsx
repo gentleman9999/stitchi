@@ -47,9 +47,11 @@ const ClosetDesignShowPage = ({ designId }: Props) => {
                     setStandout({
                       type: StandoutType.ClosetLinkShare,
                       absoluteUrl: makeAbsoluteUrl(
-                        routes.internal.closet.designProducts.show.href({
-                          designId,
-                        }),
+                        routes.internal.closet.inventory.show.products.show.href(
+                          {
+                            designId,
+                          },
+                        ),
                       ),
                     }),
                 },
@@ -65,9 +67,11 @@ const ClosetDesignShowPage = ({ designId }: Props) => {
                 {
                   primary: true,
                   label: 'Place order',
-                  href: routes.internal.closet.designProducts.show.buy.href({
-                    designId,
-                  }),
+                  href: routes.internal.closet.inventory.show.products.show.buy.href(
+                    {
+                      designId,
+                    },
+                  ),
                 },
               ]}
             />
@@ -79,16 +83,18 @@ const ClosetDesignShowPage = ({ designId }: Props) => {
         tabs={[
           {
             id: 'overview',
-            href: routes.internal.closet.designProducts.show.href({
+            href: routes.internal.closet.inventory.show.products.show.href({
               designId: designId,
             }),
             label: 'Overview',
           },
           {
             id: 'inventory',
-            href: routes.internal.closet.designProducts.show.inventory.href({
-              designId: designId,
-            }),
+            href: routes.internal.closet.inventory.show.products.show.inventory.href(
+              {
+                designId: designId,
+              },
+            ),
             label: 'Inventory',
           },
           // {

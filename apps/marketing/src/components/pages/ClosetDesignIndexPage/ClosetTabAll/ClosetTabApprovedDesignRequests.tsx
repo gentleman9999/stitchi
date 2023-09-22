@@ -9,9 +9,10 @@ import {
 import { notEmpty } from '@lib/utils/typescript'
 import React from 'react'
 import { useCloset } from '../closet-context'
-import ClosetDesignIndexPageApprovedDesignCard from '../ClosetDesignIndexPageApprovedDesignCard'
 import Carousel from './Carousel'
 import EmptyState from './EmptyState'
+import ClosetDesignIndexPageDesignRequestCard from '../ClosetDesignIndexPageDesignRequestCard'
+import { DesignRequestStatus } from '@generated/globalTypes'
 
 interface Props {}
 
@@ -27,6 +28,9 @@ const ClosetTabApprovedDesignRequests = ({}: Props) => {
       filter: {
         where: {
           membershipId: { equals: filters.user || undefined },
+          status: {
+            equals: DesignRequestStatus.APPROVED,
+          },
           createdAt: {
             gte: filters.date?.gte,
             lte: filters.date?.lte,
@@ -40,7 +44,10 @@ const ClosetTabApprovedDesignRequests = ({}: Props) => {
     refetch({
       filter: {
         where: {
-          // userId: { equals: filters.user || undefined },
+          membershipId: { equals: filters.user || undefined },
+          status: {
+            equals: DesignRequestStatus.APPROVED,
+          },
           createdAt: {
             gte: filters.date?.gte,
             lte: filters.date?.lte,
@@ -52,35 +59,35 @@ const ClosetTabApprovedDesignRequests = ({}: Props) => {
 
   const { viewer } = data || {}
 
-  const designProducts =
-    viewer?.designProducts.edges?.map(edge => edge?.node).filter(notEmpty) || []
+  const designRequests =
+    viewer?.designRequests.edges?.map(edge => edge?.node).filter(notEmpty) || []
 
   return (
     <ClosetSection>
       <ClosetSectionHeader>
-        <ClosetSectionTitle title="Approved Designs" />
+        <ClosetSectionTitle title="Approved" />
       </ClosetSectionHeader>
 
-      {loading || designProducts.length ? (
+      {loading || designRequests.length ? (
         <Carousel>
           <div className="flex gap-6">
             {loading ? (
               <>
                 {Array.from({ length: 4 }).map((_, index) => (
                   <div key={index} className="w-[230px] shrink-0 flex">
-                    <ClosetDesignIndexPageApprovedDesignCard
+                    <ClosetDesignIndexPageDesignRequestCard
                       loading={true}
-                      design={null}
+                      designRequest={null}
                     />
                   </div>
                 ))}
               </>
             ) : (
               <>
-                {designProducts.map(design => (
+                {designRequests.map(design => (
                   <div key={design.id} className="w-[230px] shrink-0 flex">
-                    <ClosetDesignIndexPageApprovedDesignCard
-                      design={design}
+                    <ClosetDesignIndexPageDesignRequestCard
+                      designRequest={design}
                       loading={false}
                     />
                   </div>
@@ -97,20 +104,20 @@ const ClosetTabApprovedDesignRequests = ({}: Props) => {
 }
 
 const GET_DATA = gql`
-  ${ClosetDesignIndexPageApprovedDesignCard.fragments.designProduct}
+  ${ClosetDesignIndexPageDesignRequestCard.fragments.designRequest}
   query ClosetTabApprovedDesignRequestGetDataQuery(
     $first: Int!
     $after: String
-    $filter: MembershipDesignProductsFilterInput
+    $filter: MembershipDesignRequestsFilterInput
   ) {
     viewer {
       id
       hasDesignProducts
-      designProducts(first: $first, after: $after, filter: $filter) {
+      designRequests(first: $first, after: $after, filter: $filter) {
         edges {
           node {
             id
-            ...ClosetDesignIndexPageApprovedDesignCardDesignProductFragment
+            ...ClosetDesignIndexPageDesignRequestCardDesignRequestFragment
           }
         }
       }

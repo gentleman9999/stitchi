@@ -56,7 +56,7 @@ const ClosetDesignProofCreatePage = ({ designRequest }: Props) => {
     }
 
     await router.push(
-      routes.internal.closet.designRequests.show.activity.href({
+      routes.internal.closet.designs.show.activity.href({
         designId: designRequest.id,
       }),
     )

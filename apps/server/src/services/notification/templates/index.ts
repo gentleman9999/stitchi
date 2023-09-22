@@ -60,7 +60,7 @@ const notifications = {
       web: {
         message: `Your design request ${params.designRequest.name} has been submitted and will be reviewed by an artist shortly.`,
         ctaText: 'View',
-        ctaUrl: `${appBaseUrl}/closet/design-requests/${params.designRequest.id}`,
+        ctaUrl: `${appBaseUrl}/closet/designs/${params.designRequest.id}`,
       },
     }
   },
@@ -79,7 +79,7 @@ const notifications = {
       web: {
         message: `A design proof was submitted for your design request ${params.designRequest.name}.`,
         ctaText: 'View',
-        ctaUrl: `${appBaseUrl}/closet/design-requests/${params.designRequest.id}`,
+        ctaUrl: `${appBaseUrl}/closet/designs/${params.designRequest.id}`,
       },
     }
   },

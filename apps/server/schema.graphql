@@ -83,6 +83,8 @@ type DesignProduct {
   designProofId: ID!
   designRequestId: ID!
   id: ID!
+  inProductionQty: Int!
+  inStockQty: Int!
   membershipId: ID
   minUnitPriceCents: Int
   name: String!
@@ -725,6 +727,13 @@ input MembershipDesignRequestsFilterInput {
 input MembershipDesignRequestsWhereFilterInput {
   createdAt: DateFilterInput
   membershipId: StringFilterInput
+  status: MembershipDesignRequestsWhereFilterStatusInput
+}
+
+input MembershipDesignRequestsWhereFilterStatusInput {
+  equals: DesignRequestStatus
+  in: [DesignRequestStatus!]
+  notIn: [DesignRequestStatus!]
 }
 
 type MembershipFlags {

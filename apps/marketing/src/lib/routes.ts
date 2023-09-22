@@ -251,35 +251,41 @@ const routes = {
 
       inventory: {
         href: () => buildRoute('/closet/inventory'),
-      },
-
-      designs: {
-        href: (params?: QueryParams) => buildRoute('/closet/designs', params),
-      },
-
-      designProducts: {
-        href: (params?: QueryParams) =>
-          buildRoute('/closet/approved-designs', params),
 
         show: {
-          href: ({ designId }: { designId: string }) =>
-            buildRoute(`/closet/approved-designs/${designId}`),
+          products: {
+            show: {
+              href: ({ designId }: { designId: string }) =>
+                buildRoute(`/closet/inventory/products/${designId}`),
 
-          buy: {
-            href: ({ designId }: { designId: string }) =>
-              buildRoute(`/closet/approved-designs/${designId}/buy`),
-          },
+              buy: {
+                href: ({ designId }: { designId: string }) =>
+                  buildRoute(`/closet/inventory/products/${designId}/buy`),
+              },
 
-          inventory: {
-            href: ({ designId }: { designId: string }) =>
-              buildRoute(`/closet/approved-designs/${designId}/inventory`),
+              inventory: {
+                href: ({ designId }: { designId: string }) =>
+                  buildRoute(
+                    `/closet/inventory/products/${designId}/inventory`,
+                  ),
+              },
+            },
           },
         },
       },
 
-      designRequests: {
-        href: (params?: QueryParams) =>
-          buildRoute('/closet/design-requests', params),
+      designs: {
+        href: (params?: QueryParams) => buildRoute('/closet/designs', params),
+
+        inProgress: {
+          href: (params?: QueryParams) =>
+            buildRoute('/closet/designs/in-progress', params),
+        },
+
+        approved: {
+          href: (params?: QueryParams) =>
+            buildRoute('/closet/designs/approved', params),
+        },
 
         create: {
           href: () => buildRoute('/catalog/wizard/welcome'),
@@ -287,18 +293,18 @@ const routes = {
 
         show: {
           href: ({ designId }: { designId: string }) =>
-            buildRoute(`/closet/design-requests/${designId}`),
+            buildRoute(`/closet/designs/${designId}`),
 
           proofs: {
             create: {
               href: ({ designId }: { designId: string }) =>
-                buildRoute(`/closet/design-requests/${designId}/proofs/new`),
+                buildRoute(`/closet/designs/${designId}/proofs/new`),
             },
           },
 
           activity: {
             href: ({ designId }: { designId: string }) =>
-              buildRoute(`/closet/design-requests/${designId}/activity`),
+              buildRoute(`/closet/designs/${designId}/activity`),
           },
         },
       },

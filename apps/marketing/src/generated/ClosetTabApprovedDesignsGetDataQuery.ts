@@ -3,19 +3,13 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { MembershipDesignProductsFilterInput } from "./globalTypes";
+import { MembershipDesignRequestsFilterInput, DesignRequestStatus } from "./globalTypes";
 
 // ====================================================
 // GraphQL query operation: ClosetTabApprovedDesignsGetDataQuery
 // ====================================================
 
-export interface ClosetTabApprovedDesignsGetDataQuery_viewer_designProducts_edges_node_colors {
-  __typename: "DesignProductColor";
-  hex: string | null;
-  name: string | null;
-}
-
-export interface ClosetTabApprovedDesignsGetDataQuery_viewer_designProducts_edges_node_primaryImageFile {
+export interface ClosetTabApprovedDesignsGetDataQuery_viewer_designRequests_edges_node_previewImage {
   __typename: "FileImage";
   id: string;
   url: string;
@@ -23,36 +17,37 @@ export interface ClosetTabApprovedDesignsGetDataQuery_viewer_designProducts_edge
   height: number;
 }
 
-export interface ClosetTabApprovedDesignsGetDataQuery_viewer_designProducts_edges_node {
-  __typename: "DesignProduct";
+export interface ClosetTabApprovedDesignsGetDataQuery_viewer_designRequests_edges_node {
+  __typename: "DesignRequest";
   id: string;
   name: string;
-  minUnitPriceCents: number | null;
-  colors: ClosetTabApprovedDesignsGetDataQuery_viewer_designProducts_edges_node_colors[];
-  primaryImageFile: ClosetTabApprovedDesignsGetDataQuery_viewer_designProducts_edges_node_primaryImageFile | null;
+  updatedAt: any | null;
+  status: DesignRequestStatus;
+  humanizedStatus: string;
+  previewImage: ClosetTabApprovedDesignsGetDataQuery_viewer_designRequests_edges_node_previewImage | null;
 }
 
-export interface ClosetTabApprovedDesignsGetDataQuery_viewer_designProducts_edges {
-  __typename: "DesignProductEdge";
+export interface ClosetTabApprovedDesignsGetDataQuery_viewer_designRequests_edges {
+  __typename: "DesignRequestEdge";
   /**
    * https: // facebook.github.io/relay/graphql/connections.htm#sec-Node
    */
-  node: ClosetTabApprovedDesignsGetDataQuery_viewer_designProducts_edges_node | null;
+  node: ClosetTabApprovedDesignsGetDataQuery_viewer_designRequests_edges_node | null;
 }
 
-export interface ClosetTabApprovedDesignsGetDataQuery_viewer_designProducts {
-  __typename: "DesignProductConnection";
+export interface ClosetTabApprovedDesignsGetDataQuery_viewer_designRequests {
+  __typename: "DesignRequestConnection";
   /**
    * https: // facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
    */
-  edges: (ClosetTabApprovedDesignsGetDataQuery_viewer_designProducts_edges | null)[] | null;
+  edges: (ClosetTabApprovedDesignsGetDataQuery_viewer_designRequests_edges | null)[] | null;
 }
 
 export interface ClosetTabApprovedDesignsGetDataQuery_viewer {
   __typename: "Membership";
   id: string;
   hasDesignProducts: boolean;
-  designProducts: ClosetTabApprovedDesignsGetDataQuery_viewer_designProducts;
+  designRequests: ClosetTabApprovedDesignsGetDataQuery_viewer_designRequests;
 }
 
 export interface ClosetTabApprovedDesignsGetDataQuery {
@@ -62,5 +57,5 @@ export interface ClosetTabApprovedDesignsGetDataQuery {
 export interface ClosetTabApprovedDesignsGetDataQueryVariables {
   first: number;
   after?: string | null;
-  filter?: MembershipDesignProductsFilterInput | null;
+  filter?: MembershipDesignRequestsFilterInput | null;
 }

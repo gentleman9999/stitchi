@@ -26,7 +26,7 @@ interface Props {
   actions?: DropdownItemProps[]
 }
 
-const Card = ({
+const ClosetCard = ({
   href,
   loading,
   title,
@@ -112,4 +112,4 @@ const Card = ({
   )
 }
 
-export default Card
+export default ClosetCard

@@ -9,6 +9,7 @@ import { useAuthorizedComponent } from '@lib/auth'
 import routes from '@lib/routes'
 import { useRouter } from 'next/router'
 import React from 'react'
+import ClosetInventoryIndexPageInventoryList from './ClosetInventoryIndexPageInventoryList'
 
 interface Props {}
 
@@ -35,20 +36,22 @@ const ClosetInventoryIndexPage = (props: Props) => {
             label: 'Orders',
             href: routes.internal.closet.orders.href(),
           },
-          ...(can(ScopeResource.Integration, ScopeAction.READ)
-            ? [
-                {
-                  id: 'integrations',
-                  label: 'Integrations',
-                  href: routes.internal.closet.integrations.href(),
-                },
-              ]
-            : []),
+          // ...(can(ScopeResource.Integration, ScopeAction.READ)
+          //   ? [
+          //       {
+          //         id: 'integrations',
+          //         label: 'Integrations',
+          //         href: routes.internal.closet.integrations.href(),
+          //       },
+          //     ]
+          //   : []),
         ]}
       >
         <ClosetSectionHeader>
           <ClosetSectionHeaderTabs />
         </ClosetSectionHeader>
+
+        <ClosetInventoryIndexPageInventoryList />
       </ClosetSection>
     </ClosetPageContainer>
   )

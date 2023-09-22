@@ -35,7 +35,7 @@ const DesignRequestActions = ({ designRequest }: Props) => {
         setStandout({
           type: StandoutType.ClosetLinkShare,
           absoluteUrl: makeAbsoluteUrl(
-            routes.internal.closet.designRequests.show.href({
+            routes.internal.closet.designs.show.href({
               designId: designRequest.id,
             }),
           ),
@@ -73,7 +73,7 @@ const DesignRequestActions = ({ designRequest }: Props) => {
           primary: true,
           loading: false,
           label: 'Upload proof',
-          href: routes.internal.closet.designRequests.show.proofs.create.href({
+          href: routes.internal.closet.designs.show.proofs.create.href({
             designId: designRequest.id,
           }),
         })

@@ -52,7 +52,7 @@ const ProductShowPageHero = ({ product }: Props) => {
     }
 
     await router.push(
-      routes.internal.closet.designRequests.show.href({
+      routes.internal.closet.designs.show.href({
         designId: designRequest.id,
       }),
     )

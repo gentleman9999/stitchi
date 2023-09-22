@@ -11,6 +11,9 @@ export const DesignProduct = objectType({
     t.nullable.id('organizationId')
     t.nullable.id('primaryImageFileId')
 
+    t.nonNull.int('inStockQty')
+    t.nonNull.int('inProductionQty')
+
     t.nonNull.boolean('termsConditionsAgreed')
 
     t.nonNull.string('name')

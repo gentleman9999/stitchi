@@ -36,7 +36,7 @@ export const DesignRequestHistoryItem = unionType({
       return 'DesignRequestHistoryItemDesignRequestEvent'
     }
 
-    if ('artistUserId' in item) {
+    if ('artistMembershipId' in item) {
       return 'DesignProof'
     }
 
@@ -44,7 +44,7 @@ export const DesignRequestHistoryItem = unionType({
       return 'DesignRequestRevisionRequest'
     }
 
-    return null
+    throw new Error('Could not resolve type')
   },
 })
 

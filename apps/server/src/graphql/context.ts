@@ -77,8 +77,8 @@ function makeContext(
         membershipId: userActiveMembership?.id ?? undefined,
         organizationId: userActiveMembership?.organizationId ?? undefined,
         logger: params.logger.child({
-          operationName: req.body.operationName,
-          query: req.body.query,
+          operationName: req?.body.operationName,
+          query: req?.body.query,
         }),
         conversation: services.conversation,
         newsletter: services.newsletter,

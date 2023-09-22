@@ -1,3 +1,4 @@
+import { DesignRequestStatus } from '../../services/design/db/design-request-table'
 import {
   DesignFactoryDesign,
   DesignFactoryDesignRequest,
@@ -119,6 +120,9 @@ export const designFactoryDesignToGraphql = (
     description: design.description,
     termsConditionsAgreed: design.termsConditionsAgreed,
 
+    inProductionQty: 0,
+    inStockQty: 0,
+
     createdAt: design.createdAt,
     updatedAt: design.updatedAt,
 
@@ -131,5 +135,24 @@ export const designFactoryDesignToGraphql = (
 
       imageFileIds: variant.images.map(image => image.fileId),
     })),
+  }
+}
+
+export const designRequestStatusToDesignFactory = (
+  designRequestStatus: NexusGenEnums['DesignRequestStatus'],
+): DesignRequestStatus => {
+  switch (designRequestStatus) {
+    case 'APPROVED':
+      return DesignRequestStatus.APPROVED
+    case 'AWAITING_APPROVAL':
+      return DesignRequestStatus.AWAITING_APPROVAL
+    case 'AWAITING_REVISION':
+      return DesignRequestStatus.AWAITING_REVISION
+    case 'DRAFT':
+      return DesignRequestStatus.DRAFT
+    case 'REJECTED':
+      return DesignRequestStatus.REJECTED
+    case 'SUBMITTED':
+      return DesignRequestStatus.SUBMITTED
   }
 }

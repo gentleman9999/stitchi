@@ -108,11 +108,11 @@ const ClosetOrdersIndexPage = (props: Props) => {
 
       <ClosetSection
         tabs={[
-          // {
-          //   id: 'inventory',
-          //   label: 'Inventory',
-          //   href: routes.internal.closet.inventory.href(),
-          // },
+          {
+            id: 'inventory',
+            label: 'Inventory',
+            href: routes.internal.closet.inventory.href(),
+          },
           {
             id: 'orders',
             label: 'Orders',
@@ -139,7 +139,7 @@ const ClosetOrdersIndexPage = (props: Props) => {
             description="Placing an order sends your products to production."
             cta={{
               label: 'Start order',
-              href: routes.internal.catalog.href(),
+              href: routes.internal.closet.inventory.href(),
             }}
           />
         ) : (

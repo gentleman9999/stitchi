@@ -1,13 +1,14 @@
 import { gql, useQuery } from '@apollo/client'
+import ClosetCardGrid from '@components/common/ClosetCardGrid'
 import ClosetPageEmptyState from '@components/common/ClosetPageEmptyState'
 import {
   ClosetTabDesignRequestsGetDataQuery,
   ClosetTabDesignRequestsGetDataQueryVariables,
 } from '@generated/ClosetTabDesignRequestsGetDataQuery'
+import { DesignRequestStatus } from '@generated/globalTypes'
 import routes from '@lib/routes'
 import { notEmpty } from '@lib/utils/typescript'
 import React from 'react'
-import CardGrid from '../CardGrid'
 import { useCloset } from '../closet-context'
 import ClosetDesignIndexPageDesignRequestCard from '../ClosetDesignIndexPageDesignRequestCard'
 
@@ -26,6 +27,9 @@ const ClosetTabDesignRequests = ({}: Props) => {
       filter: {
         where: {
           membershipId: { equals: filters.user || undefined },
+          status: {
+            notIn: [DesignRequestStatus.APPROVED],
+          },
           createdAt: {
             gte: filters.date?.gte,
             lte: filters.date?.lte,
@@ -39,7 +43,10 @@ const ClosetTabDesignRequests = ({}: Props) => {
     refetch({
       filter: {
         where: {
-          // userId: { equals: filters.user || undefined },
+          membershipId: { equals: filters.user || undefined },
+          status: {
+            notIn: [DesignRequestStatus.APPROVED],
+          },
           createdAt: {
             gte: filters.date?.gte,
             lte: filters.date?.lte,
@@ -60,7 +67,7 @@ const ClosetTabDesignRequests = ({}: Props) => {
       description="Submit a design request to begin your merch journey."
       cta={{
         label: 'New design request',
-        href: routes.internal.closet.designRequests.create.href(),
+        href: routes.internal.closet.designs.create.href(),
       }}
     />
   ) : !loading && !designRequests?.length ? (
@@ -69,7 +76,7 @@ const ClosetTabDesignRequests = ({}: Props) => {
       description="Try adjusting your filters or resetting them to see more designs."
     />
   ) : (
-    <CardGrid>
+    <ClosetCardGrid>
       {loading ? (
         <>
           {Array.from({ length: 4 }).map((_, index) => (
@@ -91,7 +98,7 @@ const ClosetTabDesignRequests = ({}: Props) => {
           ))}
         </>
       )}
-    </CardGrid>
+    </ClosetCardGrid>
   )
 }
 

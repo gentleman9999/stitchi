@@ -12,6 +12,7 @@ import { conversationFactoryToGraphQl } from '../../serializers/conversation'
 import {
   designProofFactoryToGraphql,
   designRequestFactoryToGrahpql,
+  designRequestStatusToDesignFactory,
 } from '../../serializers/design'
 import * as uuid from 'uuid'
 import { Prisma } from '@prisma/client'
@@ -23,8 +24,10 @@ export const designRequest = queryField('designRequest', {
   args: {
     id: nonNull(idArg()),
   },
-  resolve: async (_, { id }, { design, organizationId, role }) => {
+  resolve: async (_, { id }, { logger, design, organizationId, role }) => {
     const designRequest = await design.getDesignRequest({ designRequestId: id })
+
+    logger.child({ designRequest }).info('Design Request')
 
     if (
       role === 'OWNER' &&
@@ -38,6 +41,23 @@ export const designRequest = queryField('designRequest', {
   },
 })
 
+export const MembershipDesignRequestsWhereFilterStatusInput = inputObjectType({
+  name: 'MembershipDesignRequestsWhereFilterStatusInput',
+  definition(t) {
+    t.field('equals', {
+      type: 'DesignRequestStatus',
+    })
+
+    t.list.nonNull.field('in', {
+      type: 'DesignRequestStatus',
+    })
+
+    t.list.nonNull.field('notIn', {
+      type: 'DesignRequestStatus',
+    })
+  },
+})
+
 export const MembershipDesignRequestsWhereFilterInput = inputObjectType({
   name: 'MembershipDesignRequestsWhereFilterInput',
   definition(t) {
@@ -47,6 +67,10 @@ export const MembershipDesignRequestsWhereFilterInput = inputObjectType({
 
     t.field('membershipId', {
       type: 'StringFilterInput',
+    })
+
+    t.field('status', {
+      type: 'MembershipDesignRequestsWhereFilterStatusInput',
     })
   },
 })
@@ -141,6 +165,27 @@ export const DesignRequestsExtendsMembership = extendType({
 
             {
               OR: resourceOwnerFilter,
+            },
+
+            {
+              status: filter?.where?.status
+                ? {
+                    equals: filter?.where?.status?.equals
+                      ? designRequestStatusToDesignFactory(
+                          filter.where.status.equals,
+                        )
+                      : undefined,
+
+                    in:
+                      filter?.where?.status?.in?.map(
+                        designRequestStatusToDesignFactory,
+                      ) || undefined,
+                    notIn:
+                      filter?.where?.status?.notIn?.map(
+                        designRequestStatusToDesignFactory,
+                      ) || undefined,
+                  }
+                : undefined,
             },
           ],
         }

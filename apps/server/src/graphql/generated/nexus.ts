@@ -182,6 +182,12 @@ export interface NexusGenInputs {
   MembershipDesignRequestsWhereFilterInput: { // input type
     createdAt?: NexusGenInputs['DateFilterInput'] | null; // DateFilterInput
     membershipId?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
+    status?: NexusGenInputs['MembershipDesignRequestsWhereFilterStatusInput'] | null; // MembershipDesignRequestsWhereFilterStatusInput
+  }
+  MembershipDesignRequestsWhereFilterStatusInput: { // input type
+    equals?: NexusGenEnums['DesignRequestStatus'] | null; // DesignRequestStatus
+    in?: NexusGenEnums['DesignRequestStatus'][] | null; // [DesignRequestStatus!]
+    notIn?: NexusGenEnums['DesignRequestStatus'][] | null; // [DesignRequestStatus!]
   }
   MembershipInviteAcceptInput: { // input type
     membershipId: string; // String!
@@ -394,6 +400,8 @@ export interface NexusGenObjects {
     designProofId: string; // ID!
     designRequestId: string; // ID!
     id: string; // ID!
+    inProductionQty: number; // Int!
+    inStockQty: number; // Int!
     membershipId?: string | null; // ID
     name: string; // String!
     organizationId?: string | null; // ID
@@ -983,6 +991,8 @@ export interface NexusGenFieldTypes {
     designProofId: string; // ID!
     designRequestId: string; // ID!
     id: string; // ID!
+    inProductionQty: number; // Int!
+    inStockQty: number; // Int!
     membershipId: string | null; // ID
     minUnitPriceCents: number | null; // Int
     name: string; // String!
@@ -1674,6 +1684,8 @@ export interface NexusGenFieldTypeNames {
     designProofId: 'ID'
     designRequestId: 'ID'
     id: 'ID'
+    inProductionQty: 'Int'
+    inStockQty: 'Int'
     membershipId: 'ID'
     minUnitPriceCents: 'Int'
     name: 'String'
