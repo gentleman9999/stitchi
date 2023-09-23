@@ -4,6 +4,7 @@ import React from 'react'
 import cx from 'classnames'
 
 interface User {
+  id: string
   membershipId: string
   name: string
   picture?: string | null
@@ -35,7 +36,7 @@ const UserFilter = (props: Props) => {
           className={cx(
             'flex items-center gap-2 text-sm justify-between hover:gray ring-2 ring-transparent transition-all hover:ring-primary p-1.5 rounded-md',
             {
-              'font-bold': idx === 1,
+              'font-bold': user.name === props.value,
             },
           )}
         >
@@ -50,7 +51,7 @@ const UserFilter = (props: Props) => {
             />
             <span>{user.name}</span>
           </div>
-          {idx === 1 ? (
+          {user.name === props.value ? (
             <div>
               <Check className="w-4 h-4" />
             </div>
