@@ -8,6 +8,7 @@ import {
   UserInviteDialogInviteMemberMutationVariables,
 } from '@generated/UserInviteDialogInviteMemberMutation'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useLogger } from 'next-axiom'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -23,6 +24,7 @@ interface Props {
 }
 
 const UserInviteDialog = ({ open, onClose }: Props) => {
+  const logger = useLogger()
   const { enqueueSnackbar } = useSnackbar()
 
   const [loading, setLoading] = React.useState(false)
@@ -68,7 +70,7 @@ const UserInviteDialog = ({ open, onClose }: Props) => {
         description: `Invited members have been notified by email to join ${process.env.NEXT_PUBLIC_COMPANY_NAME}.`,
       })
     } catch (error) {
-      console.error(error)
+      logger.error('failed to notify members', { error })
     } finally {
       setLoading(false)
     }

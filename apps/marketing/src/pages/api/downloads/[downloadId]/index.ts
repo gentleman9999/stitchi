@@ -1,6 +1,7 @@
 import getOrThrow from '@lib/utils/get-or-throw'
 import { google } from 'googleapis'
 import { NextApiHandler } from 'next'
+import { withAxiom } from 'next-axiom'
 import * as yup from 'yup'
 
 // Load the Service Account credentials from the JSON key file
@@ -20,7 +21,7 @@ const formInputSchema = yup
   })
   .label('Form input')
 
-const handler: NextApiHandler = async (req, res) => {
+const handler: NextApiHandler = withAxiom(async (req, res) => {
   try {
     switch (req.method) {
       case 'POST': {
@@ -86,6 +87,6 @@ const handler: NextApiHandler = async (req, res) => {
     console.error(error)
     res.status(500).json({ message: error })
   }
-}
+})
 
 export default handler

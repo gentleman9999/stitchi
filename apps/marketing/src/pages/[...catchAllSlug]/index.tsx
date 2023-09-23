@@ -24,6 +24,7 @@ import {
   ProductPageGetDesignCategoryDataVariables,
 } from '@generated/ProductPageGetDesignCategoryData'
 import DesignLibraryCategoryShowPage from '@components/pages/DesignLibraryCategoryShowPage'
+import { useLogger } from 'next-axiom'
 
 const BrandShowPage = dynamic(() => import('@components/pages/BrandShowPage'))
 const ProductShowPage = dynamic(
@@ -155,6 +156,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 }
 
 const CatchAllPage = () => {
+  const logger = useLogger()
   const { query } = useRouter()
   const { catchAllSlug } = query
 
@@ -220,7 +222,7 @@ const CatchAllPage = () => {
 
     default: {
       if (!loading || !designCategoryLoading) {
-        console.error('Unknown node type', node)
+        logger.error('Unknown node type', { node })
       }
       return null
     }

@@ -4,6 +4,7 @@ import ClosetPageTitle from '@components/common/ClosetPageTitle'
 import { Container } from '@components/ui'
 import { ClosetDesignProofCreatePageDesignRequestFragment } from '@generated/ClosetDesignProofCreatePageDesignRequestFragment'
 import routes from '@lib/routes'
+import { useLogger } from 'next-axiom'
 import { useRouter } from 'next/router'
 import React from 'react'
 import CreateProofForm, { FormValues } from './CreateProofForm'
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const ClosetDesignProofCreatePage = ({ designRequest }: Props) => {
+  const logger = useLogger()
   const router = useRouter()
   const [createProof] = useCreateProof()
 
@@ -50,7 +52,7 @@ const ClosetDesignProofCreatePage = ({ designRequest }: Props) => {
         })),
       })
     } catch (error) {
-      console.error(error)
+      logger.error('failed to create proof', { error })
 
       return
     }

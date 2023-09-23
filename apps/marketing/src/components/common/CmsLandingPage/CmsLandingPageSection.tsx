@@ -8,12 +8,14 @@ import FeatureGrid, { Props as FeatureGridProps } from './FeatureGrid'
 import { Container } from '@components/ui'
 import CmsImage from '../CmsImage'
 import FAQGroup, { Props as FAQGroupProps } from './FAQGroup'
+import { useLogger } from 'next-axiom'
 
 interface Props {
   section: CmsLandingPageSectionSectionFragment
 }
 
 const CmsLandingPageSection = ({ section }: Props) => {
+  const logger = useLogger()
   const {
     title,
     subtitle,
@@ -100,7 +102,7 @@ const CmsLandingPageSection = ({ section }: Props) => {
                     )
 
                   default:
-                    console.error(
+                    logger.error(
                       `Unsupported content type: ${
                         (content as any).__typename
                       }`,

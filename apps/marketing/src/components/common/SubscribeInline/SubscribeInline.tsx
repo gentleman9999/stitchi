@@ -5,6 +5,7 @@ import * as yup from 'yup'
 import dynamic from 'next/dynamic'
 import { track } from '@lib/analytics'
 import useSubscribeInline from './useSubscribeInline'
+import { useLogger } from 'next-axiom'
 
 const SubscribeInlineSuccessAlert = dynamic(
   () => import('./SubscribeInlineSuccessAlert'),
@@ -18,17 +19,18 @@ export interface SubscribeInlineProps {
 }
 
 const SubscribeInline = (props: SubscribeInlineProps) => {
+  const logger = useLogger();
   const [subscribe, { subscriber }] = useSubscribeInline()
 
   const handleSubscribe: InlineTextFormProps<'email'>['onSubmit'] = async ({
     email,
   }) => {
-    console.info(`Subscribing ${email} to the mailing list`)
+    logger.info(`Subscribing ${email} to the mailing list`)
     track.mailingListSubscribeClicked({ email })
 
     await subscribe({ email })
 
-    console.info(`Subscribed ${email} to the mailing list`)
+    logger.info(`Subscribed ${email} to the mailing list`)
   }
 
   if (subscriber) {

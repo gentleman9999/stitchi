@@ -13,11 +13,11 @@ import {
   StripePaymentElementOptions,
 } from '@stripe/stripe-js'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
-import currency from 'currency.js'
 import Link from 'next/link'
 import React from 'react'
 import useConfirmOrder from './useConfirmOrder'
 import Button from '@components/ui/ButtonV2/Button'
+import { useLogger } from 'next-axiom'
 
 interface Props {
   amountCents: number
@@ -26,6 +26,7 @@ interface Props {
 }
 
 const OrderPaymentForm = (props: Props) => {
+  const logger = useLogger()
   const stripe = useStripe()
   const elements = useElements()
   const [confirmOrder] = useConfirmOrder({ orderId: props.orderId })
@@ -104,7 +105,7 @@ const OrderPaymentForm = (props: Props) => {
         },
       })
     } catch (error) {
-      console.error(`Error confirming order: ${props.orderId}`, {
+      logger.error(`Error confirming order: ${props.orderId}`, {
         context: { error, authenticationVals, shippingAddressValues },
       })
 

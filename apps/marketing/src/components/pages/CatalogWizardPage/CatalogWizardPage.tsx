@@ -1,5 +1,6 @@
 import UserAvatar from '@components/common/UserAvatar'
 import { Container } from '@components/ui'
+import { useLogger } from 'next-axiom'
 import React from 'react'
 import CategoryStepNew from './CategoryStepNew'
 import WelcomePage from './WelcomeStep'
@@ -11,6 +12,8 @@ interface Props {
 }
 
 const CatalogWizardPage = ({ path }: Props) => {
+  const logger = useLogger()
+
   const Step = () => {
     switch (path[0]) {
       case 'welcome':
@@ -19,7 +22,7 @@ const CatalogWizardPage = ({ path }: Props) => {
         return <CategoryStepNew />
 
       default:
-        console.error(`Unknown path section: ${path[0]}`)
+        logger.error(`Unknown path section: ${path[0]}`)
         return null
     }
   }
