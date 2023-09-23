@@ -2,6 +2,7 @@ import { Section } from '@components/common'
 import { Button, Container } from '@components/ui'
 import { yupResolver } from '@hookform/resolvers/yup'
 import routes from '@lib/routes'
+import { useLogger } from 'next-axiom'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -11,6 +12,7 @@ const schema = yup.object({
 })
 
 const Pricing = () => {
+  const logger = useLogger()
   const [downloading, setDownloading] = React.useState(false)
   const form = useForm<yup.Asserts<typeof schema>>({
     defaultValues: { email: '' },
@@ -44,7 +46,7 @@ const Pricing = () => {
       link.click()
       link.parentNode?.removeChild(link)
     } catch (error) {
-      console.error('Error downloading PDF:', error)
+      logger.error('Error downloading PDF', { error })
     } finally {
       setDownloading(false)
     }

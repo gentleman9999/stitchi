@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import routes from '@lib/routes'
 import { ComponentErrorMessage } from '@components/common'
 import Button from '@components/ui/ButtonV2/Button'
+import { useLogger } from 'next-axiom'
 
 const schema = object({
   email: string().email().required(),
@@ -19,6 +20,7 @@ const schema = object({
 })
 
 const NewOrderForm = () => {
+  const logger = useLogger()
   const [api] = React.useState(makeApi())
   const form = useForm<Asserts<typeof schema>>({
     resolver: yupResolver(schema),
@@ -33,14 +35,14 @@ const NewOrderForm = () => {
   const handleSubmit = form.handleSubmit(async data => {
     setLoading(true)
     try {
-      console.info('Starting to submit contact form')
+      logger.info('Starting to submit contact form')
       await api.formResponse.create(data)
-      console.info('Successfully submitted contact form')
+      logger.info('Successfully submitted contact form')
       router.push(
         routes.internal.getStarted.success.href({ email: data.email }),
       )
     } catch (e) {
-      console.error('Error submitting contact form', { context: { error: e } })
+      logger.error('Error submitting contact form', { context: { error: e } })
       setError(
         'Something went wrong. Please try again or contact us using one of the alternative methods.',
       )

@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button } from '../..'
+import { useLogger } from 'next-axiom'
 
 type InputElementAttributes = React.InputHTMLAttributes<HTMLInputElement>
 
@@ -23,6 +24,7 @@ export interface InlineTextFormProps<T extends string> {
 
 // eslint-disable-next-line react/function-component-definition
 function InlineTextForm<T extends string>(props: InlineTextFormProps<T>) {
+  const logger = useLogger()
   const [loading, setLoading] = React.useState(false)
   const [submitError, setSubmitError] = React.useState('')
   const schema = yup.object({
@@ -44,7 +46,7 @@ function InlineTextForm<T extends string>(props: InlineTextFormProps<T>) {
     try {
       await props.onSubmit(data as any)
     } catch (e) {
-      console.error(e)
+      logger.error('failed tos submit inline text form', { error: e })
       setSubmitError('Something went wrong. Please try again.')
     } finally {
       setLoading(false)

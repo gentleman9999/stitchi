@@ -4,10 +4,12 @@ import { ClosetBrandIndexPageColorsGetDataQuery } from '@generated/ClosetBrandIn
 import BrandColorForm, { FormValues } from './BrandColorForm'
 import useClosetBrandIndexPageColors from './useClosetBrandIndexPageColors'
 import ClosetBrandIndexPageColorsColorPreview from './ClosetBrandIndexPageColorsColorPreview'
+import { useLogger } from 'next-axiom'
 
 interface Props {}
 
 const ClosetBrandIndexPageColors = (props: Props) => {
+  const logger = useLogger()
   const [showColorForm, setShowColorForm] = React.useState<boolean | string>(
     false,
   )
@@ -76,7 +78,7 @@ const ClosetBrandIndexPageColors = (props: Props) => {
                   onEdit={() => setShowColorForm(color.id)}
                   onDelete={() => {
                     if (!organization) {
-                      console.error(
+                      logger.error(
                         "Organization not present. This shouldn't happen",
                       )
                       return

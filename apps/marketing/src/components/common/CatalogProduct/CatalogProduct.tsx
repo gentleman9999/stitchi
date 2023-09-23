@@ -10,6 +10,7 @@ import { makeProductTitle } from '@lib/utils/catalog'
 import { generateImageSizes } from '@lib/utils/image'
 import currency from 'currency.js'
 import Tooltip from '@components/ui/Tooltip'
+import { useLogger } from 'next-axiom'
 
 export interface Props {
   product: CatalogProductLegacyProductFragment
@@ -17,10 +18,11 @@ export interface Props {
 }
 
 const CatalogProduct = ({ product, priority }: Props) => {
+  const logger = useLogger();
   const { colors } = useProductOptions({ product })
 
   if (!product.brand) {
-    console.warn('Product must have a brand')
+    logger.warn('Product must have a brand', { product });
     return null
   }
 

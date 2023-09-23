@@ -20,6 +20,7 @@ import {
   ClosetSettingsTeamPageRevokeInviteMutation,
   ClosetSettingsTeamPageRevokeInviteMutationVariables,
 } from '@generated/ClosetSettingsTeamPageRevokeInviteMutation'
+import { useLogger } from 'next-axiom'
 import React from 'react'
 import ClosetSettingsTeamPageTableDesktop from './ClosetSettingsTeamPageTableDesktop'
 import ClosetSettingsTeamPageTableMobile from './ClosetSettingsTeamPageTableMobile'
@@ -30,6 +31,7 @@ interface Props {
 }
 
 const ClosetSettingsTeamPage = ({ loading, memberships }: Props) => {
+  const logger = useLogger()
   const { setStandout } = useStandout()
   const { enqueueSnackbar } = useSnackbar()
 
@@ -72,7 +74,7 @@ const ClosetSettingsTeamPage = ({ loading, memberships }: Props) => {
         title: `Invite for ${membership.invitedEmail} has been resent`,
       })
     } catch (error) {
-      console.error(`Error resending invite to member ${membership.id}`, {
+      logger.error(`Error resending invite to member ${membership.id}`, {
         context: { error, membership },
       })
 
@@ -99,7 +101,7 @@ const ClosetSettingsTeamPage = ({ loading, memberships }: Props) => {
           title: `Invitation for ${membership.invitedEmail} has been revoked`,
         })
       } catch (error) {
-        console.error(`Error revoking invite to member ${membership.id}`, {
+        logger.error(`Error revoking invite to member ${membership.id}`, {
           context: { error, membership },
         })
 

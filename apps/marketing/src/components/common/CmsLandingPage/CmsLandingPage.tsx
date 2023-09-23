@@ -12,6 +12,7 @@ import { addApolloState, initializeApollo } from '@lib/apollo'
 import routes from '@lib/routes'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps } from 'next'
+import { useLogger } from 'next-axiom'
 import { useRouter } from 'next/router'
 import React from 'react'
 import CmsSeo from '../CmsSeo'
@@ -66,7 +67,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { landingPageSlug } = params || {}
 
   if (typeof landingPageSlug !== 'string') {
-    console.error('No landing page slug provided')
+    console.error('No landing page slug provided', { landingPageSlug })
     return {
       notFound: true,
     }
@@ -90,6 +91,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 interface Props {}
 
 const CmsLandingPage = ({}: Props) => {
+  const logger = useLogger()
   const { query } = useRouter()
 
   const landingPageSlug = query.landingPageSlug as string
@@ -178,7 +180,7 @@ const CmsLandingPage = ({}: Props) => {
             )
 
           default:
-            console.error(
+            logger.error(
               `Unsupported content type: ${(content as any).__typename}`,
             )
         }
