@@ -14,6 +14,7 @@ import { GTM_ID } from '@lib/events'
 import MixpanelProvider from '@components/context/mixpanel-context'
 import { UserProvider } from '@auth0/nextjs-auth0/client'
 import { SnackbarProvider } from '@components/context/snackbar-context'
+import { AxiomWebVitals } from 'next-axiom'
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -61,6 +62,7 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
               <SnackbarProvider>
                 <StandoutProvider>
                   <WishlistProvider>
+                    <AxiomWebVitals />
                     {getLayout(<Component {...pageProps} />)}
                   </WishlistProvider>
                 </StandoutProvider>

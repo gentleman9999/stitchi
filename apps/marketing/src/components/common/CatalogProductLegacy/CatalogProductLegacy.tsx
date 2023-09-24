@@ -11,6 +11,7 @@ import { generateImageSizes } from '@lib/utils/image'
 import currency from 'currency.js'
 import Tooltip from '@components/ui/Tooltip'
 import Skeleton from 'react-loading-skeleton'
+import { useLogger } from 'next-axiom'
 
 export interface Props {
   product?: CatalogProductLegacyProductFragment | null
@@ -19,15 +20,16 @@ export interface Props {
 }
 
 const CatalogProductLegacy = ({ product, priority, loading }: Props) => {
+  const logger = useLogger();
   const { colors } = useProductOptions({ product })
 
   if (!loading && !product) {
-    console.warn('Product is required')
+    logger.warn('Product is required')
     return null
   }
 
   if (!loading && !product?.brand) {
-    console.warn('Product must have a brand')
+    logger.warn('Product must have a brand', { product })
     return null
   }
 

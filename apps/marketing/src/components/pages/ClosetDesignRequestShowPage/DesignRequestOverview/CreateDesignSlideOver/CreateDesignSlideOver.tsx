@@ -14,6 +14,7 @@ import {
 } from '@generated/CreateDesignSlideOverGetDataQuery'
 import { ArrowRightIcon } from '@heroicons/react/20/solid'
 import routes from '@lib/routes'
+import { useLogger } from 'next-axiom'
 import { useRouter } from 'next/router'
 import React from 'react'
 import CreateDesignForm, { FormValues } from './CreateDesignForm'
@@ -46,6 +47,7 @@ const Inner = ({
   designRequest: CreateDesignSlideOverDesignRequestFragment
   onClose: () => void
 }) => {
+  const logger = useLogger()
   const router = useRouter()
   const [approveDesign] = useCreateDesignSlideOver()
 
@@ -70,7 +72,7 @@ const Inner = ({
     const designId = res?.design?.id
 
     if (!designId) {
-      console.error('Invariant violation: design.id is null')
+      logger.error('Invariant violation: design.id is null', { design: res?.design })
       return
     }
 

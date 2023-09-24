@@ -7,12 +7,14 @@ import routes from '@lib/routes'
 
 import { useRouter } from 'next/router'
 import React from 'react'
+import { useLogger } from 'next-axiom'
 
 interface Props {
   memberships: AccountSetupPageMembershipFragment[]
 }
 
 const AccountSetupPage = (props: Props) => {
+  const logger = useLogger()
   const [loading, setLoading] = React.useState(false)
   const router = useRouter()
 
@@ -43,14 +45,14 @@ const AccountSetupPage = (props: Props) => {
 
   React.useEffect(() => {
     if (props.memberships.length === 1 && !loading) {
-      console.log('CLIENT SIDE SET MEMBERSHIP CALLED')
+      logger.debug('CLIENT SIDE SET MEMBERSHIP CALLED')
 
       handleSetMembership({
         organizationId: props.memberships[0].organization?.id || '',
         membershipId: props.memberships[0].id,
       })
     }
-  }, [handleSetMembership, loading, props.memberships])
+  }, [handleSetMembership, loading, props.memberships, logger])
 
   if (props.memberships.length === 1) {
     return null

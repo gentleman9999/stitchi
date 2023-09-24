@@ -11,12 +11,14 @@ import useProductShowPageHero from './useProductShowPageHero'
 import { useRouter } from 'next/router'
 import useProductOptions from '@components/hooks/useProductOptions'
 import { DesignRequestCreateInput } from '@generated/globalTypes'
+import { useLogger } from 'next-axiom'
 
 interface Props {
   product: ProductShowPageHeroProductFragment
 }
 
 const ProductShowPageHero = ({ product }: Props) => {
+  const logger = useLogger()
   const router = useRouter()
   const { colors } = useProductOptions({ product })
 
@@ -47,7 +49,7 @@ const ProductShowPageHero = ({ product }: Props) => {
     })
 
     if (!designRequest) {
-      console.error('Invariant error: designRequest is null')
+      logger.error('Invariant error: designRequest is null')
       return
     }
 

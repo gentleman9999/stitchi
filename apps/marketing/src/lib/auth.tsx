@@ -8,6 +8,7 @@ import { UseAuthorizedComponentGetDataQuery } from '@generated/UseAuthorizedComp
 import { GetServerSidePropsContext } from 'next'
 import { getAccessToken as getServerSideAccessToken } from '@auth0/nextjs-auth0'
 import getOrThrow from './utils/get-or-throw'
+import { useLogger } from 'next-axiom'
 
 const appUrl = getOrThrow(
   process.env.NEXT_PUBLIC_SITE_URL,
@@ -84,6 +85,8 @@ export const withAuthorization = (
 }
 
 export const getAccessToken = async (ctx?: GetServerSidePropsContext) => {
+  // const logger = useLogger()
+
   let accessToken: string | null = null
   try {
     if (ctx) {
@@ -101,6 +104,8 @@ export const getAccessToken = async (ctx?: GetServerSidePropsContext) => {
       context: { error },
     })
   }
+
+  // logger.flush()
 
   return accessToken
 }

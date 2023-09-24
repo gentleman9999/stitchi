@@ -4,6 +4,7 @@ import { gql } from '@apollo/client'
 import { IndustryTermCardTermFragment } from '@generated/IndustryTermCardTermFragment'
 import routes from '@lib/routes'
 import CmsImage from '../CmsImage'
+import { useLogger } from 'next-axiom'
 
 export interface Props {
   component?: React.ElementType
@@ -11,8 +12,10 @@ export interface Props {
 }
 
 const IndustryTermCard = ({ entry, component: Component = 'div' }: Props) => {
+  const logger = useLogger();
+
   if (!entry.slug || !entry.entryType) {
-    console.error('IndustryTermCard: missing slug or entryType', entry)
+    logger.error('IndustryTermCard: missing slug or entryType', { entry })
 
     return null
   }

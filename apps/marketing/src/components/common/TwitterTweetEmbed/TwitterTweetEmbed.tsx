@@ -1,6 +1,7 @@
 import React from 'react'
 import twitterWidgetJs from './twitter-widget-url'
 import Script from 'next/script'
+import { useLogger } from 'next-axiom'
 
 declare global {
   interface Window {
@@ -34,15 +35,16 @@ export interface TwitterTweetEmbedProps {
 const methodName = 'createTweet'
 
 const TwitterTweetEmbed = (props: TwitterTweetEmbedProps): any => {
+  const logger = useLogger();
   const ref = React.useRef<HTMLDivElement | null>(null)
 
   const handleLoad = () => {
     if (!window.twttr) {
-      console.error('Failure to load window.twttr, aborting load')
+      logger.error('Failure to load window.twttr, aborting load')
       return
     }
     if (!window.twttr.widgets[methodName]) {
-      console.error(
+      logger.error(
         `Method ${methodName} is not present anymore in twttr.widget api`,
       )
       return

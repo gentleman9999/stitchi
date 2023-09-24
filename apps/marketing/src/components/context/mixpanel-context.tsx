@@ -1,5 +1,6 @@
 import getOrThrow from '@lib/utils/get-or-throw'
 import mixpanel, { Mixpanel } from 'mixpanel-browser'
+import { useLogger } from 'next-axiom'
 import React from 'react'
 import parse from 'url-parse'
 
@@ -67,7 +68,7 @@ const MixpanelProvider = ({ children }: MixpanelContextProps) => {
     try {
       registerUtmParams(mixpanel)
     } catch (error) {
-      console.error('Failed to register UTM parameters', error)
+      console.error('Failed to register UTM parameters', { error })
     }
   }, [])
 
