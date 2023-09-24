@@ -58,6 +58,10 @@ export interface NexusGenInputs {
     name: string; // String!
     termsConditionsAgreed: boolean; // Boolean!
   }
+  DesignRequestAssignInput: { // input type
+    designRequestId: string; // String!
+    membershipId: string; // String!
+  }
   DesignRequestConversationMessageCreateInput: { // input type
     designRequestId: string; // ID!
     fileIds: string[]; // [String!]!
@@ -326,7 +330,7 @@ export interface NexusGenEnums {
   OrderPaymentStatus: "NOT_PAID" | "PAID" | "PARTIALLY_PAID" | "PARTIALLY_REFUNDED" | "REFUNDED"
   OrderType: "CART" | "CONFIRMED"
   ScopeAction: "CREATE" | "DELETE" | "READ" | "UPDATE"
-  ScopeResource: "DesignProduct" | "DesignProof" | "DesignRequest" | "DesignRequestRevisionRequest" | "Integration" | "Membership" | "Order"
+  ScopeResource: "DesignProduct" | "DesignProof" | "DesignRequest" | "DesignRequestRevisionRequest" | "Integration" | "Membership" | "Order" | "Organization"
 }
 
 export interface NexusGenScalars {
@@ -488,6 +492,9 @@ export interface NexusGenObjects {
   }
   DesignRequestApprovePayload: { // root type
     design?: NexusGenRootTypes['DesignProduct'] | null; // DesignProduct
+    designRequest?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+  }
+  DesignRequestAssignPayload: { // root type
     designRequest?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
   }
   DesignRequestConnection: { // root type
@@ -1100,6 +1107,9 @@ export interface NexusGenFieldTypes {
     design: NexusGenRootTypes['DesignProduct'] | null; // DesignProduct
     designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
   }
+  DesignRequestAssignPayload: { // field return type
+    designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+  }
   DesignRequestConnection: { // field return type
     edges: Array<NexusGenRootTypes['DesignRequestEdge'] | null> | null; // [DesignRequestEdge]
     pageInfo: NexusGenRootTypes['PageInfo']; // PageInfo!
@@ -1302,6 +1312,7 @@ export interface NexusGenFieldTypes {
     organizationId: string; // String!
     role: NexusGenEnums['MembershipRole'] | null; // MembershipRole
     scopes: NexusGenRootTypes['Scope'][]; // [Scope!]!
+    unassignedDesignRequests: NexusGenRootTypes['DesignRequestConnection']; // DesignRequestConnection!
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     user: NexusGenRootTypes['User'] | null; // User
     userId: string | null; // String
@@ -1332,6 +1343,7 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     designProductCreateOrder: NexusGenRootTypes['DesignProductCreateOrderPayload'] | null; // DesignProductCreateOrderPayload
     designRequestApprove: NexusGenRootTypes['DesignRequestApprovePayload'] | null; // DesignRequestApprovePayload
+    designRequestAssign: NexusGenRootTypes['DesignRequestAssignPayload'] | null; // DesignRequestAssignPayload
     designRequestConversationMessageCreate: NexusGenRootTypes['DesignRequestConversationMessageCreatePayload'] | null; // DesignRequestConversationMessageCreatePayload
     designRequestCreate: NexusGenRootTypes['DesignRequestCreatePayload'] | null; // DesignRequestCreatePayload
     designRequestDesignLocationCreate: NexusGenRootTypes['DesignRequestDesignLocationCreatePayload'] | null; // DesignRequestDesignLocationCreatePayload
@@ -1793,6 +1805,9 @@ export interface NexusGenFieldTypeNames {
     design: 'DesignProduct'
     designRequest: 'DesignRequest'
   }
+  DesignRequestAssignPayload: { // field return type name
+    designRequest: 'DesignRequest'
+  }
   DesignRequestConnection: { // field return type name
     edges: 'DesignRequestEdge'
     pageInfo: 'PageInfo'
@@ -1995,6 +2010,7 @@ export interface NexusGenFieldTypeNames {
     organizationId: 'String'
     role: 'MembershipRole'
     scopes: 'Scope'
+    unassignedDesignRequests: 'DesignRequestConnection'
     updatedAt: 'DateTime'
     user: 'User'
     userId: 'String'
@@ -2025,6 +2041,7 @@ export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     designProductCreateOrder: 'DesignProductCreateOrderPayload'
     designRequestApprove: 'DesignRequestApprovePayload'
+    designRequestAssign: 'DesignRequestAssignPayload'
     designRequestConversationMessageCreate: 'DesignRequestConversationMessageCreatePayload'
     designRequestCreate: 'DesignRequestCreatePayload'
     designRequestDesignLocationCreate: 'DesignRequestDesignLocationCreatePayload'
@@ -2351,6 +2368,12 @@ export interface NexusGenArgTypes {
       first?: number | null; // Int
       last?: number | null; // Int
     }
+    unassignedDesignRequests: { // args
+      after?: string | null; // String
+      before?: string | null; // String
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
   }
   Mutation: {
     designProductCreateOrder: { // args
@@ -2358,6 +2381,9 @@ export interface NexusGenArgTypes {
     }
     designRequestApprove: { // args
       input: NexusGenInputs['DesignRequestApproveInput']; // DesignRequestApproveInput!
+    }
+    designRequestAssign: { // args
+      input: NexusGenInputs['DesignRequestAssignInput']; // DesignRequestAssignInput!
     }
     designRequestConversationMessageCreate: { // args
       input: NexusGenInputs['DesignRequestConversationMessageCreateInput']; // DesignRequestConversationMessageCreateInput!

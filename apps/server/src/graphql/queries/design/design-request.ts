@@ -89,6 +89,13 @@ export const DesignRequestsExtendsMembership = extendType({
   definition(t) {
     t.nonNull.boolean('hasDesignRequests', {
       resolve: async (parent, _, { design }) => {
+        if (
+          parent.role &&
+          ['STITCHI_DESIGNER', 'STITCHI_ADMIN'].includes(parent.role)
+        ) {
+          return true
+        }
+
         const designRequests = await design.listDesignRequests({
           where: { membershipId: parent.id },
           take: 1,
@@ -97,6 +104,42 @@ export const DesignRequestsExtendsMembership = extendType({
         return designRequests.length > 0
       },
     })
+
+    t.nonNull.connectionField('unassignedDesignRequests', {
+      type: 'DesignRequest',
+      resolve: async (parent, { first, last, after, before }, ctx) => {
+        const where = {
+          designRequestArtists: {
+            none: {},
+          },
+        }
+
+        const result = await cursorPaginationFromList(
+          async ({ cursor, skip, take }) => {
+            const designRequests = await ctx.design.listDesignRequests({
+              where,
+              cursor,
+              skip,
+              take,
+              orderBy: {
+                createdAt: 'desc',
+              },
+            })
+
+            return designRequests.map(designRequestFactoryToGrahpql)
+          },
+          async () => {
+            return ctx.design.listDesignRequestsCount({
+              where,
+            })
+          },
+          { first, last, after, before },
+        )
+
+        return result
+      },
+    })
+
     t.nonNull.connectionField('designRequests', {
       type: 'DesignRequest',
       additionalArgs: {

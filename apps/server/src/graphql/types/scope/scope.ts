@@ -9,6 +9,7 @@ export const ScopeResource = enumType({
     'DesignRequest',
     'DesignRequestRevisionRequest',
     'Order',
+    'Organization',
     'Integration',
     'Membership',
   ],

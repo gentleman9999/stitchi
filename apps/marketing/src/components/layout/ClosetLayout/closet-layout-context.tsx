@@ -10,10 +10,15 @@ import {
   TruckIcon,
   UserCircleIcon,
   UsersIcon,
+  HomeIcon,
 } from '@heroicons/react/20/solid'
 import routes from '@lib/routes'
 import { useAuthorizedComponent } from '@lib/auth'
-import { ScopeAction, ScopeResource } from '@generated/globalTypes'
+import {
+  MembershipRole,
+  ScopeAction,
+  ScopeResource,
+} from '@generated/globalTypes'
 import { useRouter } from 'next/router'
 
 export interface SubNavItem {
@@ -58,7 +63,7 @@ interface Props {
 
 const ClosetLayoutContextProvider = ({ children }: Props) => {
   const router = useRouter()
-  const { can, loading: authorizationLoading } = useAuthorizedComponent()
+  const { can, loading: authorizationLoading, role } = useAuthorizedComponent()
   const [upcomingNavItem, setUpcomingNavItem] = React.useState<
     NavItem | SubNavItem | null
   >(null)
@@ -88,6 +93,18 @@ const ClosetLayoutContextProvider = ({ children }: Props) => {
           includedPaths: [],
         },
         {
+          href: routes.internal.closet.dashboard.href(),
+          label: 'Dashboard',
+          icon: <HomeIcon className="w-4 h-4" />,
+          includedPaths: [],
+          hidden:
+            !role ||
+            ![
+              MembershipRole.STITCHI_ADMIN,
+              MembershipRole.STITCHI_DESIGNER,
+            ].includes(role),
+        },
+        {
           href: routes.internal.closet.designs.href(),
           label: 'Design',
           icon: <PaintBrushIcon className="w-4 h-4" />,
@@ -110,6 +127,9 @@ const ClosetLayoutContextProvider = ({ children }: Props) => {
           href: routes.internal.closet.brand.href(),
           label: 'Brand Kit',
           icon: <SwatchIcon className="w-4 h-4" />,
+          hidden:
+            authorizationLoading ||
+            !can(ScopeResource.Organization, ScopeAction.READ),
         },
       ],
       secondary: [
@@ -153,7 +173,7 @@ const ClosetLayoutContextProvider = ({ children }: Props) => {
         },
       ],
     }),
-    [authorizationLoading, can],
+    [authorizationLoading, can, role],
   )
 
   const handleNavigate = (navItem: NavItem | SubNavItem) => {

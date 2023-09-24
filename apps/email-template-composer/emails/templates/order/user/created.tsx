@@ -24,7 +24,7 @@ const OrderUserCreatedTemplate = ({ ...orderTemplateProps }: Props) => {
                 <th className="text-right pl-2">Price</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y">
               {order.lineItems.map((lineItem, index) => (
                 <tr key={index}>
                   <td className="pr-2">

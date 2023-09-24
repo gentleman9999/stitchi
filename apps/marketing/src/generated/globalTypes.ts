@@ -60,6 +60,12 @@ export enum ItemStatus {
   updated = "updated",
 }
 
+export enum MembershipRole {
+  OWNER = "OWNER",
+  STITCHI_ADMIN = "STITCHI_ADMIN",
+  STITCHI_DESIGNER = "STITCHI_DESIGNER",
+}
+
 export enum OrderPaymentStatus {
   NOT_PAID = "NOT_PAID",
   PAID = "PAID",
@@ -83,6 +89,7 @@ export enum ScopeResource {
   Integration = "Integration",
   Membership = "Membership",
   Order = "Order",
+  Organization = "Organization",
 }
 
 export interface ArticleModelFilter {
@@ -151,6 +158,11 @@ export interface DesignRequestApproveInput {
   termsConditionsAgreed: boolean;
   name: string;
   description?: string | null;
+}
+
+export interface DesignRequestAssignInput {
+  designRequestId: string;
+  membershipId: string;
 }
 
 export interface DesignRequestConversationMessageCreateInput {

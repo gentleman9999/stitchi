@@ -237,6 +237,10 @@ const routes = {
     closet: {
       href: () => buildRoute('/closet'),
 
+      dashboard: {
+        href: () => buildRoute('/closet/dashboard'),
+      },
+
       inbox: {
         href: () => buildRoute('/closet/inbox'),
       },
@@ -305,6 +309,17 @@ const routes = {
           activity: {
             href: ({ designId }: { designId: string }) =>
               buildRoute(`/closet/designs/${designId}/activity`),
+          },
+
+          assign: {
+            href: ({
+              designId,
+              membershipId,
+            }: {
+              designId: string
+              membershipId: string
+            }) =>
+              buildRoute(`/closet/designs/${designId}/assign/${membershipId}`),
           },
         },
       },

@@ -20,6 +20,8 @@ import {
   ClosetSettingsTeamPageRevokeInviteMutation,
   ClosetSettingsTeamPageRevokeInviteMutationVariables,
 } from '@generated/ClosetSettingsTeamPageRevokeInviteMutation'
+import { ScopeAction, ScopeResource } from '@generated/globalTypes'
+import { useAuthorizedComponent } from '@lib/auth'
 import React from 'react'
 import ClosetSettingsTeamPageTableDesktop from './ClosetSettingsTeamPageTableDesktop'
 import ClosetSettingsTeamPageTableMobile from './ClosetSettingsTeamPageTableMobile'
@@ -32,6 +34,7 @@ interface Props {
 const ClosetSettingsTeamPage = ({ loading, memberships }: Props) => {
   const { setStandout } = useStandout()
   const { enqueueSnackbar } = useSnackbar()
+  const { can } = useAuthorizedComponent()
 
   const [resendInvite] = useMutation<
     ClosetSettingsTeamPageResendInviteMutation,
@@ -131,17 +134,21 @@ const ClosetSettingsTeamPage = ({ loading, memberships }: Props) => {
               description="Manage who has access to this workspace"
               actions={
                 <ClosetPageActions
-                  actions={[
-                    {
-                      label: 'Invite people',
-                      primary: true,
-                      onClick: () => {
-                        setStandout({
-                          type: StandoutType.UserInvite,
-                        })
-                      },
-                    },
-                  ]}
+                  actions={
+                    can(ScopeResource.Membership, ScopeAction.CREATE)
+                      ? [
+                          {
+                            label: 'Invite people',
+                            primary: true,
+                            onClick: () => {
+                              setStandout({
+                                type: StandoutType.UserInvite,
+                              })
+                            },
+                          },
+                        ]
+                      : []
+                  }
                 />
               }
             />

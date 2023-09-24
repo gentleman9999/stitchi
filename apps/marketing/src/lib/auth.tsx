@@ -6,11 +6,7 @@ import { ScopeAction, ScopeResource } from '@generated/globalTypes'
 import React from 'react'
 import { UseAuthorizedComponentGetDataQuery } from '@generated/UseAuthorizedComponentGetDataQuery'
 import { GetServerSidePropsContext } from 'next'
-import {
-  AccessTokenError,
-  AccessTokenErrorCode,
-  getAccessToken as getServerSideAccessToken,
-} from '@auth0/nextjs-auth0'
+import { getAccessToken as getServerSideAccessToken } from '@auth0/nextjs-auth0'
 import getOrThrow from './utils/get-or-throw'
 
 const appUrl = getOrThrow(
@@ -40,7 +36,7 @@ export const useAuthorizedComponent = () => {
     [scopes],
   )
 
-  return { can, loading }
+  return { can, loading, role: data?.viewer?.role }
 }
 
 interface AuthorizedComponentProps extends AuthorizationParams {
@@ -113,6 +109,7 @@ const GET_DATA = gql`
   query UseAuthorizedComponentGetDataQuery {
     viewer {
       id
+      role
       scopes {
         resource
         action

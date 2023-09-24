@@ -6,6 +6,8 @@ import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import cx from 'classnames'
+import { useAuthorizedComponent } from '@lib/auth'
+import { ScopeAction, ScopeResource } from '@generated/globalTypes'
 
 const schema = yup.object().shape({
   name: yup.string().required(),
@@ -19,6 +21,7 @@ interface Props {
 }
 
 const ClosetSettingsOrganizationForm = ({ defaultValues, onSubmit }: Props) => {
+  const { can, loading: authorizationLoading } = useAuthorizedComponent()
   const [loading, setLoading] = React.useState(false)
   const form = useForm<FormInput>({
     defaultValues,
@@ -41,11 +44,14 @@ const ClosetSettingsOrganizationForm = ({ defaultValues, onSubmit }: Props) => {
           description={name}
           loading={loading}
           form={
-            <Controller
-              name="name"
-              control={form.control}
-              render={({ field }) => <TextField {...field} size="sm" />}
-            />
+            !authorizationLoading &&
+            can(ScopeResource.Organization, ScopeAction.UPDATE) ? (
+              <Controller
+                name="name"
+                control={form.control}
+                render={({ field }) => <TextField {...field} size="sm" />}
+              />
+            ) : null
           }
         />
         {/* <Item label="Logo" description={<img src="" />} /> */}
