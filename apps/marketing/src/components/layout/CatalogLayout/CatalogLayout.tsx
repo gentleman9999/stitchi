@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import React from 'react'
 import NavbarRoot from '../NavbarRoot'
 import PageloadProgressIndicator from '../PageloadProgressIndicator'
@@ -13,10 +14,14 @@ const CatalogLayout = ({ children }: Props) => {
   const [dropdownAchor, setDropdownAnchor] =
     React.useState<HTMLDivElement | null>(null)
 
+  const router = useRouter()
+
+  const supportDefaultOpen = router.asPath.startsWith('/wizard/')
+
   return (
     <>
       <PageloadProgressIndicator />
-      <SupportWidget />
+      <SupportWidget defaultOpen={supportDefaultOpen} />
       <div className={'flex flex-col justify-between min-h-screen'}>
         {/* Floating nav spacer */}
         <div className={`h-[111px]`} />

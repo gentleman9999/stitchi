@@ -13,11 +13,13 @@ import s from './SupportWidget.module.css'
 import Link from 'next/link'
 import routes from '@lib/routes'
 
-interface Props {}
+interface Props {
+  defaultOpen?: boolean
+}
 
-const SupportWidget = ({}: Props) => {
+const SupportWidget = ({ defaultOpen = false }: Props) => {
   return (
-    <Popover.Root>
+    <Popover.Root defaultOpen={defaultOpen}>
       <Popover.Trigger className="fixed z-10 bottom-6 right-6 group">
         <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center shrink-0 shadow-magical relative">
           <div className="group-data-[state=open]:scale-0 transition-all absolute">
@@ -47,7 +49,7 @@ const SupportWidget = ({}: Props) => {
                   }}
                 />
               </div>
-              <p>Choose a product you want to customize.</p>
+              <p>Choose a product from the catalog you want to customize.</p>
             </div>
 
             <hr className="w-full" />
@@ -69,6 +71,8 @@ const SupportWidget = ({}: Props) => {
                 size="lg"
                 className="whitespace-nowrap"
                 endIcon={<ChatBubbleLeftRightIcon className="w-4 h-4" />}
+                Component={Link}
+                href={routes.external.support.href()}
                 {...{ target: '_blank' }}
               >
                 Live chat
