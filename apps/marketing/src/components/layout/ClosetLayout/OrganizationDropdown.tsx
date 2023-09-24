@@ -1,4 +1,3 @@
-import { ArrowPath } from 'icons'
 import React from 'react'
 import * as Dropdown from '@radix-ui/react-dropdown-menu'
 import { gql, useQuery } from '@apollo/client'
@@ -8,6 +7,7 @@ import { PlusIcon } from '@heroicons/react/20/solid'
 import { StandoutType, useStandout } from '@components/context'
 import { motion } from 'framer-motion'
 import { Badge } from '@components/ui'
+import cx from 'classnames'
 
 const fadeIn = {
   hidden: { opacity: 0.5, scale: 0.95 },
@@ -29,6 +29,8 @@ const OrganizationDropdown = (props: Props) => {
     membershipId: string,
   ) => {
     await setMembership({ membershipId, organizationId })
+
+    // Reload page to reset cache data
     window.location.reload()
   }
 
@@ -51,6 +53,7 @@ const OrganizationDropdown = (props: Props) => {
             return organization ? (
               <Item
                 key={membership.id}
+                active={membership.id === data?.viewer?.id}
                 onClick={() =>
                   handleOrganizationClick(organization.id, membership.id)
                 }
@@ -92,16 +95,23 @@ const Item = ({
   children,
   onClick,
   icon,
+  active,
 }: {
   children: React.ReactNode
   onClick: () => void
   icon?: React.ReactNode
+  active?: boolean
 }) => {
   return (
     <Dropdown.Item asChild>
       <button
         onClick={onClick}
-        className="border-2 border-transparent hover:border-primary hover:bg-gray-50 transition-all py-2 px-2 rounded-md flex-1 flex items-center gap-2 outline-none text-sm font-medium"
+        className={cx(
+          'border-2 border-transparent hover:border-primary hover:bg-gray-50 transition-all py-2 px-2 rounded-md flex-1 flex items-center gap-2 outline-none text-sm font-medium',
+          {
+            '!border-gray-100 bg-gray-50 pointer-events-none': active,
+          },
+        )}
       >
         <div className="w-5 h-5 bg-gray-100 rounded-sm">{icon}</div>
         {children}
@@ -112,6 +122,9 @@ const Item = ({
 
 const GET_DATA = gql`
   query OrganizationDropdownGetDataQuery {
+    viewer {
+      id
+    }
     userMemberships {
       id
       humanizedRole

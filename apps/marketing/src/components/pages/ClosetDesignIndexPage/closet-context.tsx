@@ -16,7 +16,13 @@ interface State {
 
 const ClosetClontext = React.createContext<State | undefined>(undefined)
 
-const ClosetProvider = ({ children }: { children: React.ReactNode }) => {
+const ClosetProvider = ({
+  children,
+  defaultUserFilter,
+}: {
+  children: React.ReactNode
+  defaultUserFilter?: TableFilterUserProps['value']
+}) => {
   const [dateFilter, setDateFilter] = useQueryState<
     TableFilterDateProps['value'] | null
   >('date', {
@@ -48,6 +54,12 @@ const ClosetProvider = ({ children }: { children: React.ReactNode }) => {
       return JSON.stringify(value)
     },
   })
+
+  React.useEffect(() => {
+    if (defaultUserFilter) {
+      setUserFilter(defaultUserFilter)
+    }
+  }, [defaultUserFilter, setUserFilter])
 
   const state = React.useMemo(() => {
     return {

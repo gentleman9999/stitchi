@@ -20,6 +20,8 @@ import {
   ClosetSettingsTeamPageRevokeInviteMutation,
   ClosetSettingsTeamPageRevokeInviteMutationVariables,
 } from '@generated/ClosetSettingsTeamPageRevokeInviteMutation'
+import { ScopeAction, ScopeResource } from '@generated/globalTypes'
+import { useAuthorizedComponent } from '@lib/auth'
 import { useLogger } from 'next-axiom'
 import React from 'react'
 import ClosetSettingsTeamPageTableDesktop from './ClosetSettingsTeamPageTableDesktop'
@@ -34,6 +36,7 @@ const ClosetSettingsTeamPage = ({ loading, memberships }: Props) => {
   const logger = useLogger()
   const { setStandout } = useStandout()
   const { enqueueSnackbar } = useSnackbar()
+  const { can } = useAuthorizedComponent()
 
   const [resendInvite] = useMutation<
     ClosetSettingsTeamPageResendInviteMutation,
@@ -133,17 +136,21 @@ const ClosetSettingsTeamPage = ({ loading, memberships }: Props) => {
               description="Manage who has access to this workspace"
               actions={
                 <ClosetPageActions
-                  actions={[
-                    {
-                      label: 'Invite people',
-                      primary: true,
-                      onClick: () => {
-                        setStandout({
-                          type: StandoutType.UserInvite,
-                        })
-                      },
-                    },
-                  ]}
+                  actions={
+                    can(ScopeResource.Membership, ScopeAction.CREATE)
+                      ? [
+                          {
+                            label: 'Invite people',
+                            primary: true,
+                            onClick: () => {
+                              setStandout({
+                                type: StandoutType.UserInvite,
+                              })
+                            },
+                          },
+                        ]
+                      : []
+                  }
                 />
               }
             />

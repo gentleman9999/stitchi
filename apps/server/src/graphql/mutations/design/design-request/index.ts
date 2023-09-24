@@ -1,10 +1,12 @@
 import { GraphQLError } from 'graphql'
 import { inputObjectType, mutationField, nonNull, objectType } from 'nexus'
-import { notEmpty } from '../../../utils'
+import { notEmpty } from '../../../../utils'
 import {
   designFactoryDesignToGraphql,
   designRequestFactoryToGrahpql,
-} from '../../serializers/design'
+} from '../../../serializers/design'
+
+export * from './design-request-assign'
 
 export const DesignRequestProductColorCreateInput = inputObjectType({
   name: 'DesignRequestProductColorCreateInput',

@@ -249,6 +249,13 @@ export const DesignProductExtendsMembership = extendType({
   definition(t) {
     t.nonNull.boolean('hasDesignProducts', {
       resolve: async (parent, _, ctx) => {
+        if (
+          parent.role &&
+          ['STITCHI_ADMIN', 'STITCHI_DESIGNER'].includes(parent.role)
+        ) {
+          return true
+        }
+
         const designProducts = await ctx.design.listDesigns({
           where: { membershipId: parent.id },
           take: 1,

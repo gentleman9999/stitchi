@@ -1,3 +1,4 @@
+import { gql, useQuery } from '@apollo/client'
 import ClosetPageActions from '@components/common/ClosetPageActions'
 import ClosetPageContainer from '@components/common/ClosetPageContainer'
 import ClosetPageHeader from '@components/common/ClosetPageHeader'
@@ -5,6 +6,13 @@ import ClosetPageTitle from '@components/common/ClosetPageTitle'
 import ClosetSection from '@components/common/ClosetSection'
 import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
 import ClosetSectionHeaderTabs from '@components/common/ClosetSectionHeaderTabs'
+import { ClosetDesignIndexPageGetDataQuery } from '@generated/ClosetDesignIndexPageGetDataQuery'
+import {
+  MembershipRole,
+  ScopeAction,
+  ScopeResource,
+} from '@generated/globalTypes'
+import { useAuthorizedComponent } from '@lib/auth'
 import routes from '@lib/routes'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
@@ -27,22 +35,33 @@ interface Props {}
 
 const ClosetDesignIndexPage = ({}: Props) => {
   const router = useRouter()
+  const { can } = useAuthorizedComponent()
+
+  const { data } = useQuery<ClosetDesignIndexPageGetDataQuery>(GET_DATA)
+
+  const { viewer } = data || {}
+
+  const isArtist = viewer?.role === MembershipRole.STITCHI_DESIGNER
 
   return (
-    <ClosetProvider>
+    <ClosetProvider defaultUserFilter={isArtist ? viewer.id : null}>
       <ClosetPageContainer>
         <ClosetPageHeader>
           <ClosetPageTitle
             title="Design"
             actions={
               <ClosetPageActions
-                actions={[
-                  {
-                    label: 'New Design',
-                    href: routes.internal.closet.designs.create.href(),
-                    primary: true,
-                  },
-                ]}
+                actions={
+                  can(ScopeResource.DesignRequest, ScopeAction.CREATE)
+                    ? [
+                        {
+                          label: 'New Design',
+                          href: routes.internal.closet.designs.create.href(),
+                          primary: true,
+                        },
+                      ]
+                    : []
+                }
               />
             }
           />
@@ -103,5 +122,14 @@ const ClosetDesignIndexPage = ({}: Props) => {
     </ClosetProvider>
   )
 }
+
+const GET_DATA = gql`
+  query ClosetDesignIndexPageGetDataQuery {
+    viewer {
+      id
+      role
+    }
+  }
+`
 
 export default ClosetDesignIndexPage

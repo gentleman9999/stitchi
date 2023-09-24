@@ -7,6 +7,11 @@
 // GraphQL query operation: OrganizationDropdownGetDataQuery
 // ====================================================
 
+export interface OrganizationDropdownGetDataQuery_viewer {
+  __typename: "Membership";
+  id: string;
+}
+
 export interface OrganizationDropdownGetDataQuery_userMemberships_organization {
   __typename: "Organization";
   id: string;
@@ -21,5 +26,6 @@ export interface OrganizationDropdownGetDataQuery_userMemberships {
 }
 
 export interface OrganizationDropdownGetDataQuery {
+  viewer: OrganizationDropdownGetDataQuery_viewer | null;
   userMemberships: OrganizationDropdownGetDataQuery_userMemberships[];
 }

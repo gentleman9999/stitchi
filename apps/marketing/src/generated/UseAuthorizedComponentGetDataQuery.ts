@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { ScopeResource, ScopeAction } from "./globalTypes";
+import { MembershipRole, ScopeResource, ScopeAction } from "./globalTypes";
 
 // ====================================================
 // GraphQL query operation: UseAuthorizedComponentGetDataQuery
@@ -23,6 +23,7 @@ export interface UseAuthorizedComponentGetDataQuery_viewer_flags {
 export interface UseAuthorizedComponentGetDataQuery_viewer {
   __typename: "Membership";
   id: string;
+  role: MembershipRole | null;
   scopes: UseAuthorizedComponentGetDataQuery_viewer_scopes[];
   flags: UseAuthorizedComponentGetDataQuery_viewer_flags;
 }

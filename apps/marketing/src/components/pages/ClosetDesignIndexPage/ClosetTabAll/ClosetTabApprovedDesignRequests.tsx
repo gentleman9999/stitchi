@@ -23,6 +23,7 @@ const ClosetTabApprovedDesignRequests = ({}: Props) => {
     ClosetTabApprovedDesignRequestGetDataQuery,
     ClosetTabApprovedDesignRequestGetDataQueryVariables
   >(GET_DATA, {
+    fetchPolicy: 'cache-and-network',
     variables: {
       first: 10,
       filter: {
