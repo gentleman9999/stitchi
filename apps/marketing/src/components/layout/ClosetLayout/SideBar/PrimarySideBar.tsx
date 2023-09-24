@@ -30,18 +30,20 @@ const PrimarySideBar = ({ membership, loading }: Props) => {
 
   return (
     <div className="relative flex-1 flex flex-col p-2 gap-2 ">
-      <OrganizationDropdown
-        renderTrigger={() => (
-          <div className="bg-gray-50 rounded-md p-2 w-full text-sm font-regular flex items-center gap-2 text-gray-800">
-            <div className="w-5 h-5 bg-gray-100 rounded-sm" />
-            {organization?.name}
-            <div className="ml-auto">
-              <ChevronUpDownIcon className="h-4" />
+      <div className="z-10 w-full flex flex-col">
+        <OrganizationDropdown
+          renderTrigger={() => (
+            <div className="bg-gray-50 rounded-md p-2 w-full text-sm font-regular flex items-center gap-2 text-gray-800">
+              <div className="w-5 h-5 bg-gray-100 rounded-sm" />
+              {organization?.name}
+              <div className="ml-auto">
+                <ChevronUpDownIcon className="h-4" />
+              </div>
             </div>
-          </div>
-        )}
-      />
-      <div>
+          )}
+        />
+      </div>
+      <div className="z-0">
         <ul className="flex flex-col gap-1">
           {navigation.primary
             .filter(link => !link.hidden)
