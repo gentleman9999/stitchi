@@ -344,6 +344,10 @@ export interface MembershipOrdersWhereFilterInput {
   createdAt?: DateFilterInput | null;
 }
 
+export interface NotificationMarkAsSeenInput {
+  notificationId: string;
+}
+
 /**
  * A variant option value id input object
  */

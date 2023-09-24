@@ -7,6 +7,8 @@ import { makeCreateNotificationTopic } from './create-notification-topic'
 import { makeListNotificationTopics } from './list-notification-topics'
 import { makeUpdateNotificationTopic } from './update-notification-topic'
 
+import { makeUpdateNotificationChannelWeb } from './update-notification-channel-web'
+
 export interface NotificationRepositoryInit {}
 
 export interface NotificationRepository {
@@ -18,6 +20,10 @@ export interface NotificationRepository {
   createNotificationTopic: ReturnType<typeof makeCreateNotificationTopic>
   listNotificationTopics: ReturnType<typeof makeListNotificationTopics>
   updateNotificationTopic: ReturnType<typeof makeUpdateNotificationTopic>
+
+  updateNotificationChannelWeb: ReturnType<
+    typeof makeUpdateNotificationChannelWeb
+  >
 }
 
 type MakeNotificationRepositoryFn = (
@@ -33,6 +39,8 @@ const makeNotificationRepository: MakeNotificationRepositoryFn = init => ({
   createNotificationTopic: makeCreateNotificationTopic(),
   listNotificationTopics: makeListNotificationTopics(),
   updateNotificationTopic: makeUpdateNotificationTopic(),
+
+  updateNotificationChannelWeb: makeUpdateNotificationChannelWeb(),
 })
 
 export default makeNotificationRepository

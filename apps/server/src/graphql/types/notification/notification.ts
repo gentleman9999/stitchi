@@ -65,5 +65,7 @@ export const NotificationChannelWeb = objectType({
 
     t.nullable.string('ctaText')
     t.nullable.string('ctaUrl')
+
+    t.nullable.DateTime('seenAt')
   },
 })

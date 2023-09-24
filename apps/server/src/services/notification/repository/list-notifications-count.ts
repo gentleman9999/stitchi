@@ -37,8 +37,8 @@ const makeListNotificationsCount: MakeListNotificationsCountFn =
         .child({
           context: { error },
         })
-        .error(`Failed to list notifications`)
-      throw new Error('Failed to list notifications')
+        .error(`Failed to get notification count`)
+      throw new Error('Failed to get notification count')
     }
 
     return notificationCount

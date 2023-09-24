@@ -18,6 +18,7 @@ export interface ClosetInboxIndexPageGetDataQuery_viewer_notifications_edges_nod
   message: string;
   ctaText: string | null;
   ctaUrl: string | null;
+  seenAt: any | null;
 }
 
 export type ClosetInboxIndexPageGetDataQuery_viewer_notifications_edges_node_channels = ClosetInboxIndexPageGetDataQuery_viewer_notifications_edges_node_channels_NotificationChannelEmail | ClosetInboxIndexPageGetDataQuery_viewer_notifications_edges_node_channels_NotificationChannelWeb;
@@ -72,6 +73,7 @@ export interface ClosetInboxIndexPageGetDataQuery_viewer_notifications {
 export interface ClosetInboxIndexPageGetDataQuery_viewer {
   __typename: "Membership";
   id: string;
+  unseenWebNotificationsCount: number;
   notifications: ClosetInboxIndexPageGetDataQuery_viewer_notifications | null;
 }
 

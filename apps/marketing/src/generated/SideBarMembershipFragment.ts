@@ -24,6 +24,7 @@ export interface SideBarMembershipFragment_user {
 export interface SideBarMembershipFragment {
   __typename: "Membership";
   id: string;
+  unseenWebNotificationsCount: number;
   organization: SideBarMembershipFragment_organization;
   user: SideBarMembershipFragment_user | null;
 }

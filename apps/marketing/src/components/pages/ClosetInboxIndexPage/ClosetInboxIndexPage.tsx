@@ -3,8 +3,7 @@ import ClosetPageContainer from '@components/common/ClosetPageContainer'
 import ClosetPageHeader from '@components/common/ClosetPageHeader'
 import ClosetPageTitle from '@components/common/ClosetPageTitle'
 import ClosetSection from '@components/common/ClosetSection'
-import { Badge, IconButton, LoadingDots } from '@components/ui'
-import Button from '@components/ui/ButtonV2/Button'
+import { IconButton, LoadingDots } from '@components/ui'
 import {
   ClosetInboxIndexPageNotificationFragment,
   ClosetInboxIndexPageNotificationFragment_channels_NotificationChannelWeb,
@@ -14,13 +13,12 @@ import {
   ChevronRightIcon,
   InboxIcon,
 } from '@heroicons/react/20/solid'
-import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
-import { format, parseISO } from 'date-fns'
-import Link from 'next/link'
 import React from 'react'
+import Notification from './Notification'
 
 interface Props {
   loading?: boolean
+  unreadCount: number
   notifications: ClosetInboxIndexPageNotificationFragment[]
   hasPreviousPage: boolean
   hasNextPage: boolean
@@ -30,19 +28,19 @@ interface Props {
 
 const ClosetInboxIndexPage = ({
   loading,
+  unreadCount,
   notifications,
   hasNextPage,
   hasPreviousPage,
   onNextPage,
   onPreviousPage,
 }: Props) => {
-  // const unreadCount = notifications.filter(message => message.unread).length
-
   return (
     <ClosetPageContainer>
       <ClosetPageHeader>
-        <ClosetPageTitle title={`Inbox`} />
-        {/* <ClosetPageTitle title={`Inbox (${unreadCount})`} /> */}
+        <ClosetPageTitle
+          title={<>Inbox {unreadCount > 0 ? `(${unreadCount})` : null}</>}
+        />
       </ClosetPageHeader>
       <ClosetSection>
         <div className="border rounded-md mt-6 bg-paper">
@@ -70,37 +68,14 @@ const ClosetInboxIndexPage = ({
                     }
 
                     return (
-                      <div
+                      <Notification
+                        notification={{
+                          createdAt: notification.createdAt,
+                          notificationId: notification.id,
+                          ...channel,
+                        }}
                         key={notification.id}
-                        className="flex justify-between items-center"
-                      >
-                        <div className="px-4 py-4">
-                          <p className="text-base font-medium text-gray-700 flex gap-2 items-center">
-                            {channel.message}
-
-                            {/* TODO: Add view status */}
-                            {true ? <Badge label="New" size="small" /> : null}
-                          </p>
-                          <p className="text-gray-600 text-xs">
-                            {format(parseISO(notification.createdAt), 'PPPpp')}
-                          </p>
-                        </div>
-                        {channel.ctaText && channel.ctaUrl ? (
-                          <div className="flex gap-4 px-8">
-                            <Button
-                              Component={
-                                channel.ctaText.startsWith(makeAbsoluteUrl(''))
-                                  ? 'a'
-                                  : Link
-                              }
-                              href={channel.ctaUrl}
-                              variant="ghost"
-                            >
-                              {channel.ctaText || 'View'}
-                            </Button>
-                          </div>
-                        ) : null}
-                      </div>
+                      />
                     )
                   })}
 
@@ -158,6 +133,8 @@ ClosetInboxIndexPage.fragments = {
 
           ctaText
           ctaUrl
+
+          seenAt
         }
       }
     }

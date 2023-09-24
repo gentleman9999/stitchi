@@ -9,9 +9,14 @@ const NavItem = ({
   icon,
   active,
   onClick,
+  indicator,
   LinkComponent = Link,
   ...rest
-}: (NavItem | SubNavItem) & { active?: boolean; onClick: () => void }) => {
+}: (NavItem | SubNavItem) & {
+  active?: boolean
+  onClick: () => void
+  indicator?: boolean
+}) => {
   const external = 'external' in rest && rest.external
 
   return (
@@ -29,7 +34,12 @@ const NavItem = ({
       <div className="w-5 h-5 inline-flex items-center justify-center">
         {icon}
       </div>
-      {label}
+      <div className="relative">
+        {label}
+        {indicator && (
+          <div className="absolute top-0 -right-3 w-2 h-2 bg-primary rounded-full" />
+        )}
+      </div>
     </LinkComponent>
   )
 }

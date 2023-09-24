@@ -135,6 +135,7 @@ const makeMethod: MakeMethodFn =
           message: notification.web.message,
           ctaText: notification.web.ctaText,
           ctaUrl: notification.web.ctaUrl,
+          seenAt: null,
         })
       }
 

@@ -3,12 +3,18 @@ import makeNotificationRepository, {
 } from './repository'
 import { makeServiceMethods, Methods } from './methods'
 import { NotificationFactoryNotificationTopic } from './factory/notification-topic'
+import { NotificationFactoryNotification } from './factory/notification'
+import { NotificationChannelType } from './db/notification-channel-table'
 
 export interface NotificationClientService {
   sendNotification: Methods['sendNotification']
   sendAnonymousNotification: Methods['sendAnonymousNotification']
   listNotifications: NotificationRepository['listNotifications']
   listNotificationsCount: NotificationRepository['listNotificationsCount']
+
+  markNotifificationAsSeen: (input: {
+    notificationId: string
+  }) => Promise<NotificationFactoryNotification>
 
   createNotificationTopic: (
     topicKey: string,
@@ -54,6 +60,39 @@ const makeClient: MakeClientFn = (
       } catch (error) {
         throw new Error('Failed to list notifications')
       }
+    },
+
+    markNotifificationAsSeen: async input => {
+      let notification
+
+      try {
+        notification = await notificationRepository.getNotification({
+          notificationId: input.notificationId,
+        })
+      } catch (error) {
+        throw new Error('Failed to get notification')
+      }
+
+      const webNotification = notification.channels.find(
+        ({ channelType }) => channelType === NotificationChannelType.WEB,
+      )
+
+      if (!webNotification) {
+        return notification
+      }
+
+      try {
+        await notificationRepository.updateNotificationChannelWeb({
+          notificationChannelWeb: {
+            id: webNotification.id,
+            seenAt: new Date(),
+          },
+        })
+      } catch (error) {
+        throw new Error('Failed to mark notification as seen')
+      }
+
+      return notification
     },
 
     listNotificationsCount: async input => {

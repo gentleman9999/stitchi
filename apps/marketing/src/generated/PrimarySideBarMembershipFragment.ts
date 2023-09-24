@@ -24,6 +24,7 @@ export interface PrimarySideBarMembershipFragment_user {
 export interface PrimarySideBarMembershipFragment {
   __typename: "Membership";
   id: string;
+  unseenWebNotificationsCount: number;
   organization: PrimarySideBarMembershipFragment_organization;
   user: PrimarySideBarMembershipFragment_user | null;
 }
