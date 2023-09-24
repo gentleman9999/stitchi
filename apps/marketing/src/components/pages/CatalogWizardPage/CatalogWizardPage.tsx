@@ -1,5 +1,6 @@
 import UserAvatar from '@components/common/UserAvatar'
 import { Container } from '@components/ui'
+import { SUPPORT_PERSON_NAME, SUPPORT_PERSON_PICTURE } from '@lib/constants'
 import { useLogger } from 'next-axiom'
 import React from 'react'
 import CategoryStepNew from './CategoryStepNew'
@@ -34,9 +35,8 @@ const CatalogWizardPage = ({ path }: Props) => {
           width="w-16"
           height="h-16"
           user={{
-            name: 'Linda',
-            picture:
-              'https://img.freepik.com/free-photo/close-up-displeased-young-bearded-man-glasses-wearing-colorful-shirt-isolated-pink-background-looking-camera-with-raised-eyebrow-people-emotions-concept_295783-2777.jpg',
+            name: SUPPORT_PERSON_NAME,
+            picture: SUPPORT_PERSON_PICTURE,
           }}
         />
       </div>

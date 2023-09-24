@@ -2,7 +2,7 @@ import { Footer } from '@components/common'
 import React from 'react'
 import cx from 'classnames'
 import Navbar from './Navbar'
-import PageloadProgressIndicator from './PageloadProgressIndicator'
+import PageloadProgressIndicator from '../PageloadProgressIndicator'
 
 export interface PrimaryLayoutProps {
   children: React.ReactNode

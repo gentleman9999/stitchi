@@ -113,7 +113,7 @@ const ProductForm = ({ onSubmit, product, colors: availableColors }: Props) => {
               track.productPrimaryCtaClicked({ name: product.name })
             }}
           >
-            Create a design
+            Customize
           </Button>
         </div>
       </div>
