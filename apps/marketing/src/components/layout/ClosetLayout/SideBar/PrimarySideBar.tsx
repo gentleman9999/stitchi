@@ -51,6 +51,10 @@ const PrimarySideBar = ({ membership, loading }: Props) => {
                   {...link}
                   active={activeNavItem?.href === link.href}
                   onClick={() => handleNavigate(link)}
+                  indicator={
+                    link.label === 'Inbox' &&
+                    Boolean(membership?.unseenWebNotificationsCount)
+                  }
                 />
               </li>
             ))}
@@ -139,6 +143,7 @@ PrimarySideBar.fragments = {
   membership: gql`
     fragment PrimarySideBarMembershipFragment on Membership {
       id
+      unseenWebNotificationsCount
       organization {
         id
         name

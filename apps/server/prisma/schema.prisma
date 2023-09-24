@@ -817,6 +817,8 @@ model NotificationChannelWeb {
   ctaText String?
   ctaUrl  String?
 
+  seenAt DateTime?
+
   notificationChannel NotificationChannel?
 }
 

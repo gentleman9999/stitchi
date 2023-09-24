@@ -3,8 +3,8 @@ import {
   NotificationFactoryNotification,
   NotificationFactoryNotificationChannel,
   NotificationFactoryNotificationChannelEmail,
-  NotificationFactoryNotificationChannelWeb,
 } from '../../services/notification/factory/notification'
+import { NotificationFactoryNotificationChannelWeb } from '../../services/notification/factory/notification-channel-web'
 import { NexusGenObjects } from '../generated/nexus'
 
 export const notificationFactoryNotificationChannelEmailToGraphql = (
@@ -32,6 +32,7 @@ export const notificationFactoryNotificationChannelWebToGraphql = ({
     message: channel.message,
     ctaText: channel.ctaText,
     ctaUrl: channel.ctaUrl,
+    seenAt: channel.seenAt,
   }
 }
 

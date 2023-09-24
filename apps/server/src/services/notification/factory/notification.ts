@@ -4,15 +4,14 @@ import { NotificationChannelEmailRecord } from '../db/notification-channel-email
 import { NotificationChannelType } from '../db/notification-channel-table'
 import { NotificationChannelWebRecord } from '../db/notification-channel-web-table'
 import { NotificationRecord } from '../db/notification-table'
+import {
+  notificationFactoryNotificationChannelWeb,
+  NotificationFactoryNotificationChannelWeb,
+} from './notification-channel-web'
 
 export interface NotificationFactoryNotificationChannelEmail
   extends NotificationChannelEmailRecord {
   channelType: NotificationChannelType.EMAIL
-}
-
-export interface NotificationFactoryNotificationChannelWeb
-  extends NotificationChannelWebRecord {
-  channelType: NotificationChannelType.WEB
 }
 
 export type NotificationFactoryNotificationChannel =
@@ -58,13 +57,9 @@ const notificationFactoryNotification = ({
             return null
           }
 
-          return {
-            id: channel.id,
-            channelType: NotificationChannelType.WEB,
-            message: channel.web.message,
-            ctaText: channel.web.ctaText,
-            ctaUrl: channel.web.ctaUrl,
-          }
+          return notificationFactoryNotificationChannelWeb({
+            notificationChannelWebRecord: channel.web,
+          })
 
         default:
           throw new Error(

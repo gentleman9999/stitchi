@@ -728,6 +728,7 @@ type Membership {
     """Returns the last n elements from the list."""
     last: Int
   ): DesignRequestConnection!
+  unseenWebNotificationsCount: Int!
   updatedAt: DateTime
   user: User
   userId: String
@@ -840,6 +841,7 @@ type Mutation {
   membershipInviteAccept(input: MembershipInviteAcceptInput!): MembershipInviteAcceptPayload
   membershipInviteResend(input: MembershipInviteResendInput!): MembershipInviteResendPayload
   membershipInviteRevoke(input: MembershipInviteRevokeInput!): MembershipInviteRevokePayload
+  notificationMarkAsSeen(input: NotificationMarkAsSeenInput!): NotificationMarkAsSeenPayload
 
   """Confirms an order with a customers details"""
   orderConfirm(input: OrderConfirmInput!): OrderConfirmPayload
@@ -897,6 +899,7 @@ type NotificationChannelWeb implements NotificationChannel {
   ctaUrl: String
   id: ID!
   message: String!
+  seenAt: DateTime
 }
 
 type NotificationConnection {
@@ -917,6 +920,14 @@ type NotificationEdge {
 
   """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
   node: Notification
+}
+
+input NotificationMarkAsSeenInput {
+  notificationId: ID!
+}
+
+type NotificationMarkAsSeenPayload {
+  notification: Notification
 }
 
 type Order {

@@ -47,6 +47,7 @@ const Page = () => {
   return (
     <ClosetInboxIndexPage
       notifications={notifications}
+      unreadCount={data?.viewer?.unseenWebNotificationsCount || 0}
       loading={loading}
       hasNextPage={hasNextPage || false}
       hasPreviousPage={hasPreviousPage || false}
@@ -78,6 +79,7 @@ const GET_DATA = gql`
   ) {
     viewer {
       id
+      unseenWebNotificationsCount
       notifications(
         first: $first
         last: $last

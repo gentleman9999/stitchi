@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { logger } from '../../../telemetry'
 import { NotificationTable } from '../db/notification-table'
 import {
   NotificationFactoryNotification,
@@ -26,22 +27,30 @@ type MakeGetNotificationFn = (
 const makeGetNotification: MakeGetNotificationFn =
   ({ notificationTable } = { notificationTable: primsa.notification }) =>
   async input => {
-    const notification = await notificationTable.findFirst({
-      where: {
-        id: input.notificationId,
-      },
-      include: {
-        notificationChannels: {
-          include: {
-            email: true,
-            web: true,
+    let notification
+
+    try {
+      notification = await notificationTable.findFirst({
+        where: {
+          id: input.notificationId,
+        },
+        include: {
+          notificationChannels: {
+            include: {
+              email: true,
+              web: true,
+            },
           },
         },
-      },
-    })
+      })
 
-    if (!notification) {
-      throw new Error(`Notification not found: ${input}`)
+      if (!notification) {
+        throw new Error(`Notification not found: ${input}`)
+      }
+    } catch (error) {
+      logger.child({ error, input }).error('Failed to get notification')
+
+      throw new Error('Failed to get notification')
     }
 
     return notificationFactoryNotification({

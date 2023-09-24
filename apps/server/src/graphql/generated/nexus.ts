@@ -211,6 +211,9 @@ export interface NexusGenInputs {
   MembershipOrdersWhereFilterInput: { // input type
     createdAt?: NexusGenInputs['DateFilterInput'] | null; // DateFilterInput
   }
+  NotificationMarkAsSeenInput: { // input type
+    notificationId: string; // ID!
+  }
   OrderCartCreateItemsInput: { // input type
     productVariantEntityId: number; // Int!
     quantity: number; // Int!
@@ -731,6 +734,7 @@ export interface NexusGenObjects {
     ctaUrl?: string | null; // String
     id: string; // ID!
     message: string; // String!
+    seenAt?: NexusGenScalars['DateTime'] | null; // DateTime
   }
   NotificationConnection: { // root type
     edges?: Array<NexusGenRootTypes['NotificationEdge'] | null> | null; // [NotificationEdge]
@@ -739,6 +743,9 @@ export interface NexusGenObjects {
   NotificationEdge: { // root type
     cursor?: string | null; // String
     node?: NexusGenRootTypes['Notification'] | null; // Notification
+  }
+  NotificationMarkAsSeenPayload: { // root type
+    notification?: NexusGenRootTypes['Notification'] | null; // Notification
   }
   Order: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -1313,6 +1320,7 @@ export interface NexusGenFieldTypes {
     role: NexusGenEnums['MembershipRole'] | null; // MembershipRole
     scopes: NexusGenRootTypes['Scope'][]; // [Scope!]!
     unassignedDesignRequests: NexusGenRootTypes['DesignRequestConnection']; // DesignRequestConnection!
+    unseenWebNotificationsCount: number; // Int!
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     user: NexusGenRootTypes['User'] | null; // User
     userId: string | null; // String
@@ -1361,6 +1369,7 @@ export interface NexusGenFieldTypes {
     membershipInviteAccept: NexusGenRootTypes['MembershipInviteAcceptPayload'] | null; // MembershipInviteAcceptPayload
     membershipInviteResend: NexusGenRootTypes['MembershipInviteResendPayload'] | null; // MembershipInviteResendPayload
     membershipInviteRevoke: NexusGenRootTypes['MembershipInviteRevokePayload'] | null; // MembershipInviteRevokePayload
+    notificationMarkAsSeen: NexusGenRootTypes['NotificationMarkAsSeenPayload'] | null; // NotificationMarkAsSeenPayload
     orderConfirm: NexusGenRootTypes['OrderConfirmPayload'] | null; // OrderConfirmPayload
     organizationBrandColorCreate: NexusGenRootTypes['OrganizationBrandColorCreatePayload'] | null; // OrganizationBrandColorCreatePayload
     organizationBrandColorDelete: NexusGenRootTypes['OrganizationBrandColorDeletePayload'] | null; // OrganizationBrandColorDeletePayload
@@ -1399,6 +1408,7 @@ export interface NexusGenFieldTypes {
     ctaUrl: string | null; // String
     id: string; // ID!
     message: string; // String!
+    seenAt: NexusGenScalars['DateTime'] | null; // DateTime
   }
   NotificationConnection: { // field return type
     edges: Array<NexusGenRootTypes['NotificationEdge'] | null> | null; // [NotificationEdge]
@@ -1407,6 +1417,9 @@ export interface NexusGenFieldTypes {
   NotificationEdge: { // field return type
     cursor: string | null; // String
     node: NexusGenRootTypes['Notification'] | null; // Notification
+  }
+  NotificationMarkAsSeenPayload: { // field return type
+    notification: NexusGenRootTypes['Notification'] | null; // Notification
   }
   Order: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -2011,6 +2024,7 @@ export interface NexusGenFieldTypeNames {
     role: 'MembershipRole'
     scopes: 'Scope'
     unassignedDesignRequests: 'DesignRequestConnection'
+    unseenWebNotificationsCount: 'Int'
     updatedAt: 'DateTime'
     user: 'User'
     userId: 'String'
@@ -2059,6 +2073,7 @@ export interface NexusGenFieldTypeNames {
     membershipInviteAccept: 'MembershipInviteAcceptPayload'
     membershipInviteResend: 'MembershipInviteResendPayload'
     membershipInviteRevoke: 'MembershipInviteRevokePayload'
+    notificationMarkAsSeen: 'NotificationMarkAsSeenPayload'
     orderConfirm: 'OrderConfirmPayload'
     organizationBrandColorCreate: 'OrganizationBrandColorCreatePayload'
     organizationBrandColorDelete: 'OrganizationBrandColorDeletePayload'
@@ -2097,6 +2112,7 @@ export interface NexusGenFieldTypeNames {
     ctaUrl: 'String'
     id: 'ID'
     message: 'String'
+    seenAt: 'DateTime'
   }
   NotificationConnection: { // field return type name
     edges: 'NotificationEdge'
@@ -2105,6 +2121,9 @@ export interface NexusGenFieldTypeNames {
   NotificationEdge: { // field return type name
     cursor: 'String'
     node: 'Notification'
+  }
+  NotificationMarkAsSeenPayload: { // field return type name
+    notification: 'Notification'
   }
   Order: { // field return type name
     createdAt: 'DateTime'
@@ -2435,6 +2454,9 @@ export interface NexusGenArgTypes {
     }
     membershipInviteRevoke: { // args
       input: NexusGenInputs['MembershipInviteRevokeInput']; // MembershipInviteRevokeInput!
+    }
+    notificationMarkAsSeen: { // args
+      input: NexusGenInputs['NotificationMarkAsSeenInput']; // NotificationMarkAsSeenInput!
     }
     orderConfirm: { // args
       input: NexusGenInputs['OrderConfirmInput']; // OrderConfirmInput!

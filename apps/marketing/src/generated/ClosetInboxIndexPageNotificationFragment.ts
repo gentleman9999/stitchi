@@ -18,6 +18,7 @@ export interface ClosetInboxIndexPageNotificationFragment_channels_NotificationC
   message: string;
   ctaText: string | null;
   ctaUrl: string | null;
+  seenAt: any | null;
 }
 
 export type ClosetInboxIndexPageNotificationFragment_channels = ClosetInboxIndexPageNotificationFragment_channels_NotificationChannelEmail | ClosetInboxIndexPageNotificationFragment_channels_NotificationChannelWeb;
