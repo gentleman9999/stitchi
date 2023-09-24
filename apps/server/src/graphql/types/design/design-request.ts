@@ -103,5 +103,7 @@ export const DesignRequest = objectType({
     t.nullable.field('previewImage', {
       type: 'FileImage',
     })
+
+    t.nullable.string('previewImageUrl')
   },
 })

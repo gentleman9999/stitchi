@@ -214,6 +214,7 @@ type DesignRequest {
   membershipId: ID
   name: String!
   previewImage: FileImage
+  previewImageUrl: String
   proofs(limit: Int): [DesignProof!]!
   status: DesignRequestStatus!
   updatedAt: DateTime

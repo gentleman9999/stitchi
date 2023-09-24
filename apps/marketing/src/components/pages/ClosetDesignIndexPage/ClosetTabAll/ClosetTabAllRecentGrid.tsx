@@ -16,15 +16,12 @@ const ClosetTabAllRecentGrid = ({}: Props) => {
   return (
     <div className="flex gap-6 overflow-x-scroll">
       {designRequests?.map(designRequest => {
-        const { previewImage } = designRequest
         return (
           <div key={designRequest.id} className="shrink-0 w-40">
-            {previewImage ? (
+            {designRequest.previewImageUrl ? (
               <img
-                src={previewImage.url}
-                alt={previewImage.name}
-                width={previewImage.width}
-                height={previewImage.height}
+                src={designRequest.previewImageUrl}
+                alt={designRequest.name}
                 className="aspect-square"
               />
             ) : (
@@ -45,13 +42,7 @@ const GET_DATA = gql`
           node {
             id
             name
-            previewImage {
-              id
-              width
-              height
-              url
-              name
-            }
+            previewImageUrl
           }
         }
       }

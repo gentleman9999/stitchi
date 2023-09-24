@@ -340,5 +340,89 @@ export const ExtendDesignRequests = extendType({
         return historyItems
       },
     })
+
+    t.nullable.string('previewImageUrl', {
+      resolve: async (designRequest, _, ctx) => {
+        let previewImageUrl
+
+        if (designRequest.designProofIds.length) {
+          // We pull the preview image from the approved proof or the latest proof
+          if (designRequest.approvedDesignProofId) {
+            let proof
+
+            try {
+              proof = await ctx.design.getDesignProof({
+                designProofId: designRequest.approvedDesignProofId,
+              })
+
+              if (!proof) {
+                throw new Error(
+                  'Unable to find approved design proof for design request',
+                )
+              }
+
+              previewImageUrl = (
+                await ctx.file.getFile({
+                  fileId: proof.primaryImageFileId,
+                })
+              ).url
+            } catch (error) {
+              ctx.logger.error(error)
+
+              throw new GraphQLError(
+                'Unable to fetch approved design proof for design request',
+              )
+            }
+          } else {
+            let proofs
+
+            try {
+              proofs = await ctx.design.listDesignProofs({
+                orderBy: { createdAt: 'desc' },
+                take: 1,
+                where: {
+                  id: { in: designRequest.designProofIds },
+                },
+              })
+
+              if (!proofs.length) {
+                throw new Error(
+                  'Unable to find latest design proof for design request',
+                )
+              }
+
+              previewImageUrl = (
+                await ctx.file.getFile({
+                  fileId: proofs[0].primaryImageFileId,
+                })
+              ).url
+            } catch (error) {
+              ctx.logger.error(error)
+
+              throw new GraphQLError(
+                'Unable to fetch latest design proof for design request',
+              )
+            }
+          }
+        } else {
+          try {
+            const catalogProduct = await ctx.catalog.getCatalogProduct({
+              productEntityId:
+                designRequest.designRequestProduct.catalogProductId,
+            })
+
+            previewImageUrl = catalogProduct.primaryImage?.url
+          } catch (error) {
+            ctx.logger.error(error)
+
+            throw new GraphQLError(
+              'Unable to fetch preview image for design request',
+            )
+          }
+        }
+
+        return previewImageUrl || null
+      },
+    })
   },
 })

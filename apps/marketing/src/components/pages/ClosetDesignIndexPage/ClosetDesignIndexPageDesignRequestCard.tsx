@@ -44,11 +44,9 @@ const ClosetDesignIndexPageDesignRequestCard = ({
       title={designRequest.name}
       description={`Created ${format(new Date(designRequest.updatedAt), 'PP')}`}
       image={
-        designRequest.previewImage
+        designRequest.previewImageUrl
           ? {
-              src: designRequest.previewImage.url,
-              height: designRequest.previewImage.height,
-              width: designRequest.previewImage.width,
+              src: designRequest.previewImageUrl,
               alt: designRequest.name,
             }
           : undefined
@@ -115,13 +113,7 @@ ClosetDesignIndexPageDesignRequestCard.fragments = {
       updatedAt
       status
       humanizedStatus
-
-      previewImage {
-        id
-        url
-        width
-        height
-      }
+      previewImageUrl
     }
   `,
 }
