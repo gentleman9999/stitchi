@@ -20,7 +20,7 @@ export interface Props {
 }
 
 const CatalogProductLegacy = ({ product, priority, loading }: Props) => {
-  const logger = useLogger();
+  const logger = useLogger()
   const { colors } = useProductOptions({ product })
 
   if (!loading && !product) {
@@ -45,7 +45,7 @@ const CatalogProductLegacy = ({ product, priority, loading }: Props) => {
     <li className="flex flex-col w-full">
       <Link
         href={href}
-        className="flex-1 flex flex-col cursor-pointer rounded-sm border border-gray-200 p-2  hover:shadow-lg transition-all"
+        className="flex-1 flex flex-col cursor-pointer rounded-lg border border-gray-200 p-2  hover:shadow-lg transition-all"
       >
         <div className="relative w-full h-[160px] flex items-center justify-center">
           {loading ? (

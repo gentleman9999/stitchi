@@ -25,6 +25,7 @@ import {
 } from '@generated/ProductPageGetDesignCategoryData'
 import DesignLibraryCategoryShowPage from '@components/pages/DesignLibraryCategoryShowPage'
 import { useLogger } from 'next-axiom'
+import CatalogLayout from '@components/layout/CatalogLayout'
 
 const BrandShowPage = dynamic(() => import('@components/pages/BrandShowPage'))
 const ProductShowPage = dynamic(
@@ -198,40 +199,46 @@ const CatchAllPage = () => {
 
   if (designCategory && designCategorySite) {
     return (
-      <DesignLibraryCategoryShowPage
-        category={designCategory}
-        site={designCategorySite}
-      />
+      <PrimaryLayout>
+        <DesignLibraryCategoryShowPage
+          category={designCategory}
+          site={designCategorySite}
+        />
+      </PrimaryLayout>
     )
   }
 
   const node = site?.route.node
 
-  switch (node?.__typename) {
-    case 'Product': {
-      return <ProductShowPage product={node} />
-    }
-
-    case 'Brand': {
-      return <BrandShowPage brand={node} />
-    }
-
-    case 'Category': {
-      return <CategoryShowPage category={node} />
-    }
-
-    default: {
-      if (!loading || !designCategoryLoading) {
-        logger.error('Unknown node type', { node })
+  const Page = () => {
+    switch (node?.__typename) {
+      case 'Product': {
+        return <ProductShowPage product={node} />
       }
-      return null
+
+      case 'Brand': {
+        return <BrandShowPage brand={node} />
+      }
+
+      case 'Category': {
+        return <CategoryShowPage category={node} />
+      }
+
+      default: {
+        if (!loading || !designCategoryLoading) {
+          logger.error('Unknown node type', { node })
+        }
+        return null
+      }
     }
   }
-}
 
-CatchAllPage.getLayout = (page: ReactElement) => (
-  <PrimaryLayout>{page}</PrimaryLayout>
-)
+  return (
+    <CatalogLayout>
+      <Page />
+    </CatalogLayout>
+  )
+}
 
 const GET_DESIGN_CATEGORY_DATA = gql`
   ${DesignLibraryCategoryShowPage.fragments.category}

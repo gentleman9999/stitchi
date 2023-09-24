@@ -1105,6 +1105,7 @@ export interface NexusGenFieldTypes {
     membershipId: string | null; // ID
     name: string; // String!
     previewImage: NexusGenRootTypes['FileImage'] | null; // FileImage
+    previewImageUrl: string | null; // String
     proofs: NexusGenRootTypes['DesignProof'][]; // [DesignProof!]!
     status: NexusGenEnums['DesignRequestStatus']; // DesignRequestStatus!
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
@@ -1809,6 +1810,7 @@ export interface NexusGenFieldTypeNames {
     membershipId: 'ID'
     name: 'String'
     previewImage: 'FileImage'
+    previewImageUrl: 'String'
     proofs: 'DesignProof'
     status: 'DesignRequestStatus'
     updatedAt: 'DateTime'

@@ -11,9 +11,9 @@ import Skeleton from 'react-loading-skeleton'
 
 interface Image {
   src: string
-  width: number
-  height: number
   alt: string
+  width?: number
+  height?: number
 }
 
 interface Props {

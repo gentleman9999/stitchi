@@ -9,14 +9,6 @@ import { MembershipDesignRequestsFilterInput, DesignRequestStatus } from "./glob
 // GraphQL query operation: ClosetTabApprovedDesignRequestGetDataQuery
 // ====================================================
 
-export interface ClosetTabApprovedDesignRequestGetDataQuery_viewer_designRequests_edges_node_previewImage {
-  __typename: "FileImage";
-  id: string;
-  url: string;
-  width: number;
-  height: number;
-}
-
 export interface ClosetTabApprovedDesignRequestGetDataQuery_viewer_designRequests_edges_node {
   __typename: "DesignRequest";
   id: string;
@@ -24,7 +16,7 @@ export interface ClosetTabApprovedDesignRequestGetDataQuery_viewer_designRequest
   updatedAt: any | null;
   status: DesignRequestStatus;
   humanizedStatus: string;
-  previewImage: ClosetTabApprovedDesignRequestGetDataQuery_viewer_designRequests_edges_node_previewImage | null;
+  previewImageUrl: string | null;
 }
 
 export interface ClosetTabApprovedDesignRequestGetDataQuery_viewer_designRequests_edges {

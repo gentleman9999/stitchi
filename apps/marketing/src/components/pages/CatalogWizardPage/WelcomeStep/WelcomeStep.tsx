@@ -6,6 +6,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'
 import routes from '@lib/routes'
+import { SUPPORT_PERSON_NAME } from '@lib/constants'
 
 enum StepValue {
   HasProduct = 'has_product',
@@ -44,8 +45,9 @@ const WelcomeStep = (props: Props) => {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col items-center gap-20">
       <p className="text-4xl font-normal text-center">
-        Hey there 👋 I&apos;m Kevin and I&apos;ll be helping you choose a
-        product for your design. Do you have a specific product in mind?
+        Hey there 👋 I&apos;m {SUPPORT_PERSON_NAME} and I&apos;ll be helping you
+        choose a product for your design. Do you have a specific product in
+        mind?
       </p>
 
       <div className="flex flex-col gap-20 items-center">
@@ -60,7 +62,7 @@ const WelcomeStep = (props: Props) => {
                 items={[
                   {
                     name: StepValue.HasNoProduct,
-                    label: 'Choose a recommended product',
+                    label: 'Help me choose a product',
                     value: StepValue.HasNoProduct,
                   },
                   {

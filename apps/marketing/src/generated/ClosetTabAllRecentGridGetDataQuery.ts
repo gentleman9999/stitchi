@@ -7,20 +7,11 @@
 // GraphQL query operation: ClosetTabAllRecentGridGetDataQuery
 // ====================================================
 
-export interface ClosetTabAllRecentGridGetDataQuery_viewer_designRequests_edges_node_previewImage {
-  __typename: "FileImage";
-  id: string;
-  width: number;
-  height: number;
-  url: string;
-  name: string;
-}
-
 export interface ClosetTabAllRecentGridGetDataQuery_viewer_designRequests_edges_node {
   __typename: "DesignRequest";
   id: string;
   name: string;
-  previewImage: ClosetTabAllRecentGridGetDataQuery_viewer_designRequests_edges_node_previewImage | null;
+  previewImageUrl: string | null;
 }
 
 export interface ClosetTabAllRecentGridGetDataQuery_viewer_designRequests_edges {

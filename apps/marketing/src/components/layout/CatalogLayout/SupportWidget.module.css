@@ -1,0 +1,36 @@
+.PopoverContent {
+    @apply z-50 rounded-md bg-white border border-gray-900 shadow-magical max-w-xs;
+    animation-duration: 400ms;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+}
+
+.PopoverContent[data-state='open'] {
+    animation-name: slideDownAndFade;
+}
+
+.PopoverContent[data-state='closed'] {
+    animation-name: fadeOut;
+}
+
+@keyframes slideDownAndFade {
+    from {
+        opacity: 0;
+        transform: translateY(-2px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
