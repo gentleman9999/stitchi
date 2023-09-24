@@ -14,7 +14,7 @@ export const NotificationExtendsMembership = extendType({
           count = await ctx.notification.listNotificationsCount({
             where: {
               notificationChannels: {
-                every: {
+                some: {
                   web: {
                     seenAt: null,
                   },

@@ -42,7 +42,7 @@ const webNotificationSchema = NotificationChannel.omit([
   'channelId',
   'notificationId',
 ])
-  .concat(NotificationChannelWeb.omit(['id']))
+  .concat(NotificationChannelWeb.omit(['id', 'seenAt']))
   .concat(
     yup.object().shape({
       channelType: yup

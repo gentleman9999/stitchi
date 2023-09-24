@@ -4,7 +4,6 @@ import {
   ConversationService,
   makeClient as makeConversationServiceClient,
 } from '../conversation'
-import { logger } from '../../telemetry'
 import {
   NotificationClientService,
   makeClient as makeNotificationServiceClient,

@@ -27,8 +27,6 @@ export const designRequest = queryField('designRequest', {
   resolve: async (_, { id }, { logger, design, organizationId, role }) => {
     const designRequest = await design.getDesignRequest({ designRequestId: id })
 
-    logger.child({ designRequest }).info('Design Request')
-
     if (
       role === 'OWNER' &&
       notEmpty(designRequest.organizationId) &&
