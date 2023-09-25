@@ -37,8 +37,8 @@ const makeListDesignRequestsCount: MakeListDesignRequestsCountFn =
         .child({
           context: { error },
         })
-        .error(`Failed to list designRequests`)
-      throw new Error('Failed to list designRequests')
+        .error(`Failed to list design request count`)
+      throw new Error('Failed to list design request count')
     }
 
     return designRequestCount
