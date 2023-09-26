@@ -147,16 +147,19 @@ const routes = {
         href: (postSlug: string) => buildRoute(`/learn/${postSlug}`),
       },
       page: {
-        href: (page: number = 1) => buildRoute(`/learn/page/${page}`),
+        href: (page: number) => buildRoute(`/learn/page/${page}`),
       },
       category: {
         href: ({
           categorySlug,
-          page = 1,
+          page,
         }: {
           categorySlug: string
           page?: number
-        }) => buildRoute(`/learn/topic/${categorySlug}/page/${page}`),
+        }) =>
+          buildRoute(
+            `/learn/topic/${categorySlug}${page ? `/page/${page}` : ''}`,
+          ),
       },
     },
     customers: {

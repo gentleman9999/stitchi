@@ -9,7 +9,6 @@ const { withAxiom } = require('next-axiom')
 module.exports = withBundleAnalyzer(
   withAxiom({
     reactStrictMode: true,
-    skipTrailingSlashRedirect: true,
     transpilePackages: ['icons', 'config', 'tsconfig', 'hooks', 'lodash-es'],
 
     i18n: {
