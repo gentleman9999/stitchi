@@ -12,9 +12,9 @@ const NavItem = ({
   indicator,
   LinkComponent = Link,
   ...rest
-}: (NavItem | SubNavItem) & {
+}: (NavItem | Omit<SubNavItem, 'type'>) & {
   active?: boolean
-  onClick: () => void
+  onClick?: () => void
   indicator?: boolean
 }) => {
   const external = 'external' in rest && rest.external

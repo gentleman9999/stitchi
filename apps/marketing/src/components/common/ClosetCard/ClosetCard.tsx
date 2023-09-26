@@ -39,7 +39,7 @@ const ClosetCard = ({
 
   return (
     <LinkComponent
-      className="relative group rounded-md overflow-hidden border flex flex-col w-full"
+      className="relative group rounded-md overflow-hidden border flex flex-col w-full bg-paper"
       href={href || ''}
     >
       {badge || actions?.length ? (
@@ -70,7 +70,7 @@ const ClosetCard = ({
         </div>
       ) : null}
 
-      <div className="aspect-square overflow-hidden rounded-md bg-gray-50 flex justify-center items-center">
+      <div className="aspect-square overflow-hidden rounded-md bg-paper flex justify-center items-center">
         {loading ? (
           <LoadingDots />
         ) : image ? (

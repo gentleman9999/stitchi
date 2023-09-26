@@ -1,3 +1,4 @@
+import { Footer } from '@components/common'
 import { useRouter } from 'next/router'
 import React from 'react'
 import NavbarRoot from '../NavbarRoot'
@@ -43,6 +44,7 @@ const CatalogLayout = ({ children }: Props) => {
         </NavbarRoot>
         <main className="mb-auto relative overflow-x-hidden">{children}</main>
       </div>
+      <Footer />
     </>
   )
 }

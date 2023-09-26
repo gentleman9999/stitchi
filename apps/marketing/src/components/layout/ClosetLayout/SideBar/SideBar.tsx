@@ -23,7 +23,6 @@ const SideBar = ({ membership, loading }: Props) => {
       <AnimatePresence initial={false}>
         {isSecondary ? (
           <motion.div
-            className="absolute inset-0 bg-paper z-10"
             transition={{
               type: 'tween',
               ease: 'linear',
@@ -41,10 +40,10 @@ const SideBar = ({ membership, loading }: Props) => {
           >
             <SecondarySideBar />
           </motion.div>
-        ) : null}
+        ) : (
+          <PrimarySideBar loading={loading} membership={membership} />
+        )}
       </AnimatePresence>
-
-      <PrimarySideBar loading={loading} membership={membership} />
     </>
   )
 }
