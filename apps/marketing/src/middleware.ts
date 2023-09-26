@@ -14,7 +14,7 @@ const NEXT_PUBLIC_SITE_URL = getOrThrow(
 )
 
 const middleware: NextMiddleware = async (request, event) => {
-  const { pathname, search } = request.nextUrl
+  const { pathname, search, origin } = request.nextUrl
 
   if (pathname.startsWith('/blog')) {
     const requestHeaders = new Headers(request.headers)
@@ -39,7 +39,7 @@ const middleware: NextMiddleware = async (request, event) => {
     const nextUrl = new URL(request.nextUrl)
     nextUrl.pathname = nextUrl.pathname.slice(0, -1)
 
-    return NextResponse.redirect(nextUrl, {})
+    return NextResponse.redirect(nextUrl)
   }
 
   // These pages require user to be authenticated
@@ -64,8 +64,6 @@ const middleware: NextMiddleware = async (request, event) => {
       )
     }
   }
-
-  return
 }
 
 export const config = {}

@@ -78,7 +78,6 @@ const BlogIndexPage = ({
               )}
             </div>
           </div>
-
           <BlogPostIndexPageFilters
             filters={[
               {
