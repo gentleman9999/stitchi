@@ -35,6 +35,12 @@ module.exports = withBundleAnalyzer(
     async redirects() {
       return [
         {
+          // Business card QR code URL
+          source: '/qr/everest',
+          destination: '/',
+          permanent: false,
+        },
+        {
           source: '/login',
           destination: '/api/auth/login',
           permanent: false,
@@ -104,4 +110,3 @@ module.exports = withBundleAnalyzer(
     },
   }),
 )
-
