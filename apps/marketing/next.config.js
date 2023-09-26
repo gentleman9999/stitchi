@@ -11,10 +11,10 @@ module.exports = withBundleAnalyzer(
     reactStrictMode: true,
     transpilePackages: ['icons', 'config', 'tsconfig', 'hooks', 'lodash-es'],
 
-    i18n: {
-      locales: ['en'],
-      defaultLocale: 'en',
-    },
+    // i18n: {
+    //   locales: ['en'],
+    //   defaultLocale: 'en',
+    // },
     images: {
       domains: ['res.cloudinary.com', 'cdn11.bigcommerce.com'],
     },
