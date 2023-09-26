@@ -34,14 +34,15 @@ const middleware: NextMiddleware = async (request, event) => {
     })
   }
 
+  // Remove trailing slash from Next.js URLs
   if (pathname.length > 1 && pathname.endsWith('/')) {
-    // // Remove trailing slash from Next.js URLs
     const nextUrl = new URL(request.nextUrl)
     nextUrl.pathname = nextUrl.pathname.slice(0, -1)
 
     return NextResponse.redirect(nextUrl)
   }
 
+  // These pages require user to be authenticated
   if (
     pathname.startsWith('/closet') ||
     pathname.startsWith('/account') ||
@@ -51,19 +52,6 @@ const middleware: NextMiddleware = async (request, event) => {
     const session = await getSession(request, response)
 
     if (!session?.user) {
-      // Handle unauthenticated user
-
-      if (pathname.startsWith('/api')) {
-        return NextResponse.json(
-          {
-            error: 'not_authenticated',
-            description:
-              'The user does not have an active session or is not authenticated',
-          },
-          { status: 401 },
-        )
-      }
-
       let returnTo = `${pathname}${search}`
 
       return NextResponse.redirect(

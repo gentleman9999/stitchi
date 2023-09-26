@@ -106,7 +106,7 @@ const ClosetInboxIndexPage = ({
                 <div className="flex flex-col items-center gap-4 p-8">
                   <InboxIcon className="w-10 h-10 text-gray-300" />
                   <p className="text-2xl font-semibold">
-                    No notifications yet!
+                    Nothing in your inbox yet :)
                   </p>
                 </div>
               )}

@@ -29,7 +29,7 @@ const CategoryShowPage = ({ category }: Props) => {
         openGraph={{ url }}
       />
 
-      <Container>
+      <Container className="pt-6">
         <Breadcrumbs
           breadcrumbs={[
             { label: 'Home', href: routes.internal.home.href(), hidden: true },
@@ -42,10 +42,9 @@ const CategoryShowPage = ({ category }: Props) => {
             {category.name}
           </h1>
         </Section>
-        <Section>
-          <Catalog categoryEntityId={category.entityId} />
-        </Section>
       </Container>
+
+      <Catalog categoryEntityId={category.entityId} />
     </div>
   )
 }

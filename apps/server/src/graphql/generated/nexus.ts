@@ -1609,6 +1609,7 @@ export interface NexusGenFieldTypes {
     id: string; // ID!
     lastLogin: NexusGenScalars['DateTime'] | null; // DateTime
     loginsCount: number | null; // Int
+    memberships: NexusGenRootTypes['Membership'][]; // [Membership!]!
     name: string | null; // String
     nickname: string | null; // String
     organizations: NexusGenRootTypes['Organization'][]; // [Organization!]!
@@ -2314,6 +2315,7 @@ export interface NexusGenFieldTypeNames {
     id: 'ID'
     lastLogin: 'DateTime'
     loginsCount: 'Int'
+    memberships: 'Membership'
     name: 'String'
     nickname: 'String'
     organizations: 'Organization'

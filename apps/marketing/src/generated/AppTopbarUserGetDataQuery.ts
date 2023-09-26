@@ -4,16 +4,16 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: ClosetLayoutGetDataQuery
+// GraphQL query operation: AppTopbarUserGetDataQuery
 // ====================================================
 
-export interface ClosetLayoutGetDataQuery_viewer_organization {
+export interface AppTopbarUserGetDataQuery_viewer_organization {
   __typename: "Organization";
   id: string;
   name: string | null;
 }
 
-export interface ClosetLayoutGetDataQuery_viewer_user {
+export interface AppTopbarUserGetDataQuery_viewer_user {
   __typename: "User";
   id: string;
   name: string | null;
@@ -21,15 +21,14 @@ export interface ClosetLayoutGetDataQuery_viewer_user {
   picture: string | null;
 }
 
-export interface ClosetLayoutGetDataQuery_viewer {
+export interface AppTopbarUserGetDataQuery_viewer {
   __typename: "Membership";
   id: string;
-  unseenWebNotificationsCount: number;
   humanizedRole: string | null;
-  organization: ClosetLayoutGetDataQuery_viewer_organization;
-  user: ClosetLayoutGetDataQuery_viewer_user | null;
+  organization: AppTopbarUserGetDataQuery_viewer_organization;
+  user: AppTopbarUserGetDataQuery_viewer_user | null;
 }
 
-export interface ClosetLayoutGetDataQuery {
-  viewer: ClosetLayoutGetDataQuery_viewer | null;
+export interface AppTopbarUserGetDataQuery {
+  viewer: AppTopbarUserGetDataQuery_viewer | null;
 }

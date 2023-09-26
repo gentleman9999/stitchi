@@ -77,11 +77,7 @@ const OrganizationDropdown = (props: Props) => {
             onClick={() =>
               setStandout({ type: StandoutType.OrganizationCreate })
             }
-            icon={
-              <div className="w-5 h-5 bg-paper rounded-sm">
-                <PlusIcon className="w-5 h-5" />
-              </div>
-            }
+            icon={<div className="w-5 h-5 bg-paper rounded-sm"></div>}
           >
             New account
           </Item>

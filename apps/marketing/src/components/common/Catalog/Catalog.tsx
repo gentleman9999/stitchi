@@ -9,6 +9,8 @@ import { useRouter } from 'next/router'
 import CatalogFilters from './CatalogFilters'
 import CatalogProductGrid from './CatalogProductGrid'
 import useActiveFilters from './useActiveFilters'
+import { Container } from '@components/ui'
+import Section from '../Section'
 
 export const makeDefaultQueryVariables = ({
   brandEntityId,
@@ -98,24 +100,28 @@ const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
   }, [query, fetchMore, replace])
 
   return (
-    <div>
+    <>
       <CatalogFilters
         catalogEndRef={gridEndRef}
         brandEntityId={brandEntityId}
         categoryEntityId={categoryEntityId}
       />
 
-      <div className="mt-6 grid grid-cols-1 gap-10">
-        <div className="col-span-1">
-          <CatalogProductGrid
-            fetchMore={fetchMore}
-            site={data?.site}
-            loading={networkStatus !== NetworkStatus.ready}
-          />
-        </div>
-      </div>
-      <div ref={gridEndRef} />
-    </div>
+      <Container>
+        <Section>
+          <div className="mt-6 grid grid-cols-1 gap-10">
+            <div className="col-span-1">
+              <CatalogProductGrid
+                fetchMore={fetchMore}
+                site={data?.site}
+                loading={networkStatus !== NetworkStatus.ready}
+              />
+            </div>
+          </div>
+          <div ref={gridEndRef} />
+        </Section>
+      </Container>
+    </>
   )
 }
 

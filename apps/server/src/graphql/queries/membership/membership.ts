@@ -204,3 +204,36 @@ export const MembershipExtendsConversationMessage = extendType({
     })
   },
 })
+
+export const MembershipExtendsUser = extendType({
+  type: 'User',
+  definition(t) {
+    t.nonNull.list.nonNull.field('memberships', {
+      type: 'Membership',
+      resolve: async (user, _, ctx) => {
+        if (ctx.userId !== user.id) {
+          throw new GraphQLError('Forbidden')
+        }
+
+        let memberships
+
+        try {
+          memberships = await ctx.membership.listMemberships({
+            where: { userId: user.id },
+          })
+        } catch (error) {
+          ctx.logger
+            .child({
+              context: {
+                error,
+              },
+            })
+            .error(`Error listing memberships`)
+          throw error
+        }
+
+        return memberships.map(membershipFactoryToGraphql)
+      },
+    })
+  },
+})

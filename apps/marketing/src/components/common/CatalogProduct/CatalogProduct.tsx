@@ -35,7 +35,7 @@ const CatalogProduct = ({ product, priority }: Props) => {
     <li className="flex flex-col w-full">
       <Link
         href={href}
-        className="flex-1 flex flex-col cursor-pointer rounded-lg border border-gray-200 p-2  hover:shadow-lg transition-all"
+        className="flex-1 flex flex-col cursor-pointer rounded-lg border border-gray-200 p-2 bg-paper hover:shadow-lg transition-all"
       >
         {product.defaultImage?.url && (
           <div className="relative w-full h-[160px]">

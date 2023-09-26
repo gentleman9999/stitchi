@@ -7,18 +7,23 @@
 // GraphQL query operation: AccountSetupPageGetDataQuery
 // ====================================================
 
-export interface AccountSetupPageGetDataQuery_userMemberships_organization {
-  __typename: "Organization";
-  id: string;
-  name: string | null;
-}
-
-export interface AccountSetupPageGetDataQuery_userMemberships {
+export interface AccountSetupPageGetDataQuery_viewer_user_memberships {
   __typename: "Membership";
   id: string;
-  organization: AccountSetupPageGetDataQuery_userMemberships_organization;
+}
+
+export interface AccountSetupPageGetDataQuery_viewer_user {
+  __typename: "User";
+  id: string;
+  memberships: AccountSetupPageGetDataQuery_viewer_user_memberships[];
+}
+
+export interface AccountSetupPageGetDataQuery_viewer {
+  __typename: "Membership";
+  id: string;
+  user: AccountSetupPageGetDataQuery_viewer_user | null;
 }
 
 export interface AccountSetupPageGetDataQuery {
-  userMemberships: AccountSetupPageGetDataQuery_userMemberships[];
+  viewer: AccountSetupPageGetDataQuery_viewer | null;
 }

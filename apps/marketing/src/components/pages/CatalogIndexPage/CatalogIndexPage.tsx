@@ -10,20 +10,16 @@ export interface CatalogIndexPageProps {}
 const CatalogIndexPage = ({}: CatalogIndexPageProps) => {
   return (
     <>
-      <Container>
-        <div className="sr-only">
-          <Breadcrumbs
-            breadcrumbs={[
-              { label: 'Home', href: routes.internal.home.href() },
-              { label: 'Catalog', href: routes.internal.catalog.href() },
-            ]}
-          />
-        </div>
+      <div className="sr-only">
+        <Breadcrumbs
+          breadcrumbs={[
+            { label: 'Home', href: routes.internal.home.href() },
+            { label: 'Catalog', href: routes.internal.catalog.href() },
+          ]}
+        />
+      </div>
 
-        <Section>
-          <Catalog />
-        </Section>
-      </Container>
+      <Catalog />
     </>
   )
 }

@@ -103,7 +103,7 @@ const ProductShowPage = ({ product }: Props) => {
       <ProductJsonLd {...jsonLDData} key={jsonLDData.id} />
       {share ? <ShareDialog open onClose={() => setShare(false)} /> : null}
       <Container>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 pt-6">
           <div className="flex flex-col sm:flex-col-reverse gap-4">
             <h1 className="font-headingDisplay font-semibold text-2xl sm:text-3xl text-gray-800">
               {makeProductTitle(product)}

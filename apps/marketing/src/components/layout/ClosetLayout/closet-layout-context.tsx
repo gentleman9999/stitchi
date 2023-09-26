@@ -158,19 +158,6 @@ const ClosetLayoutContextProvider = ({ children }: Props) => {
             },
           ],
         },
-        {
-          href: routes.external.support.href(),
-          label: 'Help',
-          external: true,
-          icon: <QuestionMarkCircleIcon className="w-4 h-4" />,
-        },
-
-        {
-          href: routes.internal.logout.href(),
-          label: 'Sign Out',
-          icon: <ArrowRightOnRectangleIcon className="w-4 h-4" />,
-          LinkComponent: 'a',
-        },
       ],
     }),
     [authorizationLoading, can, role],

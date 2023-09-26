@@ -1,48 +1,25 @@
 import React from 'react'
-import OrganizationDropdown from '../OrganizationDropdown'
-import {
-  ChevronUpDownIcon,
-  RectangleStackIcon,
-} from '@heroicons/react/20/solid'
+import { RectangleStackIcon, ShoppingBagIcon } from '@heroicons/react/20/solid'
 import { ScopeAction, ScopeResource } from '@generated/globalTypes'
-import Link from 'next/link'
-import { Badge, Logo } from '@components/ui'
-import Skeleton from 'react-loading-skeleton'
-import UserAvatar from '@components/common/UserAvatar'
 import { gql } from '@apollo/client'
 import NavItem from './NavItem'
 import { useAuthorizedComponent } from '@lib/auth'
 import { PrimarySideBarMembershipFragment } from '@generated/PrimarySideBarMembershipFragment'
 import { useClosetLayoutContext } from '../closet-layout-context'
 import { StandoutType, useStandout } from '@components/context'
+import routes from '@lib/routes'
 
 interface Props {
-  loading: boolean
   membership?: PrimarySideBarMembershipFragment | null
 }
 
-const PrimarySideBar = ({ membership, loading }: Props) => {
+const PrimarySideBar = ({ membership }: Props) => {
   const { can, loading: authorizationLoading } = useAuthorizedComponent()
   const { navigation, activeNavItem, handleNavigate } = useClosetLayoutContext()
   const { setStandout } = useStandout()
 
-  const { user, organization } = membership || {}
-
   return (
     <div className="relative flex-1 flex flex-col p-2 gap-2 ">
-      <div className="z-10 w-full flex flex-col">
-        <OrganizationDropdown
-          renderTrigger={() => (
-            <div className="bg-gray-50 rounded-md p-2 w-full text-sm font-regular flex items-center gap-2 text-gray-800">
-              <div className="w-5 h-5 bg-gray-100 rounded-sm" />
-              {organization?.name}
-              <div className="ml-auto">
-                <ChevronUpDownIcon className="h-4" />
-              </div>
-            </div>
-          )}
-        />
-      </div>
       <div className="z-0">
         <ul className="flex flex-col gap-1">
           {navigation.primary
@@ -61,6 +38,16 @@ const PrimarySideBar = ({ membership, loading }: Props) => {
               </li>
             ))}
         </ul>
+        <hr className="my-2 sm:hidden" />
+        <div className="sm:hidden">
+          <NavItem
+            href={routes.internal.catalog.href()}
+            label="Catalog"
+            active={activeNavItem?.href === routes.internal.catalog.href()}
+            icon={<ShoppingBagIcon className="w-4 h-4" />}
+          />
+        </div>
+
         <hr className="my-2" />
         <ul className="flex flex-col gap-1">
           {navigation.secondary.map(link => (
@@ -86,55 +73,24 @@ const PrimarySideBar = ({ membership, loading }: Props) => {
       </div> */}
 
       <div className="flex-1 flex flex-col justify-end">
-        <div>
-          <div className="flex justify-center">
-            <Logo className="w-10" />
-          </div>
-
-          <hr className="my-2" />
-
-          <div className="flex items-center gap-2 p-2">
-            <div className="shrink-0 w-5 h-5 flex items-center justify-center">
-              {loading ? (
-                <Skeleton />
-              ) : (
-                <>
-                  <UserAvatar
-                    width="w-5"
-                    height="h-5"
-                    user={{
-                      name: user?.name || 'Unknown',
-                      picture: user?.picture || null,
-                    }}
-                  />
-                </>
-              )}
-            </div>
-            <div className="text-xs">
-              <span className="font-semibold">{user?.name}</span>
-              <br />
-              <span className="text-gray-500">
-                {user?.email?.toLowerCase()}
-              </span>
-            </div>
-          </div>
-        </div>
-
         {!authorizationLoading &&
           can(ScopeResource.Membership, ScopeAction.CREATE) && (
-            <button
-              className="hover:bg-gray-50 rounded-md p-2 w-full text-sm font-medium flex items-center gap-2 text-gray-500"
-              onClick={() =>
-                setStandout({
-                  type: StandoutType.UserInvite,
-                })
-              }
-            >
-              <div className="w-5 h-5 inline-flex items-center justify-center">
-                <RectangleStackIcon className="w-4 h-4" />
-              </div>
-              Invite members
-            </button>
+            <>
+              <hr className="my-2" />
+              <button
+                className="hover:bg-gray-50 rounded-md p-2 w-full text-sm font-medium flex items-center gap-2 text-gray-500"
+                onClick={() =>
+                  setStandout({
+                    type: StandoutType.UserInvite,
+                  })
+                }
+              >
+                <div className="w-5 h-5 inline-flex items-center justify-center">
+                  <RectangleStackIcon className="w-4 h-4" />
+                </div>
+                Invite members
+              </button>
+            </>
           )}
       </div>
     </div>
@@ -146,16 +102,6 @@ PrimarySideBar.fragments = {
     fragment PrimarySideBarMembershipFragment on Membership {
       id
       unseenWebNotificationsCount
-      organization {
-        id
-        name
-      }
-      user {
-        id
-        name
-        picture
-        email
-      }
     }
   `,
 }

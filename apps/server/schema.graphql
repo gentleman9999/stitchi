@@ -1343,6 +1343,7 @@ type User {
   id: ID!
   lastLogin: DateTime
   loginsCount: Int
+  memberships: [Membership!]!
   name: String
   nickname: String
   organizations: [Organization!]!

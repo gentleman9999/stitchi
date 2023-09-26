@@ -1,10 +1,8 @@
-import { gql, useQuery } from '@apollo/client'
-import AccountSetupPage from '@components/pages/AccountSetupPage'
+import { gql } from '@apollo/client'
 import { AccountSetupPageGetDataQuery } from '@generated/AccountSetupPageGetDataQuery'
-import { addApolloState, initializeApollo } from '@lib/apollo'
+import { initializeApollo } from '@lib/apollo'
 import routes from '@lib/routes'
 import { GetServerSideProps } from 'next'
-import React from 'react'
 
 const getServerSideProps: GetServerSideProps = async ctx => {
   const client = initializeApollo(null, ctx)
@@ -13,7 +11,7 @@ const getServerSideProps: GetServerSideProps = async ctx => {
     query: GET_DATA,
   })
 
-  const memberships = data?.userMemberships || []
+  const memberships = data?.viewer?.user?.memberships || []
 
   if (!memberships.length) {
     await client.mutate({
@@ -27,27 +25,32 @@ const getServerSideProps: GetServerSideProps = async ctx => {
           ctx.query.redirectUrl?.toString() || routes.internal.closet.href(),
       },
     }
+  } else {
+    return {
+      redirect: {
+        permanent: false,
+        destination: routes.internal.closet.memberships.href({
+          redirectUrl: ctx.query.redirectUrl?.toString(),
+        }),
+      },
+    }
   }
-
-  return addApolloState(client, { props: {} })
 }
 
 const Page = () => {
-  const { data, loading } = useQuery<AccountSetupPageGetDataQuery>(GET_DATA)
-
-  if (loading) return null
-
-  const memberships = data?.userMemberships || []
-
-  return <AccountSetupPage memberships={memberships} />
+  return null
 }
 
 const GET_DATA = gql`
-  ${AccountSetupPage.fragments.membership}
   query AccountSetupPageGetDataQuery {
-    userMemberships {
+    viewer {
       id
-      ...AccountSetupPageMembershipFragment
+      user {
+        id
+        memberships {
+          id
+        }
+      }
     }
   }
 `

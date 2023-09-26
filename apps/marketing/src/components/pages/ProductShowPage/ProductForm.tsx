@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import ColorSwatch from '@components/common/ColorSwatch'
-import { Button, InputGroup } from '@components/ui'
+import { InputGroup } from '@components/ui'
 import { ProductShowPageProductFormProductFragment } from '@generated/ProductShowPageProductFormProductFragment'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useProductOptions from '@components/hooks/useProductOptions'
@@ -9,6 +9,15 @@ import currency from 'currency.js'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import {
+  ArrowLongRightIcon,
+  CheckIcon,
+  ChevronDownIcon,
+  PlusIcon,
+} from '@heroicons/react/20/solid'
+import Button from '@components/ui/ButtonV2/Button'
+import * as Popover from '@radix-ui/react-popover'
+import cx from 'classnames'
 
 const schema = yup.object().shape({
   colorEntityIds: yup
@@ -55,42 +64,71 @@ const ProductForm = ({ onSubmit, product, colors: availableColors }: Props) => {
     ),
   }))
 
+  const selectedColors = serializedColors.filter(color => color.selected)
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-8">
       <Controller
         name="colorEntityIds"
         control={form.control}
         render={({ field, fieldState }) => (
-          <InputGroup label="Choose colors" error={fieldState.error?.message}>
-            <ul className="flex flex-wrap gap-3">
-              {serializedColors.map(color => (
-                <li key={color.entityId}>
-                  <ColorSwatch
-                    hexCode={color.hexColors[0]}
-                    label={color.label}
-                    width="w-8"
-                    height="h-8"
-                    selected={color.selected}
-                    onClick={() => {
-                      if (
-                        colorEntityIds.find(
-                          colorEntityId => colorEntityId === color.entityId,
-                        )
-                      )
-                        field.onChange(
-                          colorEntityIds.filter(
-                            colorEntityId => colorEntityId !== color.entityId,
-                          ),
-                        )
-                      else {
-                        field.onChange([...colorEntityIds, color.entityId])
-                      }
-                    }}
-                  />
-                </li>
-              ))}
-            </ul>
-          </InputGroup>
+          <>
+            {/* <InputGroup
+              // label="Choose colors to customize"
+              error={fieldState.error?.message}
+            > */}
+            <ColorSelect
+              colors={serializedColors}
+              onColorToggle={color => {
+                if (color.selected)
+                  field.onChange(
+                    colorEntityIds.filter(
+                      colorEntityId => colorEntityId !== color.entityId,
+                    ),
+                  )
+                else {
+                  field.onChange([...colorEntityIds, color.entityId])
+                }
+              }}
+            />
+            {/* </InputGroup> */}
+            {selectedColors.length ? (
+              <InputGroup
+                label="Selected colors"
+                error={fieldState.error?.message}
+              >
+                <ul className="flex flex-wrap gap-3">
+                  {selectedColors.map(color => (
+                    <li key={color.entityId}>
+                      <ColorSwatch
+                        hexCode={color.hexColors[0]}
+                        label={color.label}
+                        width="w-8"
+                        height="h-8"
+                        selected={color.selected}
+                        onClick={() => {
+                          if (
+                            colorEntityIds.find(
+                              colorEntityId => colorEntityId === color.entityId,
+                            )
+                          )
+                            field.onChange(
+                              colorEntityIds.filter(
+                                colorEntityId =>
+                                  colorEntityId !== color.entityId,
+                              ),
+                            )
+                          else {
+                            field.onChange([...colorEntityIds, color.entityId])
+                          }
+                        }}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </InputGroup>
+            ) : null}
+          </>
         )}
       />
 
@@ -106,6 +144,7 @@ const ProductForm = ({ onSubmit, product, colors: availableColors }: Props) => {
         <div className="grid grid-cols-1 gap-2 w-full @xs:w-auto">
           <Button
             type="submit"
+            size="xl"
             className="whitespace-nowrap"
             color="brandPrimary"
             loading={submitting}
@@ -119,6 +158,84 @@ const ProductForm = ({ onSubmit, product, colors: availableColors }: Props) => {
       </div>
     </form>
   )
+}
+
+interface Color {
+  entityId: number
+  label: string
+  hexColors: string[]
+  selected: boolean
+}
+
+const ColorSelect = ({
+  colors,
+  onColorToggle,
+}: {
+  colors: Color[]
+  onColorToggle: (color: Color) => void
+}) => {
+  return (
+    <Popover.Root>
+      <Popover.Trigger asChild>
+        <Button
+          size="xl"
+          variant="ghost"
+          className="w-full"
+          endIcon={<PlusIcon className="w-4" />}
+        >
+          Add colors
+        </Button>
+      </Popover.Trigger>
+      <Popover.Portal>
+        <Popover.Content
+          className="bg-paper rounded-md p-2 w-full max-w-xs max-h-96 overflow-scroll shadow-magical"
+          sideOffset={5}
+          side="bottom"
+          align="end"
+        >
+          <div className="flex flex-col gap-1">
+            {colors.map(color => (
+              <ColorSelectItem
+                key={color.entityId}
+                color={color}
+                onClick={() => onColorToggle(color)}
+              />
+            ))}
+          </div>
+        </Popover.Content>
+      </Popover.Portal>
+    </Popover.Root>
+  )
+}
+
+const ColorSelectItem = ({
+  color,
+  onClick,
+}: {
+  color: Color
+  onClick: () => void
+}) => {
+  const item = (
+    <button
+      onClick={onClick}
+      className={cx(
+        'cursor-pointer flex items-center gap-2 justify-between rounded-md p-0.5 hover:ring ring-primary',
+        {
+          'bg-gray-50': color.selected,
+        },
+      )}
+    >
+      <div className="flex items-center gap-2 flex-1 truncate shrink">
+        <ColorSwatch hexCode={color.hexColors[0]} width="w-6" height="h-6" />
+
+        <span className="text-sm font-medium truncate">{color.label}</span>
+      </div>
+
+      {color.selected ? <CheckIcon className="w-4 h-4 shrink-0" /> : null}
+    </button>
+  )
+
+  return <>{item}</>
 }
 
 ProductForm.fragments = {
