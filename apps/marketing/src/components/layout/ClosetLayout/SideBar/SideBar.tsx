@@ -8,11 +8,10 @@ import { AnimatePresence } from 'framer-motion'
 import { motion } from 'framer-motion'
 
 interface Props {
-  loading: boolean
   membership?: SideBarMembershipFragment | null
 }
 
-const SideBar = ({ membership, loading }: Props) => {
+const SideBar = ({ membership }: Props) => {
   const { activeNavItem } = useClosetLayoutContext()
 
   const isSecondary =
@@ -41,7 +40,7 @@ const SideBar = ({ membership, loading }: Props) => {
             <SecondarySideBar />
           </motion.div>
         ) : (
-          <PrimarySideBar loading={loading} membership={membership} />
+          <PrimarySideBar membership={membership} />
         )}
       </AnimatePresence>
     </>

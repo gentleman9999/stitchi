@@ -85,7 +85,7 @@ const ClosetLayout = (props: Props) => {
               },
             )}
           >
-            <SideBar membership={data?.viewer} loading={dataLoading} />
+            <SideBar membership={data?.viewer} />
           </nav>
 
           <main className="overflow-auto w-full z-0 bg-gray-50 min-h-[calc(100vh-56px)] relative">
