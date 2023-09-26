@@ -25,8 +25,8 @@ import routes from '@lib/routes'
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps } from 'next'
 import React, { ReactElement } from 'react'
 
-const PAGE_LIMIT = 3
-const STUDENT_GUIDE_CATEGORY_ID = '148284102'
+const PAGE_LIMIT = 10
+export const STUDENT_GUIDE_CATEGORY_ID = '148284102'
 
 const makeDefaultFilter = (categoryId: string): ArticleModelFilter => ({
   categories: { anyIn: [categoryId] },
@@ -130,6 +130,7 @@ const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   })
 
   return addApolloState(client, {
+    revalidate: 60 * 10, // Every 10 minutes
     props: {
       ...pagination,
       pageNumber: pageNumberInt,

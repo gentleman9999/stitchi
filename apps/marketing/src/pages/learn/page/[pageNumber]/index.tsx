@@ -15,7 +15,8 @@ import routes from '@lib/routes'
 import { ItemStatus } from '@generated/globalTypes'
 
 const PAGE_LIMIT = 6
-const SKIP_CATEGORIES = ['148284102']
+
+const SKIP_CATEGORIES = ['148284102'] // STUDENT_GUIDE_CATEGORY_ID
 
 const getPagination = (currentPage: number) => ({
   first: currentPage > 1 ? PAGE_LIMIT * 2 : PAGE_LIMIT,
