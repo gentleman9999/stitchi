@@ -32,6 +32,7 @@ interface ClosetLinkShareInput
 
 interface OrganizationCreateInput extends BaseInput {
   type: StandoutType.OrganizationCreate
+  redirectUrl?: string
 }
 
 interface ContactSuccessInput extends BaseInput {

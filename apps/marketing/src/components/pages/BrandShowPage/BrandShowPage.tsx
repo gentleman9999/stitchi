@@ -30,7 +30,7 @@ const BrandShowPage = ({ brand }: Props) => {
 
       <BrandJsonLd id={url} logo={brand.defaultImage?.url} />
 
-      <Container>
+      <Container className="pt-6">
         <Breadcrumbs
           breadcrumbs={[
             { label: 'Home', href: routes.internal.home.href(), hidden: true },
@@ -43,10 +43,8 @@ const BrandShowPage = ({ brand }: Props) => {
             {brand.name}
           </h1>
         </Section>
-        <Section gutter="md">
-          <Catalog brandEntityId={brand.entityId} />
-        </Section>
       </Container>
+      <Catalog brandEntityId={brand.entityId} />
     </>
   )
 }

@@ -1,10 +1,13 @@
 import { gql, useQuery } from '@apollo/client'
+import { StandoutType, useStandout } from '@components/context'
 import useSetUserMembership from '@components/hooks/useSetUserMembership'
 import { LoadingDots, Logo } from '@components/ui'
+import Button from '@components/ui/ButtonV2/Button'
 import {
   ViewerMembershipsIndexPageGetDataQuer,
   ViewerMembershipsIndexPageGetDataQuer_viewer_user_memberships,
 } from '@generated/ViewerMembershipsIndexPageGetDataQuer'
+import { PlusIcon } from '@heroicons/react/20/solid'
 import { addApolloState, initializeApollo } from '@lib/apollo'
 import routes from '@lib/routes'
 import { notEmpty } from '@lib/utils/typescript'
@@ -23,6 +26,8 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
 }
 
 const ViewerMembershipsIndexPage = () => {
+  const { setStandout } = useStandout()
+
   const router = useRouter()
   const { data, loading } =
     useQuery<ViewerMembershipsIndexPageGetDataQuer>(GET_DATA)
@@ -98,6 +103,22 @@ const ViewerMembershipsIndexPage = () => {
                   />
                 )
               })}
+
+              <hr className="my-2" />
+
+              <Button
+                size="xl"
+                variant="ghost"
+                onClick={() =>
+                  setStandout({
+                    type: StandoutType.OrganizationCreate,
+                    redirectUrl: routes.internal.closet.href(),
+                  })
+                }
+                endIcon={<PlusIcon className="w-5 h-5" />}
+              >
+                Create new account
+              </Button>
             </div>
           </>
         )}

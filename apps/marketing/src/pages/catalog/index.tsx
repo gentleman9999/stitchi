@@ -1,5 +1,4 @@
 import getServerSideData from '@components/common/Catalog/getServerSideData'
-import { PrimaryLayout } from '@components/layout'
 import CatalogLayout from '@components/layout/CatalogLayout'
 import { CatalogIndexPage } from '@components/pages'
 import { addApolloState, initializeApollo } from '@lib/apollo'

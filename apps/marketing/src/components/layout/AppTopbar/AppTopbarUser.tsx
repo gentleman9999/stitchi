@@ -11,6 +11,7 @@ import {
   ArrowRightOnRectangleIcon,
   ChevronUpDownIcon,
   Cog6ToothIcon,
+  HomeIcon,
 } from '@heroicons/react/20/solid'
 import { Badge } from '@components/ui'
 import { AppTopbarUserMembershipFragment } from '@generated/AppTopbarUserMembershipFragment'
@@ -49,9 +50,11 @@ const AppTopbarUser = ({ membership }: Props) => {
           />
         </div>
         <div className="text-xs sr-only sm:not-sr-only">
-          <span className="font-semibold whitespace-nowrap">{user.name}</span>
+          <span className="font-semibold whitespace-nowrap truncate">
+            {user.name}
+          </span>
           <br />
-          <span className="text-gray-500">{organization.name}</span>
+          <span className="text-gray-500 truncate">{organization.name}</span>
         </div>
 
         <div className="ml-auto">
@@ -86,15 +89,23 @@ const AppTopbarUser = ({ membership }: Props) => {
           </div>
           <div className="p-2">
             <DropdownItem
-              href={routes.internal.closet.settings.general.href()}
-              label="Settings"
-              icon={<Cog6ToothIcon className="w-4 h-4" />}
+              label="Go to closet"
+              href={routes.internal.closet.href()}
+              icon={<HomeIcon className="w-4 h-4" />}
             />
+
             <DropdownItem
               href={routes.internal.closet.memberships.href()}
               label="Switch workspace"
               icon={<ArrowPathRoundedSquareIcon className="w-4 h-4" />}
             />
+
+            <DropdownItem
+              href={routes.internal.closet.settings.general.href()}
+              label="Settings"
+              icon={<Cog6ToothIcon className="w-4 h-4" />}
+            />
+
             <DropdownItem
               LinkComponent="a"
               href={routes.internal.logout.href()}

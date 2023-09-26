@@ -22,9 +22,10 @@ type FormValues = yup.InferType<typeof schema>
 export interface Props {
   open: boolean
   onClose: () => void
+  redirectUrl?: string
 }
 
-const OrganizationCreateDialog = ({ open, onClose }: Props) => {
+const OrganizationCreateDialog = ({ open, onClose, redirectUrl }: Props) => {
   const [loading, setLoading] = React.useState(false)
   const [setUserMembership] = useSetUserMembership()
 
@@ -59,7 +60,11 @@ const OrganizationCreateDialog = ({ open, onClose }: Props) => {
           organizationId: organization.id,
         })
 
-        window.location.reload()
+        if (redirectUrl) {
+          window.location.replace(redirectUrl)
+        } else {
+          window.location.reload()
+        }
       }
     } finally {
       setLoading(false)

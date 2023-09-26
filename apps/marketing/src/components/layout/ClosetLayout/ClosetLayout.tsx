@@ -9,6 +9,7 @@ import React from 'react'
 import { ClosetLayoutContextProvider } from './closet-layout-context'
 import SideBar from './SideBar'
 import AppTopbar from '../AppTopbar/AppTopbar'
+import Link from 'next/link'
 
 interface Props {
   children: React.ReactNode
@@ -68,7 +69,9 @@ const ClosetLayout = (props: Props) => {
                 />
               </button>
               <div className="hidden md:block">
-                <Logo className="h-10" />
+                <Link href={routes.internal.home.href()}>
+                  <Logo className="h-10" />
+                </Link>
               </div>
             </>
           )}
