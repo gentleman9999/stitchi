@@ -147,19 +147,16 @@ const routes = {
         href: (postSlug: string) => buildRoute(`/learn/${postSlug}`),
       },
       page: {
-        href: (page: number) => buildRoute(`/learn/page/${page}`),
+        href: (page: number = 1) => buildRoute(`/learn/page/${page}`),
       },
       category: {
         href: ({
           categorySlug,
-          page,
+          page = 1,
         }: {
           categorySlug: string
           page?: number
-        }) =>
-          buildRoute(
-            `/learn/topic/${categorySlug}${page ? `/page/${page}` : ''}`,
-          ),
+        }) => buildRoute(`/learn/topic/${categorySlug}/page/${page}`),
       },
     },
     customers: {
@@ -358,7 +355,7 @@ const routes = {
 
     account: {
       setup: {
-        href: (params: { redirectUrl: string }) =>
+        href: (params?: { redirectUrl?: string }) =>
           buildRoute('/account/setup', params),
       },
     },
