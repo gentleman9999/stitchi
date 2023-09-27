@@ -72,21 +72,24 @@ const getStaticProps: GetStaticProps = async ({ params }) => {
     },
   })
 
-  return addApolloState(client, { props: {} })
+  return addApolloState(client, {
+    props: {
+      pageNumber: pageNumberInt,
+    },
+  })
 }
 
-const BlogIndexPage = () => {
-  const router = useRouter()
-  const { pageNumber } = router.query
+interface Props {
+  pageNumber: number
+}
 
-  const pageNumberInt = parseInt(`${pageNumber}`, 10)
-
+const BlogIndexPage = ({ pageNumber }: Props) => {
   const { data, error, loading } = useQuery<
     BlogIndexPageGetDataQuery,
     BlogIndexPageGetDataQueryVariables
   >(GET_DATA, {
     variables: {
-      ...getPagination(pageNumberInt),
+      ...getPagination(pageNumber),
       filter: {
         _status: { eq: ItemStatus.published },
         categories: { notIn: SKIP_CATEGORIES },
@@ -125,7 +128,7 @@ const BlogIndexPage = () => {
       page={blogIndexPage}
       canFetchMore={canFetchMore}
       loading={loading}
-      fetchMoreHref={routes.internal.blog.page.href(pageNumberInt + 1)}
+      fetchMoreHref={routes.internal.blog.page.href(pageNumber + 1)}
     />
   )
 }
