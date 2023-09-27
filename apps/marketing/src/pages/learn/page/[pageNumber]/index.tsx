@@ -72,24 +72,21 @@ const getStaticProps: GetStaticProps = async ({ params }) => {
     },
   })
 
-  return addApolloState(client, {
-    props: {
-      pageNumber: pageNumberInt,
-    },
-  })
+  return addApolloState(client, { props: {} })
 }
 
-interface Props {
-  pageNumber: number
-}
+const BlogIndexPage = () => {
+  const router = useRouter()
+  const { pageNumber = '1' } = router.query
 
-const BlogIndexPage = ({ pageNumber }: Props) => {
+  const pageNumberInt = parseInt(`${pageNumber}`, 10)
+
   const { data, error, loading } = useQuery<
     BlogIndexPageGetDataQuery,
     BlogIndexPageGetDataQueryVariables
   >(GET_DATA, {
     variables: {
-      ...getPagination(pageNumber),
+      ...getPagination(pageNumberInt),
       filter: {
         _status: { eq: ItemStatus.published },
         categories: { notIn: SKIP_CATEGORIES },
@@ -105,31 +102,22 @@ const BlogIndexPage = ({ pageNumber }: Props) => {
     blogIndexPage,
   } = data || {}
 
-  if ((error && !articles) || articles?.length === 0) {
-    return <ComponentErrorMessage error={error} />
-  }
-
-  if (!articles) {
-    return <ComponentErrorMessage error="Failed to load articles" />
-  }
-
-  if (!blogIndexPage) {
-    return <ComponentErrorMessage error="Failed to load page" />
-  }
-
   const canFetchMore = Boolean(
     articles?.length && articles.length < _allArticlesMeta?.count,
   )
 
   return (
-    <BlogPostIndexPage
-      articles={articles.filter(Boolean)}
-      categories={categories}
-      page={blogIndexPage}
-      canFetchMore={canFetchMore}
-      loading={loading}
-      fetchMoreHref={routes.internal.blog.page.href(pageNumber + 1)}
-    />
+    <>
+      <ComponentErrorMessage error={error} />
+      <BlogPostIndexPage
+        articles={articles?.filter(Boolean) || []}
+        categories={categories}
+        page={blogIndexPage}
+        canFetchMore={canFetchMore}
+        loading={loading}
+        fetchMoreHref={routes.internal.blog.page.href(pageNumberInt + 1)}
+      />
+    </>
   )
 }
 

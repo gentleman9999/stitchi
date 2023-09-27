@@ -1,8 +1,9 @@
 import React from 'react'
-import Link from 'next/link'
 import cx from 'classnames'
+import Link from 'next/link'
 
 interface Filter {
+  id: string
   title: string
   href: string
   active?: boolean
@@ -20,10 +21,10 @@ const BlogPostIndexPageFilters = ({ filters, className }: Props) => (
       'flex flex-wrap justify-center md:justify-start mt-8 p-2 gap-2',
     )}
   >
-    {filters.map(({ href, title, active }) => (
+    {filters.map(({ id, href, title, active }) => (
       <Link
         href={href}
-        key={href}
+        key={id}
         className={cx(
           'px-4 py-0.5 rounded-md transition-all whitespace-nowrap font-bold font-heading text-gray-900 border',
           { 'bg-gray-900 text-white': active },

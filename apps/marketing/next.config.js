@@ -20,16 +20,21 @@ module.exports = withBundleAnalyzer(
     },
 
     async rewrites() {
-      return [
-        {
-          source: '/learn',
-          destination: '/learn/page/1',
-        },
-        {
-          source: '/learn/topic/:topicSlug',
-          destination: '/learn/topic/:topicSlug/page/1',
-        },
-      ]
+      return {
+        beforeFiles: [
+          // These rewrites are checked after headers/redirects
+          // and before all files including _next/public files which
+          // allows overriding page files
+          {
+            source: '/learn',
+            destination: '/learn/page/1',
+          },
+          {
+            source: '/learn/topic/:topicSlug',
+            destination: '/learn/topic/:topicSlug/page/1',
+          },
+        ],
+      }
     },
     async redirects() {
       return [
@@ -59,16 +64,16 @@ module.exports = withBundleAnalyzer(
           destination: '/directory/:path*',
           permanent: true,
         },
-        {
-          source: '/learn/page/1',
-          destination: '/learn',
-          permanent: true,
-        },
-        {
-          source: '/learn/topic/:topicSlug/page/1',
-          destination: '/learn/topic/:topicSlug',
-          permanent: true,
-        },
+        // {
+        //   source: '/learn/page/1',
+        //   destination: '/learn',
+        //   permanent: true,
+        // },
+        // {
+        //   source: '/learn/topic/:topicSlug/page/1',
+        //   destination: '/learn/topic/:topicSlug',
+        //   permanent: true,
+        // },
         {
           source: '/start/success',
           destination: '/learn?standout=contact_success',

@@ -23,6 +23,7 @@ import {
 import { addApolloState, initializeApollo } from '@lib/apollo'
 import routes from '@lib/routes'
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps } from 'next'
+import { useRouter } from 'next/router'
 import React, { ReactElement } from 'react'
 
 const PAGE_LIMIT = 10
@@ -129,14 +130,16 @@ const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     },
   })
 
+  const props = {
+    ...pagination,
+    pageNumber: pageNumberInt,
+    categorySlug,
+    categoryId,
+  }
+
   return addApolloState(client, {
     revalidate: 60 * 10, // Every 10 minutes
-    props: {
-      ...pagination,
-      pageNumber: pageNumberInt,
-      categorySlug,
-      categoryId,
-    },
+    props,
   })
 }
 

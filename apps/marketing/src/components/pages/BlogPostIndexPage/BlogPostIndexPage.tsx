@@ -23,7 +23,7 @@ import featuredPostImage from '../../../../public/cash-in-on-merch-book-cover.jp
 export interface BlogPostIndexPageProps {
   articles: BlogIndexPageArticleFragment[]
   categories?: BlogPostIndexPageCategoryFragment[]
-  page: BlogPostIndexPagePageFragment
+  page?: BlogPostIndexPagePageFragment | null
   canFetchMore: boolean
   loading: boolean
   fetchMoreHref: string
@@ -54,7 +54,10 @@ const BlogIndexPage = ({
 
   return (
     <>
-      <BlogPostIndexPageSeo category={activeCategory} page={page} />
+      {/* THIS IS A HACK: On SRR page should always be available */}
+      {page ? (
+        <BlogPostIndexPageSeo category={activeCategory} page={page} />
+      ) : null}
       <Container className="relative">
         <div className="relative max-w-7xl mx-auto">
           <div className="text-center">
@@ -81,6 +84,7 @@ const BlogIndexPage = ({
           <BlogPostIndexPageFilters
             filters={[
               {
+                id: 'all',
                 key: 'all',
                 title: 'All',
                 href: routes.internal.blog.href(),
@@ -89,6 +93,7 @@ const BlogIndexPage = ({
               ...(categories
                 ?.filter(c => Boolean(c.slug))
                 .map(category => ({
+                  id: category.id,
                   key: category.slug,
                   title: category.shortName || category.name || 'Category',
                   href: routes.internal.blog.category.href({
