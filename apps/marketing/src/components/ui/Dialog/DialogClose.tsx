@@ -5,8 +5,11 @@ import IconButton from '../IconButton'
 
 const DialogClose = (props: DC.DialogCloseProps) => {
   return (
-    <DC.Close {...props} className="absolute top-0 right-0">
-      <IconButton shift={['left', 'down']}>
+    <DC.Close {...props} asChild>
+      <IconButton
+        shift={['left', 'down']}
+        className="outline-none absolute top-0 right-0"
+      >
         <XIcon className="w-5 h-5" />
       </IconButton>
     </DC.Close>
