@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
 import dynamic from 'next/dynamic'
-import { queryTypes, useQueryState } from 'next-usequerystate'
 
 import type { Props as ClosetLinkShareDialogProps } from './ClosetLinkShareDialog'
 
@@ -65,15 +64,10 @@ const StandoutProvider = ({ children }: { children: React.ReactNode }) => {
   const [standoutProps, setStandoutProps] =
     React.useState<SetStandoutInput | null>(null)
 
-  const [standout, setStandout] = useQueryState<StandoutType>(
-    'standout',
-    queryTypes.stringEnum(Object.values(StandoutType)),
-  )
+  const [standout, setStandout] = useState<StandoutType | null>(null)
 
   const handleSetStandout = (input: SetStandoutInput) => {
-    setStandout(input.type, {
-      scroll: false,
-    })
+    setStandout(input.type)
     setStandoutProps(input)
   }
 
@@ -84,10 +78,7 @@ const StandoutProvider = ({ children }: { children: React.ReactNode }) => {
 
     const props = {
       open: true,
-      onClose: () =>
-        setStandout(null, {
-          scroll: false,
-        }),
+      onClose: () => setStandout(null),
     }
 
     if (!standoutProps) return null
