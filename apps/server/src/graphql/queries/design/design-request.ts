@@ -18,6 +18,7 @@ import * as uuid from 'uuid'
 import { Prisma } from '@prisma/client'
 import { GraphQLError } from 'graphql'
 import { cursorPaginationFromList } from '../../utils'
+import { DesignRequestStatus } from '../../../services/design/db/design-request-table'
 
 export const designRequest = queryField('designRequest', {
   type: 'DesignRequest',
@@ -107,6 +108,9 @@ export const DesignRequestsExtendsMembership = extendType({
       type: 'DesignRequest',
       resolve: async (parent, { first, last, after, before }, ctx) => {
         const where = {
+          status: {
+            notIn: [DesignRequestStatus.DRAFT],
+          },
           designRequestArtists: {
             none: {},
           },

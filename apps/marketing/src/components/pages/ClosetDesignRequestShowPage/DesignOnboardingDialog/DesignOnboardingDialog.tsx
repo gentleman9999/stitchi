@@ -98,7 +98,7 @@ const DesignOnboardingDialog = ({}: Props) => {
             <p>
               Once your design is perfect, you&apos;ll be able to turn it into
               quality branded merchandise, fulfilled effortless wherever your
-              audience is. But that&apos;s just that start...
+              audience is. But that&apos;s just the start...
             </p>
             <p>
               If you have any questions or want to provide feedback, click the
