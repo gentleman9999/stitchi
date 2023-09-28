@@ -66,7 +66,7 @@ const DesignRequestHistory = ({ loading, designRequest }: Props) => {
                 }
               />
 
-              <div className="flex-auto rounded-md p-3 ring-1 ring-inset ring-gray-200">
+              <div className="flex-auto rounded-md p-3 ring-1 ring-inset ring-gray-200 bg-paper">
                 <div className="flex justify-between gap-x-4">
                   <div className="py-0.5 text-xs leading-5 text-gray-500">
                     <span className="font-medium text-gray-900">
@@ -109,7 +109,7 @@ const DesignRequestHistory = ({ loading, designRequest }: Props) => {
 
           {item.__typename === 'DesignRequestHistoryItemDesignRequestEvent' ? (
             <>
-              <div className="relative flex h-6 w-6 flex-none items-center justify-center bg-white">
+              <div className="relative flex h-6 w-6 flex-none items-center justify-center bg-gray-50">
                 {/* {activityItem.type === 'paid' ? (
                       <CheckCircleIcon
                         className="h-6 w-6 text-indigo-600"
@@ -147,7 +147,7 @@ const DesignRequestHistory = ({ loading, designRequest }: Props) => {
                 </div>
               </div>
 
-              <div className="flex flex-col w-full gap-2 rounded-md p-3 ring-1 ring-inset ring-gray-200">
+              <div className="flex flex-col w-full gap-2 rounded-md p-3 ring-1 ring-inset ring-gray-200 bg-paper">
                 <div className="flex justify-between gap-x-4">
                   <div className="py-0.5 text-xs leading-5 text-gray-500">
                     <span className="font-medium text-gray-900">
@@ -190,7 +190,7 @@ const DesignRequestHistory = ({ loading, designRequest }: Props) => {
                 </div>
               </div>
 
-              <div className="flex flex-col w-full gap-2 rounded-md p-3 ring-1 ring-inset ring-gray-200">
+              <div className="flex flex-col w-full gap-2 rounded-md p-3 ring-1 ring-inset ring-gray-200 bg-paper">
                 <div className="flex justify-between gap-x-4">
                   <div className="py-0.5 text-xs leading-5 text-gray-500">
                     <span className="font-medium text-gray-900">

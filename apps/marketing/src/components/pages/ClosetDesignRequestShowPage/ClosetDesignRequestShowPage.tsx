@@ -13,13 +13,7 @@ import ClosetSection from '@components/common/ClosetSection'
 import routes from '@lib/routes'
 import ClosetPageContainer from '@components/common/ClosetPageContainer'
 import DesignRequestOverview from './DesignRequestOverview'
-import { queryTypes, useQueryState } from 'next-usequerystate'
-import dynamic from 'next/dynamic'
-
-const DesignOnboardingDialog = dynamic(
-  () => import('./DesignOnboardingDialog'),
-  { ssr: false },
-)
+import DesignOnboardingDialog from './DesignOnboardingDialog'
 
 interface Props {
   designId: string

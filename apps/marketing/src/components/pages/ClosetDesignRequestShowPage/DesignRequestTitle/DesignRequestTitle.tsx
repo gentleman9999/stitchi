@@ -20,11 +20,14 @@ const DesignRequestTitle = ({ loading, designRequest }: Props) => {
       }
       title={
         <>
-          <DesignRequestEditableName
-            name={designRequest?.name}
-            loading={loading}
-            designRequestId={designRequest?.id}
-          />
+          <div className="sm:hidden">{designRequest?.name}</div>
+          <div className="hidden sm:block">
+            <DesignRequestEditableName
+              name={designRequest?.name}
+              loading={loading}
+              designRequestId={designRequest?.id}
+            />
+          </div>
         </>
       }
     />
