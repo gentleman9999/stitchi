@@ -45,9 +45,8 @@ const WelcomeStep = (props: Props) => {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col items-center gap-20">
       <p className="text-4xl font-normal text-center">
-        Hey there 👋 I&apos;m {SUPPORT_PERSON_NAME} and I&apos;ll be helping you
-        choose a product for your design. Do you have a specific product in
-        mind?
+        Hey again 👋 Would you like help choosing a product for your design, or
+        do you already have a specific product in mind?
       </p>
 
       <div className="flex flex-col gap-20 items-center">

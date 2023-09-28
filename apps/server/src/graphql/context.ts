@@ -32,6 +32,7 @@ export interface Context {
   membership: typeof services.membership
   notification: typeof services.notification
   color: typeof services.color
+  keyValueStore: typeof services.keyValueStore
   subscriptions: PubSubClient
   logger: Logger
 }
@@ -94,6 +95,7 @@ function makeContext(
         membership: services.membership,
         notification: services.notification,
         color: services.color,
+        keyValueStore: services.keyValueStore,
       }
     } catch (error) {
       logger.error(error)

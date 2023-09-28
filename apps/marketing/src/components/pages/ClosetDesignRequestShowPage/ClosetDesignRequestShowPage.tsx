@@ -13,6 +13,13 @@ import ClosetSection from '@components/common/ClosetSection'
 import routes from '@lib/routes'
 import ClosetPageContainer from '@components/common/ClosetPageContainer'
 import DesignRequestOverview from './DesignRequestOverview'
+import { queryTypes, useQueryState } from 'next-usequerystate'
+import dynamic from 'next/dynamic'
+
+const DesignOnboardingDialog = dynamic(
+  () => import('./DesignOnboardingDialog'),
+  { ssr: false },
+)
 
 interface Props {
   designId: string
@@ -27,41 +34,47 @@ const ClosetDesignRequestShowPage = ({ designId }: Props) => {
   const { designRequest } = data || {}
 
   return (
-    <DesignProvider>
-      <ClosetPageContainer>
-        <ClosetPageHeader>
-          <DesignRequestTitle loading={loading} designRequest={designRequest} />
-        </ClosetPageHeader>
+    <>
+      <DesignOnboardingDialog />
+      <DesignProvider>
+        <ClosetPageContainer>
+          <ClosetPageHeader>
+            <DesignRequestTitle
+              loading={loading}
+              designRequest={designRequest}
+            />
+          </ClosetPageHeader>
 
-        <ClosetSection
-          tabs={[
-            {
-              id: 'overview',
-              href: routes.internal.closet.designs.show.href({
-                designId: designId,
-              }),
-              label: 'Overview',
-            },
-          ]}
-        >
-          {({ activeTab }) => (
-            <>
-              <ClosetSectionHeader divider>
-                <ClosetSectionHeaderTabs />
-              </ClosetSectionHeader>
+          <ClosetSection
+            tabs={[
+              {
+                id: 'overview',
+                href: routes.internal.closet.designs.show.href({
+                  designId: designId,
+                }),
+                label: 'Overview',
+              },
+            ]}
+          >
+            {({ activeTab }) => (
+              <>
+                <ClosetSectionHeader divider>
+                  <ClosetSectionHeaderTabs />
+                </ClosetSectionHeader>
 
-              {activeTab ? (
-                <div className="max-w-6xl m-auto">
-                  {activeTab.id === 'overview' ? (
-                    <DesignRequestOverview designRequestId={designId} />
-                  ) : null}
-                </div>
-              ) : null}
-            </>
-          )}
-        </ClosetSection>
-      </ClosetPageContainer>
-    </DesignProvider>
+                {activeTab ? (
+                  <div className="max-w-6xl m-auto">
+                    {activeTab.id === 'overview' ? (
+                      <DesignRequestOverview designRequestId={designId} />
+                    ) : null}
+                  </div>
+                ) : null}
+              </>
+            )}
+          </ClosetSection>
+        </ClosetPageContainer>
+      </DesignProvider>
+    </>
   )
 }
 

@@ -1,5 +1,13 @@
 import { objectType } from 'nexus'
 
+export const UserOnboarding = objectType({
+  name: 'UserOnboarding',
+  definition: t => {
+    t.nonNull.id('id')
+    t.boolean('seenDesignRequestDraftOnboarding')
+  },
+})
+
 export const User = objectType({
   name: 'User',
   definition: t => {
