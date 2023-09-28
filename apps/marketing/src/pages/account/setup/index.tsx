@@ -3,34 +3,55 @@ import { AccountSetupPageGetDataQuery } from '@generated/AccountSetupPageGetData
 import { initializeApollo } from '@lib/apollo'
 import routes from '@lib/routes'
 import { GetServerSideProps } from 'next'
+import { Logger } from 'next-axiom'
 
 const getServerSideProps: GetServerSideProps = async ctx => {
   const client = initializeApollo(null, ctx)
+  const log = new Logger()
 
-  const { data } = await client.query<AccountSetupPageGetDataQuery>({
-    query: GET_DATA,
-  })
+  try {
+    const { data } = await client.query<AccountSetupPageGetDataQuery>({
+      query: GET_DATA,
+    })
 
-  const memberships = data?.viewer?.user?.memberships || []
+    if (!data) {
+      throw new Error('Unauthorized')
+    }
 
-  if (!memberships.length) {
-    await client.mutate({
-      mutation: BOOTSTRAP_ACCOUNT,
+    const memberships = data?.viewer?.user?.memberships || []
+
+    if (!memberships.length) {
+      await client.mutate({
+        mutation: BOOTSTRAP_ACCOUNT,
+      })
+
+      return {
+        redirect: {
+          permanent: false,
+          destination:
+            ctx.query.redirectUrl?.toString() || routes.internal.closet.href(),
+        },
+      }
+    } else {
+      return {
+        redirect: {
+          permanent: false,
+          destination: routes.internal.closet.memberships.href({
+            redirectUrl: ctx.query.redirectUrl?.toString(),
+          }),
+        },
+      }
+    }
+  } catch (error) {
+    log.error("Couldn't get data. This shouldn't happen", {
+      context: { error },
     })
 
     return {
       redirect: {
         permanent: false,
-        destination:
-          ctx.query.redirectUrl?.toString() || routes.internal.closet.href(),
-      },
-    }
-  } else {
-    return {
-      redirect: {
-        permanent: false,
-        destination: routes.internal.closet.memberships.href({
-          redirectUrl: ctx.query.redirectUrl?.toString(),
+        destination: routes.internal.login.href({
+          returnTo: ctx.query.redirectUrl?.toString(),
         }),
       },
     }
