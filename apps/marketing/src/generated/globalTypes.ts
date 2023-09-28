@@ -584,6 +584,10 @@ export interface UpdatedAtFilter {
   exists?: any | null;
 }
 
+export interface UserOnboardingUpdateInput {
+  seenDesignRequestDraftOnboarding?: boolean | null;
+}
+
 export interface UserOrganizationCreateInput {
   name: string;
 }

@@ -26,11 +26,6 @@ interface Props {
 }
 
 const ClosetDesignRequestShowPage = ({ designId }: Props) => {
-  const [showOnboarding, setShowOnboarding] = useQueryState(
-    'onboarding',
-    queryTypes.boolean.withDefault(false),
-  )
-
   const { data, loading } = useQuery<
     ClosetDesignRequestShowPageGetDataQuery,
     ClosetDesignRequestShowPageGetDataQueryVariables
@@ -40,9 +35,7 @@ const ClosetDesignRequestShowPage = ({ designId }: Props) => {
 
   return (
     <>
-      {showOnboarding ? (
-        <DesignOnboardingDialog open onClose={() => setShowOnboarding(null)} />
-      ) : null}
+      <DesignOnboardingDialog />
       <DesignProvider>
         <ClosetPageContainer>
           <ClosetPageHeader>

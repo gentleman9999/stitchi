@@ -1,5 +1,7 @@
 import { GraphQLError } from 'graphql'
 import { inputObjectType, mutationField, nonNull, objectType } from 'nexus'
+import { KeyValueRecordKey } from '../../../services/key-value-store'
+import { notEmpty } from '../../../utils'
 import { membershipFactoryToGraphql } from '../../serializers/membership'
 import { organizationFactoryToGrahpql } from '../../serializers/organization'
 
@@ -122,6 +124,69 @@ export const userOrganizationCreate = mutationField('userOrganizationCreate', {
     return {
       organization: organizationFactoryToGrahpql(organization),
       membership: membershipFactoryToGraphql(membership),
+    }
+  },
+})
+
+export const UserOnboardingUpdateInput = inputObjectType({
+  name: 'UserOnboardingUpdateInput',
+  definition(t) {
+    t.nullable.boolean('seenDesignRequestDraftOnboarding')
+  },
+})
+
+export const UserOnboardingUpdatePayload = objectType({
+  name: 'UserOnboardingUpdatePayload',
+  definition(t) {
+    t.nullable.field('userOnboarding', { type: 'UserOnboarding' })
+  },
+})
+
+export const userOnboardingUpdate = mutationField('userOnboardingUpdate', {
+  type: 'UserOnboardingUpdatePayload',
+  args: {
+    input: nonNull('UserOnboardingUpdateInput'),
+  },
+  resolve: async (_, { input }, ctx) => {
+    if (!ctx.userId) {
+      throw new GraphQLError('Forbidden')
+    }
+
+    let userOnboarding
+
+    try {
+      const existingUserOnboarding = await ctx.keyValueStore.getValue(
+        KeyValueRecordKey.USER_ONBOARDING,
+        ctx.userId,
+      )
+
+      userOnboarding = await ctx.keyValueStore.setValue(
+        KeyValueRecordKey.USER_ONBOARDING,
+        ctx.userId,
+        {
+          seenDesignRequestDraftOnboarding: notEmpty(
+            input.seenDesignRequestDraftOnboarding,
+          )
+            ? input.seenDesignRequestDraftOnboarding
+            : Boolean(existingUserOnboarding?.seenDesignRequestDraftOnboarding),
+        },
+      )
+    } catch (error) {
+      ctx.logger
+        .child({
+          context: { error, input, userId: ctx.userId },
+        })
+        .error('Failed to update user onboarding')
+      throw new GraphQLError('Failed to update user onboarding')
+    }
+
+    return {
+      userOnboarding: {
+        id: ctx.userId,
+        seenDesignRequestDraftOnboarding: Boolean(
+          userOnboarding?.seenDesignRequestDraftOnboarding,
+        ),
+      },
     }
   },
 })

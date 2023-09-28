@@ -906,3 +906,8 @@ model Color {
 
   organizationColors OrganizationColor[]
 }
+
+model KeyValue {
+  key   String @id
+  value String
+}

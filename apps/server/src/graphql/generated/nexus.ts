@@ -313,6 +313,9 @@ export interface NexusGenInputs {
   SubscriberCreateInput: { // input type
     email: string; // String!
   }
+  UserOnboardingUpdateInput: { // input type
+    seenDesignRequestDraftOnboarding?: boolean | null; // Boolean
+  }
   UserOrganizationCreateInput: { // input type
     name: string; // String!
   }
@@ -917,6 +920,13 @@ export interface NexusGenObjects {
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     username?: string | null; // String
   }
+  UserOnboarding: { // root type
+    id: string; // ID!
+    seenDesignRequestDraftOnboarding?: boolean | null; // Boolean
+  }
+  UserOnboardingUpdatePayload: { // root type
+    userOnboarding?: NexusGenRootTypes['UserOnboarding'] | null; // UserOnboarding
+  }
   UserOrganizationCreatePayload: { // root type
     membership?: NexusGenRootTypes['Membership'] | null; // Membership
     organization?: NexusGenRootTypes['Organization'] | null; // Organization
@@ -1381,6 +1391,7 @@ export interface NexusGenFieldTypes {
     paymentIntentCreate: NexusGenRootTypes['PaymentIntentCreatePayload'] | null; // PaymentIntentCreatePayload
     subscriberCreate: NexusGenRootTypes['SubscriberCreatePayload'] | null; // SubscriberCreatePayload
     userBoostrap: NexusGenRootTypes['User'] | null; // User
+    userOnboardingUpdate: NexusGenRootTypes['UserOnboardingUpdatePayload'] | null; // UserOnboardingUpdatePayload
     userOrganizationCreate: NexusGenRootTypes['UserOrganizationCreatePayload'] | null; // UserOrganizationCreatePayload
     userSetOrganization: NexusGenRootTypes['UserSetOrganizationPayload'] | null; // UserSetOrganizationPayload
   }
@@ -1612,12 +1623,20 @@ export interface NexusGenFieldTypes {
     memberships: NexusGenRootTypes['Membership'][]; // [Membership!]!
     name: string | null; // String
     nickname: string | null; // String
+    onboarding: NexusGenRootTypes['UserOnboarding'] | null; // UserOnboarding
     organizations: NexusGenRootTypes['Organization'][]; // [Organization!]!
     phoneNumber: string | null; // String
     phoneVerified: boolean | null; // Boolean
     picture: string | null; // String
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     username: string | null; // String
+  }
+  UserOnboarding: { // field return type
+    id: string; // ID!
+    seenDesignRequestDraftOnboarding: boolean | null; // Boolean
+  }
+  UserOnboardingUpdatePayload: { // field return type
+    userOnboarding: NexusGenRootTypes['UserOnboarding'] | null; // UserOnboarding
   }
   UserOrganizationCreatePayload: { // field return type
     membership: NexusGenRootTypes['Membership'] | null; // Membership
@@ -2087,6 +2106,7 @@ export interface NexusGenFieldTypeNames {
     paymentIntentCreate: 'PaymentIntentCreatePayload'
     subscriberCreate: 'SubscriberCreatePayload'
     userBoostrap: 'User'
+    userOnboardingUpdate: 'UserOnboardingUpdatePayload'
     userOrganizationCreate: 'UserOrganizationCreatePayload'
     userSetOrganization: 'UserSetOrganizationPayload'
   }
@@ -2318,12 +2338,20 @@ export interface NexusGenFieldTypeNames {
     memberships: 'Membership'
     name: 'String'
     nickname: 'String'
+    onboarding: 'UserOnboarding'
     organizations: 'Organization'
     phoneNumber: 'String'
     phoneVerified: 'Boolean'
     picture: 'String'
     updatedAt: 'DateTime'
     username: 'String'
+  }
+  UserOnboarding: { // field return type name
+    id: 'ID'
+    seenDesignRequestDraftOnboarding: 'Boolean'
+  }
+  UserOnboardingUpdatePayload: { // field return type name
+    userOnboarding: 'UserOnboarding'
   }
   UserOrganizationCreatePayload: { // field return type name
     membership: 'Membership'
@@ -2488,6 +2516,9 @@ export interface NexusGenArgTypes {
     }
     subscriberCreate: { // args
       input: NexusGenInputs['SubscriberCreateInput']; // SubscriberCreateInput!
+    }
+    userOnboardingUpdate: { // args
+      input: NexusGenInputs['UserOnboardingUpdateInput']; // UserOnboardingUpdateInput!
     }
     userOrganizationCreate: { // args
       input: NexusGenInputs['UserOrganizationCreateInput']; // UserOrganizationCreateInput!

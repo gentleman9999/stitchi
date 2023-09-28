@@ -10,6 +10,7 @@
     { "path": "../sendgrid" },
     { "path": "../redis" },
     { "path": "../auth0" },
-    { "path": "../telemetry" }
+    { "path": "../telemetry" },
+    { "path": "../utils" }
   ]
 }

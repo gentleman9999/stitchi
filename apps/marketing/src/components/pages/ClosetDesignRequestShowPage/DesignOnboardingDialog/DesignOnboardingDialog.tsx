@@ -1,6 +1,12 @@
+import { gql, useMutation, useQuery } from '@apollo/client'
 import UserAvatar from '@components/common/UserAvatar'
 import { Dialog } from '@components/ui'
 import Button from '@components/ui/ButtonV2/Button'
+import { ClosetDesignRequestShowPageGetViewerDataQuery } from '@generated/ClosetDesignRequestShowPageGetViewerDataQuery'
+import {
+  DesignOnboardingDialogUpdateOnboardingMutation,
+  DesignOnboardingDialogUpdateOnboardingMutationVariables,
+} from '@generated/DesignOnboardingDialogUpdateOnboardingMutation'
 import { PaintBrushIcon } from '@heroicons/react/20/solid'
 import {
   COMPANY_NAME,
@@ -8,18 +14,59 @@ import {
   SUPPORT_PERSON_NAME,
   SUPPORT_PERSON_PICTURE,
 } from '@lib/constants'
+import { queryTypes, useQueryState } from 'next-usequerystate'
 import React from 'react'
 
-interface Props {
-  open: boolean
-  onClose: () => void
-}
+interface Props {}
 
-const DesignOnboardingDialog = ({ open, onClose }: Props) => {
+const DesignOnboardingDialog = ({}: Props) => {
+  const [showOnboarding, setShowOnboarding] = useQueryState(
+    'onboarding',
+    queryTypes.boolean.withDefault(false),
+  )
+
+  const { data, loading } =
+    useQuery<ClosetDesignRequestShowPageGetViewerDataQuery>(GET_VIEWER_DATA)
+
+  const [updateOnboarding] = useMutation<
+    DesignOnboardingDialogUpdateOnboardingMutation,
+    DesignOnboardingDialogUpdateOnboardingMutationVariables
+  >(UPDATE_ONBOARDING, {
+    update(cache, { data }) {
+      const userOnboarding = data?.userOnboardingUpdate?.userOnboarding
+
+      if (userOnboarding) {
+        cache.evict({ id: cache.identify({ ...userOnboarding }) })
+        cache.gc()
+      }
+    },
+  })
+
+  const hasSeenOnboarding =
+    loading || data?.viewer?.user?.onboarding?.seenDesignRequestDraftOnboarding
+
+  React.useEffect(() => {
+    if (!hasSeenOnboarding) {
+      setShowOnboarding(true)
+
+      updateOnboarding({
+        variables: {
+          input: {
+            seenDesignRequestDraftOnboarding: true,
+          },
+        },
+      })
+    }
+  }, [hasSeenOnboarding, setShowOnboarding, updateOnboarding])
+
+  const handleClose = () => {
+    setShowOnboarding(null)
+  }
+
   return (
     <Dialog
-      open={open}
-      onClose={onClose}
+      open={showOnboarding}
+      onClose={handleClose}
       onOpenAutoFocus={e => e.preventDefault()}
     >
       <Dialog.Title>
@@ -60,14 +107,14 @@ const DesignOnboardingDialog = ({ open, onClose }: Props) => {
               >
                 {COMPANY_SUPPORT_EMAIL}
               </a>
-              . Thank you so much for the opportunity to serve you, and enjoy
-              for exploring!
+              . We thank you for the opportunity to serve you - now enjoy for
+              exploring!
             </p>
           </div>
 
           <Button
             size="xl"
-            onClick={onClose}
+            onClick={handleClose}
             variant="ghost"
             endIcon={<PaintBrushIcon className="w-4 h-4" />}
           >
@@ -78,5 +125,32 @@ const DesignOnboardingDialog = ({ open, onClose }: Props) => {
     </Dialog>
   )
 }
+
+const GET_VIEWER_DATA = gql`
+  query ClosetDesignRequestShowPageGetViewerDataQuery {
+    viewer {
+      id
+      user {
+        id
+        onboarding {
+          id
+          seenDesignRequestDraftOnboarding
+        }
+      }
+    }
+  }
+`
+
+const UPDATE_ONBOARDING = gql`
+  mutation DesignOnboardingDialogUpdateOnboardingMutation(
+    $input: UserOnboardingUpdateInput!
+  ) {
+    userOnboardingUpdate(input: $input) {
+      userOnboarding {
+        id
+      }
+    }
+  }
+`
 
 export default DesignOnboardingDialog

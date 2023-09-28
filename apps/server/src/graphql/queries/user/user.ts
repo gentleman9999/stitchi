@@ -1,5 +1,6 @@
 import { GraphQLError } from 'graphql'
 import { extendType } from 'nexus'
+import { KeyValueRecordKey } from '../../../services/key-value-store'
 import { membershipFactoryToGraphql } from '../../serializers/membership'
 import { auth0UserToGraphl } from '../../serializers/user'
 
@@ -58,6 +59,28 @@ export const UserExtendsMembership = extendType({
         }
 
         return auth0UserToGraphl(user)
+      },
+    })
+  },
+})
+
+export const UserOnboardingExtendsUser = extendType({
+  type: 'User',
+  definition(t) {
+    t.field('onboarding', {
+      type: 'UserOnboarding',
+      resolve: async (user, _, ctx) => {
+        const value = await ctx.keyValueStore.getValue(
+          KeyValueRecordKey.USER_ONBOARDING,
+          user.id,
+        )
+
+        return {
+          id: user.id,
+          seenDesignRequestDraftOnboarding: Boolean(
+            value?.seenDesignRequestDraftOnboarding,
+          ),
+        }
       },
     })
   },
