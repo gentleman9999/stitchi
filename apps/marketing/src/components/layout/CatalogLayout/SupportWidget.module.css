@@ -1,8 +1,9 @@
 .PopoverContent {
-    @apply z-50 rounded-md bg-white border border-gray-900 shadow-magical max-w-xs;
+    @apply z-50 rounded-md bg-white border border-gray-900 shadow-magical;
     animation-duration: 400ms;
     animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
     will-change: transform, opacity;
+    max-width: min(var(--radix-popper-available-width), 350px);
 }
 
 .PopoverContent[data-state='open'] {

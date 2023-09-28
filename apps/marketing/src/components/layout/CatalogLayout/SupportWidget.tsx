@@ -34,12 +34,13 @@ const SupportWidget = ({ defaultOpen = false }: Props) => {
         <Popover.Content
           side="top"
           align="end"
+          collisionPadding={16}
           sideOffset={16}
           className={s.PopoverContent}
         >
           <div className="flex flex-col items-start">
-            <div className="flex gap-4 p-6">
-              <div className="p-0.5 bg-gray-100 rounded-full flex items-center justify-center shrink-0">
+            <div className="flex flex-col sm:flex-row items-center gap-4 p-6">
+              <div className="p-0.5 w-11 h-11 bg-gray-100 rounded-full flex items-center justify-center shrink-0">
                 <UserAvatar
                   width="w-10"
                   height="h-10"
@@ -49,17 +50,19 @@ const SupportWidget = ({ defaultOpen = false }: Props) => {
                   }}
                 />
               </div>
-              <p>Choose a product from the catalog you want to customize.</p>
+              <p className="text-center sm:text-left">
+                Choose a product from the catalog you want to customize.
+              </p>
             </div>
 
             <hr className="w-full" />
 
-            <div className="flex gap-4 p-4 justify-center w-full">
+            <div className="flex gap-4 p-4 justify-center w-full flex-wrap">
               <Button
                 variant="ghost"
                 size="lg"
                 endIcon={<BookOpenIcon className="w-4 h-4" />}
-                className="whitespace-nowrap"
+                className="whitespace-nowrap flex-1"
                 Component={Link}
                 href={routes.external.support.href()}
                 {...{ target: '_blank' }}
@@ -69,7 +72,7 @@ const SupportWidget = ({ defaultOpen = false }: Props) => {
               <Button
                 variant="ghost"
                 size="lg"
-                className="whitespace-nowrap"
+                className="whitespace-nowrap flex-1"
                 endIcon={<ChatBubbleLeftRightIcon className="w-4 h-4" />}
                 Component={Link}
                 href={routes.external.support.href()}

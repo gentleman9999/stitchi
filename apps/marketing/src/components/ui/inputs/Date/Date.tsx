@@ -11,6 +11,7 @@ interface Props {
 const DateInput = (props: Props) => {
   return (
     <TextField
+      className="w-full"
       type="date"
       value={props.value?.split('T')[0]}
       max={props.maxDate?.toISOString().split('T')[0]}

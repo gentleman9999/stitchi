@@ -41,7 +41,7 @@ const CatalogWizardPage = ({ path }: Props) => {
         />
       </div>
 
-      <Container className="!max-w-3xl mt-20">
+      <Container className="!max-w-3xl mt-20 mb-10">
         <Step />
       </Container>
     </div>
