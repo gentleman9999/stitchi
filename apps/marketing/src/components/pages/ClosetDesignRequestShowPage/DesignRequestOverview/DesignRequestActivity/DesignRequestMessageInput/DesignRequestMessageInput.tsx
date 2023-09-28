@@ -116,7 +116,7 @@ const Form = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className="relative flex-auto ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600 rounded-md shadow-sm"
+      className="relative flex-auto ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600 rounded-md shadow-sm bg-paper"
     >
       <div className="overflow-hidden">
         <label htmlFor="comment" className="sr-only">
@@ -154,8 +154,7 @@ const Form = ({
           )
         }
       />
-
-      <div className="flex justify-between py-2 pl-3 pr-2 border-t">
+      <div className="flex flex-wrap gap-4 justify-between py-2 pl-3 pr-2 border-t">
         <div className="flex items-center space-x-5">
           <button
             type="button"
@@ -167,7 +166,7 @@ const Form = ({
             <span className="text-sm">Attach files</span>
           </button>
         </div>
-        <div className="flex gap-6 items-center">
+        <div className="flex flex-wrap gap-6 items-center justify-between">
           <Controller
             name="isRevisionRequest"
             control={form.control}

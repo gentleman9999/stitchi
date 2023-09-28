@@ -63,9 +63,12 @@ const DesignOnboardingDialog = ({}: Props) => {
     setShowOnboarding(null)
   }
 
+  if (!showOnboarding) return null
+
   return (
     <Dialog
-      open={showOnboarding}
+      mobileFullScreen
+      open
       onClose={handleClose}
       onOpenAutoFocus={e => e.preventDefault()}
     >
@@ -82,7 +85,7 @@ const DesignOnboardingDialog = ({}: Props) => {
               picture: SUPPORT_PERSON_PICTURE,
             }}
           />
-          <div className="prose">
+          <div className="prose prose-sm">
             <p>
               Hey there 👋 I&apos;m Everest, founder of {COMPANY_NAME} -
               Congratulations on selecting a product for your first design!

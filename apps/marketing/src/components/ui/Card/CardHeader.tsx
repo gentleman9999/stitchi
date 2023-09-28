@@ -5,7 +5,7 @@ interface Props {
 }
 
 const CardHeader = ({ children }: Props) => {
-  return <div className="pt-4 sm:px-4 md:pt-6 md:px-6">{children}</div>
+  return <div className="pt-4 px-4 md:pt-6 md:px-6">{children}</div>
 }
 
 export default CardHeader

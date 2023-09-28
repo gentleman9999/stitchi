@@ -8,7 +8,6 @@ import { UseAuthorizedComponentGetDataQuery } from '@generated/UseAuthorizedComp
 import { GetServerSidePropsContext } from 'next'
 import { getAccessToken as getServerSideAccessToken } from '@auth0/nextjs-auth0'
 import getOrThrow from './utils/get-or-throw'
-import { useLogger } from 'next-axiom'
 
 const appUrl = getOrThrow(
   process.env.NEXT_PUBLIC_SITE_URL,
@@ -51,7 +50,7 @@ export const AuthorizedComponent = ({
 }: AuthorizedComponentProps) => {
   const { can, loading } = useAuthorizedComponent()
 
-  const hasAccess = loading ? can(resource, action) : false
+  const hasAccess = loading ? false : can(resource, action)
 
   if (!hasAccess) {
     return null

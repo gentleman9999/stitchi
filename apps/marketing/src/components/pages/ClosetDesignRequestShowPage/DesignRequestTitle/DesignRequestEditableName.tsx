@@ -109,7 +109,10 @@ const Form = ({
 
   return (
     <div className="relative flex flex-col">
-      <div ref={shadowInput} className="invisible absolute whitespace-pre">
+      <div
+        ref={shadowInput}
+        className="invisible absolute whitespace-pre inline"
+      >
         {name}
       </div>
       <input

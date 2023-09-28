@@ -42,6 +42,7 @@ const GeneralInformation = ({ designRequest }: Props) => {
             <h2 className="text-sm font-medium leading-7 text-gray-500">
               Design locations
             </h2>
+
             <div className="mt-2 flex flex-col divide-y border rounded-sm">
               {designRequest.designRequestLocations.map(location =>
                 location.description?.length || location.files.length ? (
