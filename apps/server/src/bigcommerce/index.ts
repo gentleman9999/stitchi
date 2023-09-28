@@ -90,18 +90,33 @@ const makeClient = (
       }
     },
     listProductVariants: async input => {
+      let hasNextPage = true
+      let nextPageLink = ''
+
+      let variants = []
+
       try {
-        const res = await bigCommerceClient(
-          `/catalog/products/${input.productEntityId}/variants`,
-        )
+        while (hasNextPage) {
+          const path = `/catalog/products/${input.productEntityId}/variants${nextPageLink}`
 
-        const { data, errors } = await res.json()
+          const res = await bigCommerceClient(path)
 
-        if (errors) {
-          logger.error(errors)
+          const { data, meta, errors } = await res.json()
+
+          if (errors) {
+            logger.error(errors)
+          }
+
+          variants.push(...data.map(makeProductVariant))
+
+          if (meta.pagination.links.next) {
+            logger.info(`Next page link: ${meta.pagination.links.next}`)
+
+            nextPageLink = meta.pagination.links.next
+          } else {
+            hasNextPage = false
+          }
         }
-
-        return data.map(makeProductVariant)
       } catch (error) {
         logger
           .child({
@@ -111,6 +126,8 @@ const makeClient = (
 
         throw new Error('Failed to list product variants')
       }
+
+      return variants
     },
     getBrand: async input => {
       try {
