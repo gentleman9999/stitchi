@@ -5,7 +5,7 @@ import { LoadingDots, Logo } from '@components/ui'
 import Button from '@components/ui/ButtonV2/Button'
 import {
   ViewerMembershipsIndexPageGetDataQuer,
-  ViewerMembershipsIndexPageGetDataQuer_viewer_user_memberships,
+  ViewerMembershipsIndexPageGetDataQuer_userMemberships,
 } from '@generated/ViewerMembershipsIndexPageGetDataQuer'
 import { PlusIcon } from '@heroicons/react/20/solid'
 import { addApolloState, initializeApollo } from '@lib/apollo'
@@ -34,7 +34,7 @@ const ViewerMembershipsIndexPage = () => {
 
   const [setMembership] = useSetUserMembership()
 
-  const { memberships } = data?.viewer?.user || {}
+  const memberships = data?.userMemberships || []
 
   React.useEffect(() => {
     if (!loading && !memberships?.length) {
@@ -132,7 +132,7 @@ const OrganizationButton = ({
   onClick,
   displayRole,
 }: {
-  membership: ViewerMembershipsIndexPageGetDataQuer_viewer_user_memberships
+  membership: ViewerMembershipsIndexPageGetDataQuer_userMemberships
   onClick: () => Promise<void>
   displayRole?: boolean
 }) => {
@@ -172,18 +172,13 @@ const OrganizationButton = ({
 
 const GET_DATA = gql`
   query ViewerMembershipsIndexPageGetDataQuer {
-    viewer {
+    # We may not have access to the viewer, but we can still check if the user has memberships
+    userMemberships {
       id
-      user {
+      humanizedRole
+      organization {
         id
-        memberships {
-          id
-          humanizedRole
-          organization {
-            id
-            name
-          }
-        }
+        name
       }
     }
   }

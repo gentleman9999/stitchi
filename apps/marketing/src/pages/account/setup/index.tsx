@@ -14,11 +14,7 @@ const getServerSideProps: GetServerSideProps = async ctx => {
       query: GET_DATA,
     })
 
-    if (!data) {
-      throw new Error('Unauthorized')
-    }
-
-    const memberships = data?.viewer?.user?.memberships || []
+    const memberships = data?.userMemberships || []
 
     if (!memberships.length) {
       await client.mutate({
@@ -64,14 +60,9 @@ const Page = () => {
 
 const GET_DATA = gql`
   query AccountSetupPageGetDataQuery {
-    viewer {
+    # We may not have access to the viewer, but we can still check if the user has memberships
+    userMemberships {
       id
-      user {
-        id
-        memberships {
-          id
-        }
-      }
     }
   }
 `
