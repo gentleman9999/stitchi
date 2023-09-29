@@ -1,4 +1,3 @@
-import { DesignService, makeClient as makeDesignService } from '..'
 import { logger } from '../../../telemetry'
 
 import {
@@ -6,13 +5,14 @@ import {
   makeClient as makeNotificationClientServiceClient,
 } from '../../notification'
 import { DesignFactoryProof } from '../factory'
+import makeDesignRepository, { DesignRepository } from '../repository'
 
 export interface DesignProofCreatedEventPayload {
   nextDesignProof: DesignFactoryProof
 }
 
 interface MakeHandlerParams {
-  designService: DesignService
+  designRepository: DesignRepository
   notificationService: NotificationClientService
 }
 
@@ -22,8 +22,8 @@ interface DesignProofCreatedHandler {
 
 const makeHandler =
   (
-    { notificationService, designService }: MakeHandlerParams = {
-      designService: makeDesignService(),
+    { notificationService, designRepository }: MakeHandlerParams = {
+      designRepository: makeDesignRepository(),
       notificationService: makeNotificationClientServiceClient(),
     },
   ): DesignProofCreatedHandler =>
@@ -39,7 +39,7 @@ const makeHandler =
     let designRequest
 
     try {
-      const designRequestList = await designService.listDesignRequests({
+      const designRequestList = await designRepository.listDesignRequests({
         take: 1,
         where: {
           designRequestDesignProofs: {

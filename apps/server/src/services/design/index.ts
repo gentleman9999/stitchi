@@ -9,6 +9,7 @@ import {
   makeClient as makeNotificationServiceClient,
 } from '../notification'
 import { DesignEvents, makeEvents as makeDesignEvents } from './events'
+import { UpdateDesignRequestFnInput } from './repository/update-design-request'
 
 export interface DesignService {
   createDesign: DesignRepository['createDesign']
@@ -22,7 +23,13 @@ export interface DesignService {
       'conversationId'
     >
   }): ReturnType<DesignRepository['createDesignRequest']>
-  updateDesignRequest: DesignRepository['updateDesignRequest']
+  updateDesignRequest: (
+    input: UpdateDesignRequestFnInput,
+  ) => Promise<
+    Awaited<
+      ReturnType<DesignRepository['updateDesignRequest']>
+    >['nextDesignRequest']
+  >
 
   getDesignRequest: DesignRepository['getDesignRequest']
   listDesignRequests: DesignRepository['listDesignRequests']
@@ -134,7 +141,7 @@ const makeClient: MakeClientFn = (
           payload: updateDesignRequestPayload,
         })
 
-        return updateDesignRequestPayload
+        return updateDesignRequestPayload.nextDesignRequest
       } catch (error) {
         throw new Error('Failed to update design request')
       }
