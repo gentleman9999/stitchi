@@ -6,7 +6,6 @@ import {
 } from '../db/design-request-table'
 import * as yup from 'yup'
 import { DesignFactoryDesignRequest, designRequestFactory } from '../factory'
-import { makeEvents } from '../events'
 import { DesignRequestFile } from '../db/design-request-file-table'
 import { DesignRequestDesignLocation } from '../db/design-request-design-location-table'
 import { DesignRequestDesignLocationFile } from '../db/design-request-design-location-file-table'
@@ -152,16 +151,20 @@ const prisma = new PrismaClient()
 
 interface UpdateDesignRequestConfig {
   designRequestTable: DesignRequestTable
-  designEvents: ReturnType<typeof makeEvents>
 }
 
 export interface UpdateDesignRequestFnInput {
   designRequest: yup.InferType<typeof inputSchema>
 }
 
+interface UpdateDesignRequestPayload {
+  prevDesignRequest: DesignFactoryDesignRequest
+  nextDesignRequest: DesignFactoryDesignRequest
+}
+
 type UpdateDesignRequestFn = (
   input: UpdateDesignRequestFnInput,
-) => Promise<DesignFactoryDesignRequest>
+) => Promise<UpdateDesignRequestPayload>
 
 type MakeUpdateDesignRequestFn = (
   config?: UpdateDesignRequestConfig,
@@ -169,9 +172,8 @@ type MakeUpdateDesignRequestFn = (
 
 const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
   (
-    { designRequestTable, designEvents } = {
+    { designRequestTable } = {
       designRequestTable: makeDesignRequestTable(prisma),
-      designEvents: makeEvents(),
     },
   ) =>
   async input => {
@@ -462,15 +464,7 @@ const makeUpdateDesignRequest: MakeUpdateDesignRequestFn =
       },
     })
 
-    designEvents.emit({
-      type: 'designRequest.updated',
-      payload: {
-        nextDesignRequest,
-        prevDesignRequest,
-      },
-    })
-
-    return nextDesignRequest
+    return { prevDesignRequest, nextDesignRequest }
   }
 
 export default makeUpdateDesignRequest
