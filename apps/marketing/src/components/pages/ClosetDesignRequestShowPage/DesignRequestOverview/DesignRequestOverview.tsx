@@ -7,7 +7,6 @@ import {
   DesignRequestOverviewGetDataQuery,
   DesignRequestOverviewGetDataQueryVariables,
 } from '@generated/DesignRequestOverviewGetDataQuery'
-import ColorSwatch from '@components/common/ColorSwatch'
 import { InputGroup } from '@components/ui'
 import DesignRequestActivity from './DesignRequestActivity'
 import { Card, CardContent } from '@components/ui/Card'
@@ -32,7 +31,6 @@ interface Props {
 
 const DesignRequestOverview = ({ designRequestId }: Props) => {
   const { can, loading: authorizationLoading } = useAuthorizedComponent()
-  const [activeColorId, setActiveColorId] = React.useState<string | null>(null)
   const [activeProofId, setActiveProofId] = React.useState<string | null>(null)
   const [proofToApproveId, setProofToApproveId] = React.useState<string | null>(
     null,
@@ -54,14 +52,6 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
       setActiveProofId(designRequest?.proofs[0].id)
     }
   }, [activeProofId, designRequest?.proofs])
-
-  React.useEffect(() => {
-    if (!activeColorId && designRequest?.designRequestProduct?.colors.length) {
-      setActiveColorId(
-        designRequest?.designRequestProduct?.colors[0].catalogProductColorId,
-      )
-    }
-  }, [activeColorId, designRequest?.designRequestProduct?.colors])
 
   const handleActiveProofChange = (proofId: string) => {
     if (activeProofId === proofId) {
@@ -94,10 +84,7 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
         <div className="col-span-1 md:col-span-8">
           {activeProofId ? (
             <ClosetSection>
-              <DesignProofVariantPreview
-                designProofId={activeProofId}
-                activeColorId={activeColorId}
-              />
+              <DesignProofVariantPreview designProofId={activeProofId} />
             </ClosetSection>
           ) : null}
 
@@ -116,24 +103,16 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
 
         <div className="col-span-1 md:col-span-4">
           <ClosetSection>
+            {designRequest?.designRequestProduct ? (
+              <ClosetSection>
+                <DesignRequestOverviewProductList
+                  product={designRequest.designRequestProduct}
+                />
+              </ClosetSection>
+            ) : null}
+
             <Card>
               <CardContent>
-                <InputGroup label="Colors">
-                  <ul className="flex items-center mt-4 gap-1">
-                    {designRequest?.designRequestProduct?.colors?.map(color => (
-                      <ColorSwatch
-                        key={color.catalogProductColorId}
-                        hexCode={color.hexCode || ''}
-                        label={color.name || ''}
-                        selected={activeColorId === color.catalogProductColorId}
-                        onClick={() =>
-                          setActiveColorId(color.catalogProductColorId)
-                        }
-                      />
-                    ))}
-                  </ul>
-                </InputGroup>
-                <br />
                 <DesignProofList
                   designRequestId={designRequestId}
                   activeProofId={activeProofId}
@@ -174,14 +153,6 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
               <GeneralInformation designRequest={designRequest} />
             </ClosetSection>
           ) : null}
-
-          {designRequest?.designRequestProduct ? (
-            <ClosetSection>
-              <DesignRequestOverviewProductList
-                product={designRequest.designRequestProduct}
-              />
-            </ClosetSection>
-          ) : null}
         </div>
       </div>
     </div>
@@ -202,11 +173,6 @@ const GET_DATA = gql`
       }
       designRequestProduct {
         id
-        colors {
-          catalogProductColorId
-          name
-          hexCode
-        }
         ...DesignRequestOverviewProductListDesignRequestProductFragment
       }
       ...DesignRequestDraftDesignRequestFragments

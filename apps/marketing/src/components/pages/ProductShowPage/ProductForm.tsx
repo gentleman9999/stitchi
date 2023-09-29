@@ -18,6 +18,8 @@ import {
 import Button from '@components/ui/ButtonV2/Button'
 import * as Popover from '@radix-ui/react-popover'
 import cx from 'classnames'
+import { TrashIcon } from '@heroicons/react/24/outline'
+import { XIcon } from 'icons'
 
 const schema = yup.object().shape({
   colorEntityIds: yup
@@ -73,61 +75,61 @@ const ProductForm = ({ onSubmit, product, colors: availableColors }: Props) => {
         control={form.control}
         render={({ field, fieldState }) => (
           <>
-            {/* <InputGroup
-              // label="Choose colors to customize"
+            <InputGroup
+              label="Choose colors to customize"
               error={fieldState.error?.message}
-            > */}
-            <ColorSelect
-              colors={serializedColors}
-              onColorToggle={color => {
-                if (color.selected)
-                  field.onChange(
-                    colorEntityIds.filter(
-                      colorEntityId => colorEntityId !== color.entityId,
-                    ),
-                  )
-                else {
-                  field.onChange([...colorEntityIds, color.entityId])
-                }
-              }}
-            />
-            {/* </InputGroup> */}
-            {selectedColors.length ? (
-              <InputGroup
-                label="Selected colors"
-                error={fieldState.error?.message}
-              >
-                <ul className="flex flex-wrap gap-3">
-                  {selectedColors.map(color => (
-                    <li key={color.entityId}>
-                      <ColorSwatch
-                        hexCode={color.hexColors[0]}
-                        label={color.label}
-                        width="w-8"
-                        height="h-8"
-                        selected={color.selected}
-                        onClick={() => {
-                          if (
-                            colorEntityIds.find(
-                              colorEntityId => colorEntityId === color.entityId,
-                            )
-                          )
+            >
+              {/* </InputGroup> */}
+              {selectedColors.length ? (
+                // <InputGroup
+                //   label="Selected colors"
+                //   error={fieldState.error?.message}
+                // >
+                <div className="mb-4">
+                  <ul className="flex flex-wrap gap-3">
+                    {selectedColors.map(color => (
+                      <li key={color.entityId} className="relative">
+                        <button
+                          className="absolute inset-0 flex items-center justify-center z-10 opacity-0 hover:opacity-100 transition-all"
+                          onClick={() =>
                             field.onChange(
                               colorEntityIds.filter(
                                 colorEntityId =>
                                   colorEntityId !== color.entityId,
                               ),
                             )
-                          else {
-                            field.onChange([...colorEntityIds, color.entityId])
                           }
-                        }}
-                      />
-                    </li>
-                  ))}
-                </ul>
-              </InputGroup>
-            ) : null}
+                        >
+                          <XIcon className="w-4 h-4" />
+                        </button>
+                        <ColorSwatch
+                          hexCode={color.hexColors[0]}
+                          label={color.label}
+                          width="w-8"
+                          height="h-8"
+                          selected={color.selected}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : // </InputGroup>
+              null}
+              <ColorSelect
+                colors={serializedColors}
+                onColorToggle={color => {
+                  if (color.selected)
+                    field.onChange(
+                      colorEntityIds.filter(
+                        colorEntityId => colorEntityId !== color.entityId,
+                      ),
+                    )
+                  else {
+                    field.onChange([...colorEntityIds, color.entityId])
+                  }
+                }}
+              />
+            </InputGroup>
           </>
         )}
       />
@@ -152,7 +154,7 @@ const ProductForm = ({ onSubmit, product, colors: availableColors }: Props) => {
               track.productPrimaryCtaClicked({ name: product.name })
             }}
           >
-            Customize
+            Customize this
           </Button>
         </div>
       </div>
@@ -174,8 +176,15 @@ const ColorSelect = ({
   colors: Color[]
   onColorToggle: (color: Color) => void
 }) => {
+  const [open, setOpen] = React.useState(false)
+
+  const handleColorClick = (color: Color) => {
+    onColorToggle(color)
+    setOpen(false)
+  }
+
   return (
-    <Popover.Root>
+    <Popover.Root open={open} onOpenChange={setOpen}>
       <Popover.Trigger asChild>
         <Button
           size="xl"
@@ -198,7 +207,7 @@ const ColorSelect = ({
               <ColorSelectItem
                 key={color.entityId}
                 color={color}
-                onClick={() => onColorToggle(color)}
+                onClick={() => handleColorClick(color)}
               />
             ))}
           </div>

@@ -4,14 +4,16 @@ import {
   DesignProofPreviewGetDataQuery,
   DesignProofPreviewGetDataQueryVariables,
 } from '@generated/DesignProofPreviewGetDataQuery'
-import { LoadingDots } from '@components/ui'
+import { InputGroup, LoadingDots } from '@components/ui'
+import ColorSwatch from '@components/common/ColorSwatch'
 
 interface Props {
   designProofId: string
-  activeColorId?: string | null
 }
 
-const DesignProofVariantPreview = ({ designProofId, activeColorId }: Props) => {
+const DesignProofVariantPreview = ({ designProofId }: Props) => {
+  const [activeColorId, setActiveColorId] = React.useState<string | null>(null)
+
   const [activeImageId, setActiveImageId] = React.useState<string | null>(null)
 
   const { data, loading } = useQuery<
@@ -42,6 +44,12 @@ const DesignProofVariantPreview = ({ designProofId, activeColorId }: Props) => {
       setActiveImageId(activeColor.images[0].id)
     }
   }, [activeColor?.images, activeImageId])
+
+  React.useEffect(() => {
+    if (!activeColorId && colors?.length) {
+      setActiveColorId(colors[0].catalogProductColorId)
+    }
+  }, [activeColorId, colors])
 
   const activeImage = React.useMemo(
     () => activeColor?.images?.find(image => image.id === activeImageId),
@@ -80,6 +88,19 @@ const DesignProofVariantPreview = ({ designProofId, activeColorId }: Props) => {
           </button>
         ))}
       </div>
+      <InputGroup label="Colors">
+        <ul className="flex items-center mt-4 gap-1">
+          {colors?.map(color => (
+            <ColorSwatch
+              key={color.catalogProductColorId}
+              hexCode={color.hexCode || ''}
+              label={color.name || ''}
+              selected={activeColorId === color.catalogProductColorId}
+              onClick={() => setActiveColorId(color.catalogProductColorId)}
+            />
+          ))}
+        </ul>
+      </InputGroup>
     </div>
   )
 }

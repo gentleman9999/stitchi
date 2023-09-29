@@ -19,7 +19,7 @@ const DesignRequestOverviewProductList = ({ product }: Props) => {
     <div>
       <Card key={catalogProduct.id}>
         <CardHeader>
-          <CardTitle title="Products" />
+          <CardTitle title="Product" />
         </CardHeader>
         <CardContent divide>
           <Link
@@ -34,7 +34,16 @@ const DesignRequestOverviewProductList = ({ product }: Props) => {
                 : '#'
             }
           >
-            <div>
+            <div className="flex flex-col">
+              {catalogProduct.primaryImage?.url ? (
+                <div className="flex justify-center w-full">
+                  <img
+                    className="aspect-square object-contain w-full max-h-60"
+                    src={catalogProduct.primaryImage.url}
+                    alt={catalogProduct.name}
+                  />
+                </div>
+              ) : null}
               <h3 className="font-semibold">{catalogProduct.name}</h3>
               <p className="text-gray-400">{catalogProduct.brand?.name}</p>
               {colors.length ? (
@@ -52,13 +61,6 @@ const DesignRequestOverviewProductList = ({ product }: Props) => {
                 </div>
               ) : null}
             </div>
-            {catalogProduct.primaryImage?.url ? (
-              <img
-                className="aspect-square object-contain max-h-16"
-                src={catalogProduct.primaryImage.url}
-                alt={catalogProduct.name}
-              />
-            ) : null}
           </Link>
         </CardContent>
       </Card>

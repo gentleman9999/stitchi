@@ -16,9 +16,8 @@ export interface DesignRequestOverviewGetDataQuery_designRequest_proofs {
 
 export interface DesignRequestOverviewGetDataQuery_designRequest_designRequestProduct_colors {
   __typename: "DesignRequestProductColors";
-  catalogProductColorId: string;
-  name: string | null;
   hexCode: string | null;
+  name: string | null;
 }
 
 export interface DesignRequestOverviewGetDataQuery_designRequest_designRequestProduct_catalogProduct_primaryImage {
