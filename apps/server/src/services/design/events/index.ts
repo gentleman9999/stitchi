@@ -40,4 +40,6 @@ const makeEvents = (
   }
 }
 
+export type DesignEvents = ReturnType<typeof makeEvents>
+
 export { makeEvents }

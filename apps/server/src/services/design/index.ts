@@ -8,6 +8,7 @@ import {
   NotificationClientService,
   makeClient as makeNotificationServiceClient,
 } from '../notification'
+import { DesignEvents, makeEvents as makeDesignEvents } from './events'
 
 export interface DesignService {
   createDesign: DesignRepository['createDesign']
@@ -36,15 +37,17 @@ interface MakeClientParams {
   designRepository: DesignRepository
   conversationClient: ConversationService
   notificationClient: NotificationClientService
+  designEvents: DesignEvents
 }
 
 type MakeClientFn = (params?: MakeClientParams) => DesignService
 
 const makeClient: MakeClientFn = (
-  { designRepository, conversationClient, notificationClient } = {
+  { designRepository, conversationClient, notificationClient, designEvents } = {
     designRepository: makeDesignRepository(),
     conversationClient: makeConversationServiceClient(),
     notificationClient: makeNotificationServiceClient(),
+    designEvents: makeDesignEvents(),
   },
 ) => {
   return {
@@ -119,11 +122,19 @@ const makeClient: MakeClientFn = (
 
     updateDesignRequest: async input => {
       try {
-        return designRepository.updateDesignRequest({
-          designRequest: {
-            ...input.designRequest,
-          },
+        const updateDesignRequestPayload =
+          await designRepository.updateDesignRequest({
+            designRequest: {
+              ...input.designRequest,
+            },
+          })
+
+        designEvents.emit({
+          type: 'designRequest.updated',
+          payload: updateDesignRequestPayload,
         })
+
+        return updateDesignRequestPayload
       } catch (error) {
         throw new Error('Failed to update design request')
       }
