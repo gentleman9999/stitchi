@@ -166,7 +166,16 @@ const makeClient: MakeClientFn = (
 
     createDesignProof: async input => {
       try {
-        return designRepository.createDesignProof(input)
+        const designProof = await designRepository.createDesignProof(input)
+
+        designEvents.emit({
+          type: 'designProof.created',
+          payload: {
+            nextDesignProof: designProof,
+          },
+        })
+
+        return designProof
       } catch (error) {
         throw new Error('Failed to create design proof')
       }
