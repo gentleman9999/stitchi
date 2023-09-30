@@ -24,6 +24,7 @@ import {
 } from '@generated/globalTypes'
 import { useAuthorizedComponent } from '@lib/auth'
 import DesignRequestAssociatedProducts from './DesignRequestAssociatedProducts'
+import DesignRequestCustomerCard from './DesignRequestCustomerCard'
 
 interface Props {
   designRequestId: string
@@ -102,15 +103,21 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
         </div>
 
         <div className="col-span-1 md:col-span-4">
-          <ClosetSection>
-            {designRequest?.designRequestProduct ? (
-              <ClosetSection>
-                <DesignRequestOverviewProductList
-                  product={designRequest.designRequestProduct}
-                />
-              </ClosetSection>
-            ) : null}
+          {designRequest &&
+          can(ScopeResource.DesignProof, ScopeAction.CREATE) ? (
+            <ClosetSection>
+              <DesignRequestCustomerCard designRequestId={designRequest.id} />
+            </ClosetSection>
+          ) : null}
 
+          {designRequest?.designRequestProduct ? (
+            <ClosetSection>
+              <DesignRequestOverviewProductList
+                product={designRequest.designRequestProduct}
+              />
+            </ClosetSection>
+          ) : null}
+          <ClosetSection>
             <Card>
               <CardContent>
                 <DesignProofList
