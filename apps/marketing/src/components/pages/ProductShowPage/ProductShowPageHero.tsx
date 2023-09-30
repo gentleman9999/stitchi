@@ -6,12 +6,13 @@ import React from 'react'
 import { ArrowRight } from 'icons'
 import { track } from '@lib/analytics'
 import CatalogProductVariantPreview from '@components/common/CatalogProductVariantPreview'
-import ProductForm, { FormValues } from './ProductForm'
+import ProductFormOld, { FormValues } from './ProductFormOld'
 import useProductShowPageHero from './useProductShowPageHero'
 import { useRouter } from 'next/router'
 import useProductOptions from '@components/hooks/useProductOptions'
 import { DesignRequestCreateInput } from '@generated/globalTypes'
 import { useLogger } from 'next-axiom'
+import ProductForm from './ProductForm'
 
 interface Props {
   product: ProductShowPageHeroProductFragment
@@ -61,38 +62,12 @@ const ProductShowPageHero = ({ product }: Props) => {
   }
 
   return (
-    <div className="grid grid-cols-12 gap-2 sm:gap-4 md:gap-10">
-      <div className="col-span-12 sm:col-span-6 lg:col-span-7 flex flex-col gap-4">
+    <div className="w-full flex flex-col sm:flex-row relative">
+      <div className="sm:h-[calc(100vh-56px)]  sticky top-[56px] sm:w-1/2">
         <CatalogProductVariantPreview product={product} />
       </div>
-
-      <div className="col-span-12 sm:col-span-6 lg:col-span-5">
-        <div className="sticky top-24 flex flex-col gap-6">
-          <div className="p-6 border rounded-sm @container">
-            <ProductForm
-              onSubmit={handleSubmit}
-              product={product}
-              colors={colors}
-            />
-          </div>
-
-          <div className="flex flex-col gap-4">
-            <span className="text-sm">
-              Elevate your brand by collaborating with one of our skilled
-              designers at no additional cost!
-            </span>
-            <Link
-              href={routes.internal.getStarted.href()}
-              className="flex items-center underline font-medium"
-              onClick={() =>
-                track.productCustomDesignClicked({ name: product.name })
-              }
-            >
-              Work with a designer{' '}
-              <ArrowRight width={16} className="stroke-2 ml-1" />
-            </Link>
-          </div>
-        </div>
+      <div className="sm:w-1/2">
+        <ProductForm product={product} />
       </div>
     </div>
   )
@@ -101,11 +76,13 @@ const ProductShowPageHero = ({ product }: Props) => {
 ProductShowPageHero.fragments = {
   product: gql`
     ${CatalogProductVariantPreview.fragments.product}
-    ${ProductForm.fragments.product}
+    ${ProductFormOld.fragments.product}
     ${useProductOptions.fragments.product}
+    ${ProductForm.fragments.product}
     fragment ProductShowPageHeroProductFragment on Product {
       ...CatalogProductVariantPreviewProductFragment
       ...ProductShowPageProductFormProductFragment
+      ...ProductFormProductFragment
       id
       entityId
       name

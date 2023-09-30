@@ -459,6 +459,10 @@ export interface PublishedAtFilter {
   exists?: any | null;
 }
 
+export interface QuoteGeneratePrintLocationInput {
+  colorCount: number;
+}
+
 /**
  * Filter by rating. At least a minRating or maxRating must be supplied. This filter will do nothing unless your store has the Product Filtering feature available on your plan and enabled. If it is supplied when your store does not have the feature enabled, it will be silently ignored.
  */

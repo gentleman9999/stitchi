@@ -214,6 +214,10 @@ export interface ProductShowPageHeroProductFragment_brand {
    */
   id: string;
   /**
+   * Name of the brand.
+   */
+  name: string;
+  /**
    * Path for the brand page.
    */
   path: string;
@@ -243,6 +247,10 @@ export interface ProductShowPageHeroProductFragment {
   variants: ProductShowPageHeroProductFragment_variants;
   priceCents: number;
   /**
+   * Brand associated with the product.
+   */
+  brand: ProductShowPageHeroProductFragment_brand | null;
+  /**
    * Id of the product.
    */
   entityId: number;
@@ -250,8 +258,4 @@ export interface ProductShowPageHeroProductFragment {
    * Relative URL path to product page.
    */
   path: string;
-  /**
-   * Brand associated with the product.
-   */
-  brand: ProductShowPageHeroProductFragment_brand | null;
 }
