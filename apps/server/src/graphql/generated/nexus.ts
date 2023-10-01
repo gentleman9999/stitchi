@@ -336,6 +336,7 @@ export interface NexusGenEnums {
   OrderPaymentStatus: "NOT_PAID" | "PAID" | "PARTIALLY_PAID" | "PARTIALLY_REFUNDED" | "REFUNDED"
   OrderType: "CART" | "CONFIRMED"
   ScopeAction: "CREATE" | "DELETE" | "READ" | "UPDATE"
+  ScopeModifier: "ALL" | "ASSIGNED" | "OWN"
   ScopeResource: "DesignProduct" | "DesignProof" | "DesignRequest" | "DesignRequestRevisionRequest" | "Integration" | "Membership" | "Order" | "Organization"
 }
 
@@ -893,6 +894,7 @@ export interface NexusGenObjects {
   }
   Scope: { // root type
     action: NexusGenEnums['ScopeAction']; // ScopeAction!
+    modifier?: NexusGenEnums['ScopeModifier'] | null; // ScopeModifier
     resource: NexusGenEnums['ScopeResource']; // ScopeResource!
   }
   Subscriber: { // root type
@@ -1599,6 +1601,7 @@ export interface NexusGenFieldTypes {
   }
   Scope: { // field return type
     action: NexusGenEnums['ScopeAction']; // ScopeAction!
+    modifier: NexusGenEnums['ScopeModifier'] | null; // ScopeModifier
     resource: NexusGenEnums['ScopeResource']; // ScopeResource!
   }
   Subscriber: { // field return type
@@ -2314,6 +2317,7 @@ export interface NexusGenFieldTypeNames {
   }
   Scope: { // field return type name
     action: 'ScopeAction'
+    modifier: 'ScopeModifier'
     resource: 'ScopeResource'
   }
   Subscriber: { // field return type name
