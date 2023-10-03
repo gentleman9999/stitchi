@@ -1,6 +1,7 @@
 import {
   BigCommerceBrand,
   BigCommerceCategory,
+  BigCommerceOptionValue,
   BigCommerceProduct,
   BigCommerceProductVariant,
 } from '../../bigcommerce'
@@ -24,9 +25,18 @@ export interface CatalogFactoryCatalogProduct {
   brandId?: string | null
   categoryIds: string[]
   relatedProductIds: string[]
+  options: CatalogFactoryCatalogProductOption[]
 
   createdAt: Date
   updatedAt: Date | null
+}
+
+export interface CatalogFactoryCatalogProductOption {
+  id: string
+  bigCommerceOptionId: string
+  displayName: string
+  type: string | null
+  optionValues: CatalogFactoryCatalogProductOptionValue[]
 }
 
 const catalogFactoryCatalogProduct = ({
@@ -75,6 +85,20 @@ const catalogFactoryCatalogProduct = ({
             : null,
         )
         .filter(notEmpty) || [],
+    options:
+      bigCommerceProduct.options?.map(option => ({
+        id: option.id.toString(),
+        bigCommerceOptionId: option.id.toString(),
+        displayName: option.display_name,
+        type: option.type || null,
+        optionValues:
+          option.option_values?.map(optionValue => ({
+            id: optionValue.id.toString(),
+            bigCommerceOptionValueId: optionValue.id.toString(),
+            label: optionValue.label || '',
+            colorHexCodes: optionValue.value_data?.colors || [],
+          })) || [],
+      })) || [],
   }
 }
 
@@ -114,12 +138,6 @@ const productVariantFactory = ({
   }
 }
 
-export {
-  catalogFactoryCatalogProduct,
-  productVariantFactory,
-  catalogFactoryBrand,
-}
-
 export interface CatalogFactoryCategory {
   id: string
   name: string
@@ -136,4 +154,30 @@ const catalogFactoryCategory = ({
   }
 }
 
-export { catalogFactoryCategory }
+export interface CatalogFactoryCatalogProductOptionValue {
+  id: string
+  bigCommerceOptionValueId: string
+  label: string
+  colorHexCodes: string[]
+}
+
+const catalogFactoryCatalogProductOptionValue = ({
+  bigCommerceOptionValue,
+}: {
+  bigCommerceOptionValue: BigCommerceOptionValue
+}): CatalogFactoryCatalogProductOptionValue => {
+  return {
+    id: bigCommerceOptionValue.id.toString(),
+    bigCommerceOptionValueId: bigCommerceOptionValue.id.toString(),
+    label: bigCommerceOptionValue.label || '',
+    colorHexCodes: bigCommerceOptionValue.value_data?.colors || [],
+  }
+}
+
+export {
+  catalogFactoryCatalogProduct,
+  productVariantFactory,
+  catalogFactoryBrand,
+  catalogFactoryCategory,
+  catalogFactoryCatalogProductOptionValue,
+}

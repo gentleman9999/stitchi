@@ -30,7 +30,7 @@ const AppTopbarUser = ({ membership }: Props) => {
         <NavItem
           href={routes.internal.signup.href()}
           label="Place order"
-          className="ring-2 ring-gray-900 rounded-sm px-2"
+          className="ring-2 ring-gray-900 rounded-sm px-2 whitespace-nowrap"
         />
       </div>
     )

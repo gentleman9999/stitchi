@@ -36,6 +36,7 @@ export const DesignRequestCreateInput = inputObjectType({
     t.nonNull.field('product', {
       type: 'DesignRequestProductCreateInput',
     })
+    t.nullable.list.nonNull.id('fileIds')
   },
 })
 

@@ -8,17 +8,17 @@ import * as yup from 'yup'
 import FormSection from './FormSection'
 import SubmitBanner from './SubmitBanner'
 import useProductQuote from './SubmitBanner/useProductQuote'
-import VariantQuantityMatrixForm from './VariantQuantityMatrixForm/VariantQuantityMatrixForm'
+import VariantQuantityMatrixForm from '../../common/ProductVariantQuantityMatrixForm/ProductVariantQuantityMatrixForm'
 
 const sizeSchema = yup.object().shape({
-  sizeEntityId: yup.number().nullable().defined(),
-  quantity: yup.number().min(0).nullable().optional().label('Quantity'),
-  disabled: yup.boolean().nullable().optional(),
+  catalogSizeEntityId: yup.string().required(),
+  quantity: yup.number().min(0).nullable().defined().label('Quantity'),
+  disabled: yup.boolean().nullable().defined(),
 })
 
 const colorSchema = yup.object().shape({
-  colorEntityId: yup.number().nullable().required(),
-  sizes: yup.array().of(sizeSchema.required()),
+  catalogProductColorId: yup.string().required(),
+  sizes: yup.array().of(sizeSchema).required(),
 })
 
 const schema = yup.object().shape({
@@ -107,7 +107,21 @@ const ClosetDesignBuyPageForm = ({ designProduct, onSubmit, error }: Props) => {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-20">
       <FormSection title="Colors & sizes">
-        <VariantQuantityMatrixForm form={form} designProduct={designProduct} />
+        <VariantQuantityMatrixForm
+          form={form}
+          colors={designProduct.colors.map(color => ({
+            id: color.id,
+            catalogProductColorId: color.catalogProductColorId,
+            hex: color.hex,
+            name: color.name,
+          }))}
+          variants={designProduct.variants.map(variant => ({
+            id: variant.id,
+            catalogProductColorId: variant.catalogProductColorId,
+            catalogProductSizeId: variant.catalogProductSizeId,
+            sizeName: variant.sizeName,
+          }))}
+        />
         <ComponentErrorMessage error={formErrors.colors?.message} />
       </FormSection>
 
@@ -126,11 +140,21 @@ const ClosetDesignBuyPageForm = ({ designProduct, onSubmit, error }: Props) => {
 
 ClosetDesignBuyPageForm.fragments = {
   designProduct: gql`
-    ${VariantQuantityMatrixForm.fragments.designProduct}
     fragment ClosetDesignBuyPageFormDesignProductFragment on DesignProduct {
       id
       catalogProductId
-      ...VariantQuantityMatrixFormDesignProductFragment
+      colors {
+        id
+        hex
+        name
+        catalogProductColorId
+      }
+      variants {
+        id
+        sizeName
+        catalogProductSizeId
+        catalogProductColorId
+      }
     }
   `,
 }

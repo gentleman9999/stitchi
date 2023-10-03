@@ -5,21 +5,6 @@ import { orderFactoryOrderToGraphQL } from '../../serializers/order'
 
 export * from './mailing-address'
 
-export const OrderCartCreatePrintLocationInput = inputObjectType({
-  name: 'OrderCartCreatePrintLocationInput',
-  definition(t) {
-    t.nonNull.int('colorCount')
-  },
-})
-
-export const OrderCartCreateItemsInput = inputObjectType({
-  name: 'OrderCartCreateItemsInput',
-  definition(t) {
-    t.nonNull.int('productVariantEntityId')
-    t.nonNull.int('quantity')
-  },
-})
-
 export const OrderConfirmMailingAddressInput = inputObjectType({
   name: 'OrderConfirmMailingAddressInput',
   definition(t) {

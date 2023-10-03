@@ -38,6 +38,22 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  CatalogProductCustomizeAddonsInput: { // input type
+    name: string; // String!
+    type: NexusGenEnums['CatalogProductCustomizationAddonType']; // CatalogProductCustomizationAddonType!
+  }
+  CatalogProductCustomizeInput: { // input type
+    addons: NexusGenInputs['CatalogProductCustomizeAddonsInput'][]; // [CatalogProductCustomizeAddonsInput!]!
+    catalogProductId: string; // ID!
+    description?: string | null; // String
+    fileIds?: string[] | null; // [ID!]
+    items: NexusGenInputs['CatalogProductCustomizeItemsInput'][]; // [CatalogProductCustomizeItemsInput!]!
+    name?: string | null; // String
+  }
+  CatalogProductCustomizeItemsInput: { // input type
+    catalogProductVariantId: string; // ID!
+    quantity: number; // Int!
+  }
   DateFilterInput: { // input type
     gte?: string | null; // String
     lte?: string | null; // String
@@ -69,6 +85,7 @@ export interface NexusGenInputs {
   }
   DesignRequestCreateInput: { // input type
     description?: string | null; // String
+    fileIds?: string[] | null; // [ID!]
     name?: string | null; // String
     product: NexusGenInputs['DesignRequestProductCreateInput']; // DesignRequestProductCreateInput!
     useCase?: string | null; // String
@@ -214,13 +231,6 @@ export interface NexusGenInputs {
   NotificationMarkAsSeenInput: { // input type
     notificationId: string; // ID!
   }
-  OrderCartCreateItemsInput: { // input type
-    productVariantEntityId: number; // Int!
-    quantity: number; // Int!
-  }
-  OrderCartCreatePrintLocationInput: { // input type
-    colorCount: number; // Int!
-  }
   OrderConfirmInput: { // input type
     customerEmail: string; // String!
     customerFirstName: string; // String!
@@ -326,6 +336,7 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
+  CatalogProductCustomizationAddonType: "PRINT_LOCATION"
   DesignRequestHistoryItemDesignRequestEventMethod: "CREATE"
   DesignRequestStatus: "APPROVED" | "AWAITING_APPROVAL" | "AWAITING_REVISION" | "DRAFT" | "REJECTED" | "SUBMITTED"
   FileType: "IMAGE" | "PDF" | "UNKNOWN" | "VIDEO"
@@ -374,6 +385,10 @@ export interface NexusGenObjects {
     slug: string; // String!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
     visible: boolean; // Boolean!
+  }
+  CatalogProductCustomizePayload: { // root type
+    designRequest?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+    order?: NexusGenRootTypes['Order'] | null; // Order
   }
   CatalogProductImage: { // root type
     order?: number | null; // Int
@@ -978,6 +993,10 @@ export interface NexusGenFieldTypes {
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
     visible: boolean; // Boolean!
   }
+  CatalogProductCustomizePayload: { // field return type
+    designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+    order: NexusGenRootTypes['Order'] | null; // Order
+  }
   CatalogProductImage: { // field return type
     order: number | null; // Int
     url: string; // String!
@@ -1360,6 +1379,7 @@ export interface NexusGenFieldTypes {
     membership: NexusGenRootTypes['Membership']; // Membership!
   }
   Mutation: { // field return type
+    catalogProductCustomize: NexusGenRootTypes['CatalogProductCustomizePayload'] | null; // CatalogProductCustomizePayload
     designProductCreateOrder: NexusGenRootTypes['DesignProductCreateOrderPayload'] | null; // DesignProductCreateOrderPayload
     designRequestApprove: NexusGenRootTypes['DesignRequestApprovePayload'] | null; // DesignRequestApprovePayload
     designRequestAssign: NexusGenRootTypes['DesignRequestAssignPayload'] | null; // DesignRequestAssignPayload
@@ -1692,6 +1712,10 @@ export interface NexusGenFieldTypeNames {
     slug: 'String'
     updatedAt: 'DateTime'
     visible: 'Boolean'
+  }
+  CatalogProductCustomizePayload: { // field return type name
+    designRequest: 'DesignRequest'
+    order: 'Order'
   }
   CatalogProductImage: { // field return type name
     order: 'Int'
@@ -2075,6 +2099,7 @@ export interface NexusGenFieldTypeNames {
     membership: 'Membership'
   }
   Mutation: { // field return type name
+    catalogProductCustomize: 'CatalogProductCustomizePayload'
     designProductCreateOrder: 'DesignProductCreateOrderPayload'
     designRequestApprove: 'DesignRequestApprovePayload'
     designRequestAssign: 'DesignRequestAssignPayload'
@@ -2427,6 +2452,9 @@ export interface NexusGenArgTypes {
     }
   }
   Mutation: {
+    catalogProductCustomize: { // args
+      input: NexusGenInputs['CatalogProductCustomizeInput']; // CatalogProductCustomizeInput!
+    }
     designProductCreateOrder: { // args
       input: NexusGenInputs['DesignProductCreateOrderInput']; // DesignProductCreateOrderInput!
     }

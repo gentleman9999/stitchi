@@ -45,8 +45,8 @@ const ClosetDesignBuyPage = (props: Props) => {
       for (const size of color.sizes ?? []) {
         const foundVariant = product.variants.find(
           variant =>
-            variant.catalogProductColorId === color.colorEntityId.toString() &&
-            variant.catalogProductSizeId === size.sizeEntityId?.toString(),
+            variant.catalogProductColorId === color.catalogProductColorId &&
+            variant.catalogProductSizeId === size.catalogSizeEntityId,
         )
 
         if (foundVariant) {

@@ -21,7 +21,7 @@ interface Props {
 const ProductShowPageHero = ({ product }: Props) => {
   const logger = useLogger()
   const router = useRouter()
-  const { colors } = useProductOptions({ product })
+  const { colors, sizes } = useProductOptions({ product })
 
   const { handleCreateDesignRequest } = useProductShowPageHero({
     productEntityId: product.entityId,
@@ -67,7 +67,23 @@ const ProductShowPageHero = ({ product }: Props) => {
         <CatalogProductVariantPreview product={product} />
       </div>
       <div className="sm:w-1/2">
-        <ProductForm product={product} />
+        <ProductForm
+          product={product}
+          colors={colors.map(color => ({
+            id: color.entityId.toString(),
+            catalogProductColorId: color.entityId.toString(),
+            hex: color.hexColors[0],
+            name: color.label,
+          }))}
+          variants={colors.flatMap(color =>
+            sizes.map(size => ({
+              id: size.entityId.toString(),
+              sizeName: size.label,
+              catalogProductSizeId: size.entityId.toString(),
+              catalogProductColorId: color.entityId.toString(),
+            })),
+          )}
+        />
       </div>
     </div>
   )
@@ -83,30 +99,12 @@ ProductShowPageHero.fragments = {
       ...CatalogProductVariantPreviewProductFragment
       ...ProductShowPageProductFormProductFragment
       ...ProductFormProductFragment
+      ...UseProductColorsProductFragment
+
       id
       entityId
       name
       path
-
-      defaultImage {
-        urlOriginal
-        altText
-        url(width: 300)
-      }
-      brand {
-        id
-        path
-      }
-
-      variants(first: $variantsFirst) {
-        edges {
-          node {
-            id
-            entityId
-          }
-        }
-      }
-      ...UseProductColorsProductFragment
     }
   `,
 }

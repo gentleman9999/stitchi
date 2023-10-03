@@ -1,20 +1,58 @@
-import { gql } from '@apollo/client'
 import ColorSwatch from '@components/common/ColorSwatch'
-import { VariantQuantityMatrixFormDesignProductFragment } from '@generated/VariantQuantityMatrixFormDesignProductFragment'
 import { AnimatePresence, motion } from 'framer-motion'
 import { XIcon } from 'icons'
 import React from 'react'
 import { useFieldArray, UseFormReturn } from 'react-hook-form'
-import { FormValues } from '../ClosetDesignBuyPageForm'
 import ColorSizesInput from './ColorSizesInput'
 
-interface Props {
-  designProduct: VariantQuantityMatrixFormDesignProductFragment
-  form: UseFormReturn<FormValues>
+interface ProductColor {
+  id: string
+  catalogProductColorId: string
+  hex: string | null
+  name: string | null
 }
 
-const VariantQuantityMatrixForm = ({ designProduct, form }: Props) => {
-  const colorFields = useFieldArray({ control: form.control, name: 'colors' })
+interface ProductSize {
+  catalogSizeEntityId: string
+  quantity: number | null
+  disabled: boolean | null
+}
+
+interface Variant {
+  id: string
+  sizeName: string | null
+  catalogProductSizeId: string | null
+  catalogProductColorId: string | null
+}
+
+export interface VariantFormValues {
+  colors: (Omit<ProductColor, 'hex' | 'name' | 'id'> & {
+    sizes: ProductSize[]
+  })[]
+}
+
+export interface ProductVariantQuantityMatrixFormProps<
+  T extends VariantFormValues = VariantFormValues,
+> {
+  colors: ProductColor[]
+  variants: Variant[]
+  form: UseFormReturn<T>
+}
+
+const ProductVariantQuantityMatrixForm = <
+  T extends VariantFormValues = VariantFormValues,
+>({
+  colors,
+  variants,
+  form: untypedForm,
+}: ProductVariantQuantityMatrixFormProps<T>) => {
+  // Hack because useFormReturn is not typed correctly for generic use
+  const form = untypedForm as unknown as UseFormReturn<VariantFormValues>
+
+  const colorFields = useFieldArray({
+    control: form.control,
+    name: 'colors',
+  })
 
   const watchColors = form.watch('colors')
 
@@ -33,7 +71,7 @@ const VariantQuantityMatrixForm = ({ designProduct, form }: Props) => {
   const sizes = React.useMemo(() => {
     const sizeMap = new Map<string, { sizeId: string; label: string }>()
 
-    designProduct.variants.map(variant => {
+    variants.map(variant => {
       const sizeId = variant?.catalogProductSizeId
       const sizeName = variant?.sizeName
 
@@ -48,28 +86,32 @@ const VariantQuantityMatrixForm = ({ designProduct, form }: Props) => {
     })
 
     return Array.from(sizeMap.values())
-  }, [designProduct.variants])
+  }, [variants])
 
   const selectedColorEntityIds = colorFields.fields.map(
-    color => color.colorEntityId,
+    color => color.catalogProductColorId,
   )
 
-  const handleAddColor = ({ colorEntityId }: { colorEntityId: number }) => {
+  const handleAddColor = ({
+    catalogProductColorId,
+  }: {
+    catalogProductColorId: string
+  }) => {
     colorFields.append(
       {
-        colorEntityId,
+        catalogProductColorId: catalogProductColorId,
         sizes: sizes.map(size => {
-          const foundVariant = designProduct.variants.find(variant => {
+          const foundVariant = variants.find(variant => {
             return (
               variant.catalogProductSizeId === size.sizeId &&
-              variant.catalogProductColorId === colorEntityId.toString()
+              variant.catalogProductColorId === catalogProductColorId
             )
           })
 
           return {
             disabled: !foundVariant,
             quantity: null,
-            sizeEntityId: parseInt(size.sizeId),
+            catalogSizeEntityId: size.sizeId,
           }
         }),
       },
@@ -77,9 +119,13 @@ const VariantQuantityMatrixForm = ({ designProduct, form }: Props) => {
     )
   }
 
-  const handleRemoveColor = ({ colorEntityId }: { colorEntityId: number }) => {
+  const handleRemoveColor = ({
+    catalogProductColorId,
+  }: {
+    catalogProductColorId: string
+  }) => {
     colorFields.remove(
-      selectedColorEntityIds.findIndex(id => id === colorEntityId),
+      selectedColorEntityIds.findIndex(id => id === catalogProductColorId),
     )
   }
 
@@ -87,26 +133,31 @@ const VariantQuantityMatrixForm = ({ designProduct, form }: Props) => {
     <>
       <ul className="flex flex-wrap gap-1">
         <AnimatePresence>
-          {designProduct.colors.map(({ hex, name, catalogProductColorId }) => (
-            <motion.li
-              key={catalogProductColorId}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <ColorSwatch
-                onClick={() =>
-                  handleAddColor({
-                    colorEntityId: parseInt(catalogProductColorId),
-                  })
-                }
-                hexCode={hex || '#000'}
-                label={name || 'Unknown color'}
-                width="w-8"
-                height="h-8"
-              />
-            </motion.li>
-          ))}
+          {colors
+            .filter(
+              color =>
+                !selectedColorEntityIds.includes(color.catalogProductColorId),
+            )
+            .map(({ hex, name, catalogProductColorId }) => (
+              <motion.li
+                key={catalogProductColorId}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <ColorSwatch
+                  onClick={() =>
+                    handleAddColor({
+                      catalogProductColorId,
+                    })
+                  }
+                  hexCode={hex || '#000'}
+                  label={name || 'Unknown color'}
+                  width="w-8"
+                  height="h-8"
+                />
+              </motion.li>
+            ))}
         </AnimatePresence>
       </ul>
 
@@ -122,7 +173,7 @@ const VariantQuantityMatrixForm = ({ designProduct, form }: Props) => {
                   gridTemplateColumns: `1fr repeat(${sizes.length}, 70px) 24px`,
                 }}
               >
-                <div className="sticky left-0 bg-white"></div>
+                <div className="sticky left-0 "></div>
                 {sizes.length ? (
                   sizes.map(size => (
                     <div
@@ -137,17 +188,17 @@ const VariantQuantityMatrixForm = ({ designProduct, form }: Props) => {
                 )}
                 <div></div>
 
-                {colorFields.fields.map(({ colorEntityId }, index) => {
-                  const color = designProduct.colors.find(
-                    ({ catalogProductColorId }) =>
-                      catalogProductColorId === colorEntityId.toString(),
+                {colorFields.fields.map(({ catalogProductColorId }, index) => {
+                  const color = colors.find(
+                    color =>
+                      color.catalogProductColorId === catalogProductColorId,
                   )
 
                   if (!color) return null
 
                   return (
                     <>
-                      <div className="p-1 sticky left-0 bg-white flex">
+                      <div className="p-1 sticky left-0  flex">
                         <div className="flex items-center text-xs">
                           <ColorSwatch hexCode={color.hex || '#000'} />
 
@@ -158,7 +209,9 @@ const VariantQuantityMatrixForm = ({ designProduct, form }: Props) => {
                       <div className="flex items-center">
                         <button
                           className="p-1 hover:bg-gray-100 rounded-sm"
-                          onClick={() => handleRemoveColor({ colorEntityId })}
+                          onClick={() =>
+                            handleRemoveColor({ catalogProductColorId })
+                          }
                         >
                           <XIcon className="w-4 h-4 text-gray-400" />
                         </button>
@@ -179,24 +232,4 @@ const VariantQuantityMatrixForm = ({ designProduct, form }: Props) => {
   )
 }
 
-VariantQuantityMatrixForm.fragments = {
-  designProduct: gql`
-    fragment VariantQuantityMatrixFormDesignProductFragment on DesignProduct {
-      id
-      colors {
-        id
-        hex
-        name
-        catalogProductColorId
-      }
-      variants {
-        id
-        sizeName
-        catalogProductSizeId
-        catalogProductColorId
-      }
-    }
-  `,
-}
-
-export default VariantQuantityMatrixForm
+export default ProductVariantQuantityMatrixForm

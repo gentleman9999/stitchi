@@ -105,10 +105,6 @@ export interface ProductShowPageHeroProductFragment_defaultImage {
    * Text description of an image that can be used for SEO and/or accessibility purposes.
    */
   altText: string;
-  /**
-   * Absolute path to original image using store CDN.
-   */
-  urlOriginal: string;
 }
 
 export interface ProductShowPageHeroProductFragment_variants_edges_node_defaultImage {
@@ -217,10 +213,6 @@ export interface ProductShowPageHeroProductFragment_brand {
    * Name of the brand.
    */
   name: string;
-  /**
-   * Path for the brand page.
-   */
-  path: string;
 }
 
 export interface ProductShowPageHeroProductFragment {

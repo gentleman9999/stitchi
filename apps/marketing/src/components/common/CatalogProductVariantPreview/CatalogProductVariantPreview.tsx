@@ -51,7 +51,7 @@ const CatalogProductVariantPreview = ({ product, onVariantChange }: Props) => {
   return (
     <>
       {image ? (
-        <div className="relative w-full h-[350px] sm:h-[400px] border-b">
+        <div className="relative w-full h-[calc(100vh-56px)]">
           <Image
             fill
             priority
@@ -65,7 +65,7 @@ const CatalogProductVariantPreview = ({ product, onVariantChange }: Props) => {
           />
         </div>
       ) : null}
-      <div className="flex flex-col gap-2">
+      {/* <div className="flex flex-col gap-2">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center">
           <h3 className="text font-bold text-gray-700">Available Colors</h3>
           {productOptionValues.colorLabel ? (
@@ -88,7 +88,7 @@ const CatalogProductVariantPreview = ({ product, onVariantChange }: Props) => {
               : []
           }
         />
-      </div>
+      </div> */}
     </>
   )
 }
@@ -101,7 +101,7 @@ CatalogProductVariantPreview.fragments = {
       id
       name
       defaultImage {
-        url(width: 300)
+        url(width: 600)
         altText
       }
 
@@ -111,7 +111,7 @@ CatalogProductVariantPreview.fragments = {
             id
             entityId
             defaultImage {
-              url(width: 300)
+              url(width: 700)
               altText
             }
             options {

@@ -32,6 +32,34 @@ type CatalogProduct {
   visible: Boolean!
 }
 
+enum CatalogProductCustomizationAddonType {
+  PRINT_LOCATION
+}
+
+input CatalogProductCustomizeAddonsInput {
+  name: String!
+  type: CatalogProductCustomizationAddonType!
+}
+
+input CatalogProductCustomizeInput {
+  addons: [CatalogProductCustomizeAddonsInput!]!
+  catalogProductId: ID!
+  description: String
+  fileIds: [ID!]
+  items: [CatalogProductCustomizeItemsInput!]!
+  name: String
+}
+
+input CatalogProductCustomizeItemsInput {
+  catalogProductVariantId: ID!
+  quantity: Int!
+}
+
+type CatalogProductCustomizePayload {
+  designRequest: DesignRequest
+  order: Order
+}
+
 type CatalogProductImage {
   order: Int
   url: String!
@@ -267,6 +295,7 @@ type DesignRequestConversationMessageCreatePayload {
 
 input DesignRequestCreateInput {
   description: String
+  fileIds: [ID!]
   name: String
   product: DesignRequestProductCreateInput!
   useCase: String
@@ -820,6 +849,7 @@ enum MembershipRole {
 }
 
 type Mutation {
+  catalogProductCustomize(input: CatalogProductCustomizeInput!): CatalogProductCustomizePayload
   designProductCreateOrder(input: DesignProductCreateOrderInput!): DesignProductCreateOrderPayload
   designRequestApprove(input: DesignRequestApproveInput!): DesignRequestApprovePayload
   designRequestAssign(input: DesignRequestAssignInput!): DesignRequestAssignPayload
@@ -962,15 +992,6 @@ type Order {
   totalTaxCents: Int!
   type: OrderType!
   updatedAt: DateTime
-}
-
-input OrderCartCreateItemsInput {
-  productVariantEntityId: Int!
-  quantity: Int!
-}
-
-input OrderCartCreatePrintLocationInput {
-  colorCount: Int!
 }
 
 input OrderConfirmInput {

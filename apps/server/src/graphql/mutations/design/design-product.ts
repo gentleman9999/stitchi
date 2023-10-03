@@ -8,6 +8,7 @@ import { DesignFactoryDesign } from '../../../services/design/factory'
 import { OrderItemRecordType } from '../../../services/order/db/order-item-table'
 import { OrderRecordType } from '../../../services/order/db/order-table'
 import calculate from '../../../services/quote/calculateQuote'
+import { notEmpty } from '../../../utils'
 import { orderFactoryOrderToGraphQL } from '../../serializers/order'
 
 export const DesignProductCreateOrderPayload = objectType({
@@ -130,30 +131,43 @@ export const designProductCreateOrder = mutationField(
             customerFirstName: null,
             customerLastName: null,
             customerPhone: null,
+            designRequestId: null,
             organizationId: ctx.organizationId || null,
             shippingAddressId: input.shippingAddressId || null,
             membershipId: ctx.membershipId || null,
             type: OrderRecordType.CART,
-            items: input.orderItems.map(item => {
-              const productVariant = productVariants.find(
-                variant =>
-                  variant.id.toString() === item.catalogProductVariantId,
-              )
+            items: input.orderItems
+              .map(item => {
+                const productVariant = productVariants.find(
+                  variant =>
+                    variant.id.toString() === item.catalogProductVariantId,
+                )
 
-              return {
-                designId: designProduct.id,
-                quantity: item.quantity,
-                // This can represent many things (denoted by TYPE). Therefore we store all ID's as strings in the order line item.
-                productId: designProduct.catalogProductId,
-                productVariantId: item.catalogProductVariantId,
-                unitPriceCents: quote.productUnitCostCents,
-                totalPriceCents: quote.productUnitCostCents * item.quantity,
-                type: OrderItemRecordType.BIG_C_PRODUCT,
-                title: `${designProduct.name} - ${productVariant?.option_values
-                  ?.map(v => v.label)
-                  .join(', ')} - ${productVariant?.sku}`,
-              }
-            }),
+                if (!productVariant) {
+                  ctx.logger
+                    .child({ context: { item } })
+                    .error('Product variant not found')
+
+                  return null
+                }
+
+                return {
+                  designId: designProduct.id,
+                  quantity: item.quantity,
+                  // This can represent many things (denoted by TYPE). Therefore we store all ID's as strings in the order line item.
+                  productId: designProduct.catalogProductId,
+                  productVariantId: item.catalogProductVariantId,
+                  unitPriceCents: quote.productUnitCostCents,
+                  totalPriceCents: quote.productUnitCostCents * item.quantity,
+                  type: OrderItemRecordType.BIG_C_PRODUCT,
+                  title: `${
+                    designProduct.name
+                  } - ${productVariant?.option_values
+                    ?.map(v => v.label)
+                    .join(', ')} - ${productVariant?.sku}`,
+                }
+              })
+              .filter(notEmpty),
           },
         })
       } catch (error) {

@@ -10,6 +10,7 @@ export * from './payment'
 export * from './organization'
 export * from './membership'
 export * from './notification'
+export * from './catalog'
 
 export const Mutation = mutationType({
   definition: () => {},
