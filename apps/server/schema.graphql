@@ -241,6 +241,7 @@ type DesignRequest {
   membership: Membership
   membershipId: ID
   name: String!
+  orders: [Order!]!
   previewImage: FileImage
   previewImageUrl: String
   proofs(limit: Int): [DesignProof!]!
@@ -969,6 +970,7 @@ type Order {
   customerId: String
   customerLastName: String
   customerPhone: String
+  designRequestId: String
   fulfillments: [Fulfillment!]!
   humanOrderId: String!
   humanPaymentStatus: String!

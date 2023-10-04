@@ -771,6 +771,7 @@ export interface NexusGenObjects {
     customerFirstName?: string | null; // String
     customerLastName?: string | null; // String
     customerPhone?: string | null; // String
+    designRequestId?: string | null; // String
     humanOrderId: string; // String!
     humanPaymentStatus: string; // String!
     id: string; // ID!
@@ -1133,6 +1134,7 @@ export interface NexusGenFieldTypes {
     membership: NexusGenRootTypes['Membership'] | null; // Membership
     membershipId: string | null; // ID
     name: string; // String!
+    orders: NexusGenRootTypes['Order'][]; // [Order!]!
     previewImage: NexusGenRootTypes['FileImage'] | null; // FileImage
     previewImageUrl: string | null; // String
     proofs: NexusGenRootTypes['DesignProof'][]; // [DesignProof!]!
@@ -1460,6 +1462,7 @@ export interface NexusGenFieldTypes {
     customerId: string | null; // String
     customerLastName: string | null; // String
     customerPhone: string | null; // String
+    designRequestId: string | null; // String
     fulfillments: NexusGenRootTypes['Fulfillment'][]; // [Fulfillment!]!
     humanOrderId: string; // String!
     humanPaymentStatus: string; // String!
@@ -1853,6 +1856,7 @@ export interface NexusGenFieldTypeNames {
     membership: 'Membership'
     membershipId: 'ID'
     name: 'String'
+    orders: 'Order'
     previewImage: 'FileImage'
     previewImageUrl: 'String'
     proofs: 'DesignProof'
@@ -2180,6 +2184,7 @@ export interface NexusGenFieldTypeNames {
     customerId: 'String'
     customerLastName: 'String'
     customerPhone: 'String'
+    designRequestId: 'String'
     fulfillments: 'Fulfillment'
     humanOrderId: 'String'
     humanPaymentStatus: 'String'

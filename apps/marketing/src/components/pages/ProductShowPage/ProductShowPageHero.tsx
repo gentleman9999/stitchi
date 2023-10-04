@@ -24,6 +24,9 @@ const ProductShowPageHero = ({ product }: Props) => {
   const router = useRouter()
   const { colors, sizes } = useProductOptions({ product })
   const [handleCustomize] = useCustomizeProduct()
+  const [activeVariantId, setActiveVariantId] = React.useState<string | null>(
+    null,
+  )
 
   const handleSubmit = async (data: FormValues) => {
     const serializedItems: CatalogProductCustomizeInput['items'] = []
@@ -102,12 +105,34 @@ const ProductShowPageHero = ({ product }: Props) => {
   return (
     <div className="w-full flex flex-col sm:flex-row relative">
       <div className="sm:h-[calc(100vh-56px)]  sticky top-[56px] sm:w-1/2">
-        <CatalogProductVariantPreview product={product} />
+        <CatalogProductVariantPreview
+          product={product}
+          activeVariantId={activeVariantId}
+        />
       </div>
       <div className="sm:w-1/2">
         <ProductForm
           product={product}
           onSubmit={handleSubmit}
+          onActiveColorChange={colorId => {
+            setActiveVariantId(
+              product.variants.edges
+                ?.map(edge => edge?.node)
+                .find(variant => {
+                  const colorOptionValues = variant?.options.edges
+                    ?.map(edge => edge?.node)
+                    .find(option => option?.displayName === 'Color')
+                    ?.values.edges?.map(edge => edge?.node)
+                    .filter(notEmpty)
+
+                  return (
+                    colorOptionValues?.find(
+                      value => value?.entityId.toString() === colorId,
+                    ) !== undefined
+                  )
+                })?.id || null,
+            )
+          }}
           colors={colors.map(color => ({
             id: color.entityId.toString(),
             catalogProductColorId: color.entityId.toString(),

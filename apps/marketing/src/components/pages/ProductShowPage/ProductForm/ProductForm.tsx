@@ -1,14 +1,10 @@
-import { gql, useQuery } from '@apollo/client'
+import { gql } from '@apollo/client'
 import ProductVariantQuantityMatrixForm, {
   ProductVariantQuantityMatrixFormProps,
 } from '@components/common/ProductVariantQuantityMatrixForm'
 import { Checkbox, FileInput, TextField } from '@components/ui'
 import Button from '@components/ui/ButtonV2/Button'
 import { CatalogProductCustomizationAddonType } from '@generated/globalTypes'
-import {
-  ProductFormGetProductQuoteQuery,
-  ProductFormGetProductQuoteQueryVariables,
-} from '@generated/ProductFormGetProductQuoteQuery'
 import { ProductFormProductFragment } from '@generated/ProductFormProductFragment'
 import {
   ChatBubbleBottomCenterIcon,
@@ -23,13 +19,29 @@ import React from 'react'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import Skeleton from 'react-loading-skeleton'
 import * as yup from 'yup'
-import deepEqual from 'deep-equal'
+import InformationGroup from './InformationGroup'
+import useProductQuote from './useProductQuote'
 
-const MAX_QUANTITY = 20_000
-
-const DEFAULT_PRINT_LOCATIONS = [
+const customizationOptions = [
   {
-    colorCount: 1,
+    name: 'Front',
+    type: CatalogProductCustomizationAddonType.PRINT_LOCATION,
+    selected: false,
+  },
+  {
+    name: 'Back',
+    type: CatalogProductCustomizationAddonType.PRINT_LOCATION,
+    selected: false,
+  },
+  {
+    name: 'Left Sleeve',
+    type: CatalogProductCustomizationAddonType.PRINT_LOCATION,
+    selected: false,
+  },
+  {
+    name: 'Right Sleeve',
+    type: CatalogProductCustomizationAddonType.PRINT_LOCATION,
+    selected: false,
   },
 ]
 
@@ -84,25 +96,11 @@ interface ProductFormProps {
   colors: ProductVariantQuantityMatrixFormProps['colors']
   variants: ProductVariantQuantityMatrixFormProps['variants']
   onSubmit: (values: FormValues) => Promise<void>
+  onActiveColorChange?: (colorId: string | null) => void
 }
 
 const ProductForm = (props: ProductFormProps) => {
   const [submitting, setSubmitting] = React.useState(false)
-  const {
-    data,
-    loading: quoteLoading,
-    refetch,
-    variables,
-  } = useQuery<
-    ProductFormGetProductQuoteQuery,
-    ProductFormGetProductQuoteQueryVariables
-  >(GET_PRODUCT_QUOTE, {
-    variables: {
-      productId: props.product.id,
-      quantity: MAX_QUANTITY,
-      printLocations: DEFAULT_PRINT_LOCATIONS,
-    },
-  })
 
   const form = useForm({
     resolver: yupResolver(schema),
@@ -110,35 +108,8 @@ const ProductForm = (props: ProductFormProps) => {
       colors: [],
       fileIds: [],
       designBrief: '',
-      customizations: [
-        {
-          name: 'Front',
-          type: CatalogProductCustomizationAddonType.PRINT_LOCATION,
-          selected: false,
-        },
-        {
-          name: 'Back',
-          type: CatalogProductCustomizationAddonType.PRINT_LOCATION,
-          selected: false,
-        },
-        {
-          name: 'Left Sleeve',
-          type: CatalogProductCustomizationAddonType.PRINT_LOCATION,
-          selected: false,
-        },
-        {
-          name: 'Right Sleeve',
-          type: CatalogProductCustomizationAddonType.PRINT_LOCATION,
-          selected: false,
-        },
-      ],
+      customizations: customizationOptions,
     },
-  })
-
-  const handleSubmit = form.handleSubmit(async (values: FormValues) => {
-    setSubmitting(true)
-    await props.onSubmit(values)
-    setSubmitting(false)
   })
 
   const { colors, customizations } = form.watch()
@@ -163,29 +134,22 @@ const ProductForm = (props: ProductFormProps) => {
       colorCount: 1,
     }))
 
-  React.useEffect(() => {
-    if (
-      (!deepEqual(variables?.printLocations, printLocations) &&
-        (printLocations.length > 0 ||
-          !deepEqual(variables?.printLocations, DEFAULT_PRINT_LOCATIONS))) ||
-      (totalQuantity !== variables?.quantity &&
-        (totalQuantity > 0 || MAX_QUANTITY !== variables?.quantity))
-    ) {
-      refetch({
-        printLocations: printLocations.length
-          ? printLocations
-          : DEFAULT_PRINT_LOCATIONS,
-        quantity: totalQuantity || MAX_QUANTITY,
-      })
-    }
-  }, [printLocations, refetch, totalQuantity, variables])
+  const { quote, loading: quoteLoading } = useProductQuote({
+    printLocations,
+    productId: props.product.id,
+    quantity: totalQuantity,
+  })
+
+  const handleSubmit = form.handleSubmit(async (values: FormValues) => {
+    setSubmitting(true)
+    await props.onSubmit(values)
+    setSubmitting(false)
+  })
 
   const customizationFields = useFieldArray({
     control: form.control,
     name: 'customizations',
   })
-
-  const quote = data?.site.product?.quote
 
   return (
     <form onSubmit={handleSubmit}>
@@ -205,6 +169,9 @@ const ProductForm = (props: ProductFormProps) => {
               form={form}
               colors={props.colors}
               variants={props.variants}
+              onSwatchClick={color => {
+                props.onActiveColorChange?.(color.id)
+              }}
             />
           </InformationGroup>
           <InformationGroup
@@ -217,7 +184,7 @@ const ProductForm = (props: ProductFormProps) => {
                 {customizationFields.fields.map((customization, index) => (
                   <Controller
                     key={customization.id}
-                    name={`customizations[${index}].selected`}
+                    name={`customizations.${index}.selected`}
                     control={form.control}
                     render={({ field: { onChange, value, name, ref } }) => (
                       <button
@@ -320,63 +287,6 @@ const ProductForm = (props: ProductFormProps) => {
     </form>
   )
 }
-
-interface InformationGroupProps {
-  children: React.ReactNode
-  title: string
-  description: string
-  icon: React.ReactNode
-  optional?: boolean
-  error?: string
-}
-
-const InformationGroup = ({
-  children,
-  title,
-  description,
-  icon,
-  optional,
-  error,
-}: InformationGroupProps) => {
-  return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-row items-center gap-4">
-        <div className="">{icon}</div>
-        <div className="flex flex-col gap-1 text-left">
-          <div className="text font-semibold flex items-center">
-            {title}
-            {optional ? (
-              <span className="text-xs text-gray-400 ml-2 font-normal">
-                (optional)
-              </span>
-            ) : null}
-          </div>
-          <div className="text-xs">{description}</div>
-        </div>
-      </div>
-      {error ? <div className="text-xs text-red-500 mt-1">{error}</div> : null}
-
-      {children}
-    </div>
-  )
-}
-
-const GET_PRODUCT_QUOTE = gql`
-  query ProductFormGetProductQuoteQuery(
-    $productId: ID!
-    $quantity: Int!
-    $printLocations: [QuoteGeneratePrintLocationInput!]!
-  ) {
-    site {
-      product(id: $productId) {
-        quote(quantity: $quantity, printLocations: $printLocations) {
-          id
-          productUnitCostCents
-        }
-      }
-    }
-  }
-`
 
 ProductForm.fragments = {
   product: gql`

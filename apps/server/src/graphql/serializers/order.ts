@@ -65,6 +65,7 @@ export const orderFactoryOrderToGraphQL = (
     membershipId: order.membershipId,
     humanOrderId: order.humanReadableId,
     shippingAddressId: order.shippingAddressId,
+    designRequestId: order.designRequestId,
 
     type: order.type,
     paymentStatus: order.paymentStatus,

@@ -37,6 +37,7 @@ export interface ProductVariantQuantityMatrixFormProps<
   colors: ProductColor[]
   variants: Variant[]
   form: UseFormReturn<T>
+  onSwatchClick?: (color: ProductColor) => void
 }
 
 const ProductVariantQuantityMatrixForm = <
@@ -45,6 +46,7 @@ const ProductVariantQuantityMatrixForm = <
   colors,
   variants,
   form: untypedForm,
+  onSwatchClick,
 }: ProductVariantQuantityMatrixFormProps<T>) => {
   // Hack because useFormReturn is not typed correctly for generic use
   const form = untypedForm as unknown as UseFormReturn<VariantFormValues>
@@ -119,6 +121,12 @@ const ProductVariantQuantityMatrixForm = <
     )
   }
 
+  const handleSwatchClick = (color: ProductColor) => {
+    if (onSwatchClick) {
+      onSwatchClick(color)
+    }
+  }
+
   const handleRemoveColor = ({
     catalogProductColorId,
   }: {
@@ -138,21 +146,22 @@ const ProductVariantQuantityMatrixForm = <
               color =>
                 !selectedColorEntityIds.includes(color.catalogProductColorId),
             )
-            .map(({ hex, name, catalogProductColorId }) => (
+            .map(color => (
               <motion.li
-                key={catalogProductColorId}
+                key={color.catalogProductColorId}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
                 <ColorSwatch
-                  onClick={() =>
+                  onClick={() => {
+                    handleSwatchClick(color)
                     handleAddColor({
-                      catalogProductColorId,
+                      catalogProductColorId: color.catalogProductColorId,
                     })
-                  }
-                  hexCode={hex || '#000'}
-                  label={name || 'Unknown color'}
+                  }}
+                  hexCode={color.hex || '#000'}
+                  label={color.name || 'Unknown color'}
                   width="w-8"
                   height="h-8"
                 />
@@ -200,7 +209,12 @@ const ProductVariantQuantityMatrixForm = <
                     <>
                       <div key={color.id} className="p-1 sticky left-0  flex">
                         <div className="flex items-center text-xs">
-                          <ColorSwatch hexCode={color.hex || '#000'} />
+                          <ColorSwatch
+                            hexCode={color.hex || '#000'}
+                            onClick={() => {
+                              handleSwatchClick(color)
+                            }}
+                          />
 
                           <span className="ml-1 w-full">{color.name}</span>
                         </div>
@@ -208,6 +222,7 @@ const ProductVariantQuantityMatrixForm = <
                       <ColorSizesInput form={form} colorFieldIndex={index} />
                       <div className="flex items-center">
                         <button
+                          type="button"
                           className="p-1 hover:bg-gray-100 rounded-sm"
                           onClick={() =>
                             handleRemoveColor({ catalogProductColorId })

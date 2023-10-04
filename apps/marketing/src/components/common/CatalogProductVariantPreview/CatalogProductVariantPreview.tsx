@@ -1,50 +1,25 @@
 import { gql } from '@apollo/client'
-import {
-  CatalogProductVariantPreviewProductFragment,
-  CatalogProductVariantPreviewProductFragment_variants_edges_node as ProductVariant,
-} from '@generated/CatalogProductVariantPreviewProductFragment'
+import { CatalogProductVariantPreviewProductFragment } from '@generated/CatalogProductVariantPreviewProductFragment'
 import { generateImageSizes } from '@lib/utils/image'
 import Image from 'next/image'
 import React from 'react'
 import CatalogProductColorGrid from '../CatalogProductColorGrid'
 
-interface ProductOptionValues {
-  colorEntityId: number | null
-  colorLabel: string | null
-}
-
 interface Props {
   product: CatalogProductVariantPreviewProductFragment
-  onVariantChange?: (variant: ProductVariant | null) => void
+  activeVariantId?: string | null
 }
 
-const CatalogProductVariantPreview = ({ product, onVariantChange }: Props) => {
-  const [productOptionValues, setProductOptionValues] =
-    React.useState<ProductOptionValues>({
-      colorEntityId: null,
-      colorLabel: null,
-    })
-
+const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
   const productVariants = product.variants.edges?.map(edge => edge?.node)
 
   const activeVariant = React.useMemo(
     () =>
       productVariants?.find(variant => {
-        const options = variant?.options.edges?.map(edge => edge?.node)
-        return options?.find(option => {
-          const values = option?.values.edges?.map(edge => edge?.node)
-
-          return values?.find(value => {
-            return value?.entityId === productOptionValues.colorEntityId
-          })
-        })
+        return variant?.id === activeVariantId
       }) || productVariants?.[0],
-    [productOptionValues.colorEntityId, productVariants],
+    [activeVariantId, productVariants],
   )
-
-  React.useEffect(() => {
-    onVariantChange?.(activeVariant || null)
-  }, [activeVariant, onVariantChange])
 
   const image = activeVariant?.defaultImage || product.defaultImage
 
@@ -61,7 +36,7 @@ const CatalogProductVariantPreview = ({ product, onVariantChange }: Props) => {
             key={image.url}
             src={image.url}
             alt={image.altText || product.name}
-            sizes={generateImageSizes([{ imageWidth: '624px' }])}
+            sizes={generateImageSizes([{ imageWidth: '700px' }])}
           />
         </div>
       ) : null}
@@ -77,7 +52,7 @@ CatalogProductVariantPreview.fragments = {
       id
       name
       defaultImage {
-        url(width: 600)
+        url(width: 700)
         altText
       }
 
@@ -89,19 +64,6 @@ CatalogProductVariantPreview.fragments = {
             defaultImage {
               url(width: 700)
               altText
-            }
-            options {
-              edges {
-                node {
-                  values {
-                    edges {
-                      node {
-                        entityId
-                      }
-                    }
-                  }
-                }
-              }
             }
           }
         }

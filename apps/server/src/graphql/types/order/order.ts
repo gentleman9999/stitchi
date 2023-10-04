@@ -69,7 +69,9 @@ export const Order = objectType({
     t.nullable.string('customerId', {
       resolve: order => order.membershipId || null,
     })
+
     t.nullable.string('shippingAddressId')
+    t.nullable.string('designRequestId')
 
     t.nullable.string('customerFirstName')
     t.nullable.string('customerLastName')

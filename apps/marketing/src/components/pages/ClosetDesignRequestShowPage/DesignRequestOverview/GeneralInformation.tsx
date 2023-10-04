@@ -44,13 +44,11 @@ const GeneralInformation = ({ designRequest }: Props) => {
             </h2>
 
             <div className="mt-2 flex flex-col divide-y border rounded-sm">
-              {designRequest.designRequestLocations.map(location =>
-                location.description?.length || location.files.length ? (
-                  <div key={location.id} className="py-2 px-3">
-                    <DesignLocation location={location} />
-                  </div>
-                ) : null,
-              )}
+              {designRequest.designRequestLocations.map(location => (
+                <div key={location.id} className="py-2 px-3">
+                  <DesignLocation location={location} />
+                </div>
+              ))}
             </div>
           </div>
         ) : (

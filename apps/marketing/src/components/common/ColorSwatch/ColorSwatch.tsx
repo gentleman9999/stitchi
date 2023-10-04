@@ -25,7 +25,8 @@ const ColorSwatch = (props: Props) => {
       }}
       className={cx(
         props.selected ? 'outline outline-4 ' : '',
-        'relative flex cursor-pointer items-center justify-center rounded-full p-0.5',
+        Boolean(props.onClick) ? 'cursor-pointer' : '',
+        'relative flex items-center justify-center rounded-full p-0.5',
       )}
     >
       <label className="sr-only">{props.label}</label>
