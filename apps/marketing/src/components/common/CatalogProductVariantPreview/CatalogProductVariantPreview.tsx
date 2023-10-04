@@ -1,57 +1,32 @@
 import { gql } from '@apollo/client'
-import {
-  CatalogProductVariantPreviewProductFragment,
-  CatalogProductVariantPreviewProductFragment_variants_edges_node as ProductVariant,
-} from '@generated/CatalogProductVariantPreviewProductFragment'
+import { CatalogProductVariantPreviewProductFragment } from '@generated/CatalogProductVariantPreviewProductFragment'
 import { generateImageSizes } from '@lib/utils/image'
 import Image from 'next/image'
 import React from 'react'
 import CatalogProductColorGrid from '../CatalogProductColorGrid'
 
-interface ProductOptionValues {
-  colorEntityId: number | null
-  colorLabel: string | null
-}
-
 interface Props {
   product: CatalogProductVariantPreviewProductFragment
-  onVariantChange?: (variant: ProductVariant | null) => void
+  activeVariantId?: string | null
 }
 
-const CatalogProductVariantPreview = ({ product, onVariantChange }: Props) => {
-  const [productOptionValues, setProductOptionValues] =
-    React.useState<ProductOptionValues>({
-      colorEntityId: null,
-      colorLabel: null,
-    })
-
+const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
   const productVariants = product.variants.edges?.map(edge => edge?.node)
 
   const activeVariant = React.useMemo(
     () =>
       productVariants?.find(variant => {
-        const options = variant?.options.edges?.map(edge => edge?.node)
-        return options?.find(option => {
-          const values = option?.values.edges?.map(edge => edge?.node)
-
-          return values?.find(value => {
-            return value?.entityId === productOptionValues.colorEntityId
-          })
-        })
+        return variant?.id === activeVariantId
       }) || productVariants?.[0],
-    [productOptionValues.colorEntityId, productVariants],
+    [activeVariantId, productVariants],
   )
-
-  React.useEffect(() => {
-    onVariantChange?.(activeVariant || null)
-  }, [activeVariant, onVariantChange])
 
   const image = activeVariant?.defaultImage || product.defaultImage
 
   return (
     <>
       {image ? (
-        <div className="relative w-full h-[350px] sm:h-[400px] border-b">
+        <div className="relative w-full h-[calc(100vh-56px)]">
           <Image
             fill
             priority
@@ -61,34 +36,10 @@ const CatalogProductVariantPreview = ({ product, onVariantChange }: Props) => {
             key={image.url}
             src={image.url}
             alt={image.altText || product.name}
-            sizes={generateImageSizes([{ imageWidth: '624px' }])}
+            sizes={generateImageSizes([{ imageWidth: '700px' }])}
           />
         </div>
       ) : null}
-      <div className="flex flex-col gap-2">
-        <div className="flex flex-col sm:flex-row justify-between sm:items-center">
-          <h3 className="text font-bold text-gray-700">Available Colors</h3>
-          {productOptionValues.colorLabel ? (
-            <span className="text-sm font-semibold text-gray-600">
-              {productOptionValues.colorLabel}
-            </span>
-          ) : null}
-        </div>
-        <CatalogProductColorGrid
-          product={product}
-          onColorSelect={color => {
-            setProductOptionValues({
-              colorEntityId: color.colorEntityId,
-              colorLabel: color.label,
-            })
-          }}
-          selectedColorEntityIds={
-            productOptionValues.colorEntityId
-              ? [productOptionValues.colorEntityId]
-              : []
-          }
-        />
-      </div>
     </>
   )
 }
@@ -101,7 +52,7 @@ CatalogProductVariantPreview.fragments = {
       id
       name
       defaultImage {
-        url(width: 300)
+        url(width: 700)
         altText
       }
 
@@ -111,21 +62,8 @@ CatalogProductVariantPreview.fragments = {
             id
             entityId
             defaultImage {
-              url(width: 300)
+              url(width: 700)
               altText
-            }
-            options {
-              edges {
-                node {
-                  values {
-                    edges {
-                      node {
-                        entityId
-                      }
-                    }
-                  }
-                }
-              }
             }
           }
         }

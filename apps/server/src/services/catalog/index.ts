@@ -7,6 +7,8 @@ import {
   CatalogFactoryBrand,
   CatalogFactoryCategory,
   catalogFactoryCategory,
+  CatalogFactoryCatalogProductOptionValue,
+  catalogFactoryCatalogProductOptionValue,
 } from './factory'
 import {
   BigCommerceClient,
@@ -15,9 +17,14 @@ import {
 import { logger } from '../../telemetry'
 
 export interface OrderClientService {
-  getCatalogProduct: (input: {
-    productEntityId: string
-  }) => Promise<CatalogFactoryCatalogProduct>
+  getCatalogProduct: (
+    input: {
+      productEntityId: string
+    },
+    config?: {
+      includeOptions?: boolean
+    },
+  ) => Promise<CatalogFactoryCatalogProduct>
   getCatalogProductVariant: (input: {
     productEntityId: string
     variantEntityId: string
@@ -30,6 +37,11 @@ export interface OrderClientService {
   listProductCategories: (input: {
     parentId?: string
   }) => Promise<CatalogFactoryCategory[]>
+
+  getAllProductOptionValues: (input: {
+    productEntityId: string
+    optionEntityId: string
+  }) => Promise<CatalogFactoryCatalogProductOptionValue[]>
 }
 
 interface MakeClientParams {
@@ -42,11 +54,14 @@ const makeClient: MakeClientFn = (
   { bigCommerceClient } = { bigCommerceClient: makeCatalogClient() },
 ) => {
   return {
-    getCatalogProduct: async input => {
+    getCatalogProduct: async (input, config) => {
       try {
-        const product = await bigCommerceClient.getProduct({
-          productEntityId: parseInt(input.productEntityId),
-        })
+        const product = await bigCommerceClient.getProduct(
+          {
+            productEntityId: parseInt(input.productEntityId),
+          },
+          config,
+        )
 
         return catalogFactoryCatalogProduct({ bigCommerceProduct: product })
       } catch (error) {
@@ -139,6 +154,29 @@ const makeClient: MakeClientFn = (
           })
           .error(`Failed to get categories`)
         throw new Error('Failed to get categories')
+      }
+    },
+
+    getAllProductOptionValues: async input => {
+      try {
+        const productOptionValues =
+          await bigCommerceClient.getAllProductOptionValues({
+            productEntityId: parseInt(input.productEntityId),
+            optionEntityId: parseInt(input.optionEntityId),
+          })
+
+        return productOptionValues.map(productOptionValue =>
+          catalogFactoryCatalogProductOptionValue({
+            bigCommerceOptionValue: productOptionValue,
+          }),
+        )
+      } catch (error) {
+        logger
+          .child({
+            context: { error },
+          })
+          .error(`Failed to get product option values`)
+        throw new Error('Failed to get product option values')
       }
     },
   }

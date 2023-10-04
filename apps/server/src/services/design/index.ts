@@ -124,6 +124,13 @@ const makeClient: MakeClientFn = (
         throw new Error('Failed to create notification topic')
       }
 
+      designEvents.emit({
+        type: 'designRequest.created',
+        payload: {
+          nextDesignRequest: designRequest,
+        },
+      })
+
       return designRequest
     },
 

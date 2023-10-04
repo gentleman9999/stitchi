@@ -45,9 +45,9 @@ const CatalogProductLegacy = ({ product, priority, loading }: Props) => {
     <li className="flex flex-col w-full">
       <Link
         href={href}
-        className="flex-1 flex flex-col cursor-pointer rounded-lg border border-gray-200 p-2  hover:shadow-lg transition-all bg-paper"
+        className="flex-1 flex flex-col cursor-pointer rounded-lg border border-gray-200  hover:shadow-lg transition-all bg-paper"
       >
-        <div className="relative w-full h-[220px] flex items-center justify-center">
+        <div className="relative w-full h-[320px] flex items-center justify-center">
           {loading ? (
             <Skeleton containerClassName="flex-1 h-full" className="h-full" />
           ) : product?.defaultImage?.url ? (
@@ -64,41 +64,43 @@ const CatalogProductLegacy = ({ product, priority, loading }: Props) => {
             <span>No image</span>
           )}
         </div>
-        <h3 className="mt-4 text-sm font-normal leading-tight">
-          {loading ? (
-            <Skeleton width={140} />
-          ) : product ? (
-            makeProductTitle(product)
-          ) : null}
-        </h3>
-
-        <div className="mt-4 flex justify-between items-end flex-wrap flex-1">
-          <div className="flex-1 flex items-end">
+        <div className="p-2">
+          <h3 className="text-sm font-normal leading-tight">
             {loading ? (
-              <Skeleton width={100} />
-            ) : (
-              <SwatchGroup
-                // Could add support for more colors in the future
-                hexColors={colors.map(({ hexColors }) => hexColors[0])}
-              />
-            )}
-          </div>
-          <span className=" text-gray-600 flex gap-1 items-center">
-            <span className="text-xs">from</span>
-            <Tooltip
-              label="Price includes 1 print location."
-              delay={150}
-              renderTrigger={() => (
-                <span className="font-bold">
-                  {loading ? (
-                    <Skeleton width={40} />
-                  ) : product ? (
-                    currency(product.priceCents, { fromCents: true }).format()
-                  ) : null}
-                </span>
+              <Skeleton width={140} />
+            ) : product ? (
+              makeProductTitle(product)
+            ) : null}
+          </h3>
+
+          <div className="mt-4 flex justify-between items-end flex-wrap flex-1">
+            <div className="flex-1 flex items-end">
+              {loading ? (
+                <Skeleton width={100} />
+              ) : (
+                <SwatchGroup
+                  // Could add support for more colors in the future
+                  hexColors={colors.map(({ hexColors }) => hexColors[0])}
+                />
               )}
-            />
-          </span>
+            </div>
+            <span className=" text-gray-600 flex gap-1 items-center">
+              <span className="text-xs">from</span>
+              <Tooltip
+                label="Price includes 1 print location."
+                delay={150}
+                renderTrigger={() => (
+                  <span className="font-bold">
+                    {loading ? (
+                      <Skeleton width={40} />
+                    ) : product ? (
+                      currency(product.priceCents, { fromCents: true }).format()
+                    ) : null}
+                  </span>
+                )}
+              />
+            </span>
+          </div>
         </div>
       </Link>
     </li>
@@ -123,7 +125,7 @@ CatalogProductLegacy.fragments = {
       defaultImage {
         urlOriginal
         altText
-        url(width: 150)
+        url(width: 400)
       }
     }
   `,

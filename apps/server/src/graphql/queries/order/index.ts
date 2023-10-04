@@ -218,3 +218,21 @@ export const OrdersExtendsMember = extendType({
     })
   },
 })
+
+export const OrderExtendsDesignRequest = extendType({
+  type: 'DesignRequest',
+  definition(t) {
+    t.nonNull.list.nonNull.field('orders', {
+      type: 'Order',
+      resolve: async (parent, _, { order }) => {
+        const orders = await order.listOrders({
+          where: {
+            designRequestId: parent.id,
+          },
+        })
+
+        return orders.map(orderFactoryOrderToGraphQL)
+      },
+    })
+  },
+})

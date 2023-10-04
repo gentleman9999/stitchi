@@ -31,15 +31,10 @@ const AppTopbar = ({ membership, renderLogo }: Props) => {
           </div>
           <div className="col-span-1 flex items-center"></div>
           <div className="col-span-1 flex justify-end items-center gap-4">
-            <div className="hidden sm:block">
-              {router.asPath.startsWith('/closet') ? (
-                <NavItem
-                  href={routes.internal.catalog.href()}
-                  label="Catalog"
-                />
-              ) : (
-                <NavItem href={routes.internal.closet.href()} label="Closet" />
-              )}
+            <div className="hidden sm:flex justify-end items-center gap-4">
+              <NavItem href={routes.internal.catalog.href()} label="Catalog" />
+              <div className="w-1 border-l h-6 hidden sm:block" />
+              <NavItem href={routes.internal.closet.href()} label="Closet" />
             </div>
             <div className="w-1 border-l h-6 hidden sm:block" />
             <div>

@@ -105,10 +105,6 @@ export interface ProductShowPageHeroProductFragment_defaultImage {
    * Text description of an image that can be used for SEO and/or accessibility purposes.
    */
   altText: string;
-  /**
-   * Absolute path to original image using store CDN.
-   */
-  urlOriginal: string;
 }
 
 export interface ProductShowPageHeroProductFragment_variants_edges_node_defaultImage {
@@ -153,6 +149,10 @@ export interface ProductShowPageHeroProductFragment_variants_edges_node_options_
    * Option values.
    */
   values: ProductShowPageHeroProductFragment_variants_edges_node_options_edges_node_values;
+  /**
+   * Display name for the option.
+   */
+  displayName: string;
 }
 
 export interface ProductShowPageHeroProductFragment_variants_edges_node_options_edges {
@@ -214,9 +214,9 @@ export interface ProductShowPageHeroProductFragment_brand {
    */
   id: string;
   /**
-   * Path for the brand page.
+   * Name of the brand.
    */
-  path: string;
+  name: string;
 }
 
 export interface ProductShowPageHeroProductFragment {
@@ -241,7 +241,10 @@ export interface ProductShowPageHeroProductFragment {
    * Variants associated with the product.
    */
   variants: ProductShowPageHeroProductFragment_variants;
-  priceCents: number;
+  /**
+   * Brand associated with the product.
+   */
+  brand: ProductShowPageHeroProductFragment_brand | null;
   /**
    * Id of the product.
    */
@@ -250,8 +253,4 @@ export interface ProductShowPageHeroProductFragment {
    * Relative URL path to product page.
    */
   path: string;
-  /**
-   * Brand associated with the product.
-   */
-  brand: ProductShowPageHeroProductFragment_brand | null;
 }

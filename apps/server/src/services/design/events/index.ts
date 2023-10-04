@@ -8,9 +8,17 @@ import {
   DesignProofCreatedEventPayload,
   makeHandler as makeDesignProofCreatedHandler,
 } from './design-request-proof-created'
+import {
+  DesignRequestCreatedEventPayload,
+  makeHandler as makeDesignRequestCreatedHandler,
+} from './design-request-created'
+
 import { assertNever } from '../../../utils/assert-never'
 
-type DesignRequestEventType = 'designRequest.updated' | 'designProof.created'
+type DesignRequestEventType =
+  | 'designRequest.created'
+  | 'designRequest.updated'
+  | 'designProof.created'
 
 interface BaseEvent {
   type: DesignRequestEventType
@@ -26,20 +34,31 @@ interface DesignProofCreatedEventInput extends BaseEvent {
   payload: DesignProofCreatedEventPayload
 }
 
+interface DesignRequestCreatedEventInput extends BaseEvent {
+  type: 'designRequest.created'
+  payload: DesignRequestCreatedEventPayload
+}
+
 type DesignRequestEvent =
   | DesignRequestUpdatedEventInput
   | DesignProofCreatedEventInput
+  | DesignRequestCreatedEventInput
 
 const makeEvents = (
   {
+    designRequestCreatedHandler,
     designRequestUpdatedHandler,
     designProofCreatedHandler,
   }: {
+    designRequestCreatedHandler: ReturnType<
+      typeof makeDesignRequestCreatedHandler
+    >
     designRequestUpdatedHandler: ReturnType<
       typeof makeDesignRequestUpdatedHandler
     >
     designProofCreatedHandler: ReturnType<typeof makeDesignProofCreatedHandler>
   } = {
+    designRequestCreatedHandler: makeDesignRequestCreatedHandler(),
     designRequestUpdatedHandler: makeDesignRequestUpdatedHandler(),
     designProofCreatedHandler: makeDesignProofCreatedHandler(),
   },
@@ -49,10 +68,13 @@ const makeEvents = (
       logger.child({ context: { event } }).info(`Handling event ${event.type}`)
 
       switch (event.type) {
+        case 'designRequest.created':
+          return designRequestCreatedHandler(event.payload)
         case 'designRequest.updated':
           return designRequestUpdatedHandler(event.payload)
         case 'designProof.created':
           return designProofCreatedHandler(event.payload)
+
         default:
           return assertNever(event)
       }

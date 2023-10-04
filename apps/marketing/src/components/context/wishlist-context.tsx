@@ -22,7 +22,10 @@ const WishlistProvider = ({
 
   const toggleProduct: State['toggleProduct'] = ({ entityId, productName }) => {
     if (productEntityIds.indexOf(entityId) < 0) {
-      track.productFavorited({ name: productName })
+      track.productFavorited({
+        name: productName,
+        productId: entityId.toString(),
+      })
       setProductUuids([...productEntityIds, entityId])
     } else {
       setProductUuids(productEntityIds.filter(uuid => uuid !== entityId))

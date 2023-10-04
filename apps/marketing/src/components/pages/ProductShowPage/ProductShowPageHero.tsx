@@ -6,12 +6,14 @@ import React from 'react'
 import { ArrowRight } from 'icons'
 import { track } from '@lib/analytics'
 import CatalogProductVariantPreview from '@components/common/CatalogProductVariantPreview'
-import ProductForm, { FormValues } from './ProductForm'
-import useProductShowPageHero from './useProductShowPageHero'
 import { useRouter } from 'next/router'
 import useProductOptions from '@components/hooks/useProductOptions'
-import { DesignRequestCreateInput } from '@generated/globalTypes'
 import { useLogger } from 'next-axiom'
+import ProductForm, { FormValues } from './ProductForm'
+import useCustomizeProduct from './useCustomizeProduct'
+import { makeProductTitle } from '@lib/utils/catalog'
+import { CatalogProductCustomizeInput } from '@generated/globalTypes'
+import { notEmpty } from '@lib/utils/typescript'
 
 interface Props {
   product: ProductShowPageHeroProductFragment
@@ -20,32 +22,72 @@ interface Props {
 const ProductShowPageHero = ({ product }: Props) => {
   const logger = useLogger()
   const router = useRouter()
-  const { colors } = useProductOptions({ product })
-
-  const { handleCreateDesignRequest } = useProductShowPageHero({
-    productEntityId: product.entityId,
-    productName: product.name,
-  })
+  const { colors, sizes } = useProductOptions({ product })
+  const [handleCustomize] = useCustomizeProduct()
+  const [activeVariantId, setActiveVariantId] = React.useState<string | null>(
+    null,
+  )
 
   const handleSubmit = async (data: FormValues) => {
-    const serializedColors: DesignRequestCreateInput['product']['colors'] = []
+    const serializedItems: CatalogProductCustomizeInput['items'] = []
 
-    data.colorEntityIds.forEach(colorEntityId => {
-      const color = colors.find(color => color.entityId === colorEntityId)
+    for (const color of data.colors) {
+      for (const size of color.sizes) {
+        const foundVariant = product.variants.edges
+          ?.map(edge => edge?.node)
+          .find(variant => {
+            const colorOptionValues = variant?.options.edges
+              ?.map(edge => edge?.node)
+              .find(option => option?.displayName === 'Color')
+              ?.values.edges?.map(edge => edge?.node)
+              .filter(notEmpty)
 
-      if (!color?.entityId) {
-        return
+            const sizeOptionValues = variant?.options.edges
+              ?.map(edge => edge?.node)
+              .find(option => option?.displayName === 'Size')
+              ?.values.edges?.map(edge => edge?.node)
+              .filter(notEmpty)
+
+            return (
+              colorOptionValues?.find(
+                value =>
+                  value?.entityId.toString() === color.catalogProductColorId,
+              ) &&
+              sizeOptionValues?.find(
+                value =>
+                  value?.entityId.toString() === size.catalogSizeEntityId,
+              )
+            )
+          })
+
+        if (foundVariant) {
+          serializedItems.push({
+            catalogProductVariantId: foundVariant.entityId.toString(),
+            quantity: size.quantity || 0,
+          })
+        }
       }
+    }
 
-      serializedColors.push({
-        catalogProductColorId: color.entityId.toString(),
-        hexCode: color.hexColors[0],
-        name: color.label,
-      })
+    const productTitle = makeProductTitle(product)
+
+    const { designRequest, order } = await handleCustomize({
+      catalogProductId: product.entityId.toString(),
+      name: productTitle,
+      description: data.designBrief,
+      items: serializedItems,
+      fileIds: data.fileIds,
+      addons: data.customizations
+        .filter(c => c.selected === true)
+        .map(c => ({
+          name: c.name,
+          type: c.type,
+        })),
     })
 
-    const designRequest = await handleCreateDesignRequest({
-      colors: serializedColors,
+    track.productPrimaryCtaClicked({
+      name: productTitle,
+      productId: product.entityId.toString(),
     })
 
     if (!designRequest) {
@@ -61,38 +103,51 @@ const ProductShowPageHero = ({ product }: Props) => {
   }
 
   return (
-    <div className="grid grid-cols-12 gap-2 sm:gap-4 md:gap-10">
-      <div className="col-span-12 sm:col-span-6 lg:col-span-7 flex flex-col gap-4">
-        <CatalogProductVariantPreview product={product} />
+    <div className="w-full flex flex-col sm:flex-row relative">
+      <div className="sm:h-[calc(100vh-56px)]  sticky top-[56px] sm:w-1/2">
+        <CatalogProductVariantPreview
+          product={product}
+          activeVariantId={activeVariantId}
+        />
       </div>
+      <div className="sm:w-1/2">
+        <ProductForm
+          product={product}
+          onSubmit={handleSubmit}
+          onActiveColorChange={colorId => {
+            setActiveVariantId(
+              product.variants.edges
+                ?.map(edge => edge?.node)
+                .find(variant => {
+                  const colorOptionValues = variant?.options.edges
+                    ?.map(edge => edge?.node)
+                    .find(option => option?.displayName === 'Color')
+                    ?.values.edges?.map(edge => edge?.node)
+                    .filter(notEmpty)
 
-      <div className="col-span-12 sm:col-span-6 lg:col-span-5">
-        <div className="sticky top-24 flex flex-col gap-6">
-          <div className="p-6 border rounded-sm @container">
-            <ProductForm
-              onSubmit={handleSubmit}
-              product={product}
-              colors={colors}
-            />
-          </div>
-
-          <div className="flex flex-col gap-4">
-            <span className="text-sm">
-              Elevate your brand by collaborating with one of our skilled
-              designers at no additional cost!
-            </span>
-            <Link
-              href={routes.internal.getStarted.href()}
-              className="flex items-center underline font-medium"
-              onClick={() =>
-                track.productCustomDesignClicked({ name: product.name })
-              }
-            >
-              Work with a designer{' '}
-              <ArrowRight width={16} className="stroke-2 ml-1" />
-            </Link>
-          </div>
-        </div>
+                  return (
+                    colorOptionValues?.find(
+                      value => value?.entityId.toString() === colorId,
+                    ) !== undefined
+                  )
+                })?.id || null,
+            )
+          }}
+          colors={colors.map(color => ({
+            id: color.entityId.toString(),
+            catalogProductColorId: color.entityId.toString(),
+            hex: color.hexColors[0],
+            name: color.label,
+          }))}
+          variants={colors.flatMap(color =>
+            sizes.map(size => ({
+              id: size.entityId.toString(),
+              sizeName: size.label,
+              catalogProductSizeId: size.entityId.toString(),
+              catalogProductColorId: color.entityId.toString(),
+            })),
+          )}
+        />
       </div>
     </div>
   )
@@ -101,35 +156,39 @@ const ProductShowPageHero = ({ product }: Props) => {
 ProductShowPageHero.fragments = {
   product: gql`
     ${CatalogProductVariantPreview.fragments.product}
-    ${ProductForm.fragments.product}
     ${useProductOptions.fragments.product}
+    ${ProductForm.fragments.product}
     fragment ProductShowPageHeroProductFragment on Product {
       ...CatalogProductVariantPreviewProductFragment
-      ...ProductShowPageProductFormProductFragment
-      id
-      entityId
-      name
-      path
-
-      defaultImage {
-        urlOriginal
-        altText
-        url(width: 300)
-      }
-      brand {
-        id
-        path
-      }
+      ...ProductFormProductFragment
+      ...UseProductColorsProductFragment
 
       variants(first: $variantsFirst) {
         edges {
           node {
             id
-            entityId
+            options {
+              edges {
+                node {
+                  displayName
+                  values {
+                    edges {
+                      node {
+                        entityId
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
-      ...UseProductColorsProductFragment
+
+      id
+      entityId
+      name
+      path
     }
   `,
 }

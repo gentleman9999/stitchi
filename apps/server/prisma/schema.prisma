@@ -214,6 +214,9 @@ model Order {
 
   shippingAddressId String?
 
+  //  If an order is created prior to a product being created, we will store the design request ID here to track the design request
+  designRequestId String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -221,10 +224,12 @@ model Order {
   Organization    Organization?   @relation(fields: [organizationId], references: [id])
   Fulfillment     Fulfillment[]
   ShippingAddress MailingAddress? @relation(fields: [shippingAddressId], references: [id])
+  designRequest   DesignRequest?  @relation(fields: [designRequestId], references: [id])
 
   @@unique([humanReadableId, organizationId, membershipId])
   @@index([organizationId])
   @@index([shippingAddressId])
+  @@index([designRequestId])
 }
 
 enum OrderPaymentStatus {
@@ -497,6 +502,7 @@ model DesignRequest {
   designRequestRevisions    DesignRequestRevision[]
   designs                   Design[]
   designRequestProduct      DesignRequestProduct       @relation(fields: [designRequestProductId], references: [id])
+  order                     Order[]
 
   @@index([membershipId])
   @@index([organizationId])

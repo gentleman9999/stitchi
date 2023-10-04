@@ -1,11 +1,11 @@
 import React from 'react'
 import { Controller, useFieldArray, UseFormReturn } from 'react-hook-form'
-import { FormValues } from '../ClosetDesignBuyPageForm'
 import { TextField } from '@components/ui'
+import type { VariantFormValues } from './ProductVariantQuantityMatrixForm'
 
 interface Props {
   colorFieldIndex: number
-  form: UseFormReturn<FormValues>
+  form: UseFormReturn<VariantFormValues>
 }
 
 const ColorSizesInput = ({ form, colorFieldIndex }: Props) => {

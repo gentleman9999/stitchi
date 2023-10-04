@@ -105,10 +105,6 @@ const ProductShowPage = ({ product }: Props) => {
       <Container>
         <div className="flex flex-col gap-4 pt-6">
           <div className="flex flex-col sm:flex-col-reverse gap-4">
-            <h1 className="font-headingDisplay font-semibold text-2xl sm:text-3xl text-gray-800">
-              {makeProductTitle(product)}
-            </h1>
-
             <div className="flex justify-between items-center">
               {product.brand ? (
                 <Breadcrumbs

@@ -22,6 +22,7 @@ export const Order: yup.ObjectSchema<OrderSchema> = yup
     membershipId: yup.string().nullable().defined(),
     organizationId: yup.string().uuid().nullable().defined(),
     shippingAddressId: yup.string().uuid().nullable().defined(),
+    designRequestId: yup.string().uuid().nullable().defined(),
     customerFirstName: yup.string().nullable().defined(),
     customerLastName: yup.string().nullable().defined(),
     customerEmail: yup.string().email().nullable().defined(),

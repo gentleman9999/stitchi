@@ -77,10 +77,6 @@ export interface ProductPageGetDataQuery_site_route_node_Product_defaultImage {
    * Text description of an image that can be used for SEO and/or accessibility purposes.
    */
   altText: string;
-  /**
-   * Absolute path to original image using store CDN.
-   */
-  urlOriginal: string;
 }
 
 export interface ProductPageGetDataQuery_site_route_node_Product_brand {

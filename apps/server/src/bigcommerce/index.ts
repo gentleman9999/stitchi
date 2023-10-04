@@ -7,6 +7,7 @@ import {
   Brand,
   makeCategory,
   Category,
+  OptionValue,
 } from './serialize'
 import { logger } from '../telemetry'
 
@@ -15,10 +16,14 @@ export type {
   ProductVariant as BigCommerceProductVariant,
   Brand as BigCommerceBrand,
   Category as BigCommerceCategory,
+  OptionValue as BigCommerceOptionValue,
 }
 
 export interface BigCommerceClient {
-  getProduct: (input: { productEntityId: number }) => Promise<Product>
+  getProduct: (
+    input: { productEntityId: number },
+    config?: { includeOptions?: boolean },
+  ) => Promise<Product>
   getProductVariant: (input: {
     productEntityId: number
     variantEntityId: number
@@ -29,6 +34,11 @@ export interface BigCommerceClient {
   getBrand: (input: { brandEntityId: number }) => Promise<Brand>
 
   listProductCategories: (input: { parentId?: number }) => Promise<Category[]>
+
+  getAllProductOptionValues: (input: {
+    productEntityId: number
+    optionEntityId: number
+  }) => Promise<any[]>
 }
 
 interface BigCommerceClientConfig {}
@@ -37,10 +47,12 @@ const makeClient = (
   config: BigCommerceClientConfig = {},
 ): BigCommerceClient => {
   return {
-    getProduct: async input => {
+    getProduct: async (input, config) => {
       try {
         const res = await bigCommerceClient(
-          `/catalog/products/${input.productEntityId}?include=images`,
+          `/catalog/products/${input.productEntityId}?include=images${
+            config?.includeOptions ? ',options' : ''
+          }`,
         )
 
         const { data, errors } = await res.json()
@@ -173,6 +185,36 @@ const makeClient = (
           .error(`Failed to get categories`)
 
         throw new Error('Failed to get categories')
+      }
+    },
+
+    getAllProductOptionValues: async input => {
+      try {
+        const res = await bigCommerceClient(
+          `/catalog/products/${input.productEntityId}/options/${input.optionEntityId}/values`,
+        )
+
+        const { data, errors } = await res.json()
+
+        if (errors) {
+          logger.error(errors)
+        }
+
+        return data
+      } catch (error) {
+        logger
+          .child({
+            context: {
+              error,
+              productEntityId: input.productEntityId,
+              optionEntityId: input.optionEntityId,
+            },
+          })
+          .error(
+            `Failed to get product option values: ${input.productEntityId}/${input.optionEntityId}`,
+          )
+
+        throw new Error('Failed to get product option values')
       }
     },
   }

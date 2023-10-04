@@ -10,8 +10,7 @@ import { DesignRequestStatus } from '../db/design-request-table'
 import { DesignFactoryDesignRequest } from '../factory'
 import { designRequestSubmitted } from './transitions/design-request-submitted'
 
-export interface DesignRequestUpdatedEventPayload {
-  prevDesignRequest: DesignFactoryDesignRequest
+export interface DesignRequestCreatedEventPayload {
   nextDesignRequest: DesignFactoryDesignRequest
 }
 
@@ -20,8 +19,8 @@ interface MakeHandlerParams {
   notificationClient: NotificationClientService
 }
 
-interface DesignRequestUpdatedHandler {
-  (payload: DesignRequestUpdatedEventPayload): Promise<void>
+interface DesignRequestCreatedHandler {
+  (payload: DesignRequestCreatedEventPayload): Promise<void>
 }
 
 const makeHandler =
@@ -30,12 +29,9 @@ const makeHandler =
       conversationClient: makeConversationServiceClient(),
       notificationClient: makeNotificationClientServiceClient(),
     },
-  ): DesignRequestUpdatedHandler =>
-  async ({ prevDesignRequest, nextDesignRequest }) => {
-    if (
-      prevDesignRequest.status === DesignRequestStatus.DRAFT &&
-      nextDesignRequest.status === DesignRequestStatus.SUBMITTED
-    ) {
+  ): DesignRequestCreatedHandler =>
+  async ({ nextDesignRequest }) => {
+    if (nextDesignRequest.status === DesignRequestStatus.SUBMITTED) {
       await designRequestSubmitted(nextDesignRequest, {
         conversationClient,
         notificationClient,
