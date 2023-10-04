@@ -55,7 +55,15 @@ type MakeCreateOrderFn = (config?: CreateOrderConfig) => CreateOrderFn
 const makeCreateOrder: MakeCreateOrderFn =
   ({ orderTable } = { orderTable: makeOrderTable(prisma) }) =>
   async input => {
-    const validInput = await inputSchema.validate(input.order)
+    let validInput
+
+    try {
+      validInput = await inputSchema.validate(input.order)
+    } catch (error) {
+      logger.child({ error }).error('Failed to validate input')
+
+      throw new Error('Invalid input')
+    }
 
     const { items, ...restValidInput } = validInput
 
@@ -102,7 +110,11 @@ const makeCreateOrder: MakeCreateOrderFn =
         },
       })
     } catch (error) {
-      logger.error(error)
+      logger
+        .child({
+          input: validInput,
+        })
+        .error(error)
       throw new Error('Failed to create order')
     }
 

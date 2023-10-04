@@ -14,6 +14,8 @@ import { OrderItemRecordType } from '../../../services/order/db/order-item-table
 import { OrderRecordType } from '../../../services/order/db/order-table'
 import calculate from '../../../services/quote/calculateQuote'
 import { notEmpty } from '../../../utils'
+import { designRequestFactoryToGrahpql } from '../../serializers/design'
+import { orderFactoryOrderToGraphQL } from '../../serializers/order'
 
 export const CatalogProductCustomizeItemsInput = inputObjectType({
   name: 'CatalogProductCustomizeItemsInput',
@@ -68,6 +70,8 @@ export const catalogProductCustomize = mutationField(
       input: nonNull(CatalogProductCustomizeInput),
     },
     resolve: async (_, { input }, ctx) => {
+      const quantity = input.items.reduce((acc, item) => acc + item.quantity, 0)
+
       const designRequestName = input.name || 'No name'
 
       let productVariants: CatalogFactoryProductVariant[]
@@ -197,7 +201,13 @@ export const catalogProductCustomize = mutationField(
         throw new GraphQLError('Unable to create design request')
       }
 
-      const quantity = input.items.reduce((acc, item) => acc + item.quantity, 0)
+      if (quantity === 0) {
+        // Skip creating order, since there are no items
+        return {
+          designRequest: designRequestFactoryToGrahpql(designRequest),
+          order: null,
+        }
+      }
 
       // TODO: Add support for Direct to Garment
       const quote = calculate({
@@ -233,6 +243,7 @@ export const catalogProductCustomize = mutationField(
             designRequestId: designRequest.id,
             type: OrderRecordType.CART,
             items: pickedProductVariants
+              .filter(v => v.quantity > 0)
               .map(item => {
                 return {
                   // We haven't create a design product yet
@@ -258,8 +269,8 @@ export const catalogProductCustomize = mutationField(
       }
 
       return {
-        designRequest: null,
-        order: null,
+        designRequest: designRequestFactoryToGrahpql(designRequest),
+        order: orderFactoryOrderToGraphQL(order),
       }
     },
   },

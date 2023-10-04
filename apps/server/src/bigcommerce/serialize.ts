@@ -30,7 +30,18 @@ const optionValueSchema = yup.object().shape({
 const optionSchema = yup.object().shape({
   id: yup.number().required(),
   display_name: yup.string().required(),
-  type: yup.string().oneOf(['radio_buttons', 'select', 'swatch']).nullable(),
+  type: yup
+    .string()
+    .oneOf([
+      'radio_buttons',
+      'select',
+      'swatch',
+      'dropdown',
+      'rectangles',
+      'product_list',
+      'product_list_with_images',
+    ])
+    .nullable(),
   option_values: yup.array().of(optionValueSchema).nullable(),
 })
 

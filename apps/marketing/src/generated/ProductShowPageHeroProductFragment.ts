@@ -149,6 +149,10 @@ export interface ProductShowPageHeroProductFragment_variants_edges_node_options_
    * Option values.
    */
   values: ProductShowPageHeroProductFragment_variants_edges_node_options_edges_node_values;
+  /**
+   * Display name for the option.
+   */
+  displayName: string;
 }
 
 export interface ProductShowPageHeroProductFragment_variants_edges_node_options_edges {
@@ -237,7 +241,6 @@ export interface ProductShowPageHeroProductFragment {
    * Variants associated with the product.
    */
   variants: ProductShowPageHeroProductFragment_variants;
-  priceCents: number;
   /**
    * Brand associated with the product.
    */

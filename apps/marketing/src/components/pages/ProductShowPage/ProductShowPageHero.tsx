@@ -6,13 +6,14 @@ import React from 'react'
 import { ArrowRight } from 'icons'
 import { track } from '@lib/analytics'
 import CatalogProductVariantPreview from '@components/common/CatalogProductVariantPreview'
-import ProductFormOld, { FormValues } from './ProductFormOld'
-import useProductShowPageHero from './useProductShowPageHero'
 import { useRouter } from 'next/router'
 import useProductOptions from '@components/hooks/useProductOptions'
-import { DesignRequestCreateInput } from '@generated/globalTypes'
 import { useLogger } from 'next-axiom'
-import ProductForm from './ProductForm'
+import ProductForm, { FormValues } from './ProductForm'
+import useCustomizeProduct from './useCustomizeProduct'
+import { makeProductTitle } from '@lib/utils/catalog'
+import { CatalogProductCustomizeInput } from '@generated/globalTypes'
+import { notEmpty } from '@lib/utils/typescript'
 
 interface Props {
   product: ProductShowPageHeroProductFragment
@@ -22,31 +23,68 @@ const ProductShowPageHero = ({ product }: Props) => {
   const logger = useLogger()
   const router = useRouter()
   const { colors, sizes } = useProductOptions({ product })
-
-  const { handleCreateDesignRequest } = useProductShowPageHero({
-    productEntityId: product.entityId,
-    productName: product.name,
-  })
+  const [handleCustomize] = useCustomizeProduct()
 
   const handleSubmit = async (data: FormValues) => {
-    const serializedColors: DesignRequestCreateInput['product']['colors'] = []
+    const serializedItems: CatalogProductCustomizeInput['items'] = []
 
-    data.colorEntityIds.forEach(colorEntityId => {
-      const color = colors.find(color => color.entityId === colorEntityId)
+    for (const color of data.colors) {
+      for (const size of color.sizes) {
+        const foundVariant = product.variants.edges
+          ?.map(edge => edge?.node)
+          .find(variant => {
+            const colorOptionValues = variant?.options.edges
+              ?.map(edge => edge?.node)
+              .find(option => option?.displayName === 'Color')
+              ?.values.edges?.map(edge => edge?.node)
+              .filter(notEmpty)
 
-      if (!color?.entityId) {
-        return
+            const sizeOptionValues = variant?.options.edges
+              ?.map(edge => edge?.node)
+              .find(option => option?.displayName === 'Size')
+              ?.values.edges?.map(edge => edge?.node)
+              .filter(notEmpty)
+
+            return (
+              colorOptionValues?.find(
+                value =>
+                  value?.entityId.toString() === color.catalogProductColorId,
+              ) &&
+              sizeOptionValues?.find(
+                value =>
+                  value?.entityId.toString() === size.catalogSizeEntityId,
+              )
+            )
+          })
+
+        if (foundVariant) {
+          serializedItems.push({
+            catalogProductVariantId: foundVariant.entityId.toString(),
+            quantity: size.quantity || 0,
+          })
+        }
       }
+    }
 
-      serializedColors.push({
-        catalogProductColorId: color.entityId.toString(),
-        hexCode: color.hexColors[0],
-        name: color.label,
-      })
+    const productTitle = makeProductTitle(product)
+
+    const { designRequest, order } = await handleCustomize({
+      catalogProductId: product.entityId.toString(),
+      name: productTitle,
+      description: data.designBrief,
+      items: serializedItems,
+      fileIds: data.fileIds,
+      addons: data.customizations
+        .filter(c => c.selected === true)
+        .map(c => ({
+          name: c.name,
+          type: c.type,
+        })),
     })
 
-    const designRequest = await handleCreateDesignRequest({
-      colors: serializedColors,
+    track.productPrimaryCtaClicked({
+      name: productTitle,
+      productId: product.entityId.toString(),
     })
 
     if (!designRequest) {
@@ -69,6 +107,7 @@ const ProductShowPageHero = ({ product }: Props) => {
       <div className="sm:w-1/2">
         <ProductForm
           product={product}
+          onSubmit={handleSubmit}
           colors={colors.map(color => ({
             id: color.entityId.toString(),
             catalogProductColorId: color.entityId.toString(),
@@ -92,14 +131,34 @@ const ProductShowPageHero = ({ product }: Props) => {
 ProductShowPageHero.fragments = {
   product: gql`
     ${CatalogProductVariantPreview.fragments.product}
-    ${ProductFormOld.fragments.product}
     ${useProductOptions.fragments.product}
     ${ProductForm.fragments.product}
     fragment ProductShowPageHeroProductFragment on Product {
       ...CatalogProductVariantPreviewProductFragment
-      ...ProductShowPageProductFormProductFragment
       ...ProductFormProductFragment
       ...UseProductColorsProductFragment
+
+      variants(first: $variantsFirst) {
+        edges {
+          node {
+            id
+            options {
+              edges {
+                node {
+                  displayName
+                  values {
+                    edges {
+                      node {
+                        entityId
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
 
       id
       entityId

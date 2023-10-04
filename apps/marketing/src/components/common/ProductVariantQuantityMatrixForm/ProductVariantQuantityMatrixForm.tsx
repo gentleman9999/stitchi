@@ -198,7 +198,7 @@ const ProductVariantQuantityMatrixForm = <
 
                   return (
                     <>
-                      <div className="p-1 sticky left-0  flex">
+                      <div key={color.id} className="p-1 sticky left-0  flex">
                         <div className="flex items-center text-xs">
                           <ColorSwatch hexCode={color.hex || '#000'} />
 

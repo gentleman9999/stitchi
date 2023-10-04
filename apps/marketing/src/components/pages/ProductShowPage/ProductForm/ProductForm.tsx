@@ -4,6 +4,7 @@ import ProductVariantQuantityMatrixForm, {
 } from '@components/common/ProductVariantQuantityMatrixForm'
 import { Checkbox, FileInput, TextField } from '@components/ui'
 import Button from '@components/ui/ButtonV2/Button'
+import { CatalogProductCustomizationAddonType } from '@generated/globalTypes'
 import {
   ProductFormGetProductQuoteQuery,
   ProductFormGetProductQuoteQueryVariables,
@@ -19,9 +20,18 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { makeProductTitle } from '@lib/utils/catalog'
 import currency from 'currency.js'
 import React from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import Skeleton from 'react-loading-skeleton'
 import * as yup from 'yup'
+import deepEqual from 'deep-equal'
+
+const MAX_QUANTITY = 20_000
+
+const DEFAULT_PRINT_LOCATIONS = [
+  {
+    colorCount: 1,
+  },
+]
 
 const sizeSchema = yup.object().shape({
   catalogSizeEntityId: yup.string().required(),
@@ -50,9 +60,17 @@ const schema = yup.object().shape({
   customizations: yup
     .array()
     .of(
-      yup.object().shape({
-        name: yup.string().required(),
-      }),
+      yup
+        .object()
+        .shape({
+          selected: yup.boolean().required(),
+          name: yup.string().required(),
+          type: yup
+            .mixed<CatalogProductCustomizationAddonType>()
+            .oneOf(Object.values(CatalogProductCustomizationAddonType))
+            .required(),
+        })
+        .required(),
     )
     .required(),
 })
@@ -65,39 +83,65 @@ interface ProductFormProps {
   product: ProductFormProductFragment
   colors: ProductVariantQuantityMatrixFormProps['colors']
   variants: ProductVariantQuantityMatrixFormProps['variants']
+  onSubmit: (values: FormValues) => Promise<void>
 }
 
 const ProductForm = (props: ProductFormProps) => {
+  const [submitting, setSubmitting] = React.useState(false)
   const {
     data,
     loading: quoteLoading,
     refetch,
+    variables,
   } = useQuery<
     ProductFormGetProductQuoteQuery,
     ProductFormGetProductQuoteQueryVariables
   >(GET_PRODUCT_QUOTE, {
     variables: {
       productId: props.product.id,
-      quantity: 10_000,
-      printLocations: [
+      quantity: MAX_QUANTITY,
+      printLocations: DEFAULT_PRINT_LOCATIONS,
+    },
+  })
+
+  const form = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      colors: [],
+      fileIds: [],
+      designBrief: '',
+      customizations: [
         {
-          colorCount: 1,
+          name: 'Front',
+          type: CatalogProductCustomizationAddonType.PRINT_LOCATION,
+          selected: false,
+        },
+        {
+          name: 'Back',
+          type: CatalogProductCustomizationAddonType.PRINT_LOCATION,
+          selected: false,
+        },
+        {
+          name: 'Left Sleeve',
+          type: CatalogProductCustomizationAddonType.PRINT_LOCATION,
+          selected: false,
+        },
+        {
+          name: 'Right Sleeve',
+          type: CatalogProductCustomizationAddonType.PRINT_LOCATION,
+          selected: false,
         },
       ],
     },
   })
 
-  const form = useForm<FormValues>({
-    defaultValues: {
-      colors: [],
-      fileIds: [],
-    },
-    resolver: yupResolver(schema),
+  const handleSubmit = form.handleSubmit(async (values: FormValues) => {
+    setSubmitting(true)
+    await props.onSubmit(values)
+    setSubmitting(false)
   })
 
-  const handleSubmit = form.handleSubmit(async (values: FormValues) => {})
-
-  const { colors } = form.watch()
+  const { colors, customizations } = form.watch()
 
   let totalQuantity = 0
 
@@ -109,15 +153,37 @@ const ProductForm = (props: ProductFormProps) => {
     })
   })
 
+  const printLocations = customizations
+    .filter(
+      c =>
+        c.type === CatalogProductCustomizationAddonType.PRINT_LOCATION &&
+        c.selected,
+    )
+    .map(() => ({
+      colorCount: 1,
+    }))
+
   React.useEffect(() => {
-    if (totalQuantity === 0) {
-      return
-    } else {
+    if (
+      (!deepEqual(variables?.printLocations, printLocations) &&
+        (printLocations.length > 0 ||
+          !deepEqual(variables?.printLocations, DEFAULT_PRINT_LOCATIONS))) ||
+      (totalQuantity !== variables?.quantity &&
+        (totalQuantity > 0 || MAX_QUANTITY !== variables?.quantity))
+    ) {
       refetch({
-        quantity: totalQuantity,
+        printLocations: printLocations.length
+          ? printLocations
+          : DEFAULT_PRINT_LOCATIONS,
+        quantity: totalQuantity || MAX_QUANTITY,
       })
     }
-  }, [refetch, totalQuantity])
+  }, [printLocations, refetch, totalQuantity, variables])
+
+  const customizationFields = useFieldArray({
+    control: form.control,
+    name: 'customizations',
+  })
 
   const quote = data?.site.product?.quote
 
@@ -148,55 +214,34 @@ const ProductForm = (props: ProductFormProps) => {
           >
             <div className="@container">
               <div className="grid grid-cols-1 @[500px]:grid-cols-2 gap-1.5">
-                {[
-                  {
-                    name: 'Front',
-                    price: null,
-                  },
-                  {
-                    name: 'Back',
-                    price: null,
-                  },
-                  {
-                    name: 'Left Sleeve',
-                    price: null,
-                  },
-                  {
-                    name: 'Right Sleeve',
-                    price: null,
-                  },
-                  // { name: 'Custom Label', price: 50 },
-                ].map((addon, index) => (
-                  <button
-                    key={index}
-                    className="flex flex-row items-center gap-4 border rounded-md p-4 hover:bg-gray-50 transition-all"
-                  >
-                    <Checkbox
-                      name="check"
-                      value={'true'}
-                      onChange={() => {}}
-                      size={2}
-                    />
-                    <div className="flex flex-col gap-1">
-                      <div className="text-sm font-semibold">{addon.name}</div>
-                    </div>
-                    <div className="flex flex-row gap-2 flex-1 justify-end">
-                      <div className="text-xs text-gray-400">
-                        {addon.price ? (
-                          <>
-                            +
-                            {currency(addon.price, {
-                              fromCents: true,
-                            }).format()}
-                          </>
-                        ) : (
-                          <>
-                            <span className="">Variable</span>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  </button>
+                {customizationFields.fields.map((customization, index) => (
+                  <Controller
+                    key={customization.id}
+                    name={`customizations[${index}].selected`}
+                    control={form.control}
+                    render={({ field: { onChange, value, name, ref } }) => (
+                      <button
+                        type="button"
+                        ref={ref}
+                        key={index}
+                        className="flex flex-row items-center gap-4 border rounded-md p-4 hover:bg-gray-50 transition-all"
+                        onClick={() => onChange(!value)}
+                      >
+                        <Checkbox
+                          name={name}
+                          value="checked"
+                          checked={value}
+                          onChange={() => {}}
+                          size={2}
+                        />
+                        <div className="flex flex-col gap-1">
+                          <div className="text-sm font-semibold">
+                            {customization.name}
+                          </div>
+                        </div>
+                      </button>
+                    )}
+                  />
                 ))}
               </div>
             </div>
@@ -204,7 +249,7 @@ const ProductForm = (props: ProductFormProps) => {
           <Controller
             name="designBrief"
             control={form.control}
-            render={({ field: { onChange, value } }) => (
+            render={({ field: { onChange, value, ref } }) => (
               <InformationGroup
                 title="Design Brief"
                 description="Discuss your design. You'll be connected with a designer to help perfect your design."
@@ -217,6 +262,7 @@ const ProductForm = (props: ProductFormProps) => {
                   onChange={onChange}
                   value={value}
                   error={Boolean(form.formState.errors.designBrief?.message)}
+                  inputRef={ref}
                 />
               </InformationGroup>
             )}
@@ -261,7 +307,12 @@ const ProductForm = (props: ProductFormProps) => {
               ) : null}
             </span>
           </div>
-          <Button size="xl" color="brandPrimary" type="submit">
+          <Button
+            size="xl"
+            color="brandPrimary"
+            type="submit"
+            loading={submitting}
+          >
             Customize
           </Button>
         </div>

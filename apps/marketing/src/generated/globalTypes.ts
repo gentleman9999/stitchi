@@ -34,6 +34,10 @@ export enum ArticleModelOrderBy {
   updatedAt_DESC = "updatedAt_DESC",
 }
 
+export enum CatalogProductCustomizationAddonType {
+  PRINT_LOCATION = "PRINT_LOCATION",
+}
+
 export enum DesignRequestHistoryItemDesignRequestEventMethod {
   CREATE = "CREATE",
 }
@@ -123,6 +127,25 @@ export interface BooleanFilter {
   eq?: any | null;
 }
 
+export interface CatalogProductCustomizeAddonsInput {
+  type: CatalogProductCustomizationAddonType;
+  name: string;
+}
+
+export interface CatalogProductCustomizeInput {
+  catalogProductId: string;
+  name?: string | null;
+  description?: string | null;
+  fileIds?: string[] | null;
+  items: CatalogProductCustomizeItemsInput[];
+  addons: CatalogProductCustomizeAddonsInput[];
+}
+
+export interface CatalogProductCustomizeItemsInput {
+  catalogProductVariantId: string;
+  quantity: number;
+}
+
 /**
  * Specifies how to filter by creation datetime
  */
@@ -169,24 +192,6 @@ export interface DesignRequestConversationMessageCreateInput {
   designRequestId: string;
   message: string;
   fileIds: string[];
-}
-
-export interface DesignRequestCreateInput {
-  name?: string | null;
-  description?: string | null;
-  useCase?: string | null;
-  product: DesignRequestProductCreateInput;
-}
-
-export interface DesignRequestProductColorCreateInput {
-  catalogProductColorId: string;
-  hexCode?: string | null;
-  name?: string | null;
-}
-
-export interface DesignRequestProductCreateInput {
-  catalogProductId: string;
-  colors: DesignRequestProductColorCreateInput[];
 }
 
 export interface DesignRequestProofCreateInput {

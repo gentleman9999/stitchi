@@ -19,6 +19,7 @@ enum MixpanelEvents {
 
 interface Product {
   name: string
+  productId: string
 }
 
 interface TrackEvents {

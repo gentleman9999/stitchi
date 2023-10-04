@@ -65,30 +65,6 @@ const CatalogProductVariantPreview = ({ product, onVariantChange }: Props) => {
           />
         </div>
       ) : null}
-      {/* <div className="flex flex-col gap-2">
-        <div className="flex flex-col sm:flex-row justify-between sm:items-center">
-          <h3 className="text font-bold text-gray-700">Available Colors</h3>
-          {productOptionValues.colorLabel ? (
-            <span className="text-sm font-semibold text-gray-600">
-              {productOptionValues.colorLabel}
-            </span>
-          ) : null}
-        </div>
-        <CatalogProductColorGrid
-          product={product}
-          onColorSelect={color => {
-            setProductOptionValues({
-              colorEntityId: color.colorEntityId,
-              colorLabel: color.label,
-            })
-          }}
-          selectedColorEntityIds={
-            productOptionValues.colorEntityId
-              ? [productOptionValues.colorEntityId]
-              : []
-          }
-        />
-      </div> */}
     </>
   )
 }
