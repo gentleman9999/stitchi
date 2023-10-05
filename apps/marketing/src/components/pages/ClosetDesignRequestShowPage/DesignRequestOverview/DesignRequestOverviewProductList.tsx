@@ -1,8 +1,11 @@
 import { gql } from '@apollo/client'
 import ColorSwatch from '@components/common/ColorSwatch'
+import ButtonV2 from '@components/ui/ButtonV2'
 import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/Card'
 import { DesignRequestOverviewProductListDesignRequestProductFragment } from '@generated/DesignRequestOverviewProductListDesignRequestProductFragment'
+import { ArrowRightIcon } from '@heroicons/react/20/solid'
 import routes from '@lib/routes'
+import { makeProductTitle } from '@lib/utils/catalog'
 import Link from 'next/link'
 import React from 'react'
 
@@ -18,13 +21,20 @@ const DesignRequestOverviewProductList = ({ product }: Props) => {
   return (
     <div>
       <Card key={catalogProduct.id}>
-        <CardHeader>
-          <CardTitle title="Product" />
-        </CardHeader>
-        <CardContent divide>
+        {catalogProduct.primaryImage?.url ? (
+          <div className="flex justify-center w-full">
+            <img
+              className="aspect-square object-contain w-full max-h-60"
+              src={catalogProduct.primaryImage.url}
+              alt={catalogProduct.name}
+            />
+          </div>
+        ) : null}
+
+        <CardContent>
           <Link
             target={'_blank'}
-            className="text-sm flex items-center justify-between gap-4"
+            className="text-sm flex flex-col gap-4"
             href={
               catalogProduct.brand?.slug
                 ? routes.internal.catalog.product.href({
@@ -35,15 +45,6 @@ const DesignRequestOverviewProductList = ({ product }: Props) => {
             }
           >
             <div className="flex flex-col">
-              {catalogProduct.primaryImage?.url ? (
-                <div className="flex justify-center w-full">
-                  <img
-                    className="aspect-square object-contain w-full max-h-60"
-                    src={catalogProduct.primaryImage.url}
-                    alt={catalogProduct.name}
-                  />
-                </div>
-              ) : null}
               <h3 className="font-semibold">{catalogProduct.name}</h3>
               <p className="text-gray-400">{catalogProduct.brand?.name}</p>
               {colors.length ? (
@@ -60,6 +61,15 @@ const DesignRequestOverviewProductList = ({ product }: Props) => {
                   )}
                 </div>
               ) : null}
+            </div>
+
+            <div className="border-t pt-6">
+              <ButtonV2
+                variant="naked"
+                endIcon={<ArrowRightIcon className="w-4 h-4" />}
+              >
+                View product
+              </ButtonV2>
             </div>
           </Link>
         </CardContent>
