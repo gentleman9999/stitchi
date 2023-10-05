@@ -50,7 +50,7 @@ const MobileNavigation = ({ anchorEl }: Props) => {
             <Link
               href={
                 user
-                  ? routes.internal.getStarted.href()
+                  ? routes.internal.closet.href()
                   : routes.internal.signup.href()
               }
             >

@@ -4,7 +4,6 @@ import { Container } from '@components/ui'
 import { FeaturePageContainerCatalogFragment } from '@generated/FeaturePageContainerCatalogFragment'
 import { NextSeo } from 'next-seo'
 import React from 'react'
-import ClosingCtaSection from '../ClosingCtaSection'
 import FeaturedProductsGrid from '../FeaturedProductsGrid'
 
 interface Props {
@@ -31,8 +30,6 @@ const FeaturePageContainer = ({
         openGraph={{ url: canonicalUrl }}
       />
       {children}
-
-      <ClosingCtaSection />
 
       <Container>
         <FeaturePageTestimonial />

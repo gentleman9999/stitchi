@@ -1,4 +1,3 @@
-import ClosingCtaSection from '@components/common/ClosingCtaSection'
 import FeaturePageTestimonial from '@components/common/FeaturePageContainer/FeaturePageTestimonial'
 import { Container } from '@components/ui'
 import routes from '@lib/routes'
@@ -33,9 +32,7 @@ const SolutionsLoyaltyAndReferralPrograms = () => {
       <Container>
         <FeaturePageTestimonial />
       </Container>
-      <Container>
-        <ClosingCtaSection />
-      </Container>
+
       <Container>
         <FrequentlyAskedQuestions />
       </Container>

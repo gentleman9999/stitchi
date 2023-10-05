@@ -153,7 +153,7 @@ const ProductForm = (props: ProductFormProps) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="relative flex flex-col gap-8 p-8 bg-gray-50 rounded-lg ">
+      <div className="relative flex flex-col gap-8 p-8 bg-paper rounded-lg ">
         <h1 className="font-headingDisplay font-semibold text-2xl sm:text-3xl text-gray-800">
           {makeProductTitle(props.product)}
         </h1>
@@ -257,7 +257,7 @@ const ProductForm = (props: ProductFormProps) => {
         </div>
       </div>
       <div className="sticky bottom-0 pb-6 bg-paper">
-        <div className="bg-gray-50 p-4 border-t rounded-b-lg flex gap-4 justify-between items-center">
+        <div className="p-4 border-t rounded-b-lg flex gap-4 justify-between items-center">
           <div className="flex flex-col">
             <span className="text-gray-400 font-medium font-headingDisplay">
               from

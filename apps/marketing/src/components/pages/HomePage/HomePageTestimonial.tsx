@@ -12,8 +12,8 @@ const HomePageTestimonial = () => {
   const jenny = useSpokesperson('jenny_rothenberg')
 
   return (
-    <Section gutter="lg">
-      <div className="bg-gray-100 p-4 sm:p-8 rounded-sm">
+    <Section gutter="lg" className="bg-gray-100">
+      <div className=" p-4 sm:p-8 rounded-sm">
         <SimpleCenteredTestimonial
           testimonial="We shipped over 8,000 pairs of Morning Brew joggers to our loyal readers, resulting in over 75,000 new subscribers. This was our largest growth campaign to date, and we love seeing pictures of our readers wearing their MB joggers on social media."
           company={{ name: 'Morning Brew', logo: morningBrewLogo }}

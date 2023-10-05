@@ -38,9 +38,7 @@ const NewOrderForm = () => {
       logger.info('Starting to submit contact form')
       await api.formResponse.create(data)
       logger.info('Successfully submitted contact form')
-      router.push(
-        routes.internal.getStarted.success.href({ email: data.email }),
-      )
+      router.push(routes.internal.contact.success.href({ email: data.email }))
     } catch (e) {
       logger.error('Error submitting contact form', { context: { error: e } })
       setError(

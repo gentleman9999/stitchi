@@ -37,9 +37,7 @@ const DesktopNavigation = ({ anchorEl }: Props) => {
           className="!border-2 !py-1 !px-2 !border-gray-800 !lowercase"
           variant="ghost"
           href={
-            user
-              ? routes.internal.getStarted.href()
-              : routes.internal.signup.href()
+            user ? routes.internal.closet.href() : routes.internal.signup.href()
           }
         >
           {user ? 'My closet' : 'Get started'}

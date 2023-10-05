@@ -23,7 +23,7 @@ const BrandLogo = (props: { image: StaticImageData; alt: string }) => {
 
 const CustomerLogoBanner = () => {
   return (
-    <div className="bg-primary py-5 relative flex flex-col sm:flex-row items-center">
+    <div className="bg-primary py-5 relative flex flex-col sm:flex-row items-center border-t-2 border-b-2 border-gray-950">
       <span className="hidden sm:flex justify-center absolute left-0 right-0">
         <InfiniteLooper speed={20}>
           <BrandLogo image={weworkLogo} alt="WeWork logo" />
@@ -37,7 +37,7 @@ const CustomerLogoBanner = () => {
 
       <Container>
         <div className="flex flex-col sm:flex-row gap-10 items-center relative ">
-          <h2 className="text-center sm:text-left text-4xl font-medium sm:w-[40%] shrink-0 font-heading bg-primary">
+          <h2 className="text-center sm:text-left text-4xl font-medium sm:w-[40%] shrink-0 font-heading bg-primary leading-normal">
             Powering merch for the worlds top brands.
           </h2>
         </div>

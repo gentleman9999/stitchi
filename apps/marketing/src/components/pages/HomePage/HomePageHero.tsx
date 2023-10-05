@@ -32,7 +32,7 @@ const HomePageHero = () => {
         //   </div>
         // ),
         title: 'Start creating merch',
-        href: routes.internal.getStarted.href(),
+        href: routes.internal.catalog.href(),
         endIcon: <ArrowRight strokeWidth="2" className="w-4 h-4" />,
       }}
     />

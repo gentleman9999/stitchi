@@ -6,7 +6,7 @@ import React from 'react'
 interface Props {}
 
 const StartPageSeo = (props: Props) => {
-  const url = makeAbsoluteUrl(routes.internal.getStarted.href())
+  const url = makeAbsoluteUrl(routes.internal.contact.href())
   return (
     <NextSeo
       title="Contact us to get started"

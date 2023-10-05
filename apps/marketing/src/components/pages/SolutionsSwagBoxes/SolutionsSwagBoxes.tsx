@@ -1,5 +1,5 @@
 import { Section, SectionFAQ, SectionHeader } from '@components/common'
-import ClosingCtaSection from '@components/common/ClosingCtaSection'
+import ClosingCtaSection from '@components/common/Footer/ClosingCtaSection'
 import { Container } from '@components/ui'
 import routes from '@lib/routes'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
@@ -110,9 +110,7 @@ const SolutionsSwagBoxes = () => {
           </ul>
         </Section>
       </Container>
-      <Container>
-        <ClosingCtaSection />
-      </Container>
+
       <Container>
         <SectionFAQ
           faqs={[

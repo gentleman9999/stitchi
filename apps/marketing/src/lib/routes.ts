@@ -59,13 +59,13 @@ const routes = {
     },
     contact: {
       href: () => buildRoute('/contact'),
-    },
-    getStarted: {
-      href: () => buildRoute('/closet'),
 
       success: {
-        href: ({ email = '' }) => buildRoute('/start/success', { email }),
+        href: ({ email = '' }) => buildRoute('/contact/success', { email }),
       },
+    },
+    getStarted: {
+      href: () => buildRoute('/catalog'),
     },
     catalog: {
       href: ({ params }: { params?: QueryParams } = {}) =>

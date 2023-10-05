@@ -12,7 +12,7 @@ import LoadingDots from '../LoadingDots'
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   href?: string
   className?: string
-  size?: 'xs' | 'sm' | 'normal' | 'lg' | 'xl'
+  size?: 'xs' | 'sm' | 'normal' | 'lg' | 'xl' | '2xl'
   variant?: 'flat' | 'ghost' | 'naked'
   active?: boolean
   type?: 'submit' | 'reset' | 'button'
@@ -61,6 +61,7 @@ const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
       [s.normal]: size === 'normal',
       [s.lg]: size === 'lg',
       [s.xl]: size === 'xl',
+      [s.xxl]: size === '2xl',
     },
     className,
   )

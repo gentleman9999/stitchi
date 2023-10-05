@@ -15,7 +15,7 @@ const CatalogProuductZeroState = () => {
         Not to worry! We work with hundreds of brands giving us access to over
         10,000 products. The products on this website just our favorite :)
       </p>
-      <Link href={routes.internal.getStarted.href()} passHref legacyBehavior>
+      <Link href={routes.internal.closet.href()} passHref legacyBehavior>
         <Button
           Component="a"
           endIcon={<ArrowRight strokeWidth="2" />}

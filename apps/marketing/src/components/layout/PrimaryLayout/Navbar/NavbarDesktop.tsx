@@ -96,9 +96,7 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
         variant="ghost"
         slim
         href={
-          user
-            ? routes.internal.getStarted.href()
-            : routes.internal.signup.href()
+          user ? routes.internal.closet.href() : routes.internal.signup.href()
         }
         onClick={() => {
           track.navbarCtaCliced({ view: 'desktop' })

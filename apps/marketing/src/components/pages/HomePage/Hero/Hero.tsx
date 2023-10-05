@@ -43,10 +43,11 @@ const Hero = (props: HeroProps) => {
                 {props.primaryCta && (
                   <div className="rounded-md">
                     <Button
-                      size="xl"
+                      size="2xl"
                       Component={Link}
                       href={props.primaryCta.href}
                       endIcon={props.primaryCta.endIcon}
+                      color="brandPrimary"
                     >
                       {props.primaryCta.title}
                     </Button>
