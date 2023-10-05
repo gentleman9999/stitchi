@@ -92,11 +92,12 @@ const DesignRequestActivity = ({ designRequestId }: Props) => {
                     designRequest?.status === DesignRequestStatus.APPROVED,
                 })}
               >
-                <DesignRequestMessageInput
+                <DesignRequestHistory
                   loading={loading}
                   designRequest={designRequest}
                 />
-                <DesignRequestHistory
+
+                <DesignRequestMessageInput
                   loading={loading}
                   designRequest={designRequest}
                 />

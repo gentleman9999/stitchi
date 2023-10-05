@@ -7,21 +7,13 @@ import {
   DesignRequestOverviewGetDataQuery,
   DesignRequestOverviewGetDataQueryVariables,
 } from '@generated/DesignRequestOverviewGetDataQuery'
-import { InputGroup } from '@components/ui'
 import DesignRequestActivity from './DesignRequestActivity'
-import { Card, CardContent } from '@components/ui/Card'
 import GeneralInformation from './GeneralInformation'
 import DesignRequestOverviewProductList from './DesignRequestOverviewProductList'
-import Progress from './Progress'
 import DesignRequestDraft from './DesignRequestDraft'
 import { ComponentErrorMessage } from '@components/common'
-import Button from '@components/ui/ButtonV2/Button'
 import CreateDesignSlideOver from './CreateDesignSlideOver'
-import {
-  DesignRequestStatus,
-  ScopeAction,
-  ScopeResource,
-} from '@generated/globalTypes'
+import { ScopeAction, ScopeResource } from '@generated/globalTypes'
 import { useAuthorizedComponent } from '@lib/auth'
 import DesignRequestAssociatedProducts from './DesignRequestAssociatedProducts'
 import DesignRequestCustomerCard from './DesignRequestCustomerCard'
@@ -31,7 +23,7 @@ interface Props {
 }
 
 const DesignRequestOverview = ({ designRequestId }: Props) => {
-  const { can, loading: authorizationLoading } = useAuthorizedComponent()
+  const { can } = useAuthorizedComponent()
   const [activeProofId, setActiveProofId] = React.useState<string | null>(null)
   const [proofToApproveId, setProofToApproveId] = React.useState<string | null>(
     null,
@@ -111,48 +103,18 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
           ) : null}
 
           {designRequest?.designRequestProduct ? (
-            <ClosetSection>
-              <DesignRequestOverviewProductList
-                product={designRequest.designRequestProduct}
-              />
-            </ClosetSection>
+            <DesignRequestOverviewProductList
+              product={designRequest.designRequestProduct}
+            />
           ) : null}
           <ClosetSection>
-            <Card>
-              <CardContent>
-                <DesignProofList
-                  designRequestId={designRequestId}
-                  activeProofId={activeProofId}
-                  onClick={handleActiveProofChange}
-                />
-
-                {activeProofId &&
-                designRequest?.status !== DesignRequestStatus.APPROVED &&
-                !authorizationLoading &&
-                can(ScopeResource.DesignProduct, ScopeAction.CREATE) ? (
-                  <>
-                    <br />
-                    <InputGroup>
-                      <Button
-                        className="w-full"
-                        color="brandPrimary"
-                        size="lg"
-                        onClick={() =>
-                          setProofToApproveId(activeProofId || null)
-                        }
-                        loading={switchingProof}
-                      >
-                        Approve selected proof for production
-                      </Button>
-                    </InputGroup>
-                  </>
-                ) : null}
-              </CardContent>
-            </Card>
-          </ClosetSection>
-
-          <ClosetSection>
-            <Progress loading={loading} status={designRequest?.status} />
+            <DesignProofList
+              designRequestId={designRequestId}
+              activeProofId={activeProofId}
+              onClick={handleActiveProofChange}
+              onApprove={setProofToApproveId}
+              loading={switchingProof}
+            />
           </ClosetSection>
 
           {designRequest && designRequest.status !== 'DRAFT' ? (

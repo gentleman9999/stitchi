@@ -42,7 +42,7 @@ const DesignRequestHistory = ({ loading, designRequest }: Props) => {
           </>
         </li>
       ) : null}
-      {designRequest?.history.map((item, index) => (
+      {[...designRequest?.history].reverse().map((item, index) => (
         <li key={item.id} className="relative flex gap-x-4">
           <div
             className={cx(

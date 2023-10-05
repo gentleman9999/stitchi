@@ -10,10 +10,10 @@ import ClosetPageHeader from '@components/common/ClosetPageHeader'
 import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
 import ClosetSectionHeaderTabs from '@components/common/ClosetSectionHeaderTabs'
 import ClosetSection from '@components/common/ClosetSection'
-import routes from '@lib/routes'
 import ClosetPageContainer from '@components/common/ClosetPageContainer'
 import DesignRequestOverview from './DesignRequestOverview'
 import DesignOnboardingDialog from './DesignOnboardingDialog'
+import Progress from './Progress'
 
 interface Props {
   designId: string
@@ -37,34 +37,16 @@ const ClosetDesignRequestShowPage = ({ designId }: Props) => {
               loading={loading}
               designRequest={designRequest}
             />
+            <div className="border-y">
+              <Progress loading={loading} status={designRequest?.status} />
+            </div>
           </ClosetPageHeader>
 
-          <ClosetSection
-            tabs={[
-              {
-                id: 'overview',
-                href: routes.internal.closet.designs.show.href({
-                  designId: designId,
-                }),
-                label: 'Overview',
-              },
-            ]}
-          >
-            {({ activeTab }) => (
-              <>
-                <ClosetSectionHeader divider>
-                  <ClosetSectionHeaderTabs />
-                </ClosetSectionHeader>
-
-                {activeTab ? (
-                  <div className="max-w-6xl m-auto">
-                    {activeTab.id === 'overview' ? (
-                      <DesignRequestOverview designRequestId={designId} />
-                    ) : null}
-                  </div>
-                ) : null}
-              </>
-            )}
+          <ClosetSection>
+            <ClosetSectionHeader />
+            <div className="max-w-6xl m-auto">
+              <DesignRequestOverview designRequestId={designId} />
+            </div>
           </ClosetSection>
         </ClosetPageContainer>
       </DesignProvider>

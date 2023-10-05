@@ -2,7 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 
 interface Props {
-  children: React.ReactNode
+  children?: React.ReactNode
   divider?: boolean
 }
 
