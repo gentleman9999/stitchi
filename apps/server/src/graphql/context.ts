@@ -8,6 +8,7 @@ import makeStripeClient from '../stripe'
 import { SendgridClient, makeClient as makeSendgridClient } from '../sendgrid'
 import PubSubClient from './pubsub'
 import { logger, Logger } from '../telemetry'
+import { AuthorizerFn, makeAuthorizer } from './authorization'
 
 type StripeClient = ReturnType<typeof makeStripeClient>
 
@@ -34,6 +35,7 @@ export interface Context {
   color: typeof services.color
   keyValueStore: typeof services.keyValueStore
   subscriptions: PubSubClient
+  authorize: AuthorizerFn
   logger: Logger
 }
 
@@ -96,6 +98,7 @@ function makeContext(
         notification: services.notification,
         color: services.color,
         keyValueStore: services.keyValueStore,
+        authorize: makeAuthorizer(userActiveMembership?.role)
       }
     } catch (error) {
       logger.error(error)

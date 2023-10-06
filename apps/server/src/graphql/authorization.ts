@@ -49,7 +49,7 @@ interface AuthorizerParams {
   modifier: ScopeModifier
 }
 
-type AuthorizerFn = (
+export type AuthorizerFn = (
   action: ScopeAction,
   resource: ScopeResource,
   params: AuthorizerParams,
@@ -64,7 +64,12 @@ type PermissionMap = {
     [resource: string]: { [action: string]: ScopeModifier | undefined}
 }
 
-export function makeAuthorizer(role: Role): AuthorizerFn {
+export function makeAuthorizer(role: Role | undefined): AuthorizerFn {
+  if (!role) {
+    // If there is no role, assume no access
+    return () => { return false }
+  }
+
   const permissionMap: PermissionMap = {}
 
   for (const [resource, scopePairs] of Object.entries(scopeMap[role])) {
