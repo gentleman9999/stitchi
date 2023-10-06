@@ -1297,7 +1297,6 @@ enum ScopeAction {
 
 enum ScopeModifier {
   ALL
-  ASSIGNED
   OWN
 }
 
