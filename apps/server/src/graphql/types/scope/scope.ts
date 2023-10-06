@@ -22,7 +22,7 @@ export const ScopeAction = enumType({
 
 export const ScopeModifier = enumType({
   name: 'ScopeModifier',
-  members: ['ALL', 'OWN', 'ASSIGNED'],
+  members: ['ALL', 'OWN'],
 })
 
 export const Scope = objectType({

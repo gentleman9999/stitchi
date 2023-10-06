@@ -336,7 +336,7 @@ export interface NexusGenEnums {
   OrderPaymentStatus: "NOT_PAID" | "PAID" | "PARTIALLY_PAID" | "PARTIALLY_REFUNDED" | "REFUNDED"
   OrderType: "CART" | "CONFIRMED"
   ScopeAction: "CREATE" | "DELETE" | "READ" | "UPDATE"
-  ScopeModifier: "ALL" | "ASSIGNED" | "OWN"
+  ScopeModifier: "ALL" | "OWN"
   ScopeResource: "DesignProduct" | "DesignProof" | "DesignRequest" | "DesignRequestRevisionRequest" | "Integration" | "Membership" | "Order" | "Organization"
 }
 
