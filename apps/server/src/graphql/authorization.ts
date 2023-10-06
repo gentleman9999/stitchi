@@ -118,7 +118,7 @@ interface AuthorizerParams {
 export type AuthorizerFn = (
   action: ScopeAction,
   resource: ScopeResource,
-  params: AuthorizerParams,
+  params?: AuthorizerParams,
 ) => Scope | null
 
 // ScopeModifier can be undefined if it does not make sense in Scope
@@ -165,7 +165,7 @@ export function makeAuthorizer(role: Role | undefined): AuthorizerFn {
   return function (
     action: ScopeAction,
     resource: ScopeResource,
-    params: AuthorizerParams,
+    params?: AuthorizerParams,
   ) {
     const permissionFound =
       resource in permissionMap && action in permissionMap[resource]
@@ -176,7 +176,7 @@ export function makeAuthorizer(role: Role | undefined): AuthorizerFn {
 
     const scope = permissionMap[resource][action]
 
-    if (params.modifier && scope.modifier) {
+    if (params?.modifier && scope.modifier) {
       // If a modifier is required AND the Permission provides a modifier
       if (params.modifier === 'ALL') {
         // If seeing ALL is required, we must be able to see ALL
