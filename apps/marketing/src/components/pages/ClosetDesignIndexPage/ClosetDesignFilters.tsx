@@ -33,7 +33,7 @@ const ClosetDesignFilters = ({}: Props) => {
 
   return (
     <TableFilters>
-      {[MembershipRole.OWNER].includes(role) ? (
+      {role && [MembershipRole.OWNER].includes(role) ? (
         <TableFilterUser
           label="Owner"
           value={activeUser?.name || null}
