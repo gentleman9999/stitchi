@@ -6,7 +6,6 @@ import {
   nonNull,
   queryField,
 } from 'nexus'
-import { notEmpty } from '../../../utils'
 import { NexusGenObjects } from '../../generated/nexus'
 import { conversationFactoryToGraphQl } from '../../serializers/conversation'
 import {
@@ -110,6 +109,13 @@ export const DesignRequestsExtendsMembership = extendType({
     t.nonNull.connectionField('unassignedDesignRequests', {
       type: 'DesignRequest',
       resolve: async (parent, { first, last, after, before }, ctx) => {
+        if (
+          !parent.role ||
+          !['STITCHI_ADMIN', 'STITCHI_DESIGNER'].includes(parent.role)
+        ) {
+          throw new GraphQLError('Unauthorized')
+        }
+
         const where = {
           status: {
             notIn: [DesignRequestStatus.DRAFT],
@@ -153,9 +159,24 @@ export const DesignRequestsExtendsMembership = extendType({
       resolve: async (
         parent,
         { first, last, after, before, filter },
-        { design },
+        { design, authorize },
       ) => {
+        const scope = authorize('READ', 'DesignRequest')
+
+        if (!scope) {
+          return {
+            edges: [],
+            pageInfo: {
+              hasNextPage: false,
+              hasPreviousPage: false,
+              startCursor: null,
+              endCursor: null,
+            },
+          }
+        }
+
         const isArtist = parent.role === 'STITCHI_DESIGNER'
+        const isAdmin = parent.role === 'STITCHI_ADMIN'
 
         const resourceOwnerFilter: Prisma.Enumerable<Prisma.DesignRequestWhereInput> =
           []
@@ -163,8 +184,8 @@ export const DesignRequestsExtendsMembership = extendType({
         const { membershipId } = filter?.where || {}
 
         if (!Object.keys(membershipId || {}).length) {
-          if (isArtist) {
-            // Artists can see all design requests, skip
+          if (isArtist || isAdmin) {
+            // Artists and admins can see all design requests, skip
             resourceOwnerFilter.push({
               id: {
                 not: undefined,
@@ -173,6 +194,7 @@ export const DesignRequestsExtendsMembership = extendType({
           } else {
             resourceOwnerFilter.push({
               organizationId: parent.organizationId,
+              membershipId: onlyOwn(scope) ? parent.id : undefined,
             })
           }
         } else {
