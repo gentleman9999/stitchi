@@ -19,20 +19,23 @@ import { Prisma } from '@prisma/client'
 import { GraphQLError } from 'graphql'
 import { cursorPaginationFromList } from '../../utils'
 import { DesignRequestStatus } from '../../../services/design/db/design-request-table'
+import { onlyOwn } from '../../authorization'
 
 export const designRequest = queryField('designRequest', {
   type: 'DesignRequest',
   args: {
     id: nonNull(idArg()),
   },
-  resolve: async (_, { id }, { logger, design, organizationId, role }) => {
+  resolve: async (_, { id }, { logger, design, organizationId, authorize }) => {
+    const scope = authorize('READ', 'DesignRequest')
+
+    if (!scope) {
+      return null
+    }
+
     const designRequest = await design.getDesignRequest({ designRequestId: id })
 
-    if (
-      role === 'OWNER' &&
-      notEmpty(designRequest.organizationId) &&
-      designRequest.organizationId !== organizationId
-    ) {
+    if (onlyOwn(scope) && designRequest.organizationId !== organizationId) {
       return null
     }
 

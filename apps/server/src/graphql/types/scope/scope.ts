@@ -20,10 +20,16 @@ export const ScopeAction = enumType({
   members: ['READ', 'CREATE', 'UPDATE', 'DELETE'],
 })
 
+export const ScopeModifier = enumType({
+  name: 'ScopeModifier',
+  members: ['ALL', 'OWN'],
+})
+
 export const Scope = objectType({
   name: 'Scope',
   definition(t) {
     t.nonNull.field('resource', { type: 'ScopeResource' })
     t.nonNull.field('action', { type: 'ScopeAction' })
+    t.nullable.field('modifier', { type: 'ScopeModifier' })
   },
 })

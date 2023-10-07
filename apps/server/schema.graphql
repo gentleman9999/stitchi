@@ -1307,6 +1307,7 @@ input QuoteGeneratePrintLocationInput {
 
 type Scope {
   action: ScopeAction!
+  modifier: ScopeModifier
   resource: ScopeResource!
 }
 
@@ -1315,6 +1316,11 @@ enum ScopeAction {
   DELETE
   READ
   UPDATE
+}
+
+enum ScopeModifier {
+  ALL
+  OWN
 }
 
 enum ScopeResource {
