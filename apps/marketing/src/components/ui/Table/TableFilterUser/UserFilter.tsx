@@ -16,6 +16,7 @@ export interface Props {
   value: UserId
   onChange: (value: UserId) => Promise<void> | void
   users: User[]
+  label: string
 }
 
 const UserFilter = (props: Props) => {
@@ -25,7 +26,7 @@ const UserFilter = (props: Props) => {
         onClick={() => props.onChange(null)}
         className="flex items-center gap-2 text-sm justify-between hover:bg-gray-50 ring-2 transition-all ring-transparent hover:ring-primary p-1.5 rounded-md"
       >
-        Any owner
+        Any {props.label.toLowerCase()}
         {/* Makes up for avatar height */}
         <div className="h-6" />
       </button>

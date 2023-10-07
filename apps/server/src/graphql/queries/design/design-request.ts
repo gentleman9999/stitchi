@@ -70,6 +70,10 @@ export const MembershipDesignRequestsWhereFilterInput = inputObjectType({
       type: 'StringFilterInput',
     })
 
+    t.field('artistMembershipId', {
+      type: 'StringFilterInput',
+    })
+
     t.field('status', {
       type: 'MembershipDesignRequestsWhereFilterStatusInput',
     })
@@ -159,7 +163,7 @@ export const DesignRequestsExtendsMembership = extendType({
       resolve: async (
         parent,
         { first, last, after, before, filter },
-        { design, authorize },
+        { design, authorize, logger },
       ) => {
         const scope = authorize('READ', 'DesignRequest')
 
@@ -175,51 +179,53 @@ export const DesignRequestsExtendsMembership = extendType({
           }
         }
 
-        const isArtist = parent.role === 'STITCHI_DESIGNER'
-        const isAdmin = parent.role === 'STITCHI_ADMIN'
-
         const resourceOwnerFilter: Prisma.Enumerable<Prisma.DesignRequestWhereInput> =
           []
 
-        const { membershipId } = filter?.where || {}
+        const { membershipId, artistMembershipId } = filter?.where || {}
 
-        if (!Object.keys(membershipId || {}).length) {
-          if (isArtist || isAdmin) {
-            // Artists and admins can see all design requests, skip
-            resourceOwnerFilter.push({
-              id: {
-                not: undefined,
-              },
-            })
-          } else {
-            resourceOwnerFilter.push({
-              organizationId: parent.organizationId,
-              membershipId: onlyOwn(scope) ? parent.id : undefined,
-            })
-          }
-        } else {
-          if (isArtist) {
-            resourceOwnerFilter.push({
-              designRequestArtists: {
-                some: {
-                  artistMembershipId: {
-                    equals: membershipId?.equals || undefined,
-                    in: membershipId?.in || undefined,
-                    notIn: membershipId?.notIn || undefined,
-                  },
+        // If not an admin or an artist, scope query to the current organization
+        if (
+          !parent.role ||
+          !['STITCHI_ADMIN', 'STITCHI_DESIGNER'].includes(parent.role)
+        ) {
+          resourceOwnerFilter.push({
+            organizationId: parent.organizationId,
+          })
+        }
+
+        const hasMembershipFilter = Object.keys(membershipId || {}).length
+
+        // If viewer can only view their own design requests, skip applying membership filter and set the current membership
+        if (onlyOwn(scope)) {
+          resourceOwnerFilter.push({
+            membershipId: parent.id,
+          })
+        } else if (hasMembershipFilter) {
+          resourceOwnerFilter.push({
+            membershipId: {
+              equals: membershipId?.equals || undefined,
+              in: membershipId?.in || undefined,
+              notIn: membershipId?.notIn || undefined,
+            },
+          })
+        }
+
+        const hasAristFilter = Object.keys(artistMembershipId || {}).length
+
+        if (hasAristFilter) {
+          resourceOwnerFilter.push({
+            designRequestArtists: {
+              some: {
+                artistMembershipId: {
+                  equals:
+                    filter?.where?.artistMembershipId?.equals || undefined,
+                  in: filter?.where?.artistMembershipId?.in || undefined,
+                  notIn: filter?.where?.artistMembershipId?.notIn || undefined,
                 },
               },
-            })
-          } else {
-            resourceOwnerFilter.push({
-              organizationId: parent.organizationId,
-              membershipId: {
-                equals: membershipId?.equals || undefined,
-                in: membershipId?.in || undefined,
-                notIn: membershipId?.notIn || undefined,
-              },
-            })
-          }
+            },
+          })
         }
 
         const where = {
@@ -234,7 +240,7 @@ export const DesignRequestsExtendsMembership = extendType({
             },
 
             {
-              OR: resourceOwnerFilter,
+              AND: resourceOwnerFilter,
             },
 
             {
@@ -259,6 +265,8 @@ export const DesignRequestsExtendsMembership = extendType({
             },
           ],
         }
+
+        logger.child({ where }).info('Design request where filter')
 
         const result = await cursorPaginationFromList(
           async ({ cursor, skip, take }) => {

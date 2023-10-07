@@ -22,6 +22,7 @@ const TableFilterUser = ({
       onRemove={() => onChange(null)}
       renderFilter={({ onClose }) => (
         <UserFilter
+          label={label}
           users={users}
           value={value}
           onChange={v => {

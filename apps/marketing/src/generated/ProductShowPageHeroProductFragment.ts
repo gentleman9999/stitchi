@@ -146,13 +146,13 @@ export interface ProductShowPageHeroProductFragment_variants_edges_node_options_
 export interface ProductShowPageHeroProductFragment_variants_edges_node_options_edges_node {
   __typename: "ProductOption";
   /**
-   * Option values.
-   */
-  values: ProductShowPageHeroProductFragment_variants_edges_node_options_edges_node_values;
-  /**
    * Display name for the option.
    */
   displayName: string;
+  /**
+   * Option values.
+   */
+  values: ProductShowPageHeroProductFragment_variants_edges_node_options_edges_node_values;
 }
 
 export interface ProductShowPageHeroProductFragment_variants_edges_node_options_edges {

@@ -316,6 +316,7 @@ export interface MembershipDesignRequestsFilterInput {
 export interface MembershipDesignRequestsWhereFilterInput {
   createdAt?: DateFilterInput | null;
   membershipId?: StringFilterInput | null;
+  artistMembershipId?: StringFilterInput | null;
   status?: MembershipDesignRequestsWhereFilterStatusInput | null;
 }
 

@@ -44,7 +44,7 @@ const ClosetDesignIndexPage = ({}: Props) => {
   const isArtist = viewer?.role === MembershipRole.STITCHI_DESIGNER
 
   return (
-    <ClosetProvider defaultUserFilter={isArtist ? viewer.id : null}>
+    <ClosetProvider defaultArtistFilter={isArtist ? viewer.id : null}>
       <ClosetPageContainer>
         <ClosetPageHeader>
           <ClosetPageTitle
