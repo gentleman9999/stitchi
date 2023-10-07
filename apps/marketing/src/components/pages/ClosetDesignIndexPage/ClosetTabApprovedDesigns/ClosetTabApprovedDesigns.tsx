@@ -27,6 +27,7 @@ const ClosetTabApprovedDesigns = ({}: Props) => {
       filter: {
         where: {
           membershipId: { equals: filters.user || undefined },
+          artistMembershipId: { equals: filters.artist || undefined },
           status: {
             equals: DesignRequestStatus.APPROVED,
           },
@@ -44,6 +45,7 @@ const ClosetTabApprovedDesigns = ({}: Props) => {
       filter: {
         where: {
           membershipId: { equals: filters.user || undefined },
+          artistMembershipId: { equals: filters.artist || undefined },
           status: {
             equals: DesignRequestStatus.APPROVED,
           },

@@ -6,22 +6,24 @@ import React from 'react'
 interface Filters {
   date: TableFilterDateProps['value'] | null
   user: TableFilterUserProps['value'] | null
+  artist: TableFilterUserProps['value'] | null
 }
 
 interface State {
   filters: Filters
   setDateFilter: (date: TableFilterDateProps['value'] | null) => void
   setUserFilter: (user: TableFilterUserProps['value'] | null) => void
+  setArtistFilter: (artist: TableFilterUserProps['value'] | null) => void
 }
 
 const ClosetClontext = React.createContext<State | undefined>(undefined)
 
 const ClosetProvider = ({
   children,
-  defaultUserFilter,
+  defaultArtistFilter,
 }: {
   children: React.ReactNode
-  defaultUserFilter?: TableFilterUserProps['value']
+  defaultArtistFilter?: TableFilterUserProps['value']
 }) => {
   const [dateFilter, setDateFilter] = useQueryState<
     TableFilterDateProps['value'] | null
@@ -55,22 +57,47 @@ const ClosetProvider = ({
     },
   })
 
+  const [artistFilter, setArtistFilter] = useQueryState<
+    TableFilterUserProps['value'] | null
+  >('artist', {
+    defaultValue: null,
+    parse: (value: string) => {
+      try {
+        return JSON.parse(value)
+      } catch {
+        return null
+      }
+    },
+    serialize: (value: TableFilterUserProps['value'] | null) => {
+      return JSON.stringify(value)
+    },
+  })
+
   React.useEffect(() => {
-    if (defaultUserFilter) {
-      setUserFilter(defaultUserFilter)
+    if (defaultArtistFilter) {
+      setArtistFilter(defaultArtistFilter)
     }
-  }, [defaultUserFilter, setUserFilter])
+  }, [defaultArtistFilter, setArtistFilter])
 
   const state = React.useMemo(() => {
     return {
       setDateFilter,
       setUserFilter,
+      setArtistFilter,
       filters: {
         date: dateFilter,
         user: userFilter,
+        artist: artistFilter,
       },
     }
-  }, [dateFilter, setDateFilter, setUserFilter, userFilter])
+  }, [
+    artistFilter,
+    dateFilter,
+    setArtistFilter,
+    setDateFilter,
+    setUserFilter,
+    userFilter,
+  ])
 
   return (
     <ClosetClontext.Provider value={state}>{children}</ClosetClontext.Provider>

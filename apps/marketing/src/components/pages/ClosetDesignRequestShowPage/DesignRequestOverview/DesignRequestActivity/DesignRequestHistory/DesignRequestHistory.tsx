@@ -12,6 +12,8 @@ interface Props {
 }
 
 const DesignRequestHistory = ({ loading, designRequest }: Props) => {
+  const history = [...(designRequest?.history || [])].reverse()
+
   return (
     <ul role="list" className="space-y-6">
       {loading && !designRequest ? (
@@ -42,11 +44,11 @@ const DesignRequestHistory = ({ loading, designRequest }: Props) => {
           </>
         </li>
       ) : null}
-      {[...designRequest?.history].reverse().map((item, index) => (
+      {history.map((item, index) => (
         <li key={item.id} className="relative flex gap-x-4">
           <div
             className={cx(
-              index === designRequest.history.length - 1 ? 'h-6' : '-bottom-6',
+              index === history.length - 1 ? 'h-6' : '-bottom-6',
               'absolute left-0 top-0 flex w-6 justify-center',
             )}
           >

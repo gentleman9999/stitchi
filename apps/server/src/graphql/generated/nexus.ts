@@ -201,6 +201,7 @@ export interface NexusGenInputs {
     where?: NexusGenInputs['MembershipDesignRequestsWhereFilterInput'] | null; // MembershipDesignRequestsWhereFilterInput
   }
   MembershipDesignRequestsWhereFilterInput: { // input type
+    artistMembershipId?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
     createdAt?: NexusGenInputs['DateFilterInput'] | null; // DateFilterInput
     membershipId?: NexusGenInputs['StringFilterInput'] | null; // StringFilterInput
     status?: NexusGenInputs['MembershipDesignRequestsWhereFilterStatusInput'] | null; // MembershipDesignRequestsWhereFilterStatusInput

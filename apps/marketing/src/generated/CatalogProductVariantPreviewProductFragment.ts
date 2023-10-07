@@ -119,54 +119,6 @@ export interface CatalogProductVariantPreviewProductFragment_variants_edges_node
   altText: string;
 }
 
-export interface CatalogProductVariantPreviewProductFragment_variants_edges_node_options_edges_node_values_edges_node {
-  __typename: "ProductOptionValue";
-  /**
-   * Unique ID for the option value.
-   */
-  entityId: number;
-}
-
-export interface CatalogProductVariantPreviewProductFragment_variants_edges_node_options_edges_node_values_edges {
-  __typename: "OptionValueEdge";
-  /**
-   * The item at the end of the edge.
-   */
-  node: CatalogProductVariantPreviewProductFragment_variants_edges_node_options_edges_node_values_edges_node;
-}
-
-export interface CatalogProductVariantPreviewProductFragment_variants_edges_node_options_edges_node_values {
-  __typename: "OptionValueConnection";
-  /**
-   * A list of edges.
-   */
-  edges: (CatalogProductVariantPreviewProductFragment_variants_edges_node_options_edges_node_values_edges | null)[] | null;
-}
-
-export interface CatalogProductVariantPreviewProductFragment_variants_edges_node_options_edges_node {
-  __typename: "ProductOption";
-  /**
-   * Option values.
-   */
-  values: CatalogProductVariantPreviewProductFragment_variants_edges_node_options_edges_node_values;
-}
-
-export interface CatalogProductVariantPreviewProductFragment_variants_edges_node_options_edges {
-  __typename: "OptionEdge";
-  /**
-   * The item at the end of the edge.
-   */
-  node: CatalogProductVariantPreviewProductFragment_variants_edges_node_options_edges_node;
-}
-
-export interface CatalogProductVariantPreviewProductFragment_variants_edges_node_options {
-  __typename: "OptionConnection";
-  /**
-   * A list of edges.
-   */
-  edges: (CatalogProductVariantPreviewProductFragment_variants_edges_node_options_edges | null)[] | null;
-}
-
 export interface CatalogProductVariantPreviewProductFragment_variants_edges_node {
   __typename: "Variant";
   /**
@@ -181,10 +133,6 @@ export interface CatalogProductVariantPreviewProductFragment_variants_edges_node
    * Default image for a variant.
    */
   defaultImage: CatalogProductVariantPreviewProductFragment_variants_edges_node_defaultImage | null;
-  /**
-   * The options which define a variant.
-   */
-  options: CatalogProductVariantPreviewProductFragment_variants_edges_node_options;
 }
 
 export interface CatalogProductVariantPreviewProductFragment_variants_edges {

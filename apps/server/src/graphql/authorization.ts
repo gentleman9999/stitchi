@@ -1,6 +1,6 @@
 import { NexusGenEnums, NexusGenObjects } from './generated/nexus'
 
-type Role = NexusGenEnums['MembershipRole']
+export type Role = NexusGenEnums['MembershipRole']
 type Scope = NexusGenObjects['Scope']
 
 type ScopeResource = NexusGenEnums['ScopeResource']
@@ -15,51 +15,51 @@ export const scopeMap: Record<
   >
 > = {
   OWNER: {
-    Order: [['CREATE'], ['READ', 'OWN'], ['UPDATE', 'OWN'], ['DELETE', 'OWN']],
-    DesignProof: [['READ', 'OWN']],
+    Order: [['CREATE'], ['READ', 'ALL'], ['UPDATE', 'ALL'], ['DELETE', 'ALL']],
+    DesignProof: [['READ', 'ALL']],
     DesignProduct: [
       ['CREATE'],
-      ['READ', 'OWN'],
-      ['UPDATE', 'OWN'],
-      ['DELETE', 'OWN'],
+      ['READ', 'ALL'],
+      ['UPDATE', 'ALL'],
+      ['DELETE', 'ALL'],
     ],
     DesignRequest: [
       ['CREATE'],
-      ['READ', 'OWN'],
-      ['UPDATE', 'OWN'],
-      ['DELETE', 'OWN'],
+      ['READ', 'ALL'],
+      ['UPDATE', 'ALL'],
+      ['DELETE', 'ALL'],
     ],
     DesignRequestRevisionRequest: [
       ['CREATE'],
-      ['READ', 'OWN'],
-      ['UPDATE', 'OWN'],
-      ['DELETE', 'OWN'],
+      ['READ', 'ALL'],
+      ['UPDATE', 'ALL'],
+      ['DELETE', 'ALL'],
     ],
     Integration: [['CREATE'], ['READ'], ['UPDATE'], ['DELETE']],
     Membership: [
       ['CREATE'],
-      ['READ', 'OWN'],
-      ['UPDATE', 'OWN'],
-      ['DELETE', 'OWN'],
+      ['READ', 'ALL'],
+      ['UPDATE', 'ALL'],
+      ['DELETE', 'ALL'],
     ],
     Organization: [
       ['CREATE'],
-      ['READ', 'OWN'],
-      ['UPDATE', 'OWN'],
-      ['DELETE', 'OWN'],
+      ['READ', 'ALL'],
+      ['UPDATE', 'ALL'],
+      ['DELETE', 'ALL'],
     ],
   },
   STITCHI_DESIGNER: {
     Order: [],
     DesignProof: [
       ['CREATE'],
-      ['READ', 'OWN'],
-      ['UPDATE', 'OWN'],
-      ['DELETE', 'OWN'],
+      ['READ', 'ALL'],
+      ['UPDATE', 'ALL'],
+      ['DELETE', 'ALL'],
     ],
     DesignProduct: [],
     DesignRequest: [['READ', 'ALL']],
-    DesignRequestRevisionRequest: [['READ', 'OWN']],
+    DesignRequestRevisionRequest: [['READ', 'ALL']],
     Integration: [],
     Membership: [],
     Organization: [],

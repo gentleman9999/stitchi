@@ -779,6 +779,7 @@ input MembershipDesignRequestsFilterInput {
 }
 
 input MembershipDesignRequestsWhereFilterInput {
+  artistMembershipId: StringFilterInput
   createdAt: DateFilterInput
   membershipId: StringFilterInput
   status: MembershipDesignRequestsWhereFilterStatusInput
