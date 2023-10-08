@@ -111,7 +111,7 @@ const ProductShowPageHero = ({ product }: Props) => {
           activeVariantId={activeVariantId}
         />
       </div>
-      <div className="sm:w-1/2 z-10">
+      <div className="sm:w-1/2 z-10 overflow-y-scroll">
         <ProductForm
           product={product}
           onSubmit={handleSubmit}
