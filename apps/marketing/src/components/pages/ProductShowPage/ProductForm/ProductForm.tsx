@@ -256,7 +256,7 @@ const ProductForm = (props: ProductFormProps) => {
           />
         </div>
       </div>
-      <div className="sticky bottom-0 pb-6 bg-paper">
+      <div className="sticky bottom-0 bg-paper">
         <div className="p-4 border-t rounded-b-lg flex gap-4 justify-between items-center">
           <div className="flex flex-col">
             <span className="text-gray-400 font-medium font-headingDisplay">

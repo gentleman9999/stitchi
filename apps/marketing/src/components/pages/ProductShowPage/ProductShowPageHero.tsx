@@ -105,13 +105,13 @@ const ProductShowPageHero = ({ product }: Props) => {
       <h1 className="font-headingDisplay font-semibold text-2xl text-gray-800 sm:hidden">
         {makeProductTitle(product)}
       </h1>
-      <div className="sm:h-[calc(100vh-56px)] sticky top-[56px] sm:w-1/2 z-0">
+      <div className="sticky top-[56px] sm:w-1/2 z-0">
         <CatalogProductVariantPreview
           product={product}
           activeVariantId={activeVariantId}
         />
       </div>
-      <div className="sm:w-1/2 z-10 overflow-y-scroll">
+      <div className="sm:w-1/2 z-10">
         <ProductForm
           product={product}
           onSubmit={handleSubmit}

@@ -23,24 +23,24 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
 
   const image = activeVariant?.defaultImage || product.defaultImage
 
+  if (!image) {
+    return null
+  }
+
   return (
-    <>
-      {image ? (
-        <div className="relative w-full h-[calc(100vh-56px)]">
-          <Image
-            fill
-            priority
-            style={{
-              objectFit: 'contain',
-            }}
-            key={image.url}
-            src={image.url}
-            alt={image.altText || product.name}
-            sizes={generateImageSizes([{ imageWidth: '700px' }])}
-          />
-        </div>
-      ) : null}
-    </>
+    <div className="relative w-full h-[calc(100vh-56px)]">
+      <Image
+        fill
+        priority
+        key={image.url}
+        src={image.url}
+        alt={image.altText || product.name}
+        sizes={generateImageSizes([{ imageWidth: '700px' }])}
+        style={{
+          objectFit: 'contain',
+        }}
+      />
+    </div>
   )
 }
 
