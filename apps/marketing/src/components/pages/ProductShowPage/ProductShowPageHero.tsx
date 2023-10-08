@@ -1,9 +1,7 @@
 import { gql } from '@apollo/client'
 import { ProductShowPageHeroProductFragment } from '@generated/ProductShowPageHeroProductFragment'
 import routes from '@lib/routes'
-import Link from 'next/link'
 import React from 'react'
-import { ArrowRight } from 'icons'
 import { track } from '@lib/analytics'
 import CatalogProductVariantPreview from '@components/common/CatalogProductVariantPreview'
 import { useRouter } from 'next/router'
@@ -103,14 +101,17 @@ const ProductShowPageHero = ({ product }: Props) => {
   }
 
   return (
-    <div className="w-full flex flex-col sm:flex-row relative">
-      <div className="sm:h-[calc(100vh-56px)]  sticky top-[56px] sm:w-1/2">
+    <div className="w-full flex flex-col sm:flex-row relative z-0">
+      <h1 className="font-headingDisplay font-semibold text-2xl text-gray-800 sm:hidden">
+        {makeProductTitle(product)}
+      </h1>
+      <div className="sm:h-[calc(100vh-56px)] sticky top-[56px] sm:w-1/2 z-0">
         <CatalogProductVariantPreview
           product={product}
           activeVariantId={activeVariantId}
         />
       </div>
-      <div className="sm:w-1/2">
+      <div className="sm:w-1/2 z-10">
         <ProductForm
           product={product}
           onSubmit={handleSubmit}
