@@ -25,7 +25,11 @@ export const designRequest = queryField('designRequest', {
   args: {
     id: nonNull(idArg()),
   },
-  resolve: async (_, { id }, { logger, design, organizationId, authorize }) => {
+  resolve: async (
+    _,
+    { id },
+    { logger, design, membershipId, organizationId, authorize, role },
+  ) => {
     const scope = authorize('READ', 'DesignRequest')
 
     if (!scope) {
@@ -34,7 +38,7 @@ export const designRequest = queryField('designRequest', {
 
     const designRequest = await design.getDesignRequest({ designRequestId: id })
 
-    if (onlyOwn(scope) && designRequest.organizationId !== organizationId) {
+    if (onlyOwn(scope) && designRequest.membershipId !== membershipId) {
       return null
     }
 
@@ -265,8 +269,6 @@ export const DesignRequestsExtendsMembership = extendType({
             },
           ],
         }
-
-        logger.child({ where }).info('Design request where filter')
 
         const result = await cursorPaginationFromList(
           async ({ cursor, skip, take }) => {

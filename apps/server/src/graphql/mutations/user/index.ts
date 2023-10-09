@@ -190,3 +190,34 @@ export const userOnboardingUpdate = mutationField('userOnboardingUpdate', {
     }
   },
 })
+
+export const UserLogoutPayload = objectType({
+  name: 'UserLogoutPayload',
+  definition(t) {
+    t.nonNull.boolean('success')
+  },
+})
+
+export const userLogout = mutationField('userLogout', {
+  type: 'UserLogoutPayload',
+  resolve: async (_, __, ctx) => {
+    if (!ctx.userId) {
+      throw new GraphQLError('Forbidden')
+    }
+
+    try {
+      await ctx.membership.deleteActiveUserMembership(ctx.userId)
+    } catch (error) {
+      ctx.logger
+        .child({
+          context: { error, userId: ctx.userId },
+        })
+        .error('Failed to delete active membership')
+      throw new GraphQLError('Failed to set delete active membership')
+    }
+
+    return {
+      success: true,
+    }
+  },
+})

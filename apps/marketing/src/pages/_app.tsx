@@ -15,6 +15,7 @@ import MixpanelProvider from '@components/context/mixpanel-context'
 import { UserProvider } from '@auth0/nextjs-auth0/client'
 import { SnackbarProvider } from '@components/context/snackbar-context'
 import { AxiomWebVitals } from 'next-axiom'
+import { CookiesProvider } from 'react-cookie'
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -55,20 +56,22 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
       {/* Google Tag Manager - Global base code - end */}
       <div className={`${outfit.variable}`}>
         <UserProvider>
-          <ApolloProvider client={apolloClient}>
-            {/* https://www.datocms.com/docs/next-js/seo-management */}
-            <SeoDefault />
-            <MixpanelProvider>
-              <SnackbarProvider>
-                <StandoutProvider>
-                  <WishlistProvider>
-                    <AxiomWebVitals />
-                    {getLayout(<Component {...pageProps} />)}
-                  </WishlistProvider>
-                </StandoutProvider>
-              </SnackbarProvider>
-            </MixpanelProvider>
-          </ApolloProvider>
+          <CookiesProvider>
+            <ApolloProvider client={apolloClient}>
+              {/* https://www.datocms.com/docs/next-js/seo-management */}
+              <SeoDefault />
+              <MixpanelProvider>
+                <SnackbarProvider>
+                  <StandoutProvider>
+                    <WishlistProvider>
+                      <AxiomWebVitals />
+                      {getLayout(<Component {...pageProps} />)}
+                    </WishlistProvider>
+                  </StandoutProvider>
+                </SnackbarProvider>
+              </MixpanelProvider>
+            </ApolloProvider>
+          </CookiesProvider>
         </UserProvider>
       </div>
     </>

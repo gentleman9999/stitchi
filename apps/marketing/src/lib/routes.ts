@@ -39,23 +39,21 @@ const routes = {
     },
     login: {
       href: (params: { returnTo?: string } = {}) =>
-        buildRoute('/api/auth/login', params),
+        buildRoute('/api/auth/login', {
+          redirectUrl: params.returnTo,
+        }),
     },
     logout: {
       href: ({ returnTo = '/' } = {}) =>
         buildRoute('/api/auth/logout', {
-          returnTo,
+          redirectUrl: returnTo,
         }),
     },
     signup: {
-      href: ({ skipRedirect }: { skipRedirect?: boolean } = {}) =>
+      href: ({ redirectTo = '/catalog' }: { redirectTo?: string } = {}) =>
         buildRoute('/api/auth/signup', {
-          returnTo: skipRedirect ? undefined : '/signup/success',
+          redirectUrl: redirectTo,
         }),
-
-      success: {
-        href: () => buildRoute('/signup/success'),
-      },
     },
     contact: {
       href: () => buildRoute('/contact'),
@@ -357,9 +355,9 @@ const routes = {
     },
 
     account: {
-      setup: {
+      authenticated: {
         href: (params?: { redirectUrl?: string }) =>
-          buildRoute('/account/setup', params),
+          buildRoute('/account/authenticated', params),
       },
     },
   },

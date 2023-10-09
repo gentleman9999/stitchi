@@ -5,9 +5,14 @@ import routes from './routes'
 import { ScopeAction, ScopeResource } from '@generated/globalTypes'
 import React from 'react'
 import { UseAuthorizedComponentGetDataQuery } from '@generated/UseAuthorizedComponentGetDataQuery'
-import { GetServerSidePropsContext } from 'next'
+import {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse,
+} from 'next'
 import { getAccessToken as getServerSideAccessToken } from '@auth0/nextjs-auth0'
 import getOrThrow from './utils/get-or-throw'
+import { IncomingMessage, ServerResponse } from 'http'
 
 const appUrl = getOrThrow(
   process.env.NEXT_PUBLIC_SITE_URL,
@@ -83,7 +88,10 @@ export const withAuthorization = (
   return hoistNonReactStatic(AuthorizedPage, Component)
 }
 
-export const getAccessToken = async (ctx?: GetServerSidePropsContext) => {
+export const getAccessToken = async (ctx?: {
+  req: IncomingMessage | NextApiRequest
+  res: ServerResponse<IncomingMessage> | NextApiResponse<any>
+}) => {
   // const logger = useLogger()
 
   let accessToken: string | null = null
@@ -103,8 +111,6 @@ export const getAccessToken = async (ctx?: GetServerSidePropsContext) => {
       context: { error },
     })
   }
-
-  // logger.flush()
 
   return accessToken
 }

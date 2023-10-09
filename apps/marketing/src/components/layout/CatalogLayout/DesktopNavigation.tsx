@@ -18,13 +18,7 @@ const DesktopNavigation = ({ anchorEl }: Props) => {
     <nav className="flex flex-1">
       <div>
         {!user ? (
-          <Link
-            href={routes.internal.login.href({
-              returnTo: routes.internal.closet.href(),
-            })}
-            passHref
-            className={s.link}
-          >
+          <Link href={routes.internal.login.href()} className={s.link}>
             Login
           </Link>
         ) : null}

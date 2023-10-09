@@ -1,6 +1,7 @@
 import { ApolloError } from 'apollo-server-core'
 import { mutationField } from 'nexus'
 import { SendgridMarketingEmailList } from '../../../sendgrid'
+import { KeyValueRecordKey } from '../../../services/key-value-store'
 import { OrganizationRecordGlobalRole } from '../../../services/organization/db/organization-table'
 import { getOrThrow } from '../../../utils'
 
@@ -102,7 +103,11 @@ export const userBootstrap = mutationField('userBoostrap', {
         throw new ApolloError('Failed to add marketing contact')
       }
     } else {
-      ctx.logger.error("User bootstrapped without email, can't add to Sendgrid")
+      if (!skipMarketingEmails) {
+        ctx.logger.error(
+          "User bootstrapped without email, can't add to Sendgrid",
+        )
+      }
     }
 
     ctx.logger.info(`Successfully bootstrapped user ${ctx.userId}`)

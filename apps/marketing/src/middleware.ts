@@ -1,7 +1,18 @@
-// import getOrThrow from '@lib/utils/get-or-throw'
-import { NextMiddleware, NextResponse } from 'next/server'
+import { NextMiddleware, NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@auth0/nextjs-auth0/edge'
 import { routes } from './lib'
+import * as uuid from 'uuid'
+
+export const COOKIE_DEVICE_ID = '_device_uuid'
+
+const addDeviceCooke = (request: NextRequest, response: NextResponse) => {
+  response.cookies.set(COOKIE_DEVICE_ID, uuid.v4(), {
+    path: '/',
+    maxAge: 60 * 60 * 24 * 365 * 10,
+    sameSite: 'lax',
+    secure: request.nextUrl.origin.startsWith('https'),
+  })
+}
 
 // const STITCHI_BLOG_URL = getOrThrow(
 //   process.env.STITCHI_BLOG_URL,
@@ -15,6 +26,14 @@ import { routes } from './lib'
 
 const middleware: NextMiddleware = async (request, event) => {
   const { pathname, search, origin } = request.nextUrl
+
+  const deviceId = request.cookies.get(COOKIE_DEVICE_ID)
+
+  const response = NextResponse.next()
+
+  if (!deviceId) {
+    addDeviceCooke(request, response)
+  }
 
   // if (pathname.startsWith('/blog')) {
   //   const requestHeaders = new Headers(request.headers)
@@ -48,13 +67,12 @@ const middleware: NextMiddleware = async (request, event) => {
     pathname.startsWith('/account') ||
     pathname.startsWith('/user')
   ) {
-    const response = NextResponse.next()
     const session = await getSession(request, response)
 
     if (!session?.user) {
       let returnTo = `${pathname}${search}`
 
-      return NextResponse.redirect(
+      const redirect = NextResponse.redirect(
         new URL(
           `${routes.internal.login.href({
             returnTo,
@@ -62,12 +80,12 @@ const middleware: NextMiddleware = async (request, event) => {
           request.nextUrl.origin,
         ),
       )
+
+      return addDeviceCooke(request, redirect)
     }
   }
-}
 
-export const config = {
-  matcher: ['/closet/:path*', '/account/:path*', '/user/:path*'],
+  return response
 }
 
 export default middleware

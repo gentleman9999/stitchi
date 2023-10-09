@@ -10,12 +10,15 @@ import PubSubClient from './pubsub'
 import { logger, Logger } from '../telemetry'
 import { AuthorizerFn, makeAuthorizer } from './authorization'
 
+const HEADER_X_DEVICE_ID = 'x-device-id'
+
 type StripeClient = ReturnType<typeof makeStripeClient>
 
 export interface Context {
   role?: MembershipRole
   membershipId?: string
   userId?: string
+  deviceId?: string
   organizationId?: string
   sendgrid: SendgridClient
   stripe: StripeClient
@@ -71,12 +74,20 @@ function makeContext(
         }
       })()
 
+      const deviceId =
+        HEADER_X_DEVICE_ID in req.headers
+          ? req.headers[HEADER_X_DEVICE_ID]?.toString()
+          : null
+
+      logger.info('DEVICE ID: ' + deviceId)
+
       return {
         subscriptions: params.pubsub,
         role: userActiveMembership?.role ?? undefined,
         stripe: params.stripe,
         sendgrid: params.sendgrid,
         userId: payload?.sub,
+        deviceId: deviceId || undefined,
         membershipId: userActiveMembership?.id ?? undefined,
         organizationId: userActiveMembership?.organizationId ?? undefined,
         logger: params.logger.child({
@@ -98,7 +109,7 @@ function makeContext(
         notification: services.notification,
         color: services.color,
         keyValueStore: services.keyValueStore,
-        authorize: makeAuthorizer(userActiveMembership?.role)
+        authorize: makeAuthorizer(userActiveMembership?.role),
       }
     } catch (error) {
       logger.error(error)

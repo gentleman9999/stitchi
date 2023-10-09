@@ -10,9 +10,9 @@ import {
   CatalogFactoryCatalogProduct,
   CatalogFactoryProductVariant,
 } from '../../../services/catalog/factory'
+import { KeyValueRecordKey } from '../../../services/key-value-store'
 import { OrderItemRecordType } from '../../../services/order/db/order-item-table'
 import { OrderRecordType } from '../../../services/order/db/order-table'
-import calculate from '../../../services/quote/calculateQuote'
 import { notEmpty } from '../../../utils'
 import { designRequestFactoryToGrahpql } from '../../serializers/design'
 import { orderFactoryOrderToGraphQL } from '../../serializers/order'
@@ -163,7 +163,10 @@ export const catalogProductCustomize = mutationField(
             organizationId: ctx.organizationId || null,
             approvedDesignProofId: null,
             membershipId: ctx.membershipId || null,
-            status: 'SUBMITTED',
+
+            // If the user is anonymous, we don't yet want to submit this design request
+            // Notifications are sent out when a design request is submitted, and we want a user for this
+            status: ctx.organizationId ? 'SUBMITTED' : 'DRAFT',
             name: designRequestName,
             description: input.description || null,
             metadata: {},
@@ -201,20 +204,10 @@ export const catalogProductCustomize = mutationField(
         throw new GraphQLError('Unable to create design request')
       }
 
-      if (quantity === 0) {
-        // Skip creating order, since there are no items
-        return {
-          designRequest: designRequestFactoryToGrahpql(designRequest),
-          order: null,
-        }
-      }
+      let order
 
-      // TODO: Add support for Direct to Garment
-      const quote = calculate({
-        includeFulfillment: false,
-        quantity,
-        productPriceCents: product.priceCents,
-        printLocations: input.addons
+      if (quantity > 0) {
+        let printLocations = input.addons
           .map(addon => {
             if (addon.type !== 'PRINT_LOCATION') {
               return null
@@ -225,52 +218,141 @@ export const catalogProductCustomize = mutationField(
               colorCount: 1,
             }
           })
-          .filter(notEmpty),
-      })
+          .filter(notEmpty)
 
-      let order
+        if (printLocations.length === 0) {
+          // If no print locations are specified, we quote at 1 location, 1 color
+          printLocations = [
+            {
+              colorCount: 1,
+            },
+          ]
+        }
 
-      try {
-        order = await ctx.order.createOrder({
-          order: {
-            customerEmail: null,
-            customerFirstName: null,
-            customerLastName: null,
-            customerPhone: null,
-            organizationId: ctx.organizationId || null,
-            shippingAddressId: null,
-            membershipId: ctx.membershipId || null,
-            designRequestId: designRequest.id,
-            type: OrderRecordType.CART,
-            items: pickedProductVariants
-              .filter(v => v.quantity > 0)
-              .map(item => {
-                return {
-                  // We haven't create a design product yet
-                  designId: null,
-                  quantity: item.quantity,
-                  // This can represent many things (denoted by TYPE). Therefore we store all ID's as strings in the order line item.
-                  productId: input.catalogProductId,
-                  productVariantId: item.catalogProductVariantId,
-                  unitPriceCents: quote.productUnitCostCents,
-                  totalPriceCents: quote.productUnitCostCents * item.quantity,
-                  type: OrderItemRecordType.BIG_C_PRODUCT,
-                  title: `${designRequestName} - ${item?.option_values
-                    ?.map(v => v.label)
-                    .join(', ')} - ${item?.sku}`,
-                }
-              })
-              .filter(notEmpty),
-          },
+        // TODO: Add support for Direct to Garment
+        const quote = await ctx.quote.generateQuoteV2({
+          // quantity,
+          printLocations,
+          includeFulfillment: false,
+          // productPriceCents: product.priceCents,
+          variants: pickedProductVariants
+            .filter(v => v.quantity > 0)
+            .map(variant => ({
+              catalogProductId: input.catalogProductId,
+              catalogProductVariantId: variant.id.toString(),
+              quantity: variant.quantity,
+            })),
         })
-      } catch (error) {
-        ctx.logger.error(error)
-        throw new GraphQLError('Failed to create order')
+
+        try {
+          order = await ctx.order.createOrder({
+            order: {
+              customerEmail: null,
+              customerFirstName: null,
+              customerLastName: null,
+              customerPhone: null,
+              organizationId: ctx.organizationId || null,
+              shippingAddressId: null,
+              membershipId: ctx.membershipId || null,
+              designRequestId: designRequest.id,
+              type: OrderRecordType.CART,
+              items: pickedProductVariants
+                .map(item => {
+                  const itemQuote = quote.variants.find(
+                    v => v.catalogProductVariantId === item.id.toString(),
+                  )
+
+                  if (!itemQuote) {
+                    return null
+                  }
+
+                  const {
+                    quantity,
+                    unitRetailPriceCents,
+                    totalRetailPriceCents,
+                    catalogProductId,
+                    catalogProductVariantId,
+                  } = itemQuote
+
+                  return {
+                    // We haven't create a design product yet
+                    designId: null,
+                    quantity: quantity,
+                    // This can represent many things (denoted by TYPE). Therefore we store all ID's as strings in the order line item.
+                    productId: catalogProductId,
+                    productVariantId: catalogProductVariantId,
+                    unitPriceCents: unitRetailPriceCents,
+                    totalPriceCents: totalRetailPriceCents,
+                    type: OrderItemRecordType.BIG_C_PRODUCT,
+                    title: `${designRequestName} - ${item?.option_values
+                      ?.map(v => v.label)
+                      .join(', ')} - ${item?.sku}`,
+                  }
+                })
+                .filter(notEmpty),
+            },
+          })
+        } catch (error) {
+          ctx.logger.error(error)
+          throw new GraphQLError('Failed to create order')
+        }
+      }
+
+      if (!ctx.membershipId) {
+        // If the user is not logged in, we need to store the design request and order id's so that they can be assigned to an authenticated user later
+
+        if (!ctx.deviceId) {
+          ctx.logger
+            .child({
+              context: {
+                designRequest,
+                order,
+              },
+            })
+            .error(
+              'User tried to customize without a membership or device id. This should be fixed ASAP.',
+            )
+
+          throw new GraphQLError('No device id')
+        }
+
+        try {
+          const existingDeviceStore = await ctx.keyValueStore.getValue(
+            KeyValueRecordKey.UNAUTHENTICATED_USER_STORE,
+            ctx.deviceId,
+          )
+
+          await ctx.keyValueStore.setValue(
+            KeyValueRecordKey.UNAUTHENTICATED_USER_STORE,
+            ctx.deviceId,
+            {
+              ...existingDeviceStore,
+              designRequestIds: [
+                ...(existingDeviceStore?.designRequestIds || []),
+                designRequest.id,
+              ],
+              orderIds: [
+                ...(existingDeviceStore?.orderIds || []),
+                ...(order ? [order.id] : []),
+              ],
+            },
+          )
+        } catch (error) {
+          ctx.logger
+            .child({
+              context: {
+                error,
+                designRequest,
+                order,
+              },
+            })
+            .error('Failed to update device store')
+        }
       }
 
       return {
         designRequest: designRequestFactoryToGrahpql(designRequest),
-        order: orderFactoryOrderToGraphQL(order),
+        order: order ? orderFactoryOrderToGraphQL(order) : null,
       }
     },
   },

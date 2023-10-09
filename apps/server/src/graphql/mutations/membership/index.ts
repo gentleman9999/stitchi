@@ -1,5 +1,6 @@
 import { GraphQLError } from 'graphql'
 import { inputObjectType, mutationField, nonNull, objectType } from 'nexus'
+import { KeyValueRecordKey } from '../../../services/key-value-store'
 import { membershipFactoryToGraphql } from '../../serializers/membership'
 
 export const MembershipInviteAcceptInput = inputObjectType({
@@ -351,3 +352,143 @@ export const membershipInvite = mutationField('membershipInvite', {
     return { memberships: memberships.map(membershipFactoryToGraphql) }
   },
 })
+
+export const MembershipConnectAnonymousResourcesPayload = objectType({
+  name: 'MembershipConnectAnonymousResourcesPayload',
+  definition(t) {
+    t.nonNull.field('membership', { type: 'Membership' })
+  },
+})
+
+export const membershipConnectAnonymousResources = mutationField(
+  'membershipConnectAnonymousResources',
+  {
+    type: 'MembershipConnectAnonymousResourcesPayload',
+    resolve: async (_, __, ctx) => {
+      ctx.logger.debug('membershipConnectAnonymousResources')
+
+      if (!ctx.membershipId) {
+        throw new GraphQLError('Forbidden')
+      }
+
+      let membership
+
+      try {
+        membership = await ctx.membership.getMembership({
+          membershipId: ctx.membershipId,
+        })
+      } catch (error) {
+        throw new GraphQLError('Failed to get membership')
+      }
+
+      if (!ctx.deviceId) {
+        ctx.logger.error('No device ID found to connect anonymous resources')
+      } else {
+        let anonomousUserResources
+
+        ctx.logger.debug("DEVICE ID: '" + ctx.deviceId + "'")
+
+        try {
+          anonomousUserResources = await ctx.keyValueStore.getValue(
+            KeyValueRecordKey.UNAUTHENTICATED_USER_STORE,
+            ctx.deviceId,
+          )
+        } catch (error) {
+          ctx.logger.error(error)
+        }
+
+        ctx.logger
+          .child({
+            anonomousUserResources,
+          })
+          .debug('anonomousUserResources')
+
+        for (const designRequestId of anonomousUserResources?.designRequestIds ||
+          []) {
+          // Associate design requests with new membership and organization
+
+          let foundDesignRequest
+
+          try {
+            foundDesignRequest = await ctx.design.getDesignRequest({
+              designRequestId,
+            })
+
+            ctx.logger.child({ foundDesignRequest }).debug('foundDesignRequest')
+
+            if (!foundDesignRequest) {
+              continue
+            }
+          } catch (error) {
+            ctx.logger.error(error)
+            continue
+          }
+
+          try {
+            await ctx.design.updateDesignRequest({
+              designRequest: {
+                ...foundDesignRequest,
+                status: 'SUBMITTED',
+                organizationId:
+                  foundDesignRequest?.organizationId ||
+                  membership.organizationId,
+                membershipId: foundDesignRequest?.membershipId || membership.id,
+              },
+            })
+          } catch (error) {
+            ctx.logger.error(error)
+          }
+        }
+
+        for (const orderId of anonomousUserResources?.orderIds || []) {
+          // Associate orders with new membership and organization
+
+          let foundOrder
+
+          try {
+            foundOrder = await ctx.order.getOrder({ orderId })
+
+            if (!foundOrder) {
+              continue
+            }
+          } catch (error) {
+            ctx.logger.error(error)
+            continue
+          }
+
+          try {
+            await ctx.order.updateOrder({
+              order: {
+                ...foundOrder,
+                organizationId:
+                  foundOrder?.organizationId || membership.organizationId,
+                membershipId: foundOrder?.membershipId || membership.id,
+              },
+            })
+          } catch (error) {
+            ctx.logger.error(error)
+          }
+        }
+
+        // Remove anonomous user resources from KV store
+
+        try {
+          await ctx.keyValueStore.setValue(
+            KeyValueRecordKey.UNAUTHENTICATED_USER_STORE,
+            ctx.deviceId,
+            {
+              designRequestIds: [],
+              orderIds: [],
+            },
+          )
+        } catch (error) {
+          ctx.logger.error(error)
+        }
+      }
+
+      return {
+        membership: membershipFactoryToGraphql(membership),
+      }
+    },
+  },
+)

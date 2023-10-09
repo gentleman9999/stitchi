@@ -32,6 +32,21 @@ const makeHandler =
     },
   ): DesignRequestUpdatedHandler =>
   async ({ prevDesignRequest, nextDesignRequest }) => {
+    // Make sure this happens before sending any notifications
+    // We may want to move this out of async??? Can we ensure that the next step has access to the latest topic members???
+    if (
+      prevDesignRequest.membershipId === null &&
+      nextDesignRequest.membershipId !== null
+    ) {
+      // Add newly assigned membership to notifications
+
+      const topicKey = `designRequest:${nextDesignRequest.id}`
+
+      await notificationClient.addSubscribersToNotificationTopic(topicKey, [
+        nextDesignRequest.membershipId,
+      ])
+    }
+
     if (
       prevDesignRequest.status === DesignRequestStatus.DRAFT &&
       nextDesignRequest.status === DesignRequestStatus.SUBMITTED

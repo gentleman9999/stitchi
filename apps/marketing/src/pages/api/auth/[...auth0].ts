@@ -1,12 +1,17 @@
+import { gql } from '@apollo/client'
 import {
   handleAuth,
   handleLogin,
   handleLogout,
-  initAuth0,
   LoginOptions,
 } from '@auth0/nextjs-auth0'
+import { initializeApollo } from '@lib/apollo'
+import routes from '@lib/routes'
 import getOrThrow from '@lib/utils/get-or-throw'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { Logger } from 'next-axiom'
+
+const log = new Logger()
 
 async function handleAction(
   req: NextApiRequest,
@@ -33,15 +38,33 @@ const defaultAuthorizationParams = {
 
 export default handleAuth({
   async login(req: NextApiRequest, res: NextApiResponse) {
+    // This query param must NOT be 'returnTo' or else it will be overwritten
+    const redirectUrl =
+      typeof req.query.redirectUrl === 'string'
+        ? req.query.redirectUrl
+        : req.headers.referer
+
     return handleAction(req, res, {
-      returnTo: req.query.returnTo as string,
+      returnTo: routes.internal.account.authenticated.href({
+        redirectUrl,
+      }),
       authorizationParams: {
         ...defaultAuthorizationParams,
       },
     })
   },
   async signup(req: NextApiRequest, res: NextApiResponse) {
+    // This query param must NOT be 'returnTo' or else it will be overwritten
+    const redirectUrl =
+      typeof req.query.redirectUrl === 'string'
+        ? req.query.redirectUrl
+        : req.headers.referer
+
     return handleAction(req, res, {
+      returnTo: routes.internal.account.authenticated.href({
+        redirectUrl,
+      }),
+
       authorizationParams: {
         screen_hint: 'signup',
         ...defaultAuthorizationParams,
@@ -49,14 +72,37 @@ export default handleAuth({
     })
   },
   async logout(req: NextApiRequest, res: NextApiResponse) {
+    const client = initializeApollo(undefined, {
+      req,
+      res,
+    })
+
+    try {
+      await client.mutate({
+        mutation: LOGOUT_USER,
+      })
+    } catch (error) {
+      log.error('Failed to logout user from graphql server', {
+        context: { error, errorStringified: JSON.stringify(error) },
+      })
+    }
+
     return handleLogout(req, res, {
       returnTo: req.query.returnTo as string,
     })
   },
   onError(req: NextApiRequest, res: NextApiResponse, error: Error) {
-    console.error('Failed to authenticate user', {
+    log.error('Failed to authenticate user', {
       context: { error, req, res },
     })
     res.status(500).end(error.message)
   },
 })
+
+const LOGOUT_USER = gql`
+  mutation LogoutUserQuery {
+    userLogout {
+      success
+    }
+  }
+`
