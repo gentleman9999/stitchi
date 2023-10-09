@@ -7,6 +7,8 @@
     "allowJs": true,
     "jsx": "preserve",
     "outDir": "dist",
-    "lib": ["esnext"]
-  }
+    "lib": ["esnext"],
+    "jsx": "react"
+  },
+  "references": [{ "path": "../email-template-composer" }]
 }

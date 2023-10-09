@@ -6,6 +6,9 @@ import { MembershipFactoryMembership } from '../../membership/factory/membership
 import { OrderFactoryOrder } from '../../order/factory'
 import { OrganizationRecord } from '../../organization/db/organization-table'
 
+import { render } from '@react-email/render'
+import DesignRequestUserCreatedTemplate from '../../../../../email-template-composer/emails/design-request-user-created'
+
 const appBaseUrl = getOrThrow(
   process.env.STITCHI_MARKETING_APPLICATION_HOST,
   'STITCHI_MARKETING_APPLICATION_HOST',
@@ -54,7 +57,21 @@ const notifications = {
     return {
       email: {
         subject: `Design request submitted`,
-        htmlBody: `Your design request ${params.designRequest.name} has been submitted and will be reviewed by an artist shortly.`,
+        // htmlBody: `Your design request ${params.designRequest.name} has been submitted and will be reviewed by an artist shortly.`,
+        htmlBody: render(
+          DesignRequestUserCreatedTemplate({
+            recipient: { name: 'Mitch' },
+            designRequest: {
+              id: 'abc123',
+              name: 'DesignRequest ABC123',
+              creatorName: 'Mitch Joa',
+              submittedAt: new Date().toISOString(),
+              expectedCompletionTime: new Date().toISOString(),
+            },
+            previewText: `Your design request ${params.designRequest.name} has been submitted and will be reviewed by an artist shortly.`,
+            children: null,
+          }),
+        ),
         textBody: `Your design request ${params.designRequest.name} has been submitted and will be reviewed by an artist shortly.`,
       },
       web: {
