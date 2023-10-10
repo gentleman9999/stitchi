@@ -2,8 +2,7 @@ import { NextMiddleware, NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@auth0/nextjs-auth0/edge'
 import { routes } from './lib'
 import * as uuid from 'uuid'
-
-export const COOKIE_DEVICE_ID = '_device_uuid'
+import { COOKIE_DEVICE_ID } from '@lib/constants'
 
 const addDeviceCooke = (request: NextRequest, response: NextResponse) => {
   response.cookies.set(COOKIE_DEVICE_ID, uuid.v4(), {
