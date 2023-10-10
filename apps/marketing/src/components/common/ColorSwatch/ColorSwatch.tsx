@@ -15,7 +15,10 @@ interface Props {
 
 const ColorSwatch = (props: Props) => {
   const { width = 'w-8', height = 'h-8' } = props
-  const color = new Color(props.hexCode)
+
+  // TODO(everest): Hack to path broken product catalog colors
+  // https://linear.app/stitchi/issue/ENG-112/fix-product-color-swatch-codes-with-dropped-value
+  const color = new Color(props.hexCode === '#DROPPED' ? '#000' : props.hexCode)
 
   return (
     <div

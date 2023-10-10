@@ -225,7 +225,7 @@ const CatchAllPage = () => {
       }
 
       default: {
-        if (!loading || !designCategoryLoading) {
+        if (!loading && !designCategoryLoading) {
           logger.error('Unknown node type', { node })
         }
         return null

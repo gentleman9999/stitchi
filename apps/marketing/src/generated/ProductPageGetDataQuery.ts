@@ -268,26 +268,6 @@ export interface ProductPageGetDataQuery_site_route_node_Product_relatedProducts
   edges: (ProductPageGetDataQuery_site_route_node_Product_relatedProducts_edges | null)[] | null;
 }
 
-export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_prices_price {
-  __typename: "Money";
-  /**
-   * Currency code of the current money.
-   */
-  currencyCode: string;
-  /**
-   * The amount of money.
-   */
-  value: any;
-}
-
-export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_prices {
-  __typename: "Prices";
-  /**
-   * Calculated price of the product.  Calculated price takes into account basePrice, salePrice, rules (modifier, option, option set) that apply to the product configuration, and customer group discounts.  It represents the in-cart price for a product configuration without bulk pricing rules.
-   */
-  price: ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_prices_price;
-}
-
 export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_options_edges_node_values_edges_node {
   __typename: "ProductOptionValue";
   /**
@@ -382,10 +362,6 @@ export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_
    * Sku of the variant.
    */
   sku: string;
-  /**
-   * Variant prices
-   */
-  prices: ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_prices | null;
   /**
    * The options which define a variant.
    */

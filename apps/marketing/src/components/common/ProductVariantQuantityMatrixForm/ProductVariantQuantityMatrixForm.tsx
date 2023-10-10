@@ -206,8 +206,8 @@ const ProductVariantQuantityMatrixForm = <
                   if (!color) return null
 
                   return (
-                    <>
-                      <div key={color.id} className="p-1 sticky left-0  flex">
+                    <React.Fragment key={color.id}>
+                      <div className="p-1 sticky left-0  flex">
                         <div className="flex items-center text-xs">
                           <ColorSwatch
                             hexCode={color.hex || '#000'}
@@ -231,7 +231,7 @@ const ProductVariantQuantityMatrixForm = <
                           <XIcon className="w-4 h-4 text-gray-400" />
                         </button>
                       </div>
-                    </>
+                    </React.Fragment>
                   )
                 })}
               </div>

@@ -15,7 +15,9 @@ const ClosetBrandIndexPageColorsColorPreview = ({
   onEdit,
   onDelete,
 }: Props) => {
-  const rgbColor = new Color(color.hex)
+  // TODO(everest): Hack to path broken product catalog colors
+  // https://linear.app/stitchi/issue/ENG-112/fix-product-color-swatch-codes-with-dropped-value
+  const rgbColor = new Color(color.hex === '#DROPPED' ? '#000' : color.hex)
 
   return (
     <div className="flex flex-col items-center group">

@@ -83,7 +83,7 @@ const ProductShowPage = ({ product }: Props) => {
           price: currency(product.priceCents || 0, {
             fromCents: true,
           }),
-          priceCurrency: variant.prices?.price.currencyCode,
+          priceCurrency: 'USD',
           images: variant.defaultImage ? [variant.defaultImage.url] : [],
           sku: variant.sku,
           mpn: variant.mpn || undefined,
@@ -235,12 +235,6 @@ export const fragments = {
             mpn
             sku
 
-            prices {
-              price {
-                currencyCode
-                value
-              }
-            }
             options {
               edges {
                 node {

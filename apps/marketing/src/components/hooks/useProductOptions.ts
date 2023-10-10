@@ -53,6 +53,12 @@ const isSwatchOptionValue = (
 }
 
 const sortColors = (hex1: string, hex2: string) => {
+  // TODO(everest): Hack to path broken product catalog colors
+  // https://linear.app/stitchi/issue/ENG-112/fix-product-color-swatch-codes-with-dropped-value
+  if (hex1 === '#DROPPED' || hex2 === '#DROPPED') {
+    return 0
+  }
+
   let hslA = new Color(hex1).hsl().lightness()
   let hslB = new Color(hex2).hsl().lightness()
 
