@@ -79,8 +79,6 @@ function makeContext(
           ? req.headers[HEADER_X_DEVICE_ID]?.toString()
           : null
 
-      logger.info('DEVICE ID: ' + deviceId)
-
       return {
         subscriptions: params.pubsub,
         role: userActiveMembership?.role ?? undefined,

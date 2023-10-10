@@ -23,19 +23,12 @@ const makeSetActiveMembership =
         input,
       },
     })
-
-    // We want to reset the datastore to be for the new user
-    // await client.resetStore()
   }
 
 export const getServerSideProps: GetServerSideProps = async ctx => {
   const log = new Logger()
 
-  log.debug('STARTING TO GET SERVER SIDE PROPS')
-
   const client = initializeApollo(null, ctx)
-
-  log.debug('INITIALIZED APOLLO CLIENT')
 
   const redirectUrl = ctx.query.redirectUrl?.toString()
 
