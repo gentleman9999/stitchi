@@ -17,6 +17,7 @@ import { ScopeAction, ScopeResource } from '@generated/globalTypes'
 import { useAuthorizedComponent } from '@lib/auth'
 import DesignRequestAssociatedProducts from './DesignRequestAssociatedProducts'
 import DesignRequestCustomerCard from './DesignRequestCustomerCard'
+import DesignRequestOrderList from './DesignRequestOrderList'
 
 interface Props {
   designRequestId: string
@@ -102,11 +103,16 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
             </ClosetSection>
           ) : null}
 
+          <ClosetSection>
+            <DesignRequestOrderList orders={designRequest?.orders || []} />
+          </ClosetSection>
+
           {designRequest?.designRequestProduct ? (
             <DesignRequestOverviewProductList
               product={designRequest.designRequestProduct}
             />
           ) : null}
+
           <ClosetSection>
             <DesignProofList
               designRequestId={designRequestId}
@@ -133,6 +139,7 @@ const GET_DATA = gql`
   ${DesignRequestOverviewProductList.fragments.designRequestProduct}
   ${DesignRequestDraft.fragments.designRequest}
   ${CreateDesignSlideOver.fragments.designRequest}
+  ${DesignRequestOrderList.fragments.order}
   query DesignRequestOverviewGetDataQuery($designRequestId: ID!) {
     designRequest(id: $designRequestId) {
       id
@@ -143,6 +150,10 @@ const GET_DATA = gql`
       designRequestProduct {
         id
         ...DesignRequestOverviewProductListDesignRequestProductFragment
+      }
+      orders {
+        id
+        ...DesignRequestOrderListOrderFragment
       }
       ...DesignRequestDraftDesignRequestFragments
       ...DesignRequestSubmittedDesignRequestGeneralInformationFragment

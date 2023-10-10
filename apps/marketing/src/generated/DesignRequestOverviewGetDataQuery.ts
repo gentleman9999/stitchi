@@ -48,6 +48,12 @@ export interface DesignRequestOverviewGetDataQuery_designRequest_designRequestPr
   catalogProduct: DesignRequestOverviewGetDataQuery_designRequest_designRequestProduct_catalogProduct | null;
 }
 
+export interface DesignRequestOverviewGetDataQuery_designRequest_orders {
+  __typename: "Order";
+  id: string;
+  humanOrderId: string;
+}
+
 export interface DesignRequestOverviewGetDataQuery_designRequest_designRequestLocations_files_FileUnknown {
   __typename: "FileUnknown" | "FilePdf";
   id: string;
@@ -107,6 +113,7 @@ export interface DesignRequestOverviewGetDataQuery_designRequest {
   status: DesignRequestStatus;
   proofs: DesignRequestOverviewGetDataQuery_designRequest_proofs[];
   designRequestProduct: DesignRequestOverviewGetDataQuery_designRequest_designRequestProduct;
+  orders: DesignRequestOverviewGetDataQuery_designRequest_orders[];
   fileUploadDirectory: string;
   useCase: string | null;
   fileIds: string[];
