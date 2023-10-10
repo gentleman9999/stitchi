@@ -765,6 +765,10 @@ type Membership {
   userId: String
 }
 
+type MembershipConnectAnonymousResourcesPayload {
+  membership: Membership!
+}
+
 input MembershipDesignProductsFilterInput {
   where: MembershipDesignProductsWhereFilterInput
 }
@@ -870,6 +874,7 @@ type Mutation {
 
   """Creates a new mailing address for the user"""
   mailingAddressCreate(input: MailingAddressCreateInput!): MailingAddressCreatePayload
+  membershipConnectAnonymousResources: MembershipConnectAnonymousResourcesPayload
   membershipInvite(input: MembershipInviteInput!): MembershipInvitePayload
   membershipInviteAccept(input: MembershipInviteAcceptInput!): MembershipInviteAcceptPayload
   membershipInviteResend(input: MembershipInviteResendInput!): MembershipInviteResendPayload
@@ -891,6 +896,7 @@ type Mutation {
 
   """Bootstraps a new user with necessary resources"""
   userBoostrap: User
+  userLogout: UserLogoutPayload
   userOnboardingUpdate(input: UserOnboardingUpdateInput!): UserOnboardingUpdatePayload
   userOrganizationCreate(input: UserOrganizationCreateInput!): UserOrganizationCreatePayload
   userSetOrganization(input: UserSetOrganizationInput!): UserSetOrganizationPayload
@@ -1384,6 +1390,10 @@ type User {
   picture: String
   updatedAt: DateTime
   username: String
+}
+
+type UserLogoutPayload {
+  success: Boolean!
 }
 
 type UserOnboarding {

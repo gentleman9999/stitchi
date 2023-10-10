@@ -26,7 +26,16 @@ const makeHandler =
     },
   ): OrderUpdatedEventHandler =>
   async ({ prevOrder, nextOrder }) => {
-    if (!nextOrder.customerEmail) return
+    // Make sure this happens before sending any notifications
+    // We may want to move this out of async??? Can we ensure that the next step has access to the latest topic members???
+    if (prevOrder.membershipId === null && nextOrder.membershipId !== null) {
+      // Add newly assigned membership to notifications
+      const topicKey = `order:${nextOrder.id}`
+
+      await notificationService.addSubscribersToNotificationTopic(topicKey, [
+        nextOrder.membershipId,
+      ])
+    }
 
     if (prevOrder.type !== nextOrder.type) {
       switch (nextOrder.type) {

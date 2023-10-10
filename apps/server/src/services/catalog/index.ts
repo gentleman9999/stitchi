@@ -16,7 +16,7 @@ import {
 } from '../../bigcommerce'
 import { logger } from '../../telemetry'
 
-export interface OrderClientService {
+export interface CatalogService {
   getCatalogProduct: (
     input: {
       productEntityId: string
@@ -48,7 +48,7 @@ interface MakeClientParams {
   bigCommerceClient: BigCommerceClient
 }
 
-type MakeClientFn = (params?: MakeClientParams) => OrderClientService
+type MakeClientFn = (params?: MakeClientParams) => CatalogService
 
 const makeClient: MakeClientFn = (
   { bigCommerceClient } = { bigCommerceClient: makeCatalogClient() },

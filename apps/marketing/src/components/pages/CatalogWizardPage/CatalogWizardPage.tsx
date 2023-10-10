@@ -30,7 +30,7 @@ const CatalogWizardPage = ({ path }: Props) => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="absolute top-6 left-0 right-0 flex justify-center z-50">
+      <div className="absolute top-6 inset-y-1/2 w-16 flex justify-center z-50">
         <UserAvatar
           width="w-16"
           height="h-16"

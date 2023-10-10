@@ -11,8 +11,8 @@ import { GetServerSideProps } from 'next'
 import { NextSeo } from 'next-seo'
 import React, { ReactElement } from 'react'
 
-const getServerSideProps: GetServerSideProps<Props> = async ({ query }) => {
-  const { orderId } = query
+const getServerSideProps: GetServerSideProps<Props> = async ctx => {
+  const { orderId } = ctx.query
 
   if (typeof orderId !== 'string') {
     return {
@@ -20,7 +20,7 @@ const getServerSideProps: GetServerSideProps<Props> = async ({ query }) => {
     }
   }
 
-  const client = initializeApollo()
+  const client = initializeApollo(undefined, ctx)
 
   await client.query<
     OrderDetailsPageGetDataQuery,

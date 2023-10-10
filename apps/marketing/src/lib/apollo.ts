@@ -21,7 +21,9 @@ import { isEqual } from 'lodash-es'
 import { GetStaticPropsResult, GetServerSidePropsContext } from 'next'
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
 import { createClient } from 'graphql-ws'
+import Cookies from 'universal-cookie'
 import { getAccessToken } from './auth'
+import { COOKIE_DEVICE_ID } from './constants'
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__' as const
 
@@ -52,7 +54,7 @@ const makeWsLink = () =>
 // * A function that's called for each operation to execute
 // * The Link to use for an operation if the function returns a "truthy" value
 // * The Link to use for an operation if the function returns a "falsy" value
-const makeSplitLink = (ctx?: GetServerSidePropsContext) =>
+const makeSplitLink = () =>
   split(
     ({ query }) => {
       const definition = getMainDefinition(query)
@@ -65,12 +67,24 @@ const makeSplitLink = (ctx?: GetServerSidePropsContext) =>
     httpLink,
   )
 
-const makeAuthLink = (ctx?: GetServerSidePropsContext) =>
+const makeAuthLink = (ctx?: Pick<GetServerSidePropsContext, 'req' | 'res'>) =>
   setContext(async (_, { headers }) => {
     const accessToken = await getAccessToken(ctx)
 
+    let deviceId: string | undefined = undefined
+
+    if (ctx) {
+      const cookies = new Cookies(ctx.req.headers.cookie)
+
+      deviceId = cookies.get(COOKIE_DEVICE_ID)
+    } else if (typeof document !== 'undefined') {
+      const cookies = new Cookies(document.cookie)
+      deviceId = cookies.get(COOKIE_DEVICE_ID)
+    }
+
     return {
       headers: Object.assign(headers || {}, {
+        'x-device-id': deviceId,
         'Content-Type': 'application/json',
         Accept: 'application/json',
         Authorization: accessToken ? `Bearer ${accessToken}` : '',
@@ -81,10 +95,12 @@ const makeAuthLink = (ctx?: GetServerSidePropsContext) =>
 // Allows us to share the apollo client instance (including auth) across client and server
 let apolloClient: ApolloClient<NormalizedCacheObject>
 
-const createApolloClient = (ctx?: GetServerSidePropsContext) =>
+const createApolloClient = (
+  ctx?: Pick<GetServerSidePropsContext, 'req' | 'res'>,
+) =>
   new ApolloClient({
     ssrMode: Boolean(ctx),
-    link: makeAuthLink(ctx).concat(makeSplitLink(ctx)),
+    link: makeAuthLink(ctx).concat(makeSplitLink()),
     cache: new InMemoryCache({
       dataIdFromObject(responseObj) {
         switch (responseObj.__typename) {
@@ -123,7 +139,7 @@ const createApolloClient = (ctx?: GetServerSidePropsContext) =>
 
 export function initializeApollo(
   initialState: NormalizedCacheObject | null = null,
-  ctx?: GetServerSidePropsContext,
+  ctx?: Pick<GetServerSidePropsContext, 'req' | 'res'>,
 ) {
   const _apolloClient = apolloClient ?? createApolloClient(ctx)
 

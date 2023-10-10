@@ -93,11 +93,20 @@ const ProductShowPageHero = ({ product }: Props) => {
       return
     }
 
-    await router.push(
-      routes.internal.closet.designs.show.href({
-        designId: designRequest.id,
-      }),
-    )
+    const designRequestPath = routes.internal.closet.designs.show.href({
+      designId: designRequest.id,
+    })
+
+    if (!designRequest?.membershipId) {
+      // No logged in user
+      await router.push(
+        routes.internal.signup.href({
+          redirectTo: designRequestPath,
+        }),
+      )
+    } else {
+      await router.push(designRequestPath)
+    }
   }
 
   return (

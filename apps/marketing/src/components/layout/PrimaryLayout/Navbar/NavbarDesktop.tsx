@@ -77,13 +77,7 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
       </Link>
 
       {!user ? (
-        <Link
-          href={routes.internal.login.href({
-            returnTo: routes.internal.closet.href(),
-          })}
-          passHref
-          className={s.link}
-        >
+        <Link href={routes.internal.login.href()} passHref className={s.link}>
           Login
         </Link>
       ) : null}

@@ -42,6 +42,7 @@ const CUSTOMIZE = gql`
     catalogProductCustomize(input: $input) {
       designRequest {
         id
+        membershipId
       }
       order {
         id

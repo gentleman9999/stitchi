@@ -19,15 +19,18 @@ const getMarkupMultiplier = (unitCost: number) => {
 }
 
 const calculate = ({
-  productPriceCents,
   includeFulfillment,
-  quantity,
   printLocations,
+  variants,
 }: {
-  productPriceCents: number
-  quantity: number
   includeFulfillment: boolean
   printLocations: { colorCount: number }[]
+  variants: {
+    catalogProductId: string
+    catalogProductVariantId: string
+    quantity: number
+    priceCents: number
+  }[]
 }) => {
   const fulfillmentCost = includeFulfillment ? 1_00 : 0_00
 
@@ -53,14 +56,16 @@ const calculate = ({
     [0_45, 0_55, 0_60, 0_70, 0_75, 0_80, 0_85, 0_90],
   ]
 
+  const totalQuantity = sum(...variants.map(v => v.quantity))
+
   const printQtyBreakpoint = PRINT_QTY_BREAKPOINTS.findIndex((bp, i) => {
-    if (quantity > bp) {
+    if (totalQuantity > bp) {
       // If this is the greatest breakpoint, return true
       if (!PRINT_QTY_BREAKPOINTS[i + 1]) {
         return true
       }
 
-      if (quantity < PRINT_QTY_BREAKPOINTS[i + 1]) {
+      if (totalQuantity < PRINT_QTY_BREAKPOINTS[i + 1]) {
         return true
       }
     } else if (i === 0) {
@@ -92,36 +97,40 @@ const calculate = ({
 
   const screenCost = multiply(totalColorCount, SCREEN_CHARGE)
 
-  const productTotalCostCents = chain(printLocationsTotalCost)
-    .add(productPriceCents)
-    .add(divide(screenCost, quantity))
-    .done()
+  const variantQuotes = variants.map(variant => {
+    const variantUnitCostCents = chain(printLocationsTotalCost)
+      .add(variant.priceCents)
+      .add(divide(screenCost, totalQuantity))
+      .done()
 
-  const markupMultiplier = add(
-    divide(getMarkupMultiplier(productTotalCostCents), 100),
-    1,
-  )
+    const discount = printQtyBreakpoint * 0.025 // 2.25% discount per qty breakpoint
 
-  const discount = printQtyBreakpoint * 0.025 // 2.25% discount per qty breakpoint
+    const markupMultiplier = add(
+      divide(getMarkupMultiplier(variantUnitCostCents), 100),
+      1,
+    )
 
-  const productRetailCents = chain(productTotalCostCents)
-    .multiply(markupMultiplier) // Apply markup
-    .multiply(1 - discount) // Apply discounts
-    // No markup/discount on fulfillment
-    .add(fulfillmentCost)
-    .multiply(quantity)
-    .done()
+    const variantUnitRetailCents = chain(variantUnitCostCents)
+      .multiply(markupMultiplier) // Apply markup
+      .multiply(1 - discount) // Apply discounts
+      // No markup/discount on fulfillment
+      .add(fulfillmentCost)
+      .done()
 
-  const productUnitRetailCents = divide(productRetailCents, quantity)
+    return {
+      catalogProductVariantId: variant.catalogProductVariantId,
+      catalogProductId: variant.catalogProductId,
+      unitCostCents: Math.floor(variantUnitCostCents),
+      unitRetailPriceCents: Math.floor(variantUnitRetailCents),
+      totalRetailPriceCents: Math.floor(
+        multiply(variantUnitRetailCents, variant.quantity),
+      ),
+      quantity: variant.quantity,
+    }
+  })
 
   return {
-    productTotalCostCents: Math.floor(productRetailCents),
-    productUnitCostCents: Math.floor(productUnitRetailCents),
-    printLocationCount: printLocations.length,
-    printLocations: printLocations.map((location, i) => ({
-      colorCount: location.colorCount,
-      priceCents: Math.floor(printLocationCosts[i]),
-    })),
+    variants: variantQuotes,
   }
 }
 

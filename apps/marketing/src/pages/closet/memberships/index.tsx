@@ -34,24 +34,22 @@ const ViewerMembershipsIndexPage = () => {
 
   const [setMembership] = useSetUserMembership()
 
+  const { redirectUrl } = router.query
+
+  const nextPath = routes.internal.account.authenticated.href({
+    redirectUrl:
+      typeof redirectUrl === 'string'
+        ? redirectUrl
+        : routes.internal.closet.href(),
+  })
+
   const memberships = data?.userMemberships || []
 
   React.useEffect(() => {
     if (!loading && !memberships?.length) {
-      router.push(
-        routes.internal.account.setup.href({
-          redirectUrl: routes.internal.closet.href(),
-        }),
-      )
+      router.push(nextPath)
     }
-  }, [loading, memberships?.length, router])
-
-  const { redirectUrl } = router.query
-
-  const nextPath =
-    typeof redirectUrl === 'string'
-      ? redirectUrl
-      : routes.internal.closet.href()
+  }, [loading, memberships?.length, nextPath, router])
 
   const handleSetMembership = React.useCallback(
     async (input: { organizationId: string; membershipId: string }) => {
@@ -119,6 +117,13 @@ const ViewerMembershipsIndexPage = () => {
               >
                 Create new account
               </Button>
+
+              <a
+                href={routes.internal.logout.href()}
+                className="text-center text-sm mt-2"
+              >
+                Not you? Logout
+              </a>
             </div>
           </>
         )}

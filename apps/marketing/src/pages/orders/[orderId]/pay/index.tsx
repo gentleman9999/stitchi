@@ -15,8 +15,8 @@ import routes from '@lib/routes'
 import { GetServerSideProps } from 'next'
 import React, { ReactElement } from 'react'
 
-const getServerSideProps: GetServerSideProps<Props> = async ({ query }) => {
-  const { orderId } = query
+const getServerSideProps: GetServerSideProps<Props> = async ctx => {
+  const { orderId } = ctx.query
 
   if (typeof orderId !== 'string') {
     return {
@@ -24,7 +24,7 @@ const getServerSideProps: GetServerSideProps<Props> = async ({ query }) => {
     }
   }
 
-  const client = initializeApollo()
+  const client = initializeApollo(undefined, ctx)
 
   const { data } = await client.query<
     OrderPayPageGetDataQuery,

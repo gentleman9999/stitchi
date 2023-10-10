@@ -915,5 +915,5 @@ model Color {
 
 model KeyValue {
   key   String @id
-  value String
+  value String @db.Text
 }

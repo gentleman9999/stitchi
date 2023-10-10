@@ -12,6 +12,7 @@ import { CatalogProductCustomizeInput } from "./globalTypes";
 export interface UseCustomizeProductCustomizeMutation_catalogProductCustomize_designRequest {
   __typename: "DesignRequest";
   id: string;
+  membershipId: string | null;
 }
 
 export interface UseCustomizeProductCustomizeMutation_catalogProductCustomize_order {

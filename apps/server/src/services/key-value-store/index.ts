@@ -7,14 +7,23 @@ const prisma = new PrismaClient()
 
 export enum KeyValueRecordKey {
   USER_ONBOARDING = 'user-onboarding',
+  UNAUTHENTICATED_USER_STORE = 'unauthenticated-user-store',
 }
 
 const userOnboardingSchema = yup.object().shape({
-  seenDesignRequestDraftOnboarding: yup.boolean().required(),
+  seenDesignRequestDraftOnboarding: yup.boolean(),
+})
+
+const unauthenticatedUserStoreSchema = yup.object().shape({
+  designRequestIds: yup.array().of(yup.string().required()),
+  orderIds: yup.array().of(yup.string().required()),
 })
 
 interface KeyValueMap {
   [KeyValueRecordKey.USER_ONBOARDING]: yup.Asserts<typeof userOnboardingSchema>
+  [KeyValueRecordKey.UNAUTHENTICATED_USER_STORE]: yup.Asserts<
+    typeof unauthenticatedUserStoreSchema
+  >
 }
 
 interface KeyValueStoreClient {
@@ -57,6 +66,11 @@ const makeClient: MakeClientFn = (
       switch (key) {
         case KeyValueRecordKey.USER_ONBOARDING:
           return userOnboardingSchema.validateSync(JSON.parse(value.value))
+
+        case KeyValueRecordKey.UNAUTHENTICATED_USER_STORE:
+          return unauthenticatedUserStoreSchema.validateSync(
+            JSON.parse(value.value),
+          )
         default:
           throw new Error(`Invalid key: ${key}`)
       }
@@ -69,6 +83,11 @@ const makeClient: MakeClientFn = (
           case KeyValueRecordKey.USER_ONBOARDING:
             validValue = userOnboardingSchema.validateSync(value)
             break
+
+          case KeyValueRecordKey.UNAUTHENTICATED_USER_STORE:
+            validValue = unauthenticatedUserStoreSchema.validateSync(value)
+            break
+
           default:
             throw new Error(`Invalid key: ${key}`)
         }
@@ -111,6 +130,13 @@ const makeClient: MakeClientFn = (
               JSON.parse(upsertedValue.value),
             )
             break
+
+          case KeyValueRecordKey.UNAUTHENTICATED_USER_STORE:
+            validUpsertedValue = unauthenticatedUserStoreSchema.validateSync(
+              JSON.parse(upsertedValue.value),
+            )
+            break
+
           default:
             throw new Error(`Invalid key: ${key}`)
         }

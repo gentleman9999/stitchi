@@ -705,6 +705,9 @@ export interface NexusGenObjects {
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     userId?: string | null; // String
   }
+  MembershipConnectAnonymousResourcesPayload: { // root type
+    membership: NexusGenRootTypes['Membership']; // Membership!
+  }
   MembershipFlags: { // root type
     isBetaTester: boolean; // Boolean!
   }
@@ -938,6 +941,9 @@ export interface NexusGenObjects {
     picture?: string | null; // String
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
     username?: string | null; // String
+  }
+  UserLogoutPayload: { // root type
+    success: boolean; // Boolean!
   }
   UserOnboarding: { // root type
     id: string; // ID!
@@ -1360,6 +1366,9 @@ export interface NexusGenFieldTypes {
     user: NexusGenRootTypes['User'] | null; // User
     userId: string | null; // String
   }
+  MembershipConnectAnonymousResourcesPayload: { // field return type
+    membership: NexusGenRootTypes['Membership']; // Membership!
+  }
   MembershipFlags: { // field return type
     isBetaTester: boolean; // Boolean!
   }
@@ -1401,6 +1410,7 @@ export interface NexusGenFieldTypes {
     fileCreateBatch: NexusGenRootTypes['FileCreateBatchPayload'] | null; // FileCreateBatchPayload
     fulfillmentCreate: NexusGenRootTypes['FulfillmentCreatePayload'] | null; // FulfillmentCreatePayload
     mailingAddressCreate: NexusGenRootTypes['MailingAddressCreatePayload'] | null; // MailingAddressCreatePayload
+    membershipConnectAnonymousResources: NexusGenRootTypes['MembershipConnectAnonymousResourcesPayload'] | null; // MembershipConnectAnonymousResourcesPayload
     membershipInvite: NexusGenRootTypes['MembershipInvitePayload'] | null; // MembershipInvitePayload
     membershipInviteAccept: NexusGenRootTypes['MembershipInviteAcceptPayload'] | null; // MembershipInviteAcceptPayload
     membershipInviteResend: NexusGenRootTypes['MembershipInviteResendPayload'] | null; // MembershipInviteResendPayload
@@ -1416,6 +1426,7 @@ export interface NexusGenFieldTypes {
     paymentIntentCreate: NexusGenRootTypes['PaymentIntentCreatePayload'] | null; // PaymentIntentCreatePayload
     subscriberCreate: NexusGenRootTypes['SubscriberCreatePayload'] | null; // SubscriberCreatePayload
     userBoostrap: NexusGenRootTypes['User'] | null; // User
+    userLogout: NexusGenRootTypes['UserLogoutPayload'] | null; // UserLogoutPayload
     userOnboardingUpdate: NexusGenRootTypes['UserOnboardingUpdatePayload'] | null; // UserOnboardingUpdatePayload
     userOrganizationCreate: NexusGenRootTypes['UserOrganizationCreatePayload'] | null; // UserOrganizationCreatePayload
     userSetOrganization: NexusGenRootTypes['UserSetOrganizationPayload'] | null; // UserSetOrganizationPayload
@@ -1657,6 +1668,9 @@ export interface NexusGenFieldTypes {
     picture: string | null; // String
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
     username: string | null; // String
+  }
+  UserLogoutPayload: { // field return type
+    success: boolean; // Boolean!
   }
   UserOnboarding: { // field return type
     id: string; // ID!
@@ -2083,6 +2097,9 @@ export interface NexusGenFieldTypeNames {
     user: 'User'
     userId: 'String'
   }
+  MembershipConnectAnonymousResourcesPayload: { // field return type name
+    membership: 'Membership'
+  }
   MembershipFlags: { // field return type name
     isBetaTester: 'Boolean'
   }
@@ -2124,6 +2141,7 @@ export interface NexusGenFieldTypeNames {
     fileCreateBatch: 'FileCreateBatchPayload'
     fulfillmentCreate: 'FulfillmentCreatePayload'
     mailingAddressCreate: 'MailingAddressCreatePayload'
+    membershipConnectAnonymousResources: 'MembershipConnectAnonymousResourcesPayload'
     membershipInvite: 'MembershipInvitePayload'
     membershipInviteAccept: 'MembershipInviteAcceptPayload'
     membershipInviteResend: 'MembershipInviteResendPayload'
@@ -2139,6 +2157,7 @@ export interface NexusGenFieldTypeNames {
     paymentIntentCreate: 'PaymentIntentCreatePayload'
     subscriberCreate: 'SubscriberCreatePayload'
     userBoostrap: 'User'
+    userLogout: 'UserLogoutPayload'
     userOnboardingUpdate: 'UserOnboardingUpdatePayload'
     userOrganizationCreate: 'UserOrganizationCreatePayload'
     userSetOrganization: 'UserSetOrganizationPayload'
@@ -2380,6 +2399,9 @@ export interface NexusGenFieldTypeNames {
     picture: 'String'
     updatedAt: 'DateTime'
     username: 'String'
+  }
+  UserLogoutPayload: { // field return type name
+    success: 'Boolean'
   }
   UserOnboarding: { // field return type name
     id: 'ID'

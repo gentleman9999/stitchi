@@ -19,13 +19,20 @@ const ClosetLayout = (props: Props) => {
   const [mobileNavExpanded, setMobileNavExpanded] = React.useState(false)
 
   const router = useRouter()
-  const { data, loading: dataLoading } =
-    useQuery<ClosetLayoutGetDataQuery>(GET_DATA)
+  const { data, loading: dataLoading } = useQuery<ClosetLayoutGetDataQuery>(
+    GET_DATA,
+    {
+      fetchPolicy: 'network-only',
+    },
+  )
 
   React.useEffect(() => {
-    if (!dataLoading && !data?.viewer) {
-      router.push(
-        routes.internal.account.setup.href({ redirectUrl: router.asPath }),
+    if (typeof window !== 'undefined' && !dataLoading && !data?.viewer) {
+      // I'm not sure why we can't just do router.replace/push but it doesn't work
+      window.location.replace(
+        routes.internal.account.authenticated.href({
+          redirectUrl: router.asPath,
+        }),
       )
     }
   }, [data?.viewer, dataLoading, router])

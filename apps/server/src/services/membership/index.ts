@@ -38,6 +38,10 @@ export interface MembershipService {
     organizationId: string
   }) => Promise<MembershipFactoryMembership>
 
+  deleteActiveUserMembership: (
+    userId: string,
+  ) => Promise<MembershipFactoryMembership | null>
+
   getMembershipNotificationSetting: (
     membershipId: string,
   ) => Promise<MembershipFactoryMembershipNotificationSetting>
@@ -317,6 +321,72 @@ const makeClient: MakeClientFn = (
             context: {
               error,
               input,
+            },
+          })
+          .error(`Error getting active user membership`)
+        throw error
+      }
+
+      return membership
+    },
+
+    deleteActiveUserMembership: async userId => {
+      let activeUserMembership
+
+      try {
+        const foundActiveUserMemberships =
+          await membershipRepository.listActiveUserMemberships({
+            where: {
+              userId,
+            },
+          })
+
+        if (!foundActiveUserMemberships.length) {
+          return null
+        }
+      } catch (error) {
+        logger
+          .child({
+            context: {
+              error,
+              userId,
+            },
+          })
+          .error(`Error listing active user memberships`)
+        throw error
+      }
+
+      try {
+        activeUserMembership =
+          await membershipRepository.deleteActiveUserMembership({
+            activeUserMembership: {
+              userId,
+            },
+          })
+      } catch (error) {
+        logger
+          .child({
+            context: {
+              error,
+              userId,
+            },
+          })
+          .error(`Error deleting active user membership`)
+        throw error
+      }
+
+      let membership
+
+      try {
+        membership = await membershipRepository.getMembership({
+          membershipId: activeUserMembership.membershipId,
+        })
+      } catch (error) {
+        logger
+          .child({
+            context: {
+              error,
+              userId,
             },
           })
           .error(`Error getting active user membership`)
