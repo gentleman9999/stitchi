@@ -69,7 +69,7 @@ const Carousel = ({ children }: Props) => {
         })}
       >
         <button
-          className="rounded-full text-gray-900 bg-gray-50 p-2 drop-shadow-md border border-gray-100"
+          className="rounded-full text-gray-900 bg-gray-50 p-2 drop-shadow-md border "
           onClick={handleScroll('left')}
         >
           <ChevronLeftIcon className="w-5 h-5 font-bold" />
@@ -85,7 +85,7 @@ const Carousel = ({ children }: Props) => {
         )}
       >
         <button
-          className="rounded-full text-gray-900 bg-gray-50 p-2 drop-shadow-md border border-gray-100"
+          className="rounded-full text-gray-900 bg-gray-50 p-2 drop-shadow-md border "
           onClick={handleScroll('right')}
         >
           <ChevronRightIcon className="w-5 h-5" />

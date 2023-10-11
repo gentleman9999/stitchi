@@ -134,6 +134,10 @@ export interface NexusGenInputs {
     imageFileIds: string[]; // [ID!]!
     name: string; // String!
   }
+  DesignRequestRejectInput: { // input type
+    designRequestId: string; // String!
+    message: string; // String!
+  }
   DesignRequestRevisionRequestCreateInput: { // input type
     description: string; // String!
     designRequestId: string; // ID!
@@ -571,6 +575,9 @@ export interface NexusGenObjects {
     name?: string | null; // String
   }
   DesignRequestProofCreatePayload: { // root type
+    designRequest?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+  }
+  DesignRequestRejectPayload: { // root type
     designRequest?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
   }
   DesignRequestRevisionRequest: { // root type
@@ -1215,6 +1222,9 @@ export interface NexusGenFieldTypes {
   DesignRequestProofCreatePayload: { // field return type
     designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
   }
+  DesignRequestRejectPayload: { // field return type
+    designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+  }
   DesignRequestRevisionRequest: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     description: string; // String!
@@ -1403,6 +1413,7 @@ export interface NexusGenFieldTypes {
     designRequestDesignLocationDelete: NexusGenRootTypes['DesignRequestDesignLocationDeletePayload'] | null; // DesignRequestDesignLocationDeletePayload
     designRequestDesignLocationUpdate: NexusGenRootTypes['DesignRequestDesignLocationUpdatePayload'] | null; // DesignRequestDesignLocationUpdatePayload
     designRequestProofCreate: NexusGenRootTypes['DesignRequestProofCreatePayload'] | null; // DesignRequestProofCreatePayload
+    designRequestReject: NexusGenRootTypes['DesignRequestRejectPayload'] | null; // DesignRequestRejectPayload
     designRequestRevisionRequestCreate: NexusGenRootTypes['DesignRequestRevisionRequestCreatePayload'] | null; // DesignRequestRevisionRequestCreatePayload
     designRequestSubmit: NexusGenRootTypes['DesignRequestSubmitPayload'] | null; // DesignRequestSubmitPayload
     designRequestUpdate: NexusGenRootTypes['DesignRequestUpdatePayload'] | null; // DesignRequestUpdatePayload
@@ -1946,6 +1957,9 @@ export interface NexusGenFieldTypeNames {
   DesignRequestProofCreatePayload: { // field return type name
     designRequest: 'DesignRequest'
   }
+  DesignRequestRejectPayload: { // field return type name
+    designRequest: 'DesignRequest'
+  }
   DesignRequestRevisionRequest: { // field return type name
     createdAt: 'DateTime'
     description: 'String'
@@ -2134,6 +2148,7 @@ export interface NexusGenFieldTypeNames {
     designRequestDesignLocationDelete: 'DesignRequestDesignLocationDeletePayload'
     designRequestDesignLocationUpdate: 'DesignRequestDesignLocationUpdatePayload'
     designRequestProofCreate: 'DesignRequestProofCreatePayload'
+    designRequestReject: 'DesignRequestRejectPayload'
     designRequestRevisionRequestCreate: 'DesignRequestRevisionRequestCreatePayload'
     designRequestSubmit: 'DesignRequestSubmitPayload'
     designRequestUpdate: 'DesignRequestUpdatePayload'
@@ -2513,6 +2528,9 @@ export interface NexusGenArgTypes {
     }
     designRequestProofCreate: { // args
       input: NexusGenInputs['DesignRequestProofCreateInput']; // DesignRequestProofCreateInput!
+    }
+    designRequestReject: { // args
+      input: NexusGenInputs['DesignRequestRejectInput']; // DesignRequestRejectInput!
     }
     designRequestRevisionRequestCreate: { // args
       input: NexusGenInputs['DesignRequestRevisionRequestCreateInput']; // DesignRequestRevisionRequestCreateInput!

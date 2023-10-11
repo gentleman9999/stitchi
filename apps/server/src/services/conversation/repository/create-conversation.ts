@@ -30,7 +30,18 @@ type MakeCreateConversationFn = (
 const makeCreateConversation: MakeCreateConversationFn =
   ({ conversationTable } = { conversationTable: prisma.conversation }) =>
   async input => {
-    const validInput = await conversationSchema.validate(input.conversation)
+    let validInput
+    try {
+      validInput = await conversationSchema.validate(input.conversation)
+    } catch (error) {
+      logger
+        .child({
+          error,
+          input,
+        })
+        .error('Failed to validate conversation')
+      throw new Error('Invalid conversation')
+    }
 
     let conversation
 
@@ -47,7 +58,12 @@ const makeCreateConversation: MakeCreateConversationFn =
         },
       })
     } catch (error) {
-      logger.error(error)
+      logger
+        .child({
+          error,
+          input,
+        })
+        .error('Failed to create conversation')
       throw new Error('Unable to create conversation')
     }
 

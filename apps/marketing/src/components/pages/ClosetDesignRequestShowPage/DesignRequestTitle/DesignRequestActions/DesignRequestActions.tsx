@@ -1,8 +1,9 @@
-import { gql } from '@apollo/client'
+import { gql, useMutation } from '@apollo/client'
 import ClosetPageActions, {
   ClosetPageActionType,
 } from '@components/common/ClosetPageActions'
 import { StandoutType, useStandout } from '@components/context'
+import useConfirmAction from '@components/hooks/useConfirmAction'
 import { DesignRequestActionsDesignRequestFragment } from '@generated/DesignRequestActionsDesignRequestFragment'
 import {
   DesignRequestStatus,
@@ -14,6 +15,10 @@ import routes from '@lib/routes'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import React from 'react'
 import useDesignRequestActions from './useDesignRequestActions'
+import {
+  UseDesignRequestActionsRejectDesignRequestMutation,
+  UseDesignRequestActionsRejectDesignRequestMutationVariables,
+} from '@generated/UseDesignRequestActionsRejectDesignRequestMutation'
 
 interface Props {
   designRequest: DesignRequestActionsDesignRequestFragment
@@ -22,9 +27,36 @@ interface Props {
 const DesignRequestActions = ({ designRequest }: Props) => {
   const { setStandout } = useStandout()
 
+  const [rejectDesignRequest, { loading: rejectingDesignRequest }] =
+    useMutation<
+      UseDesignRequestActionsRejectDesignRequestMutation,
+      UseDesignRequestActionsRejectDesignRequestMutationVariables
+    >(REJECT_DESIGN_REQUEST, {
+      update(cache, { data }) {
+        const designRequest = data?.designRequestReject?.designRequest
+
+        if (designRequest) {
+          cache.evict({ id: cache.identify({ ...designRequest }) })
+          cache.gc()
+        }
+      },
+    })
+
   const { handleSubmitDesignRequest, submitting } = useDesignRequestActions({
     designRequestId: designRequest.id,
   })
+
+  const { ConfirmDialog: ConfirmRejectDialog, confirm: confirmReject } =
+    useConfirmAction(() => {
+      rejectDesignRequest({
+        variables: {
+          input: {
+            designRequestId: designRequest.id,
+            message: '',
+          },
+        },
+      })
+    })
 
   const { can, loading } = useAuthorizedComponent()
 
@@ -70,6 +102,19 @@ const DesignRequestActions = ({ designRequest }: Props) => {
     case DesignRequestStatus.AWAITING_REVISION: {
       if (!loading && can(ScopeResource.DesignProof, ScopeAction.CREATE)) {
         actions.push({
+          label: 'Manage request',
+          actions: [
+            {
+              loading: rejectingDesignRequest,
+              label: 'Reject request',
+              onClick: () => confirmReject({}),
+            },
+          ],
+        })
+      }
+
+      if (!loading && can(ScopeResource.DesignProof, ScopeAction.CREATE)) {
+        actions.push({
           primary: true,
           loading: false,
           label: 'Upload proof',
@@ -83,7 +128,19 @@ const DesignRequestActions = ({ designRequest }: Props) => {
     }
   }
 
-  return <ClosetPageActions actions={actions} />
+  return (
+    <>
+      <ConfirmRejectDialog
+        renderTitle={() => 'Are you sure?'}
+        cancelText="Cancel"
+        confirmText="Reject"
+        renderMessage={() => (
+          <div>Please be sure to write a message to the customer</div>
+        )}
+      />
+      <ClosetPageActions actions={actions} />
+    </>
+  )
 }
 
 DesignRequestActions.fragments = {
@@ -94,5 +151,17 @@ DesignRequestActions.fragments = {
     }
   `,
 }
+
+const REJECT_DESIGN_REQUEST = gql`
+  mutation UseDesignRequestActionsRejectDesignRequestMutation(
+    $input: DesignRequestRejectInput!
+  ) {
+    designRequestReject(input: $input) {
+      designRequest {
+        id
+      }
+    }
+  }
+`
 
 export default DesignRequestActions

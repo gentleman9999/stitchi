@@ -20,7 +20,7 @@ const DropdownItem = (props: Props) => {
   const { label, icon } = props
 
   return (
-    <Wrapper {...props}>
+    <Wrapper {...props} className="w-full">
       <div className="flex items-center py-2 px-2 relative outline-none text-sm text-gray-700 cursor-pointer hover:bg-gray-100 transition-all w-full gap-4 rounded-md">
         {icon ? <div className="w-5">{icon}</div> : null}
         <span>{label}</span>
@@ -29,18 +29,28 @@ const DropdownItem = (props: Props) => {
   )
 }
 
-const Wrapper = (props: Props & { children: React.ReactNode }) => {
+const Wrapper = (
+  props: Props & { children: React.ReactNode; className: string },
+) => {
   const { children } = props
 
   if ('href' in props) {
-    return <Link href={props.href}>{children}</Link>
+    return (
+      <Link href={props.href} className={props.className}>
+        {children}
+      </Link>
+    )
   }
 
   if ('onClick' in props) {
-    return <button onClick={props.onClick}>{children}</button>
+    return (
+      <button onClick={props.onClick} className={props.className}>
+        {children}
+      </button>
+    )
   }
 
-  return <div>{children}</div>
+  return <div className={props.className}>{children}</div>
 }
 
 export default DropdownItem

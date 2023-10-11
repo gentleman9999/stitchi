@@ -23,7 +23,7 @@ export interface TermsPagePageFragment {
   __typename: "TermsOfUsePageRecord";
   id: any;
   /**
-   * SEO meta tags
+   * Generates SEO and Social card meta tags to be used in your frontend
    */
   _seoMetaTags: TermsPagePageFragment__seoMetaTags[];
   content: TermsPagePageFragment_content | null;

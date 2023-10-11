@@ -1,3 +1,4 @@
+import { GraphQLError } from 'graphql'
 import { inputObjectType, mutationField, nonNull, objectType } from 'nexus'
 import { designRequestFactoryToGrahpql } from '../../../serializers/design'
 
@@ -25,6 +26,12 @@ export const designRequestAssign = mutationField('designRequestAssign', {
   },
   resolve: async (_, { input }, ctx) => {
     // TODO: Implement authoization check
+
+    const scope = ctx.authorize('CREATE', 'DesignProof')
+
+    if (!scope) {
+      throw new GraphQLError('Unauthorized')
+    }
 
     const designRequest = await ctx.design.getDesignRequest({
       designRequestId: input.designRequestId,

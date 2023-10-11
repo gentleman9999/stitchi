@@ -116,7 +116,7 @@ export interface ProductPageGetDesignCategoryData_designCategory {
   name: string | null;
   slug: string | null;
   /**
-   * SEO meta tags
+   * Generates SEO and Social card meta tags to be used in your frontend
    */
   _seoMetaTags: ProductPageGetDesignCategoryData_designCategory__seoMetaTags[];
   _allReferencingDesigns: ProductPageGetDesignCategoryData_designCategory__allReferencingDesigns[];

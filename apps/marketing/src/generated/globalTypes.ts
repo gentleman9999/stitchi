@@ -215,6 +215,11 @@ export interface DesignRequestProofCreateProofVariantInput {
   hexCode: string;
 }
 
+export interface DesignRequestRejectInput {
+  designRequestId: string;
+  message: string;
+}
+
 export interface DesignRequestRevisionRequestCreateInput {
   designRequestId: string;
   description: string;
@@ -556,7 +561,7 @@ export interface StringMatchesFilter {
 }
 
 /**
- * Specifies how to filter Structured Text fields
+ * Specifies how to filter Structured Text fields values
  */
 export interface StructuredTextFilter {
   matches?: StringMatchesFilter | null;

@@ -48,7 +48,7 @@ interface DialogProps<T> {
   open: boolean
   onClose: () => void
   onConfirm: () => Promise<void>
-  renderMessage?: (t: T) => string
+  renderMessage?: (t: T) => React.ReactNode
   confirmText?: string
   cancelText?: string
 }

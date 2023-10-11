@@ -23,7 +23,7 @@ export interface PrivacyPagePageFragment {
   __typename: "PrivacyPolicyPageRecord";
   id: any;
   /**
-   * SEO meta tags
+   * Generates SEO and Social card meta tags to be used in your frontend
    */
   _seoMetaTags: PrivacyPagePageFragment__seoMetaTags[];
   content: PrivacyPagePageFragment_content | null;

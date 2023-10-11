@@ -7,6 +7,7 @@ import {
 } from '../../../serializers/design'
 
 export * from './design-request-assign'
+export * from './design-request-reject'
 
 export const DesignRequestProductColorCreateInput = inputObjectType({
   name: 'DesignRequestProductColorCreateInput',

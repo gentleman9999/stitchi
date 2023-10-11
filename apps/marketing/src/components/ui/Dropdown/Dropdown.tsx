@@ -39,7 +39,7 @@ const Dropdown = (props: Props) => {
             animate="visible"
             exit="exit"
             variants={fadeIn}
-            className="overflow-hidden border border-gray-100 bg-paper rounded-lg shadow-magical transition-all flex flex-col p-1"
+            className="overflow-hidden border  bg-paper rounded-lg shadow-magical transition-all flex flex-col p-1 min-w-[--radix-dropdown-menu-trigger-width]"
           >
             <DropdownMenu.Arrow className="fill-white" />
             {items.map((item, idx) => {

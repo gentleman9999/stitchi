@@ -11,7 +11,7 @@ const steps = [
     DesignRequestStatus.AWAITING_APPROVAL,
     DesignRequestStatus.AWAITING_REVISION,
   ],
-  [DesignRequestStatus.APPROVED],
+  [DesignRequestStatus.APPROVED, DesignRequestStatus.REJECTED],
 ]
 
 interface Props {
@@ -56,7 +56,7 @@ const Progress = ({ status, loading }: Props) => {
               {completionStatus === 'completed' ? (
                 <div className="group">
                   <span
-                    className="absolute left-0 top-0 h-full w-1 bg-transparent group-hover:bg-gray-200 lg:bottom-0 lg:top-auto lg:h-1 lg:w-full"
+                    className="absolute left-0 top-0 h-full w-1 bg-transparent group-hover:bg-gray-100 lg:bottom-0 lg:top-auto lg:h-1 lg:w-full"
                     aria-hidden="true"
                   />
                   <span
@@ -75,7 +75,7 @@ const Progress = ({ status, loading }: Props) => {
                     </span>
                     <span className="ml-4 mt-0.5 flex min-w-0 flex-col">
                       <span className="text-sm font-medium">
-                        {humanizeStep(stepIdx)}
+                        {humanizeStep(stepIdx, status)}
                       </span>
                       <span className="text-sm font-medium text-gray-500">
                         {status ? (
@@ -94,7 +94,10 @@ const Progress = ({ status, loading }: Props) => {
               ) : completionStatus === 'current' ? (
                 <div aria-current="step">
                   <span
-                    className="absolute left-0 top-0 h-full w-1 bg-primary lg:bottom-0 lg:top-auto lg:h-1 lg:w-full"
+                    className={cx(
+                      'absolute left-0 top-0 h-full w-1 bg-primary lg:bottom-0 lg:top-auto lg:h-1 lg:w-full',
+                      { 'bg-red-500': status === DesignRequestStatus.REJECTED },
+                    )}
                     aria-hidden="true"
                   />
                   <span
@@ -104,13 +107,21 @@ const Progress = ({ status, loading }: Props) => {
                     )}
                   >
                     <span className="flex-shrink-0">
-                      <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-primary">
+                      <span
+                        className={cx(
+                          'flex h-10 w-10 items-center justify-center rounded-full border-2 border-primary',
+                          {
+                            'border-red-500':
+                              status === DesignRequestStatus.REJECTED,
+                          },
+                        )}
+                      >
                         <span className="text-gray-800">{stepIdx + 1}</span>
                       </span>
                     </span>
                     <span className="ml-4 mt-0.5 flex min-w-0 flex-col">
                       <span className="text-sm font-medium text-gray-800">
-                        {humanizeStep(stepIdx)}
+                        {humanizeStep(stepIdx, status)}
                       </span>
                       <span className="text-sm font-medium text-gray-500">
                         {status ? (
@@ -129,7 +140,7 @@ const Progress = ({ status, loading }: Props) => {
               ) : (
                 <div className="group">
                   <span
-                    className="absolute left-0 top-0 h-full w-1 bg-transparent group-hover:bg-gray-200 lg:bottom-0 lg:top-auto lg:h-1 lg:w-full"
+                    className="absolute left-0 top-0 h-full w-1 bg-transparent group-hover:bg-gray-100 lg:bottom-0 lg:top-auto lg:h-1 lg:w-full"
                     aria-hidden="true"
                   />
                   <span
@@ -145,7 +156,7 @@ const Progress = ({ status, loading }: Props) => {
                     </span>
                     <span className="ml-4 mt-0.5 flex min-w-0 flex-col">
                       <span className="text-sm font-medium text-gray-500">
-                        {humanizeStep(stepIdx)}
+                        {humanizeStep(stepIdx, status)}
                       </span>
                       <span className="text-sm font-medium text-gray-500">
                         {status ? (
@@ -171,7 +182,7 @@ const Progress = ({ status, loading }: Props) => {
                     aria-hidden="true"
                   >
                     <svg
-                      className="h-full w-full text-gray-300"
+                      className="h-full w-full text-gray-200"
                       viewBox="0 0 12 82"
                       fill="none"
                       preserveAspectRatio="none"
@@ -193,14 +204,19 @@ const Progress = ({ status, loading }: Props) => {
   )
 }
 
-const humanizeStep = (step: number) => {
+const humanizeStep = (step: number, status?: DesignRequestStatus | null) => {
   switch (step) {
     case 0:
       return 'Design Submitted'
     case 1:
       return 'Design in Progress'
     case 2:
-      return 'Design Ready'
+      switch (status) {
+        case DesignRequestStatus.REJECTED:
+          return 'Design Rejected'
+        default:
+          return 'Design Ready'
+      }
   }
 }
 
@@ -232,9 +248,9 @@ const humanizeStepDescription = (
       }
 
     case 2:
-      switch (completionStatus) {
-        case 'current':
-        case 'completed':
+      switch (status) {
+        case DesignRequestStatus.REJECTED:
+          return 'This design request was rejected.'
         default:
           return 'Design ready for production!'
       }

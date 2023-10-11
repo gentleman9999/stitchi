@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { logger } from '../../../telemetry'
 import { ConversationTable } from '../db/conversation-table'
 import {
   ConversationFactoryConversation,
@@ -26,19 +27,25 @@ type MakeGetConversationFn = (
 const makeGetConversation: MakeGetConversationFn =
   ({ conversationTable } = { conversationTable: primsa.conversation }) =>
   async input => {
-    const conversation = await conversationTable.findFirst({
-      where: {
-        id: input.conversationId,
-      },
-      include: {
-        conversationMessageFiles: true,
-        conversationMessages: {
-          include: {
-            conversationMessageFiles: true,
+    let conversation
+
+    try {
+      conversation = await conversationTable.findFirst({
+        where: {
+          id: input.conversationId,
+        },
+        include: {
+          conversationMessageFiles: true,
+          conversationMessages: {
+            include: {
+              conversationMessageFiles: true,
+            },
           },
         },
-      },
-    })
+      })
+    } catch (error) {
+      logger.child({ error, input }).error('Failed to get conversation')
+    }
 
     if (!conversation) {
       throw new Error(`Conversation proof not found: ${input}`)

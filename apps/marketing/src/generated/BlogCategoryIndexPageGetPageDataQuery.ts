@@ -100,7 +100,7 @@ export interface BlogCategoryIndexPageGetPageDataQuery_allCategories {
   slug: string | null;
   description: BlogCategoryIndexPageGetPageDataQuery_allCategories_description | null;
   /**
-   * SEO meta tags
+   * Generates SEO and Social card meta tags to be used in your frontend
    */
   _seoMetaTags: BlogCategoryIndexPageGetPageDataQuery_allCategories__seoMetaTags[];
 }
@@ -116,7 +116,7 @@ export interface BlogCategoryIndexPageGetPageDataQuery_blogIndexPage {
   __typename: "BlogIndexPageRecord";
   id: any;
   /**
-   * SEO meta tags
+   * Generates SEO and Social card meta tags to be used in your frontend
    */
   _seoMetaTags: BlogCategoryIndexPageGetPageDataQuery_blogIndexPage__seoMetaTags[];
 }

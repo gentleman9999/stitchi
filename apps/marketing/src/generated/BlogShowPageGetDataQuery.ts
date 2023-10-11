@@ -151,7 +151,7 @@ export interface BlogShowPageGetDataQuery_article {
   content: BlogShowPageGetDataQuery_article_content | null;
   slug: string | null;
   /**
-   * SEO meta tags
+   * Generates SEO and Social card meta tags to be used in your frontend
    */
   _seoMetaTags: BlogShowPageGetDataQuery_article__seoMetaTags[];
   _updatedAt: any;

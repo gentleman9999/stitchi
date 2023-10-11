@@ -45,7 +45,7 @@ const CatalogProductLegacy = ({ product, priority, loading }: Props) => {
     <li className="flex flex-col w-full">
       <Link
         href={href}
-        className="flex-1 flex flex-col cursor-pointer rounded-lg border border-gray-200  hover:shadow-lg transition-all bg-paper"
+        className="flex-1 flex flex-col cursor-pointer rounded-lg border   hover:shadow-lg transition-all bg-paper"
       >
         <div className="relative w-full h-[320px] flex items-center justify-center">
           {loading ? (

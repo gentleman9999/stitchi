@@ -23,7 +23,7 @@ const SlideOver = ({ children, className, open, ...dialogProps }: Props) => {
                 animate={{ translateX: '0%' }}
                 exit={{ translateX: '100%' }}
                 className={cx(
-                  'z-10 fixed right-0 top-0 h-screen bg-paper border-l border-gray-1000 w-full sm:w-auto sm:max-w-[90vw] flex flex-col shadow-magical',
+                  'z-10 fixed right-0 top-0 h-screen bg-paper border-l  w-full sm:w-auto sm:max-w-[90vw] flex flex-col shadow-magical',
                   className,
                 )}
               >
