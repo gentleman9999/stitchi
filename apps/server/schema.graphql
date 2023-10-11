@@ -424,6 +424,15 @@ input DesignRequestProofCreateProofVariantInput {
   name: String!
 }
 
+input DesignRequestRejectInput {
+  designRequestId: String!
+  message: String!
+}
+
+type DesignRequestRejectPayload {
+  designRequest: DesignRequest
+}
+
 type DesignRequestRevisionRequest {
   createdAt: DateTime!
   description: String!
@@ -865,6 +874,7 @@ type Mutation {
   designRequestDesignLocationDelete(input: DesignRequestDesignLocationDeleteInput!): DesignRequestDesignLocationDeletePayload
   designRequestDesignLocationUpdate(input: DesignRequestDesignLocationUpdateInput!): DesignRequestDesignLocationUpdatePayload
   designRequestProofCreate(input: DesignRequestProofCreateInput!): DesignRequestProofCreatePayload
+  designRequestReject(input: DesignRequestRejectInput!): DesignRequestRejectPayload
   designRequestRevisionRequestCreate(input: DesignRequestRevisionRequestCreateInput!): DesignRequestRevisionRequestCreatePayload
   designRequestSubmit(input: DesignRequestSubmitInput!): DesignRequestSubmitPayload
   designRequestUpdate(input: DesignRequestUpdateInput!): DesignRequestUpdatePayload

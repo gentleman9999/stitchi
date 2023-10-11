@@ -37,14 +37,14 @@ const ClosetDesignRequestShowPage = ({ designId }: Props) => {
               loading={loading}
               designRequest={designRequest}
             />
-            <div className="border-y">
+            <div className="border-y mt-4">
               <Progress loading={loading} status={designRequest?.status} />
             </div>
           </ClosetPageHeader>
 
           <ClosetSection>
             <ClosetSectionHeader />
-            <div className="max-w-6xl m-auto">
+            <div className="m-auto">
               <DesignRequestOverview designRequestId={designId} />
             </div>
           </ClosetSection>

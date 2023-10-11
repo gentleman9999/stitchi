@@ -42,7 +42,7 @@ const StatsSection = () => {
     <div>
       <dl className="grid grid-cols-2 gap-x-4 gap-y-8">
         {stats.map(stat => (
-          <div key={stat.label} className="border-t-2 border-gray-100 pt-6">
+          <div key={stat.label} className="border-t-2  pt-6">
             <dt className="text-base font-medium text-gray-500">
               {stat.label}
             </dt>

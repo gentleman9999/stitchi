@@ -27,7 +27,7 @@ export interface BlogPostIndexPageCategoryFragment {
   slug: string | null;
   description: BlogPostIndexPageCategoryFragment_description | null;
   /**
-   * SEO meta tags
+   * Generates SEO and Social card meta tags to be used in your frontend
    */
   _seoMetaTags: BlogPostIndexPageCategoryFragment__seoMetaTags[];
 }

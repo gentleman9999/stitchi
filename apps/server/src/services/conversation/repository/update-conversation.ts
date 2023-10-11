@@ -55,7 +55,14 @@ type MakeUpdateConversationFn = (
 const makeUpdateConversation: MakeUpdateConversationFn =
   ({ conversationTable } = { conversationTable: prisma.conversation }) =>
   async input => {
-    const validInput = await inputSchema.validate(input.conversation)
+    let validInput
+
+    try {
+      validInput = await inputSchema.validate(input.conversation)
+    } catch (error) {
+      logger.child({ error, input }).error('Invalid conversation update input')
+      throw new Error('Invalid conversation update input')
+    }
 
     let existingConversation
 
@@ -78,7 +85,7 @@ const makeUpdateConversation: MakeUpdateConversationFn =
         throw new Error('Conversation not found')
       }
     } catch (error) {
-      logger.error(error)
+      logger.child({ error, input }).error('Unable to find conversation')
       throw new Error('Unable to find conversation')
     }
 
@@ -159,7 +166,7 @@ const makeUpdateConversation: MakeUpdateConversationFn =
         },
       })
     } catch (error) {
-      logger.error(error)
+      logger.child({ error, input }).error('Unable to update conversation')
       throw new Error('Unable to update conversation')
     }
 

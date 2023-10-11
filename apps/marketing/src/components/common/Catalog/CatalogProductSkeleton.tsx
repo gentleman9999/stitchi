@@ -4,7 +4,7 @@ import SwatchGroup from './SwatchGroup'
 
 const CatalogProductSkeleton = () => {
   return (
-    <li className="block rounded-md border-2 border-gray-100 p-4">
+    <li className="block rounded-md border-2 p-4">
       <Skeleton height={200} />
       <Skeleton width="70%" className="mt-2" />
       <div className="mt-2">

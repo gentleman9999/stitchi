@@ -23,7 +23,7 @@ export interface PrivacyGetDataQuery_privacyPolicyPage {
   __typename: "PrivacyPolicyPageRecord";
   id: any;
   /**
-   * SEO meta tags
+   * Generates SEO and Social card meta tags to be used in your frontend
    */
   _seoMetaTags: PrivacyGetDataQuery_privacyPolicyPage__seoMetaTags[];
   content: PrivacyGetDataQuery_privacyPolicyPage_content | null;

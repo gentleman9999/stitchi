@@ -18,7 +18,7 @@ export interface BlogPostIndexPageSeoPageFragment {
   __typename: "BlogIndexPageRecord";
   id: any;
   /**
-   * SEO meta tags
+   * Generates SEO and Social card meta tags to be used in your frontend
    */
   _seoMetaTags: BlogPostIndexPageSeoPageFragment__seoMetaTags[];
 }

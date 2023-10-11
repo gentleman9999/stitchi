@@ -150,7 +150,7 @@ export interface IndustriesIndexPageGetDataQuery_landingPage {
   id: any;
   slug: string | null;
   /**
-   * SEO meta tags
+   * Generates SEO and Social card meta tags to be used in your frontend
    */
   _seoMetaTags: IndustriesIndexPageGetDataQuery_landingPage__seoMetaTags[];
   content: IndustriesIndexPageGetDataQuery_landingPage_content[];

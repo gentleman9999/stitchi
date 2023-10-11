@@ -19,7 +19,7 @@ export interface BlogPostShowPageSEOArticleFragment {
   id: any;
   slug: string | null;
   /**
-   * SEO meta tags
+   * Generates SEO and Social card meta tags to be used in your frontend
    */
   _seoMetaTags: BlogPostShowPageSEOArticleFragment__seoMetaTags[];
 }
