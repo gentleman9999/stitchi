@@ -8,11 +8,16 @@ export const NotificationExtendsMembership = extendType({
   definition(t) {
     t.nonNull.int('unseenWebNotificationsCount', {
       resolve: async (_, __, ctx) => {
+        if (!ctx.membershipId) {
+          throw new GraphQLError('Unauthorized')
+        }
+
         let count
 
         try {
           count = await ctx.notification.listNotificationsCount({
             where: {
+              membershipId: ctx.membershipId,
               notificationChannels: {
                 some: {
                   web: {
