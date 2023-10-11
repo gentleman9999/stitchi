@@ -2,7 +2,6 @@ import { gql } from '@apollo/client'
 import { AppTopbarMembershipFragment } from '@generated/AppTopbarMembershipFragment'
 import routes from '@lib/routes'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import React from 'react'
 import { Logo } from '../../ui'
 import AppTopbarUser from './AppTopbarUser'
@@ -14,8 +13,6 @@ interface Props {
 }
 
 const AppTopbar = ({ membership, renderLogo }: Props) => {
-  const router = useRouter()
-
   return (
     <nav className="fixed top-0 py-2 bg-paper w-full z-10 border-b h-[56px]">
       <div className="px-4">

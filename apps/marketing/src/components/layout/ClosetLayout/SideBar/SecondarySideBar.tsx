@@ -3,7 +3,7 @@ import routes from '@lib/routes'
 import Link from 'next/link'
 import React from 'react'
 import { useClosetLayoutContext } from '../closet-layout-context'
-import NavItem from './NavItem'
+import NavItem from '../../NavItem'
 
 interface Props {}
 

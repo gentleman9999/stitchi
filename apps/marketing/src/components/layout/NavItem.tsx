@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 import cx from 'classnames'
-import { NavItem, SubNavItem } from '../closet-layout-context'
+import { NavItem, SubNavItem } from './ClosetLayout/closet-layout-context'
 
 const NavItem = ({
   href,

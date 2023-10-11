@@ -12,6 +12,7 @@ import {
   ChevronUpDownIcon,
   Cog6ToothIcon,
   HomeIcon,
+  Squares2X2Icon,
 } from '@heroicons/react/20/solid'
 import { Badge } from '@components/ui'
 import { AppTopbarUserMembershipFragment } from '@generated/AppTopbarUserMembershipFragment'
@@ -91,7 +92,7 @@ const AppTopbarUser = ({ membership }: Props) => {
             <DropdownItem
               label="Go to closet"
               href={routes.internal.closet.href()}
-              icon={<HomeIcon className="w-4 h-4" />}
+              icon={<Squares2X2Icon className="w-4 h-4" />}
             />
 
             <DropdownItem
