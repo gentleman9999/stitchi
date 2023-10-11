@@ -35,11 +35,13 @@ const renderDateFilterValue = (date?: DateFilterValue | null) => {
     date?.equality &&
     ![Equality.EQUALS, Equality.BETWEEN].includes(date.equality)
   ) {
-    value += ` ${date.equality}`
+    value += `${date.equality}`
   }
 
   if (date?.gte) {
     value += ` ${new Date(date.gte).toLocaleDateString()}`
+  } else if (date?.lte) {
+    value += ` ${new Date(date.lte).toLocaleDateString()}`
   }
 
   if (
