@@ -15,6 +15,8 @@ enum MixpanelEvents {
   CONTACT_FORM_SUBMITTED = 'Contact Form Submitted',
 
   ERROR_SHOWN = 'Error Shown',
+
+  SUPPORT_CHAT_OPENED = 'Support Chat Opened',
 }
 
 interface Product {
@@ -37,6 +39,8 @@ interface TrackEvents {
   contactFormSubmitted: (args: { email: string }) => void
 
   errorShown: (args: { error: Error | string }) => void
+
+  supportChatOpened: (args: { locationHref: string }) => void
 }
 
 const track: TrackEvents = {
@@ -76,6 +80,10 @@ const track: TrackEvents = {
 
   errorShown: ({ error }) => {
     mixpanel.track(MixpanelEvents.ERROR_SHOWN, { error })
+  },
+
+  supportChatOpened: ({ locationHref }) => {
+    mixpanel.track(MixpanelEvents.SUPPORT_CHAT_OPENED, { locationHref })
   },
 }
 

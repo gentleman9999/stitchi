@@ -1,3 +1,6 @@
+import { gql, useLazyQuery } from '@apollo/client'
+import { useUser } from '@auth0/nextjs-auth0/client'
+import { MixpanelProviderGetDataQuery } from '@generated/MixpanelProviderGetDataQuery'
 import getOrThrow from '@lib/utils/get-or-throw'
 import mixpanel, { Mixpanel } from 'mixpanel-browser'
 import { useLogger } from 'next-axiom'
@@ -51,18 +54,29 @@ interface MixpanelContextProps {
 }
 
 const MixpanelProvider = ({ children }: MixpanelContextProps) => {
-  //   const { uuid, email } = useViewer()
+  const { user } = useUser()
 
-  //   React.useEffect(() => {
-  //     mixpanel.identify(uuid)
+  const [getViewer] = useLazyQuery<MixpanelProviderGetDataQuery>(GET_DATA)
 
-  //     if (uuid) {
-  //       mixpanel.people.set({
-  //         uuid,
-  //         $email: email,
-  //       })
-  //     }
-  //   }, [email, uuid])
+  React.useEffect(() => {
+    const identifyUser = async () => {
+      const { data } = await getViewer()
+
+      if (data?.viewer?.user) {
+        mixpanel.identify(data.viewer.user.id)
+
+        mixpanel.people.set({
+          userId: data.viewer.user.id,
+          membershipId: data.viewer.id,
+          $email: data.viewer.user.email,
+        })
+      }
+    }
+
+    if (user) {
+      identifyUser()
+    }
+  }, [getViewer, user])
 
   React.useEffect(() => {
     try {
@@ -78,5 +92,17 @@ const MixpanelProvider = ({ children }: MixpanelContextProps) => {
     </MixpanelContext.Provider>
   )
 }
+
+const GET_DATA = gql`
+  query MixpanelProviderGetDataQuery {
+    viewer {
+      id
+      user {
+        id
+        email
+      }
+    }
+  }
+`
 
 export default MixpanelProvider
