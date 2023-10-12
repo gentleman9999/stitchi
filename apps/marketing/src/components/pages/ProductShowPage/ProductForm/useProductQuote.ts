@@ -42,6 +42,17 @@ const useProductQuote = ({
     variables: variables,
   })
 
+  const { data: maxQuoteData } = useQuery<
+    ProductFormGetProductQuoteQuery,
+    ProductFormGetProductQuoteQueryVariables
+  >(GET_PRODUCT_QUOTE, {
+    variables: {
+      productId,
+      printLocations: [{ colorCount: 4 }],
+      quantity: 50,
+    },
+  })
+
   React.useEffect(() => {
     if (!deepEqual(variables, prevVariables)) {
       refetch(variables)
@@ -50,7 +61,7 @@ const useProductQuote = ({
 
   const quote = data?.site.product?.quote
 
-  return { quote, loading }
+  return { quote, maxQuote: maxQuoteData?.site.product?.quote, loading }
 }
 
 const GET_PRODUCT_QUOTE = gql`

@@ -4,11 +4,13 @@ import ProductVariantQuantityMatrixForm, {
 } from '@components/common/ProductVariantQuantityMatrixForm'
 import { Checkbox, FileInput, RichTextEditor, TextField } from '@components/ui'
 import Button from '@components/ui/ButtonV2/Button'
+import Tooltip from '@components/ui/Tooltip'
 import { CatalogProductCustomizationAddonType } from '@generated/globalTypes'
 import { ProductFormProductFragment } from '@generated/ProductFormProductFragment'
 import {
   ChatBubbleBottomCenterIcon,
   FolderPlusIcon,
+  QuestionMarkCircleIcon,
   SquaresPlusIcon,
   SwatchIcon,
 } from '@heroicons/react/20/solid'
@@ -134,7 +136,11 @@ const ProductForm = (props: ProductFormProps) => {
       colorCount: 1,
     }))
 
-  const { quote, loading: quoteLoading } = useProductQuote({
+  const {
+    quote,
+    maxQuote,
+    loading: quoteLoading,
+  } = useProductQuote({
     printLocations,
     productId: props.product.id,
     quantity: totalQuantity,
@@ -294,12 +300,18 @@ const ProductForm = (props: ProductFormProps) => {
         </div>
       </div>
       <div className="sticky bottom-0 bg-paper">
-        <div className="p-4 border-t rounded-b-lg flex gap-4 justify-between items-center">
+        <div className="p-4 border-t rounded-b-lg flex flex-wrap gap-4 justify-between items-end">
           <div className="flex flex-col">
-            <span className="text-gray-400 font-medium font-headingDisplay">
-              from
-            </span>{' '}
-            <span className="text-4xl font-medium font-headingDisplay text-gray-600">
+            <Tooltip
+              label="The price per unit is based on the total quantity of all colors and sizes."
+              renderTrigger={() => (
+                <span className="text-xl text-gray-400 font-medium font-headingDisplay flex">
+                  from
+                  <QuestionMarkCircleIcon className="w-3 h-3" />
+                </span>
+              )}
+            />{' '}
+            <span className="text-4xl font-medium font-headingDisplay text-gray-600 whitespace-nowrap">
               {quoteLoading ? (
                 <Skeleton width={100} />
               ) : quote ? (
@@ -307,6 +319,12 @@ const ProductForm = (props: ProductFormProps) => {
                   {currency(quote.productUnitCostCents, {
                     fromCents: true,
                   }).format()}{' '}
+                  {totalQuantity === 0 && maxQuote?.productUnitCostCents
+                    ? `-
+                  ${currency(maxQuote.productUnitCostCents, {
+                    fromCents: true,
+                  }).format()}`
+                    : null}
                 </>
               ) : null}
             </span>
