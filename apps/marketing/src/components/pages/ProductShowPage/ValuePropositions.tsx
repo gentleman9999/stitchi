@@ -42,7 +42,7 @@ const ValueProposition = ({
   href: string
 }) => {
   return (
-    <li className="p-6 bg-secondary flex gap-4 rounded-sm text-gray-100 ring ring-gray-950">
+    <li className="p-6 bg-gray-600 flex gap-4 rounded-sm text-gray-100 ">
       <div className="">{icon}</div>
       <div className="text-xs flex flex-col gap-2">
         <h3 className="font-bold ">{title}</h3>
