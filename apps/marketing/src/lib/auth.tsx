@@ -5,11 +5,7 @@ import routes from './routes'
 import { ScopeAction, ScopeResource } from '@generated/globalTypes'
 import React from 'react'
 import { UseAuthorizedComponentGetDataQuery } from '@generated/UseAuthorizedComponentGetDataQuery'
-import {
-  GetServerSidePropsContext,
-  NextApiRequest,
-  NextApiResponse,
-} from 'next'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { getAccessToken as getServerSideAccessToken } from '@auth0/nextjs-auth0'
 import getOrThrow from './utils/get-or-throw'
 import { IncomingMessage, ServerResponse } from 'http'
@@ -104,7 +100,7 @@ export const getAccessToken = async (ctx?: {
       // So we must make a call the the Next.js server to retrieve token.
       const response = await fetch(`${appUrl}/api/auth/accessToken`)
       const data = await response.json()
-      accessToken = data.accessToken as string
+      accessToken = data.accessToken as string | null
     }
   } catch (error) {
     console.error("Couldn't get access token", {
