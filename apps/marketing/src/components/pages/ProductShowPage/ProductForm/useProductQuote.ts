@@ -49,7 +49,7 @@ const useProductQuote = ({
   const { data: maxQuoteData } = useQuery<
     ProductFormGetProductQuoteMaxQuery,
     ProductFormGetProductQuoteMaxQueryVariables
-  >(GET_PRODUCT_QUOTE, {
+  >(GET_PRODUCT_QUOTE_MAX, {
     variables: {
       productId,
     },
