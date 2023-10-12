@@ -5,6 +5,10 @@ import {
   ProductFormGetProductQuoteQueryVariables,
 } from '@generated/ProductFormGetProductQuoteQuery'
 import { gql, useQuery } from '@apollo/client'
+import {
+  ProductFormGetProductQuoteMaxQuery,
+  ProductFormGetProductQuoteMaxQueryVariables,
+} from '@generated/ProductFormGetProductQuoteMaxQuery'
 
 const MAX_QUANTITY = 20_000
 
@@ -43,13 +47,11 @@ const useProductQuote = ({
   })
 
   const { data: maxQuoteData } = useQuery<
-    ProductFormGetProductQuoteQuery,
-    ProductFormGetProductQuoteQueryVariables
+    ProductFormGetProductQuoteMaxQuery,
+    ProductFormGetProductQuoteMaxQueryVariables
   >(GET_PRODUCT_QUOTE, {
     variables: {
       productId,
-      printLocations: [{ colorCount: 4 }],
-      quantity: 50,
     },
   })
 
@@ -73,6 +75,19 @@ const GET_PRODUCT_QUOTE = gql`
     site {
       product(id: $productId) {
         quote(quantity: $quantity, printLocations: $printLocations) {
+          id
+          productUnitCostCents
+        }
+      }
+    }
+  }
+`
+
+const GET_PRODUCT_QUOTE_MAX = gql`
+  query ProductFormGetProductQuoteMaxQuery($productId: ID!) {
+    site {
+      product(id: $productId) {
+        quote(quantity: 50, printLocations: [{ colorCount: 4 }]) {
           id
           productUnitCostCents
         }
