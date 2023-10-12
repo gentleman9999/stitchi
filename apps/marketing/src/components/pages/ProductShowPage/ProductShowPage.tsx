@@ -102,7 +102,7 @@ const ProductShowPage = ({ product }: Props) => {
       <NextSeo {...seoProps} />
       <ProductJsonLd {...jsonLDData} key={jsonLDData.id} />
       {share ? <ShareDialog open onClose={() => setShare(false)} /> : null}
-      <Container>
+      <Container className="max-w-none">
         <div className="flex flex-col gap-4 pt-6">
           <div className="flex flex-col sm:flex-col-reverse gap-4">
             <div className="flex justify-between items-center">

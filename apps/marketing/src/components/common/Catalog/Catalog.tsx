@@ -107,7 +107,7 @@ const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
         categoryEntityId={categoryEntityId}
       />
 
-      <Container>
+      <Container className="max-w-none">
         <Section>
           <div className="mt-6 grid grid-cols-1 gap-10">
             <div className="col-span-1">

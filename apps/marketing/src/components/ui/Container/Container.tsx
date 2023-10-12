@@ -4,15 +4,15 @@ import React, { forwardRef, JSXElementConstructor } from 'react'
 interface ContainerProps {
   className?: string
   children?: any
-  Component?: string | JSXElementConstructor<any>
   clean?: boolean
   style?: React.CSSProperties
 }
 
 const Container = forwardRef<HTMLDivElement, ContainerProps>(
-  ({ children, className, Component = 'div', clean, style }, ref) => {
+  ({ children, className, clean, style }, ref) => {
     const rootClassName = cn(className, {
-      'mx-auto container px-6 md:px-20 lg:px-6 w-full max-w-7xl': !clean,
+      'mx-auto container px-6 @sm:px-10 @md:px-12 @7xl:px-24  w-full max-w-7xl':
+        !clean,
     })
 
     const props = {
@@ -21,9 +21,11 @@ const Container = forwardRef<HTMLDivElement, ContainerProps>(
     }
 
     return (
-      <Component {...props} style={style}>
-        {children}
-      </Component>
+      <div className="@container">
+        <div {...props} style={style}>
+          {children}
+        </div>
+      </div>
     )
   },
 )

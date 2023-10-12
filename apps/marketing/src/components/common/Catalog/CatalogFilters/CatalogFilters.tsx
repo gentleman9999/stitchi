@@ -70,7 +70,7 @@ const CatalogFilters = ({
           'shadow-magical': transitionStickyNav,
         })}
       >
-        <Container>
+        <Container className="max-w-none">
           <nav className="pt-2">
             <Transition.Root show={showFloatingFilter}>
               <Transition.FadeOpacity>

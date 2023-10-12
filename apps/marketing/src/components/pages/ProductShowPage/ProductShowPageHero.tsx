@@ -114,50 +114,54 @@ const ProductShowPageHero = ({ product }: Props) => {
       <h1 className="font-headingDisplay font-semibold text-2xl text-gray-800 sm:hidden">
         {makeProductTitle(product)}
       </h1>
-      <div className="sticky top-[56px] sm:w-1/2 z-0">
-        <CatalogProductVariantPreview
-          product={product}
-          activeVariantId={activeVariantId}
-        />
-      </div>
-      <div className="sm:w-1/2 z-10">
-        <ProductForm
-          product={product}
-          onSubmit={handleSubmit}
-          onActiveColorChange={colorId => {
-            setActiveVariantId(
-              product.variants.edges
-                ?.map(edge => edge?.node)
-                .find(variant => {
-                  const colorOptionValues = variant?.options.edges
-                    ?.map(edge => edge?.node)
-                    .find(option => option?.displayName === 'Color')
-                    ?.values.edges?.map(edge => edge?.node)
-                    .filter(notEmpty)
+      <div className="flex flex-col sm:flex-row w-full">
+        <div className="flex-1 z-0 flex flex-col items-center">
+          <div className="w-full max-w-[600px] sticky top-[56px]">
+            <CatalogProductVariantPreview
+              product={product}
+              activeVariantId={activeVariantId}
+            />
+          </div>
+        </div>
+        <div className="flex-1 z-10 sm:max-w-lg ml-auto">
+          <ProductForm
+            product={product}
+            onSubmit={handleSubmit}
+            onActiveColorChange={colorId => {
+              setActiveVariantId(
+                product.variants.edges
+                  ?.map(edge => edge?.node)
+                  .find(variant => {
+                    const colorOptionValues = variant?.options.edges
+                      ?.map(edge => edge?.node)
+                      .find(option => option?.displayName === 'Color')
+                      ?.values.edges?.map(edge => edge?.node)
+                      .filter(notEmpty)
 
-                  return (
-                    colorOptionValues?.find(
-                      value => value?.entityId.toString() === colorId,
-                    ) !== undefined
-                  )
-                })?.id || null,
-            )
-          }}
-          colors={colors.map(color => ({
-            id: color.entityId.toString(),
-            catalogProductColorId: color.entityId.toString(),
-            hex: color.hexColors[0],
-            name: color.label,
-          }))}
-          variants={colors.flatMap(color =>
-            sizes.map(size => ({
-              id: size.entityId.toString(),
-              sizeName: size.label,
-              catalogProductSizeId: size.entityId.toString(),
+                    return (
+                      colorOptionValues?.find(
+                        value => value?.entityId.toString() === colorId,
+                      ) !== undefined
+                    )
+                  })?.id || null,
+              )
+            }}
+            colors={colors.map(color => ({
+              id: color.entityId.toString(),
               catalogProductColorId: color.entityId.toString(),
-            })),
-          )}
-        />
+              hex: color.hexColors[0],
+              name: color.label,
+            }))}
+            variants={colors.flatMap(color =>
+              sizes.map(size => ({
+                id: size.entityId.toString(),
+                sizeName: size.label,
+                catalogProductSizeId: size.entityId.toString(),
+                catalogProductColorId: color.entityId.toString(),
+              })),
+            )}
+          />
+        </div>
       </div>
     </div>
   )
