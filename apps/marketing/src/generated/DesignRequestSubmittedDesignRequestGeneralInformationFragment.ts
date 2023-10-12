@@ -9,6 +9,28 @@ import { FileType } from "./globalTypes";
 // GraphQL fragment: DesignRequestSubmittedDesignRequestGeneralInformationFragment
 // ====================================================
 
+export interface DesignRequestSubmittedDesignRequestGeneralInformationFragment_files_FileUnknown {
+  __typename: "FileUnknown" | "FilePdf";
+  id: string;
+  humanizedBytes: string;
+  name: string;
+  url: string;
+  fileType: FileType;
+}
+
+export interface DesignRequestSubmittedDesignRequestGeneralInformationFragment_files_FileImage {
+  __typename: "FileImage";
+  id: string;
+  humanizedBytes: string;
+  name: string;
+  url: string;
+  fileType: FileType;
+  width: number;
+  height: number;
+}
+
+export type DesignRequestSubmittedDesignRequestGeneralInformationFragment_files = DesignRequestSubmittedDesignRequestGeneralInformationFragment_files_FileUnknown | DesignRequestSubmittedDesignRequestGeneralInformationFragment_files_FileImage;
+
 export interface DesignRequestSubmittedDesignRequestGeneralInformationFragment_designRequestLocations_files_FileUnknown {
   __typename: "FileUnknown" | "FilePdf";
   id: string;
@@ -43,6 +65,6 @@ export interface DesignRequestSubmittedDesignRequestGeneralInformationFragment {
   __typename: "DesignRequest";
   id: string;
   description: string | null;
-  useCase: string | null;
+  files: DesignRequestSubmittedDesignRequestGeneralInformationFragment_files[];
   designRequestLocations: DesignRequestSubmittedDesignRequestGeneralInformationFragment_designRequestLocations[];
 }

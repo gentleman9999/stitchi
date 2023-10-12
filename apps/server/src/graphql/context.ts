@@ -75,7 +75,7 @@ function makeContext(
       })()
 
       const deviceId =
-        HEADER_X_DEVICE_ID in req.headers
+        req.headers && HEADER_X_DEVICE_ID in req.headers
           ? req.headers[HEADER_X_DEVICE_ID]?.toString()
           : null
 

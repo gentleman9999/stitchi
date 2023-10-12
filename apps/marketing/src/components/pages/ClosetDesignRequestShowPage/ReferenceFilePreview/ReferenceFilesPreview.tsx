@@ -35,7 +35,7 @@ const ReferenceFilesPreview = ({ files, onDelete, visibleFileIds }: Props) => {
   }
 
   return (
-    <div className="flex flex-col border rounded-lg divide-y overflow-hidden">
+    <div className="flex flex-col gap-2 overflow-hidden">
       {files
         .filter(file =>
           visibleFileIds?.length ? visibleFileIds.includes(file.id) : true,
@@ -76,7 +76,7 @@ const ReferenceFilesPreview = ({ files, onDelete, visibleFileIds }: Props) => {
           return (
             <div
               key={file.id}
-              className="pl-1 pr-4 py-1 flex items-center justify-between gap-4"
+              className="pl-1 pr-4 py-1 flex items-center justify-between gap-4 border rounded-sm"
             >
               <div className="flex items-center gap-4 text-sm">
                 {Icon}

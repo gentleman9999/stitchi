@@ -39,7 +39,7 @@ const ColorSwatch = (props: Props) => {
           backgroundColor: color.toString(),
           borderColor: color.darken(0.1).toString(),
         }}
-        className={cx(`${width} ${height} rounded-full border`)}
+        className={cx(`${width} ${height} rounded-full border border-gray-100`)}
       />
       {props.checked ? (
         <CheckIcon

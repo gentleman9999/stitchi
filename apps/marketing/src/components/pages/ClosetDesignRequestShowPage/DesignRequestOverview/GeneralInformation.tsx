@@ -24,38 +24,42 @@ const GeneralInformation = ({ designRequest }: Props) => {
         />
       </CardHeader>
       <CardContent divide>
-        {designRequest.description ? (
-          <Item label="Description" value={designRequest.description} />
-        ) : null}
+        <div className="flex flex-col gap-6">
+          {designRequest.description ? (
+            <Item label="Description" value={designRequest.description} />
+          ) : null}
 
-        <Item
-          label="Use case"
-          value={
-            designRequest.useCase || (
-              <span className="text-gray-400 font-normal">-</span>
-            )
-          }
-        />
+          <Item
+            label="Design files"
+            value={
+              designRequest.files.length ? (
+                <ReferenceFilesPreview
+                  files={designRequest.files.map(file => ({
+                    ...file,
+                    bytes: file.humanizedBytes,
+                  }))}
+                />
+              ) : (
+                'None provided'
+              )
+            }
+          />
 
-        {designRequest.designRequestLocations.length ? (
-          <div>
-            <h2 className="text-sm font-medium leading-7 text-gray-500">
-              Design locations
-            </h2>
-
-            <div className="mt-2 flex flex-col divide-y border rounded-sm">
-              {designRequest.designRequestLocations.map(location => (
-                <div key={location.id} className="py-2 px-3">
-                  <DesignLocation location={location} />
+          <Item
+            label="Design locations"
+            value={
+              designRequest.designRequestLocations.length ? (
+                <div className="mt-2 flex flex-col gap-2">
+                  {designRequest.designRequestLocations.map(location => (
+                    <DesignLocation location={location} key={location.id} />
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <span className="text-gray-400 text-sm">
-            No design locations specified
-          </span>
-        )}
+              ) : (
+                'None provided'
+              )
+            }
+          />
+        </div>
       </CardContent>
     </Card>
   )
@@ -70,7 +74,7 @@ const Item = ({
 }) => {
   return (
     <div className="text-sm">
-      <div className="font-medium text-gray-500">{label}</div>
+      <div className="font-medium text-gray-500 mb-1">{label}</div>
       <div className="font-medium text-gray-800">{value}</div>
     </div>
   )
@@ -83,67 +87,13 @@ const DesignLocation = ({
 }) => {
   const [showDetails, setShowDetails] = React.useState(false)
 
-  if (!showDetails) {
-    return (
-      <div className="">
-        <div className="flex items-center justify-between">
-          <span className=" font-semibold text-gray-500">
-            {location.placement}
-          </span>
-          <Button
-            variant="naked"
-            className="!text-xs opacity-40"
-            slim
-            onClick={() => setShowDetails(true)}
-          >
-            View details
-          </Button>
-        </div>
-      </div>
-    )
-  }
-
-  const description = location.description?.length
-    ? generateHTML(JSON.parse(location.description), [StarterKit])
-    : null
-
   return (
-    <div className="">
-      <dl className="flex flex-wrap">
-        <div className="flex-auto">
-          <dt className="font-semibold leading-6 text-gray-900">
-            {location.placement}
-          </dt>
-          <dd className="mt-1 text-sm font-medium text-gray-600 prose">
-            {description ? (
-              <div dangerouslySetInnerHTML={{ __html: description }} />
-            ) : (
-              'No description.'
-            )}
-          </dd>
-        </div>
-      </dl>
-      <dl className="pt-6 flex-auto line-clamp-3">
-        <dt className="text-sm font-semibold leading-6 text-gray-900">
-          Reference files
-        </dt>
-        <dd className="mt-1 text-sm font-semibold text-gray-700">
-          {location.files.length ? (
-            <ReferenceFilesPreview
-              files={location.files.map(file => ({
-                ...file,
-                bytes: file.humanizedBytes,
-              }))}
-            />
-          ) : (
-            <span className="text-gray-500 font-normal">
-              No reference files
-            </span>
-          )}
-        </dd>
-      </dl>
-
-      <div className="mt-6" />
+    <div className="border rounded-sm py-2 px-3">
+      <div className="flex items-center justify-between">
+        <span className=" font-semibold text-gray-500">
+          {location.placement}
+        </span>
+      </div>
     </div>
   )
 }
@@ -153,7 +103,18 @@ GeneralInformation.fragments = {
     fragment DesignRequestSubmittedDesignRequestGeneralInformationFragment on DesignRequest {
       id
       description
-      useCase
+      files {
+        id
+        humanizedBytes
+        name
+        url
+        fileType
+
+        ... on FileImage {
+          width
+          height
+        }
+      }
       designRequestLocations {
         id
         description
