@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client'
-import { Button } from '@components/ui'
 import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/Card'
 import {
   DesignRequestSubmittedDesignRequestGeneralInformationFragment,
@@ -15,6 +14,17 @@ interface Props {
 }
 
 const GeneralInformation = ({ designRequest }: Props) => {
+  let description
+  if (designRequest.description?.length) {
+    try {
+      description = generateHTML(JSON.parse(designRequest.description), [
+        StarterKit,
+      ])
+    } catch (e) {
+      description = designRequest.description
+    }
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -25,8 +35,18 @@ const GeneralInformation = ({ designRequest }: Props) => {
       </CardHeader>
       <CardContent divide>
         <div className="flex flex-col gap-6">
-          {designRequest.description ? (
-            <Item label="Description" value={designRequest.description} />
+          {description ? (
+            <Item
+              label="Description"
+              value={
+                <div
+                  className="prose prose-sm"
+                  dangerouslySetInnerHTML={{
+                    __html: description,
+                  }}
+                />
+              }
+            />
           ) : null}
 
           <Item
@@ -85,8 +105,6 @@ const DesignLocation = ({
 }: {
   location: DesignRequestSubmittedDesignRequestGeneralInformationFragment_designRequestLocations
 }) => {
-  const [showDetails, setShowDetails] = React.useState(false)
-
   return (
     <div className="border rounded-sm py-2 px-3">
       <div className="flex items-center justify-between">

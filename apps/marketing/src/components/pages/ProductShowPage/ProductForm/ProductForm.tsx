@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import ProductVariantQuantityMatrixForm, {
   ProductVariantQuantityMatrixFormProps,
 } from '@components/common/ProductVariantQuantityMatrixForm'
-import { Checkbox, FileInput, TextField } from '@components/ui'
+import { Checkbox, FileInput, RichTextEditor, TextField } from '@components/ui'
 import Button from '@components/ui/ButtonV2/Button'
 import { CatalogProductCustomizationAddonType } from '@generated/globalTypes'
 import { ProductFormProductFragment } from '@generated/ProductFormProductFragment'
@@ -216,23 +216,60 @@ const ProductForm = (props: ProductFormProps) => {
           <Controller
             name="designBrief"
             control={form.control}
-            render={({ field: { onChange, value, ref } }) => (
-              <InformationGroup
-                title="Design Brief"
-                description="Discuss your design. You'll be connected with a designer to help perfect your design."
-                icon={<ChatBubbleBottomCenterIcon className={iconStyle} />}
-                error={form.formState.errors.designBrief?.message}
-              >
-                <TextField
-                  multiline
-                  placeholder="Describe your design and how you want it to look. If you have any design files, you can upload it below."
-                  onChange={onChange}
-                  value={value}
-                  error={Boolean(form.formState.errors.designBrief?.message)}
-                  inputRef={ref}
-                />
-              </InformationGroup>
-            )}
+            render={({ field: { onChange, onBlur, value, ref } }) => {
+              let content
+
+              try {
+                content = JSON.parse(value)
+              } catch (e) {
+                content = null
+              }
+
+              return (
+                <InformationGroup
+                  title="Design Brief"
+                  description="Discuss your design. You'll be connected with a designer to help perfect your design."
+                  icon={<ChatBubbleBottomCenterIcon className={iconStyle} />}
+                  error={form.formState.errors.designBrief?.message}
+                >
+                  <RichTextEditor
+                    ref={ref}
+                    placeholder="Describe your design and how you want it to look. If you have any design files, you can upload it below."
+                    editorOptions={{
+                      content,
+                      onBlur: onBlur,
+                      onUpdate: params => {
+                        // Auto format as ordered list
+                        if (!params.editor.getHTML().includes('<ol>')) {
+                          const content = params.editor.getHTML()
+                          params.editor
+                            .chain()
+                            .focus()
+                            .setContent(`<ol><li>${content}</li></ol>`)
+                            .run()
+                        }
+                        // Check for empty ordered list and clear editor
+                        else if (
+                          params.editor.getHTML() ===
+                            '<ol><li><p></p></li></ol>' ||
+                          params.editor.getHTML().trim() === ''
+                        ) {
+                          params.editor.chain().focus().setContent('').run()
+                        }
+
+                        if (params.editor.isEmpty) {
+                          onChange('')
+                        } else {
+                          if (params.editor.isEmpty) {
+                            onChange(JSON.stringify(params.editor.getJSON()))
+                          }
+                        }
+                      },
+                    }}
+                  />
+                </InformationGroup>
+              )
+            }}
           />
 
           <Controller

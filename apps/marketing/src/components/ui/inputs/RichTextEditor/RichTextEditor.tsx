@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEditor, EditorContent, EditorOptions } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
+
 import Placeholder from '@tiptap/extension-placeholder'
 import styles from './RichTextEditor.module.css'
 import cx from 'classnames'
@@ -10,9 +11,10 @@ interface Props {
   editorOptions?: Partial<
     Omit<EditorOptions, 'injectCSS' | 'extensions' | 'editorProps'>
   >
+  ref?: React.Ref<any>
 }
 
-const RichTextEditor = ({ placeholder, editorOptions }: Props) => {
+const RichTextEditor = ({ placeholder, editorOptions, ref }: Props) => {
   const editor = useEditor({
     ...(editorOptions || {}),
     injectCSS: false,
@@ -28,9 +30,9 @@ const RichTextEditor = ({ placeholder, editorOptions }: Props) => {
 
   return (
     <div className={styles.rte}>
-      <EditorContent editor={editor} onChange={e => {}} />
+      <EditorContent ref={ref} editor={editor} onChange={e => {}} />
     </div>
   )
 }
 
-export default RichTextEditor
+export default React.forwardRef(RichTextEditor)
