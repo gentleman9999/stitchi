@@ -266,9 +266,7 @@ const ProductForm = (props: ProductFormProps) => {
                         if (params.editor.isEmpty) {
                           onChange('')
                         } else {
-                          if (params.editor.isEmpty) {
-                            onChange(JSON.stringify(params.editor.getJSON()))
-                          }
+                          onChange(JSON.stringify(params.editor.getJSON()))
                         }
                       },
                     }}
