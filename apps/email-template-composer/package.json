@@ -17,6 +17,7 @@
     "eslint": "^8.6.0"
   },
   "devDependencies": {
-    "config": "*"
+    "config": "*",
+    "react-email": "^1.9.5"
   }
 }
