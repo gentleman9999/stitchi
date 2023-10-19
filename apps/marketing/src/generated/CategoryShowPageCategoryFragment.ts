@@ -30,6 +30,10 @@ export interface CategoryShowPageCategoryFragment {
    */
   name: string;
   /**
+   * Category description.
+   */
+  description: string;
+  /**
    * Category path.
    */
   path: string;

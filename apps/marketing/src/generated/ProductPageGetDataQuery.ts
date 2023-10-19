@@ -604,6 +604,10 @@ export interface ProductPageGetDataQuery_site_route_node_Category {
    */
   name: string;
   /**
+   * Category description.
+   */
+  description: string;
+  /**
    * Category path.
    */
   path: string;
