@@ -30,7 +30,7 @@ const BrandShowPage = ({ brand }: Props) => {
 
       <BrandJsonLd id={url} logo={brand.defaultImage?.url} />
 
-      <Container className="pt-6">
+      <Container className="pt-6 max-w-none">
         <Breadcrumbs
           breadcrumbs={[
             { label: 'Home', href: routes.internal.home.href(), hidden: true },

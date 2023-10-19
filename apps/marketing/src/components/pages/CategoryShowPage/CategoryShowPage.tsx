@@ -29,7 +29,7 @@ const CategoryShowPage = ({ category }: Props) => {
         openGraph={{ url }}
       />
 
-      <Container className="pt-6">
+      <Container className="pt-6 max-w-none">
         <Breadcrumbs
           breadcrumbs={[
             { label: 'Home', href: routes.internal.home.href(), hidden: true },
@@ -37,10 +37,11 @@ const CategoryShowPage = ({ category }: Props) => {
             { label: category.name, href },
           ]}
         />
-        <Section gutter="sm">
-          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-heading font-bold">
-            {category.name}
-          </h1>
+        <Section gutter="sm" className="prose max-w-5xl">
+          <h1 className="">{category.name}</h1>
+          {category.description ? (
+            <div dangerouslySetInnerHTML={{ __html: category.description }} />
+          ) : null}
         </Section>
       </Container>
 
@@ -55,6 +56,7 @@ export const fragments = {
       id
       entityId
       name
+      description
       path
       seo {
         metaDescription
