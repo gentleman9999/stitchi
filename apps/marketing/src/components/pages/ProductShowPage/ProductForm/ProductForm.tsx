@@ -159,7 +159,7 @@ const ProductForm = (props: ProductFormProps) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="relative flex flex-col gap-8 p-8 bg-paper rounded-lg ">
+      <div className="relative flex flex-col gap-8 my-8 bg-paper rounded-lg ">
         <h1 className="font-headingDisplay font-semibold text-2xl sm:text-3xl text-gray-800 hidden sm:block">
           {makeProductTitle(props.product)}
         </h1>
