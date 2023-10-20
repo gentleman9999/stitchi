@@ -101,22 +101,46 @@ export interface CatalogProductVariantPreviewProductFragment_defaultImage {
    * Absolute path to image using store CDN.
    */
   url: string;
+}
+
+export interface CatalogProductVariantPreviewProductFragment_images_edges_node {
+  __typename: "Image";
   /**
-   * Text description of an image that can be used for SEO and/or accessibility purposes.
+   * Indicates whether this is the primary image.
    */
-  altText: string;
+  isDefault: boolean;
+  /**
+   * Absolute path to image using store CDN.
+   */
+  url: string;
+}
+
+export interface CatalogProductVariantPreviewProductFragment_images_edges {
+  __typename: "ImageEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: CatalogProductVariantPreviewProductFragment_images_edges_node;
+}
+
+export interface CatalogProductVariantPreviewProductFragment_images {
+  __typename: "ImageConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (CatalogProductVariantPreviewProductFragment_images_edges | null)[] | null;
 }
 
 export interface CatalogProductVariantPreviewProductFragment_variants_edges_node_defaultImage {
   __typename: "Image";
   /**
+   * Indicates whether this is the primary image.
+   */
+  isDefault: boolean;
+  /**
    * Absolute path to image using store CDN.
    */
   url: string;
-  /**
-   * Text description of an image that can be used for SEO and/or accessibility purposes.
-   */
-  altText: string;
 }
 
 export interface CatalogProductVariantPreviewProductFragment_variants_edges_node {
@@ -169,6 +193,10 @@ export interface CatalogProductVariantPreviewProductFragment {
    * Default image for a product.
    */
   defaultImage: CatalogProductVariantPreviewProductFragment_defaultImage | null;
+  /**
+   * A list of the images for a product.
+   */
+  images: CatalogProductVariantPreviewProductFragment_images;
   /**
    * Variants associated with the product.
    */

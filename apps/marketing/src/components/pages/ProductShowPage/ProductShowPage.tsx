@@ -66,7 +66,10 @@ const ProductShowPage = ({ product }: Props) => {
     description: product.plainTextDescription || description,
     productName: product.name,
     brand: product.brand?.name,
-    images: product.defaultImage ? [product.defaultImage.url] : [],
+    images:
+      product.images.edges
+        ?.map(edge => edge?.node.seoImageUrl)
+        .filter(notEmpty) || [],
     offers: product.variants.edges
       ?.map(edge => edge?.node)
       .filter(notEmpty)
@@ -210,6 +213,13 @@ export const fragments = {
       plainTextDescription
       defaultImage {
         seoImageUrl: url(width: 1000)
+      }
+      images(first: 10) {
+        edges {
+          node {
+            seoImageUrl: url(width: 1000)
+          }
+        }
       }
       brand {
         id

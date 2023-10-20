@@ -17,10 +17,38 @@ export interface ProductShowPageHeroFragment_defaultImage {
    * Absolute path to image using store CDN.
    */
   url: string;
+}
+
+export interface ProductShowPageHeroFragment_images_edges_node {
+  __typename: "Image";
   /**
-   * Text description of an image that can be used for SEO and/or accessibility purposes.
+   * Absolute path to image using store CDN.
    */
-  altText: string;
+  seoImageUrl: string;
+  /**
+   * Indicates whether this is the primary image.
+   */
+  isDefault: boolean;
+  /**
+   * Absolute path to image using store CDN.
+   */
+  url: string;
+}
+
+export interface ProductShowPageHeroFragment_images_edges {
+  __typename: "ImageEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: ProductShowPageHeroFragment_images_edges_node;
+}
+
+export interface ProductShowPageHeroFragment_images {
+  __typename: "ImageConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (ProductShowPageHeroFragment_images_edges | null)[] | null;
 }
 
 export interface ProductShowPageHeroFragment_brand {
@@ -279,13 +307,13 @@ export interface ProductShowPageHeroFragment_variants_edges_node_jsonLdImage {
 export interface ProductShowPageHeroFragment_variants_edges_node_defaultImage {
   __typename: "Image";
   /**
+   * Indicates whether this is the primary image.
+   */
+  isDefault: boolean;
+  /**
    * Absolute path to image using store CDN.
    */
   url: string;
-  /**
-   * Text description of an image that can be used for SEO and/or accessibility purposes.
-   */
-  altText: string;
 }
 
 export interface ProductShowPageHeroFragment_variants_edges_node {
@@ -491,6 +519,10 @@ export interface ProductShowPageHeroFragment {
    * Default image for a product.
    */
   defaultImage: ProductShowPageHeroFragment_defaultImage | null;
+  /**
+   * A list of the images for a product.
+   */
+  images: ProductShowPageHeroFragment_images;
   /**
    * Brand associated with the product.
    */

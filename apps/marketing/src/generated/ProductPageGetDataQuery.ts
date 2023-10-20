@@ -73,10 +73,38 @@ export interface ProductPageGetDataQuery_site_route_node_Product_defaultImage {
    * Absolute path to image using store CDN.
    */
   url: string;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_images_edges_node {
+  __typename: "Image";
   /**
-   * Text description of an image that can be used for SEO and/or accessibility purposes.
+   * Absolute path to image using store CDN.
    */
-  altText: string;
+  seoImageUrl: string;
+  /**
+   * Indicates whether this is the primary image.
+   */
+  isDefault: boolean;
+  /**
+   * Absolute path to image using store CDN.
+   */
+  url: string;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_images_edges {
+  __typename: "ImageEdge";
+  /**
+   * The item at the end of the edge.
+   */
+  node: ProductPageGetDataQuery_site_route_node_Product_images_edges_node;
+}
+
+export interface ProductPageGetDataQuery_site_route_node_Product_images {
+  __typename: "ImageConnection";
+  /**
+   * A list of edges.
+   */
+  edges: (ProductPageGetDataQuery_site_route_node_Product_images_edges | null)[] | null;
 }
 
 export interface ProductPageGetDataQuery_site_route_node_Product_brand {
@@ -335,13 +363,13 @@ export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_
 export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node_defaultImage {
   __typename: "Image";
   /**
+   * Indicates whether this is the primary image.
+   */
+  isDefault: boolean;
+  /**
    * Absolute path to image using store CDN.
    */
   url: string;
-  /**
-   * Text description of an image that can be used for SEO and/or accessibility purposes.
-   */
-  altText: string;
 }
 
 export interface ProductPageGetDataQuery_site_route_node_Product_variants_edges_node {
@@ -547,6 +575,10 @@ export interface ProductPageGetDataQuery_site_route_node_Product {
    * Default image for a product.
    */
   defaultImage: ProductPageGetDataQuery_site_route_node_Product_defaultImage | null;
+  /**
+   * A list of the images for a product.
+   */
+  images: ProductPageGetDataQuery_site_route_node_Product_images;
   /**
    * Brand associated with the product.
    */
