@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client'
 import { Section } from '@components/common'
-import { Container } from '@components/ui'
 import { OrderDetailsPageOrderFragment } from '@generated/OrderDetailsPageOrderFragment'
 import React from 'react'
 import { format, parseISO } from 'date-fns'
@@ -9,6 +8,11 @@ import OrderDetailsPageShippingDetails from './OrderDetailsPageShippingDetails'
 import OrderDetailsPageLineItems from './OrderDetailsPageLineItems'
 import ContactUs from './ContactUs'
 import OrderPaymentStatusBadge from '@components/common/OrderPaymentStatusBadge'
+import ClosetPageContainer from '@components/common/ClosetPageContainer'
+import ClosetPageHeader from '@components/common/ClosetPageHeader'
+import ClosetPageTitle from '@components/common/ClosetPageTitle'
+import ClosetSection from '@components/common/ClosetSection'
+import { Card, CardContent } from '@components/ui/Card'
 
 interface Props {
   order: OrderDetailsPageOrderFragment
@@ -16,53 +20,59 @@ interface Props {
 
 const OrderDetailsPage = ({ order }: Props) => {
   return (
-    <Container>
-      <Section>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Order Details</h1>
-
-        <div className="flex flex-col sm:flex-row sm:gap-4 sm:items-center">
-          <span className="text-sm text-gray-500">
-            Order number <b className="text-gray-900">{order.humanOrderId}</b>
-          </span>
-          <span className="sr-only sm:not-sr-only">·</span>
-          <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 sm:items-center">
-            <span className="text-sm">
-              <b>{format(parseISO(order.createdAt), 'PPP')}</b>
-            </span>
-            <span className="hidden sm:block">·</span>
-            <div>
-              <OrderPaymentStatusBadge
-                size="small"
-                humanStatus={order.humanPaymentStatus}
-                status={order.paymentStatus}
-              />
+    <ClosetPageContainer>
+      <ClosetPageHeader>
+        <ClosetPageTitle
+          title={'Order Details'}
+          description={
+            <div className="flex flex-col sm:flex-row sm:gap-4 sm:items-center">
+              <span className="text-sm text-gray-500">
+                Order number{' '}
+                <b className="text-gray-900">{order.humanOrderId}</b>
+              </span>
+              <span className="sr-only sm:not-sr-only">·</span>
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 sm:items-center">
+                <span className="text-sm">
+                  <b>{format(parseISO(order.createdAt), 'PPP')}</b>
+                </span>
+                <span className="hidden sm:block">·</span>
+                <div>
+                  <OrderPaymentStatusBadge
+                    size="small"
+                    humanStatus={order.humanPaymentStatus}
+                    status={order.paymentStatus}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </Section>
+          }
+        />
+      </ClosetPageHeader>
 
-      <div className="my-4" />
-
-      <Section>
+      <ClosetSection>
         <OrderDetailsPageShippingDetails order={order} />
-      </Section>
+      </ClosetSection>
 
-      <hr className="my-4" />
+      <ClosetSection>
+        <Card>
+          <CardContent>
+            <OrderDetailsPageLineItems items={order.items} />
+          </CardContent>
+        </Card>
+      </ClosetSection>
 
-      <Section gutter="sm">
-        <OrderDetailsPageLineItems items={order.items} />
-      </Section>
+      <ClosetSection>
+        <Card>
+          <CardContent>
+            <OrderDetailsPageBillingDetails order={order} />
+          </CardContent>
+        </Card>
+      </ClosetSection>
 
-      <hr className="my-4" />
-
-      <Section gutter="sm">
-        <OrderDetailsPageBillingDetails order={order} />
-      </Section>
-
-      <Section gutter="md">
+      <ClosetSection>
         <ContactUs humanOrderId={order.humanOrderId} />
-      </Section>
-    </Container>
+      </ClosetSection>
+    </ClosetPageContainer>
   )
 }
 

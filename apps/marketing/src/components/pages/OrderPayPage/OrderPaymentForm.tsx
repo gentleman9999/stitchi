@@ -123,7 +123,7 @@ const OrderPaymentForm = (props: Props) => {
       elements,
       confirmParams: {
         return_url: makeAbsoluteUrl(
-          routes.internal.order.show.href({ orderId: props.orderId }),
+          routes.internal.closet.orders.show.href({ orderId: props.orderId }),
         ),
       },
     })

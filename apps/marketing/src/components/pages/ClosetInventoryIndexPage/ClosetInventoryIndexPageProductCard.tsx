@@ -11,7 +11,6 @@ import {
 import routes from '@lib/routes'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { notEmpty } from '@lib/utils/typescript'
-import currency from 'currency.js'
 import React from 'react'
 import Card from '../../common/ClosetCard/ClosetCard'
 
@@ -49,7 +48,7 @@ const ClosetInventoryIndexPageProductCard = ({ design, loading }: Props) => {
           }),
         },
         {
-          label: 'Order',
+          label: 'Restock',
           icon: <ArrowPathRoundedSquareIcon className="w-full" />,
           href: routes.internal.closet.inventory.show.products.show.buy.href({
             designId: design.id,

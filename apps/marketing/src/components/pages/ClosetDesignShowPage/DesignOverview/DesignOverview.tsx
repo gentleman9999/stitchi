@@ -15,6 +15,7 @@ import FormSection from '@components/pages/ClosetDesignBuyPage/FormSection'
 import Link from 'next/link'
 import routes from '@lib/routes'
 import Button from '@components/ui/ButtonV2/Button'
+import DesignInventoryMatrix from './DesignInventoryMatrix'
 
 interface Props {
   designId: string
@@ -44,11 +45,15 @@ const DesignOverview = ({ designId }: Props) => {
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
         <div className="col-span-1 md:col-span-8">
-          <DesignPreviewGallery
-            design={design}
-            activeColorId={activeColorId}
-            loading={loading}
-          />
+          <ClosetSection>
+            <DesignPreviewGallery
+              design={design}
+              activeColorId={activeColorId}
+              loading={loading}
+            />
+          </ClosetSection>
+
+          {design ? <DesignInventoryMatrix designProduct={design} /> : null}
         </div>
 
         <div className="col-span-1 md:col-span-4">
@@ -76,22 +81,6 @@ const DesignOverview = ({ designId }: Props) => {
                     <div className="font-medium text-sm">
                       {design?.sizes?.map(size => size.name).join(', ') || '-'}
                     </div>
-                  </InputGroup>
-
-                  <InputGroup>
-                    <Button
-                      size="xl"
-                      color="brandPrimary"
-                      Component={Link}
-                      variant="flat"
-                      href={routes.internal.closet.inventory.show.products.show.buy.href(
-                        {
-                          designId,
-                        },
-                      )}
-                    >
-                      Place order
-                    </Button>
                   </InputGroup>
                 </FormSection>
               </CardContent>
@@ -134,6 +123,7 @@ const DesignOverview = ({ designId }: Props) => {
 
 const GET_DATA = gql`
   ${DesignPreviewGallery.fragments.designProduct}
+  ${DesignInventoryMatrix.fragments.designProduct}
   query DesignOverviewGetDataQuery($designId: ID!) {
     designProduct(id: $designId) {
       id
@@ -149,6 +139,7 @@ const GET_DATA = gql`
         name
       }
       ...DesignPreviewGalleryDesignProductFragment
+      ...DesignInventoryMatrixDesignProductFragment
     }
   }
 `

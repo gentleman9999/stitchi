@@ -13,7 +13,7 @@ const handler: NextApiHandler = async (req, res) => {
           throw new Error('Invalid order ID')
         }
 
-        res.redirect(301, routes.internal.order.show.href({ orderId }))
+        res.redirect(301, routes.internal.closet.orders.show.href({ orderId }))
         break
       }
 

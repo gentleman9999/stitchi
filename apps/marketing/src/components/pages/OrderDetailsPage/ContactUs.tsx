@@ -8,7 +8,7 @@ interface Props {
 
 const ContactUs = (props: Props) => {
   return (
-    <div className="border bg-gray-50 p-8 rounded-md flex flex-col items-center gap-5 text-center">
+    <div className="flex flex-col items-center gap-5 text-center">
       <h2 className="text-gray-900 text-2xl font-medium font-heading">
         Have a question about your order?
       </h2>

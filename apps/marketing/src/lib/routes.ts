@@ -118,9 +118,6 @@ const routes = {
     },
     order: {
       show: {
-        href: ({ orderId }: { orderId: string }) =>
-          buildRoute(`/orders/${orderId}`),
-
         pay: {
           href: ({ orderId }: { orderId: string }) =>
             buildRoute(`/orders/${orderId}/pay`),
@@ -249,6 +246,11 @@ const routes = {
 
       orders: {
         href: () => buildRoute('/closet/orders'),
+
+        show: {
+          href: ({ orderId }: { orderId: string }) =>
+            buildRoute(`/closet/orders/${orderId}`),
+        },
       },
 
       inventory: {
@@ -262,7 +264,7 @@ const routes = {
 
               buy: {
                 href: ({ designId }: { designId: string }) =>
-                  buildRoute(`/closet/inventory/products/${designId}/buy`),
+                  buildRoute(`/closet/inventory/products/${designId}/order`),
               },
 
               inventory: {

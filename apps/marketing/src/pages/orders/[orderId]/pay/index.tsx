@@ -45,7 +45,7 @@ const getServerSideProps: GetServerSideProps<Props> = async ctx => {
   if (data.order.totalAmountDueCents <= 0) {
     return {
       redirect: {
-        destination: routes.internal.order.show.href({ orderId }),
+        destination: routes.internal.closet.orders.show.href({ orderId }),
         permanent: false,
       },
     }
@@ -67,7 +67,7 @@ const getServerSideProps: GetServerSideProps<Props> = async ctx => {
     })
     return {
       redirect: {
-        destination: routes.internal.order.show.href({ orderId }),
+        destination: routes.internal.closet.orders.show.href({ orderId }),
         permanent: false,
       },
     }

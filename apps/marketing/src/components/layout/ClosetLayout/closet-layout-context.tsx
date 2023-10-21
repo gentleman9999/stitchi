@@ -106,7 +106,7 @@ const ClosetLayoutContextProvider = ({ children }: Props) => {
         },
         {
           href: routes.internal.closet.designs.href(),
-          label: 'Design',
+          label: 'Designs',
           icon: <PaintBrushIcon className="w-4 h-4" />,
           includedPaths: [
             routes.internal.closet.collections.href(),
@@ -115,7 +115,7 @@ const ClosetLayoutContextProvider = ({ children }: Props) => {
         },
         {
           href: routes.internal.closet.inventory.href(),
-          label: 'Fulfill',
+          label: 'Inventory',
           icon: <TruckIcon className="w-4 h-4" />,
           hidden:
             authorizationLoading ||

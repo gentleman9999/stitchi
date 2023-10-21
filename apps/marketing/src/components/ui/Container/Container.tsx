@@ -21,7 +21,7 @@ const Container = forwardRef<HTMLDivElement, ContainerProps>(
     }
 
     return (
-      <div className="@container w-full">
+      <div className="@container-normal w-full">
         <div {...props} style={style}>
           {children}
         </div>

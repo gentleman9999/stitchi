@@ -57,8 +57,7 @@ const ClosetOrdersMobileTable = ({
             </div>
             <div className="flex flex-col gap-2">
               <LinkInline
-                external
-                href={routes.internal.order.show.href({
+                href={routes.internal.closet.orders.show.href({
                   orderId: order.id,
                 })}
               >

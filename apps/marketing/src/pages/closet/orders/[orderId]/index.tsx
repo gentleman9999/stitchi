@@ -1,5 +1,5 @@
 import { gql, useQuery } from '@apollo/client'
-import { PrimaryLayout } from '@components/layout'
+import { ClosetLayout } from '@components/layout'
 import OrderDetailsPage from '@components/pages/OrderDetailsPage'
 import { OrderPaymentStatus } from '@generated/globalTypes'
 import {
@@ -82,7 +82,7 @@ const Page = ({ orderId }: Props) => {
   )
 }
 
-Page.getLayout = (page: ReactElement) => <PrimaryLayout>{page}</PrimaryLayout>
+Page.getLayout = (page: ReactElement) => <ClosetLayout>{page}</ClosetLayout>
 
 const GET_DATA = gql`
   ${OrderDetailsPage.fragments.order}

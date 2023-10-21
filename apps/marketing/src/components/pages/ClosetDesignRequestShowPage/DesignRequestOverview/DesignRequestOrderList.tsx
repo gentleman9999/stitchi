@@ -36,7 +36,9 @@ const DesignRequestOrderList = ({ orders }: Props) => {
                   target: '_blank',
                 }}
                 Component={Link}
-                href={routes.internal.order.show.href({ orderId: order.id })}
+                href={routes.internal.closet.orders.show.href({
+                  orderId: order.id,
+                })}
                 variant="naked"
                 endIcon={<ArrowRightIcon className="w-4 h-4" />}
               >

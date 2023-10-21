@@ -11,7 +11,7 @@ const OrderDetailsPageShippingDetails = ({ order }: Props) => {
   const { shippingAddress, fulfillments } = order
 
   return (
-    <div className="sm:border sm:p-8 rounded-sm flex flex-col-reverse sm:flex-col gap-8">
+    <div className="sm:border sm:p-8 rounded-sm flex flex-col-reverse sm:flex-col gap-8 bg-paper">
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4">
         <div className="flex flex-col text-gray-600 text-sm">
           <h2 className="font-semibold text-gray-900 mb-2">Delivery address</h2>

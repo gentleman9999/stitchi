@@ -21,7 +21,7 @@ const ClosetInventoryIndexPage = (props: Props) => {
   return (
     <ClosetPageContainer>
       <ClosetPageHeader>
-        <ClosetPageTitle title="Fulfill" description="" />
+        <ClosetPageTitle title="Inventory" description="" />
       </ClosetPageHeader>
 
       <ClosetSection

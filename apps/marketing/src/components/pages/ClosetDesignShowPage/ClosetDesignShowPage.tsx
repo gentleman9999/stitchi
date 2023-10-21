@@ -14,7 +14,6 @@ import {
 import routes from '@lib/routes'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import React from 'react'
-import DesignInventory from './DesignInventory'
 import DesignOverview from './DesignOverview'
 
 interface Props {
@@ -55,18 +54,10 @@ const ClosetDesignShowPage = ({ designId }: Props) => {
                       ),
                     }),
                 },
-                // {
-                //   label: 'Duplicate',
-                //   onClick: () => {},
-                // },
-                // {
-                //   label: 'Sell online',
-                //   onClick: () => {},
-                // },
 
                 {
                   primary: true,
-                  label: 'Place order',
+                  label: 'Restock',
                   href: routes.internal.closet.inventory.show.products.show.buy.href(
                     {
                       designId,
@@ -79,50 +70,16 @@ const ClosetDesignShowPage = ({ designId }: Props) => {
         />
       </ClosetPageHeader>
 
-      <ClosetSection
-        tabs={[
-          {
-            id: 'overview',
-            href: routes.internal.closet.inventory.show.products.show.href({
-              designId: designId,
-            }),
-            label: 'Overview',
-          },
-          {
-            id: 'inventory',
-            href: routes.internal.closet.inventory.show.products.show.inventory.href(
-              {
-                designId: designId,
-              },
-            ),
-            label: 'Inventory',
-          },
-          // {
-          //   id: 'orders',
-          //   href: '#',
-          //   label: 'Orders',
-          // },
-        ]}
-      >
-        {({ activeTab }) => (
-          <>
-            <ClosetSectionHeader divider>
-              <ClosetSectionHeaderTabs />
-            </ClosetSectionHeader>
+      <ClosetSection>
+        <>
+          <ClosetSectionHeader divider>
+            <ClosetSectionHeaderTabs />
+          </ClosetSectionHeader>
 
-            {activeTab ? (
-              <div className="max-w-6xl m-auto">
-                {activeTab.id === 'overview' ? (
-                  <DesignOverview designId={designId} />
-                ) : null}
-
-                {activeTab.id === 'inventory' ? (
-                  <DesignInventory designId={designId} />
-                ) : null}
-              </div>
-            ) : null}
-          </>
-        )}
+          <div className="max-w-6xl m-auto">
+            <DesignOverview designId={designId} />
+          </div>
+        </>
       </ClosetSection>
     </ClosetPageContainer>
   )

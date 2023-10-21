@@ -67,8 +67,7 @@ const ClosetOrdersDesktopTable = ({
           <Cell right>
             <div className="flex flex-col gap-2 items-end">
               <LinkInline
-                external
-                href={routes.internal.order.show.href({
+                href={routes.internal.closet.orders.show.href({
                   orderId: order.id,
                 })}
               >

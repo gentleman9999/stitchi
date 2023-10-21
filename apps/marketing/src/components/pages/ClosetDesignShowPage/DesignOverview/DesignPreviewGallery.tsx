@@ -32,7 +32,7 @@ const DesignPreviewGallery = ({ design, activeColorId, loading }: Props) => {
 
   return (
     <div className="w-full">
-      <div className="w-full h-full max-h-[60vh]  bg-gray-50 rounded-md overflow-hidden">
+      <div className="w-full h-full max-h-[60vh]  bg-paper border rounded-md overflow-hidden">
         {activeImage ? (
           <img
             key={activeImage.id}
