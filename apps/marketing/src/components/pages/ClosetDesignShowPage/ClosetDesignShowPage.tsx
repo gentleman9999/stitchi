@@ -5,7 +5,6 @@ import ClosetPageHeader from '@components/common/ClosetPageHeader'
 import ClosetPageTitle from '@components/common/ClosetPageTitle'
 import ClosetSection from '@components/common/ClosetSection'
 import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
-import ClosetSectionHeaderTabs from '@components/common/ClosetSectionHeaderTabs'
 import { StandoutType, useStandout } from '@components/context'
 import {
   ClosetDesignShowPageGetDataQuery,
@@ -72,9 +71,7 @@ const ClosetDesignShowPage = ({ designId }: Props) => {
 
       <ClosetSection>
         <>
-          <ClosetSectionHeader divider>
-            <ClosetSectionHeaderTabs />
-          </ClosetSectionHeader>
+          <ClosetSectionHeader divider></ClosetSectionHeader>
 
           <div className="max-w-6xl m-auto">
             <DesignOverview designId={designId} />

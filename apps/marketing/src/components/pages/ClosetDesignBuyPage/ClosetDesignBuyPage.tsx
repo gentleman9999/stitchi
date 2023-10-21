@@ -1,6 +1,5 @@
 import { gql, useQuery } from '@apollo/client'
-import { Section } from '@components/common'
-import { Container } from '@components/ui'
+
 import {
   ClosetDesignBuyPageGetDataQuery,
   ClosetDesignBuyPageGetDataQueryVariables,
@@ -12,6 +11,13 @@ import ClosetDesignBuyPageForm, { FormValues } from './ClosetDesignBuyPageForm'
 import useAddToCart from './useAddToCart'
 import ClosetDesignBuyPagePeview from './ClosetDesignBuyPagePeview'
 import routes from '@lib/routes'
+import {
+  SlideOver,
+  SlideOverActions,
+  SlideOverContent,
+  SlideOverHeader,
+} from '@components/ui/SlideOver'
+import SubmitBanner from './SubmitBanner'
 
 interface Props {
   designId: string
@@ -22,7 +28,7 @@ const ClosetDesignBuyPage = (props: Props) => {
 
   const [addToCart, { error: addToCartError }] = useAddToCart()
 
-  const { data, loading, error } = useQuery<
+  const { data } = useQuery<
     ClosetDesignBuyPageGetDataQuery,
     ClosetDesignBuyPageGetDataQueryVariables
   >(GET_DATA, {
@@ -73,7 +79,7 @@ const ClosetDesignBuyPage = (props: Props) => {
       // do error handling
       return
     }
-    await router.push(
+    await router.replace(
       routes.internal.order.show.pay.href({ orderId: order.id }),
     )
   }
@@ -81,34 +87,48 @@ const ClosetDesignBuyPage = (props: Props) => {
   return (
     <>
       <NextSeo nofollow noindex />
-      <Container>
-        <div className="grid grid-cols-12 md:gap-14">
-          <div className="col-span-12 md:col-span-6 lg:col-span-7 md:order-2">
-            <div className="md:sticky top-14">
-              <ClosetDesignBuyPagePeview
-                designProduct={product}
-                loading={loading}
-              />
-            </div>
-          </div>
-          <div className="col-span-12 md:col-span-6 lg:col-span-5">
-            <Section gutter="sm">
-              <h1 className="text-4xl font-heading font-semibold">
-                {product?.name}
-              </h1>
-            </Section>
-            <Section gutter="sm">
-              {product ? (
-                <ClosetDesignBuyPageForm
-                  designProduct={product}
-                  onSubmit={handleCreateCart}
-                  error={addToCartError?.message}
+
+      {product ? (
+        <ClosetDesignBuyPageForm
+          designProduct={product}
+          onSubmit={handleCreateCart}
+          error={addToCartError?.message}
+          renderContainer={({
+            children,
+            loading,
+            submitting,
+            onSubmit,
+            error,
+            priceCents,
+            unitPriceCents,
+          }) => (
+            <SlideOver
+              open
+              className="sm:w-full sm:max-w-xl"
+              onOpenChange={() =>
+                router.replace(
+                  routes.internal.closet.inventory.show.products.show.href({
+                    designId: props.designId,
+                  }),
+                )
+              }
+            >
+              <SlideOverHeader title={product?.name} />
+              <SlideOverContent>{children}</SlideOverContent>
+              <SlideOverActions>
+                <SubmitBanner
+                  onSubmit={onSubmit}
+                  priceCents={priceCents}
+                  unitPriceCents={unitPriceCents}
+                  submitting={submitting}
+                  loading={loading}
+                  error={Boolean(error)}
                 />
-              ) : null}
-            </Section>
-          </div>
-        </div>
-      </Container>
+              </SlideOverActions>
+            </SlideOver>
+          )}
+        />
+      ) : null}
     </>
   )
 }

@@ -1,7 +1,8 @@
 import ClosetDesignBuyPage from '@components/pages/ClosetDesignBuyPage'
 import { useRouter } from 'next/router'
 import React, { ReactElement } from 'react'
-import { FocusedLayout } from '@components/layout'
+import { ClosetLayout } from '@components/layout'
+import ClosetDesignShowPage from '@components/pages/ClosetDesignShowPage'
 
 const Page = () => {
   const router = useRouter()
@@ -12,9 +13,14 @@ const Page = () => {
     return null
   }
 
-  return <ClosetDesignBuyPage designId={designId} />
+  return (
+    <>
+      <ClosetDesignShowPage designId={designId} />
+      <ClosetDesignBuyPage designId={designId} />
+    </>
+  )
 }
 
-Page.getLayout = (page: ReactElement) => <FocusedLayout>{page}</FocusedLayout>
+Page.getLayout = (page: ReactElement) => <ClosetLayout>{page}</ClosetLayout>
 
 export default Page

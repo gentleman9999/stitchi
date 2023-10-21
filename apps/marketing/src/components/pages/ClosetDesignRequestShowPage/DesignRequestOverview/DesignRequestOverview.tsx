@@ -103,31 +103,31 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
             </ClosetSection>
           ) : null}
 
-          <ClosetSection>
-            <DesignRequestOrderList orders={designRequest?.orders || []} />
-          </ClosetSection>
+          <DesignProofList
+            designRequestId={designRequestId}
+            activeProofId={activeProofId}
+            onClick={handleActiveProofChange}
+            onApprove={setProofToApproveId}
+            loading={switchingProof}
+          />
 
           {designRequest?.designRequestProduct ? (
-            <DesignRequestOverviewProductList
-              product={designRequest.designRequestProduct}
-            />
+            <ClosetSection>
+              <DesignRequestOverviewProductList
+                product={designRequest.designRequestProduct}
+              />
+            </ClosetSection>
           ) : null}
-
-          <ClosetSection>
-            <DesignProofList
-              designRequestId={designRequestId}
-              activeProofId={activeProofId}
-              onClick={handleActiveProofChange}
-              onApprove={setProofToApproveId}
-              loading={switchingProof}
-            />
-          </ClosetSection>
 
           {designRequest && designRequest.status !== 'DRAFT' ? (
             <ClosetSection>
               <GeneralInformation designRequest={designRequest} />
             </ClosetSection>
           ) : null}
+
+          <ClosetSection>
+            <DesignRequestOrderList orders={designRequest?.orders || []} />
+          </ClosetSection>
         </div>
       </div>
     </div>

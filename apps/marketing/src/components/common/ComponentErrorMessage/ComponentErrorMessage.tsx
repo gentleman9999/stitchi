@@ -8,7 +8,7 @@ interface Props {
 }
 
 const ComponentErrorMessage = (props: Props) => {
-  const logger = useLogger();
+  const logger = useLogger()
   const message =
     typeof props.error === 'string'
       ? props.error
@@ -16,7 +16,7 @@ const ComponentErrorMessage = (props: Props) => {
 
   React.useEffect(() => {
     if (props.error) {
-      logger.error('error shown', { error: props.error });
+      logger.error('error shown', { error: props.error })
       track.errorShown({ error: props.error })
     }
   }, [message, props.error, logger])
@@ -28,7 +28,6 @@ const ComponentErrorMessage = (props: Props) => {
   return (
     <div className="w-full p-4 rounded-sm text-xs text-white bg-red-500 flex items-center">
       <div>
-        <h6 className="text-sm font-bold">Error!</h6>
         <p>{message}</p>
       </div>
     </div>

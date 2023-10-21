@@ -6,7 +6,6 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import FormSection from './FormSection'
-import SubmitBanner from './SubmitBanner'
 import useProductQuote from './SubmitBanner/useProductQuote'
 import VariantQuantityMatrixForm from '../../common/ProductVariantQuantityMatrixForm/ProductVariantQuantityMatrixForm'
 
@@ -36,18 +35,50 @@ interface Props {
   designProduct: ClosetDesignBuyPageFormDesignProductFragment
   onSubmit: (data: FormValues) => Promise<void>
   error?: string
+  renderContainer: (props: {
+    children: React.ReactNode
+    loading: boolean
+    submitting: boolean
+    priceCents: number | null
+    unitPriceCents: number | null
+    error: boolean
+    onSubmit: () => void
+  }) => React.ReactNode
 }
 
-const ClosetDesignBuyPageForm = ({ designProduct, onSubmit, error }: Props) => {
+const ClosetDesignBuyPageForm = ({
+  designProduct,
+  onSubmit,
+  error,
+  renderContainer,
+}: Props) => {
   const [submitting, setSubmitting] = React.useState(false)
 
   const [getQuote, { quote, loading: quoteLoading }] = useProductQuote({
     designProductId: designProduct.id,
   })
 
+  const defaultColors = React.useMemo(
+    () =>
+      designProduct.colors.map(color => ({
+        catalogProductColorId: color.catalogProductColorId,
+        sizes: designProduct.variants
+          .filter(
+            variant =>
+              variant.catalogProductColorId === color.catalogProductColorId,
+          )
+          .map(variant => ({
+            catalogSizeEntityId: variant.catalogProductSizeId || '',
+            quantity: null,
+            disabled: null,
+          })),
+      })),
+    [designProduct.colors, designProduct.variants],
+  )
+
   const form = useForm<FormValues>({
     defaultValues: {
-      colors: [],
+      colors: defaultColors,
     },
     resolver: yupResolver(schema),
   })
@@ -105,35 +136,40 @@ const ClosetDesignBuyPageForm = ({ designProduct, onSubmit, error }: Props) => {
   })
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-20">
-      <FormSection title="Colors & sizes">
-        <VariantQuantityMatrixForm
-          form={form}
-          colors={designProduct.colors.map(color => ({
-            id: color.id,
-            catalogProductColorId: color.catalogProductColorId,
-            hex: color.hex,
-            name: color.name,
-          }))}
-          variants={designProduct.variants.map(variant => ({
-            id: variant.id,
-            catalogProductColorId: variant.catalogProductColorId,
-            catalogProductSizeId: variant.catalogProductSizeId,
-            sizeName: variant.sizeName,
-          }))}
-        />
-        <ComponentErrorMessage error={formErrors.colors?.message} />
-      </FormSection>
+    <form>
+      {renderContainer({
+        onSubmit: handleSubmit,
+        loading: quoteLoading,
+        submitting,
+        priceCents: quote?.productTotalCostCents || null,
+        unitPriceCents: quote?.productUnitCostCents || null,
+        error: Boolean(Object.keys(formErrors).length),
+        children: (
+          <div className="flex flex-col gap-20">
+            <FormSection>
+              <VariantQuantityMatrixForm
+                form={form}
+                colors={designProduct.colors.map(color => ({
+                  id: color.id,
+                  catalogProductColorId: color.catalogProductColorId,
+                  hex: color.hex,
+                  name: color.name,
+                }))}
+                variants={designProduct.variants.map(variant => ({
+                  id: variant.id,
+                  catalogProductColorId: variant.catalogProductColorId,
+                  catalogProductSizeId: variant.catalogProductSizeId,
+                  sizeName: variant.sizeName,
+                }))}
+              />
+              <ComponentErrorMessage error={formErrors.colors?.message} />
+            </FormSection>
 
-      <ComponentErrorMessage error={error} />
-      <ComponentErrorMessage error={formErrors.root?.message} />
-      <SubmitBanner
-        priceCents={quote?.productTotalCostCents || null}
-        unitPriceCents={quote?.productUnitCostCents || null}
-        loading={quoteLoading}
-        submitting={submitting}
-        error={Boolean(Object.keys(formErrors).length)}
-      />
+            <ComponentErrorMessage error={error} />
+            <ComponentErrorMessage error={formErrors.root?.message} />
+          </div>
+        ),
+      })}
     </form>
   )
 }

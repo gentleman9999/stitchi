@@ -1,6 +1,4 @@
 import ColorSwatch from '@components/common/ColorSwatch'
-import { AnimatePresence, motion } from 'framer-motion'
-import { XIcon } from 'icons'
 import React from 'react'
 import { useFieldArray, UseFormReturn } from 'react-hook-form'
 import ColorSizesInput from './ColorSizesInput'
@@ -90,96 +88,22 @@ const ProductVariantQuantityMatrixForm = <
     return Array.from(sizeMap.values())
   }, [variants])
 
-  const selectedColorEntityIds = colorFields.fields.map(
-    color => color.catalogProductColorId,
-  )
-
-  const handleAddColor = ({
-    catalogProductColorId,
-  }: {
-    catalogProductColorId: string
-  }) => {
-    colorFields.append(
-      {
-        catalogProductColorId: catalogProductColorId,
-        sizes: sizes.map(size => {
-          const foundVariant = variants.find(variant => {
-            return (
-              variant.catalogProductSizeId === size.sizeId &&
-              variant.catalogProductColorId === catalogProductColorId
-            )
-          })
-
-          return {
-            disabled: !foundVariant,
-            quantity: null,
-            catalogSizeEntityId: size.sizeId,
-          }
-        }),
-      },
-      { focusName: `colors.${colorFields.fields.length}.sizes.0.quantity` },
-    )
-  }
-
   const handleSwatchClick = (color: ProductColor) => {
     if (onSwatchClick) {
       onSwatchClick(color)
     }
   }
 
-  const handleRemoveColor = ({
-    catalogProductColorId,
-  }: {
-    catalogProductColorId: string
-  }) => {
-    colorFields.remove(
-      selectedColorEntityIds.findIndex(id => id === catalogProductColorId),
-    )
-  }
-
   return (
     <>
-      <ul className="flex flex-wrap gap-1">
-        <AnimatePresence>
-          {colors
-            .filter(
-              color =>
-                !selectedColorEntityIds.includes(color.catalogProductColorId),
-            )
-            .map(color => (
-              <motion.li
-                key={color.catalogProductColorId}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                <ColorSwatch
-                  onClick={() => {
-                    handleSwatchClick(color)
-                    handleAddColor({
-                      catalogProductColorId: color.catalogProductColorId,
-                    })
-                  }}
-                  hexCode={color.hex || '#000'}
-                  label={color.name || 'Unknown color'}
-                  width="w-8"
-                  height="h-8"
-                />
-              </motion.li>
-            ))}
-        </AnimatePresence>
-      </ul>
-
       {colorFields.fields.length > 0 ? (
         <>
-          <hr className="my-4" />
-
           <div className="flex overflow-x-auto">
             <div className="w-full overflow-x-auto">
               <div
                 className="grid grid-flow-row"
                 style={{
-                  gridTemplateColumns: `1fr repeat(${sizes.length}, 70px) 24px`,
+                  gridTemplateColumns: `1fr repeat(${sizes.length}, 70px)`,
                 }}
               >
                 <div className="sticky left-0 "></div>
@@ -195,7 +119,6 @@ const ProductVariantQuantityMatrixForm = <
                 ) : (
                   <div className="text-center text-sm">Quantity</div>
                 )}
-                <div></div>
 
                 {colorFields.fields.map(({ catalogProductColorId }, index) => {
                   const color = colors.find(
@@ -220,17 +143,6 @@ const ProductVariantQuantityMatrixForm = <
                         </div>
                       </div>
                       <ColorSizesInput form={form} colorFieldIndex={index} />
-                      <div className="flex items-center">
-                        <button
-                          type="button"
-                          className="p-1 hover:bg-gray-100 rounded-sm"
-                          onClick={() =>
-                            handleRemoveColor({ catalogProductColorId })
-                          }
-                        >
-                          <XIcon className="w-4 h-4 text-gray-400" />
-                        </button>
-                      </div>
                     </React.Fragment>
                   )
                 })}
