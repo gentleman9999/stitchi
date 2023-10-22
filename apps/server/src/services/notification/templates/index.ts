@@ -57,7 +57,6 @@ const notifications = {
     return {
       email: {
         subject: `Design request submitted`,
-        // htmlBody: `Your design request ${params.designRequest.name} has been submitted and will be reviewed by an artist shortly.`,
         htmlBody: render(
           DesignRequestUserCreatedTemplate({
             // the email template reads "Hi <name>,"
@@ -65,11 +64,10 @@ const notifications = {
             designRequest: {
               id: params.designRequest.id,
               name: params.designRequest.name,
-              // TODO(custompro98): What should be we default to if there is no name?
-              creatorName: params.membership.invitedName || '',
+              // TODO(custompro98): name and email aren't required, this ends up showing up as empty
+              creatorName: params.membership.invitedName || params.membership.invitedEmail || '',
               submittedAt: params.designRequest.createdAt.toISOString(),
-              // TODO(custompro98): Where does this exist in the data model?
-              expectedCompletionTime: params.designRequest.createdAt.toISOString(),
+              expectedCompletionTime: null,
             },
             previewText: `Your design request ${params.designRequest.name} has been submitted and will be reviewed by an artist shortly.`,
             children: null,
