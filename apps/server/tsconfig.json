@@ -5,7 +5,6 @@
     "module": "nodenext",
     "sourceMap": true,
     "allowJs": true,
-    "jsx": "preserve",
     "outDir": "dist",
     "lib": ["esnext"],
     "jsx": "react"
