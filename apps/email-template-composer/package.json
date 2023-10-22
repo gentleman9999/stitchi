@@ -7,7 +7,8 @@
     ".react-email"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "yarn clean && tsc",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "dev": "email dev --port 3004",
     "export": "email export"
   },
