@@ -244,7 +244,16 @@
     find-up "^4.1.0"
     fs-extra "^8.1.0"
 
-"@manypkg/tools@^1.0.0":
+"@manypkg/find-root@2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@manypkg/find-root/-/find-root-2.2.1.tgz#a7cffffdb06407967daa31f89952ebef108b27cf"
+  integrity sha512-34NlypD5mmTY65cFAK7QPgY5Tzt0qXR4ZRXdg97xAlkiLuwXUPBEXy5Hsqzd+7S2acsLxUz6Cs50rlDZQr4xUA==
+  dependencies:
+    "@manypkg/tools" "^1.1.0"
+    find-up "^4.1.0"
+    fs-extra "^8.1.0"
+
+"@manypkg/tools@^1.0.0", "@manypkg/tools@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@manypkg/tools/-/tools-1.1.0.tgz#730b4c0df78be7f0ce232a417f3c26023884a55c"
   integrity sha512-SkAyKAByB9l93Slyg8AUHGuM2kjvWioUTCckT/03J09jYnfEzMO/wSXmEhnKGYs6qx9De8TH4yJCl0Y9lRgnyQ==
@@ -831,10 +840,10 @@
   dependencies:
     react "18.2.0"
 
-"@react-email/button@0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@react-email/button/-/button-0.0.8.tgz#50c95b504617dd488a1f5cc449a4ed7b4c43a0da"
-  integrity sha512-EOIX/ewPgn/CXUvaAbR92jfWC8EXTSRBafpKtIbxchMcx/iIEG7/JqUndJdZ7BqgON1o6GLm3xP2+AtXtTZJkg==
+"@react-email/button@0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@react-email/button/-/button-0.0.9.tgz#3366c3216add68936b3a555e72388d1317dda1ff"
+  integrity sha512-eYWQ1X4RFlkKYYSPgSrT6rk98wuLOieEAGENrp9j37t1v/1C+jMmBu0UjZvwHsHWdbOMRjbVDFeMI/+MxWKSEg==
   dependencies:
     react "18.2.0"
 
@@ -845,16 +854,16 @@
   dependencies:
     react "18.2.0"
 
-"@react-email/components@0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@react-email/components/-/components-0.0.6.tgz#41ecd2c2d6c0be89113da8e5c2eedd480fe1c8c4"
-  integrity sha512-G58s12BKw5ztdzXNvyi/Z3QryBHjSXx5D2oOcCJd+bEL217mxf7fGqBBUu+2Srs/00k5k3vs9OVLmKfpUgee9g==
+"@react-email/components@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@react-email/components/-/components-0.0.7.tgz#419d8c6c1328dc0d15e953df9960a85d0c132281"
+  integrity sha512-GpRKV8E7EvK9OPf61f5Z8hliB3p0hTot8tslmEUVCTtX7tdL0wM2YEcZiDWU4PJcudJ/QWHJ7Y5wGzNEARcooA==
   dependencies:
     "@react-email/body" "0.0.2"
-    "@react-email/button" "0.0.8"
+    "@react-email/button" "0.0.9"
     "@react-email/column" "0.0.7"
     "@react-email/container" "0.0.8"
-    "@react-email/font" "0.0.1"
+    "@react-email/font" "0.0.2"
     "@react-email/head" "0.0.5"
     "@react-email/heading" "0.0.8"
     "@react-email/hr" "0.0.5"
@@ -876,10 +885,10 @@
   dependencies:
     react "18.2.0"
 
-"@react-email/font@0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@react-email/font/-/font-0.0.1.tgz#0942b214b35b4ded40590890b058246762ed2827"
-  integrity sha512-n43gjIIBgQse1visYsyk8zADzk1QHVrqLc98rKoQLG3qJwLBGTHYLpMDti/4tCAt54d7Ln1VINipGsyQS8PaqA==
+"@react-email/font@0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@react-email/font/-/font-0.0.2.tgz#fc863e47f0b13951c43866c72ccf77dc98269570"
+  integrity sha512-mmkyOCAcbgytE7DfIuOBVG1YVDUZY9rPCor4o7pUEzGJiU2y/TNuV8CgNPSU/VgXeBKL/94QDjB62OrGHlFNMQ==
   dependencies:
     react "18.2.0"
 
@@ -2312,6 +2321,15 @@ fs-extra@11.1.0:
     jsonfile "^6.0.1"
     universalify "^2.0.0"
 
+fs-extra@11.1.1:
+  version "11.1.1"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-11.1.1.tgz#da69f7c39f3b002378b0954bb6ae7efdc0876e2d"
+  integrity sha512-MGIE4HOvQCeUCzmlHs0vXpih4ysz4wg9qiSAu6cd42lVwPbTM1TjV7RusoyQqMmk/95gdQZX72u+YW+c3eEpFQ==
+  dependencies:
+    graceful-fs "^4.2.0"
+    jsonfile "^6.0.1"
+    universalify "^2.0.0"
+
 fs-extra@^8.1.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-8.1.0.tgz#49d43c45a88cd9677668cb7be1b46efdb8d2e1c0"
@@ -3634,6 +3652,28 @@ react-email@1.9.3:
     detect-package-manager "2.0.1"
     esbuild "0.16.4"
     fs-extra "11.1.0"
+    glob "8.0.3"
+    log-symbols "4.1.0"
+    normalize-path "3.0.0"
+    ora "5.4.1"
+    read-pkg "5.2.0"
+    shelljs "0.8.5"
+    tree-node-cli "1.6.0"
+
+react-email@^1.9.5:
+  version "1.9.5"
+  resolved "https://registry.yarnpkg.com/react-email/-/react-email-1.9.5.tgz#3f47a9fae82d59f5be7f81e289ed2b6ab89a9360"
+  integrity sha512-c2ubADlAGKAsfmQRDQd0s3/o+wUW/WCVhwiZo+RkUgsP35RhzDBQisFfxHEX8trjNf0eSv4R9g3ASmRF1vAP8A==
+  dependencies:
+    "@commander-js/extra-typings" "9.4.1"
+    "@manypkg/find-root" "2.2.1"
+    "@octokit/rest" "19.0.7"
+    "@react-email/render" "0.0.6"
+    chokidar "3.5.3"
+    commander "9.4.1"
+    detect-package-manager "2.0.1"
+    esbuild "0.16.4"
+    fs-extra "11.1.1"
     glob "8.0.3"
     log-symbols "4.1.0"
     normalize-path "3.0.0"

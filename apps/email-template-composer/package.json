@@ -7,17 +7,19 @@
     ".react-email"
   ],
   "scripts": {
+    "build": "yarn clean && tsc",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "dev": "email dev --port 3004",
     "export": "email export"
   },
   "dependencies": {
-    "@react-email/components": "0.0.6",
+    "@react-email/components": "^0.0.7",
     "currency.js": "^2.0.4",
     "date-fns": "^2.30.0",
-    "eslint": "^8.6.0",
-    "react-email": "1.9.3"
+    "eslint": "^8.6.0"
   },
   "devDependencies": {
-    "config": "*"
+    "config": "*",
+    "react-email": "^1.9.5"
   }
 }

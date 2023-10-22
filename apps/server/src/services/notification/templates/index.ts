@@ -6,6 +6,9 @@ import { MembershipFactoryMembership } from '../../membership/factory/membership
 import { OrderFactoryOrder } from '../../order/factory'
 import { OrganizationRecord } from '../../organization/db/organization-table'
 
+import { render } from '@react-email/render'
+import DesignRequestUserCreatedTemplate from '../../../../../email-template-composer/emails/design-request-user-created'
+
 const appBaseUrl = getOrThrow(
   process.env.STITCHI_MARKETING_APPLICATION_HOST,
   'STITCHI_MARKETING_APPLICATION_HOST',
@@ -54,7 +57,22 @@ const notifications = {
     return {
       email: {
         subject: `Design request submitted`,
-        htmlBody: `Your design request ${params.designRequest.name} has been submitted and will be reviewed by an artist shortly.`,
+        htmlBody: render(
+          DesignRequestUserCreatedTemplate({
+            // the email template reads "Hi <name>,"
+            recipient: { name: params.user.name || 'there' },
+            designRequest: {
+              id: params.designRequest.id,
+              name: params.designRequest.name,
+              // TODO(custompro98): name and email aren't required, this ends up showing up as empty
+              creatorName: params.membership.invitedName || params.membership.invitedEmail || '',
+              submittedAt: params.designRequest.createdAt.toISOString(),
+              expectedCompletionTime: null,
+            },
+            previewText: `Your design request ${params.designRequest.name} has been submitted and will be reviewed by an artist shortly.`,
+            children: null,
+          }),
+        ),
         textBody: `Your design request ${params.designRequest.name} has been submitted and will be reviewed by an artist shortly.`,
       },
       web: {
