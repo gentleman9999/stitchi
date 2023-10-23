@@ -20,6 +20,10 @@ export interface ProductFormGetProductQuoteQuery_site_product_quote {
 
 export interface ProductFormGetProductQuoteQuery_site_product {
   __typename: "Product";
+  /**
+   * The ID of an object
+   */
+  id: string;
   quote: ProductFormGetProductQuoteQuery_site_product_quote;
 }
 

@@ -147,6 +147,14 @@ const ProductForm = (props: ProductFormProps) => {
   })
 
   const handleSubmit = form.handleSubmit(async (values: FormValues) => {
+    if (totalQuantity < 50) {
+      form.setError('colors', {
+        type: 'validate',
+        message: 'Minimum order quantity is 50 pieces.',
+      })
+      return
+    }
+
     setSubmitting(true)
     await props.onSubmit(values)
     setSubmitting(false)
@@ -315,9 +323,19 @@ const ProductForm = (props: ProductFormProps) => {
                 <Skeleton width={100} />
               ) : quote ? (
                 <>
-                  {currency(quote.productUnitCostCents, {
-                    fromCents: true,
-                  }).format()}{' '}
+                  {totalQuantity === 0 || totalQuantity >= 50 ? (
+                    <>
+                      {currency(quote.productUnitCostCents, {
+                        fromCents: true,
+                      }).format()}{' '}
+                    </>
+                  ) : (
+                    <p className="text-xs text-blue-500 max-w-[300px] whitespace-pre-line">
+                      Minimum order quantity is 50 pieces. This ensures we can
+                      offer the best prices to our customers.
+                    </p>
+                  )}
+
                   {totalQuantity === 0 && maxQuote?.productUnitCostCents
                     ? `-
                   ${currency(maxQuote.productUnitCostCents, {
