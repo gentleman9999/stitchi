@@ -123,7 +123,7 @@ const ProductShowPageHero = ({ product }: Props) => {
             />
           </div>
         </div>
-        <div className="flex-1 z-10 sm:max-w-lg ml-auto shrink">
+        <div className="flex-1 z-10 sm:max-w-2xl ml-auto shrink">
           <ProductForm
             product={product}
             onSubmit={handleSubmit}
