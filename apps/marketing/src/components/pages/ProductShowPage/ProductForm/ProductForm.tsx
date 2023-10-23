@@ -172,6 +172,7 @@ const ProductForm = (props: ProductFormProps) => {
             error={form.formState.errors.colors?.message}
           >
             <ProductVariantQuantityMatrixForm
+              showColorOptions
               form={form}
               colors={props.colors}
               variants={props.variants}

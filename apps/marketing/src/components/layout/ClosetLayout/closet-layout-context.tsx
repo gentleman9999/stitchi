@@ -104,15 +104,7 @@ const ClosetLayoutContextProvider = ({ children }: Props) => {
               MembershipRole.STITCHI_DESIGNER,
             ].includes(role),
         },
-        {
-          href: routes.internal.closet.designs.href(),
-          label: 'Designs',
-          icon: <PaintBrushIcon className="w-4 h-4" />,
-          includedPaths: [
-            routes.internal.closet.collections.href(),
-            routes.internal.closet.designs.href(),
-          ],
-        },
+
         {
           href: routes.internal.closet.inventory.href(),
           label: 'Inventory',
@@ -121,6 +113,16 @@ const ClosetLayoutContextProvider = ({ children }: Props) => {
             authorizationLoading ||
             !can(ScopeResource.DesignProduct, ScopeAction.READ),
           includedPaths: [routes.internal.closet.inventory.href()],
+        },
+
+        {
+          href: routes.internal.closet.designs.href(),
+          label: 'Designs',
+          icon: <PaintBrushIcon className="w-4 h-4" />,
+          includedPaths: [
+            routes.internal.closet.collections.href(),
+            routes.internal.closet.designs.href(),
+          ],
         },
 
         {

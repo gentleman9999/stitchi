@@ -32,7 +32,7 @@ const ColorSizesInput = ({ form, colorFieldIndex }: Props) => {
             control={form.control}
             render={({ field }) => (
               <TextField
-                inputClassName="px-1.5"
+                inputClassName="px-1"
                 name={field.name}
                 value={size.quantity ?? 0}
                 disabled={Boolean(size.disabled)}
