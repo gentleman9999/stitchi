@@ -63,7 +63,11 @@ const useProductQuote = ({
 
   const quote = data?.site.product?.quote
 
-  return { quote, maxQuote: maxQuoteData?.site.product?.quote, loading }
+  return {
+    quote,
+    maxQuote: maxQuoteData?.site.product?.maxQuote,
+    loading,
+  }
 }
 
 const GET_PRODUCT_QUOTE = gql`
@@ -74,6 +78,7 @@ const GET_PRODUCT_QUOTE = gql`
   ) {
     site {
       product(id: $productId) {
+        id
         quote(quantity: $quantity, printLocations: $printLocations) {
           id
           productUnitCostCents
@@ -87,7 +92,8 @@ const GET_PRODUCT_QUOTE_MAX = gql`
   query ProductFormGetProductQuoteMaxQuery($productId: ID!) {
     site {
       product(id: $productId) {
-        quote(quantity: 50, printLocations: [{ colorCount: 4 }]) {
+        id
+        maxQuote: quote(quantity: 50, printLocations: [{ colorCount: 4 }]) {
           id
           productUnitCostCents
         }

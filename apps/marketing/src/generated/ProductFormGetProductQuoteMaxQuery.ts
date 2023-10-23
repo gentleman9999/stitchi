@@ -7,7 +7,7 @@
 // GraphQL query operation: ProductFormGetProductQuoteMaxQuery
 // ====================================================
 
-export interface ProductFormGetProductQuoteMaxQuery_site_product_quote {
+export interface ProductFormGetProductQuoteMaxQuery_site_product_maxQuote {
   __typename: "Quote";
   id: string;
   /**
@@ -18,7 +18,11 @@ export interface ProductFormGetProductQuoteMaxQuery_site_product_quote {
 
 export interface ProductFormGetProductQuoteMaxQuery_site_product {
   __typename: "Product";
-  quote: ProductFormGetProductQuoteMaxQuery_site_product_quote;
+  /**
+   * The ID of an object
+   */
+  id: string;
+  maxQuote: ProductFormGetProductQuoteMaxQuery_site_product_maxQuote;
 }
 
 export interface ProductFormGetProductQuoteMaxQuery_site {
