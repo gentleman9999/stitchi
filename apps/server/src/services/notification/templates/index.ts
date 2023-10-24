@@ -10,6 +10,8 @@ import DesignRequestUserCreatedTemplate from '../../../../../email-template-comp
 import DesignRequestProofUserCreatedTemplate from '../../../../../email-template-composer/emails/design-request-user-proof-created'
 import DesignRequestUserRevisionRequestCreatedTemplate from '../../../../../email-template-composer/emails/design-request-user-revision-request-created'
 import DesignRequestUserRejectedTemplate from '../../../../../email-template-composer/emails/design-request-user-rejected'
+import DesignRequestUserApprovedTemplate from '../../../../../email-template-composer/emails/design-request-user-approved'
+import DesignRequestCommentUserCreatedTemplate from '../../../../../email-template-composer/emails/design-request-comment-user-created'
 
 import { MembershipFactoryMembership } from '../../membership/factory/membership'
 
@@ -80,6 +82,41 @@ const notifications = {
       },
       web: {
         message: `Your design request ${params.designRequest.name} has been submitted and will be reviewed by an artist shortly.`,
+        ctaText: 'View',
+        ctaUrl: `${appBaseUrl}/closet/designs/${params.designRequest.id}`,
+      },
+    }
+  },
+
+  'designRequest:approved': (params: {
+    designRequest: DesignFactoryDesignRequest
+    designRequester: User
+    recipient: User
+  }): Notification => {
+    const template = DesignRequestUserApprovedTemplate({
+      children: null,
+      designRequest: {
+        id: params.designRequest.id,
+        name: params.designRequest.name,
+        creatorName:
+          params.designRequester.name || params.designRequester.email || '',
+        submittedAt: params.designRequest.createdAt.toISOString(),
+        expectedCompletionTime: null,
+      },
+      recipient: {
+        name: params.recipient.name,
+      },
+      previewText: `Your design request ${params.designRequest.name} has been approved.`,
+    })
+
+    return {
+      email: {
+        subject: 'Design request approved',
+        htmlBody: render(template),
+        textBody: render(template, { plainText: true }),
+      },
+      web: {
+        message: `Your design request ${params.designRequest.name} has been approved.`,
         ctaText: 'View',
         ctaUrl: `${appBaseUrl}/closet/designs/${params.designRequest.id}`,
       },
@@ -188,6 +225,41 @@ const notifications = {
       },
       web: {
         message: `A revision request was submitted for your design request ${params.designRequest.name}.`,
+        ctaText: 'View',
+        ctaUrl: `${appBaseUrl}/closet/designs/${params.designRequest.id}`,
+      },
+    }
+  },
+
+  'designRequestComment:created': (params: {
+    designRequest: DesignFactoryDesignRequest
+    designRequester: User
+    recipient: User
+  }): Notification => {
+    const template = DesignRequestCommentUserCreatedTemplate({
+      children: null,
+      designRequest: {
+        id: params.designRequest.id,
+        name: params.designRequest.name,
+        creatorName:
+          params.designRequester.name || params.designRequester.email || '',
+        submittedAt: params.designRequest.createdAt.toISOString(),
+        expectedCompletionTime: null,
+      },
+      recipient: {
+        name: params.recipient.name,
+      },
+      previewText: `A comment was left on your design request ${params.designRequest.name}.`,
+    })
+
+    return {
+      email: {
+        subject: 'A comment was made!',
+        htmlBody: render(template),
+        textBody: render(template, { plainText: true }),
+      },
+      web: {
+        message: `A comment was left on your design request ${params.designRequest.name}.`,
         ctaText: 'View',
         ctaUrl: `${appBaseUrl}/closet/designs/${params.designRequest.id}`,
       },

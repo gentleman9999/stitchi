@@ -14,6 +14,8 @@ import {
 import { makeClient as makeUserCilent, UserService } from '../../user'
 import { DesignRequestStatus } from '../db/design-request-table'
 import { DesignFactoryDesignRequest } from '../factory'
+
+import { designRequestApproved } from './transitions/design-request-approved'
 import { designRequestRejected } from './transitions/design-request-rejected'
 import { designRequestSubmitted } from './transitions/design-request-submitted'
 
@@ -145,6 +147,17 @@ const makeHandler =
       nextDesignRequest.status === DesignRequestStatus.REJECTED
     ) {
       await designRequestRejected(nextDesignRequest, {
+        membershipClient,
+        notificationClient,
+        userClient,
+      })
+    }
+
+    if (
+      prevDesignRequest.status !== DesignRequestStatus.APPROVED &&
+      nextDesignRequest.status === DesignRequestStatus.APPROVED
+    ) {
+      await designRequestApproved(nextDesignRequest, {
         membershipClient,
         notificationClient,
         userClient,
