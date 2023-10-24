@@ -11,7 +11,7 @@ import DesignRequestProofUserCreatedTemplate from '../../../../../email-template
 import DesignRequestUserRevisionRequestCreatedTemplate from '../../../../../email-template-composer/emails/design-request-user-revision-request-created'
 import DesignRequestUserRejectedTemplate from '../../../../../email-template-composer/emails/design-request-user-rejected'
 import DesignRequestUserApprovedTemplate from '../../../../../email-template-composer/emails/design-request-user-approved'
-import DesignRequestCommentUserCreatedTemplate from '../../../../../email-template-composer/emails/design-request-comment-user-created'
+import DesignRequestCommentUserCreatedTemplate from '../../../../../email-template-composer/emails/design-request-user-comment-created'
 
 import { MembershipFactoryMembership } from '../../membership/factory/membership'
 
