@@ -126,7 +126,7 @@ export const designRequestSubmitted = async (
 
   try {
     await notificationClient.sendNotification(
-      'designRequest:submitted:user',
+      'designRequest:submitted',
       {
         designRequest,
         designRequester,

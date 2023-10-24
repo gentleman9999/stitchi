@@ -159,6 +159,10 @@ const makeClient: MakeClientFn = (
         throw new Error('Failed to get notification topic')
       }
 
+      if (!membershipIds.length) {
+        return existingNotificationTopic
+      }
+
       let notificationTopic
 
       try {
@@ -199,6 +203,10 @@ const makeClient: MakeClientFn = (
         }
       } catch (error) {
         throw new Error('Failed to get notification topic')
+      }
+
+      if (!membershipIds.length) {
+        return existingNotificationTopic
       }
 
       let notificationTopic

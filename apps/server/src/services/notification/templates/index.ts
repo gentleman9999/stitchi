@@ -51,7 +51,7 @@ const notifications = {
     }
   },
 
-  'designRequest:submitted:user': (params: {
+  'designRequest:submitted': (params: {
     designRequest: DesignFactoryDesignRequest
     designRequester: User
     recipient: User
@@ -85,7 +85,7 @@ const notifications = {
     }
   },
 
-  'designRequestProof:created:user': (params: {
+  'designRequestProof:created': (params: {
     designRequest: DesignFactoryDesignRequest
     designRequester: User
     recipient: User
@@ -120,7 +120,7 @@ const notifications = {
     }
   },
 
-  'designRequestRevision:created:user': (params: {
+  'designRequestRevision:created': (params: {
     designRequest: DesignFactoryDesignRequest
     designRequester: User
     recipient: User

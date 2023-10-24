@@ -65,7 +65,18 @@ const makeCreateDesignProof: MakeCreateDesignProofFn =
     },
   ) =>
   async input => {
-    const validInput = await inputSchema.validate(input.designProof)
+    let validInput
+    try {
+      validInput = await inputSchema.validate(input.designProof)
+    } catch (error) {
+      logger
+        .child({
+          context: { error, input },
+        })
+        .error(`Failed to validate input: ${input}`)
+
+      throw new Error('Failed to validate input')
+    }
 
     let designProof
 

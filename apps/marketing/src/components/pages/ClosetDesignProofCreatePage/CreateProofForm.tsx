@@ -18,7 +18,7 @@ const locationSchema = yup
   .shape({
     fileId: fileSchema.required(),
     placement: yup.string().required().label('Placement'),
-    colorCount: yup.number().nullable().label('Color count'),
+    colorCount: yup.number().min(0).nullable().label('Color count'),
   })
   .label('Print location')
 
