@@ -7,7 +7,8 @@ import { OrganizationRecord } from '../../organization/db/organization-table'
 
 import { render } from '@react-email/render'
 import DesignRequestUserCreatedTemplate from '../../../../../email-template-composer/emails/design-request-user-created'
-import DesignRequestProofCreatedTemplate from '../../../../../email-template-composer/emails/design-request-user-proof-created'
+import DesignRequestProofUserCreatedTemplate from '../../../../../email-template-composer/emails/design-request-user-proof-created'
+import DesignRequestUserRevisionRequestCreatedTemplate from '../../../../../email-template-composer/emails/design-request-user-revision-request-created'
 
 import { MembershipFactoryMembership } from '../../membership/factory/membership'
 
@@ -89,7 +90,7 @@ const notifications = {
     designRequester: User
     recipient: User
   }): Notification => {
-    const template = DesignRequestProofCreatedTemplate({
+    const template = DesignRequestProofUserCreatedTemplate({
       children: null,
       designRequest: {
         id: params.designRequest.id,
@@ -113,6 +114,41 @@ const notifications = {
       },
       web: {
         message: `A design proof was submitted for your design request ${params.designRequest.name}.`,
+        ctaText: 'View',
+        ctaUrl: `${appBaseUrl}/closet/designs/${params.designRequest.id}`,
+      },
+    }
+  },
+
+  'designRequestRevision:created': (params: {
+    designRequest: DesignFactoryDesignRequest
+    designRequester: User
+    recipient: User
+  }): Notification => {
+    const template = DesignRequestUserRevisionRequestCreatedTemplate({
+      children: null,
+      designRequest: {
+        id: params.designRequest.id,
+        name: params.designRequest.name,
+        creatorName:
+          params.designRequester.name || params.designRequester.email || '',
+        submittedAt: params.designRequest.createdAt.toISOString(),
+        expectedCompletionTime: null,
+      },
+      recipient: {
+        name: params.recipient.name,
+      },
+      previewText: `A revision request was submitted for your design request ${params.designRequest.name}.`,
+    })
+
+    return {
+      email: {
+        subject: 'A revision request was submitted!',
+        htmlBody: render(template),
+        textBody: render(template, { plainText: true }),
+      },
+      web: {
+        message: `A revision request was submitted for your design request ${params.designRequest.name}.`,
         ctaText: 'View',
         ctaUrl: `${appBaseUrl}/closet/designs/${params.designRequest.id}`,
       },
