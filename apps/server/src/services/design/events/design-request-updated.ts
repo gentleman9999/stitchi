@@ -1,3 +1,4 @@
+import { logger } from '../../../telemetry'
 import {
   ConversationService,
   makeClient as makeConversationServiceClient,
@@ -71,6 +72,89 @@ const makeHandler =
         membershipClient,
         userClient,
       })
+    }
+
+    if (
+      prevDesignRequest.revisionRequests.length <
+      nextDesignRequest.revisionRequests.length
+    ) {
+      // TODO: Send notification to artist that revision has been requested
+      // Send notification to requester that revision has been requested
+
+      const topicKey = `designRequest:${nextDesignRequest.id}`
+
+      if (!nextDesignRequest.membershipId) {
+        logger
+          .child({
+            context: {
+              designRequest: nextDesignRequest,
+            },
+          })
+          .error(
+            `Membership not found for submitted design request ${nextDesignRequest.id}. This should not happen.`,
+          )
+        return
+      }
+
+      let membership
+
+      try {
+        membership = await membershipClient.getMembership({
+          membershipId: nextDesignRequest.membershipId,
+        })
+
+        if (!membership) {
+          logger
+            .child({
+              context: {
+                designRequest: nextDesignRequest,
+              },
+            })
+            .error(
+              `Membership not found for submitted design request ${nextDesignRequest.id}. This should not happen.`,
+            )
+          return
+        }
+      } catch (error) {
+        logger.error(error)
+        throw new Error('Failed to get membership')
+      }
+
+      if (!membership.userId) {
+        logger
+          .child({
+            context: {
+              designRequest: nextDesignRequest,
+            },
+          })
+          .error(
+            `User not found for submitted design request ${nextDesignRequest.id}. This should not happen.`,
+          )
+        return
+      }
+
+      let designRequester
+
+      try {
+        designRequester = await userClient.getUser({
+          id: membership.userId,
+        })
+      } catch (error) {
+        logger.error(error)
+        throw new Error('Failed to get user')
+      }
+
+      try {
+        await notificationClient.sendNotification(
+          'designRequestRevision:created:user',
+          { designRequest: nextDesignRequest, designRequester },
+          { topicKey },
+        )
+      } catch (error) {
+        logger
+          .child({ context: { error, designRequest: nextDesignRequest } })
+          .error('Failed to send notification')
+      }
     }
   }
 

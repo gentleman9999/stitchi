@@ -136,7 +136,7 @@ const makeHandler =
 
     try {
       await notificationService.sendNotification(
-        'designRequestProof:created',
+        'designRequestProof:created:user',
         {
           designRequest,
           designRequester,

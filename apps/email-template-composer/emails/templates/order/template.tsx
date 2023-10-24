@@ -71,7 +71,7 @@ const OrderTemplate = ({
             : children}
 
           <Section className="text-center mt-8">
-            <Button href={`${baseUrl}/api/notifications/order/${order.id}`}>
+            <Button href={`${baseUrl}/api/notifications/orders/${order.id}`}>
               View order
             </Button>
           </Section>
