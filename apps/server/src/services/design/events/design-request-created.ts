@@ -6,6 +6,11 @@ import {
   NotificationClientService,
   makeClient as makeNotificationClientServiceClient,
 } from '../../notification'
+import { makeClient as makeUserCilent, UserService } from '../../user'
+import {
+  makeClient as makeMembershipClient,
+  MembershipService,
+} from '../../membership'
 import { DesignRequestStatus } from '../db/design-request-table'
 import { DesignFactoryDesignRequest } from '../factory'
 import { designRequestSubmitted } from './transitions/design-request-submitted'
@@ -17,6 +22,8 @@ export interface DesignRequestCreatedEventPayload {
 interface MakeHandlerParams {
   conversationClient: ConversationService
   notificationClient: NotificationClientService
+  userClient: UserService
+  membershipClient: MembershipService
 }
 
 interface DesignRequestCreatedHandler {
@@ -25,9 +32,16 @@ interface DesignRequestCreatedHandler {
 
 const makeHandler =
   (
-    { conversationClient, notificationClient }: MakeHandlerParams = {
+    {
+      conversationClient,
+      notificationClient,
+      membershipClient,
+      userClient,
+    }: MakeHandlerParams = {
       conversationClient: makeConversationServiceClient(),
       notificationClient: makeNotificationClientServiceClient(),
+      userClient: makeUserCilent(),
+      membershipClient: makeMembershipClient(),
     },
   ): DesignRequestCreatedHandler =>
   async ({ nextDesignRequest }) => {
@@ -35,6 +49,8 @@ const makeHandler =
       await designRequestSubmitted(nextDesignRequest, {
         conversationClient,
         notificationClient,
+        membershipClient,
+        userClient,
       })
     }
   }

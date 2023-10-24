@@ -51,29 +51,31 @@ const notifications = {
 
   'designRequest:submitted': (params: {
     designRequest: DesignFactoryDesignRequest
+    designRequester: User
     membership: MembershipFactoryMembership
     user: User
   }): Notification => {
+    const template = DesignRequestUserCreatedTemplate({
+      // the email template reads "Hi <name>,"
+      recipient: { name: params.user.name || 'there' },
+      designRequest: {
+        id: params.designRequest.id,
+        name: params.designRequest.name,
+        // TODO(custompro98): name and email aren't required, this ends up showing up as empty
+        creatorName:
+          params.designRequester.name || params.designRequester.email || '',
+        submittedAt: params.designRequest.createdAt.toISOString(),
+        expectedCompletionTime: null,
+      },
+      previewText: `Your design request ${params.designRequest.name} has been submitted and will be reviewed by an artist shortly.`,
+      children: null,
+    })
+
     return {
       email: {
         subject: `Design request submitted`,
-        htmlBody: render(
-          DesignRequestUserCreatedTemplate({
-            // the email template reads "Hi <name>,"
-            recipient: { name: params.user.name || 'there' },
-            designRequest: {
-              id: params.designRequest.id,
-              name: params.designRequest.name,
-              // TODO(custompro98): name and email aren't required, this ends up showing up as empty
-              creatorName: params.membership.invitedName || params.membership.invitedEmail || '',
-              submittedAt: params.designRequest.createdAt.toISOString(),
-              expectedCompletionTime: null,
-            },
-            previewText: `Your design request ${params.designRequest.name} has been submitted and will be reviewed by an artist shortly.`,
-            children: null,
-          }),
-        ),
-        textBody: `Your design request ${params.designRequest.name} has been submitted and will be reviewed by an artist shortly.`,
+        htmlBody: render(template),
+        textBody: render(template, { plainText: true }),
       },
       web: {
         message: `Your design request ${params.designRequest.name} has been submitted and will be reviewed by an artist shortly.`,
