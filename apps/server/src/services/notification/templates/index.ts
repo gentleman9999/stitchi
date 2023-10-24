@@ -9,6 +9,7 @@ import { render } from '@react-email/render'
 import DesignRequestUserCreatedTemplate from '../../../../../email-template-composer/emails/design-request-user-created'
 import DesignRequestProofUserCreatedTemplate from '../../../../../email-template-composer/emails/design-request-user-proof-created'
 import DesignRequestUserRevisionRequestCreatedTemplate from '../../../../../email-template-composer/emails/design-request-user-revision-request-created'
+import DesignRequestUserRejectedTemplate from '../../../../../email-template-composer/emails/design-request-user-rejected'
 
 import { MembershipFactoryMembership } from '../../membership/factory/membership'
 
@@ -79,6 +80,44 @@ const notifications = {
       },
       web: {
         message: `Your design request ${params.designRequest.name} has been submitted and will be reviewed by an artist shortly.`,
+        ctaText: 'View',
+        ctaUrl: `${appBaseUrl}/closet/designs/${params.designRequest.id}`,
+      },
+    }
+  },
+
+  'designRequest:rejected': (params: {
+    designRequest: DesignFactoryDesignRequest
+    designRequester: User
+    recipient: User
+  }): Notification => {
+    const template = DesignRequestUserRejectedTemplate({
+      children: null,
+      reason:
+        // TODO: Implement support for adding a reason
+        "Please check the design request's conversation for more details.",
+      designRequest: {
+        id: params.designRequest.id,
+        name: params.designRequest.name,
+        creatorName:
+          params.designRequester.name || params.designRequester.email || '',
+        submittedAt: params.designRequest.createdAt.toISOString(),
+        expectedCompletionTime: null,
+      },
+      recipient: {
+        name: params.recipient.name,
+      },
+      previewText: `Your design request ${params.designRequest.name} has been rejected.`,
+    })
+
+    return {
+      email: {
+        subject: 'Design request rejected',
+        htmlBody: render(template),
+        textBody: render(template, { plainText: true }),
+      },
+      web: {
+        message: `Your design request ${params.designRequest.name} has been rejected.`,
         ctaText: 'View',
         ctaUrl: `${appBaseUrl}/closet/designs/${params.designRequest.id}`,
       },
