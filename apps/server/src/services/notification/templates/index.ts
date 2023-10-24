@@ -7,6 +7,8 @@ import { OrganizationRecord } from '../../organization/db/organization-table'
 
 import { render } from '@react-email/render'
 import DesignRequestUserCreatedTemplate from '../../../../../email-template-composer/emails/design-request-user-created'
+import DesignRequestProofCreatedTemplate from '../../../../../email-template-composer/emails/design-request-user-proof-created'
+
 import { MembershipFactoryMembership } from '../../membership/factory/membership'
 
 const appBaseUrl = getOrThrow(
@@ -55,11 +57,10 @@ const notifications = {
   }): Notification => {
     const template = DesignRequestUserCreatedTemplate({
       // the email template reads "Hi <name>,"
-      recipient: { name: params.recipient.name || 'there' },
+      recipient: { name: params.recipient.name },
       designRequest: {
         id: params.designRequest.id,
         name: params.designRequest.name,
-        // TODO(custompro98): name and email aren't required, this ends up showing up as empty
         creatorName:
           params.designRequester.name || params.designRequester.email || '',
         submittedAt: params.designRequest.createdAt.toISOString(),
@@ -85,13 +86,30 @@ const notifications = {
 
   'designRequestProof:created': (params: {
     designRequest: DesignFactoryDesignRequest
+    designRequester: User
     recipient: User
   }): Notification => {
+    const template = DesignRequestProofCreatedTemplate({
+      children: null,
+      designRequest: {
+        id: params.designRequest.id,
+        name: params.designRequest.name,
+        creatorName:
+          params.designRequester.name || params.designRequester.email || '',
+        submittedAt: params.designRequest.createdAt.toISOString(),
+        expectedCompletionTime: null,
+      },
+      recipient: {
+        name: params.recipient.name,
+      },
+      previewText: `A design proof was submitted for your design request ${params.designRequest.name}.`,
+    })
+
     return {
       email: {
         subject: 'A design proof was submitted!',
-        htmlBody: `A design proof was submitted for your design request ${params.designRequest.name}.`,
-        textBody: `A design proof was submitted for your design request ${params.designRequest.name}.`,
+        htmlBody: render(template),
+        textBody: render(template, { plainText: true }),
       },
       web: {
         message: `A design proof was submitted for your design request ${params.designRequest.name}.`,
