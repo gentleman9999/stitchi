@@ -18,7 +18,7 @@ type SendNotificationFn = <T extends NotificationKey>(
   notificationKey: T,
   notificationParams: Omit<
     Parameters<(typeof notifications)[T]>[0],
-    'membership' | 'user'
+    'recipient'
   >,
   recipient: {
     topicKey?: string
@@ -106,8 +106,7 @@ const makeMethod: MakeMethodFn =
       // Get the notification (which includes it's channels)
       const notification = notifications[notificationKey]({
         ...notificationParams,
-        membership,
-        user,
+        recipient: user,
       } as any)
 
       let channels: NotificationFactoryNotificationChannel[] = []

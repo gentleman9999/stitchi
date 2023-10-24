@@ -2,12 +2,12 @@ import { User } from 'auth0'
 import { logger } from '../../../telemetry'
 import { getOrThrow } from '../../../utils'
 import { DesignFactoryDesignRequest } from '../../design/factory'
-import { MembershipFactoryMembership } from '../../membership/factory/membership'
 import { OrderFactoryOrder } from '../../order/factory'
 import { OrganizationRecord } from '../../organization/db/organization-table'
 
 import { render } from '@react-email/render'
 import DesignRequestUserCreatedTemplate from '../../../../../email-template-composer/emails/design-request-user-created'
+import { MembershipFactoryMembership } from '../../membership/factory/membership'
 
 const appBaseUrl = getOrThrow(
   process.env.STITCHI_MARKETING_APPLICATION_HOST,
@@ -32,8 +32,7 @@ interface Notification {
 const notifications = {
   'order:confirmed': (params: {
     order: OrderFactoryOrder
-    membership: MembershipFactoryMembership
-    user: User
+    recipient: User
   }): Notification => {
     return {
       email: {
@@ -52,12 +51,11 @@ const notifications = {
   'designRequest:submitted': (params: {
     designRequest: DesignFactoryDesignRequest
     designRequester: User
-    membership: MembershipFactoryMembership
-    user: User
+    recipient: User
   }): Notification => {
     const template = DesignRequestUserCreatedTemplate({
       // the email template reads "Hi <name>,"
-      recipient: { name: params.user.name || 'there' },
+      recipient: { name: params.recipient.name || 'there' },
       designRequest: {
         id: params.designRequest.id,
         name: params.designRequest.name,
@@ -87,8 +85,7 @@ const notifications = {
 
   'designRequestProof:created': (params: {
     designRequest: DesignFactoryDesignRequest
-    membership: MembershipFactoryMembership
-    user: User
+    recipient: User
   }): Notification => {
     return {
       email: {
