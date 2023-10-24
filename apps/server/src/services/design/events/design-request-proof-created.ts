@@ -1,9 +1,14 @@
 import { logger } from '../../../telemetry'
+import {
+  makeClient as makeMembershipClient,
+  MembershipService,
+} from '../../membership'
 
 import {
   NotificationClientService,
   makeClient as makeNotificationClientServiceClient,
 } from '../../notification'
+import { makeClient as makeUserClient, UserService } from '../../user'
 import { DesignFactoryProof } from '../factory'
 import makeDesignRepository, { DesignRepository } from '../repository'
 
@@ -14,6 +19,8 @@ export interface DesignProofCreatedEventPayload {
 interface MakeHandlerParams {
   designRepository: DesignRepository
   notificationService: NotificationClientService
+  membershipService: MembershipService
+  userService: UserService
 }
 
 interface DesignProofCreatedHandler {
@@ -22,9 +29,16 @@ interface DesignProofCreatedHandler {
 
 const makeHandler =
   (
-    { notificationService, designRepository }: MakeHandlerParams = {
+    {
+      notificationService,
+      designRepository,
+      userService,
+      membershipService,
+    }: MakeHandlerParams = {
       designRepository: makeDesignRepository(),
       notificationService: makeNotificationClientServiceClient(),
+      membershipService: makeMembershipClient(),
+      userService: makeUserClient(),
     },
   ): DesignProofCreatedHandler =>
   async ({ nextDesignProof }) => {
@@ -59,11 +73,73 @@ const makeHandler =
       throw new Error('Failed to get design request')
     }
 
+    if (!designRequest.membershipId) {
+      logger
+        .child({
+          context: {
+            designRequest: designRequest,
+          },
+        })
+        .error(
+          `Membership not found for submitted design request ${designRequest.id}. This should not happen.`,
+        )
+      return
+    }
+
+    let membership
+
+    try {
+      membership = await membershipService.getMembership({
+        membershipId: designRequest.membershipId,
+      })
+
+      if (!membership) {
+        logger
+          .child({
+            context: {
+              designRequest: designRequest,
+            },
+          })
+          .error(
+            `Membership not found for submitted design request ${designRequest.id}. This should not happen.`,
+          )
+        return
+      }
+    } catch (error) {
+      logger.error(error)
+      throw new Error('Failed to get membership')
+    }
+
+    if (!membership.userId) {
+      logger
+        .child({
+          context: {
+            designRequest: designRequest,
+          },
+        })
+        .error(
+          `User not found for submitted design request ${designRequest.id}. This should not happen.`,
+        )
+      return
+    }
+
+    let designRequester
+
+    try {
+      designRequester = await userService.getUser({
+        id: membership.userId,
+      })
+    } catch (error) {
+      logger.error(error)
+      throw new Error('Failed to get user')
+    }
+
     try {
       await notificationService.sendNotification(
         'designRequestProof:created',
         {
           designRequest,
+          designRequester,
         },
         {
           topicKey: `designRequest:${designRequest.id}`,

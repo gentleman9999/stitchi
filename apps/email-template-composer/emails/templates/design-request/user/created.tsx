@@ -20,7 +20,7 @@ const DesignRequestUserCreatedTemplate = ({
       {({ designRequest, recipient }) => (
         <>
           <Paragraph>
-            Hi {recipient.name},
+            Hi {recipient.name || 'there'},
             <br />
             <br />A new design request has been submitted.
           </Paragraph>

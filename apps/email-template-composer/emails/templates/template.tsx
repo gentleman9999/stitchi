@@ -20,7 +20,7 @@ import { baseUrl } from '../environment'
 import InlineLink from '../components/InlineLink'
 
 export interface Recipient {
-  name: string
+  name?: string | null
 }
 
 export interface Props {
@@ -37,7 +37,7 @@ export interface Props {
 }
 
 const EmailTemplate = ({
-  recipient = { name: 'Richard Hendricks' },
+  recipient = { name: 'there' },
   templateName = 'Template name',
   previewText = '',
   children,
