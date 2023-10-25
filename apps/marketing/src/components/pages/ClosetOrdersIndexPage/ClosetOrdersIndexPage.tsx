@@ -86,7 +86,7 @@ const ClosetOrdersIndexPage = (props: Props) => {
     <ClosetPageContainer>
       <ClosetPageHeader>
         <ClosetPageTitle
-          title="Inventory"
+          title="Orders"
           description=""
           // actions={
           //   <ClosetPageActions
