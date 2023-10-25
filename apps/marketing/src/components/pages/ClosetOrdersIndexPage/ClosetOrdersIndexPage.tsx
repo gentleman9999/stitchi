@@ -8,11 +8,7 @@ import { notEmpty } from '@lib/utils/typescript'
 import ClosetOrdersDesktopTable from './ClosetOrdersDesktopTable'
 import ClosetOrdersMobileTable from './ClosetOrdersMobileTable'
 import ClosetOrdersTableFilters from './ClosetOrdersTableFilters'
-import {
-  MembershipOrdersFilterInput,
-  ScopeAction,
-  ScopeResource,
-} from '@generated/globalTypes'
+import { MembershipOrdersFilterInput } from '@generated/globalTypes'
 import { useDebouncedCallback } from 'use-debounce'
 import { useQueryState } from 'next-usequerystate'
 import ClosetPageTitle from '@components/common/ClosetPageTitle'
@@ -106,33 +102,7 @@ const ClosetOrdersIndexPage = (props: Props) => {
         />
       </ClosetPageHeader>
 
-      <ClosetSection
-        tabs={[
-          {
-            id: 'inventory',
-            label: 'Inventory',
-            href: routes.internal.closet.inventory.href(),
-          },
-          {
-            id: 'orders',
-            label: 'Orders',
-            href: routes.internal.closet.orders.href(),
-          },
-          // ...(can(ScopeResource.Integration, ScopeAction.READ)
-          //   ? [
-          //       {
-          //         id: 'integrations',
-          //         label: 'Integrations',
-          //         href: routes.internal.closet.integrations.href(),
-          //       },
-          //     ]
-          //   : []),
-        ]}
-      >
-        <ClosetSectionHeader>
-          <ClosetSectionHeaderTabs />
-        </ClosetSectionHeader>
-
+      <ClosetSection>
         {!loading && !hasOrders ? (
           <ClosetPageEmptyState
             title="Start your first order"

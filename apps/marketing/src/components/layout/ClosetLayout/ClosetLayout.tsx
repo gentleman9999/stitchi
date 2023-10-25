@@ -7,9 +7,9 @@ import { useRouter } from 'next/router'
 import cx from 'classnames'
 import React from 'react'
 import { ClosetLayoutContextProvider } from './closet-layout-context'
-import SideBar from './SideBar'
 import AppTopbar from '../AppTopbar/AppTopbar'
 import Link from 'next/link'
+import Navigation from './Navigation'
 
 interface Props {
   children: React.ReactNode
@@ -92,7 +92,7 @@ const ClosetLayout = (props: Props) => {
               },
             )}
           >
-            <SideBar membership={data?.viewer} />
+            <Navigation membership={data.viewer} />
           </nav>
 
           <main className="overflow-auto w-full z-0 bg-gray-50 min-h-[calc(100vh-56px)] relative">
@@ -105,13 +105,13 @@ const ClosetLayout = (props: Props) => {
 }
 
 const GET_DATA = gql`
-  ${SideBar.fragments.membership}
   ${AppTopbar.fragments.membership}
+  ${Navigation.fragments.membership}
   query ClosetLayoutGetDataQuery {
     viewer {
       id
-      ...SideBarMembershipFragment
       ...AppTopbarMembershipFragment
+      ...ClosetLayoutNavigationMembershipFragment
     }
   }
 `

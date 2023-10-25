@@ -10,6 +10,7 @@ const NavItem = ({
   active,
   onClick,
   indicator,
+  hidden,
   LinkComponent = Link,
   ...rest
 }: (NavItem | Omit<SubNavItem, 'type'>) & {
@@ -18,6 +19,10 @@ const NavItem = ({
   indicator?: boolean
 }) => {
   const external = 'external' in rest && rest.external
+
+  if (hidden) {
+    return null
+  }
 
   return (
     <LinkComponent
