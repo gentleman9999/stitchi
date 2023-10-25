@@ -1,4 +1,5 @@
 import { gql, useMutation } from '@apollo/client'
+import { SubscriberListEnum } from '@generated/globalTypes'
 import {
   UseSubscribeInlineSubscribeMutation,
   UseSubscribeInlineSubscribeMutationVariables,
@@ -12,7 +13,9 @@ const useSubscribeInline = () => {
 
   const handleSubscribe = async (input: { email: string }) => {
     const res = await subscribe({
-      variables: { input },
+      variables: {
+        input: { ...input, lists: [SubscriberListEnum.NEWSLETTER_SUBSCRIBER] },
+      },
     })
 
     return res.data?.subscriberCreate?.subscriber

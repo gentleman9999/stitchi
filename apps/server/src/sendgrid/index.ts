@@ -19,9 +19,15 @@ const SENDGRID_NEWSLETTER_SUBSCRIBER_MAILING_LIST_ID = getOrThrow(
   'SENDGRID_NEWSLETTER_SUBSCRIBER_MAILING_LIST_ID',
 )
 
+const SENDGRID_STUDENT_MERCH_DOWNLOAD_MAILING_LIST_ID = getOrThrow(
+  process.env.SENDGRID_STUDENT_MERCH_DOWNLOAD_MAILING_LIST_ID,
+  'SENDGRID_STUDENT_MERCH_DOWNLOAD_MAILING_LIST_ID',
+)
+
 export enum SendgridMarketingEmailList {
   NEW_USER = 'NEW_USER',
   NEWSLETTER_SUBSCRIBER = 'NEWSLETTER_SUBSCRIBER',
+  STUDENT_MERCH_DOWNLOAD = 'STUDENT_MERCH_DOWNLOAD',
 }
 
 const personalizationSchema = yup
@@ -227,6 +233,8 @@ const listEnumToId = (list: SendgridMarketingEmailList) => {
       return SENDGRID_NEW_USER_MAILING_LIST_ID
     case SendgridMarketingEmailList.NEWSLETTER_SUBSCRIBER:
       return SENDGRID_NEWSLETTER_SUBSCRIBER_MAILING_LIST_ID
+    case SendgridMarketingEmailList.STUDENT_MERCH_DOWNLOAD:
+      return SENDGRID_STUDENT_MERCH_DOWNLOAD_MAILING_LIST_ID
     default:
       throw new Error(`Invalid list: ${list}`)
   }

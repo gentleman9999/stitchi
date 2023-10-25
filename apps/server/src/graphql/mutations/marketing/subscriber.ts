@@ -1,10 +1,18 @@
-import { inputObjectType, mutationField, nonNull } from 'nexus'
+import { enumType, inputObjectType, mutationField, nonNull } from 'nexus'
 import { SendgridMarketingEmailList } from '../../../sendgrid'
+
+export const SubscriberListEnum = enumType({
+  name: 'SubscriberListEnum',
+  members: Object.values(SendgridMarketingEmailList),
+})
 
 export const SubscriberCreateInput = inputObjectType({
   name: 'SubscriberCreateInput',
   definition(t) {
     t.nonNull.string('email')
+    t.nonNull.list.nonNull.field('lists', {
+      type: 'SubscriberListEnum',
+    })
   },
 })
 
@@ -48,7 +56,7 @@ export const subscriberCreate = mutationField('subscriberCreate', {
 
     try {
       await ctx.sendgrid.addMarketingContacts({
-        lists: [SendgridMarketingEmailList.NEWSLETTER_SUBSCRIBER],
+        lists: input.lists.map(list => SendgridMarketingEmailList[list]),
         contacts: [
           {
             customFields,

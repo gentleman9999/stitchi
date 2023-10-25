@@ -74,7 +74,7 @@ export default function useNewsletterSubscribeForm() {
 
 const UseNewsletterSubscribe = gql(/* GraphQL */ `
   mutation UseNewsletterSubscribe($email: String!) {
-    subscriberCreate(input: { email: $email }) {
+    subscriberCreate(input: { email: $email, lists: [NEWSLETTER_SUBSCRIBER] }) {
       subscriber {
         id
         email

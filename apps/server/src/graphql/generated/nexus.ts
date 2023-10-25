@@ -327,6 +327,7 @@ export interface NexusGenInputs {
   }
   SubscriberCreateInput: { // input type
     email: string; // String!
+    lists: NexusGenEnums['SubscriberListEnum'][]; // [SubscriberListEnum!]!
   }
   UserOnboardingUpdateInput: { // input type
     seenDesignRequestDraftOnboarding?: boolean | null; // Boolean
@@ -354,6 +355,7 @@ export interface NexusGenEnums {
   ScopeAction: "CREATE" | "DELETE" | "READ" | "UPDATE"
   ScopeModifier: "ALL" | "OWN"
   ScopeResource: "DesignProduct" | "DesignProof" | "DesignRequest" | "DesignRequestRevisionRequest" | "Integration" | "Membership" | "Order" | "Organization"
+  SubscriberListEnum: "NEWSLETTER_SUBSCRIBER" | "NEW_USER" | "STUDENT_MERCH_DOWNLOAD"
 }
 
 export interface NexusGenScalars {

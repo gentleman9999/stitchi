@@ -96,6 +96,12 @@ export enum ScopeResource {
   Organization = "Organization",
 }
 
+export enum SubscriberListEnum {
+  NEWSLETTER_SUBSCRIBER = "NEWSLETTER_SUBSCRIBER",
+  NEW_USER = "NEW_USER",
+  STUDENT_MERCH_DOWNLOAD = "STUDENT_MERCH_DOWNLOAD",
+}
+
 export interface ArticleModelFilter {
   _createdAt?: CreatedAtFilter | null;
   createdAt?: CreatedAtFilter | null;
@@ -573,6 +579,7 @@ export interface StructuredTextFilter {
 
 export interface SubscriberCreateInput {
   email: string;
+  lists: SubscriberListEnum[];
 }
 
 /**

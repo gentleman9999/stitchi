@@ -1371,10 +1371,17 @@ type Subscriber {
 
 input SubscriberCreateInput {
   email: String!
+  lists: [SubscriberListEnum!]!
 }
 
 type SubscriberCreatePayload {
   subscriber: Subscriber
+}
+
+enum SubscriberListEnum {
+  NEWSLETTER_SUBSCRIBER
+  NEW_USER
+  STUDENT_MERCH_DOWNLOAD
 }
 
 type Subscription {

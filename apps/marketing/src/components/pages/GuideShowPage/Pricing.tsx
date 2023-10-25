@@ -1,5 +1,11 @@
+import { gql, useMutation } from '@apollo/client'
 import { Section } from '@components/common'
 import { Button, Container } from '@components/ui'
+import { SubscriberListEnum } from '@generated/globalTypes'
+import {
+  GuideShowPageMarketingSubscribeMutation,
+  GuideShowPageMarketingSubscribeMutationVariables,
+} from '@generated/GuideShowPageMarketingSubscribeMutation'
 import { yupResolver } from '@hookform/resolvers/yup'
 import routes from '@lib/routes'
 import { useLogger } from 'next-axiom'
@@ -18,6 +24,11 @@ const Pricing = () => {
     defaultValues: { email: '' },
     resolver: yupResolver(schema),
   })
+
+  const [createSubscriber] = useMutation<
+    GuideShowPageMarketingSubscribeMutation,
+    GuideShowPageMarketingSubscribeMutationVariables
+  >(MARKETING_SUBSCRIBE)
 
   const handleSubmit = form.handleSubmit(async data => {
     setDownloading(true)
@@ -45,6 +56,15 @@ const Pricing = () => {
       document.body.appendChild(link)
       link.click()
       link.parentNode?.removeChild(link)
+
+      await createSubscriber({
+        variables: {
+          input: {
+            email: data.email,
+            lists: [SubscriberListEnum.STUDENT_MERCH_DOWNLOAD],
+          },
+        },
+      })
     } catch (error) {
       logger.error('Error downloading PDF', { error })
     } finally {
@@ -107,5 +127,17 @@ const Pricing = () => {
     </Section>
   )
 }
+
+const MARKETING_SUBSCRIBE = gql`
+  mutation GuideShowPageMarketingSubscribeMutation(
+    $input: SubscriberCreateInput!
+  ) {
+    subscriberCreate(input: $input) {
+      subscriber {
+        id
+      }
+    }
+  }
+`
 
 export default Pricing

@@ -1,7 +1,7 @@
 import { mutationType } from 'nexus'
 
 export * from './user'
-export * from './newsletter'
+export * from './marketing'
 export * from './design'
 export * from './file'
 export * from './order'
