@@ -88,7 +88,7 @@ const ClosetOrdersIndexPage = (props: Props) => {
                 {
                   label: 'New order',
                   primary: true,
-                  href: routes.internal.catalog.href(),
+                  href: routes.internal.closet.inventory.href(),
                 },
               ]}
             />
