@@ -11,7 +11,14 @@ export enum KeyValueRecordKey {
 }
 
 const userOnboardingSchema = yup.object().shape({
+  // Message we show first time a user sees a design request
   seenDesignRequestDraftOnboarding: yup.boolean(),
+
+  // Onboarding banner we show on the design hub / index page
+  seenDesignIndexPageOnboardingBanner: yup.boolean(),
+
+  // Onboarding banner we show on the inventory hub / index page
+  seenInventoryIndexPageOnboardingBanner: yup.boolean(),
 })
 
 const unauthenticatedUserStoreSchema = yup.object().shape({

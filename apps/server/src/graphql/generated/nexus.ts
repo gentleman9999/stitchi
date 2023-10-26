@@ -330,7 +330,9 @@ export interface NexusGenInputs {
     lists: NexusGenEnums['SubscriberListEnum'][]; // [SubscriberListEnum!]!
   }
   UserOnboardingUpdateInput: { // input type
+    seenDesignIndexPageOnboardingBanner?: boolean | null; // Boolean
     seenDesignRequestDraftOnboarding?: boolean | null; // Boolean
+    seenInventoryIndexPageOnboardingBanner?: boolean | null; // Boolean
   }
   UserOrganizationCreateInput: { // input type
     name: string; // String!
@@ -956,7 +958,9 @@ export interface NexusGenObjects {
   }
   UserOnboarding: { // root type
     id: string; // ID!
+    seenDesignIndexPageOnboardingBanner?: boolean | null; // Boolean
     seenDesignRequestDraftOnboarding?: boolean | null; // Boolean
+    seenInventoryIndexPageOnboardingBanner?: boolean | null; // Boolean
   }
   UserOnboardingUpdatePayload: { // root type
     userOnboarding?: NexusGenRootTypes['UserOnboarding'] | null; // UserOnboarding
@@ -1687,7 +1691,9 @@ export interface NexusGenFieldTypes {
   }
   UserOnboarding: { // field return type
     id: string; // ID!
+    seenDesignIndexPageOnboardingBanner: boolean | null; // Boolean
     seenDesignRequestDraftOnboarding: boolean | null; // Boolean
+    seenInventoryIndexPageOnboardingBanner: boolean | null; // Boolean
   }
   UserOnboardingUpdatePayload: { // field return type
     userOnboarding: NexusGenRootTypes['UserOnboarding'] | null; // UserOnboarding
@@ -2422,7 +2428,9 @@ export interface NexusGenFieldTypeNames {
   }
   UserOnboarding: { // field return type name
     id: 'ID'
+    seenDesignIndexPageOnboardingBanner: 'Boolean'
     seenDesignRequestDraftOnboarding: 'Boolean'
+    seenInventoryIndexPageOnboardingBanner: 'Boolean'
   }
   UserOnboardingUpdatePayload: { // field return type name
     userOnboarding: 'UserOnboarding'

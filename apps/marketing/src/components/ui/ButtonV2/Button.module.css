@@ -1,5 +1,5 @@
 .root {
-  @apply relative bg-gray-900 text-gray-50 text-center text-sm cursor-pointer inline-flex leading-none transition ease-in-out duration-150 shadow-sm justify-center border border-transparent items-center font-semibold tracking-normal rounded-md;
+  @apply relative bg-gray-900 text-gray-50 text-center text-sm cursor-pointer inline-flex leading-none transition ease-in-out duration-150 shadow-sm justify-center border border-transparent items-center font-semibold tracking-normal rounded-md whitespace-nowrap;
   max-height: 64px;
 
   &.brandColors {

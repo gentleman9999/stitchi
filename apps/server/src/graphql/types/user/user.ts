@@ -4,7 +4,19 @@ export const UserOnboarding = objectType({
   name: 'UserOnboarding',
   definition: t => {
     t.nonNull.id('id')
-    t.boolean('seenDesignRequestDraftOnboarding')
+
+    t.boolean('seenDesignRequestDraftOnboarding', {
+      description: 'Message we show first time a user sees a design request',
+    })
+
+    t.boolean('seenDesignIndexPageOnboardingBanner', {
+      description: 'Onboarding banner we show on the design hub / index page',
+    })
+
+    t.boolean('seenInventoryIndexPageOnboardingBanner', {
+      description:
+        'Onboarding banner we show on the inventory hub / index page',
+    })
   },
 })
 

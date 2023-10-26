@@ -10,6 +10,9 @@
 export interface ClosetDesignRequestShowPageGetViewerDataQuery_viewer_user_onboarding {
   __typename: "UserOnboarding";
   id: string;
+  /**
+   * Message we show first time a user sees a design request
+   */
   seenDesignRequestDraftOnboarding: boolean | null;
 }
 

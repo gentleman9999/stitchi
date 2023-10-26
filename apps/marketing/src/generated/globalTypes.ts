@@ -608,6 +608,8 @@ export interface UpdatedAtFilter {
 
 export interface UserOnboardingUpdateInput {
   seenDesignRequestDraftOnboarding?: boolean | null;
+  seenDesignIndexPageOnboardingBanner?: boolean | null;
+  seenInventoryIndexPageOnboardingBanner?: boolean | null;
 }
 
 export interface UserOrganizationCreateInput {

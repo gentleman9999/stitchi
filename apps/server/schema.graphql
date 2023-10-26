@@ -1415,11 +1415,21 @@ type UserLogoutPayload {
 
 type UserOnboarding {
   id: ID!
+
+  """Onboarding banner we show on the design hub / index page"""
+  seenDesignIndexPageOnboardingBanner: Boolean
+
+  """Message we show first time a user sees a design request"""
   seenDesignRequestDraftOnboarding: Boolean
+
+  """Onboarding banner we show on the inventory hub / index page"""
+  seenInventoryIndexPageOnboardingBanner: Boolean
 }
 
 input UserOnboardingUpdateInput {
+  seenDesignIndexPageOnboardingBanner: Boolean
   seenDesignRequestDraftOnboarding: Boolean
+  seenInventoryIndexPageOnboardingBanner: Boolean
 }
 
 type UserOnboardingUpdatePayload {

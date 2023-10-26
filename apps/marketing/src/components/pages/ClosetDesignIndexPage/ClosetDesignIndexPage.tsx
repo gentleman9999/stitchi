@@ -6,6 +6,7 @@ import ClosetPageTitle from '@components/common/ClosetPageTitle'
 import ClosetSection from '@components/common/ClosetSection'
 import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
 import ClosetSectionHeaderTabs from '@components/common/ClosetSectionHeaderTabs'
+
 import { ClosetDesignIndexPageGetDataQuery } from '@generated/ClosetDesignIndexPageGetDataQuery'
 import {
   MembershipRole,
@@ -19,6 +20,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { ClosetProvider } from './closet-context'
 import ClosetDesignFilters from './ClosetDesignFilters'
+import OnboardingActionPanel from './OnboardingActionPanel'
 
 const ClosetTabAll = dynamic(() => import('./ClosetTabAll'))
 const ClosetTabApprovedDesigns = dynamic(
@@ -66,6 +68,8 @@ const ClosetDesignIndexPage = ({}: Props) => {
             }
           />
         </ClosetPageHeader>
+
+        <OnboardingActionPanel />
 
         <ClosetDesignFilters />
 
