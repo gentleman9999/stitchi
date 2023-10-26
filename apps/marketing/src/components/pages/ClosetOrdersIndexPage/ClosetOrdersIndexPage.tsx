@@ -6,7 +6,6 @@ import {
 import React from 'react'
 import { notEmpty } from '@lib/utils/typescript'
 import ClosetOrdersDesktopTable from './ClosetOrdersDesktopTable'
-import ClosetOrdersMobileTable from './ClosetOrdersMobileTable'
 import ClosetOrdersTableFilters from './ClosetOrdersTableFilters'
 import { MembershipOrdersFilterInput } from '@generated/globalTypes'
 import { useDebouncedCallback } from 'use-debounce'
@@ -16,19 +15,14 @@ import ClosetPageContainer from '@components/common/ClosetPageContainer'
 import routes from '@lib/routes'
 import ClosetPageEmptyState from '@components/common/ClosetPageEmptyState'
 import TableZeroState from '@components/ui/Table/TableZeroState'
-import Table from '@components/ui/Table/Table'
 import ClosetPageActions from '@components/common/ClosetPageActions'
 import ClosetPageHeader from '@components/common/ClosetPageHeader'
 import ClosetSection from '@components/common/ClosetSection'
-import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
-import ClosetSectionHeaderTabs from '@components/common/ClosetSectionHeaderTabs'
-import { useAuthorizedComponent } from '@lib/auth'
+import { TableContainer } from '@components/ui/Table'
 
 interface Props {}
 
 const ClosetOrdersIndexPage = (props: Props) => {
-  const { can, loading: authorizationLoading } = useAuthorizedComponent()
-
   const [filter, setFilter] = useQueryState<
     MembershipOrdersFilterInput | undefined
   >('filter', {
@@ -88,17 +82,17 @@ const ClosetOrdersIndexPage = (props: Props) => {
         <ClosetPageTitle
           title="Orders"
           description=""
-          // actions={
-          //   <ClosetPageActions
-          //     actions={[
-          //       {
-          //         label: 'New order',
-          //         primary: true,
-          //         href: routes.internal.catalog.href(),
-          //       },
-          //     ]}
-          //   />
-          // }
+          actions={
+            <ClosetPageActions
+              actions={[
+                {
+                  label: 'New order',
+                  primary: true,
+                  href: routes.internal.catalog.href(),
+                },
+              ]}
+            />
+          }
         />
       </ClosetPageHeader>
 
@@ -113,7 +107,7 @@ const ClosetOrdersIndexPage = (props: Props) => {
             }}
           />
         ) : (
-          <>
+          <TableContainer loading={loading}>
             <ClosetOrdersTableFilters
               onChange={value => {
                 const { date, ...rest } = value
@@ -124,22 +118,12 @@ const ClosetOrdersIndexPage = (props: Props) => {
               }}
             />
 
-            <Table loading={loading}>
-              {!orders.length ? (
-                <TableZeroState />
-              ) : (
-                <>
-                  <div className="hidden md:block">
-                    <ClosetOrdersDesktopTable {...tableProps} />
-                  </div>
-
-                  <div className="md:hidden">
-                    <ClosetOrdersMobileTable {...tableProps} />
-                  </div>
-                </>
-              )}
-            </Table>
-          </>
+            {!orders.length ? (
+              <TableZeroState />
+            ) : (
+              <ClosetOrdersDesktopTable {...tableProps} />
+            )}
+          </TableContainer>
         )}
       </ClosetSection>
     </ClosetPageContainer>
@@ -148,7 +132,6 @@ const ClosetOrdersIndexPage = (props: Props) => {
 
 const GET_DATA = gql`
   ${ClosetOrdersDesktopTable.fragments.order}
-  ${ClosetOrdersMobileTable.fragments.order}
   query ClosetOrdersIndexPageGetDataQuery(
     $filter: MembershipOrdersFilterInput
   ) {
@@ -160,7 +143,6 @@ const GET_DATA = gql`
           node {
             id
             ...ClosetOrdersDesktopTableOrderFragment
-            ...ClosetOrdersMobileTableOrderFragment
           }
         }
         pageInfo {

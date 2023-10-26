@@ -1,0 +1,14 @@
+.table {
+    @apply w-full;
+
+
+    th:first-child,
+    tr>td:first-child {
+        @apply px-6;
+    }
+
+    th:last-child,
+    tr>td:last-child {
+        @apply pr-6;
+    }
+}

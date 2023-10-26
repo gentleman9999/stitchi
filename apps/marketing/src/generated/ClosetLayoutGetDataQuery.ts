@@ -24,10 +24,10 @@ export interface ClosetLayoutGetDataQuery_viewer_user {
 export interface ClosetLayoutGetDataQuery_viewer {
   __typename: "Membership";
   id: string;
-  unseenWebNotificationsCount: number;
   humanizedRole: string | null;
   organization: ClosetLayoutGetDataQuery_viewer_organization;
   user: ClosetLayoutGetDataQuery_viewer_user | null;
+  unseenWebNotificationsCount: number;
 }
 
 export interface ClosetLayoutGetDataQuery {
