@@ -17,10 +17,10 @@ Then, run the development server:
 ```sh
 npm run dev
 # or
-yarn dev
+yarn email:composer
 ```
 
-Open [localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [localhost:3004](http://localhost:3004) with your browser to see the result.
 
 ## License
 

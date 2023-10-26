@@ -9,5 +9,4 @@
     "lib": ["esnext"],
     "jsx": "react"
   },
-  "references": [{ "path": "../email-template-composer" }]
 }

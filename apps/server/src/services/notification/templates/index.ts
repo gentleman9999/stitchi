@@ -6,12 +6,12 @@ import { OrderFactoryOrder } from '../../order/factory'
 import { OrganizationRecord } from '../../organization/db/organization-table'
 
 import { render } from '@react-email/render'
-import DesignRequestUserCreatedTemplate from '../../../../../email-template-composer/emails/design-request-user-created'
-import DesignRequestProofUserCreatedTemplate from '../../../../../email-template-composer/emails/design-request-user-proof-created'
-import DesignRequestUserRevisionRequestCreatedTemplate from '../../../../../email-template-composer/emails/design-request-user-revision-request-created'
-import DesignRequestUserRejectedTemplate from '../../../../../email-template-composer/emails/design-request-user-rejected'
-import DesignRequestUserApprovedTemplate from '../../../../../email-template-composer/emails/design-request-user-approved'
-import DesignRequestCommentUserCreatedTemplate from '../../../../../email-template-composer/emails/design-request-user-comment-created'
+import DesignRequestUserCreatedTemplate from '../../../email-template-composer/emails/design-request-user-created'
+import DesignRequestProofUserCreatedTemplate from '../../../email-template-composer/emails/design-request-user-proof-created'
+import DesignRequestUserRevisionRequestCreatedTemplate from '../../../email-template-composer/emails/design-request-user-revision-request-created'
+import DesignRequestUserRejectedTemplate from '../../../email-template-composer/emails/design-request-user-rejected'
+import DesignRequestUserApprovedTemplate from '../../../email-template-composer/emails/design-request-user-approved'
+import DesignRequestCommentUserCreatedTemplate from '../../../email-template-composer/emails/design-request-user-comment-created'
 
 import { MembershipFactoryMembership } from '../../membership/factory/membership'
 

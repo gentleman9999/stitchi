@@ -3,7 +3,6 @@ import {
   Body,
   Column,
   Container,
-  Font,
   Head,
   Hr,
   Html,
