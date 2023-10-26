@@ -132,6 +132,8 @@ export const UserOnboardingUpdateInput = inputObjectType({
   name: 'UserOnboardingUpdateInput',
   definition(t) {
     t.nullable.boolean('seenDesignRequestDraftOnboarding')
+    t.nullable.boolean('seenDesignIndexPageOnboardingBanner')
+    t.nullable.boolean('seenInventoryIndexPageOnboardingBanner')
   },
 })
 
@@ -169,6 +171,22 @@ export const userOnboardingUpdate = mutationField('userOnboardingUpdate', {
           )
             ? input.seenDesignRequestDraftOnboarding
             : Boolean(existingUserOnboarding?.seenDesignRequestDraftOnboarding),
+
+          seenDesignIndexPageOnboardingBanner: notEmpty(
+            input.seenDesignIndexPageOnboardingBanner,
+          )
+            ? input.seenDesignIndexPageOnboardingBanner
+            : Boolean(
+                existingUserOnboarding?.seenDesignIndexPageOnboardingBanner,
+              ),
+
+          seenInventoryIndexPageOnboardingBanner: notEmpty(
+            input.seenInventoryIndexPageOnboardingBanner,
+          )
+            ? input.seenInventoryIndexPageOnboardingBanner
+            : Boolean(
+                existingUserOnboarding?.seenInventoryIndexPageOnboardingBanner,
+              ),
         },
       )
     } catch (error) {

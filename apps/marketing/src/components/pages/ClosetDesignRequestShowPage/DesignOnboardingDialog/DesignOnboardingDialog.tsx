@@ -1,12 +1,7 @@
-import { gql, useMutation, useQuery } from '@apollo/client'
 import UserAvatar from '@components/common/UserAvatar'
+import useUserOnboarding from '@components/hooks/useUserOnboarding'
 import { Dialog } from '@components/ui'
 import Button from '@components/ui/ButtonV2/Button'
-import { ClosetDesignRequestShowPageGetViewerDataQuery } from '@generated/ClosetDesignRequestShowPageGetViewerDataQuery'
-import {
-  DesignOnboardingDialogUpdateOnboardingMutation,
-  DesignOnboardingDialogUpdateOnboardingMutationVariables,
-} from '@generated/DesignOnboardingDialogUpdateOnboardingMutation'
 import { PaintBrushIcon } from '@heroicons/react/20/solid'
 import {
   COMPANY_NAME,
@@ -20,41 +15,21 @@ import React from 'react'
 interface Props {}
 
 const DesignOnboardingDialog = ({}: Props) => {
+  const { onboarding, loading, update: updateOnboarding } = useUserOnboarding()
   const [showOnboarding, setShowOnboarding] = useQueryState(
     'onboarding',
     queryTypes.boolean.withDefault(false),
   )
 
-  const { data, loading } =
-    useQuery<ClosetDesignRequestShowPageGetViewerDataQuery>(GET_VIEWER_DATA)
-
-  const [updateOnboarding] = useMutation<
-    DesignOnboardingDialogUpdateOnboardingMutation,
-    DesignOnboardingDialogUpdateOnboardingMutationVariables
-  >(UPDATE_ONBOARDING, {
-    update(cache, { data }) {
-      const userOnboarding = data?.userOnboardingUpdate?.userOnboarding
-
-      if (userOnboarding) {
-        cache.evict({ id: cache.identify({ ...userOnboarding }) })
-        cache.gc()
-      }
-    },
-  })
-
   const hasSeenOnboarding =
-    loading || data?.viewer?.user?.onboarding?.seenDesignRequestDraftOnboarding
+    loading || onboarding?.seenDesignRequestDraftOnboarding
 
   React.useEffect(() => {
     if (!hasSeenOnboarding) {
       setShowOnboarding(true)
 
       updateOnboarding({
-        variables: {
-          input: {
-            seenDesignRequestDraftOnboarding: true,
-          },
-        },
+        seenDesignRequestDraftOnboarding: true,
       })
     }
   }, [hasSeenOnboarding, setShowOnboarding, updateOnboarding])
@@ -128,32 +103,5 @@ const DesignOnboardingDialog = ({}: Props) => {
     </Dialog>
   )
 }
-
-const GET_VIEWER_DATA = gql`
-  query ClosetDesignRequestShowPageGetViewerDataQuery {
-    viewer {
-      id
-      user {
-        id
-        onboarding {
-          id
-          seenDesignRequestDraftOnboarding
-        }
-      }
-    }
-  }
-`
-
-const UPDATE_ONBOARDING = gql`
-  mutation DesignOnboardingDialogUpdateOnboardingMutation(
-    $input: UserOnboardingUpdateInput!
-  ) {
-    userOnboardingUpdate(input: $input) {
-      userOnboarding {
-        id
-      }
-    }
-  }
-`
 
 export default DesignOnboardingDialog

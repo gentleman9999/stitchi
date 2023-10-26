@@ -77,8 +77,17 @@ export const UserOnboardingExtendsUser = extendType({
 
         return {
           id: user.id,
+
           seenDesignRequestDraftOnboarding: Boolean(
             value?.seenDesignRequestDraftOnboarding,
+          ),
+
+          seenDesignIndexPageOnboardingBanner: Boolean(
+            value?.seenDesignIndexPageOnboardingBanner,
+          ),
+
+          seenInventoryIndexPageOnboardingBanner: Boolean(
+            value?.seenInventoryIndexPageOnboardingBanner,
           ),
         }
       },

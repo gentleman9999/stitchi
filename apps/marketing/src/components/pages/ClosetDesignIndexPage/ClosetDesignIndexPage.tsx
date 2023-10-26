@@ -6,7 +6,7 @@ import ClosetPageTitle from '@components/common/ClosetPageTitle'
 import ClosetSection from '@components/common/ClosetSection'
 import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
 import ClosetSectionHeaderTabs from '@components/common/ClosetSectionHeaderTabs'
-import Button from '@components/ui/ButtonV2/Button'
+
 import { ClosetDesignIndexPageGetDataQuery } from '@generated/ClosetDesignIndexPageGetDataQuery'
 import {
   MembershipRole,
@@ -20,6 +20,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { ClosetProvider } from './closet-context'
 import ClosetDesignFilters from './ClosetDesignFilters'
+import OnboardingActionPanel from './OnboardingActionPanel'
 
 const ClosetTabAll = dynamic(() => import('./ClosetTabAll'))
 const ClosetTabApprovedDesigns = dynamic(
@@ -68,25 +69,7 @@ const ClosetDesignIndexPage = ({}: Props) => {
           />
         </ClosetPageHeader>
 
-        <ClosetSection>
-          <div className="bg-paper border rounded-md p-6">
-            <div className="flex justify-between items-center">
-              <div className="flex flex-col gap-2">
-                <h2 className="font-md">Welcome to your design hub</h2>
-                <p className="text-gray-700 text-sm max-w-2xl">
-                  Your designs are the creative blueprints for your products.
-                  Here you&apos;ll work with a designer to bring your ideas to
-                  life. Finished designs will be available in your inventory to
-                  send around the world.
-                </p>
-              </div>
-
-              <Button variant="ghost" size="xl">
-                Got it
-              </Button>
-            </div>
-          </div>
-        </ClosetSection>
+        <OnboardingActionPanel />
 
         <ClosetDesignFilters />
 

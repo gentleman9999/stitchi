@@ -7,7 +7,7 @@ import {
 interface Props {
   loading?: boolean
   tabs?: ReturnType<typeof useClosetSectionContext>['tabs']
-  children:
+  children?:
     | React.ReactNode
     | ((state: ReturnType<typeof useClosetSectionContext>) => React.ReactNode)
 }
