@@ -13,6 +13,7 @@ interface Props {
   description?: React.ReactNode
   action?: React.ReactNode
   hide?: boolean
+  image?: React.ReactNode
   Container?: React.ComponentType<{ children?: React.ReactNode }>
 }
 
@@ -21,6 +22,7 @@ const ActionPanel = ({
   description,
   action,
   hide,
+  image,
   Container = React.Fragment,
 }: Props) => {
   return (
@@ -35,11 +37,14 @@ const ActionPanel = ({
           <Container>
             <Card className="@container">
               <CardHeader>
-                <div className="flex flex-col @md:flex-row @md:items-center gap-4 justify-between">
+                <div className="flex flex-col @md:flex-row text-center @md:text-left items-center gap-6">
+                  {image ? <div className="shrink-0">{image}</div> : null}
                   <div className="max-w-3xl">
                     <CardTitle title={title} subtitle={description} />
                   </div>
-                  <div className="shrink-0">{action}</div>
+                  <div className="shrink-0 flex-1 flex @md:justify-end">
+                    {action}
+                  </div>
                 </div>
               </CardHeader>
             </Card>
