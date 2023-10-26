@@ -10,6 +10,7 @@
     { "path": "../sendgrid" },
     { "path": "../auth0" },
     { "path": "../telemetry" },
-    { "path": "../utils" }
+    { "path": "../utils" },
+    { "path": "../email-template-composer" }
   ]
 }

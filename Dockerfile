@@ -15,7 +15,7 @@
 FROM node:18-bullseye AS base
 
 WORKDIR /app
-ENV SCOPE=server
+ENV SCOPE="server"
 ENV YARN_CACHE_FOLDER=.yarn-cache
 
 FROM base AS pruner
@@ -62,4 +62,4 @@ RUN yarn turbo run build test --filter=${SCOPE} --include-dependencies
 # COPY --from=installer /app/ .
 # COPY --from=builder /app/out/full/ .
 # COPY .gitignore .gitignore
-# RUN yarn turbo run build test --scope=marketing --include-dependencies --no-deps 
+# RUN yarn turbo run build test --scope=marketing --include-dependencies --no-deps
