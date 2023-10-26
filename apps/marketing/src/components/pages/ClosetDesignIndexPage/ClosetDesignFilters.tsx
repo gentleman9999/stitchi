@@ -32,7 +32,7 @@ const ClosetDesignFilters = ({}: Props) => {
   const role = data?.viewer?.role
 
   return (
-    <TableFilters>
+    <TableFilters disableGutters>
       {role && [MembershipRole.OWNER].includes(role) ? (
         <TableFilterUser
           label="Owner"
