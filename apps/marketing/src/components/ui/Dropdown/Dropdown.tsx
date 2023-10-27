@@ -21,34 +21,36 @@ const Dropdown = (props: Props) => {
   }
 
   return (
-    <DropdownMenu.Root modal={false}>
-      <DropdownMenu.Trigger asChild>
-        {props.renderTrigger()}
-      </DropdownMenu.Trigger>
-      <DropdownMenu.Portal>
-        <DropdownMenu.Content
-          onClick={e => {
-            e.preventDefault()
-            e.stopPropagation()
-          }}
-          sideOffset={5}
-          asChild
-        >
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            variants={fadeIn}
-            className="overflow-hidden border  bg-paper rounded-lg shadow-magical transition-all flex flex-col p-1 min-w-[--radix-dropdown-menu-trigger-width]"
+    <div>
+      <DropdownMenu.Root modal={false}>
+        <DropdownMenu.Trigger asChild>
+          {props.renderTrigger()}
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Portal>
+          <DropdownMenu.Content
+            onClick={e => {
+              e.preventDefault()
+              e.stopPropagation()
+            }}
+            sideOffset={5}
+            asChild
           >
-            <DropdownMenu.Arrow className="fill-white" />
-            {items.map((item, idx) => {
-              return <DropdownMenu.Item key={idx}>{item}</DropdownMenu.Item>
-            })}
-          </motion.div>
-        </DropdownMenu.Content>
-      </DropdownMenu.Portal>
-    </DropdownMenu.Root>
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={fadeIn}
+              className="z-10 overflow-hidden border  bg-paper rounded-lg shadow-magical transition-all flex flex-col p-1 min-w-[--radix-dropdown-menu-trigger-width]"
+            >
+              <DropdownMenu.Arrow className="fill-white" />
+              {items.map((item, idx) => {
+                return <DropdownMenu.Item key={idx}>{item}</DropdownMenu.Item>
+              })}
+            </motion.div>
+          </DropdownMenu.Content>
+        </DropdownMenu.Portal>
+      </DropdownMenu.Root>
+    </div>
   )
 }
 

@@ -1,26 +1,54 @@
 import React from 'react'
 import cx from 'classnames'
+import * as Collapsible from '@radix-ui/react-collapsible'
+import { CardProvider, useCardContext } from './card-context'
 
 interface Props {
   children: React.ReactNode
   className?: string
   disabled?: boolean
+  collapsable?: boolean
+  defaultCollapsed?: boolean
+}
+
+const withCardContext = (Component: React.ComponentType<Props>) => {
+  const CardWithContext = (props: Props) => {
+    const { collapsable = false, defaultCollapsed = false } = props
+
+    return (
+      <CardProvider
+        collapsable={collapsable}
+        defaultCollapsed={defaultCollapsed}
+      >
+        <Component {...props} />
+      </CardProvider>
+    )
+  }
+
+  return CardWithContext
 }
 
 const Card = ({ children, className, disabled }: Props) => {
+  const { collapsed, setCollapsed } = useCardContext()
+
   return (
-    <div
-      className={cx(
-        'relative group overflow-hidden rounded-md bg-white sm:border  flex flex-col pb-4 md:pb-6',
-        {
-          'opacity-50 pointer-events-none': disabled,
-        },
-        className,
-      )}
+    <Collapsible.Root
+      open={!collapsed}
+      onOpenChange={open => setCollapsed(!open)}
     >
-      {children}
-    </div>
+      <div
+        className={cx(
+          'relative group overflow-hidden rounded-md bg-white sm:border flex flex-col pb-4',
+          {
+            'opacity-50 pointer-events-none': disabled,
+          },
+          className,
+        )}
+      >
+        {children}
+      </div>
+    </Collapsible.Root>
   )
 }
 
-export default Card
+export default withCardContext(Card)

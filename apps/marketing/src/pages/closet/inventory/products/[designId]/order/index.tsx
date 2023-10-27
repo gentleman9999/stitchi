@@ -2,7 +2,8 @@ import ClosetDesignBuyPage from '@components/pages/ClosetDesignBuyPage'
 import { useRouter } from 'next/router'
 import React, { ReactElement } from 'react'
 import { ClosetLayout } from '@components/layout'
-import ClosetDesignShowPage from '@components/pages/ClosetDesignShowPage'
+import ClosetDesignShowPage from '@components/pages/ClosetInventoryShowPage'
+import ClosetInventoryIndexPage from '@components/pages/ClosetInventoryIndexPage'
 
 const Page = () => {
   const router = useRouter()
@@ -15,7 +16,7 @@ const Page = () => {
 
   return (
     <>
-      <ClosetDesignShowPage designId={designId} />
+      <ClosetInventoryIndexPage />
       <ClosetDesignBuyPage designId={designId} />
     </>
   )
