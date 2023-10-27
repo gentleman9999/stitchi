@@ -8,7 +8,7 @@ interface Props {
 
 const SlideOverHeader = ({ title }: Props) => {
   return (
-    <div className="p-4 sm:p-6 flex justify-between items-center">
+    <div className="p-2 sm:p-4 flex justify-between items-center border-b">
       {title ? (
         <Dialog.Title className="text-lg font-semibold">{title}</Dialog.Title>
       ) : null}

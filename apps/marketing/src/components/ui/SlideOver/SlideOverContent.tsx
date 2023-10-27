@@ -6,7 +6,9 @@ interface Props {
 
 const SlideOverContent = ({ children }: Props) => {
   return (
-    <div className="relative p-4 sm:p-6 flex-1 overflow-scroll">{children}</div>
+    <div className="relative p-4 sm:p-6 flex-1 overflow-scroll flex flex-col gap-8">
+      {children}
+    </div>
   )
 }
 

@@ -32,7 +32,7 @@ const DesignPreviewGallery = ({ design, activeColorId, loading }: Props) => {
 
   return (
     <div className="w-full">
-      <div className="w-full h-full max-h-[60vh]  bg-paper border rounded-md overflow-hidden">
+      <div className="w-full h-full overflow-hidden">
         {activeImage ? (
           <img
             key={activeImage.id}
@@ -48,7 +48,7 @@ const DesignPreviewGallery = ({ design, activeColorId, loading }: Props) => {
         )}
       </div>
 
-      <div className="flex gap-4 mt-4">
+      <div className="flex gap-4 mt-2">
         {activeColor?.images.map(image => (
           <button
             key={image.id}

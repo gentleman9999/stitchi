@@ -1,5 +1,6 @@
 import { ClosetLayout } from '@components/layout'
-import ClosetDesignShowPage from '@components/pages/ClosetDesignShowPage'
+import ClosetInventoryIndexPage from '@components/pages/ClosetInventoryIndexPage'
+import ClosetInventoryShowPage from '@components/pages/ClosetInventoryShowPage'
 import { useRouter } from 'next/router'
 import React from 'react'
 
@@ -10,7 +11,12 @@ const Page = () => {
 
   if (typeof designId !== 'string') return null
 
-  return <ClosetDesignShowPage designId={designId} />
+  return (
+    <>
+      <ClosetInventoryIndexPage />
+      <ClosetInventoryShowPage designId={designId} />
+    </>
+  )
 }
 
 Page.getLayout = (page: React.ReactElement) => (
