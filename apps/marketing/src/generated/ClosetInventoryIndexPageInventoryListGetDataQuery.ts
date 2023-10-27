@@ -11,6 +11,7 @@ import { MembershipDesignProductsFilterInput } from "./globalTypes";
 
 export interface ClosetInventoryIndexPageInventoryListGetDataQuery_viewer_designProducts_edges_node_colors {
   __typename: "DesignProductColor";
+  id: string;
   hex: string | null;
   name: string | null;
 }

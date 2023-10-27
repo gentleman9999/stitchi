@@ -2,7 +2,6 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import * as Collapsible from '@radix-ui/react-collapsible'
 import React from 'react'
 import cx from 'classnames'
-import Button from '../ButtonV2/Button'
 import { useCardContext } from './card-context'
 
 interface Props {
@@ -15,7 +14,7 @@ const CardHeader = ({ children }: Props) => {
   return (
     <Collapsible.Trigger asChild>
       <div className="pt-4 px-4 flex justify-between items-center gap-2 cursor-pointer">
-        <div>{children}</div>
+        <div className="flex-1">{children}</div>
         {collapsable ? (
           <button className="p-1 rounded-full bg-gray-100">
             <ChevronDownIcon

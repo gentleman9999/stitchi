@@ -106,11 +106,7 @@ const ClosetDesignBuyPage = (props: Props) => {
               open
               className="sm:w-full sm:max-w-xl"
               onOpenChange={() =>
-                router.replace(
-                  routes.internal.closet.inventory.show.products.show.href({
-                    designId: props.designId,
-                  }),
-                )
+                router.push(routes.internal.closet.inventory.href())
               }
             >
               <SlideOverHeader title={product?.name} />

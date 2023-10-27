@@ -1,40 +1,52 @@
 import React from 'react'
 import cx from 'classnames'
-import * as Dialog from '@radix-ui/react-dialog'
 import { AnimatePresence, motion } from 'framer-motion'
+import { SlideOverProvider, useSlideOver } from './slide-over-context'
 
-interface Props extends Dialog.DialogProps {
+interface Props {
+  children: React.ReactNode
   className?: string
 }
 
-const SlideOver = ({ children, className, open, ...dialogProps }: Props) => {
+const SlideOver = ({ children, className }: Props) => {
+  const { open } = useSlideOver()
   return (
-    <Dialog.Root {...dialogProps}>
-      <AnimatePresence>
-        {open ? (
-          <Dialog.Portal forceMount>
-            <Dialog.Overlay
-              forceMount
-              className="fixed inset-0 bg-transparent "
-            />
-            <Dialog.Content forceMount asChild>
-              <motion.div
-                initial={{ translateX: '100%' }}
-                animate={{ translateX: '0%' }}
-                exit={{ translateX: '100%' }}
-                className={cx(
-                  'z-10 fixed right-0 top-0 h-screen bg-paper border-l  w-full sm:w-auto sm:max-w-[90vw] flex flex-col shadow-xl',
-                  className,
-                )}
-              >
-                {children}
-              </motion.div>
-            </Dialog.Content>
-          </Dialog.Portal>
-        ) : null}
-      </AnimatePresence>
-    </Dialog.Root>
+    <AnimatePresence>
+      {open ? (
+        <div>
+          <motion.div
+            initial={{ translateX: '100%' }}
+            animate={{ translateX: '0%' }}
+            exit={{ translateX: '100%' }}
+            className={cx(
+              'z-10 fixed right-0 top-[56px] bottom-0 bg-paper border-l  w-full sm:w-auto sm:max-w-[90vw] flex flex-col shadow-xl',
+              className,
+            )}
+          >
+            {children}
+          </motion.div>
+        </div>
+      ) : null}
+    </AnimatePresence>
   )
 }
 
-export default SlideOver
+const withSlideOverContext = (Component: React.ComponentType<Props>) => {
+  const SlideOverWithContext = (
+    props: Props & {
+      open: boolean
+      onOpenChange: (open: boolean) => void
+    },
+  ) => {
+    const { open, onOpenChange, ...rest } = props
+    return (
+      <SlideOverProvider onOpenChange={onOpenChange} open={open}>
+        <Component {...rest} />
+      </SlideOverProvider>
+    )
+  }
+
+  return SlideOverWithContext
+}
+
+export default withSlideOverContext(SlideOver)

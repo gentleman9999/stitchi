@@ -9,6 +9,7 @@
 
 export interface ClosetInventoryIndexPageProductCardDesignProductFragment_colors {
   __typename: "DesignProductColor";
+  id: string;
   hex: string | null;
   name: string | null;
 }
