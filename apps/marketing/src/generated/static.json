@@ -3543,7 +3543,7 @@
     {
       "id": 574,
       "parent_id": 516,
-      "name": "Swags under $10",
+      "name": "Swags Under $10",
       "description": "",
       "views": 0,
       "sort_order": 0,
@@ -3579,23 +3579,6 @@
         "url": "/collections/unique-swag-items/",
         "is_customized": false
       },
-      "image_url": ""
-    },
-    {
-      "id": 576,
-      "parent_id": 0,
-      "name": "test",
-      "description": "",
-      "views": 0,
-      "sort_order": 0,
-      "page_title": "",
-      "search_keywords": "",
-      "meta_keywords": [],
-      "meta_description": "",
-      "layout_file": "",
-      "is_visible": true,
-      "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/test/", "is_customized": false },
       "image_url": ""
     }
   ],

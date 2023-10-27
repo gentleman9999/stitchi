@@ -1,4 +1,11 @@
 import { objectType } from 'nexus'
+import crypto from 'crypto'
+import { getOrThrow } from '../../../utils'
+
+const INTERCOM_SECRET_KEY = getOrThrow(
+  process.env.INTERCOM_SECRET_KEY,
+  'INTERCOM_SECRET_KEY',
+)
 
 export const UserOnboarding = objectType({
   name: 'UserOnboarding',
@@ -37,6 +44,20 @@ export const User = objectType({
     t.int('loginsCount')
     t.string('givenName')
     t.string('familyName')
+
+    t.string('intercomUserHash', {
+      resolve: async parent => {
+        const secretKey = INTERCOM_SECRET_KEY
+        const userIdentifier = parent.id
+
+        const hash = crypto
+          .createHmac('sha256', secretKey)
+          .update(userIdentifier)
+          .digest('hex')
+
+        return hash
+      },
+    })
 
     t.field('createdAt', { type: 'DateTime' })
     t.field('updatedAt', { type: 'DateTime' })

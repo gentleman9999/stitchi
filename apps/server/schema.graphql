@@ -1395,6 +1395,7 @@ type User {
   familyName: String
   givenName: String
   id: ID!
+  intercomUserHash: String
   lastLogin: DateTime
   loginsCount: Int
   memberships: [Membership!]!
