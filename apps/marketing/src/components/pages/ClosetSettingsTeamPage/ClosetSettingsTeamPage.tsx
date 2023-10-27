@@ -9,6 +9,7 @@ import ClosetSectionTitle from '@components/common/ClosetSectionTitle'
 import { StandoutType, useStandout } from '@components/context'
 import { useSnackbar } from '@components/context/snackbar-context'
 import useConfirmAction from '@components/hooks/useConfirmAction'
+import { TableContainer } from '@components/ui/Table'
 import Table from '@components/ui/Table/Table'
 import TableZeroState from '@components/ui/Table/TableZeroState'
 import { ClosetSettingsTeamPageMembershipFragment } from '@generated/ClosetSettingsTeamPageMembershipFragment'
@@ -156,7 +157,7 @@ const ClosetSettingsTeamPage = ({ loading, memberships }: Props) => {
             />
           </ClosetSectionHeader>
 
-          <Table loading={loading}>
+          <TableContainer loading={loading}>
             {!memberships?.length ? (
               <TableZeroState />
             ) : (
@@ -176,7 +177,7 @@ const ClosetSettingsTeamPage = ({ loading, memberships }: Props) => {
                 </div>
               </>
             )}
-          </Table>
+          </TableContainer>
         </ClosetSection>
       </ClosetPageContainer>
     </>
