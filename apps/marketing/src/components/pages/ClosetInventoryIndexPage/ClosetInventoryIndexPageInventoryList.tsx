@@ -1,4 +1,4 @@
-import { gql, useQuery } from '@apollo/client'
+import { gql, NetworkStatus, useQuery } from '@apollo/client'
 import ClosetCardGrid from '@components/common/ClosetCardGrid'
 import ClosetPageEmptyState from '@components/common/ClosetPageEmptyState'
 import {
@@ -13,7 +13,7 @@ import ClosetInventoryIndexPageProductCard from './ClosetInventoryIndexPageProdu
 interface Props {}
 
 const ClosetInventoryIndexPageInventoryList = ({}: Props) => {
-  const { data, loading } = useQuery<
+  const { data, loading, networkStatus } = useQuery<
     ClosetInventoryIndexPageInventoryListGetDataQuery,
     ClosetInventoryIndexPageInventoryListGetDataQueryVariables
   >(GET_DATA, {
@@ -43,7 +43,8 @@ const ClosetInventoryIndexPageInventoryList = ({}: Props) => {
     />
   ) : (
     <ClosetCardGrid>
-      {loading ? (
+      {networkStatus === NetworkStatus.refetch ||
+      networkStatus === NetworkStatus.loading ? (
         <>
           {Array.from({ length: 4 }).map((_, index) => (
             <ClosetInventoryIndexPageProductCard

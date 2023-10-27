@@ -113,6 +113,7 @@ ClosetInventoryIndexPageProductCard.fragments = {
       inStockQty
       inProductionQty
       colors {
+        id
         hex
         name
       }
