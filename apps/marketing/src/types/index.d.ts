@@ -1,3 +1,4 @@
 interface Window {
-  dataLayer?: any[];
+  dataLayer?: any[]
+  Intercom?: any
 }

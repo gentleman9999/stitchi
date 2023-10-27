@@ -1673,6 +1673,7 @@ export interface NexusGenFieldTypes {
     familyName: string | null; // String
     givenName: string | null; // String
     id: string; // ID!
+    intercomUserHash: string | null; // String
     lastLogin: NexusGenScalars['DateTime'] | null; // DateTime
     loginsCount: number | null; // Int
     memberships: NexusGenRootTypes['Membership'][]; // [Membership!]!
@@ -2410,6 +2411,7 @@ export interface NexusGenFieldTypeNames {
     familyName: 'String'
     givenName: 'String'
     id: 'ID'
+    intercomUserHash: 'String'
     lastLogin: 'DateTime'
     loginsCount: 'Int'
     memberships: 'Membership'

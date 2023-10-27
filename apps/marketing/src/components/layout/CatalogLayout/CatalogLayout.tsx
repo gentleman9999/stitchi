@@ -5,19 +5,15 @@ import { CatalogLayoutGetDataQuery } from '@generated/CatalogLayoutGetDataQuery'
 import {
   ChevronDownIcon,
   HomeIcon,
-  RectangleGroupIcon,
   ShoppingBagIcon,
-  SparklesIcon,
   Squares2X2Icon,
 } from '@heroicons/react/20/solid'
 import routes from '@lib/routes'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import cx from 'classnames'
 import React from 'react'
 import AppTopbar from '../AppTopbar'
 import PageloadProgressIndicator from '../PageloadProgressIndicator'
-import SupportWidget from './SupportWidget'
 import NavItem from '../NavItem'
 
 interface Props {
@@ -29,14 +25,9 @@ const CatalogLayout = ({ children }: Props) => {
 
   const { data } = useQuery<CatalogLayoutGetDataQuery>(GET_DATA)
 
-  const router = useRouter()
-
-  const supportDefaultOpen = router.asPath.startsWith('/wizard/')
-
   return (
     <>
       <PageloadProgressIndicator />
-      <SupportWidget defaultOpen={supportDefaultOpen} />
       <div className="h-full relative">
         <AppTopbar
           membership={data?.viewer || null}
