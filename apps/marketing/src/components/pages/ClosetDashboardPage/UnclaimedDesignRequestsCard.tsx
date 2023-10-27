@@ -37,45 +37,45 @@ const UnclaimedDesignRequestsCard = ({}: Props) => {
         <CardTitle title="Design queue" />
       </CardHeader>
       <CardContent>
-        <TableContainer loading={loading}>
-          {unclaimed?.length && viewer ? (
-            <table className="w-full">
-              <thead className="grid grid-cols-3 text-sm font-bold">
-                <td className="col-span-1">Organization</td>
-                <td className="col-span-1">Requester</td>
-                <td className="col-auto"></td>
-              </thead>
-              <tbody className="divide-y">
-                {unclaimed.map(request => (
-                  <tr key={request.id} className="grid grid-cols-3 py-1">
-                    <td className="text-xs font-medium col-span-1 flex items-center">
-                      {request.membership?.organization.name}
-                    </td>
-                    <td className="text-xs font-medium col-span-1 flex items-center">
-                      {request.membership?.user?.name}
-                    </td>
-                    <td className="col-auto  justify-end flex items-center">
-                      <Button
-                        variant="ghost"
-                        size="xs"
-                        Component={Link}
-                        href={routes.internal.closet.designs.show.assign.href({
-                          designId: request.id,
-                          membershipId: viewer.id,
-                        })}
-                        endIcon={<ArrowRightIcon className="w-3 h-3" />}
-                      >
-                        Claim
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <TableZeroState />
-          )}
-        </TableContainer>
+        {/* <TableContainer loading={loading}> */}
+        {unclaimed?.length && viewer ? (
+          <table className="w-full">
+            <thead className="grid grid-cols-3 text-sm font-bold">
+              <td className="col-span-1">Organization</td>
+              <td className="col-span-1">Requester</td>
+              <td className="col-auto"></td>
+            </thead>
+            <tbody className="divide-y">
+              {unclaimed.map(request => (
+                <tr key={request.id} className="grid grid-cols-3 py-1">
+                  <td className="text-xs font-medium col-span-1 flex items-center">
+                    {request.membership?.organization.name}
+                  </td>
+                  <td className="text-xs font-medium col-span-1 flex items-center">
+                    {request.membership?.user?.name}
+                  </td>
+                  <td className="col-auto  justify-end flex items-center">
+                    <Button
+                      variant="ghost"
+                      size="xs"
+                      Component={Link}
+                      href={routes.internal.closet.designs.show.assign.href({
+                        designId: request.id,
+                        membershipId: viewer.id,
+                      })}
+                      endIcon={<ArrowRightIcon className="w-3 h-3" />}
+                    >
+                      Claim
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <TableZeroState />
+        )}
+        {/* </TableContainer> */}
       </CardContent>
     </Card>
   )
