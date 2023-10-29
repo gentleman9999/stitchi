@@ -1,8 +1,9 @@
 import { gql, useQuery } from '@apollo/client'
 import { StandoutType, useStandout } from '@components/context'
 import useSetUserMembership from '@components/hooks/useSetUserMembership'
-import { LoadingDots, Logo } from '@components/ui'
 import Button from '@components/ui/ButtonV2/Button'
+import LoadingDots from '@components/ui/LoadingDots'
+import Logo from '@components/ui/Logo'
 import {
   ViewerMembershipsIndexPageGetDataQuer,
   ViewerMembershipsIndexPageGetDataQuer_userMemberships,

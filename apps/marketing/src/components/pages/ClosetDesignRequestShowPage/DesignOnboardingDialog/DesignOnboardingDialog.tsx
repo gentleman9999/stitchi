@@ -1,6 +1,6 @@
 import UserAvatar from '@components/common/UserAvatar'
 import useUserOnboarding from '@components/hooks/useUserOnboarding'
-import { Dialog } from '@components/ui'
+import Dialog from '@components/ui/Dialog'
 import Button from '@components/ui/ButtonV2/Button'
 import { PaintBrushIcon } from '@heroicons/react/20/solid'
 import {

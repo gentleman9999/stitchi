@@ -2,8 +2,9 @@ import { gql, useMutation } from '@apollo/client'
 import { ComponentErrorMessage } from '@components/common'
 import useSetUserMembership from '@components/hooks/useSetUserMembership'
 import FormSection from '@components/pages/ClosetDesignBuyPage/FormSection'
-import { Dialog, InputGroup, TextField } from '@components/ui'
 import Button from '@components/ui/ButtonV2/Button'
+import Dialog from '@components/ui/Dialog'
+import { InputGroup, TextField } from '@components/ui/inputs'
 import {
   OrganizationCreateDialogCreateOrganizationMutation,
   OrganizationCreateDialogCreateOrganizationMutationVariables,

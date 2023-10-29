@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { Section } from '@components/common'
-import { Container } from '@components/ui'
+import Container from '@components/ui/Container'
 import { DesignLibraryCategoryIndexPageCategoryFragment } from '@generated/DesignLibraryCategoryIndexPageCategoryFragment'
 import routes from '@lib/routes'
 import Link from 'next/link'

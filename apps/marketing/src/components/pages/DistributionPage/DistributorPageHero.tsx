@@ -1,16 +1,16 @@
 import { Section } from '@components/common'
-import {
-  Button,
-  Container,
-  RangeSlider as BaseRangeSlider,
+import BaseRangeSlider, {
   RangeSliderProps,
-} from '@components/ui'
+} from '@components/ui/inputs/RangeSlider'
+
 import routes from '@lib/routes'
 import Link from 'next/link'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import currency from 'currency.js'
 import { calculate } from './helpers'
+import Container from '@components/ui/Container'
+import Button from '@components/ui/ButtonV2/Button'
 
 const RangeSlider = (props: RangeSliderProps) => (
   <BaseRangeSlider

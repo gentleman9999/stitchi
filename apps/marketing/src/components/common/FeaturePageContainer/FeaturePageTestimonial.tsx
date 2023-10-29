@@ -1,11 +1,12 @@
 import React from 'react'
 import Image from 'next/legacy/image'
-import { Button, LinkInline } from '@components/ui'
 import Link from 'next/link'
 import routes from '@lib/routes'
 import jennyHeadshot from '../../../../public/customers/morning_brew/jenny_rothenberg_morning_brew.jpg'
 import referralProgram from '../../../../public/customers/morning_brew/morning_brew_referral_program.jpg'
 import { Section } from '@components/common'
+import LinkInline from '@components/ui/LinkInline'
+import Button from '@components/ui/ButtonV2/Button'
 
 const FeaturePageTestimonial = () => {
   return (
@@ -35,7 +36,7 @@ const FeaturePageTestimonial = () => {
                   passHref
                   legacyBehavior
                 >
-                  <Button slim Component="a" variant="ghost">
+                  <Button Component="a" variant="ghost">
                     Read the case study
                   </Button>
                 </Link>

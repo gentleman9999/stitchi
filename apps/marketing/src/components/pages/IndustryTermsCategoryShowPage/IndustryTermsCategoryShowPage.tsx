@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client'
 import { IndustryTermCard } from '@components/common'
-import { Container, LinkInline } from '@components/ui'
+import Container from '@components/ui/Container'
+import LinkInline from '@components/ui/LinkInline'
 import { IndustryTermsCategoryShowPageCategoryFragment } from '@generated/IndustryTermsCategoryShowPageCategoryFragment'
 import { IndustryTermsCategoryShowPageEntryFragment } from '@generated/IndustryTermsCategoryShowPageEntryFragment'
 import routes from '@lib/routes'

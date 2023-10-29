@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dialog } from '@components/ui'
+import Dialog from '@components/ui/Dialog'
 import { SubscribeInline } from '../..'
 import { useRouter } from 'next/router'
 

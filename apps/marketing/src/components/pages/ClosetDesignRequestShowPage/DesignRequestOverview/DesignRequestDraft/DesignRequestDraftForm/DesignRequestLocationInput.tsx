@@ -3,8 +3,8 @@ import React from 'react'
 import cx from 'classnames'
 import { Controller, useFieldArray, UseFormReturn } from 'react-hook-form'
 import { FormValues } from './DesignRequestDraftForm'
-import { InputGroup, RichTextEditor, TextField } from '@components/ui'
 import { motion } from 'framer-motion'
+import { InputGroup, RichTextEditor } from '@components/ui/inputs'
 
 interface Props {
   form: UseFormReturn<FormValues>

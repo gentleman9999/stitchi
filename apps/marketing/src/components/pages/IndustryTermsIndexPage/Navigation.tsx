@@ -3,7 +3,8 @@ import React from 'react'
 import cx from 'classnames'
 import Link from 'next/link'
 import useIntersectionObserver from '@components/hooks/useIntersectionObserver'
-import { Container, Transition } from '@components/ui'
+import Transition from '@components/ui/Transition'
+import Container from '@components/ui/Container'
 
 interface Props {
   termSlugs: string[]

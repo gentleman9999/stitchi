@@ -1,7 +1,7 @@
-import { LinkInline } from '@components/ui'
 import routes from '@lib/routes'
 import React from 'react'
 import { animate, useInView } from 'framer-motion'
+import LinkInline from '@components/ui/LinkInline'
 
 const stats: Array<{
   label: string

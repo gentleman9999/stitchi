@@ -1,11 +1,11 @@
 import React from 'react'
-import { InlineTextForm, InlineTextFormProps } from '@components/ui'
 import cx from 'classnames'
 import * as yup from 'yup'
 import dynamic from 'next/dynamic'
 import { track } from '@lib/analytics'
 import useSubscribeInline from './useSubscribeInline'
 import { useLogger } from 'next-axiom'
+import { InlineTextForm, InlineTextFormProps } from '@components/ui/inputs'
 
 const SubscribeInlineSuccessAlert = dynamic(
   () => import('./SubscribeInlineSuccessAlert'),
@@ -19,7 +19,7 @@ export interface SubscribeInlineProps {
 }
 
 const SubscribeInline = (props: SubscribeInlineProps) => {
-  const logger = useLogger();
+  const logger = useLogger()
   const [subscribe, { subscriber }] = useSubscribeInline()
 
   const handleSubscribe: InlineTextFormProps<'email'>['onSubmit'] = async ({

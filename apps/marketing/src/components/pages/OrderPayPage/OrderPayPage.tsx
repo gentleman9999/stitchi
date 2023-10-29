@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import { Section } from '@components/common'
 import StripeFormWrapper from '@components/common/StripeFormWrapper'
-import { Container } from '@components/ui'
+import Container from '@components/ui/Container'
 import { OrderPayPageOrderFragment } from '@generated/OrderPayPageOrderFragment'
 import { OrderPayPagePaymentIntentFragment } from '@generated/OrderPayPagePaymentIntentFragment'
 import { NextSeo } from 'next-seo'

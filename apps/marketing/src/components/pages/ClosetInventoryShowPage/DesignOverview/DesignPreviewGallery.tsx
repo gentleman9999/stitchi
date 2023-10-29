@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { LoadingDots } from '@components/ui'
+import LoadingDots from '@components/ui/LoadingDots'
 import { DesignPreviewGalleryDesignProductFragment } from '@generated/DesignPreviewGalleryDesignProductFragment'
 import React from 'react'
 

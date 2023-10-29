@@ -1,13 +1,9 @@
 import { gql } from '@apollo/client'
 import { StandoutType, useStandout } from '@components/context'
-import { BadgeProps } from '@components/ui'
+import { BadgeProps } from '@components/ui/Badge'
 import { ClosetDesignIndexPageDesignRequestCardDesignRequestFragment } from '@generated/ClosetDesignIndexPageDesignRequestCardDesignRequestFragment'
 import { DesignRequestStatus } from '@generated/globalTypes'
-import {
-  DocumentDuplicateIcon,
-  EyeIcon,
-  LinkIcon,
-} from '@heroicons/react/24/outline'
+import { EyeIcon, LinkIcon } from '@heroicons/react/24/outline'
 import routes from '@lib/routes'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { format } from 'date-fns'

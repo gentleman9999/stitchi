@@ -3,8 +3,8 @@ import cx from 'classnames'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button } from '../..'
 import { useLogger } from 'next-axiom'
+import Button from '@components/ui/ButtonV2/Button'
 
 type InputElementAttributes = React.InputHTMLAttributes<HTMLInputElement>
 

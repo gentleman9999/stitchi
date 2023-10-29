@@ -1,14 +1,14 @@
 import { gql, useMutation } from '@apollo/client'
 import { useUser } from '@auth0/nextjs-auth0/client'
-import { Container, LoadingDots } from '@components/ui'
 import Button from '@components/ui/ButtonV2/Button'
+import Container from '@components/ui/Container'
+import LoadingDots from '@components/ui/LoadingDots'
 import {
   AccountMemberhsipAcceptPageAcceptMembershipMutation,
   AccountMemberhsipAcceptPageAcceptMembershipMutationVariables,
 } from '@generated/AccountMemberhsipAcceptPageAcceptMembershipMutation'
 import { AccountMembershipAcceptPageMembershipInviteFragment } from '@generated/AccountMembershipAcceptPageMembershipInviteFragment'
 import routes from '@lib/routes'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 

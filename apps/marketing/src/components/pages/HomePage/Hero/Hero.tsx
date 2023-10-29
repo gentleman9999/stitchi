@@ -1,8 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
-import { ButtonProps } from '@components/ui'
 import { Section } from '../../../common'
-import Button from '@components/ui/ButtonV2'
+import Button, { ButtonProps } from '@components/ui/ButtonV2'
 
 interface Cta {
   title: React.ReactNode

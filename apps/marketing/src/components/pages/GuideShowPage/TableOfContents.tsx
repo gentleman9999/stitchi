@@ -1,5 +1,6 @@
-import { Section, SectionHeader } from '@components/common'
-import { Button, Container } from '@components/ui'
+import { Section } from '@components/common'
+import Button from '@components/ui/ButtonV2/Button'
+import Container from '@components/ui/Container'
 import { ArrowDown } from 'icons'
 import React from 'react'
 import SectionHeading from './SectionHeader'

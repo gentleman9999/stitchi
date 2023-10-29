@@ -14,7 +14,7 @@ import {
   HomeIcon,
   Squares2X2Icon,
 } from '@heroicons/react/20/solid'
-import { Badge } from '@components/ui'
+import Badge from '@components/ui/Badge'
 import { AppTopbarUserMembershipFragment } from '@generated/AppTopbarUserMembershipFragment'
 
 interface Props {

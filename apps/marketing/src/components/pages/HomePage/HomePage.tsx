@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container } from '@components/ui'
+import Container from '@components/ui/Container'
 import HomePageHero from './HomePageHero'
 import HomePageSimpleFeatureSection from './HomePageSimpleFeatureSection'
 import HomePageUseCasesSection from './HomePageUseCasesSection'

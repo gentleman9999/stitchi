@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import { CmsSeo, CmsStructuredText, Section } from '@components/common'
 import { TermsPagePageFragment } from '@generated/TermsPagePageFragment'
 import React from 'react'
-import { Container } from '@components/ui'
+import Container from '@components/ui/Container'
 import routes from '@lib/routes'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 

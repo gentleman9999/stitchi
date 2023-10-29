@@ -1,4 +1,5 @@
-import { Container, Logo } from '@components/ui'
+import Container from '@components/ui/Container'
+import Logo from '@components/ui/Logo'
 import routes from '@lib/routes'
 import Link from 'next/link'
 import React from 'react'

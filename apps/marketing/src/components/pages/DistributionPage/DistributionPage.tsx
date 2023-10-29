@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { FeaturePageContainer } from '@components/common'
-import { Container } from '@components/ui'
+import Container from '@components/ui/Container'
 import { DistributionPageCatalogFragment } from '@generated/DistributionPageCatalogFragment'
 import routes from '@lib/routes'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'

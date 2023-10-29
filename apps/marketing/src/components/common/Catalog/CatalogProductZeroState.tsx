@@ -1,4 +1,4 @@
-import { Button } from '@components/ui'
+import Button from '@components/ui/Button'
 import routes from '@lib/routes'
 import { ArrowRight } from 'icons'
 import Link from 'next/link'

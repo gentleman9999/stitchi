@@ -1,4 +1,4 @@
-import { Checkbox } from '@components/ui'
+import Checkbox from '@components/ui/inputs/Checkbox'
 
 const CheckboxFilter = ({
   onChange,

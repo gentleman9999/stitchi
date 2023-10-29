@@ -1,5 +1,5 @@
 import { Section } from '@components/common'
-import { Button } from '@components/ui'
+import Button from '@components/ui/Button'
 import React from 'react'
 
 const ExperienceSelector = () => {

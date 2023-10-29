@@ -1,4 +1,4 @@
-import { Container } from '@components/ui'
+import Container from '@components/ui/Container'
 import GridPattern from '@components/ui/GridPattern'
 import StarRating from '@components/ui/StarRating'
 import Image, { ImageProps } from 'next/image'

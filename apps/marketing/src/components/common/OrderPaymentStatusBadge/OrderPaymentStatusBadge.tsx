@@ -1,4 +1,4 @@
-import { Badge, BadgeProps } from '@components/ui'
+import Badge, { BadgeProps } from '@components/ui/Badge'
 import { OrderPaymentStatus } from '@generated/globalTypes'
 import React from 'react'
 

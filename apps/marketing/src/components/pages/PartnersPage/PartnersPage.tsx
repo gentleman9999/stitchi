@@ -1,4 +1,4 @@
-import { Container } from '@components/ui'
+import Container from '@components/ui/Container'
 import { NextSeo } from 'next-seo'
 import React from 'react'
 

@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { LinkInline } from '@components/ui'
+import LinkInline from '@components/ui/LinkInline'
 import {
   FeaturedProductsGridCatalogFragment,
   FeaturedProductsGridCatalogFragment_featuredProducts_edges_node,

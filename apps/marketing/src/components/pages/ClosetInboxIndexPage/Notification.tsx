@@ -1,4 +1,4 @@
-import { Badge } from '@components/ui'
+import Badge from '@components/ui/Badge'
 import Button from '@components/ui/ButtonV2/Button'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { format, parseISO } from 'date-fns'

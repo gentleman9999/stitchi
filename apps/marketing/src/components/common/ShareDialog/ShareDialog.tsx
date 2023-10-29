@@ -1,4 +1,7 @@
-import { Button, Dialog, IconButton, TextField } from '@components/ui'
+import Button from '@components/ui/ButtonV2/Button'
+import Dialog from '@components/ui/Dialog'
+import IconButton from '@components/ui/IconButton'
+import { TextField } from '@components/ui/inputs'
 import copy from 'copy-to-clipboard'
 import { Link, XIcon } from 'icons'
 import React from 'react'
@@ -38,7 +41,7 @@ const ShareDialog = (props: Props) => {
         <div className="flex gap-2 items-center">
           <TextField readOnly value={window.location.href} className="flex-1" />
           <Button
-            slim
+            size="sm"
             color="brandPrimary"
             endIcon={!copied && <Link width={16} height={16} strokeWidth={2} />}
             onClick={handleCopy}

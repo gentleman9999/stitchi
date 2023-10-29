@@ -1,6 +1,6 @@
 import Button from '@components/ui/ButtonV2/Button'
+import Dialog from '@components/ui/Dialog'
 import React from 'react'
-import { Dialog } from '..'
 
 const useConfirmAction = <T extends any>(
   action: (params: T) => Promise<void> | void,

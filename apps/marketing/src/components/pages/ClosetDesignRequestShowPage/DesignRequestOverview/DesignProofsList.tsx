@@ -1,5 +1,4 @@
 import { gql, useQuery } from '@apollo/client'
-import { Badge, InputGroup } from '@components/ui'
 import React from 'react'
 import cx from 'classnames'
 import {
@@ -12,6 +11,8 @@ import { ScopeAction, ScopeResource } from '@generated/globalTypes'
 import { useAuthorizedComponent } from '@lib/auth'
 import Button from '@components/ui/ButtonV2/Button'
 import ClosetSection from '@components/common/ClosetSection'
+import Badge from '@components/ui/Badge'
+import { InputGroup } from '@components/ui/inputs'
 
 interface Props {
   designRequestId: string

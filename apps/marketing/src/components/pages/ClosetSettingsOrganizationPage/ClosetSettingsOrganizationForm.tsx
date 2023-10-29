@@ -1,5 +1,4 @@
 import ClosetDescriptionList from '@components/common/ClosetDescriptionList'
-import { TextField } from '@components/ui'
 import Button from '@components/ui/ButtonV2/Button'
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
@@ -8,6 +7,7 @@ import * as yup from 'yup'
 import cx from 'classnames'
 import { useAuthorizedComponent } from '@lib/auth'
 import { ScopeAction, ScopeResource } from '@generated/globalTypes'
+import { TextField } from '@components/ui/inputs'
 
 const schema = yup.object().shape({
   name: yup.string().required(),

@@ -1,6 +1,7 @@
 import { gql, useMutation } from '@apollo/client'
 import { Section } from '@components/common'
-import { Button, Container } from '@components/ui'
+import Button from '@components/ui/ButtonV2/Button'
+import Container from '@components/ui/Container'
 import { SubscriberListEnum } from '@generated/globalTypes'
 import {
   GuideShowPageMarketingSubscribeMutation,

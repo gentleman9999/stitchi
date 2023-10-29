@@ -1,4 +1,3 @@
-import { Button, IconButton } from '@components/ui'
 import { XIcon } from 'icons'
 import React from 'react'
 import pluralize from 'pluralize'
@@ -12,6 +11,8 @@ import CheckboxFilter from './CheckboxFilter'
 import CheckboxGroup from './CheckboxGroup'
 import CategoryTree from './CategoryTree'
 import FilterDialogContainer from './FilterDialogContainer'
+import Button from '@components/ui/ButtonV2/Button'
+import IconButton from '@components/ui/IconButton'
 
 interface Props {
   open: boolean

@@ -13,12 +13,13 @@ import { BlogPostIndexPagePageFragment } from '@generated/BlogPostIndexPagePageF
 import routes from '@lib/routes'
 import { useRouter } from 'next/router'
 import React from 'react'
-import { Button, Container } from '@components/ui'
 import BlogPostIndexPageFilters from './BlogPostIndexPageFilters'
 import BlogPostIndexPageSeo from './BlogPostIndexPageSeo'
 import Link from 'next/link'
 import Image from 'next/image'
 import featuredPostImage from '../../../../public/cash-in-on-merch-book-cover.jpg'
+import Container from '@components/ui/Container'
+import Button from '@components/ui/ButtonV2/Button'
 
 export interface BlogPostIndexPageProps {
   articles: BlogIndexPageArticleFragment[]

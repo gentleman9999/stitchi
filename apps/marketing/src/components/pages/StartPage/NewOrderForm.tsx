@@ -1,5 +1,4 @@
 import React from 'react'
-import { RadioSelect, TextField } from '@components/ui'
 import { object, string, Asserts } from 'yup'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -9,6 +8,7 @@ import routes from '@lib/routes'
 import { ComponentErrorMessage } from '@components/common'
 import Button from '@components/ui/ButtonV2/Button'
 import { useLogger } from 'next-axiom'
+import { TextField } from '@components/ui/inputs'
 
 const schema = object({
   email: string().email().required(),

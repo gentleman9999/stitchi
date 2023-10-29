@@ -1,6 +1,6 @@
 import Image from 'next/legacy/image'
 import React from 'react'
-import { Container } from '@components/ui'
+import Container from '@components/ui/Container'
 import { motion } from 'framer-motion'
 import Background from './Background'
 import StatsSection from './StatsSection'

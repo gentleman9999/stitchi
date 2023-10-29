@@ -1,4 +1,4 @@
-import { LoadingDots } from '@components/ui'
+import LoadingDots from '@components/ui/LoadingDots'
 import React from 'react'
 import cx from 'classnames'
 import { Check } from 'icons'

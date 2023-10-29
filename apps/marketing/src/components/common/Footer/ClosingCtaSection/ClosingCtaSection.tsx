@@ -1,9 +1,10 @@
 import { Section } from '@components/common'
+import Button from '@components/ui/ButtonV2/Button'
+import Container from '@components/ui/Container'
 import routes from '@lib/routes'
 import { ArrowRight } from 'icons'
 import Link from 'next/link'
 import React from 'react'
-import { Button, Container } from '@components/ui'
 
 const ClosingCtaSection = () => {
   return (

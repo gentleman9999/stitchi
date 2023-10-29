@@ -1,5 +1,5 @@
-import { Skeleton } from '@components/ui'
 import React from 'react'
+import Skeleton from 'react-loading-skeleton'
 import SwatchGroup from './SwatchGroup'
 
 const CatalogProductSkeleton = () => {

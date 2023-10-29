@@ -1,9 +1,10 @@
-import { Badge, BadgeProps, LoadingDots } from '@components/ui'
+import Badge, { BadgeProps } from '@components/ui/Badge'
 import {
   Dropdown,
   DropdownItem,
   DropdownItemProps,
 } from '@components/ui/Dropdown'
+import LoadingDots from '@components/ui/LoadingDots'
 import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
 import React from 'react'
