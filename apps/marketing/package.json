@@ -13,7 +13,7 @@
     "lint": "eslint src --fix",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf .next",
     "codegen": "yarn codegen:graphql && yarn codegen:seo && yarn codegen:static",
-    "codegen:graphql": "npx apollo client:codegen ./src/generated --target typescript --outputFlat",
+    "codegen:graphql": "graphql-codegen",
     "codegen:seo": "node ./scripts/generate-seo.mjs",
     "codegen:static": "node ./scripts/generate-static.mjs",
     "analyze": "cross-env ANALYZE=true next build",
@@ -93,6 +93,11 @@
     "yup": "^1.0.2"
   },
   "devDependencies": {
+    "@graphql-codegen/add": "^5.0.0",
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/fragment-matcher": "^5.0.0",
+    "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-operations": "^4.0.1",
     "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/forms": "^0.4.0",
     "@tailwindcss/typography": "^0.5.0",
