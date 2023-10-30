@@ -40,23 +40,44 @@ const Layout = ({ children }: Props) => {
           />
         </NavigationGroup>
 
-        <NavigationGroup
-          label="Production"
-          icon={<RectangleStackIcon className="w-4 h-4" />}
-          defaultExpanded={true}
+        <AuthorizedComponent
+          or={[
+            {
+              resource: ScopeResource.DesignProduct,
+              action: ScopeAction.READ,
+            },
+            {
+              resource: ScopeResource.Order,
+              action: ScopeAction.READ,
+            },
+          ]}
         >
-          <AuthorizedComponent
-            resource={ScopeResource.DesignProduct}
-            action={ScopeAction.READ}
+          <NavigationGroup
+            label="Production"
+            icon={<RectangleStackIcon className="w-4 h-4" />}
+            defaultExpanded={true}
           >
-            <NavItem
-              label="Inventory"
-              href={routes.internal.closet.inventory.href()}
-            />
-          </AuthorizedComponent>
+            <AuthorizedComponent
+              resource={ScopeResource.DesignProduct}
+              action={ScopeAction.READ}
+            >
+              <NavItem
+                label="Inventory"
+                href={routes.internal.closet.inventory.href()}
+              />
+            </AuthorizedComponent>
 
-          <NavItem label="Orders" href={routes.internal.closet.orders.href()} />
-        </NavigationGroup>
+            <AuthorizedComponent
+              resource={ScopeResource.Order}
+              action={ScopeAction.READ}
+            >
+              <NavItem
+                label="Orders"
+                href={routes.internal.closet.orders.href()}
+              />
+            </AuthorizedComponent>
+          </NavigationGroup>
+        </AuthorizedComponent>
 
         <hr />
 

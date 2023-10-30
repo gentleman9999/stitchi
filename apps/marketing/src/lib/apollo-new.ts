@@ -79,6 +79,9 @@ const makeAuthLink = (params: { deviceId?: string } = {}) =>
   setContext(async (_, { headers }) => {
     let accessToken
     try {
+      // TODO: NEED TO ADD HEADERS WITH COOKIE
+      // LOOK AT getAccessToken in apps/marketing/src/lib/access-token.ts
+
       const response = await fetch(`${appUrl}/api/auth/accessToken`)
       const data = await response.json()
       accessToken = data.accessToken as string | null

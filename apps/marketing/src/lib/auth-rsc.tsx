@@ -10,20 +10,22 @@ import {
 import React from 'react'
 import { getClient } from './apollo-rsc'
 
-interface AuthorizationParams {
+interface BasicAuthorizationParams {
   resource: ScopeResource
   action: ScopeAction
 }
+
+interface OrAuthorizationParams {
+  or: BasicAuthorizationParams[]
+}
+
+type AuthorizationParams = BasicAuthorizationParams | OrAuthorizationParams
 
 interface Props extends AuthorizationParams {
   children: React.ReactNode
 }
 
-export const AuthorizedComponent = async ({
-  children,
-  resource,
-  action,
-}: Props) => {
+export const AuthorizedComponent = async ({ children, ...rest }: Props) => {
   const client = getClient()
 
   const { data } = await client.query<
@@ -32,9 +34,22 @@ export const AuthorizedComponent = async ({
   >({ query: GET_DATA })
 
   const can =
-    data.viewer?.scopes.some(
-      scope => scope.resource === resource && scope.action === action,
-    ) || false
+    data.viewer?.scopes.some(scope => {
+      if ('or' in rest) {
+        return Boolean(
+          rest.or.some(orScope => {
+            if (
+              scope.resource === orScope.resource &&
+              scope.action === orScope.action
+            ) {
+              return true
+            }
+          }),
+        )
+      } else {
+        return scope.resource === rest.resource && scope.action === rest.action
+      }
+    }) || false
 
   if (!can) {
     return null
