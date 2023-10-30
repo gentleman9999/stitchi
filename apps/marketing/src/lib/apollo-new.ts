@@ -1,31 +1,31 @@
 import {
-  ApolloClient,
-  InMemoryCache,
   createHttpLink,
-  NormalizedCacheObject,
   defaultDataIdFromObject,
   FieldPolicy,
   split,
+  ApolloLink,
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import {
   getMainDefinition,
-  mergeDeep,
   Reference,
   relayStylePagination,
 } from '@apollo/client/utilities'
 import getOrThrow from '@lib/utils/get-or-throw'
-import { AppProps } from 'next/app'
-import { useMemo } from 'react'
-import { isEqual } from 'lodash-es'
-import { GetStaticPropsResult, GetServerSidePropsContext } from 'next'
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
 import { createClient } from 'graphql-ws'
-import Cookies from 'universal-cookie'
-import { COOKIE_DEVICE_ID } from './constants'
-import { getAccessToken } from './access-token'
+import {
+  NextSSRApolloClient,
+  NextSSRInMemoryCache,
+  SSRMultipartLink,
+} from '@apollo/experimental-nextjs-app-support/ssr'
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__' as const
+
+const appUrl = getOrThrow(
+  process.env.NEXT_PUBLIC_SITE_URL,
+  'NEXT_PUBLIC_SITE_URL',
+)
 
 const graphqlEndpoint = getOrThrow(
   process.env.NEXT_PUBLIC_STITCHI_GRAPHQL_URI,
@@ -54,7 +54,7 @@ const makeWsLink = () =>
 // * A function that's called for each operation to execute
 // * The Link to use for an operation if the function returns a "truthy" value
 // * The Link to use for an operation if the function returns a "falsy" value
-const makeSplitLink = () =>
+const makeSplitLink = ({ rsc = false }) =>
   split(
     ({ query }) => {
       const definition = getMainDefinition(query)
@@ -64,27 +64,33 @@ const makeSplitLink = () =>
       )
     },
     makeWsLink(),
-    httpLink,
+
+    typeof window === 'undefined' && !rsc
+      ? ApolloLink.from([
+          new SSRMultipartLink({
+            stripDefer: true,
+          }),
+          httpLink,
+        ])
+      : httpLink,
   )
 
-const makeAuthLink = (ctx?: Pick<GetServerSidePropsContext, 'req' | 'res'>) =>
+const makeAuthLink = (params: { deviceId?: string } = {}) =>
   setContext(async (_, { headers }) => {
-    const accessToken = await getAccessToken(ctx)
-
-    let deviceId: string | undefined = undefined
-
-    if (ctx) {
-      const cookies = new Cookies(ctx.req.headers.cookie)
-
-      deviceId = cookies.get(COOKIE_DEVICE_ID)
-    } else if (typeof document !== 'undefined') {
-      const cookies = new Cookies(document.cookie)
-      deviceId = cookies.get(COOKIE_DEVICE_ID)
+    let accessToken
+    try {
+      const response = await fetch(`${appUrl}/api/auth/accessToken`)
+      const data = await response.json()
+      accessToken = data.accessToken as string | null
+    } catch (error) {
+      console.error("Couldn't get access token", {
+        context: { error },
+      })
     }
 
     return {
       headers: Object.assign(headers || {}, {
-        'x-device-id': deviceId,
+        'x-device-id': params.deviceId,
         'Content-Type': 'application/json',
         Accept: 'application/json',
         Authorization: accessToken ? `Bearer ${accessToken}` : '',
@@ -92,16 +98,12 @@ const makeAuthLink = (ctx?: Pick<GetServerSidePropsContext, 'req' | 'res'>) =>
     }
   })
 
-// Allows us to share the apollo client instance (including auth) across client and server
-let apolloClient: ApolloClient<NormalizedCacheObject>
-
-const createApolloClient = (
-  ctx?: Pick<GetServerSidePropsContext, 'req' | 'res'>,
+export const createApolloClient = (
+  params: { deviceId?: string; rsc?: boolean } = {},
 ) =>
-  new ApolloClient({
-    ssrMode: Boolean(ctx),
-    link: makeAuthLink(ctx).concat(makeSplitLink()),
-    cache: new InMemoryCache({
+  new NextSSRApolloClient({
+    link: makeAuthLink(params).concat(makeSplitLink({ rsc: params.rsc })),
+    cache: new NextSSRInMemoryCache({
       dataIdFromObject(responseObj) {
         switch (responseObj.__typename) {
           // By default Site has no ID. We need ID to share site access across cache
@@ -136,59 +138,6 @@ const createApolloClient = (
       },
     }),
   })
-
-export function initializeApollo(
-  initialState: NormalizedCacheObject | null = null,
-  ctx?: Pick<GetServerSidePropsContext, 'req' | 'res'>,
-) {
-  const _apolloClient = apolloClient ?? createApolloClient(ctx)
-
-  // If your page has Next.js data fetching methods that use Apollo Client, the initial state
-  // gets hydrated here
-  if (initialState) {
-    // Get existing cache, loaded during client side data fetching
-    const existingCache = _apolloClient.extract()
-
-    // Merge the existing cache into data passed from getStaticProps/getServerSideProps
-    const data = mergeDeep(initialState, existingCache, {
-      // combine arrays using object equality (like in sets)
-      arrayMerge: (destinationArray: any[], sourceArray: any[]) => [
-        ...sourceArray,
-        ...destinationArray.filter(d => sourceArray.every(s => !isEqual(d, s))),
-      ],
-    })
-
-    // Restore the cache with the merged data
-    _apolloClient.cache.restore(data)
-  }
-  // For SSG and SSR always create a new Apollo Client
-  if (typeof window === 'undefined') return _apolloClient
-  // Create the Apollo Client once in the client
-  if (!apolloClient) apolloClient = _apolloClient
-
-  return _apolloClient
-}
-
-export function addApolloState<
-  P extends Omit<{ [key: string]: any }, typeof APOLLO_STATE_PROP_NAME>,
->(
-  client: ApolloClient<NormalizedCacheObject>,
-  pageProps: GetStaticPropsResult<P>,
-): GetStaticPropsResult<P> & { props: { APOLLO_STATE_PROP_NAME: any } } {
-  return {
-    ...pageProps,
-    props: {
-      ...('props' in pageProps ? pageProps.props : {}),
-      [APOLLO_STATE_PROP_NAME]: client.cache.extract(),
-    } as any,
-  }
-}
-
-export function useApollo(pageProps: AppProps['pageProps']) {
-  const state = pageProps[APOLLO_STATE_PROP_NAME as keyof typeof pageProps]
-  const apollo = useMemo(() => initializeApollo(state), [state])
-  return apollo
-}
 
 type KeyArgs = FieldPolicy<any>['keyArgs']
 

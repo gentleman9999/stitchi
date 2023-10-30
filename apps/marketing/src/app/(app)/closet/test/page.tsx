@@ -1,9 +1,10 @@
+import ClosetPageContainer from '@components/common/ClosetPageContainer'
 import React from 'react'
 
 interface Props {}
 
 const Page = () => {
-  return <div>Test page</div>
+  return <ClosetPageContainer>Test page</ClosetPageContainer>
 }
 
 export default Page
