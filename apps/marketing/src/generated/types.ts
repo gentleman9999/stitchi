@@ -12242,10 +12242,15 @@ export type UseCustomizeProductCustomizeMutation = { __typename: 'Mutation', cat
 
 export type TermsPagePageFragment = { __typename: 'TermsOfUsePageRecord', id: any, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }>, content: { __typename: 'TermsOfUsePageModelContentField', value: any } | null };
 
+export type AuthorizedComponentGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AuthorizedComponentGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, role: MembershipRole | null, scopes: Array<{ __typename: 'Scope', resource: ScopeResource, action: ScopeAction }> } | null };
+
 export type UseAuthorizedComponentGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UseAuthorizedComponentGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, role: MembershipRole | null, scopes: Array<{ __typename: 'Scope', resource: ScopeResource, action: ScopeAction }>, flags: { __typename: 'MembershipFlags', isBetaTester: boolean } } | null };
+export type UseAuthorizedComponentGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, role: MembershipRole | null, scopes: Array<{ __typename: 'Scope', resource: ScopeResource, action: ScopeAction }> } | null };
 
 export type ProductPageGetDesignCategoryDataVariables = Exact<{
   designCategorySlug: SlugFilter;

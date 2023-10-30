@@ -1,6 +1,6 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-import { IncomingMessage, ServerResponse } from 'http'
-import { getAccessToken as getServerSideAccessToken } from '@auth0/nextjs-auth0'
+import { NextApiRequest } from 'next'
+import { IncomingMessage } from 'http'
+
 import getOrThrow from './utils/get-or-throw'
 
 const appUrl = getOrThrow(
@@ -10,22 +10,20 @@ const appUrl = getOrThrow(
 
 export const getAccessToken = async (ctx?: {
   req: IncomingMessage | NextApiRequest
-  res: ServerResponse<IncomingMessage> | NextApiResponse<any>
 }) => {
-  // const logger = useLogger()
-
   let accessToken: string | null = null
+
   try {
-    // if (ctx) {
-    //   accessToken =
-    //     (await getServerSideAccessToken(ctx.req, ctx.res)).accessToken || null
-    // } else {
     // Auth0 only provides access to the accessToken on the server.
     // So we must make a call the the Next.js server to retrieve token.
-    const response = await fetch(`${appUrl}/api/auth/accessToken`)
+    const response = await fetch(`${appUrl}/api/auth/accessToken`, {
+      headers: {
+        cookie: ctx?.req.headers.cookie as string,
+      },
+    })
     const data = await response.json()
+
     accessToken = data.accessToken as string | null
-    // }
   } catch (error) {
     console.error("Couldn't get access token", {
       context: { error },

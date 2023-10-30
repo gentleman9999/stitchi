@@ -1,4 +1,14 @@
+import NavigationGroup from '@components/layout/ClosetLayout/Navigation/NavigationGroup'
+import NavItem from '@components/layout/NavItem'
+import { ScopeAction, ScopeResource } from '@generated/types'
+import {
+  Cog8ToothIcon,
+  PaintBrushIcon,
+  RectangleStackIcon,
+} from '@heroicons/react/20/solid'
+import { AuthorizedComponent } from '@lib/auth-rsc'
 import { TOPBAR_NAV_HEIGTH_PX } from '@lib/constants'
+import routes from '@lib/routes'
 import React from 'react'
 
 const availableHeight = `calc(100vh-${TOPBAR_NAV_HEIGTH_PX}px)`
@@ -14,7 +24,47 @@ const Layout = ({ children }: Props) => {
       <nav
         className={`fixed h-[${availableHeight}] left-0 top-[${TOPBAR_NAV_HEIGTH_PX}px] border-r bg-paper w-0 md:w-64 z-10 overflow-scroll flex flex-col`}
       >
-        test
+        <NavigationGroup
+          icon={<PaintBrushIcon className="w-4 h-4" />}
+          label="Design"
+          defaultExpanded={true}
+        >
+          <NavItem
+            label="Designs"
+            href={routes.internal.closet.designs.href()}
+          />
+
+          <NavItem
+            label="Brand Kit"
+            href={routes.internal.closet.brand.href()}
+          />
+        </NavigationGroup>
+
+        <NavigationGroup
+          label="Production"
+          icon={<RectangleStackIcon className="w-4 h-4" />}
+          defaultExpanded={true}
+        >
+          <AuthorizedComponent
+            resource={ScopeResource.DesignProduct}
+            action={ScopeAction.READ}
+          >
+            <NavItem
+              label="Inventory"
+              href={routes.internal.closet.inventory.href()}
+            />
+          </AuthorizedComponent>
+
+          <NavItem label="Orders" href={routes.internal.closet.orders.href()} />
+        </NavigationGroup>
+
+        <hr />
+
+        <NavItem
+          label="Settings"
+          href={routes.internal.closet.settings.general.href()}
+          icon={<Cog8ToothIcon className="w-4 h-4" />}
+        />
       </nav>
 
       <main

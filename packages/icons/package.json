@@ -6,12 +6,11 @@
   "license": "MIT",
   "sideEffects": false,
   "devDependencies": {
-    "@types/react": "^18.0.21",
-    "@types/react-dom": "^18.0.6",
+    "@types/react-dom": "^18.2.14",
     "config": "*",
     "eslint": "^8.6.0",
     "tsconfig": "*",
-    "typescript": "^4.9.5"
+    "typescript": "^5.2.2"
   },
   "dependencies": {}
 }

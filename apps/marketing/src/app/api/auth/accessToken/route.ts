@@ -4,25 +4,16 @@ import {
   getAccessToken,
 } from '@auth0/nextjs-auth0'
 import routes from '@lib/routes'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 
-export const GET = async (req: Request) => {
-  console.log('GET ACCESS TOKEN API ROUTE')
-  const request = new NextRequest(req)
-
-  const res = NextResponse.next()
-
+export const GET = async (request: Request) => {
   try {
-    const { accessToken } = await getAccessToken(request, res)
-
-    console.log('SERVER ACCESS TOKEN', accessToken)
+    const { accessToken } = await getAccessToken()
 
     return new Response(JSON.stringify({ accessToken }), {
       status: 200,
     })
   } catch (error) {
-    console.log('ERROR', error)
-
     if (error instanceof AccessTokenError) {
       if (error.code === AccessTokenErrorCode.MISSING_SESSION) {
         return new Response(JSON.stringify({ accessToken: null }), {
@@ -37,6 +28,8 @@ export const GET = async (req: Request) => {
       },
     })
 
-    return NextResponse.redirect(routes.internal.logout.href())
+    return NextResponse.redirect(
+      new URL(routes.internal.logout.href(), request.url),
+    )
   }
 }

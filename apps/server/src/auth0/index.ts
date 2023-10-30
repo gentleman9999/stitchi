@@ -13,7 +13,7 @@ const auth0ManagementClient = new ManagementClient({
     process.env.AUTH0_CLIENT_SECRET,
     'AUTH0_CLIENT_SECRET',
   ),
-  scope: 'read:users',
+  // scope: 'read:users',
 })
 
 export type Auth0ManagementClient = typeof auth0ManagementClient

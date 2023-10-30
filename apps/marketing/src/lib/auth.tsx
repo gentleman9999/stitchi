@@ -1,3 +1,5 @@
+'use client'
+
 import { gql, useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 import hoistNonReactStatic from 'hoist-non-react-statics'
@@ -83,9 +85,6 @@ const GET_DATA = gql`
       scopes {
         resource
         action
-      }
-      flags {
-        isBetaTester
       }
     }
   }

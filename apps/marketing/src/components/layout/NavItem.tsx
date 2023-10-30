@@ -1,24 +1,28 @@
+'use client'
+
 import Link from 'next/link'
 import React from 'react'
 import cx from 'classnames'
 import { NavItem, SubNavItem } from './ClosetLayout/closet-layout-context'
+import { usePathname } from 'next/navigation'
 
 const NavItem = ({
   href,
   label,
   icon,
-  active,
   onClick,
   indicator,
   hidden,
   LinkComponent = Link,
   ...rest
 }: (NavItem | Omit<SubNavItem, 'type'>) & {
-  active?: boolean
   onClick?: () => void
   indicator?: boolean
 }) => {
+  const pathname = usePathname()
   const external = 'external' in rest && rest.external
+
+  const active = pathname?.startsWith(href)
 
   if (hidden) {
     return null

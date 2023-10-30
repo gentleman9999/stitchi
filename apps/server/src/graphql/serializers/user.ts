@@ -1,8 +1,24 @@
-import { User } from 'auth0'
 import { NexusGenObjects } from '../generated/nexus'
+import { User } from '../../services/user/serializer'
 
-export const auth0UserToGraphl = (user: User): NexusGenObjects['User'] => {
-  if (!user.user_id) throw new Error('User does not have a user_id')
+export const userToGraphql = (user: User): NexusGenObjects['User'] => {
+  return {
+    id: user.id,
 
-  return { ...user, id: user.user_id }
+    email: user.email,
+    emailVerified: user.emailVerified,
+    familyName: user.familyName,
+    givenName: user.givenName,
+    lastLogin: user.lastLogin,
+    name: user.name,
+    loginsCount: user.loginsCount,
+    nickname: user.nickname,
+    phoneNumber: user.phoneNumber,
+    phoneVerified: user.phoneVerified,
+    picture: user.picture,
+    username: user.username,
+
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
+  }
 }

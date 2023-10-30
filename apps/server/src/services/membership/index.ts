@@ -1,4 +1,4 @@
-import { User } from 'auth0'
+import { UserProfile } from 'auth0'
 import { logger } from '../../telemetry'
 import { MembershipFactoryMembership } from './factory/membership'
 import { MembershipFactoryMembershipNotificationSetting } from './factory/membership-notification-setting'
@@ -25,7 +25,7 @@ export interface MembershipService {
 
   acceptMembershipInvite: (input: {
     membershipId: string
-    user: User
+    user: UserProfile
   }) => Promise<MembershipFactoryMembership>
 
   findUserActiveMembership: (input: {

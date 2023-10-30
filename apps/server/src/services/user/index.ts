@@ -1,12 +1,10 @@
-import { AppMetadata, ManagementClient, User, UserMetadata } from 'auth0'
 import { Auth0ManagementClient, auth0ManagementClient } from '../../auth0'
 import { logger } from '../../telemetry'
+import { User, makeUser } from './serializer'
 
 export interface UserService {
-  getUser: typeof ManagementClient.prototype.getUser
-  getUserByEmail: (
-    email: string,
-  ) => Promise<User<AppMetadata, UserMetadata> | null>
+  getUser: (params: { id: string }) => Promise<User>
+  getUserByEmail: (params: { email: string }) => Promise<User>
 }
 
 interface MakeClientParams {
@@ -22,16 +20,18 @@ const makeClient: MakeClientFn = (
 ) => {
   return {
     getUser: async params => {
-      let user: User<AppMetadata, UserMetadata> = {}
+      let user
 
       try {
-        user = await auth0.getUser(params)
+        user = makeUser((await auth0.users.get(params)).data)
       } catch (error) {
         logger
           .child({
             context: { error, params },
           })
           .error(`Error getting user`)
+
+        throw new Error(`Error getting user`)
       }
 
       return user
@@ -41,11 +41,13 @@ const makeClient: MakeClientFn = (
       let user = null
 
       try {
-        const res = await auth0.getUsersByEmail(params)
+        const res = await auth0.usersByEmail.getByEmail(params)
 
         // User emails are unique in Auth0, so we should return the first result
-        if (res.length > 0) {
-          user = res[0]
+        if (res.data.length > 0) {
+          user = makeUser(res.data[0])
+        } else {
+          throw new Error(`No user found with email ${params.email}`)
         }
       } catch (error) {
         logger
@@ -53,6 +55,8 @@ const makeClient: MakeClientFn = (
             context: { error, params },
           })
           .error(`Error getting users by email`)
+
+        throw new Error(`Error getting user by email`)
       }
 
       return user
