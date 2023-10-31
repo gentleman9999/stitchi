@@ -10,23 +10,28 @@ import {
 import React from 'react'
 import { getClient } from './apollo-rsc'
 
-interface BasicAuthorizationParams {
+interface BaseProps {
+  children: React.ReactNode
+}
+
+interface AuthorizationComponentBasicProps extends BaseProps {
   resource: ScopeResource
   action: ScopeAction
 }
 
-interface OrAuthorizationParams {
-  or: BasicAuthorizationParams[]
+interface AuthorizationComponentOrProps extends BaseProps {
+  or: Omit<AuthorizationComponentBasicProps, 'children'>[]
 }
 
-type AuthorizationParams = BasicAuthorizationParams | OrAuthorizationParams
+type AuthorizationComponentProps =
+  | AuthorizationComponentBasicProps
+  | AuthorizationComponentOrProps
 
-interface Props extends AuthorizationParams {
-  children: React.ReactNode
-}
-
-export const AuthorizedComponent = async ({ children, ...rest }: Props) => {
-  const client = getClient()
+export const AuthorizedComponent = async ({
+  children,
+  ...rest
+}: AuthorizationComponentProps) => {
+  const client = await getClient()
 
   const { data } = await client.query<
     AuthorizedComponentGetDataQuery,

@@ -109,13 +109,7 @@ const Navigation = ({ membership }: Props) => {
         ],
       },
     ]
-  }, [
-    asPath,
-    authorizationLoading,
-    can,
-    membership?.unseenWebNotificationsCount,
-    role,
-  ])
+  }, [authorizationLoading, can, membership?.unseenWebNotificationsCount, role])
 
   return (
     <AnimatePresence initial={false}>

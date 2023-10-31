@@ -82,7 +82,7 @@ const signup: AppRouteHandlerFn = async (req, context) => {
 }
 
 const logout: AppRouteHandlerFn = async (req, context) => {
-  const client = getClient()
+  const client = await getClient()
 
   try {
     await client.mutate({

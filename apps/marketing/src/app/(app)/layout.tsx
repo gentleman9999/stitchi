@@ -11,6 +11,8 @@ import Button from '@components/ui/ButtonV2/Button'
 import { BellAlertIcon } from '@heroicons/react/20/solid'
 
 import TopbarUser from './TopbarUser'
+import { AppLayoutContextProvider } from './app-layout-context'
+import LogoButton from './LogoButton'
 
 interface Props {
   children: React.ReactNode
@@ -18,28 +20,30 @@ interface Props {
 const Layout = async ({ children }: Props) => {
   return (
     <main>
-      <nav className="fixed top-0 py-2 bg-paper w-full z-10 h-topbar-height border-b">
-        <Container className="max-w-none h-full flex items-center justify-between py-1">
-          <Logo className="h-10" />
+      <nav className="fixed top-0 bg-paper w-full z-10 h-topbar-height border-b flex items-center">
+        <Container className="max-w-none flex items-center justify-between py-2">
+          <div className="md:hidden">
+            <LogoButton>
+              <Logo className="h-10" />
+            </LogoButton>
+          </div>
+
+          <div className="hidden md:block">
+            <Logo className="h-10" />
+          </div>
 
           <ul className="flex gap-3">
-            <li>
-              <Link href={routes.internal.closet.href()}>Closet</Link>
-            </li>
-            <li>
-              <Link href={routes.internal.catalog.href()}>Catalog</Link>
-            </li>
-
-            <li>
+            <Item>
               <Button
+                Component={Link}
                 href={routes.internal.closet.inbox.href()}
                 variant="ghost"
               >
                 <BellAlertIcon className="w-4 h-4" />
               </Button>
-            </li>
+            </Item>
 
-            <li>
+            <Item>
               <Button
                 variant="ghost"
                 Component={Link}
@@ -47,11 +51,11 @@ const Layout = async ({ children }: Props) => {
               >
                 Support
               </Button>
-            </li>
+            </Item>
 
-            <li>
+            <Item>
               <TopbarUser />
-            </li>
+            </Item>
           </ul>
         </Container>
       </nav>
@@ -61,4 +65,20 @@ const Layout = async ({ children }: Props) => {
   )
 }
 
-export default Layout
+const Item = ({ children }: { children: React.ReactNode }) => {
+  return <li className="flex">{children}</li>
+}
+
+const withAppLayoutContext = (Component: React.ComponentType<Props>) => {
+  const ComponentWithAppLayoutContent = (props: any) => {
+    return (
+      <AppLayoutContextProvider>
+        <Component {...props} />
+      </AppLayoutContextProvider>
+    )
+  }
+
+  return ComponentWithAppLayoutContent
+}
+
+export default withAppLayoutContext(Layout)

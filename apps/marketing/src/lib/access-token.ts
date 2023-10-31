@@ -21,6 +21,7 @@ export const getAccessToken = async (ctx?: {
         cookie: ctx?.req.headers.cookie as string,
       },
     })
+
     const data = await response.json()
 
     accessToken = data.accessToken as string | null

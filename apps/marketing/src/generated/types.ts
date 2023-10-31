@@ -11553,6 +11553,11 @@ export type AppLayoutGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type AppLayoutGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, humanizedRole: string | null, organization: { __typename: 'Organization', id: string, name: string | null }, user: { __typename: 'User', id: string, name: string | null, email: string | null, picture: string | null } | null } | null };
 
+export type ClosetBaseLayoutGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ClosetBaseLayoutGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string } | null };
+
 export type LogoutUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 

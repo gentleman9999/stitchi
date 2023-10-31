@@ -5,12 +5,15 @@ import { createApolloClient } from './apollo-new'
 
 interface Props {
   deviceId?: string
+  accessToken?: string
   children: React.ReactNode
 }
 
-const ApolloProvider = ({ children, deviceId }: Props) => {
+const ApolloProvider = ({ children, deviceId, accessToken }: Props) => {
   return (
-    <ApolloNextAppProvider makeClient={() => createApolloClient({ deviceId })}>
+    <ApolloNextAppProvider
+      makeClient={() => createApolloClient({ deviceId, accessToken })}
+    >
       {children}
     </ApolloNextAppProvider>
   )

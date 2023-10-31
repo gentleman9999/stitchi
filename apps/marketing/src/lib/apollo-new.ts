@@ -22,11 +22,6 @@ import {
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__' as const
 
-const appUrl = getOrThrow(
-  process.env.NEXT_PUBLIC_SITE_URL,
-  'NEXT_PUBLIC_SITE_URL',
-)
-
 const graphqlEndpoint = getOrThrow(
   process.env.NEXT_PUBLIC_STITCHI_GRAPHQL_URI,
   'NEXT_PUBLIC_STITCHI_GRAPHQL_URI',
@@ -65,7 +60,7 @@ const makeSplitLink = ({ rsc = false }) =>
     },
     makeWsLink(),
 
-    typeof window === 'undefined' && !rsc
+    typeof window === 'undefined' && rsc === false
       ? ApolloLink.from([
           new SSRMultipartLink({
             stripDefer: true,
@@ -75,34 +70,22 @@ const makeSplitLink = ({ rsc = false }) =>
       : httpLink,
   )
 
-const makeAuthLink = (params: { deviceId?: string } = {}) =>
+const makeAuthLink = (
+  params: { deviceId?: string; accessToken?: string } = {},
+) =>
   setContext(async (_, { headers }) => {
-    let accessToken
-    try {
-      // TODO: NEED TO ADD HEADERS WITH COOKIE
-      // LOOK AT getAccessToken in apps/marketing/src/lib/access-token.ts
-
-      const response = await fetch(`${appUrl}/api/auth/accessToken`)
-      const data = await response.json()
-      accessToken = data.accessToken as string | null
-    } catch (error) {
-      console.error("Couldn't get access token", {
-        context: { error },
-      })
-    }
-
     return {
       headers: Object.assign(headers || {}, {
         'x-device-id': params.deviceId,
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+        Authorization: params.accessToken ? `Bearer ${params.accessToken}` : '',
       }),
     }
   })
 
 export const createApolloClient = (
-  params: { deviceId?: string; rsc?: boolean } = {},
+  params: { deviceId?: string; accessToken?: string; rsc?: boolean } = {},
 ) =>
   new NextSSRApolloClient({
     link: makeAuthLink(params).concat(makeSplitLink({ rsc: params.rsc })),
