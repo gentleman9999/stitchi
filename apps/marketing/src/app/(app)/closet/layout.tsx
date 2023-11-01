@@ -5,9 +5,23 @@ import {
 } from '@generated/types'
 import { getClient } from '@lib/apollo-rsc'
 import routes from '@lib/routes'
+import { Metadata } from 'next'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import React from 'react'
+
+export const metadata: Metadata = {
+  title: 'Your Closet',
+  robots: {
+    index: false,
+    follow: false,
+
+    googleBot: {
+      index: false,
+      follow: false,
+    },
+  },
+}
 
 interface Props {
   children: React.ReactNode
