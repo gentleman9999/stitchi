@@ -49,11 +49,11 @@ const RootLayout = async ({ children }: Props) => {
     <html>
       <UserProvider>
         <ApolloProvider deviceId={deviceId} accessToken={accessToken}>
-          <SnackbarProvider>
-            <StandoutProvider>
-              <body>{children}</body>
-            </StandoutProvider>
-          </SnackbarProvider>
+          <body>
+            <SnackbarProvider>
+              <StandoutProvider>{children}</StandoutProvider>
+            </SnackbarProvider>
+          </body>
         </ApolloProvider>
       </UserProvider>
     </html>
