@@ -1,3 +1,5 @@
+'use client'
+
 import { gql, useLazyQuery } from '@apollo/client'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { MixpanelProviderGetDataQuery } from '@generated/MixpanelProviderGetDataQuery'

@@ -2,7 +2,12 @@ import { UserProvider } from '@auth0/nextjs-auth0/client'
 import ApolloProvider from '@lib/ApolloProvider'
 import React from 'react'
 import { cookies } from 'next/headers'
-import { COMPANY_NAME, COOKIE_DEVICE_ID, SITE_URL } from '@lib/constants'
+import {
+  COMPANY_NAME,
+  COOKIE_DEVICE_ID,
+  SEO_DEFAULT_DESCRIPTION,
+  SITE_URL,
+} from '@lib/constants'
 import { StandoutProvider } from '@components/context/standout'
 import { SnackbarProvider } from '@components/context/snackbar-context'
 import routes from '@lib/routes'
@@ -14,10 +19,27 @@ import {
 import { RedirectType, redirect } from 'next/navigation'
 import PageloadProgressIndicator from '@components/layout/PageloadProgressIndicator'
 import { Metadata } from 'next'
+import getOrThrow from '@lib/utils/get-or-throw'
+import IntercomProvider from './IntercomProvider'
+import MixpanelProvider from '@components/context/mixpanel-context'
+import { AxiomWebVitals } from 'next-axiom'
+import Script from 'next/script'
+import { GTM_ID } from '@lib/events'
+import { Outfit } from 'next/font/google'
+
+const INTERCOM_APP_ID = getOrThrow(
+  process.env.NEXT_PUBLIC_INTERCOM_APP_ID,
+  'NEXT_PUBLIC_INTERCOM_APP_ID',
+)
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-outfit',
+})
 
 const title = 'Custom Merch & Merch Programs'
-const description =
-  'We craft personalized promotional merchandise, perfect for corporate events, startups, and fundraisers. Drive your brand visibility with our unique, high-quality customizable products distributed globally.'
+const description = SEO_DEFAULT_DESCRIPTION
 
 export const metadata: Metadata = {
   description,
@@ -103,14 +125,35 @@ const RootLayout = async ({ children }: Props) => {
   const deviceId = cookiesInstance.get(COOKIE_DEVICE_ID)?.value
 
   return (
-    <html>
+    <html className={outfit.className}>
+      {/* Google Tag Manager - Global base code */}
+      <Script
+        id="google-tag-manager"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer', '${GTM_ID}');
+          `,
+        }}
+      />
+      {/* Google Tag Manager - Global base code - end */}
+
+      <AxiomWebVitals />
       <UserProvider>
         <ApolloProvider deviceId={deviceId} accessToken={accessToken}>
           <body>
             <PageloadProgressIndicator />
-            <SnackbarProvider>
-              <StandoutProvider>{children}</StandoutProvider>
-            </SnackbarProvider>
+            <IntercomProvider autoBoot appId={INTERCOM_APP_ID}>
+              <MixpanelProvider>
+                <SnackbarProvider>
+                  <StandoutProvider>{children}</StandoutProvider>
+                </SnackbarProvider>
+              </MixpanelProvider>
+            </IntercomProvider>
           </body>
         </ApolloProvider>
       </UserProvider>
