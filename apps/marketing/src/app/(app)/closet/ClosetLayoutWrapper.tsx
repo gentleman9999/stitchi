@@ -18,7 +18,7 @@ const ClosetLayoutWrapper = (props: Props) => {
         panelHeight={availableHeight}
         topbarHeight={`${TOPBAR_NAV_HEIGTH_PX}px`}
       >
-        <div className="flex flex-col gap-1 p-2">{props.navigation}</div>
+        <div className="flex flex-col gap-1 p-2 h-full">{props.navigation}</div>
       </ClosetLayoutWrapperPanel>
       <main
         className={`overflow-auto w-full z-0 bg-gray-50 min-h-[${availableHeight}] relative`}

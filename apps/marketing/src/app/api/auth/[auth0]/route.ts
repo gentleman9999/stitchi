@@ -42,7 +42,7 @@ const audience = getOrThrow(
 
 const defaultAuthorizationParams = {
   audience,
-  scope: 'openid profile email',
+  scope: 'openid profile email offline_access',
 }
 
 const login: AppRouteHandlerFn = async (req, context) => {
@@ -56,6 +56,7 @@ const login: AppRouteHandlerFn = async (req, context) => {
     returnTo: routes.internal.account.authenticated.href({
       redirectUrl,
     }),
+
     authorizationParams: {
       ...defaultAuthorizationParams,
     },
