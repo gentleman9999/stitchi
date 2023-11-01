@@ -96,7 +96,7 @@ const AppTopbarUser = ({ membership }: Props) => {
             />
 
             <DropdownItem
-              href={routes.internal.closet.memberships.href()}
+              href={routes.internal.account.memberships.href()}
               label="Switch workspace"
               icon={<ArrowPathRoundedSquareIcon className="w-4 h-4" />}
             />

@@ -7,12 +7,15 @@ interface Props {
   children: React.ReactNode
   className?: string
   disabled?: boolean
-  collapsable?: boolean
-  defaultCollapsed?: boolean
 }
 
 const withCardContext = (Component: React.ComponentType<Props>) => {
-  const CardWithContext = (props: Props) => {
+  const CardWithContext = (
+    props: Props & {
+      collapsable?: boolean
+      defaultCollapsed?: boolean
+    },
+  ) => {
     const { collapsable = false, defaultCollapsed = false } = props
 
     return (

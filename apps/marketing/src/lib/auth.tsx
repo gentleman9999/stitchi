@@ -1,7 +1,7 @@
 'use client'
 
 import { gql, useQuery } from '@apollo/client'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import hoistNonReactStatic from 'hoist-non-react-statics'
 import routes from './routes'
 import { ScopeAction, ScopeResource } from '@generated/globalTypes'

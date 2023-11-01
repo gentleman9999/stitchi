@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { useClosetSectionContext } from '../ClosetSection/closet-section-context'

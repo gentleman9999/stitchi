@@ -10,6 +10,7 @@ import Link from 'next/link'
 
 import NotificationsButton from './NotificationsButton'
 import TopbarUser from './TopbarUser'
+import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
 
 interface Props {}
 
@@ -37,6 +38,8 @@ const Topbar = (props: Props) => {
               variant="ghost"
               Component={Link}
               href={routes.external.support.href()}
+              startIcon={<QuestionMarkCircleIcon className="w-4 h-4" />}
+              {...{ target: '_blank' }}
             >
               Support
             </Button>

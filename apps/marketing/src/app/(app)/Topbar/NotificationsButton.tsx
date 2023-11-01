@@ -1,9 +1,9 @@
 'use client'
 
 import Button from '@components/ui/ButtonV2/Button'
-import { BellAlertIcon } from '@heroicons/react/20/solid'
 import React from 'react'
 import { useNotificationStandout } from '../notification-standout-context'
+import { BellAlertIcon } from '@heroicons/react/24/outline'
 
 interface Props {}
 

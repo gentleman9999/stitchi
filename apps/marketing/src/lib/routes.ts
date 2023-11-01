@@ -333,14 +333,6 @@ const routes = {
         href: () => buildRoute('/closet/brand'),
       },
 
-      memberships: {
-        href: ({
-          redirectUrl,
-        }: {
-          redirectUrl?: string
-        } = {}) => buildRoute('/closet/memberships', { redirectUrl }),
-      },
-
       settings: {
         general: {
           href: () => buildRoute('/closet/settings/general'),
@@ -360,6 +352,14 @@ const routes = {
       authenticated: {
         href: (params?: { redirectUrl?: string }) =>
           buildRoute('/account/authenticated', params),
+      },
+
+      memberships: {
+        href: ({
+          redirectUrl,
+        }: {
+          redirectUrl?: string
+        } = {}) => buildRoute('/account/memberships', { redirectUrl }),
       },
     },
   },

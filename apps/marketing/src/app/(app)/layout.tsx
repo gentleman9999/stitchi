@@ -14,8 +14,10 @@ const Layout = async ({ children }: Props) => {
   return (
     <AppLayoutContextProvider>
       <NotificationStandoutProvider>
-        <Topbar />
-        <main>{children}</main>
+        <div className="relative h-full">
+          <Topbar />
+          {children}
+        </div>
       </NotificationStandoutProvider>
     </AppLayoutContextProvider>
   )

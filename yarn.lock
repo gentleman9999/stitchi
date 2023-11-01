@@ -9569,7 +9569,7 @@ next-sitemap@^4.0.6:
     fast-glob "^3.2.12"
     minimist "^1.2.8"
 
-next-usequerystate@^1.7.2:
+next-usequerystate@^1.9.1:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/next-usequerystate/-/next-usequerystate-1.9.1.tgz#afe3a5b2c32d375978fa85cd10aa26b8f031a95f"
   integrity sha512-6QrUBqj4hl68j0PHBkWPE3OZiWZyA28rMmLVkPxUIVR1Sac6VYp66+iyWsS/8roykNm8wHkAb16E1gshS9SMBA==

@@ -12,6 +12,7 @@ import {
   getAccessToken,
 } from '@auth0/nextjs-auth0'
 import { RedirectType, redirect } from 'next/navigation'
+import PageloadProgressIndicator from '@components/layout/PageloadProgressIndicator'
 
 interface Props {
   children: React.ReactNode
@@ -50,6 +51,7 @@ const RootLayout = async ({ children }: Props) => {
       <UserProvider>
         <ApolloProvider deviceId={deviceId} accessToken={accessToken}>
           <body>
+            <PageloadProgressIndicator />
             <SnackbarProvider>
               <StandoutProvider>{children}</StandoutProvider>
             </SnackbarProvider>

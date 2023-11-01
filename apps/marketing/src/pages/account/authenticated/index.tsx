@@ -80,7 +80,7 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
         return {
           redirect: {
             permanent: false,
-            destination: routes.internal.closet.memberships.href({
+            destination: routes.internal.account.memberships.href({
               redirectUrl: ctx.query.redirectUrl?.toString(),
             }),
           },

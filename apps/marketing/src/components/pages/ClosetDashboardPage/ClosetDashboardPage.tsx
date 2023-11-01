@@ -1,3 +1,5 @@
+'use client'
+
 import { gql, useQuery } from '@apollo/client'
 import ClosetPageContainer from '@components/common/ClosetPageContainer'
 import ClosetPageHeader from '@components/common/ClosetPageHeader'
