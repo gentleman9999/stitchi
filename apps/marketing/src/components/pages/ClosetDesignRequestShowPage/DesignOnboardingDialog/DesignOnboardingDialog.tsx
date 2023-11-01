@@ -5,7 +5,7 @@ import Button from '@components/ui/ButtonV2/Button'
 import { PaintBrushIcon } from '@heroicons/react/20/solid'
 import {
   COMPANY_NAME,
-  COMPANY_SUPPORT_EMAIL,
+  SUPPORT_EMAIL,
   SUPPORT_PERSON_NAME,
   SUPPORT_PERSON_PICTURE,
 } from '@lib/constants'
@@ -79,11 +79,11 @@ const DesignOnboardingDialog = ({}: Props) => {
               If you have any questions or want to provide feedback, click the
               support link in the navigation or drop me a line directly at{' '}
               <a
-                href={`mailto:${COMPANY_SUPPORT_EMAIL}`}
+                href={`mailto:${SUPPORT_EMAIL}`}
                 className="underline"
                 target="_blank"
               >
-                {COMPANY_SUPPORT_EMAIL}
+                {SUPPORT_EMAIL}
               </a>
               . We thank you for the opportunity to serve you - now enjoy for
               exploring!
