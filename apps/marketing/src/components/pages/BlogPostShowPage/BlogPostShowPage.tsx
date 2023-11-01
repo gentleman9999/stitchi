@@ -8,13 +8,14 @@ import {
 } from '@components/common'
 import { BlogPostShowPageArticleFragment } from '@generated/BlogPostShowPageArticleFragment'
 import React from 'react'
-import { BackgroundTexture, Container } from '@components/ui'
 import { humanizeDate } from '@lib/utils/date'
 import BlogPostShowPageAuthor from './BlogPostShowPageAuthor'
 import BlogPostShowPageSeo from './BlogPostShowPageSeo'
 import BlogPostJsonLD from './BlogPostJsonLD'
 import Breadcrumbs from '@components/common/Breadcrumbs'
 import routes from '@lib/routes'
+import Container from '@components/ui/Container'
+import BackgroundTexture from '@components/ui/BackgroundTexture'
 
 export interface BlogShowPageProps {
   post: BlogPostShowPageArticleFragment

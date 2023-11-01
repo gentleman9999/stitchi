@@ -1,9 +1,10 @@
 import nav from '@lib/navigation'
 import React from 'react'
 import cx from 'classnames'
-import { Badge, Container } from '@components/ui'
 import { Section, SubscribeInline } from '..'
 import ClosingCtaSection from './ClosingCtaSection'
+import Container from '@components/ui/Container'
+import Badge from '@components/ui/Badge'
 
 const navigation = nav.makeNavigation()
 

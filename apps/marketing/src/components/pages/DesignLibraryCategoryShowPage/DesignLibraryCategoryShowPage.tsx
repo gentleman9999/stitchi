@@ -7,7 +7,8 @@ import {
   SectionHeader,
 } from '@components/common'
 import CustomerLogoBanner from '@components/common/CustomerLogoBanner'
-import { Container, LinkInline } from '@components/ui'
+import Container from '@components/ui/Container'
+import LinkInline from '@components/ui/LinkInline'
 import { DesignLibraryCategoryShowPageCatalogFragment } from '@generated/DesignLibraryCategoryShowPageCatalogFragment'
 import { DesignLibraryCategoryShowPageDesignCategoryFragment } from '@generated/DesignLibraryCategoryShowPageDesignCategoryFragment'
 import routes from '@lib/routes'

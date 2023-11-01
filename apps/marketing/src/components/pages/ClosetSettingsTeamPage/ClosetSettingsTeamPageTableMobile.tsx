@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { Badge } from '@components/ui'
+import Badge from '@components/ui/Badge'
 import { ClosetSettingsTeamPageTableMobileMemberFragment } from '@generated/ClosetSettingsTeamPageTableMobileMemberFragment'
 import { format, parseISO } from 'date-fns'
 import React from 'react'

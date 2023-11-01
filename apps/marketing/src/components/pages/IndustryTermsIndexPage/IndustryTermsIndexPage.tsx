@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { Container } from '@components/ui'
+import Container from '@components/ui/Container'
 import { IndustryTermsIndexPageEntryFragment } from '@generated/IndustryTermsIndexPageEntryFragment'
 import React from 'react'
 import { motion } from 'framer-motion'

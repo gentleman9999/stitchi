@@ -5,7 +5,7 @@ import { generateImageSizes } from '@lib/utils/image'
 import { Popover } from '@headlessui/react'
 import Link from 'next/link'
 import routes from '@lib/routes'
-import { Button } from '@components/ui'
+import Button from '@components/ui/Button'
 
 const linkClass =
   'font-semibold border-2 border-transparent hover:border-primary hover:bg-gray-50 p-2 rounded-md -translate-x-1 transition-all'

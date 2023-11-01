@@ -1,4 +1,6 @@
-import { Checkbox, InputGroup, LinkInline, TextField } from '@components/ui'
+import { InputGroup, TextField } from '@components/ui/inputs'
+import Checkbox from '@components/ui/inputs/Checkbox'
+import LinkInline from '@components/ui/LinkInline'
 import { yupResolver } from '@hookform/resolvers/yup'
 import routes from '@lib/routes'
 import React from 'react'

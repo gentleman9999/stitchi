@@ -1,5 +1,5 @@
 import { Section } from '@components/common'
-import { Container } from '@components/ui'
+import Container from '@components/ui/Container'
 import { Check } from 'icons'
 
 const Introduction = () => {

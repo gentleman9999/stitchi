@@ -1,5 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
-import { Container, LoadingDots } from '@components/ui'
+import Container from '@components/ui/Container'
+import LoadingDots from '@components/ui/LoadingDots'
 import {
   IndustriesIndexPageGetDataQuery,
   IndustriesIndexPageGetDataQueryVariables,

@@ -1,5 +1,5 @@
 import UserAvatar from '@components/common/UserAvatar'
-import { Container } from '@components/ui'
+import Container from '@components/ui/Container'
 import { SUPPORT_PERSON_NAME, SUPPORT_PERSON_PICTURE } from '@lib/constants'
 import { useLogger } from 'next-axiom'
 import React from 'react'

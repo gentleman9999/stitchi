@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import ClosetPageHeader from '@components/common/ClosetPageHeader'
 import ClosetPageTitle from '@components/common/ClosetPageTitle'
-import { Container } from '@components/ui'
+import Container from '@components/ui/Container'
 import { ClosetDesignProofCreatePageDesignRequestFragment } from '@generated/ClosetDesignProofCreatePageDesignRequestFragment'
 import routes from '@lib/routes'
 import { useLogger } from 'next-axiom'

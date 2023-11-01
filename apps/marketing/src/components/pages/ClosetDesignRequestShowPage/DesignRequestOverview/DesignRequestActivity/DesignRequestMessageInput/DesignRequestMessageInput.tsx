@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client'
 import UserAvatar from '@components/common/UserAvatar'
-import { Checkbox, FileInput } from '@components/ui'
 import { DesignRequestMessageInputDesignRequestFragment } from '@generated/DesignRequestMessageInputDesignRequestFragment'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { PaperClip } from 'icons'
@@ -12,6 +11,8 @@ import useDesignRequestMessageInput from './useDesignRequestMessageInput'
 import { useAuthorizedComponent } from '@lib/auth'
 import { ScopeAction, ScopeResource } from '@generated/globalTypes'
 import Button from '@components/ui/ButtonV2/Button'
+import { FileInput } from '@components/ui/inputs'
+import Checkbox from '@components/ui/inputs/Checkbox'
 
 interface Props {
   loading: boolean

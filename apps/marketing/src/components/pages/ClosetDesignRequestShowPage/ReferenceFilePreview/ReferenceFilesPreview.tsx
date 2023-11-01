@@ -1,4 +1,4 @@
-import { Button } from '@components/ui'
+import Button from '@components/ui/Button'
 import { FileType } from '@generated/globalTypes'
 import { PaperClip } from 'icons'
 import React from 'react'

@@ -1,17 +1,14 @@
 import { gql } from '@apollo/client'
-import { InputGroup, TextField } from '@components/ui'
 import { AdditionalInformationFormDesignRequestFragment } from '@generated/AdditionalInformationFormDesignRequestFragment'
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import ClosetSection from '@components/common/ClosetSection'
-import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
-import ClosetSectionTitle from '@components/common/ClosetSectionTitle'
 import ReferenceFilesInput from '../../../ReferenceFilesInput/ReferenceFilesInput'
 import DesignRequestLocationInput from './DesignRequestLocationInput'
 import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/Card'
-import SaveStateIndicator from '@components/common/SaveStateIndicator'
+import { InputGroup, TextField } from '@components/ui/inputs'
 
 const locationSchema = yup.object().shape({
   id: yup.string().nullable(),

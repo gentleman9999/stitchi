@@ -47,11 +47,7 @@ const SecondarySideBar = (props: Props) => {
             ?.filter(link => !link.hidden)
             .map(link => (
               <li key={link.href}>
-                <NavItem
-                  {...link}
-                  active={activeNavItem?.href === link.href}
-                  onClick={() => handleNavigate(link)}
-                />
+                <NavItem {...link} onClick={() => handleNavigate(link)} />
               </li>
             ))}
         </ul>

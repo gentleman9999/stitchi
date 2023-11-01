@@ -222,7 +222,7 @@ export const membershipInvite = mutationField('membershipInvite', {
       let existingUser
 
       try {
-        existingUser = await ctx.user.getUserByEmail(email)
+        existingUser = await ctx.user.getUserByEmail({ email })
       } catch (error) {
         throw new GraphQLError('Failed to get user by email')
       }

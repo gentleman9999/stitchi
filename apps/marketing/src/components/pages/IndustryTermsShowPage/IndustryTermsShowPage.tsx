@@ -3,7 +3,6 @@ import {
   CmsStructuredText,
   CmsStructuredTextTableOfContents,
 } from '@components/common'
-import { Button, Container } from '@components/ui'
 import { IndustryTermsShowPageRelatedTermsFragment } from '@generated/IndustryTermsShowPageRelatedTermsFragment'
 import { IndustryTermsShowPageTermFragment } from '@generated/IndustryTermsShowPageTermFragment'
 import routes from '@lib/routes'
@@ -13,6 +12,8 @@ import React from 'react'
 import cx from 'classnames'
 import Breadcrumbs from './Breadcrumbs'
 import RelatedTerms from './RelatedTerms'
+import Container from '@components/ui/Container'
+import Button from '@components/ui/ButtonV2/Button'
 
 interface Props {
   term: IndustryTermsShowPageTermFragment

@@ -1,6 +1,7 @@
-import { gql, useQuery } from '@apollo/client'
+'use client'
+
+import { gql } from '@apollo/client'
 import UserAvatar from '@components/common/UserAvatar'
-import { AppTopbarUserGetDataQuery } from '@generated/AppTopbarUserGetDataQuery'
 import routes from '@lib/routes'
 import React from 'react'
 import NavItem from './NavItem'
@@ -11,10 +12,9 @@ import {
   ArrowRightOnRectangleIcon,
   ChevronUpDownIcon,
   Cog6ToothIcon,
-  HomeIcon,
   Squares2X2Icon,
 } from '@heroicons/react/20/solid'
-import { Badge } from '@components/ui'
+import Badge from '@components/ui/Badge'
 import { AppTopbarUserMembershipFragment } from '@generated/AppTopbarUserMembershipFragment'
 
 interface Props {

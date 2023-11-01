@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import FeaturePageTestimonial from '@components/common/FeaturePageContainer/FeaturePageTestimonial'
-import { Container } from '@components/ui'
+import Container from '@components/ui/Container'
 import { FeaturePageContainerCatalogFragment } from '@generated/FeaturePageContainerCatalogFragment'
 import { NextSeo } from 'next-seo'
 import React from 'react'

@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import CheckboxFilter from './CheckboxFilter'
-import { Button } from '@components/ui'
+import Button from '@components/ui/Button'
 
 interface Category {
   entityId: number

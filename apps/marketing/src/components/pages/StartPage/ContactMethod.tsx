@@ -1,4 +1,4 @@
-import { LinkInline } from '@components/ui'
+import LinkInline from '@components/ui/LinkInline'
 import React from 'react'
 
 interface Props {

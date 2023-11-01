@@ -2,10 +2,11 @@ import React from 'react'
 import FilterDialog from './FilterDialog'
 import FilterDialogButton from './FilterDialogButton'
 import useIntersectionObserver from '@components/hooks/useIntersectionObserver'
-import { Container, Transition } from '@components/ui'
 import FeaturedFilters from './FeaturedFilters'
 import { track } from '@lib/analytics'
 import cx from 'classnames'
+import Container from '@components/ui/Container'
+import Transition from '@components/ui/Transition'
 
 interface Props {
   catalogEndRef: React.RefObject<any>

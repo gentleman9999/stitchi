@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react'
 import { TextField } from '..'
-import { Checkbox, CheckboxProps } from '../..'
 import { useFuzzySearch } from 'hooks'
+import Checkbox, { CheckboxProps } from '../Checkbox/Checkbox'
 
 type CheckboxInput = React.ReactElement<typeof Checkbox>
 

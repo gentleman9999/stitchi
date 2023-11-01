@@ -1,5 +1,4 @@
 import { enumType, objectType } from 'nexus'
-import { auth0UserToGraphl } from '../../serializers/user'
 
 export const OrderItemSummary = objectType({
   name: 'OrderItemSummary',
@@ -100,18 +99,6 @@ export const Order = objectType({
     t.nonNull.list.nonNull.field('items', {
       type: 'OrderItem',
     })
-
-    // t.nullable.field('customer', {
-    //   type: 'User',
-    //   resolve: async (order, _, ctx) => {
-    //     if (!order.membershipId) {
-    //       return null
-    //     }
-
-    //     const user = await ctx.user.getUser({ id: order.membershipId })
-    //     return auth0UserToGraphl(user)
-    //   },
-    // })
 
     t.nonNull.field('createdAt', { type: 'DateTime' })
     t.field('updatedAt', { type: 'DateTime' })

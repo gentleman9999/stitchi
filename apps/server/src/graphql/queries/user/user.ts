@@ -2,7 +2,7 @@ import { GraphQLError } from 'graphql'
 import { extendType } from 'nexus'
 import { KeyValueRecordKey } from '../../../services/key-value-store'
 import { membershipFactoryToGraphql } from '../../serializers/membership'
-import { auth0UserToGraphl } from '../../serializers/user'
+import { userToGraphql } from '../../serializers/user'
 
 export const userMemberships = extendType({
   type: 'Query',
@@ -58,7 +58,7 @@ export const UserExtendsMembership = extendType({
           throw new GraphQLError('Unable to fetch user')
         }
 
-        return auth0UserToGraphl(user)
+        return userToGraphql(user)
       },
     })
   },

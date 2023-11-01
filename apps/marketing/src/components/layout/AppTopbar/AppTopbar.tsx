@@ -1,9 +1,9 @@
 import { gql } from '@apollo/client'
+import Logo from '@components/ui/Logo'
 import { AppTopbarMembershipFragment } from '@generated/AppTopbarMembershipFragment'
 import routes from '@lib/routes'
 import Link from 'next/link'
 import React from 'react'
-import { Logo } from '../../ui'
 import AppTopbarUser from './AppTopbarUser'
 import NavItem from './NavItem'
 

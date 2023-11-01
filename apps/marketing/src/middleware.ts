@@ -11,6 +11,8 @@ const addDeviceCooke = (request: NextRequest, response: NextResponse) => {
     sameSite: 'lax',
     secure: request.nextUrl.origin.startsWith('https'),
   })
+
+  return response
 }
 
 // const STITCHI_BLOG_URL = getOrThrow(
@@ -24,11 +26,11 @@ const addDeviceCooke = (request: NextRequest, response: NextResponse) => {
 // )
 
 const middleware: NextMiddleware = async (request, event) => {
-  const { pathname, search, origin } = request.nextUrl
+  const response = NextResponse.next()
+
+  const { pathname, search } = request.nextUrl
 
   const deviceId = request.cookies.get(COOKIE_DEVICE_ID)
-
-  const response = NextResponse.next()
 
   if (!deviceId) {
     addDeviceCooke(request, response)
@@ -76,7 +78,7 @@ const middleware: NextMiddleware = async (request, event) => {
           `${routes.internal.login.href({
             returnTo,
           })}`,
-          request.nextUrl.origin,
+          request.url,
         ),
       )
 

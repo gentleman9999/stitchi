@@ -1,7 +1,7 @@
 import FormSection from '@components/pages/ClosetDesignBuyPage/FormSection'
-import { InputGroup, TextField } from '@components/ui'
 import Button from '@components/ui/ButtonV2/Button'
 import { Card, CardContent } from '@components/ui/Card'
+import { InputGroup, TextField } from '@components/ui/inputs'
 import { XMarkIcon } from '@heroicons/react/20/solid'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Color from 'color'

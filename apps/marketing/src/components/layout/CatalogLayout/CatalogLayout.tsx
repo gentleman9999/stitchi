@@ -1,6 +1,5 @@
 import { gql, useQuery } from '@apollo/client'
 import { Footer } from '@components/common'
-import { Logo } from '@components/ui'
 import { CatalogLayoutGetDataQuery } from '@generated/CatalogLayoutGetDataQuery'
 import {
   ChevronDownIcon,
@@ -15,6 +14,7 @@ import React from 'react'
 import AppTopbar from '../AppTopbar'
 import PageloadProgressIndicator from '../PageloadProgressIndicator'
 import NavItem from '../NavItem'
+import Logo from '@components/ui/Logo'
 
 interface Props {
   children: React.ReactNode

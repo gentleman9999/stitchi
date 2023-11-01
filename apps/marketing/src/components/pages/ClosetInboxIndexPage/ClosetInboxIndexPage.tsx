@@ -3,7 +3,8 @@ import ClosetPageContainer from '@components/common/ClosetPageContainer'
 import ClosetPageHeader from '@components/common/ClosetPageHeader'
 import ClosetPageTitle from '@components/common/ClosetPageTitle'
 import ClosetSection from '@components/common/ClosetSection'
-import { IconButton, LoadingDots } from '@components/ui'
+import IconButton from '@components/ui/IconButton'
+import LoadingDots from '@components/ui/LoadingDots'
 import {
   ClosetInboxIndexPageNotificationFragment,
   ClosetInboxIndexPageNotificationFragment_channels_NotificationChannelWeb,

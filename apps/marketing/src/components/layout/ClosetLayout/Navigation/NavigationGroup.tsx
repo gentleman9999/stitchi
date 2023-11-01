@@ -1,7 +1,8 @@
+'use client'
+
 import React from 'react'
 import * as Collapsible from '@radix-ui/react-collapsible'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import cx from 'classnames'
 
 const NavigationGroup = ({
   label,
@@ -14,12 +15,9 @@ const NavigationGroup = ({
   children: React.ReactNode
   defaultExpanded?: boolean
 }) => {
-  const [expanded, setExpanded] = React.useState(defaultExpanded)
-
   return (
     <Collapsible.Root
-      open={expanded}
-      onOpenChange={setExpanded}
+      defaultOpen={defaultExpanded}
       className="flex flex-col gap-1"
     >
       <Collapsible.Trigger asChild>
@@ -29,11 +27,7 @@ const NavigationGroup = ({
           </div>
           <div>{label}</div>
           <div className="flex-1 flex justify-end">
-            <ChevronDownIcon
-              className={cx('w-4 h-4 transition-all', {
-                'rotate-180': expanded,
-              })}
-            />
+            <ChevronDownIcon className="w-4 h-4 transition-all data-[state=open]:rotate-180" />
           </div>
         </button>
       </Collapsible.Trigger>

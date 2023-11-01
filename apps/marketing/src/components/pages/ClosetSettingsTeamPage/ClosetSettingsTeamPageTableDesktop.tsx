@@ -3,9 +3,10 @@ import cx from 'classnames'
 import UserAvatar from '@components/common/UserAvatar'
 import { gql } from '@apollo/client'
 import { ClosetSettingsTeamPageTableDesktopMembershipFragment } from '@generated/ClosetSettingsTeamPageTableDesktopMembershipFragment'
-import { Badge, IconButton } from '@components/ui'
 import { Dropdown, DropdownItem } from '@components/ui/Dropdown'
 import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid'
+import Badge from '@components/ui/Badge'
+import IconButton from '@components/ui/IconButton'
 
 interface Props {
   memberships: ClosetSettingsTeamPageTableDesktopMembershipFragment[]

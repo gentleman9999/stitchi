@@ -4,8 +4,9 @@ import {
   DesignProofPreviewGetDataQuery,
   DesignProofPreviewGetDataQueryVariables,
 } from '@generated/DesignProofPreviewGetDataQuery'
-import { InputGroup, LoadingDots } from '@components/ui'
 import ColorSwatch from '@components/common/ColorSwatch'
+import LoadingDots from '@components/ui/LoadingDots'
+import { InputGroup } from '@components/ui/inputs'
 
 interface Props {
   designProofId: string

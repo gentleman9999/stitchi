@@ -25,7 +25,7 @@ export interface SubNavItem {
   type: 'subnav'
   href: string
   label: string
-  icon: React.ReactNode
+  icon?: React.ReactNode
   hidden?: boolean
   includedPaths?: string[]
   LinkComponent?: React.ElementType
@@ -35,7 +35,7 @@ export interface SubNavItem {
 export interface NavItem {
   href: string
   label: string
-  icon: React.ReactNode
+  icon?: React.ReactNode
   hidden?: boolean
   includedPaths?: string[]
   LinkComponent?: React.ElementType

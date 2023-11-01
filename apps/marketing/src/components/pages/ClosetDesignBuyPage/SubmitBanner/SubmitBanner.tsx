@@ -1,4 +1,4 @@
-import { LoadingDots } from '@components/ui'
+import LoadingDots from '@components/ui/LoadingDots'
 import currency from 'currency.js'
 import { ArrowRight } from 'icons'
 import React from 'react'

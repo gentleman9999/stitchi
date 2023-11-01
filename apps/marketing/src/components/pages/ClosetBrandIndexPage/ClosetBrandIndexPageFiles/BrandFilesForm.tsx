@@ -1,4 +1,4 @@
-import { FileInput, InputGroup } from '@components/ui'
+import { FileInput, InputGroup } from '@components/ui/inputs'
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'

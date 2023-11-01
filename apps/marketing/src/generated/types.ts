@@ -11548,6 +11548,21 @@ export enum sortBy {
   OLDEST = 'OLDEST'
 }
 
+export type AppLayoutGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AppLayoutGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, humanizedRole: string | null, organization: { __typename: 'Organization', id: string, name: string | null }, user: { __typename: 'User', id: string, name: string | null, email: string | null, picture: string | null } | null } | null };
+
+export type ClosetBaseLayoutGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ClosetBaseLayoutGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string } | null };
+
+export type LogoutUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutUserQuery = { __typename: 'Mutation', userLogout: { __typename: 'UserLogoutPayload', success: boolean } | null };
+
 export type AvatarImageFragment = { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null };
 
 export type BlogPostCardArticleFragment = { __typename: 'ArticleRecord', id: any, _publishedAt: any | null, _createdAt: any, title: string | null, slug: string | null, shortDescription: string | null, image: { __typename: 'FileField', responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null, author: { __typename: 'AuthorRecord', id: any, name: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null } | null, categories: Array<{ __typename: 'CategoryRecord', id: any, name: string | null, slug: string | null }> };
@@ -12232,10 +12247,15 @@ export type UseCustomizeProductCustomizeMutation = { __typename: 'Mutation', cat
 
 export type TermsPagePageFragment = { __typename: 'TermsOfUsePageRecord', id: any, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }>, content: { __typename: 'TermsOfUsePageModelContentField', value: any } | null };
 
+export type AuthorizedComponentGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AuthorizedComponentGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, role: MembershipRole | null, scopes: Array<{ __typename: 'Scope', resource: ScopeResource, action: ScopeAction }> } | null };
+
 export type UseAuthorizedComponentGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UseAuthorizedComponentGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, role: MembershipRole | null, scopes: Array<{ __typename: 'Scope', resource: ScopeResource, action: ScopeAction }>, flags: { __typename: 'MembershipFlags', isBetaTester: boolean } } | null };
+export type UseAuthorizedComponentGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, role: MembershipRole | null, scopes: Array<{ __typename: 'Scope', resource: ScopeResource, action: ScopeAction }> } | null };
 
 export type ProductPageGetDesignCategoryDataVariables = Exact<{
   designCategorySlug: SlugFilter;
@@ -12273,11 +12293,6 @@ export type AccountAuthenticatedPageAssignAnonymousResourcesMutationVariables = 
 
 
 export type AccountAuthenticatedPageAssignAnonymousResourcesMutation = { __typename: 'Mutation', membershipConnectAnonymousResources: { __typename: 'MembershipConnectAnonymousResourcesPayload', membership: { __typename: 'Membership', id: string } } | null };
-
-export type LogoutUserQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type LogoutUserQuery = { __typename: 'Mutation', userLogout: { __typename: 'UserLogoutPayload', success: boolean } | null };
 
 export type DesignAssignPageAssignDesignMutationVariables = Exact<{
   input: DesignRequestAssignInput;

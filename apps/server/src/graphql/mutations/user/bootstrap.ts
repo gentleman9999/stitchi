@@ -43,10 +43,14 @@ export const userBootstrap = mutationField('userBoostrap', {
       return { id: ctx.userId }
     }
 
-    const user = await ctx.user.getUser({ id: ctx.userId }).catch(error => {
+    let user
+
+    try {
+      user = await ctx.user.getUser({ id: ctx.userId })
+    } catch (error) {
       ctx.logger.error(error)
       throw new ApolloError('Failed to get user from Auth0')
-    })
+    }
 
     if (!user.user_id) {
       throw new Error('Failed to return userID')

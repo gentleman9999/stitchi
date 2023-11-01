@@ -1,6 +1,6 @@
+import { TextField } from '@components/ui/inputs'
 import React from 'react'
 import { Controller, useFieldArray, UseFormReturn } from 'react-hook-form'
-import { TextField } from '@components/ui'
 import type { VariantFormValues } from './ProductVariantQuantityMatrixForm'
 
 interface Props {

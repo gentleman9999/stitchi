@@ -16,8 +16,8 @@ import {
 } from 'icons'
 import cx from 'classnames'
 import routes from '@lib/routes'
-import { LinkInline } from '@components/ui'
 import { motion } from 'framer-motion'
+import LinkInline from '@components/ui/LinkInline'
 
 const sections = [
   {

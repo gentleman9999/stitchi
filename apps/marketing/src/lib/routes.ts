@@ -377,6 +377,12 @@ const routes = {
         },
       },
     },
+
+    auth: {
+      accessToken: {
+        href: () => buildRoute('/api/auth/accessToken'),
+      },
+    },
   },
   external: {
     support: {

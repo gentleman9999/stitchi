@@ -1,3 +1,5 @@
+'use client'
+
 import { gql, useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 import hoistNonReactStatic from 'hoist-non-react-statics'
@@ -5,15 +7,6 @@ import routes from './routes'
 import { ScopeAction, ScopeResource } from '@generated/globalTypes'
 import React from 'react'
 import { UseAuthorizedComponentGetDataQuery } from '@generated/UseAuthorizedComponentGetDataQuery'
-import { NextApiRequest, NextApiResponse } from 'next'
-import { getAccessToken as getServerSideAccessToken } from '@auth0/nextjs-auth0'
-import getOrThrow from './utils/get-or-throw'
-import { IncomingMessage, ServerResponse } from 'http'
-
-const appUrl = getOrThrow(
-  process.env.NEXT_PUBLIC_SITE_URL,
-  'NEXT_PUBLIC_SITE_URL',
-)
 
 interface AuthorizationParams {
   resource: ScopeResource
@@ -84,33 +77,6 @@ export const withAuthorization = (
   return hoistNonReactStatic(AuthorizedPage, Component)
 }
 
-export const getAccessToken = async (ctx?: {
-  req: IncomingMessage | NextApiRequest
-  res: ServerResponse<IncomingMessage> | NextApiResponse<any>
-}) => {
-  // const logger = useLogger()
-
-  let accessToken: string | null = null
-  try {
-    if (ctx) {
-      accessToken =
-        (await getServerSideAccessToken(ctx.req, ctx.res)).accessToken || null
-    } else {
-      // Auth0 only provides access to the accessToken on the server.
-      // So we must make a call the the Next.js server to retrieve token.
-      const response = await fetch(`${appUrl}/api/auth/accessToken`)
-      const data = await response.json()
-      accessToken = data.accessToken as string | null
-    }
-  } catch (error) {
-    console.error("Couldn't get access token", {
-      context: { error },
-    })
-  }
-
-  return accessToken
-}
-
 const GET_DATA = gql`
   query UseAuthorizedComponentGetDataQuery {
     viewer {
@@ -119,9 +85,6 @@ const GET_DATA = gql`
       scopes {
         resource
         action
-      }
-      flags {
-        isBetaTester
       }
     }
   }

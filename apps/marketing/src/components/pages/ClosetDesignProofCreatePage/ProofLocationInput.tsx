@@ -2,7 +2,6 @@ import ClosetPageActions from '@components/common/ClosetPageActions'
 import ClosetSection from '@components/common/ClosetSection'
 import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
 import ClosetSectionTitle from '@components/common/ClosetSectionTitle'
-import { Button, FileInput, InputGroup, TextField } from '@components/ui'
 import { AnimatePresence } from 'framer-motion'
 import React from 'react'
 import { Controller, useFieldArray, UseFormReturn } from 'react-hook-form'
@@ -10,6 +9,8 @@ import { FormValues } from './CreateProofForm'
 import { motion } from 'framer-motion'
 import cx from 'classnames'
 import Select from '@components/ui/inputs/Select'
+import { FileInput, InputGroup, TextField } from '@components/ui/inputs'
+import Button from '@components/ui/ButtonV2/Button'
 
 interface Props {
   uploadFolder: string
@@ -68,7 +69,7 @@ const ProofLocationInput = ({ form, uploadFolder }: Props) => {
                         })}
                       >
                         <Button
-                          slim
+                          size="sm"
                           variant="naked"
                           className="!text-sm"
                           onClick={() => locationFields.remove(index)}

@@ -1,9 +1,9 @@
-import { Dialog, IconButton } from '@components/ui'
 import Button from '@components/ui/ButtonV2/Button'
 import { CheckIcon, ClipboardIcon, LinkIcon } from '@heroicons/react/24/outline'
 import useClipboard from '@components/hooks/useClipboard'
 import React from 'react'
 import { XIcon } from 'icons'
+import Dialog from '@components/ui/Dialog'
 
 export interface Props {
   open: boolean

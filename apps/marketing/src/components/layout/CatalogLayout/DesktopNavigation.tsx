@@ -1,5 +1,5 @@
 import { useUser } from '@auth0/nextjs-auth0/client'
-import { Button } from '@components/ui'
+import Button from '@components/ui/Button'
 import routes from '@lib/routes'
 import Link from 'next/link'
 import React from 'react'

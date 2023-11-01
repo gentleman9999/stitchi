@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { Container } from '@components/ui'
+import Container from '@components/ui/Container'
 import { ProductShowPageHeroFragment } from '@generated/ProductShowPageHeroFragment'
 import React from 'react'
 import ProductShowPageHero from './ProductShowPageHero'

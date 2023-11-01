@@ -1,6 +1,7 @@
 import { gql, useQuery } from '@apollo/client'
 import { CmsImage, InfiniteScrollContainer, Section } from '@components/common'
-import { Button, Container } from '@components/ui'
+import Button from '@components/ui/ButtonV2/Button'
+import Container from '@components/ui/Container'
 import {
   DesignLibraryPageGetDataQuery,
   DesignLibraryPageGetDataQueryVariables,
@@ -81,7 +82,7 @@ const DesignLibraryPage = (props: Props) => {
               </div>
               <div className="mt-6 flex justify-between">
                 <Button
-                  slim
+                  size="sm"
                   Component={Link}
                   href={routes.internal.getStarted.href()}
                   variant="naked"
@@ -91,7 +92,7 @@ const DesignLibraryPage = (props: Props) => {
                 </Button>
 
                 <Button
-                  slim
+                  size="sm"
                   Component={Link}
                   href={routes.internal.lookbook.categories.href()}
                   variant="naked"

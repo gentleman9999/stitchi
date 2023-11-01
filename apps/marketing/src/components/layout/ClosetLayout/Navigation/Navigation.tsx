@@ -26,7 +26,6 @@ interface NavItemT {
   label: string
   href: string
   icon: React.ReactNode | null
-  active?: boolean
   indicator?: boolean
   hidden?: boolean
 }
@@ -58,14 +57,12 @@ const Navigation = ({ membership }: Props) => {
         label: 'Activity',
         href: routes.internal.closet.inbox.href(),
         icon: <InboxIcon className="w-4 h-4" />,
-        active: asPath.startsWith(routes.internal.closet.inbox.href()),
         indicator: Boolean(membership?.unseenWebNotificationsCount),
       },
       {
         label: 'Dashboard',
         href: routes.internal.closet.dashboard.href(),
         icon: <HomeIcon className="w-4 h-4" />,
-        active: asPath.startsWith(routes.internal.closet.dashboard.href()),
         hidden:
           !role ||
           ![
@@ -80,13 +77,11 @@ const Navigation = ({ membership }: Props) => {
           {
             label: 'Designs',
             href: routes.internal.closet.designs.href(),
-            active: asPath.startsWith(routes.internal.closet.designs.href()),
             icon: null,
           },
           {
             label: 'Brand Kit',
             href: routes.internal.closet.brand.href(),
-            active: asPath.startsWith(routes.internal.closet.brand.href()),
             icon: null,
           },
         ],
@@ -98,7 +93,6 @@ const Navigation = ({ membership }: Props) => {
           {
             label: 'Inventory',
             href: routes.internal.closet.inventory.href(),
-            active: asPath.startsWith(routes.internal.closet.inventory.href()),
             icon: null,
             hidden:
               authorizationLoading ||
@@ -107,7 +101,6 @@ const Navigation = ({ membership }: Props) => {
           {
             label: 'Orders',
             href: routes.internal.closet.orders.href(),
-            active: asPath.startsWith(routes.internal.closet.orders.href()),
             icon: null,
             hidden:
               authorizationLoading ||
@@ -116,13 +109,7 @@ const Navigation = ({ membership }: Props) => {
         ],
       },
     ]
-  }, [
-    asPath,
-    authorizationLoading,
-    can,
-    membership?.unseenWebNotificationsCount,
-    role,
-  ])
+  }, [authorizationLoading, can, membership?.unseenWebNotificationsCount, role])
 
   return (
     <AnimatePresence initial={false}>

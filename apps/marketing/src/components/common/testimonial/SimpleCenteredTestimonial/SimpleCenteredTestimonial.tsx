@@ -1,9 +1,9 @@
 import { ArrowRight } from 'icons'
-import Image, { StaticImageData } from "next/legacy/image";
+import Image, { StaticImageData } from 'next/legacy/image'
 import cx from 'classnames'
 import React from 'react'
 import { Spokesperson } from '..'
-import { LinkInline } from '@components/ui'
+import LinkInline from '@components/ui/LinkInline'
 
 export interface SimpleCenteredTestimonialProps {
   testimonial: string | React.ReactNode

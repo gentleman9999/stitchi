@@ -1,5 +1,5 @@
 import { Section } from '@components/common'
-import { Container } from '@components/ui'
+import Container from '@components/ui/Container'
 import routes from '@lib/routes'
 import getOrThrow from '@lib/utils/get-or-throw'
 import React from 'react'

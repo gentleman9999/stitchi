@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import cx from 'classnames'
-import { Container, Logo } from '@components/ui'
 import s from './NavbarRoot.module.css'
 import { throttle } from 'lodash-es'
 import Link from 'next/link'
 import routes from '@lib/routes'
+import Container from '@components/ui/Container'
+import Logo from '@components/ui/Logo'
 
 interface Props {
   children: React.ReactNode

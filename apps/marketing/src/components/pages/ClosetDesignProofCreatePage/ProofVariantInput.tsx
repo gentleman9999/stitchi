@@ -1,7 +1,6 @@
 import ClosetSection from '@components/common/ClosetSection'
 import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
 import ClosetSectionTitle from '@components/common/ClosetSectionTitle'
-import { FileInput, InputGroup } from '@components/ui'
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
 import { Controller, useFieldArray, UseFormReturn } from 'react-hook-form'
@@ -9,6 +8,7 @@ import { FormValues } from './CreateProofForm'
 import { gql } from '@apollo/client'
 import { ProofVariantInputDesignRequestFragment } from '@generated/ProofVariantInputDesignRequestFragment'
 import ColorSwatch from '@components/common/ColorSwatch'
+import { FileInput, InputGroup } from '@components/ui/inputs'
 
 interface Props {
   uploadFolder: string

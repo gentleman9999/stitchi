@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import ClosetSection from '@components/common/ClosetSection'
-import { InputGroup, TextField } from '@components/ui'
 import Button from '@components/ui/ButtonV2/Button'
+import { InputGroup, TextField } from '@components/ui/inputs'
 import FileInput from '@components/ui/inputs/FileInput'
 import { CreateProofFormDesignRequestFragment } from '@generated/CreateProofFormDesignRequestFragment'
 import { yupResolver } from '@hookform/resolvers/yup'

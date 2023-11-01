@@ -2,8 +2,9 @@ import { gql } from '@apollo/client'
 import ProductVariantQuantityMatrixForm, {
   ProductVariantQuantityMatrixFormProps,
 } from '@components/common/ProductVariantQuantityMatrixForm'
-import { Checkbox, FileInput, RichTextEditor, TextField } from '@components/ui'
 import Button from '@components/ui/ButtonV2/Button'
+import { FileInput, RichTextEditor } from '@components/ui/inputs'
+import Checkbox from '@components/ui/inputs/Checkbox'
 import Tooltip from '@components/ui/Tooltip'
 import { CatalogProductCustomizationAddonType } from '@generated/globalTypes'
 import { ProductFormProductFragment } from '@generated/ProductFormProductFragment'

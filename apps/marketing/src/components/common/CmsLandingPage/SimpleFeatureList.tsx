@@ -1,4 +1,4 @@
-import { Container } from '@components/ui'
+import Container from '@components/ui/Container'
 import React from 'react'
 import Section from '../Section'
 import SectionHeader from '../SectionHeader'

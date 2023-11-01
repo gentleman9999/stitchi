@@ -22,8 +22,8 @@ import { GetStaticPropsResult, GetServerSidePropsContext } from 'next'
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
 import { createClient } from 'graphql-ws'
 import Cookies from 'universal-cookie'
-import { getAccessToken } from './auth'
 import { COOKIE_DEVICE_ID } from './constants'
+import { getAccessToken } from './access-token'
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__' as const
 

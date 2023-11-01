@@ -1,5 +1,5 @@
 import { SectionFAQ } from '@components/common'
-import { LinkInline } from '@components/ui'
+import LinkInline from '@components/ui/LinkInline'
 import routes from '@lib/routes'
 import React from 'react'
 

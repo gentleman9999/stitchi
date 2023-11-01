@@ -5,7 +5,7 @@ import greekDressingLogo from '../../../../public/customers/greek_dressing/greek
 import morningBrewLogo from '../../../../public/customers/morning_brew/morning_brew_logo_black.png'
 import greekLicensingLogo from '../../../../public/customers/greek_licensing/greek_licensing_logo.png'
 import lineleapLogo from '../../../../public/customers/lineleap/lineleap_logo.png'
-import { Container } from '@components/ui'
+import Container from '@components/ui/Container'
 import { InfiniteLooper } from '@components/common'
 
 const BrandLogo = (props: { image: StaticImageData; alt: string }) => {

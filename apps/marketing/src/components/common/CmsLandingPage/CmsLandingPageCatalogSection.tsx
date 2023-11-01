@@ -1,6 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
 import CatalogProductLegacy from '@components/common/CatalogProductLegacy'
-import { Container } from '@components/ui'
+import Container from '@components/ui/Container'
 import Button from '@components/ui/ButtonV2/Button'
 import Tabs from '@components/ui/Tabs'
 import { CmsLandingPageCatalogSectionCatalogSectionFragment } from '@generated/CmsLandingPageCatalogSectionCatalogSectionFragment'

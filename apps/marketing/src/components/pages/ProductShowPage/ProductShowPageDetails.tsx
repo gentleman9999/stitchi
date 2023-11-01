@@ -5,7 +5,7 @@ import Link from 'next/link'
 import React from 'react'
 import cx from 'classnames'
 import styles from './ProductShowPageDetails.module.css'
-import { Button } from '@components/ui'
+import Button from '@components/ui/Button'
 import { ChevronDown, ChevronUp } from 'icons'
 
 const MIN_HEIGHT = 300

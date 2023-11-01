@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { Container } from '@components/ui'
+import Container from '@components/ui/Container'
 import { CmsLandingPageCallToActionCallToActionFragment } from '@generated/CmsLandingPageCallToActionCallToActionFragment'
 import React from 'react'
 import Section from '../Section'

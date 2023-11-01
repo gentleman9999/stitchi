@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import CatalogFilters from './CatalogFilters'
 import CatalogProductGrid from './CatalogProductGrid'
 import useActiveFilters from './useActiveFilters'
-import { Container } from '@components/ui'
+import Container from '@components/ui/Container'
 import Section from '../Section'
 
 export const makeDefaultQueryVariables = ({

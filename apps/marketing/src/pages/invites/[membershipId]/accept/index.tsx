@@ -9,8 +9,8 @@ import {
   AcceptMembershipPageSetActiveMembershipMutation,
   AcceptMembershipPageSetActiveMembershipMutationVariables,
 } from '@generated/AcceptMembershipPageSetActiveMembershipMutation'
+import { getAccessToken } from '@lib/access-token'
 import { addApolloState, initializeApollo } from '@lib/apollo'
-import { getAccessToken } from '@lib/auth'
 import routes from '@lib/routes'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'

@@ -1,5 +1,5 @@
 import { Section } from '@components/common'
-import { Button } from '@components/ui'
+import Button from '@components/ui/Button'
 import routes from '@lib/routes'
 import { generateImageSizes } from '@lib/utils/image'
 import { ArrowRight } from 'icons'
