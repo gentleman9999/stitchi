@@ -61,8 +61,8 @@ export const subscriberCreate = mutationField('subscriberCreate', {
           {
             customFields,
             email: input.email,
-            firstName: user?.given_name,
-            lastName: user?.family_name,
+            firstName: user?.givenName,
+            lastName: user?.familyName,
           },
         ],
       })

@@ -1,4 +1,4 @@
-import { GetUsers200ResponseOneOfInner, UserProfile } from 'auth0'
+import { GetUsers200ResponseOneOfInner } from 'auth0'
 
 export interface User {
   id: string

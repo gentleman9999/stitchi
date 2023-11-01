@@ -232,7 +232,7 @@ export const membershipInvite = mutationField('membershipInvite', {
         const [membership] = await ctx.membership.listMemberships({
           where: {
             organizationId: ctx.organizationId,
-            userId: existingUser.user_id,
+            userId: existingUser.id,
             // Include deleted memberships
             deletedAt: undefined,
           },

@@ -52,7 +52,7 @@ export const userBootstrap = mutationField('userBoostrap', {
       throw new ApolloError('Failed to get user from Auth0')
     }
 
-    if (!user.user_id) {
+    if (!user.id) {
       throw new Error('Failed to return userID')
     }
 
@@ -92,10 +92,10 @@ export const userBootstrap = mutationField('userBoostrap', {
           contacts: [
             {
               email: user.email,
-              firstName: user.given_name,
-              lastName: user.family_name,
+              firstName: user.givenName,
+              lastName: user.familyName,
               customFields: {
-                userId: user.user_id,
+                userId: user.id,
                 membershipId: membership.id,
                 organizationId: organization.id,
                 organizationName: organization.name,
@@ -116,6 +116,6 @@ export const userBootstrap = mutationField('userBoostrap', {
 
     ctx.logger.info(`Successfully bootstrapped user ${ctx.userId}`)
 
-    return { ...user, id: user.user_id }
+    return { ...user, id: user.id }
   },
 })
