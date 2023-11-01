@@ -5,13 +5,28 @@ import dynamic from 'next/dynamic'
 
 import type { Props as ClosetLinkShareDialogProps } from './ClosetLinkShareDialog'
 
-const ContactSuccessDialog = dynamic(() => import('./ContactSuccessDialog'))
-const ClosetLinkShareDialog = dynamic(() => import('./ClosetLinkShareDialog'))
+const ContactSuccessDialog = dynamic(() => import('./ContactSuccessDialog'), {
+  ssr: false,
+})
+
+const ClosetLinkShareDialog = dynamic(() => import('./ClosetLinkShareDialog'), {
+  ssr: false,
+})
+
 const OrganizationCreateDialog = dynamic(
   () => import('./OrganizationCreateDialog'),
+  {
+    ssr: false,
+  },
 )
-const UserInviteDialog = dynamic(() => import('./UserInviteDialog'))
-const HelpDialog = dynamic(() => import('./HelpDialog'))
+
+const UserInviteDialog = dynamic(() => import('./UserInviteDialog'), {
+  ssr: false,
+})
+
+const HelpDialog = dynamic(() => import('./HelpDialog'), {
+  ssr: false,
+})
 
 export enum StandoutType {
   ContactSuccess = 'contact_success',

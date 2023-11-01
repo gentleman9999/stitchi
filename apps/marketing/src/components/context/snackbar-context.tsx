@@ -56,12 +56,13 @@ export const SnackbarProvider = ({ children }: SnackbarProviderProps) => {
   return (
     <SnackbarContext.Provider value={state}>
       {children}
-      <div className="fixed right-6 bottom-6 flex flex-col gap-4 max-w-[390px] w-full list-none z-[2147483647] outline-none">
+
+      <div className="fixed right-6 bottom-6 flex flex-col gap-4 max-w-[390px] w-full list-none z-[9999] outline-none">
         {snackbars.slice(0, 3).map(snackbar => (
           <Toast
-            {...snackbar}
-            key={snackbar.id}
             open
+            key={snackbar.id}
+            {...snackbar}
             onOpenChange={() => closeSnackbar(snackbar.id)}
           />
         ))}

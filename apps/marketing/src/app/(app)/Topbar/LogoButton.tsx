@@ -3,7 +3,7 @@
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import React from 'react'
 import cx from 'classnames'
-import { useAppLayoutContext } from './app-layout-context'
+import { useAppLayoutContext } from '../app-layout-context'
 
 interface Props {
   children: React.ReactNode
