@@ -9,15 +9,22 @@ import {
 } from '@generated/types'
 import React from 'react'
 import { getClient } from './apollo-rsc'
+import hoistNonReactStatics from 'hoist-non-react-statics'
+import { redirect } from 'next/navigation'
+import routes from './routes'
+
+interface AuthorizationParams {
+  resource: ScopeResource
+  action: ScopeAction
+}
 
 interface BaseProps {
   children: React.ReactNode
 }
 
-interface AuthorizationComponentBasicProps extends BaseProps {
-  resource: ScopeResource
-  action: ScopeAction
-}
+interface AuthorizationComponentBasicProps
+  extends BaseProps,
+    AuthorizationParams {}
 
 interface AuthorizationComponentOrProps extends BaseProps {
   or: Omit<AuthorizationComponentBasicProps, 'children'>[]
@@ -26,6 +33,17 @@ interface AuthorizationComponentOrProps extends BaseProps {
 type AuthorizationComponentProps =
   | AuthorizationComponentBasicProps
   | AuthorizationComponentOrProps
+
+const can = (
+  params: AuthorizationParams[],
+  scopes: NonNullable<AuthorizedComponentGetDataQuery['viewer']>['scopes'],
+) => {
+  return params.some(({ resource, action }) => {
+    return scopes.some(
+      scope => scope.resource === resource && scope.action === action,
+    )
+  })
+}
 
 export const AuthorizedComponent = async ({
   children,
@@ -38,29 +56,31 @@ export const AuthorizedComponent = async ({
     AuthorizedComponentGetDataQueryVariables
   >({ query: GET_DATA })
 
-  const can =
-    data.viewer?.scopes.some(scope => {
-      if ('or' in rest) {
-        return Boolean(
-          rest.or.some(orScope => {
-            if (
-              scope.resource === orScope.resource &&
-              scope.action === orScope.action
-            ) {
-              return true
-            }
-          }),
-        )
-      } else {
-        return scope.resource === rest.resource && scope.action === rest.action
-      }
-    }) || false
+  const authorized = can(
+    'or' in rest ? rest.or : [rest],
+    data.viewer?.scopes || [],
+  )
 
-  if (!can) {
+  if (!authorized) {
     return null
   }
 
   return <>{children}</>
+}
+
+export const authorization = async (params: AuthorizationParams[]) => {
+  const client = await getClient()
+
+  const { data } = await client.query<
+    AuthorizedComponentGetDataQuery,
+    AuthorizedComponentGetDataQueryVariables
+  >({ query: GET_DATA })
+
+  const authorized = can(params, data.viewer?.scopes || [])
+
+  if (!authorized) {
+    redirect(routes.internal.closet.href())
+  }
 }
 
 const GET_DATA = gql`

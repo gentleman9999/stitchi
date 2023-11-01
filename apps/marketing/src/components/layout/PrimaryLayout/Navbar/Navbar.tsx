@@ -2,7 +2,7 @@ import React from 'react'
 import navigation from '@lib/navigation'
 import NavbarMobile from './NavbarMobile'
 import NavbarDesktop from './NavbarDesktop'
-import NavbarRoot from '../../NavbarRoot'
+import NavbarRoot from './NavbarRoot'
 
 const nav = navigation.makeNavigation()
 

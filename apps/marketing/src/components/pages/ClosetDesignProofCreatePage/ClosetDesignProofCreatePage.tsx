@@ -1,3 +1,5 @@
+'use client'
+
 import { gql } from '@apollo/client'
 import ClosetPageHeader from '@components/common/ClosetPageHeader'
 import ClosetPageTitle from '@components/common/ClosetPageTitle'

@@ -3,8 +3,19 @@
 import Link from 'next/link'
 import React from 'react'
 import cx from 'classnames'
-import { NavItem, SubNavItem } from './ClosetLayout/closet-layout-context'
 import { usePathname } from 'next/navigation'
+
+export interface NavItem {
+  href: string
+  label: string
+  icon?: React.ReactNode
+  hidden?: boolean
+  includedPaths?: string[]
+  LinkComponent?: React.ElementType
+  external?: boolean
+  onClick?: () => void
+  indicator?: boolean
+}
 
 const NavItem = ({
   href,
@@ -15,10 +26,7 @@ const NavItem = ({
   hidden,
   LinkComponent = Link,
   ...rest
-}: (NavItem | Omit<SubNavItem, 'type'>) & {
-  onClick?: () => void
-  indicator?: boolean
-}) => {
+}: NavItem) => {
   const pathname = usePathname()
   const external = 'external' in rest && rest.external
 

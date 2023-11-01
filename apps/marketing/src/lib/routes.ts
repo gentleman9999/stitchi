@@ -236,10 +236,6 @@ const routes = {
         href: () => buildRoute('/closet/dashboard'),
       },
 
-      inbox: {
-        href: () => buildRoute('/closet/inbox'),
-      },
-
       integrations: {
         href: () => buildRoute('/closet/integrations'),
       },
