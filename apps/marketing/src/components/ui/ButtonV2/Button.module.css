@@ -1,5 +1,5 @@
 .root {
-  @apply relative bg-gray-900 text-gray-50 text-center text-sm cursor-pointer inline-flex leading-none transition ease-in-out duration-150 shadow-sm justify-center border border-transparent items-center font-semibold tracking-normal rounded-md whitespace-nowrap;
+  @apply relative bg-gray-900 text-gray-50 text-center text-sm cursor-pointer inline-flex leading-none transition ease-in-out duration-150 shadow-sm justify-center border border-transparent items-center font-medium tracking-normal rounded-md whitespace-nowrap;
   max-height: 64px;
 
   &.brandColors {
@@ -68,7 +68,7 @@
 }
 
 .naked {
-  @apply text-gray-800 bg-transparent font-semibold border-none shadow-none outline-none py-0 px-0;
+  @apply text-gray-800 bg-transparent font-medium border-none shadow-none outline-none py-0 px-0;
 }
 
 .naked:hover,

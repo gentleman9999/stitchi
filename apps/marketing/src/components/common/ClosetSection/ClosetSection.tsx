@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import {
   ClosetSectionProvider,
@@ -5,23 +7,33 @@ import {
 } from './closet-section-context'
 
 interface Props {
-  loading?: boolean
-  tabs?: ReturnType<typeof useClosetSectionContext>['tabs']
   children?:
     | React.ReactNode
     | ((state: ReturnType<typeof useClosetSectionContext>) => React.ReactNode)
 }
 
-const ClosetSection = ({ children, tabs, loading }: Props) => {
-  return (
-    <ClosetSectionProvider tabs={tabs} loading={loading}>
-      <ClosetSectionInner>{children}</ClosetSectionInner>
-    </ClosetSectionProvider>
-  )
+const withClosetSectionContext = (Component: React.ComponentType<Props>) => {
+  const WithClosetSectionContext = (
+    props: Props & {
+      tabs?: ReturnType<typeof useClosetSectionContext>['tabs']
+      loading?: boolean
+    },
+  ) => {
+    const { tabs, loading, ...rest } = props
+
+    return (
+      <ClosetSectionProvider tabs={tabs} loading={loading}>
+        <Component {...rest} />
+      </ClosetSectionProvider>
+    )
+  }
+
+  return WithClosetSectionContext
 }
 
-const ClosetSectionInner = ({ children }: Props) => {
+const ClosetSection = ({ children }: Props) => {
   const state = useClosetSectionContext()
+
   return (
     <div className="pb-16">
       {typeof children === 'function' ? children(state) : children}
@@ -29,4 +41,4 @@ const ClosetSectionInner = ({ children }: Props) => {
   )
 }
 
-export default ClosetSection
+export default withClosetSectionContext(ClosetSection)

@@ -16,7 +16,7 @@ import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid'
 import routes from '@lib/routes'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 import DesignOverview from './DesignOverview'
 

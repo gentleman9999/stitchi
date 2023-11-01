@@ -1,5 +1,5 @@
 import { gql, useQuery } from '@apollo/client'
-import { Table, TableContainer, TableZeroState } from '@components/ui/Table'
+import { TableZeroState } from '@components/ui/Table'
 import {
   UnclaimedDesignRequestsCardGetDataQuery,
   UnclaimedDesignRequestsCardGetDataQueryVariables,
@@ -10,12 +10,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/Card'
 import Button from '@components/ui/ButtonV2/Button'
 import Link from 'next/link'
 import routes from '@lib/routes'
-import { ArrowRightCircleIcon, ArrowRightIcon } from '@heroicons/react/20/solid'
+import { ArrowRightIcon } from '@heroicons/react/20/solid'
 
 interface Props {}
 
 const UnclaimedDesignRequestsCard = ({}: Props) => {
-  const { data, loading } = useQuery<
+  const { data } = useQuery<
     UnclaimedDesignRequestsCardGetDataQuery,
     UnclaimedDesignRequestsCardGetDataQueryVariables
   >(GET_DATA, {
@@ -37,7 +37,6 @@ const UnclaimedDesignRequestsCard = ({}: Props) => {
         <CardTitle title="Design queue" />
       </CardHeader>
       <CardContent>
-        {/* <TableContainer loading={loading}> */}
         {unclaimed?.length && viewer ? (
           <table className="w-full">
             <thead className="grid grid-cols-3 text-sm font-bold">
@@ -75,7 +74,6 @@ const UnclaimedDesignRequestsCard = ({}: Props) => {
         ) : (
           <TableZeroState />
         )}
-        {/* </TableContainer> */}
       </CardContent>
     </Card>
   )

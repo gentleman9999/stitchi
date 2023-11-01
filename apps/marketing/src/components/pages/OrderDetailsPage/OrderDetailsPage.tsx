@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client'
-import { Section } from '@components/common'
 import { OrderDetailsPageOrderFragment } from '@generated/OrderDetailsPageOrderFragment'
 import React from 'react'
 import { format, parseISO } from 'date-fns'

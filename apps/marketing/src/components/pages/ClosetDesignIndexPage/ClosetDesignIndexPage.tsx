@@ -1,3 +1,5 @@
+'use client'
+
 import { gql, useQuery } from '@apollo/client'
 import ClosetPageActions from '@components/common/ClosetPageActions'
 import ClosetPageContainer from '@components/common/ClosetPageContainer'
@@ -16,7 +18,7 @@ import {
 import { useAuthorizedComponent } from '@lib/auth'
 import routes from '@lib/routes'
 import dynamic from 'next/dynamic'
-import { useRouter } from 'next/router'
+import { useSearchParams } from 'next/navigation'
 import React from 'react'
 import { ClosetProvider } from './closet-context'
 import ClosetDesignFilters from './ClosetDesignFilters'
@@ -31,12 +33,13 @@ const ClosetTabDesignRequests = dynamic(
   () => import('./ClosetTabDesignRequests'),
 )
 
-// const ClosetTabCollections = dynamic(() => import('./ClosetTabCollections'))
-
 interface Props {}
 
 const ClosetDesignIndexPage = ({}: Props) => {
-  const router = useRouter()
+  const searchParams = useSearchParams()!
+
+  const query = Object.fromEntries(searchParams.entries())
+
   const { can } = useAuthorizedComponent()
 
   const { data } = useQuery<ClosetDesignIndexPageGetDataQuery>(GET_DATA)
@@ -78,7 +81,7 @@ const ClosetDesignIndexPage = ({}: Props) => {
             {
               id: 'designs',
               label: 'All',
-              href: routes.internal.closet.designs.href(router.query),
+              href: routes.internal.closet.designs.href(query),
             },
             // {
             //   id: 'collections',
@@ -89,14 +92,12 @@ const ClosetDesignIndexPage = ({}: Props) => {
             {
               id: 'design-requests',
               label: 'In-Progress',
-              href: routes.internal.closet.designs.inProgress.href(
-                router.query,
-              ),
+              href: routes.internal.closet.designs.inProgress.href(query),
             },
             {
               id: 'approved-designs',
               label: 'Approved',
-              href: routes.internal.closet.designs.approved.href(router.query),
+              href: routes.internal.closet.designs.approved.href(query),
             },
           ]}
         >

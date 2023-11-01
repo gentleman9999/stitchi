@@ -5,10 +5,10 @@ import Container from '@components/ui/Container'
 import { ClosetDesignProofCreatePageDesignRequestFragment } from '@generated/ClosetDesignProofCreatePageDesignRequestFragment'
 import routes from '@lib/routes'
 import { useLogger } from 'next-axiom'
-import { useRouter } from 'next/router'
 import React from 'react'
 import CreateProofForm, { FormValues } from './CreateProofForm'
 import useCreateProof from './useCreateProof'
+import { useRouter } from 'next/navigation'
 
 interface Props {
   designRequest: ClosetDesignProofCreatePageDesignRequestFragment
@@ -57,7 +57,7 @@ const ClosetDesignProofCreatePage = ({ designRequest }: Props) => {
       return
     }
 
-    await router.push(
+    router.push(
       routes.internal.closet.designs.show.activity.href({
         designId: designRequest.id,
       }),

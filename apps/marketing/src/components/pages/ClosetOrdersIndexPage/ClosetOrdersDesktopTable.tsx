@@ -22,7 +22,7 @@ import {
   flexRender,
 } from '@tanstack/react-table'
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 type Order = ClosetOrdersDesktopTableOrderFragment
 

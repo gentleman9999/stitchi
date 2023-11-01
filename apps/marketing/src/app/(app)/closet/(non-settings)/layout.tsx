@@ -1,8 +1,8 @@
-import NavigationGroup from '@components/layout/ClosetLayout/Navigation/NavigationGroup'
 import NavItem from '@components/layout/NavItem'
 import { ScopeAction, ScopeResource } from '@generated/types'
 import {
   Cog8ToothIcon,
+  HomeIcon,
   PaintBrushIcon,
   RectangleStackIcon,
 } from '@heroicons/react/20/solid'
@@ -11,6 +11,7 @@ import routes from '@lib/routes'
 import React from 'react'
 import InviteMemberButton from './InviteMemberButton'
 import ClosetLayoutWrapper from '../ClosetLayoutWrapper'
+import NavigationGroup from './NavigationGroup'
 
 interface Props {
   children: React.ReactNode
@@ -20,20 +21,31 @@ const Layout = ({ children }: Props) => {
     <ClosetLayoutWrapper
       navigation={
         <>
+          <AuthorizedComponent
+            resource={ScopeResource.DesignProof}
+            action={ScopeAction.CREATE}
+          >
+            <NavItem
+              label="Dashboard"
+              href={routes.internal.closet.dashboard.href()}
+              icon={<HomeIcon className="w-4 h-4" />}
+            />
+          </AuthorizedComponent>
+
           <NavigationGroup
             icon={<PaintBrushIcon className="w-4 h-4" />}
             label="Design"
-            defaultExpanded={true}
+            paths={[
+              routes.internal.closet.designs.href(),
+              routes.internal.closet.brand.href(),
+            ]}
           >
             <NavItem
-              label="Designs"
+              label="Design Requests"
               href={routes.internal.closet.designs.href()}
             />
 
-            <NavItem
-              label="Blanks Catalog"
-              href={routes.internal.catalog.href()}
-            />
+            <NavItem label="Catalog" href={routes.internal.catalog.href()} />
 
             <NavItem
               label="Brand Kit"
@@ -56,7 +68,10 @@ const Layout = ({ children }: Props) => {
             <NavigationGroup
               label="Production"
               icon={<RectangleStackIcon className="w-4 h-4" />}
-              defaultExpanded={true}
+              paths={[
+                routes.internal.closet.inventory.href(),
+                routes.internal.closet.orders.href(),
+              ]}
             >
               <AuthorizedComponent
                 resource={ScopeResource.DesignProduct}

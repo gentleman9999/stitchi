@@ -11,7 +11,7 @@ interface Props {
 
 const ClosetLayoutWrapper = (props: Props) => {
   return (
-    <div
+    <main
       className={`min-h-[${availableHeight}] mt-[${TOPBAR_NAV_HEIGTH_PX}px] relative md:pl-64`}
     >
       <ClosetLayoutWrapperPanel
@@ -20,12 +20,13 @@ const ClosetLayoutWrapper = (props: Props) => {
       >
         <div className="flex flex-col gap-1 p-2 h-full">{props.navigation}</div>
       </ClosetLayoutWrapperPanel>
+
       <main
         className={`overflow-auto w-full z-0 bg-gray-50 min-h-[${availableHeight}] relative`}
       >
         {props.children}
       </main>
-    </div>
+    </main>
   )
 }
 

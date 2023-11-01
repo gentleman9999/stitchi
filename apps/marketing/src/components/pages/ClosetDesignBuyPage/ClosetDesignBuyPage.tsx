@@ -5,7 +5,7 @@ import {
   ClosetDesignBuyPageGetDataQueryVariables,
 } from '@generated/ClosetDesignBuyPageGetDataQuery'
 import { NextSeo } from 'next-seo'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 import ClosetDesignBuyPageForm, { FormValues } from './ClosetDesignBuyPageForm'
 import useAddToCart from './useAddToCart'

@@ -1,9 +1,11 @@
-import { useRouter } from 'next/router'
+'use client'
+
+import { usePathname, useRouter } from 'next/navigation'
 import React from 'react'
 
 type ID = number | string
 
-interface Tab<T extends ID> {
+export interface Tab<T extends ID> {
   readonly id: T
   readonly label: string
   readonly href: string
@@ -32,8 +34,9 @@ const ClosetSectionProvider = <T extends ID>({
   loading = false,
 }: Props<T>) => {
   const router = useRouter()
+  const pathname = usePathname()
 
-  const activeTab = getLongestMatch(router.asPath, tabs)
+  const activeTab = pathname ? getLongestMatch(pathname, tabs) : null
 
   const handleSetActiveTab = React.useCallback(
     (id: ID) => {
