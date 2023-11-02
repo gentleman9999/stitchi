@@ -3,11 +3,7 @@ import getOrThrow from '@lib/utils/get-or-throw'
 import Link from 'next/link'
 import React from 'react'
 import HeroIcon from './HeroIcon'
-
-const siteUrl = getOrThrow(
-  process.env.NEXT_PUBLIC_SITE_URL,
-  'NEXT_PUBLIC_SITE_URL ',
-)
+import { SITE_URL } from '@lib/constants'
 
 export interface Props extends ButtonProps {
   url: string
@@ -20,9 +16,9 @@ const CallToActionButton = (props: Props) => {
   let Component: ButtonProps['Component'] = 'a'
   let href = url
 
-  if (url.startsWith(siteUrl)) {
+  if (url.startsWith(SITE_URL)) {
     Component = Link
-    href = url.replace(siteUrl, '')
+    href = url.replace(SITE_URL, '')
   }
 
   return (

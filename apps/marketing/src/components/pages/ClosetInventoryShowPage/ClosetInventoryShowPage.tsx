@@ -2,12 +2,7 @@ import { gql, useQuery } from '@apollo/client'
 import { StandoutType, useStandout } from '@components/context'
 import Button from '@components/ui/ButtonV2/Button'
 import { Dropdown, DropdownItem } from '@components/ui/Dropdown'
-import {
-  SlideOver,
-  SlideOverActions,
-  SlideOverContent,
-  SlideOverHeader,
-} from '@components/ui/SlideOver'
+
 import {
   ClosetInventoryShowPageGetDataQuery,
   ClosetInventoryShowPageGetDataQueryVariables,
@@ -19,6 +14,11 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import DesignOverview from './DesignOverview'
+import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/Card'
+
+import ClosetPageContainer from '@components/common/ClosetPageContainer'
+import ClosetPageHeader from '@components/common/ClosetPageHeader'
+import ClosetPageTitle from '@components/common/ClosetPageTitle'
 
 interface Props {
   designId: string
@@ -38,69 +38,71 @@ const ClosetInventoryShowPage = ({ designId }: Props) => {
   const { designProduct: design } = data || {}
 
   return (
-    <SlideOver
-      open
-      className="sm:w-full sm:max-w-xl"
-      onOpenChange={() => {
-        router.push(routes.internal.closet.inventory.href())
-      }}
-    >
-      <SlideOverHeader title={design?.name} />
-      <SlideOverContent>
-        <DesignOverview designId={designId} />
-      </SlideOverContent>
+    <ClosetPageContainer>
+      <ClosetPageHeader>
+        <ClosetPageTitle title="" />
+      </ClosetPageHeader>
 
-      <SlideOverActions>
-        {design ? (
-          <div className="flex gap-4 justify-between ">
-            <Dropdown
-              renderTrigger={() => (
-                <Button variant="ghost">
-                  <EllipsisHorizontalIcon className="w-5 h-5" />
-                </Button>
-              )}
-              renderItems={() => [
-                <DropdownItem
-                  key="design-request"
-                  label="View design request"
-                  href={routes.internal.closet.designs.show.href({
-                    designId: design.designRequestId,
-                  })}
-                />,
-              ]}
-            />
+      <Card>
+        <CardHeader>
+          <CardTitle title={design?.name} />
+        </CardHeader>
+        <CardContent>
+          <DesignOverview designId={designId} />
+        </CardContent>
 
-            <Button
-              variant="ghost"
-              onClick={() =>
-                setStandout({
-                  type: StandoutType.ClosetLinkShare,
-                  absoluteUrl: makeAbsoluteUrl(
-                    routes.internal.closet.inventory.show.products.show.href({
-                      designId,
-                    }),
-                  ),
-                })
-              }
-            >
-              Share
-            </Button>
+        <CardContent>
+          {design ? (
+            <div className="flex gap-4 justify-between ">
+              <Dropdown
+                renderTrigger={() => (
+                  <Button variant="ghost">
+                    <EllipsisHorizontalIcon className="w-5 h-5" />
+                  </Button>
+                )}
+                renderItems={() => [
+                  <DropdownItem
+                    key="design-request"
+                    label="View design request"
+                    href={routes.internal.closet.designs.show.href({
+                      designId: design.designRequestId,
+                    })}
+                  />,
+                ]}
+              />
 
-            <Button
-              Component={Link}
-              variant="ghost"
-              href={routes.internal.closet.inventory.show.products.show.buy.href(
-                {
-                  designId: design.id,
-                },
-              )}
-            >
-              Restock
-            </Button>
-          </div>
-        ) : null}
-      </SlideOverActions>
-    </SlideOver>
+              <Button
+                variant="ghost"
+                onClick={() =>
+                  setStandout({
+                    type: StandoutType.ClosetLinkShare,
+                    absoluteUrl: makeAbsoluteUrl(
+                      routes.internal.closet.inventory.show.products.show.href({
+                        designId,
+                      }),
+                    ),
+                  })
+                }
+              >
+                Share
+              </Button>
+
+              <Button
+                Component={Link}
+                variant="ghost"
+                href={routes.internal.closet.inventory.show.products.show.buy.href(
+                  {
+                    designId: design.id,
+                  },
+                )}
+              >
+                Restock
+              </Button>
+            </div>
+          ) : null}
+        </CardContent>
+      </Card>
+    </ClosetPageContainer>
   )
 }
 

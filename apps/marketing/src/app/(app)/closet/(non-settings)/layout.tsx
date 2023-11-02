@@ -115,7 +115,7 @@ const Layout = ({ children }: Props) => {
         </>
       }
     >
-      {children}
+      <>{children}</>
     </ClosetLayoutWrapper>
   )
 }

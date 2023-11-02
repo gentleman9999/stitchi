@@ -13,7 +13,11 @@ const CardHeader = ({ children }: Props) => {
 
   return (
     <Collapsible.Trigger asChild>
-      <div className="pt-4 px-4 flex justify-between items-center gap-2 cursor-pointer">
+      <div
+        className={cx('pt-4 px-4 flex justify-between items-center gap-2', {
+          'cursor-pointer': collapsable,
+        })}
+      >
         <div className="flex-1">{children}</div>
         {collapsable ? (
           <button className="p-1 rounded-full bg-gray-100">
