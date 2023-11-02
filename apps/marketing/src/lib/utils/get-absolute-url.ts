@@ -1,10 +1,5 @@
-import getOrThrow from './get-or-throw'
+import { SITE_URL } from '@lib/constants'
 
-const siteUrl = getOrThrow(
-  process.env.NEXT_PUBLIC_SITE_URL,
-  'NEXT_PUBLIC_SITE_URL',
-)
-
-const makeAbsoluteUrl = (url: string) => `${siteUrl}${url}`
+const makeAbsoluteUrl = (url: string) => `${SITE_URL}${url}`
 
 export default makeAbsoluteUrl
