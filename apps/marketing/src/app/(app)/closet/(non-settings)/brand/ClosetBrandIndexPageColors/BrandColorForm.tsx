@@ -1,4 +1,4 @@
-import FormSection from '@components/pages/ClosetDesignBuyPage/FormSection'
+import FormSection from 'app/(app)/closet/(non-settings)/inventory/@sidePanel/products/[designId]/order/FormSection'
 import Button from '@components/ui/ButtonV2/Button'
 import { Card, CardContent } from '@components/ui/Card'
 import { InputGroup, TextField } from '@components/ui/inputs'

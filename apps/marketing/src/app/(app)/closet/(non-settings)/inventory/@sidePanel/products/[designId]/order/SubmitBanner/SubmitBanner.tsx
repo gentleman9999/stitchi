@@ -24,7 +24,7 @@ const SubmitBanner = ({
 }: Props) => {
   return (
     <div className="flex flex-col sm:flex-row justify-between items-center gap-2 w-full">
-      <div className="text-base sm:text-lg font-medium text-center">
+      <div className="text-base sm:text-base font-medium text-center">
         {loading ? (
           <div className="text-gray-400">
             ${' '}
@@ -40,7 +40,7 @@ const SubmitBanner = ({
               <>
                 {currency(unitPriceCents, { fromCents: true }).format()}{' '}
                 <span className="text-xs">each</span>
-                <span className="text-lg mx-6 font-thin"> | </span>
+                <span className="text-lg mx-2 font-thin"> | </span>
                 {currency(priceCents, {
                   fromCents: true,
                 }).format()}{' '}
