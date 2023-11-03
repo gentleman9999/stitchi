@@ -1,3 +1,5 @@
+'use client'
+
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import * as Collapsible from '@radix-ui/react-collapsible'
 import React from 'react'

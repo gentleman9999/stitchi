@@ -12,8 +12,8 @@ const Layout = ({ children, sidePanel, mainContent }: Props) => {
   return (
     <ClosetPageContainer>
       {children}
-      <div className="flex gap-4">
-        <div className="flex-1 bg-red-300 p-8">{mainContent}</div>
+      <div className="flex gap-12">
+        <div className="flex-1">{mainContent}</div>
         <LayoutPanel sidePanel={sidePanel} />
       </div>
     </ClosetPageContainer>

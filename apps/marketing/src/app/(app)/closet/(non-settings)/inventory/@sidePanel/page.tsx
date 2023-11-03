@@ -1,5 +1,5 @@
-const Default = () => {
+const Page = () => {
   return null
 }
 
-export default Default
+export default Page

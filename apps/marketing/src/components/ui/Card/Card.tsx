@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
-import * as Collapsible from '@radix-ui/react-collapsible'
 import { CardProvider, useCardContext } from './card-context'
+import CardCollapsableRoot from './CardCollapsableRoot'
 
 interface Props {
   children: React.ReactNode
@@ -32,13 +32,8 @@ const withCardContext = (Component: React.ComponentType<Props>) => {
 }
 
 const Card = ({ children, className, disabled }: Props) => {
-  const { collapsed, setCollapsed } = useCardContext()
-
   return (
-    <Collapsible.Root
-      open={!collapsed}
-      onOpenChange={open => setCollapsed(!open)}
-    >
+    <CardCollapsableRoot>
       <div
         className={cx(
           'relative group overflow-hidden rounded-md bg-white sm:border flex flex-col pb-4',
@@ -50,7 +45,7 @@ const Card = ({ children, className, disabled }: Props) => {
       >
         {children}
       </div>
-    </Collapsible.Root>
+    </CardCollapsableRoot>
   )
 }
 

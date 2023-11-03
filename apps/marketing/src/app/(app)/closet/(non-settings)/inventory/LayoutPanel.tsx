@@ -1,6 +1,5 @@
 'use client'
 
-import { AnimatePresence, motion } from 'framer-motion'
 import { useSelectedLayoutSegments } from 'next/navigation'
 import React from 'react'
 
@@ -9,27 +8,13 @@ interface Props {
 }
 
 const LayoutPanel = ({ sidePanel }: Props) => {
-  const selectedPanelLayoutSegments = useSelectedLayoutSegments('mainContent')
+  const selectedPanelLayoutSegments = useSelectedLayoutSegments('sidePanel')
 
-  console.log('selectedPanelLayoutSegments', selectedPanelLayoutSegments)
+  const displayPanel = selectedPanelLayoutSegments[0] !== 'page$'
 
-  const displayPanel = true
+  if (!displayPanel) return null
 
-  return (
-    <AnimatePresence>
-      {displayPanel ? (
-        <motion.div
-          key="sidePanel"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="w-1/4 bg-green-300 p-8"
-        >
-          {sidePanel}
-        </motion.div>
-      ) : null}
-    </AnimatePresence>
-  )
+  return <div className="w-1/4 sm:min-w-[400px]">{sidePanel}</div>
 }
 
 export default LayoutPanel
