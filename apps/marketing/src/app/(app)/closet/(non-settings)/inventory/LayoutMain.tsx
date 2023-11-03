@@ -2,19 +2,26 @@
 
 import { useSelectedLayoutSegments } from 'next/navigation'
 import React from 'react'
+import cx from 'classnames'
 
 interface Props {
   children: React.ReactNode
 }
 
-const LayoutPanel = ({ children }: Props) => {
+const LayoutMain = ({ children }: Props) => {
   const selectedPanelLayoutSegments = useSelectedLayoutSegments('sidePanel')
 
   const displayPanel = selectedPanelLayoutSegments[0] !== 'page$'
 
-  if (!displayPanel) return null
-
-  return <div className="w-full @2xl:w-1/4 @2xl:min-w-[400px]">{children}</div>
+  return (
+    <div
+      className={cx('flex-1', {
+        'hidden @2xl:block': displayPanel,
+      })}
+    >
+      {children}
+    </div>
+  )
 }
 
-export default LayoutPanel
+export default LayoutMain

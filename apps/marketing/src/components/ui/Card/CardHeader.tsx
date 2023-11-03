@@ -7,7 +7,7 @@ import cx from 'classnames'
 import { useCardContext } from './card-context'
 
 interface Props {
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 const CardHeader = ({ children }: Props) => {

@@ -1,3 +1,4 @@
+import ClosetSection from '@components/common/ClosetSection'
 import React from 'react'
 
 interface Props {
@@ -5,7 +6,7 @@ interface Props {
 }
 
 const Layout = ({ children }: Props) => {
-  return <>{children}</>
+  return <ClosetSection>{children}</ClosetSection>
 }
 
 export default Layout

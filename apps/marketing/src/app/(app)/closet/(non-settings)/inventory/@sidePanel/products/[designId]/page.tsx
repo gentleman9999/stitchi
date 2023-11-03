@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import Button from '@components/ui/ButtonV2/Button'
-import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/Card'
+import { CardContent, CardHeader, CardTitle } from '@components/ui/Card'
 import {
   InventoryProductDetailsGetDataQuery,
   InventoryProductDetailsGetDataQueryVariables,
@@ -36,29 +36,29 @@ const Page = async ({
   }
 
   return (
-    <Card className="shadow-2xl">
+    <>
       <CardHeader>
         <div className="flex gap-4 justify-between items-center">
           <CardTitle title={designProduct.name} />
           <Button
             size="xs"
-            variant="ghost"
+            variant="naked"
             Component={Link}
             href={routes.internal.closet.inventory.href()}
           >
-            <XMarkIcon className="w-4 h-4" />
+            <XMarkIcon className="w-6 h-6" />
           </Button>
         </div>
       </CardHeader>
 
-      <CardContent>
-        <DesignOverview designId={designId} />
-      </CardContent>
-
-      <CardContent>
+      <CardContent divide>
         <ProductActions designProduct={designProduct} />
       </CardContent>
-    </Card>
+
+      <CardContent divide>
+        <DesignOverview designId={designId} />
+      </CardContent>
+    </>
   )
 }
 

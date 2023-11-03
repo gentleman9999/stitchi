@@ -23,7 +23,7 @@ interface Props {
     | undefined
 }
 
-const ClosetInventoryIndexPageProductCard = ({ design, loading }: Props) => {
+const InventoryProductCard = ({ design, loading }: Props) => {
   const { setStandout } = useStandout()
 
   if (loading) {
@@ -105,7 +105,7 @@ const ClosetInventoryIndexPageProductCard = ({ design, loading }: Props) => {
   )
 }
 
-ClosetInventoryIndexPageProductCard.fragments = {
+InventoryProductCard.fragments = {
   designProduct: gql`
     fragment ClosetInventoryIndexPageProductCardDesignProductFragment on DesignProduct {
       id
@@ -128,4 +128,4 @@ ClosetInventoryIndexPageProductCard.fragments = {
   `,
 }
 
-export default ClosetInventoryIndexPageProductCard
+export default InventoryProductCard

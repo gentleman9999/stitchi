@@ -1,6 +1,8 @@
 import React from 'react'
 import ClosetPageContainer from '@components/common/ClosetPageContainer'
 import LayoutPanel from './LayoutPanel'
+import LayoutMain from './LayoutMain'
+import LayoutHeader from './LayoutHeader'
 
 interface Props {
   children: React.ReactNode
@@ -10,11 +12,11 @@ interface Props {
 
 const Layout = ({ children, sidePanel, mainContent }: Props) => {
   return (
-    <ClosetPageContainer>
-      {children}
-      <div className="flex gap-12">
-        <div className="flex-1">{mainContent}</div>
-        <LayoutPanel sidePanel={sidePanel} />
+    <ClosetPageContainer className="@container">
+      <LayoutHeader>{children}</LayoutHeader>
+      <div className="flex gap-4">
+        <LayoutMain>{mainContent}</LayoutMain>
+        <LayoutPanel>{sidePanel}</LayoutPanel>
       </div>
     </ClosetPageContainer>
   )

@@ -18,8 +18,39 @@ const ProductActions = ({ designProduct }: Props) => {
   const { setStandout } = useStandout()
 
   return (
-    <div className="flex gap-4 justify-end">
+    <div className="flex gap-4">
+      <div className="flex flex-1 gap-4">
+        <Button
+          className="flex-1"
+          Component={Link}
+          variant="ghost"
+          href={routes.internal.closet.inventory.show.products.show.buy.href({
+            designId: designProduct.id,
+          })}
+        >
+          Restock
+        </Button>
+
+        <Button
+          className="flex-1"
+          variant="ghost"
+          onClick={() =>
+            setStandout({
+              type: StandoutType.ClosetLinkShare,
+              absoluteUrl: makeAbsoluteUrl(
+                routes.internal.closet.inventory.show.products.show.href({
+                  designId: designProduct.id,
+                }),
+              ),
+            })
+          }
+        >
+          Share
+        </Button>
+      </div>
+
       <Dropdown
+        align="end"
         renderTrigger={() => (
           <Button variant="ghost">
             <EllipsisHorizontalIcon className="w-5 h-5" />
@@ -35,32 +66,6 @@ const ProductActions = ({ designProduct }: Props) => {
           />,
         ]}
       />
-
-      <Button
-        variant="ghost"
-        onClick={() =>
-          setStandout({
-            type: StandoutType.ClosetLinkShare,
-            absoluteUrl: makeAbsoluteUrl(
-              routes.internal.closet.inventory.show.products.show.href({
-                designId: designProduct.id,
-              }),
-            ),
-          })
-        }
-      >
-        Share
-      </Button>
-
-      <Button
-        Component={Link}
-        variant="ghost"
-        href={routes.internal.closet.inventory.show.products.show.buy.href({
-          designId: designProduct.id,
-        })}
-      >
-        Restock
-      </Button>
     </div>
   )
 }
