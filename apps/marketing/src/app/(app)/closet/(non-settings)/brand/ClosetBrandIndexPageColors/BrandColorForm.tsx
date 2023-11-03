@@ -1,4 +1,3 @@
-import FormSection from '@components/pages/ClosetDesignBuyPage/FormSection'
 import Button from '@components/ui/ButtonV2/Button'
 import { Card, CardContent } from '@components/ui/Card'
 import { InputGroup, TextField } from '@components/ui/inputs'
@@ -8,6 +7,7 @@ import Color from 'color'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import FormSection from '../../inventory/@sidePanel/products/[designId]/order/FormSection'
 
 const inputClassName = '!text-xs p-1'
 

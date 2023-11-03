@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import FormSection from './FormSection'
 import useProductQuote from './SubmitBanner/useProductQuote'
-import VariantQuantityMatrixForm from '../../common/ProductVariantQuantityMatrixForm/ProductVariantQuantityMatrixForm'
+import VariantQuantityMatrixForm from '../../../../../../../../../components/common/ProductVariantQuantityMatrixForm/ProductVariantQuantityMatrixForm'
 
 const sizeSchema = yup.object().shape({
   catalogSizeEntityId: yup.string().required(),
