@@ -13,14 +13,15 @@ import ClosetDesignBuyPagePeview from './ClosetDesignBuyPagePeview'
 import routes from '@lib/routes'
 
 import SubmitBanner from './SubmitBanner'
-import { CardContent, CardHeader, CardTitle } from '@components/ui/Card'
-import Button from '@components/ui/ButtonV2/Button'
-import Link from 'next/link'
-import { XMarkIcon } from '@heroicons/react/20/solid'
+import { CardContent } from '@components/ui/Card'
 
 const Page = () => {
   const router = useRouter()
-  const params = useParams<{ designId: string }>()
+  const { designId } = useParams<{ designId: string }>()!
+
+  if (!designId) {
+    throw new Error('designId is required')
+  }
 
   const [addToCart, { error: addToCartError }] = useAddToCart()
 
@@ -28,8 +29,7 @@ const Page = () => {
     ClosetDesignBuyPageGetDataQuery,
     ClosetDesignBuyPageGetDataQueryVariables
   >(GET_DATA, {
-    skip: !params?.designId,
-    variables: { designId: `${params?.designId}` },
+    variables: { designId },
   })
 
   const product = data?.designProduct
@@ -62,7 +62,7 @@ const Page = () => {
     }
 
     const order = await addToCart({
-      designProductId: props.designId,
+      designProductId: designId,
       shippingAddressId: null,
       orderItems: productVariants
         .map(variant => ({
@@ -96,23 +96,9 @@ const Page = () => {
             unitPriceCents,
           }) => (
             <>
-              <CardHeader>
-                <div className="flex gap-4 justify-between items-center">
-                  <CardTitle title={product.name} />
-                  <Button
-                    size="xs"
-                    variant="naked"
-                    Component={Link}
-                    href={routes.internal.closet.inventory.href()}
-                  >
-                    <XMarkIcon className="w-6 h-6" />
-                  </Button>
-                </div>
-              </CardHeader>
+              <CardContent divide>{children}</CardContent>
 
-              <CardContent>{children}</CardContent>
-
-              <CardContent>
+              <CardContent divide>
                 <SubmitBanner
                   onSubmit={onSubmit}
                   priceCents={priceCents}

@@ -1,14 +1,11 @@
 'use client'
 
-import { gql, useQuery } from '@apollo/client'
+import { gql, useSuspenseQuery } from '@apollo/client'
 import React from 'react'
-import ClosetSection from '@components/common/ClosetSection'
 import {
   DesignOverviewGetDataQuery,
   DesignOverviewGetDataQueryVariables,
 } from '@generated/DesignOverviewGetDataQuery'
-import DesignPreviewGallery from './DesignPreviewGallery'
-import useDesignOverview from './useDesignOverview'
 import { ComponentErrorMessage } from '@components/common'
 
 import DesignInventoryMatrix from './DesignInventoryMatrix'
@@ -19,15 +16,16 @@ import {
   CardHeader,
   CardTitle,
 } from '@components/ui/Card'
+import { useProductContext } from '../product-context'
 
 interface Props {
   designId: string
 }
 
 const DesignOverview = ({ designId }: Props) => {
-  const { activeColorId, setActiveColorId } = useDesignOverview()
+  const { activeColorId, setActiveColorId } = useProductContext()
 
-  const { data, loading, error } = useQuery<
+  const { data, error } = useSuspenseQuery<
     DesignOverviewGetDataQuery,
     DesignOverviewGetDataQueryVariables
   >(GET_DATA, {
@@ -46,18 +44,8 @@ const DesignOverview = ({ designId }: Props) => {
     <>
       <ComponentErrorMessage error={error} />
 
-      <ClosetSection>
-        <div className="max-h-[220px] flex">
-          <DesignPreviewGallery
-            design={design}
-            activeColorId={activeColorId}
-            loading={loading}
-          />
-        </div>
-      </ClosetSection>
-
       {design ? (
-        <ClosetSection>
+        <div>
           <Card collapsable>
             <CardHeader>
               <CardTitle title="Inventory" />
@@ -71,14 +59,13 @@ const DesignOverview = ({ designId }: Props) => {
               </CardContent>
             </CardCollapsableContent>
           </Card>
-        </ClosetSection>
+        </div>
       ) : null}
     </>
   )
 }
 
 const GET_DATA = gql`
-  ${DesignPreviewGallery.fragments.designProduct}
   ${DesignInventoryMatrix.fragments.designProduct}
   query DesignOverviewGetDataQuery($designId: ID!) {
     designProduct(id: $designId) {
@@ -91,7 +78,6 @@ const GET_DATA = gql`
         name
       }
 
-      ...DesignPreviewGalleryDesignProductFragment
       ...DesignInventoryMatrixDesignProductFragment
     }
   }

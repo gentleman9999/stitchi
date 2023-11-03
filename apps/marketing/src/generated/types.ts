@@ -11638,6 +11638,8 @@ export type DesignRequestProofCreatePageGetDataQueryVariables = Exact<{
 
 export type DesignRequestProofCreatePageGetDataQuery = { __typename: 'Query', designRequest: { __typename: 'DesignRequest', id: string, fileUploadDirectory: string, designRequestProduct: { __typename: 'DesignRequestProduct', id: string, colors: Array<{ __typename: 'DesignRequestProductColors', name: string | null, hexCode: string | null, catalogProductColorId: string }> } } | null };
 
+export type ClosetInventoryIndexPageProductCardDesignProductFragment = { __typename: 'DesignProduct', id: string, name: string, minUnitPriceCents: number | null, inStockQty: number, inProductionQty: number, colors: Array<{ __typename: 'DesignProductColor', id: string, hex: string | null, name: string | null }>, primaryImageFile: { __typename: 'FileImage', id: string, url: string, width: number, height: number } | null };
+
 export type ClosetInventoryIndexPageInventoryListGetDataQueryVariables = Exact<{
   first: Scalars['Int']['input'];
   after?: InputMaybe<Scalars['String']['input']>;
@@ -11646,8 +11648,6 @@ export type ClosetInventoryIndexPageInventoryListGetDataQueryVariables = Exact<{
 
 
 export type ClosetInventoryIndexPageInventoryListGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, hasDesignProducts: boolean, designProducts: { __typename: 'DesignProductConnection', edges: Array<{ __typename: 'DesignProductEdge', node: { __typename: 'DesignProduct', id: string, name: string, minUnitPriceCents: number | null, inStockQty: number, inProductionQty: number, colors: Array<{ __typename: 'DesignProductColor', id: string, hex: string | null, name: string | null }>, primaryImageFile: { __typename: 'FileImage', id: string, url: string, width: number, height: number } | null } | null } | null> | null } } | null };
-
-export type ClosetInventoryIndexPageProductCardDesignProductFragment = { __typename: 'DesignProduct', id: string, name: string, minUnitPriceCents: number | null, inStockQty: number, inProductionQty: number, colors: Array<{ __typename: 'DesignProductColor', id: string, hex: string | null, name: string | null }>, primaryImageFile: { __typename: 'FileImage', id: string, url: string, width: number, height: number } | null };
 
 export type DesignInventoryMatrixDesignProductFragment = { __typename: 'DesignProduct', id: string, sizes: Array<{ __typename: 'DesignProductSize', id: string, name: string }> | null, colors: Array<{ __typename: 'DesignProductColor', id: string, name: string | null, hex: string | null }> };
 
@@ -11661,6 +11661,47 @@ export type DesignOverviewGetDataQuery = { __typename: 'Query', designProduct: {
 export type DesignPreviewGalleryDesignProductFragment = { __typename: 'DesignProduct', id: string, colors: Array<{ __typename: 'DesignProductColor', id: string, images: Array<{ __typename: 'FileImage', id: string, url: string, width: number, height: number }> }> };
 
 export type InventoryProductDetailsDesignFragment = { __typename: 'DesignProduct', id: string, designRequestId: string };
+
+export type InventoryProductLayoutGetDataQueryVariables = Exact<{
+  designId: Scalars['ID']['input'];
+}>;
+
+
+export type InventoryProductLayoutGetDataQuery = { __typename: 'Query', designProduct: { __typename: 'DesignProduct', id: string, name: string, colors: Array<{ __typename: 'DesignProductColor', id: string, images: Array<{ __typename: 'FileImage', id: string, url: string, width: number, height: number }> }> } | null };
+
+export type ClosetDesignBuyPageFormDesignProductFragment = { __typename: 'DesignProduct', id: string, catalogProductId: string, colors: Array<{ __typename: 'DesignProductColor', id: string, hex: string | null, name: string | null, catalogProductColorId: string }>, variants: Array<{ __typename: 'DesignProductVariant', id: string, sizeName: string | null, catalogProductSizeId: string | null, catalogProductColorId: string | null }> };
+
+export type ClosetDesignBuyPagePeviewDesignProductFragment = { __typename: 'DesignProduct', id: string, name: string, description: string | null, colors: Array<{ __typename: 'DesignProductColor', id: string, catalogProductColorId: string, hex: string | null, name: string | null, images: Array<{ __typename: 'FileImage', id: string, url: string, width: number, height: number }> }> };
+
+export type UseProductQuoteGetQuoteQueryVariables = Exact<{
+  designProductId: Scalars['ID']['input'];
+  quantity: Scalars['Int']['input'];
+}>;
+
+
+export type UseProductQuoteGetQuoteQuery = { __typename: 'Query', designProduct: { __typename: 'DesignProduct', id: string, quote: { __typename: 'Quote', id: string, productTotalCostCents: number, productUnitCostCents: number } | null } | null };
+
+export type GetProductVariantByOptionsVariables = Exact<{
+  productEntityId: Scalars['Int']['input'];
+  optionValueIds: Array<OptionValueId>;
+}>;
+
+
+export type GetProductVariantByOptions = { __typename: 'Query', site: { __typename: 'Site', product: { __typename: 'Product', id: string, variants: { __typename: 'VariantConnection', edges: Array<{ __typename: 'VariantEdge', node: { __typename: 'Variant', id: string, entityId: number } } | null> | null } } | null } };
+
+export type ClosetDesignBuyPageGetDataQueryVariables = Exact<{
+  designId: Scalars['ID']['input'];
+}>;
+
+
+export type ClosetDesignBuyPageGetDataQuery = { __typename: 'Query', designProduct: { __typename: 'DesignProduct', id: string, name: string, description: string | null, catalogProductId: string, colors: Array<{ __typename: 'DesignProductColor', id: string, name: string | null, hex: string | null, catalogProductColorId: string, images: Array<{ __typename: 'FileImage', id: string, url: string, width: number, height: number }> }>, variants: Array<{ __typename: 'DesignProductVariant', id: string, catalogProductVariantId: string, catalogProductColorId: string | null, catalogProductSizeId: string | null, sizeName: string | null }> } | null };
+
+export type UseCreateOrderCreateOrderMutationVariables = Exact<{
+  input: DesignProductCreateOrderInput;
+}>;
+
+
+export type UseCreateOrderCreateOrderMutation = { __typename: 'Mutation', designProductCreateOrder: { __typename: 'DesignProductCreateOrderPayload', order: { __typename: 'Order', id: string } | null } | null };
 
 export type InventoryProductDetailsGetDataQueryVariables = Exact<{
   designId: Scalars['ID']['input'];
@@ -11909,40 +11950,6 @@ export type UnclaimedDesignRequestsCardGetDataQueryVariables = Exact<{
 
 
 export type UnclaimedDesignRequestsCardGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, unassignedDesignRequests: { __typename: 'DesignRequestConnection', edges: Array<{ __typename: 'DesignRequestEdge', node: { __typename: 'DesignRequest', id: string, name: string, membership: { __typename: 'Membership', id: string, organization: { __typename: 'Organization', id: string, name: string | null }, user: { __typename: 'User', id: string, name: string | null } | null } | null } | null } | null> | null } } | null };
-
-export type ClosetDesignBuyPageGetDataQueryVariables = Exact<{
-  designId: Scalars['ID']['input'];
-}>;
-
-
-export type ClosetDesignBuyPageGetDataQuery = { __typename: 'Query', designProduct: { __typename: 'DesignProduct', id: string, name: string, description: string | null, catalogProductId: string, colors: Array<{ __typename: 'DesignProductColor', id: string, name: string | null, hex: string | null, catalogProductColorId: string, images: Array<{ __typename: 'FileImage', id: string, url: string, width: number, height: number }> }>, variants: Array<{ __typename: 'DesignProductVariant', id: string, catalogProductVariantId: string, catalogProductColorId: string | null, catalogProductSizeId: string | null, sizeName: string | null }> } | null };
-
-export type ClosetDesignBuyPageFormDesignProductFragment = { __typename: 'DesignProduct', id: string, catalogProductId: string, colors: Array<{ __typename: 'DesignProductColor', id: string, hex: string | null, name: string | null, catalogProductColorId: string }>, variants: Array<{ __typename: 'DesignProductVariant', id: string, sizeName: string | null, catalogProductSizeId: string | null, catalogProductColorId: string | null }> };
-
-export type ClosetDesignBuyPagePeviewDesignProductFragment = { __typename: 'DesignProduct', id: string, name: string, description: string | null, colors: Array<{ __typename: 'DesignProductColor', id: string, catalogProductColorId: string, hex: string | null, name: string | null, images: Array<{ __typename: 'FileImage', id: string, url: string, width: number, height: number }> }> };
-
-export type UseProductQuoteGetQuoteQueryVariables = Exact<{
-  designProductId: Scalars['ID']['input'];
-  quantity: Scalars['Int']['input'];
-}>;
-
-
-export type UseProductQuoteGetQuoteQuery = { __typename: 'Query', designProduct: { __typename: 'DesignProduct', id: string, quote: { __typename: 'Quote', id: string, productTotalCostCents: number, productUnitCostCents: number } | null } | null };
-
-export type GetProductVariantByOptionsVariables = Exact<{
-  productEntityId: Scalars['Int']['input'];
-  optionValueIds: Array<OptionValueId>;
-}>;
-
-
-export type GetProductVariantByOptions = { __typename: 'Query', site: { __typename: 'Site', product: { __typename: 'Product', id: string, variants: { __typename: 'VariantConnection', edges: Array<{ __typename: 'VariantEdge', node: { __typename: 'Variant', id: string, entityId: number } } | null> | null } } | null } };
-
-export type UseCreateOrderCreateOrderMutationVariables = Exact<{
-  input: DesignProductCreateOrderInput;
-}>;
-
-
-export type UseCreateOrderCreateOrderMutation = { __typename: 'Mutation', designProductCreateOrder: { __typename: 'DesignProductCreateOrderPayload', order: { __typename: 'Order', id: string } | null } | null };
 
 export type ClosetDesignFiltersGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 

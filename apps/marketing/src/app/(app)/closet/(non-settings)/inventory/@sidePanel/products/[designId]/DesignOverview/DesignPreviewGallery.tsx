@@ -31,8 +31,8 @@ const DesignPreviewGallery = ({ design, activeColorId, loading }: Props) => {
   }, [activeColor?.images, activeImage?.id])
 
   return (
-    <div className="w-full">
-      <div className="w-full h-full overflow-hidden">
+    <div className="w-full flex flex-col">
+      <div className="w-full flex-1 overflow-hidden">
         {activeImage ? (
           <img
             key={activeImage.id}
@@ -53,7 +53,7 @@ const DesignPreviewGallery = ({ design, activeColorId, loading }: Props) => {
           <button
             key={image.id}
             onClick={() => setActiveImage(image)}
-            className="w-16 h-16 rounded-md overflow-hidden"
+            className="w-16 h-16 rounded-md overflow-hidden border border-gray-50"
           >
             <img
               src={image.url}

@@ -8,6 +8,7 @@ import * as yup from 'yup'
 import FormSection from './FormSection'
 import useProductQuote from './SubmitBanner/useProductQuote'
 import VariantQuantityMatrixForm from '../../../../../../../../../components/common/ProductVariantQuantityMatrixForm/ProductVariantQuantityMatrixForm'
+import { InputGroup } from '@components/ui/inputs'
 
 const sizeSchema = yup.object().shape({
   catalogSizeEntityId: yup.string().required(),
@@ -147,22 +148,26 @@ const ClosetDesignBuyPageForm = ({
         children: (
           <div className="flex flex-col gap-20">
             <FormSection>
-              <VariantQuantityMatrixForm
-                form={form}
-                colors={designProduct.colors.map(color => ({
-                  id: color.id,
-                  catalogProductColorId: color.catalogProductColorId,
-                  hex: color.hex,
-                  name: color.name,
-                }))}
-                variants={designProduct.variants.map(variant => ({
-                  id: variant.id,
-                  catalogProductColorId: variant.catalogProductColorId,
-                  catalogProductSizeId: variant.catalogProductSizeId,
-                  sizeName: variant.sizeName,
-                }))}
-              />
-              <ComponentErrorMessage error={formErrors.colors?.message} />
+              <InputGroup
+                label="Choose quantities to restock"
+                error={formErrors.colors?.message}
+              >
+                <VariantQuantityMatrixForm
+                  form={form}
+                  colors={designProduct.colors.map(color => ({
+                    id: color.id,
+                    catalogProductColorId: color.catalogProductColorId,
+                    hex: color.hex,
+                    name: color.name,
+                  }))}
+                  variants={designProduct.variants.map(variant => ({
+                    id: variant.id,
+                    catalogProductColorId: variant.catalogProductColorId,
+                    catalogProductSizeId: variant.catalogProductSizeId,
+                    sizeName: variant.sizeName,
+                  }))}
+                />
+              </InputGroup>
             </FormSection>
 
             <ComponentErrorMessage error={error} />

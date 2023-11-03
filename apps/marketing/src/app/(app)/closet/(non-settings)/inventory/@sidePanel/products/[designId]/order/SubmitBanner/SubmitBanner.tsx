@@ -4,6 +4,7 @@ import { ArrowRight } from 'icons'
 import React from 'react'
 import Skeleton from 'react-loading-skeleton'
 import cx from 'classnames'
+import Button from '@components/ui/ButtonV2/Button'
 
 interface Props {
   loading: boolean
@@ -24,7 +25,7 @@ const SubmitBanner = ({
 }: Props) => {
   return (
     <div className="flex flex-col sm:flex-row justify-between items-center gap-2 w-full">
-      <div className="text-base sm:text-base font-medium text-center">
+      <div className="text-base text-center text-gray-700">
         {loading ? (
           <div className="text-gray-400">
             ${' '}
@@ -53,30 +54,17 @@ const SubmitBanner = ({
         )}
       </div>
       <div className="flex flex-col-reverse sm:flex-row gap-2 sm:gap-8 items-center">
-        <button
+        <Button
+          bold
           type="button"
           onClick={onSubmit}
-          className={cx(
-            'flex items-center text-lg font-bold group px-3 py-2 rounded-md bg-primary ',
-            { 'text-red-500 !border-red-500 pointer-events-none': error },
-          )}
-          disabled={loading || submitting || error}
+          loading={submitting}
+          disabled={loading || error}
+          endIcon={<ArrowRight strokeWidth={2.5} width={16} />}
+          color="brandPrimary"
         >
-          {error ? (
-            'Please resolve errors'
-          ) : (
-            <>
-              Add{submitting ? 'ing' : ''} to Cart{' '}
-              <span className="ml-2 group-hover:translate-x-1 transition-all flex items-center">
-                {submitting ? (
-                  <LoadingDots />
-                ) : (
-                  <ArrowRight strokeWidth={2.5} width={16} />
-                )}
-              </span>
-            </>
-          )}
-        </button>
+          Add to Cart
+        </Button>
       </div>
     </div>
   )
