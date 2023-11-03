@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { motion } from 'framer-motion'
@@ -11,6 +13,8 @@ const fadeIn = {
 interface Props {
   renderTrigger: () => React.ReactNode
   renderItems: () => React.ReactNode[]
+  side?: DropdownMenu.MenuContentProps['side']
+  align?: DropdownMenu.MenuContentProps['align']
 }
 
 const Dropdown = (props: Props) => {
@@ -33,6 +37,8 @@ const Dropdown = (props: Props) => {
               e.stopPropagation()
             }}
             sideOffset={5}
+            side={props.side}
+            align={props.align}
             asChild
           >
             <motion.div

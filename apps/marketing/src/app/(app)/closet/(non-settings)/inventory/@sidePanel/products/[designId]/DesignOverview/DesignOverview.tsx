@@ -1,3 +1,5 @@
+'use client'
+
 import { gql, useQuery } from '@apollo/client'
 import React from 'react'
 import ClosetSection from '@components/common/ClosetSection'

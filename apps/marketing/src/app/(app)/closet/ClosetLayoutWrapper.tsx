@@ -11,9 +11,7 @@ interface Props {
 
 const ClosetLayoutWrapper = (props: Props) => {
   return (
-    <main
-      className={`min-h-[${availableHeight}] mt-[${TOPBAR_NAV_HEIGTH_PX}px] relative md:pl-64`}
-    >
+    <div className={`md:pl-64`}>
       <ClosetLayoutWrapperPanel
         panelHeight={availableHeight}
         topbarHeight={`${TOPBAR_NAV_HEIGTH_PX}px`}
@@ -26,7 +24,7 @@ const ClosetLayoutWrapper = (props: Props) => {
       >
         {props.children}
       </main>
-    </main>
+    </div>
   )
 }
 

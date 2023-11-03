@@ -67,7 +67,7 @@
     "icons": "*",
     "lodash-es": "^4.17.21",
     "mixpanel-browser": "^2.47.0",
-    "next": "^14.0.0",
+    "next": "^14.0.1",
     "next-axiom": "^1.0.0",
     "next-seo": "^5.1.0",
     "next-sitemap": "^4.0.6",

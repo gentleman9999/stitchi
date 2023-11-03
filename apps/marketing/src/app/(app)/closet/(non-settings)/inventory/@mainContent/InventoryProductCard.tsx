@@ -1,3 +1,5 @@
+'use client'
+
 import { gql } from '@apollo/client'
 import SwatchGroup from '@components/common/Catalog/SwatchGroup'
 import { StandoutType, useStandout } from '@components/context'
@@ -11,7 +13,7 @@ import routes from '@lib/routes'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { notEmpty } from '@lib/utils/typescript'
 import React from 'react'
-import Card from '../../../../../components/common/ClosetCard/ClosetCard'
+import Card from '@components/common/ClosetCard'
 
 interface Props {
   loading: boolean
@@ -21,7 +23,7 @@ interface Props {
     | undefined
 }
 
-const ClosetInventoryIndexPageProductCard = ({ design, loading }: Props) => {
+const InventoryProductCard = ({ design, loading }: Props) => {
   const { setStandout } = useStandout()
 
   if (loading) {
@@ -103,7 +105,7 @@ const ClosetInventoryIndexPageProductCard = ({ design, loading }: Props) => {
   )
 }
 
-ClosetInventoryIndexPageProductCard.fragments = {
+InventoryProductCard.fragments = {
   designProduct: gql`
     fragment ClosetInventoryIndexPageProductCardDesignProductFragment on DesignProduct {
       id
@@ -126,4 +128,4 @@ ClosetInventoryIndexPageProductCard.fragments = {
   `,
 }
 
-export default ClosetInventoryIndexPageProductCard
+export default InventoryProductCard

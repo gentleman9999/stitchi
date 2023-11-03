@@ -27,7 +27,7 @@ const DesignInventoryMatrix = ({ designProduct, onColorClick }: Props) => {
       )) || <Cell className="text-sm font-semibold">One size</Cell>}
 
       {colors?.map(color => (
-        <>
+        <React.Fragment key={color.id}>
           <Cell>
             <div className="flex items-center text-xs">
               <ColorSwatch
@@ -43,7 +43,7 @@ const DesignInventoryMatrix = ({ designProduct, onColorClick }: Props) => {
               0
             </Cell>
           ))}
-        </>
+        </React.Fragment>
       ))}
     </div>
   )

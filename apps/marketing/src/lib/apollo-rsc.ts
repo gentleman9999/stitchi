@@ -26,15 +26,13 @@ export const getClient = async () => {
       // Do nothing
     } else {
       console.error(
-        "Failed to get access token in RootLayout. This shouldn't happen.",
+        "Failed to get access token in RSC. This shouldn't happen.",
         {
           context: {
             error,
           },
         },
       )
-
-      redirect(routes.internal.logout.href(), RedirectType.replace)
     }
   }
 
