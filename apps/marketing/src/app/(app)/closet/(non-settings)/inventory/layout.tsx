@@ -1,18 +1,22 @@
-'use client'
-
 import React from 'react'
+import ClosetPageContainer from '@components/common/ClosetPageContainer'
+import LayoutPanel from './LayoutPanel'
 
 interface Props {
   children: React.ReactNode
-  panel: React.ReactNode
+  sidePanel: React.ReactNode
+  mainContent: React.ReactNode
 }
 
-const Layout = ({ children, panel }: Props) => {
+const Layout = ({ children, sidePanel, mainContent }: Props) => {
   return (
-    <div className="flex gap-4 w-full @container">
-      <div className="flex-1">{children}</div>
-      {panel ? <div className="w-[500px]">{panel}</div> : null}
-    </div>
+    <ClosetPageContainer>
+      {children}
+      <div className="flex gap-4">
+        <div className="flex-1 bg-red-300 p-8">{mainContent}</div>
+        <LayoutPanel sidePanel={sidePanel} />
+      </div>
+    </ClosetPageContainer>
   )
 }
 

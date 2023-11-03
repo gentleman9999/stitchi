@@ -1,15 +1,16 @@
 import ClosetPageHeader from '@components/common/ClosetPageHeader'
 import ClosetPageTitle from '@components/common/ClosetPageTitle'
-import OnboardingActionPanel from './OnboardingActionPanel'
+import Link from 'next/link'
+import React from 'react'
 
 const Page = () => {
   return (
     <>
       <ClosetPageHeader>
-        <ClosetPageTitle title="Inventory" description="" />
+        <ClosetPageTitle title="Test page" />
       </ClosetPageHeader>
 
-      <OnboardingActionPanel />
+      <Link href="/closet/test/nested/super">Show panel</Link>
     </>
   )
 }
