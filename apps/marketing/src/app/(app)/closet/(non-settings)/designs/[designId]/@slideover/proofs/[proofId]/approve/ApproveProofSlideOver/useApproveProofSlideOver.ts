@@ -1,14 +1,14 @@
 import { gql, useMutation } from '@apollo/client'
 import { DesignRequestApproveInput } from '@generated/globalTypes'
 import {
-  UseCreateDesignSildeOverApproveDesignMutation,
-  UseCreateDesignSildeOverApproveDesignMutationVariables,
-} from '@generated/UseCreateDesignSildeOverApproveDesignMutation'
+  UseApproveProofSildeOverApproveDesignMutation,
+  UseApproveProofSildeOverApproveDesignMutationVariables,
+} from '@generated/types'
 
-const useCreateDesignSlideOver = () => {
+const useApproveProofSlideOver = () => {
   const [approveDesign, { loading, error }] = useMutation<
-    UseCreateDesignSildeOverApproveDesignMutation,
-    UseCreateDesignSildeOverApproveDesignMutationVariables
+    UseApproveProofSildeOverApproveDesignMutation,
+    UseApproveProofSildeOverApproveDesignMutationVariables
   >(APPROVE_DESIGN)
 
   const handleApproveDesign = async (
@@ -27,18 +27,15 @@ const useCreateDesignSlideOver = () => {
 }
 
 const APPROVE_DESIGN = gql`
-  mutation UseCreateDesignSildeOverApproveDesignMutation(
+  mutation UseApproveProofSildeOverApproveDesignMutation(
     $input: DesignRequestApproveInput!
   ) {
     designRequestApprove(input: $input) {
       designRequest {
         id
       }
-      design {
-        id
-      }
     }
   }
 `
 
-export default useCreateDesignSlideOver
+export default useApproveProofSlideOver

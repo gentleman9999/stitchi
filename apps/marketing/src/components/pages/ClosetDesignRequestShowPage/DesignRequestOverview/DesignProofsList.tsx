@@ -6,7 +6,7 @@ import {
   DesignProofsListGetDataQueryVariables,
 } from '@generated/DesignProofsListGetDataQuery'
 import { format } from 'date-fns'
-import { Card, CardContent } from '@components/ui/Card'
+import { Card, CardContent, CardHeader } from '@components/ui/Card'
 import { ScopeAction, ScopeResource } from '@generated/globalTypes'
 import { useAuthorizedComponent } from '@lib/auth'
 import Button from '@components/ui/ButtonV2/Button'
@@ -54,72 +54,74 @@ const DesignProofsList = ({
 
   if (approvedProof) {
     return (
-      <Container>
-        <InputGroup label="Approved proof">
-          <div className="flex gap-2">
-            <img
-              src={approvedProof.primaryImageFile?.url}
-              width={approvedProof.primaryImageFile?.width}
-              height={approvedProof.primaryImageFile?.height}
-              className="w-16 h-16 rounded-md object-contain"
-            />
-            <div className="flex-1 flex flex-col items-start gap-1">
-              <span className="text-sm font-medium">
-                {format(new Date(approvedProof.createdAt), 'PPpp')}
-              </span>
-              <div>
-                <Badge label="Approved" size="small" severity="success" />
+      <ClosetSection>
+        <Card>
+          <CardHeader>Approved proof</CardHeader>
+          <CardContent divide>
+            <div className="flex gap-2">
+              <img
+                src={approvedProof.primaryImageFile?.url}
+                width={approvedProof.primaryImageFile?.width}
+                height={approvedProof.primaryImageFile?.height}
+                className="w-16 h-16 rounded-md object-contain"
+              />
+              <div className="flex-1 flex flex-col items-start gap-1">
+                <span className="text-sm font-medium">
+                  {format(new Date(approvedProof.createdAt), 'PPpp')}
+                </span>
+                <div>
+                  <Badge label="Approved" size="small" severity="success" />
+                </div>
               </div>
             </div>
-          </div>
-        </InputGroup>
-      </Container>
+          </CardContent>
+        </Card>
+      </ClosetSection>
     )
   }
 
   return (
-    <Container>
-      <InputGroup label="Proofs">
-        <ul className="flex flex-col gap-4">
-          {proofs?.map((proof, index) => (
-            <li key={proof.id}>
-              <button
-                onClick={() => onClick(proof.id)}
-                className={cx('border rounded-md p-2 w-full', {
-                  'border-primary outline-primary outline':
-                    activeProofId === proof.id,
-                })}
-              >
-                <div className="flex gap-2">
-                  <img
-                    src={proof.primaryImageFile?.url}
-                    width={proof.primaryImageFile?.width}
-                    height={proof.primaryImageFile?.height}
-                    className="w-16 h-16 rounded-md object-contain"
-                  />
-                  <div className="flex-1 flex flex-col items-start gap-1">
-                    <span className="text-sm font-medium">
-                      {format(new Date(proof.createdAt), 'PPpp')}
-                    </span>
-                    {index === 0 ? (
-                      <div>
-                        <Badge label="Latest" size="small" severity="info" />
-                      </div>
-                    ) : null}
+    <ClosetSection>
+      <Card>
+        <CardHeader>Proofs</CardHeader>
+        <CardContent divide>
+          <ul className="flex flex-col gap-4">
+            {proofs?.map((proof, index) => (
+              <li key={proof.id}>
+                <button
+                  onClick={() => onClick(proof.id)}
+                  className={cx('border rounded-md p-2 w-full', {
+                    'border-gray-500 ': activeProofId === proof.id,
+                  })}
+                >
+                  <div className="flex gap-2">
+                    <img
+                      src={proof.primaryImageFile?.url}
+                      width={proof.primaryImageFile?.width}
+                      height={proof.primaryImageFile?.height}
+                      className="w-16 h-16 rounded-md object-contain"
+                    />
+                    <div className="flex-1 flex flex-col items-start gap-1">
+                      <span className="text-sm font-medium">
+                        {format(new Date(proof.createdAt), 'PPpp')}
+                      </span>
+                      {index === 0 ? (
+                        <div>
+                          <Badge label="Latest" size="small" severity="info" />
+                        </div>
+                      ) : null}
+                    </div>
                   </div>
-                </div>
-              </button>
-            </li>
-          ))}
-        </ul>
-      </InputGroup>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </CardContent>
 
-      {activeProofId &&
-      !authorizationLoading &&
-      can(ScopeResource.DesignProduct, ScopeAction.CREATE) ? (
-        <>
-          <br />
-          <InputGroup>
+        {activeProofId &&
+        !authorizationLoading &&
+        can(ScopeResource.DesignProduct, ScopeAction.CREATE) ? (
+          <CardContent divide>
             <Button
               className="w-full"
               color="brandPrimary"
@@ -127,22 +129,14 @@ const DesignProofsList = ({
               onClick={() => onApprove(activeProofId)}
               loading={loading}
             >
-              Approve selected proof for production
+              Approve selected proof
             </Button>
-          </InputGroup>
-        </>
-      ) : null}
-    </Container>
+          </CardContent>
+        ) : null}
+      </Card>
+    </ClosetSection>
   )
 }
-
-const Container = ({ children }: { children: React.ReactNode }) => (
-  <ClosetSection>
-    <Card>
-      <CardContent>{children}</CardContent>
-    </Card>
-  </ClosetSection>
-)
 
 const GET_DATA = gql`
   query DesignProofsListGetDataQuery($designRequestId: ID!) {

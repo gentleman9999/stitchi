@@ -12,27 +12,26 @@ import GeneralInformation from './GeneralInformation'
 import DesignRequestOverviewProductList from './DesignRequestOverviewProductList'
 import DesignRequestDraft from './DesignRequestDraft'
 import { ComponentErrorMessage } from '@components/common'
-import CreateDesignSlideOver from './CreateDesignSlideOver'
 import { ScopeAction, ScopeResource } from '@generated/globalTypes'
 import { useAuthorizedComponent } from '@lib/auth'
 import DesignRequestAssociatedProducts from './DesignRequestAssociatedProducts'
 import DesignRequestCustomerCard from './DesignRequestCustomerCard'
 import DesignRequestOrderList from './DesignRequestOrderList'
+import { useRouter } from 'next/navigation'
+import routes from '@lib/routes'
 
 interface Props {
   designRequestId: string
 }
 
 const DesignRequestOverview = ({ designRequestId }: Props) => {
+  const router = useRouter()
   const { can } = useAuthorizedComponent()
   const [activeProofId, setActiveProofId] = React.useState<string | null>(null)
-  const [proofToApproveId, setProofToApproveId] = React.useState<string | null>(
-    null,
-  )
 
   const [switchingProof, setSwitchingProof] = React.useState<boolean>(false)
 
-  const { data, loading, error } = useQuery<
+  const { data, error } = useQuery<
     DesignRequestOverviewGetDataQuery,
     DesignRequestOverviewGetDataQueryVariables
   >(GET_DATA, {
@@ -62,14 +61,6 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
 
   return (
     <div className="relative">
-      {designRequest ? (
-        <CreateDesignSlideOver
-          designProofId={proofToApproveId}
-          designRequest={designRequest}
-          onClose={() => setProofToApproveId(null)}
-        />
-      ) : null}
-
       <ComponentErrorMessage error={error} />
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
@@ -107,7 +98,14 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
             designRequestId={designRequestId}
             activeProofId={activeProofId}
             onClick={handleActiveProofChange}
-            onApprove={setProofToApproveId}
+            onApprove={proofId =>
+              router.push(
+                routes.internal.closet.designs.show.proofs.show.approve.href({
+                  designId: designRequestId,
+                  proofId,
+                }),
+              )
+            }
             loading={switchingProof}
           />
 
@@ -138,7 +136,6 @@ const GET_DATA = gql`
   ${GeneralInformation.fragments.designRequest}
   ${DesignRequestOverviewProductList.fragments.designRequestProduct}
   ${DesignRequestDraft.fragments.designRequest}
-  ${CreateDesignSlideOver.fragments.designRequest}
   ${DesignRequestOrderList.fragments.order}
   query DesignRequestOverviewGetDataQuery($designRequestId: ID!) {
     designRequest(id: $designRequestId) {
@@ -157,7 +154,6 @@ const GET_DATA = gql`
       }
       ...DesignRequestDraftDesignRequestFragments
       ...DesignRequestSubmittedDesignRequestGeneralInformationFragment
-      ...CreateDesignSlideOverDesignRequestFragment
     }
   }
 `

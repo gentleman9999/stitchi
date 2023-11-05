@@ -12,6 +12,7 @@ export interface CheckboxProps {
   showSecondaryAction?: boolean
   size?: 1 | 2
   className?: string
+  inputRef?: React.Ref<HTMLInputElement>
 }
 
 const Checkbox = (props: CheckboxProps) => {
@@ -26,6 +27,7 @@ const Checkbox = (props: CheckboxProps) => {
     >
       <div className="flex items-center h-6">
         <input
+          ref={props.inputRef}
           type="checkbox"
           id={props.value.toString()}
           name={props.name}

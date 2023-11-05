@@ -481,6 +481,7 @@ export interface NexusGenObjects {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     designProofColorIds: string[]; // [ID!]!
     designProofLocationIds: string[]; // [ID!]!
+    designRequestId: string; // ID!
     id: string; // ID!
     locations: NexusGenRootTypes['DesignProofLocation'][]; // [DesignProofLocation!]!
     primaryImageFileId?: string | null; // ID
@@ -1110,6 +1111,8 @@ export interface NexusGenFieldTypes {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     designProofColorIds: string[]; // [ID!]!
     designProofLocationIds: string[]; // [ID!]!
+    designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+    designRequestId: string; // ID!
     id: string; // ID!
     locations: NexusGenRootTypes['DesignProofLocation'][]; // [DesignProofLocation!]!
     membership: NexusGenRootTypes['Membership'] | null; // Membership
@@ -1848,6 +1851,8 @@ export interface NexusGenFieldTypeNames {
     createdAt: 'DateTime'
     designProofColorIds: 'ID'
     designProofLocationIds: 'ID'
+    designRequest: 'DesignRequest'
+    designRequestId: 'ID'
     id: 'ID'
     locations: 'DesignProofLocation'
     membership: 'Membership'

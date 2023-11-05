@@ -17,14 +17,12 @@ import React from 'react'
 import cx from 'classnames'
 import DesignRequestHistory from './DesignRequestHistory'
 import DesignRequestMessageInput from './DesignRequestMessageInput'
-import { useLogger } from 'next-axiom'
 
 interface Props {
   designRequestId: string
 }
 
 const DesignRequestActivity = ({ designRequestId }: Props) => {
-  const logger = useLogger()
   useSubscription<
     DesignRequestActivityActivitySubscription,
     DesignRequestActivityActivitySubscriptionVariables
@@ -53,10 +51,6 @@ const DesignRequestActivity = ({ designRequestId }: Props) => {
   })
 
   const { designRequest } = data || {}
-
-  logger.debug('DESIGN REQUEST ID', { designRequestId })
-
-  logger.debug('DESIGN REQUEST', { designRequest })
 
   return (
     <div className="relative">

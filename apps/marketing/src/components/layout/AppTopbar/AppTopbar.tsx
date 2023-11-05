@@ -14,7 +14,9 @@ interface Props {
 
 const AppTopbar = ({ membership, renderLogo }: Props) => {
   return (
-    <nav className="fixed top-0 py-2 bg-paper w-full z-10 border-b h-[56px]">
+    <nav
+      className={`fixed top-0 py-2 bg-paper w-full z-10 border-b h-topbar-height`}
+    >
       <div className="px-4">
         <div className="grid grid-cols-3">
           <div className="col-span-1 flex items-center">

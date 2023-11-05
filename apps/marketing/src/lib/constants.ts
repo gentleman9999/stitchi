@@ -14,8 +14,6 @@ export const COOKIE_DEVICE_ID = getOrThrow(
   'NEXT_PUBLIC_COOKIE_DEVICE_ID',
 )
 
-export const TOPBAR_NAV_HEIGTH_PX = 56
-
 export const SITE_URL = getOrThrow(
   process.env.NEXT_PUBLIC_SITE_URL,
   'NEXT_PUBLIC_SITE_URL',

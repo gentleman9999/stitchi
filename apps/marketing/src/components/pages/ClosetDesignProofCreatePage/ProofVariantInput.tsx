@@ -28,6 +28,8 @@ const ProofVariantInput = ({ uploadFolder, form, designRequest }: Props) => {
     name: 'proofVariants',
   })
 
+  console.log('VARIANT FIELDS', variantFields)
+
   return (
     <ClosetSection>
       <ClosetSectionHeader divider>

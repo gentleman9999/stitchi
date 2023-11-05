@@ -53,10 +53,12 @@ const CatalogLayout = ({ children }: Props) => {
           )}
         />
       </div>
-      <main className="min-h-[calc(100vh-56px)] mt-[56px] relative z-0">
+      <main
+        className={`min-h-[calc(100vh-var(--topbar-height))] mt-topbar-height relative z-0`}
+      >
         <nav
           className={cx(
-            'fixed h-[calc(100vh-56px)] left-0 top-[56px] border-r bg-paper w-0 z-50 overflow-scroll flex flex-col',
+            `fixed h-[calc(100vh-var(--topbar-height))] left-0 top-topbar-height border-r bg-paper w-0 z-50 overflow-scroll flex flex-col`,
             {
               'w-screen': mobileNavExpanded,
             },

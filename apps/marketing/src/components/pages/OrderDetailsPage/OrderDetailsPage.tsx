@@ -12,12 +12,33 @@ import ClosetPageHeader from '@components/common/ClosetPageHeader'
 import ClosetPageTitle from '@components/common/ClosetPageTitle'
 import ClosetSection from '@components/common/ClosetSection'
 import { Card, CardContent } from '@components/ui/Card'
+import { OrderPaymentStatus } from '@generated/types'
+import ClosetPageActions, {
+  ClosetPageActionsProps,
+} from '@components/common/ClosetPageActions'
+import routes from '@lib/routes'
 
 interface Props {
   order: OrderDetailsPageOrderFragment
 }
 
 const OrderDetailsPage = ({ order }: Props) => {
+  const actions: ClosetPageActionsProps['actions'] = []
+
+  if (
+    ![OrderPaymentStatus.PAID, OrderPaymentStatus.REFUNDED].includes(
+      order.paymentStatus,
+    )
+  ) {
+    actions.push({
+      primary: true,
+      href: routes.internal.order.show.pay.href({
+        orderId: order.id,
+      }),
+      label: 'Make payment',
+    })
+  }
+
   return (
     <ClosetPageContainer>
       <ClosetPageHeader>
@@ -45,6 +66,7 @@ const OrderDetailsPage = ({ order }: Props) => {
               </div>
             </div>
           }
+          actions={<ClosetPageActions actions={actions} />}
         />
       </ClosetPageHeader>
 

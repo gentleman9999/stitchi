@@ -67,7 +67,7 @@ const CatalogFilters = ({
 
       <div
         ref={filterRef}
-        className={cx('z-10 sticky top-[56px] bg-paper', {
+        className={cx(`z-10 sticky top-topbar-height bg-paper`, {
           'shadow-magical': transitionStickyNav,
         })}
       >

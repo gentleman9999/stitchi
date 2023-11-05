@@ -30,6 +30,7 @@ const makeListDesignProofs: MakeListDesignProofsFn =
         ...input,
         include: {
           designProofLocations: true,
+          designRequestDesignProofs: true,
           designProofVariants: {
             include: {
               images: {
@@ -55,6 +56,7 @@ const makeListDesignProofs: MakeListDesignProofsFn =
         designProof,
         locations: designProof.designProofLocations,
         variants: designProof.designProofVariants,
+        designRequestDesignProof: designProof.designRequestDesignProofs[0],
       }),
     )
   }

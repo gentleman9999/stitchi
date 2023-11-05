@@ -2,13 +2,9 @@ import '@assets/main.css'
 import '@assets/chrome-bug.css'
 
 import React from 'react'
-
 import { AppLayoutContextProvider } from './app-layout-context'
 import { NotificationStandoutProvider } from './notification-standout-context'
 import Topbar from './Topbar'
-import { TOPBAR_NAV_HEIGTH_PX } from '@lib/constants'
-
-const availableHeight = `calc(100vh-${TOPBAR_NAV_HEIGTH_PX}px)`
 
 interface Props {
   children: React.ReactNode
@@ -21,7 +17,7 @@ const Layout = async ({ children }: Props) => {
           <Topbar />
 
           <main
-            className={`min-h-[${availableHeight}] mt-[${TOPBAR_NAV_HEIGTH_PX}px] relative`}
+            className={`min-h-[calc(100vh-var(--topbar-height))] mt-topbar-height relative`}
           >
             {children}
           </main>
