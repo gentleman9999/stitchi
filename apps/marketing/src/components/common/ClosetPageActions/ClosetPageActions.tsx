@@ -25,7 +25,7 @@ interface DropdownAction extends BaseAction {
 
 export type Action = LinkAction | ButtonAction | DropdownAction
 
-interface Props {
+export interface Props {
   actions: Action[]
 }
 

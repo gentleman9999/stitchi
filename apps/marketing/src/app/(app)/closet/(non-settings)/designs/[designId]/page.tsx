@@ -1,16 +1,13 @@
-'use client'
-
 import ClosetDesignRequestShowPage from '@components/pages/ClosetDesignRequestShowPage'
-import { useParams } from 'next/navigation'
 import React from 'react'
 
-const Page = () => {
-  const { designId } = useParams<{ designId: string }>() || {}
-
-  if (typeof designId !== 'string') {
-    return null
+interface Props {
+  params: {
+    designId: string
   }
+}
 
+const Page = ({ params: { designId } }: Props) => {
   return <ClosetDesignRequestShowPage designId={designId} />
 }
 

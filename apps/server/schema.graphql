@@ -192,6 +192,8 @@ type DesignProof {
   createdAt: DateTime!
   designProofColorIds: [ID!]!
   designProofLocationIds: [ID!]!
+  designRequest: DesignRequest
+  designRequestId: ID!
   id: ID!
   locations: [DesignProofLocation!]!
   membership: Membership

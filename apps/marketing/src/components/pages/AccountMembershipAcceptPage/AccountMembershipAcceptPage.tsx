@@ -84,16 +84,16 @@ const AccountMembershipAcceptPage = ({
                   {user ? (
                     <Button
                       size="xl"
-                      href={routes.internal.logout.href({
-                        returnTo: routes.internal.login.href({
-                          returnTo: router.asPath,
-                        }),
-                      })}
+                      // We do this manually to avoid double-encoding the redirectUrl
+                      // This is error prone and should be fixed in the future
+                      href={`${routes.internal.logout.href()}?redirectUrl=${routes.internal.login.href()}?redirectUrl=${
+                        router.asPath
+                      }`}
                       className="w-full"
                       color="brandPrimary"
                       Component="a"
                     >
-                      Log in
+                      Log out of {user.email}
                     </Button>
                   ) : (
                     <Button

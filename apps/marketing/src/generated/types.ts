@@ -3230,6 +3230,8 @@ export interface DesignProof {
   createdAt: Scalars['DateTime']['output'];
   designProofColorIds: Array<Scalars['ID']['output']>;
   designProofLocationIds: Array<Scalars['ID']['output']>;
+  designRequest: Maybe<DesignRequest>;
+  designRequestId: Scalars['ID']['output'];
   id: Scalars['ID']['output'];
   locations: Array<DesignProofLocation>;
   membership: Maybe<Membership>;
@@ -11624,6 +11626,27 @@ export type UseClosetBrandIndexPageDeleteFilesMutationVariables = Exact<{
 
 export type UseClosetBrandIndexPageDeleteFilesMutation = { __typename: 'Mutation', organizationBrandFileDeleteBatch: { __typename: 'OrganizationBrandFileDeleteBatchPayload', brand: { __typename: 'OrganizationBrand', id: string } | null } | null };
 
+export type DesignRequestApprovedMessageGetDataQueryVariables = Exact<{
+  designRequestId: Scalars['ID']['input'];
+}>;
+
+
+export type DesignRequestApprovedMessageGetDataQuery = { __typename: 'Query', designRequest: { __typename: 'DesignRequest', id: string, designProducts: Array<{ __typename: 'DesignProduct', id: string, name: string, description: string | null, primaryImageFile: { __typename: 'FileImage', id: string, url: string, width: number, height: number } | null }>, orders: Array<{ __typename: 'Order', id: string, humanOrderId: string, humanPaymentStatus: string, paymentStatus: OrderPaymentStatus }> } | null };
+
+export type ApproveProofSlideOverGetDataQueryVariables = Exact<{
+  designProofId: Scalars['ID']['input'];
+}>;
+
+
+export type ApproveProofSlideOverGetDataQuery = { __typename: 'Query', designProof: { __typename: 'DesignProof', id: string, designRequestId: string, primaryImageFile: { __typename: 'FileImage', id: string, url: string, width: number, height: number } | null, designRequest: { __typename: 'DesignRequest', id: string, name: string } | null } | null };
+
+export type UseApproveProofSildeOverApproveDesignMutationVariables = Exact<{
+  input: DesignRequestApproveInput;
+}>;
+
+
+export type UseApproveProofSildeOverApproveDesignMutation = { __typename: 'Mutation', designRequestApprove: { __typename: 'DesignRequestApprovePayload', designRequest: { __typename: 'DesignRequest', id: string } | null } | null };
+
 export type DesignAssignPageAssignDesignMutationVariables = Exact<{
   input: DesignRequestAssignInput;
 }>;
@@ -11656,7 +11679,7 @@ export type DesignOverviewGetDataQueryVariables = Exact<{
 }>;
 
 
-export type DesignOverviewGetDataQuery = { __typename: 'Query', designProduct: { __typename: 'DesignProduct', id: string, description: string | null, designRequestId: string, colors: Array<{ __typename: 'DesignProductColor', id: string, hex: string | null, name: string | null, images: Array<{ __typename: 'FileImage', id: string, url: string, width: number, height: number }> }>, sizes: Array<{ __typename: 'DesignProductSize', id: string, name: string }> | null } | null };
+export type DesignOverviewGetDataQuery = { __typename: 'Query', designProduct: { __typename: 'DesignProduct', id: string, description: string | null, designRequestId: string, colors: Array<{ __typename: 'DesignProductColor', id: string, hex: string | null, name: string | null }>, sizes: Array<{ __typename: 'DesignProductSize', id: string, name: string }> | null } | null };
 
 export type DesignPreviewGalleryDesignProductFragment = { __typename: 'DesignProduct', id: string, colors: Array<{ __typename: 'DesignProductColor', id: string, images: Array<{ __typename: 'FileImage', id: string, url: string, width: number, height: number }> }> };
 
@@ -12026,29 +12049,6 @@ export type ClosetDesignRequestShowPageGetDataQuery = { __typename: 'Query', des
 
 export type DesignProofCardDesignProofFragment = { __typename: 'DesignProof', id: string, createdAt: any, primaryImageFile: { __typename: 'FileImage', id: string, url: string, width: number, height: number } | null, artist: { __typename: 'Membership', id: string, user: { __typename: 'User', id: string, name: string | null } | null } | null };
 
-export type CreateDesignSlideOverGetDataQueryVariables = Exact<{
-  designProofId: Scalars['ID']['input'];
-}>;
-
-
-export type CreateDesignSlideOverGetDataQuery = { __typename: 'Query', designProof: { __typename: 'DesignProof', id: string, primaryImageFile: { __typename: 'FileImage', id: string, url: string, width: number, height: number } | null } | null };
-
-export type CreateDesignSlideOverGetDesignDataQueryVariables = Exact<{
-  designId: Scalars['ID']['input'];
-}>;
-
-
-export type CreateDesignSlideOverGetDesignDataQuery = { __typename: 'Query', designProduct: { __typename: 'DesignProduct', id: string, name: string, description: string | null, primaryImageFile: { __typename: 'FileImage', id: string, url: string, width: number, height: number } | null } | null };
-
-export type CreateDesignSlideOverDesignRequestFragment = { __typename: 'DesignRequest', id: string, name: string };
-
-export type UseCreateDesignSildeOverApproveDesignMutationVariables = Exact<{
-  input: DesignRequestApproveInput;
-}>;
-
-
-export type UseCreateDesignSildeOverApproveDesignMutation = { __typename: 'Mutation', designRequestApprove: { __typename: 'DesignRequestApprovePayload', designRequest: { __typename: 'DesignRequest', id: string } | null, design: { __typename: 'DesignProduct', id: string } | null } | null };
-
 export type DesignProofPreviewGetDataQueryVariables = Exact<{
   designProofId: Scalars['ID']['input'];
 }>;
@@ -12127,7 +12127,7 @@ export type DesignRequestOverviewGetDataQueryVariables = Exact<{
 }>;
 
 
-export type DesignRequestOverviewGetDataQuery = { __typename: 'Query', designRequest: { __typename: 'DesignRequest', id: string, status: DesignRequestStatus, fileUploadDirectory: string, useCase: string | null, fileIds: Array<string>, description: string | null, name: string, proofs: Array<{ __typename: 'DesignProof', id: string }>, designRequestProduct: { __typename: 'DesignRequestProduct', id: string, colors: Array<{ __typename: 'DesignRequestProductColors', hexCode: string | null, name: string | null }>, catalogProduct: { __typename: 'CatalogProduct', id: string, name: string, slug: string, primaryImage: { __typename: 'CatalogProductImage', url: string } | null, brand: { __typename: 'CatalogBrand', id: string, name: string, slug: string } | null } | null }, orders: Array<{ __typename: 'Order', id: string, humanOrderId: string }>, designRequestLocations: Array<{ __typename: 'DesignRequestDesignLocation', id: string, description: string | null, placement: string | null, fileIds: Array<string>, files: Array<{ __typename: 'FileImage', width: number, height: number, id: string, humanizedBytes: string, name: string, url: string, fileType: FileType } | { __typename: 'FilePdf', id: string, humanizedBytes: string, name: string, url: string, fileType: FileType } | { __typename: 'FileUnknown', id: string, humanizedBytes: string, name: string, url: string, fileType: FileType }> }>, files: Array<{ __typename: 'FileImage', width: number, height: number, id: string, humanizedBytes: string, name: string, url: string, fileType: FileType } | { __typename: 'FilePdf', id: string, humanizedBytes: string, name: string, url: string, fileType: FileType } | { __typename: 'FileUnknown', id: string, humanizedBytes: string, name: string, url: string, fileType: FileType }> } | null };
+export type DesignRequestOverviewGetDataQuery = { __typename: 'Query', designRequest: { __typename: 'DesignRequest', id: string, status: DesignRequestStatus, fileUploadDirectory: string, useCase: string | null, fileIds: Array<string>, description: string | null, proofs: Array<{ __typename: 'DesignProof', id: string }>, designRequestProduct: { __typename: 'DesignRequestProduct', id: string, colors: Array<{ __typename: 'DesignRequestProductColors', hexCode: string | null, name: string | null }>, catalogProduct: { __typename: 'CatalogProduct', id: string, name: string, slug: string, primaryImage: { __typename: 'CatalogProductImage', url: string } | null, brand: { __typename: 'CatalogBrand', id: string, name: string, slug: string } | null } | null }, orders: Array<{ __typename: 'Order', id: string, humanOrderId: string }>, designRequestLocations: Array<{ __typename: 'DesignRequestDesignLocation', id: string, description: string | null, placement: string | null, fileIds: Array<string>, files: Array<{ __typename: 'FileImage', width: number, height: number, id: string, humanizedBytes: string, name: string, url: string, fileType: FileType } | { __typename: 'FilePdf', id: string, humanizedBytes: string, name: string, url: string, fileType: FileType } | { __typename: 'FileUnknown', id: string, humanizedBytes: string, name: string, url: string, fileType: FileType }> }>, files: Array<{ __typename: 'FileImage', width: number, height: number, id: string, humanizedBytes: string, name: string, url: string, fileType: FileType } | { __typename: 'FilePdf', id: string, humanizedBytes: string, name: string, url: string, fileType: FileType } | { __typename: 'FileUnknown', id: string, humanizedBytes: string, name: string, url: string, fileType: FileType }> } | null };
 
 export type DesignRequestOverviewProductListDesignRequestProductFragment = { __typename: 'DesignRequestProduct', id: string, colors: Array<{ __typename: 'DesignRequestProductColors', hexCode: string | null, name: string | null }>, catalogProduct: { __typename: 'CatalogProduct', id: string, name: string, slug: string, primaryImage: { __typename: 'CatalogProductImage', url: string } | null, brand: { __typename: 'CatalogBrand', id: string, name: string, slug: string } | null } | null };
 

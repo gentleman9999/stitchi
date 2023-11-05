@@ -1,4 +1,3 @@
-import { UserProfile } from 'auth0'
 import { logger } from '../../../telemetry'
 import { getOrThrow } from '../../../utils'
 import { DesignFactoryDesignRequest } from '../../design/factory'
@@ -14,6 +13,7 @@ import DesignRequestUserApprovedTemplate from '../../../email-template-composer/
 import DesignRequestCommentUserCreatedTemplate from '../../../email-template-composer/emails/design-request-user-comment-created'
 
 import { MembershipFactoryMembership } from '../../membership/factory/membership'
+import { User } from '../../user/serializer'
 
 const appBaseUrl = getOrThrow(
   process.env.STITCHI_MARKETING_APPLICATION_HOST,
@@ -38,7 +38,7 @@ interface Notification {
 const notifications = {
   'order:confirmed': (params: {
     order: OrderFactoryOrder
-    recipient: UserProfile
+    recipient: User
   }): Notification => {
     return {
       email: {
@@ -56,8 +56,8 @@ const notifications = {
 
   'designRequest:submitted': (params: {
     designRequest: DesignFactoryDesignRequest
-    designRequester: UserProfile
-    recipient: UserProfile
+    designRequester: User
+    recipient: User
   }): Notification => {
     const template = DesignRequestUserCreatedTemplate({
       // the email template reads "Hi <name>,"
@@ -90,8 +90,8 @@ const notifications = {
 
   'designRequest:approved': (params: {
     designRequest: DesignFactoryDesignRequest
-    designRequester: UserProfile
-    recipient: UserProfile
+    designRequester: User
+    recipient: User
   }): Notification => {
     const template = DesignRequestUserApprovedTemplate({
       children: null,
@@ -125,8 +125,8 @@ const notifications = {
 
   'designRequest:rejected': (params: {
     designRequest: DesignFactoryDesignRequest
-    designRequester: UserProfile
-    recipient: UserProfile
+    designRequester: User
+    recipient: User
   }): Notification => {
     const template = DesignRequestUserRejectedTemplate({
       children: null,
@@ -163,8 +163,8 @@ const notifications = {
 
   'designRequestProof:created': (params: {
     designRequest: DesignFactoryDesignRequest
-    designRequester: UserProfile
-    recipient: UserProfile
+    designRequester: User
+    recipient: User
   }): Notification => {
     const template = DesignRequestProofUserCreatedTemplate({
       children: null,
@@ -198,8 +198,8 @@ const notifications = {
 
   'designRequestRevision:created': (params: {
     designRequest: DesignFactoryDesignRequest
-    designRequester: UserProfile
-    recipient: UserProfile
+    designRequester: User
+    recipient: User
   }): Notification => {
     const template = DesignRequestUserRevisionRequestCreatedTemplate({
       children: null,
@@ -233,8 +233,8 @@ const notifications = {
 
   'designRequestComment:created': (params: {
     designRequest: DesignFactoryDesignRequest
-    designRequester: UserProfile
-    recipient: UserProfile
+    designRequester: User
+    recipient: User
   }): Notification => {
     const template = DesignRequestCommentUserCreatedTemplate({
       children: null,
@@ -267,7 +267,7 @@ const notifications = {
   },
 
   'membership:invited': (params: {
-    invitingUser: UserProfile
+    invitingUser: User
     membership: MembershipFactoryMembership
     organization: OrganizationRecord
   }): Notification => {

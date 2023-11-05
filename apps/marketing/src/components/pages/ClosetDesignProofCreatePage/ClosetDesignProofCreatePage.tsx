@@ -66,6 +66,8 @@ const ClosetDesignProofCreatePage = ({ designRequest }: Props) => {
     )
   }
 
+  console.log('DESIGN REQUEST PRINT LOCATIONS', designRequest)
+
   return (
     <Container>
       <ClosetPageHeader>

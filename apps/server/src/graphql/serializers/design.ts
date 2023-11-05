@@ -76,6 +76,7 @@ export const designProofFactoryToGraphql = (
 ): NexusGenObjects['DesignProof'] => {
   return {
     id: designProof.id,
+    designRequestId: designProof.designRequestId,
     artistMembershipId: designProof.artistMembershipId,
 
     primaryImageFileId: designProof.primaryImageFileId,

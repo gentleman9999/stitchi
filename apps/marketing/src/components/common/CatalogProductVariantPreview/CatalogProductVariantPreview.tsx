@@ -43,7 +43,9 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
     .filter(notEmpty)
 
   return (
-    <div className="relative w-full h-[calc(100vh-56px)] flex flex-col">
+    <div
+      className={`relative w-full h-[calc(100vh-var(--topbar-height))] flex flex-col`}
+    >
       <div className="relative flex-1">
         <Image
           fill

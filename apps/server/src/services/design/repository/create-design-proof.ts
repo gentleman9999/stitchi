@@ -111,6 +111,7 @@ const makeCreateDesignProof: MakeCreateDesignProofFn =
           },
         },
         include: {
+          designRequestDesignProofs: true,
           designProofLocations: true,
           designProofVariants: {
             include: {
@@ -136,6 +137,7 @@ const makeCreateDesignProof: MakeCreateDesignProofFn =
       designProof,
       locations: designProof.designProofLocations,
       variants: designProof.designProofVariants,
+      designRequestDesignProof: designProof.designRequestDesignProofs[0],
     })
   }
 

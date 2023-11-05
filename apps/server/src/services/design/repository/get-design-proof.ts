@@ -27,6 +27,7 @@ const makeGetDesignProof: MakeGetDesignProofFn =
       },
       include: {
         designProofLocations: true,
+        designRequestDesignProofs: true,
         designProofVariants: {
           include: {
             images: {
@@ -47,6 +48,7 @@ const makeGetDesignProof: MakeGetDesignProofFn =
       designProof,
       locations: designProof.designProofLocations,
       variants: designProof.designProofVariants,
+      designRequestDesignProof: designProof.designRequestDesignProofs[0],
     })
   }
 

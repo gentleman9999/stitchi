@@ -465,3 +465,26 @@ export const ExtendDesignRequests = extendType({
     })
   },
 })
+
+export const DesignRequestExtendsDesignProof = extendType({
+  type: 'DesignProof',
+  definition(t) {
+    t.field('designRequest', {
+      type: 'DesignRequest',
+      resolve: async (parent, _, ctx) => {
+        let designRequest
+
+        try {
+          designRequest = await ctx.design.getDesignRequest({
+            designRequestId: parent.designRequestId,
+          })
+        } catch (error) {
+          ctx.logger.error(error)
+          throw new GraphQLError('Failed to get design request')
+        }
+
+        return designRequestFactoryToGrahpql(designRequest)
+      },
+    })
+  },
+})

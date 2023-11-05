@@ -116,7 +116,7 @@ const ProductShowPageHero = ({ product }: Props) => {
       </h1>
       <div className="flex flex-col md:flex-row w-full">
         <div className="flex-1 z-0">
-          <div className="w-full sticky top-[56px]">
+          <div className={`w-full sticky top-topbar-height`}>
             <CatalogProductVariantPreview
               product={product}
               activeVariantId={activeVariantId}

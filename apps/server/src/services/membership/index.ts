@@ -1,9 +1,9 @@
-import { UserProfile } from 'auth0'
 import { logger } from '../../telemetry'
 import { MembershipFactoryMembership } from './factory/membership'
 import { MembershipFactoryMembershipNotificationSetting } from './factory/membership-notification-setting'
 import makeMembershipRepository, { MembershipRepository } from './repository'
 import { CreateMembershipFnInput } from './repository/create-membership'
+import { User } from '../user/serializer'
 
 export interface MembershipService {
   createMembership: (input: {
@@ -25,7 +25,7 @@ export interface MembershipService {
 
   acceptMembershipInvite: (input: {
     membershipId: string
-    user: UserProfile
+    user: User
   }) => Promise<MembershipFactoryMembership>
 
   findUserActiveMembership: (input: {
@@ -206,7 +206,7 @@ const makeClient: MakeClientFn = (
     },
 
     acceptMembershipInvite: async input => {
-      if (!input.user.user_id) {
+      if (!input.user.id) {
         throw new Error('User does not have an id')
       }
 
@@ -231,7 +231,7 @@ const makeClient: MakeClientFn = (
             invitedEmail: null,
             invitedName: null,
             role: membership.role,
-            userId: input.user.user_id,
+            userId: input.user.id,
           },
         })
       } catch (error) {

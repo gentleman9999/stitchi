@@ -4,6 +4,8 @@ export const DesignProof = objectType({
   name: 'DesignProof',
   definition(t) {
     t.nonNull.id('id')
+    t.nonNull.id('designRequestId')
+
     t.nonNull.id('artistMembershipId')
 
     t.nullable.id('primaryImageFileId')
@@ -18,6 +20,10 @@ export const DesignProof = objectType({
     t.nonNull.list.nonNull.id('designProofColorIds')
     t.nonNull.list.nonNull.field('colors', {
       type: 'DesignProofColor',
+    })
+
+    t.nonNull.field('designRequest', {
+      type: 'DesignRequest',
     })
   },
 })

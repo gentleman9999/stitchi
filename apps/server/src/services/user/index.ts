@@ -4,7 +4,7 @@ import { User, makeUser } from './serializer'
 
 export interface UserService {
   getUser: (params: { id: string }) => Promise<User>
-  getUserByEmail: (params: { email: string }) => Promise<User>
+  getUserByEmail: (params: { email: string }) => Promise<User | null>
 }
 
 interface MakeClientParams {
@@ -46,8 +46,6 @@ const makeClient: MakeClientFn = (
         // User emails are unique in Auth0, so we should return the first result
         if (res.data.length > 0) {
           user = makeUser(res.data[0])
-        } else {
-          throw new Error(`No user found with email ${params.email}`)
         }
       } catch (error) {
         logger

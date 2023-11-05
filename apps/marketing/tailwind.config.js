@@ -1,5 +1,4 @@
 const colors = require('tailwindcss/colors')
-const TOPBAR_NAV_HEIGTH_PX = require('./src/lib/constants').TOPBAR_NAV_HEIGTH_PX
 
 module.exports = {
   presets: [require('../../packages/config/tailwind.config.js')],
@@ -48,7 +47,7 @@ module.exports = {
       },
 
       spacing: {
-        'topbar-height': `${TOPBAR_NAV_HEIGTH_PX}px`,
+        'topbar-height': 'var(--topbar-height)',
       },
     },
     variants: {

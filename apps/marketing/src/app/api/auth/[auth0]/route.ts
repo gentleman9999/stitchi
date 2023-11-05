@@ -96,7 +96,7 @@ const logout: AppRouteHandlerFn = async (req, context) => {
   }
 
   return handleLogout(req, context as any, {
-    returnTo: context.params?.returnTo as string,
+    returnTo: context.params?.redirectUrl as string,
   })
 }
 

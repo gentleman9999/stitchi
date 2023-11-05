@@ -44,9 +44,9 @@ const routes = {
         }),
     },
     logout: {
-      href: ({ returnTo = '/' } = {}) =>
+      href: (params: { returnTo?: string } = {}) =>
         buildRoute('/api/auth/logout', {
-          redirectUrl: returnTo,
+          redirectUrl: params.returnTo,
         }),
     },
     signup: {
@@ -295,10 +295,30 @@ const routes = {
           href: ({ designId }: { designId: string }) =>
             buildRoute(`/closet/designs/${designId}`),
 
+          approved: {
+            href: ({ designRequestId }: { designRequestId: string }) =>
+              buildRoute(`/closet/designs/${designRequestId}/approved`),
+          },
+
           proofs: {
             create: {
               href: ({ designId }: { designId: string }) =>
                 buildRoute(`/closet/designs/${designId}/proofs/new`),
+            },
+
+            show: {
+              approve: {
+                href: ({
+                  designId,
+                  proofId,
+                }: {
+                  designId: string
+                  proofId: string
+                }) =>
+                  buildRoute(
+                    `/closet/designs/${designId}/proofs/${proofId}/approve`,
+                  ),
+              },
             },
           },
 

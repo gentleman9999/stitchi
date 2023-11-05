@@ -1,6 +1,8 @@
 :root {
   --font-sans: Outfit, -apple-system, system-ui, BlinkMacSystemFont,
     'Helvetica Neue', 'Helvetica', sans-serif;
+
+  --topbar-height: 56px;
 }
 
 ::selection {
