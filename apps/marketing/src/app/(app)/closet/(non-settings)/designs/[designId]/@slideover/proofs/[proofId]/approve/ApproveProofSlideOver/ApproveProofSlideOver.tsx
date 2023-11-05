@@ -68,7 +68,6 @@ const ApproveProofSlideOver = ({
       }}
       renderContainer={({ children, loading: submitLoading, onSubmit }) => (
         <>
-          <SlideOverHeader title="Approve design" />
           <div>
             <div className=" bg-gray-50 w-full max-h-[180px] h-full">
               {designProof?.primaryImageFile ? (

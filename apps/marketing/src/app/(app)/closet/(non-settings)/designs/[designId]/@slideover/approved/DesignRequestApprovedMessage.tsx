@@ -13,7 +13,6 @@ import { GlobalDistribution, NeedleThread } from 'icons'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/Card'
-import Badge from '@components/ui/Badge'
 import Button from '@components/ui/ButtonV2/Button'
 import OrderPaymentStatusBadge from '@components/common/OrderPaymentStatusBadge'
 
