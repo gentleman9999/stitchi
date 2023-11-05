@@ -111,8 +111,9 @@ const ClosetDesignBuyPageForm = ({
   React.useEffect(() => {
     if (
       formErrors.colors?.type === 'validate' &&
-      formErrors.colors?.message === 'Minimum order quantity is 50 pieces.' &&
-      totalQuantity >= 50
+      formErrors.colors?.message ===
+        `Minimum order quantity is ${MIN_ORDER_QTY} pieces.` &&
+      totalQuantity >= MIN_ORDER_QTY
     ) {
       clearErrors('colors')
     }

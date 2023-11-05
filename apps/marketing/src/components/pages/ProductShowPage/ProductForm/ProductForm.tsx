@@ -325,7 +325,7 @@ const ProductForm = (props: ProductFormProps) => {
                 <Skeleton width={100} />
               ) : quote ? (
                 <>
-                  {totalQuantity === 0 || totalQuantity >= 50 ? (
+                  {totalQuantity === 0 || totalQuantity >= MIN_ORDER_QTY ? (
                     <>
                       {currency(quote.productUnitCostCents, {
                         fromCents: true,
