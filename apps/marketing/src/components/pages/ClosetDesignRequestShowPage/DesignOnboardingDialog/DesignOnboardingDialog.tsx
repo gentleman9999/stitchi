@@ -1,16 +1,11 @@
-import UserAvatar from '@components/common/UserAvatar'
 import useUserOnboarding from '@components/hooks/useUserOnboarding'
 import Dialog from '@components/ui/Dialog'
 import Button from '@components/ui/ButtonV2/Button'
 import { PaintBrushIcon } from '@heroicons/react/20/solid'
-import {
-  COMPANY_NAME,
-  SUPPORT_EMAIL,
-  SUPPORT_PERSON_NAME,
-  SUPPORT_PERSON_PICTURE,
-} from '@lib/constants'
+import { SUPPORT_EMAIL } from '@lib/constants'
 import { queryTypes, useQueryState } from 'next-usequerystate'
 import React from 'react'
+import Logo from '@components/ui/Logo'
 
 interface Props {}
 
@@ -52,41 +47,39 @@ const DesignOnboardingDialog = ({}: Props) => {
       </Dialog.Title>
       <Dialog.Content>
         <div className="flex flex-col items-center gap-8">
-          <UserAvatar
-            width="w-16"
-            height="h-16"
-            user={{
-              name: SUPPORT_PERSON_NAME,
-              picture: SUPPORT_PERSON_PICTURE,
-            }}
-          />
+          <Logo className="w-16 h-16" />
+
           <div className="prose prose-sm">
             <p>
-              Hey there 👋 I&apos;m Everest, founder of {COMPANY_NAME} -
-              Congratulations on selecting a product for your first design!
+              Your custom design is now in expert hands! Here&apos;s what
+              happens next:
             </p>
+            <ol>
+              <li>
+                <b>Design Proof</b>: Our designers are crafting a proof based on
+                your ideas and files.
+              </li>
+              <li>
+                <b>Review</b>: You&apos;ll get an email with the design
+                proof—review and tell us what you think.
+              </li>
+              <li>
+                <b>Final Touches</b>: After your approval, we&apos;ll produce
+                and ship your quality branded merchandise.
+              </li>
+            </ol>
+
+            <h3>Questions or Feedback?</h3>
             <p>
-              Next, you&apos;ll have an opportunity to share your design ideas
-              and upload any reference files. One of our expert designers will
-              then bring your vision to life.
+              <b>Chat Now</b>: Click the chat icon for live help at any stage.{' '}
+              <br />
+              <b>Email Us</b>: Send your thoughts to{' '}
+              <a href={`mailto:${SUPPORT_EMAIL}`}>hello@stitchi.co</a>.
             </p>
+
             <p>
-              Once your design is perfect, you&apos;ll be able to turn it into
-              quality branded merchandise, fulfilled effortless wherever your
-              audience is. But that&apos;s just the start...
-            </p>
-            <p>
-              If you have any questions or want to provide feedback, click the
-              support link in the navigation or drop me a line directly at{' '}
-              <a
-                href={`mailto:${SUPPORT_EMAIL}`}
-                className="underline"
-                target="_blank"
-              >
-                {SUPPORT_EMAIL}
-              </a>
-              . We thank you for the opportunity to serve you - now enjoy for
-              exploring!
+              We&apos;re committed to delivering an exceptional merchandise
+              experience from design to delivery!
             </p>
           </div>
 
