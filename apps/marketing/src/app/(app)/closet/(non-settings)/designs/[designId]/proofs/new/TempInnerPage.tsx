@@ -6,17 +6,12 @@ import {
   DesignRequestProofCreatePageGetDataQuery,
   DesignRequestProofCreatePageGetDataQueryVariables,
 } from '@generated/DesignRequestProofCreatePageGetDataQuery'
-import { useRouter } from 'next/router'
 
-const TempInnerPage = () => {
-  const router = useRouter()
+interface Props {
+  designId: string
+}
 
-  const { designId } = router.query
-
-  if (typeof designId !== 'string') {
-    throw new Error('Invariant error: designId is required')
-  }
-
+const TempInnerPage = ({ designId }: Props) => {
   const { data } = useQuery<
     DesignRequestProofCreatePageGetDataQuery,
     DesignRequestProofCreatePageGetDataQueryVariables

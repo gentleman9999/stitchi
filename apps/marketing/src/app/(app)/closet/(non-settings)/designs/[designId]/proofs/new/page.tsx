@@ -3,7 +3,11 @@ import React from 'react'
 import TempInnerPage from './TempInnerPage'
 import { authorization } from '@lib/auth-rsc'
 
-const Page = async () => {
+const Page = async ({
+  params: { designId },
+}: {
+  params: { designId: string }
+}) => {
   await authorization([
     {
       action: ScopeAction.CREATE,
@@ -11,7 +15,7 @@ const Page = async () => {
     },
   ])
 
-  return <TempInnerPage />
+  return <TempInnerPage designId={designId} />
 }
 
 export default Page
