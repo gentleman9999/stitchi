@@ -24,6 +24,7 @@ import Skeleton from 'react-loading-skeleton'
 import * as yup from 'yup'
 import InformationGroup from './InformationGroup'
 import useProductQuote from './useProductQuote'
+import { MIN_ORDER_QTY } from '@lib/constants'
 
 const customizationOptions = [
   {
@@ -148,10 +149,10 @@ const ProductForm = (props: ProductFormProps) => {
   })
 
   const handleSubmit = form.handleSubmit(async (values: FormValues) => {
-    if (totalQuantity < 50) {
+    if (totalQuantity < MIN_ORDER_QTY) {
       form.setError('colors', {
         type: 'validate',
-        message: 'Minimum order quantity is 50 pieces.',
+        message: `Minimum order quantity is ${MIN_ORDER_QTY} pieces.`,
       })
       return
     }
@@ -332,8 +333,8 @@ const ProductForm = (props: ProductFormProps) => {
                     </>
                   ) : (
                     <p className="text-xs text-blue-500 max-w-[300px] whitespace-pre-line">
-                      Minimum order quantity is 50 pieces. This ensures we can
-                      offer the best prices to our customers.
+                      Minimum order quantity is {MIN_ORDER_QTY} pieces. This
+                      ensures we can offer the best prices to our customers.
                     </p>
                   )}
 

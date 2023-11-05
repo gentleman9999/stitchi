@@ -9,6 +9,7 @@ import FormSection from './FormSection'
 import useProductQuote from './SubmitBanner/useProductQuote'
 import VariantQuantityMatrixForm from '../../../../../../../../../components/common/ProductVariantQuantityMatrixForm/ProductVariantQuantityMatrixForm'
 import { InputGroup } from '@components/ui/inputs'
+import { MIN_ORDER_QTY } from '@lib/constants'
 
 const sizeSchema = yup.object().shape({
   catalogSizeEntityId: yup.string().required(),
@@ -123,10 +124,10 @@ const ClosetDesignBuyPageForm = ({
   ])
 
   const handleSubmit = form.handleSubmit(async data => {
-    if (totalQuantity < 50) {
+    if (totalQuantity < MIN_ORDER_QTY) {
       form.setError('colors', {
         type: 'validate',
-        message: 'Minimum order quantity is 50 pieces.',
+        message: `Minimum order quantity is ${MIN_ORDER_QTY} pieces.`,
       })
       return
     }

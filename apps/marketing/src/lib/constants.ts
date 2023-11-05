@@ -23,3 +23,10 @@ export const SITE_URL = getOrThrow(
 
 export const SEO_DEFAULT_DESCRIPTION =
   'We craft personalized promotional merchandise, perfect for corporate events, startups, and fundraisers. Drive your brand visibility with our unique, high-quality customizable products distributed globally.'
+
+export const MIN_ORDER_QTY = parseInt(
+  getOrThrow(
+    process.env.NEXT_PUBLIC_MIN_ORDER_QTY,
+    'NEXT_PUBLIC_MIN_ORDER_QTY',
+  ),
+)
