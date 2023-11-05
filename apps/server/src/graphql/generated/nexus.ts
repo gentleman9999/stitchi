@@ -481,7 +481,7 @@ export interface NexusGenObjects {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     designProofColorIds: string[]; // [ID!]!
     designProofLocationIds: string[]; // [ID!]!
-    designRequestId: string; // ID!
+    designRequestId?: string | null; // ID
     id: string; // ID!
     locations: NexusGenRootTypes['DesignProofLocation'][]; // [DesignProofLocation!]!
     primaryImageFileId?: string | null; // ID
@@ -1112,7 +1112,7 @@ export interface NexusGenFieldTypes {
     designProofColorIds: string[]; // [ID!]!
     designProofLocationIds: string[]; // [ID!]!
     designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
-    designRequestId: string; // ID!
+    designRequestId: string | null; // ID
     id: string; // ID!
     locations: NexusGenRootTypes['DesignProofLocation'][]; // [DesignProofLocation!]!
     membership: NexusGenRootTypes['Membership'] | null; // Membership

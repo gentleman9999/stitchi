@@ -193,7 +193,7 @@ type DesignProof {
   designProofColorIds: [ID!]!
   designProofLocationIds: [ID!]!
   designRequest: DesignRequest
-  designRequestId: ID!
+  designRequestId: ID
   id: ID!
   locations: [DesignProofLocation!]!
   membership: Membership

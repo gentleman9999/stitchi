@@ -472,6 +472,10 @@ export const DesignRequestExtendsDesignProof = extendType({
     t.field('designRequest', {
       type: 'DesignRequest',
       resolve: async (parent, _, ctx) => {
+        if (!parent.designRequestId) {
+          return null
+        }
+
         let designRequest
 
         try {

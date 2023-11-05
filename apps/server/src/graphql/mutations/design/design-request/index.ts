@@ -355,7 +355,7 @@ export const designRequestProofCreate = mutationField(
         })
 
         if (!proof) {
-          throw new GraphQLError('Unable to create design proof')
+          throw new GraphQLError('Proof not created')
         }
       } catch (error) {
         logger.error(error)

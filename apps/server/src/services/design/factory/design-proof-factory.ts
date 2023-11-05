@@ -13,7 +13,7 @@ interface DesignProofVariant extends DesignProofVariantRecord {
 interface DesignFactoryProofLocation extends DesignProofLocationRecord {}
 
 export interface DesignFactoryProof extends DesignProofRecord {
-  designRequestId: string
+  designRequestId?: string
   locations: DesignFactoryProofLocation[]
   variants: DesignProofVariant[]
 }
@@ -25,7 +25,7 @@ const designProofFactory = ({
   designRequestDesignProof,
 }: {
   designProof: DesignProofRecord
-  designRequestDesignProof: DesignRequestDesignProofRecord
+  designRequestDesignProof?: DesignRequestDesignProofRecord
   locations: DesignProofLocationRecord[]
   variants: (DesignProofVariantRecord & {
     images: DesignProofVariantImageRecord[]
@@ -38,7 +38,7 @@ const designProofFactory = ({
     artistMembershipId: designProof.artistMembershipId,
     catalogProductId: designProof.catalogProductId,
     primaryImageFileId: designProof.primaryImageFileId,
-    designRequestId: designRequestDesignProof.designRequestId,
+    designRequestId: designRequestDesignProof?.designRequestId,
     createdAt: designProof.createdAt,
     updatedAt: designProof.updatedAt,
   }
