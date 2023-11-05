@@ -302,11 +302,6 @@ const routes = {
             },
           },
 
-          activity: {
-            href: ({ designId }: { designId: string }) =>
-              buildRoute(`/closet/designs/${designId}/activity`),
-          },
-
           assign: {
             href: ({
               designId,
