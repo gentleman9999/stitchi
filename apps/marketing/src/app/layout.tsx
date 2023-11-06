@@ -19,18 +19,12 @@ import {
 import { RedirectType, redirect } from 'next/navigation'
 import PageloadProgressIndicator from '@components/layout/PageloadProgressIndicator'
 import { Metadata } from 'next'
-import getOrThrow from '@lib/utils/get-or-throw'
 import IntercomProvider from './IntercomProvider'
 import MixpanelProvider from '@components/context/mixpanel-context'
 import { AxiomWebVitals } from 'next-axiom'
 import Script from 'next/script'
 import { GTM_ID } from '@lib/events'
 import { Outfit } from 'next/font/google'
-
-const INTERCOM_APP_ID = getOrThrow(
-  process.env.NEXT_PUBLIC_INTERCOM_APP_ID,
-  'NEXT_PUBLIC_INTERCOM_APP_ID',
-)
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -147,7 +141,7 @@ const RootLayout = async ({ children }: Props) => {
         <ApolloProvider deviceId={deviceId} accessToken={accessToken}>
           <body>
             <PageloadProgressIndicator />
-            <IntercomProvider autoBoot appId={INTERCOM_APP_ID}>
+            <IntercomProvider>
               <MixpanelProvider>
                 <SnackbarProvider>
                   <StandoutProvider>{children}</StandoutProvider>

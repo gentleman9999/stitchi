@@ -16,13 +16,7 @@ import { UserProvider } from '@auth0/nextjs-auth0/client'
 import { SnackbarProvider } from '@components/context/snackbar-context'
 import { AxiomWebVitals } from 'next-axiom'
 import { CookiesProvider } from 'react-cookie'
-import { IntercomProvider } from 'react-use-intercom'
-import getOrThrow from '@lib/utils/get-or-throw'
-
-export const INTERCOM_APP_ID = getOrThrow(
-  process.env.NEXT_PUBLIC_INTERCOM_APP_ID,
-  'NEXT_PUBLIC_INTERCOM_APP_ID',
-)
+import IntercomProvider from 'app/IntercomProvider'
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -68,7 +62,7 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
               {/* https://www.datocms.com/docs/next-js/seo-management */}
               <SeoDefault />
               {/* Right now we have a hack and set the intercom context in mixpanel provider */}
-              <IntercomProvider autoBoot appId={INTERCOM_APP_ID}>
+              <IntercomProvider>
                 <MixpanelProvider>
                   <SnackbarProvider>
                     <StandoutProvider>
