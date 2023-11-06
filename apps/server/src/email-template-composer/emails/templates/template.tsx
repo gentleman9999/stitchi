@@ -15,7 +15,11 @@ import {
 import colors from 'tailwindcss/colors'
 import Heading1 from '../components/Heading1'
 import Paragraph from '../components/Paragraph'
-import { baseUrl } from '../environment'
+import {
+  baseUrl,
+  emailNotificationSettingsUrl,
+  supportUrl,
+} from '../environment'
 import InlineLink from '../components/InlineLink'
 
 export interface Recipient {
@@ -103,12 +107,26 @@ const EmailTemplate = ({
 
           <Hr className="mb-0 mx-0 mt-8 w-full" />
 
-          <Paragraph className="text-xs text-gray-600 py-4 text-left">
+          <Paragraph className="text-xs text-gray-600 pt-4 text-left">
             Stitchi LLC. -{' '}
             <InlineLink href={baseUrl}>
               {baseUrl.replace(/https?:\/\//, '')}
             </InlineLink>
           </Paragraph>
+
+          <Paragraph className="text-xs text-gray-600 pt-4 text-left">
+            If you’d like to talk to a support team member, please{' '}
+            <InlineLink href={supportUrl}>send us a message</InlineLink>.
+          </Paragraph>
+
+          <Paragraph className="text-xs text-gray-600 pt-4 text-left">
+            <InlineLink href={emailNotificationSettingsUrl}>
+              Click here to manage your notification settings
+            </InlineLink>
+            .
+          </Paragraph>
+
+          <div className="pt-4" />
         </Container>
       </Body>
     </Tailwind>
