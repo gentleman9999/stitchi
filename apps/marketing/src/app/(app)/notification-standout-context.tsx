@@ -2,6 +2,7 @@
 
 import React from 'react'
 import dynamic from 'next/dynamic'
+import { usePathname } from 'next/navigation'
 
 const NotificationSlideover = dynamic(
   () => import('./NotificationsSlideover'),
@@ -25,6 +26,11 @@ const NotificationStandoutProvider = ({
   children: React.ReactNode
 }) => {
   const [open, setOpen] = React.useState(false)
+  const pathname = usePathname()
+
+  React.useEffect(() => {
+    setOpen(false)
+  }, [pathname])
 
   return (
     <NotificationStandoutContext.Provider

@@ -3231,7 +3231,7 @@ export interface DesignProof {
   designProofColorIds: Array<Scalars['ID']['output']>;
   designProofLocationIds: Array<Scalars['ID']['output']>;
   designRequest: Maybe<DesignRequest>;
-  designRequestId: Scalars['ID']['output'];
+  designRequestId: Maybe<Scalars['ID']['output']>;
   id: Scalars['ID']['output'];
   locations: Array<DesignProofLocation>;
   membership: Maybe<Membership>;
@@ -11571,6 +11571,11 @@ export type NotificationsSlideoverGetDataQueryVariables = Exact<{
 
 export type NotificationsSlideoverGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, notifications: { __typename: 'NotificationConnection', edges: Array<{ __typename: 'NotificationEdge', node: { __typename: 'Notification', id: string, createdAt: any, channels: Array<{ __typename: 'NotificationChannelEmail', id: string } | { __typename: 'NotificationChannelWeb', message: string, ctaText: string | null, ctaUrl: string | null, seenAt: any | null, id: string } | null> } | null } | null> | null, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, endCursor: string | null } } | null } | null };
 
+export type NotificationsButtonGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type NotificationsButtonGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, unseenWebNotificationsCount: number } | null };
+
 export type AppLayoutGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -11638,7 +11643,7 @@ export type ApproveProofSlideOverGetDataQueryVariables = Exact<{
 }>;
 
 
-export type ApproveProofSlideOverGetDataQuery = { __typename: 'Query', designProof: { __typename: 'DesignProof', id: string, designRequestId: string, primaryImageFile: { __typename: 'FileImage', id: string, url: string, width: number, height: number } | null, designRequest: { __typename: 'DesignRequest', id: string, name: string } | null } | null };
+export type ApproveProofSlideOverGetDataQuery = { __typename: 'Query', designProof: { __typename: 'DesignProof', id: string, designRequestId: string | null, primaryImageFile: { __typename: 'FileImage', id: string, url: string, width: number, height: number } | null, designRequest: { __typename: 'DesignRequest', id: string, name: string } | null } | null };
 
 export type UseApproveProofSildeOverApproveDesignMutationVariables = Exact<{
   input: DesignRequestApproveInput;
@@ -11848,6 +11853,8 @@ export type CmsStructuredTextTableOfContentsGlossaryTermDescriptionFragment = { 
 export type FeaturePageContainerCatalogFragment = { __typename: 'Site', featuredProducts: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, name: string, path: string, brand: { __typename: 'Brand', id: string, path: string } | null, defaultImage: { __typename: 'Image', url: string } | null } } | null> | null } };
 
 export type FeaturedProductsGridCatalogFragment = { __typename: 'Site', featuredProducts: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, name: string, path: string, brand: { __typename: 'Brand', id: string, path: string } | null, defaultImage: { __typename: 'Image', url: string } | null } } | null> | null } };
+
+export type CmsImageFullScreenImageFragment = { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null };
 
 export type IndustryTermCardTermFragment = { __typename: 'GlossaryEntryRecord', id: any, slug: string | null, entryType: string | null, definition: string | null, term: string | null };
 
@@ -12220,8 +12227,6 @@ export type DesignLibraryPageGetDataQueryVariables = Exact<{
 
 
 export type DesignLibraryPageGetDataQuery = { __typename: 'Query', allDesigns: Array<{ __typename: 'DesignRecord', id: any, primaryImage: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null }> };
-
-export type ImageFullScreenImageFragment = { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null };
 
 export type DesignPageCatalogFragment = { __typename: 'Site', featuredProducts: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, name: string, path: string, brand: { __typename: 'Brand', id: string, path: string } | null, defaultImage: { __typename: 'Image', url: string } | null } } | null> | null } };
 

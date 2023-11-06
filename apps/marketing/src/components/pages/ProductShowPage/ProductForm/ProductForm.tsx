@@ -149,7 +149,7 @@ const ProductForm = (props: ProductFormProps) => {
   })
 
   const handleSubmit = form.handleSubmit(async (values: FormValues) => {
-    if (totalQuantity < MIN_ORDER_QTY) {
+    if (totalQuantity !== 0 && totalQuantity < MIN_ORDER_QTY) {
       form.setError('colors', {
         type: 'validate',
         message: `Minimum order quantity is ${MIN_ORDER_QTY} pieces.`,

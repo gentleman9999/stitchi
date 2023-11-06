@@ -1,5 +1,9 @@
 import { gql, useQuery } from '@apollo/client'
 import { CmsImage, InfiniteScrollContainer, Section } from '@components/common'
+import {
+  CmsImageFullScreen,
+  useImageFullScreen,
+} from '@components/common/ImageFullScreen'
 import Button from '@components/ui/ButtonV2/Button'
 import Container from '@components/ui/Container'
 import {
@@ -10,10 +14,8 @@ import routes from '@lib/routes'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { ArrowRight, Customization, Expand } from 'icons'
 import { NextSeo } from 'next-seo'
-import { queryTypes, useQueryState } from 'next-usequerystate'
 import Link from 'next/link'
 import React from 'react'
-import ImageFullScreen from './ImageFullSreen'
 
 const PAGE_SIZE = 20
 
@@ -21,11 +23,6 @@ interface Props {}
 
 const DesignLibraryPage = (props: Props) => {
   const url = makeAbsoluteUrl(routes.internal.lookbook.href())
-
-  const [activeImageId, setActiveImageId] = useQueryState(
-    'image',
-    queryTypes.string,
-  )
 
   const { data, fetchMore, variables } = useQuery<
     DesignLibraryPageGetDataQuery,
@@ -37,26 +34,14 @@ const DesignLibraryPage = (props: Props) => {
     },
   })
 
+  const { currentImage, setActiveImageId, ...imageFullScreenProps } =
+    useImageFullScreen({
+      images: data?.allDesigns || [],
+    })
+
   const handleFetchMore = () => {
     fetchMore({ variables: { skip: (variables?.skip || 0) + PAGE_SIZE } })
   }
-
-  const { nextImage, currentImage, prevImage } =
-    data?.allDesigns.reduce<{
-      nextImage: (typeof data.allDesigns)[number] | null
-      prevImage: (typeof data.allDesigns)[number] | null
-      currentImage?: (typeof data.allDesigns)[number] | null
-    }>(
-      (acc, design, index, arr) => {
-        if (design.id === activeImageId) {
-          acc.currentImage = design
-          acc.nextImage = arr[index + 1]
-          acc.prevImage = arr[index - 1]
-        }
-        return acc
-      },
-      { nextImage: null, currentImage: null, prevImage: null },
-    ) || {}
 
   return (
     <>
@@ -108,14 +93,10 @@ const DesignLibraryPage = (props: Props) => {
       <section className="mt-10">
         <Container>
           {currentImage?.primaryImage?.responsiveImage ? (
-            <ImageFullScreen
+            <CmsImageFullScreen
               open
               image={currentImage.primaryImage.responsiveImage}
-              canNext={Boolean(nextImage)}
-              canPrev={Boolean(prevImage)}
-              onNext={() => setActiveImageId(nextImage?.id)}
-              onPrev={() => setActiveImageId(prevImage?.id)}
-              onOpenChange={() => setActiveImageId(null)}
+              {...imageFullScreenProps}
             />
           ) : null}
 
@@ -176,6 +157,7 @@ const DesignLibraryPage = (props: Props) => {
 
 const GET_DATA = gql`
   ${CmsImage.fragments.image}
+  ${CmsImageFullScreen.fragments.image}
   query DesignLibraryPageGetDataQuery($first: IntType, $skip: IntType) {
     allDesigns(first: $first, skip: $skip) {
       id
@@ -183,6 +165,7 @@ const GET_DATA = gql`
         id
         responsiveImage {
           ...CmsImageFragment
+          ...CmsImageFullScreenImageFragment
         }
       }
     }
