@@ -1,6 +1,7 @@
 import { NextApiRequest } from 'next'
 import { IncomingMessage } from 'http'
-import { SITE_URL } from './constants'
+import makeAbsoluteUrl from './utils/get-absolute-url'
+import routes from './routes'
 
 export const getAccessToken = async (ctx?: {
   req: IncomingMessage | NextApiRequest
@@ -10,11 +11,14 @@ export const getAccessToken = async (ctx?: {
   try {
     // Auth0 only provides access to the accessToken on the server.
     // So we must make a call the the Next.js server to retrieve token.
-    const response = await fetch(`${SITE_URL}/api/auth/accessToken`, {
-      headers: {
-        cookie: ctx?.req.headers.cookie as string,
+    const response = await fetch(
+      makeAbsoluteUrl(routes.api.auth.accessToken.href()),
+      {
+        headers: {
+          cookie: ctx?.req.headers.cookie as string,
+        },
       },
-    })
+    )
 
     const data = await response.json()
 

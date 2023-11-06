@@ -1,10 +1,4 @@
-import {
-  AccessTokenError,
-  AccessTokenErrorCode,
-  getAccessToken,
-} from '@auth0/nextjs-auth0'
-import routes from '@lib/routes'
-import { NextResponse } from 'next/server'
+import { getAccessToken } from '@auth0/nextjs-auth0'
 
 export const GET = async (request: Request) => {
   try {
@@ -14,22 +8,8 @@ export const GET = async (request: Request) => {
       status: 200,
     })
   } catch (error) {
-    if (error instanceof AccessTokenError) {
-      if (error.code === AccessTokenErrorCode.MISSING_SESSION) {
-        return new Response(JSON.stringify({ accessToken: null }), {
-          status: 200,
-        })
-      }
-    }
-
-    console.error('Failed to get access token', {
-      context: {
-        error,
-      },
+    return new Response(JSON.stringify({ accessToken: null }), {
+      status: 200,
     })
-
-    return NextResponse.redirect(
-      new URL(routes.internal.logout.href(), request.url),
-    )
   }
 }

@@ -3,8 +3,6 @@ import { registerApolloClient } from '@apollo/experimental-nextjs-app-support/rs
 import { createApolloClient } from './apollo-new'
 import { cookies } from 'next/headers'
 import { COOKIE_DEVICE_ID } from '@lib/constants'
-import routes from './routes'
-import { RedirectType, redirect } from 'next/navigation'
 import {
   AccessTokenError,
   AccessTokenErrorCode,
