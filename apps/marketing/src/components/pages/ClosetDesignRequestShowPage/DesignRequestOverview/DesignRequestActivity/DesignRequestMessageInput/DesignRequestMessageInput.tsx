@@ -186,13 +186,14 @@ const Form = ({
                 })}
               >
                 <Checkbox
-                  {...field}
                   size={1}
                   className="text-sm"
                   label="Request Revision"
                   value={field.name}
                   checked={field.value}
                   onChange={field.onChange}
+                  inputRef={field.ref}
+                  name={field.name}
                 />
               </div>
             )}

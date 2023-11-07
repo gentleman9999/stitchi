@@ -13,6 +13,7 @@ import { designFactoryDesignToGraphql } from '../../serializers/design'
 import { v4 } from 'uuid'
 import { Prisma } from '@prisma/client'
 import { cursorPaginationFromList } from '../../utils'
+import { onlyOwn } from '../../authorization'
 
 export const designProduct = queryField('designProduct', {
   type: 'DesignProduct',
@@ -249,15 +250,31 @@ export const DesignProductExtendsMembership = extendType({
   definition(t) {
     t.nonNull.boolean('hasDesignProducts', {
       resolve: async (parent, _, ctx) => {
-        if (
-          parent.role &&
-          ['STITCHI_ADMIN', 'STITCHI_DESIGNER'].includes(parent.role)
-        ) {
-          return true
+        const scope = ctx.authorize('READ', 'DesignProduct')
+
+        if (!scope) {
+          return false
+        }
+
+        const resourceOwnerFilter: Prisma.Enumerable<Prisma.DesignWhereInput> =
+          []
+
+        if (onlyOwn(scope)) {
+          resourceOwnerFilter.push({
+            membershipId: parent.id,
+          })
+        }
+
+        if (!parent.role || !['STITCHI_ADMIN'].includes(parent.role)) {
+          resourceOwnerFilter.push({
+            organizationId: parent.organizationId,
+          })
         }
 
         const designProducts = await ctx.design.listDesigns({
-          where: { membershipId: parent.id },
+          where: {
+            AND: resourceOwnerFilter,
+          },
           take: 1,
         })
 
@@ -270,16 +287,32 @@ export const DesignProductExtendsMembership = extendType({
         filter: arg({ type: 'MembershipDesignProductsFilterInput' }),
       },
       resolve: async (parent, { first, last, after, before, filter }, ctx) => {
+        const scope = ctx.authorize('READ', 'DesignProduct')
+
+        if (!scope) {
+          return {
+            edges: [],
+            pageInfo: {
+              hasNextPage: false,
+              hasPreviousPage: false,
+              startCursor: null,
+              endCursor: null,
+            },
+            totalCount: 0,
+          }
+        }
+
         const resourceOwnerFilter: Prisma.Enumerable<Prisma.DesignWhereInput> =
           []
 
         const { membershipId } = filter?.where || {}
 
-        if (!Object.keys(membershipId || {}).length) {
-          resourceOwnerFilter.push({ organizationId: parent.organizationId })
-        } else {
+        if (onlyOwn(scope)) {
           resourceOwnerFilter.push({
-            organizationId: parent.organizationId,
+            membershipId: parent.id,
+          })
+        } else if (Object.keys(membershipId || {}).length) {
+          resourceOwnerFilter.push({
             membershipId: {
               equals: membershipId?.equals || undefined,
               in: membershipId?.in || undefined,
@@ -288,14 +321,26 @@ export const DesignProductExtendsMembership = extendType({
           })
         }
 
-        const where = {
-          OR: resourceOwnerFilter,
-          createdAt: filter?.where?.createdAt
-            ? {
-                gte: filter.where.createdAt.gte || undefined,
-                lte: filter.where.createdAt.lte || undefined,
-              }
-            : undefined,
+        if (!parent.role || !['STITCHI_ADMIN'].includes(parent.role)) {
+          resourceOwnerFilter.push({
+            organizationId: parent.organizationId,
+          })
+        }
+
+        const where: Prisma.DesignWhereInput = {
+          AND: [
+            {
+              AND: resourceOwnerFilter,
+            },
+            {
+              createdAt: filter?.where?.createdAt
+                ? {
+                    gte: filter.where.createdAt.gte || undefined,
+                    lte: filter.where.createdAt.lte || undefined,
+                  }
+                : undefined,
+            },
+          ],
         }
 
         const totalDesignProductsCount = await ctx.design.listDesignsCount({
