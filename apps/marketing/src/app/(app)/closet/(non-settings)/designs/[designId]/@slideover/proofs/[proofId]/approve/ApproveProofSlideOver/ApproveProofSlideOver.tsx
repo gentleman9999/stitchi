@@ -36,14 +36,29 @@ const ApproveProofSlideOver = ({
 
   const { designProof } = data || {}
 
+  const { designRequestId } = designProof || {}
+
+  if (designProof && !designRequestId) {
+    console.error(
+      "Design proof doesn't have a designRequestId. This should not happen.",
+      {
+        context: { designProof },
+      },
+    )
+
+    throw new Error(
+      "Design proof doesn't have a designRequestId. This should not happen.",
+    )
+  }
+
   const handleCreateDesign = async (input: FormValues) => {
-    if (!designProof) {
+    if (!designProof || !designRequestId) {
       return null
     }
 
     await approveDesign({
       designProofId,
-      designRequestId: designProof.designRequestId,
+      designRequestId,
       name: input.name,
       description: input.description,
       termsConditionsAgreed: input.termsConditionsAgreed,
@@ -51,7 +66,7 @@ const ApproveProofSlideOver = ({
 
     router.push(
       routes.internal.closet.designs.show.approved.href({
-        designRequestId: designProof.designRequestId,
+        designRequestId,
       }),
     )
   }
