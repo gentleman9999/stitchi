@@ -63,6 +63,7 @@ export const orderFactoryOrderToGraphQL = (
   return {
     id: order.id,
     membershipId: order.membershipId,
+    organizationId: order.organizationId,
     humanOrderId: order.humanReadableId,
     shippingAddressId: order.shippingAddressId,
     designRequestId: order.designRequestId,

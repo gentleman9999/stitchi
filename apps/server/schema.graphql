@@ -986,7 +986,6 @@ type Order {
   createdAt: DateTime!
   customerEmail: String
   customerFirstName: String
-  customerId: String
   customerLastName: String
   customerPhone: String
   designRequestId: String
@@ -998,6 +997,8 @@ type Order {
   items: [OrderItem!]!
   lastPaymentMethod: PaymentMethod
   membershipId: String
+  organization: Organization
+  organizationId: String
   owner: Membership
   paymentIntents: [PaymentIntent!]!
   paymentStatus: OrderPaymentStatus!

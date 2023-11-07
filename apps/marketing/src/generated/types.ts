@@ -7257,7 +7257,6 @@ export interface Order {
   createdAt: Scalars['DateTime']['output'];
   customerEmail: Maybe<Scalars['String']['output']>;
   customerFirstName: Maybe<Scalars['String']['output']>;
-  customerId: Maybe<Scalars['String']['output']>;
   customerLastName: Maybe<Scalars['String']['output']>;
   customerPhone: Maybe<Scalars['String']['output']>;
   designRequestId: Maybe<Scalars['String']['output']>;
@@ -7271,6 +7270,8 @@ export interface Order {
   items: Array<OrderItem>;
   lastPaymentMethod: Maybe<PaymentMethod>;
   membershipId: Maybe<Scalars['String']['output']>;
+  organization: Maybe<Organization>;
+  organizationId: Maybe<Scalars['String']['output']>;
   owner: Maybe<Membership>;
   paymentIntents: Array<PaymentIntent>;
   paymentStatus: OrderPaymentStatus;
@@ -12176,14 +12177,16 @@ export type UseMarkNotificationAsSeenMarkAsSeenMutationVariables = Exact<{
 
 export type UseMarkNotificationAsSeenMarkAsSeenMutation = { __typename: 'Mutation', notificationMarkAsSeen: { __typename: 'NotificationMarkAsSeenPayload', notification: { __typename: 'Notification', id: string } | null } | null };
 
-export type ClosetOrdersDesktopTableOrderFragment = { __typename: 'Order', id: string, humanOrderId: string, paymentStatus: OrderPaymentStatus, humanPaymentStatus: string, totalTaxCents: number, totalPriceCents: number, createdAt: any };
+export type ClosetOrdersDesktopTableOrderFragment = { __typename: 'Order', id: string, humanOrderId: string, paymentStatus: OrderPaymentStatus, humanPaymentStatus: string, totalTaxCents: number, totalPriceCents: number, createdAt: any, organization: { __typename: 'Organization', id: string, name: string | null } | null };
 
 export type ClosetOrdersIndexPageGetDataQueryVariables = Exact<{
+  first: Scalars['Int']['input'];
+  after?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<MembershipOrdersFilterInput>;
 }>;
 
 
-export type ClosetOrdersIndexPageGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, hasOrders: boolean, orders: { __typename: 'OrderConnection', edges: Array<{ __typename: 'OrderEdge', node: { __typename: 'Order', id: string, humanOrderId: string, paymentStatus: OrderPaymentStatus, humanPaymentStatus: string, totalTaxCents: number, totalPriceCents: number, createdAt: any } | null } | null> | null, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, endCursor: string | null } } | null } | null };
+export type ClosetOrdersIndexPageGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, hasOrders: boolean, orders: { __typename: 'OrderConnection', edges: Array<{ __typename: 'OrderEdge', node: { __typename: 'Order', id: string, humanOrderId: string, paymentStatus: OrderPaymentStatus, humanPaymentStatus: string, totalTaxCents: number, totalPriceCents: number, createdAt: any, organization: { __typename: 'Organization', id: string, name: string | null } | null } | null } | null> | null, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, endCursor: string | null } } | null } | null };
 
 export type ClosetSettingsGeneralPageUserFragment = { __typename: 'User', id: string, name: string | null, email: string | null, picture: string | null };
 

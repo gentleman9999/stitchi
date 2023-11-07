@@ -64,10 +64,8 @@ export const Order = objectType({
     t.nonNull.id('id')
     t.nonNull.string('humanOrderId')
 
+    t.nullable.string('organizationId')
     t.nullable.string('membershipId')
-    t.nullable.string('customerId', {
-      resolve: order => order.membershipId || null,
-    })
 
     t.nullable.string('shippingAddressId')
     t.nullable.string('designRequestId')

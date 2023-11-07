@@ -1,8 +1,4 @@
 import { gql, useQuery } from '@apollo/client'
-import {
-  ClosetOrdersIndexPageGetDataQuery,
-  ClosetOrdersIndexPageGetDataQueryVariables,
-} from '@generated/ClosetOrdersIndexPageGetDataQuery'
 import React from 'react'
 import { notEmpty } from '@lib/utils/typescript'
 import ClosetOrdersDesktopTable from './ClosetOrdersDesktopTable'
@@ -19,6 +15,12 @@ import ClosetPageActions from '@components/common/ClosetPageActions'
 import ClosetPageHeader from '@components/common/ClosetPageHeader'
 import ClosetSection from '@components/common/ClosetSection'
 import { TableContainer } from '@components/ui/Table'
+import {
+  ClosetOrdersIndexPageGetDataQuery,
+  ClosetOrdersIndexPageGetDataQueryVariables,
+} from '@generated/types'
+
+const PAGE_SIZE = 10
 
 interface Props {}
 
@@ -37,6 +39,10 @@ const ClosetOrdersIndexPage = (props: Props) => {
   >(GET_DATA, {
     notifyOnNetworkStatusChange: true,
     fetchPolicy: 'cache-and-network',
+    variables: {
+      first: PAGE_SIZE,
+      filter,
+    },
   })
 
   const { hasOrders } = data?.viewer || {}
@@ -133,12 +139,14 @@ const ClosetOrdersIndexPage = (props: Props) => {
 const GET_DATA = gql`
   ${ClosetOrdersDesktopTable.fragments.order}
   query ClosetOrdersIndexPageGetDataQuery(
+    $first: Int!
+    $after: String
     $filter: MembershipOrdersFilterInput
   ) {
     viewer {
       id
       hasOrders
-      orders(first: 50, filter: $filter) {
+      orders(first: $first, after: $after, filter: $filter) {
         edges {
           node {
             id

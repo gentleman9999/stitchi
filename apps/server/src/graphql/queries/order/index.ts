@@ -13,6 +13,8 @@ import { orderFactoryOrderToGraphQL } from '../../serializers/order'
 export * from './mailing-address'
 import { NexusGenObjects } from '../../generated/nexus'
 import { cursorPaginationFromList } from '../../utils'
+import { Prisma } from '@prisma/client'
+import { onlyOwn } from '../../authorization'
 
 export const order = queryField('order', {
   type: 'Order',
@@ -161,11 +163,31 @@ export const OrdersExtendsMember = extendType({
   definition(t) {
     t.nonNull.field('hasOrders', {
       type: 'Boolean',
-      resolve: async (parent, _, { order }) => {
+      resolve: async (parent, _, { order, authorize }) => {
+        const scope = authorize('READ', 'Order')
+
+        if (!scope) {
+          return false
+        }
+
+        const resourceOwnerFilter: Prisma.Enumerable<Prisma.OrderWhereInput> =
+          []
+
+        if (onlyOwn(scope)) {
+          resourceOwnerFilter.push({
+            membershipId: parent.id,
+          })
+        }
+
+        if (!parent.role || !['STITCHI_ADMIN'].includes(parent.role)) {
+          resourceOwnerFilter.push({
+            organizationId: parent.organizationId,
+          })
+        }
+
         const orders = await order.listOrders({
           where: {
-            organizationId: parent.organizationId,
-            membershipId: parent.id,
+            AND: resourceOwnerFilter,
           },
           take: 1,
         })
@@ -181,16 +203,53 @@ export const OrdersExtendsMember = extendType({
       resolve: async (
         parent,
         { first, last, after, before, filter },
-        { order },
+        { order, authorize },
       ) => {
-        const where = {
-          organizationId: parent.organizationId,
-          createdAt: filter?.where?.createdAt
-            ? {
-                gte: filter.where.createdAt.gte || undefined,
-                lte: filter.where.createdAt.lte || undefined,
-              }
-            : undefined,
+        const scope = authorize('READ', 'Order')
+
+        if (!scope) {
+          return {
+            edges: [],
+            pageInfo: {
+              hasNextPage: false,
+              hasPreviousPage: false,
+              startCursor: null,
+              endCursor: null,
+            },
+          }
+        }
+
+        const resourceOwnerFilter: Prisma.Enumerable<Prisma.OrderWhereInput> =
+          []
+
+        if (onlyOwn(scope)) {
+          resourceOwnerFilter.push({
+            membershipId: parent.id,
+          })
+        }
+
+        if (!parent.role || !['STITCHI_ADMIN'].includes(parent.role)) {
+          resourceOwnerFilter.push({
+            organizationId: parent.organizationId,
+          })
+        }
+
+        const { createdAt } = filter?.where || {}
+
+        const where: Prisma.OrderWhereInput = {
+          AND: [
+            {
+              createdAt: createdAt
+                ? {
+                    gte: createdAt.gte || undefined,
+                    lte: createdAt.lte || undefined,
+                  }
+                : undefined,
+            },
+            {
+              AND: resourceOwnerFilter,
+            },
+          ],
         }
 
         const result = await cursorPaginationFromList(

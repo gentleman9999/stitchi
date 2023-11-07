@@ -4,7 +4,6 @@ import routes from '@lib/routes'
 import { parseISO } from 'date-fns'
 import currency from 'currency.js'
 import { gql } from '@apollo/client'
-import { ClosetOrdersDesktopTableOrderFragment } from '@generated/ClosetOrdersDesktopTableOrderFragment'
 import InfiniteScrollContainer from '../../common/InfiniteScrollContainer'
 import {
   Table,
@@ -23,6 +22,11 @@ import {
 } from '@tanstack/react-table'
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
 import { useRouter } from 'next/navigation'
+import {
+  ClosetOrdersDesktopTableOrderFragment,
+  MembershipRole,
+} from '@generated/types'
+import { useAuthorizedComponent } from '@lib/auth'
 
 type Order = ClosetOrdersDesktopTableOrderFragment
 
@@ -39,6 +43,7 @@ const ClosetOrdersDesktopTable = ({
   hasNextPage,
   onNextPage,
 }: Props) => {
+  const { role } = useAuthorizedComponent()
   const router = useRouter()
 
   const columns = React.useMemo(
@@ -52,6 +57,12 @@ const ClosetOrdersDesktopTable = ({
 
       columnHelper.accessor('humanOrderId', {
         header: () => <div className="text-left">ID</div>,
+        cell: ({ getValue }) => <span className="text-sm">{getValue()}</span>,
+      }),
+
+      columnHelper.accessor('organization.name', {
+        id: 'organization',
+        header: () => <div className="text-left">Organization</div>,
         cell: ({ getValue }) => <span className="text-sm">{getValue()}</span>,
       }),
 
@@ -101,8 +112,18 @@ const ClosetOrdersDesktopTable = ({
   const table = useReactTable<Order>({
     columns,
     data: orders,
-
     getCoreRowModel: getCoreRowModel(),
+    state: {
+      columnVisibility: {
+        organization: Boolean(
+          role &&
+            [
+              MembershipRole.STITCHI_ADMIN,
+              MembershipRole.STITCHI_DESIGNER,
+            ].includes(role),
+        ),
+      },
+    },
   })
 
   const handleNextPage = async () => {
@@ -165,6 +186,10 @@ ClosetOrdersDesktopTable.fragments = {
       totalTaxCents
       totalPriceCents
       createdAt
+      organization {
+        id
+        name
+      }
     }
   `,
 }

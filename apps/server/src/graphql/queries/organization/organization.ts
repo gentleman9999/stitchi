@@ -63,3 +63,34 @@ export const OrganizationExtendsMembership = extendType({
     })
   },
 })
+
+export const OrganizationExtendsOrder = extendType({
+  type: 'Order',
+  definition(t) {
+    t.nullable.field('organization', {
+      type: 'Organization',
+      resolve: async (order, _, ctx) => {
+        if (!order.organizationId) {
+          return null
+        }
+
+        let organization
+
+        try {
+          organization = await ctx.organization.getOrganization({
+            organizationId: order.organizationId,
+          })
+        } catch (error) {
+          ctx.logger
+            .child({
+              context: { error, order },
+            })
+            .error('Unable to fetch organization')
+          throw new GraphQLError('Unable to fetch organization')
+        }
+
+        return organizationFactoryToGrahpql(organization)
+      },
+    })
+  },
+})
