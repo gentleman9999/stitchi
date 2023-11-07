@@ -99,7 +99,10 @@ const DesignRequestHistory = ({ loading, designRequest }: Props) => {
                           width={file.width}
                           height={file.height}
                           key={index}
-                          className=" bg-gray-100 rounded-md h-24 w-24 object-contain overflow-hidden"
+                          className=" bg-gray-100 rounded-md h-24 w-24 object-contain overflow-hidden cursor-zoom-in hover:opacity-80 transition-all"
+                          onClick={() => {
+                            window.open(file.url, '_blank')
+                          }}
                         />
                       ) : null
                     })}

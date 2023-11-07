@@ -17,7 +17,10 @@ const CmsImageFullScreen = ({ image, ...rest }: Props) => {
         data={image}
         layout="responsive"
         objectFit="contain"
-        className="rounded-md overflow-hidden"
+        style={{ position: 'unset' }}
+        placeholderStyle={{
+          position: 'unset',
+        }}
       />
     </ImageFullScreenBase>
   )

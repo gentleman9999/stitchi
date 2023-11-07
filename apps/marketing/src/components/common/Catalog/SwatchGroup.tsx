@@ -17,7 +17,7 @@ const SwatchGroup = ({ hexColors }: Props) => {
   return (
     <div className="flex items-center">
       {visibleColors?.map((hex, index) => (
-        <span
+        <div
           key={index}
           className="inline-flex w-5 h-5 rounded-full border-2 border-gray-100"
           style={{
@@ -27,14 +27,14 @@ const SwatchGroup = ({ hexColors }: Props) => {
         />
       ))}
       {hiddenColors?.length > 0 ? (
-        <span
+        <div
           className="text-xs text-gray-700 font-semibold bg-white px-1 rounded-full border-2 border-gray-100"
           style={{
             transform: `translateX(-${5 * visibleColors.length - 1}px)`,
           }}
         >
           +{hiddenColors.length}
-        </span>
+        </div>
       ) : null}
     </div>
   )

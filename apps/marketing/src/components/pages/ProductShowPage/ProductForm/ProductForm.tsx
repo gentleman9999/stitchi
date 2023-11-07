@@ -251,7 +251,7 @@ const ProductForm = (props: ProductFormProps) => {
                   error={form.formState.errors.designBrief?.message}
                 >
                   <RichTextEditor
-                    ref={ref}
+                    inputRef={ref}
                     placeholder="Describe your design and how you want it to look. If you have any design files, you can upload it below."
                     editorOptions={{
                       content,

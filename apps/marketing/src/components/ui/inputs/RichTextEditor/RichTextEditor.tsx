@@ -11,10 +11,10 @@ interface Props {
   editorOptions?: Partial<
     Omit<EditorOptions, 'injectCSS' | 'extensions' | 'editorProps'>
   >
-  ref?: React.Ref<any>
+  inputRef?: React.Ref<any>
 }
 
-const RichTextEditor = ({ placeholder, editorOptions, ref }: Props) => {
+const RichTextEditor = ({ placeholder, editorOptions, inputRef }: Props) => {
   const editor = useEditor({
     ...(editorOptions || {}),
     injectCSS: false,
@@ -30,7 +30,7 @@ const RichTextEditor = ({ placeholder, editorOptions, ref }: Props) => {
 
   return (
     <div className={styles.rte}>
-      <EditorContent ref={ref} editor={editor} onChange={e => {}} />
+      <EditorContent ref={inputRef} editor={editor} onChange={e => {}} />
     </div>
   )
 }
