@@ -49,7 +49,7 @@ const ReferenceFilesPreview = ({ files, onDelete, visibleFileIds }: Props) => {
                 <img
                   src={file.url}
                   alt={file.name}
-                  className="w-[50px] h-12 object-contain rounded-md overflow-hidden"
+                  className="w-[50px] h-[50px] object-contain rounded-md overflow-hidden"
                 />
               )
 
@@ -60,14 +60,14 @@ const ReferenceFilesPreview = ({ files, onDelete, visibleFileIds }: Props) => {
                 <img
                   src={file.url.replace('.pdf', '.jpg')}
                   alt={file.name}
-                  className="w-[50px] h-12 object-contain rounded-md overflow-hidden"
+                  className="w-[50px] h-[50px] object-contain rounded-md overflow-hidden"
                 />
               )
               break
 
             default:
               Icon = (
-                <div className="w-[50px] flex items-center justify-center">
+                <div className="w-[50px] h-[50px] flex items-center justify-center">
                   <PaperClip className="w-5 h-5 text-gray-400" />
                 </div>
               )
@@ -76,17 +76,18 @@ const ReferenceFilesPreview = ({ files, onDelete, visibleFileIds }: Props) => {
           return (
             <div
               key={file.id}
-              className="pl-1 pr-4 py-1 flex items-center justify-between gap-4 border rounded-sm"
+              className="pl-1 pr-4 py-1 flex items-center justify-between gap-2 border rounded-sm flex-wrap"
             >
-              <div className="flex items-center gap-4 text-sm">
+              <div className="flex items-center gap-2 text-sm flex-shrink">
                 {Icon}
-                <div>
-                  <span className="font-medium">{file.name}</span>{' '}
-                  <span className="text-gray-400">{file.bytes}</span>
+
+                <div className="flex flex-col truncate">
+                  <div className="font-medium truncate">{file.name}</div>
+                  <div className="text-gray-400 text-xs">{file.bytes}</div>
                 </div>
               </div>
 
-              <div className="divide-x gap-4 flex items-center justify-between">
+              <div className="divide-x gap-2 flex items-center justify-between">
                 <Button
                   slim
                   variant="naked"

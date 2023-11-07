@@ -25,6 +25,7 @@ import * as yup from 'yup'
 import InformationGroup from './InformationGroup'
 import useProductQuote from './useProductQuote'
 import { MIN_ORDER_QTY } from '@lib/constants'
+import ReferenceFilesInput from '@components/pages/ClosetDesignRequestShowPage/ReferenceFilesInput'
 
 const customizationOptions = [
   {

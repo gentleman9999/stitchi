@@ -3,7 +3,7 @@ import { FileType } from '@generated/globalTypes'
 import {
   UseFileUploadCreateFileMutation,
   UseFileUploadCreateFileMutationVariables,
-} from '@generated/UseFileUploadCreateFileMutation'
+} from '@generated/types'
 import { useState } from 'react'
 import * as yup from 'yup'
 
@@ -36,10 +36,17 @@ const cloundinaryFileSchema = yup
 
 type CloudinaryFile = yup.InferType<typeof cloundinaryFileSchema>
 
+export interface UploadingFile {
+  fileId: string | null
+  fileName: string
+  pctComplete: number
+  filePath: string
+  fileType: string | null
+  fileBytes: number | null
+}
+
 const useFiledUpload = () => {
-  const [uploadingFiles, setUploadingFiles] = useState<
-    { fileName: string; pctComplete: number }[]
-  >([])
+  const [uploadingFiles, setUploadingFiles] = useState<UploadingFile[]>([])
 
   const [createFiles] = useMutation<
     UseFileUploadCreateFileMutation,
@@ -54,12 +61,17 @@ const useFiledUpload = () => {
       folder: string
     },
   ) => {
-    setUploadingFiles(
-      files.map(file => ({
-        fileName: file instanceof File ? file.name : file,
+    setUploadingFiles(prev => [
+      ...prev,
+      ...files.map(file => ({
+        fileId: null,
         pctComplete: 0,
+        filePath: file instanceof File ? URL.createObjectURL(file) : file,
+        fileName: file instanceof File ? file.name : file,
+        fileType: file instanceof File ? file.type : null,
+        fileBytes: file instanceof File ? file.size : null,
       })),
-    )
+    ])
 
     let fileData: CloudinaryFile[] = []
 
@@ -87,11 +99,18 @@ const useFiledUpload = () => {
         return null
       }
 
-      const fileName = file instanceof File ? file.name : file
+      const uploadingFile: Omit<UploadingFile, 'pctComplete' | 'fileId'> = {
+        fileName: file instanceof File ? file.name : file,
+        filePath: file instanceof File ? URL.createObjectURL(file) : file,
+        fileType: file instanceof File ? file.type : null,
+        fileBytes: file instanceof File ? file.size : null,
+      }
 
       const handleProgress = (pctComplete: number) => {
         setUploadingFiles(prev => {
-          const fileIndex = prev.findIndex(f => f.fileName === fileName)
+          const fileIndex = prev.findIndex(
+            f => f.fileName === uploadingFile.fileName,
+          )
 
           if (fileIndex === -1) {
             return prev
@@ -99,7 +118,7 @@ const useFiledUpload = () => {
 
           return [
             ...prev.slice(0, fileIndex),
-            { fileName, pctComplete },
+            { ...uploadingFile, pctComplete, fileId: null },
             ...prev.slice(fileIndex + 1),
           ]
         })
@@ -136,7 +155,26 @@ const useFiledUpload = () => {
       },
     })
 
-    return data?.fileCreateBatch?.files
+    const cloudinaryFiles = data?.fileCreateBatch?.files
+
+    setUploadingFiles(prev => {
+      return prev.map(file => {
+        const cloudinaryFile = cloudinaryFiles?.find(
+          f => f.name === file.fileName.split('.')[0],
+        )
+
+        if (!cloudinaryFile) {
+          return file
+        }
+
+        return {
+          ...file,
+          fileId: cloudinaryFile.id,
+        }
+      })
+    })
+
+    return cloudinaryFiles
   }
 
   return { handleUpload, uploadingFiles }
@@ -243,6 +281,7 @@ const CREATE_FILES = gql`
     fileCreateBatch(input: $input) {
       files {
         id
+        name
       }
     }
   }

@@ -114,7 +114,7 @@ const ProductShowPageHero = ({ product }: Props) => {
       <h1 className="font-headingDisplay font-semibold text-2xl text-gray-800 sm:hidden">
         {makeProductTitle(product)}
       </h1>
-      <div className="flex flex-col md:flex-row w-full">
+      <div className="flex flex-col md:flex-row w-full gap-2">
         <div className="flex-1 z-0">
           <div className={`w-full sticky top-topbar-height`}>
             <CatalogProductVariantPreview

@@ -60,13 +60,13 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
   }
 
   return (
-    <div className="relative">
+    <div className="relative @container">
       <ComponentErrorMessage error={error} />
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
+      <div className="grid grid-cols-1 @3xl:grid-cols-12 gap-12">
         <DesignRequestAssociatedProducts designRequestId={designRequestId} />
 
-        <div className="col-span-1 md:col-span-8">
+        <div className="col-span-1 @3xl:col-span-8">
           {activeProofId ? (
             <ClosetSection>
               <DesignProofVariantPreview designProofId={activeProofId} />
@@ -86,7 +86,7 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
           ) : null}
         </div>
 
-        <div className="col-span-1 md:col-span-4">
+        <div className="col-span-1 @3xl:col-span-4">
           {designRequest &&
           can(ScopeResource.DesignProof, ScopeAction.CREATE) ? (
             <ClosetSection>

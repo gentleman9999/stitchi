@@ -11898,7 +11898,7 @@ export type UseFileUploadCreateFileMutationVariables = Exact<{
 }>;
 
 
-export type UseFileUploadCreateFileMutation = { __typename: 'Mutation', fileCreateBatch: { __typename: 'FileCreateBatchPayload', files: Array<{ __typename: 'FileImage', id: string } | { __typename: 'FilePdf', id: string } | { __typename: 'FileUnknown', id: string }> | null } | null };
+export type UseFileUploadCreateFileMutation = { __typename: 'Mutation', fileCreateBatch: { __typename: 'FileCreateBatchPayload', files: Array<{ __typename: 'FileImage', id: string, name: string } | { __typename: 'FilePdf', id: string, name: string } | { __typename: 'FileUnknown', id: string, name: string }> | null } | null };
 
 export type UseProductColorsProductFragment = { __typename: 'Product', id: string, productOptions: { __typename: 'ProductOptionConnection', edges: Array<{ __typename: 'ProductOptionEdge', node: { __typename: 'CheckboxOption', entityId: number } | { __typename: 'DateFieldOption', entityId: number } | { __typename: 'FileUploadFieldOption', entityId: number } | { __typename: 'MultiLineTextFieldOption', entityId: number } | { __typename: 'MultipleChoiceOption', displayName: string, entityId: number, values: { __typename: 'ProductOptionValueConnection', edges: Array<{ __typename: 'ProductOptionValueEdge', node: { __typename: 'MultipleChoiceOptionValue', entityId: number, label: string } | { __typename: 'ProductPickListOptionValue', entityId: number, label: string } | { __typename: 'SwatchOptionValue', hexColors: Array<string>, entityId: number, label: string } } | null> | null } } | { __typename: 'NumberFieldOption', entityId: number } | { __typename: 'TextFieldOption', entityId: number } } | null> | null } };
 

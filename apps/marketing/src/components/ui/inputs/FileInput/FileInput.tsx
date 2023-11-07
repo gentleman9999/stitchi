@@ -4,6 +4,7 @@ import React, { useRef } from 'react'
 import cx from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
 import { notEmpty } from '@lib/utils/typescript'
+import FilePreview from './FilePreview'
 
 interface Props {
   folder: string
@@ -75,8 +76,8 @@ const FileInput = ({
   }
 
   return (
-    <>
-      <div className="col-span-full">
+    <div className="flex flex-col gap-2">
+      <div className="w-full">
         <div
           className={cx(
             'flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 cursor-pointer',
@@ -121,35 +122,34 @@ const FileInput = ({
       </div>
 
       <AnimatePresence>
-        {uploadingFiles.map(file =>
-          file.pctComplete === 1 && !keepUploadStatus ? null : (
+        {uploadingFiles.map(file => {
+          if (file.fileId && !keepUploadStatus) {
+            return null
+          }
+
+          // We can remove a file from the list, but it won't be removed from "uploaded files" returned by the hook
+          // If the file is uploaded successfully (has fileId) and the fileIds list doesn't include it, don't show it.
+          if (file.fileId && !fileIds.includes(file.fileId)) {
+            return null
+          }
+
+          return (
             <motion.div
               key={file.fileName}
-              className="flex items-center justify-between gap-4"
               initial={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              <span className="text-sm font-medium text-gray-900">
-                {file.fileName}
-              </span>
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-medium">
-                  {(file.pctComplete * 100).toFixed()}%
-                </span>
-                <span className="relative ml-auto text-sm bg-gray-100 w-[150px] h-2 rounded-full overflow-hidden">
-                  <span
-                    className="absolute inset-0 bg-primary transition-all"
-                    style={{
-                      width: `${file.pctComplete * 100}%`,
-                    }}
-                  />
-                </span>
-              </div>
+              <FilePreview
+                file={file}
+                onRemove={() => {
+                  onChange(fileIds.filter(id => id !== file.fileId))
+                }}
+              />
             </motion.div>
-          ),
-        )}
+          )
+        })}
       </AnimatePresence>
-    </>
+    </div>
   )
 }
 
