@@ -77,10 +77,7 @@ const DesignProofVariantPreview = ({ designProofId }: Props) => {
           {...imageFullScreenProps}
           image={{
             src: currentImage.url,
-            width: currentImage.width,
-            height: currentImage.height,
             alt: designProof?.id || 'Preview image',
-            className: 'rounded-md',
           }}
         />
       )}

@@ -51,6 +51,13 @@ const DesignLibraryPage = (props: Props) => {
         canonical={url}
         openGraph={{ url }}
       />
+      {currentImage?.primaryImage?.responsiveImage ? (
+        <CmsImageFullScreen
+          open
+          image={currentImage.primaryImage.responsiveImage}
+          {...imageFullScreenProps}
+        />
+      ) : null}
       <Container>
         <Section>
           <div className="md:pr-0 mt-2 text-center sm:text-left rounded-xl flex items-center">
@@ -92,14 +99,6 @@ const DesignLibraryPage = (props: Props) => {
 
       <section className="mt-10">
         <Container>
-          {currentImage?.primaryImage?.responsiveImage ? (
-            <CmsImageFullScreen
-              open
-              image={currentImage.primaryImage.responsiveImage}
-              {...imageFullScreenProps}
-            />
-          ) : null}
-
           <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 md:-gap-4 lg:gap-6">
             {data?.allDesigns.map((design, index) => {
               if (index === 8) {

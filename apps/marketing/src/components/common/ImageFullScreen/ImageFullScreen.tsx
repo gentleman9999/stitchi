@@ -11,7 +11,7 @@ interface Props extends Omit<ImageFullScreenBaseProps, 'children'> {
 const ImageFullScreen = ({ image, ...rest }: Props) => {
   return (
     <ImageFullScreenBase {...rest}>
-      <Image {...image} />
+      <Image {...image} fill style={{ objectFit: 'contain' }} />
     </ImageFullScreenBase>
   )
 }

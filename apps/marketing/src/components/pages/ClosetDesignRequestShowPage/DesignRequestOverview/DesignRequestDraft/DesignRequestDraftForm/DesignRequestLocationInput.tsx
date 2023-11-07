@@ -98,6 +98,7 @@ const DesignRequestLocationInput = ({ form, autoSave }: Props) => {
                     error={fieldState.error?.message}
                   >
                     <RichTextEditor
+                      inputRef={field.ref}
                       placeholder="Describe your vision for the design"
                       editorOptions={{
                         content,

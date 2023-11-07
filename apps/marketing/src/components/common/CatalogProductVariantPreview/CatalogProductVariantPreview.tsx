@@ -5,6 +5,14 @@ import { notEmpty } from '@lib/utils/typescript'
 import Image from 'next/image'
 import React from 'react'
 import CatalogProductColorGrid from '../CatalogProductColorGrid'
+import dynamic from 'next/dynamic'
+
+const ImageFullScreenBase = dynamic(
+  () => import('../ImageFullScreen').then(mod => mod.ImageFullScreenBase),
+  {
+    ssr: false,
+  },
+)
 
 interface Props {
   product: CatalogProductVariantPreviewProductFragment
@@ -12,6 +20,7 @@ interface Props {
 }
 
 const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
+  const [showFullScreen, setShowFullScreen] = React.useState<boolean>(false)
   const [activeSecondaryImage, setActiveSecondaryImage] = React.useState<{
     url: string
   } | null>(null)
@@ -43,48 +52,43 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
     .filter(notEmpty)
 
   return (
-    <div
-      className={`relative w-full h-[calc(100vh-var(--topbar-height))] flex flex-col`}
-    >
-      <div className="relative flex-1">
-        <Image
-          fill
-          priority
-          key={image.url}
-          src={image.url}
-          alt={product.name}
-          sizes={generateImageSizes([{ imageWidth: '700px' }])}
-          style={{
-            objectFit: 'contain',
-          }}
-        />
-      </div>
+    <>
+      {showFullScreen ? (
+        <ImageFullScreenBase open onClose={() => setShowFullScreen(false)}>
+          <Image
+            fill
+            src={image.url}
+            alt={product.name}
+            style={{
+              objectFit: 'contain',
+            }}
+          />
+        </ImageFullScreenBase>
+      ) : null}
+      <div
+        className={`relative w-full h-[calc(100vh-var(--topbar-height))] flex flex-col`}
+      >
+        <div className="relative flex-1">
+          <Image
+            fill
+            priority
+            key={image.url}
+            src={image.url}
+            alt={product.name}
+            sizes={generateImageSizes([{ imageWidth: '700px' }])}
+            style={{
+              objectFit: 'contain',
+            }}
+            onClick={() => setShowFullScreen(true)}
+            className="cursor-zoom-in hover:opacity-80 transition-all"
+          />
+        </div>
 
-      {secondaryImages?.length ? (
-        <div className="flex h-70">
-          {activeVariant?.defaultImage ? (
-            <Image
-              src={activeVariant.defaultImage.url}
-              alt={product.name}
-              width={70}
-              height={70}
-              sizes={generateImageSizes([{ imageWidth: '70px' }])}
-              style={{
-                objectFit: 'contain',
-                cursor: 'pointer',
-              }}
-              onClick={() =>
-                setActiveSecondaryImage(activeVariant.defaultImage)
-              }
-            />
-          ) : null}
-
-          {secondaryImages.map(image => {
-            if (!image || image.isDefault) return null
-            return (
+        {secondaryImages?.length ? (
+          <div className="flex h-70">
+            {activeVariant?.defaultImage ? (
               <Image
-                key={image.url}
-                src={image.url}
+                src={activeVariant.defaultImage.url}
                 alt={product.name}
                 width={70}
                 height={70}
@@ -93,13 +97,34 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
                   objectFit: 'contain',
                   cursor: 'pointer',
                 }}
-                onClick={() => setActiveSecondaryImage(image)}
+                onClick={() =>
+                  setActiveSecondaryImage(activeVariant.defaultImage)
+                }
               />
-            )
-          })}
-        </div>
-      ) : null}
-    </div>
+            ) : null}
+
+            {secondaryImages.map(image => {
+              if (!image || image.isDefault) return null
+              return (
+                <Image
+                  key={image.url}
+                  src={image.url}
+                  alt={product.name}
+                  width={70}
+                  height={70}
+                  sizes={generateImageSizes([{ imageWidth: '70px' }])}
+                  style={{
+                    objectFit: 'contain',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => setActiveSecondaryImage(image)}
+                />
+              )
+            })}
+          </div>
+        ) : null}
+      </div>
+    </>
   )
 }
 
