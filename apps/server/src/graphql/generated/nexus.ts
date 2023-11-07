@@ -794,6 +794,7 @@ export interface NexusGenObjects {
     id: string; // ID!
     items: NexusGenRootTypes['OrderItem'][]; // [OrderItem!]!
     membershipId?: string | null; // String
+    organizationId?: string | null; // String
     paymentStatus: NexusGenEnums['OrderPaymentStatus']; // OrderPaymentStatus!
     shippingAddressId?: string | null; // String
     subtotalPriceCents: number; // Int!
@@ -1493,7 +1494,6 @@ export interface NexusGenFieldTypes {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     customerEmail: string | null; // String
     customerFirstName: string | null; // String
-    customerId: string | null; // String
     customerLastName: string | null; // String
     customerPhone: string | null; // String
     designRequestId: string | null; // String
@@ -1505,6 +1505,8 @@ export interface NexusGenFieldTypes {
     items: NexusGenRootTypes['OrderItem'][]; // [OrderItem!]!
     lastPaymentMethod: NexusGenRootTypes['PaymentMethod'] | null; // PaymentMethod
     membershipId: string | null; // String
+    organization: NexusGenRootTypes['Organization'] | null; // Organization
+    organizationId: string | null; // String
     owner: NexusGenRootTypes['Membership'] | null; // Membership
     paymentIntents: NexusGenRootTypes['PaymentIntent'][]; // [PaymentIntent!]!
     paymentStatus: NexusGenEnums['OrderPaymentStatus']; // OrderPaymentStatus!
@@ -2233,7 +2235,6 @@ export interface NexusGenFieldTypeNames {
     createdAt: 'DateTime'
     customerEmail: 'String'
     customerFirstName: 'String'
-    customerId: 'String'
     customerLastName: 'String'
     customerPhone: 'String'
     designRequestId: 'String'
@@ -2245,6 +2246,8 @@ export interface NexusGenFieldTypeNames {
     items: 'OrderItem'
     lastPaymentMethod: 'PaymentMethod'
     membershipId: 'String'
+    organization: 'Organization'
+    organizationId: 'String'
     owner: 'Membership'
     paymentIntents: 'PaymentIntent'
     paymentStatus: 'OrderPaymentStatus'

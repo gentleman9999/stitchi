@@ -167,7 +167,7 @@ export const DesignRequestsExtendsMembership = extendType({
       resolve: async (
         parent,
         { first, last, after, before, filter },
-        { design, authorize, logger },
+        { design, authorize },
       ) => {
         const scope = authorize('READ', 'DesignRequest')
 
