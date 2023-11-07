@@ -1,3 +1,6 @@
+import '@assets/main.css'
+import '@assets/chrome-bug.css'
+
 import { UserProvider } from '@auth0/nextjs-auth0/client'
 import ApolloProvider from '@lib/ApolloProvider'
 import React from 'react'

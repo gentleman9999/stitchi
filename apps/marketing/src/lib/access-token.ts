@@ -20,14 +20,18 @@ export const getAccessToken = async (ctx?: {
       },
     )
 
-    const data = await response.json()
+    if (response.ok) {
+      const data = await response.json()
 
-    accessToken = data.accessToken as string | null
+      accessToken = data.accessToken as string | null
+    }
   } catch (error) {
     console.error("Couldn't get access token", {
       context: { error },
     })
   }
+
+  console.log('ACCESS TOKEN', accessToken)
 
   return accessToken
 }

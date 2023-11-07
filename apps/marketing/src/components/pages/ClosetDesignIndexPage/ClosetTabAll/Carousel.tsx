@@ -12,9 +12,6 @@ const Carousel = ({ children }: Props) => {
   const [hasPrev, setHasPrev] = React.useState(false)
   const [hasNext, setHasNext] = React.useState(true)
 
-  console.log('HAS NEXT', hasNext)
-  console.log('HAS PREV', hasPrev)
-
   React.useEffect(() => {
     const currentScrollContainer = scrollContainer.current
 

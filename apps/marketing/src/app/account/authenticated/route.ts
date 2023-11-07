@@ -1,15 +1,15 @@
 import { ApolloClient, gql } from '@apollo/client'
-import { AccountAuthenticatedPageAssignAnonymousResourcesMutation } from '@generated/AccountAuthenticatedPageAssignAnonymousResourcesMutation'
 import {
+  AccountAuthenticatedPageAssignAnonymousResourcesMutation,
   AccountAuthenticatedPageSetActiveMembershipMutation,
   AccountAuthenticatedPageSetActiveMembershipMutationVariables,
-} from '@generated/AccountAuthenticatedPageSetActiveMembershipMutation'
-import { AccountSetupPageBootstrapAccount } from '@generated/AccountSetupPageBootstrapAccount'
-import { AccountSetupPageGetDataQuery } from '@generated/AccountSetupPageGetDataQuery'
-import { initializeApollo } from '@lib/apollo'
+  AccountSetupPageBootstrapAccount,
+  AccountSetupPageGetDataQuery,
+} from '@generated/types'
+import { getClient } from '@lib/apollo-rsc'
 import routes from '@lib/routes'
-import { GetServerSideProps } from 'next'
 import { Logger } from 'next-axiom'
+import { NextResponse } from 'next/server'
 
 const makeSetActiveMembership =
   (client: ApolloClient<any>) =>
@@ -25,12 +25,19 @@ const makeSetActiveMembership =
     })
   }
 
-export const getServerSideProps: GetServerSideProps = async ctx => {
+export const GET = async (
+  request: Request,
+  context: {
+    params?: {
+      redirectUrl?: string
+    }
+  },
+) => {
   const log = new Logger()
 
-  const client = initializeApollo(null, ctx)
+  const client = await getClient()
 
-  const redirectUrl = ctx.query.redirectUrl?.toString()
+  const redirectUrl = context.params?.redirectUrl
 
   try {
     const { data } = await client.query<AccountSetupPageGetDataQuery>({
@@ -61,14 +68,17 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
             context: { data },
           })
 
-          return {
-            redirect: {
-              permanent: false,
-              destination: routes.internal.login.href({
+          return NextResponse.redirect(
+            new URL(
+              routes.internal.login.href({
                 returnTo: redirectUrl,
               }),
+              request.url,
+            ),
+            {
+              status: 302,
             },
-          }
+          )
         }
 
         membership = bootstrappedMembership
@@ -77,14 +87,17 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
         membership = memberships[0]
       } else {
         // -- (3) Else if authenticated user has > 1 membership, redirect to select membership
-        return {
-          redirect: {
-            permanent: false,
-            destination: routes.internal.account.memberships.href({
-              redirectUrl: ctx.query.redirectUrl?.toString(),
+        return NextResponse.redirect(
+          new URL(
+            routes.internal.account.memberships.href({
+              redirectUrl,
             }),
+            request.url,
+          ),
+          {
+            status: 302,
           },
-        }
+        )
       }
 
       await setActiveMembership({
@@ -97,14 +110,17 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
       context: { error },
     })
 
-    return {
-      redirect: {
-        permanent: false,
-        destination: routes.internal.login.href({
+    return NextResponse.redirect(
+      new URL(
+        routes.internal.login.href({
           returnTo: redirectUrl,
         }),
+        request.url,
+      ),
+      {
+        status: 302,
       },
-    }
+    )
   }
 
   try {
@@ -121,16 +137,12 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
     })
   }
 
-  return {
-    redirect: {
-      permanent: false,
-      destination: redirectUrl || routes.internal.closet.href(),
+  return NextResponse.redirect(
+    new URL(redirectUrl || routes.internal.closet.href(), request.url),
+    {
+      status: 302,
     },
-  }
-}
-
-const Page = () => {
-  return null
+  )
 }
 
 const BOOTSTRAP_ACCOUNT = gql`
@@ -177,5 +189,3 @@ const ASSIGN_ANONYMOUS_RESOURCES = gql`
     }
   }
 `
-
-export default Page
