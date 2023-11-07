@@ -7,7 +7,6 @@ interface Props {
   referenceFiles: ReferenceFile[]
   value: string[]
   onChange: (value: string[]) => void
-  keepUploadStatus?: boolean
 }
 
 const ReferenceFilesInput = ({
@@ -15,16 +14,10 @@ const ReferenceFilesInput = ({
   referenceFiles,
   value,
   onChange,
-  keepUploadStatus,
 }: Props) => {
   return (
     <div className="flex flex-col gap-8">
-      <FileInput
-        folder={folder}
-        fileIds={value}
-        onChange={onChange}
-        keepUploadStatus={keepUploadStatus}
-      />
+      <FileInput folder={folder} fileIds={value} onChange={onChange} />
 
       <ReferenceFilePreview
         files={referenceFiles.filter(file => value.includes(file.id))}
