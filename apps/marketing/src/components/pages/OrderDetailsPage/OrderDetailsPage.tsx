@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client'
-import { OrderDetailsPageOrderFragment } from '@generated/OrderDetailsPageOrderFragment'
 import React from 'react'
 import { format, parseISO } from 'date-fns'
 import OrderDetailsPageBillingDetails from './OrderDetailsPageBillingDetails'
@@ -12,11 +11,11 @@ import ClosetPageHeader from '@components/common/ClosetPageHeader'
 import ClosetPageTitle from '@components/common/ClosetPageTitle'
 import ClosetSection from '@components/common/ClosetSection'
 import { Card, CardContent } from '@components/ui/Card'
-import { OrderPaymentStatus } from '@generated/types'
 import ClosetPageActions, {
   ClosetPageActionsProps,
 } from '@components/common/ClosetPageActions'
 import routes from '@lib/routes'
+import { OrderDetailsPageOrderFragment } from '@generated/types'
 
 interface Props {
   order: OrderDetailsPageOrderFragment
@@ -25,11 +24,7 @@ interface Props {
 const OrderDetailsPage = ({ order }: Props) => {
   const actions: ClosetPageActionsProps['actions'] = []
 
-  if (
-    ![OrderPaymentStatus.PAID, OrderPaymentStatus.REFUNDED].includes(
-      order.paymentStatus,
-    )
-  ) {
+  if (order.totalAmountDueCents > 0) {
     actions.push({
       primary: true,
       href: routes.internal.order.show.pay.href({
@@ -113,6 +108,7 @@ OrderDetailsPage.fragments = {
       subtotalPriceCents
       totalProcessingFeeCents
       totalPriceCents
+      totalAmountDueCents
       items {
         id
         ...OrderDetailsPageLineItemsItemFragment

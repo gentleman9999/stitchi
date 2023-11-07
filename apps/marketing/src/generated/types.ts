@@ -11766,6 +11766,33 @@ export type ClosetBaseLayoutGetDataQueryVariables = Exact<{ [key: string]: never
 
 export type ClosetBaseLayoutGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string } | null };
 
+export type AccountSetupPageBootstrapAccountVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AccountSetupPageBootstrapAccount = { __typename: 'Mutation', userBoostrap: { __typename: 'User', id: string, memberships: Array<{ __typename: 'Membership', id: string, organizationId: string }> } | null };
+
+export type AccountSetupPageGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AccountSetupPageGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string } | null, userMemberships: Array<{ __typename: 'Membership', id: string, organizationId: string }> };
+
+export type AccountAuthenticatedPageSetActiveMembershipMutationVariables = Exact<{
+  input: UserSetOrganizationInput;
+}>;
+
+
+export type AccountAuthenticatedPageSetActiveMembershipMutation = { __typename: 'Mutation', userSetOrganization: { __typename: 'UserSetOrganizationPayload', membershipId: string | null } | null };
+
+export type AccountAuthenticatedPageAssignAnonymousResourcesMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AccountAuthenticatedPageAssignAnonymousResourcesMutation = { __typename: 'Mutation', membershipConnectAnonymousResources: { __typename: 'MembershipConnectAnonymousResourcesPayload', membership: { __typename: 'Membership', id: string } } | null };
+
+export type ViewerMembershipsIndexPageGetDataQuerVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ViewerMembershipsIndexPageGetDataQuer = { __typename: 'Query', userMemberships: Array<{ __typename: 'Membership', id: string, humanizedRole: string | null, organization: { __typename: 'Organization', id: string, name: string | null } }> };
+
 export type LogoutUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -12340,33 +12367,6 @@ export type ProductPageGetDataQueryVariables = Exact<{
 
 
 export type ProductPageGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', route: { __typename: 'Route', node: { __typename: 'Banner', id: string } | { __typename: 'Blog', id: string } | { __typename: 'BlogIndexPage', id: string } | { __typename: 'BlogPost', id: string } | { __typename: 'Brand', entityId: number, id: string, name: string, path: string, defaultImage: { __typename: 'Image', url: string } | null, seo: { __typename: 'SeoDetails', pageTitle: string, metaDescription: string } } | { __typename: 'Cart', id: string } | { __typename: 'Category', entityId: number, id: string, name: string, description: string, path: string, seo: { __typename: 'SeoDetails', metaDescription: string } } | { __typename: 'Checkout', id: string } | { __typename: 'ContactPage', id: string } | { __typename: 'NormalPage', id: string } | { __typename: 'Product', id: string, name: string, path: string, gtin: string | null, sku: string, priceCents: number, plainTextDescription: string, entityId: number, description: string, defaultImage: { __typename: 'Image', url: string, seoImageUrl: string } | null, images: { __typename: 'ImageConnection', edges: Array<{ __typename: 'ImageEdge', node: { __typename: 'Image', isDefault: boolean, url: string, seoImageUrl: string } } | null> | null }, brand: { __typename: 'Brand', id: string, name: string, path: string } | null, seo: { __typename: 'SeoDetails', metaDescription: string }, relatedProducts: { __typename: 'RelatedProductsConnection', edges: Array<{ __typename: 'RelatedProductsEdge', node: { __typename: 'Product', id: string, name: string, path: string, priceCents: number, brand: { __typename: 'Brand', id: string, name: string, path: string } | null, defaultImage: { __typename: 'Image', urlOriginal: string, altText: string, url: string } | null, productOptions: { __typename: 'ProductOptionConnection', edges: Array<{ __typename: 'ProductOptionEdge', node: { __typename: 'CheckboxOption', entityId: number } | { __typename: 'DateFieldOption', entityId: number } | { __typename: 'FileUploadFieldOption', entityId: number } | { __typename: 'MultiLineTextFieldOption', entityId: number } | { __typename: 'MultipleChoiceOption', displayName: string, entityId: number, values: { __typename: 'ProductOptionValueConnection', edges: Array<{ __typename: 'ProductOptionValueEdge', node: { __typename: 'MultipleChoiceOptionValue', entityId: number, label: string } | { __typename: 'ProductPickListOptionValue', entityId: number, label: string } | { __typename: 'SwatchOptionValue', hexColors: Array<string>, entityId: number, label: string } } | null> | null } } | { __typename: 'NumberFieldOption', entityId: number } | { __typename: 'TextFieldOption', entityId: number } } | null> | null } } } | null> | null }, variants: { __typename: 'VariantConnection', edges: Array<{ __typename: 'VariantEdge', node: { __typename: 'Variant', id: string, gtin: string | null, mpn: string | null, sku: string, entityId: number, options: { __typename: 'OptionConnection', edges: Array<{ __typename: 'OptionEdge', node: { __typename: 'ProductOption', displayName: string, values: { __typename: 'OptionValueConnection', edges: Array<{ __typename: 'OptionValueEdge', node: { __typename: 'ProductOptionValue', label: string, entityId: number } } | null> | null } } } | null> | null }, jsonLdImage: { __typename: 'Image', url: string } | null, defaultImage: { __typename: 'Image', isDefault: boolean, url: string } | null } } | null> | null }, categories: { __typename: 'CategoryConnection', edges: Array<{ __typename: 'CategoryEdge', node: { __typename: 'Category', id: string, name: string, path: string } } | null> | null }, productOptions: { __typename: 'ProductOptionConnection', edges: Array<{ __typename: 'ProductOptionEdge', node: { __typename: 'CheckboxOption', entityId: number } | { __typename: 'DateFieldOption', entityId: number } | { __typename: 'FileUploadFieldOption', entityId: number } | { __typename: 'MultiLineTextFieldOption', entityId: number } | { __typename: 'MultipleChoiceOption', displayName: string, entityId: number, values: { __typename: 'ProductOptionValueConnection', edges: Array<{ __typename: 'ProductOptionValueEdge', node: { __typename: 'MultipleChoiceOptionValue', entityId: number, label: string } | { __typename: 'ProductPickListOptionValue', entityId: number, label: string } | { __typename: 'SwatchOptionValue', hexColors: Array<string>, entityId: number, label: string } } | null> | null } } | { __typename: 'NumberFieldOption', entityId: number } | { __typename: 'TextFieldOption', entityId: number } } | null> | null } } | { __typename: 'RawHtmlPage', id: string } | { __typename: 'Redirect', id: string } | { __typename: 'Variant', id: string } | null } } };
-
-export type AccountSetupPageBootstrapAccountVariables = Exact<{ [key: string]: never; }>;
-
-
-export type AccountSetupPageBootstrapAccount = { __typename: 'Mutation', userBoostrap: { __typename: 'User', id: string, memberships: Array<{ __typename: 'Membership', id: string, organizationId: string }> } | null };
-
-export type AccountSetupPageGetDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type AccountSetupPageGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string } | null, userMemberships: Array<{ __typename: 'Membership', id: string, organizationId: string }> };
-
-export type AccountAuthenticatedPageSetActiveMembershipMutationVariables = Exact<{
-  input: UserSetOrganizationInput;
-}>;
-
-
-export type AccountAuthenticatedPageSetActiveMembershipMutation = { __typename: 'Mutation', userSetOrganization: { __typename: 'UserSetOrganizationPayload', membershipId: string | null } | null };
-
-export type AccountAuthenticatedPageAssignAnonymousResourcesMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type AccountAuthenticatedPageAssignAnonymousResourcesMutation = { __typename: 'Mutation', membershipConnectAnonymousResources: { __typename: 'MembershipConnectAnonymousResourcesPayload', membership: { __typename: 'Membership', id: string } } | null };
-
-export type ViewerMembershipsIndexPageGetDataQuerVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ViewerMembershipsIndexPageGetDataQuer = { __typename: 'Query', userMemberships: Array<{ __typename: 'Membership', id: string, humanizedRole: string | null, organization: { __typename: 'Organization', id: string, name: string | null } }> };
 
 export type PromotionalProductGlossaryTermGetDataQueryVariables = Exact<{
   slug: Scalars['String']['input'];
