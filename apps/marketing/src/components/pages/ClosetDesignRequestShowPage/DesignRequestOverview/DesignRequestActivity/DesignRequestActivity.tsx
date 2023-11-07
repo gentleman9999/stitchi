@@ -4,19 +4,17 @@ import ClosetSection from '@components/common/ClosetSection'
 import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
 import ClosetSectionTitle from '@components/common/ClosetSectionTitle'
 import Alert from '@components/ui/Alert'
-import {
-  DesignRequestActivityActivitySubscription,
-  DesignRequestActivityActivitySubscriptionVariables,
-} from '@generated/DesignRequestActivityActivitySubscription'
-import {
-  DesignRequestActivityGetDataQuery,
-  DesignRequestActivityGetDataQueryVariables,
-} from '@generated/DesignRequestActivityGetDataQuery'
 import { DesignRequestStatus } from '@generated/globalTypes'
 import React from 'react'
 import cx from 'classnames'
 import DesignRequestHistory from './DesignRequestHistory'
 import DesignRequestMessageInput from './DesignRequestMessageInput'
+import {
+  DesignRequestActivityActivitySubscription,
+  DesignRequestActivityActivitySubscriptionVariables,
+  DesignRequestActivityGetDataQuery,
+  DesignRequestActivityGetDataQueryVariables,
+} from '@generated/types'
 
 interface Props {
   designRequestId: string
@@ -94,6 +92,7 @@ const DesignRequestActivity = ({ designRequestId }: Props) => {
                 <DesignRequestMessageInput
                   loading={loading}
                   designRequest={designRequest}
+                  viewer={data?.viewer}
                 />
               </div>
             </div>
@@ -117,7 +116,12 @@ const ACTIVITY_SUBSCRIPTION = gql`
 const GET_DATA = gql`
   ${DesignRequestHistory.fragments.designRequest}
   ${DesignRequestMessageInput.fragments.designRequest}
+  ${DesignRequestMessageInput.fragments.viewer}
   query DesignRequestActivityGetDataQuery($designRequestId: ID!) {
+    viewer {
+      id
+      ...DesignRequestMessageInputViewerFragment
+    }
     designRequest(id: $designRequestId) {
       id
       status

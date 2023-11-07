@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client'
 import UserAvatar from '@components/common/UserAvatar'
-import { DesignRequestMessageInputDesignRequestFragment } from '@generated/DesignRequestMessageInputDesignRequestFragment'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { PaperClip } from 'icons'
 import React from 'react'
@@ -13,13 +12,22 @@ import { ScopeAction, ScopeResource } from '@generated/globalTypes'
 import Button from '@components/ui/ButtonV2/Button'
 import { FileInput } from '@components/ui/inputs'
 import Checkbox from '@components/ui/inputs/Checkbox'
+import {
+  DesignRequestMessageInputDesignRequestFragment,
+  DesignRequestMessageInputViewerFragment,
+} from '@generated/types'
 
 interface Props {
   loading: boolean
   designRequest?: DesignRequestMessageInputDesignRequestFragment | null
+  viewer?: DesignRequestMessageInputViewerFragment | null
 }
 
-const DesignRequestMessageInput = ({ designRequest, loading }: Props) => {
+const DesignRequestMessageInput = ({
+  designRequest,
+  viewer,
+  loading,
+}: Props) => {
   const { can } = useAuthorizedComponent()
 
   const { handleSubmitRevisionRequest, handleSubmitComment } =
@@ -52,7 +60,7 @@ const DesignRequestMessageInput = ({ designRequest, loading }: Props) => {
 
   return (
     <div className="flex gap-x-4">
-      <UserAvatar user={designRequest?.membership?.user} />
+      <UserAvatar user={viewer?.user} />
       <Form
         loading={loading}
         onSubmit={handleSubmit}
@@ -204,18 +212,20 @@ const Form = ({
 }
 
 DesignRequestMessageInput.fragments = {
+  viewer: gql`
+    fragment DesignRequestMessageInputViewerFragment on Membership {
+      id
+      user {
+        id
+        ...UserAvatarUserFragment
+      }
+    }
+  `,
   designRequest: gql`
     ${UserAvatar.fragments.user}
     fragment DesignRequestMessageInputDesignRequestFragment on DesignRequest {
       id
       fileUploadDirectory
-      membership {
-        id
-        user {
-          id
-          ...UserAvatarUserFragment
-        }
-      }
     }
   `,
 }
