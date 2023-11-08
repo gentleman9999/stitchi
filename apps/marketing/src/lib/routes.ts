@@ -290,8 +290,9 @@ const routes = {
             buildRoute('/closet/designs/approved', params),
         },
 
-        create: {
-          href: () => buildRoute('/catalog/wizard/welcome'),
+        archived: {
+          href: (params?: QueryParams) =>
+            buildRoute('/closet/designs/archived', params),
         },
 
         show: {

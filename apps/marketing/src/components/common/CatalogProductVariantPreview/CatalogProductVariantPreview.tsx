@@ -85,7 +85,7 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
         </div>
 
         {secondaryImages?.length ? (
-          <div className="flex h-70">
+          <div className="flex h-70 overflow-x-scroll">
             {activeVariant?.defaultImage ? (
               <Image
                 src={activeVariant.defaultImage.url}

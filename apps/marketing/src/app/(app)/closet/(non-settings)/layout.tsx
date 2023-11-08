@@ -45,7 +45,10 @@ const Layout = ({ children }: Props) => {
               href={routes.internal.closet.designs.href()}
             />
 
-            <NavItem label="Catalog" href={routes.internal.catalog.href()} />
+            <NavItem
+              label="Product Catalog"
+              href={routes.internal.catalog.href()}
+            />
 
             <NavItem
               label="Brand Kit"

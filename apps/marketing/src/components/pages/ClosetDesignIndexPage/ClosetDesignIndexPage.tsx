@@ -33,6 +33,10 @@ const ClosetTabDesignRequests = dynamic(
   () => import('./ClosetTabDesignRequests'),
 )
 
+const ClosetTabArchivedDesigns = dynamic(
+  () => import('./ClosetTabArchivedDesigns'),
+)
+
 interface Props {}
 
 const ClosetDesignIndexPage = ({}: Props) => {
@@ -61,7 +65,7 @@ const ClosetDesignIndexPage = ({}: Props) => {
                     ? [
                         {
                           label: 'New Design',
-                          href: routes.internal.closet.designs.create.href(),
+                          href: routes.internal.catalog.href(),
                           primary: true,
                         },
                       ]
@@ -99,6 +103,12 @@ const ClosetDesignIndexPage = ({}: Props) => {
               label: 'Approved',
               href: routes.internal.closet.designs.approved.href(query),
             },
+
+            {
+              id: 'archived-designs',
+              label: 'Archived',
+              href: routes.internal.closet.designs.archived.href(query),
+            },
           ]}
         >
           {({ activeTab }) => (
@@ -119,6 +129,10 @@ const ClosetDesignIndexPage = ({}: Props) => {
 
               {activeTab?.id === 'design-requests' ? (
                 <ClosetTabDesignRequests />
+              ) : null}
+
+              {activeTab?.id === 'archived-designs' ? (
+                <ClosetTabArchivedDesigns />
               ) : null}
             </>
           )}

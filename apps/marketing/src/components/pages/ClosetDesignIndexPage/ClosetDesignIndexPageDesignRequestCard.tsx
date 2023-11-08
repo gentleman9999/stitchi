@@ -93,8 +93,10 @@ const getStatusBadgeSeverity = (
 
     case DesignRequestStatus.SUBMITTED:
     case DesignRequestStatus.AWAITING_REVISION:
-    case DesignRequestStatus.AWAITING_APPROVAL:
       return 'info'
+
+    case DesignRequestStatus.AWAITING_APPROVAL:
+      return 'warning'
     case DesignRequestStatus.DRAFT:
     default:
       return 'default'

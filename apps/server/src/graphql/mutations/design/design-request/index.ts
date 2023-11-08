@@ -5,6 +5,7 @@ import {
   designFactoryDesignToGraphql,
   designRequestFactoryToGrahpql,
 } from '../../../serializers/design'
+import { DesignRequestStatus } from '../../../../services/design/db/design-request-table'
 
 export * from './design-request-assign'
 export * from './design-request-reject'
@@ -368,6 +369,8 @@ export const designRequestProofCreate = mutationField(
         updatedDesignRequest = await design.updateDesignRequest({
           designRequest: {
             ...designRequest,
+            // When a new design proof is created, the design request becomes "awaiting approval" for the customer to take action on the proof
+            status: DesignRequestStatus.AWAITING_APPROVAL,
             proofs: [
               ...designRequest.proofs.map(p => ({
                 id: p.id,
@@ -485,6 +488,7 @@ export const designRequestRevisionRequestCreate = mutationField(
         updatedDesignRequest = await design.updateDesignRequest({
           designRequest: {
             ...designRequest,
+            status: DesignRequestStatus.AWAITING_REVISION,
             revisionRequests: [
               ...designRequest.revisionRequests,
               {

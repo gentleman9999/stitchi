@@ -1,25 +1,26 @@
 import { gql, useQuery } from '@apollo/client'
-import ClosetCardGrid from '@components/common/ClosetCardGrid'
 import ClosetPageEmptyState from '@components/common/ClosetPageEmptyState'
-import {
-  ClosetTabDesignRequestsGetDataQuery,
-  ClosetTabDesignRequestsGetDataQueryVariables,
-} from '@generated/ClosetTabDesignRequestsGetDataQuery'
-import { DesignRequestStatus } from '@generated/globalTypes'
+
 import routes from '@lib/routes'
 import { notEmpty } from '@lib/utils/typescript'
 import React from 'react'
 import { useCloset } from '../closet-context'
+import ClosetCardGrid from '@components/common/ClosetCardGrid'
 import ClosetDesignIndexPageDesignRequestCard from '../ClosetDesignIndexPageDesignRequestCard'
+import { DesignRequestStatus } from '@generated/globalTypes'
+import {
+  ClosetTabArchivedDesignsGetDataQuery,
+  ClosetTabArchivedDesignsGetDataQueryVariables,
+} from '@generated/types'
 
 interface Props {}
 
-const ClosetTabDesignRequests = ({}: Props) => {
+const ClosetTabArchivedDesigns = ({}: Props) => {
   const { filters } = useCloset()
 
   const { data, loading, refetch } = useQuery<
-    ClosetTabDesignRequestsGetDataQuery,
-    ClosetTabDesignRequestsGetDataQueryVariables
+    ClosetTabArchivedDesignsGetDataQuery,
+    ClosetTabArchivedDesignsGetDataQueryVariables
   >(GET_DATA, {
     fetchPolicy: 'cache-and-network',
     variables: {
@@ -29,11 +30,7 @@ const ClosetTabDesignRequests = ({}: Props) => {
           membershipId: { equals: filters.user || undefined },
           artistMembershipId: { equals: filters.artist || undefined },
           status: {
-            in: [
-              DesignRequestStatus.AWAITING_APPROVAL,
-              DesignRequestStatus.AWAITING_REVISION,
-              DesignRequestStatus.SUBMITTED,
-            ],
+            in: [DesignRequestStatus.REJECTED],
           },
           createdAt: {
             gte: filters.date?.gte,
@@ -51,11 +48,7 @@ const ClosetTabDesignRequests = ({}: Props) => {
           membershipId: { equals: filters.user || undefined },
           artistMembershipId: { equals: filters.artist || undefined },
           status: {
-            in: [
-              DesignRequestStatus.AWAITING_APPROVAL,
-              DesignRequestStatus.AWAITING_REVISION,
-              DesignRequestStatus.SUBMITTED,
-            ],
+            in: [DesignRequestStatus.REJECTED],
           },
           createdAt: {
             gte: filters.date?.gte,
@@ -66,23 +59,22 @@ const ClosetTabDesignRequests = ({}: Props) => {
     })
   }, [filters, refetch])
 
-  const designRequests =
-    data?.viewer?.designRequests.edges
-      ?.map(edge => edge?.node)
-      .filter(notEmpty) || []
+  const approvedDesigns = data?.viewer?.designRequests.edges
+    ?.map(edge => edge?.node)
+    .filter(notEmpty)
 
-  return !loading && !data?.viewer?.hasDesignRequests ? (
+  return !loading && !data?.viewer?.hasDesignProducts ? (
     <ClosetPageEmptyState
-      title="You haven't submitted a design request yet."
-      description="Submit a design request to begin your merch journey."
+      title="You don't have any approved designs yet."
+      description="Your approved designs will appear here."
       cta={{
-        label: 'New design request',
-        href: routes.internal.closet.designs.create.href(),
+        label: 'View in-progress designs',
+        href: routes.internal.closet.designs.inProgress.href(),
       }}
     />
-  ) : !loading && !designRequests?.length ? (
+  ) : !loading && !approvedDesigns?.length ? (
     <ClosetPageEmptyState
-      title="No design requests match your filters."
+      title="No approved designs match your filters."
       description="Try adjusting your filters or resetting them to see more designs."
     />
   ) : (
@@ -99,10 +91,10 @@ const ClosetTabDesignRequests = ({}: Props) => {
         </>
       ) : (
         <>
-          {designRequests.map(designRequest => (
+          {approvedDesigns?.map(design => (
             <ClosetDesignIndexPageDesignRequestCard
-              key={designRequest.id}
-              designRequest={designRequest}
+              key={design.id}
+              designRequest={design}
               loading={false}
             />
           ))}
@@ -114,14 +106,14 @@ const ClosetTabDesignRequests = ({}: Props) => {
 
 const GET_DATA = gql`
   ${ClosetDesignIndexPageDesignRequestCard.fragments.designRequest}
-  query ClosetTabDesignRequestsGetDataQuery(
+  query ClosetTabArchivedDesignsGetDataQuery(
     $first: Int!
     $after: String
     $filter: MembershipDesignRequestsFilterInput
   ) {
     viewer {
       id
-      hasDesignRequests
+      hasDesignProducts
       designRequests(first: $first, after: $after, filter: $filter) {
         edges {
           node {
@@ -134,4 +126,4 @@ const GET_DATA = gql`
   }
 `
 
-export default ClosetTabDesignRequests
+export default ClosetTabArchivedDesigns

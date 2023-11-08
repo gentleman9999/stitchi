@@ -12053,6 +12053,15 @@ export type ClosetTabApprovedDesignsGetDataQueryVariables = Exact<{
 
 export type ClosetTabApprovedDesignsGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, hasDesignProducts: boolean, designRequests: { __typename: 'DesignRequestConnection', edges: Array<{ __typename: 'DesignRequestEdge', node: { __typename: 'DesignRequest', id: string, name: string, updatedAt: any | null, status: DesignRequestStatus, humanizedStatus: string, previewImageUrl: string | null } | null } | null> | null } } | null };
 
+export type ClosetTabArchivedDesignsGetDataQueryVariables = Exact<{
+  first: Scalars['Int']['input'];
+  after?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<MembershipDesignRequestsFilterInput>;
+}>;
+
+
+export type ClosetTabArchivedDesignsGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, hasDesignProducts: boolean, designRequests: { __typename: 'DesignRequestConnection', edges: Array<{ __typename: 'DesignRequestEdge', node: { __typename: 'DesignRequest', id: string, name: string, updatedAt: any | null, status: DesignRequestStatus, humanizedStatus: string, previewImageUrl: string | null } | null } | null> | null } } | null };
+
 export type ClosetTabDesignRequestsGetDataQueryVariables = Exact<{
   first: Scalars['Int']['input'];
   after?: InputMaybe<Scalars['String']['input']>;

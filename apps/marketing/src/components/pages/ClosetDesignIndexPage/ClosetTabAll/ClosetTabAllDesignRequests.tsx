@@ -31,7 +31,11 @@ const ClosetTabAllDesignRequests = ({}: Props) => {
           membershipId: { equals: filters.user || undefined },
           artistMembershipId: { equals: filters.artist || undefined },
           status: {
-            notIn: [DesignRequestStatus.APPROVED],
+            in: [
+              DesignRequestStatus.AWAITING_APPROVAL,
+              DesignRequestStatus.AWAITING_REVISION,
+              DesignRequestStatus.SUBMITTED,
+            ],
           },
           createdAt: {
             gte: filters.date?.gte,
@@ -49,7 +53,11 @@ const ClosetTabAllDesignRequests = ({}: Props) => {
           membershipId: { equals: filters.user || undefined },
           artistMembershipId: { equals: filters.artist || undefined },
           status: {
-            notIn: [DesignRequestStatus.APPROVED],
+            in: [
+              DesignRequestStatus.AWAITING_APPROVAL,
+              DesignRequestStatus.AWAITING_REVISION,
+              DesignRequestStatus.SUBMITTED,
+            ],
           },
           createdAt: {
             gte: filters.date?.gte,
