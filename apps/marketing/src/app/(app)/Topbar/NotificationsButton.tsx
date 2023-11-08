@@ -14,16 +14,21 @@ interface Props {}
 
 const NotificationsButton = (props: Props) => {
   const { setOpen, open } = useNotificationStandout()
-  const { data } = useQuery<
+  const { data, refetch, loading } = useQuery<
     NotificationsButtonGetDataQuery,
     NotificationsButtonGetDataQueryVariables
   >(GET_DATA, {
     fetchPolicy: 'cache-and-network',
+    notifyOnNetworkStatusChange: true,
   })
 
   const showIndicator = Boolean(
-    !open && (data?.viewer?.unseenWebNotificationsCount ?? 0) > 0,
+    !open && !loading && (data?.viewer?.unseenWebNotificationsCount ?? 0) > 0,
   )
+
+  React.useEffect(() => {
+    refetch()
+  }, [refetch, open])
 
   return (
     <Button variant="ghost" onClick={() => setOpen(prev => !prev)}>
