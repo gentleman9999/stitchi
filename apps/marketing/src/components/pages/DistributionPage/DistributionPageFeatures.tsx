@@ -24,7 +24,7 @@ const DistributionPageFeatures = (props: Props) => {
             />
             <Item
               title="$1/mo per cubic foot inventory storage"
-              description="Receive and store merchandise inventory at ultra-low rates. Save months setting up a warehouse or piling up merch in your parents garage."
+              description="Receive and store merchandise inventory at ultra-low rates. Save months setting up a warehouse or piling up merch in your parents' garage."
             />
             <Item
               title="Free eCommerce integration"

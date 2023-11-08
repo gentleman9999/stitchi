@@ -38,7 +38,7 @@ const CustomerLogoBanner = () => {
       <Container>
         <div className="flex flex-col sm:flex-row gap-10 items-center relative ">
           <h2 className="text-center sm:text-left text-4xl font-medium sm:w-[40%] shrink-0 font-heading bg-primary leading-normal">
-            Powering merch for the worlds top brands.
+            Powering merch for the world&apos;s top brands.
           </h2>
         </div>
       </Container>

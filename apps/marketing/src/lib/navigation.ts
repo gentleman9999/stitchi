@@ -33,7 +33,7 @@ const navigation = {
       {
         label: 'Swag Bags & Boxes',
         description:
-          'Create unique branded branded experiences to showcase your brand.',
+          'Create unique branded experiences to showcase your brand.',
         icon: Support,
         href: routes.internal.solutions.swagBox.href(),
       },

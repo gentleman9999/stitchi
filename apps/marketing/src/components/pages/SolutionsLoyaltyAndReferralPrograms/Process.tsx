@@ -26,7 +26,7 @@ const Process = () => {
             />
             <Step
               title="Stitchi fulfillment"
-              description="When your customerss reach a referral milestone, we'll handle the fulfillment for you. Our team will pack and ship the rewards, giving you complete visibility into inventory, shipping times, and other key metrics to help you run your business smoothly."
+              description="When your customers reach a referral milestone, we'll handle the fulfillment for you. Our team will pack and ship the rewards, giving you complete visibility into inventory, shipping times, and other key metrics to help you run your business smoothly."
             />
           </ul>
         </div>

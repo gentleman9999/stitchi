@@ -1,13 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 
-const states = [
-  'Order placed',
-  'Awaiting approval',
-  'Printing',
-  'Shipping',
-  'Delivered',
-]
+const states = ['Placed', 'Approved', 'Printing', 'Shipping', 'Delivered']
 
 interface Props {
   step: number

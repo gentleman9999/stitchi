@@ -28,8 +28,8 @@ const Footer = () => (
               Subscribe to updates
             </h3>
             <p className="mt-4 text-base text-gray-300">
-              We ocassionaly send product updates and resources to help you with
-              merch.
+              We occasionally send product updates and resources to help you
+              with merch.
             </p>
             <SubscribeInline className="mt-4" />
           </div>

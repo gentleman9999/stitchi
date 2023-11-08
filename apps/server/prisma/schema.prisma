@@ -325,9 +325,9 @@ model Fulfillment {
 
   fulfillmentTrackingInfoId String
 
-  // The membership that created the fulfillment
-
+  // The actor that created the fulfillment (typicall Stitchi employee or contractor)
   membershipId   String?
+  // The organization that created the fulfillment (typically Stitchi or contractor)
   organizationId String?
 
   createdAt DateTime @default(now())
