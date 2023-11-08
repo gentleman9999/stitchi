@@ -96,14 +96,14 @@ const DesignProofsList = ({
                 side="bottom"
                 align="center"
                 renderTrigger={() => (
-                  <button className="border rounded-md w-full flex gap-2 items-center hover:bg-gray-50">
+                  <button className="border rounded-md w-full flex justify-between gap-2 items-center hover:bg-gray-50">
                     <Proof
                       key="active"
                       proof={activeProof}
                       latest={activeProof.id === latestProofId}
                     />
 
-                    <ChevronUpDownIcon className="w-5 h-5" />
+                    <ChevronUpDownIcon className="w-5 h-5 mr-2" />
                   </button>
                 )}
                 renderItems={() =>
