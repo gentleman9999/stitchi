@@ -65,7 +65,7 @@ const ClosetDesignIndexPage = ({}: Props) => {
                     ? [
                         {
                           label: 'New Design',
-                          href: routes.internal.catalog.href(),
+                          href: routes.internal.closet.designs.create.href(),
                           primary: true,
                         },
                       ]

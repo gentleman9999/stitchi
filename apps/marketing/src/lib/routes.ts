@@ -295,6 +295,10 @@ const routes = {
             buildRoute('/closet/designs/archived', params),
         },
 
+        create: {
+          href: () => buildRoute('/catalog'),
+        },
+
         show: {
           href: ({ designId }: { designId: string }) =>
             buildRoute(`/closet/designs/${designId}`),
