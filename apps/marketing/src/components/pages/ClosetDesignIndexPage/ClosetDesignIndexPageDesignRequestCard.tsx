@@ -9,6 +9,7 @@ import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { format } from 'date-fns'
 import React from 'react'
 import Card from '../../common/ClosetCard/ClosetCard'
+import { getDesignRequestBadgeProps } from '@lib/design-request'
 
 interface Props {
   loading: boolean
@@ -47,10 +48,7 @@ const ClosetDesignIndexPageDesignRequestCard = ({
             }
           : undefined
       }
-      badge={{
-        label: designRequest.humanizedStatus,
-        severity: getStatusBadgeSeverity(designRequest.status),
-      }}
+      badge={getDesignRequestBadgeProps(designRequest)}
       actions={[
         {
           label: 'View',
@@ -80,27 +78,6 @@ const ClosetDesignIndexPageDesignRequestCard = ({
       ]}
     />
   )
-}
-
-const getStatusBadgeSeverity = (
-  status: DesignRequestStatus,
-): BadgeProps['severity'] => {
-  switch (status) {
-    case DesignRequestStatus.APPROVED:
-      return 'success'
-    case DesignRequestStatus.REJECTED:
-      return 'error'
-
-    case DesignRequestStatus.SUBMITTED:
-    case DesignRequestStatus.AWAITING_REVISION:
-      return 'info'
-
-    case DesignRequestStatus.AWAITING_APPROVAL:
-      return 'warning'
-    case DesignRequestStatus.DRAFT:
-    default:
-      return 'default'
-  }
 }
 
 ClosetDesignIndexPageDesignRequestCard.fragments = {

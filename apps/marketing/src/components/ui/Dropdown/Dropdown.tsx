@@ -50,7 +50,11 @@ const Dropdown = (props: Props) => {
             >
               <DropdownMenu.Arrow className="fill-white" />
               {items.map((item, idx) => {
-                return <DropdownMenu.Item key={idx}>{item}</DropdownMenu.Item>
+                return (
+                  <DropdownMenu.Item key={idx} asChild>
+                    {item}
+                  </DropdownMenu.Item>
+                )
               })}
             </motion.div>
           </DropdownMenu.Content>

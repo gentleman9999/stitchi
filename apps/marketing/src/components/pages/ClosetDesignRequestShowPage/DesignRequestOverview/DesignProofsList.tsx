@@ -1,10 +1,7 @@
 import { gql, useQuery } from '@apollo/client'
-import React from 'react'
+import React, { ButtonHTMLAttributes } from 'react'
 import cx from 'classnames'
-import {
-  DesignProofsListGetDataQuery,
-  DesignProofsListGetDataQueryVariables,
-} from '@generated/DesignProofsListGetDataQuery'
+
 import { format } from 'date-fns'
 import { Card, CardContent, CardHeader } from '@components/ui/Card'
 import { ScopeAction, ScopeResource } from '@generated/globalTypes'
@@ -12,7 +9,13 @@ import { useAuthorizedComponent } from '@lib/auth'
 import Button from '@components/ui/ButtonV2/Button'
 import ClosetSection from '@components/common/ClosetSection'
 import Badge from '@components/ui/Badge'
-import { InputGroup } from '@components/ui/inputs'
+import { Dropdown } from '@components/ui/Dropdown'
+import {
+  DesignProofsListGetDataQuery,
+  DesignProofsListGetDataQueryVariables,
+} from '@generated/types'
+import IconButton from '@components/ui/IconButton'
+import { ChevronUpDownIcon } from '@heroicons/react/20/solid'
 
 interface Props {
   designRequestId: string
@@ -80,42 +83,52 @@ const DesignProofsList = ({
     )
   }
 
+  const activeProof = proofs?.find(proof => proof.id === activeProofId)
+  const latestProofId = proofs?.[0]?.id
+
   return (
     <ClosetSection>
       <Card>
-        <CardHeader>Proofs</CardHeader>
-        <CardContent divide>
-          <ul className="flex flex-col gap-4">
-            {proofs?.map((proof, index) => (
-              <li key={proof.id}>
-                <button
-                  onClick={() => onClick(proof.id)}
-                  className={cx('border rounded-md p-2 w-full', {
-                    'border-gray-500 ': activeProofId === proof.id,
-                  })}
-                >
-                  <div className="flex gap-2">
-                    <img
-                      src={proof.primaryImageFile?.url}
-                      width={proof.primaryImageFile?.width}
-                      height={proof.primaryImageFile?.height}
-                      className="w-16 h-16 rounded-md object-contain"
+        <CardContent>
+          {activeProof && proofs?.length ? (
+            <div className="relative z-10">
+              <Dropdown
+                side="bottom"
+                align="center"
+                renderTrigger={() => (
+                  <button className="border rounded-md w-full flex justify-between gap-2 items-center hover:bg-gray-50">
+                    <Proof
+                      key="active"
+                      proof={activeProof}
+                      latest={activeProof.id === latestProofId}
                     />
-                    <div className="flex-1 flex flex-col items-start gap-1">
-                      <span className="text-sm font-medium">
-                        {format(new Date(proof.createdAt), 'PPpp')}
-                      </span>
-                      {index === 0 ? (
-                        <div>
-                          <Badge label="Latest" size="small" severity="info" />
-                        </div>
-                      ) : null}
-                    </div>
-                  </div>
-                </button>
-              </li>
-            ))}
-          </ul>
+
+                    <ChevronUpDownIcon className="w-5 h-5 mr-2" />
+                  </button>
+                )}
+                renderItems={() =>
+                  proofs.map((proof, index) => (
+                    <button
+                      key={proof.id}
+                      onClick={() => onClick(proof.id)}
+                      className={cx(
+                        'hover:bg-gray-100 transition-all w-full rounded-md',
+                        {
+                          'bg-gray-50': proof.id === activeProofId,
+                        },
+                      )}
+                    >
+                      <Proof
+                        proof={proof}
+                        latest={proof.id === latestProofId}
+                        onClick={() => onClick(proof.id)}
+                      />
+                    </button>
+                  ))
+                }
+              />
+            </div>
+          ) : null}
         </CardContent>
 
         {activeProofId &&
@@ -135,6 +148,36 @@ const DesignProofsList = ({
         ) : null}
       </Card>
     </ClosetSection>
+  )
+}
+
+interface ProofProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  proof: NonNullable<
+    DesignProofsListGetDataQuery['designRequest']
+  >['proofs'][number]
+  latest?: boolean
+}
+
+const Proof = ({ proof, latest }: ProofProps) => {
+  return (
+    <div className="flex items-center gap-2 p-2">
+      <img
+        src={proof.primaryImageFile?.url}
+        width={proof.primaryImageFile?.width}
+        height={proof.primaryImageFile?.height}
+        className="w-16 h-16 rounded-md object-contain"
+      />
+      <div className="flex-1 flex flex-col items-start gap-1">
+        <span className="text-sm font-medium">
+          {format(new Date(proof.createdAt), 'PPpp')}
+        </span>
+        {latest ? (
+          <div>
+            <Badge label="Latest" size="small" severity="info" />
+          </div>
+        ) : null}
+      </div>
+    </div>
   )
 }
 

@@ -3,7 +3,10 @@ import React from 'react'
 import DesignRequestEditableName from './DesignRequestEditableName'
 import DesignRequestActions from './DesignRequestActions'
 import { gql } from '@apollo/client'
-import { DesignRequestTitleDesignRequesetFragment } from '@generated/DesignRequestTitleDesignRequesetFragment'
+import { format, parseISO } from 'date-fns'
+import { DesignRequestTitleDesignRequesetFragment } from '@generated/types'
+import Badge from '@components/ui/Badge'
+import { getDesignRequestBadgeProps } from '@lib/design-request'
 
 interface Props {
   loading: boolean
@@ -30,6 +33,25 @@ const DesignRequestTitle = ({ loading, designRequest }: Props) => {
           </div>
         </>
       }
+      description={
+        designRequest ? (
+          <div className="flex flex-col sm:flex-row sm:gap-4 sm:items-center">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 sm:items-center">
+              <span className="text-sm">
+                Submitted{' '}
+                <b>{format(parseISO(designRequest.createdAt), 'PPP')}</b>
+              </span>
+              <span className="hidden sm:block">·</span>
+              <div>
+                <Badge
+                  {...getDesignRequestBadgeProps(designRequest)}
+                  size="small"
+                />
+              </div>
+            </div>
+          </div>
+        ) : null
+      }
     />
   )
 }
@@ -41,6 +63,9 @@ DesignRequestTitle.fragments = {
     fragment DesignRequestTitleDesignRequesetFragment on DesignRequest {
       id
       name
+      createdAt
+      status
+      humanizedStatus
       ...DesignRequestActionsDesignRequestFragment
     }
   `,

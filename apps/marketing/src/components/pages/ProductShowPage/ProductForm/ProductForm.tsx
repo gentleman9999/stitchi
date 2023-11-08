@@ -315,10 +315,12 @@ const ProductForm = (props: ProductFormProps) => {
             <Tooltip
               label="The price per unit is based on the total quantity of all colors and sizes."
               renderTrigger={() => (
-                <span className="text-xl text-gray-400 font-medium font-headingDisplay flex">
-                  from
-                  <QuestionMarkCircleIcon className="w-3 h-3" />
-                </span>
+                <button>
+                  <span className="text-xl text-gray-400 font-medium font-headingDisplay flex">
+                    from
+                    <QuestionMarkCircleIcon className="w-3 h-3" />
+                  </span>
+                </button>
               )}
             />{' '}
             <span className="text-4xl font-medium font-headingDisplay text-gray-600 whitespace-nowrap">
