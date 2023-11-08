@@ -63,7 +63,10 @@ const routes = {
       },
     },
     getStarted: {
-      href: () => buildRoute('/catalog'),
+      href: () =>
+        buildRoute('/api/auth/signup', {
+          redirectUrl: '/closet',
+        }),
     },
     catalog: {
       href: ({ params }: { params?: QueryParams } = {}) =>

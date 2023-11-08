@@ -40,7 +40,6 @@ const StartPage = () => {
   return (
     <Container>
       <StartPageSeo />
-      {/* {!experience && <ExperienceSelector />} */}
       <Section className="flex flex-col items-center">
         <div className="grid grid-cols-6 gap-10 md:gap-20">
           <div className="col-span-6 md:col-span-2">

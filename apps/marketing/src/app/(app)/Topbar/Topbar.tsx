@@ -25,7 +25,9 @@ const Topbar = (props: Props) => {
         </div>
 
         <div className="hidden md:block">
-          <Logo className="h-10" />
+          <Link href={routes.internal.home.href()}>
+            <Logo className="h-10" />
+          </Link>
         </div>
 
         <ul className="flex gap-3">
