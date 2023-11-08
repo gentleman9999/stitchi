@@ -68,9 +68,13 @@ const CatalogProduct = ({ product, priority }: Props) => {
                 label="Price includes 1 print location."
                 delay={150}
                 renderTrigger={() => (
-                  <span className="font-bold">
-                    {currency(product.priceCents, { fromCents: true }).format()}
-                  </span>
+                  <button>
+                    <span className="font-bold">
+                      {currency(product.priceCents, {
+                        fromCents: true,
+                      }).format()}
+                    </span>
+                  </button>
                 )}
               />
             </span>

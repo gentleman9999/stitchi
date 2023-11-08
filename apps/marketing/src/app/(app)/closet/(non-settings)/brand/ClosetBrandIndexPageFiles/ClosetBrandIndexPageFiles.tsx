@@ -89,7 +89,9 @@ const ClosetBrandIndexPageFiles = ({}: Props) => {
                   <Tooltip
                     label={file.name}
                     renderTrigger={() => (
-                      <h2 className="font-medium truncate">{file.name}</h2>
+                      <button>
+                        <h2 className="font-medium truncate">{file.name}</h2>
+                      </button>
                     )}
                   />
                   <span className="text-gray-400 text-sm">

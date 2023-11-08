@@ -59,6 +59,23 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
     }, 500)
   }
 
+  const ProofList = (
+    <DesignProofList
+      designRequestId={designRequestId}
+      activeProofId={activeProofId}
+      onClick={handleActiveProofChange}
+      onApprove={proofId =>
+        router.push(
+          routes.internal.closet.designs.show.proofs.show.approve.href({
+            designId: designRequestId,
+            proofId,
+          }),
+        )
+      }
+      loading={switchingProof}
+    />
+  )
+
   return (
     <div className="relative @container">
       <ComponentErrorMessage error={error} />
@@ -67,6 +84,8 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
         <DesignRequestAssociatedProducts designRequestId={designRequestId} />
 
         <div className="col-span-1 @3xl:col-span-8">
+          <div className="@3xl:hidden">{ProofList}</div>
+
           {activeProofId ? (
             <ClosetSection>
               <DesignProofVariantPreview designProofId={activeProofId} />
@@ -94,20 +113,7 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
             </ClosetSection>
           ) : null}
 
-          <DesignProofList
-            designRequestId={designRequestId}
-            activeProofId={activeProofId}
-            onClick={handleActiveProofChange}
-            onApprove={proofId =>
-              router.push(
-                routes.internal.closet.designs.show.proofs.show.approve.href({
-                  designId: designRequestId,
-                  proofId,
-                }),
-              )
-            }
-            loading={switchingProof}
-          />
+          <div className="hidden @3xl:block">{ProofList}</div>
 
           {designRequest?.designRequestProduct ? (
             <ClosetSection>

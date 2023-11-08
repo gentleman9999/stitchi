@@ -12089,7 +12089,7 @@ export type ClosetDesignRequestShowPageGetDataQueryVariables = Exact<{
 }>;
 
 
-export type ClosetDesignRequestShowPageGetDataQuery = { __typename: 'Query', designRequest: { __typename: 'DesignRequest', id: string, name: string, status: DesignRequestStatus } | null };
+export type ClosetDesignRequestShowPageGetDataQuery = { __typename: 'Query', designRequest: { __typename: 'DesignRequest', id: string, name: string, createdAt: any, status: DesignRequestStatus, humanizedStatus: string } | null };
 
 export type DesignProofCardDesignProofFragment = { __typename: 'DesignProof', id: string, createdAt: any, primaryImageFile: { __typename: 'FileImage', id: string, url: string, width: number, height: number } | null, artist: { __typename: 'Membership', id: string, user: { __typename: 'User', id: string, name: string | null } | null } | null };
 
@@ -12195,7 +12195,7 @@ export type UseDesignRequestActionsSubmitDesignRequestMutationVariables = Exact<
 
 export type UseDesignRequestActionsSubmitDesignRequestMutation = { __typename: 'Mutation', designRequestSubmit: { __typename: 'DesignRequestSubmitPayload', designRequest: { __typename: 'DesignRequest', id: string } | null } | null };
 
-export type DesignRequestTitleDesignRequesetFragment = { __typename: 'DesignRequest', id: string, name: string, status: DesignRequestStatus };
+export type DesignRequestTitleDesignRequesetFragment = { __typename: 'DesignRequest', id: string, name: string, createdAt: any, status: DesignRequestStatus, humanizedStatus: string };
 
 export type UseUpdateNameUpdateNameMutationVariables = Exact<{
   input: DesignRequestUpdateInput;

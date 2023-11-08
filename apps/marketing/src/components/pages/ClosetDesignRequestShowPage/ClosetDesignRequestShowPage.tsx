@@ -2,10 +2,6 @@
 
 import React from 'react'
 import { DesignProvider } from './design-context'
-import {
-  ClosetDesignRequestShowPageGetDataQuery,
-  ClosetDesignRequestShowPageGetDataQueryVariables,
-} from '@generated/ClosetDesignRequestShowPageGetDataQuery'
 import { gql, useQuery } from '@apollo/client'
 import DesignRequestTitle from './DesignRequestTitle'
 import ClosetPageHeader from '@components/common/ClosetPageHeader'
@@ -15,6 +11,10 @@ import ClosetPageContainer from '@components/common/ClosetPageContainer'
 import DesignRequestOverview from './DesignRequestOverview'
 import DesignOnboardingDialog from './DesignOnboardingDialog'
 import Progress from './Progress'
+import {
+  ClosetDesignRequestShowPageGetDataQuery,
+  ClosetDesignRequestShowPageGetDataQueryVariables,
+} from '@generated/types'
 
 interface Props {
   designId: string
@@ -38,7 +38,7 @@ const ClosetDesignRequestShowPage = ({ designId }: Props) => {
               loading={loading}
               designRequest={designRequest}
             />
-            <div className="border-y mt-4">
+            <div className="mt-4">
               <Progress loading={loading} status={designRequest?.status} />
             </div>
           </ClosetPageHeader>

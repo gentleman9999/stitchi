@@ -90,13 +90,17 @@ const CatalogProductLegacy = ({ product, priority, loading }: Props) => {
                 label="Price includes 1 print location."
                 delay={150}
                 renderTrigger={() => (
-                  <span className="font-bold">
-                    {loading ? (
-                      <Skeleton width={40} />
-                    ) : product ? (
-                      currency(product.priceCents, { fromCents: true }).format()
-                    ) : null}
-                  </span>
+                  <button>
+                    <span className="font-bold">
+                      {loading ? (
+                        <Skeleton width={40} />
+                      ) : product ? (
+                        currency(product.priceCents, {
+                          fromCents: true,
+                        }).format()
+                      ) : null}
+                    </span>
+                  </button>
                 )}
               />
             </span>
