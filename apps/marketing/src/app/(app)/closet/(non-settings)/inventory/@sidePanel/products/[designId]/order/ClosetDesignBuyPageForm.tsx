@@ -6,7 +6,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import FormSection from './FormSection'
-import useProductQuote from './SubmitBanner/useProductQuote'
+import useProductEstimate from './useProductEstimate'
 import VariantQuantityMatrixForm from '../../../../../../../../../components/common/ProductVariantQuantityMatrixForm/ProductVariantQuantityMatrixForm'
 import { InputGroup } from '@components/ui/inputs'
 import { MIN_ORDER_QTY } from '@lib/constants'
@@ -56,9 +56,10 @@ const ClosetDesignBuyPageForm = ({
 }: Props) => {
   const [submitting, setSubmitting] = React.useState(false)
 
-  const [getQuote, { quote, loading: quoteLoading }] = useProductQuote({
-    designProductId: designProduct.id,
-  })
+  const [getEstimate, { estimate, loading: estimateLoading }] =
+    useProductEstimate({
+      designProductId: designProduct.id,
+    })
 
   const defaultColors = React.useMemo(
     () =>
@@ -102,11 +103,11 @@ const ClosetDesignBuyPageForm = ({
 
   React.useEffect(() => {
     const get = async () => {
-      await getQuote({ quantity: totalQuantity })
+      await getEstimate({ quantity: totalQuantity })
     }
 
     get()
-  }, [getQuote, totalQuantity])
+  }, [getEstimate, totalQuantity])
 
   React.useEffect(() => {
     if (
@@ -142,10 +143,10 @@ const ClosetDesignBuyPageForm = ({
     <form>
       {renderContainer({
         onSubmit: handleSubmit,
-        loading: quoteLoading,
+        loading: estimateLoading,
         submitting,
-        priceCents: quote?.productTotalCostCents || null,
-        unitPriceCents: quote?.productUnitCostCents || null,
+        priceCents: estimate?.productTotalCostCents || null,
+        unitPriceCents: estimate?.productUnitCostCents || null,
         error: Boolean(Object.keys(formErrors).length),
         children: (
           <div className="flex flex-col gap-20">

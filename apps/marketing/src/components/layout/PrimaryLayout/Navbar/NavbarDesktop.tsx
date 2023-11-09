@@ -96,7 +96,7 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
           track.navbarCtaCliced({ view: 'desktop' })
         }}
       >
-        {user ? 'My closet' : 'Get started'}
+        {user ? 'My closet' : 'Create free account'}
       </Button>
     </nav>
   )

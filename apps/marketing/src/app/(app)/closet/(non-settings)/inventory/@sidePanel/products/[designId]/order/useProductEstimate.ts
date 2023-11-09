@@ -1,24 +1,24 @@
-import {
-  UseProductQuoteGetQuoteQuery,
-  UseProductQuoteGetQuoteQueryVariables,
-} from '@generated/UseProductQuoteGetQuoteQuery'
 import { gql, useLazyQuery } from '@apollo/client'
+import {
+  UseProductEstimateGetEstimateQuery,
+  UseProductEstimateGetEstimateQueryVariables,
+} from '@generated/types'
 import { useCallback } from 'react'
 
 interface Props {
   designProductId: string
 }
 
-const useProductQuote = ({ designProductId }: Props) => {
+const useProductEstimate = ({ designProductId }: Props) => {
   const [fetchMore, query] = useLazyQuery<
-    UseProductQuoteGetQuoteQuery,
-    UseProductQuoteGetQuoteQueryVariables
+    UseProductEstimateGetEstimateQuery,
+    UseProductEstimateGetEstimateQueryVariables
   >(GET_QUOTE, {
     notifyOnNetworkStatusChange: true,
     fetchPolicy: 'network-only',
   })
 
-  const getQuote = useCallback(
+  const getEstimate = useCallback(
     async (input: { quantity: number }) => {
       await fetchMore({ variables: { ...input, designProductId } })
     },
@@ -26,16 +26,19 @@ const useProductQuote = ({ designProductId }: Props) => {
   )
 
   return [
-    getQuote,
-    { ...query, quote: query.data?.designProduct?.quote },
+    getEstimate,
+    { ...query, estimate: query.data?.designProduct?.estimate },
   ] as const
 }
 
 export const GET_QUOTE = gql`
-  query UseProductQuoteGetQuoteQuery($designProductId: ID!, $quantity: Int!) {
+  query UseProductEstimateGetEstimateQuery(
+    $designProductId: ID!
+    $quantity: Int!
+  ) {
     designProduct(id: $designProductId) {
       id
-      quote(quantity: $quantity) {
+      estimate(quantity: $quantity) {
         id
         productTotalCostCents
         productUnitCostCents
@@ -44,4 +47,4 @@ export const GET_QUOTE = gql`
   }
 `
 
-export default useProductQuote
+export default useProductEstimate

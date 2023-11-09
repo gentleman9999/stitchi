@@ -8,7 +8,6 @@ import {
   nonNull,
   queryField,
 } from 'nexus'
-import calculate from '../../../services/quote/calculateQuote'
 import { designFactoryDesignToGraphql } from '../../serializers/design'
 import { v4 } from 'uuid'
 import { Prisma } from '@prisma/client'
@@ -75,7 +74,7 @@ export const DesignProductExtendsDesignProduct = extendType({
         }
 
         // TODO: Add support for Direct to Garment
-        const quote = calculate({
+        const quote = await ctx.quote.generateEstimate({
           includeFulfillment: false,
           quantity: 10_000,
           productPriceCents: product.priceCents,
@@ -87,7 +86,7 @@ export const DesignProductExtendsDesignProduct = extendType({
         return quote.productUnitCostCents
       },
     })
-    t.field('quote', {
+    t.field('estimate', {
       type: 'Quote',
       args: {
         quantity: nonNull(intArg()),
@@ -129,7 +128,7 @@ export const DesignProductExtendsDesignProduct = extendType({
         }
 
         // TODO: Add support for Direct to Garment
-        const quote = calculate({
+        const quote = await ctx.quote.generateEstimate({
           includeFulfillment: false,
           quantity,
           productPriceCents: product.priceCents,

@@ -110,6 +110,7 @@ type DesignProduct {
   description: String
   designProofId: ID!
   designRequestId: ID!
+  estimate(quantity: Int!): Quote
   id: ID!
   inProductionQty: Int!
   inStockQty: Int!
@@ -119,7 +120,6 @@ type DesignProduct {
   organizationId: ID
   primaryImageFile: FileImage
   primaryImageFileId: ID
-  quote(quantity: Int!): Quote
   sizes: [DesignProductSize!]
   termsConditionsAgreed: Boolean!
   updatedAt: DateTime!
@@ -1280,9 +1280,9 @@ type PrintLocation {
 }
 
 type Product {
+  estimate(includeFulfillment: Boolean, printLocations: [QuoteGeneratePrintLocationInput!]!, quantity: Int!): Quote!
   id: ID!
   priceCents: Int!
-  quote(includeFulfillment: Boolean, printLocations: [QuoteGeneratePrintLocationInput!]!, quantity: Int!): Quote!
 }
 
 input ProductKey {

@@ -7,7 +7,7 @@ import {
 import { DesignFactoryDesign } from '../../../services/design/factory'
 import { OrderItemRecordType } from '../../../services/order/db/order-item-table'
 import { OrderRecordType } from '../../../services/order/db/order-table'
-import calculate from '../../../services/quote/calculateQuote'
+import calculate from '../../../services/quote/calculateEstimate'
 import { notEmpty } from '../../../utils'
 import { orderFactoryOrderToGraphQL } from '../../serializers/order'
 

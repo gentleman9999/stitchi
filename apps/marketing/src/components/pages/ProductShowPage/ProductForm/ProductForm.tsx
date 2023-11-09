@@ -23,9 +23,8 @@ import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import Skeleton from 'react-loading-skeleton'
 import * as yup from 'yup'
 import InformationGroup from './InformationGroup'
-import useProductQuote from './useProductQuote'
+import useProductEstimate from './useProductEstimate'
 import { MIN_ORDER_QTY } from '@lib/constants'
-import ReferenceFilesInput from '@components/pages/ClosetDesignRequestShowPage/ReferenceFilesInput'
 
 const customizationOptions = [
   {
@@ -140,10 +139,10 @@ const ProductForm = (props: ProductFormProps) => {
     }))
 
   const {
-    quote,
-    maxQuote,
-    loading: quoteLoading,
-  } = useProductQuote({
+    estimate,
+    maxEstimate,
+    loading: estimateLoading,
+  } = useProductEstimate({
     printLocations,
     productId: props.product.id,
     quantity: totalQuantity,
@@ -324,13 +323,13 @@ const ProductForm = (props: ProductFormProps) => {
               )}
             />{' '}
             <span className="text-4xl font-medium font-headingDisplay text-gray-600 whitespace-nowrap">
-              {quoteLoading ? (
+              {estimateLoading ? (
                 <Skeleton width={100} />
-              ) : quote ? (
+              ) : estimate ? (
                 <>
                   {totalQuantity === 0 || totalQuantity >= MIN_ORDER_QTY ? (
                     <>
-                      {currency(quote.productUnitCostCents, {
+                      {currency(estimate.productUnitCostCents, {
                         fromCents: true,
                       }).format()}{' '}
                     </>
@@ -341,9 +340,9 @@ const ProductForm = (props: ProductFormProps) => {
                     </p>
                   )}
 
-                  {totalQuantity === 0 && maxQuote?.productUnitCostCents
+                  {totalQuantity === 0 && maxEstimate?.productUnitCostCents
                     ? `-
-                  ${currency(maxQuote.productUnitCostCents, {
+                  ${currency(maxEstimate.productUnitCostCents, {
                     fromCents: true,
                   }).format()}`
                     : null}

@@ -1,14 +1,12 @@
-import deepEqual from 'deep-equal'
-import React from 'react'
-import {
-  ProductFormGetProductQuoteQuery,
-  ProductFormGetProductQuoteQueryVariables,
-} from '@generated/ProductFormGetProductQuoteQuery'
 import { gql, useQuery } from '@apollo/client'
 import {
-  ProductFormGetProductQuoteMaxQuery,
-  ProductFormGetProductQuoteMaxQueryVariables,
-} from '@generated/ProductFormGetProductQuoteMaxQuery'
+  ProductFormGetProductEstimateMaxQuery,
+  ProductFormGetProductEstimateMaxQueryVariables,
+  ProductFormGetProductEstimateQuery,
+  ProductFormGetProductEstimateQueryVariables,
+} from '@generated/types'
+import deepEqual from 'deep-equal'
+import React from 'react'
 
 const MAX_QUANTITY = 20_000
 
@@ -18,11 +16,11 @@ const DEFAULT_PRINT_LOCATIONS = [
   },
 ]
 
-const useProductQuote = ({
+const useProductEstimate = ({
   productId,
   quantity,
   printLocations,
-}: ProductFormGetProductQuoteQueryVariables) => {
+}: ProductFormGetProductEstimateQueryVariables) => {
   const variables = React.useMemo(
     () => ({
       productId,
@@ -40,15 +38,15 @@ const useProductQuote = ({
     refetch,
     variables: prevVariables,
   } = useQuery<
-    ProductFormGetProductQuoteQuery,
-    ProductFormGetProductQuoteQueryVariables
+    ProductFormGetProductEstimateQuery,
+    ProductFormGetProductEstimateQueryVariables
   >(GET_PRODUCT_QUOTE, {
     variables: variables,
   })
 
-  const { data: maxQuoteData } = useQuery<
-    ProductFormGetProductQuoteMaxQuery,
-    ProductFormGetProductQuoteMaxQueryVariables
+  const { data: maxEstimateData } = useQuery<
+    ProductFormGetProductEstimateMaxQuery,
+    ProductFormGetProductEstimateMaxQueryVariables
   >(GET_PRODUCT_QUOTE_MAX, {
     variables: {
       productId,
@@ -61,17 +59,17 @@ const useProductQuote = ({
     }
   }, [prevVariables, refetch, variables])
 
-  const quote = data?.site.product?.quote
+  const estimate = data?.site.product?.estimate
 
   return {
-    quote,
-    maxQuote: maxQuoteData?.site.product?.maxQuote,
+    estimate,
+    maxEstimate: maxEstimateData?.site.product?.maxEstimate,
     loading,
   }
 }
 
 const GET_PRODUCT_QUOTE = gql`
-  query ProductFormGetProductQuoteQuery(
+  query ProductFormGetProductEstimateQuery(
     $productId: ID!
     $quantity: Int!
     $printLocations: [QuoteGeneratePrintLocationInput!]!
@@ -79,7 +77,7 @@ const GET_PRODUCT_QUOTE = gql`
     site {
       product(id: $productId) {
         id
-        quote(quantity: $quantity, printLocations: $printLocations) {
+        estimate(quantity: $quantity, printLocations: $printLocations) {
           id
           productUnitCostCents
         }
@@ -89,11 +87,14 @@ const GET_PRODUCT_QUOTE = gql`
 `
 
 const GET_PRODUCT_QUOTE_MAX = gql`
-  query ProductFormGetProductQuoteMaxQuery($productId: ID!) {
+  query ProductFormGetProductEstimateMaxQuery($productId: ID!) {
     site {
       product(id: $productId) {
         id
-        maxQuote: quote(quantity: 50, printLocations: [{ colorCount: 4 }]) {
+        maxEstimate: estimate(
+          quantity: 50
+          printLocations: [{ colorCount: 4 }]
+        ) {
           id
           productUnitCostCents
         }
@@ -102,4 +103,4 @@ const GET_PRODUCT_QUOTE_MAX = gql`
   }
 `
 
-export default useProductQuote
+export default useProductEstimate

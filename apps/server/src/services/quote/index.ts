@@ -1,4 +1,4 @@
-import calculate from './calculateQuote'
+import calculate from './calculateEstimate'
 import calculateV2 from './calculateQuoteV2'
 import * as yup from 'yup'
 import {
@@ -54,7 +54,7 @@ const inputV2Schema = yup.object().shape({
 
 type GenerateQuoteV2Input = yup.InferType<typeof inputV2Schema>
 
-export interface QuoteServiceQuote {
+export interface QuoteServiceEstimate {
   productTotalCostCents: number
   productUnitCostCents: number
   printLocationCount: number
@@ -76,9 +76,9 @@ export interface QuoteServiceQuoteV2 {
 }
 
 export interface QuoteService {
-  generateQuote(
+  generateEstimate(
     input: yup.InferType<typeof inputSchema>,
-  ): Promise<QuoteServiceQuote>
+  ): Promise<QuoteServiceEstimate>
 
   generateQuoteV2(input: GenerateQuoteV2Input): Promise<QuoteServiceQuoteV2>
 }
@@ -95,7 +95,7 @@ const makeClient: MakeClientFn = (
   },
 ) => {
   return {
-    generateQuote: async input => {
+    generateEstimate: async input => {
       const validInput = await inputSchema.validate(input)
 
       return calculate(validInput)

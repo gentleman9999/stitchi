@@ -1,6 +1,6 @@
 import { GraphQLError } from 'graphql'
 import { inputObjectType, objectType } from 'nexus'
-import calculate from '../../../services/quote/calculateQuote'
+import calculate from '../../../services/quote/calculateEstimate'
 
 export const QuoteGeneratePrintLocationInput = inputObjectType({
   name: 'QuoteGeneratePrintLocationInput',

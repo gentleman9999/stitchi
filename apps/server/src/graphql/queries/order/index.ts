@@ -29,7 +29,7 @@ export const order = queryField('order', {
 export const ProductExtendsQuote = extendType({
   type: 'Product',
   definition(t) {
-    t.nonNull.field('quote', {
+    t.nonNull.field('estimate', {
       type: 'Quote',
       args: {
         quantity: nonNull('Int'),
@@ -44,7 +44,7 @@ export const ProductExtendsQuote = extendType({
         context,
       ) => {
         try {
-          const data = await context.quote.generateQuote({
+          const data = await context.quote.generateEstimate({
             includeFulfillment: Boolean(includeFulfillment),
             printLocations,
             quantity,

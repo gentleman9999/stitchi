@@ -1058,6 +1058,7 @@ export interface NexusGenFieldTypes {
     description: string | null; // String
     designProofId: string; // ID!
     designRequestId: string; // ID!
+    estimate: NexusGenRootTypes['Quote'] | null; // Quote
     id: string; // ID!
     inProductionQty: number; // Int!
     inStockQty: number; // Int!
@@ -1067,7 +1068,6 @@ export interface NexusGenFieldTypes {
     organizationId: string | null; // ID
     primaryImageFile: NexusGenRootTypes['FileImage'] | null; // FileImage
     primaryImageFileId: string | null; // ID
-    quote: NexusGenRootTypes['Quote'] | null; // Quote
     sizes: NexusGenRootTypes['DesignProductSize'][] | null; // [DesignProductSize!]
     termsConditionsAgreed: boolean; // Boolean!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
@@ -1635,9 +1635,9 @@ export interface NexusGenFieldTypes {
     totalCostInCents: number | null; // Int
   }
   Product: { // field return type
+    estimate: NexusGenRootTypes['Quote']; // Quote!
     id: string; // ID!
     priceCents: number; // Int!
-    quote: NexusGenRootTypes['Quote']; // Quote!
   }
   Query: { // field return type
     _products: Array<NexusGenRootTypes['Product'] | null> | null; // [Product]
@@ -1799,6 +1799,7 @@ export interface NexusGenFieldTypeNames {
     description: 'String'
     designProofId: 'ID'
     designRequestId: 'ID'
+    estimate: 'Quote'
     id: 'ID'
     inProductionQty: 'Int'
     inStockQty: 'Int'
@@ -1808,7 +1809,6 @@ export interface NexusGenFieldTypeNames {
     organizationId: 'ID'
     primaryImageFile: 'FileImage'
     primaryImageFileId: 'ID'
-    quote: 'Quote'
     sizes: 'DesignProductSize'
     termsConditionsAgreed: 'Boolean'
     updatedAt: 'DateTime'
@@ -2376,9 +2376,9 @@ export interface NexusGenFieldTypeNames {
     totalCostInCents: 'Int'
   }
   Product: { // field return type name
+    estimate: 'Quote'
     id: 'ID'
     priceCents: 'Int'
-    quote: 'Quote'
   }
   Query: { // field return type name
     _products: 'Product'
@@ -2474,7 +2474,7 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   DesignProduct: {
-    quote: { // args
+    estimate: { // args
       quantity: number; // Int!
     }
   }
@@ -2634,7 +2634,7 @@ export interface NexusGenArgTypes {
     }
   }
   Product: {
-    quote: { // args
+    estimate: { // args
       includeFulfillment?: boolean | null; // Boolean
       printLocations: NexusGenInputs['QuoteGeneratePrintLocationInput'][]; // [QuoteGeneratePrintLocationInput!]!
       quantity: number; // Int!
