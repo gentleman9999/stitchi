@@ -1,3 +1,5 @@
+'use client'
+
 import { gql, useQuery } from '@apollo/client'
 import ClosetSection from '@components/common/ClosetSection'
 import React from 'react'
@@ -10,7 +12,6 @@ import {
 import DesignRequestActivity from './DesignRequestActivity'
 import GeneralInformation from './GeneralInformation'
 import DesignRequestOverviewProductList from './DesignRequestOverviewProductList'
-import DesignRequestDraft from './DesignRequestDraft'
 import { ComponentErrorMessage } from '@components/common'
 import { ScopeAction, ScopeResource } from '@generated/globalTypes'
 import { useAuthorizedComponent } from '@lib/auth'
@@ -92,15 +93,9 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
             </ClosetSection>
           ) : null}
 
-          {designRequest && designRequest.status !== 'DRAFT' ? (
+          {designRequest?.id ? (
             <ClosetSection>
               <DesignRequestActivity designRequestId={designRequest.id} />
-            </ClosetSection>
-          ) : null}
-
-          {designRequest?.status === 'DRAFT' ? (
-            <ClosetSection>
-              <DesignRequestDraft designRequest={designRequest} />
             </ClosetSection>
           ) : null}
         </div>
@@ -141,7 +136,6 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
 const GET_DATA = gql`
   ${GeneralInformation.fragments.designRequest}
   ${DesignRequestOverviewProductList.fragments.designRequestProduct}
-  ${DesignRequestDraft.fragments.designRequest}
   ${DesignRequestOrderList.fragments.order}
   query DesignRequestOverviewGetDataQuery($designRequestId: ID!) {
     designRequest(id: $designRequestId) {
@@ -158,7 +152,6 @@ const GET_DATA = gql`
         id
         ...DesignRequestOrderListOrderFragment
       }
-      ...DesignRequestDraftDesignRequestFragments
       ...DesignRequestSubmittedDesignRequestGeneralInformationFragment
     }
   }

@@ -1,3 +1,5 @@
+'use client'
+
 import { gql, useMutation } from '@apollo/client'
 import ClosetPageActions, {
   ClosetPageActionType,
@@ -141,15 +143,6 @@ const DesignRequestActions = ({ designRequest }: Props) => {
       <ClosetPageActions actions={actions} />
     </>
   )
-}
-
-DesignRequestActions.fragments = {
-  designRequest: gql`
-    fragment DesignRequestActionsDesignRequestFragment on DesignRequest {
-      id
-      status
-    }
-  `,
 }
 
 const REJECT_DESIGN_REQUEST = gql`

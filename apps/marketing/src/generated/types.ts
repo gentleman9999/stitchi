@@ -11682,6 +11682,38 @@ export type ClosetTabDesignRequestsGetDataQueryVariables = Exact<{
 
 export type ClosetTabDesignRequestsGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, hasDesignRequests: boolean, designRequests: { __typename: 'DesignRequestConnection', edges: Array<{ __typename: 'DesignRequestEdge', node: { __typename: 'DesignRequest', id: string, name: string, updatedAt: any | null, status: DesignRequestStatus, humanizedStatus: string, previewImageUrl: string | null } | null } | null> | null } } | null };
 
+export type DesignRequestActionsDesignRequestFragment = { __typename: 'DesignRequest', id: string, status: DesignRequestStatus };
+
+export type UseDesignRequestActionsRejectDesignRequestMutationVariables = Exact<{
+  input: DesignRequestRejectInput;
+}>;
+
+
+export type UseDesignRequestActionsRejectDesignRequestMutation = { __typename: 'Mutation', designRequestReject: { __typename: 'DesignRequestRejectPayload', designRequest: { __typename: 'DesignRequest', id: string } | null } | null };
+
+export type UseDesignRequestActionsSubmitDesignRequestMutationVariables = Exact<{
+  input: DesignRequestSubmitInput;
+}>;
+
+
+export type UseDesignRequestActionsSubmitDesignRequestMutation = { __typename: 'Mutation', designRequestSubmit: { __typename: 'DesignRequestSubmitPayload', designRequest: { __typename: 'DesignRequest', id: string } | null } | null };
+
+export type DesignRequestTitleDesignRequesetFragment = { __typename: 'DesignRequest', id: string, name: string, createdAt: any, status: DesignRequestStatus, humanizedStatus: string };
+
+export type UseUpdateNameUpdateNameMutationVariables = Exact<{
+  input: DesignRequestUpdateInput;
+}>;
+
+
+export type UseUpdateNameUpdateNameMutation = { __typename: 'Mutation', designRequestUpdate: { __typename: 'DesignRequestUpdatePayload', designRequest: { __typename: 'DesignRequest', id: string } | null } | null };
+
+export type DesignRequestShowPageMainHeaderPageGetDataQueryVariables = Exact<{
+  designId: Scalars['ID']['input'];
+}>;
+
+
+export type DesignRequestShowPageMainHeaderPageGetDataQuery = { __typename: 'Query', designRequest: { __typename: 'DesignRequest', id: string, status: DesignRequestStatus, name: string, createdAt: any, humanizedStatus: string } | null };
+
 export type DesignRequestApprovedMessageGetDataQueryVariables = Exact<{
   designRequestId: Scalars['ID']['input'];
 }>;
@@ -12166,31 +12198,6 @@ export type DesignRequestOverviewGetDataQuery = { __typename: 'Query', designReq
 export type DesignRequestOverviewProductListDesignRequestProductFragment = { __typename: 'DesignRequestProduct', id: string, colors: Array<{ __typename: 'DesignRequestProductColors', hexCode: string | null, name: string | null }>, catalogProduct: { __typename: 'CatalogProduct', id: string, name: string, slug: string, primaryImage: { __typename: 'CatalogProductImage', url: string } | null, brand: { __typename: 'CatalogBrand', id: string, name: string, slug: string } | null } | null };
 
 export type DesignRequestSubmittedDesignRequestGeneralInformationFragment = { __typename: 'DesignRequest', id: string, description: string | null, files: Array<{ __typename: 'FileImage', width: number, height: number, id: string, humanizedBytes: string, name: string, url: string, fileType: FileType } | { __typename: 'FilePdf', id: string, humanizedBytes: string, name: string, url: string, fileType: FileType } | { __typename: 'FileUnknown', id: string, humanizedBytes: string, name: string, url: string, fileType: FileType }>, designRequestLocations: Array<{ __typename: 'DesignRequestDesignLocation', id: string, description: string | null, placement: string | null, files: Array<{ __typename: 'FileImage', width: number, height: number, id: string, humanizedBytes: string, name: string, url: string, fileType: FileType } | { __typename: 'FilePdf', id: string, humanizedBytes: string, name: string, url: string, fileType: FileType } | { __typename: 'FileUnknown', id: string, humanizedBytes: string, name: string, url: string, fileType: FileType }> }> };
-
-export type DesignRequestActionsDesignRequestFragment = { __typename: 'DesignRequest', id: string, status: DesignRequestStatus };
-
-export type UseDesignRequestActionsRejectDesignRequestMutationVariables = Exact<{
-  input: DesignRequestRejectInput;
-}>;
-
-
-export type UseDesignRequestActionsRejectDesignRequestMutation = { __typename: 'Mutation', designRequestReject: { __typename: 'DesignRequestRejectPayload', designRequest: { __typename: 'DesignRequest', id: string } | null } | null };
-
-export type UseDesignRequestActionsSubmitDesignRequestMutationVariables = Exact<{
-  input: DesignRequestSubmitInput;
-}>;
-
-
-export type UseDesignRequestActionsSubmitDesignRequestMutation = { __typename: 'Mutation', designRequestSubmit: { __typename: 'DesignRequestSubmitPayload', designRequest: { __typename: 'DesignRequest', id: string } | null } | null };
-
-export type DesignRequestTitleDesignRequesetFragment = { __typename: 'DesignRequest', id: string, name: string, createdAt: any, status: DesignRequestStatus, humanizedStatus: string };
-
-export type UseUpdateNameUpdateNameMutationVariables = Exact<{
-  input: DesignRequestUpdateInput;
-}>;
-
-
-export type UseUpdateNameUpdateNameMutation = { __typename: 'Mutation', designRequestUpdate: { __typename: 'DesignRequestUpdatePayload', designRequest: { __typename: 'DesignRequest', id: string } | null } | null };
 
 export type ClosetInboxIndexPageNotificationFragment = { __typename: 'Notification', id: string, createdAt: any, channels: Array<{ __typename: 'NotificationChannelEmail', id: string } | { __typename: 'NotificationChannelWeb', message: string, ctaText: string | null, ctaUrl: string | null, seenAt: any | null, id: string } | null> };
 

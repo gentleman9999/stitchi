@@ -7,7 +7,7 @@ import {
 import { generateHTML } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
-import ReferenceFilesPreview from '../ReferenceFilePreview/ReferenceFilesPreview'
+import ReferenceFilesPreview from './ReferenceFilesPreview/ReferenceFilesPreview'
 
 interface Props {
   designRequest: DesignRequestSubmittedDesignRequestGeneralInformationFragment

@@ -1,7 +1,8 @@
+'use client'
+
 import React from 'react'
 import cx from 'classnames'
 import { DesignRequestStatus } from '@generated/globalTypes'
-import { Check } from 'icons'
 import { CheckIcon } from '@heroicons/react/20/solid'
 
 const steps = [
@@ -15,14 +16,11 @@ const steps = [
 ]
 
 interface Props {
-  loading: boolean
-  status?: DesignRequestStatus | null
+  status: DesignRequestStatus
 }
 
-const Progress = ({ status, loading }: Props) => {
-  const activeStepIndex = status
-    ? steps.findIndex(step => step.includes(status))
-    : 0
+const Progress = ({ status }: Props) => {
+  const activeStepIndex = steps.findIndex(step => step.includes(status)) ?? 0
 
   return (
     <div className="@container">
@@ -32,10 +30,6 @@ const Progress = ({ status, loading }: Props) => {
       >
         {steps.map((_, stepIdx) => {
           const completionStatus = (() => {
-            if (loading) {
-              return 'upcoming'
-            }
-
             if (activeStepIndex > stepIdx) {
               return 'completed'
             }

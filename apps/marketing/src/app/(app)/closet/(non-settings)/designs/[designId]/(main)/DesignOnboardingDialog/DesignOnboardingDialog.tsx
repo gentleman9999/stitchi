@@ -1,3 +1,5 @@
+'use client'
+
 import useUserOnboarding from '@components/hooks/useUserOnboarding'
 import Dialog from '@components/ui/Dialog'
 import Button from '@components/ui/ButtonV2/Button'
