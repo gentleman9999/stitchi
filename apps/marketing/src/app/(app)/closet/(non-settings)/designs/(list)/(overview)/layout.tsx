@@ -6,6 +6,8 @@ import React from 'react'
 interface Props {
   approved: React.ReactNode
   inProgress: React.ReactNode
+  collections: React.ReactNode
+  recent: React.ReactNode
 }
 
 const Layout = ({ approved, inProgress }: Props) => {
