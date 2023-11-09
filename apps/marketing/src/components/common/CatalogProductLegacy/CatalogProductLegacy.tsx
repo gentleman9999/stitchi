@@ -10,8 +10,8 @@ import { makeProductTitle } from '@lib/utils/catalog'
 import { generateImageSizes } from '@lib/utils/image'
 import currency from 'currency.js'
 import Tooltip from '@components/ui/Tooltip'
-import Skeleton from 'react-loading-skeleton'
 import { useLogger } from 'next-axiom'
+import Skeleton from '@components/ui/Skeleton'
 
 export interface Props {
   product?: CatalogProductLegacyProductFragment | null

@@ -4,7 +4,7 @@ import { DesignRequestHistoryDesignRequestFragment } from '@generated/DesignRequ
 import { formatDistanceToNow } from 'date-fns'
 import UserAvatar from '@components/common/UserAvatar'
 import { ArrowPath, PaintBrush } from 'icons'
-import Skeleton from 'react-loading-skeleton'
+import Skeleton from '@components/ui/Skeleton'
 
 interface Props {
   loading: boolean

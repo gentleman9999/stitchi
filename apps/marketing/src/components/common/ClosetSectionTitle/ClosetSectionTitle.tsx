@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react'
-import Skeleton from 'react-loading-skeleton'
 import { useClosetSectionContext } from '../ClosetSection/closet-section-context'
+import Skeleton from '@components/ui/Skeleton'
 
 interface Props {
   title?: React.ReactNode

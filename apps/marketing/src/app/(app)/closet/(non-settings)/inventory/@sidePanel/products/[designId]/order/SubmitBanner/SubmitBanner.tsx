@@ -2,9 +2,9 @@ import LoadingDots from '@components/ui/LoadingDots'
 import currency from 'currency.js'
 import { ArrowRight } from 'icons'
 import React from 'react'
-import Skeleton from 'react-loading-skeleton'
 import cx from 'classnames'
 import Button from '@components/ui/ButtonV2/Button'
+import Skeleton from '@components/ui/Skeleton'
 
 interface Props {
   loading: boolean

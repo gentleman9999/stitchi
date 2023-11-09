@@ -1,6 +1,6 @@
 import { CardContent, CardHeader, CardTitle } from '@components/ui/Card'
+import Skeleton from '@components/ui/Skeleton'
 import React from 'react'
-import Skeleton from 'react-loading-skeleton'
 
 const Loading = () => {
   return (

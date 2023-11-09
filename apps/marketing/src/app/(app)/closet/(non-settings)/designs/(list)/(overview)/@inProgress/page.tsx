@@ -79,7 +79,6 @@ const ClosetTabInProgressDesignRequests = ({}: Props) => {
           <div key={designRequest.id} className="w-[230px] shrink-0 flex">
             <ClosetDesignIndexPageDesignRequestCard
               designRequest={designRequest}
-              loading={false}
             />
           </div>
         ))}

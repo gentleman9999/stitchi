@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react'
 import ProductLayoutHeader from './ProductLayoutHeader'
-import Skeleton from 'react-loading-skeleton'
 import { ProductProvider } from './product-context'
+import Skeleton from '@components/ui/Skeleton'
 
 interface Props {
   children: React.ReactNode

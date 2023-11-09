@@ -12,26 +12,11 @@ import Card from '../../../../../../components/common/ClosetCard/ClosetCard'
 import { getDesignRequestBadgeProps } from '@lib/design-request'
 
 interface Props {
-  loading: boolean
-  designRequest:
-    | ClosetDesignIndexPageDesignRequestCardDesignRequestFragment
-    | null
-    | undefined
+  designRequest: ClosetDesignIndexPageDesignRequestCardDesignRequestFragment
 }
 
-const ClosetDesignIndexPageDesignRequestCard = ({
-  designRequest,
-  loading,
-}: Props) => {
+const ClosetDesignIndexPageDesignRequestCard = ({ designRequest }: Props) => {
   const { setStandout } = useStandout()
-
-  if (loading) {
-    return <Card loading={true} />
-  }
-
-  if (!designRequest) {
-    return null
-  }
 
   return (
     <Card

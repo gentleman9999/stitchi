@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
+import Skeleton from '@components/ui/Skeleton'
 import { UserBadgeUserFramgent } from '@generated/UserBadgeUserFramgent'
 import React from 'react'
-import Skeleton, { SkeletonProps } from 'react-loading-skeleton'
 
 interface Props {
   loading?: boolean

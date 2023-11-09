@@ -1,6 +1,6 @@
 'use client'
 
-import { gql, useQuery } from '@apollo/client'
+import { gql, useSuspenseQuery } from '@apollo/client'
 import ClosetCardGrid from '@components/common/ClosetCardGrid'
 import ClosetPageEmptyState from '@components/common/ClosetPageEmptyState'
 import {
@@ -19,7 +19,7 @@ interface Props {}
 const ClosetTabDesignRequests = ({}: Props) => {
   const { filters } = useCloset()
 
-  const { data, loading, refetch } = useQuery<
+  const { data, refetch } = useSuspenseQuery<
     ClosetTabDesignRequestsGetDataQuery,
     ClosetTabDesignRequestsGetDataQueryVariables
   >(GET_DATA, {
@@ -73,43 +73,36 @@ const ClosetTabDesignRequests = ({}: Props) => {
       ?.map(edge => edge?.node)
       .filter(notEmpty) || []
 
-  return !loading && !data?.viewer?.hasDesignRequests ? (
-    <ClosetPageEmptyState
-      title="You haven't submitted a design request yet."
-      description="Submit a design request to begin your merch journey."
-      cta={{
-        label: 'New design request',
-        href: routes.internal.closet.designs.create.href(),
-      }}
-    />
-  ) : !loading && !designRequests?.length ? (
-    <ClosetPageEmptyState
-      title="No design requests match your filters."
-      description="Try adjusting your filters or resetting them to see more designs."
-    />
-  ) : (
+  if (!data.viewer?.hasDesignRequests) {
+    return (
+      <ClosetPageEmptyState
+        title="You haven't submitted a design request yet."
+        description="Submit a design request to begin your merch journey."
+        cta={{
+          label: 'New design request',
+          href: routes.internal.closet.designs.create.href(),
+        }}
+      />
+    )
+  }
+
+  if (!designRequests.length) {
+    return (
+      <ClosetPageEmptyState
+        title="No design requests match your filters."
+        description="Try adjusting your filters or resetting them to see more designs."
+      />
+    )
+  }
+
+  return (
     <ClosetCardGrid>
-      {loading ? (
-        <>
-          {Array.from({ length: 4 }).map((_, index) => (
-            <ClosetDesignIndexPageDesignRequestCard
-              key={index}
-              designRequest={null}
-              loading={true}
-            />
-          ))}
-        </>
-      ) : (
-        <>
-          {designRequests.map(designRequest => (
-            <ClosetDesignIndexPageDesignRequestCard
-              key={designRequest.id}
-              designRequest={designRequest}
-              loading={false}
-            />
-          ))}
-        </>
-      )}
+      {designRequests.map(designRequest => (
+        <ClosetDesignIndexPageDesignRequestCard
+          key={designRequest.id}
+          designRequest={designRequest}
+        />
+      ))}
     </ClosetCardGrid>
   )
 }

@@ -4,11 +4,11 @@ import { AuthorizedComponent } from '@lib/auth'
 import { Pencil } from 'icons'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import Skeleton from 'react-loading-skeleton'
 import { useDebouncedCallback } from 'use-debounce'
 import * as yup from 'yup'
 import { useDesignContext } from '../design-context'
 import useUpdateName from './useUpdateName'
+import Skeleton from '@components/ui/Skeleton'
 
 const schema = yup.object().shape({
   name: yup.string().min(2).required(),
@@ -32,7 +32,7 @@ const DesignRequestEditableName = ({
       <span className="text-gray-800 font-semibold flex-1">
         {loading ? (
           <>
-            <Skeleton className="w-32" />
+            <Skeleton width={200} />
           </>
         ) : designRequestId ? (
           <Form defaultName={name} designRequestId={designRequestId} />

@@ -5,10 +5,10 @@ import {
   DropdownItemProps,
 } from '@components/ui/Dropdown'
 import LoadingDots from '@components/ui/LoadingDots'
+import Skeleton from '@components/ui/Skeleton'
 import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
 import React from 'react'
-import Skeleton from 'react-loading-skeleton'
 
 interface Image {
   src: string

@@ -69,10 +69,7 @@ const ClosetTabApprovedDesignRequests = ({}: Props) => {
       <div className="flex gap-6">
         {designRequests.map(design => (
           <div key={design.id} className="w-[230px] shrink-0 flex">
-            <ClosetDesignIndexPageDesignRequestCard
-              designRequest={design}
-              loading={false}
-            />
+            <ClosetDesignIndexPageDesignRequestCard designRequest={design} />
           </div>
         ))}
       </div>

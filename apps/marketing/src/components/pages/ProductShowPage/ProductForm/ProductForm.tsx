@@ -20,11 +20,11 @@ import { makeProductTitle } from '@lib/utils/catalog'
 import currency from 'currency.js'
 import React from 'react'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
-import Skeleton from 'react-loading-skeleton'
 import * as yup from 'yup'
 import InformationGroup from './InformationGroup'
 import useProductEstimate from './useProductEstimate'
 import { MIN_ORDER_QTY } from '@lib/constants'
+import Skeleton from '../../../ui/Skeleton/Skeleton'
 
 const customizationOptions = [
   {

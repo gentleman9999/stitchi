@@ -1,6 +1,6 @@
 'use client'
 
-import { gql, useQuery } from '@apollo/client'
+import { gql, useSuspenseQuery } from '@apollo/client'
 import ClosetPageEmptyState from '@components/common/ClosetPageEmptyState'
 
 import routes from '@lib/routes'
@@ -20,7 +20,7 @@ interface Props {}
 const ClosetTabArchivedDesigns = ({}: Props) => {
   const { filters } = useCloset()
 
-  const { data, loading, refetch } = useQuery<
+  const { data, refetch } = useSuspenseQuery<
     ClosetTabArchivedDesignsGetDataQuery,
     ClosetTabArchivedDesignsGetDataQueryVariables
   >(GET_DATA, {
@@ -65,43 +65,36 @@ const ClosetTabArchivedDesigns = ({}: Props) => {
     ?.map(edge => edge?.node)
     .filter(notEmpty)
 
-  return !loading && !data?.viewer?.hasDesignProducts ? (
-    <ClosetPageEmptyState
-      title="You don't have any approved designs yet."
-      description="Your approved designs will appear here."
-      cta={{
-        label: 'View in-progress designs',
-        href: routes.internal.closet.designs.inProgress.href(),
-      }}
-    />
-  ) : !loading && !approvedDesigns?.length ? (
-    <ClosetPageEmptyState
-      title="No approved designs match your filters."
-      description="Try adjusting your filters or resetting them to see more designs."
-    />
-  ) : (
+  if (!data?.viewer?.hasDesignProducts) {
+    return (
+      <ClosetPageEmptyState
+        title="You don't have any approved designs yet."
+        description="Your approved designs will appear here."
+        cta={{
+          label: 'View in-progress designs',
+          href: routes.internal.closet.designs.inProgress.href(),
+        }}
+      />
+    )
+  }
+
+  if (!approvedDesigns?.length) {
+    return (
+      <ClosetPageEmptyState
+        title="No approved designs match your filters."
+        description="Try adjusting your filters or resetting them to see more designs."
+      />
+    )
+  }
+
+  return (
     <ClosetCardGrid>
-      {loading ? (
-        <>
-          {Array.from({ length: 4 }).map((_, index) => (
-            <ClosetDesignIndexPageDesignRequestCard
-              key={index}
-              designRequest={null}
-              loading={true}
-            />
-          ))}
-        </>
-      ) : (
-        <>
-          {approvedDesigns?.map(design => (
-            <ClosetDesignIndexPageDesignRequestCard
-              key={design.id}
-              designRequest={design}
-              loading={false}
-            />
-          ))}
-        </>
-      )}
+      {approvedDesigns?.map(design => (
+        <ClosetDesignIndexPageDesignRequestCard
+          key={design.id}
+          designRequest={design}
+        />
+      ))}
     </ClosetCardGrid>
   )
 }
