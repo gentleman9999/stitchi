@@ -1,9 +1,8 @@
+'use client'
+
 import { gql, useQuery } from '@apollo/client'
 import ClosetPageEmptyState from '@components/common/ClosetPageEmptyState'
-import {
-  ClosetTabApprovedDesignsGetDataQuery,
-  ClosetTabApprovedDesignsGetDataQueryVariables,
-} from '@generated/ClosetTabApprovedDesignsGetDataQuery'
+
 import routes from '@lib/routes'
 import { notEmpty } from '@lib/utils/typescript'
 import React from 'react'
@@ -11,15 +10,19 @@ import { useCloset } from '../closet-context'
 import ClosetCardGrid from '@components/common/ClosetCardGrid'
 import ClosetDesignIndexPageDesignRequestCard from '../ClosetDesignIndexPageDesignRequestCard'
 import { DesignRequestStatus } from '@generated/globalTypes'
+import {
+  ClosetTabArchivedDesignsGetDataQuery,
+  ClosetTabArchivedDesignsGetDataQueryVariables,
+} from '@generated/types'
 
 interface Props {}
 
-const ClosetTabApprovedDesigns = ({}: Props) => {
+const ClosetTabArchivedDesigns = ({}: Props) => {
   const { filters } = useCloset()
 
   const { data, loading, refetch } = useQuery<
-    ClosetTabApprovedDesignsGetDataQuery,
-    ClosetTabApprovedDesignsGetDataQueryVariables
+    ClosetTabArchivedDesignsGetDataQuery,
+    ClosetTabArchivedDesignsGetDataQueryVariables
   >(GET_DATA, {
     fetchPolicy: 'cache-and-network',
     variables: {
@@ -29,7 +32,7 @@ const ClosetTabApprovedDesigns = ({}: Props) => {
           membershipId: { equals: filters.user || undefined },
           artistMembershipId: { equals: filters.artist || undefined },
           status: {
-            equals: DesignRequestStatus.APPROVED,
+            in: [DesignRequestStatus.REJECTED],
           },
           createdAt: {
             gte: filters.date?.gte,
@@ -47,7 +50,7 @@ const ClosetTabApprovedDesigns = ({}: Props) => {
           membershipId: { equals: filters.user || undefined },
           artistMembershipId: { equals: filters.artist || undefined },
           status: {
-            equals: DesignRequestStatus.APPROVED,
+            in: [DesignRequestStatus.REJECTED],
           },
           createdAt: {
             gte: filters.date?.gte,
@@ -105,7 +108,7 @@ const ClosetTabApprovedDesigns = ({}: Props) => {
 
 const GET_DATA = gql`
   ${ClosetDesignIndexPageDesignRequestCard.fragments.designRequest}
-  query ClosetTabApprovedDesignsGetDataQuery(
+  query ClosetTabArchivedDesignsGetDataQuery(
     $first: Int!
     $after: String
     $filter: MembershipDesignRequestsFilterInput
@@ -125,4 +128,4 @@ const GET_DATA = gql`
   }
 `
 
-export default ClosetTabApprovedDesigns
+export default ClosetTabArchivedDesigns

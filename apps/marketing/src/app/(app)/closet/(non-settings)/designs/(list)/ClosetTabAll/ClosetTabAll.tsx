@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import ClosetSection from '@components/common/ClosetSection'
 import ClosetSectionHeader from '@components/common/ClosetSectionHeader'

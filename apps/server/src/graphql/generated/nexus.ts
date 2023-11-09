@@ -910,10 +910,6 @@ export interface NexusGenObjects {
     expYear?: number | null; // Int
     last4?: string | null; // String
   }
-  PrintLocation: { // root type
-    colorCount: number; // Int!
-    totalCostInCents?: number | null; // Int
-  }
   Product: { // root type
     id: string; // ID!
   }
@@ -921,7 +917,6 @@ export interface NexusGenObjects {
   Quote: { // root type
     id: string; // ID!
     printLocationCount: number; // Int!
-    printLocations: NexusGenRootTypes['PrintLocation'][]; // [PrintLocation!]!
     productTotalCostCents: number; // Int!
     productUnitCostCents: number; // Int!
   }
@@ -1630,10 +1625,6 @@ export interface NexusGenFieldTypes {
     expYear: number | null; // Int
     last4: string | null; // String
   }
-  PrintLocation: { // field return type
-    colorCount: number; // Int!
-    totalCostInCents: number | null; // Int
-  }
   Product: { // field return type
     estimate: NexusGenRootTypes['Quote']; // Quote!
     id: string; // ID!
@@ -1652,7 +1643,6 @@ export interface NexusGenFieldTypes {
   Quote: { // field return type
     id: string; // ID!
     printLocationCount: number; // Int!
-    printLocations: NexusGenRootTypes['PrintLocation'][]; // [PrintLocation!]!
     productTotalCostCents: number; // Int!
     productUnitCostCents: number; // Int!
   }
@@ -2371,10 +2361,6 @@ export interface NexusGenFieldTypeNames {
     expYear: 'Int'
     last4: 'String'
   }
-  PrintLocation: { // field return type name
-    colorCount: 'Int'
-    totalCostInCents: 'Int'
-  }
   Product: { // field return type name
     estimate: 'Quote'
     id: 'ID'
@@ -2393,7 +2379,6 @@ export interface NexusGenFieldTypeNames {
   Quote: { // field return type name
     id: 'ID'
     printLocationCount: 'Int'
-    printLocations: 'PrintLocation'
     productTotalCostCents: 'Int'
     productUnitCostCents: 'Int'
   }

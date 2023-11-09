@@ -1274,11 +1274,6 @@ type PaymentMethodCard {
   last4: String
 }
 
-type PrintLocation {
-  colorCount: Int!
-  totalCostInCents: Int
-}
-
 type Product {
   estimate(includeFulfillment: Boolean, printLocations: [QuoteGeneratePrintLocationInput!]!, quantity: Int!): Quote!
   id: ID!
@@ -1312,7 +1307,6 @@ type Query {
 type Quote {
   id: ID!
   printLocationCount: Int!
-  printLocations: [PrintLocation!]!
 
   """The cost of the product with shipping, taxes, and other."""
   productTotalCostCents: Int!

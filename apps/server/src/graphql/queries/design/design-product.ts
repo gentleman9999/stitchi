@@ -142,10 +142,6 @@ export const DesignProductExtendsDesignProduct = extendType({
           printLocationCount: quote.printLocationCount,
           productTotalCostCents: quote.productTotalCostCents,
           productUnitCostCents: quote.productUnitCostCents,
-          printLocations: quote.printLocations.map(printLocation => ({
-            colorCount: printLocation.colorCount,
-            totalCostInCents: printLocation.priceCents,
-          })),
         }
       },
     })

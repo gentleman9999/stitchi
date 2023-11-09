@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import ActionPanel from '@components/ui/ActionPanel'
 import Button from '@components/ui/ButtonV2/Button'
