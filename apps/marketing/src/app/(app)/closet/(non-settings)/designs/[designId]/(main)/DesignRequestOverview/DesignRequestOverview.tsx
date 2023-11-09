@@ -65,14 +65,6 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
       designRequestId={designRequestId}
       activeProofId={activeProofId}
       onClick={handleActiveProofChange}
-      onApprove={proofId =>
-        router.push(
-          routes.internal.closet.designs.show.proofs.show.approve.href({
-            designId: designRequestId,
-            proofId,
-          }),
-        )
-      }
       loading={switchingProof}
     />
   )
@@ -82,7 +74,9 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
       <ComponentErrorMessage error={error} />
 
       <div className="grid grid-cols-1 @3xl:grid-cols-12 gap-12">
-        <DesignRequestAssociatedProducts designRequestId={designRequestId} />
+        <div className="col-span-1 @3xl:col-span-12">
+          <DesignRequestAssociatedProducts designRequestId={designRequestId} />
+        </div>
 
         <div className="col-span-1 @3xl:col-span-8">
           <div className="@3xl:hidden">{ProofList}</div>
@@ -118,12 +112,11 @@ const DesignRequestOverview = ({ designRequestId }: Props) => {
             </ClosetSection>
           ) : null}
 
-          {designRequest && designRequest.status !== 'DRAFT' ? (
+          {designRequest ? (
             <ClosetSection>
               <GeneralInformation designRequest={designRequest} />
             </ClosetSection>
           ) : null}
-
           <ClosetSection>
             <DesignRequestOrderList orders={designRequest?.orders || []} />
           </ClosetSection>

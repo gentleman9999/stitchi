@@ -31,49 +31,47 @@ const DesignRequestAssociatedProducts = ({ designRequestId }: Props) => {
   }
 
   return (
-    <div className="col-span-1 md:col-span-12">
-      <ClosetSection>
-        <ClosetSectionHeader>
-          <ClosetSectionTitle title="Good news, your design is ready for production!" />{' '}
-        </ClosetSectionHeader>
+    <ClosetSection>
+      <ClosetSectionHeader>
+        <ClosetSectionTitle title="Good news, your design is ready for production!" />{' '}
+      </ClosetSectionHeader>
 
-        <div className="flex flex-col gap-2">
-          {designRequest.designProducts.map(designProduct => (
-            <Link
-              key={designProduct.id}
-              className="flex justify-between gap-2 items-center border rounded-md p-4"
-              href={routes.internal.closet.inventory.show.products.show.href({
-                designId: designProduct.id,
-              })}
-            >
-              <div className="flex gap-2 items-center">
-                <img
-                  src={designProduct.primaryImageFile?.url}
-                  alt={designProduct.name}
-                  width={designProduct.primaryImageFile?.width}
-                  height={designProduct.primaryImageFile?.height}
-                  className="w-12 h-12 rounded-md object-contain"
-                />
+      <div className="flex flex-col gap-2">
+        {designRequest.designProducts.map(designProduct => (
+          <Link
+            key={designProduct.id}
+            className="flex justify-between gap-2 items-center border rounded-md p-4"
+            href={routes.internal.closet.inventory.show.products.show.href({
+              designId: designProduct.id,
+            })}
+          >
+            <div className="flex gap-2 items-center">
+              <img
+                src={designProduct.primaryImageFile?.url}
+                alt={designProduct.name}
+                width={designProduct.primaryImageFile?.width}
+                height={designProduct.primaryImageFile?.height}
+                className="w-12 h-12 rounded-md object-contain"
+              />
 
-                <div className="flex flex-col">
-                  <span className="text-sm font-semibold">
-                    {designProduct.name}
-                  </span>
-                </div>
+              <div className="flex flex-col">
+                <span className="text-sm font-semibold">
+                  {designProduct.name}
+                </span>
               </div>
+            </div>
 
-              <Button
-                variant="ghost"
-                size="xs"
-                endIcon={<ArrowRightIcon className="w-5" />}
-              >
-                View inventory
-              </Button>
-            </Link>
-          ))}
-        </div>
-      </ClosetSection>
-    </div>
+            <Button
+              variant="ghost"
+              size="xs"
+              endIcon={<ArrowRightIcon className="w-5" />}
+            >
+              View inventory
+            </Button>
+          </Link>
+        ))}
+      </div>
+    </ClosetSection>
   )
 }
 

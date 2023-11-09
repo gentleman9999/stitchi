@@ -8,11 +8,7 @@ interface Props {
 }
 
 const Page = ({ params: { designId } }: Props) => {
-  return (
-    <>
-      <DesignRequestApprovedMessage designRequestId={designId} />
-    </>
-  )
+  return <DesignRequestApprovedMessage designRequestId={designId} />
 }
 
 export default Page

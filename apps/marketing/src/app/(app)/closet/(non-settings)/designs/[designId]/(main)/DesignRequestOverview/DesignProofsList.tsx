@@ -16,12 +16,13 @@ import {
 } from '@generated/types'
 import IconButton from '@components/ui/IconButton'
 import { ChevronUpDownIcon } from '@heroicons/react/20/solid'
+import Link from 'next/link'
+import routes from '@lib/routes'
 
 interface Props {
   designRequestId: string
   activeProofId: string | null
   onClick: (proofId: string) => void
-  onApprove: (proofId: string) => void
   loading?: boolean
 }
 
@@ -29,7 +30,6 @@ const DesignProofsList = ({
   designRequestId,
   activeProofId,
   onClick,
-  onApprove,
   loading,
 }: Props) => {
   const { can, loading: authorizationLoading } = useAuthorizedComponent()
@@ -136,11 +136,17 @@ const DesignProofsList = ({
         can(ScopeResource.DesignProduct, ScopeAction.CREATE) ? (
           <CardContent divide>
             <Button
+              Component={Link}
               className="w-full"
               color="brandPrimary"
               size="lg"
-              onClick={() => onApprove(activeProofId)}
               loading={loading}
+              href={routes.internal.closet.designs.show.proofs.show.approve.href(
+                {
+                  designId: designRequestId,
+                  proofId: activeProofId,
+                },
+              )}
             >
               Approve selected proof
             </Button>

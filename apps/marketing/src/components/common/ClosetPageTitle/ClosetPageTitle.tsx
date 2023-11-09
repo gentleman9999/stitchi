@@ -16,7 +16,7 @@ const ClosetPageTitle = (props: Props) => {
           </h1>
 
           {props.description && (
-            <p className="text-gray-500 mt-1">{props.description}</p>
+            <div className="text-gray-500 mt-1">{props.description}</div>
           )}
         </div>
 
