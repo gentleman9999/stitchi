@@ -3,11 +3,12 @@ import ReactLoadingSkeleton, {
   SkeletonProps as ReactLoadingSkeletonProps,
 } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import { theme } from '../../../../tailwind.config'
 
 export interface SkeletonProps extends ReactLoadingSkeletonProps {}
 
 const Skeleton = (props: SkeletonProps) => {
-  return <ReactLoadingSkeleton {...props} baseColor="#f8f8f8" />
+  return <ReactLoadingSkeleton baseColor={theme.colors.gray[50]} {...props} />
 }
 
 export default Skeleton
