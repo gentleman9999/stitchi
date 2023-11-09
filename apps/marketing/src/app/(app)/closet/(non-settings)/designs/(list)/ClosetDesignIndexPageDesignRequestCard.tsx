@@ -1,3 +1,5 @@
+'use client'
+
 import { gql } from '@apollo/client'
 import { StandoutType, useStandout } from '@components/context'
 import { BadgeProps } from '@components/ui/Badge'
@@ -8,7 +10,7 @@ import routes from '@lib/routes'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { format } from 'date-fns'
 import React from 'react'
-import Card from '../../common/ClosetCard/ClosetCard'
+import Card from '../../../../../../components/common/ClosetCard/ClosetCard'
 import { getDesignRequestBadgeProps } from '@lib/design-request'
 
 interface Props {

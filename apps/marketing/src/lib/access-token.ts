@@ -31,7 +31,5 @@ export const getAccessToken = async (ctx?: {
     })
   }
 
-  console.log('ACCESS TOKEN', accessToken)
-
   return accessToken
 }

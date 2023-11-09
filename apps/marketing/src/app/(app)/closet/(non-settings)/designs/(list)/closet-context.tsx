@@ -1,3 +1,5 @@
+'use client'
+
 import { TableFilterDateProps } from '@components/ui/Table/TableFilterDate'
 import { TableFilterUserProps } from '@components/ui/Table/TableFilterUser'
 import { useQueryState } from 'next-usequerystate'
@@ -28,6 +30,7 @@ const ClosetProvider = ({
   const [dateFilter, setDateFilter] = useQueryState<
     TableFilterDateProps['value'] | null
   >('date', {
+    shallow: false,
     defaultValue: null,
     parse: (value: string) => {
       try {
@@ -44,6 +47,7 @@ const ClosetProvider = ({
   const [userFilter, setUserFilter] = useQueryState<
     TableFilterUserProps['value'] | null
   >('user', {
+    shallow: false,
     defaultValue: null,
     parse: (value: string) => {
       try {
@@ -60,6 +64,7 @@ const ClosetProvider = ({
   const [artistFilter, setArtistFilter] = useQueryState<
     TableFilterUserProps['value'] | null
   >('artist', {
+    shallow: false,
     defaultValue: null,
     parse: (value: string) => {
       try {

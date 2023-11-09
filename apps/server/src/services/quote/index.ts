@@ -58,10 +58,6 @@ export interface QuoteServiceEstimate {
   productTotalCostCents: number
   productUnitCostCents: number
   printLocationCount: number
-  printLocations: {
-    colorCount: number
-    priceCents: number
-  }[]
 }
 
 export interface QuoteServiceQuoteV2 {

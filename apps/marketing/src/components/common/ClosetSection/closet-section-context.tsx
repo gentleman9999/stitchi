@@ -1,6 +1,6 @@
 'use client'
 
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React from 'react'
 
 type ID = number | string
@@ -73,7 +73,10 @@ const getLongestMatch = (href: string, tabs: Tab<ID>[]): Tab<ID> | null => {
   let longestMatch: Tab<ID> | null = null
 
   tabs.forEach(tab => {
-    if (href.includes(tab.href) && tab.href.length > longestMatchLength) {
+    if (
+      href.includes(tab.href.split('?')[0]) &&
+      tab.href.length > longestMatchLength
+    ) {
       longestMatch = tab
       longestMatchLength = tab.href.length
     }

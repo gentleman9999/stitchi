@@ -1,4 +1,6 @@
-import { gql, useQuery } from '@apollo/client'
+'use client'
+
+import { gql, useSuspenseQuery } from '@apollo/client'
 import TableFilterDate from '@components/ui/Table/TableFilterDate'
 import TableFilters from '@components/ui/Table/TableFilters'
 import TableFilterUser from '@components/ui/Table/TableFilterUser'
@@ -13,10 +15,10 @@ interface Props {}
 const ClosetDesignFilters = ({}: Props) => {
   const { filters, setDateFilter, setUserFilter } = useCloset()
 
-  const { data } = useQuery<ClosetDesignFiltersGetDataQuery>(GET_DATA)
+  const { data } = useSuspenseQuery<ClosetDesignFiltersGetDataQuery>(GET_DATA)
 
   const users =
-    data?.viewer?.organization?.memberships
+    data.viewer?.organization?.memberships
       ?.map(m =>
         m?.user
           ? {
@@ -29,7 +31,7 @@ const ClosetDesignFilters = ({}: Props) => {
 
   const activeUser = users.find(u => u.membershipId === filters.user)
 
-  const role = data?.viewer?.role
+  const role = data.viewer?.role
 
   return (
     <TableFilters disableGutters>

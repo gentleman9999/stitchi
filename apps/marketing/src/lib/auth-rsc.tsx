@@ -9,7 +9,6 @@ import {
 } from '@generated/types'
 import React from 'react'
 import { getClient } from './apollo-rsc'
-import hoistNonReactStatics from 'hoist-non-react-statics'
 import { redirect } from 'next/navigation'
 import routes from './routes'
 
@@ -81,6 +80,21 @@ export const authorization = async (params: AuthorizationParams[]) => {
   if (!authorized) {
     redirect(routes.internal.closet.href())
   }
+}
+
+export const getUserAuthorization = async () => {
+  const client = await getClient()
+
+  const { data } = await client.query<
+    AuthorizedComponentGetDataQuery,
+    AuthorizedComponentGetDataQueryVariables
+  >({ query: GET_DATA })
+
+  const { role, scopes, id: membershipId } = data.viewer || {}
+
+  const canCan = (params: AuthorizationParams[]) => can(params, scopes || [])
+
+  return { role, scopes, membershipId, can: canCan }
 }
 
 const GET_DATA = gql`
