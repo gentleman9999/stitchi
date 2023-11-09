@@ -1,20 +1,13 @@
-'use client'
-
 import dynamic from 'next/dynamic'
 import React from 'react'
 import { theme } from '../../../tailwind.config'
 
-const PageLoadProgress = dynamic(() => import('nextjs-progressbar'), {
+const NextTopLoader = dynamic(() => import('nextjs-toploader'), {
   ssr: false,
 })
 
 const PageloadProgressIndicator = () => {
-  return (
-    <PageLoadProgress
-      color={theme.colors.primary}
-      options={{ showSpinner: false }}
-    />
-  )
+  return <NextTopLoader color={theme.colors.primary} showSpinner={false} />
 }
 
 export default PageloadProgressIndicator

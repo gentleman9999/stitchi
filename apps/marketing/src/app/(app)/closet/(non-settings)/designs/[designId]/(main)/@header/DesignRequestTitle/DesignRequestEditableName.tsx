@@ -94,7 +94,7 @@ const DesignRequestEditableName = ({
           </div>
           <input
             disabled={!edit}
-            className="disabled:bg-transparent outline-primary"
+            className="disabled:bg-transparent outline-primary "
             onFocus={() => setEdit(true)}
             style={{ width: `${inputWidthPx}px` }}
             onKeyDown={event => {
@@ -112,16 +112,17 @@ const DesignRequestEditableName = ({
           <span className="text-red-500 text-xs">
             {form.formState.errors.name?.message}
           </span>
-          <AuthorizedComponent
-            resource={ScopeResource.DesignRequest}
-            action={ScopeAction.UPDATE}
-          >
-            {!edit ? (
+
+          {!edit ? (
+            <AuthorizedComponent
+              resource={ScopeResource.DesignRequest}
+              action={ScopeAction.UPDATE}
+            >
               <button className="absolute -right-3 top-0">
                 <Pencil className="w-3 h-3" onClick={handleEdit} />
               </button>
-            ) : null}
-          </AuthorizedComponent>
+            </AuthorizedComponent>
+          ) : null}
         </div>
       </span>
     </div>

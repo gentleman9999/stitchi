@@ -12,7 +12,6 @@ import Link from 'next/link'
 import cx from 'classnames'
 import React from 'react'
 import AppTopbar from '../AppTopbar'
-import PageloadProgressIndicator from '../PageloadProgressIndicator'
 import NavItem from '../NavItem'
 import Logo from '@components/ui/Logo'
 
@@ -27,7 +26,6 @@ const CatalogLayout = ({ children }: Props) => {
 
   return (
     <>
-      <PageloadProgressIndicator />
       <div className="h-full relative">
         <AppTopbar
           membership={data?.viewer || null}

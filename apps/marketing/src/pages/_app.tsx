@@ -17,6 +17,7 @@ import { SnackbarProvider } from '@components/context/snackbar-context'
 import { AxiomWebVitals } from 'next-axiom'
 import { CookiesProvider } from 'react-cookie'
 import IntercomProvider from 'app/IntercomProvider'
+import PageloadProgressIndicator from '@components/layout/PageloadProgressIndicator'
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -56,6 +57,7 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
       />
       {/* Google Tag Manager - Global base code - end */}
       <div className={`${outfit.variable}`}>
+        <PageloadProgressIndicator />
         <UserProvider>
           <CookiesProvider>
             <ApolloProvider client={apolloClient}>

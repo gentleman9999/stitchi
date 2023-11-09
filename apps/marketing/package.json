@@ -72,7 +72,7 @@
     "next-seo": "^5.1.0",
     "next-sitemap": "^4.0.6",
     "next-usequerystate": "^1.10.0",
-    "nextjs-progressbar": "^0.0.16",
+    "nextjs-toploader": "^1.6.4",
     "pluralize": "^8.0.0",
     "react": "^18.2.0",
     "react-cookie": "^6.1.1",
