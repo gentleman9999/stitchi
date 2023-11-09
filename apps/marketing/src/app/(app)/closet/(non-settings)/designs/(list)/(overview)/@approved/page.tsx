@@ -1,17 +1,16 @@
-import { gql, useQuery } from '@apollo/client'
-import ClosetSection from '@components/common/ClosetSection'
-import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
-import ClosetSectionTitle from '@components/common/ClosetSectionTitle'
+'use client'
+
+import { gql, useSuspenseQuery } from '@apollo/client'
 import {
   ClosetTabApprovedDesignRequestGetDataQuery,
   ClosetTabApprovedDesignRequestGetDataQueryVariables,
 } from '@generated/ClosetTabApprovedDesignRequestGetDataQuery'
 import { notEmpty } from '@lib/utils/typescript'
 import React from 'react'
-import { useCloset } from '../closet-context'
-import Carousel from './Carousel'
-import EmptyState from './EmptyState'
-import ClosetDesignIndexPageDesignRequestCard from '../ClosetDesignIndexPageDesignRequestCard'
+import { useCloset } from '../../closet-context'
+import Carousel from '../Carousel'
+import EmptyState from '../EmptyState'
+import ClosetDesignIndexPageDesignRequestCard from '../../ClosetDesignIndexPageDesignRequestCard'
 import { DesignRequestStatus } from '@generated/globalTypes'
 
 interface Props {}
@@ -19,7 +18,7 @@ interface Props {}
 const ClosetTabApprovedDesignRequests = ({}: Props) => {
   const { filters } = useCloset()
 
-  const { data, loading, refetch } = useQuery<
+  const { data, refetch } = useSuspenseQuery<
     ClosetTabApprovedDesignRequestGetDataQuery,
     ClosetTabApprovedDesignRequestGetDataQueryVariables
   >(GET_DATA, {
@@ -60,49 +59,26 @@ const ClosetTabApprovedDesignRequests = ({}: Props) => {
     })
   }, [filters, refetch])
 
-  const { viewer } = data || {}
-
   const designRequests =
-    viewer?.designRequests.edges?.map(edge => edge?.node).filter(notEmpty) || []
+    data.viewer?.designRequests.edges
+      ?.map(edge => edge?.node)
+      .filter(notEmpty) || []
 
-  return (
-    <ClosetSection>
-      <ClosetSectionHeader>
-        <ClosetSectionTitle title="Approved" />
-      </ClosetSectionHeader>
-
-      {loading || designRequests.length ? (
-        <Carousel>
-          <div className="flex gap-6">
-            {loading ? (
-              <>
-                {Array.from({ length: 4 }).map((_, index) => (
-                  <div key={index} className="w-[230px] shrink-0 flex">
-                    <ClosetDesignIndexPageDesignRequestCard
-                      loading={true}
-                      designRequest={null}
-                    />
-                  </div>
-                ))}
-              </>
-            ) : (
-              <>
-                {designRequests.map(design => (
-                  <div key={design.id} className="w-[230px] shrink-0 flex">
-                    <ClosetDesignIndexPageDesignRequestCard
-                      designRequest={design}
-                      loading={false}
-                    />
-                  </div>
-                ))}
-              </>
-            )}
+  return designRequests.length ? (
+    <Carousel>
+      <div className="flex gap-6">
+        {designRequests.map(design => (
+          <div key={design.id} className="w-[230px] shrink-0 flex">
+            <ClosetDesignIndexPageDesignRequestCard
+              designRequest={design}
+              loading={false}
+            />
           </div>
-        </Carousel>
-      ) : (
-        <EmptyState />
-      )}
-    </ClosetSection>
+        ))}
+      </div>
+    </Carousel>
+  ) : (
+    <EmptyState />
   )
 }
 

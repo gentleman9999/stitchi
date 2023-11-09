@@ -1,16 +1,16 @@
 import 'server-only'
 
-import { gql } from '@apollo/client'
 import {
-  AuthorizedComponentGetDataQuery,
-  AuthorizedComponentGetDataQueryVariables,
   ScopeAction,
   ScopeResource,
+  UseAuthorizedComponentGetDataQuery,
+  UseAuthorizedComponentGetDataQueryVariables,
 } from '@generated/types'
 import React from 'react'
 import { getClient } from './apollo-rsc'
 import { redirect } from 'next/navigation'
 import routes from './routes'
+import { GET_DATA } from './auth-query'
 
 interface AuthorizationParams {
   resource: ScopeResource
@@ -35,7 +35,7 @@ type AuthorizationComponentProps =
 
 const can = (
   params: AuthorizationParams[],
-  scopes: NonNullable<AuthorizedComponentGetDataQuery['viewer']>['scopes'],
+  scopes: NonNullable<UseAuthorizedComponentGetDataQuery['viewer']>['scopes'],
 ) => {
   return params.some(({ resource, action }) => {
     return scopes.some(
@@ -51,8 +51,8 @@ export const AuthorizedComponent = async ({
   const client = await getClient()
 
   const { data } = await client.query<
-    AuthorizedComponentGetDataQuery,
-    AuthorizedComponentGetDataQueryVariables
+    UseAuthorizedComponentGetDataQuery,
+    UseAuthorizedComponentGetDataQueryVariables
   >({ query: GET_DATA })
 
   const authorized = can(
@@ -71,8 +71,8 @@ export const authorization = async (params: AuthorizationParams[]) => {
   const client = await getClient()
 
   const { data } = await client.query<
-    AuthorizedComponentGetDataQuery,
-    AuthorizedComponentGetDataQueryVariables
+    UseAuthorizedComponentGetDataQuery,
+    UseAuthorizedComponentGetDataQueryVariables
   >({ query: GET_DATA })
 
   const authorized = can(params, data.viewer?.scopes || [])
@@ -86,8 +86,8 @@ export const getUserAuthorization = async () => {
   const client = await getClient()
 
   const { data } = await client.query<
-    AuthorizedComponentGetDataQuery,
-    AuthorizedComponentGetDataQueryVariables
+    UseAuthorizedComponentGetDataQuery,
+    UseAuthorizedComponentGetDataQueryVariables
   >({ query: GET_DATA })
 
   const { role, scopes, id: membershipId } = data.viewer || {}
@@ -96,16 +96,3 @@ export const getUserAuthorization = async () => {
 
   return { role, scopes, membershipId, can: canCan }
 }
-
-const GET_DATA = gql`
-  query AuthorizedComponentGetDataQuery {
-    viewer {
-      id
-      role
-      scopes {
-        resource
-        action
-      }
-    }
-  }
-`

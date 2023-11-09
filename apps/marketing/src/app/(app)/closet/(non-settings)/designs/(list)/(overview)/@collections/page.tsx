@@ -1,8 +1,7 @@
 import React from 'react'
-import ClosetTabAll from './ClosetTabAll'
 
 const Page = () => {
-  return <ClosetTabAll />
+  return null
 }
 
 export default Page

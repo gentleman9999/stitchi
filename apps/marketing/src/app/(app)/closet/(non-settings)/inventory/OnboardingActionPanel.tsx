@@ -8,7 +8,7 @@ import React from 'react'
 import { GlobalDistribution } from 'icons'
 
 const OnboardingActionPanel = () => {
-  const { loading, onboarding, update, updating } = useUserOnboarding()
+  const { onboarding, update, updating } = useUserOnboarding()
 
   const handleClick = () => {
     update({
@@ -18,9 +18,7 @@ const OnboardingActionPanel = () => {
 
   return (
     <ActionPanel
-      hide={Boolean(
-        loading || onboarding?.seenInventoryIndexPageOnboardingBanner,
-      )}
+      hide={Boolean(onboarding?.seenInventoryIndexPageOnboardingBanner)}
       title="All of your inventory in one place"
       description="Your inventory are all of the items stored with Stitchi. You can
       easily send items from your inventory anywhere, or use one of

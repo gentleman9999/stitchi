@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import { DesignProvider } from './design-context'
 import { gql, useQuery } from '@apollo/client'
 import DesignRequestTitle from './DesignRequestTitle'
@@ -30,7 +30,9 @@ const ClosetDesignRequestShowPage = ({ designId }: Props) => {
 
   return (
     <>
-      <DesignOnboardingDialog />
+      <Suspense fallback={null}>
+        <DesignOnboardingDialog />
+      </Suspense>
       <DesignProvider>
         <ClosetPageContainer>
           <ClosetPageHeader>

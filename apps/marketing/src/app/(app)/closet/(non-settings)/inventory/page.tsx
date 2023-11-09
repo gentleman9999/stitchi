@@ -1,6 +1,7 @@
 import ClosetPageHeader from '@components/common/ClosetPageHeader'
 import ClosetPageTitle from '@components/common/ClosetPageTitle'
 import OnboardingActionPanel from './OnboardingActionPanel'
+import { Suspense } from 'react'
 
 const Page = () => {
   return (
@@ -9,7 +10,9 @@ const Page = () => {
         <ClosetPageTitle title="Inventory" description="" />
       </ClosetPageHeader>
 
-      <OnboardingActionPanel />
+      <Suspense fallback={null}>
+        <OnboardingActionPanel />
+      </Suspense>
     </>
   )
 }

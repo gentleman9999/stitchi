@@ -1,4 +1,4 @@
-import { gql, useMutation, useQuery } from '@apollo/client'
+import { gql, useMutation, useSuspenseQuery } from '@apollo/client'
 import { UserOnboardingUpdateInput } from '@generated/globalTypes'
 import { UseUserOnboardingGetDataQuery } from '@generated/UseUserOnboardingGetDataQuery'
 import {
@@ -9,7 +9,7 @@ import React from 'react'
 
 const useUserOnboarding = () => {
   const [updating, setUpdating] = React.useState(false)
-  const { data, loading } = useQuery<UseUserOnboardingGetDataQuery>(GET_DATA)
+  const { data } = useSuspenseQuery<UseUserOnboardingGetDataQuery>(GET_DATA)
   const [updateOnboarding] = useMutation<
     UseUserOnboardingUpdateOnboardingMutation,
     UseUserOnboardingUpdateOnboardingMutationVariables
@@ -26,17 +26,19 @@ const useUserOnboarding = () => {
 
   const handleUpdate = async (input: UserOnboardingUpdateInput) => {
     setUpdating(true)
-    await updateOnboarding({
-      variables: {
-        input,
-      },
-    })
+    if (!updating) {
+      await updateOnboarding({
+        variables: {
+          input,
+        },
+      })
+    }
+
     setUpdating(false)
   }
 
   return {
-    loading,
-    onboarding: data?.viewer?.user?.onboarding,
+    onboarding: data.viewer?.user?.onboarding,
     update: handleUpdate,
     updating,
   }

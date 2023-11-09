@@ -10,14 +10,13 @@ import Logo from '@components/ui/Logo'
 interface Props {}
 
 const DesignOnboardingDialog = ({}: Props) => {
-  const { onboarding, loading, update: updateOnboarding } = useUserOnboarding()
+  const { onboarding, update: updateOnboarding } = useUserOnboarding()
   const [showOnboarding, setShowOnboarding] = useQueryState(
     'onboarding',
     queryTypes.boolean.withDefault(false),
   )
 
-  const hasSeenOnboarding =
-    loading || onboarding?.seenDesignRequestDraftOnboarding
+  const hasSeenOnboarding = onboarding?.seenDesignRequestDraftOnboarding
 
   React.useEffect(() => {
     if (!hasSeenOnboarding) {

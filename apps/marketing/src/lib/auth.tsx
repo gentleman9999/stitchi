@@ -1,12 +1,17 @@
 'use client'
 
-import { gql, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/navigation'
 import hoistNonReactStatic from 'hoist-non-react-statics'
 import routes from './routes'
 import { ScopeAction, ScopeResource } from '@generated/globalTypes'
 import React from 'react'
-import { UseAuthorizedComponentGetDataQuery } from '@generated/UseAuthorizedComponentGetDataQuery'
+
+import {
+  UseAuthorizedComponentGetDataQuery,
+  UseAuthorizedComponentGetDataQueryVariables,
+} from '@generated/types'
+import { GET_DATA } from './auth-query'
 
 interface AuthorizationParams {
   resource: ScopeResource
@@ -14,8 +19,10 @@ interface AuthorizationParams {
 }
 
 export const useAuthorizedComponent = () => {
-  const { data, loading } =
-    useQuery<UseAuthorizedComponentGetDataQuery>(GET_DATA)
+  const { data, loading } = useQuery<
+    UseAuthorizedComponentGetDataQuery,
+    UseAuthorizedComponentGetDataQueryVariables
+  >(GET_DATA)
 
   const { scopes } = data?.viewer || {}
 
@@ -76,16 +83,3 @@ export const withAuthorization = (
 
   return hoistNonReactStatic(AuthorizedPage, Component)
 }
-
-const GET_DATA = gql`
-  query UseAuthorizedComponentGetDataQuery {
-    viewer {
-      id
-      role
-      scopes {
-        resource
-        action
-      }
-    }
-  }
-`

@@ -1,55 +1,22 @@
-'use client'
-
-import { gql, useSuspenseQuery } from '@apollo/client'
-import TableFilterDate from '@components/ui/Table/TableFilterDate'
 import TableFilters from '@components/ui/Table/TableFilters'
-import TableFilterUser from '@components/ui/Table/TableFilterUser'
-import { ClosetDesignFiltersGetDataQuery } from '@generated/ClosetDesignFiltersGetDataQuery'
-import { MembershipRole } from '@generated/globalTypes'
-import { notEmpty } from '@lib/utils/typescript'
 import React from 'react'
-import { useCloset } from './closet-context'
+import { ScopeAction, ScopeResource } from '@generated/types'
+import ClosetDesignFiltersUser from './ClosetDesignFiltersUser'
+import ClosetDesignFiltersCreatedAt from './ClosetDesignFiltersCreatedAt'
+import { getUserAuthorization } from '@lib/auth-rsc'
 
 interface Props {}
 
-const ClosetDesignFilters = ({}: Props) => {
-  const { filters, setDateFilter, setUserFilter } = useCloset()
+const ClosetDesignFilters = async ({}: Props) => {
+  const { can } = await getUserAuthorization()
 
-  const { data } = useSuspenseQuery<ClosetDesignFiltersGetDataQuery>(GET_DATA)
-
-  const users =
-    data.viewer?.organization?.memberships
-      ?.map(m =>
-        m?.user
-          ? {
-              ...m.user,
-              membershipId: m.id,
-            }
-          : null,
-      )
-      .filter(notEmpty) || []
-
-  const activeUser = users.find(u => u.membershipId === filters.user)
-
-  const role = data.viewer?.role
+  const showUserFilter = can([
+    { resource: ScopeResource.DesignRequest, action: ScopeAction.READ },
+  ])
 
   return (
     <TableFilters disableGutters>
-      {role && [MembershipRole.OWNER].includes(role) ? (
-        <TableFilterUser
-          label="Owner"
-          value={activeUser?.name || null}
-          users={users.map(u => ({
-            id: u.id,
-            name: u.name || 'Unknown',
-            picture: u.picture,
-            membershipId: u.membershipId,
-          }))}
-          onChange={u => {
-            setUserFilter(u)
-          }}
-        />
-      ) : null}
+      {showUserFilter ? <ClosetDesignFiltersUser /> : null}
 
       {/* <TableFilterUser
         label="Organization"
@@ -65,35 +32,9 @@ const ClosetDesignFilters = ({}: Props) => {
         onChange={() => {}}
       /> */}
 
-      <TableFilterDate
-        label="Date created"
-        value={filters.date}
-        onChange={d => {
-          setDateFilter(d)
-        }}
-      />
+      <ClosetDesignFiltersCreatedAt />
     </TableFilters>
   )
 }
-
-const GET_DATA = gql`
-  query ClosetDesignFiltersGetDataQuery {
-    viewer {
-      id
-      role
-      organization {
-        id
-        memberships {
-          id
-          user {
-            id
-            name
-            picture
-          }
-        }
-      }
-    }
-  }
-`
 
 export default ClosetDesignFilters

@@ -1,3 +1,5 @@
+'use client'
+
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 import React from 'react'
 import cx from 'classnames'
@@ -64,7 +66,7 @@ const Carousel = ({ children }: Props) => {
   return (
     <div className="flex relative">
       <motion.div
-        className={cx('absolute left-4 top-[50%] bottom-[50%] pr-2', {
+        className={cx('absolute left-4 top-[50%] bottom-[50%] pr-2 z-10', {
           hidden: !hasPrev,
         })}
       >

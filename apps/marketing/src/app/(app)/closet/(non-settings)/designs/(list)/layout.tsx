@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import { ClosetProvider } from './closet-context'
 import { getUserAuthorization } from '@lib/auth-rsc'
 import { MembershipRole, ScopeAction, ScopeResource } from '@generated/types'
@@ -7,12 +7,11 @@ import ClosetPageHeader from '@components/common/ClosetPageHeader'
 import ClosetPageTitle from '@components/common/ClosetPageTitle'
 import ClosetPageActions from '@components/common/ClosetPageActions'
 import routes from '@lib/routes'
-import OnboardingActionPanel from './OnboardingActionPanel'
 import ClosetDesignFilters from './ClosetDesignFilters'
-import ClosetSection from '@components/common/ClosetSection'
 import ClosetDesignTabs from './ClosetDesignTabs'
 import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
 import ClosetSectionHeaderTabs from '@components/common/ClosetSectionHeaderTabs'
+import OnboardingActionPanelContainer from './OnboardingActionPanelContainer'
 
 interface Props {
   children: React.ReactNode
@@ -52,11 +51,9 @@ const Layout = async ({ children }: Props) => {
           />
         </ClosetPageHeader>
 
-        <OnboardingActionPanel />
+        <OnboardingActionPanelContainer />
 
-        <Suspense>
-          <ClosetDesignFilters />
-        </Suspense>
+        <ClosetDesignFilters />
 
         <ClosetDesignTabs>
           <ClosetSectionHeader>

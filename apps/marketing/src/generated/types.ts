@@ -7917,12 +7917,6 @@ export interface Prices {
   saved: Maybe<Money>;
 }
 
-export interface PrintLocation {
-  __typename: 'PrintLocation';
-  colorCount: Scalars['Int']['output'];
-  totalCostInCents: Maybe<Scalars['Int']['output']>;
-}
-
 export interface PrivacyPolicyPageModelContentField {
   __typename: 'PrivacyPolicyPageModelContentField';
   blocks: Array<Scalars['String']['output']>;
@@ -8971,7 +8965,6 @@ export interface Quote {
   __typename: 'Quote';
   id: Scalars['ID']['output'];
   printLocationCount: Scalars['Int']['output'];
-  printLocations: Array<PrintLocation>;
   /** The cost of the product with shipping, taxes, and other. */
   productTotalCostCents: Scalars['Int']['output'];
   /** The cost of the product without shipping, taxes, or other. */
@@ -11632,6 +11625,63 @@ export type UseClosetBrandIndexPageDeleteFilesMutationVariables = Exact<{
 
 export type UseClosetBrandIndexPageDeleteFilesMutation = { __typename: 'Mutation', organizationBrandFileDeleteBatch: { __typename: 'OrganizationBrandFileDeleteBatchPayload', brand: { __typename: 'OrganizationBrand', id: string } | null } | null };
 
+export type ClosetTabApprovedDesignRequestGetDataQueryVariables = Exact<{
+  first: Scalars['Int']['input'];
+  after?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<MembershipDesignRequestsFilterInput>;
+}>;
+
+
+export type ClosetTabApprovedDesignRequestGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, hasDesignProducts: boolean, designRequests: { __typename: 'DesignRequestConnection', edges: Array<{ __typename: 'DesignRequestEdge', node: { __typename: 'DesignRequest', id: string, name: string, updatedAt: any | null, status: DesignRequestStatus, humanizedStatus: string, previewImageUrl: string | null } | null } | null> | null } } | null };
+
+export type ClosetTabInProgressDesignRequestsGetDataQueryVariables = Exact<{
+  first: Scalars['Int']['input'];
+  after?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<MembershipDesignRequestsFilterInput>;
+}>;
+
+
+export type ClosetTabInProgressDesignRequestsGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, hasDesignRequests: boolean, designRequests: { __typename: 'DesignRequestConnection', edges: Array<{ __typename: 'DesignRequestEdge', node: { __typename: 'DesignRequest', id: string, name: string, updatedAt: any | null, status: DesignRequestStatus, humanizedStatus: string, previewImageUrl: string | null } | null } | null> | null } } | null };
+
+export type ClosetTabAllRecentGridGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ClosetTabAllRecentGridGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', designRequests: { __typename: 'DesignRequestConnection', edges: Array<{ __typename: 'DesignRequestEdge', node: { __typename: 'DesignRequest', id: string, name: string, previewImageUrl: string | null } | null } | null> | null } } | null };
+
+export type ClosetDesignFiltersGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ClosetDesignFiltersGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, organization: { __typename: 'Organization', id: string, memberships: Array<{ __typename: 'Membership', id: string, user: { __typename: 'User', id: string, name: string | null, picture: string | null } | null }> } } | null };
+
+export type ClosetDesignIndexPageDesignRequestCardDesignRequestFragment = { __typename: 'DesignRequest', id: string, name: string, updatedAt: any | null, status: DesignRequestStatus, humanizedStatus: string, previewImageUrl: string | null };
+
+export type ClosetTabApprovedDesignsGetDataQueryVariables = Exact<{
+  first: Scalars['Int']['input'];
+  after?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<MembershipDesignRequestsFilterInput>;
+}>;
+
+
+export type ClosetTabApprovedDesignsGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, hasDesignProducts: boolean, designRequests: { __typename: 'DesignRequestConnection', edges: Array<{ __typename: 'DesignRequestEdge', node: { __typename: 'DesignRequest', id: string, name: string, updatedAt: any | null, status: DesignRequestStatus, humanizedStatus: string, previewImageUrl: string | null } | null } | null> | null } } | null };
+
+export type ClosetTabArchivedDesignsGetDataQueryVariables = Exact<{
+  first: Scalars['Int']['input'];
+  after?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<MembershipDesignRequestsFilterInput>;
+}>;
+
+
+export type ClosetTabArchivedDesignsGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, hasDesignProducts: boolean, designRequests: { __typename: 'DesignRequestConnection', edges: Array<{ __typename: 'DesignRequestEdge', node: { __typename: 'DesignRequest', id: string, name: string, updatedAt: any | null, status: DesignRequestStatus, humanizedStatus: string, previewImageUrl: string | null } | null } | null> | null } } | null };
+
+export type ClosetTabDesignRequestsGetDataQueryVariables = Exact<{
+  first: Scalars['Int']['input'];
+  after?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<MembershipDesignRequestsFilterInput>;
+}>;
+
+
+export type ClosetTabDesignRequestsGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, hasDesignRequests: boolean, designRequests: { __typename: 'DesignRequestConnection', edges: Array<{ __typename: 'DesignRequestEdge', node: { __typename: 'DesignRequest', id: string, name: string, updatedAt: any | null, status: DesignRequestStatus, humanizedStatus: string, previewImageUrl: string | null } | null } | null> | null } } | null };
+
 export type DesignRequestApprovedMessageGetDataQueryVariables = Exact<{
   designRequestId: Scalars['ID']['input'];
 }>;
@@ -11702,14 +11752,6 @@ export type ClosetDesignBuyPageFormDesignProductFragment = { __typename: 'Design
 
 export type ClosetDesignBuyPagePeviewDesignProductFragment = { __typename: 'DesignProduct', id: string, name: string, description: string | null, colors: Array<{ __typename: 'DesignProductColor', id: string, catalogProductColorId: string, hex: string | null, name: string | null, images: Array<{ __typename: 'FileImage', id: string, url: string, width: number, height: number }> }> };
 
-export type UseProductEstimateGetEstimateQueryVariables = Exact<{
-  designProductId: Scalars['ID']['input'];
-  quantity: Scalars['Int']['input'];
-}>;
-
-
-export type UseProductEstimateGetEstimateQuery = { __typename: 'Query', designProduct: { __typename: 'DesignProduct', id: string, estimate: { __typename: 'Quote', id: string, productTotalCostCents: number, productUnitCostCents: number } | null } | null };
-
 export type GetProductVariantByOptionsVariables = Exact<{
   productEntityId: Scalars['Int']['input'];
   optionValueIds: Array<OptionValueId>;
@@ -11731,6 +11773,14 @@ export type UseCreateOrderCreateOrderMutationVariables = Exact<{
 
 
 export type UseCreateOrderCreateOrderMutation = { __typename: 'Mutation', designProductCreateOrder: { __typename: 'DesignProductCreateOrderPayload', order: { __typename: 'Order', id: string } | null } | null };
+
+export type UseProductEstimateGetEstimateQueryVariables = Exact<{
+  designProductId: Scalars['ID']['input'];
+  quantity: Scalars['Int']['input'];
+}>;
+
+
+export type UseProductEstimateGetEstimateQuery = { __typename: 'Query', designProduct: { __typename: 'DesignProduct', id: string, estimate: { __typename: 'Quote', id: string, productTotalCostCents: number, productUnitCostCents: number } | null } | null };
 
 export type InventoryProductDetailsGetDataQueryVariables = Exact<{
   designId: Scalars['ID']['input'];
@@ -12008,68 +12058,6 @@ export type UnclaimedDesignRequestsCardGetDataQueryVariables = Exact<{
 
 
 export type UnclaimedDesignRequestsCardGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, unassignedDesignRequests: { __typename: 'DesignRequestConnection', edges: Array<{ __typename: 'DesignRequestEdge', node: { __typename: 'DesignRequest', id: string, name: string, membership: { __typename: 'Membership', id: string, organization: { __typename: 'Organization', id: string, name: string | null }, user: { __typename: 'User', id: string, name: string | null } | null } | null } | null } | null> | null } } | null };
-
-export type ClosetDesignFiltersGetDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ClosetDesignFiltersGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, role: MembershipRole | null, organization: { __typename: 'Organization', id: string, memberships: Array<{ __typename: 'Membership', id: string, user: { __typename: 'User', id: string, name: string | null, picture: string | null } | null }> } } | null };
-
-export type ClosetDesignIndexPageGetDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ClosetDesignIndexPageGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, role: MembershipRole | null } | null };
-
-export type ClosetDesignIndexPageDesignRequestCardDesignRequestFragment = { __typename: 'DesignRequest', id: string, name: string, updatedAt: any | null, status: DesignRequestStatus, humanizedStatus: string, previewImageUrl: string | null };
-
-export type ClosetTabAllDesignRequestsGetDataQueryVariables = Exact<{
-  first: Scalars['Int']['input'];
-  after?: InputMaybe<Scalars['String']['input']>;
-  filter?: InputMaybe<MembershipDesignRequestsFilterInput>;
-}>;
-
-
-export type ClosetTabAllDesignRequestsGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, hasDesignRequests: boolean, designRequests: { __typename: 'DesignRequestConnection', edges: Array<{ __typename: 'DesignRequestEdge', node: { __typename: 'DesignRequest', id: string, name: string, updatedAt: any | null, status: DesignRequestStatus, humanizedStatus: string, previewImageUrl: string | null } | null } | null> | null } } | null };
-
-export type ClosetTabAllRecentGridGetDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ClosetTabAllRecentGridGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', designRequests: { __typename: 'DesignRequestConnection', edges: Array<{ __typename: 'DesignRequestEdge', node: { __typename: 'DesignRequest', id: string, name: string, previewImageUrl: string | null } | null } | null> | null } } | null };
-
-export type ClosetTabApprovedDesignRequestGetDataQueryVariables = Exact<{
-  first: Scalars['Int']['input'];
-  after?: InputMaybe<Scalars['String']['input']>;
-  filter?: InputMaybe<MembershipDesignRequestsFilterInput>;
-}>;
-
-
-export type ClosetTabApprovedDesignRequestGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, hasDesignProducts: boolean, designRequests: { __typename: 'DesignRequestConnection', edges: Array<{ __typename: 'DesignRequestEdge', node: { __typename: 'DesignRequest', id: string, name: string, updatedAt: any | null, status: DesignRequestStatus, humanizedStatus: string, previewImageUrl: string | null } | null } | null> | null } } | null };
-
-export type ClosetTabApprovedDesignsGetDataQueryVariables = Exact<{
-  first: Scalars['Int']['input'];
-  after?: InputMaybe<Scalars['String']['input']>;
-  filter?: InputMaybe<MembershipDesignRequestsFilterInput>;
-}>;
-
-
-export type ClosetTabApprovedDesignsGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, hasDesignProducts: boolean, designRequests: { __typename: 'DesignRequestConnection', edges: Array<{ __typename: 'DesignRequestEdge', node: { __typename: 'DesignRequest', id: string, name: string, updatedAt: any | null, status: DesignRequestStatus, humanizedStatus: string, previewImageUrl: string | null } | null } | null> | null } } | null };
-
-export type ClosetTabArchivedDesignsGetDataQueryVariables = Exact<{
-  first: Scalars['Int']['input'];
-  after?: InputMaybe<Scalars['String']['input']>;
-  filter?: InputMaybe<MembershipDesignRequestsFilterInput>;
-}>;
-
-
-export type ClosetTabArchivedDesignsGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, hasDesignProducts: boolean, designRequests: { __typename: 'DesignRequestConnection', edges: Array<{ __typename: 'DesignRequestEdge', node: { __typename: 'DesignRequest', id: string, name: string, updatedAt: any | null, status: DesignRequestStatus, humanizedStatus: string, previewImageUrl: string | null } | null } | null> | null } } | null };
-
-export type ClosetTabDesignRequestsGetDataQueryVariables = Exact<{
-  first: Scalars['Int']['input'];
-  after?: InputMaybe<Scalars['String']['input']>;
-  filter?: InputMaybe<MembershipDesignRequestsFilterInput>;
-}>;
-
-
-export type ClosetTabDesignRequestsGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, hasDesignRequests: boolean, designRequests: { __typename: 'DesignRequestConnection', edges: Array<{ __typename: 'DesignRequestEdge', node: { __typename: 'DesignRequest', id: string, name: string, updatedAt: any | null, status: DesignRequestStatus, humanizedStatus: string, previewImageUrl: string | null } | null } | null> | null } } | null };
 
 export type ClosetDesignProofCreatePageDesignRequestFragment = { __typename: 'DesignRequest', id: string, fileUploadDirectory: string, designRequestProduct: { __typename: 'DesignRequestProduct', id: string, colors: Array<{ __typename: 'DesignRequestProductColors', name: string | null, hexCode: string | null, catalogProductColorId: string }> } };
 
@@ -12351,11 +12339,6 @@ export type UseCustomizeProductCustomizeMutationVariables = Exact<{
 export type UseCustomizeProductCustomizeMutation = { __typename: 'Mutation', catalogProductCustomize: { __typename: 'CatalogProductCustomizePayload', designRequest: { __typename: 'DesignRequest', id: string, membershipId: string | null } | null, order: { __typename: 'Order', id: string } | null } | null };
 
 export type TermsPagePageFragment = { __typename: 'TermsOfUsePageRecord', id: any, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }>, content: { __typename: 'TermsOfUsePageModelContentField', value: any } | null };
-
-export type AuthorizedComponentGetDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type AuthorizedComponentGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, role: MembershipRole | null, scopes: Array<{ __typename: 'Scope', resource: ScopeResource, action: ScopeAction }> } | null };
 
 export type UseAuthorizedComponentGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
