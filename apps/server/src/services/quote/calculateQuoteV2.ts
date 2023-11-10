@@ -23,7 +23,7 @@ const calculate = ({
 }) => {
   const fulfillmentCost = includeFulfillment ? FULFILLMENT_CHARGE : 0
 
-  const totalQuantity = sum(...variants.map(v => v.quantity))
+  const totalQuantity = sum(0, ...variants.map(v => v.quantity))
 
   const printQtyBreakpoint = getPrintQtyBreakpoint(totalQuantity)
 
@@ -32,7 +32,10 @@ const calculate = ({
     printLocations,
   )
 
-  const totalColorCount: number = sum(...printLocations.map(l => l.colorCount))
+  const totalColorCount: number = sum(
+    0,
+    ...printLocations.map(l => l.colorCount),
+  )
 
   const screenCost = multiply(totalColorCount, SCREEN_CHARGE)
 
@@ -70,6 +73,14 @@ const calculate = ({
 
   return {
     variants: variantQuotes,
+    totalRetailPriceCents: sum(
+      0,
+      ...variantQuotes.map(v => v.totalRetailPriceCents),
+    ),
+    unitRetailPriceCents: sum(
+      0,
+      ...variantQuotes.map(v => v.unitRetailPriceCents),
+    ),
   }
 }
 

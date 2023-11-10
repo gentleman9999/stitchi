@@ -7,9 +7,9 @@ import {
 import { DesignFactoryDesign } from '../../../services/design/factory'
 import { OrderItemRecordType } from '../../../services/order/db/order-item-table'
 import { OrderRecordType } from '../../../services/order/db/order-table'
-import calculate from '../../../services/quote/calculateEstimate'
 import { notEmpty } from '../../../utils'
 import { orderFactoryOrderToGraphQL } from '../../serializers/order'
+import { v4 } from 'uuid'
 
 export const DesignProductCreateOrderPayload = objectType({
   name: 'DesignProductCreateOrderPayload',
@@ -108,18 +108,16 @@ export const designProductCreateOrder = mutationField(
         throw new GraphQLError('Error getting design proof')
       }
 
-      const quantity = input.orderItems.reduce(
-        (acc, item) => acc + item.quantity,
-        0,
-      )
-
       // TODO: Add support for Direct to Garment
-      const quote = calculate({
+      const quote = await ctx.quote.generateQuoteV2({
         includeFulfillment: false,
-        quantity,
-        productPriceCents: product.priceCents,
         printLocations: designProof.locations.map(location => ({
           colorCount: location.colorCount || 0,
+        })),
+        variants: input.orderItems.map(variant => ({
+          quantity: variant.quantity,
+          catalogProductId: designProduct.catalogProductId,
+          catalogProductVariantId: variant.catalogProductVariantId,
         })),
       })
 
@@ -138,6 +136,20 @@ export const designProductCreateOrder = mutationField(
             type: OrderRecordType.CART,
             items: input.orderItems
               .map(item => {
+                const itemQuote = quote.variants.find(
+                  variant =>
+                    variant.catalogProductVariantId ===
+                    item.catalogProductVariantId,
+                )
+
+                if (!itemQuote) {
+                  ctx.logger
+                    .child({ context: { item } })
+                    .error('Item quote not found')
+
+                  return null
+                }
+
                 const productVariant = productVariants.find(
                   variant =>
                     variant.id.toString() === item.catalogProductVariantId,
@@ -153,12 +165,12 @@ export const designProductCreateOrder = mutationField(
 
                 return {
                   designId: designProduct.id,
-                  quantity: item.quantity,
+                  quantity: itemQuote.quantity,
                   // This can represent many things (denoted by TYPE). Therefore we store all ID's as strings in the order line item.
                   productId: designProduct.catalogProductId,
                   productVariantId: item.catalogProductVariantId,
-                  unitPriceCents: quote.productUnitCostCents,
-                  totalPriceCents: quote.productUnitCostCents * item.quantity,
+                  unitPriceCents: itemQuote.unitRetailPriceCents,
+                  totalPriceCents: itemQuote.totalRetailPriceCents,
                   type: OrderItemRecordType.BIG_C_PRODUCT,
                   title: `${
                     designProduct.name
@@ -176,6 +188,110 @@ export const designProductCreateOrder = mutationField(
       }
 
       return { order: orderFactoryOrderToGraphQL(order) }
+    },
+  },
+)
+
+export const DesignProductCreateQuotePayload = objectType({
+  name: 'DesignProductCreateQuotePayload',
+  definition(t) {
+    t.nullable.field('quote', { type: 'Quote' })
+  },
+})
+
+export const DesignProductCreateQuoteVariantInput = inputObjectType({
+  name: 'DesignProductCreateQuoteVariantInput',
+  definition(t) {
+    t.nonNull.id('catalogProductVariantId')
+    t.nonNull.int('quantity')
+  },
+})
+
+export const DesignProductCreateQuoteInput = inputObjectType({
+  name: 'DesignProductCreateQuoteInput',
+  definition(t) {
+    t.nonNull.id('designProductId')
+    t.nonNull.list.nonNull.field('variants', {
+      type: 'DesignProductCreateQuoteVariantInput',
+    })
+  },
+})
+
+export const designProductCreateQuote = mutationField(
+  'designProductCreateQuote',
+  {
+    type: 'DesignProductCreateQuotePayload',
+    args: {
+      input: nonNull('DesignProductCreateQuoteInput'),
+    },
+    resolve: async (_, { input }, ctx) => {
+      let designProduct: DesignFactoryDesign
+
+      try {
+        designProduct = await ctx.design.getDesign({
+          designId: input.designProductId,
+        })
+      } catch (error) {
+        ctx.logger.error(error)
+        throw new GraphQLError('Unable to fetch design product')
+      }
+
+      let product: CatalogFactoryCatalogProduct
+
+      try {
+        product = await ctx.catalog.getCatalogProduct({
+          productEntityId: designProduct.catalogProductId,
+        })
+
+        if (!product) {
+          throw new Error('Product not found')
+        }
+      } catch (error) {
+        ctx.logger
+          .child({
+            context: { error, designProduct: parent },
+          })
+          .error('Error getting catalog product')
+
+        throw new GraphQLError('Error getting catalog product')
+      }
+
+      let designProof
+
+      try {
+        designProof = await ctx.design.getDesignProof({
+          designProofId: designProduct.designProofId,
+        })
+      } catch (error) {
+        ctx.logger
+          .child({
+            context: { error, designProduct: parent },
+          })
+          .error("Error getting design proof's design")
+
+        throw new GraphQLError('Error getting design proof')
+      }
+
+      // TODO: Add support for Direct to Garment
+      const quote = await ctx.quote.generateQuoteV2({
+        includeFulfillment: false,
+        printLocations: designProof.locations.map(location => ({
+          colorCount: location.colorCount || 0,
+        })),
+        variants: input.variants.map(variant => ({
+          quantity: variant.quantity,
+          catalogProductId: designProduct.catalogProductId,
+          catalogProductVariantId: variant.catalogProductVariantId,
+        })),
+      })
+
+      return {
+        quote: {
+          id: v4(),
+          productTotalCostCents: quote.totalRetailPriceCents,
+          productUnitCostCents: quote.unitRetailPriceCents,
+        },
+      }
     },
   },
 )

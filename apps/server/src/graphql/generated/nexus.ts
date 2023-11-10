@@ -67,6 +67,14 @@ export interface NexusGenInputs {
     catalogProductVariantId: string; // ID!
     quantity: number; // Int!
   }
+  DesignProductCreateQuoteInput: { // input type
+    designProductId: string; // ID!
+    variants: NexusGenInputs['DesignProductCreateQuoteVariantInput'][]; // [DesignProductCreateQuoteVariantInput!]!
+  }
+  DesignProductCreateQuoteVariantInput: { // input type
+    catalogProductVariantId: string; // ID!
+    quantity: number; // Int!
+  }
   DesignRequestApproveInput: { // input type
     description?: string | null; // String
     designProofId: string; // ID!
@@ -461,6 +469,9 @@ export interface NexusGenObjects {
   }
   DesignProductCreateOrderPayload: { // root type
     order?: NexusGenRootTypes['Order'] | null; // Order
+  }
+  DesignProductCreateQuotePayload: { // root type
+    quote?: NexusGenRootTypes['Quote'] | null; // Quote
   }
   DesignProductEdge: { // root type
     cursor?: string | null; // String
@@ -922,7 +933,6 @@ export interface NexusGenObjects {
   Query: {};
   Quote: { // root type
     id: string; // ID!
-    printLocationCount: number; // Int!
     productTotalCostCents: number; // Int!
     productUnitCostCents: number; // Int!
   }
@@ -1089,6 +1099,9 @@ export interface NexusGenFieldTypes {
   }
   DesignProductCreateOrderPayload: { // field return type
     order: NexusGenRootTypes['Order'] | null; // Order
+  }
+  DesignProductCreateQuotePayload: { // field return type
+    quote: NexusGenRootTypes['Quote'] | null; // Quote
   }
   DesignProductEdge: { // field return type
     cursor: string | null; // String
@@ -1419,6 +1432,7 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     catalogProductCustomize: NexusGenRootTypes['CatalogProductCustomizePayload'] | null; // CatalogProductCustomizePayload
     designProductCreateOrder: NexusGenRootTypes['DesignProductCreateOrderPayload'] | null; // DesignProductCreateOrderPayload
+    designProductCreateQuote: NexusGenRootTypes['DesignProductCreateQuotePayload'] | null; // DesignProductCreateQuotePayload
     designRequestApprove: NexusGenRootTypes['DesignRequestApprovePayload'] | null; // DesignRequestApprovePayload
     designRequestArchive: NexusGenRootTypes['DesignRequestArchivePayload'] | null; // DesignRequestArchivePayload
     designRequestAssign: NexusGenRootTypes['DesignRequestAssignPayload'] | null; // DesignRequestAssignPayload
@@ -1652,7 +1666,6 @@ export interface NexusGenFieldTypes {
   }
   Quote: { // field return type
     id: string; // ID!
-    printLocationCount: number; // Int!
     productTotalCostCents: number; // Int!
     productUnitCostCents: number; // Int!
   }
@@ -1829,6 +1842,9 @@ export interface NexusGenFieldTypeNames {
   }
   DesignProductCreateOrderPayload: { // field return type name
     order: 'Order'
+  }
+  DesignProductCreateQuotePayload: { // field return type name
+    quote: 'Quote'
   }
   DesignProductEdge: { // field return type name
     cursor: 'String'
@@ -2159,6 +2175,7 @@ export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     catalogProductCustomize: 'CatalogProductCustomizePayload'
     designProductCreateOrder: 'DesignProductCreateOrderPayload'
+    designProductCreateQuote: 'DesignProductCreateQuotePayload'
     designRequestApprove: 'DesignRequestApprovePayload'
     designRequestArchive: 'DesignRequestArchivePayload'
     designRequestAssign: 'DesignRequestAssignPayload'
@@ -2392,7 +2409,6 @@ export interface NexusGenFieldTypeNames {
   }
   Quote: { // field return type name
     id: 'ID'
-    printLocationCount: 'Int'
     productTotalCostCents: 'Int'
     productUnitCostCents: 'Int'
   }
@@ -2523,6 +2539,9 @@ export interface NexusGenArgTypes {
     }
     designProductCreateOrder: { // args
       input: NexusGenInputs['DesignProductCreateOrderInput']; // DesignProductCreateOrderInput!
+    }
+    designProductCreateQuote: { // args
+      input: NexusGenInputs['DesignProductCreateQuoteInput']; // DesignProductCreateQuoteInput!
     }
     designRequestApprove: { // args
       input: NexusGenInputs['DesignRequestApproveInput']; // DesignRequestApproveInput!

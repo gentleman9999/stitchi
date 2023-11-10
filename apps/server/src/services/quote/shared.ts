@@ -72,6 +72,7 @@ export const getPrintLocationsCost = (
   printLocations: PrintLocation[],
 ) => {
   return sum(
+    0,
     ...printLocations.map<number>((printLocation, i) => {
       const printCost =
         PRICE_COST_CENTS[printQtyBreakpoint][printLocation.colorCount - 1]

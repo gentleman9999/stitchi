@@ -46,18 +46,10 @@ const Page = () => {
 
     for (const color of input.colors) {
       for (const size of color.sizes ?? []) {
-        const foundVariant = product.variants.find(
-          variant =>
-            variant.catalogProductColorId === color.catalogProductColorId &&
-            variant.catalogProductSizeId === size.catalogSizeEntityId,
-        )
-
-        if (foundVariant) {
-          productVariants.push({
-            productVariantEntityId: foundVariant.catalogProductVariantId,
-            quantity: size.quantity || 0,
-          })
-        }
+        productVariants.push({
+          productVariantEntityId: size.catalogProductVariantId,
+          quantity: size.quantity || 0,
+        })
       }
     }
 

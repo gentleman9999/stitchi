@@ -13,6 +13,7 @@ interface ProductColor {
 }
 
 interface ProductSize {
+  catalogProductVariantId: string | null
   catalogSizeEntityId: string
   quantity: number | null
   disabled: boolean | null
@@ -123,6 +124,7 @@ const ProductVariantQuantityMatrixForm = <
             disabled: !foundVariant,
             quantity: null,
             catalogSizeEntityId: size.sizeId,
+            catalogProductVariantId: foundVariant?.id || null,
           }
         }),
       },

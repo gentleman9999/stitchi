@@ -45,8 +45,12 @@ const makeClient: MakeClientFn = (
     createOrder: async input => {
       let order
 
+      const orderItems = input.order.items.filter(item => item.quantity > 0)
+
       try {
-        order = await orderRepository.createOrder({ order: input.order })
+        order = await orderRepository.createOrder({
+          order: { ...input.order, items: orderItems },
+        })
       } catch (error) {
         throw new Error('Failed to create order')
       }
@@ -115,8 +119,12 @@ const makeClient: MakeClientFn = (
     },
 
     updateOrder: async input => {
+      const orderItems = input.order.items.filter(item => item.quantity > 0)
+
       try {
-        return orderRepository.updateOrder({ order: input.order })
+        return orderRepository.updateOrder({
+          order: { ...input.order, items: orderItems },
+        })
       } catch (error) {
         logger.error(error)
         throw new Error('Failed to update order')

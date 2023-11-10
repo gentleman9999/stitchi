@@ -12,6 +12,7 @@ import { InputGroup } from '@components/ui/inputs'
 import { MIN_ORDER_QTY } from '@lib/constants'
 
 const sizeSchema = yup.object().shape({
+  catalogProductVariantId: yup.string().required(),
   catalogSizeEntityId: yup.string().required(),
   quantity: yup.number().min(0).nullable().defined().label('Quantity'),
   disabled: yup.boolean().nullable().defined(),
@@ -71,6 +72,7 @@ const ClosetDesignBuyPageForm = ({
               variant.catalogProductColorId === color.catalogProductColorId,
           )
           .map(variant => ({
+            catalogProductVariantId: variant.id,
             catalogSizeEntityId: variant.catalogProductSizeId || '',
             quantity: null,
             disabled: null,
@@ -102,12 +104,15 @@ const ClosetDesignBuyPageForm = ({
   })
 
   React.useEffect(() => {
-    const get = async () => {
-      await getEstimate({ quantity: totalQuantity })
-    }
-
-    get()
-  }, [getEstimate, totalQuantity])
+    getEstimate({
+      variants: colors.flatMap(color =>
+        color.sizes.map(size => ({
+          quantity: size.quantity || 0,
+          catalogProductVariantId: size.catalogProductVariantId,
+        })),
+      ),
+    })
+  }, [totalQuantity, colors, getEstimate])
 
   React.useEffect(() => {
     if (

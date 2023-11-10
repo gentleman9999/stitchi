@@ -1,7 +1,8 @@
-import { gql, useLazyQuery } from '@apollo/client'
+import { gql, useMutation } from '@apollo/client'
 import {
-  UseProductEstimateGetEstimateQuery,
-  UseProductEstimateGetEstimateQueryVariables,
+  DesignProductCreateQuoteInput,
+  UseProductEstimateCreateQuoteMutation,
+  UseProductEstimateCreateQuoteMutationVariables,
 } from '@generated/types'
 import { useCallback } from 'react'
 
@@ -10,35 +11,34 @@ interface Props {
 }
 
 const useProductEstimate = ({ designProductId }: Props) => {
-  const [fetchMore, query] = useLazyQuery<
-    UseProductEstimateGetEstimateQuery,
-    UseProductEstimateGetEstimateQueryVariables
-  >(GET_QUOTE, {
-    notifyOnNetworkStatusChange: true,
-    fetchPolicy: 'network-only',
-  })
+  const [createQuote, mutation] = useMutation<
+    UseProductEstimateCreateQuoteMutation,
+    UseProductEstimateCreateQuoteMutationVariables
+  >(CREATE_QUOTE)
 
   const getEstimate = useCallback(
-    async (input: { quantity: number }) => {
-      await fetchMore({ variables: { ...input, designProductId } })
+    async (input: Omit<DesignProductCreateQuoteInput, 'designProductId'>) => {
+      if (input.variants.length) {
+        await createQuote({
+          variables: { input: { ...input, designProductId } },
+        })
+      }
     },
-    [designProductId, fetchMore],
+    [createQuote, designProductId],
   )
 
   return [
     getEstimate,
-    { ...query, estimate: query.data?.designProduct?.estimate },
+    { ...mutation, estimate: mutation.data?.designProductCreateQuote?.quote },
   ] as const
 }
 
-export const GET_QUOTE = gql`
-  query UseProductEstimateGetEstimateQuery(
-    $designProductId: ID!
-    $quantity: Int!
+const CREATE_QUOTE = gql`
+  mutation UseProductEstimateCreateQuoteMutation(
+    $input: DesignProductCreateQuoteInput!
   ) {
-    designProduct(id: $designProductId) {
-      id
-      estimate(quantity: $quantity) {
+    designProductCreateQuote(input: $input) {
+      quote {
         id
         productTotalCostCents
         productUnitCostCents

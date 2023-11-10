@@ -163,6 +163,20 @@ type DesignProductCreateOrderPayload {
   order: Order
 }
 
+input DesignProductCreateQuoteInput {
+  designProductId: ID!
+  variants: [DesignProductCreateQuoteVariantInput!]!
+}
+
+type DesignProductCreateQuotePayload {
+  quote: Quote
+}
+
+input DesignProductCreateQuoteVariantInput {
+  catalogProductVariantId: ID!
+  quantity: Int!
+}
+
 type DesignProductEdge {
   """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
   cursor: String
@@ -877,6 +891,7 @@ enum MembershipRole {
 type Mutation {
   catalogProductCustomize(input: CatalogProductCustomizeInput!): CatalogProductCustomizePayload
   designProductCreateOrder(input: DesignProductCreateOrderInput!): DesignProductCreateOrderPayload
+  designProductCreateQuote(input: DesignProductCreateQuoteInput!): DesignProductCreateQuotePayload
   designRequestApprove(input: DesignRequestApproveInput!): DesignRequestApprovePayload
   designRequestArchive(input: DesignRequestArchiveInput!): DesignRequestArchivePayload
   designRequestAssign(input: DesignRequestAssignInput!): DesignRequestAssignPayload
@@ -1316,7 +1331,6 @@ type Query {
 
 type Quote {
   id: ID!
-  printLocationCount: Int!
 
   """The cost of the product with shipping, taxes, and other."""
   productTotalCostCents: Int!

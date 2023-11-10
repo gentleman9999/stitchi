@@ -1,6 +1,5 @@
 import { GraphQLError } from 'graphql'
 import { inputObjectType, objectType } from 'nexus'
-import calculate from '../../../services/quote/calculateEstimate'
 
 export const QuoteGeneratePrintLocationInput = inputObjectType({
   name: 'QuoteGeneratePrintLocationInput',
@@ -16,7 +15,7 @@ export const Product = objectType({
     t.nonNull.int('priceCents', {
       resolve: async (parent, _, ctx) => {
         try {
-          const { productUnitCostCents } = calculate({
+          const { productUnitCostCents } = await ctx.quote.generateEstimate({
             productPriceCents: (parent as any).prices.price.value * 100,
             includeFulfillment: false,
             quantity: 10_000,

@@ -127,21 +127,47 @@ export const DesignProductExtendsDesignProduct = extendType({
           throw new GraphQLError('Error getting catalog product')
         }
 
+        let productVariants
+
+        try {
+          productVariants = await ctx.catalog.listCatalogProductVariants({
+            productEntityId: parent.catalogProductId,
+          })
+        } catch (error) {
+          ctx.logger
+            .child({
+              context: { error, designProduct: parent },
+            })
+            .error('Error getting catalog product variants')
+
+          throw new GraphQLError('Error getting catalog product variants')
+        }
+
+        const fixThisFirstVariant = productVariants[0]
+
         // TODO: Add support for Direct to Garment
-        const quote = await ctx.quote.generateEstimate({
+        const quote = await ctx.quote.generateQuoteV2({
           includeFulfillment: false,
-          quantity,
-          productPriceCents: product.priceCents,
           printLocations: designProof.locations.map(location => ({
             colorCount: location.colorCount || 0,
           })),
+          variants: [
+            // TODO(everest): This is a hack to get around the fact that we don't
+            // have a way to specify the variant ID in the quote request.
+            {
+              catalogProductId: parent.catalogProductId,
+              catalogProductVariantId: fixThisFirstVariant.id.toString(),
+              quantity,
+            },
+          ],
         })
+
+        const variant = quote.variants[0]
 
         return {
           id: v4(),
-          printLocationCount: quote.printLocationCount,
-          productTotalCostCents: quote.productTotalCostCents,
-          productUnitCostCents: quote.productUnitCostCents,
+          productTotalCostCents: variant.totalRetailPriceCents,
+          productUnitCostCents: variant.unitRetailPriceCents,
         }
       },
     })

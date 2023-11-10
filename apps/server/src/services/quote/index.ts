@@ -61,6 +61,8 @@ export interface QuoteServiceEstimate {
 }
 
 export interface QuoteServiceQuoteV2 {
+  totalRetailPriceCents: number
+  unitRetailPriceCents: number
   variants: {
     catalogProductId: string
     catalogProductVariantId: string
@@ -98,7 +100,12 @@ const makeClient: MakeClientFn = (
     },
 
     generateQuoteV2: async input => {
-      const validInput = await inputV2Schema.validate(input)
+      const filterInput = {
+        ...input,
+        variants: input.variants.filter(variant => variant.quantity > 0),
+      }
+
+      const validInput = await inputV2Schema.validate(filterInput)
 
       let serializedVariants: (GenerateQuoteV2Input['variants'][number] & {
         priceCents: number
