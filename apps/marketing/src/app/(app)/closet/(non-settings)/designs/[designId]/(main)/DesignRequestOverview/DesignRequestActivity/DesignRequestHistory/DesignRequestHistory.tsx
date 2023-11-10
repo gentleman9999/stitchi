@@ -15,8 +15,6 @@ interface Props {
 const DesignRequestHistory = ({ loading, designRequest }: Props) => {
   const history = [...(designRequest?.history || [])].reverse()
 
-  console.log('HISROTY', history)
-
   return (
     <ul role="list" className="space-y-6">
       {loading && !designRequest ? (
@@ -218,17 +216,6 @@ const DesignRequestHistory = ({ loading, designRequest }: Props) => {
                         bytes: file.humanizedBytes,
                       }))}
                     />
-                    {/* {item.files.map((file, index) => {
-                      return file.__typename === 'FileImage' ? (
-                        <img
-                          src={file.url}
-                          width={file.width}
-                          height={file.height}
-                          key={index}
-                          className=" bg-gray-100 rounded-md h-24 w-24 object-contain overflow-hidden"
-                        />
-                      ) : null
-                    })} */}
                   </div>
                 ) : null}
               </div>
