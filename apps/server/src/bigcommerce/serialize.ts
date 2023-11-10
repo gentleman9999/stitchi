@@ -52,6 +52,7 @@ const productSchema = yup.object().shape({
   description: yup.string().notRequired(),
   weight: yup.number().required(),
   price: yup.number().min(0).required(),
+  calculated_price: yup.number().min(0).required(),
   brand_id: yup.number().notRequired(),
   is_visible: yup.boolean().notRequired(),
   categories: yup.array(yup.number().required()).optional(),

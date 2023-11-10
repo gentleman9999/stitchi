@@ -59,7 +59,7 @@ const catalogFactoryCatalogProduct = ({
     slug: bigCommerceProduct.custom_url.url.replaceAll('/', '') || '',
     visible: Boolean(bigCommerceProduct.is_visible),
     name: bigCommerceProduct.name,
-    priceCents: Math.round(bigCommerceProduct.price / 100),
+    priceCents: Math.round(bigCommerceProduct.calculated_price * 100),
     description: bigCommerceProduct.description || '',
     primaryImage: {
       url: primaryImage?.url_standard || '',
