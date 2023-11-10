@@ -2,10 +2,11 @@ import React from 'react'
 import cx from 'classnames'
 import Color from 'color'
 import { CheckIcon } from '@heroicons/react/20/solid'
+import Tooltip from '@components/ui/Tooltip'
 
 interface Props {
   hexCode: string
-  label?: string
+  label: string | null
   selected?: boolean
   onClick?: () => void
   width?: string
@@ -21,32 +22,40 @@ const ColorSwatch = (props: Props) => {
   const color = new Color(props.hexCode === '#DROPPED' ? '#000' : props.hexCode)
 
   return (
-    <div
-      onClick={props.onClick}
-      style={{
-        outlineColor: ensureMaximumLightness(color, 96).toString(),
-      }}
-      className={cx(
-        props.selected ? 'outline outline-4 ' : '',
-        Boolean(props.onClick) ? 'cursor-pointer' : '',
-        'relative flex items-center justify-center rounded-full p-0.5',
+    <Tooltip
+      delay={0}
+      label={props.label}
+      renderTrigger={() => (
+        <div
+          onClick={props.onClick}
+          style={{
+            outlineColor: ensureMaximumLightness(color, 96).toString(),
+          }}
+          className={cx(
+            props.selected ? 'outline outline-4 ' : '',
+            Boolean(props.onClick) ? 'cursor-pointer' : '',
+            'relative flex items-center justify-center rounded-full p-0.5',
+          )}
+        >
+          <label className="sr-only">{props.label}</label>
+          <span
+            aria-hidden="true"
+            style={{
+              backgroundColor: color.toString(),
+              borderColor: color.darken(0.1).toString(),
+            }}
+            className={cx(
+              `${width} ${height} rounded-full border border-gray-100`,
+            )}
+          />
+          {props.checked ? (
+            <CheckIcon
+              className={`absolute w-4 h-4 ${getContrastingTextColor(color)}`}
+            />
+          ) : null}
+        </div>
       )}
-    >
-      <label className="sr-only">{props.label}</label>
-      <span
-        aria-hidden="true"
-        style={{
-          backgroundColor: color.toString(),
-          borderColor: color.darken(0.1).toString(),
-        }}
-        className={cx(`${width} ${height} rounded-full border border-gray-100`)}
-      />
-      {props.checked ? (
-        <CheckIcon
-          className={`absolute w-4 h-4 ${getContrastingTextColor(color)}`}
-        />
-      ) : null}
-    </div>
+    />
   )
 }
 

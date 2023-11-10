@@ -69,7 +69,7 @@ const ClosetDesignBuyPagePeview = ({ designProduct }: Props) => {
               <ColorSwatch
                 onClick={() => setActiveColor(color)}
                 hexCode={color.hex || '#000'}
-                label={color.name || 'Unknown'}
+                label={color.name}
                 selected={activeColor?.id === color.id}
               />
             </li>

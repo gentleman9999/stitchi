@@ -168,7 +168,7 @@ const ProductVariantQuantityMatrixForm = <
                         })
                       }}
                       hexCode={color.hex || '#000'}
-                      label={color.name || 'Unknown color'}
+                      label={color.name}
                       width="w-8"
                       height="h-8"
                     />
@@ -223,6 +223,7 @@ const ProductVariantQuantityMatrixForm = <
                         <div className="flex items-center text-xs">
                           <ColorSwatch
                             hexCode={color.hex || '#000'}
+                            label={color.name}
                             onClick={() => {
                               handleSwatchClick(color)
                             }}

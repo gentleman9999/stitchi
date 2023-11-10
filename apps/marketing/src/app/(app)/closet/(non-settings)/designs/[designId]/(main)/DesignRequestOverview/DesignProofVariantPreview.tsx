@@ -120,7 +120,7 @@ const DesignProofVariantPreview = ({ designProofId }: Props) => {
               <ColorSwatch
                 key={color.catalogProductColorId}
                 hexCode={color.hexCode || ''}
-                label={color.name || ''}
+                label={color.name}
                 selected={activeColorId === color.catalogProductColorId}
                 onClick={() => setActiveColorId(color.catalogProductColorId)}
               />

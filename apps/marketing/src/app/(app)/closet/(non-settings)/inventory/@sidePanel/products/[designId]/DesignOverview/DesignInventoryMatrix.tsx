@@ -32,6 +32,7 @@ const DesignInventoryMatrix = ({ designProduct, onColorClick }: Props) => {
             <div className="flex items-center text-xs">
               <ColorSwatch
                 hexCode={color.hex || '#000'}
+                label={color.name}
                 onClick={() => onColorClick?.(color.id)}
               />
 
