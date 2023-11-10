@@ -1069,12 +1069,10 @@ export interface NexusGenFieldTypes {
     description: string | null; // String
     designProofId: string; // ID!
     designRequestId: string; // ID!
-    estimate: NexusGenRootTypes['Quote'] | null; // Quote
     id: string; // ID!
     inProductionQty: number; // Int!
     inStockQty: number; // Int!
     membershipId: string | null; // ID
-    minUnitPriceCents: number | null; // Int
     name: string; // String!
     organizationId: string | null; // ID
     primaryImageFile: NexusGenRootTypes['FileImage'] | null; // FileImage
@@ -1812,12 +1810,10 @@ export interface NexusGenFieldTypeNames {
     description: 'String'
     designProofId: 'ID'
     designRequestId: 'ID'
-    estimate: 'Quote'
     id: 'ID'
     inProductionQty: 'Int'
     inStockQty: 'Int'
     membershipId: 'ID'
-    minUnitPriceCents: 'Int'
     name: 'String'
     organizationId: 'ID'
     primaryImageFile: 'FileImage'
@@ -2488,11 +2484,6 @@ export interface NexusGenFieldTypeNames {
 }
 
 export interface NexusGenArgTypes {
-  DesignProduct: {
-    estimate: { // args
-      quantity: number; // Int!
-    }
-  }
   DesignRequest: {
     proofs: { // args
       limit?: number | null; // Int

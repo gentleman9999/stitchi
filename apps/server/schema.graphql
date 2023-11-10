@@ -110,12 +110,10 @@ type DesignProduct {
   description: String
   designProofId: ID!
   designRequestId: ID!
-  estimate(quantity: Int!): Quote
   id: ID!
   inProductionQty: Int!
   inStockQty: Int!
   membershipId: ID
-  minUnitPriceCents: Int
   name: String!
   organizationId: ID
   primaryImageFile: FileImage

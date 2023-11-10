@@ -91,14 +91,12 @@ const InventoryProductCard = ({ design, loading }: Props) => {
               hexColors={design.colors.map(({ hex }) => hex).filter(notEmpty)}
             />
           </div>
-          {design.minUnitPriceCents ? (
-            <span className=" text-gray-600 flex gap-1 items-center">
-              <span className="text-sm">In stock</span>
-              <span className="font-bold text-base">
-                {design.inStockQty || 0}
-              </span>
+          <span className=" text-gray-600 flex gap-1 items-center">
+            <span className="text-sm">In stock</span>
+            <span className="font-bold text-base">
+              {design.inStockQty || 0}
             </span>
-          ) : null}
+          </span>
         </div>
       }
     />
@@ -110,7 +108,6 @@ InventoryProductCard.fragments = {
     fragment ClosetInventoryIndexPageProductCardDesignProductFragment on DesignProduct {
       id
       name
-      minUnitPriceCents
       inStockQty
       inProductionQty
       colors {
