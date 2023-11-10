@@ -265,6 +265,14 @@ type DesignRequestApprovePayload {
   designRequest: DesignRequest
 }
 
+input DesignRequestArchiveInput {
+  designRequestId: String!
+}
+
+type DesignRequestArchivePayload {
+  designRequest: DesignRequest
+}
+
 input DesignRequestAssignInput {
   designRequestId: String!
   membershipId: String!
@@ -458,6 +466,7 @@ type DesignRequestRevisionRequestCreatePayload {
 
 enum DesignRequestStatus {
   APPROVED
+  ARCHIVED
   AWAITING_APPROVAL
   AWAITING_REVISION
   DRAFT
@@ -869,6 +878,7 @@ type Mutation {
   catalogProductCustomize(input: CatalogProductCustomizeInput!): CatalogProductCustomizePayload
   designProductCreateOrder(input: DesignProductCreateOrderInput!): DesignProductCreateOrderPayload
   designRequestApprove(input: DesignRequestApproveInput!): DesignRequestApprovePayload
+  designRequestArchive(input: DesignRequestArchiveInput!): DesignRequestArchivePayload
   designRequestAssign(input: DesignRequestAssignInput!): DesignRequestAssignPayload
   designRequestConversationMessageCreate(input: DesignRequestConversationMessageCreateInput!): DesignRequestConversationMessageCreatePayload
   designRequestCreate(input: DesignRequestCreateInput!): DesignRequestCreatePayload

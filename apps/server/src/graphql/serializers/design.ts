@@ -20,6 +20,8 @@ const humanizedStatus = (status: NexusGenEnums['DesignRequestStatus']) => {
       return 'Rejected'
     case 'SUBMITTED':
       return 'Submitted'
+    case 'ARCHIVED':
+      return 'Archived'
   }
 }
 
@@ -155,5 +157,7 @@ export const designRequestStatusToDesignFactory = (
       return DesignRequestStatus.REJECTED
     case 'SUBMITTED':
       return DesignRequestStatus.SUBMITTED
+    case 'ARCHIVED':
+      return DesignRequestStatus.ARCHIVED
   }
 }

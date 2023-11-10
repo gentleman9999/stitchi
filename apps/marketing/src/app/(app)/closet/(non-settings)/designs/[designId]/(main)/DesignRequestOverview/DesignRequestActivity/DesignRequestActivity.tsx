@@ -4,7 +4,6 @@ import ClosetSection from '@components/common/ClosetSection'
 import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
 import ClosetSectionTitle from '@components/common/ClosetSectionTitle'
 import Alert from '@components/ui/Alert'
-import { DesignRequestStatus } from '@generated/globalTypes'
 import React from 'react'
 import cx from 'classnames'
 import DesignRequestHistory from './DesignRequestHistory'
@@ -14,6 +13,7 @@ import {
   DesignRequestActivityActivitySubscriptionVariables,
   DesignRequestActivityGetDataQuery,
   DesignRequestActivityGetDataQueryVariables,
+  DesignRequestStatus,
 } from '@generated/types'
 
 interface Props {
@@ -81,7 +81,12 @@ const DesignRequestActivity = ({ designRequestId }: Props) => {
               <div
                 className={cx('flex flex-col gap-8', {
                   'pointer-events-none opacity-60':
-                    designRequest?.status === DesignRequestStatus.APPROVED,
+                    designRequest?.status &&
+                    [
+                      DesignRequestStatus.ARCHIVED,
+                      DesignRequestStatus.REJECTED,
+                      DesignRequestStatus.APPROVED,
+                    ].includes(designRequest?.status),
                 })}
               >
                 <DesignRequestHistory

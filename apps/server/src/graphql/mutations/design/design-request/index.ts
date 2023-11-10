@@ -9,6 +9,7 @@ import { DesignRequestStatus } from '../../../../services/design/db/design-reque
 
 export * from './design-request-assign'
 export * from './design-request-reject'
+export * from './design-request-archive'
 
 export const DesignRequestProductColorCreateInput = inputObjectType({
   name: 'DesignRequestProductColorCreateInput',

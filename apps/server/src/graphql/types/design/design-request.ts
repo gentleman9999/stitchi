@@ -57,6 +57,7 @@ export const DesignRequestStatus = enumType({
     'REJECTED',
     'AWAITING_APPROVAL',
     'AWAITING_REVISION',
+    'ARCHIVED',
   ],
 })
 

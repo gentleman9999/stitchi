@@ -18,15 +18,12 @@ import { useAuthorizedComponent } from '@lib/auth'
 import DesignRequestAssociatedProducts from './DesignRequestAssociatedProducts'
 import DesignRequestCustomerCard from './DesignRequestCustomerCard'
 import DesignRequestOrderList from './DesignRequestOrderList'
-import { useRouter } from 'next/navigation'
-import routes from '@lib/routes'
 
 interface Props {
   designRequestId: string
 }
 
 const DesignRequestOverview = ({ designRequestId }: Props) => {
-  const router = useRouter()
   const { can } = useAuthorizedComponent()
   const [activeProofId, setActiveProofId] = React.useState<string | null>(null)
 

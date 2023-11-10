@@ -1,10 +1,11 @@
 import { gql } from '@apollo/client'
 import cx from 'classnames'
-import { DesignRequestHistoryDesignRequestFragment } from '@generated/DesignRequestHistoryDesignRequestFragment'
 import { formatDistanceToNow } from 'date-fns'
 import UserAvatar from '@components/common/UserAvatar'
 import { ArrowPath, PaintBrush } from 'icons'
 import Skeleton from '@components/ui/Skeleton'
+import ReferenceFilesPreview from '../../ReferenceFilesPreview'
+import { DesignRequestHistoryDesignRequestFragment } from '@generated/types'
 
 interface Props {
   loading: boolean
@@ -91,21 +92,13 @@ const DesignRequestHistory = ({ loading, designRequest }: Props) => {
                   {item.message}
                 </p>
                 {item.files.length ? (
-                  <div className="flex gap-2">
-                    {item.files.map((file, index) => {
-                      return file.__typename === 'FileImage' ? (
-                        <img
-                          src={file.url}
-                          width={file.width}
-                          height={file.height}
-                          key={index}
-                          className=" bg-gray-100 rounded-md h-24 w-24 object-contain overflow-hidden cursor-zoom-in hover:opacity-80 transition-all"
-                          onClick={() => {
-                            window.open(file.url, '_blank')
-                          }}
-                        />
-                      ) : null
-                    })}
+                  <div className="flex gap-2 mt-2">
+                    <ReferenceFilesPreview
+                      files={item.files.map(file => ({
+                        ...file,
+                        bytes: file.humanizedBytes,
+                      }))}
+                    />
                   </div>
                 ) : null}
               </div>
@@ -217,17 +210,12 @@ const DesignRequestHistory = ({ loading, designRequest }: Props) => {
                 </div>
                 {item.files.length ? (
                   <div className="flex gap-2">
-                    {item.files.map((file, index) => {
-                      return file.__typename === 'FileImage' ? (
-                        <img
-                          src={file.url}
-                          width={file.width}
-                          height={file.height}
-                          key={index}
-                          className=" bg-gray-100 rounded-md h-24 w-24 object-contain overflow-hidden"
-                        />
-                      ) : null
-                    })}
+                    <ReferenceFilesPreview
+                      files={item.files.map(file => ({
+                        ...file,
+                        bytes: file.humanizedBytes,
+                      }))}
+                    />
                   </div>
                 ) : null}
               </div>
@@ -253,6 +241,11 @@ DesignRequestHistory.fragments = {
 
           files {
             id
+            humanizedBytes
+            name
+            url
+            fileType
+
             ... on FileImage {
               url
               width
@@ -309,7 +302,10 @@ DesignRequestHistory.fragments = {
           description
           files {
             id
-
+            humanizedBytes
+            name
+            url
+            fileType
             ... on FileImage {
               url
               width
