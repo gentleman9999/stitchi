@@ -47,7 +47,7 @@ const ProofVariantInput = ({ uploadFolder, form, designRequest }: Props) => {
                   color.catalogProductColorId
                 }
                 hexCode={color.hexCode || ''}
-                label={color.name || ''}
+                label={color.name}
                 onClick={() => setActiveColor(color)}
                 checked={Boolean(proofVariants[index]?.imageFileIds?.length)}
               />

@@ -54,6 +54,7 @@ const DesignRequestOverviewProductList = ({ product }: Props) => {
                       <ColorSwatch
                         key={color.hexCode}
                         hexCode={color.hexCode}
+                        label={color.name}
                         width="w-5"
                         height="h-5"
                       />
