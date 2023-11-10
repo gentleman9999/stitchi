@@ -2,7 +2,6 @@
 
 import { gql } from '@apollo/client'
 import { StandoutType, useStandout } from '@components/context'
-import { ClosetDesignIndexPageDesignRequestCardDesignRequestFragment } from '@generated/ClosetDesignIndexPageDesignRequestCardDesignRequestFragment'
 import { EyeIcon, LinkIcon } from '@heroicons/react/24/outline'
 import routes from '@lib/routes'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
@@ -10,6 +9,7 @@ import { format } from 'date-fns'
 import React from 'react'
 import Card from '../../../../../../components/common/ClosetCard/ClosetCard'
 import { getDesignRequestBadgeProps } from '@lib/design-request'
+import { ClosetDesignIndexPageDesignRequestCardDesignRequestFragment } from '@generated/types'
 
 interface Props {
   designRequest: ClosetDesignIndexPageDesignRequestCardDesignRequestFragment
