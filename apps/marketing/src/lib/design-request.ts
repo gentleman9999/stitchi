@@ -27,6 +27,7 @@ export const getDesignRequestBadgeProps = (designRequest: {
       break
 
     case DesignRequestStatus.DRAFT:
+    case DesignRequestStatus.ARCHIVED:
     default:
       severity = 'default'
   }

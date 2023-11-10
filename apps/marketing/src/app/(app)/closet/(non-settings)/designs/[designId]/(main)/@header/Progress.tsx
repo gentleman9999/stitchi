@@ -2,7 +2,7 @@
 
 import React from 'react'
 import cx from 'classnames'
-import { DesignRequestStatus } from '@generated/globalTypes'
+import { DesignRequestStatus } from '@generated/types'
 import { CheckIcon } from '@heroicons/react/20/solid'
 
 const steps = [
@@ -12,7 +12,11 @@ const steps = [
     DesignRequestStatus.AWAITING_APPROVAL,
     DesignRequestStatus.AWAITING_REVISION,
   ],
-  [DesignRequestStatus.APPROVED, DesignRequestStatus.REJECTED],
+  [
+    DesignRequestStatus.APPROVED,
+    DesignRequestStatus.REJECTED,
+    DesignRequestStatus.ARCHIVED,
+  ],
 ]
 
 interface Props {
@@ -212,6 +216,8 @@ const humanizeStep = (step: number, status?: DesignRequestStatus | null) => {
       switch (status) {
         case DesignRequestStatus.REJECTED:
           return 'Design Rejected'
+        case DesignRequestStatus.ARCHIVED:
+          return 'Design Archived'
         default:
           return 'Design Ready'
       }
@@ -249,6 +255,8 @@ const humanizeStepDescription = (
       switch (status) {
         case DesignRequestStatus.REJECTED:
           return 'This design request was rejected.'
+        case DesignRequestStatus.ARCHIVED:
+          return 'This design request was archived.'
         default:
           return 'Design ready for production!'
       }

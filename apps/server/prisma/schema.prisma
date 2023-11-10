@@ -541,6 +541,9 @@ enum DesignRequestStatus {
   AWAITING_APPROVAL
   // Design request is rejected (by Stitchi). This can happen if design subject is not appropriate.
   REJECTED
+  // Design request was archived by the user or by Stitchi (i.e. inactive design requests)
+  // Archived design requests can be restored
+  ARCHIVED
 }
 
 model DesignRequestFile {

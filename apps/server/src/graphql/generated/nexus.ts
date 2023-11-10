@@ -74,6 +74,9 @@ export interface NexusGenInputs {
     name: string; // String!
     termsConditionsAgreed: boolean; // Boolean!
   }
+  DesignRequestArchiveInput: { // input type
+    designRequestId: string; // String!
+  }
   DesignRequestAssignInput: { // input type
     designRequestId: string; // String!
     membershipId: string; // String!
@@ -346,7 +349,7 @@ export interface NexusGenInputs {
 export interface NexusGenEnums {
   CatalogProductCustomizationAddonType: "PRINT_LOCATION"
   DesignRequestHistoryItemDesignRequestEventMethod: "CREATE"
-  DesignRequestStatus: "APPROVED" | "AWAITING_APPROVAL" | "AWAITING_REVISION" | "DRAFT" | "REJECTED" | "SUBMITTED"
+  DesignRequestStatus: "APPROVED" | "ARCHIVED" | "AWAITING_APPROVAL" | "AWAITING_REVISION" | "DRAFT" | "REJECTED" | "SUBMITTED"
   FileType: "IMAGE" | "PDF" | "UNKNOWN" | "VIDEO"
   GlobalRole: "CUSTOMER" | "SUPERADMIN"
   MembershipRole: "OWNER" | "STITCHI_ADMIN" | "STITCHI_DESIGNER"
@@ -524,6 +527,9 @@ export interface NexusGenObjects {
   }
   DesignRequestApprovePayload: { // root type
     design?: NexusGenRootTypes['DesignProduct'] | null; // DesignProduct
+    designRequest?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+  }
+  DesignRequestArchivePayload: { // root type
     designRequest?: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
   }
   DesignRequestAssignPayload: { // root type
@@ -1167,6 +1173,9 @@ export interface NexusGenFieldTypes {
     design: NexusGenRootTypes['DesignProduct'] | null; // DesignProduct
     designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
   }
+  DesignRequestArchivePayload: { // field return type
+    designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
+  }
   DesignRequestAssignPayload: { // field return type
     designRequest: NexusGenRootTypes['DesignRequest'] | null; // DesignRequest
   }
@@ -1411,6 +1420,7 @@ export interface NexusGenFieldTypes {
     catalogProductCustomize: NexusGenRootTypes['CatalogProductCustomizePayload'] | null; // CatalogProductCustomizePayload
     designProductCreateOrder: NexusGenRootTypes['DesignProductCreateOrderPayload'] | null; // DesignProductCreateOrderPayload
     designRequestApprove: NexusGenRootTypes['DesignRequestApprovePayload'] | null; // DesignRequestApprovePayload
+    designRequestArchive: NexusGenRootTypes['DesignRequestArchivePayload'] | null; // DesignRequestArchivePayload
     designRequestAssign: NexusGenRootTypes['DesignRequestAssignPayload'] | null; // DesignRequestAssignPayload
     designRequestConversationMessageCreate: NexusGenRootTypes['DesignRequestConversationMessageCreatePayload'] | null; // DesignRequestConversationMessageCreatePayload
     designRequestCreate: NexusGenRootTypes['DesignRequestCreatePayload'] | null; // DesignRequestCreatePayload
@@ -1903,6 +1913,9 @@ export interface NexusGenFieldTypeNames {
     design: 'DesignProduct'
     designRequest: 'DesignRequest'
   }
+  DesignRequestArchivePayload: { // field return type name
+    designRequest: 'DesignRequest'
+  }
   DesignRequestAssignPayload: { // field return type name
     designRequest: 'DesignRequest'
   }
@@ -2147,6 +2160,7 @@ export interface NexusGenFieldTypeNames {
     catalogProductCustomize: 'CatalogProductCustomizePayload'
     designProductCreateOrder: 'DesignProductCreateOrderPayload'
     designRequestApprove: 'DesignRequestApprovePayload'
+    designRequestArchive: 'DesignRequestArchivePayload'
     designRequestAssign: 'DesignRequestAssignPayload'
     designRequestConversationMessageCreate: 'DesignRequestConversationMessageCreatePayload'
     designRequestCreate: 'DesignRequestCreatePayload'
@@ -2512,6 +2526,9 @@ export interface NexusGenArgTypes {
     }
     designRequestApprove: { // args
       input: NexusGenInputs['DesignRequestApproveInput']; // DesignRequestApproveInput!
+    }
+    designRequestArchive: { // args
+      input: NexusGenInputs['DesignRequestArchiveInput']; // DesignRequestArchiveInput!
     }
     designRequestAssign: { // args
       input: NexusGenInputs['DesignRequestAssignInput']; // DesignRequestAssignInput!

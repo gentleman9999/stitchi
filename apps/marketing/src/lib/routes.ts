@@ -340,6 +340,11 @@ const routes = {
             }) =>
               buildRoute(`/closet/designs/${designId}/assign/${membershipId}`),
           },
+
+          archive: {
+            href: ({ designRequestId }: { designRequestId: string }) =>
+              buildRoute(`/closet/designs/${designRequestId}/archive`),
+          },
         },
       },
 

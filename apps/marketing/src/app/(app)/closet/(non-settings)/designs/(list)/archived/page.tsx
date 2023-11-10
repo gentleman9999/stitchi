@@ -9,7 +9,7 @@ import React from 'react'
 import { useCloset } from '../closet-context'
 import ClosetCardGrid from '@components/common/ClosetCardGrid'
 import ClosetDesignIndexPageDesignRequestCard from '../ClosetDesignIndexPageDesignRequestCard'
-import { DesignRequestStatus } from '@generated/globalTypes'
+import { DesignRequestStatus } from '@generated/types'
 import {
   ClosetTabArchivedDesignsGetDataQuery,
   ClosetTabArchivedDesignsGetDataQueryVariables,
@@ -32,7 +32,7 @@ const ClosetTabArchivedDesigns = ({}: Props) => {
           membershipId: { equals: filters.user || undefined },
           artistMembershipId: { equals: filters.artist || undefined },
           status: {
-            in: [DesignRequestStatus.REJECTED],
+            in: [DesignRequestStatus.REJECTED, DesignRequestStatus.ARCHIVED],
           },
           createdAt: {
             gte: filters.date?.gte,
@@ -50,7 +50,7 @@ const ClosetTabArchivedDesigns = ({}: Props) => {
           membershipId: { equals: filters.user || undefined },
           artistMembershipId: { equals: filters.artist || undefined },
           status: {
-            in: [DesignRequestStatus.REJECTED],
+            in: [DesignRequestStatus.REJECTED, DesignRequestStatus.ARCHIVED],
           },
           createdAt: {
             gte: filters.date?.gte,

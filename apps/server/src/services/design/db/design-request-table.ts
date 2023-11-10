@@ -23,6 +23,7 @@ export enum DesignRequestStatus {
   REJECTED = 'REJECTED',
   AWAITING_APPROVAL = 'AWAITING_APPROVAL',
   AWAITING_REVISION = 'AWAITING_REVISION',
+  ARCHIVED = 'ARCHIVED',
 }
 
 export const DesignRequest: yup.ObjectSchema<DesignRequestSchema> = yup

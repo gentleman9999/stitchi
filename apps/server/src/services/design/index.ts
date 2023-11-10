@@ -10,6 +10,8 @@ import {
 } from '../notification'
 import { DesignEvents, makeEvents as makeDesignEvents } from './events'
 import { UpdateDesignRequestFnInput } from './repository/update-design-request'
+import { DesignFactoryDesignRequest } from './factory'
+import { DesignRequestStatus } from './db/design-request-table'
 
 export interface DesignService {
   createDesign: DesignRepository['createDesign']
@@ -34,6 +36,10 @@ export interface DesignService {
   getDesignRequest: DesignRepository['getDesignRequest']
   listDesignRequests: DesignRepository['listDesignRequests']
   listDesignRequestsCount: DesignRepository['listDesignRequestsCount']
+
+  archiveDesignRequest: (input: {
+    designRequestId: string
+  }) => Promise<DesignFactoryDesignRequest>
 
   createDesignProof: DesignRepository['createDesignProof']
   getDesignProof: DesignRepository['getDesignProof']
@@ -176,6 +182,33 @@ const makeClient: MakeClientFn = (
       } catch (error) {
         throw new Error('Failed to list design requests count')
       }
+    },
+
+    archiveDesignRequest: async input => {
+      let designRequest
+
+      try {
+        designRequest = await designRepository.getDesignRequest({
+          designRequestId: input.designRequestId,
+        })
+      } catch (error) {
+        throw new Error('Failed to get design request')
+      }
+
+      try {
+        designRequest = (
+          await designRepository.updateDesignRequest({
+            designRequest: {
+              ...designRequest,
+              status: DesignRequestStatus.ARCHIVED,
+            },
+          })
+        ).nextDesignRequest
+      } catch (error) {
+        throw new Error('Failed to archive design request')
+      }
+
+      return designRequest
     },
 
     createDesignProof: async input => {
