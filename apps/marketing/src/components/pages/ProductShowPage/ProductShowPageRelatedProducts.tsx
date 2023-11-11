@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import CatalogProductLegacy from '@components/common/CatalogProductLegacy'
-import { ProductShowPageRelatedProductsProductFragment } from '@generated/ProductShowPageRelatedProductsProductFragment'
+import { ProductShowPageRelatedProductsProductFragment } from '@generated/types'
 import React from 'react'
 
 interface Props {

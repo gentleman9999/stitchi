@@ -1678,7 +1678,6 @@ export interface NexusGenFieldTypes {
   Product: { // field return type
     estimate: NexusGenRootTypes['Quote']; // Quote!
     id: string; // ID!
-    priceCents: number; // Int!
     priceMetadata: NexusGenRootTypes['ProductPriceMetadata']; // ProductPriceMetadata!
   }
   ProductPriceMetadata: { // field return type
@@ -2429,7 +2428,6 @@ export interface NexusGenFieldTypeNames {
   Product: { // field return type name
     estimate: 'Quote'
     id: 'ID'
-    priceCents: 'Int'
     priceMetadata: 'ProductPriceMetadata'
   }
   ProductPriceMetadata: { // field return type name

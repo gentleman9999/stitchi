@@ -2,15 +2,16 @@ import { gql, QueryResult } from '@apollo/client'
 import React from 'react'
 import { notEmpty } from '@lib/utils/typescript'
 import CatalogProductLegacy from '../CatalogProductLegacy'
-import {
-  CatalogIndexPageGetDataQuery,
-  CatalogIndexPageGetDataQueryVariables,
-} from '@generated/CatalogIndexPageGetDataQuery'
+
 import CatalogProductSkeleton from './CatalogProductSkeleton'
 import CatalogProuductZeroState from './CatalogProductZeroState'
 import { InfiniteScrollContainer } from '@components/common'
 import Link from 'next/link'
-import { CatalogProductGridSiteFragment } from '@generated/CatalogProductGridSiteFragment'
+import {
+  CatalogIndexPageGetDataQuery,
+  CatalogIndexPageGetDataQueryVariables,
+  CatalogProductGridSiteFragment,
+} from '@generated/types'
 
 export interface Props {
   loading: boolean

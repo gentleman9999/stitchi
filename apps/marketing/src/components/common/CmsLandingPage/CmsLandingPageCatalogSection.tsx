@@ -3,17 +3,18 @@ import CatalogProductLegacy from '@components/common/CatalogProductLegacy'
 import Container from '@components/ui/Container'
 import Button from '@components/ui/ButtonV2/Button'
 import Tabs from '@components/ui/Tabs'
-import { CmsLandingPageCatalogSectionCatalogSectionFragment } from '@generated/CmsLandingPageCatalogSectionCatalogSectionFragment'
-import {
-  CmsLandingPageCatalogSectionGetDataQuery,
-  CmsLandingPageCatalogSectionGetDataQueryVariables,
-} from '@generated/CmsLandingPageCatalogSectionGetDataQuery'
+
 import routes from '@lib/routes'
 import { notEmpty } from '@lib/utils/typescript'
 import Link from 'next/link'
 import React from 'react'
 import Section from '../Section'
 import SectionHeader from '../SectionHeader'
+import {
+  CmsLandingPageCatalogSectionCatalogSectionFragment,
+  CmsLandingPageCatalogSectionGetDataQuery,
+  CmsLandingPageCatalogSectionGetDataQueryVariables,
+} from '@generated/types'
 
 const defaultCategories = [
   {

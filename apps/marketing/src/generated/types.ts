@@ -8089,7 +8089,6 @@ export interface Product extends Node {
   path: Scalars['String']['output'];
   /** Description of the product in plain text. */
   plainTextDescription: Scalars['String']['output'];
-  priceCents: Scalars['Int']['output'];
   priceMetadata: ProductPriceMetadata;
   /**
    * The minimum and maximum price of this product based on variant pricing and/or modifier price rules.

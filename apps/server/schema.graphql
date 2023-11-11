@@ -1325,7 +1325,6 @@ type PaymentMethodCard {
 type Product {
   estimate(includeFulfillment: Boolean, printLocations: [QuoteGeneratePrintLocationInput!]!, quantity: Int!): Quote!
   id: ID!
-  priceCents: Int!
   priceMetadata: ProductPriceMetadata!
 }
 

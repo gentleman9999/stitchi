@@ -1,9 +1,6 @@
 import React from 'react'
 import { gql, NetworkStatus, useQuery } from '@apollo/client'
-import {
-  CatalogIndexPageGetDataQuery,
-  CatalogIndexPageGetDataQueryVariables,
-} from '@generated/CatalogIndexPageGetDataQuery'
+
 import { SearchProductsFiltersInput } from '@generated/globalTypes'
 import { useRouter } from 'next/router'
 import CatalogFilters from './CatalogFilters'
@@ -11,6 +8,10 @@ import CatalogProductGrid from './CatalogProductGrid'
 import useActiveFilters from './useActiveFilters'
 import Container from '@components/ui/Container'
 import Section from '../Section'
+import {
+  CatalogIndexPageGetDataQuery,
+  CatalogIndexPageGetDataQueryVariables,
+} from '@generated/types'
 
 export const makeDefaultQueryVariables = ({
   brandEntityId,

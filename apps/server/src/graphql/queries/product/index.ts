@@ -41,38 +41,6 @@ export const products = queryField('_products', {
   },
 })
 
-export const ProductExtendsProduct = extendType({
-  type: 'Product',
-  definition(t) {
-    t.nonNull.int('priceCents', {
-      resolve: async (parent, _, ctx) => {
-        try {
-          const { productUnitCostCents } = await ctx.quote.generateEstimate({
-            productPriceCents: (parent as any).prices.price.value * 100,
-            includeFulfillment: false,
-            quantity: 10_000,
-            printLocations: [{ colorCount: 1 }],
-          })
-
-          return productUnitCostCents
-        } catch (error) {
-          ctx.logger
-            .child({
-              context: {
-                error,
-              },
-            })
-            .error("Error calculating product's price")
-
-          throw new GraphQLError(
-            `Unable to calculate product's price: ${parent.id}`,
-          )
-        }
-      },
-    })
-  },
-})
-
 export const ProductPriceMetadataExtendsProduct = extendType({
   type: 'Product',
   definition(t) {
