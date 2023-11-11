@@ -6,7 +6,7 @@ import { OrderPaymentStatus } from '@generated/globalTypes'
 import {
   OrderDetailsPageGetDataQuery,
   OrderDetailsPageGetDataQueryVariables,
-} from '@generated/OrderDetailsPageGetDataQuery'
+} from '@generated/types'
 import { useParams } from 'next/navigation'
 import React from 'react'
 
