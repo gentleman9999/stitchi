@@ -302,3 +302,31 @@ export const OrderExtendsDesignRequest = extendType({
     })
   },
 })
+
+export const OrderExtendsDesignProduct = extendType({
+  type: 'DesignProduct',
+  definition(t) {
+    t.nonNull.list.nonNull.field('orders', {
+      type: 'Order',
+      args: {
+        limit: 'Int',
+      },
+      resolve: async (parent, { limit }, { order }) => {
+        const LIMIT = limit || 10
+
+        const orders = await order.listOrders({
+          take: LIMIT,
+          where: {
+            OrderItems: {
+              some: {
+                designId: parent.id,
+              },
+            },
+          },
+        })
+
+        return orders.map(orderFactoryOrderToGraphQL)
+      },
+    })
+  },
+})

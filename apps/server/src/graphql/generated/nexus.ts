@@ -1102,6 +1102,7 @@ export interface NexusGenFieldTypes {
     inStockQty: number; // Int!
     membershipId: string | null; // ID
     name: string; // String!
+    orders: NexusGenRootTypes['Order'][]; // [Order!]!
     organizationId: string | null; // ID
     primaryImageFile: NexusGenRootTypes['FileImage'] | null; // FileImage
     primaryImageFileId: string | null; // ID
@@ -1854,6 +1855,7 @@ export interface NexusGenFieldTypeNames {
     inStockQty: 'Int'
     membershipId: 'ID'
     name: 'String'
+    orders: 'Order'
     organizationId: 'ID'
     primaryImageFile: 'FileImage'
     primaryImageFileId: 'ID'
@@ -2531,6 +2533,11 @@ export interface NexusGenFieldTypeNames {
 }
 
 export interface NexusGenArgTypes {
+  DesignProduct: {
+    orders: { // args
+      limit?: number | null; // Int
+    }
+  }
   DesignRequest: {
     proofs: { // args
       limit?: number | null; // Int

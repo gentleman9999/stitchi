@@ -2,10 +2,7 @@
 
 import { gql, useSuspenseQuery } from '@apollo/client'
 import React from 'react'
-import {
-  DesignOverviewGetDataQuery,
-  DesignOverviewGetDataQueryVariables,
-} from '@generated/DesignOverviewGetDataQuery'
+
 import { ComponentErrorMessage } from '@components/common'
 
 import DesignInventoryMatrix from './DesignInventoryMatrix'
@@ -17,6 +14,14 @@ import {
   CardTitle,
 } from '@components/ui/Card'
 import { useProductContext } from '../product-context'
+import {
+  DesignOverviewGetDataQuery,
+  DesignOverviewGetDataQueryVariables,
+} from '@generated/types'
+import Link from 'next/link'
+import routes from '@lib/routes'
+import Button from '@components/ui/ButtonV2/Button'
+import { ChevronRightIcon } from '@heroicons/react/20/solid'
 
 interface Props {
   designId: string
@@ -44,8 +49,8 @@ const DesignOverview = ({ designId }: Props) => {
     <>
       <ComponentErrorMessage error={error} />
 
-      {design ? (
-        <div>
+      <div className="flex flex-col gap-4">
+        {design ? (
           <Card collapsable>
             <CardHeader>
               <CardTitle title="Inventory" />
@@ -59,8 +64,47 @@ const DesignOverview = ({ designId }: Props) => {
               </CardContent>
             </CardCollapsableContent>
           </Card>
-        </div>
-      ) : null}
+        ) : null}
+
+        {design ? (
+          <Card collapsable defaultCollapsed={!design.orders.length}>
+            <CardHeader>
+              <CardTitle title="Orders" />
+            </CardHeader>
+
+            <CardCollapsableContent>
+              <CardContent divide>
+                {design.orders.length ? (
+                  <ul className="flex flex-col gap-4">
+                    {design.orders.map(order => (
+                      <li
+                        key={order.id}
+                        className="flex gap-2 justify-between items-center"
+                      >
+                        <div className="text-sm font-medium">
+                          {order.humanOrderId}
+                        </div>
+                        <Button
+                          variant="ghost"
+                          Component={Link}
+                          href={routes.internal.closet.orders.show.href({
+                            orderId: order.id,
+                          })}
+                          endIcon={<ChevronRightIcon className="w-4 h-4" />}
+                        >
+                          View order
+                        </Button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div>No orders</div>
+                )}
+              </CardContent>
+            </CardCollapsableContent>
+          </Card>
+        ) : null}
+      </div>
     </>
   )
 }
@@ -76,6 +120,11 @@ const GET_DATA = gql`
         id
         hex
         name
+      }
+
+      orders {
+        id
+        humanOrderId
       }
 
       ...DesignInventoryMatrixDesignProductFragment

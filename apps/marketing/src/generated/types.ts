@@ -3171,6 +3171,7 @@ export interface DesignProduct {
   inStockQty: Scalars['Int']['output'];
   membershipId: Maybe<Scalars['ID']['output']>;
   name: Scalars['String']['output'];
+  orders: Array<Order>;
   organizationId: Maybe<Scalars['ID']['output']>;
   primaryImageFile: Maybe<FileImage>;
   primaryImageFileId: Maybe<Scalars['ID']['output']>;
@@ -3178,6 +3179,11 @@ export interface DesignProduct {
   termsConditionsAgreed: Scalars['Boolean']['output'];
   updatedAt: Scalars['DateTime']['output'];
   variants: Array<DesignProductVariant>;
+}
+
+
+export interface DesignProductordersArgs {
+  limit?: InputMaybe<Scalars['Int']['input']>;
 }
 
 export interface DesignProductColor {
@@ -11920,7 +11926,7 @@ export type DesignOverviewGetDataQueryVariables = Exact<{
 }>;
 
 
-export type DesignOverviewGetDataQuery = { __typename: 'Query', designProduct: { __typename: 'DesignProduct', id: string, description: string | null, designRequestId: string, colors: Array<{ __typename: 'DesignProductColor', id: string, hex: string | null, name: string | null }>, sizes: Array<{ __typename: 'DesignProductSize', id: string, name: string }> | null } | null };
+export type DesignOverviewGetDataQuery = { __typename: 'Query', designProduct: { __typename: 'DesignProduct', id: string, description: string | null, designRequestId: string, colors: Array<{ __typename: 'DesignProductColor', id: string, hex: string | null, name: string | null }>, orders: Array<{ __typename: 'Order', id: string, humanOrderId: string }>, sizes: Array<{ __typename: 'DesignProductSize', id: string, name: string }> | null } | null };
 
 export type DesignPreviewGalleryDesignProductFragment = { __typename: 'DesignProduct', id: string, colors: Array<{ __typename: 'DesignProductColor', id: string, images: Array<{ __typename: 'FileImage', id: string, url: string, width: number, height: number }> }> };
 

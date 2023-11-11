@@ -138,6 +138,7 @@ type DesignProduct {
   inStockQty: Int!
   membershipId: ID
   name: String!
+  orders(limit: Int): [Order!]!
   organizationId: ID
   primaryImageFile: FileImage
   primaryImageFileId: ID
