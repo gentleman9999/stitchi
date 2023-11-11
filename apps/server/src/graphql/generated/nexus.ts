@@ -858,6 +858,7 @@ export interface NexusGenObjects {
   }
   OrderItem: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
+    designId?: string | null; // String
     id: string; // ID!
     orderId: string; // String!
     productId?: string | null; // String
@@ -1582,6 +1583,8 @@ export interface NexusGenFieldTypes {
   }
   OrderItem: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
+    designId: string | null; // String
+    designProduct: NexusGenRootTypes['DesignProduct'] | null; // DesignProduct
     id: string; // ID!
     orderId: string; // String!
     productId: string | null; // String
@@ -2332,6 +2335,8 @@ export interface NexusGenFieldTypeNames {
   }
   OrderItem: { // field return type name
     createdAt: 'DateTime'
+    designId: 'String'
+    designProduct: 'DesignProduct'
     id: 'ID'
     orderId: 'String'
     productId: 'String'

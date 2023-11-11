@@ -45,6 +45,7 @@ const orderItemToGraphQl = (
     orderId: item.orderId,
     productId: item.productId,
     productVariantId: item.productVariantId,
+    designId: item.designId,
 
     type: orderItemTypeToGraphQL(item.type),
 

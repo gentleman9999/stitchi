@@ -1,7 +1,10 @@
 import { gql } from '@apollo/client'
-import { OrderDetailsPageLineItemsItemFragment } from '@generated/OrderDetailsPageLineItemsItemFragment'
 import React from 'react'
 import currency from 'currency.js'
+import { OrderDetailsPageLineItemsItemFragment } from '@generated/types'
+import Link from 'next/link'
+import routes from '@lib/routes'
+import LinkInline from '@components/ui/LinkInline'
 
 interface Props {
   items: OrderDetailsPageLineItemsItemFragment[]
@@ -50,10 +53,35 @@ const OrderDetailsPageLineItems = ({ items }: Props) => {
         <tbody>
           {items.map(item => {
             const [name, ...rest] = item.title.split(' - ')
+            const TitleContainer = ({
+              children,
+            }: {
+              children: React.ReactNode
+            }) => {
+              if (item.designProduct) {
+                return (
+                  <LinkInline
+                    href={routes.internal.closet.inventory.show.products.show.href(
+                      {
+                        designId: item.designProduct.id,
+                      },
+                    )}
+                  >
+                    {children}
+                  </LinkInline>
+                )
+              }
+
+              return <>{children}</>
+            }
+
             return (
               <tr key={item.id}>
                 <td className="py-2 w-full">
-                  <span className="text-gray-900 font-bold">{name}</span>
+                  <TitleContainer>
+                    <span className="text-gray-900 font-bold">{name}</span>
+                  </TitleContainer>
+
                   {rest.length ? <> - {rest.join(' - ')}</> : null}
                 </td>
                 <td className="py-2 text-right px-3">{item.quantity}</td>
@@ -84,6 +112,10 @@ OrderDetailsPageLineItems.fragments = {
       quantity
       unitPriceCents
       totalPriceCents
+      designProduct {
+        id
+        name
+      }
     }
   `,
 }

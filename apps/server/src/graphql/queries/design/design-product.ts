@@ -264,3 +264,33 @@ export const DesignProductExtendsMembership = extendType({
     })
   },
 })
+
+export const DesignProductExtendsOrderItem = extendType({
+  type: 'OrderItem',
+  definition(t) {
+    t.field('designProduct', {
+      type: 'DesignProduct',
+      resolve: async (parent, _, ctx) => {
+        if (!parent.designId) {
+          return null
+        }
+
+        let design
+
+        try {
+          design = await ctx.design.getDesign({ designId: parent.designId })
+        } catch (error) {
+          ctx.logger
+            .child({
+              context: { error, orderItem: parent },
+            })
+            .error('Error getting design product')
+
+          throw new GraphQLError('Error getting design product')
+        }
+
+        return designFactoryDesignToGraphql(design)
+      },
+    })
+  },
+})

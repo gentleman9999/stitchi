@@ -1115,6 +1115,8 @@ type OrderEdge {
 
 type OrderItem {
   createdAt: DateTime!
+  designId: String
+  designProduct: DesignProduct
   id: ID!
   orderId: String!
   productId: String

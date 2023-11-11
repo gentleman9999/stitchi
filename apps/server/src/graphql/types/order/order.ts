@@ -32,6 +32,8 @@ export const OrderItem = objectType({
     t.nullable.string('productId')
     t.nullable.string('productVariantId')
 
+    t.nullable.string('designId')
+
     t.nonNull.field('createdAt', { type: 'DateTime' })
     t.field('updatedAt', { type: 'DateTime' })
   },
