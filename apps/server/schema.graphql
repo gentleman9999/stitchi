@@ -36,13 +36,13 @@ enum CatalogProductCustomizationAddonType {
   PRINT_LOCATION
 }
 
-input CatalogProductCustomizeAddonsInput {
+input CatalogProductCustomizeAddonInput {
   name: String!
   type: CatalogProductCustomizationAddonType!
 }
 
 input CatalogProductCustomizeInput {
-  addons: [CatalogProductCustomizeAddonsInput!]!
+  addons: [CatalogProductCustomizeAddonInput!]!
   catalogProductId: ID!
   description: String
   fileIds: [ID!]
@@ -63,6 +63,29 @@ type CatalogProductCustomizePayload {
 type CatalogProductImage {
   order: Int
   url: String!
+}
+
+input CatalogProductQuoteCreateAddonInput {
+  printLocation: CatalogProductQuoteCreatePrintLocationInput
+}
+
+input CatalogProductQuoteCreateInput {
+  addons: [CatalogProductQuoteCreateAddonInput!]!
+  catalogProductId: ID!
+  items: [CatalogProductQuoteCreateItemsInput!]!
+}
+
+input CatalogProductQuoteCreateItemsInput {
+  catalogProductVariantId: ID!
+  quantity: Int!
+}
+
+type CatalogProductQuoteCreatePayload {
+  quote: Quote
+}
+
+input CatalogProductQuoteCreatePrintLocationInput {
+  colorCount: Int!
 }
 
 type Color {
@@ -193,6 +216,7 @@ type DesignProductVariant {
   catalogProductId: ID!
   catalogProductSizeId: ID
   catalogProductVariantId: ID!
+  colorName: String
   id: ID!
   sizeName: String
 }
@@ -888,6 +912,7 @@ enum MembershipRole {
 
 type Mutation {
   catalogProductCustomize(input: CatalogProductCustomizeInput!): CatalogProductCustomizePayload
+  catalogProductQuoteCreate(input: CatalogProductQuoteCreateInput!): CatalogProductQuoteCreatePayload
   designProductCreateOrder(input: DesignProductCreateOrderInput!): DesignProductCreateOrderPayload
   designProductCreateQuote(input: DesignProductCreateQuoteInput!): DesignProductCreateQuotePayload
   designRequestApprove(input: DesignRequestApproveInput!): DesignRequestApprovePayload
@@ -1301,6 +1326,7 @@ type Product {
   estimate(includeFulfillment: Boolean, printLocations: [QuoteGeneratePrintLocationInput!]!, quantity: Int!): Quote!
   id: ID!
   priceCents: Int!
+  priceMetadata: ProductPriceMetadata!
 }
 
 input ProductKey {
@@ -1310,6 +1336,11 @@ input ProductKey {
 
 input ProductPrice {
   price: ProductPriceValue!
+}
+
+type ProductPriceMetadata {
+  maxPriceCents: Int!
+  minPriceCents: Int!
 }
 
 input ProductPriceValue {

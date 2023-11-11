@@ -6,8 +6,6 @@ import Button from '@components/ui/ButtonV2/Button'
 import { FileInput, RichTextEditor } from '@components/ui/inputs'
 import Checkbox from '@components/ui/inputs/Checkbox'
 import Tooltip from '@components/ui/Tooltip'
-import { CatalogProductCustomizationAddonType } from '@generated/globalTypes'
-import { ProductFormProductFragment } from '@generated/ProductFormProductFragment'
 import {
   ChatBubbleBottomCenterIcon,
   FolderPlusIcon,
@@ -22,9 +20,13 @@ import React from 'react'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import InformationGroup from './InformationGroup'
-import useProductEstimate from './useProductEstimate'
 import { MIN_ORDER_QTY } from '@lib/constants'
 import Skeleton from '../../../ui/Skeleton/Skeleton'
+import useProductQuote from './useProductQuote'
+import {
+  CatalogProductCustomizationAddonType,
+  ProductFormProductFragment,
+} from '@generated/types'
 
 const customizationOptions = [
   {
@@ -129,25 +131,37 @@ const ProductForm = (props: ProductFormProps) => {
     })
   })
 
-  const printLocations = customizations
+  const addons = customizations
     .filter(
       c =>
         c.type === CatalogProductCustomizationAddonType.PRINT_LOCATION &&
         c.selected,
     )
     .map(() => ({
-      colorCount: 1,
+      printLocation: {
+        colorCount: 1,
+      },
     }))
 
   const {
-    estimate,
-    maxEstimate,
-    loading: estimateLoading,
-  } = useProductEstimate({
-    printLocations,
-    productId: props.product.id,
-    quantity: totalQuantity,
+    createQuote,
+    quote,
+    loading: loadingQuote,
+  } = useProductQuote({
+    catalogProductId: props.product.entityId.toString(),
   })
+
+  React.useEffect(() => {
+    createQuote({
+      addons,
+      items: colors.flatMap(color =>
+        color.sizes.map(size => ({
+          catalogProductVariantId: size.catalogProductVariantId,
+          quantity: size.quantity || 0,
+        })),
+      ),
+    })
+  }, [totalQuantity, colors, createQuote, addons])
 
   const handleSubmit = form.handleSubmit(async (values: FormValues) => {
     if (totalQuantity !== 0 && totalQuantity < MIN_ORDER_QTY) {
@@ -167,6 +181,8 @@ const ProductForm = (props: ProductFormProps) => {
     control: form.control,
     name: 'customizations',
   })
+
+  const { priceMetadata } = props.product
 
   return (
     <form onSubmit={handleSubmit}>
@@ -324,31 +340,37 @@ const ProductForm = (props: ProductFormProps) => {
               )}
             />{' '}
             <span className="text-4xl font-medium font-headingDisplay text-gray-600 whitespace-nowrap">
-              {estimateLoading ? (
-                <Skeleton width={100} />
-              ) : estimate ? (
-                <>
-                  {totalQuantity === 0 || totalQuantity >= MIN_ORDER_QTY ? (
-                    <>
-                      {currency(estimate.productUnitCostCents, {
+              <>
+                {totalQuantity === 0 || totalQuantity >= MIN_ORDER_QTY ? (
+                  <>
+                    {totalQuantity === 0 ? (
+                      currency(priceMetadata.minPriceCents, {
                         fromCents: true,
-                      }).format()}{' '}
-                    </>
-                  ) : (
-                    <p className="text-xs text-blue-500 max-w-[300px] whitespace-pre-line">
-                      Minimum order quantity is {MIN_ORDER_QTY} pieces. This
-                      ensures we can offer the best prices to our customers.
-                    </p>
-                  )}
+                      }).format()
+                    ) : loadingQuote ? (
+                      <Skeleton />
+                    ) : quote?.productUnitCostCents ? (
+                      <>
+                        {currency(quote?.productUnitCostCents, {
+                          fromCents: true,
+                        }).format()}
+                      </>
+                    ) : null}
+                  </>
+                ) : (
+                  <p className="text-xs text-blue-500 max-w-[300px] whitespace-pre-line">
+                    Minimum order quantity is {MIN_ORDER_QTY} pieces. This
+                    ensures we can offer the best prices to our customers.
+                  </p>
+                )}
 
-                  {totalQuantity === 0 && maxEstimate?.productUnitCostCents
-                    ? `-
-                  ${currency(maxEstimate.productUnitCostCents, {
+                {totalQuantity === 0 && priceMetadata.maxPriceCents
+                  ? `-
+                  ${currency(priceMetadata.maxPriceCents, {
                     fromCents: true,
                   }).format()}`
-                    : null}
-                </>
-              ) : null}
+                  : null}
+              </>
             </span>
           </div>
           <Button
@@ -369,7 +391,12 @@ ProductForm.fragments = {
   product: gql`
     fragment ProductFormProductFragment on Product {
       id
+      entityId
       name
+      priceMetadata {
+        minPriceCents
+        maxPriceCents
+      }
       brand {
         id
         name

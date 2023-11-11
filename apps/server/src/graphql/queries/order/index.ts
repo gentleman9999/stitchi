@@ -16,6 +16,13 @@ import { cursorPaginationFromList } from '../../utils'
 import { Prisma } from '@prisma/client'
 import { onlyOwn } from '../../authorization'
 
+export const QuoteGeneratePrintLocationInput = inputObjectType({
+  name: 'QuoteGeneratePrintLocationInput',
+  definition(t) {
+    t.nonNull.int('colorCount')
+  },
+})
+
 export const order = queryField('order', {
   type: 'Order',
   args: {

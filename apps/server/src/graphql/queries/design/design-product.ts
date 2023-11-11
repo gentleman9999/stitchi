@@ -8,7 +8,6 @@ import {
   queryField,
 } from 'nexus'
 import { designFactoryDesignToGraphql } from '../../serializers/design'
-import { v4 } from 'uuid'
 import { Prisma } from '@prisma/client'
 import { cursorPaginationFromList } from '../../utils'
 import { onlyOwn } from '../../authorization'

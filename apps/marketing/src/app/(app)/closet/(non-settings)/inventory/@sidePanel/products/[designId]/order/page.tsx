@@ -1,10 +1,7 @@
 'use client'
 
 import { gql, useSuspenseQuery } from '@apollo/client'
-import {
-  ClosetDesignBuyPageGetDataQuery,
-  ClosetDesignBuyPageGetDataQueryVariables,
-} from '@generated/ClosetDesignBuyPageGetDataQuery'
+
 import { useParams, useRouter } from 'next/navigation'
 import React from 'react'
 import ClosetDesignBuyPageForm, { FormValues } from './ClosetDesignBuyPageForm'
@@ -14,6 +11,10 @@ import routes from '@lib/routes'
 
 import SubmitBanner from './SubmitBanner'
 import { CardContent } from '@components/ui/Card'
+import {
+  ClosetDesignBuyPageGetDataQuery,
+  ClosetDesignBuyPageGetDataQueryVariables,
+} from '@generated/types'
 
 const Page = () => {
   const router = useRouter()

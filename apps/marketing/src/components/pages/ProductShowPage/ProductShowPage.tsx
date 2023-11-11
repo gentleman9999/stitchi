@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client'
 import Container from '@components/ui/Container'
-import { ProductShowPageHeroFragment } from '@generated/ProductShowPageHeroFragment'
 import React from 'react'
 import ProductShowPageHero from './ProductShowPageHero'
 import {
@@ -14,7 +13,6 @@ import { OpenGraphMedia } from 'next-seo/lib/types'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import routes from '@lib/routes'
 import { notEmpty } from '@lib/utils/typescript'
-import { ProductPageGetDataQuery_site_route_node_Product } from '@generated/ProductPageGetDataQuery'
 import ProductQuickActions from './ProductQuickActions'
 import ShareDialog from '@components/common/ShareDialog'
 import ValuePropositions from './ValuePropositions'
@@ -22,6 +20,7 @@ import Breadcrumbs from '@components/common/Breadcrumbs'
 import currency from 'currency.js'
 import ProductShowPageRelatedProducts from './ProductShowPageRelatedProducts'
 import ProductShowPageDetails from './ProductShowPageDetails'
+import { ProductShowPageHeroFragment } from '@generated/types'
 
 interface Props {
   product: ProductShowPageHeroFragment
@@ -144,9 +143,7 @@ const ProductShowPage = ({ product }: Props) => {
 
 const Divider = () => <hr className="my-1" />
 
-const makeImages = (
-  product: ProductPageGetDataQuery_site_route_node_Product,
-): OpenGraphMedia[] => {
+const makeImages = (product: ProductShowPageHeroFragment): OpenGraphMedia[] => {
   const { defaultImage: image } = product
   if (!image) {
     return []

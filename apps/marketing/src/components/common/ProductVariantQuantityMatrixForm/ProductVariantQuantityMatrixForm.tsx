@@ -20,8 +20,9 @@ interface ProductSize {
 }
 
 interface Variant {
-  id: string
+  catalogProductVariantId: string
   sizeName: string | null
+  colorName: string | null
   catalogProductSizeId: string | null
   catalogProductColorId: string | null
 }
@@ -124,7 +125,8 @@ const ProductVariantQuantityMatrixForm = <
             disabled: !foundVariant,
             quantity: null,
             catalogSizeEntityId: size.sizeId,
-            catalogProductVariantId: foundVariant?.id || null,
+            catalogProductVariantId:
+              foundVariant?.catalogProductVariantId || null,
           }
         }),
       },

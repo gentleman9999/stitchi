@@ -1,10 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
 import { ComponentErrorMessage } from '@components/common'
 import { PrimaryLayout } from '@components/layout'
-import {
-  ProductPageGetDataQuery,
-  ProductPageGetDataQueryVariables,
-} from '@generated/ProductPageGetDataQuery'
 
 import { addApolloState, initializeApollo } from '@lib/apollo'
 import { GetStaticPaths, GetStaticProps } from 'next'
@@ -18,13 +14,16 @@ import { fragments as brandShowPageFragments } from '@components/pages/BrandShow
 import { fragments as productShowPageFragments } from '@components/pages/ProductShowPage'
 import { fragments as categoryShowPageFragments } from '@components/pages/CategoryShowPage'
 import { notEmpty } from '@lib/utils/typescript'
-import {
-  ProductPageGetDesignCategoryData,
-  ProductPageGetDesignCategoryDataVariables,
-} from '@generated/ProductPageGetDesignCategoryData'
+
 import DesignLibraryCategoryShowPage from '@components/pages/DesignLibraryCategoryShowPage'
 import { useLogger } from 'next-axiom'
 import CatalogLayout from '@components/layout/CatalogLayout'
+import {
+  ProductPageGetDataQuery,
+  ProductPageGetDataQueryVariables,
+  ProductPageGetDesignCategoryData,
+  ProductPageGetDesignCategoryDataVariables,
+} from '@generated/types'
 
 const BrandShowPage = dynamic(() => import('@components/pages/BrandShowPage'))
 const ProductShowPage = dynamic(

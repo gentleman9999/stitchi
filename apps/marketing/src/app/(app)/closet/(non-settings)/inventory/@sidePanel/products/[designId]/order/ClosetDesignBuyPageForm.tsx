@@ -1,15 +1,15 @@
 import { gql } from '@apollo/client'
 import { ComponentErrorMessage } from '@components/common'
-import { ClosetDesignBuyPageFormDesignProductFragment } from '@generated/ClosetDesignBuyPageFormDesignProductFragment'
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import FormSection from './FormSection'
 import useProductEstimate from './useProductEstimate'
-import VariantQuantityMatrixForm from '../../../../../../../../../components/common/ProductVariantQuantityMatrixForm/ProductVariantQuantityMatrixForm'
 import { InputGroup } from '@components/ui/inputs'
 import { MIN_ORDER_QTY } from '@lib/constants'
+import ProductVariantQuantityMatrixForm from '@components/common/ProductVariantQuantityMatrixForm'
+import { ClosetDesignBuyPageFormDesignProductFragment } from '@generated/types'
 
 const sizeSchema = yup.object().shape({
   catalogProductVariantId: yup.string().required(),
@@ -160,7 +160,7 @@ const ClosetDesignBuyPageForm = ({
                 label="Choose quantities to restock"
                 error={formErrors.colors?.message}
               >
-                <VariantQuantityMatrixForm
+                <ProductVariantQuantityMatrixForm
                   form={form}
                   colors={designProduct.colors.map(color => ({
                     id: color.id,
@@ -169,10 +169,11 @@ const ClosetDesignBuyPageForm = ({
                     name: color.name,
                   }))}
                   variants={designProduct.variants.map(variant => ({
-                    id: variant.id,
+                    catalogProductVariantId: variant.id,
                     catalogProductColorId: variant.catalogProductColorId,
                     catalogProductSizeId: variant.catalogProductSizeId,
                     sizeName: variant.sizeName,
+                    colorName: variant.colorName,
                   }))}
                 />
               </InputGroup>
@@ -201,6 +202,7 @@ ClosetDesignBuyPageForm.fragments = {
       variants {
         id
         sizeName
+        colorName
         catalogProductSizeId
         catalogProductColorId
       }
