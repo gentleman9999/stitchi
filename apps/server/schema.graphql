@@ -177,6 +177,7 @@ input DesignProductCreateOrderInput {
 
 input DesignProductCreateOrderItemInput {
   catalogProductVariantId: ID!
+  designProductVariantId: ID!
   quantity: Int!
 }
 

@@ -632,35 +632,35 @@ export const designRequestApprove = mutationField('designRequestApprove', {
   args: {
     input: nonNull('DesignRequestApproveInput'),
   },
-  resolve: async (_, { input }, { design, membershipId, logger }) => {
-    if (!membershipId) throw new GraphQLError('Not authenticated')
+  resolve: async (_, { input }, ctx) => {
+    if (!ctx.membershipId) throw new GraphQLError('Not authenticated')
 
     let designRequest
 
     try {
-      designRequest = await design.getDesignRequest({
+      designRequest = await ctx.design.getDesignRequest({
         designRequestId: input.designRequestId,
       })
     } catch (error) {
-      logger.error(error)
+      ctx.logger.error(error)
       throw new Error('Failed to get design request')
     }
 
     let approvedProof
 
     try {
-      approvedProof = await design.getDesignProof({
+      approvedProof = await ctx.design.getDesignProof({
         designProofId: input.designProofId,
       })
     } catch (error) {
-      logger.error(error)
+      ctx.logger.error(error)
       throw new Error('Failed to get design proof')
     }
 
     let newDesign
 
     try {
-      newDesign = await design.createDesign({
+      newDesign = await ctx.design.createDesign({
         design: {
           designProofId: approvedProof.id,
           catalogProductId: approvedProof.catalogProductId,
@@ -668,7 +668,7 @@ export const designRequestApprove = mutationField('designRequestApprove', {
           organizationId: designRequest.organizationId,
           primaryImageFileId: approvedProof.primaryImageFileId,
           termsConditionsAgreed: input.termsConditionsAgreed,
-          membershipId: membershipId,
+          membershipId: ctx.membershipId,
           description: input.description || '',
           name: input.name || designRequest.name,
           locations: approvedProof.locations.map(location => ({
@@ -687,14 +687,14 @@ export const designRequestApprove = mutationField('designRequestApprove', {
         },
       })
     } catch (error) {
-      logger.error(error)
+      ctx.logger.error(error)
       throw new Error('Failed to create design')
     }
 
     let updatedDesignRequest
 
     try {
-      updatedDesignRequest = await design.updateDesignRequest({
+      updatedDesignRequest = await ctx.design.updateDesignRequest({
         designRequest: {
           ...designRequest,
           status: 'APPROVED',
@@ -702,8 +702,63 @@ export const designRequestApprove = mutationField('designRequestApprove', {
         },
       })
     } catch (error) {
-      logger.error(error)
+      ctx.logger.error(error)
       throw new Error('Failed to update design request')
+    }
+
+    let ordersWithDesignRequest
+
+    try {
+      ordersWithDesignRequest = await ctx.order.listOrders({
+        where: {
+          designRequestId: designRequest.id,
+        },
+      })
+    } catch (error) {
+      ctx.logger
+        .child({ error, input })
+        .error('Failed to get orders with design request')
+
+      throw new Error('Failed to get orders with design request')
+    }
+
+    const orderDesign = { ...newDesign }
+
+    for (const order of ordersWithDesignRequest) {
+      let orderToUpdate
+
+      try {
+        orderToUpdate = await ctx.order.getOrder({
+          orderId: order.id,
+        })
+      } catch (error) {
+        ctx.logger
+          .child({ error, input })
+          .error('Failed to get order with design request')
+
+        throw new Error('Failed to get order with design request')
+      }
+
+      try {
+        // Assocatie any existing order line items with the recently created product (design)
+        await ctx.order.updateOrder({
+          order: {
+            ...orderToUpdate,
+            items: orderToUpdate.items.map(item => {
+              return {
+                ...item,
+                designId: orderDesign.id,
+              }
+            }),
+          },
+        })
+      } catch (error) {
+        ctx.logger
+          .child({ error, input })
+          .error('Failed to update order with design request')
+
+        throw new Error('Failed to update order with design request')
+      }
     }
 
     return {

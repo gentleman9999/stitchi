@@ -80,6 +80,7 @@ export interface NexusGenInputs {
   }
   DesignProductCreateOrderItemInput: { // input type
     catalogProductVariantId: string; // ID!
+    designProductVariantId: string; // ID!
     quantity: number; // Int!
   }
   DesignProductCreateQuoteInput: { // input type
