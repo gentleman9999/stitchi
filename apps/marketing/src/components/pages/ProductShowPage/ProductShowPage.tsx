@@ -82,7 +82,7 @@ const ProductShowPage = ({ product }: Props) => {
         return {
           url,
           color,
-          price: currency(product.priceCents || 0, {
+          price: currency(product.priceMetadata.minPriceCents || 0, {
             fromCents: true,
           }),
           priceCurrency: 'USD',
@@ -206,7 +206,9 @@ export const fragments = {
       path
       gtin
       sku
-      priceCents
+      priceMetadata {
+        minPriceCents
+      }
       plainTextDescription
       defaultImage {
         seoImageUrl: url(width: 1000)
