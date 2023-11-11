@@ -3,11 +3,7 @@
 import { gql, useSuspenseQuery } from '@apollo/client'
 import Alert from '@components/ui/Alert'
 import Button from '@components/ui/ButtonV2/Button'
-import {
-  SlideOverHeader,
-  SlideOverContent,
-  SlideOverActions,
-} from '@components/ui/SlideOver'
+import { SlideOverContent, SlideOverActions } from '@components/ui/SlideOver'
 import { ArrowRightIcon } from '@heroicons/react/20/solid'
 import routes from '@lib/routes'
 import React from 'react'
