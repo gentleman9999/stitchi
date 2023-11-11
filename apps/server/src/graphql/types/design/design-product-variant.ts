@@ -9,5 +9,6 @@ export const DesignProductVariant = objectType({
     t.nullable.id('catalogProductColorId')
     t.nullable.id('catalogProductSizeId')
     t.nullable.string('sizeName')
+    t.nullable.string('colorName')
   },
 })

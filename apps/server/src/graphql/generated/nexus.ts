@@ -38,12 +38,12 @@ declare global {
 }
 
 export interface NexusGenInputs {
-  CatalogProductCustomizeAddonsInput: { // input type
+  CatalogProductCustomizeAddonInput: { // input type
     name: string; // String!
     type: NexusGenEnums['CatalogProductCustomizationAddonType']; // CatalogProductCustomizationAddonType!
   }
   CatalogProductCustomizeInput: { // input type
-    addons: NexusGenInputs['CatalogProductCustomizeAddonsInput'][]; // [CatalogProductCustomizeAddonsInput!]!
+    addons: NexusGenInputs['CatalogProductCustomizeAddonInput'][]; // [CatalogProductCustomizeAddonInput!]!
     catalogProductId: string; // ID!
     description?: string | null; // String
     fileIds?: string[] | null; // [ID!]
@@ -53,6 +53,21 @@ export interface NexusGenInputs {
   CatalogProductCustomizeItemsInput: { // input type
     catalogProductVariantId: string; // ID!
     quantity: number; // Int!
+  }
+  CatalogProductQuoteCreateAddonInput: { // input type
+    printLocation?: NexusGenInputs['CatalogProductQuoteCreatePrintLocationInput'] | null; // CatalogProductQuoteCreatePrintLocationInput
+  }
+  CatalogProductQuoteCreateInput: { // input type
+    addons: NexusGenInputs['CatalogProductQuoteCreateAddonInput'][]; // [CatalogProductQuoteCreateAddonInput!]!
+    catalogProductId: string; // ID!
+    items: NexusGenInputs['CatalogProductQuoteCreateItemsInput'][]; // [CatalogProductQuoteCreateItemsInput!]!
+  }
+  CatalogProductQuoteCreateItemsInput: { // input type
+    catalogProductVariantId: string; // ID!
+    quantity: number; // Int!
+  }
+  CatalogProductQuoteCreatePrintLocationInput: { // input type
+    colorCount: number; // Int!
   }
   DateFilterInput: { // input type
     gte?: string | null; // String
@@ -415,6 +430,9 @@ export interface NexusGenObjects {
     order?: number | null; // Int
     url: string; // String!
   }
+  CatalogProductQuoteCreatePayload: { // root type
+    quote?: NexusGenRootTypes['Quote'] | null; // Quote
+  }
   Color: { // root type
     cmykC?: number | null; // Int
     cmykK?: number | null; // Int
@@ -486,6 +504,7 @@ export interface NexusGenObjects {
     catalogProductId: string; // ID!
     catalogProductSizeId?: string | null; // ID
     catalogProductVariantId: string; // ID!
+    colorName?: string | null; // String
     id: string; // ID!
     sizeName?: string | null; // String
   }
@@ -930,6 +949,10 @@ export interface NexusGenObjects {
   Product: { // root type
     id: string; // ID!
   }
+  ProductPriceMetadata: { // root type
+    maxPriceCents: number; // Int!
+    minPriceCents: number; // Int!
+  }
   Query: {};
   Quote: { // root type
     id: string; // ID!
@@ -1037,6 +1060,9 @@ export interface NexusGenFieldTypes {
     order: number | null; // Int
     url: string; // String!
   }
+  CatalogProductQuoteCreatePayload: { // field return type
+    quote: NexusGenRootTypes['Quote'] | null; // Quote
+  }
   Color: { // field return type
     cmykC: number | null; // Int
     cmykK: number | null; // Int
@@ -1114,6 +1140,7 @@ export interface NexusGenFieldTypes {
     catalogProductId: string; // ID!
     catalogProductSizeId: string | null; // ID
     catalogProductVariantId: string; // ID!
+    colorName: string | null; // String
     id: string; // ID!
     sizeName: string | null; // String
   }
@@ -1429,6 +1456,7 @@ export interface NexusGenFieldTypes {
   }
   Mutation: { // field return type
     catalogProductCustomize: NexusGenRootTypes['CatalogProductCustomizePayload'] | null; // CatalogProductCustomizePayload
+    catalogProductQuoteCreate: NexusGenRootTypes['CatalogProductQuoteCreatePayload'] | null; // CatalogProductQuoteCreatePayload
     designProductCreateOrder: NexusGenRootTypes['DesignProductCreateOrderPayload'] | null; // DesignProductCreateOrderPayload
     designProductCreateQuote: NexusGenRootTypes['DesignProductCreateQuotePayload'] | null; // DesignProductCreateQuotePayload
     designRequestApprove: NexusGenRootTypes['DesignRequestApprovePayload'] | null; // DesignRequestApprovePayload
@@ -1651,6 +1679,11 @@ export interface NexusGenFieldTypes {
     estimate: NexusGenRootTypes['Quote']; // Quote!
     id: string; // ID!
     priceCents: number; // Int!
+    priceMetadata: NexusGenRootTypes['ProductPriceMetadata']; // ProductPriceMetadata!
+  }
+  ProductPriceMetadata: { // field return type
+    maxPriceCents: number; // Int!
+    minPriceCents: number; // Int!
   }
   Query: { // field return type
     _products: Array<NexusGenRootTypes['Product'] | null> | null; // [Product]
@@ -1778,6 +1811,9 @@ export interface NexusGenFieldTypeNames {
     order: 'Int'
     url: 'String'
   }
+  CatalogProductQuoteCreatePayload: { // field return type name
+    quote: 'Quote'
+  }
   Color: { // field return type name
     cmykC: 'Int'
     cmykK: 'Int'
@@ -1855,6 +1891,7 @@ export interface NexusGenFieldTypeNames {
     catalogProductId: 'ID'
     catalogProductSizeId: 'ID'
     catalogProductVariantId: 'ID'
+    colorName: 'String'
     id: 'ID'
     sizeName: 'String'
   }
@@ -2170,6 +2207,7 @@ export interface NexusGenFieldTypeNames {
   }
   Mutation: { // field return type name
     catalogProductCustomize: 'CatalogProductCustomizePayload'
+    catalogProductQuoteCreate: 'CatalogProductQuoteCreatePayload'
     designProductCreateOrder: 'DesignProductCreateOrderPayload'
     designProductCreateQuote: 'DesignProductCreateQuotePayload'
     designRequestApprove: 'DesignRequestApprovePayload'
@@ -2392,6 +2430,11 @@ export interface NexusGenFieldTypeNames {
     estimate: 'Quote'
     id: 'ID'
     priceCents: 'Int'
+    priceMetadata: 'ProductPriceMetadata'
+  }
+  ProductPriceMetadata: { // field return type name
+    maxPriceCents: 'Int'
+    minPriceCents: 'Int'
   }
   Query: { // field return type name
     _products: 'Product'
@@ -2527,6 +2570,9 @@ export interface NexusGenArgTypes {
   Mutation: {
     catalogProductCustomize: { // args
       input: NexusGenInputs['CatalogProductCustomizeInput']; // CatalogProductCustomizeInput!
+    }
+    catalogProductQuoteCreate: { // args
+      input: NexusGenInputs['CatalogProductQuoteCreateInput']; // CatalogProductQuoteCreateInput!
     }
     designProductCreateOrder: { // args
       input: NexusGenInputs['DesignProductCreateOrderInput']; // DesignProductCreateOrderInput!

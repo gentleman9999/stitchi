@@ -92,7 +92,6 @@ CatalogProduct.fragments = {
       id
       name
       slug
-      priceCents
     }
   `,
 }

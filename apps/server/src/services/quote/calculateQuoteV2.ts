@@ -77,9 +77,9 @@ const calculate = ({
       0,
       ...variantQuotes.map(v => v.totalRetailPriceCents),
     ),
-    unitRetailPriceCents: sum(
-      0,
-      ...variantQuotes.map(v => v.unitRetailPriceCents),
+    unitRetailPriceCents: divide(
+      sum(0, ...variantQuotes.map(v => v.unitRetailPriceCents)),
+      variantQuotes.length || 1,
     ),
   }
 }

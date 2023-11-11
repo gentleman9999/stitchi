@@ -17,6 +17,8 @@ import { notEmpty } from '../../../utils'
 import { designRequestFactoryToGrahpql } from '../../serializers/design'
 import { orderFactoryOrderToGraphQL } from '../../serializers/order'
 
+export * from './catalog-product-quote'
+
 export const CatalogProductCustomizeItemsInput = inputObjectType({
   name: 'CatalogProductCustomizeItemsInput',
   definition(t) {
@@ -30,8 +32,8 @@ export const CatalogProductCustomizationAddonType = enumType({
   members: ['PRINT_LOCATION'],
 })
 
-export const CatalogProductCustomizeAddonsInput = inputObjectType({
-  name: 'CatalogProductCustomizeAddonsInput',
+export const CatalogProductCustomizeAddonInput = inputObjectType({
+  name: 'CatalogProductCustomizeAddonInput',
   definition(t) {
     t.nonNull.field('type', { type: 'CatalogProductCustomizationAddonType' })
     t.nonNull.string('name')
@@ -49,7 +51,7 @@ export const CatalogProductCustomizeInput = inputObjectType({
       type: 'CatalogProductCustomizeItemsInput',
     })
     t.nonNull.list.nonNull.field('addons', {
-      type: 'CatalogProductCustomizeAddonsInput',
+      type: 'CatalogProductCustomizeAddonInput',
     })
   },
 })

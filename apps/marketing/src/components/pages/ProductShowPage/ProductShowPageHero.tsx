@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client'
-import { ProductShowPageHeroProductFragment } from '@generated/ProductShowPageHeroProductFragment'
 import routes from '@lib/routes'
 import React from 'react'
 import { track } from '@lib/analytics'
@@ -12,6 +11,7 @@ import useCustomizeProduct from './useCustomizeProduct'
 import { makeProductTitle } from '@lib/utils/catalog'
 import { CatalogProductCustomizeInput } from '@generated/globalTypes'
 import { notEmpty } from '@lib/utils/typescript'
+import { ProductShowPageHeroProductFragment } from '@generated/types'
 
 interface Props {
   product: ProductShowPageHeroProductFragment
@@ -20,11 +20,35 @@ interface Props {
 const ProductShowPageHero = ({ product }: Props) => {
   const logger = useLogger()
   const router = useRouter()
-  const { colors, sizes } = useProductOptions({ product })
+  const { colors } = useProductOptions({ product })
   const [handleCustomize] = useCustomizeProduct()
   const [activeVariantId, setActiveVariantId] = React.useState<string | null>(
     null,
   )
+
+  const variants =
+    product.variants.edges
+      ?.map(edge => edge?.node)
+      .map(node => {
+        const size = node?.options.edges?.find(
+          edge => edge?.node.displayName === 'Size',
+        )?.node.values.edges?.[0]?.node
+
+        const color = node?.options.edges?.find(
+          edge => edge?.node.displayName === 'Color',
+        )?.node.values.edges?.[0]?.node
+
+        if (!size || !color) return null
+
+        return {
+          catalogProductVariantId: node?.entityId.toString(),
+          sizeName: size.label,
+          colorName: color.label,
+          catalogProductSizeId: size.entityId.toString(),
+          catalogProductColorId: color.entityId.toString(),
+        }
+      })
+      .filter(notEmpty) || []
 
   const handleSubmit = async (data: FormValues) => {
     const serializedItems: CatalogProductCustomizeInput['items'] = []
@@ -129,21 +153,9 @@ const ProductShowPageHero = ({ product }: Props) => {
             onSubmit={handleSubmit}
             onActiveColorChange={colorId => {
               setActiveVariantId(
-                product.variants.edges
-                  ?.map(edge => edge?.node)
-                  .find(variant => {
-                    const colorOptionValues = variant?.options.edges
-                      ?.map(edge => edge?.node)
-                      .find(option => option?.displayName === 'Color')
-                      ?.values.edges?.map(edge => edge?.node)
-                      .filter(notEmpty)
-
-                    return (
-                      colorOptionValues?.find(
-                        value => value?.entityId.toString() === colorId,
-                      ) !== undefined
-                    )
-                  })?.id || null,
+                variants.find(
+                  variant => variant.catalogProductColorId === colorId,
+                )?.catalogProductVariantId || null,
               )
             }}
             colors={colors.map(color => ({
@@ -152,14 +164,7 @@ const ProductShowPageHero = ({ product }: Props) => {
               hex: color.hexColors[0],
               name: color.label,
             }))}
-            variants={colors.flatMap(color =>
-              sizes.map(size => ({
-                id: size.entityId.toString(),
-                sizeName: size.label,
-                catalogProductSizeId: size.entityId.toString(),
-                catalogProductColorId: color.entityId.toString(),
-              })),
-            )}
+            variants={variants}
           />
         </div>
       </div>
@@ -181,6 +186,7 @@ ProductShowPageHero.fragments = {
         edges {
           node {
             id
+            entityId
             options {
               edges {
                 node {
@@ -189,6 +195,7 @@ ProductShowPageHero.fragments = {
                     edges {
                       node {
                         entityId
+                        label
                       }
                     }
                   }

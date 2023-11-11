@@ -52,6 +52,7 @@ export const DesignProductVariantExtendsDesignProduct = extendType({
               catalogProductColorId: colorOption?.id.toString(),
               catalogProductSizeId: sizeOption?.id.toString(),
               sizeName: sizeOption?.label,
+              colorName: colorOption?.label,
             })
           }
         }

@@ -1,7 +1,6 @@
 import Image from 'next/legacy/image'
 import React from 'react'
 import { gql } from '@apollo/client'
-import { CatalogProductLegacyProductFragment } from '@generated/CatalogProductLegacyProductFragment'
 import routes from '@lib/routes'
 import Link from 'next/link'
 import useProductOptions from '@components/hooks/useProductOptions'
@@ -12,6 +11,7 @@ import currency from 'currency.js'
 import Tooltip from '@components/ui/Tooltip'
 import { useLogger } from 'next-axiom'
 import Skeleton from '@components/ui/Skeleton'
+import { CatalogProductLegacyProductFragment } from '@generated/types'
 
 export interface Props {
   product?: CatalogProductLegacyProductFragment | null
@@ -94,8 +94,8 @@ const CatalogProductLegacy = ({ product, priority, loading }: Props) => {
                     <span className="font-bold">
                       {loading ? (
                         <Skeleton width={40} />
-                      ) : product ? (
-                        currency(product.priceCents, {
+                      ) : product?.priceMetadata ? (
+                        currency(product.priceMetadata.minPriceCents, {
                           fromCents: true,
                         }).format()
                       ) : null}
@@ -119,7 +119,9 @@ CatalogProductLegacy.fragments = {
       id
       name
       path
-      priceCents
+      priceMetadata {
+        minPriceCents
+      }
       brand {
         id
         name
