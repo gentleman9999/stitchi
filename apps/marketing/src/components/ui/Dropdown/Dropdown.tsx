@@ -46,7 +46,7 @@ const Dropdown = (props: Props) => {
               animate="visible"
               exit="exit"
               variants={fadeIn}
-              className="z-10 overflow-hidden border  bg-paper rounded-lg shadow-magical transition-all flex flex-col p-1 min-w-[--radix-dropdown-menu-trigger-width]"
+              className="z-10 overflow-scroll border bg-paper rounded-lg shadow-magical transition-all flex flex-col p-1 min-w-[--radix-dropdown-menu-trigger-width] max-h-[calc(var(--radix-dropdown-menu-content-available-height)-1rem)]"
             >
               <DropdownMenu.Arrow className="fill-white" />
               {items.map((item, idx) => {

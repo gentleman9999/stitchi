@@ -1,5 +1,9 @@
 import { gql, useQuery } from '@apollo/client'
-import { queryTypes, useQueryStates } from 'next-usequerystate'
+import {
+  parseAsArrayOf,
+  parseAsInteger,
+  useQueryStates,
+} from 'next-usequerystate'
 import { UseCatalogFiltersGetDataQuery } from '@generated/UseCatalogFiltersGetDataQuery'
 import { notEmpty } from '@lib/utils/typescript'
 import staticData from '@generated/static.json'
@@ -12,11 +16,11 @@ interface Props {
 const useCatalogFilters = ({ brandEntityId, categoryEntityId }: Props = {}) => {
   const [, setQueryFilters] = useQueryStates(
     {
-      brands: queryTypes.array(queryTypes.integer),
-      categories: queryTypes.array(queryTypes.integer),
-      fabrics: queryTypes.array(queryTypes.integer),
-      collections: queryTypes.array(queryTypes.integer),
-      fits: queryTypes.array(queryTypes.integer),
+      brands: parseAsArrayOf(parseAsInteger),
+      categories: parseAsArrayOf(parseAsInteger),
+      fabrics: parseAsArrayOf(parseAsInteger),
+      collections: parseAsArrayOf(parseAsInteger),
+      fits: parseAsArrayOf(parseAsInteger),
     },
     {
       history: 'push',

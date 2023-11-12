@@ -50,10 +50,11 @@ const CatalogProductGrid = ({ site, loading, fetchMore }: Props) => {
             priority={i < 3}
           />
         ))}
-        {loading &&
-          Array.from(new Array(6)).map((_, i) => (
-            <CatalogProductSkeleton key={i} />
-          ))}
+        {loading
+          ? Array.from(new Array(6)).map((_, i) => (
+              <CatalogProductSkeleton key={i} />
+            ))
+          : null}
       </Grid>
 
       <InfiniteScrollContainer onIntersect={handleFetchMore} />
