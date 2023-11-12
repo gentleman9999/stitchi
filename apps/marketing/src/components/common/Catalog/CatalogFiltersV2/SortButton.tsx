@@ -1,0 +1,31 @@
+import React from 'react'
+import Dropdown from './Dropdown'
+import useSort from '../useSort'
+
+interface Props {}
+
+const SortButton = (props: Props) => {
+  const { sortOptions, sort, setSort } = useSort()
+
+  return (
+    <Dropdown
+      align="end"
+      label={
+        <div className="flex flex-col items-start gap-0.5">
+          <div className="text-xs font-normal text-gray-500 leading-none">
+            Sort
+          </div>
+          <div className="text-sm font-medium leading-none">{sort?.label}</div>
+        </div>
+      }
+      items={sortOptions.map(option => ({
+        id: option.value,
+        active: false,
+        label: option.label,
+        onClick: () => setSort(option.value),
+      }))}
+    />
+  )
+}
+
+export default SortButton

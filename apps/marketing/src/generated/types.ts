@@ -12044,6 +12044,7 @@ export type BlogPostCardArticleFragment = { __typename: 'ArticleRecord', id: any
 
 export type CatalogIndexPageGetDataQueryVariables = Exact<{
   filters: SearchProductsFiltersInput;
+  sort: SearchProductsSortInput;
   first: Scalars['Int']['input'];
   after?: InputMaybe<Scalars['String']['input']>;
 }>;
