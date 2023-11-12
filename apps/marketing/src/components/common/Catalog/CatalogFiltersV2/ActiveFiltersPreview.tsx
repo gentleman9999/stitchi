@@ -26,7 +26,19 @@ const ActiveFiltersPreview = ({ brandEntityId, categoryEntityId }: Props) => {
   }
 
   return (
-    <div className="flex items-start gap-4">
+    <div className="flex items-start flex-wrap gap-2">
+      <Button
+        label="Clear all"
+        onClick={() =>
+          setFilters({
+            brands: null,
+            categories: null,
+            collections: null,
+            fabrics: null,
+            fits: null,
+          })
+        }
+      />
       {Object.keys(activeFilters).flatMap(key => {
         const activeFilterGroupKey = key as keyof typeof activeFilters
         const filterIds = activeFilters[activeFilterGroupKey]
@@ -38,31 +50,34 @@ const ActiveFiltersPreview = ({ brandEntityId, categoryEntityId }: Props) => {
 
           if (foundFilter) {
             return (
-              <div
+              <Button
                 key={id}
-                className="px-2 py-1 bg-gray-100 rounded-md text-sm font-medium flex items-center justify-between"
-              >
-                <div>{foundFilter.name}</div>
-
-                <IconButton
-                  size="sm"
-                  variant="ghost"
-                  onClick={() =>
-                    setFilters(prev => ({
-                      ...prev,
-                      [activeFilterGroupKey]: prev[
-                        activeFilterGroupKey
-                      ]?.filter((filterId: number) => filterId !== id),
-                    }))
-                  }
-                >
-                  <XMarkIcon className="w-4 h-4" />
-                </IconButton>
-              </div>
+                label={foundFilter.name}
+                onClick={() =>
+                  setFilters(prev => ({
+                    ...prev,
+                    [activeFilterGroupKey]: prev[activeFilterGroupKey]?.filter(
+                      (filterId: number) => filterId !== id,
+                    ),
+                  }))
+                }
+              />
             )
           }
         })
       })}
+    </div>
+  )
+}
+
+const Button = ({ label, onClick }: { label: string; onClick: () => any }) => {
+  return (
+    <div className="px-2 py-1 bg-gray-100 rounded-md text-sm font-medium flex items-center justify-between">
+      <div>{label}</div>
+
+      <IconButton size="sm" variant="ghost" onClick={onClick}>
+        <XMarkIcon className="w-4 h-4" />
+      </IconButton>
     </div>
   )
 }

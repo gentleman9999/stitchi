@@ -9,6 +9,10 @@ import SearchInput from './SearchInput'
 import useSearch from '../useSearch'
 import cx from 'classnames'
 import FeaturedFilters from '../CatalogFilters/FeaturedFilters'
+import Button from '@components/ui/ButtonV2/Button'
+import FilterDialog from '../CatalogFilters/FilterDialog'
+import { Adjustments } from 'icons'
+import FilterButton from '../CatalogFilters/FilterButton'
 
 interface Props {
   catalogEndRef: React.RefObject<any>
@@ -21,6 +25,7 @@ const CatalogFilters = ({
   brandEntityId,
   categoryEntityId,
 }: Props) => {
+  const [showFilterDialog, setShowFilterDialog] = React.useState(false)
   const [transitionStickyNav, setTransitionStickyNav] = React.useState(false)
 
   const { availableFilters, setFilters } = useCatalogFilters({
@@ -69,7 +74,25 @@ const CatalogFilters = ({
       >
         <Container className="max-w-none">
           <nav className="py-2 flex flex-col gap-2">
-            <div className="flex gap-8 justify-between items-stretch">
+            <div className="lg:hidden flex gap-4 justify-between items-stretch">
+              <Button
+                className="flex-1"
+                variant="ghost"
+                onClick={() => setShowFilterDialog(prev => !prev)}
+              >
+                <div className="flex items-center gap-1">
+                  <Adjustments
+                    className="block h-4 w-4 rotate-90"
+                    aria-hidden="true"
+                  />
+                  Filter
+                </div>
+              </Button>
+              <div className="flex-1 flex">
+                <SortButton />
+              </div>
+            </div>
+            <div className="hidden lg:flex gap-8 justify-between items-stretch">
               <div className="flex gap-4">
                 <SearchInput onSubmit={setSearch} />
                 <Dropdown
@@ -160,6 +183,14 @@ const CatalogFilters = ({
       <Container className="max-w-none mt-4">
         {!brandEntityId && !categoryEntityId ? <FeaturedFilters /> : null}
       </Container>
+
+      <FilterDialog
+        open={showFilterDialog}
+        onClose={() => setShowFilterDialog(false)}
+        scroll={true}
+        brandEntityId={brandEntityId}
+        categoryEntityId={categoryEntityId}
+      />
     </>
   )
 }
