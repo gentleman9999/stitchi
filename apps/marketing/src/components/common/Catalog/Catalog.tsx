@@ -3,7 +3,6 @@ import { gql, NetworkStatus, useQuery } from '@apollo/client'
 
 import { SearchProductsFiltersInput } from '@generated/globalTypes'
 import { useRouter } from 'next/router'
-import CatalogFilters from './CatalogFilters'
 import CatalogFiltersV2 from './CatalogFiltersV2'
 import CatalogProductGrid from './CatalogProductGrid'
 import useActiveFilters from './useActiveFilters'

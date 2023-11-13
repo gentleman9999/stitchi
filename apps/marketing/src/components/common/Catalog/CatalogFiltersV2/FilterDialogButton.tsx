@@ -1,7 +1,7 @@
 import { Adjustments } from 'icons'
 import React from 'react'
 import cx from 'classnames'
-import FilterButton from '../CatalogFilters/FilterButton'
+import FilterButton from './FilterButton'
 import useActiveFilters from '../useActiveFilters'
 
 interface Props {
