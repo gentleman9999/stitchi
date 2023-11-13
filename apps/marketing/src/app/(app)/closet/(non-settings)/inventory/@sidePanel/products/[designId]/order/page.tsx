@@ -59,7 +59,6 @@ const Page = () => {
       shippingAddressId: null,
       orderItems: productVariants
         .map(variant => ({
-          designProductVariantId: variant.productVariantEntityId,
           catalogProductVariantId: variant.productVariantEntityId,
           quantity: variant.quantity,
         }))
