@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { CatalogProductLegacyFragments } from '../CatalogProductLegacy'
+import { CatalogProductLegacyFragments } from '../../../components/common/CatalogProductLegacy'
 
 const fragments = {
   site: gql`

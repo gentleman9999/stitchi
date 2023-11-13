@@ -1,3 +1,5 @@
+'use client'
+
 import Container from '@components/ui/Container'
 import React from 'react'
 import useCatalogFilters from './useCatalogFilters'
@@ -14,16 +16,11 @@ import FilterDialog from './FilterDialog'
 import { Adjustments } from 'icons'
 
 interface Props {
-  catalogEndRef: React.RefObject<any>
   brandEntityId?: number
   categoryEntityId?: number
 }
 
-const CatalogFilters = ({
-  catalogEndRef,
-  brandEntityId,
-  categoryEntityId,
-}: Props) => {
+const CatalogFilters = ({ brandEntityId, categoryEntityId }: Props) => {
   const [showFilterDialog, setShowFilterDialog] = React.useState(false)
   const [transitionStickyNav, setTransitionStickyNav] = React.useState(false)
 

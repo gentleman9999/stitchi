@@ -1,45 +1,34 @@
-import { gql, QueryResult } from '@apollo/client'
 import React from 'react'
 import { notEmpty } from '@lib/utils/typescript'
-import CatalogProductLegacy, {
-  CatalogProductLegacyFragments,
-} from '../CatalogProductLegacy'
+import CatalogProductLegacy from '../../../components/common/CatalogProductLegacy'
 
 import CatalogProductSkeleton from './CatalogProductSkeleton'
 import CatalogProuductZeroState from './CatalogProductZeroState'
 import { InfiniteScrollContainer } from '@components/common'
 import Link from 'next/link'
-import {
-  CatalogIndexPageGetDataQuery,
-  CatalogIndexPageGetDataQueryVariables,
-  CatalogProductGridSiteFragment,
-} from '@generated/types'
-import { FetchMoreFunction } from '@apollo/client/react/hooks/useSuspenseQuery'
+import { CatalogIndexPageGetDataQuery } from '@generated/types'
+import { useReadQuery } from '@apollo/experimental-nextjs-app-support/ssr'
+import { QueryReference } from '@apollo/client'
 
 export interface Props {
-  site?: CatalogProductGridSiteFragment
-  loading: boolean
-  fetchMore: FetchMoreFunction<
-    CatalogIndexPageGetDataQuery,
-    CatalogIndexPageGetDataQueryVariables
-  >
+  fetchMore: (endCursor?: string | null) => void
+  queryRef: QueryReference<CatalogIndexPageGetDataQuery>
+  isPending: boolean
 }
 
-const CatalogProductGrid = ({ loading, fetchMore, site }: Props) => {
+const CatalogProductGrid = ({ fetchMore, queryRef, isPending }: Props) => {
+  const { data } = useReadQuery(queryRef)
+
   const products =
-    site?.search?.searchProducts?.products?.edges
+    data?.site.search?.searchProducts?.products?.edges
       ?.map(edge => edge?.node)
       .filter(notEmpty) || []
 
-  const { pageInfo } = site?.search?.searchProducts?.products || {}
+  const { pageInfo } = data?.site.search?.searchProducts?.products || {}
 
   const handleFetchMore = () => {
-    if (pageInfo?.hasNextPage && !loading) {
-      fetchMore({
-        variables: {
-          after: pageInfo.endCursor,
-        },
-      })
+    if (pageInfo?.hasNextPage) {
+      fetchMore(pageInfo.endCursor)
     }
   }
 
@@ -55,7 +44,8 @@ const CatalogProductGrid = ({ loading, fetchMore, site }: Props) => {
             />
           ) : null,
         )}
-        {loading
+
+        {isPending
           ? Array.from(new Array(6)).map((_, i) => (
               <CatalogProductSkeleton key={i} />
             ))

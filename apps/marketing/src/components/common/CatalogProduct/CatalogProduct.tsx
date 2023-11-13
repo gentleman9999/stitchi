@@ -5,7 +5,7 @@ import { CatalogProductLegacyProductFragment } from '@generated/CatalogProductLe
 import routes from '@lib/routes'
 import Link from 'next/link'
 import useProductOptions from '@components/hooks/useProductOptions/useProductOptions'
-import SwatchGroup from '../Catalog/SwatchGroup'
+import SwatchGroup from '../SwatchGroup'
 import { makeProductTitle } from '@lib/utils/catalog'
 import { generateImageSizes } from '@lib/utils/image'
 import currency from 'currency.js'

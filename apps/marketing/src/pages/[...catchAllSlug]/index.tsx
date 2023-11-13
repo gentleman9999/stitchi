@@ -7,7 +7,7 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import React from 'react'
 import staticWebsiteData from '@generated/static.json'
-import getServerSideData from '@components/common/Catalog/getServerSideData'
+import getServerSideData from 'app/(app)/(catalog)/getServerSideData'
 import dynamic from 'next/dynamic'
 
 import { fragments as brandShowPageFragments } from '@components/pages/BrandShowPage'
