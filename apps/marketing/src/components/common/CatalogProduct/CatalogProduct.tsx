@@ -45,7 +45,7 @@ const CatalogProduct = ({ product, priority }: Props) => {
               src={product.defaultImage.url}
               alt={product.defaultImage.altText || product.name}
               layout="fill"
-              objectFit="contain"
+              style={{ objectFit: 'contain' }}
               sizes={generateImageSizes([{ imageWidth: '240px' }])}
             />
           </div>

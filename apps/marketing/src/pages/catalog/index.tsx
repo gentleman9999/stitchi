@@ -23,8 +23,8 @@ const Catalog = () => {
   return (
     <>
       <NextSeo
-        title="Browse premium and ethical promotional products"
-        description="Discover over 5,000 customizable promotional products. From shirts and hats to unique accessories, create your personalized style with our ethical, quality brands."
+        title="Premium Customizable Promotional Products"
+        description="Elevate your marketing with Stitchi's affordable, easily customizable promotional products. Shop the extensive range of over 5,000 items including comfortable apparel and innovative accessories to boost your brand presence. Enjoy straightforward personalization and exceptional value with Stitchi's promotional product catalog."
         canonical={url}
         openGraph={{ url }}
       />

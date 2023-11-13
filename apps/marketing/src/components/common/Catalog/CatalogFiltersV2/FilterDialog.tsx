@@ -1,16 +1,16 @@
 import { XIcon } from 'icons'
 import React from 'react'
 import pluralize from 'pluralize'
-import useFilterPreview from './useFilterPreview'
+import useFilterPreview from '../CatalogFilters/useFilterPreview'
 import * as Dialog from '@radix-ui/react-dialog'
 import cx from 'classnames'
 import { motion } from 'framer-motion'
 import useCatalogFilters from './useCatalogFilters'
 import useActiveFilters from '../useActiveFilters'
-import CheckboxFilter from './CheckboxFilter'
-import CheckboxGroup from './CheckboxGroup'
-import CategoryTree from './CategoryTree'
-import FilterDialogContainer from './FilterDialogContainer'
+import CheckboxFilter from '../CatalogFilters/CheckboxFilter'
+import CheckboxGroup from '../CatalogFilters/CheckboxGroup'
+import CategoryTree from '../CatalogFilters/CategoryTree'
+import FilterDialogContainer from '../CatalogFilters/FilterDialogContainer'
 import Button from '@components/ui/ButtonV2/Button'
 import IconButton from '@components/ui/IconButton'
 
@@ -213,7 +213,7 @@ const FilterDialog = ({
                   </>
                 ) : null}
 
-                {availableFilters.categories.length && !categoryEntityId ? (
+                {/* {availableFilters.categories.length && !categoryEntityId ? (
                   <>
                     <FilterSection title="Categories">
                       <CategoryTree
@@ -224,7 +224,7 @@ const FilterDialog = ({
                     </FilterSection>
                     <FilterSectionSpacer />
                   </>
-                ) : null}
+                ) : null} */}
 
                 <FilterSection title="Fabric">
                   <CheckboxGroup>

@@ -4,6 +4,7 @@ import { gql, NetworkStatus, useQuery } from '@apollo/client'
 import { SearchProductsFiltersInput } from '@generated/globalTypes'
 import { useRouter } from 'next/router'
 import CatalogFilters from './CatalogFilters'
+import CatalogFiltersV2 from './CatalogFiltersV2'
 import CatalogProductGrid from './CatalogProductGrid'
 import useActiveFilters from './useActiveFilters'
 import Container from '@components/ui/Container'
@@ -11,7 +12,10 @@ import Section from '../Section'
 import {
   CatalogIndexPageGetDataQuery,
   CatalogIndexPageGetDataQueryVariables,
+  SearchProductsSortInput,
 } from '@generated/types'
+import useSort from './useSort'
+import useSearch from './useSearch'
 
 export const makeDefaultQueryVariables = ({
   brandEntityId,
@@ -21,6 +25,7 @@ export const makeDefaultQueryVariables = ({
   categoryEntityId?: number
 } = {}) => ({
   first: 16,
+  sort: SearchProductsSortInput.RELEVANCE,
   filters: {
     brandEntityIds: brandEntityId ? [brandEntityId] : undefined,
     categoryEntityIds: categoryEntityId ? [categoryEntityId] : undefined,
@@ -39,6 +44,8 @@ const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
   const { query, replace } = useRouter()
   const gridEndRef = React.useRef<HTMLDivElement>(null)
   const { brands, categories, collections, fabrics, fits } = useActiveFilters()
+  const { sort } = useSort()
+  const { search } = useSearch()
 
   const defaultVariables = React.useMemo(() => {
     return makeDefaultQueryVariables({
@@ -50,6 +57,7 @@ const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
   const formattedFilters: SearchProductsFiltersInput = React.useMemo(() => {
     return {
       ...defaultVariables.filters,
+      searchTerm: search,
       brandEntityIds: brands?.length
         ? brands
         : defaultVariables.filters.brandEntityIds,
@@ -66,7 +74,15 @@ const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
             ]
           : defaultVariables.filters.categoryEntityIds,
     }
-  }, [brands, categories, collections, defaultVariables.filters, fabrics, fits])
+  }, [
+    brands,
+    categories,
+    collections,
+    defaultVariables.filters,
+    fabrics,
+    fits,
+    search,
+  ])
 
   const { data, refetch, networkStatus, fetchMore } = useQuery<
     CatalogIndexPageGetDataQuery,
@@ -75,6 +91,7 @@ const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
     notifyOnNetworkStatusChange: true,
     variables: {
       ...defaultVariables,
+      sort: sort?.value || defaultVariables.sort,
       after: typeof query.after === 'string' ? query.after : undefined,
       filters: formattedFilters,
     },
@@ -102,7 +119,12 @@ const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
 
   return (
     <>
-      <CatalogFilters
+      {/* <CatalogFilters
+        catalogEndRef={gridEndRef}
+        brandEntityId={brandEntityId}
+        categoryEntityId={categoryEntityId}
+      /> */}
+      <CatalogFiltersV2
         catalogEndRef={gridEndRef}
         brandEntityId={brandEntityId}
         categoryEntityId={categoryEntityId}
@@ -130,6 +152,7 @@ export const GET_DATA = gql`
   ${CatalogProductGrid.fragments.site}
   query CatalogIndexPageGetDataQuery(
     $filters: SearchProductsFiltersInput!
+    $sort: SearchProductsSortInput!
     $first: Int!
     $after: String
   ) {

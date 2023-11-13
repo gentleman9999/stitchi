@@ -25,42 +25,41 @@ const Dropdown = (props: Props) => {
   }
 
   return (
-    <div>
-      <DropdownMenu.Root modal={false}>
-        <DropdownMenu.Trigger asChild>
-          {props.renderTrigger()}
-        </DropdownMenu.Trigger>
-        <DropdownMenu.Portal>
-          <DropdownMenu.Content
-            onClick={e => {
-              e.preventDefault()
-              e.stopPropagation()
-            }}
-            sideOffset={5}
-            side={props.side}
-            align={props.align}
-            asChild
+    <DropdownMenu.Root modal={false}>
+      <DropdownMenu.Trigger asChild>
+        {props.renderTrigger()}
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content
+          onClick={e => {
+            e.preventDefault()
+            e.stopPropagation()
+          }}
+          sideOffset={5}
+          side={props.side}
+          align={props.align}
+          collisionPadding={5}
+          asChild
+        >
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={fadeIn}
+            className="z-10 overflow-scroll border bg-paper rounded-lg shadow-magical transition-all flex flex-col p-1 min-w-[--radix-dropdown-menu-trigger-width] max-h-[calc(var(--radix-dropdown-menu-content-available-height)-1rem)]"
           >
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              variants={fadeIn}
-              className="z-10 overflow-hidden border  bg-paper rounded-lg shadow-magical transition-all flex flex-col p-1 min-w-[--radix-dropdown-menu-trigger-width]"
-            >
-              <DropdownMenu.Arrow className="fill-white" />
-              {items.map((item, idx) => {
-                return (
-                  <DropdownMenu.Item key={idx} asChild>
-                    {item}
-                  </DropdownMenu.Item>
-                )
-              })}
-            </motion.div>
-          </DropdownMenu.Content>
-        </DropdownMenu.Portal>
-      </DropdownMenu.Root>
-    </div>
+            <DropdownMenu.Arrow className="fill-white" />
+            {items.map((item, idx) => {
+              return (
+                <DropdownMenu.Item key={idx} asChild>
+                  {item}
+                </DropdownMenu.Item>
+              )
+            })}
+          </motion.div>
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
   )
 }
 
