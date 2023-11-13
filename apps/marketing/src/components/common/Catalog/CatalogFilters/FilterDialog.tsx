@@ -213,7 +213,7 @@ const FilterDialog = ({
                   </>
                 ) : null}
 
-                {availableFilters.categories.length && !categoryEntityId ? (
+                {/* {availableFilters.categories.length && !categoryEntityId ? (
                   <>
                     <FilterSection title="Categories">
                       <CategoryTree
@@ -224,7 +224,7 @@ const FilterDialog = ({
                     </FilterSection>
                     <FilterSectionSpacer />
                   </>
-                ) : null}
+                ) : null} */}
 
                 <FilterSection title="Fabric">
                   <CheckboxGroup>

@@ -65,10 +65,9 @@ const CatalogFilters = ({
     <>
       {/* Spacer */}
       <div className="h-4" />
-
       <div
         ref={filterRef}
-        className={cx(`z-10 sticky top-topbar-height bg-paper`, {
+        className={cx(`z-20 sticky top-topbar-height bg-paper`, {
           'shadow-magical': transitionStickyNav,
         })}
       >
@@ -180,7 +179,7 @@ const CatalogFilters = ({
         </Container>
       </div>
 
-      <Container className="max-w-none mt-4">
+      <Container className="max-w-none mt-4 z-0">
         {!brandEntityId && !categoryEntityId ? <FeaturedFilters /> : null}
       </Container>
 
