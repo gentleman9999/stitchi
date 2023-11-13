@@ -1,5 +1,7 @@
 import { gql, useQuery } from '@apollo/client'
-import CatalogProductLegacy from '@components/common/CatalogProductLegacy'
+import CatalogProductLegacy, {
+  CatalogProductLegacyFragments,
+} from '@components/common/CatalogProductLegacy'
 import Container from '@components/ui/Container'
 import Button from '@components/ui/ButtonV2/Button'
 import Tabs from '@components/ui/Tabs'
@@ -163,7 +165,7 @@ const CmsLandingPageCatalogSection = ({ catalogSection }: Props) => {
 }
 
 const GET_DATA = gql`
-  ${CatalogProductLegacy.fragments.product}
+  ${CatalogProductLegacyFragments.product}
   query CmsLandingPageCatalogSectionGetDataQuery($categoryId: Int!) {
     site {
       category(entityId: $categoryId) {

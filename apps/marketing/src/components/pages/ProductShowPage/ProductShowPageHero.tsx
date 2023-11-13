@@ -4,7 +4,7 @@ import React from 'react'
 import { track } from '@lib/analytics'
 import CatalogProductVariantPreview from '@components/common/CatalogProductVariantPreview'
 import { useRouter } from 'next/router'
-import useProductOptions from '@components/hooks/useProductOptions'
+import useProductOptions from '@components/hooks/useProductOptions/useProductOptions'
 import { useLogger } from 'next-axiom'
 import ProductForm, { FormValues } from './ProductForm'
 import useCustomizeProduct from './useCustomizeProduct'
@@ -12,6 +12,7 @@ import { makeProductTitle } from '@lib/utils/catalog'
 import { CatalogProductCustomizeInput } from '@generated/globalTypes'
 import { notEmpty } from '@lib/utils/typescript'
 import { ProductShowPageHeroProductFragment } from '@generated/types'
+import { UseProductOptionsFragments } from '@components/hooks/useProductOptions'
 
 interface Props {
   product: ProductShowPageHeroProductFragment
@@ -175,7 +176,7 @@ const ProductShowPageHero = ({ product }: Props) => {
 ProductShowPageHero.fragments = {
   product: gql`
     ${CatalogProductVariantPreview.fragments.product}
-    ${useProductOptions.fragments.product}
+    ${UseProductOptionsFragments.product}
     ${ProductForm.fragments.product}
     fragment ProductShowPageHeroProductFragment on Product {
       ...CatalogProductVariantPreviewProductFragment

@@ -1,8 +1,11 @@
+'use client'
+
 import React from 'react'
-import { gql, NetworkStatus, useQuery } from '@apollo/client'
+import { NetworkStatus, useApolloClient } from '@apollo/client'
+import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 
 import { SearchProductsFiltersInput } from '@generated/globalTypes'
-import { useRouter } from 'next/router'
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import CatalogFiltersV2 from './CatalogFiltersV2'
 import CatalogProductGrid from './CatalogProductGrid'
 import useActiveFilters from './useActiveFilters'
@@ -11,26 +14,10 @@ import Section from '../Section'
 import {
   CatalogIndexPageGetDataQuery,
   CatalogIndexPageGetDataQueryVariables,
-  SearchProductsSortInput,
 } from '@generated/types'
 import useSort from './useSort'
 import useSearch from './useSearch'
-
-export const makeDefaultQueryVariables = ({
-  brandEntityId,
-  categoryEntityId,
-}: {
-  brandEntityId?: number
-  categoryEntityId?: number
-} = {}) => ({
-  first: 16,
-  sort: SearchProductsSortInput.RELEVANCE,
-  filters: {
-    brandEntityIds: brandEntityId ? [brandEntityId] : undefined,
-    categoryEntityIds: categoryEntityId ? [categoryEntityId] : undefined,
-    searchSubCategories: true,
-  },
-})
+import { GET_DATA, makeDefaultQueryVariables } from './graphql'
 
 interface Props {
   // Filters all results to specific brand
@@ -40,11 +27,15 @@ interface Props {
 }
 
 const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
-  const { query, replace } = useRouter()
+  const { replace } = useRouter()
+  const pathname = usePathname()!
+  const searchParams = useSearchParams()!
   const gridEndRef = React.useRef<HTMLDivElement>(null)
   const { brands, categories, collections, fabrics, fits } = useActiveFilters()
   const { sort } = useSort()
   const { search } = useSearch()
+
+  const after = searchParams.get('after')
 
   const defaultVariables = React.useMemo(() => {
     return makeDefaultQueryVariables({
@@ -83,15 +74,17 @@ const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
     search,
   ])
 
-  const { data, refetch, networkStatus, fetchMore } = useQuery<
+  const client = useApolloClient()
+
+  const { data, refetch, networkStatus, fetchMore } = useSuspenseQuery<
     CatalogIndexPageGetDataQuery,
     CatalogIndexPageGetDataQueryVariables
   >(GET_DATA, {
-    notifyOnNetworkStatusChange: true,
+    // notifyOnNetworkStatusChange: true,
     variables: {
       ...defaultVariables,
       sort: sort?.value || defaultVariables.sort,
-      after: typeof query.after === 'string' ? query.after : undefined,
+      after: after || undefined,
       filters: formattedFilters,
     },
   })
@@ -103,26 +96,20 @@ const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
   }, [formattedFilters, refetch])
 
   React.useEffect(() => {
-    const { after } = query
-    if (typeof after === 'string') {
+    if (after) {
       fetchMore({
         variables: { after },
       })
 
-      const newQuery = { ...query }
-      delete newQuery.after
+      const newParams = new URLSearchParams(searchParams)
+      newParams.delete('after')
 
-      replace({ query: newQuery })
+      replace(pathname + '?' + newParams.toString())
     }
-  }, [query, fetchMore, replace])
+  }, [fetchMore, replace, after, searchParams, pathname])
 
   return (
     <>
-      {/* <CatalogFilters
-        catalogEndRef={gridEndRef}
-        brandEntityId={brandEntityId}
-        categoryEntityId={categoryEntityId}
-      /> */}
       <CatalogFiltersV2
         catalogEndRef={gridEndRef}
         brandEntityId={brandEntityId}
@@ -134,8 +121,8 @@ const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
           <div className="mt-6 grid grid-cols-1 gap-10">
             <div className="col-span-1">
               <CatalogProductGrid
+                site={data.site}
                 fetchMore={fetchMore}
-                site={data?.site}
                 loading={networkStatus !== NetworkStatus.ready}
               />
             </div>
@@ -146,19 +133,5 @@ const Catalog = ({ brandEntityId, categoryEntityId }: Props) => {
     </>
   )
 }
-
-export const GET_DATA = gql`
-  ${CatalogProductGrid.fragments.site}
-  query CatalogIndexPageGetDataQuery(
-    $filters: SearchProductsFiltersInput!
-    $sort: SearchProductsSortInput!
-    $first: Int!
-    $after: String
-  ) {
-    site {
-      ...CatalogProductGridSiteFragment
-    }
-  }
-`
 
 export default Catalog

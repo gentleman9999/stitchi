@@ -1,9 +1,10 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
+
 import {
   CatalogIndexPageGetDataQuery,
   CatalogIndexPageGetDataQueryVariables,
-} from '@generated/CatalogIndexPageGetDataQuery'
-import { makeDefaultQueryVariables, GET_DATA } from './Catalog'
+} from '@generated/types'
+import { GET_DATA, makeDefaultQueryVariables } from './graphql'
 
 const getServerSideData = async (
   client: ApolloClient<NormalizedCacheObject>,

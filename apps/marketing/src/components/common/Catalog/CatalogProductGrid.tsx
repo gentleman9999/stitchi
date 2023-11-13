@@ -1,7 +1,9 @@
 import { gql, QueryResult } from '@apollo/client'
 import React from 'react'
 import { notEmpty } from '@lib/utils/typescript'
-import CatalogProductLegacy from '../CatalogProductLegacy'
+import CatalogProductLegacy, {
+  CatalogProductLegacyFragments,
+} from '../CatalogProductLegacy'
 
 import CatalogProductSkeleton from './CatalogProductSkeleton'
 import CatalogProuductZeroState from './CatalogProductZeroState'
@@ -12,23 +14,24 @@ import {
   CatalogIndexPageGetDataQueryVariables,
   CatalogProductGridSiteFragment,
 } from '@generated/types'
+import { FetchMoreFunction } from '@apollo/client/react/hooks/useSuspenseQuery'
 
 export interface Props {
+  site?: CatalogProductGridSiteFragment
   loading: boolean
-  site?: CatalogProductGridSiteFragment | null
-  fetchMore: QueryResult<
+  fetchMore: FetchMoreFunction<
     CatalogIndexPageGetDataQuery,
     CatalogIndexPageGetDataQueryVariables
-  >['fetchMore']
+  >
 }
 
-const CatalogProductGrid = ({ site, loading, fetchMore }: Props) => {
+const CatalogProductGrid = ({ loading, fetchMore, site }: Props) => {
   const products =
-    site?.search.searchProducts?.products?.edges
+    site?.search?.searchProducts?.products?.edges
       ?.map(edge => edge?.node)
       .filter(notEmpty) || []
 
-  const { pageInfo } = site?.search.searchProducts?.products || {}
+  const { pageInfo } = site?.search?.searchProducts?.products || {}
 
   const handleFetchMore = () => {
     if (pageInfo?.hasNextPage && !loading) {
@@ -43,13 +46,15 @@ const CatalogProductGrid = ({ site, loading, fetchMore }: Props) => {
   return (
     <>
       <Grid>
-        {products.map((product, i) => (
-          <CatalogProductLegacy
-            key={product.entityId}
-            product={product}
-            priority={i < 3}
-          />
-        ))}
+        {products.map((product, i) =>
+          product.id ? (
+            <CatalogProductLegacy
+              key={product.entityId}
+              productId={product.id}
+              priority={i < 3}
+            />
+          ) : null,
+        )}
         {loading
           ? Array.from(new Array(6)).map((_, i) => (
               <CatalogProductSkeleton key={i} />
@@ -80,30 +85,5 @@ const Grid = ({ children }: { children: React.ReactNode }) => (
     {children}
   </ul>
 )
-
-CatalogProductGrid.fragments = {
-  site: gql`
-    ${CatalogProductLegacy.fragments.product}
-    fragment CatalogProductGridSiteFragment on Site {
-      search {
-        searchProducts(filters: $filters, sort: $sort) {
-          products(first: $first, after: $after) {
-            edges {
-              node {
-                id
-                entityId
-                ...CatalogProductLegacyProductFragment
-              }
-            }
-            pageInfo {
-              hasNextPage
-              endCursor
-            }
-          }
-        }
-      }
-    }
-  `,
-}
 
 export default CatalogProductGrid

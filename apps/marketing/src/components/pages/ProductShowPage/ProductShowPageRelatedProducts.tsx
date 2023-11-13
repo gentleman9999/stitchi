@@ -1,5 +1,7 @@
 import { gql } from '@apollo/client'
-import CatalogProductLegacy from '@components/common/CatalogProductLegacy'
+import CatalogProductLegacy, {
+  CatalogProductLegacyFragments,
+} from '@components/common/CatalogProductLegacy'
 import { ProductShowPageRelatedProductsProductFragment } from '@generated/types'
 import React from 'react'
 
@@ -26,7 +28,7 @@ const ProductShowPageRelatedProducts = (props: Props) => {
 
 ProductShowPageRelatedProducts.fragments = {
   product: gql`
-    ${CatalogProductLegacy.fragments.product}
+    ${CatalogProductLegacyFragments.product}
     fragment ProductShowPageRelatedProductsProductFragment on Product {
       id
       ...CatalogProductLegacyProductFragment

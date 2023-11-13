@@ -1,8 +1,9 @@
 import { gql } from '@apollo/client'
 import { CatalogProductColorGridProductFragment } from '@generated/CatalogProductColorGridProductFragment'
-import useProductOptions from '@components/hooks/useProductOptions'
+import useProductOptions from '@components/hooks/useProductOptions/useProductOptions'
 import React from 'react'
 import ColorSwatch from '../ColorSwatch'
+import { UseProductOptionsFragments } from '@components/hooks/useProductOptions'
 
 interface Props {
   product: CatalogProductColorGridProductFragment
@@ -35,7 +36,7 @@ const CatalogProductColorGrid = ({
 
 CatalogProductColorGrid.fragments = {
   product: gql`
-    ${useProductOptions.fragments.product}
+    ${UseProductOptionsFragments.product}
     fragment CatalogProductColorGridProductFragment on Product {
       id
       ...UseProductColorsProductFragment

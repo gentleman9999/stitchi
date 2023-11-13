@@ -4,13 +4,14 @@ import { gql } from '@apollo/client'
 import { CatalogProductLegacyProductFragment } from '@generated/CatalogProductLegacyProductFragment'
 import routes from '@lib/routes'
 import Link from 'next/link'
-import useProductOptions from '@components/hooks/useProductOptions'
+import useProductOptions from '@components/hooks/useProductOptions/useProductOptions'
 import SwatchGroup from '../Catalog/SwatchGroup'
 import { makeProductTitle } from '@lib/utils/catalog'
 import { generateImageSizes } from '@lib/utils/image'
 import currency from 'currency.js'
 import Tooltip from '@components/ui/Tooltip'
 import { useLogger } from 'next-axiom'
+import { UseProductOptionsFragments } from '@components/hooks/useProductOptions'
 
 export interface Props {
   product: CatalogProductLegacyProductFragment
@@ -87,7 +88,7 @@ const CatalogProduct = ({ product, priority }: Props) => {
 
 CatalogProduct.fragments = {
   product: gql`
-    ${useProductOptions.fragments.product}
+    ${UseProductOptionsFragments.product}
     fragment CatalogProductProductFragment on CatalogProduct {
       id
       name
