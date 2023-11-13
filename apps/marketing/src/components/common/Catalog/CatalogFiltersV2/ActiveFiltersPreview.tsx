@@ -2,7 +2,7 @@ import React from 'react'
 import IconButton from '@components/ui/IconButton'
 import { XMarkIcon } from '@heroicons/react/20/solid'
 import useActiveFilters from '../useActiveFilters'
-import useCatalogFilters from '../CatalogFilters/useCatalogFilters'
+import useCatalogFilters from './useCatalogFilters'
 
 interface Props {
   brandEntityId?: number

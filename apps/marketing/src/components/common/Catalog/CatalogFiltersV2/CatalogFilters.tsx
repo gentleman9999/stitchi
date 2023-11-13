@@ -1,6 +1,6 @@
 import Container from '@components/ui/Container'
 import React from 'react'
-import useCatalogFilters from '../CatalogFilters/useCatalogFilters'
+import useCatalogFilters from './useCatalogFilters'
 import useActiveFilters from '../useActiveFilters'
 import Dropdown from './Dropdown'
 import ActiveFiltersPreview from './ActiveFiltersPreview'
@@ -8,11 +8,10 @@ import SortButton from './SortButton'
 import SearchInput from './SearchInput'
 import useSearch from '../useSearch'
 import cx from 'classnames'
-import FeaturedFilters from '../CatalogFilters/FeaturedFilters'
+import FeaturedFilters from './FeaturedFilters'
 import Button from '@components/ui/ButtonV2/Button'
-import FilterDialog from '../CatalogFilters/FilterDialog'
+import FilterDialog from './FilterDialog'
 import { Adjustments } from 'icons'
-import FilterButton from '../CatalogFilters/FilterButton'
 
 interface Props {
   catalogEndRef: React.RefObject<any>
