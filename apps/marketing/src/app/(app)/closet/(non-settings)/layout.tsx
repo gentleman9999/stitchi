@@ -1,17 +1,18 @@
 import NavItem from '@components/layout/NavItem'
 import { ScopeAction, ScopeResource } from '@generated/types'
-import {
-  Cog8ToothIcon,
-  HomeIcon,
-  PaintBrushIcon,
-  RectangleStackIcon,
-} from '@heroicons/react/20/solid'
 import { AuthorizedComponent } from '@lib/auth-rsc'
 import routes from '@lib/routes'
 import React from 'react'
 import InviteMemberButton from './InviteMemberButton'
 import ClosetLayoutWrapper from '../ClosetLayoutWrapper'
 import NavigationGroup from './NavigationGroup'
+import {
+  SwatchIcon,
+  Cog8ToothIcon,
+  HomeIcon,
+  PaintBrushIcon,
+  RectangleStackIcon,
+} from '@heroicons/react/24/outline'
 
 interface Props {
   children: React.ReactNode
@@ -32,6 +33,12 @@ const Layout = ({ children }: Props) => {
             />
           </AuthorizedComponent>
 
+          <NavItem
+            label="Catalog"
+            href={routes.internal.catalog.href()}
+            icon={<SwatchIcon className="w-4 h-4" />}
+          />
+
           <NavigationGroup
             icon={<PaintBrushIcon className="w-4 h-4" />}
             label="Design"
@@ -43,11 +50,6 @@ const Layout = ({ children }: Props) => {
             <NavItem
               label="Design Requests"
               href={routes.internal.closet.designs.href()}
-            />
-
-            <NavItem
-              label="Product Catalog"
-              href={routes.internal.catalog.href()}
             />
 
             <NavItem
