@@ -3213,7 +3213,6 @@ export interface DesignProductCreateOrderInput {
 
 export interface DesignProductCreateOrderItemInput {
   catalogProductVariantId: Scalars['ID']['input'];
-  designProductVariantId: Scalars['ID']['input'];
   quantity: Scalars['Int']['input'];
 }
 

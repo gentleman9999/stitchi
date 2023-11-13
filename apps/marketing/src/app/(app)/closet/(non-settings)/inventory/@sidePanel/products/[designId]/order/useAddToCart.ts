@@ -1,9 +1,9 @@
 import { gql, useMutation } from '@apollo/client'
-import { DesignProductCreateOrderInput } from '@generated/globalTypes'
 import {
+  DesignProductCreateOrderInput,
   UseCreateOrderCreateOrderMutation,
   UseCreateOrderCreateOrderMutationVariables,
-} from '@generated/UseCreateOrderCreateOrderMutation'
+} from '@generated/types'
 
 const useAddToCart = () => {
   const [createCart, createCartMutation] = useMutation<
