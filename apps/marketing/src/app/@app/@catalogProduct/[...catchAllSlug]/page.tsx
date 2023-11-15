@@ -41,8 +41,7 @@ const Page = ({
     },
   })
 
-  if (!path) return notFound()
-
+  if (!path) return null
   const node = data?.site.route.node
 
   switch (node?.__typename) {
@@ -51,7 +50,7 @@ const Page = ({
     }
 
     default: {
-      return notFound()
+      return null
     }
   }
 }
