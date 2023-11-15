@@ -26,6 +26,7 @@ const Page = ({
     catchAllSlug: string[]
   }
 }) => {
+  console.log('CATCH ALL SLUG', params.catchAllSlug)
   const path = getPath(params.catchAllSlug.join('/'))
 
   console.log('PATH', path)
@@ -40,7 +41,7 @@ const Page = ({
     },
   })
 
-  if (!path) return null
+  if (!path) return notFound()
 
   const node = data?.site.route.node
 
@@ -50,7 +51,7 @@ const Page = ({
     }
 
     default: {
-      return null
+      return notFound()
     }
   }
 }

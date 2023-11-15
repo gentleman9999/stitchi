@@ -73,7 +73,7 @@ const Page = ({ params }: { params: Params }) => {
   const path = getPath(params.catchAllSlug.join('/'))
 
   if (!path) {
-    return null
+    return notFound()
   }
 
   return <CatchAllPage path={path} />
