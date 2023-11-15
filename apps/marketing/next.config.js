@@ -16,7 +16,16 @@ module.exports = withBundleAnalyzer(
     //   defaultLocale: 'en',
     // },
     images: {
-      domains: ['res.cloudinary.com', 'cdn11.bigcommerce.com'],
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: 'res.cloudinary.com',
+        },
+        {
+          protocol: 'https',
+          hostname: 'cdn11.bigcommerce.com',
+        },
+      ],
     },
 
     async rewrites() {

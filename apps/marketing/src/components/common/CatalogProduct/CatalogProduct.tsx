@@ -20,7 +20,7 @@ export interface Props {
 
 const CatalogProduct = ({ product, priority }: Props) => {
   const logger = useLogger()
-  const { colors } = useProductOptions({ product })
+  const { colors } = useProductOptions({ productId: product.id })
 
   if (!product.brand) {
     logger.warn('Product must have a brand', { product })

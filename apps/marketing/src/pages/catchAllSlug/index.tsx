@@ -7,12 +7,12 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import React from 'react'
 import staticWebsiteData from '@generated/static.json'
-import getServerSideData from 'app/(app)/(catalog)/getServerSideData'
+import getServerSideData from 'app/@app/@catalog/getServerSideData'
 import dynamic from 'next/dynamic'
 
-import { fragments as brandShowPageFragments } from '@components/pages/BrandShowPage'
+// import { fragments as brandShowPageFragments } from 'app/@app/@catalog/[...catchAllSlug]/BrandShowPage'
 import { fragments as productShowPageFragments } from '@components/pages/ProductShowPage'
-import { fragments as categoryShowPageFragments } from '@components/pages/CategoryShowPage'
+// import { fragments as categoryShowPageFragments } from 'app/@app/@catalog/[...catchAllSlug]/CategoryShowPage'
 import { notEmpty } from '@lib/utils/typescript'
 
 import DesignLibraryCategoryShowPage from '@components/pages/DesignLibraryCategoryShowPage'
@@ -20,18 +20,22 @@ import { useLogger } from 'next-axiom'
 import CatalogLayout from '@components/layout/CatalogLayout'
 import {
   ProductPageGetDataQuery,
+  ProductPageGetDataQuery1,
+  ProductPageGetDataQuery1Variables,
   ProductPageGetDataQueryVariables,
   ProductPageGetDesignCategoryData,
   ProductPageGetDesignCategoryDataVariables,
 } from '@generated/types'
 
-const BrandShowPage = dynamic(() => import('@components/pages/BrandShowPage'))
-const ProductShowPage = dynamic(
-  () => import('@components/pages/ProductShowPage'),
-)
-const CategoryShowPage = dynamic(
-  () => import('@components/pages/CategoryShowPage'),
-)
+// const BrandShowPage = dynamic(
+//   () => import('app/@app/@catalog/[slug]/BrandShowPage'),
+// )
+// const ProductShowPage = dynamic(
+//   () => import('@components/pages/ProductShowPage'),
+// )
+// const CategoryShowPage = dynamic(
+//   () => import('app/@app/@catalog/[slug]/CategoryShowPage'),
+// )
 
 const allBrandSlugs = staticWebsiteData.brands
   .map(brand => brand.custom_url?.url.replace(/\//g, ''))
@@ -73,14 +77,14 @@ const getPath = (slug?: string) => {
   return `/${productSlug}/`
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
+const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [],
     fallback: 'blocking',
   }
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+const getStaticProps: GetStaticProps = async ({ params }) => {
   const { catchAllSlug } = params || {}
 
   if (!catchAllSlug) {
@@ -125,8 +129,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     }
 
     const { data } = await client.query<
-      ProductPageGetDataQuery,
-      ProductPageGetDataQueryVariables
+      ProductPageGetDataQuery1,
+      ProductPageGetDataQuery1Variables
     >({
       query: GET_DATA,
       variables: { path },
@@ -168,8 +172,8 @@ const CatchAllPage = () => {
   const path = getPath(designCategorySlugMatch?.[1] ? undefined : slug)
 
   const { data, loading, error } = useQuery<
-    ProductPageGetDataQuery,
-    ProductPageGetDataQueryVariables
+    ProductPageGetDataQuery1,
+    ProductPageGetDataQuery1Variables
   >(GET_DATA, {
     variables: { path: path || '' },
     skip: !path,
@@ -210,17 +214,17 @@ const CatchAllPage = () => {
 
   const Page = () => {
     switch (node?.__typename) {
-      case 'Product': {
-        return <ProductShowPage product={node} />
-      }
+      // case 'Product': {
+      //   return <ProductShowPage product={node} />
+      // }
 
-      case 'Brand': {
-        return <BrandShowPage brand={node} />
-      }
+      // case 'Brand': {
+      //   return <BrandShowPage brand={node} />
+      // }
 
-      case 'Category': {
-        return <CategoryShowPage category={node} />
-      }
+      // case 'Category': {
+      //   return <CategoryShowPage category={node} />
+      // }
 
       default: {
         if (!loading && !designCategoryLoading) {
@@ -254,9 +258,7 @@ const GET_DESIGN_CATEGORY_DATA = gql`
 
 const GET_DATA = gql`
   ${productShowPageFragments.product}
-  ${brandShowPageFragments.brand}
-  ${categoryShowPageFragments.category}
-  query ProductPageGetDataQuery($path: String!, $variantsFirst: Int = 250) {
+  query ProductPageGetDataQuery1($path: String!, $variantsFirst: Int = 250) {
     site {
       route(path: $path) {
         node {

@@ -7,12 +7,15 @@ import fragments from './useProductOptions.fragments'
 interface SwatchOptionValue {
   __typename: 'SwatchOptionValue'
   hexColors: string[]
+  entityId: number
+  label: string
 }
 
 interface MultipleChoiceOptionValue {
   __typename: 'MultipleChoiceOptionValue'
   label: string
   value: string
+  entityId: number
 }
 
 interface Props {

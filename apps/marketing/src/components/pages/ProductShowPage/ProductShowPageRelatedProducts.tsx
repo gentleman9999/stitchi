@@ -18,7 +18,7 @@ const ProductShowPageRelatedProducts = (props: Props) => {
       <div className="flex flex-row gap-2 overflow-x-scroll">
         {props.products.map(product => (
           <div key={product.id} className="flex-1 min-w-[200px] flex">
-            <CatalogProductLegacy product={product} priority={false} />
+            <CatalogProductLegacy productId={product.id} priority={false} />
           </div>
         ))}
       </div>

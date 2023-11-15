@@ -7,7 +7,7 @@ import { NextPage } from 'next'
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '@lib/apollo'
 import { SeoDefault } from '@components/common'
-import { StandoutProvider, WishlistProvider } from '@components/context'
+import { StandoutProvider } from '@components/context'
 import { Outfit } from 'next/font/google'
 import Script from 'next/script'
 import { GTM_ID } from '@lib/events'
@@ -68,10 +68,8 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
                 <MixpanelProvider>
                   <SnackbarProvider>
                     <StandoutProvider>
-                      <WishlistProvider>
                         <AxiomWebVitals />
                         {getLayout(<Component {...pageProps} />)}
-                      </WishlistProvider>
                     </StandoutProvider>
                   </SnackbarProvider>
                 </MixpanelProvider>

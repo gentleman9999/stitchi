@@ -16,7 +16,7 @@ const CatalogProductColorGrid = ({
   selectedColorEntityIds,
   onColorSelect,
 }: Props) => {
-  const { colors } = useProductOptions({ product })
+  const { colors } = useProductOptions({ productId: product.id })
 
   return (
     <ul className="flex flex-wrap gap-1">

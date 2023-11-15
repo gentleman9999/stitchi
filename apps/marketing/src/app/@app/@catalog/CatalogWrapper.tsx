@@ -8,10 +8,11 @@ import {
   CatalogIndexPageGetDataQueryVariables,
   SearchProductsFiltersInput,
 } from '@generated/types'
-import CatalogProductGrid from '../CatalogProductGrid'
-import { GET_DATA, makeDefaultQueryVariables } from '../graphql'
-import useSearch from '../useSearch'
-import useSort from '../useSort'
+import CatalogProductGrid from './CatalogProductGrid'
+import { GET_DATA, makeDefaultQueryVariables } from './graphql'
+import useSearch from './useSearch'
+import useSort from './useSort'
+import useActiveFilters from './useActiveFilters'
 
 interface Props {
   // Filters all results to specific brand
@@ -20,7 +21,7 @@ interface Props {
   categoryEntityId?: number
 }
 
-const Page = ({ brandEntityId, categoryEntityId }: Props) => {
+const CatalogWrapper = ({ brandEntityId, categoryEntityId }: Props) => {
   const { replace } = useRouter()
   const pathname = usePathname()!
   const searchParams = useSearchParams()!
@@ -113,8 +114,6 @@ const Page = ({ brandEntityId, categoryEntityId }: Props) => {
     })
   }
 
-  return null
-
   return (
     <CatalogProductGrid
       queryRef={queryRef}
@@ -124,4 +123,4 @@ const Page = ({ brandEntityId, categoryEntityId }: Props) => {
   )
 }
 
-export default Page
+export default CatalogWrapper

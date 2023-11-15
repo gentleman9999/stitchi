@@ -1,5 +1,5 @@
 import routes from '@lib/routes'
-import { Bag, Heart, Paid, PaperPlane, Sun } from 'icons'
+import { Bag, PaperPlane, Sun } from 'icons'
 import Link from 'next/link'
 import React from 'react'
 

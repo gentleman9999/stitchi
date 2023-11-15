@@ -91,8 +91,10 @@ export const metadata: Metadata = {
 
 interface Props {
   children: React.ReactNode
+  app: React.ReactNode
+  marketing: React.ReactNode
 }
-const RootLayout = async ({ children }: Props) => {
+const RootLayout = async ({ children, app, marketing }: Props) => {
   let accessToken
 
   try {
@@ -140,6 +142,7 @@ const RootLayout = async ({ children }: Props) => {
       {/* Google Tag Manager - Global base code - end */}
 
       <AxiomWebVitals />
+
       <UserProvider>
         <ApolloProvider deviceId={deviceId} accessToken={accessToken}>
           <body>
@@ -147,7 +150,12 @@ const RootLayout = async ({ children }: Props) => {
             <IntercomProvider>
               <MixpanelProvider>
                 <SnackbarProvider>
-                  <StandoutProvider>{children}</StandoutProvider>
+                  <StandoutProvider>
+                    {/* We use Next.js Parallel Routes to support a root level [...catchAll] in both the app and marketing context */}
+                    {children}
+                    {app}
+                    {marketing}
+                  </StandoutProvider>
                 </SnackbarProvider>
               </MixpanelProvider>
             </IntercomProvider>

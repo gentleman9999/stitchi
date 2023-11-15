@@ -3,7 +3,7 @@ import routes from '@lib/routes'
 import React from 'react'
 import { track } from '@lib/analytics'
 import CatalogProductVariantPreview from '@components/common/CatalogProductVariantPreview'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import useProductOptions from '@components/hooks/useProductOptions/useProductOptions'
 import { useLogger } from 'next-axiom'
 import ProductForm, { FormValues } from './ProductForm'
@@ -21,7 +21,7 @@ interface Props {
 const ProductShowPageHero = ({ product }: Props) => {
   const logger = useLogger()
   const router = useRouter()
-  const { colors } = useProductOptions({ product })
+  const { colors } = useProductOptions({ productId: product.id })
   const [handleCustomize] = useCustomizeProduct()
   const [activeVariantId, setActiveVariantId] = React.useState<string | null>(
     null,
@@ -124,13 +124,13 @@ const ProductShowPageHero = ({ product }: Props) => {
 
     if (!designRequest?.membershipId) {
       // No logged in user
-      await router.push(
+      router.push(
         routes.internal.signup.href({
           redirectTo: designRequestPath,
         }),
       )
     } else {
-      await router.push(designRequestPath)
+      router.push(designRequestPath)
     }
   }
 
