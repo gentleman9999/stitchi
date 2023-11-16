@@ -10,7 +10,7 @@ interface Props {
 const Layout = ({ children }: Props) => {
   return (
     <WishlistProvider>
-      <div className="flex flex-col gap-4 pt-4">
+      <div className="flex flex-col gap-4 py-4">
         <Breadcrumbs />
         <Title />
         <div>{children}</div>

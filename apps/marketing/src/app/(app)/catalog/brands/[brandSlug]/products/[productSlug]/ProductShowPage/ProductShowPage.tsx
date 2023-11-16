@@ -111,17 +111,7 @@ const ProductShowPage = ({ path }: Props) => {
       <div className="flex flex-col gap-4">
         <div className="flex flex-col sm:flex-col-reverse gap-4">
           <div className="flex justify-between items-center">
-            {/* {product.brand ? (
-              <Breadcrumbs
-                breadcrumbs={makeBreadcrumbs({
-                  brandLabel: product.brand.name,
-                  brandSlug: product.brand.path.replaceAll('/', ''),
-                  productLabel: makeProductTitle(product),
-                  productSlug: product.path.replaceAll('/', ''),
-                })}
-              />
-            ) : null} */}
-            <div></div>
+            <div />
 
             <ProductQuickActions
               entityId={product.entityId}
