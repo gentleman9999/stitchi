@@ -8,7 +8,6 @@ import {
   ProductPageGetDesignCategoryDataVariables,
 } from '@generated/types'
 import { notFound } from 'next/navigation'
-import { generateCmsSeo } from '@lib/seo'
 import { toNextMetadata } from 'react-datocms/seo'
 import routes from '@lib/routes'
 
