@@ -1,6 +1,6 @@
 import React from 'react'
 import { notEmpty } from '@lib/utils/typescript'
-import CatalogProductLegacy from '../../../../../components/common/CatalogProductLegacy'
+import CatalogProductLegacy from '../../../../components/common/CatalogProductLegacy'
 
 import CatalogProductSkeleton from './CatalogProductSkeleton'
 import CatalogProuductZeroState from './CatalogProductZeroState'

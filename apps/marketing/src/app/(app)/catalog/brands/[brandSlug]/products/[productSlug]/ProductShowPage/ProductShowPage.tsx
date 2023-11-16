@@ -108,39 +108,38 @@ const ProductShowPage = ({ path }: Props) => {
     <>
       <ProductJsonLd useAppDir {...jsonLDData} key={jsonLDData.id} />
       {share ? <ShareDialog open onClose={() => setShare(false)} /> : null}
-      <Container className="max-w-none">
-        <div className="flex flex-col gap-4 pt-6">
-          <div className="flex flex-col sm:flex-col-reverse gap-4">
-            <div className="flex justify-between items-center">
-              {product.brand ? (
-                <Breadcrumbs
-                  breadcrumbs={makeBreadcrumbs({
-                    brandLabel: product.brand.name,
-                    brandSlug: product.brand.path.replaceAll('/', ''),
-                    productLabel: makeProductTitle(product),
-                    productSlug: product.path.replaceAll('/', ''),
-                  })}
-                />
-              ) : null}
-
-              <ProductQuickActions
-                entityId={product.entityId}
-                productName={product.name}
-                onShareClick={() => setShare(true)}
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col sm:flex-col-reverse gap-4">
+          <div className="flex justify-between items-center">
+            {/* {product.brand ? (
+              <Breadcrumbs
+                breadcrumbs={makeBreadcrumbs({
+                  brandLabel: product.brand.name,
+                  brandSlug: product.brand.path.replaceAll('/', ''),
+                  productLabel: makeProductTitle(product),
+                  productSlug: product.path.replaceAll('/', ''),
+                })}
               />
-            </div>
-          </div>
+            ) : null} */}
+            <div></div>
 
-          <ProductShowPageHero product={product} />
-          <Divider />
-          <ProductShowPageRelatedProducts products={relatedProducts} />
-          <Divider />
-          <ProductShowPageDetails product={product} />
-          <Divider />
-          <ValuePropositions />
-          <Divider />
+            <ProductQuickActions
+              entityId={product.entityId}
+              productName={product.name}
+              onShareClick={() => setShare(true)}
+            />
+          </div>
         </div>
-      </Container>
+
+        <ProductShowPageHero product={product} />
+        <Divider />
+        <ProductShowPageRelatedProducts products={relatedProducts} />
+        <Divider />
+        <ProductShowPageDetails product={product} />
+        <Divider />
+        <ValuePropositions />
+        <Divider />
+      </div>
     </>
   )
 }

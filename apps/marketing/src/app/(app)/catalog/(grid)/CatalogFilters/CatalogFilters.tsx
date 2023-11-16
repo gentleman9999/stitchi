@@ -59,8 +59,6 @@ const CatalogFilters = ({ brandEntityId, categoryEntityId }: Props) => {
 
   return (
     <>
-      {/* Spacer */}
-      <div className="h-4" />
       <div
         ref={filterRef}
         className={cx(`z-20 sticky top-topbar-height bg-paper`, {

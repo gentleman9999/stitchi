@@ -45,17 +45,6 @@ const DesignLibraryCategoryShowPage = ({ categorySlug }: Props) => {
 
   return (
     <>
-      <CmsSeo
-        useAppDir
-        seo={category._seoMetaTags || []}
-        canonicalUrl={makeAbsoluteUrl(
-          category
-            ? routes.internal.lookbook.categories.show.href({
-                categorySlug: category.slug || '',
-              })
-            : routes.internal.lookbook.href(),
-        )}
-      />
       <Container>
         <Section gutter="md">
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 md:gap-12 lg:gap-20">

@@ -1,12 +1,12 @@
+import Container from '@components/ui/Container'
 import React from 'react'
-import { WishlistProvider } from './wishlist-context'
 
 interface Props {
   children: React.ReactNode
 }
 
 const Layout = ({ children }: Props) => {
-  return <WishlistProvider>{children}</WishlistProvider>
+  return <Container className="max-w-none">{children}</Container>
 }
 
 export default Layout

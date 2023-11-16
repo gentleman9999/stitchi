@@ -63,7 +63,7 @@ module.exports = withBundleAnalyzer(
           })),
           ...allBrandSlugs.map(slug => ({
             source: `/${slug}-:rest`,
-            destination: `/catalog/products/:rest`,
+            destination: `/catalog/brands/${slug}/products/:rest`,
           })),
           ...allCategorySlugs.map(slug => ({
             source: `/${slug}`,

@@ -2,7 +2,7 @@ import { Heart, Share } from 'icons'
 import React from 'react'
 import cx from 'classnames'
 import Tooltip from '@components/ui/Tooltip'
-import { useWishlist } from 'app/(app)/(catalog)/wishlist-context'
+import { useWishlist } from 'app/(app)/catalog/wishlist-context'
 
 interface Props {
   entityId: number
