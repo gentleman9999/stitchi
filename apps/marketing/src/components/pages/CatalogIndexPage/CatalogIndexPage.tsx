@@ -1,5 +1,5 @@
 import React from 'react'
-import Catalog from '@components/common/Catalog'
+// import Catalog from '@components/common/Catalog'
 import routes from '@lib/routes'
 import Breadcrumbs from '@components/common/Breadcrumbs'
 
@@ -17,7 +17,7 @@ const CatalogIndexPage = ({}: CatalogIndexPageProps) => {
         />
       </div>
 
-      <Catalog />
+      {/* <Catalog /> */}
     </>
   )
 }

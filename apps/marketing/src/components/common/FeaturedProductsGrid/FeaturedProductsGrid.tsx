@@ -1,4 +1,3 @@
-import { gql } from '@apollo/client'
 import LinkInline from '@components/ui/LinkInline'
 import {
   FeaturedProductsGridCatalogFragment,
@@ -6,12 +5,11 @@ import {
 } from '@generated/FeaturedProductsGridCatalogFragment'
 import routes from '@lib/routes'
 import { notEmpty } from '@lib/utils/typescript'
-import { ArrowRight, ChevronRight } from 'icons'
+import { ArrowRight } from 'icons'
 import Image from 'next/legacy/image'
 import Link from 'next/link'
 import React from 'react'
 import Section from '../Section'
-import SectionHeader from '../SectionHeader'
 
 interface FeaturedProductsGridProps {
   catalog: FeaturedProductsGridCatalogFragment
@@ -79,29 +77,6 @@ const Product = ({
       </Link>
     </div>
   )
-}
-
-FeaturedProductsGrid.fragments = {
-  catalog: gql`
-    fragment FeaturedProductsGridCatalogFragment on Site {
-      featuredProducts {
-        edges {
-          node {
-            id
-            name
-            path
-            brand {
-              id
-              path
-            }
-            defaultImage {
-              url(width: 200, height: 200)
-            }
-          }
-        }
-      }
-    }
-  `,
 }
 
 export default FeaturedProductsGrid

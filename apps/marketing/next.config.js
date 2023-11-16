@@ -1,10 +1,21 @@
 /** @type {import('next').NextConfig} */
 
+const staticWebsiteData = require('./src/generated/static.json')
+
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
 const { withAxiom } = require('next-axiom')
+
+const allBrandSlugs = staticWebsiteData.brands.map(brand =>
+  brand.custom_url?.url.replace(/\//g, ''),
+)
+
+const allCategorySlugs = staticWebsiteData.categories.map(
+  // Remove leading and trailing slashes
+  category => category.custom_url.url.replace(/^\/|\/$/g, ''),
+)
 
 module.exports = withBundleAnalyzer(
   withAxiom({
@@ -16,7 +27,16 @@ module.exports = withBundleAnalyzer(
     //   defaultLocale: 'en',
     // },
     images: {
-      domains: ['res.cloudinary.com', 'cdn11.bigcommerce.com'],
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: 'res.cloudinary.com',
+        },
+        {
+          protocol: 'https',
+          hostname: 'cdn11.bigcommerce.com',
+        },
+      ],
     },
 
     async rewrites() {
@@ -33,6 +53,22 @@ module.exports = withBundleAnalyzer(
             source: '/learn/topic/:topicSlug',
             destination: '/learn/topic/:topicSlug/page/1',
           },
+          {
+            source: '/custom-:slug(.*?)-shirts',
+            destination: '/lookbook/categories/:slug',
+          },
+          ...allBrandSlugs.map(slug => ({
+            source: `/${slug}`,
+            destination: `/catalog/brands/${slug}`,
+          })),
+          ...allBrandSlugs.map(slug => ({
+            source: `/${slug}-:rest`,
+            destination: `/catalog/brands/${slug}/products/:rest`,
+          })),
+          ...allCategorySlugs.map(slug => ({
+            source: `/${slug}`,
+            destination: `/catalog/categories/${slug}`,
+          })),
         ],
       }
     },

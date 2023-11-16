@@ -1,10 +1,9 @@
 import Image from 'next/legacy/image'
 import React from 'react'
-import { gql } from '@apollo/client'
 import routes from '@lib/routes'
 import Link from 'next/link'
-import useProductOptions from '@components/hooks/useProductOptions'
-import SwatchGroup from '../Catalog/SwatchGroup'
+import useProductOptions from '@components/hooks/useProductOptions/useProductOptions'
+import SwatchGroup from '../SwatchGroup'
 import { makeProductTitle } from '@lib/utils/catalog'
 import { generateImageSizes } from '@lib/utils/image'
 import currency from 'currency.js'
@@ -12,16 +11,28 @@ import Tooltip from '@components/ui/Tooltip'
 import { useLogger } from 'next-axiom'
 import Skeleton from '@components/ui/Skeleton'
 import { CatalogProductLegacyProductFragment } from '@generated/types'
+import { useFragment } from '@apollo/experimental-nextjs-app-support/ssr'
+import { CatalogProductLegacyFragments } from '.'
 
 export interface Props {
-  product?: CatalogProductLegacyProductFragment | null
   priority: boolean
   loading?: boolean
+  productId: string
 }
 
-const CatalogProductLegacy = ({ product, priority, loading }: Props) => {
+const CatalogProductLegacy = ({ priority, loading, productId }: Props) => {
   const logger = useLogger()
-  const { colors } = useProductOptions({ product })
+
+  const { data: product } = useFragment<CatalogProductLegacyProductFragment>({
+    fragment: CatalogProductLegacyFragments.product,
+    fragmentName: 'CatalogProductLegacyProductFragment',
+    from: {
+      __typename: 'Product',
+      id: productId,
+    },
+  })
+
+  const { colors } = useProductOptions({ productId })
 
   if (!loading && !product) {
     logger.warn('Product is required')
@@ -37,8 +48,8 @@ const CatalogProductLegacy = ({ product, priority, loading }: Props) => {
     loading || !product
       ? ''
       : routes.internal.catalog.product.href({
-          brandSlug: product.brand?.path.replaceAll('/', '') || '',
-          productSlug: product.path.replaceAll('/', ''),
+          brandSlug: product.brand?.path?.replaceAll('/', '') || '',
+          productSlug: product.path?.replaceAll('/', '') || '',
         })
 
   return (
@@ -94,7 +105,7 @@ const CatalogProductLegacy = ({ product, priority, loading }: Props) => {
                     <span className="font-bold">
                       {loading ? (
                         <Skeleton width={40} />
-                      ) : product?.priceMetadata ? (
+                      ) : product?.priceMetadata?.minPriceCents ? (
                         currency(product.priceMetadata.minPriceCents, {
                           fromCents: true,
                         }).format()
@@ -109,32 +120,6 @@ const CatalogProductLegacy = ({ product, priority, loading }: Props) => {
       </Link>
     </li>
   )
-}
-
-CatalogProductLegacy.fragments = {
-  product: gql`
-    ${useProductOptions.fragments.product}
-    fragment CatalogProductLegacyProductFragment on Product {
-      ...UseProductColorsProductFragment
-      id
-      name
-      path
-      priceMetadata {
-        minPriceCents
-      }
-      brand {
-        id
-        name
-        path
-      }
-
-      defaultImage {
-        urlOriginal
-        altText
-        url(width: 400)
-      }
-    }
-  `,
 }
 
 export default CatalogProductLegacy

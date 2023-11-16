@@ -1,4 +1,3 @@
-import { gql } from '@apollo/client'
 import { CmsSeoTagsFragment } from '@generated/CmsSeoTagsFragment'
 import { NextSeo } from 'next-seo'
 import React from 'react'
@@ -58,16 +57,6 @@ const CmsSeo = (props: CmsSeoProps) => {
       canonical={props.canonicalUrl}
     />
   )
-}
-
-CmsSeo.fragments = {
-  seoTags: gql`
-    fragment CmsSeoTagsFragment on Tag {
-      attributes
-      content
-      tag
-    }
-  `,
 }
 
 export default CmsSeo

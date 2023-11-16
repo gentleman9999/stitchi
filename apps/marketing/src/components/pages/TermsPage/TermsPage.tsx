@@ -1,10 +1,11 @@
 import { gql } from '@apollo/client'
-import { CmsSeo, CmsStructuredText, Section } from '@components/common'
+import { CmsStructuredText, Section } from '@components/common'
 import { TermsPagePageFragment } from '@generated/TermsPagePageFragment'
 import React from 'react'
 import Container from '@components/ui/Container'
 import routes from '@lib/routes'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
+import CmsSeo, { CmsSeoFragments } from '@components/common/CmsSeo'
 
 export interface TermsPageProps {
   page: TermsPagePageFragment
@@ -32,7 +33,7 @@ const TermsPage = ({ page }: TermsPageProps) => {
 
 TermsPage.fragments = {
   page: gql`
-    ${CmsSeo.fragments.seoTags}
+    ${CmsSeoFragments.seoTags}
     ${CmsStructuredText.fragments.termsOfUseContent}
     fragment TermsPagePageFragment on TermsOfUsePageRecord {
       id

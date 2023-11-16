@@ -4,7 +4,9 @@ import Container from '@components/ui/Container'
 import { FeaturePageContainerCatalogFragment } from '@generated/FeaturePageContainerCatalogFragment'
 import { NextSeo } from 'next-seo'
 import React from 'react'
-import FeaturedProductsGrid from '../FeaturedProductsGrid'
+import FeaturedProductsGrid, {
+  FeaturedProductsGridFragments,
+} from '../FeaturedProductsGrid'
 
 interface Props {
   children: React.ReactNode
@@ -46,7 +48,7 @@ const FeaturePageContainer = ({
 
 FeaturePageContainer.fragments = {
   catalog: gql`
-    ${FeaturedProductsGrid.fragments.catalog}
+    ${FeaturedProductsGridFragments.catalog}
     fragment FeaturePageContainerCatalogFragment on Site {
       ...FeaturedProductsGridCatalogFragment
     }

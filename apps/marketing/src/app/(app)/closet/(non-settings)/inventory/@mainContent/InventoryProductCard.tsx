@@ -1,7 +1,7 @@
 'use client'
 
 import { gql } from '@apollo/client'
-import SwatchGroup from '@components/common/Catalog/SwatchGroup'
+import SwatchGroup from '@components/common/SwatchGroup'
 import { StandoutType, useStandout } from '@components/context'
 import { ClosetInventoryIndexPageProductCardDesignProductFragment } from '@generated/ClosetInventoryIndexPageProductCardDesignProductFragment'
 import {

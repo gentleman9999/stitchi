@@ -411,6 +411,7 @@ const routes = {
   external: {
     support: {
       href: () => buildRoute(supportUrl),
+
       email: {
         href: ({ params }: { params?: QueryParams } = {}) =>
           buildRoute(`mailto:${supportEmail}`, params),

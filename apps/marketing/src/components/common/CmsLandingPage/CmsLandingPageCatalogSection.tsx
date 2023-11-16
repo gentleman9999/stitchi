@@ -1,5 +1,7 @@
 import { gql, useQuery } from '@apollo/client'
-import CatalogProductLegacy from '@components/common/CatalogProductLegacy'
+import CatalogProductLegacy, {
+  CatalogProductLegacyFragments,
+} from '@components/common/CatalogProductLegacy'
 import Container from '@components/ui/Container'
 import Button from '@components/ui/ButtonV2/Button'
 import Tabs from '@components/ui/Tabs'
@@ -15,6 +17,7 @@ import {
   CmsLandingPageCatalogSectionGetDataQuery,
   CmsLandingPageCatalogSectionGetDataQueryVariables,
 } from '@generated/types'
+import CatalogProductSkeleton from 'app/(app)/catalog/(grid)/CatalogProductSkeleton'
 
 const defaultCategories = [
   {
@@ -137,12 +140,7 @@ const CmsLandingPageCatalogSection = ({ catalogSection }: Props) => {
           <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
             {loading
               ? Array.from(new Array(4)).map((_, i) => (
-                  <CatalogProductLegacy
-                    loading
-                    key={i}
-                    product={null}
-                    priority={false}
-                  />
+                  <CatalogProductSkeleton key={i} />
                 ))
               : products?.edges
                   ?.map(edge => edge?.node)
@@ -150,7 +148,7 @@ const CmsLandingPageCatalogSection = ({ catalogSection }: Props) => {
                     product ? (
                       <CatalogProductLegacy
                         key={product.id}
-                        product={product}
+                        productId={product.id}
                         priority={false}
                       />
                     ) : null,
@@ -163,7 +161,7 @@ const CmsLandingPageCatalogSection = ({ catalogSection }: Props) => {
 }
 
 const GET_DATA = gql`
-  ${CatalogProductLegacy.fragments.product}
+  ${CatalogProductLegacyFragments.product}
   query CmsLandingPageCatalogSectionGetDataQuery($categoryId: Int!) {
     site {
       category(entityId: $categoryId) {

@@ -10,7 +10,7 @@ interface Breadcrumb {
   hidden?: boolean
 }
 
-interface Props {
+export interface Props {
   breadcrumbs: Breadcrumb[]
 }
 

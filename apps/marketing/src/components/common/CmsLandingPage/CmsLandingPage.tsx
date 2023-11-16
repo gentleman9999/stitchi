@@ -16,7 +16,7 @@ import { GetStaticPaths, GetStaticPathsResult, GetStaticProps } from 'next'
 import { useLogger } from 'next-axiom'
 import { useRouter } from 'next/router'
 import React from 'react'
-import CmsSeo from '../CmsSeo'
+import CmsSeo, { CmsSeoFragments } from '../CmsSeo'
 import ComponentErrorMessage from '../ComponentErrorMessage'
 import CmsLandingPageCallToAction from './CmsLandingPageCallToAction'
 import CmsLandingPageCatalogSection from './CmsLandingPageCatalogSection'
@@ -194,7 +194,7 @@ const GET_PAGE_DATA = gql`
   ${CmsLandingPageSection.fragments.section}
   ${CmsLandingPageCallToAction.fragments.callToAction}
   ${CmsLandingPageCatalogSection.fragments.catalogSection}
-  ${CmsSeo.fragments.seoTags}
+  ${CmsSeoFragments.seoTags}
   query IndustriesIndexPageGetDataQuery($slug: String!) {
     landingPage(filter: { slug: { eq: $slug } }) {
       id

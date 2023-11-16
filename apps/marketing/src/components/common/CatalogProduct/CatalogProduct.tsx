@@ -4,13 +4,14 @@ import { gql } from '@apollo/client'
 import { CatalogProductLegacyProductFragment } from '@generated/CatalogProductLegacyProductFragment'
 import routes from '@lib/routes'
 import Link from 'next/link'
-import useProductOptions from '@components/hooks/useProductOptions'
-import SwatchGroup from '../Catalog/SwatchGroup'
+import useProductOptions from '@components/hooks/useProductOptions/useProductOptions'
+import SwatchGroup from '../SwatchGroup'
 import { makeProductTitle } from '@lib/utils/catalog'
 import { generateImageSizes } from '@lib/utils/image'
 import currency from 'currency.js'
 import Tooltip from '@components/ui/Tooltip'
 import { useLogger } from 'next-axiom'
+import { fragments as UseProductOptionsFragments } from '@components/hooks/useProductOptions/useProductOptions.fragments'
 
 export interface Props {
   product: CatalogProductLegacyProductFragment
@@ -19,7 +20,7 @@ export interface Props {
 
 const CatalogProduct = ({ product, priority }: Props) => {
   const logger = useLogger()
-  const { colors } = useProductOptions({ product })
+  const { colors } = useProductOptions({ productId: product.id })
 
   if (!product.brand) {
     logger.warn('Product must have a brand', { product })
@@ -87,7 +88,7 @@ const CatalogProduct = ({ product, priority }: Props) => {
 
 CatalogProduct.fragments = {
   product: gql`
-    ${useProductOptions.fragments.product}
+    ${UseProductOptionsFragments.product}
     fragment CatalogProductProductFragment on CatalogProduct {
       id
       name

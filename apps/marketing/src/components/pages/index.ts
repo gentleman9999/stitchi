@@ -4,8 +4,6 @@ export * from './BlogPostIndexPage'
 export { default as BlogPostShowPage } from './BlogPostShowPage'
 export * from './BlogPostShowPage'
 
-export { default as DesignLibraryPage } from './DesignLibraryPage'
-
 export { default as HomePage } from './HomePage'
 export * from './HomePage'
 
@@ -50,6 +48,3 @@ export * from './TermsPage'
 
 export { default as ProductComparrisonIndexPage } from './ProductComparrisonIndexPage'
 export * from './ProductComparrisonIndexPage'
-
-export { default as ProductShowPage } from './ProductShowPage'
-export * from './ProductShowPage'

@@ -6,7 +6,7 @@ import Topbar from './Topbar'
 interface Props {
   children: React.ReactNode
 }
-const Layout = async ({ children }: Props) => {
+const Layout = ({ children }: Props) => {
   return (
     <AppLayoutContextProvider>
       <NotificationStandoutProvider>

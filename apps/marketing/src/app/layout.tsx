@@ -140,6 +140,7 @@ const RootLayout = async ({ children }: Props) => {
       {/* Google Tag Manager - Global base code - end */}
 
       <AxiomWebVitals />
+
       <UserProvider>
         <ApolloProvider deviceId={deviceId} accessToken={accessToken}>
           <body>
@@ -147,7 +148,10 @@ const RootLayout = async ({ children }: Props) => {
             <IntercomProvider>
               <MixpanelProvider>
                 <SnackbarProvider>
-                  <StandoutProvider>{children}</StandoutProvider>
+                  <StandoutProvider>
+                    {/* We use Next.js Parallel Routes to support a root level [...catchAll] in both the app and marketing context */}
+                    {children}
+                  </StandoutProvider>
                 </SnackbarProvider>
               </MixpanelProvider>
             </IntercomProvider>

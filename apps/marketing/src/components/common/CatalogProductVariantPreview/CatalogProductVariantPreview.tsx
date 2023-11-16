@@ -1,10 +1,8 @@
-import { gql } from '@apollo/client'
 import { CatalogProductVariantPreviewProductFragment } from '@generated/CatalogProductVariantPreviewProductFragment'
 import { generateImageSizes } from '@lib/utils/image'
 import { notEmpty } from '@lib/utils/typescript'
 import Image from 'next/image'
 import React from 'react'
-import CatalogProductColorGrid from '../CatalogProductColorGrid'
 import dynamic from 'next/dynamic'
 
 const ImageFullScreenBase = dynamic(
@@ -126,42 +124,6 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
       </div>
     </>
   )
-}
-
-CatalogProductVariantPreview.fragments = {
-  product: gql`
-    ${CatalogProductColorGrid.fragments.product}
-    fragment CatalogProductVariantPreviewProductFragment on Product {
-      ...CatalogProductColorGridProductFragment
-      id
-      name
-      defaultImage {
-        url(width: 700)
-      }
-
-      images(first: 10) {
-        edges {
-          node {
-            isDefault
-            url(width: 700)
-          }
-        }
-      }
-
-      variants(first: $variantsFirst) {
-        edges {
-          node {
-            id
-            entityId
-            defaultImage {
-              isDefault
-              url(width: 700)
-            }
-          }
-        }
-      }
-    }
-  `,
 }
 
 export default CatalogProductVariantPreview

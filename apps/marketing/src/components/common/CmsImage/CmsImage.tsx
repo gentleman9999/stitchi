@@ -1,4 +1,3 @@
-import { gql } from '@apollo/client'
 import { CmsImageFragment } from '@generated/CmsImageFragment'
 import React from 'react'
 import { Image } from 'react-datocms'
@@ -21,23 +20,6 @@ const CmsImage = (props: CmsImageProps) => {
 
   // eslint-disable-next-line jsx-a11y/alt-text
   return <Image {...props} data={data as any} />
-}
-
-CmsImage.fragments = {
-  image: gql`
-    fragment CmsImageFragment on ResponsiveImage {
-      srcSet
-      webpSrcSet
-      sizes
-      src
-      width
-      height
-      aspectRatio
-      alt
-      title
-      base64
-    }
-  `,
 }
 
 export default CmsImage

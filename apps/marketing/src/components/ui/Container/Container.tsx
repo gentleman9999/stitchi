@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import React, { forwardRef, JSXElementConstructor } from 'react'
+import React, { forwardRef } from 'react'
 
 interface ContainerProps {
   className?: string
