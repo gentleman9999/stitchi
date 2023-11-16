@@ -3,7 +3,7 @@ import { CatalogProductColorGridProductFragment } from '@generated/CatalogProduc
 import useProductOptions from '@components/hooks/useProductOptions/useProductOptions'
 import React from 'react'
 import ColorSwatch from '../ColorSwatch'
-import { UseProductOptionsFragments } from '@components/hooks/useProductOptions'
+import { fragments as UseProductOptionsFragments } from '@components/hooks/useProductOptions/useProductOptions.fragments'
 
 interface Props {
   product: CatalogProductColorGridProductFragment

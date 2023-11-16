@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 
-const fragments = {
+export const fragments = {
   product: gql`
     fragment UseProductColorsProductFragment on Product {
       id
@@ -28,5 +28,3 @@ const fragments = {
     }
   `,
 }
-
-export default fragments

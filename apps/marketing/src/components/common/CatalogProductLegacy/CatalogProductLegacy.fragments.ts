@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { UseProductOptionsFragments } from '@components/hooks/useProductOptions'
+import { fragments as UseProductOptionsFragments } from '@components/hooks/useProductOptions/useProductOptions.fragments'
 
 const fragments = {
   product: gql`

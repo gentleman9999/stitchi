@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client'
 import {
-  CmsImage,
   CmsStructuredText,
   CmsStructuredTextTableOfContents,
   InlineMailingListSubscribe,
@@ -16,6 +15,7 @@ import Breadcrumbs from '@components/common/Breadcrumbs'
 import routes from '@lib/routes'
 import Container from '@components/ui/Container'
 import BackgroundTexture from '@components/ui/BackgroundTexture'
+import CmsImage, { CmsImageFragments } from '@components/common/CmsImage'
 
 export interface BlogShowPageProps {
   post: BlogPostShowPageArticleFragment
@@ -112,7 +112,7 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
 
 BlogPostShowPage.fragments = {
   article: gql`
-    ${CmsImage.fragments.image}
+    ${CmsImageFragments.image}
     ${BlogPostShowPageAuthor.fragments.author}
     ${CmsStructuredText.fragments.articleContent}
     ${BlogPostShowPageSeo.fragments.article}

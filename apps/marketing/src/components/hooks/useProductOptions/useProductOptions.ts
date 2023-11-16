@@ -2,7 +2,7 @@ import { useFragment } from '@apollo/experimental-nextjs-app-support/ssr'
 import { UseProductColorsProductFragment } from '@generated/types'
 import { notEmpty } from '@lib/utils/typescript'
 import Color from 'color'
-import fragments from './useProductOptions.fragments'
+import { fragments } from './useProductOptions.fragments'
 
 interface SwatchOptionValue {
   __typename: 'SwatchOptionValue'

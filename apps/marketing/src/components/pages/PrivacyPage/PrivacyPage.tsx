@@ -1,10 +1,11 @@
 import { gql } from '@apollo/client'
-import { CmsSeo, CmsStructuredText, Section } from '@components/common'
+import { CmsStructuredText, Section } from '@components/common'
 import { PrivacyPagePageFragment } from '@generated/PrivacyPagePageFragment'
 import React from 'react'
 import Container from '@components/ui/Container'
 import routes from '@lib/routes'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
+import CmsSeo, { CmsSeoFragments } from '@components/common/CmsSeo'
 
 export interface PrivacyPageProps {
   page: PrivacyPagePageFragment
@@ -32,7 +33,7 @@ const PrivacyPage = ({ page }: PrivacyPageProps) => {
 
 PrivacyPage.fragments = {
   page: gql`
-    ${CmsSeo.fragments.seoTags}
+    ${CmsSeoFragments.seoTags}
     ${CmsStructuredText.fragments.privacyPolicyContent}
     fragment PrivacyPagePageFragment on PrivacyPolicyPageRecord {
       id

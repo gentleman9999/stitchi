@@ -17,7 +17,7 @@ import {
   CmsLandingPageCatalogSectionGetDataQuery,
   CmsLandingPageCatalogSectionGetDataQueryVariables,
 } from '@generated/types'
-import CatalogProductSkeleton from 'app/@app/@catalog/CatalogProductSkeleton'
+import CatalogProductSkeleton from 'app/(app)/(catalog)/catalog/(grid)/CatalogProductSkeleton'
 
 const defaultCategories = [
   {

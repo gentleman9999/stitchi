@@ -91,10 +91,8 @@ export const metadata: Metadata = {
 
 interface Props {
   children: React.ReactNode
-  app: React.ReactNode
-  marketing: React.ReactNode
 }
-const RootLayout = async ({ children, app, marketing }: Props) => {
+const RootLayout = async ({ children }: Props) => {
   let accessToken
 
   try {
@@ -153,8 +151,6 @@ const RootLayout = async ({ children, app, marketing }: Props) => {
                   <StandoutProvider>
                     {/* We use Next.js Parallel Routes to support a root level [...catchAll] in both the app and marketing context */}
                     {children}
-                    {app}
-                    {marketing}
                   </StandoutProvider>
                 </SnackbarProvider>
               </MixpanelProvider>

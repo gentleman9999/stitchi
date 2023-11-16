@@ -3,17 +3,11 @@ export * from './testimonial'
 export { default as BlogPostCard } from './BlogPostCard'
 export * from './BlogPostCard'
 
-export { default as FeaturedProductsGrid } from './FeaturedProductsGrid'
-export * from './FeaturedProductsGrid'
-
 export { default as Footer } from './Footer'
 export * from './Footer'
 
 export { default as CmsStructuredText } from './CmsStructuredText'
 export * from './CmsStructuredText'
-
-export { default as CmsImage } from './CmsImage'
-export * from './CmsImage'
 
 export { default as CmsStructuredTextTableOfContents } from './CmsStructuredTextTableOfContents'
 export * from './CmsStructuredTextTableOfContents'
@@ -47,9 +41,6 @@ export * from './SectionHeader'
 
 export { default as TwitterTweetEmbed } from './TwitterTweetEmbed'
 export * from './TwitterTweetEmbed'
-
-export { default as CmsSeo } from './CmsSeo'
-export * from './CmsSeo'
 
 export { default as SeoDefault } from './SeoDefault'
 export * from './SeoDefault'

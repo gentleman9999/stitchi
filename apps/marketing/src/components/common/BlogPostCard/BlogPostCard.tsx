@@ -5,7 +5,7 @@ import { humanizeDate } from '@lib/utils/date'
 import Link from 'next/link'
 import React from 'react'
 import Avatar from '../Avatar'
-import CmsImage from '../CmsImage'
+import CmsImage, { CmsImageFragments } from '../CmsImage'
 
 export interface BlogPostCardProps {
   post: BlogPostCardArticleFragment
@@ -114,7 +114,7 @@ const BlogPostCard = ({ post, variant = 'vertical' }: BlogPostCardProps) => {
 
 BlogPostCard.fragments = {
   article: gql`
-    ${CmsImage.fragments.image}
+    ${CmsImageFragments.image}
     ${Avatar.fragments.image}
     fragment BlogPostCardArticleFragment on ArticleRecord {
       id

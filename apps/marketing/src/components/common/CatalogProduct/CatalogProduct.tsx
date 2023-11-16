@@ -11,7 +11,7 @@ import { generateImageSizes } from '@lib/utils/image'
 import currency from 'currency.js'
 import Tooltip from '@components/ui/Tooltip'
 import { useLogger } from 'next-axiom'
-import { UseProductOptionsFragments } from '@components/hooks/useProductOptions'
+import { fragments as UseProductOptionsFragments } from '@components/hooks/useProductOptions/useProductOptions.fragments'
 
 export interface Props {
   product: CatalogProductLegacyProductFragment

@@ -13,7 +13,7 @@ import { isLink, isHeading } from 'datocms-structured-text-utils'
 import { useLogger } from 'next-axiom'
 import Link from 'next/link'
 import { StructuredText, renderNodeRule } from 'react-datocms'
-import CmsImage from '../CmsImage'
+import CmsImage, { CmsImageFragments } from '../CmsImage'
 import CampusMarketSizeCalculator from './CampusMarketSizeCalculator'
 import TableRecord from './TableRecord'
 
@@ -147,7 +147,7 @@ const CmsStructuredText = ({ content }: Props) => {
 
 CmsStructuredText.fragments = {
   articleContent: gql`
-    ${CmsImage.fragments.image}
+    ${CmsImageFragments.image}
     fragment CmsStructuredTextContentFragment on ArticleModelContentField {
       value
       blocks {
@@ -203,7 +203,7 @@ CmsStructuredText.fragments = {
     }
   `,
   glossaryEntryDescription: gql`
-    ${CmsImage.fragments.image}
+    ${CmsImageFragments.image}
     fragment CmsStructuredTextGlossaryDescriptionFragment on GlossaryEntryModelDescriptionField {
       value
       blocks {

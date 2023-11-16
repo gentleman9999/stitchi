@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { CmsSeo } from '@components/common'
+import CmsSeo, { CmsSeoFragments } from '@components/common/CmsSeo'
 import { BlogPostShowPageSEOArticleFragment } from '@generated/BlogPostShowPageSEOArticleFragment'
 import routes from '@lib/routes'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
@@ -22,7 +22,7 @@ const BlogPostShowPageSeo = ({ article }: Props) => {
 
 BlogPostShowPageSeo.fragments = {
   article: gql`
-    ${CmsSeo.fragments.seoTags}
+    ${CmsSeoFragments.seoTags}
     fragment BlogPostShowPageSEOArticleFragment on ArticleRecord {
       id
       slug
