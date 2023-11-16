@@ -21,7 +21,6 @@ export const DesignProductCreateOrderPayload = objectType({
 export const DesignProductCreateOrderItemInput = inputObjectType({
   name: 'DesignProductCreateOrderItemInput',
   definition(t) {
-    t.nonNull.id('designProductVariantId')
     t.nonNull.id('catalogProductVariantId')
     t.nonNull.int('quantity')
   },
