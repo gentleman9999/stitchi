@@ -9,7 +9,7 @@ export const makeDefaultQueryVariables = ({
   brandEntityId?: number
   categoryEntityId?: number
 } = {}) => ({
-  first: 16,
+  first: 24,
   sort: SearchProductsSortInput.RELEVANCE,
   filters: {
     brandEntityIds: brandEntityId ? [brandEntityId] : undefined,

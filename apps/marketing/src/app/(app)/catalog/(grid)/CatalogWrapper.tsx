@@ -91,8 +91,10 @@ const CatalogWrapper = ({ brandEntityId, categoryEntityId }: Props) => {
 
   React.useEffect(() => {
     if (after) {
-      fetchMore({
-        variables: { after },
+      startFetchMoreTransition(async () => {
+        await fetchMore({
+          variables: { after },
+        })
       })
 
       const newParams = new URLSearchParams(searchParams)
@@ -105,7 +107,7 @@ const CatalogWrapper = ({ brandEntityId, categoryEntityId }: Props) => {
   const handleFetchMore = async (endCursor?: string | null) => {
     startFetchMoreTransition(async () => {
       if (endCursor) {
-        fetchMore({
+        await fetchMore({
           variables: {
             after: endCursor,
           },

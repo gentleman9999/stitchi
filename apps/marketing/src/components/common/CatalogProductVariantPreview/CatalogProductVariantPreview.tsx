@@ -28,7 +28,7 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
   const activeVariant = React.useMemo(
     () =>
       productVariants?.find(variant => {
-        return variant?.id === activeVariantId
+        return variant?.entityId.toString() === activeVariantId
       }) || productVariants?.[0],
     [activeVariantId, productVariants],
   )

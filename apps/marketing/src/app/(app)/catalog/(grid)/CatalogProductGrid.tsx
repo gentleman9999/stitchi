@@ -1,9 +1,7 @@
 import React from 'react'
 import { notEmpty } from '@lib/utils/typescript'
 import CatalogProductLegacy from '../../../../components/common/CatalogProductLegacy'
-
 import CatalogProductSkeleton from './CatalogProductSkeleton'
-import CatalogProuductZeroState from './CatalogProductZeroState'
 import { InfiniteScrollContainer } from '@components/common'
 import Link from 'next/link'
 import { CatalogIndexPageGetDataQuery } from '@generated/types'
@@ -40,7 +38,7 @@ const CatalogProductGrid = ({ fetchMore, queryRef, isPending }: Props) => {
             <CatalogProductLegacy
               key={product.entityId}
               productId={product.id}
-              priority={i < 3}
+              priority={i < 6}
             />
           ) : null,
         )}
@@ -63,9 +61,6 @@ const CatalogProductGrid = ({ fetchMore, queryRef, isPending }: Props) => {
           Next
         </Link>
       )}
-      <div className="mt-20">
-        <CatalogProuductZeroState />
-      </div>
     </>
   )
 }

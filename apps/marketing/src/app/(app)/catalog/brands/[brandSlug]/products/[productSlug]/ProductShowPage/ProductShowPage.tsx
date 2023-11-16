@@ -1,17 +1,14 @@
 'use client'
 
-import Container from '@components/ui/Container'
 import React from 'react'
 import ProductShowPageHero from './ProductShowPageHero'
 import { ProductJsonLd, ProductJsonLdProps } from 'next-seo'
-import { makeProductTitle } from '@lib/utils/catalog'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import routes from '@lib/routes'
 import { notEmpty } from '@lib/utils/typescript'
 import ProductQuickActions from './ProductQuickActions'
 import ShareDialog from '@components/common/ShareDialog'
 import ValuePropositions from './ValuePropositions'
-import Breadcrumbs from '@components/common/Breadcrumbs'
 import currency from 'currency.js'
 import ProductShowPageRelatedProducts from './ProductShowPageRelatedProducts'
 import ProductShowPageDetails from './ProductShowPageDetails'
@@ -135,30 +132,5 @@ const ProductShowPage = ({ path }: Props) => {
 }
 
 const Divider = () => <hr className="my-1" />
-
-const makeBreadcrumbs = (params: {
-  brandSlug: string
-  productSlug: string
-  brandLabel: string
-  productLabel: string
-}) => {
-  return [
-    { label: 'Home', href: routes.internal.home.href(), hidden: true },
-    { label: 'Catalog', href: routes.internal.catalog.href() },
-    {
-      label: params.brandLabel,
-      href: routes.internal.catalog.brand.show.href({
-        brandSlug: params.brandSlug,
-      }),
-    },
-    {
-      label: params.productLabel,
-      href: routes.internal.catalog.product.href({
-        brandSlug: params.brandSlug,
-        productSlug: params.productSlug,
-      }),
-    },
-  ]
-}
 
 export default ProductShowPage
