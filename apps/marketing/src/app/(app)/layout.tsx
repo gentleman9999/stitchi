@@ -14,7 +14,7 @@ const Layout = ({ children }: Props) => {
           <Topbar />
 
           <main
-            className={`min-h-[calc(100vh-var(--topbar-height))] mt-topbar-height relative`}
+            className={`min-h-[calc(100vh-var(--topbar-height))] mt-topbar-height relative z-0`}
           >
             {children}
           </main>

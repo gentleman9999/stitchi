@@ -32,9 +32,15 @@ const useSort = () => {
     ),
   )
 
+  const formattedSort = options.find(option => option.value === sort)
+
+  if (!formattedSort) {
+    throw new Error(`Invalid sort option: ${sort}`)
+  }
+
   return {
-    sort: options.find(option => option.value === sort),
     setSort,
+    sort: formattedSort,
     sortOptions: options,
   }
 }

@@ -9,15 +9,16 @@ import Link from 'next/link'
 import {
   CatalogIndexPageGetDataQuery,
   CatalogIndexPageGetDataQueryVariables,
-  SearchProductsFiltersInput,
 } from '@generated/types'
 import CatalogProductGridContainer from './CatalogProductGridContainer'
-import { GET_DATA, makeDefaultQueryVariables } from './graphql'
+import { GET_DATA } from './graphql'
 import useSearch from './useSearch'
 import useSort from './useSort'
 import useActiveFilters from './useActiveFilters'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
+import { mergeFilters } from './format-filters'
+import deepEqual from 'deep-equal'
 
 interface Props {
   // Filters all results to specific brand
@@ -27,87 +28,51 @@ interface Props {
 }
 
 const CatalogProductGrid = ({ brandEntityId, categoryEntityId }: Props) => {
-  const { replace } = useRouter()
   const { sort } = useSort()
   const { search } = useSearch()
-  const pathname = usePathname()!
+  const { replace } = useRouter()
+  const pathname = usePathname()
   const searchParams = useSearchParams()!
   const [isFetchingMore, startFetchMoreTransition] = useTransition()
-  const { brands, categories, collections, fabrics, fits } = useActiveFilters()
+  const activeFilters = useActiveFilters()
 
   const after = searchParams.get('after')
 
-  const defaultVariables = React.useMemo(() => {
-    return makeDefaultQueryVariables({
-      brandEntityId,
-      categoryEntityId,
-    })
-  }, [brandEntityId, categoryEntityId])
+  const filters = mergeFilters(
+    { search, ...activeFilters },
+    { brandEntityId, categoryEntityId },
+  )
 
-  const formattedFilters: SearchProductsFiltersInput = React.useMemo(() => {
-    return {
-      ...defaultVariables.filters,
-      searchTerm: search,
-      brandEntityIds: brands?.length
-        ? brands
-        : defaultVariables.filters.brandEntityIds,
-      categoryEntityIds:
-        categories?.length ||
-        collections?.length ||
-        fabrics?.length ||
-        fits?.length
-          ? [
-              ...(categories || []),
-              ...(collections || []),
-              ...(fabrics || []),
-              ...(fits || []),
-            ]
-          : defaultVariables.filters.categoryEntityIds,
-    }
-  }, [
-    brands,
-    categories,
-    collections,
-    defaultVariables.filters,
-    fabrics,
-    fits,
-    search,
-  ])
+  const [prevFilters, setPrevFilters] = React.useState(filters)
 
   const { data, refetch, fetchMore } = useSuspenseQuery<
     CatalogIndexPageGetDataQuery,
     CatalogIndexPageGetDataQueryVariables
   >(GET_DATA, {
     fetchPolicy: 'cache-and-network',
-    returnPartialData: true,
     variables: {
-      ...defaultVariables,
-      sort: sort?.value || defaultVariables.sort,
+      first: 24,
+      sort: sort.value,
       after: after || undefined,
-      filters: formattedFilters,
+      filters,
     },
   })
 
   React.useEffect(() => {
-    refetch({
-      filters: formattedFilters,
-    })
-  }, [formattedFilters, refetch])
-
-  React.useEffect(() => {
-    if (after) {
-      startFetchMoreTransition(async () => {
-        fetchMore({
-          variables: { after },
-        })
+    if (!deepEqual(filters, prevFilters)) {
+      refetch({
+        filters,
       })
-
-      const newParams = new URLSearchParams(searchParams)
-      newParams.delete('after')
-
-      replace(pathname + '?' + newParams.toString())
+      setPrevFilters(filters)
     }
-  }, [fetchMore, replace, after, searchParams, pathname])
+  }, [filters, prevFilters, refetch])
+
+  const { products: productResult } = data?.site?.search?.searchProducts || {}
+
+  const products =
+    productResult?.edges?.map(edge => edge?.node).filter(notEmpty) || []
+
+  const { pageInfo } = productResult || {}
 
   const handleFetchMore = () => {
     if (pageInfo?.hasNextPage && pageInfo.endCursor) {
@@ -121,12 +86,15 @@ const CatalogProductGrid = ({ brandEntityId, categoryEntityId }: Props) => {
     }
   }
 
-  const products =
-    data?.site?.search?.searchProducts?.products?.edges
-      ?.map(edge => edge?.node)
-      .filter(notEmpty) || []
+  if (after) {
+    handleFetchMore()
 
-  const { pageInfo } = data?.site?.search?.searchProducts?.products || {}
+    // Remove 'after' query param
+    const newParams = new URLSearchParams(searchParams)
+    newParams.delete('after')
+
+    replace(pathname + '?' + newParams.toString())
+  }
 
   return (
     <>
