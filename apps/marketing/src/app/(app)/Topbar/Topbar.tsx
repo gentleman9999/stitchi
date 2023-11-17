@@ -9,8 +9,8 @@ import routes from '@lib/routes'
 import Link from 'next/link'
 
 import NotificationsButton from './NotificationsButton'
-import TopbarUser from './TopbarUser'
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
+import AppTopbarUser from './AppTopbarUser'
 
 interface Props {}
 
@@ -30,7 +30,7 @@ const Topbar = (props: Props) => {
           </Link>
         </div>
 
-        <ul className="flex gap-3">
+        <ul className="flex gap-4">
           <Item>
             <NotificationsButton />
           </Item>
@@ -48,7 +48,7 @@ const Topbar = (props: Props) => {
           </Item>
 
           <Item>
-            <TopbarUser />
+            <AppTopbarUser />
           </Item>
         </ul>
       </Container>
