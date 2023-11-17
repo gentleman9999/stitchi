@@ -1,13 +1,13 @@
 import { gql } from '@apollo/client'
 import { fragments as ProductShowPageHeroFragments } from './ProductShowPageHero.fragments'
 import { fragments as ProductShowPageDetailsFragments } from './ProductShowPageDetails.fragments'
-import { fragments as ProductShowPageRelatedProductsFragments } from './ProductShowPageRelatedProducts.fragments'
+import { CatalogProductLegacyFragments } from '@components/common/CatalogProductLegacy'
 
 export const fragments = {
   product: gql`
     ${ProductShowPageHeroFragments.product}
     ${ProductShowPageDetailsFragments.product}
-    ${ProductShowPageRelatedProductsFragments.product}
+    ${CatalogProductLegacyFragments.product}
     fragment ProductShowPageHeroFragment on Product {
       id
       name
@@ -40,7 +40,7 @@ export const fragments = {
         edges {
           node {
             id
-            ...ProductShowPageRelatedProductsProductFragment
+            ...CatalogProductLegacyProductFragment
           }
         }
       }

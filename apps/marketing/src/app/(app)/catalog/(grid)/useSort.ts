@@ -28,7 +28,7 @@ const useSort = () => {
   const [sort, setSort] = useQueryState(
     'sort',
     parseAsStringEnum(Object.values(SearchProductsSortInput)).withDefault(
-      SearchProductsSortInput.RELEVANCE,
+      SearchProductsSortInput.FEATURED,
     ),
   )
 

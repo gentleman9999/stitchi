@@ -45,18 +45,23 @@ const Breadcrumbs = () => {
         })
       }
     } else if (entity === 'categories') {
-      const category = staticData.categories.find(
-        category => category.custom_url.url === `/${entitySlug}/`,
-      )
+      const categorySlugs = entitySlug.split('/')
+      categorySlugs.forEach((_, i) => {
+        const category = staticData.categories.find(
+          category =>
+            category.custom_url.url ===
+            `/${categorySlugs.slice(0, i + 1).join('/')}/`,
+        )
 
-      if (category) {
-        breadcrumbs.push({
-          href: routes.internal.catalog.category.show.href({
-            categorySlug: entitySlug,
-          }),
-          label: category.name,
-        })
-      }
+        if (category) {
+          breadcrumbs.push({
+            href: routes.internal.catalog.category.show.href({
+              categorySlug: category.custom_url.url,
+            }),
+            label: category.name,
+          })
+        }
+      })
     }
   } else if (first === 'brands') {
     const [brandSlug, _, productSlug] = rest

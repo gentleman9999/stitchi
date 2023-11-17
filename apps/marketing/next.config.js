@@ -57,14 +57,22 @@ module.exports = withBundleAnalyzer(
             source: '/custom-:slug(.*?)-shirts',
             destination: '/lookbook/categories/:slug',
           },
+          // Brand rewrites
           ...allBrandSlugs.map(slug => ({
             source: `/${slug}`,
             destination: `/catalog/brands/${slug}`,
           })),
+          // Product rewrites
           ...allBrandSlugs.map(slug => ({
             source: `/${slug}-:rest`,
             destination: `/catalog/brands/${slug}/products/:rest`,
           })),
+          // Product "Share" rewrites
+          ...allBrandSlugs.map(slug => ({
+            source: `/${slug}-:rest/share`,
+            destination: `/catalog/brands/${slug}/products/:rest/share`,
+          })),
+          // Category rewrites
           ...allCategorySlugs.map(slug => ({
             source: `/${slug}`,
             destination: `/catalog/categories/${slug}`,

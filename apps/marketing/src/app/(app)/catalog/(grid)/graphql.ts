@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { SearchProductsSortInput } from '@generated/types'
-import fragments from './CatalogProductGrid.fragments'
+import { CatalogProductLegacyFragments } from '@components/common/CatalogProductLegacy'
 
 export const makeDefaultQueryVariables = ({
   brandEntityId,
@@ -19,7 +19,7 @@ export const makeDefaultQueryVariables = ({
 })
 
 export const GET_DATA = gql`
-  ${fragments.site}
+  ${CatalogProductLegacyFragments.product}
   query CatalogIndexPageGetDataQuery(
     $filters: SearchProductsFiltersInput!
     $sort: SearchProductsSortInput!
@@ -27,7 +27,23 @@ export const GET_DATA = gql`
     $after: String
   ) {
     site {
-      ...CatalogProductGridSiteFragment
+      search {
+        searchProducts(filters: $filters, sort: $sort) {
+          products(first: $first, after: $after) {
+            edges {
+              node {
+                id
+                entityId
+                ...CatalogProductLegacyProductFragment
+              }
+            }
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
+          }
+        }
+      }
     }
   }
 `

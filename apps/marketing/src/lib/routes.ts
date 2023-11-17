@@ -103,6 +103,22 @@ const routes = {
             params,
           )
         },
+
+        share: {
+          href: ({
+            brandSlug,
+            productSlug,
+          }: {
+            brandSlug: string
+            productSlug: string
+          }) => {
+            const serialize = (s: string) => s.replace(/\//g, '')
+
+            return buildRoute(
+              `/${serialize(brandSlug)}-${serialize(productSlug)}/share`,
+            )
+          },
+        },
       },
 
       wizard: {
