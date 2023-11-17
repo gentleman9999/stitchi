@@ -9,18 +9,16 @@ import { generateImageSizes } from '@lib/utils/image'
 import currency from 'currency.js'
 import Tooltip from '@components/ui/Tooltip'
 import { useLogger } from 'next-axiom'
-import Skeleton from '@components/ui/Skeleton'
 import { CatalogProductLegacyProductFragment } from '@generated/types'
 import { useFragment } from '@apollo/experimental-nextjs-app-support/ssr'
 import { CatalogProductLegacyFragments } from '.'
 
 export interface Props {
   priority: boolean
-  loading?: boolean
   productId: string
 }
 
-const CatalogProductLegacy = ({ priority, loading, productId }: Props) => {
+const CatalogProductLegacy = ({ priority, productId }: Props) => {
   const logger = useLogger()
 
   const { data: product } = useFragment<CatalogProductLegacyProductFragment>({
@@ -34,23 +32,20 @@ const CatalogProductLegacy = ({ priority, loading, productId }: Props) => {
 
   const { colors } = useProductOptions({ productId })
 
-  if (!loading && !product) {
+  if (!product) {
     logger.warn('Product is required')
     return null
   }
 
-  if (!loading && !product?.brand) {
+  if (!product?.brand) {
     logger.warn('Product must have a brand', { product })
     return null
   }
 
-  const href =
-    loading || !product
-      ? ''
-      : routes.internal.catalog.product.href({
-          brandSlug: product.brand?.path?.replaceAll('/', '') || '',
-          productSlug: product.path?.replaceAll('/', '') || '',
-        })
+  const href = routes.internal.catalog.product.href({
+    brandSlug: product.brand.path?.replaceAll('/', '') || '',
+    productSlug: product.path?.replaceAll('/', '') || '',
+  })
 
   return (
     <li className="flex flex-col w-full">
@@ -59,9 +54,7 @@ const CatalogProductLegacy = ({ priority, loading, productId }: Props) => {
         className="flex-1 flex flex-col cursor-pointer rounded-lg    hover:shadow-lg transition-all bg-paper"
       >
         <div className="relative w-full h-[320px] flex items-center justify-center">
-          {loading ? (
-            <Skeleton containerClassName="flex-1 h-full" className="h-full" />
-          ) : product?.defaultImage?.url ? (
+          {product?.defaultImage?.url ? (
             <Image
               priority={priority}
               key={product.defaultImage.url}
@@ -77,23 +70,15 @@ const CatalogProductLegacy = ({ priority, loading, productId }: Props) => {
         </div>
         <div className="p-2">
           <h3 className="text-sm font-normal leading-tight">
-            {loading ? (
-              <Skeleton width={140} />
-            ) : product ? (
-              makeProductTitle(product)
-            ) : null}
+            {product ? makeProductTitle(product) : null}
           </h3>
 
           <div className="mt-4 flex justify-between items-end flex-wrap flex-1">
             <div className="flex-1 flex items-end">
-              {loading ? (
-                <Skeleton width={100} />
-              ) : (
-                <SwatchGroup
-                  // Could add support for more colors in the future
-                  hexColors={colors.map(({ hexColors }) => hexColors[0])}
-                />
-              )}
+              <SwatchGroup
+                // Could add support for more colors in the future
+                hexColors={colors.map(({ hexColors }) => hexColors[0])}
+              />
             </div>
             <span className=" text-gray-600 flex gap-1 items-center">
               <span className="text-xs">from</span>
@@ -103,13 +88,11 @@ const CatalogProductLegacy = ({ priority, loading, productId }: Props) => {
                 renderTrigger={() => (
                   <button>
                     <span className="font-bold">
-                      {loading ? (
-                        <Skeleton width={40} />
-                      ) : product?.priceMetadata?.minPriceCents ? (
-                        currency(product.priceMetadata.minPriceCents, {
-                          fromCents: true,
-                        }).format()
-                      ) : null}
+                      {product?.priceMetadata?.minPriceCents
+                        ? currency(product.priceMetadata.minPriceCents, {
+                            fromCents: true,
+                          }).format()
+                        : null}
                     </span>
                   </button>
                 )}

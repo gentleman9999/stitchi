@@ -1,14 +1,16 @@
 import React from 'react'
-import BrandPage from './BrandPage'
 import { Metadata } from 'next'
 import { getClient } from '@lib/apollo-rsc'
 import { notFound } from 'next/navigation'
-import { GET_DATA } from './graphql'
 import {
   BrandPageGetDataQuery,
   BrandPageGetDataQueryVariables,
 } from '@generated/types'
 import routes from '@lib/routes'
+import staticData from '@generated/static.json'
+import { BrandJsonLd } from 'next-seo'
+import { gql } from '@apollo/client'
+import CatalogProductGrid from '../../CatalogProductGrid'
 
 interface Params {
   brandSlug: string
@@ -21,13 +23,15 @@ export const generateMetadata = async ({
 }): Promise<Metadata> => {
   const client = await getClient()
 
+  const brandSlug = `/${params.brandSlug}/`
+
   const { data } = await client.query<
     BrandPageGetDataQuery,
     BrandPageGetDataQueryVariables
   >({
     query: GET_DATA,
     variables: {
-      path: `/${params.brandSlug}/`,
+      path: brandSlug,
     },
   })
 
@@ -43,9 +47,7 @@ export const generateMetadata = async ({
       openGraph: {
         title,
         description,
-        url: routes.internal.catalog.brand.show.href({
-          brandSlug: node.path,
-        }),
+        url: routes.internal.catalog.brand.show.href({ brandSlug }),
       },
     }
   }
@@ -53,8 +55,47 @@ export const generateMetadata = async ({
   return notFound()
 }
 
-const Page = ({ params }: { params: Params }) => {
-  return <BrandPage path={`/${params.brandSlug}/`} />
+const Page = async ({ params }: { params: Params }) => {
+  const foundBrand = staticData.brands.find(
+    brand => brand.custom_url.url === `/${params.brandSlug}/`,
+  )
+
+  if (!foundBrand) {
+    notFound()
+  }
+
+  const href = routes.internal.catalog.brand.show.href({
+    brandSlug: foundBrand.custom_url.url,
+  })
+
+  return (
+    <>
+      <BrandJsonLd useAppDir id={href} logo={foundBrand.image_url} />
+      <CatalogProductGrid brandEntityId={foundBrand.id} />
+    </>
+  )
 }
+
+const GET_DATA = gql`
+  query BrandPageGetDataQuery($path: String!) {
+    site {
+      route(path: $path) {
+        node {
+          id
+          ... on Brand {
+            name
+            defaultImage {
+              url(width: 1200)
+            }
+            seo {
+              pageTitle
+              metaDescription
+            }
+          }
+        }
+      }
+    }
+  }
+`
 
 export default Page

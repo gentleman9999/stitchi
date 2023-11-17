@@ -7,10 +7,7 @@ import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import routes from '@lib/routes'
 import { notEmpty } from '@lib/utils/typescript'
 import ProductQuickActions from './ProductQuickActions'
-import ShareDialog from '@components/common/ShareDialog'
-import ValuePropositions from './ValuePropositions'
 import currency from 'currency.js'
-import ProductShowPageRelatedProducts from './ProductShowPageRelatedProducts'
 import ProductShowPageDetails from './ProductShowPageDetails'
 import {
   ProductPageGetDataQuery,
@@ -19,6 +16,7 @@ import {
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 import { GET_DATA } from '../graphql'
 import { notFound } from 'next/navigation'
+import CatalogProductLegacy from '@components/common/CatalogProductLegacy'
 
 interface Props {
   path: string
@@ -28,11 +26,7 @@ const ProductShowPage = ({ path }: Props) => {
   const { data } = useSuspenseQuery<
     ProductPageGetDataQuery,
     ProductPageGetDataQueryVariables
-  >(GET_DATA, {
-    variables: {
-      path,
-    },
-  })
+  >(GET_DATA, { variables: { path } })
 
   const product = data?.site.route.node
 
@@ -47,8 +41,6 @@ const ProductShowPage = ({ path }: Props) => {
 
     notFound()
   }
-
-  const [share, setShare] = React.useState(false)
 
   const relatedProducts =
     product.relatedProducts.edges?.map(edge => edge?.node).filter(notEmpty) ||
@@ -104,29 +96,38 @@ const ProductShowPage = ({ path }: Props) => {
   return (
     <>
       <ProductJsonLd useAppDir {...jsonLDData} key={jsonLDData.id} />
-      {share ? <ShareDialog open onClose={() => setShare(false)} /> : null}
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col sm:flex-col-reverse gap-4">
-          <div className="flex justify-between items-center">
-            <div />
 
-            <ProductQuickActions
-              entityId={product.entityId}
-              productName={product.name}
-              onShareClick={() => setShare(true)}
-            />
-          </div>
+      <div className="flex flex-col sm:flex-col-reverse gap-4">
+        <div className="flex justify-between items-center">
+          <div />
+
+          <ProductQuickActions
+            product={{
+              entityId: product.entityId,
+              productName: product.name,
+              productSlug: product.path,
+              brandSlug: product.brand?.path || '',
+            }}
+          />
         </div>
-
-        <ProductShowPageHero product={product} />
-        <Divider />
-        <ProductShowPageRelatedProducts products={relatedProducts} />
-        <Divider />
-        <ProductShowPageDetails product={product} />
-        <Divider />
-        <ValuePropositions />
-        <Divider />
       </div>
+
+      <ProductShowPageHero productId={product.id} />
+
+      <Divider />
+
+      <h2 className="font-semibold text-xl">Related products</h2>
+      <div className="flex flex-row gap-2 overflow-x-scroll">
+        {relatedProducts.map(product => (
+          <div key={product.id} className="flex-1 min-w-[200px] flex">
+            <CatalogProductLegacy productId={product.id} priority={false} />
+          </div>
+        ))}
+      </div>
+
+      <Divider />
+      <ProductShowPageDetails productId={product.id} />
+      <Divider />
     </>
   )
 }

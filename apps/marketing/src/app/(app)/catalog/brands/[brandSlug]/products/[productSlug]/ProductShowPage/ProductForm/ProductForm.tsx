@@ -1,4 +1,3 @@
-import { gql } from '@apollo/client'
 import ProductVariantQuantityMatrixForm, {
   ProductVariantQuantityMatrixFormProps,
 } from '@components/common/ProductVariantQuantityMatrixForm'
@@ -27,6 +26,8 @@ import {
   CatalogProductCustomizationAddonType,
   ProductFormProductFragment,
 } from '@generated/types'
+import { useFragment } from '@apollo/experimental-nextjs-app-support/ssr'
+import { fragments } from './ProductForm.fragments'
 
 const customizationOptions = [
   {
@@ -99,7 +100,8 @@ export type FormValues = yup.InferType<typeof schema>
 const iconStyle = 'w-7 h-7 text-primary'
 
 interface ProductFormProps {
-  product: ProductFormProductFragment
+  productEntityId: string
+  productId: string
   colors: ProductVariantQuantityMatrixFormProps['colors']
   variants: ProductVariantQuantityMatrixFormProps['variants']
   onSubmit: (values: FormValues) => Promise<void>
@@ -107,6 +109,14 @@ interface ProductFormProps {
 }
 
 const ProductForm = (props: ProductFormProps) => {
+  const { data: product } = useFragment<ProductFormProductFragment>({
+    fragment: fragments.product,
+    fragmentName: 'ProductFormProductFragment',
+    from: {
+      __typename: 'Product',
+      id: props.productId,
+    },
+  })
   const [submitting, setSubmitting] = React.useState(false)
 
   const form = useForm({
@@ -148,7 +158,7 @@ const ProductForm = (props: ProductFormProps) => {
     quote,
     loading: loadingQuote,
   } = useProductQuote({
-    catalogProductId: props.product.entityId.toString(),
+    catalogProductId: props.productEntityId,
   })
 
   React.useEffect(() => {
@@ -182,13 +192,13 @@ const ProductForm = (props: ProductFormProps) => {
     name: 'customizations',
   })
 
-  const { priceMetadata } = props.product
+  const { priceMetadata } = product
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="relative flex flex-col gap-8 my-8 bg-paper rounded-lg ">
         <h1 className="font-headingDisplay font-semibold text-2xl sm:text-3xl text-gray-800 hidden sm:block">
-          {makeProductTitle(props.product)}
+          {makeProductTitle(product)}
         </h1>
 
         <div className="flex flex-col gap-16">
@@ -344,7 +354,7 @@ const ProductForm = (props: ProductFormProps) => {
                 {totalQuantity === 0 || totalQuantity >= MIN_ORDER_QTY ? (
                   <>
                     {totalQuantity === 0 ? (
-                      currency(priceMetadata.minPriceCents, {
+                      currency(priceMetadata?.minPriceCents || 0, {
                         fromCents: true,
                       }).format()
                     ) : loadingQuote ? (
@@ -364,7 +374,7 @@ const ProductForm = (props: ProductFormProps) => {
                   </p>
                 )}
 
-                {totalQuantity === 0 && priceMetadata.maxPriceCents
+                {totalQuantity === 0 && priceMetadata?.maxPriceCents
                   ? `-
                   ${currency(priceMetadata.maxPriceCents, {
                     fromCents: true,

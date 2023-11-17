@@ -4,6 +4,8 @@ import { notEmpty } from '@lib/utils/typescript'
 import Image from 'next/image'
 import React from 'react'
 import dynamic from 'next/dynamic'
+import { useFragment } from '@apollo/experimental-nextjs-app-support/ssr'
+import { fragments } from './CatalogProductVariantPreview.fragments'
 
 const ImageFullScreenBase = dynamic(
   () => import('../ImageFullScreen').then(mod => mod.ImageFullScreenBase),
@@ -13,22 +15,34 @@ const ImageFullScreenBase = dynamic(
 )
 
 interface Props {
-  product: CatalogProductVariantPreviewProductFragment
+  productId: string
   activeVariantId?: string | null
 }
 
-const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
+const CatalogProductVariantPreview = ({
+  productId,
+  activeVariantId,
+}: Props) => {
+  const { data: product } =
+    useFragment<CatalogProductVariantPreviewProductFragment>({
+      fragment: fragments.product,
+      fragmentName: 'CatalogProductVariantPreviewProductFragment',
+      from: {
+        __typename: 'Product',
+        id: productId,
+      },
+    })
   const [showFullScreen, setShowFullScreen] = React.useState<boolean>(false)
   const [activeSecondaryImage, setActiveSecondaryImage] = React.useState<{
     url: string
   } | null>(null)
 
-  const productVariants = product.variants.edges?.map(edge => edge?.node)
+  const productVariants = product.variants?.edges?.map(edge => edge?.node)
 
   const activeVariant = React.useMemo(
     () =>
       productVariants?.find(variant => {
-        return variant?.entityId.toString() === activeVariantId
+        return variant?.entityId?.toString() === activeVariantId
       }) || productVariants?.[0],
     [activeVariantId, productVariants],
   )
@@ -41,11 +55,11 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
   const image =
     activeSecondaryImage || activeVariant?.defaultImage || product.defaultImage
 
-  if (!image) {
+  if (!image?.url) {
     return null
   }
 
-  const secondaryImages = product.images.edges
+  const secondaryImages = product.images?.edges
     ?.map(edge => edge?.node)
     .filter(notEmpty)
 
@@ -56,7 +70,7 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
           <Image
             fill
             src={image.url}
-            alt={product.name}
+            alt={product.name || 'Product image'}
             style={{
               objectFit: 'contain',
             }}
@@ -72,7 +86,7 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
             priority
             key={image.url}
             src={image.url}
-            alt={product.name}
+            alt={product.name || 'Product image'}
             sizes={generateImageSizes([{ imageWidth: '700px' }])}
             style={{
               objectFit: 'contain',
@@ -84,10 +98,10 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
 
         {secondaryImages?.length ? (
           <div className="flex h-70 overflow-x-scroll">
-            {activeVariant?.defaultImage ? (
+            {activeVariant?.defaultImage?.url ? (
               <Image
                 src={activeVariant.defaultImage.url}
-                alt={product.name}
+                alt={product.name || 'Secondary image'}
                 width={70}
                 height={70}
                 sizes={generateImageSizes([{ imageWidth: '70px' }])}
@@ -95,19 +109,23 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
                   objectFit: 'contain',
                   cursor: 'pointer',
                 }}
-                onClick={() =>
-                  setActiveSecondaryImage(activeVariant.defaultImage)
-                }
+                onClick={() => {
+                  if (activeVariant.defaultImage?.url) {
+                    setActiveSecondaryImage({
+                      url: activeVariant.defaultImage.url,
+                    })
+                  }
+                }}
               />
             ) : null}
 
             {secondaryImages.map(image => {
-              if (!image || image.isDefault) return null
+              if (!image.url || image.isDefault) return null
               return (
                 <Image
                   key={image.url}
                   src={image.url}
-                  alt={product.name}
+                  alt={product.name || "Product's secondary image"}
                   width={70}
                   height={70}
                   sizes={generateImageSizes([{ imageWidth: '70px' }])}
@@ -115,7 +133,13 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
                     objectFit: 'contain',
                     cursor: 'pointer',
                   }}
-                  onClick={() => setActiveSecondaryImage(image)}
+                  onClick={() => {
+                    if (image.url) {
+                      setActiveSecondaryImage({
+                        url: image.url,
+                      })
+                    }
+                  }}
                 />
               )
             })}

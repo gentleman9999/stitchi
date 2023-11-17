@@ -6,15 +6,7 @@ import staticData from '@generated/static.json'
 import Container from '@components/ui/Container'
 
 const Title = () => {
-  const selectedLayoutSegments = useSelectedLayoutSegments()
-
-  const [first, ...rest] = selectedLayoutSegments
-
-  if (first !== '(grid)') {
-    return null
-  }
-
-  const [entity, entitySlug] = rest
+  const [entity, entitySlug] = useSelectedLayoutSegments()
 
   let title = ''
 

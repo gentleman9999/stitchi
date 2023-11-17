@@ -1,15 +1,15 @@
 import React from 'react'
-
-import CategoryPage from './CategoryPage'
 import { Metadata } from 'next'
 import { getClient } from '@lib/apollo-rsc'
-import { GET_DATA } from './graphql'
 import { notFound } from 'next/navigation'
 import {
   CatalogCategoryPageGetDataQuery,
   CatalogCategoryPageGetDataQueryVariables,
 } from '@generated/types'
 import routes from '@lib/routes'
+import staticData from '@generated/static.json'
+import { gql } from '@apollo/client'
+import CatalogProductGrid from '../../CatalogProductGrid'
 
 interface Params {
   catchAllSlug: string[]
@@ -22,13 +22,15 @@ export const generateMetadata = async ({
 }): Promise<Metadata> => {
   const client = await getClient()
 
+  const categorySlug = `/${params.catchAllSlug.join('/')}/`
+
   const { data } = await client.query<
     CatalogCategoryPageGetDataQuery,
     CatalogCategoryPageGetDataQueryVariables
   >({
     query: GET_DATA,
     variables: {
-      path: `/${params.catchAllSlug.join('/')}/`,
+      path: categorySlug,
     },
   })
 
@@ -44,7 +46,7 @@ export const generateMetadata = async ({
         title,
         description,
         url: routes.internal.catalog.category.show.href({
-          categorySlug: node.path,
+          categorySlug,
         }),
       },
     }
@@ -54,7 +56,36 @@ export const generateMetadata = async ({
 }
 
 const Page = ({ params }: { params: Params }) => {
-  return <CategoryPage path={`/${params.catchAllSlug.join('/')}/`} />
+  const foundCategory = staticData.categories.find(
+    category =>
+      category.custom_url.url === `/${params.catchAllSlug.join('/')}/`,
+  )
+
+  if (!foundCategory) {
+    notFound()
+  }
+
+  return <CatalogProductGrid categoryEntityId={foundCategory.id} />
 }
+
+const GET_DATA = gql`
+  query CatalogCategoryPageGetDataQuery($path: String!) {
+    site {
+      route(path: $path) {
+        node {
+          id
+
+          ... on Category {
+            name
+            description
+            seo {
+              metaDescription
+            }
+          }
+        }
+      }
+    }
+  }
+`
 
 export default Page

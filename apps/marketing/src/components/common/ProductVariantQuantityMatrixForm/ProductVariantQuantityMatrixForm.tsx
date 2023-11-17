@@ -21,8 +21,8 @@ interface ProductSize {
 
 interface Variant {
   catalogProductVariantId: string
-  sizeName: string | null
-  colorName: string | null
+  sizeName: string | null | undefined
+  colorName: string | null | undefined
   catalogProductSizeId: string | null
   catalogProductColorId: string | null
 }
@@ -149,7 +149,7 @@ const ProductVariantQuantityMatrixForm = <
       {showColorOptions ? (
         <>
           <ul className="flex flex-wrap gap-1">
-            <AnimatePresence>
+            <AnimatePresence initial={false}>
               {colors
                 .filter(
                   color =>

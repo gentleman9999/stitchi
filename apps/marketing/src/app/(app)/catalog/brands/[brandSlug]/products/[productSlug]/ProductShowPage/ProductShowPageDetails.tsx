@@ -1,4 +1,3 @@
-import { gql } from '@apollo/client'
 import { ProductShowPageDetailsProductFragment } from '@generated/ProductShowPageDetailsProductFragment'
 import routes from '@lib/routes'
 import Link from 'next/link'
@@ -7,14 +6,24 @@ import cx from 'classnames'
 import styles from './ProductShowPageDetails.module.css'
 import Button from '@components/ui/Button'
 import { ChevronDown, ChevronUp } from 'icons'
+import { useFragment } from '@apollo/experimental-nextjs-app-support/ssr'
+import { fragments } from './ProductShowPageDetails.fragments'
 
 const MIN_HEIGHT = 300
 
 interface Props {
-  product: ProductShowPageDetailsProductFragment
+  productId: string
 }
 
-const ProductShowPageDetails = ({ product }: Props) => {
+const ProductShowPageDetails = ({ productId }: Props) => {
+  const { data: product } = useFragment<ProductShowPageDetailsProductFragment>({
+    fragment: fragments.product,
+    fragmentName: 'ProductShowPageDetailsProductFragment',
+    from: {
+      __typename: 'Product',
+      id: productId,
+    },
+  })
   const [ref, setRef] = React.useState<HTMLDivElement | null>(null)
   const [expanded, setExpanded] = React.useState(false)
 
@@ -73,7 +82,7 @@ const ProductShowPageDetails = ({ product }: Props) => {
                 <tr className="border-y">
                   <td>Brand</td>
                   <td className="flex justify-end py-2">
-                    {product.brand ? (
+                    {product.brand?.path ? (
                       <Link
                         href={routes.internal.catalog.brand.show.href({
                           brandSlug: product.brand.path.replace('/', ''),
@@ -91,7 +100,7 @@ const ProductShowPageDetails = ({ product }: Props) => {
                   <td>Categories</td>
                   <td className="flex justify-end pl-8 py-2">
                     <div className="flex flex-wrap justify-end">
-                      {product.categories.edges
+                      {product.categories?.edges
                         ?.map(edge => edge?.node)
                         .map((category, i) =>
                           category?.path ? (
@@ -113,7 +122,7 @@ const ProductShowPageDetails = ({ product }: Props) => {
                                 {category?.name}
                               </Link>
                               {i !==
-                              (product.categories.edges?.length || 0) - 1 ? (
+                              (product.categories?.edges?.length || 0) - 1 ? (
                                 <span className="mx-1">/</span>
                               ) : null}
                             </span>
@@ -126,13 +135,15 @@ const ProductShowPageDetails = ({ product }: Props) => {
             </table>
           </div>
 
-          <div
-            dangerouslySetInnerHTML={{ __html: product.description }}
-            className={cx(
-              'prose prose-sm max-w-none col-span-12 sm:col-span-6 lg:col-span-8 prose-h2:text-lg',
-              styles.description,
-            )}
-          />
+          {product.description ? (
+            <div
+              dangerouslySetInnerHTML={{ __html: product.description }}
+              className={cx(
+                'prose prose-sm max-w-none col-span-12 sm:col-span-6 lg:col-span-8 prose-h2:text-lg',
+                styles.description,
+              )}
+            />
+          ) : null}
         </div>
       </div>
 

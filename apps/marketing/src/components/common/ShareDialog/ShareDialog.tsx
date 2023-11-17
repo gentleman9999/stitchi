@@ -9,17 +9,16 @@ import React from 'react'
 interface Props {
   open: boolean
   onClose: () => void
+  href?: string
 }
 
 const ShareDialog = (props: Props) => {
   const [copied, setCopied] = React.useState(false)
 
-  if (typeof window === 'undefined') {
-    return null
-  }
+  const href = props.href || window.location.href
 
   const handleCopy = () => {
-    const success = copy(window.location.href)
+    const success = copy(href)
 
     if (success) {
       setCopied(true)
@@ -38,13 +37,13 @@ const ShareDialog = (props: Props) => {
         </div>
       </Dialog.Title>
       <Dialog.Content>
-        <div className="flex gap-2 items-center">
-          <TextField readOnly value={window.location.href} className="flex-1" />
+        <div className="flex gap-2 items-stretch">
+          <TextField readOnly value={href} className="flex-1" />
           <Button
-            size="sm"
             color="brandPrimary"
             endIcon={!copied && <Link width={16} height={16} strokeWidth={2} />}
             onClick={handleCopy}
+            className="!max-h-none"
           >
             {copied ? 'Copied!' : 'Copy'}
           </Button>

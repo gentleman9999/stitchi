@@ -11,33 +11,43 @@ import { makeProductTitle } from '@lib/utils/catalog'
 import { CatalogProductCustomizeInput } from '@generated/globalTypes'
 import { notEmpty } from '@lib/utils/typescript'
 import { ProductShowPageHeroProductFragment } from '@generated/types'
+import { useFragment } from '@apollo/experimental-nextjs-app-support/ssr'
+import { fragments } from './ProductShowPageHero.fragments'
 
 interface Props {
-  product: ProductShowPageHeroProductFragment
+  productId: string
 }
 
-const ProductShowPageHero = ({ product }: Props) => {
+const ProductShowPageHero = ({ productId }: Props) => {
   const logger = useLogger()
   const router = useRouter()
-  const { colors } = useProductOptions({ productId: product.id })
+  const { data: product } = useFragment<ProductShowPageHeroProductFragment>({
+    fragment: fragments.product,
+    fragmentName: 'ProductShowPageHeroProductFragment',
+    from: {
+      __typename: 'Product',
+      id: productId,
+    },
+  })
+  const { colors } = useProductOptions({ productId })
   const [handleCustomize] = useCustomizeProduct()
   const [activeVariantId, setActiveVariantId] = React.useState<string | null>(
     null,
   )
 
   const variants =
-    product.variants.edges
+    product.variants?.edges
       ?.map(edge => edge?.node)
       .map(node => {
-        const size = node?.options.edges?.find(
-          edge => edge?.node.displayName === 'Size',
-        )?.node.values.edges?.[0]?.node
+        const size = node?.options?.edges?.find(
+          edge => edge?.node?.displayName === 'Size',
+        )?.node?.values?.edges?.[0]?.node
 
-        const color = node?.options.edges?.find(
-          edge => edge?.node.displayName === 'Color',
-        )?.node.values.edges?.[0]?.node
+        const color = node?.options?.edges?.find(
+          edge => edge?.node?.displayName === 'Color',
+        )?.node?.values?.edges?.[0]?.node
 
-        if (!size || !color) return null
+        if (!size?.entityId || !color?.entityId || !node?.entityId) return null
 
         return {
           catalogProductVariantId: node?.entityId.toString(),
@@ -54,34 +64,34 @@ const ProductShowPageHero = ({ product }: Props) => {
 
     for (const color of data.colors) {
       for (const size of color.sizes) {
-        const foundVariant = product.variants.edges
+        const foundVariant = product.variants?.edges
           ?.map(edge => edge?.node)
           .find(variant => {
-            const colorOptionValues = variant?.options.edges
+            const colorOptionValues = variant?.options?.edges
               ?.map(edge => edge?.node)
               .find(option => option?.displayName === 'Color')
-              ?.values.edges?.map(edge => edge?.node)
+              ?.values?.edges?.map(edge => edge?.node)
               .filter(notEmpty)
 
-            const sizeOptionValues = variant?.options.edges
+            const sizeOptionValues = variant?.options?.edges
               ?.map(edge => edge?.node)
               .find(option => option?.displayName === 'Size')
-              ?.values.edges?.map(edge => edge?.node)
+              ?.values?.edges?.map(edge => edge?.node)
               .filter(notEmpty)
 
             return (
               colorOptionValues?.find(
                 value =>
-                  value?.entityId.toString() === color.catalogProductColorId,
+                  value?.entityId?.toString() === color.catalogProductColorId,
               ) &&
               sizeOptionValues?.find(
                 value =>
-                  value?.entityId.toString() === size.catalogSizeEntityId,
+                  value?.entityId?.toString() === size.catalogSizeEntityId,
               )
             )
           })
 
-        if (foundVariant) {
+        if (foundVariant?.entityId) {
           serializedItems.push({
             catalogProductVariantId: foundVariant.entityId.toString(),
             quantity: size.quantity || 0,
@@ -92,24 +102,30 @@ const ProductShowPageHero = ({ product }: Props) => {
 
     const productTitle = makeProductTitle(product)
 
-    const { designRequest, order } = await handleCustomize({
-      catalogProductId: product.entityId.toString(),
-      name: productTitle,
-      description: data.designBrief,
-      items: serializedItems,
-      fileIds: data.fileIds,
-      addons: data.customizations
-        .filter(c => c.selected === true)
-        .map(c => ({
-          name: c.name,
-          type: c.type,
-        })),
-    })
+    let designRequest
 
-    track.productPrimaryCtaClicked({
-      name: productTitle,
-      productId: product.entityId.toString(),
-    })
+    if (product.entityId) {
+      const res = await handleCustomize({
+        catalogProductId: product.entityId.toString(),
+        name: productTitle,
+        description: data.designBrief,
+        items: serializedItems,
+        fileIds: data.fileIds,
+        addons: data.customizations
+          .filter(c => c.selected === true)
+          .map(c => ({
+            name: c.name,
+            type: c.type,
+          })),
+      })
+
+      designRequest = res.designRequest
+
+      track.productPrimaryCtaClicked({
+        name: productTitle,
+        productId: product.entityId.toString(),
+      })
+    }
 
     if (!designRequest) {
       logger.error('Invariant error: designRequest is null')
@@ -141,30 +157,33 @@ const ProductShowPageHero = ({ product }: Props) => {
         <div className="flex-1 z-0">
           <div className={`w-full sticky top-topbar-height`}>
             <CatalogProductVariantPreview
-              product={product}
+              productId={productId}
               activeVariantId={activeVariantId}
             />
           </div>
         </div>
         <div className="flex-1 z-10 sm:max-w-2xl ml-auto shrink">
-          <ProductForm
-            product={product}
-            onSubmit={handleSubmit}
-            onActiveColorChange={colorId => {
-              setActiveVariantId(
-                variants.find(
-                  variant => variant.catalogProductColorId === colorId,
-                )?.catalogProductVariantId || null,
-              )
-            }}
-            colors={colors.map(color => ({
-              id: color.entityId.toString(),
-              catalogProductColorId: color.entityId.toString(),
-              hex: color.hexColors[0],
-              name: color.label,
-            }))}
-            variants={variants}
-          />
+          {product.entityId ? (
+            <ProductForm
+              productEntityId={product.entityId?.toString()}
+              productId={productId}
+              onSubmit={handleSubmit}
+              onActiveColorChange={colorId => {
+                setActiveVariantId(
+                  variants.find(
+                    variant => variant.catalogProductColorId === colorId,
+                  )?.catalogProductVariantId || null,
+                )
+              }}
+              colors={colors.map(color => ({
+                id: color.entityId.toString(),
+                catalogProductColorId: color.entityId.toString(),
+                hex: color.hexColors[0],
+                name: color.label,
+              }))}
+              variants={variants}
+            />
+          ) : null}
         </div>
       </div>
     </div>
