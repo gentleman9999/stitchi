@@ -1,6 +1,6 @@
 'use client'
 
-import { gql, useQuery } from '@apollo/client'
+import { gql } from '@apollo/client'
 import { Card, CardContent, CardFloatingActions } from '@components/ui/Card'
 import Tooltip from '@components/ui/Tooltip'
 import {
@@ -13,6 +13,7 @@ import { formatDistanceToNow } from 'date-fns'
 import React from 'react'
 import BrandFilesForm from './BrandFilesForm'
 import useClosetBrandIndexPageFiles from './useClosetBrandIndexPageFiles'
+import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 
 interface Props {}
 
@@ -21,7 +22,7 @@ const ClosetBrandIndexPageFiles = ({}: Props) => {
   const { handleCreateFiles, handleDeleteFiles } =
     useClosetBrandIndexPageFiles()
 
-  const { data, loading } = useQuery<
+  const { data } = useSuspenseQuery<
     ClosetBrandIndexPageFilesQuery,
     ClosetBrandIndexPageFilesQueryVariables
   >(GET_DATA, {
@@ -41,10 +42,10 @@ const ClosetBrandIndexPageFiles = ({}: Props) => {
   )
 
   React.useEffect(() => {
-    if (!loading && !files.length && !showBrandFilesForm) {
+    if (!files.length && !showBrandFilesForm) {
       setShowBrandFilesForm(true)
     }
-  }, [files.length, loading, showBrandFilesForm])
+  }, [files.length, showBrandFilesForm])
 
   return (
     <div className="flex flex-col gap-4">

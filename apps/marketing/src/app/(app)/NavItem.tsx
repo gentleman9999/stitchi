@@ -47,7 +47,7 @@ const NavItem = ({
       href={href}
       target={external ? '_blank' : undefined}
       className={cx(
-        'hover:bg-gray-50 rounded-md p-2 w-full text-sm font-medium flex items-center gap-2 text-gray-500 transition-all',
+        'hover:bg-gray-50 rounded-md p-2 w-full text-sm font-medium flex items-center gap-2 text-gray-700 transition-all',
         {
           'bg-gray-50 ring-1 ring-gray-200': active,
         },

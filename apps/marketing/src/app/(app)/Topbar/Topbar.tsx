@@ -32,7 +32,7 @@ const Topbar = async (props: Props) => {
           </Link>
         </div>
 
-        <ul className="flex gap-4">
+        <ul className="flex gap-4 items-center">
           <Item>
             <NotificationsButton />
           </Item>
@@ -73,7 +73,7 @@ const Topbar = async (props: Props) => {
 }
 
 const Item = ({ children }: { children: React.ReactNode }) => {
-  return <li className="flex">{children}</li>
+  return <li>{children}</li>
 }
 
 export default Topbar
