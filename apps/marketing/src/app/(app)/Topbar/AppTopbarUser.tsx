@@ -31,16 +31,7 @@ const AppTopbarUser = ({}: Props) => {
   const { humanizedRole, user, organization } = data.viewer || {}
 
   if (!user || !organization) {
-    return (
-      <div className="flex items-center gap-4">
-        <NavItem href={routes.internal.login.href()} label="Login" />
-        <NavItem
-          href={routes.internal.signup.href()}
-          label="Sign up"
-          className="ring-2 ring-gray-900 rounded-sm px-2 whitespace-nowrap"
-        />
-      </div>
-    )
+    return null
   }
 
   return (

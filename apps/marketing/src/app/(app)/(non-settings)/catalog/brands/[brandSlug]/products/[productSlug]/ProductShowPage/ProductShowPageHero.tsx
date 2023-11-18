@@ -11,25 +11,16 @@ import { makeProductTitle } from '@lib/utils/catalog'
 import { CatalogProductCustomizeInput } from '@generated/globalTypes'
 import { notEmpty } from '@lib/utils/typescript'
 import { ProductShowPageHeroProductFragment } from '@generated/types'
-import { useFragment } from '@apollo/experimental-nextjs-app-support/ssr'
-import { fragments } from './ProductShowPageHero.fragments'
 
 interface Props {
-  productId: string
+  product: ProductShowPageHeroProductFragment
 }
 
-const ProductShowPageHero = ({ productId }: Props) => {
+const ProductShowPageHero = ({ product }: Props) => {
   const logger = useLogger()
   const router = useRouter()
-  const { data: product } = useFragment<ProductShowPageHeroProductFragment>({
-    fragment: fragments.product,
-    fragmentName: 'ProductShowPageHeroProductFragment',
-    from: {
-      __typename: 'Product',
-      id: productId,
-    },
-  })
-  const { colors } = useProductOptions({ productId })
+
+  const { colors } = useProductOptions({ productId: product.id })
   const [handleCustomize] = useCustomizeProduct()
   const [activeVariantId, setActiveVariantId] = React.useState<string | null>(
     null,
@@ -158,7 +149,7 @@ const ProductShowPageHero = ({ productId }: Props) => {
           <div className="flex-1 z-0">
             <div className={`w-full sticky top-topbar-height`}>
               <CatalogProductVariantPreview
-                productId={productId}
+                productId={product.id}
                 activeVariantId={activeVariantId}
               />
             </div>
@@ -167,7 +158,7 @@ const ProductShowPageHero = ({ productId }: Props) => {
             {product.entityId ? (
               <ProductForm
                 productEntityId={product.entityId?.toString()}
-                productId={productId}
+                productId={product.id}
                 onSubmit={handleSubmit}
                 onActiveColorChange={colorId => {
                   setActiveVariantId(

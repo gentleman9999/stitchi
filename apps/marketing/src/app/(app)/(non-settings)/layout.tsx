@@ -13,6 +13,7 @@ import {
   RectangleStackIcon,
 } from '@heroicons/react/24/outline'
 import NavItem from '../NavItem'
+import CatalogNavItem from './CatalogNavItem'
 
 interface Props {
   children: React.ReactNode
@@ -33,11 +34,7 @@ const Layout = ({ children }: Props) => {
             />
           </AuthorizedComponent>
 
-          <NavItem
-            label="Catalog"
-            href={routes.internal.catalog.href()}
-            icon={<SwatchIcon className="w-4 h-4" />}
-          />
+          <CatalogNavItem />
 
           <NavigationGroup
             icon={<PaintBrushIcon className="w-4 h-4" />}

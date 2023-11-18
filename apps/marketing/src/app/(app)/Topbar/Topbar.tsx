@@ -11,10 +11,13 @@ import Link from 'next/link'
 import NotificationsButton from './NotificationsButton'
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
 import AppTopbarUser from './AppTopbarUser'
+import { getSession } from '@auth0/nextjs-auth0'
+import SupportButton from './SupportButton'
 
 interface Props {}
 
-const Topbar = (props: Props) => {
+const Topbar = async (props: Props) => {
+  const session = await getSession()
   return (
     <nav className="fixed top-0 bg-paper w-full z-10 h-topbar-height border-b flex items-center">
       <Container className="max-w-none flex items-center justify-between py-2">
@@ -36,20 +39,34 @@ const Topbar = (props: Props) => {
           </Item>
 
           <Item>
-            <Button
-              variant="ghost"
-              Component={Link}
-              href={routes.external.support.href()}
-              startIcon={<QuestionMarkCircleIcon className="w-4 h-4" />}
-              {...{ target: '_blank' }}
-            >
-              Support
-            </Button>
+            <SupportButton />
           </Item>
-
-          <Item>
-            <AppTopbarUser />
-          </Item>
+          {session ? (
+            <Item>
+              <AppTopbarUser />
+            </Item>
+          ) : (
+            <>
+              <Item>
+                <Button
+                  variant="ghost"
+                  Component={Link}
+                  href={routes.internal.login.href()}
+                >
+                  Login
+                </Button>
+              </Item>
+              <Item>
+                <Button
+                  color="brandPrimary"
+                  Component={Link}
+                  href={routes.internal.signup.href()}
+                >
+                  Sign up
+                </Button>
+              </Item>
+            </>
+          )}
         </ul>
       </Container>
     </nav>

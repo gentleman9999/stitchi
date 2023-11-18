@@ -12,7 +12,10 @@ export const fragments = {
       ...CatalogProductVariantPreviewProductFragment
       ...ProductFormProductFragment
       ...UseProductColorsProductFragment
-
+      id
+      entityId
+      name
+      path
       variants(first: $variantsFirst) {
         edges {
           node {
@@ -36,11 +39,6 @@ export const fragments = {
           }
         }
       }
-
-      id
-      entityId
-      name
-      path
     }
   `,
 }

@@ -112,7 +112,7 @@ const ProductShowPage = ({ path }: Props) => {
         </div>
       </div>
 
-      <ProductShowPageHero productId={product.id} />
+      <ProductShowPageHero product={product} />
 
       <Divider />
 

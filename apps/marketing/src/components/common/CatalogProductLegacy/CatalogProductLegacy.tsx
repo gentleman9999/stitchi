@@ -51,9 +51,9 @@ const CatalogProductLegacy = ({ priority, productId }: Props) => {
     <li className="flex flex-col w-full">
       <Link
         href={href}
-        className="flex-1 flex flex-col cursor-pointer rounded-lg    hover:shadow-lg transition-all bg-paper"
+        className="group flex-1 flex flex-col cursor-pointer rounded-lg overflow-hidden hover:shadow-lg transition-all bg-paper"
       >
-        <div className="relative w-full h-[320px] flex items-center justify-center">
+        <div className="relative w-full h-[320px] flex items-center justify-center rounded-lg group-hover:rounded-none overflow-hidden">
           {product?.defaultImage?.url ? (
             <Image
               priority={priority}

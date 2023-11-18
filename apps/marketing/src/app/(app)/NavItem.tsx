@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import React from 'react'
 import cx from 'classnames'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSelectedLayoutSegments } from 'next/navigation'
 
 export interface NavItem {
   href: string
@@ -15,6 +15,7 @@ export interface NavItem {
   external?: boolean
   onClick?: () => void
   indicator?: boolean
+  activeOverride?: boolean
 }
 
 const NavItem = ({
@@ -25,12 +26,16 @@ const NavItem = ({
   indicator,
   hidden,
   LinkComponent = Link,
+  activeOverride,
   ...rest
 }: NavItem) => {
   const pathname = usePathname()
   const external = 'external' in rest && rest.external
 
-  const active = pathname?.startsWith(href)
+  const active =
+    typeof activeOverride !== 'undefined'
+      ? activeOverride
+      : pathname?.startsWith(href)
 
   if (hidden) {
     return null
