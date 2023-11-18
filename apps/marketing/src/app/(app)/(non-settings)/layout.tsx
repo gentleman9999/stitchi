@@ -30,14 +30,14 @@ const Layout = ({ children }: Props) => {
             <NavItem
               label="Dashboard"
               href={routes.internal.closet.dashboard.href()}
-              icon={<HomeIcon className="w-4 h-4" />}
+              icon={<HomeIcon className="w-5 h-5" />}
             />
           </AuthorizedComponent>
 
           <CatalogNavItem />
 
           <NavigationGroup
-            icon={<PaintBrushIcon className="w-4 h-4" />}
+            icon={<PaintBrushIcon className="w-5 h-5" />}
             label="Design"
             paths={[
               routes.internal.closet.designs.href(),
@@ -69,7 +69,7 @@ const Layout = ({ children }: Props) => {
           >
             <NavigationGroup
               label="Production"
-              icon={<RectangleStackIcon className="w-4 h-4" />}
+              icon={<RectangleStackIcon className="w-5 h-5" />}
               paths={[
                 routes.internal.closet.inventory.href(),
                 routes.internal.closet.orders.href(),
@@ -102,7 +102,7 @@ const Layout = ({ children }: Props) => {
           <NavItem
             label="Settings"
             href={routes.internal.closet.settings.general.href()}
-            icon={<Cog8ToothIcon className="w-4 h-4" />}
+            icon={<Cog8ToothIcon className="w-5 h-5" />}
           />
 
           <AuthorizedComponent

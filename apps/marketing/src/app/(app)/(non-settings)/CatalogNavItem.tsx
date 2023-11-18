@@ -1,4 +1,5 @@
 'use client'
+
 import React from 'react'
 import NavItem from '../NavItem'
 import routes from '@lib/routes'
@@ -19,7 +20,7 @@ const CatalogNavItem = () => {
       activeOverride={active}
       label="Catalog"
       href={routes.internal.catalog.href()}
-      icon={<SwatchIcon className="w-4 h-4" />}
+      icon={<SwatchIcon className="w-5 h-5" />}
     />
   )
 }

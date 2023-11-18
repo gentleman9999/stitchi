@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import React from 'react'
 import cx from 'classnames'
-import { usePathname, useSelectedLayoutSegments } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
 export interface NavItem {
   href: string
@@ -56,7 +56,7 @@ const NavItem = ({
       <div className="w-5 h-5 inline-flex items-center justify-center">
         {icon}
       </div>
-      <div className="relative">
+      <div className={cx('relative')}>
         {label}
         {indicator && (
           <div className="absolute top-0 -right-3 w-2 h-2 bg-primary rounded-full" />

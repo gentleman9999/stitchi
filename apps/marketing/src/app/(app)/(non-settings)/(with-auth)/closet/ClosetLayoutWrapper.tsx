@@ -8,7 +8,7 @@ interface Props {
 
 const ClosetLayoutWrapper = (props: Props) => {
   return (
-    <div className={`md:pl-64`}>
+    <div className={`md:pl-60`}>
       <ClosetLayoutWrapperPanel>
         <div className="flex flex-col gap-1 p-2 h-full">{props.navigation}</div>
       </ClosetLayoutWrapperPanel>

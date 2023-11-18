@@ -4,8 +4,6 @@ import { notEmpty } from '@lib/utils/typescript'
 import Image from 'next/image'
 import React from 'react'
 import dynamic from 'next/dynamic'
-import { useFragment } from '@apollo/experimental-nextjs-app-support/ssr'
-import { fragments } from './CatalogProductVariantPreview.fragments'
 
 const ImageFullScreenBase = dynamic(
   () => import('../ImageFullScreen').then(mod => mod.ImageFullScreenBase),
@@ -15,23 +13,11 @@ const ImageFullScreenBase = dynamic(
 )
 
 interface Props {
-  productId: string
+  product: CatalogProductVariantPreviewProductFragment
   activeVariantId?: string | null
 }
 
-const CatalogProductVariantPreview = ({
-  productId,
-  activeVariantId,
-}: Props) => {
-  const { data: product } =
-    useFragment<CatalogProductVariantPreviewProductFragment>({
-      fragment: fragments.product,
-      fragmentName: 'CatalogProductVariantPreviewProductFragment',
-      from: {
-        __typename: 'Product',
-        id: productId,
-      },
-    })
+const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
   const [showFullScreen, setShowFullScreen] = React.useState<boolean>(false)
   const [activeSecondaryImage, setActiveSecondaryImage] = React.useState<{
     url: string

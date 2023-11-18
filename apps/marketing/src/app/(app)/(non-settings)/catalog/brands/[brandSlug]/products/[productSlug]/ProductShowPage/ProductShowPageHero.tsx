@@ -149,7 +149,7 @@ const ProductShowPageHero = ({ product }: Props) => {
           <div className="flex-1 z-0">
             <div className={`w-full sticky top-topbar-height`}>
               <CatalogProductVariantPreview
-                productId={product.id}
+                product={product}
                 activeVariantId={activeVariantId}
               />
             </div>

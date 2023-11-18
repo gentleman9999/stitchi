@@ -165,10 +165,14 @@ const ProductForm = (props: ProductFormProps) => {
     createQuote({
       addons,
       items: colors.flatMap(color =>
-        color.sizes.map(size => ({
-          catalogProductVariantId: size.catalogProductVariantId,
-          quantity: size.quantity || 0,
-        })),
+        color.sizes
+          .map(size => ({
+            catalogProductVariantId: size.catalogProductVariantId,
+            quantity: size.quantity || 0,
+          }))
+          .filter(
+            item => item.quantity > 0 && Boolean(item.catalogProductVariantId),
+          ),
       ),
     })
   }, [totalQuantity, colors, createQuote, addons])
