@@ -12,6 +12,7 @@ import NotificationsButton from './NotificationsButton'
 import AppTopbarUser from './AppTopbarUser'
 import { getSession } from '@auth0/nextjs-auth0'
 import SupportButton from './SupportButton'
+import cx from 'classnames'
 
 interface Props {}
 
@@ -32,14 +33,19 @@ const Topbar = async (props: Props) => {
           </Link>
         </div>
 
-        <ul className="flex gap-4 items-center">
+        <ul className="flex gap-2 sm:gap-4 items-center">
           <Item>
             <NotificationsButton />
           </Item>
 
-          <Item>
+          <Item
+            className={cx('hidden sm:block', {
+              block: session,
+            })}
+          >
             <SupportButton />
           </Item>
+
           {session ? (
             <Item>
               <AppTopbarUser />
@@ -72,8 +78,14 @@ const Topbar = async (props: Props) => {
   )
 }
 
-const Item = ({ children }: { children: React.ReactNode }) => {
-  return <li>{children}</li>
+const Item = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode
+  className?: string
+}) => {
+  return <li className={className}>{children}</li>
 }
 
 export default Topbar

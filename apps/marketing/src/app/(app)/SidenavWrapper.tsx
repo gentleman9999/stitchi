@@ -1,12 +1,12 @@
 import React from 'react'
-import ClosetLayoutWrapperPanel from './ClosetLayoutWrapperPanel'
+import ClosetLayoutWrapperPanel from './SidenavPanel'
 
 interface Props {
   navigation: React.ReactNode
   children: React.ReactNode
 }
 
-const ClosetLayoutWrapper = (props: Props) => {
+const SidenavWrapper = (props: Props) => {
   return (
     <div className={`md:pl-60`}>
       <ClosetLayoutWrapperPanel>
@@ -22,4 +22,4 @@ const ClosetLayoutWrapper = (props: Props) => {
   )
 }
 
-export default ClosetLayoutWrapper
+export default SidenavWrapper

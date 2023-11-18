@@ -1,7 +1,5 @@
-import NavItem from 'app/(app)/Topbar/NavItem'
 import routes from '@lib/routes'
 import React from 'react'
-import ClosetLayoutWrapper from '../(non-settings)/(with-auth)/closet/ClosetLayoutWrapper'
 import {
   ArrowLeftIcon,
   PuzzlePieceIcon,
@@ -9,13 +7,15 @@ import {
   UsersIcon,
 } from '@heroicons/react/20/solid'
 import Link from 'next/link'
+import SidenavWrapper from '../SidenavWrapper'
+import NavItem from '../NavItem'
 
 interface Props {
   children: React.ReactNode
 }
 const Layout = ({ children }: Props) => {
   return (
-    <ClosetLayoutWrapper
+    <SidenavWrapper
       navigation={
         <>
           <Link
@@ -51,7 +51,7 @@ const Layout = ({ children }: Props) => {
       }
     >
       {children}
-    </ClosetLayoutWrapper>
+    </SidenavWrapper>
   )
 }
 

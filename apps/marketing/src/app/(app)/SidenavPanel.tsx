@@ -2,13 +2,13 @@
 
 import React from 'react'
 import cx from 'classnames'
-import { useAppLayoutContext } from '../../../app-layout-context'
+import { useAppLayoutContext } from './app-layout-context'
 
 interface Props {
   children: React.ReactNode
 }
 
-const ClosetLayoutWrapperPanel = (props: Props) => {
+const SidenavPanel = (props: Props) => {
   const { sidebarOpen } = useAppLayoutContext()
 
   return (
@@ -23,4 +23,4 @@ const ClosetLayoutWrapperPanel = (props: Props) => {
   )
 }
 
-export default ClosetLayoutWrapperPanel
+export default SidenavPanel

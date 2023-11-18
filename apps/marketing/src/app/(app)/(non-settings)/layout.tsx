@@ -3,10 +3,8 @@ import { AuthorizedComponent } from '@lib/auth-rsc'
 import routes from '@lib/routes'
 import React from 'react'
 import InviteMemberButton from './InviteMemberButton'
-import ClosetLayoutWrapper from './(with-auth)/closet/ClosetLayoutWrapper'
 import NavigationGroup from './NavigationGroup'
 import {
-  SwatchIcon,
   Cog8ToothIcon,
   HomeIcon,
   PaintBrushIcon,
@@ -14,13 +12,14 @@ import {
 } from '@heroicons/react/24/outline'
 import NavItem from '../NavItem'
 import CatalogNavItem from './CatalogNavItem'
+import SidenavWrapper from '../SidenavWrapper'
 
 interface Props {
   children: React.ReactNode
 }
 const Layout = ({ children }: Props) => {
   return (
-    <ClosetLayoutWrapper
+    <SidenavWrapper
       navigation={
         <>
           <AuthorizedComponent
@@ -118,7 +117,7 @@ const Layout = ({ children }: Props) => {
       }
     >
       {children}
-    </ClosetLayoutWrapper>
+    </SidenavWrapper>
   )
 }
 
