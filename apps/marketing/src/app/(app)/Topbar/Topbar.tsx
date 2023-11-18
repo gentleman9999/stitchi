@@ -9,7 +9,6 @@ import routes from '@lib/routes'
 import Link from 'next/link'
 
 import NotificationsButton from './NotificationsButton'
-import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
 import AppTopbarUser from './AppTopbarUser'
 import { getSession } from '@auth0/nextjs-auth0'
 import SupportButton from './SupportButton'

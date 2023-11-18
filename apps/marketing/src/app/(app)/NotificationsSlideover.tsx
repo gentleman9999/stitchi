@@ -84,7 +84,7 @@ const SlideOverData = () => {
       pageInfo.hasNextPage
     ) {
       startTransition(async () => {
-        await fetchMore({
+        fetchMore({
           variables: {
             after: pageInfo.endCursor,
           },
@@ -114,12 +114,12 @@ const SlideOverData = () => {
 
             return (
               <Notification
+                key={notification.id}
                 notification={{
                   createdAt: notification.createdAt,
                   notificationId: notification.id,
                   ...channel,
                 }}
-                key={notification.id}
               />
             )
           })}
