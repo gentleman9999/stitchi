@@ -154,7 +154,7 @@ const ProductShowPageHero = ({ product }: Props) => {
               />
             </div>
           </div>
-          <div className="flex-1 z-10 @2lg:max-w-2xl ml-auto shrink">
+          <div className="flex-1 z-10 @2lg:max-w-2xl ml-auto shrink w-full">
             {product.entityId ? (
               <ProductForm
                 productEntityId={product.entityId?.toString()}

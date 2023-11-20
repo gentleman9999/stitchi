@@ -186,75 +186,73 @@ const ProductVariantQuantityMatrixForm = <
 
       {colorFields.fields.length > 0 ? (
         <>
-          <div className="flex overflow-x-auto">
-            <div className="w-full overflow-x-auto">
-              <div
-                className="grid grid-flow-row"
-                style={{
-                  gridTemplateColumns: `1fr repeat(${sizes.length}, 60px)${
-                    showColorOptions ? ' 24px' : ''
-                  }`,
-                }}
-              >
-                <div className="sticky left-0 "></div>
-                {sizes.length ? (
-                  sizes.map(size => (
-                    <div
-                      key={size.sizeId}
-                      className="text-center text-sm whitespace-nowrap"
-                    >
-                      {size.label}
-                    </div>
-                  ))
-                ) : (
-                  <div className="text-center text-sm">Quantity</div>
-                )}
+          <div className="w-full overflow-x-scroll">
+            <div
+              className="grid grid-flow-row"
+              style={{
+                gridTemplateColumns: `1fr repeat(${sizes.length}, 60px)${
+                  showColorOptions ? ' 24px' : ''
+                }`,
+              }}
+            >
+              <div className="sticky left-0 bg-white"></div>
+              {sizes.length ? (
+                sizes.map(size => (
+                  <div
+                    key={size.sizeId}
+                    className="text-center text-sm whitespace-nowrap"
+                  >
+                    {size.label}
+                  </div>
+                ))
+              ) : (
+                <div className="text-center text-sm">Quantity</div>
+              )}
 
-                {/* Insert placeholder for "X" icon */}
-                {showColorOptions ? <div></div> : null}
+              {/* Insert placeholder for "X" icon */}
+              {showColorOptions ? <div></div> : null}
 
-                {colorFields.fields.map(({ catalogProductColorId }, index) => {
-                  const color = colors.find(
-                    color =>
-                      color.catalogProductColorId === catalogProductColorId,
-                  )
+              {colorFields.fields.map(({ catalogProductColorId }, index) => {
+                const color = colors.find(
+                  color =>
+                    color.catalogProductColorId === catalogProductColorId,
+                )
 
-                  if (!color) return null
+                if (!color) return null
 
-                  return (
-                    <React.Fragment key={color.id}>
-                      <div className="p-1 sticky left-0  flex">
-                        <div className="flex items-center text-xs">
-                          <ColorSwatch
-                            hexCode={color.hex || '#000'}
-                            label={color.name}
-                            onClick={() => {
-                              handleSwatchClick(color)
-                            }}
-                          />
+                return (
+                  <React.Fragment key={color.id}>
+                    <div className="p-1 sticky left-0 flex bg-white">
+                      <div className="flex items-center text-xs">
+                        <ColorSwatch
+                          hexCode={color.hex || '#000'}
+                          label={color.name}
+                          onClick={() => {
+                            handleSwatchClick(color)
+                          }}
+                        />
 
-                          <span className="ml-1 w-full">{color.name}</span>
-                        </div>
+                        <span className="ml-1 w-full">{color.name}</span>
                       </div>
-                      <ColorSizesInput form={form} colorFieldIndex={index} />
+                    </div>
+                    <ColorSizesInput form={form} colorFieldIndex={index} />
 
-                      {showColorOptions ? (
-                        <div className="flex items-center">
-                          <button
-                            type="button"
-                            className="p-1 hover:bg-gray-100 rounded-sm"
-                            onClick={() =>
-                              handleRemoveColor({ catalogProductColorId })
-                            }
-                          >
-                            <XIcon className="w-4 h-4 text-gray-400" />
-                          </button>
-                        </div>
-                      ) : null}
-                    </React.Fragment>
-                  )
-                })}
-              </div>
+                    {showColorOptions ? (
+                      <div className="flex items-center">
+                        <button
+                          type="button"
+                          className="p-1 hover:bg-gray-100 rounded-sm"
+                          onClick={() =>
+                            handleRemoveColor({ catalogProductColorId })
+                          }
+                        >
+                          <XIcon className="w-4 h-4 text-gray-400" />
+                        </button>
+                      </div>
+                    ) : null}
+                  </React.Fragment>
+                )
+              })}
             </div>
           </div>
 
