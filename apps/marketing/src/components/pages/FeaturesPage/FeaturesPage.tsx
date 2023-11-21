@@ -2,7 +2,6 @@ import React from 'react'
 import { SectionHeader, Section } from '@components/common'
 import routes from '@lib/routes'
 import { notEmpty } from '@lib/utils/typescript'
-import { capitalize } from 'lodash-es'
 import cx from 'classnames'
 import { ChevronRightIcon, CheckCircleIcon } from '@heroicons/react/24/outline'
 import Container from '@components/ui/Container'
@@ -301,13 +300,13 @@ const FeaturesPage = () => {
                 <a
                   href={`#${value}`}
                   className={cx(
-                    `py-2 px-4 text-xs sm:text-sm md:text-base font-bold rounded-lg text-gray-400 whitespace-nowrap `,
+                    `capitalize py-2 px-4 text-xs sm:text-sm md:text-base font-bold rounded-lg text-gray-400 whitespace-nowrap `,
                     {
                       'bg-primary text-gray-950': activeSections === value,
                     },
                   )}
                 >
-                  {capitalize(value)}
+                  {value}
                 </a>
               </li>
               {index !== Object.entries(Sections).length - 1 ? (

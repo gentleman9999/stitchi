@@ -3825,6 +3825,34 @@ export interface FeatureGridRecord_seoMetaTagsArgs {
   locale?: InputMaybe<SiteLocale>;
 }
 
+/** Record of type Feature Index Page (feature_index_page) */
+export interface FeatureIndexPageRecord extends RecordInterface {
+  __typename: 'FeatureIndexPageRecord';
+  _createdAt: Scalars['DateTime']['output'];
+  /** Editing URL */
+  _editingUrl: Maybe<Scalars['String']['output']>;
+  _firstPublishedAt: Maybe<Scalars['DateTime']['output']>;
+  _isValid: Scalars['BooleanType']['output'];
+  _modelApiKey: Scalars['String']['output'];
+  _publicationScheduledAt: Maybe<Scalars['DateTime']['output']>;
+  _publishedAt: Maybe<Scalars['DateTime']['output']>;
+  /** Generates SEO and Social card meta tags to be used in your frontend */
+  _seoMetaTags: Array<Tag>;
+  _status: ItemStatus;
+  _unpublishingScheduledAt: Maybe<Scalars['DateTime']['output']>;
+  _updatedAt: Scalars['DateTime']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ItemId']['output'];
+  seoMetadata: Maybe<SeoField>;
+  updatedAt: Scalars['DateTime']['output'];
+}
+
+
+/** Record of type Feature Index Page (feature_index_page) */
+export interface FeatureIndexPageRecord_seoMetaTagsArgs {
+  locale?: InputMaybe<SiteLocale>;
+}
+
 export interface File {
   bytes: Scalars['Int']['output'];
   createdAt: Scalars['DateTime']['output'];
@@ -8661,6 +8689,8 @@ export interface Query {
   designProduct: Maybe<DesignProduct>;
   designProof: Maybe<DesignProof>;
   designRequest: Maybe<DesignRequest>;
+  /** Returns the single instance record */
+  featureIndexPage: Maybe<FeatureIndexPageRecord>;
   /** Returns a specific record */
   glossaryCategory: Maybe<GlossaryCategoryRecord>;
   /** Returns a specific record */
@@ -8955,6 +8985,12 @@ export interface QuerydesignProofArgs {
 
 export interface QuerydesignRequestArgs {
   id: Scalars['ID']['input'];
+}
+
+
+export interface QueryfeatureIndexPageArgs {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  locale?: InputMaybe<SiteLocale>;
 }
 
 
@@ -12075,6 +12111,11 @@ export type ClosetSettingsTeamPageGetDataQueryVariables = Exact<{ [key: string]:
 
 export type ClosetSettingsTeamPageGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, organization: { __typename: 'Organization', id: string, memberships: Array<{ __typename: 'Membership', id: string, createdAt: any, humanizedRole: string | null, invitedEmail: string | null, user: { __typename: 'User', id: string, name: string | null, email: string | null } | null }> } } | null };
 
+export type ClosetBaseLayoutGetDataQuery1Variables = Exact<{ [key: string]: never; }>;
+
+
+export type ClosetBaseLayoutGetDataQuery1 = { __typename: 'Query', viewer: { __typename: 'Membership', id: string } | null };
+
 export type NotificationsSlideoverGetDataQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
@@ -12447,6 +12488,11 @@ export type PromotionalProductGlossaryGetDataQueryVariables = Exact<{ [key: stri
 
 
 export type PromotionalProductGlossaryGetDataQuery = { __typename: 'Query', allGlossaryEntries: Array<{ __typename: 'GlossaryEntryRecord', id: any, slug: string | null, entryType: string | null, definition: string | null, term: string | null }> };
+
+export type FeaturesIndexPageGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FeaturesIndexPageGetDataQuery = { __typename: 'Query', featureIndexPage: { __typename: 'FeatureIndexPageRecord', id: any, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }> } | null };
 
 export type HomePageGetDataQueryVariables = Exact<{
   first: Scalars['IntType']['input'];
