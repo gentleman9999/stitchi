@@ -1,4 +1,3 @@
-import { Section } from '@components/common'
 import Button from '@components/ui/ButtonV2/Button'
 import Container from '@components/ui/Container'
 import routes from '@lib/routes'
@@ -8,15 +7,23 @@ import React from 'react'
 
 const ClosingCtaSection = () => {
   return (
-    <div className=" bg-gray-900">
-      <Container className="relative sm:text-center">
-        <Section gutter="lg">
-          <div className="bg-primary rounded-2xl p-6 sm:px-8 sm:py-20">
-            <p className="text-2xl sm:text-3xl font-semibold max-w-3xl md:text-center m-auto font-heading">
-              Turn your ideas into quality branded merchandise with a partner
-              you can rely on every step of the way.
+    <div
+      className=" bg-primary bg-cover bg-center bg-no-repeat lg:aspect-[2.3]"
+      style={{
+        backgroundImage: "url('/closing-cta-bg.png')",
+      }}
+    >
+      <Container className="relative sm:text-center flex items-center justify-center h-full">
+        <div className="py-10 md:py-28 lg:py-36 xl:p">
+          <div className="flex flex-col items-center gap-8 md:gap-10">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold max-w-3xl md:text-center m-auto font-heading">
+              There’s a better way
+            </h2>
+            <p className="text-lg md:text-xl max-w-sm sm:max-w-lg text-center">
+              Develop quality branded merchandise experiences with a partner you
+              can depend on at every step.
             </p>
-            <div className="mt-16 inline-block">
+            <div className="inline-block">
               <Link
                 href={routes.internal.getStarted.href()}
                 passHref
@@ -24,7 +31,7 @@ const ClosingCtaSection = () => {
               >
                 <Button Component="a" color="primary" bold shadow>
                   <div className="flex items-center group">
-                    Get started{' '}
+                    Create free account{' '}
                     <ArrowRight
                       strokeWidth="2"
                       className="ml-2 group-hover:translate-x-2 transition-all"
@@ -34,7 +41,7 @@ const ClosingCtaSection = () => {
               </Link>
             </div>
           </div>
-        </Section>
+        </div>
       </Container>
     </div>
   )
