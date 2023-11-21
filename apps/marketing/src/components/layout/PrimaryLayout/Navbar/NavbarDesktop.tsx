@@ -20,7 +20,7 @@ const NavbarDesktop = ({ anchorEl }: Props) => {
 
   return (
     <nav className="space-x-10">
-      <Link href={routes.internal.features.href()} passHref className={s.link}>
+      <Link href={routes.internal.solutions.href()} passHref className={s.link}>
         Solutions
       </Link>
 

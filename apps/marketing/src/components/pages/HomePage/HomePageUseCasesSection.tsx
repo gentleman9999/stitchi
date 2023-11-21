@@ -14,7 +14,7 @@ const useCases = [
       'Make your brand and ideas come to life with a professional promotional product designer at your disposal.',
     cta: {
       label: 'Work with designer',
-      href: routes.internal.features.design.href(),
+      href: routes.internal.solutions.design.href(),
     },
   },
   {
@@ -24,7 +24,7 @@ const useCases = [
       "Proactively meet your audience's demand without ever having to hire more people.",
     cta: {
       label: 'Scale limitlessly',
-      href: routes.internal.features.distribution.href(),
+      href: routes.internal.solutions.distribution.href(),
     },
   },
   {

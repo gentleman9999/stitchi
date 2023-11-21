@@ -12,19 +12,19 @@ const ValuePropositions = (props: Props) => {
         title="Free Design"
         description="Partner with a designer on our team to make your vision come to life."
         icon={<Sun width={22} height={22} />}
-        href={routes.internal.features.design.href()}
+        href={routes.internal.solutions.design.href()}
       />
       <ValueProposition
         title="$1 Fulfillment"
         description="We'll efficiently store, pack, and ship your merchandise providing you cost savings, convenience, and unlimited scalability."
         icon={<PaperPlane width={22} height={22} />}
-        href={routes.internal.features.distribution.href()}
+        href={routes.internal.solutions.distribution.href()}
       />
       <ValueProposition
         title="Sell instantly"
         description="Effortlessly integrate with any eCommerce platform to sell your merchandise."
         icon={<Bag width={22} height={22} />}
-        href={routes.internal.features.distribution.href()}
+        href={routes.internal.solutions.distribution.href()}
       />
     </ul>
   )

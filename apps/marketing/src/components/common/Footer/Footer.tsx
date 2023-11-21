@@ -33,7 +33,7 @@ const Footer = () => (
               <div className="flex flex-col gap-6">
                 <ListItem
                   label="Solutions"
-                  href={routes.internal.features.href()}
+                  href={routes.internal.solutions.href()}
                 />
                 <ListItem
                   label="Catalog"

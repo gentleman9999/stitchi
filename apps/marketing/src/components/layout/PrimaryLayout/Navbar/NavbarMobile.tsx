@@ -28,7 +28,7 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
       panelChildren={
         <>
           <div className={s.item}>
-            <Link href={routes.internal.features.href()}>
+            <Link href={routes.internal.solutions.href()}>
               <HeadlessPopover.Button className={s.link}>
                 Solutions
               </HeadlessPopover.Button>

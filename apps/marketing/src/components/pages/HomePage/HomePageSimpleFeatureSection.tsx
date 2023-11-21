@@ -33,7 +33,7 @@ const sections = [
         description: (
           <>
             Work one-on-one with an expert designer to{' '}
-            <LinkInline href={routes.internal.features.design.href()}>
+            <LinkInline href={routes.internal.solutions.design.href()}>
               create professional merch designs
             </LinkInline>{' '}
             (yes, it&apos;s free).
@@ -123,7 +123,7 @@ const sections = [
         description: (
           <>
             Have all of your inventory{' '}
-            <LinkInline href={routes.internal.features.distribution.href()}>
+            <LinkInline href={routes.internal.solutions.distribution.href()}>
               assembled, stored, and shipped
             </LinkInline>{' '}
             from a Stitchi fulfillment center to save money and time

@@ -89,6 +89,11 @@ module.exports = withBundleAnalyzer(
           permanent: false,
         },
         {
+          source: '/features',
+          destination: '/',
+          permanent: true,
+        },
+        {
           source: '/login',
           destination: '/api/auth/login',
           permanent: false,

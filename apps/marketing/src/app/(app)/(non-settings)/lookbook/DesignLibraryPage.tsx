@@ -98,7 +98,7 @@ const DesignLibraryPage = (props: Props) => {
               return (
                 <li key="cta" className="col-span-2 ">
                   <Link
-                    href={routes.internal.features.design.href()}
+                    href={routes.internal.solutions.design.href()}
                     className="flex flex-col items-center justify-center h-full bg-gray-100 rounded-md py-10 px-10 drop-shadow-md group"
                   >
                     <Customization className="w-12 h-12 text-primary" />

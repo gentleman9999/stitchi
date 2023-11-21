@@ -184,8 +184,16 @@ const routes = {
           ),
       },
     },
-    features: {
-      href: () => buildRoute('/features'),
+
+    solutions: {
+      href: () => buildRoute('/solutions'),
+
+      loyaltyPrograms: {
+        href: () => buildRoute('/loyalty-referral-programs'),
+      },
+      swagBox: {
+        href: () => buildRoute('/swag-bags-and-boxes'),
+      },
 
       design: {
         href: () => buildRoute('/promotional-product-design'),
@@ -195,14 +203,6 @@ const routes = {
       },
       distribution: {
         href: () => buildRoute('/promotional-product-distribution'),
-      },
-    },
-    solutions: {
-      loyaltyPrograms: {
-        href: () => buildRoute('/loyalty-referral-programs'),
-      },
-      swagBox: {
-        href: () => buildRoute('/swag-bags-and-boxes'),
       },
     },
     glossary: {

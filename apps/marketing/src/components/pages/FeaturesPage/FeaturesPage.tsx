@@ -42,7 +42,7 @@ const sectionItems: SectionType[] = [
         description: (
           <>
             Collaborate one-on-one with our expert designers to{' '}
-            <LinkInline href={routes.internal.features.design.href()}>
+            <LinkInline href={routes.internal.solutions.design.href()}>
               bring your vision to life
             </LinkInline>
             .
@@ -130,7 +130,7 @@ const sectionItems: SectionType[] = [
           <>
             Streamline your order process with efficient, cost-effective, and
             hands-free{' '}
-            <LinkInline href={routes.internal.features.distribution.href()}>
+            <LinkInline href={routes.internal.solutions.distribution.href()}>
               merch fulfillment services
             </LinkInline>
             .

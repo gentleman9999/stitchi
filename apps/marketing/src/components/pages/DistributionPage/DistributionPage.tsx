@@ -17,7 +17,7 @@ const DistributionPage = ({ catalog }: DistributionPageProps) => {
   return (
     <FeaturePageContainer
       canonicalUrl={makeAbsoluteUrl(
-        routes.internal.features.distribution.href(),
+        routes.internal.solutions.distribution.href(),
       )}
       seoTitle="Automated merch fulfillment, promotional product distribution"
       seoDescription="Stitchi provides easy-to-use, cost-effective solutions for automated merchandising distribution. We're the 'best in class' when it comes to all things promotional products. Say goodbye to manually packing and shipping thousands of orders each month."

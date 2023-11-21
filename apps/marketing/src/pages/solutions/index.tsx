@@ -12,7 +12,7 @@ import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { GetStaticProps } from 'next'
 import React from 'react'
 
-const url = makeAbsoluteUrl(routes.internal.features.href())
+const url = makeAbsoluteUrl(routes.internal.solutions.href())
 
 export const getStaticProps: GetStaticProps = async () => {
   const client = initializeApollo()
