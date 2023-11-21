@@ -9829,10 +9829,10 @@ next-sitemap@^4.0.6:
     fast-glob "^3.2.12"
     minimist "^1.2.8"
 
-next-usequerystate@^1.10.0:
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/next-usequerystate/-/next-usequerystate-1.12.0.tgz#798e1826e5e28a61eaa994be1706c6b587d01e4d"
-  integrity sha512-WX8LXuS1+BunSjeVh6EDx66iaiHMDxYDfjHqw5lCV2siksp+sNftoAxNXI+Gw+Kb74opfEMyvo6oPnezDVOgFw==
+next-usequerystate@^1.12.2:
+  version "1.12.2"
+  resolved "https://registry.yarnpkg.com/next-usequerystate/-/next-usequerystate-1.12.2.tgz#c8e69026c66da8a7d3ad712903715e105cd5e0dc"
+  integrity sha512-CkXN7vE0AeoytrwYsjtDT7IgKKU/fT6ebVG+5b6l5wVzWAt/jAoWjwWneA++xE5oTZnR8kgXYiqonXh0sJb7zA==
   dependencies:
     mitt "^3.0.1"
 

@@ -6,6 +6,14 @@ import {
 import React from 'react'
 
 const useActiveFilters = () => {
+  // const searchParams = useSearchParams()!
+
+  // const brands = searchParams.get('brands')
+  // const categories = searchParams.get('categories')
+  // const collections = searchParams.get('collections')
+  // const fabrics = searchParams.get('fabrics')
+  // const fits = searchParams.get('fits')
+
   const [{ brands, categories, collections, fabrics, fits }] = useQueryStates({
     brands: parseAsArrayOf(parseAsInteger),
     categories: parseAsArrayOf(parseAsInteger),

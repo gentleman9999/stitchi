@@ -11,7 +11,7 @@ interface Props {
 
 const Layout = ({ children }: Props) => {
   return (
-    <>
+    <div className="min-h-[calc(100vh-var(--topbar-height))]">
       <Title />
       <CatalogFilters />
       <Container className="max-w-none">
@@ -21,7 +21,7 @@ const Layout = ({ children }: Props) => {
           <CatalogProuductZeroState />
         </div>
       </Container>
-    </>
+    </div>
   )
 }
 
