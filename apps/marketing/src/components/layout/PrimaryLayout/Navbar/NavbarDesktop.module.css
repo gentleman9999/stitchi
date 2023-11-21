@@ -1,9 +1,9 @@
 .link {
-  @apply inline-flex items-center leading-6 transition ease-in-out duration-75 cursor-pointer text-gray-900 font-extrabold lowercase text-lg;
+  @apply inline-flex items-center transition ease-in-out duration-75 cursor-pointer text-gray-100 font-medium capitalize text-base leading-tight;
 }
 
 .link:hover {
-  @apply text-gray-800;
+  /* @apply text-gray-200; */
 }
 
 .link:focus-visible {

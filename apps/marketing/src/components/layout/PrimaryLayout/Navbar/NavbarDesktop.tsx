@@ -30,6 +30,7 @@ const NavbarDesktop = ({ anchorEl }: Props) => {
 
       <RuiPopover.Group className="space-x-10 inline-flex">
         <Popover
+          overlayVisible
           anchorEl={anchorEl}
           ButtonChildren={({ active }) => (
             <PopoverButton active={active} label="Resources" />
@@ -44,13 +45,11 @@ const NavbarDesktop = ({ anchorEl }: Props) => {
         </Link>
       ) : null}
 
-      <Button
-        bold
-        Component={Link}
-        color="primary"
-        className="!border-2 !py-1 !px-2 !border-gray-800 !lowercase"
-        variant="ghost"
-        slim
+      <Link
+        className={cx(
+          s.link,
+          'border !font-bold py-1 px-2 rounded-lg border-gray-100 lowercase text-gray-100',
+        )}
         href={
           user ? routes.internal.closet.href() : routes.internal.signup.href()
         }
@@ -59,7 +58,7 @@ const NavbarDesktop = ({ anchorEl }: Props) => {
         }}
       >
         {user ? 'My closet' : 'Create free account'}
-      </Button>
+      </Link>
     </nav>
   )
 }
@@ -76,7 +75,7 @@ const PopoverButton = ({
     <ChevronDown
       strokeWidth="4px"
       className={cx(
-        '-mr-1 ml-2 mt-0.5 h-3 w-3 transition-transform text-gray-800',
+        '-mr-1 ml-2 mt-0.5 h-3 w-3 transition-transform text-gray-100',
         active && 'transform rotate-180',
       )}
       aria-hidden="true"

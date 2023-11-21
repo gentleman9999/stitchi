@@ -1,13 +1,20 @@
 import React, { Fragment } from 'react'
 import { Popover, Transition } from '@headlessui/react'
+import cx from 'classnames'
 
 interface Props {
   ButtonChildren: React.ComponentType<{ active: boolean }>
   panelChildren: React.ReactNode
   anchorEl: HTMLElement | null
+  overlayVisible?: boolean
 }
 
-const Dropdown = ({ anchorEl, ButtonChildren, panelChildren }: Props) => {
+const Dropdown = ({
+  anchorEl,
+  ButtonChildren,
+  panelChildren,
+  overlayVisible,
+}: Props) => {
   const [anchorDims, setAnchorDims] = React.useState<DOMRect | null>(null)
 
   React.useEffect(() => {
@@ -33,7 +40,11 @@ const Dropdown = ({ anchorEl, ButtonChildren, panelChildren }: Props) => {
           <Popover.Button className="focus-visible:outline-none">
             <ButtonChildren active={open} />
           </Popover.Button>
-          <Popover.Overlay />
+          <Popover.Overlay
+            className={cx('fixed inset-0', {
+              'bg-gray-700 opacity-10': overlayVisible,
+            })}
+          />
 
           <Transition
             unmount={false}
