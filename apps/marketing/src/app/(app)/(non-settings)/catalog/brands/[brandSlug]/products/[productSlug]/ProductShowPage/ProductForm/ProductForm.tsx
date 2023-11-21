@@ -53,7 +53,7 @@ const customizationOptions = [
 ]
 
 const sizeSchema = yup.object().shape({
-  catalogProductVariantId: yup.string().nullable().required(),
+  catalogProductVariantId: yup.string().nullable().defined(),
   catalogSizeEntityId: yup.string().required(),
   quantity: yup.number().min(0).nullable().defined().label('Quantity'),
   disabled: yup.boolean().nullable().defined(),
