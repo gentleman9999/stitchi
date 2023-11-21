@@ -5,66 +5,13 @@ export type Navigation = ReturnType<typeof navigation.makeNavigation>
 
 const navigation = {
   makeNavigation: () => ({
-    services: [
-      {
-        label: 'Pro Merch Design (free)',
-        description:
-          "We'll design your merch for you, and you'll get all the credit.",
-        icon: Support,
-        href: routes.internal.features.design.href(),
-      },
-
-      {
-        label: 'eCommerce, Warehousing & Distribution',
-        description:
-          'Infinitely and efficiently scale your merch program using our distribution centers. ',
-        icon: Support,
-        href: routes.internal.features.distribution.href(),
-      },
-    ],
-    solutions: [
-      {
-        label: 'Loyalty & Referral Programs',
-        description:
-          'Incentivize your customers with rewards for purchases and brand referrals.',
-        icon: Support,
-        href: routes.internal.solutions.loyaltyPrograms.href(),
-      },
-      {
-        label: 'Swag Bags & Boxes',
-        description:
-          'Create unique branded experiences to showcase your brand.',
-        icon: Support,
-        href: routes.internal.solutions.swagBox.href(),
-      },
-      {
-        label: 'Corporate Gifting & Employee Swag',
-        description:
-          'Express gratitude with branded gifts for employees and clients.',
-        icon: Support,
-        href: '#',
-        beta: true,
-      },
-      {
-        label: 'Collegiate Merchandise',
-        description:
-          'Offer custom merchandise to students, alumni, and supporters with no upfront costs.',
-        icon: Support,
-        href: '#',
-        beta: true,
-      },
-    ],
     resources: [
       // {
       //   label: 'Partners',
       //   icon: SentimentSatisfied,
       //   href: routes.internal.partners.href(),
       // },
-      {
-        label: 'Catalog',
-        icon: Support,
-        href: routes.internal.catalog.href(),
-      },
+
       {
         label: 'Articles & Guides',
         icon: Support,

@@ -1,13 +1,11 @@
 import React from 'react'
 import Link from 'next/link'
 import routes from '@lib/routes'
-import { Navigation } from '@lib/navigation'
 import Button from '@components/ui/Button'
 import s from './NavbarDesktop.module.css'
 import { ChevronDown } from 'icons'
 import cx from 'classnames'
 import Popover from '../Popover'
-import NavbarDesktopDropdown from './NavbarDesktopDropdown'
 import NavbarDesktopLearnContents from './NavbarDesktopLearnContents'
 import { Popover as RuiPopover } from '@headlessui/react'
 import { track } from '@lib/analytics'
@@ -15,54 +13,22 @@ import { useUser } from '@auth0/nextjs-auth0/client'
 
 interface Props {
   anchorEl: HTMLElement | null
-  navigation: Navigation
 }
 
-const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
+const NavbarDesktop = ({ anchorEl }: Props) => {
   const { user } = useUser()
 
   return (
     <nav className="space-x-10">
-      <RuiPopover.Group className="space-x-10 inline-flex">
-        <Popover
-          anchorEl={anchorEl}
-          ButtonChildren={({ active }) => (
-            <PopoverButton label="Services" active={active} />
-          )}
-          panelChildren={
-            <div className="grid grid-cols-2 gap-4">
-              {navigation.services.map(item => (
-                <NavbarDesktopDropdown
-                  key={item.label}
-                  label={item.label}
-                  href={item.href}
-                  description={item.description}
-                  // icon={item.icon}
-                />
-              ))}
-            </div>
-          }
-        />
-        <Popover
-          anchorEl={anchorEl}
-          ButtonChildren={({ active }) => (
-            <PopoverButton label="Solutions" active={active} />
-          )}
-          panelChildren={
-            <div className="grid grid-cols-2 gap-4">
-              {navigation.solutions.map(item => (
-                <NavbarDesktopDropdown
-                  key={item.label}
-                  label={item.label}
-                  href={item.href}
-                  description={item.description}
-                  beta={item.beta}
-                />
-              ))}
-            </div>
-          }
-        />
+      <Link href={routes.internal.features.href()} passHref className={s.link}>
+        Solutions
+      </Link>
 
+      <Link href={routes.internal.catalog.href()} passHref className={s.link}>
+        Catalog
+      </Link>
+
+      <RuiPopover.Group className="space-x-10 inline-flex">
         <Popover
           anchorEl={anchorEl}
           ButtonChildren={({ active }) => (
@@ -71,10 +37,6 @@ const NavbarDesktop = ({ anchorEl, navigation }: Props) => {
           panelChildren={<NavbarDesktopLearnContents />}
         />
       </RuiPopover.Group>
-
-      <Link href={routes.internal.catalog.href()} passHref className={s.link}>
-        Catalog
-      </Link>
 
       {!user ? (
         <Link href={routes.internal.login.href()} passHref className={s.link}>

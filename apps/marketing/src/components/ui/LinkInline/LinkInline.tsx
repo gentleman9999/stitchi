@@ -1,14 +1,14 @@
-import Link from 'next/link'
+import Link, { LinkProps } from 'next/link'
 import React from 'react'
 import cx from 'classnames'
-import { AnchorHTMLAttributes } from 'react'
 
-export interface LinkInlineProps {
+export interface LinkInlineProps extends LinkProps {
   children: React.ReactNode
   href: string
   external?: boolean
   className?: string
   underline?: 'always' | 'never' | 'hover'
+  target?: string
 }
 
 const LinkInline = ({
@@ -17,6 +17,8 @@ const LinkInline = ({
   external,
   className,
   underline = 'always',
+  target,
+  ...rest
 }: LinkInlineProps) => {
   const externalProps = external
     ? {
@@ -28,6 +30,8 @@ const LinkInline = ({
   return (
     <Link
       {...externalProps}
+      {...rest}
+      target={target}
       href={href}
       className={cx(
         {

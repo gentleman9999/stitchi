@@ -129,11 +129,6 @@ module.exports = withBundleAnalyzer(
           permanent: true,
         },
         {
-          source: '/features',
-          destination: '/',
-          permanent: true,
-        },
-        {
           source: '/morning-brew-newsletter-referral-program',
           destination:
             '/powering-morning-brew-newsletter-referral-program-with-custom-swag',

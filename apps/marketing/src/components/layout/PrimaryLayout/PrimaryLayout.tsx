@@ -40,7 +40,7 @@ const PrimaryLayout = (props: PrimaryLayoutProps) => {
         )}
         {/* End - Floating nav spacer */}
         <Navbar />
-        <main className="mb-auto relative overflow-x-hidden">{children}</main>
+        <main className="mb-auto relative">{children}</main>
         <Footer />
       </div>
     </>
