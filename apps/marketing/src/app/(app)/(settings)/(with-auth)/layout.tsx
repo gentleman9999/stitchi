@@ -1,6 +1,8 @@
 import { gql } from '@apollo/client'
 import {
   ClosetBaseLayoutGetDataQuery,
+  ClosetBaseLayoutGetDataQuery1,
+  ClosetBaseLayoutGetDataQuery1Variables,
   ClosetBaseLayoutGetDataQueryVariables,
 } from '@generated/types'
 import { getClient } from '@lib/apollo-rsc'
@@ -33,8 +35,8 @@ const Layout = async (props: Props) => {
   const client = await getClient()
 
   const { data } = await client.query<
-    ClosetBaseLayoutGetDataQuery,
-    ClosetBaseLayoutGetDataQueryVariables
+    ClosetBaseLayoutGetDataQuery1,
+    ClosetBaseLayoutGetDataQuery1Variables
   >({
     query: GET_DATA,
   })
@@ -52,7 +54,7 @@ const Layout = async (props: Props) => {
 }
 
 const GET_DATA = gql`
-  query ClosetBaseLayoutGetDataQuery {
+  query ClosetBaseLayoutGetDataQuery1 {
     viewer {
       id
     }

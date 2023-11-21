@@ -5,6 +5,7 @@ import { Section, SubscribeInline } from '..'
 import ClosingCtaSection from './ClosingCtaSection'
 import Container from '@components/ui/Container'
 import Badge from '@components/ui/Badge'
+import routes from '@lib/routes'
 
 const navigation = nav.makeNavigation()
 
@@ -17,21 +18,40 @@ const Footer = () => (
     <Container>
       <Section gutter="md">
         <div className="grid grid-cols-1 gap-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
-            <List title="Services" items={navigation.services} />
-            <List title="Solutions" items={navigation.solutions} />
-            <List title="Resources" items={navigation.resources} />
-            <List title="Company" items={navigation.company} />
-          </div>
-          <div className="">
-            <h3 className="text-sm font-semibold text-gray-100 tracking-wider uppercase">
-              Subscribe to updates
-            </h3>
-            <p className="mt-4 text-base text-gray-300">
-              We occasionally send product updates and resources to help you
-              with merch.
-            </p>
-            <SubscribeInline className="mt-4" />
+          <div className="flex flex-col sm:flex-row gap-x-8 gap-y-12">
+            <div className="flex-1 flex flex-col items-center sm:items-start">
+              <h3 className="text-sm font-semibold text-gray-100 tracking-wider uppercase">
+                Subscribe to updates
+              </h3>
+              <p className="mt-4 text-base text-center sm:text-left text-gray-300 max-w-xs">
+                We occasionally send product updates and resources to help you
+                with merch.
+              </p>
+              <SubscribeInline className="mt-4" variant="primary" />
+            </div>
+            <div className="flex-1 flex justify-center text-center sm:text-left sm:justify-end gap-4">
+              <div className="flex flex-col gap-6">
+                <ListItem
+                  label="Solutions"
+                  href={routes.internal.features.href()}
+                />
+                <ListItem
+                  label="Catalog"
+                  href={routes.internal.catalog.href()}
+                />
+                <ListItem label="Closet" href={routes.internal.closet.href()} />
+              </div>
+              <div className="flex flex-col gap-6">
+                <ListItem
+                  label="Articles & Guides"
+                  href={routes.internal.blog.href()}
+                />
+                <ListItem
+                  label="Careers"
+                  href={routes.external.careers.href()}
+                />
+              </div>
+            </div>
           </div>
 
           <span className="m-auto font-medium text-gray-300">
@@ -52,9 +72,23 @@ const Footer = () => (
               </a>
             ))}
           </div>
-          <p className="mt-8 text-base text-gray-100 md:mt-0 md:order-1">
-            &copy; {new Date().getFullYear()} Stitchi, LLC. All rights reserved.
-          </p>
+          <div className="mt-8 md:mt-0 md:order-1">
+            <ul className="flex items-center gap-8 mb-3">
+              <ListItem
+                label="Privacy"
+                href={routes.internal.legal.privacy.href()}
+              />
+              <ListItem
+                label="Terms"
+                href={routes.internal.legal.terms.href()}
+              />
+              <ListItem label="Support" href={routes.external.support.href()} />
+            </ul>
+            <p className="text-base text-gray-100 ">
+              &copy; {new Date().getFullYear()} Stitchi, LLC. All rights
+              reserved.
+            </p>
+          </div>
         </div>
       </Section>
     </Container>
@@ -88,7 +122,7 @@ const ListItem = ({ label, href, beta }: Item) => {
     <li>
       <a
         href={href}
-        className={cx('text-base text-gray-300 hover:text-gray-900', {
+        className={cx('text-base text-gray-300 hover:text-gray-100', {
           'pointer-events-none touch-none': disabled,
         })}
       >

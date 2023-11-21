@@ -23,7 +23,7 @@ const BrandLogo = (props: { image: StaticImageData; alt: string }) => {
 
 const CustomerLogoBanner = () => {
   return (
-    <div className="bg-primary py-5 relative flex flex-col sm:flex-row items-center border-t-2 border-b-2 border-gray-950">
+    <div className="bg-primary py-5 relative flex flex-col sm:flex-row items-center border-t-2 border-b-2 border-gray-950 overflow-x-hidden">
       <span className="hidden sm:flex justify-center absolute left-0 right-0">
         <InfiniteLooper speed={20}>
           <BrandLogo image={weworkLogo} alt="WeWork logo" />

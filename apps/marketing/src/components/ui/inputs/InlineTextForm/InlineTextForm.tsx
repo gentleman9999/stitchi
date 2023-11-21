@@ -75,7 +75,7 @@ function InlineTextForm<T extends string>(props: InlineTextFormProps<T>) {
           />
           <div className="mt-3 sm:mt-0 sm:ml-3 sm:flex-shrink-0">
             <Button
-              className="w-full"
+              className="w-full h-full"
               type="submit"
               loading={loading}
               color={props.variant === 'primary' ? 'brandPrimary' : 'primary'}

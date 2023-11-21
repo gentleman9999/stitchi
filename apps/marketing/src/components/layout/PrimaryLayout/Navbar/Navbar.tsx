@@ -19,7 +19,7 @@ const Navbar = ({}: Props) => {
           <NavbarMobile anchorEl={dropdownAchor} navigation={nav} />
         </div>
         <div className="hidden lg:block">
-          <NavbarDesktop anchorEl={dropdownAchor} navigation={nav} />
+          <NavbarDesktop anchorEl={dropdownAchor} />
         </div>
       </div>
     </NavbarRoot>

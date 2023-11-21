@@ -16,9 +16,11 @@ export interface SubscribeInlineProps {
   defaultValue?: string
   className?: string
   centered?: InlineTextFormProps<'email'>['centered']
+  variant?: InlineTextFormProps<'email'>['variant']
 }
 
 const SubscribeInline = (props: SubscribeInlineProps) => {
+  const { variant = 'secondary' } = props
   const logger = useLogger()
   const [subscribe, { subscriber }] = useSubscribeInline()
 
@@ -52,7 +54,7 @@ const SubscribeInline = (props: SubscribeInlineProps) => {
         type="email"
         name="email"
         autoComplete="email"
-        variant="secondary"
+        variant={variant}
         className={cx(props.className)}
         placeholder="Enter your email"
         defaultValue={props.defaultValue}

@@ -119,6 +119,7 @@
       "FaqRecord",
       "FeatureGridFeatureRecord",
       "FeatureGridRecord",
+      "FeatureIndexPageRecord",
       "GlossaryCategoryRecord",
       "GlossaryEntryRecord",
       "GlossaryIndexPageRecord",

@@ -185,6 +185,8 @@ const routes = {
       },
     },
     features: {
+      href: () => buildRoute('/features'),
+
       design: {
         href: () => buildRoute('/promotional-product-design'),
       },
@@ -434,6 +436,28 @@ const routes = {
       },
       phone: {
         href: () => buildRoute(`tel:+1-248-221-1863`),
+      },
+
+      pricing: {
+        href: () =>
+          buildRoute(
+            'https://help.stitchi.co/en/articles/8610015-pricing-understanding-your-costs-with-stitchi',
+          ),
+      },
+
+      features: {
+        teamStores: {
+          href: () =>
+            buildRoute(
+              'https://help.stitchi.co/en/articles/8296184-team-stores',
+            ),
+        },
+        ecommerceFulfillment: {
+          href: () =>
+            buildRoute(
+              'https://help.stitchi.co/en/articles/8296183-ecommerce-fulfillment',
+            ),
+        },
       },
     },
     social: {
