@@ -14,18 +14,13 @@ interface Props {
 }
 
 const useCatalogFilters = ({ brandEntityId, categoryEntityId }: Props = {}) => {
-  const [, setQueryFilters] = useQueryStates(
-    {
-      brands: parseAsArrayOf(parseAsInteger),
-      categories: parseAsArrayOf(parseAsInteger),
-      fabrics: parseAsArrayOf(parseAsInteger),
-      collections: parseAsArrayOf(parseAsInteger),
-      fits: parseAsArrayOf(parseAsInteger),
-    },
-    {
-      history: 'push',
-    },
-  )
+  const [, setQueryFilters] = useQueryStates({
+    brands: parseAsArrayOf(parseAsInteger),
+    categories: parseAsArrayOf(parseAsInteger),
+    fabrics: parseAsArrayOf(parseAsInteger),
+    collections: parseAsArrayOf(parseAsInteger),
+    fits: parseAsArrayOf(parseAsInteger),
+  })
 
   const { data } = useQuery<UseCatalogFiltersGetDataQuery>(GET_DATA)
 
