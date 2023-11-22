@@ -69,17 +69,22 @@ export const generateMetadata = async ({
       notFound()
     }
 
+    const url = routes.internal.catalog.product.href({
+      brandSlug: brand.path.replaceAll('/', ''),
+      productSlug: productPath.replaceAll('/', ''),
+    })
+
     return {
       title,
       description,
+      alternates: {
+        canonical: url,
+      },
       openGraph: {
         description,
         title,
         images,
-        url: routes.internal.catalog.product.href({
-          brandSlug: brand.path.replaceAll('/', ''),
-          productSlug: productPath.replaceAll('/', ''),
-        }),
+        url: url,
       },
     }
   }

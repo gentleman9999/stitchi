@@ -1,6 +1,6 @@
 'use client'
 
-import React, { Suspense, useTransition } from 'react'
+import React, { useTransition } from 'react'
 import { notEmpty } from '@lib/utils/typescript'
 import CatalogProductLegacy from '../../../../../components/common/CatalogProductLegacy'
 import CatalogProductSkeleton from './CatalogProductSkeleton'
@@ -12,36 +12,29 @@ import {
 } from '@generated/types'
 import CatalogProductGridContainer from './CatalogProductGridContainer'
 import { GET_DATA } from './graphql'
-import useSearch from './useSearch'
-import useSort from './useSort'
-import useActiveFilters from './useActiveFilters'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 import { mergeFilters } from './format-filters'
 import deepEqual from 'deep-equal'
+import { useFilters } from './filters-context'
 
-interface Props {
-  // Filters all results to specific brand
-  brandEntityId?: number
-  // Filters all results to specific category
-  categoryEntityId?: number
-}
-
-const CatalogProductGrid = ({ brandEntityId, categoryEntityId }: Props) => {
-  const { sort } = useSort()
-  const { search } = useSearch()
+const CatalogProductGrid = () => {
   const { replace } = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()!
   const [isFetchingMore, startFetchMoreTransition] = useTransition()
-  const activeFilters = useActiveFilters()
+  const { filters: unmergedFilters, search, sort } = useFilters()
 
   const after = searchParams.get('after')
 
-  const filters = mergeFilters(
-    { search, ...activeFilters },
-    { brandEntityId, categoryEntityId },
-  )
+  const filters = mergeFilters({
+    search,
+    brands: unmergedFilters.brands.map(({ id }) => id),
+    categories: unmergedFilters.categories.map(({ entityId }) => entityId),
+    collections: unmergedFilters.collections.map(({ entityId }) => entityId),
+    fabrics: unmergedFilters.fabrics.map(({ entityId }) => entityId),
+    fits: unmergedFilters.fits.map(({ entityId }) => entityId),
+  })
 
   const [prevFilters, setPrevFilters] = React.useState(filters)
 

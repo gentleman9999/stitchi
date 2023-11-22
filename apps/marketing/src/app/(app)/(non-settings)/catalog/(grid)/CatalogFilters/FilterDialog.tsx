@@ -5,14 +5,13 @@ import useFilterPreview from './useFilterPreview'
 import * as Dialog from '@radix-ui/react-dialog'
 import cx from 'classnames'
 import { motion } from 'framer-motion'
-import useCatalogFilters from './useCatalogFilters'
-import useActiveFilters from '../useActiveFilters'
 import CheckboxFilter from './CheckboxFilter'
 import CheckboxGroup from './CheckboxGroup'
 import CategoryTree from './CategoryTree'
 import FilterDialogContainer from './FilterDialogContainer'
 import Button from '@components/ui/ButtonV2/Button'
 import IconButton from '@components/ui/IconButton'
+import { useFilters } from '../filters-context'
 
 interface Props {
   open: boolean
@@ -30,17 +29,17 @@ const FilterDialog = ({
   categoryEntityId,
 }: Props) => {
   const {
-    brands: activeBrands,
-    categories: activeCategories,
-    collections: activeCollections,
-    fabrics: activeFabrics,
-    fits: activeFits,
-  } = useActiveFilters()
-
-  const { availableFilters, setFilters } = useCatalogFilters({
-    brandEntityId,
-    categoryEntityId,
-  })
+    filters: {
+      brands: activeBrands,
+      categories: activeCategories,
+      collections: activeCollections,
+      fabrics: activeFabrics,
+      fits: activeFits,
+    },
+    availableFilters,
+    setFilters,
+    toggleFilter,
+  } = useFilters()
 
   const [filterState, setFilterState] = React.useState({
     brands: activeBrands,
@@ -56,7 +55,7 @@ const FilterDialog = ({
     return {
       filters: {
         brandEntityIds: brands?.length
-          ? brands
+          ? brands.map(brand => brand.id)
           : brandEntityId
           ? [brandEntityId]
           : undefined,
@@ -66,17 +65,17 @@ const FilterDialog = ({
           fits?.length ||
           fabrics?.length
             ? [
-                ...(categories || []),
-                ...(collections || []),
-                ...(fits || []),
-                ...(fabrics || []),
+                ...(categories.map(category => category.entityId) || []),
+                ...(collections.map(collection => collection.entityId) || []),
+                ...(fits.map(fit => fit.entityId) || []),
+                ...(fabrics.map(fabric => fabric.entityId) || []),
               ]
             : categoryEntityId
             ? [
                 categoryEntityId,
-                ...(collections || []),
-                ...(fits || []),
-                ...(fabrics || []),
+                ...(collections.map(collection => collection.entityId) || []),
+                ...(fits.map(fit => fit.entityId) || []),
+                ...(fabrics.map(fabric => fabric.entityId) || []),
               ]
             : undefined,
 
@@ -115,23 +114,18 @@ const FilterDialog = ({
   ])
 
   const handleSubmit = () => {
-    setFilters({ brands, categories, collections, fabrics, fits }, { scroll })
+    setFilters(
+      {
+        brands: brands.map(brand => brand.id),
+        categories: categories.map(category => category.entityId),
+        collections: collections.map(collection => collection.entityId),
+        fabrics: fabrics.map(fabric => fabric.entityId),
+        fits: fits.map(fit => fit.entityId),
+      },
+      { scroll },
+    )
 
     onClose()
-  }
-
-  const handleToggle = (id: number, type: keyof typeof filterState) => {
-    if (filterState[type]?.includes(id)) {
-      setFilterState({
-        ...filterState,
-        [type]: filterState[type]?.filter(item => item !== id),
-      })
-    } else {
-      setFilterState({
-        ...filterState,
-        [type]: [...(filterState[type] || []), id],
-      })
-    }
   }
 
   const handleReset = () => {
@@ -200,10 +194,10 @@ const FilterDialog = ({
                         {availableFilters.brands.map(brand => (
                           <CheckboxFilter
                             key={brand.id}
-                            active={Boolean(brands?.includes(brand.id))}
+                            active={Boolean(brands?.includes(brand))}
                             value={brand.id}
                             label={brand.name}
-                            onChange={() => handleToggle(brand.id, 'brands')}
+                            onChange={() => toggleFilter('brands', brand.id)}
                             sectionName="Brands"
                           />
                         ))}
@@ -231,11 +225,11 @@ const FilterDialog = ({
                     {availableFilters.fabrics.map(fabric => (
                       <CheckboxFilter
                         key={fabric.entityId}
-                        active={Boolean(fabrics?.includes(fabric.entityId))}
+                        active={Boolean(fabrics?.includes(fabric))}
                         value={fabric.entityId}
                         label={fabric.name}
                         onChange={() =>
-                          handleToggle(fabric.entityId, 'fabrics')
+                          toggleFilter('fabrics', fabric.entityId)
                         }
                         sectionName="Fabric"
                       />
@@ -249,13 +243,11 @@ const FilterDialog = ({
                     {availableFilters.collections.map(collection => (
                       <CheckboxFilter
                         key={collection.entityId}
-                        active={Boolean(
-                          collections?.includes(collection.entityId),
-                        )}
+                        active={Boolean(collections?.includes(collection))}
                         value={collection.entityId}
                         label={collection.name}
                         onChange={() =>
-                          handleToggle(collection.entityId, 'collections')
+                          toggleFilter('collections', collection.entityId)
                         }
                         sectionName="Collections"
                       />
@@ -270,10 +262,10 @@ const FilterDialog = ({
                     {availableFilters.fits.map(fit => (
                       <CheckboxFilter
                         key={fit.entityId}
-                        active={Boolean(fits?.includes(fit.entityId))}
+                        active={Boolean(fits?.includes(fit))}
                         value={fit.entityId}
                         label={fit.name}
-                        onChange={() => handleToggle(fit.entityId, 'fits')}
+                        onChange={() => toggleFilter('fits', fit.entityId)}
                         sectionName="Fit"
                       />
                     ))}
