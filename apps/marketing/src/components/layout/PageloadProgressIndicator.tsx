@@ -1,4 +1,3 @@
-import dynamic from 'next/dynamic'
 import React from 'react'
 import { theme } from '../../../tailwind.config'
 import NextTopLoader from 'nextjs-toploader'
