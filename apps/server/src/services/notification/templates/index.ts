@@ -12,6 +12,10 @@ import DesignRequestUserRejectedTemplate from '../../../email-template-composer/
 import DesignRequestUserApprovedTemplate from '../../../email-template-composer/emails/design-request-user-approved'
 import DesignRequestCommentUserCreatedTemplate from '../../../email-template-composer/emails/design-request-user-comment-created'
 
+import OrderUserConfirmedTemplate from '../../../email-template-composer/emails/order-user-created'
+import OrderUserShipmentCreatedTemplate from '../../../email-template-composer/emails/order-user-shipment-created'
+import OrderUserCompletedTemplate from '../../../email-template-composer/emails/order-user-completed'
+
 import { MembershipFactoryMembership } from '../../membership/factory/membership'
 import { User } from '../../user/serializer'
 
@@ -36,20 +40,107 @@ interface Notification {
 }
 
 const notifications = {
-  'order:confirmed': (params: {
+  'order:created': (params: {
     order: OrderFactoryOrder
     recipient: User
   }): Notification => {
+    const template = OrderUserConfirmedTemplate({
+      children: null,
+      previewText: `We received your order #${params.order.humanReadableId}.`,
+      recipient: {
+        name: params.recipient.name,
+      },
+      order: {
+        id: params.order.id,
+        humanId: params.order.humanReadableId,
+        lineItems: params.order.items.map(item => ({
+          name: item.title,
+          quantity: item.quantity,
+          priceCents: item.unitPriceCents,
+        })),
+      },
+    })
+
     return {
       email: {
-        subject: `Order #${params.order.humanReadableId} confirmed`,
-        htmlBody: `Your order #${params.order.humanReadableId} is confirmed.`,
-        textBody: `Your order #${params.order.humanReadableId} is confirmed.`,
+        subject: `Order #${params.order.humanReadableId} received`,
+        htmlBody: render(template),
+        textBody: render(template, { plainText: true }),
       },
       web: {
-        message: `Your order #${params.order.humanReadableId} is confirmed.`,
+        message: `We received your order #${params.order.humanReadableId}.`,
         ctaText: 'View',
-        ctaUrl: `${appBaseUrl}/orders/${params.order.id}`,
+        ctaUrl: params.order.orderUrl,
+      },
+    }
+  },
+
+  'order:inFulfillment': (params: {
+    order: OrderFactoryOrder
+    recipient: User
+  }): Notification => {
+    const template = OrderUserShipmentCreatedTemplate({
+      children: null,
+      previewText: `Your order #${params.order.humanReadableId} is on its way.`,
+      recipient: {
+        name: params.recipient.name,
+      },
+      order: {
+        id: params.order.id,
+        humanId: params.order.humanReadableId,
+        lineItems: params.order.items.map(item => ({
+          name: item.title,
+          quantity: item.quantity,
+          priceCents: item.unitPriceCents,
+        })),
+      },
+    })
+
+    return {
+      email: {
+        subject: `Order #${params.order.humanReadableId} is on its way`,
+        htmlBody: render(template),
+        textBody: render(template, { plainText: true }),
+      },
+      web: {
+        message: `Your order #${params.order.humanReadableId} is on its way.`,
+        ctaText: 'View',
+        ctaUrl: params.order.orderUrl,
+      },
+    }
+  },
+
+  'order:delivered': (params: {
+    order: OrderFactoryOrder
+    recipient: User
+  }): Notification => {
+    const template = OrderUserCompletedTemplate({
+      children: null,
+      previewText: `Your order #${params.order.humanReadableId} has been delivered.`,
+      recipient: {
+        name: params.recipient.name,
+      },
+      order: {
+        id: params.order.id,
+        humanId: params.order.humanReadableId,
+        lineItems: params.order.items.map(item => ({
+          name: item.title,
+          quantity: item.quantity,
+          priceCents: item.unitPriceCents,
+        })),
+      },
+    })
+
+    return {
+      email: {
+        subject: `Order #${params.order.humanReadableId} has been delivered`,
+        htmlBody: render(template),
+        textBody: render(template, { plainText: true }),
+      },
+      web: {
+        message: `Your order #${params.order.humanReadableId} has been delivered.`,
+        ctaText: 'View',
+        ctaUrl: params.order.orderUrl,
       },
     }
   },

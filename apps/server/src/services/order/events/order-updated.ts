@@ -3,7 +3,7 @@ import {
   makeClient as makeNotificationServiceClient,
 } from '../../notification'
 
-import { OrderRecordType } from '../db/order-table'
+import { OrderRecordType, OrderStatusTemporary } from '../db/order-table'
 import { OrderFactoryOrder } from '../factory'
 
 export interface OrderUpdatedEventPayload {
@@ -42,7 +42,7 @@ const makeHandler =
         case OrderRecordType.CONFIRMED: {
           try {
             await notificationService.sendNotification(
-              'order:confirmed',
+              'order:created',
               {
                 order: nextOrder,
               },
@@ -53,6 +53,50 @@ const makeHandler =
           } catch {
             throw new Error('Failed to create order confirmed notification')
           }
+
+          break
+        }
+      }
+    }
+
+    if (prevOrder.statusTemporary !== nextOrder.statusTemporary) {
+      switch (nextOrder.statusTemporary) {
+        case OrderStatusTemporary.IN_FULFILLMENT: {
+          try {
+            notificationService.sendNotification(
+              'order:inFulfillment',
+              {
+                order: nextOrder,
+              },
+              {
+                topicKey: `order:${nextOrder.id}`,
+              },
+            )
+          } catch {
+            throw new Error(
+              'Failed to create order moved to fulfillment notification',
+            )
+          }
+
+          break
+        }
+
+        case OrderStatusTemporary.COMPLETED: {
+          try {
+            notificationService.sendNotification(
+              'order:delivered',
+              {
+                order: nextOrder,
+              },
+              {
+                topicKey: `order:${nextOrder.id}`,
+              },
+            )
+          } catch {
+            throw new Error('Failed to create order completed notification')
+          }
+
+          break
         }
       }
     }
