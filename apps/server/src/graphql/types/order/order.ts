@@ -50,6 +50,17 @@ export const OrderPaymentStatus = enumType({
   ],
 })
 
+export const OrderStatusTemporary = enumType({
+  name: 'OrderStatusTemporary',
+  members: [
+    'UNCONFIRMED',
+    'CONFIRMED',
+    'IN_PRODUCTION',
+    'IN_FULFILLMENT',
+    'COMPLETED',
+  ],
+})
+
 // export const OrderFulfillmentStatus = enumType({
 //   name: 'OrderFulfillmentStatus',
 //   members: ['FULFILLED', 'PARTIALLY_FULFILLED', 'NOT_FULFILLED'],
@@ -89,8 +100,12 @@ export const Order = objectType({
     t.nonNull.field('paymentStatus', {
       type: 'OrderPaymentStatus',
     })
-
     t.nonNull.string('humanPaymentStatus')
+
+    t.nonNull.field('statusTemporary', {
+      type: 'OrderStatusTemporary',
+    })
+    t.nonNull.string('humanStatusTemporary')
 
     t.nonNull.field('type', {
       type: 'OrderType',

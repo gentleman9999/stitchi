@@ -379,6 +379,7 @@ export interface NexusGenEnums {
   NotificationChannelType: "EMAIL" | "WEB"
   OrderItemType: "BIG_COMMERCE_PRODUCT" | "CUSTOM"
   OrderPaymentStatus: "NOT_PAID" | "PAID" | "PARTIALLY_PAID" | "PARTIALLY_REFUNDED" | "REFUNDED"
+  OrderStatusTemporary: "COMPLETED" | "CONFIRMED" | "IN_FULFILLMENT" | "IN_PRODUCTION" | "UNCONFIRMED"
   OrderType: "CART" | "CONFIRMED"
   ScopeAction: "CREATE" | "DELETE" | "READ" | "UPDATE"
   ScopeModifier: "ALL" | "OWN"
@@ -827,12 +828,14 @@ export interface NexusGenObjects {
     designRequestId?: string | null; // String
     humanOrderId: string; // String!
     humanPaymentStatus: string; // String!
+    humanStatusTemporary: string; // String!
     id: string; // ID!
     items: NexusGenRootTypes['OrderItem'][]; // [OrderItem!]!
     membershipId?: string | null; // String
     organizationId?: string | null; // String
     paymentStatus: NexusGenEnums['OrderPaymentStatus']; // OrderPaymentStatus!
     shippingAddressId?: string | null; // String
+    statusTemporary: NexusGenEnums['OrderStatusTemporary']; // OrderStatusTemporary!
     subtotalPriceCents: number; // Int!
     totalAmountDueCents: number; // Int!
     totalAmountPaidCents: number; // Int!
@@ -1547,6 +1550,7 @@ export interface NexusGenFieldTypes {
     fulfillments: NexusGenRootTypes['Fulfillment'][]; // [Fulfillment!]!
     humanOrderId: string; // String!
     humanPaymentStatus: string; // String!
+    humanStatusTemporary: string; // String!
     id: string; // ID!
     itemSummaries: NexusGenRootTypes['OrderItemSummary'][]; // [OrderItemSummary!]!
     items: NexusGenRootTypes['OrderItem'][]; // [OrderItem!]!
@@ -1559,6 +1563,7 @@ export interface NexusGenFieldTypes {
     paymentStatus: NexusGenEnums['OrderPaymentStatus']; // OrderPaymentStatus!
     shippingAddress: NexusGenRootTypes['MailingAddress'] | null; // MailingAddress
     shippingAddressId: string | null; // String
+    statusTemporary: NexusGenEnums['OrderStatusTemporary']; // OrderStatusTemporary!
     subtotalPriceCents: number; // Int!
     totalAmountDueCents: number; // Int!
     totalAmountPaidCents: number; // Int!
@@ -2300,6 +2305,7 @@ export interface NexusGenFieldTypeNames {
     fulfillments: 'Fulfillment'
     humanOrderId: 'String'
     humanPaymentStatus: 'String'
+    humanStatusTemporary: 'String'
     id: 'ID'
     itemSummaries: 'OrderItemSummary'
     items: 'OrderItem'
@@ -2312,6 +2318,7 @@ export interface NexusGenFieldTypeNames {
     paymentStatus: 'OrderPaymentStatus'
     shippingAddress: 'MailingAddress'
     shippingAddressId: 'String'
+    statusTemporary: 'OrderStatusTemporary'
     subtotalPriceCents: 'Int'
     totalAmountDueCents: 'Int'
     totalAmountPaidCents: 'Int'
