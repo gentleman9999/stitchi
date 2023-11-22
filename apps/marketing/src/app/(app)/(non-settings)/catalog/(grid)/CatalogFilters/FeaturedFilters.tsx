@@ -12,7 +12,7 @@ import {
 import React, { useEffect } from 'react'
 import cx from 'classnames'
 import styles from './FeaturedFilters.module.css'
-import { useFilters } from '../../filters-context'
+import { useFilters } from '../filters-context'
 
 const featured = [
   {

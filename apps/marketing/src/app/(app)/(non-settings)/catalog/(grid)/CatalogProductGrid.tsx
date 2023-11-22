@@ -16,35 +16,25 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 import { mergeFilters } from './format-filters'
 import deepEqual from 'deep-equal'
-import { useFilters } from '../filters-context'
+import { useFilters } from './filters-context'
 
-interface Props {
-  // Filters all results to specific brand
-  brandEntityId?: number
-  // Filters all results to specific category
-  categoryEntityId?: number
-}
-
-const CatalogProductGrid = ({ brandEntityId, categoryEntityId }: Props) => {
+const CatalogProductGrid = () => {
   const { replace } = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()!
   const [isFetchingMore, startFetchMoreTransition] = useTransition()
-  const { filters: unmerchedFilters, search, sort } = useFilters()
+  const { filters: unmergedFilters, search, sort } = useFilters()
 
   const after = searchParams.get('after')
 
-  const filters = mergeFilters(
-    {
-      search,
-      brands: unmerchedFilters.brands.map(({ id }) => id),
-      categories: unmerchedFilters.categories.map(({ entityId }) => entityId),
-      collections: unmerchedFilters.collections.map(({ entityId }) => entityId),
-      fabrics: unmerchedFilters.fabrics.map(({ entityId }) => entityId),
-      fits: unmerchedFilters.fits.map(({ entityId }) => entityId),
-    },
-    { brandEntityId, categoryEntityId },
-  )
+  const filters = mergeFilters({
+    search,
+    brands: unmergedFilters.brands.map(({ id }) => id),
+    categories: unmergedFilters.categories.map(({ entityId }) => entityId),
+    collections: unmergedFilters.collections.map(({ entityId }) => entityId),
+    fabrics: unmergedFilters.fabrics.map(({ entityId }) => entityId),
+    fits: unmergedFilters.fits.map(({ entityId }) => entityId),
+  })
 
   const [prevFilters, setPrevFilters] = React.useState(filters)
 

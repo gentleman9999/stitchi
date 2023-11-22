@@ -11,7 +11,7 @@ import CategoryTree from './CategoryTree'
 import FilterDialogContainer from './FilterDialogContainer'
 import Button from '@components/ui/ButtonV2/Button'
 import IconButton from '@components/ui/IconButton'
-import { useFilters } from '../../filters-context'
+import { useFilters } from '../filters-context'
 
 interface Props {
   open: boolean

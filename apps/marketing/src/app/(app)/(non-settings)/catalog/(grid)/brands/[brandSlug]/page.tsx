@@ -75,7 +75,7 @@ const Page = async ({ params }: { params: Params }) => {
   return (
     <>
       <BrandJsonLd useAppDir id={href} logo={foundBrand.image_url} />
-      <CatalogProductGrid brandEntityId={foundBrand.id} />
+      <CatalogProductGrid />
     </>
   )
 }

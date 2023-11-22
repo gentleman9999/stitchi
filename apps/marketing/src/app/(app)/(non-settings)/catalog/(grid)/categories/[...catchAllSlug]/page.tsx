@@ -67,7 +67,7 @@ const Page = ({ params }: { params: Params }) => {
     notFound()
   }
 
-  return <CatalogProductGrid categoryEntityId={foundCategory.id} />
+  return <CatalogProductGrid />
 }
 
 const GET_DATA = gql`

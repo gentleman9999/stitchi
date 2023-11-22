@@ -82,7 +82,6 @@ interface State {
   setFilters: SetFiltersFn
   setSearch: (search: string) => void
   setSort: (sort: SearchProductsSortInput) => void
-  setDefaultFilters: React.Dispatch<React.SetStateAction<DefaultFilters>>
   toggleFilter: (filter: keyof Filters, id: number) => void
   availableFilters: Omit<Filters, 'search'> & {
     sort: typeof SORT_OPTIONS
@@ -93,11 +92,15 @@ const FiltersContext = React.createContext<State | undefined>(undefined)
 
 interface FiltersProviderProps {
   children: React.ReactNode
+  brandEntityId?: number
+  categoryEntityId?: number
 }
 
-const FiltersProvider = ({ children }: FiltersProviderProps) => {
-  const [defaultFilters, setDefaultFilters] = React.useState<DefaultFilters>({})
-
+const FiltersProvider = ({
+  children,
+  brandEntityId,
+  categoryEntityId,
+}: FiltersProviderProps) => {
   const [queryStates, setQueryStates] = useQueryStates({
     brands: parseAsArrayOf(parseAsInteger),
     categories: parseAsArrayOf(parseAsInteger),
@@ -115,11 +118,11 @@ const FiltersProvider = ({ children }: FiltersProviderProps) => {
   const { categoryTree, collections, fabricCategory, fit } = data?.site || {}
 
   const defaultBrand = staticData.brands.find(
-    brand => brand.id === defaultFilters.defaultBrandEntityId,
+    brand => brand.id === brandEntityId,
   )
 
   const defaultCategory = categoryTree?.find(
-    category => category.entityId === defaultFilters.defaultCategoryEntityId,
+    category => category.entityId === categoryEntityId,
   )
 
   const setSearch = React.useCallback(
@@ -191,7 +194,6 @@ const FiltersProvider = ({ children }: FiltersProviderProps) => {
       setFilters,
       setSearch,
       setSort,
-      setDefaultFilters,
       toggleFilter,
       search: queryStates.search,
       sort:

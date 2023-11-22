@@ -1,6 +1,6 @@
 import React from 'react'
 import Dropdown from './Dropdown'
-import { useFilters } from '../../filters-context'
+import { useFilters } from '../filters-context'
 
 interface Props {}
 

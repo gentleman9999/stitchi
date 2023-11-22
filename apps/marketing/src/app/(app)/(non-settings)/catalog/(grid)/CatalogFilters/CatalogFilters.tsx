@@ -11,7 +11,7 @@ import FeaturedFilters from './FeaturedFilters'
 import Button from '@components/ui/ButtonV2/Button'
 import FilterDialog from './FilterDialog'
 import { Adjustments } from 'icons'
-import { useFilters } from '../../filters-context'
+import { useFilters } from '../filters-context'
 
 interface Props {
   brandEntityId?: number
@@ -79,21 +79,23 @@ const CatalogFilters = ({ brandEntityId, categoryEntityId }: Props) => {
             <div className="hidden lg:flex gap-8 justify-between items-stretch">
               <div className="flex gap-4">
                 <SearchInput onSubmit={query => setSearch(query)} />
-                <Dropdown
-                  multiple
-                  label={makeFilterLabel('Our brands', brands?.length)}
-                  items={availableFilters.brands.map(brand => ({
-                    id: brand.id,
-                    label: brand.name,
-                    active: Boolean(brands?.includes(brand)),
-                    onClick: () =>
-                      setFilters(prev => ({
-                        brands: prev.brands?.includes(brand.id)
-                          ? prev.brands.filter(id => id !== brand.id)
-                          : [...(prev.brands || []), brand.id],
-                      })),
-                  }))}
-                />
+                {brandEntityId ? null : (
+                  <Dropdown
+                    multiple
+                    label={makeFilterLabel('Our brands', brands?.length)}
+                    items={availableFilters.brands.map(brand => ({
+                      id: brand.id,
+                      label: brand.name,
+                      active: Boolean(brands?.includes(brand)),
+                      onClick: () =>
+                        setFilters(prev => ({
+                          brands: prev.brands?.includes(brand.id)
+                            ? prev.brands.filter(id => id !== brand.id)
+                            : [...(prev.brands || []), brand.id],
+                        })),
+                    }))}
+                  />
+                )}
 
                 <Dropdown
                   multiple

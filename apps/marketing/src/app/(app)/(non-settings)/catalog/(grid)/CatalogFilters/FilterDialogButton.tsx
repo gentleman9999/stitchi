@@ -2,7 +2,7 @@ import { Adjustments } from 'icons'
 import React from 'react'
 import cx from 'classnames'
 import FilterButton from './FilterButton'
-import { useFilters } from '../../filters-context'
+import { useFilters } from '../filters-context'
 
 interface Props {
   onClick: (b: boolean) => void
