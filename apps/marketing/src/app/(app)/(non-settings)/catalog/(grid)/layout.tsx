@@ -51,6 +51,7 @@ const Layout = ({ children }: Props) => {
           brandEntityId={brand?.id}
           categoryEntityId={category?.id}
         />
+
         <ClosetPageContainer className="max-w-none">
           <Section>{children}</Section>
 

@@ -3,12 +3,7 @@ import IconButton from '@components/ui/IconButton'
 import { XMarkIcon } from '@heroicons/react/20/solid'
 import { useFilters } from '../filters-context'
 
-interface Props {
-  brandEntityId?: number
-  categoryEntityId?: number
-}
-
-const ActiveFiltersPreview = ({ brandEntityId, categoryEntityId }: Props) => {
+const ActiveFiltersPreview = () => {
   const { filters, setFilters } = useFilters()
 
   const hasActiveFilters = Object.keys(filters).some(
@@ -25,11 +20,11 @@ const ActiveFiltersPreview = ({ brandEntityId, categoryEntityId }: Props) => {
         label="Clear all"
         onClick={() =>
           setFilters({
-            brands: null,
-            categories: null,
-            collections: null,
-            fabrics: null,
-            fits: null,
+            brands: undefined,
+            categories: undefined,
+            collections: undefined,
+            fabrics: undefined,
+            fits: undefined,
           })
         }
       />
