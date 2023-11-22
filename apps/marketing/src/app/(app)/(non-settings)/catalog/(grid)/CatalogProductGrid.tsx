@@ -42,7 +42,6 @@ const CatalogProductGrid = () => {
     CatalogIndexPageGetDataQuery,
     CatalogIndexPageGetDataQueryVariables
   >(GET_DATA, {
-    fetchPolicy: 'cache-and-network',
     variables: {
       first: 24,
       sort: sort.value,
@@ -53,9 +52,7 @@ const CatalogProductGrid = () => {
 
   React.useEffect(() => {
     if (!deepEqual(filters, prevFilters)) {
-      refetch({
-        filters,
-      })
+      refetch({ filters })
       setPrevFilters(filters)
     }
   }, [filters, prevFilters, refetch])

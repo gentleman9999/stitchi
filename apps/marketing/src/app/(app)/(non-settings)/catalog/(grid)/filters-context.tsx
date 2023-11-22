@@ -1,7 +1,7 @@
 'use client'
 
 import { gql } from '@apollo/client'
-import { useQuery } from '@apollo/experimental-nextjs-app-support/ssr'
+import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 import {
   SearchProductsSortInput,
   UseCatalogFiltersGetDataQuery,
@@ -66,11 +66,6 @@ type Filters = {
   fits: UseCatalogFiltersGetDataQuery['site']['fit'][0]['children']
 }
 
-interface DefaultFilters {
-  defaultBrandEntityId?: number
-  defaultCategoryEntityId?: number
-}
-
 type SetFiltersFn = UseQueryStatesReturn<
   Omit<QueryFilters, 'sort' | 'search'>
 >[1]
@@ -101,19 +96,24 @@ const FiltersProvider = ({
   brandEntityId,
   categoryEntityId,
 }: FiltersProviderProps) => {
-  const [queryStates, setQueryStates] = useQueryStates({
-    brands: parseAsArrayOf(parseAsInteger),
-    categories: parseAsArrayOf(parseAsInteger),
-    fabrics: parseAsArrayOf(parseAsInteger),
-    collections: parseAsArrayOf(parseAsInteger),
-    fits: parseAsArrayOf(parseAsInteger),
-    search: parseAsString.withDefault(''),
-    sort: parseAsStringEnum(Object.values(SearchProductsSortInput)).withDefault(
-      SORT_OPTIONS[0].value,
-    ),
-  })
+  const [queryStates, setQueryStates] = useQueryStates(
+    {
+      brands: parseAsArrayOf(parseAsInteger),
+      categories: parseAsArrayOf(parseAsInteger),
+      fabrics: parseAsArrayOf(parseAsInteger),
+      collections: parseAsArrayOf(parseAsInteger),
+      fits: parseAsArrayOf(parseAsInteger),
+      search: parseAsString.withDefault(''),
+      sort: parseAsStringEnum(
+        Object.values(SearchProductsSortInput),
+      ).withDefault(SORT_OPTIONS[0].value),
+    },
+    {
+      scroll: true,
+    },
+  )
 
-  const { data } = useQuery<UseCatalogFiltersGetDataQuery>(GET_DATA)
+  const { data } = useSuspenseQuery<UseCatalogFiltersGetDataQuery>(GET_DATA)
 
   const { categoryTree, collections, fabricCategory, fit } = data?.site || {}
 

@@ -65,7 +65,6 @@ const featured = [
 const FeaturedFilters = () => {
   const {
     filters: { categories },
-    setFilters,
     toggleFilter,
   } = useFilters()
 

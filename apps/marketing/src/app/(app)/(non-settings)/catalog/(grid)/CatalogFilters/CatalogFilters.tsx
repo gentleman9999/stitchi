@@ -154,10 +154,7 @@ const CatalogFilters = ({ brandEntityId, categoryEntityId }: Props) => {
               </div>
             </div>
 
-            <ActiveFiltersPreview
-              brandEntityId={brandEntityId}
-              categoryEntityId={categoryEntityId}
-            />
+            <ActiveFiltersPreview />
           </nav>
         </Container>
       </div>
