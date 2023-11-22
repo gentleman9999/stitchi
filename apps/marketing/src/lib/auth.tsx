@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/navigation'
 import hoistNonReactStatic from 'hoist-non-react-statics'
 import routes from './routes'
-import { ScopeAction, ScopeResource } from '@generated/globalTypes'
+import { ScopeAction, ScopeResource } from '@generated/types'
 import React from 'react'
 
 import {

@@ -6916,6 +6916,8 @@ export interface Mutation {
   notificationMarkAsSeen: Maybe<NotificationMarkAsSeenPayload>;
   /** Confirms an order with a customers details */
   orderConfirm: Maybe<OrderConfirmPayload>;
+  /** Updates the (temporary) status of an order */
+  orderStatusTemporaryUpdate: Maybe<OrderStatusTemporaryUpdatePayload>;
   organizationBrandColorCreate: Maybe<OrganizationBrandColorCreatePayload>;
   organizationBrandColorDelete: Maybe<OrganizationBrandColorDeletePayload>;
   organizationBrandColorUpdate: Maybe<OrganizationBrandColorUpdatePayload>;
@@ -7074,6 +7076,11 @@ export interface MutationnotificationMarkAsSeenArgs {
 
 export interface MutationorderConfirmArgs {
   input: OrderConfirmInput;
+}
+
+
+export interface MutationorderStatusTemporaryUpdateArgs {
+  input: OrderStatusTemporaryUpdateInput;
 }
 
 
@@ -7475,6 +7482,16 @@ export enum OrderStatusTemporary {
   IN_FULFILLMENT = 'IN_FULFILLMENT',
   IN_PRODUCTION = 'IN_PRODUCTION',
   UNCONFIRMED = 'UNCONFIRMED'
+}
+
+export interface OrderStatusTemporaryUpdateInput {
+  orderId: Scalars['ID']['input'];
+  status: OrderStatusTemporary;
+}
+
+export interface OrderStatusTemporaryUpdatePayload {
+  __typename: 'OrderStatusTemporaryUpdatePayload';
+  order: Maybe<Order>;
 }
 
 export enum OrderType {
@@ -9387,6 +9404,7 @@ export enum ScopeResource {
   Integration = 'Integration',
   Membership = 'Membership',
   Order = 'Order',
+  OrderFulfillment = 'OrderFulfillment',
   Organization = 'Organization'
 }
 
@@ -12011,7 +12029,7 @@ export type OrderDetailsPageGetDataQueryVariables = Exact<{
 }>;
 
 
-export type OrderDetailsPageGetDataQuery = { __typename: 'Query', order: { __typename: 'Order', id: string, paymentStatus: OrderPaymentStatus, createdAt: any, humanOrderId: string, humanPaymentStatus: string, totalTaxCents: number, totalShippingCents: number, subtotalPriceCents: number, totalProcessingFeeCents: number, totalPriceCents: number, totalAmountDueCents: number, totalAmountRefundedCents: number, customerEmail: string | null, customerPhone: string | null, statusTemporary: OrderStatusTemporary, items: Array<{ __typename: 'OrderItem', id: string, title: string, quantity: number, unitPriceCents: number, totalPriceCents: number, designProduct: { __typename: 'DesignProduct', id: string, name: string } | null }>, lastPaymentMethod: { __typename: 'PaymentMethod', id: string, type: string, card: { __typename: 'PaymentMethodCard', brand: string | null, last4: string | null, expMonth: number | null, expYear: number | null } | null, billingDetails: { __typename: 'PaymentMethodBillingDetails', line1: string | null, line2: string | null, city: string | null, state: string | null, postalCode: string | null, country: string | null } | null } | null, fulfillments: Array<{ __typename: 'Fulfillment', id: string, trackingInfo: { __typename: 'FulfillmentTrackingInfo', id: string, trackingNumber: string, trackingUrl: string } }>, shippingAddress: { __typename: 'MailingAddress', id: string, firstName: string | null, lastName: string | null, company: string | null, phone: string | null, address1: string | null, address2: string | null, city: string | null, country: string | null, province: string | null, provinceCode: string | null, zip: string | null } | null } | null };
+export type OrderDetailsPageGetDataQuery = { __typename: 'Query', order: { __typename: 'Order', id: string, paymentStatus: OrderPaymentStatus, createdAt: any, humanOrderId: string, humanPaymentStatus: string, totalTaxCents: number, statusTemporary: OrderStatusTemporary, totalShippingCents: number, subtotalPriceCents: number, totalProcessingFeeCents: number, totalPriceCents: number, totalAmountDueCents: number, totalAmountRefundedCents: number, customerEmail: string | null, customerPhone: string | null, items: Array<{ __typename: 'OrderItem', id: string, title: string, quantity: number, unitPriceCents: number, totalPriceCents: number, designProduct: { __typename: 'DesignProduct', id: string, name: string } | null }>, lastPaymentMethod: { __typename: 'PaymentMethod', id: string, type: string, card: { __typename: 'PaymentMethodCard', brand: string | null, last4: string | null, expMonth: number | null, expYear: number | null } | null, billingDetails: { __typename: 'PaymentMethodBillingDetails', line1: string | null, line2: string | null, city: string | null, state: string | null, postalCode: string | null, country: string | null } | null } | null, fulfillments: Array<{ __typename: 'Fulfillment', id: string, trackingInfo: { __typename: 'FulfillmentTrackingInfo', id: string, trackingNumber: string, trackingUrl: string } }>, shippingAddress: { __typename: 'MailingAddress', id: string, firstName: string | null, lastName: string | null, company: string | null, phone: string | null, address1: string | null, address2: string | null, city: string | null, country: string | null, province: string | null, provinceCode: string | null, zip: string | null } | null } | null };
 
 export type ClosetBaseLayoutGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -12440,13 +12458,20 @@ export type IndustryTermsShowPageTermFragment = { __typename: 'GlossaryEntryReco
 
 export type IndustryTermsShowPageRelatedTermsFragment = { __typename: 'GlossaryEntryRecord', id: any, term: string | null, slug: string | null, entryType: string | null };
 
-export type OrderDetailsPageOrderFragment = { __typename: 'Order', id: string, createdAt: any, humanOrderId: string, paymentStatus: OrderPaymentStatus, humanPaymentStatus: string, totalTaxCents: number, totalShippingCents: number, subtotalPriceCents: number, totalProcessingFeeCents: number, totalPriceCents: number, totalAmountDueCents: number, totalAmountRefundedCents: number, customerEmail: string | null, customerPhone: string | null, statusTemporary: OrderStatusTemporary, items: Array<{ __typename: 'OrderItem', id: string, title: string, quantity: number, unitPriceCents: number, totalPriceCents: number, designProduct: { __typename: 'DesignProduct', id: string, name: string } | null }>, lastPaymentMethod: { __typename: 'PaymentMethod', id: string, type: string, card: { __typename: 'PaymentMethodCard', brand: string | null, last4: string | null, expMonth: number | null, expYear: number | null } | null, billingDetails: { __typename: 'PaymentMethodBillingDetails', line1: string | null, line2: string | null, city: string | null, state: string | null, postalCode: string | null, country: string | null } | null } | null, fulfillments: Array<{ __typename: 'Fulfillment', id: string, trackingInfo: { __typename: 'FulfillmentTrackingInfo', id: string, trackingNumber: string, trackingUrl: string } }>, shippingAddress: { __typename: 'MailingAddress', id: string, firstName: string | null, lastName: string | null, company: string | null, phone: string | null, address1: string | null, address2: string | null, city: string | null, country: string | null, province: string | null, provinceCode: string | null, zip: string | null } | null };
+export type OrderDetailsPageOrderFragment = { __typename: 'Order', id: string, createdAt: any, humanOrderId: string, paymentStatus: OrderPaymentStatus, humanPaymentStatus: string, totalTaxCents: number, statusTemporary: OrderStatusTemporary, totalShippingCents: number, subtotalPriceCents: number, totalProcessingFeeCents: number, totalPriceCents: number, totalAmountDueCents: number, totalAmountRefundedCents: number, customerEmail: string | null, customerPhone: string | null, items: Array<{ __typename: 'OrderItem', id: string, title: string, quantity: number, unitPriceCents: number, totalPriceCents: number, designProduct: { __typename: 'DesignProduct', id: string, name: string } | null }>, lastPaymentMethod: { __typename: 'PaymentMethod', id: string, type: string, card: { __typename: 'PaymentMethodCard', brand: string | null, last4: string | null, expMonth: number | null, expYear: number | null } | null, billingDetails: { __typename: 'PaymentMethodBillingDetails', line1: string | null, line2: string | null, city: string | null, state: string | null, postalCode: string | null, country: string | null } | null } | null, fulfillments: Array<{ __typename: 'Fulfillment', id: string, trackingInfo: { __typename: 'FulfillmentTrackingInfo', id: string, trackingNumber: string, trackingUrl: string } }>, shippingAddress: { __typename: 'MailingAddress', id: string, firstName: string | null, lastName: string | null, company: string | null, phone: string | null, address1: string | null, address2: string | null, city: string | null, country: string | null, province: string | null, provinceCode: string | null, zip: string | null } | null };
 
 export type OrderDetailsPageBillingDetailsOrderFragment = { __typename: 'Order', id: string, totalTaxCents: number, totalShippingCents: number, totalPriceCents: number, subtotalPriceCents: number, totalProcessingFeeCents: number, totalAmountDueCents: number, totalAmountRefundedCents: number, lastPaymentMethod: { __typename: 'PaymentMethod', id: string, type: string, card: { __typename: 'PaymentMethodCard', brand: string | null, last4: string | null, expMonth: number | null, expYear: number | null } | null, billingDetails: { __typename: 'PaymentMethodBillingDetails', line1: string | null, line2: string | null, city: string | null, state: string | null, postalCode: string | null, country: string | null } | null } | null };
 
 export type OrderDetailsPageLineItemsItemFragment = { __typename: 'OrderItem', id: string, title: string, quantity: number, unitPriceCents: number, totalPriceCents: number, designProduct: { __typename: 'DesignProduct', id: string, name: string } | null };
 
 export type OrderDetailsPageShippingDetailsOrderFragment = { __typename: 'Order', id: string, customerEmail: string | null, customerPhone: string | null, statusTemporary: OrderStatusTemporary, fulfillments: Array<{ __typename: 'Fulfillment', id: string, trackingInfo: { __typename: 'FulfillmentTrackingInfo', id: string, trackingNumber: string, trackingUrl: string } }>, shippingAddress: { __typename: 'MailingAddress', id: string, firstName: string | null, lastName: string | null, company: string | null, phone: string | null, address1: string | null, address2: string | null, city: string | null, country: string | null, province: string | null, provinceCode: string | null, zip: string | null } | null };
+
+export type UseUpdateOrderStatusUpdateStatusMutationVariables = Exact<{
+  input: OrderStatusTemporaryUpdateInput;
+}>;
+
+
+export type UseUpdateOrderStatusUpdateStatusMutation = { __typename: 'Mutation', orderStatusTemporaryUpdate: { __typename: 'OrderStatusTemporaryUpdatePayload', order: { __typename: 'Order', id: string } | null } | null };
 
 export type OrderPayPagePaymentIntentFragment = { __typename: 'PaymentIntent', id: string, clientSecret: string | null, amount: number };
 

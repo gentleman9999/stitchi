@@ -14,6 +14,7 @@ const inputSchema = Order.omit([
   'updatedAt',
   'humanReadableId',
   'paymentStatus',
+  'statusTemporary',
   'totalPriceCents',
   'totalTaxCents',
   'subtotalPriceCents',

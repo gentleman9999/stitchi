@@ -15,13 +15,26 @@ import ClosetPageActions, {
   ClosetPageActionsProps,
 } from '@components/common/ClosetPageActions'
 import routes from '@lib/routes'
-import { OrderDetailsPageOrderFragment } from '@generated/types'
+import {
+  MembershipRole,
+  OrderDetailsPageOrderFragment,
+  OrderStatusTemporary,
+  ScopeAction,
+  ScopeResource,
+} from '@generated/types'
+import { useAuthorizedComponent } from '@lib/auth'
+import useUpdateOrderStatus from './useUpdateOrderStatus'
 
 interface Props {
   order: OrderDetailsPageOrderFragment
 }
 
 const OrderDetailsPage = ({ order }: Props) => {
+  const [updateStatus, updateStatusMutation] = useUpdateOrderStatus({
+    orderId: order.id,
+  })
+  const { can } = useAuthorizedComponent()
+
   const actions: ClosetPageActionsProps['actions'] = []
 
   if (order.totalAmountDueCents > 0) {
@@ -32,6 +45,41 @@ const OrderDetailsPage = ({ order }: Props) => {
       }),
       label: 'Make payment',
     })
+  }
+
+  if (can(ScopeResource.OrderFulfillment, ScopeAction.CREATE)) {
+    switch (order.statusTemporary) {
+      case OrderStatusTemporary.UNCONFIRMED:
+        actions.push({
+          label: 'Mark as Confirmed',
+          onClick: () => updateStatus(OrderStatusTemporary.CONFIRMED),
+          loading: updateStatusMutation.loading,
+        })
+        break
+      case OrderStatusTemporary.CONFIRMED:
+        actions.push({
+          label: 'Mark in Production',
+          onClick: () => updateStatus(OrderStatusTemporary.IN_PRODUCTION),
+          loading: updateStatusMutation.loading,
+        })
+        break
+
+      case OrderStatusTemporary.IN_PRODUCTION:
+        actions.push({
+          label: 'Mark as Shipped',
+          onClick: () => updateStatus(OrderStatusTemporary.IN_FULFILLMENT),
+          loading: updateStatusMutation.loading,
+        })
+        break
+
+      case OrderStatusTemporary.IN_FULFILLMENT:
+        actions.push({
+          label: 'Mark as Delivered',
+          onClick: () => updateStatus(OrderStatusTemporary.COMPLETED),
+          loading: updateStatusMutation.loading,
+        })
+        break
+    }
   }
 
   return (
@@ -104,6 +152,7 @@ OrderDetailsPage.fragments = {
       paymentStatus
       humanPaymentStatus
       totalTaxCents
+      statusTemporary
       totalShippingCents
       subtotalPriceCents
       totalProcessingFeeCents
