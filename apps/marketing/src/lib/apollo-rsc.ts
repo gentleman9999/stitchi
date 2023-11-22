@@ -25,11 +25,7 @@ export const getClient = async () => {
     } else {
       console.error(
         "Failed to get access token in RSC. This shouldn't happen.",
-        {
-          context: {
-            error,
-          },
-        },
+        { context: { error } },
       )
     }
   }
@@ -38,11 +34,11 @@ export const getClient = async () => {
 
   const deviceId = cookiesInstance.get(COOKIE_DEVICE_ID)?.value
 
-  return registerApolloClient(() => {
-    return createApolloClient({
-      accessToken: accessToken || undefined,
+  return registerApolloClient(() =>
+    createApolloClient({
       deviceId,
+      accessToken: accessToken || undefined,
       rsc: true,
-    })
-  }).getClient()
+    }),
+  ).getClient()
 }
