@@ -2,12 +2,10 @@
 
 import React from 'react'
 import CatalogFilters from './CatalogFilters'
-import Container from '@components/ui/Container'
 import Section from '@components/common/Section'
 import CatalogProuductZeroState from './CatalogProductZeroState'
-import Title from './Title'
 import { FiltersProvider } from './filters-context'
-import { useParams, useSelectedLayoutSegments } from 'next/navigation'
+import { useSelectedLayoutSegments } from 'next/navigation'
 import staticData from '@generated/static.json'
 import ClosetPageContainer from '@components/common/ClosetPageContainer'
 
