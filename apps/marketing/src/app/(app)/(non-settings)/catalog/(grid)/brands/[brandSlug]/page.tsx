@@ -40,14 +40,18 @@ export const generateMetadata = async ({
   if (node?.__typename === 'Brand') {
     const title = `Browse ${node.name} products`
     const description = node.seo.metaDescription
+    const url = routes.internal.catalog.brand.show.href({ brandSlug })
 
     return {
       title,
       description,
+      alternates: {
+        canonical: url,
+      },
       openGraph: {
         title,
         description,
-        url: routes.internal.catalog.brand.show.href({ brandSlug }),
+        url,
       },
     }
   }

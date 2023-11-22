@@ -11,9 +11,8 @@ import {
 } from 'icons'
 import React, { useEffect } from 'react'
 import cx from 'classnames'
-import useActiveFilters from '../useActiveFilters'
-import useCatalogFilters from './useCatalogFilters'
 import styles from './FeaturedFilters.module.css'
+import { useFilters } from '../../filters-context'
 
 const featured = [
   {
@@ -64,8 +63,11 @@ const featured = [
 ]
 
 const FeaturedFilters = () => {
-  const { setFilters } = useCatalogFilters()
-  const { categories } = useActiveFilters()
+  const {
+    filters: { categories },
+    setFilters,
+    toggleFilter,
+  } = useFilters()
 
   const scrollContainerRef = React.useRef<HTMLDivElement>(null)
 
@@ -89,25 +91,6 @@ const FeaturedFilters = () => {
   useEffect(() => {
     checkScroll()
   }, [])
-
-  const toggleCategory = (categoryId: number) => {
-    if (categories?.includes(categoryId)) {
-      const newFilters = categories.filter(id => id !== categoryId)
-      setFilters({
-        categories: newFilters.length ? newFilters : null,
-      })
-    } else {
-      // remove any featured categories accept new one
-      const newFilters = categories?.filter(
-        categoryId =>
-          !featured.map(filter => filter.categoryEntityId).includes(categoryId),
-      )
-
-      setFilters({
-        categories: newFilters ? [...newFilters, categoryId] : [categoryId],
-      })
-    }
-  }
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (!scrollContainerRef.current) return
@@ -150,12 +133,17 @@ const FeaturedFilters = () => {
         onScroll={checkScroll}
       >
         <div className="gap-12 hidden sm:flex">
-          {featured.map(filter => {
-            const active = categories?.includes(filter.categoryEntityId)
+          {featured.map(featured => {
+            const active = Boolean(
+              categories?.find(c => c.entityId === featured.categoryEntityId),
+            )
+
             return (
               <button
-                key={filter.categoryEntityId}
-                onClick={() => toggleCategory(filter.categoryEntityId)}
+                key={featured.categoryEntityId}
+                onClick={() =>
+                  toggleFilter('categories', featured.categoryEntityId)
+                }
                 className={cx(
                   'relative flex flex-col gap-2 text-xs font-medium items-center justify-between min-w-[60px]shrink-0 pb-3',
                   'after:content=[""] after:absolute after:bottom-0 after:w-full after:h-0.5 after:bg-transparent after:hover:bg-gray-300',
@@ -164,9 +152,9 @@ const FeaturedFilters = () => {
                 )}
               >
                 <div>
-                  <filter.Icon width={25} height={25} />
+                  <featured.Icon width={25} height={25} />
                 </div>
-                <div className="whitespace-nowrap">{filter.label}</div>
+                <div className="whitespace-nowrap">{featured.label}</div>
               </button>
             )
           })}

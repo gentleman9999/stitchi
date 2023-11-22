@@ -1,6 +1,6 @@
 'use client'
 
-import React, { Suspense, useTransition } from 'react'
+import React, { useTransition } from 'react'
 import { notEmpty } from '@lib/utils/typescript'
 import CatalogProductLegacy from '../../../../../components/common/CatalogProductLegacy'
 import CatalogProductSkeleton from './CatalogProductSkeleton'
@@ -12,13 +12,11 @@ import {
 } from '@generated/types'
 import CatalogProductGridContainer from './CatalogProductGridContainer'
 import { GET_DATA } from './graphql'
-import useSearch from './useSearch'
-import useSort from './useSort'
-import useActiveFilters from './useActiveFilters'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 import { mergeFilters } from './format-filters'
 import deepEqual from 'deep-equal'
+import { useFilters } from '../filters-context'
 
 interface Props {
   // Filters all results to specific brand
@@ -28,18 +26,23 @@ interface Props {
 }
 
 const CatalogProductGrid = ({ brandEntityId, categoryEntityId }: Props) => {
-  const { sort } = useSort()
-  const { search } = useSearch()
   const { replace } = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()!
   const [isFetchingMore, startFetchMoreTransition] = useTransition()
-  const activeFilters = useActiveFilters()
+  const { filters: unmerchedFilters, search, sort } = useFilters()
 
   const after = searchParams.get('after')
 
   const filters = mergeFilters(
-    { search, ...activeFilters },
+    {
+      search,
+      brands: unmerchedFilters.brands.map(({ id }) => id),
+      categories: unmerchedFilters.categories.map(({ entityId }) => entityId),
+      collections: unmerchedFilters.collections.map(({ entityId }) => entityId),
+      fabrics: unmerchedFilters.fabrics.map(({ entityId }) => entityId),
+      fits: unmerchedFilters.fits.map(({ entityId }) => entityId),
+    },
     { brandEntityId, categoryEntityId },
   )
 

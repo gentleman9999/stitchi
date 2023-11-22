@@ -1,8 +1,7 @@
 import React from 'react'
 import IconButton from '@components/ui/IconButton'
 import { XMarkIcon } from '@heroicons/react/20/solid'
-import useActiveFilters from '../useActiveFilters'
-import useCatalogFilters from './useCatalogFilters'
+import { useFilters } from '../../filters-context'
 
 interface Props {
   brandEntityId?: number
@@ -10,15 +9,10 @@ interface Props {
 }
 
 const ActiveFiltersPreview = ({ brandEntityId, categoryEntityId }: Props) => {
-  const { availableFilters, setFilters } = useCatalogFilters({
-    brandEntityId,
-    categoryEntityId,
-  })
+  const { filters, setFilters } = useFilters()
 
-  const activeFilters = useActiveFilters()
-
-  const hasActiveFilters = Object.keys(activeFilters).some(
-    key => activeFilters[key as keyof typeof activeFilters]?.length,
+  const hasActiveFilters = Object.keys(filters).some(
+    key => filters[key as keyof typeof filters]?.length,
   )
 
   if (!hasActiveFilters) {
@@ -39,31 +33,28 @@ const ActiveFiltersPreview = ({ brandEntityId, categoryEntityId }: Props) => {
           })
         }
       />
-      {Object.keys(activeFilters).flatMap(key => {
-        const activeFilterGroupKey = key as keyof typeof activeFilters
-        const filterIds = activeFilters[activeFilterGroupKey]
 
-        return filterIds?.map(id => {
-          const foundFilter = availableFilters[activeFilterGroupKey].find(
-            item => ('id' in item ? item.id : item.entityId) === id,
+      {Object.keys(filters).flatMap(key => {
+        const activeFilterGroupKey = key as keyof typeof filters
+        const filterGroup = filters[activeFilterGroupKey]
+
+        return filterGroup?.map(filter => {
+          return (
+            <Button
+              key={filter.name}
+              label={filter.name}
+              onClick={() =>
+                setFilters(prev => ({
+                  ...prev,
+                  [activeFilterGroupKey]: prev[activeFilterGroupKey]?.filter(
+                    filterId =>
+                      filterId !==
+                      ('id' in filter ? filter.id : filter.entityId),
+                  ),
+                }))
+              }
+            />
           )
-
-          if (foundFilter) {
-            return (
-              <Button
-                key={id}
-                label={foundFilter.name}
-                onClick={() =>
-                  setFilters(prev => ({
-                    ...prev,
-                    [activeFilterGroupKey]: prev[activeFilterGroupKey]?.filter(
-                      (filterId: number) => filterId !== id,
-                    ),
-                  }))
-                }
-              />
-            )
-          }
         })
       })}
     </div>

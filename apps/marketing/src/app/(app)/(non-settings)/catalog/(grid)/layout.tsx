@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import CatalogFilters from './CatalogFilters'
 import Container from '@components/ui/Container'
 import Section from '@components/common/Section'
@@ -13,6 +13,8 @@ const Layout = ({ children }: Props) => {
   return (
     <div className="min-h-[calc(100vh-var(--topbar-height))]">
       <Title />
+
+      {/* https://nextjs.org/docs/app/api-reference/functions/use-search-params#static-rendering */}
       <CatalogFilters />
       <Container className="max-w-none">
         <Section>{children}</Section>

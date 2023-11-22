@@ -2,18 +2,16 @@
 
 import Container from '@components/ui/Container'
 import React from 'react'
-import useCatalogFilters from './useCatalogFilters'
-import useActiveFilters from '../useActiveFilters'
 import Dropdown from './Dropdown'
 import ActiveFiltersPreview from './ActiveFiltersPreview'
 import SortButton from './SortButton'
 import SearchInput from './SearchInput'
-import useSearch from '../useSearch'
 import cx from 'classnames'
 import FeaturedFilters from './FeaturedFilters'
 import Button from '@components/ui/ButtonV2/Button'
 import FilterDialog from './FilterDialog'
 import { Adjustments } from 'icons'
+import { useFilters } from '../../filters-context'
 
 interface Props {
   brandEntityId?: number
@@ -24,16 +22,9 @@ const CatalogFilters = ({ brandEntityId, categoryEntityId }: Props) => {
   const [showFilterDialog, setShowFilterDialog] = React.useState(false)
   const [transitionStickyNav, setTransitionStickyNav] = React.useState(false)
 
-  const { availableFilters, setFilters } = useCatalogFilters({
-    brandEntityId,
-    categoryEntityId,
-  })
+  const { filters, availableFilters, setFilters, setSearch } = useFilters()
 
   const filterRef = React.useRef<HTMLDivElement>(null)
-
-  const activeFilters = useActiveFilters()
-
-  const { setSearch } = useSearch()
 
   React.useEffect(() => {
     if (typeof window === 'undefined') return
@@ -55,7 +46,7 @@ const CatalogFilters = ({ brandEntityId, categoryEntityId }: Props) => {
     }
   }, [])
 
-  const { brands, categories, collections, fabrics, fits } = activeFilters
+  const { brands, categories, collections, fabrics, fits } = filters
 
   return (
     <>
@@ -87,17 +78,16 @@ const CatalogFilters = ({ brandEntityId, categoryEntityId }: Props) => {
             </div>
             <div className="hidden lg:flex gap-8 justify-between items-stretch">
               <div className="flex gap-4">
-                <SearchInput onSubmit={setSearch} />
+                <SearchInput onSubmit={query => setSearch(query)} />
                 <Dropdown
                   multiple
                   label={makeFilterLabel('Our brands', brands?.length)}
                   items={availableFilters.brands.map(brand => ({
                     id: brand.id,
                     label: brand.name,
-                    active: Boolean(brands?.includes(brand.id)),
+                    active: Boolean(brands?.includes(brand)),
                     onClick: () =>
                       setFilters(prev => ({
-                        ...prev,
                         brands: prev.brands?.includes(brand.id)
                           ? prev.brands.filter(id => id !== brand.id)
                           : [...(prev.brands || []), brand.id],
@@ -111,10 +101,9 @@ const CatalogFilters = ({ brandEntityId, categoryEntityId }: Props) => {
                   items={availableFilters.collections.map(collection => ({
                     id: collection.entityId,
                     label: collection.name,
-                    active: Boolean(collections?.includes(collection.entityId)),
+                    active: Boolean(collections?.includes(collection)),
                     onClick: () =>
                       setFilters(prev => ({
-                        ...prev,
                         collections: prev.collections?.includes(
                           collection.entityId,
                         )
@@ -132,10 +121,9 @@ const CatalogFilters = ({ brandEntityId, categoryEntityId }: Props) => {
                   items={availableFilters.fabrics.map(fabric => ({
                     id: fabric.entityId,
                     label: fabric.name,
-                    active: Boolean(fabrics?.includes(fabric.entityId)),
+                    active: Boolean(fabrics?.includes(fabric)),
                     onClick: () =>
                       setFilters(prev => ({
-                        ...prev,
                         fabrics: prev.fabrics?.includes(fabric.entityId)
                           ? prev.fabrics.filter(id => id !== fabric.entityId)
                           : [...(prev.fabrics || []), fabric.entityId],
@@ -149,10 +137,9 @@ const CatalogFilters = ({ brandEntityId, categoryEntityId }: Props) => {
                   items={availableFilters.fits.map(fit => ({
                     id: fit.entityId,
                     label: fit.name,
-                    active: Boolean(fits?.includes(fit.entityId)),
+                    active: Boolean(fits?.includes(fit)),
                     onClick: () =>
                       setFilters(prev => ({
-                        ...prev,
                         fits: prev.fits?.includes(fit.entityId)
                           ? prev.fits.filter(id => id !== fit.entityId)
                           : [...(prev.fits || []), fit.entityId],
