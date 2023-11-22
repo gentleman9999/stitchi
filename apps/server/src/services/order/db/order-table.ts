@@ -14,6 +14,14 @@ export enum OrderRecordType {
   CONFIRMED = 'CONFIRMED',
 }
 
+export enum OrderStatusTemporary {
+  UNCONFIRMED = 'UNCONFIRMED',
+  CONFIRMED = 'CONFIRMED',
+  IN_PRODUCTION = 'IN_PRODUCTION',
+  IN_FULFILLMENT = 'IN_FULFILLMENT',
+  COMPLETED = 'COMPLETED',
+}
+
 export const Order: yup.ObjectSchema<OrderSchema> = yup
   .object()
   .shape({
@@ -23,6 +31,7 @@ export const Order: yup.ObjectSchema<OrderSchema> = yup
     organizationId: yup.string().uuid().nullable().defined(),
     shippingAddressId: yup.string().uuid().nullable().defined(),
     designRequestId: yup.string().uuid().nullable().defined(),
+
     customerFirstName: yup.string().nullable().defined(),
     customerLastName: yup.string().nullable().defined(),
     customerEmail: yup.string().email().nullable().defined(),
@@ -39,6 +48,11 @@ export const Order: yup.ObjectSchema<OrderSchema> = yup
     paymentStatus: yup
       .mixed<OrderRecordPaymentStatus>()
       .oneOf(Object.values(OrderRecordPaymentStatus))
+      .required(),
+
+    statusTemporary: yup
+      .mixed<OrderStatusTemporary>()
+      .oneOf(Object.values(OrderStatusTemporary))
       .required(),
 
     type: yup

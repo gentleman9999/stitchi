@@ -1041,6 +1041,7 @@ type Order {
   fulfillments: [Fulfillment!]!
   humanOrderId: String!
   humanPaymentStatus: String!
+  humanStatusTemporary: String!
   id: ID!
   itemSummaries: [OrderItemSummary!]!
   items: [OrderItem!]!
@@ -1053,6 +1054,7 @@ type Order {
   paymentStatus: OrderPaymentStatus!
   shippingAddress: MailingAddress
   shippingAddressId: String
+  statusTemporary: OrderStatusTemporary!
   subtotalPriceCents: Int!
   totalAmountDueCents: Int!
   totalAmountPaidCents: Int!
@@ -1147,6 +1149,14 @@ enum OrderPaymentStatus {
   PARTIALLY_PAID
   PARTIALLY_REFUNDED
   REFUNDED
+}
+
+enum OrderStatusTemporary {
+  COMPLETED
+  CONFIRMED
+  IN_FULFILLMENT
+  IN_PRODUCTION
+  UNCONFIRMED
 }
 
 enum OrderType {
