@@ -30,7 +30,7 @@ const humanizeStatusTemporary = (
 ): string => {
   switch (status) {
     case 'UNCONFIRMED':
-      return 'Placed'
+      return 'Received'
     case 'CONFIRMED':
       return 'Confirmed'
     case 'IN_PRODUCTION':

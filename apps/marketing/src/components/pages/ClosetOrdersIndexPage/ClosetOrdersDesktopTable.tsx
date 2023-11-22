@@ -27,6 +27,7 @@ import {
   MembershipRole,
 } from '@generated/types'
 import { useAuthorizedComponent } from '@lib/auth'
+import OrderStatusTemporaryBadge from '@components/common/OrderStatusTemporaryBadge'
 
 type Order = ClosetOrdersDesktopTableOrderFragment
 
@@ -93,6 +94,17 @@ const ClosetOrdersDesktopTable = ({
             humanStatus={row.original.humanPaymentStatus}
             status={row.original.paymentStatus}
             size="small"
+          />
+        ),
+      }),
+
+      columnHelper.accessor('statusTemporary', {
+        header: () => <div className="text-left">Fulfillment Status</div>,
+        cell: ({ row }) => (
+          <OrderStatusTemporaryBadge
+            size="small"
+            humanStatus={row.original.humanStatusTemporary}
+            status={row.original.statusTemporary}
           />
         ),
       }),
@@ -182,6 +194,8 @@ ClosetOrdersDesktopTable.fragments = {
       id
       humanOrderId
       paymentStatus
+      statusTemporary
+      humanStatusTemporary
       humanPaymentStatus
       totalTaxCents
       totalPriceCents

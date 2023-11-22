@@ -5,7 +5,7 @@ import { OrderStatusTemporary } from '@generated/types'
 const states = [
   {
     value: OrderStatusTemporary.UNCONFIRMED,
-    label: 'Placed',
+    label: 'Received',
   },
   {
     value: OrderStatusTemporary.CONFIRMED,

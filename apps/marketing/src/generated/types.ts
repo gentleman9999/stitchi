@@ -12391,7 +12391,7 @@ export type UseMarkNotificationAsSeenMarkAsSeenMutationVariables = Exact<{
 
 export type UseMarkNotificationAsSeenMarkAsSeenMutation = { __typename: 'Mutation', notificationMarkAsSeen: { __typename: 'NotificationMarkAsSeenPayload', notification: { __typename: 'Notification', id: string } | null } | null };
 
-export type ClosetOrdersDesktopTableOrderFragment = { __typename: 'Order', id: string, humanOrderId: string, paymentStatus: OrderPaymentStatus, humanPaymentStatus: string, totalTaxCents: number, totalPriceCents: number, createdAt: any, organization: { __typename: 'Organization', id: string, name: string | null } | null };
+export type ClosetOrdersDesktopTableOrderFragment = { __typename: 'Order', id: string, humanOrderId: string, paymentStatus: OrderPaymentStatus, statusTemporary: OrderStatusTemporary, humanStatusTemporary: string, humanPaymentStatus: string, totalTaxCents: number, totalPriceCents: number, createdAt: any, organization: { __typename: 'Organization', id: string, name: string | null } | null };
 
 export type ClosetOrdersIndexPageGetDataQueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -12400,7 +12400,7 @@ export type ClosetOrdersIndexPageGetDataQueryVariables = Exact<{
 }>;
 
 
-export type ClosetOrdersIndexPageGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, hasOrders: boolean, orders: { __typename: 'OrderConnection', edges: Array<{ __typename: 'OrderEdge', node: { __typename: 'Order', id: string, humanOrderId: string, paymentStatus: OrderPaymentStatus, humanPaymentStatus: string, totalTaxCents: number, totalPriceCents: number, createdAt: any, organization: { __typename: 'Organization', id: string, name: string | null } | null } | null } | null> | null, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, endCursor: string | null } } | null } | null };
+export type ClosetOrdersIndexPageGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, hasOrders: boolean, orders: { __typename: 'OrderConnection', edges: Array<{ __typename: 'OrderEdge', node: { __typename: 'Order', id: string, humanOrderId: string, paymentStatus: OrderPaymentStatus, statusTemporary: OrderStatusTemporary, humanStatusTemporary: string, humanPaymentStatus: string, totalTaxCents: number, totalPriceCents: number, createdAt: any, organization: { __typename: 'Organization', id: string, name: string | null } | null } | null } | null> | null, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, endCursor: string | null } } | null } | null };
 
 export type ClosetSettingsGeneralPageUserFragment = { __typename: 'User', id: string, name: string | null, email: string | null, picture: string | null };
 
