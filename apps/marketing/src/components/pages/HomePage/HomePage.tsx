@@ -18,9 +18,7 @@ export interface HomePageProps {
 const HomePage = ({ featuredPosts }: HomePageProps) => {
   return (
     <>
-      <Container>
-        <HomePageHero />
-      </Container>
+      <HomePageHero />
 
       <Section>
         <CustomerLogoBanner />

@@ -1,20 +1,45 @@
-.bg {}
+.bg {
+  @apply z-10;
+}
 
 .bg>div {
-  @apply absolute inset-0 bg-cover bg-no-repeat bg-center aspect-square;
+  @apply absolute -z-10 overflow-hidden inset-0 flex items-center justify-center;
 }
 
-.bg>div:nth-child(1) {
+.bg>div>img {
+  @apply shrink-0 aspect-square max-w-none;
+}
+
+.bg>div:nth-child(1)>img {
   @apply h-[100vh];
-  background-image: url('/shapes/home-elipses-lg.svg');
+  animation: rotate-reverse 120s linear infinite;
 }
 
-.bg>div:nth-child(2) {
-  @apply h-[110vh];
-  background-image: url('/shapes/home-elipses-md.svg');
-}
-
-.bg>div:nth-child(3) {
+.bg>div:nth-child(2)>img {
   @apply h-[120vh];
-  background-image: url('/shapes/home-elipses-sm.svg');
+}
+
+.bg>div:nth-child(3)>img {
+  @apply h-[140vh];
+  animation: rotate 100s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate-reverse {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-360deg);
+  }
 }
