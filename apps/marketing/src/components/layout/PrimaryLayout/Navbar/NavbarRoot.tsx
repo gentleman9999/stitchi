@@ -54,11 +54,8 @@ const NavbarRoot = ({ children, innerRef }: Props) => {
 
   return (
     <div className={cx(s.root)}>
-      <Container
-        ref={innerRef}
-        className={cx(s.inner, { 'shadow-magical': hasScrolled })}
-      >
-        <div className={cx(s.nav, { [s.shrink]: shrink })}>
+      <Container ref={innerRef} className={cx(s.inner)}>
+        <div className={cx(s.nav)}>
           <Link
             href={routes.internal.home.href()}
             passHref
