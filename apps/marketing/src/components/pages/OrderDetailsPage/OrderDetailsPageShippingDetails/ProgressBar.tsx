@@ -1,24 +1,48 @@
 import React from 'react'
 import cx from 'classnames'
+import { OrderStatusTemporary } from '@generated/types'
 
-const states = ['Placed', 'Approved', 'Printing', 'Shipping', 'Delivered']
+const states = [
+  {
+    value: OrderStatusTemporary.UNCONFIRMED,
+    label: 'Received',
+  },
+  {
+    value: OrderStatusTemporary.CONFIRMED,
+    label: 'Approved',
+  },
+  {
+    value: OrderStatusTemporary.IN_PRODUCTION,
+    label: 'Printing',
+  },
+  {
+    value: OrderStatusTemporary.IN_FULFILLMENT,
+    label: 'Shipping',
+  },
+  {
+    value: OrderStatusTemporary.COMPLETED,
+    label: 'Delivered',
+  },
+]
 
 interface Props {
-  step: number
+  step: OrderStatusTemporary
 }
 
 const Progress = ({ step }: Props) => {
+  const stepIndex = states.findIndex(state => state.value === step)
+
   return (
     <>
       <div className="sm:sr-only mb-2 mt-4 text-bold text-3xl text-gray-700">
-        {states[step]}.
+        {states[stepIndex].label}.
       </div>
       <div className="grid grid-cols-10 bg-gray-200 rounded-full overflow-hidden">
         {Array.from({ length: 10 }).map((_, i) => (
           <div
             key={i}
             className={cx('w-0 h-2 bg-primary', {
-              '!w-full': i < step * 2 + 1,
+              '!w-full': i < stepIndex * 2 + 1 || stepIndex === 4,
             })}
           />
         ))}
@@ -30,9 +54,9 @@ const Progress = ({ step }: Props) => {
               '!text-left': i === 0,
               '!text-right': i === states.length - 1,
             })}
-            key={state}
+            key={state.value}
           >
-            {state}
+            {state.label}
           </span>
         ))}
       </div>

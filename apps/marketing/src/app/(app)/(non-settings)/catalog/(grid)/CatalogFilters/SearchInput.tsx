@@ -28,6 +28,8 @@ const SearchInput = ({ onSubmit, loading }: Props) => {
           />
         </div>
         <input
+          type="text"
+          name="search"
           className="py-1 pr-5 pl-10 text-sm font-medium w-full rounded-md border focus:outline-gray-800 placeholder:font-normal"
           placeholder="Search our catalog"
           onChange={handleChange}

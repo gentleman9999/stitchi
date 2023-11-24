@@ -944,6 +944,9 @@ type Mutation {
 
   """Confirms an order with a customers details"""
   orderConfirm(input: OrderConfirmInput!): OrderConfirmPayload
+
+  """Updates the (temporary) status of an order"""
+  orderStatusTemporaryUpdate(input: OrderStatusTemporaryUpdateInput!): OrderStatusTemporaryUpdatePayload
   organizationBrandColorCreate(input: OrganizationBrandColorCreateInput!): OrganizationBrandColorCreatePayload
   organizationBrandColorDelete(input: OrganizationBrandColorDeleteInput!): OrganizationBrandColorDeletePayload
   organizationBrandColorUpdate(input: OrganizationBrandColorUpdateInput!): OrganizationBrandColorUpdatePayload
@@ -1041,6 +1044,7 @@ type Order {
   fulfillments: [Fulfillment!]!
   humanOrderId: String!
   humanPaymentStatus: String!
+  humanStatusTemporary: String!
   id: ID!
   itemSummaries: [OrderItemSummary!]!
   items: [OrderItem!]!
@@ -1053,6 +1057,7 @@ type Order {
   paymentStatus: OrderPaymentStatus!
   shippingAddress: MailingAddress
   shippingAddressId: String
+  statusTemporary: OrderStatusTemporary!
   subtotalPriceCents: Int!
   totalAmountDueCents: Int!
   totalAmountPaidCents: Int!
@@ -1147,6 +1152,23 @@ enum OrderPaymentStatus {
   PARTIALLY_PAID
   PARTIALLY_REFUNDED
   REFUNDED
+}
+
+enum OrderStatusTemporary {
+  COMPLETED
+  CONFIRMED
+  IN_FULFILLMENT
+  IN_PRODUCTION
+  UNCONFIRMED
+}
+
+input OrderStatusTemporaryUpdateInput {
+  orderId: ID!
+  status: OrderStatusTemporary!
+}
+
+type OrderStatusTemporaryUpdatePayload {
+  order: Order
 }
 
 enum OrderType {
@@ -1400,6 +1422,7 @@ enum ScopeResource {
   Integration
   Membership
   Order
+  OrderFulfillment
   Organization
 }
 

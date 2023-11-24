@@ -5,9 +5,9 @@ generator client {
   provider = "prisma-client-js"
 }
 
-generator erd {
-  provider = "prisma-erd-generator"
-}
+// generator erd {
+//   provider = "prisma-erd-generator"
+// }
 
 datasource db {
   provider     = "mysql"
@@ -213,6 +213,8 @@ model Order {
   // Order payment status
   paymentStatus OrderPaymentStatus @default(NOT_PAID)
 
+  statusTemporary OrderStatusTemporary @default(UNCONFIRMED)
+
   // The type of order
   type OrderType
 
@@ -251,6 +253,23 @@ enum OrderPaymentStatus {
 
   // Product is in the cart
   REFUNDED
+}
+
+enum OrderStatusTemporary {
+  // Order hasn't been confirmed by Stitchi
+  UNCONFIRMED
+
+  // Order has been confirmed by Stitchi
+  CONFIRMED
+
+  // Order has entered production
+  IN_PRODUCTION
+
+  // Order has entered fulfillment
+  IN_FULFILLMENT
+
+  // Completed
+  COMPLETED
 }
 
 enum OrderType {

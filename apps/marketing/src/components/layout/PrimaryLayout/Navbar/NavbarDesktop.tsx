@@ -1,7 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
 import routes from '@lib/routes'
-import Button from '@components/ui/Button'
 import s from './NavbarDesktop.module.css'
 import { ChevronDown } from 'icons'
 import cx from 'classnames'
@@ -48,7 +47,7 @@ const NavbarDesktop = ({ anchorEl }: Props) => {
       <Link
         className={cx(
           s.link,
-          'border !font-bold py-1 px-2 rounded-lg border-gray-100 lowercase text-gray-100',
+          'border !font-bold py-1 px-2 rounded-lg border-gray-950',
         )}
         href={
           user ? routes.internal.closet.href() : routes.internal.signup.href()
@@ -75,7 +74,7 @@ const PopoverButton = ({
     <ChevronDown
       strokeWidth="4px"
       className={cx(
-        '-mr-1 ml-2 mt-0.5 h-3 w-3 transition-transform text-gray-100',
+        '-mr-1 ml-2 mt-0.5 h-3 w-3 transition-transform text-gray-950',
         active && 'transform rotate-180',
       )}
       aria-hidden="true"

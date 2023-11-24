@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { Popover, Transition } from '@headlessui/react'
 import cx from 'classnames'
+import Container from '@components/ui/Container'
 
 interface Props {
   ButtonChildren: React.ComponentType<{ active: boolean }>
@@ -67,9 +68,11 @@ const Dropdown = ({
                   : undefined,
               }}
             >
-              <div className="mt-2 bg-white p-4 relative rounded-md focus:outline-none shadow-md">
-                {panelChildren}
-              </div>
+              <Container>
+                <div className="mt-2 bg-white p-4 relative rounded-md focus:outline-none shadow-md">
+                  {panelChildren}
+                </div>
+              </Container>
             </Popover.Panel>
           </Transition>
         </>

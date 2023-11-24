@@ -17,7 +17,6 @@
     "email:compose": "email dev --dir src/email-template-composer/emails --port 3004"
   },
   "devDependencies": {
-    "@mermaid-js/mermaid-cli": "^10.6.1",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "18.17.0",
     "@types/node-fetch": "^2.6.1",
@@ -31,7 +30,6 @@
     "openai": "^3.2.1",
     "pino-pretty": "^10.2.0",
     "prisma": "5",
-    "prisma-erd-generator": "^1.11.1",
     "react-email": "^1.9.5",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^1.1.8",

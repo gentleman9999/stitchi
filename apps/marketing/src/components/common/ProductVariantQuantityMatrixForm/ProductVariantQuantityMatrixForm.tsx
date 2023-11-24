@@ -20,7 +20,7 @@ interface ProductSize {
 }
 
 interface Variant {
-  catalogProductVariantId: string
+  catalogProductVariantId: string | null
   sizeName: string | null | undefined
   colorName: string | null | undefined
   catalogProductSizeId: string | null

@@ -2,6 +2,7 @@ import { GraphQLError } from 'graphql'
 import { inputObjectType, mutationField, nonNull, objectType } from 'nexus'
 import { OrderRecordType } from '../../../services/order/db/order-table'
 import { orderFactoryOrderToGraphQL } from '../../serializers/order'
+import { ForbiddenError } from 'apollo-server-core'
 
 export * from './mailing-address'
 
@@ -129,3 +130,73 @@ export const orderConfirm = mutationField('orderConfirm', {
     return { order: orderFactoryOrderToGraphQL(order) }
   },
 })
+
+export const OrderStatusTemporaryUpdateInput = inputObjectType({
+  name: 'OrderStatusTemporaryUpdateInput',
+  definition(t) {
+    t.nonNull.id('orderId')
+    t.nonNull.field('status', {
+      type: 'OrderStatusTemporary',
+    })
+  },
+})
+
+export const OrderStatusTemporaryUpdatePayload = objectType({
+  name: 'OrderStatusTemporaryUpdatePayload',
+  definition(t) {
+    t.field('order', {
+      type: 'Order',
+    })
+  },
+})
+
+export const orderStatusTemporaryUpdate = mutationField(
+  'orderStatusTemporaryUpdate',
+  {
+    description: 'Updates the (temporary) status of an order',
+    type: 'OrderStatusTemporaryUpdatePayload',
+    args: {
+      input: nonNull('OrderStatusTemporaryUpdateInput'),
+    },
+    resolve: async (_, { input }, ctx) => {
+      const scope = ctx.authorize('CREATE', 'OrderFulfillment')
+
+      if (!scope) {
+        throw new ForbiddenError('Forbidden')
+      }
+
+      let order
+
+      try {
+        order = await ctx.order.getOrder({
+          orderId: input.orderId,
+        })
+      } catch (error) {
+        ctx.logger
+          .child({
+            context: { error },
+          })
+          .error(`Failed to get order: ${input.orderId}`)
+        throw new GraphQLError('Failed to get order')
+      }
+
+      try {
+        order = await ctx.order.updateOrder({
+          order: {
+            ...order,
+            statusTemporary: input.status,
+          },
+        })
+      } catch (error) {
+        ctx.logger
+          .child({
+            context: { error },
+          })
+          .error(`Failed to update order: ${input.orderId}`)
+        throw new GraphQLError('Failed to update order')
+      }
+
+      return { order: orderFactoryOrderToGraphQL(order) }
+    },
+  },
+)

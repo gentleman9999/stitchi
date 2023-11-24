@@ -2,7 +2,7 @@ import { Adjustments } from 'icons'
 import React from 'react'
 import cx from 'classnames'
 import FilterButton from './FilterButton'
-import useActiveFilters from '../useActiveFilters'
+import { useFilters } from '../filters-context'
 
 interface Props {
   onClick: (b: boolean) => void
@@ -10,7 +10,9 @@ interface Props {
 }
 
 const FilterDialogButton = ({ onClick, floating = false }: Props) => {
-  const { brands, categories } = useActiveFilters()
+  const {
+    filters: { brands, categories },
+  } = useFilters()
 
   const filterCount = (brands?.length || 0) + (categories?.length || 0)
 

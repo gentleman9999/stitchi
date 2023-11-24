@@ -39,15 +39,17 @@ export const generateMetadata = async ({
   if (node?.__typename === 'Category') {
     const title = `Browse ${node.name} products`
     const description = node.seo.metaDescription
+    const url = routes.internal.catalog.category.show.href({ categorySlug })
     return {
       title,
       description,
+      alternates: {
+        canonical: url,
+      },
       openGraph: {
         title,
         description,
-        url: routes.internal.catalog.category.show.href({
-          categorySlug,
-        }),
+        url,
       },
     }
   }
@@ -65,7 +67,7 @@ const Page = ({ params }: { params: Params }) => {
     notFound()
   }
 
-  return <CatalogProductGrid categoryEntityId={foundCategory.id} />
+  return <CatalogProductGrid />
 }
 
 const GET_DATA = gql`

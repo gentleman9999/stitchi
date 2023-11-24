@@ -16,6 +16,7 @@ export const scopeMap: Record<
 > = {
   OWNER: {
     Order: [['CREATE'], ['READ', 'ALL'], ['UPDATE', 'ALL'], ['DELETE', 'ALL']],
+    OrderFulfillment: [],
     DesignProof: [['READ', 'ALL']],
     DesignProduct: [
       ['CREATE'],
@@ -51,6 +52,7 @@ export const scopeMap: Record<
   },
   STITCHI_DESIGNER: {
     Order: [],
+    OrderFulfillment: [],
     DesignProof: [
       ['CREATE'],
       ['READ', 'ALL'],
@@ -65,7 +67,18 @@ export const scopeMap: Record<
     Organization: [],
   },
   STITCHI_ADMIN: {
-    Order: [['CREATE'], ['READ', 'ALL'], ['UPDATE', 'ALL'], ['DELETE', 'ALL']],
+    Order: [
+      ['CREATE', 'ALL'],
+      ['READ', 'ALL'],
+      ['UPDATE', 'ALL'],
+      ['DELETE', 'ALL'],
+    ],
+    OrderFulfillment: [
+      ['CREATE', 'ALL'],
+      ['READ', 'ALL'],
+      ['UPDATE', 'ALL'],
+      ['DELETE', 'ALL'],
+    ],
     DesignProof: [
       ['CREATE'],
       ['READ', 'ALL'],

@@ -29,11 +29,9 @@ module.exports = withBundleAnalyzer(
     images: {
       remotePatterns: [
         {
-          protocol: 'https',
           hostname: 'res.cloudinary.com',
         },
         {
-          protocol: 'https',
           hostname: 'cdn11.bigcommerce.com',
         },
       ],

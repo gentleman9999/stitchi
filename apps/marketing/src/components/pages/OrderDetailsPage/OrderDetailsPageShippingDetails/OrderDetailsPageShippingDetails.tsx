@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
-import { OrderDetailsPageShippingDetailsOrderFragment } from '@generated/OrderDetailsPageShippingDetailsOrderFragment'
 import React from 'react'
 import Progress from './ProgressBar'
+import { OrderDetailsPageShippingDetailsOrderFragment } from '@generated/types'
 
 interface Props {
   order: OrderDetailsPageShippingDetailsOrderFragment
@@ -71,7 +71,7 @@ const OrderDetailsPageShippingDetails = ({ order }: Props) => {
       </div>
 
       <div>
-        <Progress step={0} />
+        <Progress step={order.statusTemporary} />
       </div>
     </div>
   )
@@ -83,6 +83,8 @@ OrderDetailsPageShippingDetails.fragments = {
       id
       customerEmail
       customerPhone
+      statusTemporary
+
       fulfillments {
         id
         trackingInfo {

@@ -4,6 +4,7 @@ import {
   OrderFactoryMailingAddress,
 } from '../../services/order/factory'
 import { NexusGenObjects } from '../generated/nexus'
+import { OrderStatusTemporary } from '../types'
 
 const humanizePaymentStatus = (
   status: OrderFactoryOrder['paymentStatus'],
@@ -21,6 +22,23 @@ const humanizePaymentStatus = (
       return 'Partially Refunded'
     default:
       throw new Error(`Unknown payment status: ${status}`)
+  }
+}
+
+const humanizeStatusTemporary = (
+  status: OrderFactoryOrder['statusTemporary'],
+): string => {
+  switch (status) {
+    case 'UNCONFIRMED':
+      return 'Received'
+    case 'CONFIRMED':
+      return 'Confirmed'
+    case 'IN_PRODUCTION':
+      return 'Printing'
+    case 'IN_FULFILLMENT':
+      return 'Shipping'
+    case 'COMPLETED':
+      return 'Delivered'
   }
 }
 
@@ -72,6 +90,9 @@ export const orderFactoryOrderToGraphQL = (
     type: order.type,
     paymentStatus: order.paymentStatus,
     humanPaymentStatus: humanizePaymentStatus(order.paymentStatus),
+
+    statusTemporary: order.statusTemporary,
+    humanStatusTemporary: humanizeStatusTemporary(order.statusTemporary),
 
     subtotalPriceCents: order.subtotalPriceCents,
     totalAmountDueCents: order.totalAmountDueCents,

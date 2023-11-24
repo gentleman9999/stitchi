@@ -126,7 +126,11 @@ export const DesignRequestsExtendsMembership = extendType({
 
         const where = {
           status: {
-            notIn: [DesignRequestStatus.DRAFT],
+            notIn: [
+              DesignRequestStatus.DRAFT,
+              DesignRequestStatus.ARCHIVED,
+              DesignRequestStatus.REJECTED,
+            ],
           },
           designRequestArtists: {
             none: {},

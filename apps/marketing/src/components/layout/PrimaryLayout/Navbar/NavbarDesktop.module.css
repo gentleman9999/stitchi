@@ -1,5 +1,5 @@
 .link {
-  @apply inline-flex items-center transition ease-in-out duration-75 cursor-pointer text-gray-100 font-medium capitalize text-base leading-tight;
+  @apply inline-flex items-center transition ease-in-out duration-75 cursor-pointer text-gray-950 font-normal text-base leading-tight;
 }
 
 .link:hover {

@@ -53,7 +53,7 @@ const customizationOptions = [
 ]
 
 const sizeSchema = yup.object().shape({
-  catalogProductVariantId: yup.string().required(),
+  catalogProductVariantId: yup.string().nullable().defined(),
   catalogSizeEntityId: yup.string().required(),
   quantity: yup.number().min(0).nullable().defined().label('Quantity'),
   disabled: yup.boolean().nullable().defined(),
@@ -166,8 +166,9 @@ const ProductForm = (props: ProductFormProps) => {
       addons,
       items: colors.flatMap(color =>
         color.sizes
+          .filter(size => Boolean(size.catalogProductVariantId))
           .map(size => ({
-            catalogProductVariantId: size.catalogProductVariantId,
+            catalogProductVariantId: size.catalogProductVariantId!,
             quantity: size.quantity || 0,
           }))
           .filter(

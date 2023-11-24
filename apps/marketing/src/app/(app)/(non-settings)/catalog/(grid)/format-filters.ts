@@ -9,15 +9,7 @@ interface Params {
   fits: number[] | null
 }
 
-export const mergeFilters = (
-  params: Params,
-  config: {
-    // Display single brand
-    brandEntityId?: number
-    // Display single category
-    categoryEntityId?: number
-  },
-): SearchProductsFiltersInput => {
+export const mergeFilters = (params: Params): SearchProductsFiltersInput => {
   let categoryEntityIds: number[] | null = [
     ...(params.categories || []),
     ...(params.collections || []),
@@ -26,21 +18,14 @@ export const mergeFilters = (
   ]
 
   if (!categoryEntityIds.length) {
-    categoryEntityIds = config.categoryEntityId
-      ? [config.categoryEntityId]
-      : null
+    categoryEntityIds = null
   }
 
   return {
     searchTerm: params.search,
     searchSubCategories: true,
 
-    brandEntityIds: params.brands?.length
-      ? params.brands
-      : config.brandEntityId
-      ? [config.brandEntityId]
-      : undefined,
-
+    brandEntityIds: params.brands?.length ? params.brands : undefined,
     categoryEntityIds: Boolean(categoryEntityIds)
       ? categoryEntityIds
       : undefined,

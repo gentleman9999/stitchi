@@ -284,6 +284,10 @@ export interface NexusGenInputs {
     provinceCode?: string | null; // String
     zip?: string | null; // String
   }
+  OrderStatusTemporaryUpdateInput: { // input type
+    orderId: string; // ID!
+    status: NexusGenEnums['OrderStatusTemporary']; // OrderStatusTemporary!
+  }
   OrganizationBrandColorCreateInput: { // input type
     cmykC: number; // Int!
     cmykK: number; // Int!
@@ -379,10 +383,11 @@ export interface NexusGenEnums {
   NotificationChannelType: "EMAIL" | "WEB"
   OrderItemType: "BIG_COMMERCE_PRODUCT" | "CUSTOM"
   OrderPaymentStatus: "NOT_PAID" | "PAID" | "PARTIALLY_PAID" | "PARTIALLY_REFUNDED" | "REFUNDED"
+  OrderStatusTemporary: "COMPLETED" | "CONFIRMED" | "IN_FULFILLMENT" | "IN_PRODUCTION" | "UNCONFIRMED"
   OrderType: "CART" | "CONFIRMED"
   ScopeAction: "CREATE" | "DELETE" | "READ" | "UPDATE"
   ScopeModifier: "ALL" | "OWN"
-  ScopeResource: "DesignProduct" | "DesignProof" | "DesignRequest" | "DesignRequestRevisionRequest" | "Integration" | "Membership" | "Order" | "Organization"
+  ScopeResource: "DesignProduct" | "DesignProof" | "DesignRequest" | "DesignRequestRevisionRequest" | "Integration" | "Membership" | "Order" | "OrderFulfillment" | "Organization"
   SubscriberListEnum: "NEWSLETTER_SUBSCRIBER" | "NEW_USER" | "STUDENT_MERCH_DOWNLOAD"
 }
 
@@ -827,12 +832,14 @@ export interface NexusGenObjects {
     designRequestId?: string | null; // String
     humanOrderId: string; // String!
     humanPaymentStatus: string; // String!
+    humanStatusTemporary: string; // String!
     id: string; // ID!
     items: NexusGenRootTypes['OrderItem'][]; // [OrderItem!]!
     membershipId?: string | null; // String
     organizationId?: string | null; // String
     paymentStatus: NexusGenEnums['OrderPaymentStatus']; // OrderPaymentStatus!
     shippingAddressId?: string | null; // String
+    statusTemporary: NexusGenEnums['OrderStatusTemporary']; // OrderStatusTemporary!
     subtotalPriceCents: number; // Int!
     totalAmountDueCents: number; // Int!
     totalAmountPaidCents: number; // Int!
@@ -874,6 +881,9 @@ export interface NexusGenObjects {
     quantity: number; // Int!
     title: string; // String!
     totalPriceCents: number; // Int!
+  }
+  OrderStatusTemporaryUpdatePayload: { // root type
+    order?: NexusGenRootTypes['Order'] | null; // Order
   }
   Organization: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -1485,6 +1495,7 @@ export interface NexusGenFieldTypes {
     membershipInviteRevoke: NexusGenRootTypes['MembershipInviteRevokePayload'] | null; // MembershipInviteRevokePayload
     notificationMarkAsSeen: NexusGenRootTypes['NotificationMarkAsSeenPayload'] | null; // NotificationMarkAsSeenPayload
     orderConfirm: NexusGenRootTypes['OrderConfirmPayload'] | null; // OrderConfirmPayload
+    orderStatusTemporaryUpdate: NexusGenRootTypes['OrderStatusTemporaryUpdatePayload'] | null; // OrderStatusTemporaryUpdatePayload
     organizationBrandColorCreate: NexusGenRootTypes['OrganizationBrandColorCreatePayload'] | null; // OrganizationBrandColorCreatePayload
     organizationBrandColorDelete: NexusGenRootTypes['OrganizationBrandColorDeletePayload'] | null; // OrganizationBrandColorDeletePayload
     organizationBrandColorUpdate: NexusGenRootTypes['OrganizationBrandColorUpdatePayload'] | null; // OrganizationBrandColorUpdatePayload
@@ -1547,6 +1558,7 @@ export interface NexusGenFieldTypes {
     fulfillments: NexusGenRootTypes['Fulfillment'][]; // [Fulfillment!]!
     humanOrderId: string; // String!
     humanPaymentStatus: string; // String!
+    humanStatusTemporary: string; // String!
     id: string; // ID!
     itemSummaries: NexusGenRootTypes['OrderItemSummary'][]; // [OrderItemSummary!]!
     items: NexusGenRootTypes['OrderItem'][]; // [OrderItem!]!
@@ -1559,6 +1571,7 @@ export interface NexusGenFieldTypes {
     paymentStatus: NexusGenEnums['OrderPaymentStatus']; // OrderPaymentStatus!
     shippingAddress: NexusGenRootTypes['MailingAddress'] | null; // MailingAddress
     shippingAddressId: string | null; // String
+    statusTemporary: NexusGenEnums['OrderStatusTemporary']; // OrderStatusTemporary!
     subtotalPriceCents: number; // Int!
     totalAmountDueCents: number; // Int!
     totalAmountPaidCents: number; // Int!
@@ -1601,6 +1614,9 @@ export interface NexusGenFieldTypes {
     quantity: number; // Int!
     title: string; // String!
     totalPriceCents: number; // Int!
+  }
+  OrderStatusTemporaryUpdatePayload: { // field return type
+    order: NexusGenRootTypes['Order'] | null; // Order
   }
   Organization: { // field return type
     brand: NexusGenRootTypes['OrganizationBrand'] | null; // OrganizationBrand
@@ -2238,6 +2254,7 @@ export interface NexusGenFieldTypeNames {
     membershipInviteRevoke: 'MembershipInviteRevokePayload'
     notificationMarkAsSeen: 'NotificationMarkAsSeenPayload'
     orderConfirm: 'OrderConfirmPayload'
+    orderStatusTemporaryUpdate: 'OrderStatusTemporaryUpdatePayload'
     organizationBrandColorCreate: 'OrganizationBrandColorCreatePayload'
     organizationBrandColorDelete: 'OrganizationBrandColorDeletePayload'
     organizationBrandColorUpdate: 'OrganizationBrandColorUpdatePayload'
@@ -2300,6 +2317,7 @@ export interface NexusGenFieldTypeNames {
     fulfillments: 'Fulfillment'
     humanOrderId: 'String'
     humanPaymentStatus: 'String'
+    humanStatusTemporary: 'String'
     id: 'ID'
     itemSummaries: 'OrderItemSummary'
     items: 'OrderItem'
@@ -2312,6 +2330,7 @@ export interface NexusGenFieldTypeNames {
     paymentStatus: 'OrderPaymentStatus'
     shippingAddress: 'MailingAddress'
     shippingAddressId: 'String'
+    statusTemporary: 'OrderStatusTemporary'
     subtotalPriceCents: 'Int'
     totalAmountDueCents: 'Int'
     totalAmountPaidCents: 'Int'
@@ -2354,6 +2373,9 @@ export interface NexusGenFieldTypeNames {
     quantity: 'Int'
     title: 'String'
     totalPriceCents: 'Int'
+  }
+  OrderStatusTemporaryUpdatePayload: { // field return type name
+    order: 'Order'
   }
   Organization: { // field return type name
     brand: 'OrganizationBrand'
@@ -2658,6 +2680,9 @@ export interface NexusGenArgTypes {
     }
     orderConfirm: { // args
       input: NexusGenInputs['OrderConfirmInput']; // OrderConfirmInput!
+    }
+    orderStatusTemporaryUpdate: { // args
+      input: NexusGenInputs['OrderStatusTemporaryUpdateInput']; // OrderStatusTemporaryUpdateInput!
     }
     organizationBrandColorCreate: { // args
       input: NexusGenInputs['OrganizationBrandColorCreateInput']; // OrganizationBrandColorCreateInput!

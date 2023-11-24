@@ -1,11 +1,15 @@
 import React from 'react'
 import Dropdown from './Dropdown'
-import useSort from '../useSort'
+import { useFilters } from '../filters-context'
 
 interface Props {}
 
 const SortButton = (props: Props) => {
-  const { sortOptions, sort, setSort } = useSort()
+  const {
+    sort,
+    availableFilters: { sort: sortOptions },
+    setSort,
+  } = useFilters()
 
   return (
     <Dropdown

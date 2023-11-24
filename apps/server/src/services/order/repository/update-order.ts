@@ -104,6 +104,7 @@ const makeUpdateOrder: MakeUpdateOrderFn =
           totalPriceCents: validInput.totalPriceCents,
           subtotalPriceCents: validInput.subtotalPriceCents,
           paymentStatus: validInput.paymentStatus,
+          statusTemporary: validInput.statusTemporary,
           OrderItems: {
             update: itemsToUpdate.map(({ id, ...item }) => ({
               where: { id },
