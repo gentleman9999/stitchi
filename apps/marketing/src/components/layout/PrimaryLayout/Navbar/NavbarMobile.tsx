@@ -10,7 +10,6 @@ import Popover from '../Popover'
 import { Popover as HeadlessPopover } from '@headlessui/react'
 import { track } from '@lib/analytics'
 import { useUser } from '@auth0/nextjs-auth0/client'
-import Badge from '@components/ui/Badge'
 import Button from '@components/ui/ButtonV2/Button'
 
 interface Props {

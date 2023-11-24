@@ -2,7 +2,7 @@
 
 import React, { useTransition } from 'react'
 import { notEmpty } from '@lib/utils/typescript'
-import CatalogProductLegacy from '../../../../../components/common/CatalogProductLegacy'
+import CatalogProductLegacy from '../../../../components/common/CatalogProductLegacy'
 import CatalogProductSkeleton from './CatalogProductSkeleton'
 import { InfiniteScrollContainer } from '@components/common'
 import Link from 'next/link'

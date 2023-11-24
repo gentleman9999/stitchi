@@ -1,13 +1,13 @@
 .root {
-  @apply fixed bg-white top-0 left-0 right-0 z-40 transition-all duration-150 flex items-center border-b;
+  @apply fixed h-topbar-height bg-white top-0 left-0 right-0 z-40 transition-all duration-150 flex items-center border-b;
 }
 
 .inner {
-  @apply relative;
+  @apply relative flex h-full;
 }
 
 .nav {
-  @apply relative flex flex-1 flex-row justify-between items-center py-2;
+  @apply relative flex flex-1 flex-row justify-between items-center;
 }
 
 .logo {

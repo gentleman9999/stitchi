@@ -7,8 +7,8 @@ import {
   UsersIcon,
 } from '@heroicons/react/20/solid'
 import Link from 'next/link'
-import SidenavWrapper from '../SidenavWrapper'
-import NavItem from '../NavItem'
+import SidenavWrapper from '../../SidenavWrapper'
+import NavItem from '../../NavItem'
 
 interface Props {
   children: React.ReactNode
