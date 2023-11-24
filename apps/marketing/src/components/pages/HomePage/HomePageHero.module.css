@@ -1,23 +1,20 @@
-.in {
-  animation: fadeIn ease-in 200ms;
-  animation-fill-mode: forwards;
+.bg {}
+
+.bg>div {
+  @apply absolute inset-0 bg-cover bg-no-repeat bg-center aspect-square;
 }
 
-.out {
-  animation: fadeOut ease-in 2ms;
-  animation-fill-mode: forwards;
+.bg>div:nth-child(1) {
+  @apply h-[100vh];
+  background-image: url('/shapes/home-elipses-lg.svg');
 }
 
-@keyframes fadeIn {
-  100% {
-    opacity: 1;
-    top: 0;
-  }
+.bg>div:nth-child(2) {
+  @apply h-[110vh];
+  background-image: url('/shapes/home-elipses-md.svg');
 }
 
-@keyframes fadeOut {
-  100% {
-    opacity: 0;
-    top: 100px;
-  }
+.bg>div:nth-child(3) {
+  @apply h-[120vh];
+  background-image: url('/shapes/home-elipses-sm.svg');
 }
