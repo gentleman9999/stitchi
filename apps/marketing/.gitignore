@@ -12,3 +12,5 @@
 
 # Typescript
 tsconfig.tsbuildinfo
+
+public/sitemap*.xml
