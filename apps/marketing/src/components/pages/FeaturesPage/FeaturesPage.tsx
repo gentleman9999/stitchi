@@ -292,7 +292,7 @@ const FeaturesPage = () => {
         </Section>
       </header>
 
-      <nav className="hidden sm:flex sticky top-28 w-full justify-center">
+      <nav className="hidden sm:flex sticky top-[calc(var(--topbar-height)+8px)] w-full justify-center">
         <ul className="flex justify-center items-center gap-2 md:gap-4 bg-gray-100 border rounded-xl p-2">
           {Object.entries(Sections).map(([key, value], index) => (
             <>
