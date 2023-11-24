@@ -13,45 +13,6 @@ interface Props {
 }
 
 const NavbarRoot = ({ children, innerRef }: Props) => {
-  const [shrink, setShrink] = React.useState(false)
-
-  const [hasScrolled, setHasScrolled] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = throttle(() => {
-      const offset = 0
-      const { scrollTop } = document.documentElement
-      const scrolled = scrollTop > offset
-
-      if (hasScrolled !== scrolled) {
-        setHasScrolled(scrolled)
-      }
-    }, 200)
-
-    document.addEventListener('scroll', handleScroll)
-    return () => {
-      document.removeEventListener('scroll', handleScroll)
-    }
-  }, [hasScrolled])
-
-  useEffect(() => {
-    let prevScrollPos = 0
-
-    const handleScroll = () => {
-      if (window.scrollY > prevScrollPos + 10) {
-        setShrink(true)
-        prevScrollPos = window.scrollY
-      } else if (window.scrollY < prevScrollPos - 5) {
-        setShrink(false)
-        prevScrollPos = window.scrollY
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll)
-
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   return (
     <div className={cx(s.root)}>
       <Container ref={innerRef} className={cx(s.inner)}>

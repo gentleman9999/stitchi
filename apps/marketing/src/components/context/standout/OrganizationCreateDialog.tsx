@@ -1,7 +1,7 @@
 import { gql, useMutation } from '@apollo/client'
 import { ComponentErrorMessage } from '@components/common'
 import useSetUserMembership from '@components/hooks/useSetUserMembership'
-import FormSection from 'app/(app)/(non-settings)/(with-auth)/closet/inventory/@sidePanel/products/[designId]/order/FormSection'
+import FormSection from 'app/(app)/closet/(non-settings)/inventory/@sidePanel/products/[designId]/order/FormSection'
 import Button from '@components/ui/ButtonV2/Button'
 import Dialog from '@components/ui/Dialog'
 import { InputGroup, TextField } from '@components/ui/inputs'

@@ -1,7 +1,7 @@
 import ClosetPageTitle from '@components/common/ClosetPageTitle'
 import Skeleton from '@components/ui/Skeleton'
 import React from 'react'
-import { theme } from '../../../../../../../../../../tailwind.config'
+import { theme } from '../../../../../../../../../tailwind.config'
 
 const Loading = () => {
   return (

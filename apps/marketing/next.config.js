@@ -55,6 +55,15 @@ module.exports = withBundleAnalyzer(
             source: '/custom-:slug(.*?)-shirts',
             destination: '/lookbook/categories/:slug',
           },
+
+          //
+          // Our product catalog lives in two places, the marketing site and the app. We must handle rewrites for both cases.
+          //
+
+          // ***
+          // Start: Marketing site rewrites
+          // ***
+
           // Brand rewrites
           ...allBrandSlugs.map(slug => ({
             source: `/${slug}`,
@@ -75,6 +84,39 @@ module.exports = withBundleAnalyzer(
             source: `/${slug}`,
             destination: `/catalog/categories/${slug}`,
           })),
+
+          // ***
+          // End: Marketing site rewrites
+          // ***
+
+          // ***
+          // Start: App rewrites
+          // ***
+
+          // Brand rewrites
+          ...allBrandSlugs.map(slug => ({
+            source: `/closet/${slug}`,
+            destination: `/closet/catalog/brands/${slug}`,
+          })),
+          // Product rewrites
+          ...allBrandSlugs.map(slug => ({
+            source: `/closet/${slug}-:rest`,
+            destination: `/closet/catalog/brands/${slug}/products/:rest`,
+          })),
+          // Product "Share" rewrites
+          ...allBrandSlugs.map(slug => ({
+            source: `/closet/${slug}-:rest/share`,
+            destination: `/closet/catalog/brands/${slug}/products/:rest/share`,
+          })),
+          // Category rewrites
+          ...allCategorySlugs.map(slug => ({
+            source: `/closet/${slug}`,
+            destination: `/closet/catalog/categories/${slug}`,
+          })),
+
+          // ***
+          // End: App rewrites
+          // ***
         ],
       }
     },

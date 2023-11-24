@@ -10,9 +10,9 @@ import {
   PaintBrushIcon,
   RectangleStackIcon,
 } from '@heroicons/react/24/outline'
-import NavItem from '../NavItem'
-import CatalogNavItem from './CatalogNavItem'
-import SidenavWrapper from '../SidenavWrapper'
+import NavItem from '../../NavItem'
+import CatalogNavItem from '../../../(marketing)/catalog/CatalogNavItem'
+import SidenavWrapper from '../../SidenavWrapper'
 
 interface Props {
   children: React.ReactNode
