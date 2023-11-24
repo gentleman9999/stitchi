@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import cx from 'classnames'
 import s from './NavbarRoot.module.css'
-import { throttle } from 'lodash-es'
 import Link from 'next/link'
 import routes from '@lib/routes'
 import Container from '@components/ui/Container'

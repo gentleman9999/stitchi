@@ -17,13 +17,16 @@ import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 import { mergeFilters } from './format-filters'
 import deepEqual from 'deep-equal'
 import { useFilters } from './filters-context'
+import routes from '@lib/routes'
 
 const CatalogProductGrid = () => {
   const { replace } = useRouter()
-  const pathname = usePathname()
+  const pathname = usePathname()!
   const searchParams = useSearchParams()!
   const [isFetchingMore, startFetchMoreTransition] = useTransition()
   const { filters: unmergedFilters, search, sort } = useFilters()
+
+  const isCloset = pathname.startsWith('/closet')
 
   const after = searchParams.get('after')
 
@@ -86,6 +89,10 @@ const CatalogProductGrid = () => {
     replace(pathname + '?' + newParams.toString())
   }
 
+  const catalogRoutes = isCloset
+    ? routes.internal.closet.catalog
+    : routes.internal.catalog
+
   return (
     <>
       <CatalogProductGridContainer>
@@ -95,6 +102,10 @@ const CatalogProductGrid = () => {
               key={product.id}
               productId={product.id}
               priority={i < 6}
+              href={catalogRoutes.product.href({
+                brandSlug: product.brand?.path || '',
+                productSlug: product.path,
+              })}
             />
           ) : null,
         )}

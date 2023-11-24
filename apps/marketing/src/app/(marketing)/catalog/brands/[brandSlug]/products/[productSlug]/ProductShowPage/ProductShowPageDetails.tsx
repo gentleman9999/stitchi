@@ -13,9 +13,10 @@ const MIN_HEIGHT = 300
 
 interface Props {
   productId: string
+  isCloset: boolean
 }
 
-const ProductShowPageDetails = ({ productId }: Props) => {
+const ProductShowPageDetails = ({ productId, isCloset }: Props) => {
   const { data: product } = useFragment<ProductShowPageDetailsProductFragment>({
     fragment: fragments.product,
     fragmentName: 'ProductShowPageDetailsProductFragment',
@@ -26,6 +27,10 @@ const ProductShowPageDetails = ({ productId }: Props) => {
   })
   const [ref, setRef] = React.useState<HTMLDivElement | null>(null)
   const [expanded, setExpanded] = React.useState(false)
+
+  const catalogRoutes = isCloset
+    ? routes.internal.closet.catalog
+    : routes.internal.catalog
 
   React.useEffect(() => {
     if (ref) {
@@ -84,7 +89,7 @@ const ProductShowPageDetails = ({ productId }: Props) => {
                   <td className="flex justify-end py-2">
                     {product.brand?.path ? (
                       <Link
-                        href={routes.internal.catalog.brand.show.href({
+                        href={catalogRoutes.brand.show.href({
                           brandSlug: product.brand.path.replace('/', ''),
                         })}
                         className="underline"
@@ -109,14 +114,9 @@ const ProductShowPageDetails = ({ productId }: Props) => {
                               className="whitespace-nowrap"
                             >
                               <Link
-                                href={routes.internal.catalog.category.show.href(
-                                  {
-                                    categorySlug: category.path.replace(
-                                      '/',
-                                      '',
-                                    ),
-                                  },
-                                )}
+                                href={catalogRoutes.category.show.href({
+                                  categorySlug: category.path.replace('/', ''),
+                                })}
                                 className="hover:underline"
                               >
                                 {category?.name}

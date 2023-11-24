@@ -1,6 +1,6 @@
 'use client'
 
-import { useSelectedLayoutSegments } from 'next/navigation'
+import { usePathname, useSelectedLayoutSegments } from 'next/navigation'
 import React from 'react'
 import BreadcrumbsBase, {
   BreadcrumbProps,
@@ -11,17 +11,26 @@ import Container from '@components/ui/Container'
 
 const Breadcrumbs = () => {
   const selectedLayoutSegments = useSelectedLayoutSegments()
+  const pathname = usePathname()!
+
+  const isCloset = pathname.startsWith('/closet')
+
+  const catalogRoutes = isCloset
+    ? routes.internal.closet.catalog
+    : routes.internal.catalog
 
   const [first, ...rest] = selectedLayoutSegments
 
   const breadcrumbs: BreadcrumbProps['breadcrumbs'] = [
     {
-      href: routes.internal.home.href(),
+      href: isCloset
+        ? routes.internal.closet.href()
+        : routes.internal.home.href(),
       label: 'Home',
       hidden: true,
     },
     {
-      href: routes.internal.catalog.href(),
+      href: catalogRoutes.href(),
       label: 'Catalog',
       hidden: selectedLayoutSegments.length === 1,
     },
@@ -38,7 +47,7 @@ const Breadcrumbs = () => {
 
       if (brand) {
         breadcrumbs.push({
-          href: routes.internal.catalog.brand.show.href({
+          href: catalogRoutes.brand.show.href({
             brandSlug: entitySlug,
           }),
           label: brand.name,
@@ -55,7 +64,7 @@ const Breadcrumbs = () => {
 
         if (category) {
           breadcrumbs.push({
-            href: routes.internal.catalog.category.show.href({
+            href: catalogRoutes.category.show.href({
               categorySlug: category.custom_url.url,
             }),
             label: category.name,
@@ -72,7 +81,7 @@ const Breadcrumbs = () => {
 
     if (brand) {
       breadcrumbs.push({
-        href: routes.internal.catalog.brand.show.href({
+        href: catalogRoutes.brand.show.href({
           brandSlug,
         }),
         label: brand.name,
@@ -80,7 +89,7 @@ const Breadcrumbs = () => {
 
       if (productSlug) {
         breadcrumbs.push({
-          href: routes.internal.catalog.product.href({
+          href: catalogRoutes.product.href({
             brandSlug,
             productSlug,
           }),

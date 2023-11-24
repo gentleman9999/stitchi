@@ -16,6 +16,66 @@ type QueryParams = Record<
   string | string[] | number | boolean | undefined
 >
 
+const makeCatalogRoutes = (fromCloset: boolean) => {
+  const basePath = fromCloset ? '/closet' : ''
+
+  return {
+    href: ({ params }: { params?: QueryParams } = {}) =>
+      buildRoute(`${basePath}/catalog`, params),
+
+    brand: {
+      show: {
+        href: ({ brandSlug }: { brandSlug: string }) =>
+          buildRoute(`${basePath}/${brandSlug.replaceAll('/', '')}`),
+      },
+    },
+
+    category: {
+      show: {
+        href: ({ categorySlug }: { categorySlug: string }) =>
+          // Replace leading and trailing slash
+          buildRoute(`${basePath}/${categorySlug.replace(/^\/|\/$/g, '')}`),
+      },
+    },
+
+    product: {
+      href: ({
+        brandSlug,
+        productSlug,
+        params,
+      }: {
+        brandSlug: string
+        productSlug: string
+        params?: QueryParams
+      }) => {
+        const serialize = (s: string) => s.replace(/\//g, '')
+        return buildRoute(
+          `${basePath}/${serialize(brandSlug)}-${serialize(productSlug)}`,
+          params,
+        )
+      },
+
+      share: {
+        href: ({
+          brandSlug,
+          productSlug,
+        }: {
+          brandSlug: string
+          productSlug: string
+        }) => {
+          const serialize = (s: string) => s.replace(/\//g, '')
+
+          return buildRoute(
+            `${basePath}/${serialize(brandSlug)}-${serialize(
+              productSlug,
+            )}/share`,
+          )
+        },
+      },
+    },
+  }
+}
+
 const buildRoute = (path: string, queryParams?: QueryParams): string => {
   if (queryParams) {
     // Remove 'undefined' query params
@@ -69,58 +129,7 @@ const routes = {
         }),
     },
     catalog: {
-      href: ({ params }: { params?: QueryParams } = {}) =>
-        buildRoute('/catalog', params),
-
-      brand: {
-        show: {
-          href: ({ brandSlug }: { brandSlug: string }) =>
-            buildRoute(`/${brandSlug.replaceAll('/', '')}`),
-        },
-      },
-
-      category: {
-        show: {
-          href: ({ categorySlug }: { categorySlug: string }) =>
-            // Replace leading and trailing slash
-            buildRoute(`/${categorySlug.replace(/^\/|\/$/g, '')}`),
-        },
-      },
-
-      product: {
-        href: ({
-          brandSlug,
-          productSlug,
-          params,
-        }: {
-          brandSlug: string
-          productSlug: string
-          params?: QueryParams
-        }) => {
-          const serialize = (s: string) => s.replace(/\//g, '')
-          return buildRoute(
-            `/${serialize(brandSlug)}-${serialize(productSlug)}`,
-            params,
-          )
-        },
-
-        share: {
-          href: ({
-            brandSlug,
-            productSlug,
-          }: {
-            brandSlug: string
-            productSlug: string
-          }) => {
-            const serialize = (s: string) => s.replace(/\//g, '')
-
-            return buildRoute(
-              `/${serialize(brandSlug)}-${serialize(productSlug)}/share`,
-            )
-          },
-        },
-      },
-
+      ...makeCatalogRoutes(false),
       wizard: {
         welcome: {
           href: () => buildRoute('/catalog/wizard/welcome'),
@@ -252,6 +261,10 @@ const routes = {
 
     closet: {
       href: () => buildRoute('/closet'),
+
+      catalog: {
+        ...makeCatalogRoutes(true),
+      },
 
       dashboard: {
         href: () => buildRoute('/closet/dashboard'),

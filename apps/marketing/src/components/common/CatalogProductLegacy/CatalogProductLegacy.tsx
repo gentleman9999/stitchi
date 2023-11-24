@@ -1,6 +1,5 @@
 import Image from 'next/legacy/image'
 import React from 'react'
-import routes from '@lib/routes'
 import Link from 'next/link'
 import useProductOptions from '@components/hooks/useProductOptions/useProductOptions'
 import SwatchGroup from '../SwatchGroup'
@@ -16,9 +15,10 @@ import { CatalogProductLegacyFragments } from '.'
 export interface Props {
   priority: boolean
   productId: string
+  href: string
 }
 
-const CatalogProductLegacy = ({ priority, productId }: Props) => {
+const CatalogProductLegacy = ({ priority, productId, href }: Props) => {
   const logger = useLogger()
 
   const { data: product } = useFragment<CatalogProductLegacyProductFragment>({
@@ -41,11 +41,6 @@ const CatalogProductLegacy = ({ priority, productId }: Props) => {
     logger.warn('Product must have a brand', { product })
     return null
   }
-
-  const href = routes.internal.catalog.product.href({
-    brandSlug: product.brand.path?.replaceAll('/', '') || '',
-    productSlug: product.path?.replaceAll('/', '') || '',
-  })
 
   return (
     <li className="flex flex-col w-full">

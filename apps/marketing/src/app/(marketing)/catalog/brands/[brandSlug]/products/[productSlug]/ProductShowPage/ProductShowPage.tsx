@@ -15,7 +15,7 @@ import {
 } from '@generated/types'
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 import { GET_DATA } from '../graphql'
-import { notFound } from 'next/navigation'
+import { notFound, usePathname } from 'next/navigation'
 import CatalogProductLegacy from '@components/common/CatalogProductLegacy'
 
 interface Props {
@@ -23,6 +23,10 @@ interface Props {
 }
 
 const ProductShowPage = ({ path }: Props) => {
+  const pathname = usePathname()!
+
+  const isCloset = pathname.startsWith('/closet')
+
   const { data } = useSuspenseQuery<
     ProductPageGetDataQuery,
     ProductPageGetDataQueryVariables
@@ -93,6 +97,10 @@ const ProductShowPage = ({ path }: Props) => {
       }),
   }
 
+  const catalogRoutes = isCloset
+    ? routes.internal.closet.catalog
+    : routes.internal.catalog
+
   return (
     <>
       <ProductJsonLd useAppDir {...jsonLDData} key={jsonLDData.id} />
@@ -102,11 +110,13 @@ const ProductShowPage = ({ path }: Props) => {
           <div />
 
           <ProductQuickActions
+            shareHref={catalogRoutes.product.share.href({
+              brandSlug: product.brand?.path || '',
+              productSlug: product.path,
+            })}
             product={{
               entityId: product.entityId,
               productName: product.name,
-              productSlug: product.path,
-              brandSlug: product.brand?.path || '',
             }}
           />
         </div>
@@ -120,13 +130,20 @@ const ProductShowPage = ({ path }: Props) => {
       <div className="flex flex-row gap-2 overflow-x-scroll">
         {relatedProducts.map(product => (
           <div key={product.id} className="flex-1 min-w-[200px] flex">
-            <CatalogProductLegacy productId={product.id} priority={false} />
+            <CatalogProductLegacy
+              productId={product.id}
+              priority={false}
+              href={catalogRoutes.product.href({
+                brandSlug: product.brand?.path?.replaceAll('/', '') || '',
+                productSlug: product.path?.replaceAll('/', '') || '',
+              })}
+            />
           </div>
         ))}
       </div>
 
       <Divider />
-      <ProductShowPageDetails productId={product.id} />
+      <ProductShowPageDetails productId={product.id} isCloset={isCloset} />
       <Divider />
     </>
   )

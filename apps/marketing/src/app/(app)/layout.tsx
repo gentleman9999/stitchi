@@ -11,6 +11,11 @@ import { getClient } from '@lib/apollo-rsc'
 import { redirect } from 'next/navigation'
 import routes from '@lib/routes'
 import { gql } from '@apollo/client'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  robots: 'noindex, nofollow',
+}
 
 interface Props {
   children: React.ReactNode

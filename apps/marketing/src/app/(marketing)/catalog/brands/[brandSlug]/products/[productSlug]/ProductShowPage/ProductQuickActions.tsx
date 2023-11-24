@@ -9,17 +9,16 @@ import routes from '@lib/routes'
 interface Product {
   entityId: number
   productName: string
-  productSlug: string
-  brandSlug: string
 }
 
 interface Props {
   product: Product
+  shareHref: string
 }
 
-const ProductQuickActions = ({ product }: Props) => {
+const ProductQuickActions = ({ product, shareHref }: Props) => {
   const { isProductInWishlist, toggleProduct } = useWishlist()
-  const { entityId, productName, productSlug, brandSlug } = product
+  const { entityId, productName } = product
 
   const productInWishlist = isProductInWishlist({ entityId })
 
@@ -52,13 +51,7 @@ const ProductQuickActions = ({ product }: Props) => {
         side="bottom"
         label="Share this product."
         renderTrigger={() => (
-          <Link
-            className="flex group items-center"
-            href={routes.internal.catalog.product.share.href({
-              brandSlug,
-              productSlug,
-            })}
-          >
+          <Link className="flex group items-center" href={shareHref}>
             <Share width={22} height={22} />
           </Link>
         )}
