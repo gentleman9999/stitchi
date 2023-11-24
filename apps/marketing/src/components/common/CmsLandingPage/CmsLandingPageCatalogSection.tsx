@@ -150,6 +150,10 @@ const CmsLandingPageCatalogSection = ({ catalogSection }: Props) => {
                         key={product.id}
                         productId={product.id}
                         priority={false}
+                        href={routes.internal.catalog.product.href({
+                          brandSlug: product.brand?.path || ``,
+                          productSlug: product.path,
+                        })}
                       />
                     ) : null,
                   )}
