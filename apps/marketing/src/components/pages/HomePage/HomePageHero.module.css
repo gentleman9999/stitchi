@@ -11,16 +11,16 @@
 }
 
 .bg>div:nth-child(1)>img {
-  @apply h-[100vh];
-  animation: rotate-reverse 120s linear infinite;
+  @apply h-[60vh] md:h-[100vh];
+  /* animation: rotate-reverse 120s linear infinite; */
 }
 
 .bg>div:nth-child(2)>img {
-  @apply h-[120vh];
+  @apply h-[80vh] md:h-[120vh];
 }
 
 .bg>div:nth-child(3)>img {
-  @apply h-[140vh];
+  @apply h-[100vh] md:h-[140vh];
   animation: rotate 100s linear infinite;
 }
 

@@ -31,14 +31,16 @@ const HomePageHero = () => {
             <div className="flex-auto flex flex-col items-center gap-16">
               <h1 className="text-center font-semibold font-headingDisplay text-gray-900 text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
                 <div className="inline font-headingDisplay">
-                  One-stop platform for all of your branded merch needs
+                  Revolutionize your branded merchandise experience
                   <span className="text-primary">.</span>
                 </div>
               </h1>
               <ul className="flex flex-col gap-2">
-                <ListItem label="Premium, sustainable products" />
-                <ListItem label="Global fulfillment & warehousingf" />
-                <ListItem label="Personal support and design" />
+                <ListItem label="Premium products" />
+                <ListItem label="Personal support" />
+                <ListItem label="Global fulfillment" />
+                <ListItem label="Warehousing" />
+                <ListItem label="End-to-end platform" />
               </ul>
 
               <div className="max-w-md sm:flex">
@@ -64,7 +66,7 @@ const HomePageHero = () => {
 
 const ListItem = ({ label }: { label: string }) => {
   return (
-    <li className="flex items-center gap-2 font-medium text-xl">
+    <li className="flex items-center gap-2 font-medium text-lg leading-tight">
       <Checkbox checked name="checkbox" value={''} onChange={() => {}} />
       {label}
     </li>
