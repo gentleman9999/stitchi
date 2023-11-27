@@ -1,21 +1,10 @@
 /** @type {import('next').NextConfig} */
 
-const staticWebsiteData = require('./src/generated/static.json')
-
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
 const { withAxiom } = require('next-axiom')
-
-const allBrandSlugs = staticWebsiteData.brands.map(brand =>
-  brand.custom_url?.url.replace(/\//g, ''),
-)
-
-const allCategorySlugs = staticWebsiteData.categories.map(
-  // Remove leading and trailing slashes
-  category => category.custom_url.url.replace(/^\/|\/$/g, ''),
-)
 
 module.exports = withBundleAnalyzer(
   withAxiom({
@@ -55,69 +44,6 @@ module.exports = withBundleAnalyzer(
             source: '/custom-:slug(.*?)-shirts',
             destination: '/lookbook/categories/:slug',
           },
-        ],
-        afterFiles: [
-          //
-          // Our product catalog lives in two places, the marketing site and the app. We must handle rewrites for both cases.
-          //
-
-          // ***
-          // Start: Marketing site rewrites
-          // ***
-
-          // Brand rewrites
-          ...allBrandSlugs.map(slug => ({
-            source: `/${slug}`,
-            destination: `/catalog/brands/${slug}`,
-          })),
-          // Product rewrites
-          ...allBrandSlugs.map(slug => ({
-            source: `/${slug}-:rest`,
-            destination: `/catalog/brands/${slug}/products/:rest`,
-          })),
-          // Product "Share" rewrites
-          ...allBrandSlugs.map(slug => ({
-            source: `/${slug}-:rest/share`,
-            destination: `/catalog/brands/${slug}/products/:rest/share`,
-          })),
-          // Category rewrites
-          ...allCategorySlugs.map(slug => ({
-            source: `/${slug}`,
-            destination: `/catalog/categories/${slug}`,
-          })),
-
-          // ***
-          // End: Marketing site rewrites
-          // ***
-
-          // ***
-          // Start: App rewrites
-          // ***
-
-          // Brand rewrites
-          ...allBrandSlugs.map(slug => ({
-            source: `/closet/${slug}`,
-            destination: `/closet/catalog/brands/${slug}`,
-          })),
-          // Product rewrites
-          ...allBrandSlugs.map(slug => ({
-            source: `/closet/${slug}-:rest`,
-            destination: `/closet/catalog/brands/${slug}/products/:rest`,
-          })),
-          // Product "Share" rewrites
-          ...allBrandSlugs.map(slug => ({
-            source: `/closet/${slug}-:rest/share`,
-            destination: `/closet/catalog/brands/${slug}/products/:rest/share`,
-          })),
-          // Category rewrites
-          ...allCategorySlugs.map(slug => ({
-            source: `/closet/${slug}`,
-            destination: `/closet/catalog/categories/${slug}`,
-          })),
-
-          // ***
-          // End: App rewrites
-          // ***
         ],
       }
     },

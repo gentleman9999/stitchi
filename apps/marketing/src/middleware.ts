@@ -3,6 +3,16 @@ import { getSession } from '@auth0/nextjs-auth0/edge'
 import { routes } from './lib'
 import * as uuid from 'uuid'
 import { COOKIE_DEVICE_ID } from '@lib/constants'
+import staticData from '@generated/static.json'
+
+const allBrandSlugs = staticData.brands.map(brand =>
+  brand.custom_url?.url.replace(/\//g, ''),
+)
+
+const allCategorySlugs = staticData.categories.map(
+  // Remove leading and trailing slashes
+  category => category.custom_url.url.replace(/^\/|\/$/g, ''),
+)
 
 const addDeviceCooke = (request: NextRequest, response: NextResponse) => {
   response.cookies.set(COOKIE_DEVICE_ID, uuid.v4(), {
@@ -83,6 +93,137 @@ const middleware: NextMiddleware = async (request, event) => {
       )
 
       return addDeviceCooke(request, redirect)
+    }
+  }
+
+  // ***
+  // Handle brand, product, and category rewrites
+  // ***
+
+  for (const slug of allBrandSlugs) {
+    //
+    // Our product catalog lives in two places, the marketing site and the app. We must handle rewrites for both cases.
+    //
+
+    // ***
+    // Start: Marketing site rewrites
+    // ***
+    let destination: string | null = null
+
+    const brandSlugMatcher = new RegExp(`^/${slug}$`)
+
+    if (brandSlugMatcher.test(pathname)) {
+      // /product-brand -> /catalog/brands/product-brand
+      destination = `/catalog/brands/${slug}`
+    }
+
+    const productSlugMatcher = new RegExp(`^/${slug}-([a-zA-Z0-9_-]+)$`)
+
+    if (productSlugMatcher.test(pathname)) {
+      // /product-brand-product-slug -> /catalog/brands/product-brand/products/product-slug
+
+      const rest = pathname.match(productSlugMatcher)?.[1]
+
+      destination = `/catalog/brands/${slug}/products/${rest}`
+    }
+
+    const productSlugShareMatcher = new RegExp(
+      `^/${slug}-([a-zA-Z0-9_-]+)/share$`,
+    )
+
+    if (productSlugShareMatcher.test(pathname)) {
+      // /product-brand-product-slug/share -> /catalog/brands/product-brand/products/product-slug/share
+
+      const rest = pathname.match(productSlugShareMatcher)?.[1]
+      destination = `/catalog/brands/${slug}/products/${rest}/share`
+    }
+
+    // ***
+    // End: Marketing site rewrites
+    // ***
+
+    // ***
+    // Start: App rewrites
+    // ***
+
+    const brandSlugMatcherCloset = new RegExp(`^/closet/${slug}$`)
+
+    if (brandSlugMatcherCloset.test(pathname)) {
+      // /catalog/product-brand -> /catalog/brands/product-brand
+      destination = `/closet/catalog/brands/${slug}`
+    }
+
+    const productSlugMatcherCloset = new RegExp(
+      `^/closet/${slug}-([a-zA-Z0-9_-]+)$`,
+    )
+
+    if (productSlugMatcherCloset.test(pathname)) {
+      // /closet/product-brand-product-slug -> /closet/catalog/brands/product-brand/products/product-slug
+      const rest = pathname.match(productSlugMatcherCloset)?.[1]
+
+      destination = `/closet/catalog/brands/${slug}/products/${rest}`
+    }
+
+    const productSlugShareMatcherCloset = new RegExp(
+      `^/closet/${slug}-([a-zA-Z0-9_-]+)/share$`,
+    )
+
+    if (productSlugShareMatcherCloset.test(pathname)) {
+      // /closet/product-brand-product-slug -> /closet/catalog/brands/product-brand/products/product-slug
+
+      const rest = pathname.match(productSlugShareMatcherCloset)?.[1]
+      destination = `/closet/catalog/brands/${slug}/products/${rest}/share`
+    }
+
+    // ***
+    // End: App rewrites
+    // ***
+
+    if (destination) {
+      return NextResponse.rewrite(new URL(destination, request.url))
+    }
+  }
+
+  for (const slug of allCategorySlugs) {
+    //
+    // Our product catalog lives in two places, the marketing site and the app. We must handle rewrites for both cases.
+    //
+
+    let destination: string | null = null
+
+    // ***
+    // Start: Marketing site rewrites
+    // ***
+
+    const categorySlugMatcher = new RegExp(`^/${slug}$`)
+
+    if (categorySlugMatcher.test(pathname)) {
+      // /product-category -> /catalog/categories/product-category
+      destination = `/catalog/categories/${slug}`
+    }
+
+    // ***
+    // End: Marketing site rewrites
+    // ***
+
+    // ***
+    // Start: App rewrites
+    // ***
+
+    const categorySlugMatcherCloset = new RegExp(`^/closet/${slug}$`)
+
+    if (new RegExp(categorySlugMatcherCloset).test(pathname)) {
+      // /closet/product-category -> /closet/catalog/categories/product-category
+      destination = `/closet/catalog/categories/${slug}`
+    }
+
+    // ***
+    // End: App rewrites
+    // ***
+
+    if (destination) {
+      console.log('destination', destination)
+      return NextResponse.rewrite(new URL(destination, request.url))
     }
   }
 
