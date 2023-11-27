@@ -55,7 +55,8 @@ module.exports = withBundleAnalyzer(
             source: '/custom-:slug(.*?)-shirts',
             destination: '/lookbook/categories/:slug',
           },
-
+        ],
+        afterFiles: [
           //
           // Our product catalog lives in two places, the marketing site and the app. We must handle rewrites for both cases.
           //
