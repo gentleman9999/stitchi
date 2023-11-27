@@ -39,6 +39,8 @@ const CatalogProductGrid = () => {
     fits: unmergedFilters.fits.map(({ entityId }) => entityId),
   })
 
+  console.log('BRANDS', filters.brandEntityIds)
+
   const [prevFilters, setPrevFilters] = React.useState(filters)
 
   const { data, refetch, fetchMore } = useSuspenseQuery<

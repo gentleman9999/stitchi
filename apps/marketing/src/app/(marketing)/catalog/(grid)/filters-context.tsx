@@ -121,6 +121,8 @@ const FiltersProvider = ({
     brand => brand.id === brandEntityId,
   )
 
+  console.log('DEFAULT BRAND', defaultBrand)
+
   const defaultCategory = categoryTree?.find(
     category => category.entityId === categoryEntityId,
   )
@@ -200,12 +202,16 @@ const FiltersProvider = ({
         SORT_OPTIONS.find(option => option.value === queryStates.sort) ||
         SORT_OPTIONS[0],
       filters: {
-        brands: availableFilters.brands.filter(brand =>
-          queryStates.brands?.includes(brand.id),
-        ),
-        categories: availableFilters.categories.filter(category =>
-          queryStates.categories?.includes(category.entityId),
-        ),
+        brands: defaultBrand
+          ? [defaultBrand]
+          : availableFilters.brands.filter(brand =>
+              queryStates.brands?.includes(brand.id),
+            ),
+        categories: defaultCategory
+          ? [defaultCategory]
+          : availableFilters.categories.filter(category =>
+              queryStates.categories?.includes(category.entityId),
+            ),
         fabrics: availableFilters.fabrics.filter(fabric =>
           queryStates.fabrics?.includes(fabric.entityId),
         ),
@@ -230,6 +236,8 @@ const FiltersProvider = ({
     queryStates.fabrics,
     queryStates.collections,
     queryStates.fits,
+    defaultBrand,
+    defaultCategory,
   ])
 
   return (
