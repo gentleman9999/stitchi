@@ -23,7 +23,7 @@ const BrandLogo = (props: { image: StaticImageData; alt: string }) => {
 
 const CustomerLogoBanner = () => {
   return (
-    <div className="bg-primary py-5 relative flex flex-col sm:flex-row items-center border-t-2 border-b-2 border-gray-950 overflow-x-hidden">
+    <div className="bg-primary-light py-5 relative flex flex-col sm:flex-row items-center border-t-2 border-b-2 border-gray-950 overflow-x-hidden">
       <span className="hidden sm:flex justify-center absolute left-0 right-0">
         <InfiniteLooper speed={20}>
           <BrandLogo image={weworkLogo} alt="WeWork logo" />
@@ -33,11 +33,11 @@ const CustomerLogoBanner = () => {
           <BrandLogo image={greekLicensingLogo} alt="Greek Licensing logo" />
         </InfiniteLooper>
       </span>
-      <span className="bg-primary w-full max-w-md absolute left-0 top-0 bottom-0 hidden sm:block" />
+      <span className="bg-primary-light w-full max-w-md absolute left-0 top-0 bottom-0 hidden sm:block" />
 
       <Container>
         <div className="flex flex-col sm:flex-row gap-10 items-center relative ">
-          <h2 className="text-center sm:text-left text-4xl font-medium sm:w-[40%] shrink-0 font-heading bg-primary leading-normal">
+          <h2 className="text-center sm:text-left text-4xl font-medium sm:w-[40%] shrink-0 font-heading bg-primary-light leading-normal">
             Powering merch for the world&apos;s top brands.
           </h2>
         </div>

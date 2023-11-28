@@ -1,5 +1,5 @@
 import React from 'react'
-import Image, { StaticImageData } from "next/legacy/image";
+import Image, { StaticImageData } from 'next/legacy/image'
 import cx from 'classnames'
 
 export interface SpokespersonProps {
@@ -11,17 +11,8 @@ export interface SpokespersonProps {
 
 const Spokesperson = (props: SpokespersonProps) => {
   return (
-    <div className="flex flex-col items-center md:flex-row md:items-center md:justify-center">
-      <div className="md:flex-shrink-0">
-        <Image
-          src={props.headshot.src}
-          alt={`${props.name} headshot`}
-          width={50}
-          height={50}
-          className="rounded-full"
-        />
-      </div>
-      <div className="mt-3 text-center md:mt-0 md:ml-4 md:flex md:items-center">
+    <div className="flex flex-col items-start md:flex-row">
+      <div className="mt-3 text-center md:mt-0 md:flex md:items-center">
         <div
           className={cx('text-base font-medium', {
             ['text-gray-900']: !props.light,
