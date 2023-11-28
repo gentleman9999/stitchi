@@ -1,21 +1,15 @@
 import React from 'react'
 import Container from '@components/ui/Container'
 import HomePageHero from './HomePageHero'
-import HomePageSimpleFeatureSection from './HomePageSimpleFeatureSection'
 import HomePageUseCasesSection from './HomePageUseCasesSection'
 import HomePageTestimonial from './HomePageTestimonial'
-import { Section, SectionHeader } from '@components/common'
-import { Doodle3 } from 'icons'
-import { gql } from '@apollo/client'
-import { HomePageFeaturedPostsFragment } from '@generated/HomePageFeaturedPostsFragment'
+import { Section } from '@components/common'
 import CustomerLogoBanner from '@components/common/CustomerLogoBanner'
-import HomePageFeaturedImages from './HomePageFeaturedImages'
+import HomePageSolutions from './HomePageSolutions'
 
-export interface HomePageProps {
-  featuredPosts: HomePageFeaturedPostsFragment[]
-}
+export interface HomePageProps {}
 
-const HomePage = ({ featuredPosts }: HomePageProps) => {
+const HomePage = ({}: HomePageProps) => {
   return (
     <>
       <HomePageHero />
@@ -24,22 +18,10 @@ const HomePage = ({ featuredPosts }: HomePageProps) => {
         <CustomerLogoBanner />
       </Section>
 
-      <HomePageFeaturedImages />
-
       <div className="divide-y-2 divide-black">
         <Container>
           <Section gutter="lg">
-            <SectionHeader
-              pretitle="Merch that scales"
-              title="All-in-one solution for merchandise design, production, and fulfillment."
-            />
-
-            <br />
-            <br />
-            <div className="flex justify-center mb-10">
-              <Doodle3 height="15vh" strokeWidth={3} />
-            </div>
-            <HomePageSimpleFeatureSection />
+            <HomePageSolutions />
           </Section>
         </Container>
 
@@ -51,14 +33,6 @@ const HomePage = ({ featuredPosts }: HomePageProps) => {
       </div>
     </>
   )
-}
-
-HomePage.fragments = {
-  featuredPosts: gql`
-    fragment HomePageFeaturedPostsFragment on ArticleRecord {
-      id
-    }
-  `,
 }
 
 export default HomePage
