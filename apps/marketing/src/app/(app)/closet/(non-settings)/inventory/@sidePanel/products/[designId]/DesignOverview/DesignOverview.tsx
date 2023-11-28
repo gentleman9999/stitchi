@@ -69,7 +69,7 @@ const DesignOverview = ({ designId }: Props) => {
         {design ? (
           <Card collapsable defaultCollapsed={!design.orders.length}>
             <CardHeader>
-              <CardTitle title="Orders" />
+              <CardTitle title="Purchase orders" />
             </CardHeader>
 
             <CardCollapsableContent>

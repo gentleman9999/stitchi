@@ -159,9 +159,9 @@ const CatalogFilters = ({ brandEntityId, categoryEntityId }: Props) => {
         </Container>
       </div>
 
-      <Container className="max-w-none mt-4 z-0">
+      {/* <Container className="max-w-none mt-4 z-0">
         {!brandEntityId && !categoryEntityId ? <FeaturedFilters /> : null}
-      </Container>
+      </Container> */}
 
       <FilterDialog
         open={showFilterDialog}
