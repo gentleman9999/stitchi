@@ -13,7 +13,7 @@ enum Sections {
   Design = 'Design merch',
   Produce = 'Produce designs',
   Fulfill = 'Deliver anywhere',
-  Repeat = 'Repeat',
+  Scale = 'Scale',
 }
 
 interface Item {
@@ -196,8 +196,8 @@ const sectionItems: SectionType[] = [
     ],
   },
   {
-    id: Sections.Repeat,
-    title: 'Repeat',
+    id: Sections.Scale,
+    title: 'Scale',
     subtitle:
       'The most successful merchandise programs in the world have access to the best tools — and now so do you.',
     items: [
