@@ -29,27 +29,27 @@ const Layout = ({ children }: Props) => {
             <NavItem
               label="Dashboard"
               href={routes.internal.closet.dashboard.href()}
-              icon={<HomeIcon className="w-5 h-5" />}
+              icon={<HomeIcon className="w-4 h-4" />}
             />
           </AuthorizedComponent>
 
           <CatalogNavItem />
 
           <NavigationGroup
-            icon={<PaintBrushIcon className="w-5 h-5" />}
-            label="Design"
+            icon={<PaintBrushIcon className="w-4 h-4" />}
+            label="Designs"
             paths={[
               routes.internal.closet.designs.href(),
               routes.internal.closet.brand.href(),
             ]}
           >
             <NavItem
-              label="Design Requests"
+              label="Design requests"
               href={routes.internal.closet.designs.href()}
             />
 
             <NavItem
-              label="Brand Kit"
+              label="Brand kit"
               href={routes.internal.closet.brand.href()}
             />
           </NavigationGroup>
@@ -67,8 +67,8 @@ const Layout = ({ children }: Props) => {
             ]}
           >
             <NavigationGroup
-              label="Production"
-              icon={<RectangleStackIcon className="w-5 h-5" />}
+              label="Inventory"
+              icon={<RectangleStackIcon className="w-4 h-4" />}
               paths={[
                 routes.internal.closet.inventory.href(),
                 routes.internal.closet.orders.href(),
@@ -89,7 +89,7 @@ const Layout = ({ children }: Props) => {
                 action={ScopeAction.READ}
               >
                 <NavItem
-                  label="Orders"
+                  label="Purchase orders"
                   href={routes.internal.closet.orders.href()}
                 />
               </AuthorizedComponent>
@@ -101,7 +101,7 @@ const Layout = ({ children }: Props) => {
           <NavItem
             label="Settings"
             href={routes.internal.closet.settings.general.href()}
-            icon={<Cog8ToothIcon className="w-5 h-5" />}
+            icon={<Cog8ToothIcon className="w-4 h-4" />}
           />
 
           <AuthorizedComponent

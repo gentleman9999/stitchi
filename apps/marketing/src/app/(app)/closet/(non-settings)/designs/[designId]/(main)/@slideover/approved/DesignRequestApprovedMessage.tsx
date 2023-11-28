@@ -64,8 +64,8 @@ const DesignRequestApprovedMessage = ({ designRequestId }: Props) => {
             <Card>
               <CardHeader>
                 <CardTitle
-                  title="Orders"
-                  subtitle="These are your existing orders for this design."
+                  title="Purchase orders"
+                  subtitle="Your ongoing purchase orders for this design."
                 />
               </CardHeader>
 

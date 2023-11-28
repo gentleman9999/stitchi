@@ -19,7 +19,7 @@ const DesignRequestOrderList = ({ orders }: Props) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle title="Orders" />
+        <CardTitle title="Purchase orders" />
       </CardHeader>
       <CardContent divide>
         <ul>
