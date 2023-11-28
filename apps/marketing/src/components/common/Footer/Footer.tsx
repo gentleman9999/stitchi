@@ -8,6 +8,9 @@ import Badge from '@components/ui/Badge'
 import routes from '@lib/routes'
 import Section from '../Section'
 import SubscribeInline from '../SubscribeInline'
+import InfiniteLooper from '../InfiniteLooper'
+import { ArrowRightCircleIcon } from '@heroicons/react/24/outline'
+import Link from 'next/link'
 
 const navigation = nav.makeNavigation()
 
@@ -94,6 +97,22 @@ const Footer = () => (
         </div>
       </Section>
     </Container>
+
+    <Link href={routes.internal.getStarted.href()}>
+      <div className=" py-4 text-primary">
+        <InfiniteLooper speed={10} direction="right">
+          <div className="flex items-center mr-10">
+            <span
+              className="text-2xl md:text-3xl font-bold uppercase mr-10 drop-shadow-sm"
+              style={{ wordSpacing: 16 }}
+            >
+              Merch made simple
+            </span>
+            <ArrowRightCircleIcon className="w-8 h-8 md:w-10 md:h-10" />
+          </div>
+        </InfiniteLooper>
+      </div>
+    </Link>
   </footer>
 )
 
@@ -101,21 +120,6 @@ interface Item {
   label: string
   href: string
   beta?: boolean
-}
-
-const List = ({ title, items }: { title: string; items: Item[] }) => {
-  return (
-    <div className="col-span-1">
-      <h3 className="text-sm font-semibold text-gray-100 tracking-wider uppercase">
-        {title}
-      </h3>
-      <ul role="list" className="mt-4 space-y-4">
-        {items.map(item => (
-          <ListItem {...item} key={item.label} />
-        ))}
-      </ul>
-    </div>
-  )
 }
 
 const ListItem = ({ label, href, beta }: Item) => {

@@ -1,7 +1,6 @@
 import React from 'react'
 import Container from '@components/ui/Container'
 import HomePageHero from './HomePageHero'
-import HomePageUseCasesSection from './HomePageUseCasesSection'
 import HomePageTestimonial from './HomePageTestimonial'
 import { Section } from '@components/common'
 import CustomerLogoBanner from '@components/common/CustomerLogoBanner'
@@ -21,7 +20,7 @@ const HomePage = ({}: HomePageProps) => {
         <CustomerLogoBanner />
       </Section>
 
-      <div className="divide-y-2 divide-black">
+      <div className="divide-y divide-black">
         <Container>
           <Section gutter="lg">
             <HomePageSolutions />
@@ -60,10 +59,6 @@ const HomePage = ({}: HomePageProps) => {
         </div>
 
         <HomePageTestimonial />
-
-        <div className="">
-          <HomePageUseCasesSection />
-        </div>
       </div>
     </>
   )

@@ -8,7 +8,7 @@ import React from 'react'
 const ClosingCtaSection = () => {
   return (
     <div
-      className=" bg-primary bg-cover bg-center bg-no-repeat lg:aspect-[2.3]"
+      className=" bg-primary bg-cover bg-center bg-no-repeat lg:aspect-[2.3] border-t border-t-black"
       style={{
         backgroundImage: "url('/closing-cta-bg.png')",
       }}

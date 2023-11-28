@@ -6,7 +6,7 @@ interface Props {}
 
 export default function Footer(props: Props) {
   return (
-    <footer className="mt-10">
+    <footer className="mt-10 border-t">
       <h2 id="footer-heading" className="sr-only">
         Footer
       </h2>
