@@ -2,29 +2,39 @@ import React from 'react'
 import Container from '@components/ui/Container'
 import HomePageHero from './HomePageHero'
 import HomePageTestimonial from './HomePageTestimonial'
-import { Section, SectionHeader } from '@components/common'
+import { Section } from '@components/common'
 import CustomerLogoBanner from '@components/common/CustomerLogoBanner'
 import HomePageSolutions from './HomePageSolutions'
 import Button from '@components/ui/ButtonV2/Button'
 import Link from 'next/link'
 import routes from '@lib/routes'
 
+import categoryTShirt from '../../../../public/category-t-shirt.jpg'
+import categorySweatshirt from '../../../../public/category-sweatshirt.jpg'
+import categoryHeadwear from '../../../../public/category-hat.jpg'
+import categoryBags from '../../../../public/category-bags.jpg'
+import Image from 'next/image'
+
 const featuredCategories = [
   {
-    slug: 't-shirts',
+    slug: 'apparel/t-shirts',
     title: 'T-Shirts & Tops',
+    image: categoryTShirt,
   },
   {
-    slug: 'sweatshirts',
+    slug: 'apparel/sweatshirts-fleece',
     title: 'Sweatshirts & Fleece',
+    image: categorySweatshirt,
   },
   {
-    slug: 'headwear',
+    slug: 'apparel/headwear',
     title: 'Headwear',
+    image: categoryHeadwear,
   },
   {
-    slug: 'bags',
+    slug: 'accessories/bags',
     title: 'Bags',
+    image: categoryBags,
   },
 ]
 
@@ -41,35 +51,39 @@ const HomePage = ({}: HomePageProps) => {
 
       <div className="divide-y divide-black">
         <Container>
-          <Section gutter="lg">
-            <SectionHeader title="Shop by category" align="center" />
+          <Section className="py-4">
+            <h2 className="sr-only">Featured collections</h2>
 
-            {featuredCategories.map(category => (
-              <Link
-                key={category.slug}
-                className="flex flex-col items-center gap-4"
-                href={routes.internal.catalog.category.show.href({
-                  categorySlug: category.slug,
-                })}
-              >
-                {/* <img
-                  src={`/images/homepage/${category.slug}.jpg`}
-                  alt={category.title}
-                  className="rounded-full w-32 h-32 object-cover"
-                /> */}
-                <span className="text-center text-gray-700 hover:text-gray-900">
-                  {category.title}
-                </span>
-              </Link>
-            ))}
+            <ul className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {featuredCategories.map(category => (
+                <li key={category.slug} className="col-span-1">
+                  <Link
+                    className="h-full flex flex-col items-center border rounded-lg border-black overflow-hidden"
+                    href={routes.internal.catalog.category.show.href({
+                      categorySlug: category.slug,
+                    })}
+                  >
+                    <Image
+                      src={category.image}
+                      alt={category.title}
+                      className="w-full aspect-[3/2]"
+                    />
+                    <div className="p-4 bg-primary-light w-full flex-1 flex items-center">
+                      <span className="text-sm text-gray-900 hover:text-gray-900 font-semibold">
+                        {category.title}
+                      </span>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </Section>
         </Container>
 
-        <Container>
-          <Section gutter="lg">
-            <HomePageSolutions />
-          </Section>
-        </Container>
+        <Section>
+          <h2 className="sr-only">Solution Overview</h2>
+          <HomePageSolutions />
+        </Section>
 
         <div className="bg-primary-light">
           <Container>
@@ -96,7 +110,7 @@ const HomePage = ({}: HomePageProps) => {
                 variant="flat"
                 href={routes.internal.getStarted.href()}
               >
-                Sign up for free
+                Make merch fun
               </Button>
             </Section>
           </Container>

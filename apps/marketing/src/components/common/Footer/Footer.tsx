@@ -98,7 +98,7 @@ const Footer = () => (
       </Section>
     </Container>
 
-    <Link href={routes.internal.getStarted.href()}>
+    <Link href={routes.internal.getStarted.href()} className="mt-12 block">
       <div className=" py-4 text-primary">
         <InfiniteLooper speed={10} direction="right">
           <div className="flex items-center mr-10">

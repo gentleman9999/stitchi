@@ -36,11 +36,11 @@ const HomePageHero = () => {
                 </div>
               </h1>
               <ul className="flex flex-col gap-2">
+                <ListItem label="End-to-end platform" />
                 <ListItem label="Premium products" />
                 <ListItem label="Personal support" />
                 <ListItem label="Global fulfillment" />
                 <ListItem label="Warehousing" />
-                <ListItem label="End-to-end platform" />
               </ul>
 
               <div className="max-w-md sm:flex">
