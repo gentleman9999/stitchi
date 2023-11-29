@@ -121,11 +121,7 @@ const FiltersProvider = ({
     brand => brand.id === brandEntityId,
   )
 
-  console.log('DEFAULT BRAND', defaultBrand)
-
-  const defaultCategory = categoryTree?.find(
-    category => category.entityId === categoryEntityId,
-  )
+  const defaultCategory = getDefaultCategory(categoryTree, categoryEntityId)
 
   const setSearch = React.useCallback(
     (search: string) => {
@@ -253,6 +249,42 @@ const useFilters = () => {
   return context
 }
 
+type CategoryTree = NonNullable<
+  UseCatalogFiltersGetDataQuery['site']['categoryTree']
+>
+
+const getDefaultCategory = (categoryTree: CategoryTree, id?: number) => {
+  if (!id) {
+    return null
+  }
+
+  // write recursive function to find the category id
+  const findCategory = (
+    categoryTree: CategoryTree,
+    id: number,
+  ): CategoryTree[number] | null => {
+    const category = categoryTree.find(category => category.entityId === id)
+
+    if (category) {
+      return category
+    }
+
+    for (const category of categoryTree) {
+      const foundCategory = findCategory((category.children as any) || [], id)
+
+      if (foundCategory) {
+        return foundCategory
+      }
+    }
+
+    return null
+  }
+
+  const category = findCategory(categoryTree, id)
+
+  return category
+}
+
 export { FiltersProvider, useFilters }
 
 const GET_DATA = gql`
@@ -267,6 +299,11 @@ const GET_DATA = gql`
           children {
             entityId
             name
+
+            children {
+              entityId
+              name
+            }
           }
         }
       }
