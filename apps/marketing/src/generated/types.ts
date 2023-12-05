@@ -11695,6 +11695,24 @@ export enum sortBy {
   OLDEST = 'OLDEST'
 }
 
+export type NotificationsSlideoverGetDataQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type NotificationsSlideoverGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, notifications: { __typename: 'NotificationConnection', edges: Array<{ __typename: 'NotificationEdge', node: { __typename: 'Notification', id: string, createdAt: any, channels: Array<{ __typename: 'NotificationChannelEmail', id: string } | { __typename: 'NotificationChannelWeb', message: string, ctaText: string | null, ctaUrl: string | null, seenAt: any | null, id: string } | null> } | null } | null> | null, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, endCursor: string | null } } | null } | null };
+
+export type AppLayoutGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AppLayoutGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, humanizedRole: string | null, organization: { __typename: 'Organization', id: string, name: string | null }, user: { __typename: 'User', id: string, name: string | null, email: string | null, picture: string | null } | null } | null };
+
+export type NotificationsButtonGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type NotificationsButtonGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, unseenWebNotificationsCount: number } | null };
+
 export type ClosetBrandIndexPageColorsGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -12031,15 +12049,25 @@ export type OrderDetailsPageGetDataQueryVariables = Exact<{
 
 export type OrderDetailsPageGetDataQuery = { __typename: 'Query', order: { __typename: 'Order', id: string, paymentStatus: OrderPaymentStatus, createdAt: any, humanOrderId: string, humanPaymentStatus: string, totalTaxCents: number, statusTemporary: OrderStatusTemporary, totalShippingCents: number, subtotalPriceCents: number, totalProcessingFeeCents: number, totalPriceCents: number, totalAmountDueCents: number, totalAmountRefundedCents: number, customerEmail: string | null, customerPhone: string | null, items: Array<{ __typename: 'OrderItem', id: string, title: string, quantity: number, unitPriceCents: number, totalPriceCents: number, designProduct: { __typename: 'DesignProduct', id: string, name: string } | null }>, lastPaymentMethod: { __typename: 'PaymentMethod', id: string, type: string, card: { __typename: 'PaymentMethodCard', brand: string | null, last4: string | null, expMonth: number | null, expYear: number | null } | null, billingDetails: { __typename: 'PaymentMethodBillingDetails', line1: string | null, line2: string | null, city: string | null, state: string | null, postalCode: string | null, country: string | null } | null } | null, fulfillments: Array<{ __typename: 'Fulfillment', id: string, trackingInfo: { __typename: 'FulfillmentTrackingInfo', id: string, trackingNumber: string, trackingUrl: string } }>, shippingAddress: { __typename: 'MailingAddress', id: string, firstName: string | null, lastName: string | null, company: string | null, phone: string | null, address1: string | null, address2: string | null, city: string | null, country: string | null, province: string | null, provinceCode: string | null, zip: string | null } | null } | null };
 
+export type ClosetSettingsGeneralPageGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ClosetSettingsGeneralPageGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, user: { __typename: 'User', id: string, name: string | null, email: string | null, picture: string | null } | null } | null };
+
+export type ClosetSettingsOrganizatoinPageGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ClosetSettingsOrganizatoinPageGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, organization: { __typename: 'Organization', id: string, name: string | null } } | null };
+
+export type ClosetSettingsTeamPageGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ClosetSettingsTeamPageGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, organization: { __typename: 'Organization', id: string, memberships: Array<{ __typename: 'Membership', id: string, createdAt: any, humanizedRole: string | null, invitedEmail: string | null, user: { __typename: 'User', id: string, name: string | null, email: string | null } | null }> } } | null };
+
 export type ClosetBaseLayoutGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ClosetBaseLayoutGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string } | null };
-
-export type UseCatalogFiltersGetDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type UseCatalogFiltersGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', categoryTree: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string }> }> }>, fabricCategory: Array<{ __typename: 'CategoryTreeItem', entityId: number, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string }> }>, collections: Array<{ __typename: 'CategoryTreeItem', entityId: number, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string }> }>, fit: Array<{ __typename: 'CategoryTreeItem', entityId: number, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string }> }> } };
 
 export type UseFilterPreviewGetDataQueryVariables = Exact<{
   filters: SearchProductsFiltersInput;
@@ -12061,6 +12089,11 @@ export type CatalogCategoryPageGetDataQueryVariables = Exact<{
 
 
 export type CatalogCategoryPageGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', route: { __typename: 'Route', node: { __typename: 'Banner', id: string } | { __typename: 'Blog', id: string } | { __typename: 'BlogIndexPage', id: string } | { __typename: 'BlogPost', id: string } | { __typename: 'Brand', id: string } | { __typename: 'Cart', id: string } | { __typename: 'Category', name: string, description: string, id: string, seo: { __typename: 'SeoDetails', metaDescription: string } } | { __typename: 'Checkout', id: string } | { __typename: 'ContactPage', id: string } | { __typename: 'NormalPage', id: string } | { __typename: 'Product', id: string } | { __typename: 'RawHtmlPage', id: string } | { __typename: 'Redirect', id: string } | { __typename: 'Variant', id: string } | null } } };
+
+export type UseCatalogFiltersGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UseCatalogFiltersGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', categoryTree: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string }> }> }> }>, fabricCategory: Array<{ __typename: 'CategoryTreeItem', entityId: number, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string }> }>, collections: Array<{ __typename: 'CategoryTreeItem', entityId: number, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string }> }>, fit: Array<{ __typename: 'CategoryTreeItem', entityId: number, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string }> }> } };
 
 export type CatalogIndexPageGetDataQueryVariables = Exact<{
   filters: SearchProductsFiltersInput;
@@ -12123,44 +12156,6 @@ export type LookbookCategoriesIndexPageGetDataQueryVariables = Exact<{ [key: str
 
 
 export type LookbookCategoriesIndexPageGetDataQuery = { __typename: 'Query', allDesignCategories: Array<{ __typename: 'DesignCategoryRecord', id: any, slug: string | null, name: string | null }> };
-
-export type ClosetSettingsGeneralPageGetDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ClosetSettingsGeneralPageGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, user: { __typename: 'User', id: string, name: string | null, email: string | null, picture: string | null } | null } | null };
-
-export type ClosetSettingsOrganizatoinPageGetDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ClosetSettingsOrganizatoinPageGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, organization: { __typename: 'Organization', id: string, name: string | null } } | null };
-
-export type ClosetSettingsTeamPageGetDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ClosetSettingsTeamPageGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, organization: { __typename: 'Organization', id: string, memberships: Array<{ __typename: 'Membership', id: string, createdAt: any, humanizedRole: string | null, invitedEmail: string | null, user: { __typename: 'User', id: string, name: string | null, email: string | null } | null }> } } | null };
-
-export type ClosetBaseLayoutGetDataQuery1Variables = Exact<{ [key: string]: never; }>;
-
-
-export type ClosetBaseLayoutGetDataQuery1 = { __typename: 'Query', viewer: { __typename: 'Membership', id: string } | null };
-
-export type NotificationsSlideoverGetDataQueryVariables = Exact<{
-  first?: InputMaybe<Scalars['Int']['input']>;
-  after?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type NotificationsSlideoverGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, notifications: { __typename: 'NotificationConnection', edges: Array<{ __typename: 'NotificationEdge', node: { __typename: 'Notification', id: string, createdAt: any, channels: Array<{ __typename: 'NotificationChannelEmail', id: string } | { __typename: 'NotificationChannelWeb', message: string, ctaText: string | null, ctaUrl: string | null, seenAt: any | null, id: string } | null> } | null } | null> | null, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, endCursor: string | null } } | null } | null };
-
-export type AppLayoutGetDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type AppLayoutGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, humanizedRole: string | null, organization: { __typename: 'Organization', id: string, name: string | null }, user: { __typename: 'User', id: string, name: string | null, email: string | null, picture: string | null } | null } | null };
-
-export type NotificationsButtonGetDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type NotificationsButtonGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, unseenWebNotificationsCount: number } | null };
 
 export type AccountSetupPageBootstrapAccountVariables = Exact<{ [key: string]: never; }>;
 
@@ -12444,8 +12439,6 @@ export type GuideShowPageMarketingSubscribeMutationVariables = Exact<{
 
 export type GuideShowPageMarketingSubscribeMutation = { __typename: 'Mutation', subscriberCreate: { __typename: 'SubscriberCreatePayload', subscriber: { __typename: 'Subscriber', id: string } | null } | null };
 
-export type HomePageFeaturedPostsFragment = { __typename: 'ArticleRecord', id: any };
-
 export type HomePageFeaturedPostsPostsFragment = { __typename: 'ArticleRecord', id: any, _publishedAt: any | null, _createdAt: any, title: string | null, slug: string | null, shortDescription: string | null, image: { __typename: 'FileField', responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null, author: { __typename: 'AuthorRecord', id: any, name: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null } | null, categories: Array<{ __typename: 'CategoryRecord', id: any, name: string | null, slug: string | null }> };
 
 export type IndustryTermsCategoryShowPageCategoryFragment = { __typename: 'GlossaryCategoryRecord', id: any, title: string | null, slug: string | null };
@@ -12523,14 +12516,6 @@ export type PromotionalProductGlossaryGetDataQueryVariables = Exact<{ [key: stri
 
 
 export type PromotionalProductGlossaryGetDataQuery = { __typename: 'Query', allGlossaryEntries: Array<{ __typename: 'GlossaryEntryRecord', id: any, slug: string | null, entryType: string | null, definition: string | null, term: string | null }> };
-
-export type HomePageGetDataQueryVariables = Exact<{
-  first: Scalars['IntType']['input'];
-  filter?: InputMaybe<ArticleModelFilter>;
-}>;
-
-
-export type HomePageGetDataQuery = { __typename: 'Query', featuredPosts: Array<{ __typename: 'ArticleRecord', id: any }> };
 
 export type AcceptMembershipPageSetActiveMembershipMutationVariables = Exact<{
   input: UserSetOrganizationInput;
