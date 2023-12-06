@@ -3953,8 +3953,8 @@
       "meta_description": "Check out our large collection of burnout tees for women. From timeless neutrals to eye-catching prints, our ladies burnout tees cater to diverse fashion preferences.",
       "layout_file": "",
       "is_visible": true,
-      "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/burnout-tees/women/", "is_customized": false },
+      "default_product_sort": "alpha_asc",
+      "custom_url": { "url": "/women/", "is_customized": false },
       "image_url": ""
     },
     {
@@ -3979,7 +3979,7 @@
       "meta_description": "Explore a vast array of long sleeve burnout tees that suit every taste. Whether you prefer a classic, understated look or a bold and vibrant statement piece, our catalog of long sleeve burnout tees has something for everyone. ",
       "layout_file": "",
       "is_visible": true,
-      "default_product_sort": "use_store_settings",
+      "default_product_sort": "alpha_desc",
       "custom_url": {
         "url": "/burnout-tees/long-sleeve-burnout-tees/",
         "is_customized": false
@@ -4028,7 +4028,7 @@
       "meta_description": "Explore our Wholesale Burnout Baseball Custom Tee – a game-changer in the world of casual wear and athletic-inspired fashion. Our custom baseball burnout tee are perfect for businesses, teams, or events. Imprint your logo, design, or message on the tee, creating a unique and branded look. ",
       "layout_file": "",
       "is_visible": true,
-      "default_product_sort": "use_store_settings",
+      "default_product_sort": "best_selling",
       "custom_url": {
         "url": "/burnout-tees/burnout-baseball-tee",
         "is_customized": true

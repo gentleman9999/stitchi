@@ -121,7 +121,10 @@ const FiltersProvider = ({
     brand => brand.id === brandEntityId,
   )
 
-  const defaultCategory = getDefaultCategory(categoryTree, categoryEntityId)
+  const defaultCategory = getDefaultCategory(
+    [...categoryTree, ...(collections as any), ...fabricCategory, ...fit],
+    categoryEntityId,
+  )
 
   const setSearch = React.useCallback(
     (search: string) => {
