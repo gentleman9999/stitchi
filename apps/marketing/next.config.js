@@ -44,6 +44,10 @@ module.exports = withBundleAnalyzer(
             source: '/custom-:slug(.*?)-shirts',
             destination: '/lookbook/categories/:slug',
           },
+          {
+            source: '/nonprofits',
+            destination: '/learn/topic/nonprofits/page/1',
+          },
         ],
       }
     },
