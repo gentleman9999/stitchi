@@ -10,7 +10,7 @@ import Container from '@components/ui/Container'
 
 const HomePageHero = () => {
   return (
-    <header className="relative z-0">
+    <header className="relative z-0 bg-black">
       <div className={styles.bg}>
         <div>
           <img src="/shapes/home-elipses-lg.svg" />
@@ -25,20 +25,21 @@ const HomePageHero = () => {
       <Container>
         <Section
           gutter="lg"
-          className="min-h-[98vh] flex flex-col justify-center items-center"
+          className="min-h-[100vh] flex flex-col justify-center items-center"
         >
           <div className="flex max-w-5xl">
             <div className="flex-auto flex flex-col items-center gap-16">
-              <h1 className="text-center font-semibold font-headingDisplay text-gray-900 text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
-                <div className="inline font-headingDisplay">
-                  Revolutionize your branded merchandise experience
+              <h1 className="text-center font-semibold font-headingDisplay text-white text-5xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl">
+                <div className="inline font-headingDisplay capitalize">
+                  Merch simplified
                   <span className="text-primary">.</span>
                 </div>
               </h1>
-              <ul className="flex flex-col gap-2">
+              <ul className="flex-col gap-2 grid grid-cols-1 sm:grid-cols-2 gap-x-6">
                 <ListItem label="End-to-end platform" />
                 <ListItem label="Premium products" />
-                <ListItem label="Personal support" />
+                <ListItem label="Sustaiable solutions" />
+                <ListItem label="Dedicated support" />
                 <ListItem label="Global fulfillment" />
                 <ListItem label="Warehousing" />
               </ul>
@@ -66,8 +67,11 @@ const HomePageHero = () => {
 
 const ListItem = ({ label }: { label: string }) => {
   return (
-    <li className="flex items-center gap-2 font-medium text-lg leading-tight">
-      <Checkbox checked name="checkbox" value={''} onChange={() => {}} />
+    <li className="flex items-center gap-2 font-medium text-lg leading-tight text-white">
+      <div className="flex items-center justify-center bg-primary w-5 h-5 rounded-md text-sm text-gray-950">
+        ✓
+      </div>
+
       {label}
     </li>
   )
