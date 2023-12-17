@@ -30,14 +30,24 @@ const Layout = ({ children }: Props) => {
   }
 
   let title = brand ? brand.name : category ? category.name : null
+  let description = category ? category.description : null
 
   return (
     <div className="min-h-[calc(100vh-var(--topbar-height))]">
       {title ? (
         <ClosetPageContainer className="max-w-none">
-          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-heading font-bold">
-            {title}
-          </h1>
+          <div className="bg-gray-100 p-6 rounded-md mt-2 mb-4">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-heading">
+              {title}
+            </h1>
+
+            {description ? (
+              <div
+                className="mt-2 text-sm sm:text-base text-gray-600 max-w-4xl"
+                dangerouslySetInnerHTML={{ __html: description }}
+              />
+            ) : null}
+          </div>
         </ClosetPageContainer>
       ) : (
         <h1 className="sr-only">Catalog</h1>

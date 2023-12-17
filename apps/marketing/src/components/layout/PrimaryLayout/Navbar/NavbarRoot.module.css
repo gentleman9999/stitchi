@@ -1,5 +1,5 @@
 .root {
-  @apply fixed h-topbar-height bg-white top-0 left-0 right-0 z-40 transition-all duration-150 flex items-center border-b border-b-black;
+  @apply fixed h-topbar-height bg-white top-0 left-0 right-0 z-40 transition-all duration-150 flex items-center border-b;
 }
 
 .inner {

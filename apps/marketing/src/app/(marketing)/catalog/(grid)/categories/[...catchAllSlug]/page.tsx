@@ -37,8 +37,11 @@ export const generateMetadata = async ({
   const node = data?.site.route.node
 
   if (node?.__typename === 'Category') {
-    const title = `Browse ${node.name} products`
-    const description = node.seo.metaDescription
+    const title = `Browse ${node.name} Products`
+    const description =
+      node.seo.metaDescription ||
+      node.description ||
+      `Discover our extensive range of ${node.name} products, perfect for your audience. Each ${node.name} product in our collection offers unique customization options to align with your style and preferences. Shop now to find the ideal ${node.name} product that embodies, quality, functionality and affordability.`
     const url = routes.internal.catalog.category.show.href({ categorySlug })
     return {
       title,
