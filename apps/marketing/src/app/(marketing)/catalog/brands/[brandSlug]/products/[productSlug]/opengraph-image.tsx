@@ -13,11 +13,11 @@ const graphqlEndpoint = getOrThrow(
 )
 
 const outfitRegularFontP = fetch(
-  new URL('/public/fonts/Outfit-Regular.ttf', import.meta.url),
+  new URL('./Outfit-Regular.ttf', import.meta.url),
 ).then(res => res.arrayBuffer())
 
 const outfitBoldFontP = fetch(
-  new URL('/public/fonts/Outfit-Bold.ttf', import.meta.url),
+  new URL('./Outfit-Bold.ttf', import.meta.url),
 ).then(res => res.arrayBuffer())
 
 const makeDataP = (productSlug: string) =>
