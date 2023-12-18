@@ -98,6 +98,7 @@ export default async function Image({
         <div
           style={{
             backgroundColor: theme.colors.primary,
+            fontFamily: '"Outfit"',
           }}
           tw="h-full w-full flex items-start justify-start bg-white p-4"
         >
