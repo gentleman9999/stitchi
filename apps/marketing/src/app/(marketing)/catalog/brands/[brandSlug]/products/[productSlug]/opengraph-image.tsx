@@ -95,7 +95,10 @@ export default async function Image({
           <div tw="flex items-start justify-start h-full bg-white rounded-lg">
             <div tw="flex w-2/5 flex-col justify-between h-full pl-12 py-12">
               <div tw="flex flex-col">
-                <p tw="text-2xl mb-0 text-gray-600">{SITE_URL}</p>
+                <p tw="text-2xl mb-0 text-gray-600">
+                  {/* Remove both the https:// (or http://) and www from a URL */}
+                  {SITE_URL.replace(/^(https?:\/\/)?(www\.)?/, '')}
+                </p>
                 <h1 tw="text-5xl font-black text-left">
                   {makeProductTitle(product)}
                 </h1>
