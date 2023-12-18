@@ -5,11 +5,65 @@ import { NextResponse } from 'next/server'
 import { theme } from '../../../../../../../../tailwind.config'
 import { SITE_URL } from '@lib/constants'
 import currency from 'currency.js'
+import { makeProductTitle } from '@lib/utils/catalog'
 
 const graphqlEndpoint = getOrThrow(
   process.env.NEXT_PUBLIC_STITCHI_GRAPHQL_URI,
   'NEXT_PUBLIC_STITCHI_GRAPHQL_URI',
 )
+
+const outfitRegularFontP = fetch(
+  new URL(
+    '../../../../../../../../public/fonts/Outfit-Regular.ttf',
+    import.meta.url,
+  ),
+).then(res => res.arrayBuffer())
+
+const outfitBoldFontP = fetch(
+  new URL(
+    '../../../../../../../../public/fonts/Outfit-Bold.ttf',
+    import.meta.url,
+  ),
+).then(res => res.arrayBuffer())
+
+const makeDataP = (productSlug: string) =>
+  fetch(graphqlEndpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      // Include any additional headers like authentication tokens if needed
+    },
+    body: JSON.stringify({
+      query: `
+      query ProductPageOpenGraphImageGetDataQuery($path: String!) {
+        site {
+          route(path: $path) {
+            node {
+              id
+              __typename
+              ... on Product {
+                name
+                defaultImage {
+                  url(width: 1000)
+                }
+                priceMetadata {
+                  minPriceCents
+                }
+                brand {
+                  id
+                  name
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+      variables: {
+        path: `/${productSlug}/`,
+      },
+    }),
+  })
 
 export const runtime = 'edge'
 
@@ -19,42 +73,15 @@ export default async function Image({
   params: { productSlug: string }
 }) {
   let data: ProductPageGetDataQuery | undefined
-  try {
-    const response = await fetch(graphqlEndpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        // Include any additional headers like authentication tokens if needed
-      },
-      body: JSON.stringify({
-        query: `
-          query ProductPageOpenGraphImageGetDataQuery($path: String!) {
-            site {
-              route(path: $path) {
-                node {
-                  id
-                  __typename
-                  ... on Product {
-                    name
-                    defaultImage {
-                      url(width: 1000)
-                    }
-                    priceMetadata {
-                      minPriceCents
-                    }
-                  }
-                }
-              }
-            }
-          }
-        `,
-        variables: {
-          path: `/${params.productSlug}/`,
-        },
-      }),
-    })
 
-    data = (await response.json()).data
+  const [outfitRegularFont, outfitBoldFont, dataP] = await Promise.all([
+    outfitRegularFontP,
+    outfitBoldFontP,
+    makeDataP(params.productSlug),
+  ])
+
+  try {
+    data = (await dataP.json()).data
 
     if (!data) {
       throw new Error('No data')
@@ -68,20 +95,27 @@ export default async function Image({
   if (product?.__typename === 'Product') {
     return new ImageResponse(
       (
-        <div tw="h-full w-full flex items-start justify-start bg-white">
-          <div tw="flex items-start justify-start h-full">
+        <div
+          style={{
+            backgroundColor: theme.colors.primary,
+          }}
+          tw="h-full w-full flex items-start justify-start bg-white p-4"
+        >
+          <div tw="flex items-start justify-start h-full bg-white rounded-lg">
             <div tw="flex w-2/5 flex-col justify-between h-full pl-12 py-12">
               <div tw="flex flex-col">
-                <p tw="text-2xl font-bold mb-0 text-gray-600">{SITE_URL}</p>
-                <h1 tw="text-5xl font-black text-left">{product.name}</h1>
+                <p tw="text-2xl mb-0 text-gray-600">{SITE_URL}</p>
+                <h1 tw="text-5xl font-black text-left">
+                  {makeProductTitle(product)}
+                </h1>
               </div>
               <p
                 style={{
                   backgroundColor: theme.colors.primary,
                 }}
-                tw="text-3xl font-bold text-black py-4 px-12 rounded-lg"
+                tw="text-3xl font-bold text-black py-4 px-12 rounded-lg flex items-center justify-center"
               >
-                Starting at{' '}
+                Customize for{' '}
                 {currency(product.priceMetadata.minPriceCents, {
                   fromCents: true,
                 }).format()}
@@ -100,9 +134,22 @@ export default async function Image({
         </div>
       ),
       {
-        debug: true,
         width: 1200,
         height: 627,
+        fonts: [
+          {
+            name: 'Outfit',
+            data: outfitRegularFont,
+            style: 'normal',
+            weight: 400,
+          },
+          {
+            name: 'Outfit',
+            data: outfitBoldFont,
+            style: 'normal',
+            weight: 700,
+          },
+        ],
       },
     )
   }
