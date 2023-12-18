@@ -12,14 +12,6 @@ const graphqlEndpoint = getOrThrow(
   'NEXT_PUBLIC_STITCHI_GRAPHQL_URI',
 )
 
-const outfitRegularFontP = fetch(
-  new URL('./Outfit-Regular.ttf', import.meta.url),
-).then(res => res.arrayBuffer())
-
-const outfitBoldFontP = fetch(
-  new URL('./Outfit-Bold.ttf', import.meta.url),
-).then(res => res.arrayBuffer())
-
 const makeDataP = (productSlug: string) =>
   fetch(graphqlEndpoint, {
     method: 'POST',
@@ -68,11 +60,15 @@ export default async function Image({
 }) {
   let data: ProductPageGetDataQuery | undefined
 
-  const [outfitRegularFont, outfitBoldFont, dataP] = await Promise.all([
-    outfitRegularFontP,
-    outfitBoldFontP,
-    makeDataP(params.productSlug),
-  ])
+  const [dataP] = await Promise.all([makeDataP(params.productSlug)])
+
+  const outfitRegular = fetch(
+    new URL('./Outfit-Regular.ttf', import.meta.url),
+  ).then(res => res.arrayBuffer())
+
+  const outfitBold = fetch(new URL('./Outfit-Bold.ttf', import.meta.url)).then(
+    res => res.arrayBuffer(),
+  )
 
   try {
     data = (await dataP.json()).data
@@ -134,13 +130,13 @@ export default async function Image({
         fonts: [
           {
             name: 'Outfit',
-            data: outfitRegularFont,
+            data: await outfitRegular,
             style: 'normal',
             weight: 400,
           },
           {
             name: 'Outfit',
-            data: outfitBoldFont,
+            data: await outfitBold,
             style: 'normal',
             weight: 700,
           },
