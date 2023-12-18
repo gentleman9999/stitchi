@@ -80,11 +80,14 @@ export const generateMetadata = async ({
       alternates: {
         canonical: url,
       },
+      // Images generated from opengraph-image.tsx
       openGraph: {
         description,
         title,
-        // images,
         url: url,
+      },
+      twitter: {
+        card: 'summary_large_image',
       },
     }
   }
