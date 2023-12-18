@@ -83,7 +83,7 @@ export const generateMetadata = async ({
       openGraph: {
         description,
         title,
-        images,
+        // images,
         url: url,
       },
     }

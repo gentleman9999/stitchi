@@ -108,7 +108,7 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
                     track.navbarCtaCliced({ view: 'mobile' })
                   }}
                 >
-                  {user ? 'My closet' : 'Create free account'}
+                  {user ? 'My closet' : 'Sign up for free'}
                 </Button>
               </HeadlessPopover.Button>
             </Link>
