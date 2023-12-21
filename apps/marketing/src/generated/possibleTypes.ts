@@ -70,6 +70,10 @@
       "ArticleRecord",
       "GlossaryEntryRecord"
     ],
+    "LandingPageLinkModelLandingPageField": [
+      "LandingPageRecord",
+      "TradeshowLandingPageRecord"
+    ],
     "LandingPageModelContentField": [
       "PageCallToActionRecord",
       "PageHeroRecord",
@@ -98,7 +102,8 @@
     ],
     "PageSectionModelContentField": [
       "FaqGroupRecord",
-      "FeatureGridRecord"
+      "FeatureGridRecord",
+      "LandingPageGridRecord"
     ],
     "ProductAvailability": [
       "ProductAvailable",
@@ -126,6 +131,8 @@
       "HeroIconRecord",
       "HomepageRecord",
       "ImageRecord",
+      "LandingPageGridRecord",
+      "LandingPageLinkRecord",
       "LandingPageRecord",
       "PageCallToActionRecord",
       "PageHeroRecord",
@@ -133,7 +140,8 @@
       "PageSectionRecord",
       "PrivacyPolicyPageRecord",
       "TableRecord",
-      "TermsOfUsePageRecord"
+      "TermsOfUsePageRecord",
+      "TradeshowLandingPageRecord"
     ],
     "RedirectTo": [
       "BlogPostRedirect",

@@ -164,6 +164,33 @@ const routes = {
         },
       },
     },
+
+    insights: {
+      href: () => buildRoute('/insights'),
+
+      show: {
+        href: ({ insightSlug }: { insightSlug: string }) =>
+          buildRoute(`/insights/${insightSlug}`),
+      },
+    },
+
+    conferences: {
+      href: () => buildRoute('/conferences'),
+
+      show: {
+        href: ({ conferenceSlug }: { conferenceSlug: string }) =>
+          buildRoute(`/conferences/${conferenceSlug}`),
+      },
+    },
+
+    tradeshows: {
+      href: () => buildRoute('/tradeshows'),
+
+      show: {
+        href: ({ tradeshowSlug }: { tradeshowSlug: string }) =>
+          buildRoute(`/tradeshows/${tradeshowSlug}`),
+      },
+    },
     blog: {
       href: () => buildRoute(`/learn`),
       show: {

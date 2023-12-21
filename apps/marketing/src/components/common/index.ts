@@ -21,8 +21,8 @@ export * from './FeaturePageContainer'
 export { default as Avatar } from './Avatar'
 export * from './Avatar'
 
-export { default as Hero } from '../pages/HomePage/Hero'
-export * from '../pages/HomePage/Hero'
+export { default as Hero } from './Hero'
+export * from './Hero'
 
 export { default as IndustryTermCard } from './IndustryTermCard'
 export type { Props as IndustryTermCardProps } from './IndustryTermCard'

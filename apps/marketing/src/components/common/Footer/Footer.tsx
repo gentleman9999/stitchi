@@ -37,7 +37,7 @@ const Footer = () => (
             <div className="flex-1 flex justify-center text-center sm:text-left sm:justify-end gap-4">
               <div className="flex flex-col gap-6">
                 <ListItem
-                  label="Solutions"
+                  label="Why Stitchi?"
                   href={routes.internal.solutions.href()}
                 />
                 <ListItem
