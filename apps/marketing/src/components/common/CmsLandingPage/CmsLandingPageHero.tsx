@@ -8,15 +8,22 @@ export interface Props {
   title: string | null
   description: React.ReactNode | null
   ctas: CallToActionButtonProps[]
+  overline?: string | null
 }
 
-const CmsLandingPageHero = ({ title, description, ctas }: Props) => {
+const CmsLandingPageHero = ({ title, overline, description, ctas }: Props) => {
   const [primaryCta, secondaryCta] = ctas
 
   return (
     <Container>
       <div className="flex justify-center min-h-[90vh] items-center">
         <div className="flex flex-col gap-8">
+          {overline ? (
+            <div className="text-center text-base sm:text-lg md:text-xl max-w-3xl text-gray-500">
+              {overline}
+            </div>
+          ) : null}
+
           {title ? (
             <h1 className="text-center text-4xl md:text-5xl lg:text-7xl font-semibold font-headingDisplay max-w-3xl">
               {title}

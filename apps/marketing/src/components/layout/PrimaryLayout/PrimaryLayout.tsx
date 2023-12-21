@@ -36,7 +36,7 @@ const PrimaryLayout = (props: PrimaryLayoutProps) => {
       >
         {/* Floating nav spacer */}
         {!disableNavSpacing && (
-          <div className={`${navBackgroundColor} h-[111px]`} />
+          <div className={`${navBackgroundColor} h-topbar-height`} />
         )}
         {/* End - Floating nav spacer */}
         <Navbar />

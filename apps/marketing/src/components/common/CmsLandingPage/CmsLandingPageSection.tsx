@@ -12,8 +12,8 @@ import LandingPageGrid, {
   Props as LandingPageGridProps,
 } from './LandingPageGrid'
 import { CmsLandingPageSectionSectionFragment } from '@generated/types'
-import { getHref } from '@lib/cms-landing-page'
-import { format } from 'date-fns'
+import { formatTradeshowDate, getHref } from '@lib/cms-landing-page'
+import CmsStructuredText from '../CmsStructuredText'
 
 interface Props {
   section: CmsLandingPageSectionSectionFragment
@@ -106,6 +106,14 @@ const CmsLandingPageSection = ({ section }: Props) => {
                       <FAQGroup faqs={faqs} expandAll={content.expandAll} />
                     )
 
+                  case 'RichContentRecord':
+                    if (!content.content) return null
+
+                    return (
+                      <div className="prose prose-lg prose-fuchsia m-auto">
+                        <CmsStructuredText content={content.content} />
+                      </div>
+                    )
                   case 'LandingPageGridRecord':
                     const landingPages: LandingPageGridProps['landingPages'] =
                       []
@@ -133,17 +141,10 @@ const CmsLandingPageSection = ({ section }: Props) => {
                           const { slug, category } =
                             landingPage.landingPage || {}
 
-                          let subtitle
-
-                          if (startDate) {
-                            if (endDate) {
-                              subtitle = `From ${formatDate(
-                                startDate,
-                              )} to ${formatDate(endDate)}`
-                            } else {
-                              subtitle = `On ${formatDate(startDate)}`
-                            }
-                          }
+                          const subtitle = formatTradeshowDate(
+                            startDate,
+                            endDate,
+                          )
 
                           if (title && slug && category) {
                             landingPages.push({
@@ -186,13 +187,10 @@ const CmsLandingPageSection = ({ section }: Props) => {
   )
 }
 
-const formatDate = (date: string) => {
-  return format(new Date(date), 'MMMM d, yyyy')
-}
-
 CmsLandingPageSection.fragments = {
   section: gql`
     ${CmsImageFragments.image}
+    ${CmsStructuredText.fragments.richContentRecord}
     fragment CmsLandingPageSectionSectionFragment on PageSectionRecord {
       id
       title
@@ -208,6 +206,13 @@ CmsLandingPageSection.fragments = {
       }
 
       content {
+        ... on RichContentRecord {
+          id
+          content {
+            ...CmsStructuredTextRichContentRecordFragment
+          }
+        }
+
         ... on FeatureGridRecord {
           id
 

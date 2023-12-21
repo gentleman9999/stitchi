@@ -1,20 +1,19 @@
 import { gql, useQuery } from '@apollo/client'
 import Container from '@components/ui/Container'
 import LoadingDots from '@components/ui/LoadingDots'
-import {
-  IndustriesIndexPageGetDataQuery,
-  IndustriesIndexPageGetDataQueryVariables,
-} from '@generated/IndustriesIndexPageGetDataQuery'
-import {
-  IndustriesIndexPageGetPathDataQuery,
-  IndustriesIndexPageGetPathDataQueryVariables,
-} from '@generated/IndustriesIndexPageGetPathDataQuery'
+
 import { addApolloState, initializeApollo } from '@lib/apollo'
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import React from 'react'
 import ComponentErrorMessage from '../ComponentErrorMessage'
-import CmsLandingPageV2 from '../CmsLandingPageV2'
+import CmsLandingPageV2, { CmsLandingPageV2Props } from '../CmsLandingPageV2'
+import {
+  IndustriesIndexPageGetDataQuery,
+  IndustriesIndexPageGetDataQueryVariables,
+  IndustriesIndexPageGetPathDataQuery,
+  IndustriesIndexPageGetPathDataQueryVariables,
+} from '@generated/types'
 
 export const makeGetStaticPaths =
   (category: string): GetStaticPaths =>
@@ -81,10 +80,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 }
 
 interface Props {
-  canonicalUrl: string
+  href: string
+  parentBreadcrumbs?: CmsLandingPageV2Props['parentBreadcrumbs']
 }
 
-const CmsLandingPage = ({ canonicalUrl }: Props) => {
+const CmsLandingPage = ({ href, parentBreadcrumbs }: Props) => {
   const { query } = useRouter()
 
   const landingPageSlug = query.landingPageSlug as string
@@ -113,7 +113,11 @@ const CmsLandingPage = ({ canonicalUrl }: Props) => {
   }
 
   return (
-    <CmsLandingPageV2 canonicalUrl={canonicalUrl} landingPage={landingPage} />
+    <CmsLandingPageV2
+      href={href}
+      landingPage={landingPage}
+      parentBreadcrumbs={parentBreadcrumbs}
+    />
   )
 }
 

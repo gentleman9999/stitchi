@@ -6309,6 +6309,30 @@ export interface InverseRelationshipFieldFilterBetweenGlossaryEntryAndGlossaryEn
   notIn?: InputMaybe<Array<GlossaryEntryModelFieldsReferencingGlossaryEntryModel>>;
 }
 
+/** Specifies how to filter by linking fields */
+export interface InverseRelationshipFieldFilterBetweenLandingPageLinkAndLandingPage {
+  /** Filter linking records that reference current record in at least one of the specified fields */
+  anyIn?: InputMaybe<Array<LandingPageLinkModelFieldsReferencingLandingPageModel>>;
+  /** Filter linking records that do not reference current record in any of the specified fields */
+  notIn?: InputMaybe<Array<LandingPageLinkModelFieldsReferencingLandingPageModel>>;
+}
+
+/** Specifies how to filter by linking fields */
+export interface InverseRelationshipFieldFilterBetweenLandingPageLinkAndTradeshowLandingPage {
+  /** Filter linking records that reference current record in at least one of the specified fields */
+  anyIn?: InputMaybe<Array<LandingPageLinkModelFieldsReferencingTradeshowLandingPageModel>>;
+  /** Filter linking records that do not reference current record in any of the specified fields */
+  notIn?: InputMaybe<Array<LandingPageLinkModelFieldsReferencingTradeshowLandingPageModel>>;
+}
+
+/** Specifies how to filter by linking fields */
+export interface InverseRelationshipFieldFilterBetweenTradeshowLandingPageAndLandingPage {
+  /** Filter linking records that reference current record in at least one of the specified fields */
+  anyIn?: InputMaybe<Array<TradeshowLandingPageModelFieldsReferencingLandingPageModel>>;
+  /** Filter linking records that do not reference current record in any of the specified fields */
+  notIn?: InputMaybe<Array<TradeshowLandingPageModelFieldsReferencingLandingPageModel>>;
+}
+
 /** Specifies how to filter linking records */
 export interface InverseRelationshipFilterBetweenArticleAndGlossaryEntry {
   /** Specifies how to filter by linking fields */
@@ -6337,6 +6361,30 @@ export interface InverseRelationshipFilterBetweenGlossaryEntryAndGlossaryCategor
 export interface InverseRelationshipFilterBetweenGlossaryEntryAndGlossaryEntry {
   /** Specifies how to filter by linking fields */
   fields?: InputMaybe<InverseRelationshipFieldFilterBetweenGlossaryEntryAndGlossaryEntry>;
+  /** Specifies how to filter by linking locales */
+  locales?: InputMaybe<LinkingLocalesFilter>;
+}
+
+/** Specifies how to filter linking records */
+export interface InverseRelationshipFilterBetweenLandingPageLinkAndLandingPage {
+  /** Specifies how to filter by linking fields */
+  fields?: InputMaybe<InverseRelationshipFieldFilterBetweenLandingPageLinkAndLandingPage>;
+  /** Specifies how to filter by linking locales */
+  locales?: InputMaybe<LinkingLocalesFilter>;
+}
+
+/** Specifies how to filter linking records */
+export interface InverseRelationshipFilterBetweenLandingPageLinkAndTradeshowLandingPage {
+  /** Specifies how to filter by linking fields */
+  fields?: InputMaybe<InverseRelationshipFieldFilterBetweenLandingPageLinkAndTradeshowLandingPage>;
+  /** Specifies how to filter by linking locales */
+  locales?: InputMaybe<LinkingLocalesFilter>;
+}
+
+/** Specifies how to filter linking records */
+export interface InverseRelationshipFilterBetweenTradeshowLandingPageAndLandingPage {
+  /** Specifies how to filter by linking fields */
+  fields?: InputMaybe<InverseRelationshipFieldFilterBetweenTradeshowLandingPageAndLandingPage>;
   /** Specifies how to filter by linking locales */
   locales?: InputMaybe<LinkingLocalesFilter>;
 }
@@ -6391,6 +6439,16 @@ export interface LandingPageGridRecord extends RecordInterface {
 /** Block of type Landing Page Grid (landing_page_grid) */
 export interface LandingPageGridRecord_seoMetaTagsArgs {
   locale?: InputMaybe<SiteLocale>;
+}
+
+/** Linking fields */
+export enum LandingPageLinkModelFieldsReferencingLandingPageModel {
+  landingPageLink_landingPage = 'landingPageLink_landingPage'
+}
+
+/** Linking fields */
+export enum LandingPageLinkModelFieldsReferencingTradeshowLandingPageModel {
+  landingPageLink_landingPage = 'landingPageLink_landingPage'
 }
 
 export interface LandingPageLinkModelFilter {
@@ -6488,6 +6546,7 @@ export interface LandingPageModelFilter {
   internalName?: InputMaybe<StringFilter>;
   seoMetadata?: InputMaybe<SeoFilter>;
   slug?: InputMaybe<SlugFilter>;
+  title?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<UpdatedAtFilter>;
 }
 
@@ -6516,6 +6575,8 @@ export enum LandingPageModelOrderBy {
   id_DESC = 'id_DESC',
   internalName_ASC = 'internalName_ASC',
   internalName_DESC = 'internalName_DESC',
+  title_ASC = 'title_ASC',
+  title_DESC = 'title_DESC',
   updatedAt_ASC = 'updatedAt_ASC',
   updatedAt_DESC = 'updatedAt_DESC'
 }
@@ -6523,6 +6584,12 @@ export enum LandingPageModelOrderBy {
 /** Record of type Landing Page (landing_page) */
 export interface LandingPageRecord extends RecordInterface {
   __typename: 'LandingPageRecord';
+  _allReferencingLandingPageLinks: Array<LandingPageLinkRecord>;
+  /** Returns meta information regarding a record collection */
+  _allReferencingLandingPageLinksMeta: CollectionMetadata;
+  _allReferencingTradeshowLandingPages: Array<TradeshowLandingPageRecord>;
+  /** Returns meta information regarding a record collection */
+  _allReferencingTradeshowLandingPagesMeta: CollectionMetadata;
   _createdAt: Scalars['DateTime']['output'];
   /** Editing URL */
   _editingUrl: Maybe<Scalars['String']['output']>;
@@ -6543,7 +6610,48 @@ export interface LandingPageRecord extends RecordInterface {
   internalName: Maybe<Scalars['String']['output']>;
   seoMetadata: Maybe<SeoField>;
   slug: Maybe<Scalars['String']['output']>;
+  title: Maybe<Scalars['String']['output']>;
   updatedAt: Scalars['DateTime']['output'];
+}
+
+
+/** Record of type Landing Page (landing_page) */
+export interface LandingPageRecord_allReferencingLandingPageLinksArgs {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<LandingPageLinkModelFilter>;
+  first?: InputMaybe<Scalars['IntType']['input']>;
+  locale?: InputMaybe<SiteLocale>;
+  orderBy?: InputMaybe<Array<InputMaybe<LandingPageLinkModelOrderBy>>>;
+  skip?: InputMaybe<Scalars['IntType']['input']>;
+  through?: InputMaybe<InverseRelationshipFilterBetweenLandingPageLinkAndLandingPage>;
+}
+
+
+/** Record of type Landing Page (landing_page) */
+export interface LandingPageRecord_allReferencingLandingPageLinksMetaArgs {
+  filter?: InputMaybe<LandingPageLinkModelFilter>;
+  locale?: InputMaybe<SiteLocale>;
+  through?: InputMaybe<InverseRelationshipFilterBetweenLandingPageLinkAndLandingPage>;
+}
+
+
+/** Record of type Landing Page (landing_page) */
+export interface LandingPageRecord_allReferencingTradeshowLandingPagesArgs {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<TradeshowLandingPageModelFilter>;
+  first?: InputMaybe<Scalars['IntType']['input']>;
+  locale?: InputMaybe<SiteLocale>;
+  orderBy?: InputMaybe<Array<InputMaybe<TradeshowLandingPageModelOrderBy>>>;
+  skip?: InputMaybe<Scalars['IntType']['input']>;
+  through?: InputMaybe<InverseRelationshipFilterBetweenTradeshowLandingPageAndLandingPage>;
+}
+
+
+/** Record of type Landing Page (landing_page) */
+export interface LandingPageRecord_allReferencingTradeshowLandingPagesMetaArgs {
+  filter?: InputMaybe<TradeshowLandingPageModelFilter>;
+  locale?: InputMaybe<SiteLocale>;
+  through?: InputMaybe<InverseRelationshipFilterBetweenTradeshowLandingPageAndLandingPage>;
 }
 
 
@@ -7917,7 +8025,7 @@ export interface PageSectionCatalogRecorddescriptionArgs {
   markdown?: InputMaybe<Scalars['Boolean']['input']>;
 }
 
-export type PageSectionModelContentField = FaqGroupRecord | FeatureGridRecord | LandingPageGridRecord;
+export type PageSectionModelContentField = FaqGroupRecord | FeatureGridRecord | LandingPageGridRecord | RichContentRecord;
 
 /** Block of type Page Section (page_section) */
 export interface PageSectionRecord extends RecordInterface {
@@ -9545,6 +9653,41 @@ export interface Reviews {
   summationOfRatings: Scalars['Int']['output'];
 }
 
+export interface RichContentModelContentField {
+  __typename: 'RichContentModelContentField';
+  blocks: Array<ImageRecord>;
+  links: Array<Scalars['String']['output']>;
+  value: Scalars['JsonField']['output'];
+}
+
+/** Block of type Rich Content (rich_content) */
+export interface RichContentRecord extends RecordInterface {
+  __typename: 'RichContentRecord';
+  _createdAt: Scalars['DateTime']['output'];
+  /** Editing URL */
+  _editingUrl: Maybe<Scalars['String']['output']>;
+  _firstPublishedAt: Maybe<Scalars['DateTime']['output']>;
+  _isValid: Scalars['BooleanType']['output'];
+  _modelApiKey: Scalars['String']['output'];
+  _publicationScheduledAt: Maybe<Scalars['DateTime']['output']>;
+  _publishedAt: Maybe<Scalars['DateTime']['output']>;
+  /** Generates SEO and Social card meta tags to be used in your frontend */
+  _seoMetaTags: Array<Tag>;
+  _status: ItemStatus;
+  _unpublishingScheduledAt: Maybe<Scalars['DateTime']['output']>;
+  _updatedAt: Scalars['DateTime']['output'];
+  content: Maybe<RichContentModelContentField>;
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ItemId']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+}
+
+
+/** Block of type Rich Content (rich_content) */
+export interface RichContentRecord_seoMetaTagsArgs {
+  locale?: InputMaybe<SiteLocale>;
+}
+
 /** route */
 export interface Route {
   __typename: 'Route';
@@ -10420,6 +10563,11 @@ export interface TextFilter {
   notMatches?: InputMaybe<StringMatchesFilter>;
 }
 
+/** Linking fields */
+export enum TradeshowLandingPageModelFieldsReferencingLandingPageModel {
+  tradeshowLandingPage_landingPage = 'tradeshowLandingPage_landingPage'
+}
+
 export interface TradeshowLandingPageModelFilter {
   AND?: InputMaybe<Array<InputMaybe<TradeshowLandingPageModelFilter>>>;
   OR?: InputMaybe<Array<InputMaybe<TradeshowLandingPageModelFilter>>>;
@@ -10474,6 +10622,9 @@ export enum TradeshowLandingPageModelOrderBy {
 /** Record of type Tradeshow Landing Page (tradeshow_landing_page) */
 export interface TradeshowLandingPageRecord extends RecordInterface {
   __typename: 'TradeshowLandingPageRecord';
+  _allReferencingLandingPageLinks: Array<LandingPageLinkRecord>;
+  /** Returns meta information regarding a record collection */
+  _allReferencingLandingPageLinksMeta: CollectionMetadata;
   _createdAt: Scalars['DateTime']['output'];
   /** Editing URL */
   _editingUrl: Maybe<Scalars['String']['output']>;
@@ -10494,6 +10645,26 @@ export interface TradeshowLandingPageRecord extends RecordInterface {
   name: Maybe<Scalars['String']['output']>;
   startDate: Maybe<Scalars['Date']['output']>;
   updatedAt: Scalars['DateTime']['output'];
+}
+
+
+/** Record of type Tradeshow Landing Page (tradeshow_landing_page) */
+export interface TradeshowLandingPageRecord_allReferencingLandingPageLinksArgs {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<LandingPageLinkModelFilter>;
+  first?: InputMaybe<Scalars['IntType']['input']>;
+  locale?: InputMaybe<SiteLocale>;
+  orderBy?: InputMaybe<Array<InputMaybe<LandingPageLinkModelOrderBy>>>;
+  skip?: InputMaybe<Scalars['IntType']['input']>;
+  through?: InputMaybe<InverseRelationshipFilterBetweenLandingPageLinkAndTradeshowLandingPage>;
+}
+
+
+/** Record of type Tradeshow Landing Page (tradeshow_landing_page) */
+export interface TradeshowLandingPageRecord_allReferencingLandingPageLinksMetaArgs {
+  filter?: InputMaybe<LandingPageLinkModelFilter>;
+  locale?: InputMaybe<SiteLocale>;
+  through?: InputMaybe<InverseRelationshipFilterBetweenLandingPageLinkAndTradeshowLandingPage>;
 }
 
 
@@ -12429,7 +12600,7 @@ export type LookbookCategoriesIndexPageGetDataQuery = { __typename: 'Query', all
 export type TradeShowIndexPageGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TradeShowIndexPageGetDataQuery = { __typename: 'Query', landingPage: { __typename: 'LandingPageRecord', id: any, slug: string | null, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }>, content: Array<{ __typename: 'PageCallToActionRecord', id: any, title: string | null, description: string | null, actions: Array<{ __typename: 'CallToActionButtonRecord', label: string | null, url: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'PageHeroRecord', id: any, title: string | null, description: string | null, callToActions: Array<{ __typename: 'CallToActionButtonRecord', id: any, label: string | null, url: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'PageSectionCatalogRecord', id: any, title: string | null, description: string | null, disableDefaultCategories: any | null, categories: Array<{ __typename: 'CatalogCategoryRecord', id: any, bigCommerceCategoryId: any | null, name: string | null }> } | { __typename: 'PageSectionRecord', id: any, title: string | null, subtitle: string | null, gutter: string | null, textAlignment: string | null, imageAlignment: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null, content: Array<{ __typename: 'FaqGroupRecord', id: any, expandAll: any | null, faqs: Array<{ __typename: 'FaqRecord', id: any, question: string | null, answer: string | null }> } | { __typename: 'FeatureGridRecord', id: any, features: Array<{ __typename: 'FeatureGridFeatureRecord', id: any, name: string | null, shortDescription: string | null, callToActionText: string | null, callToActionUrl: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'LandingPageGridRecord', id: any, landingPages: Array<{ __typename: 'LandingPageLinkRecord', id: any, title: string | null, landingPage: { __typename: 'LandingPageRecord', id: any, slug: string | null, category: string | null } | { __typename: 'TradeshowLandingPageRecord', id: any, startDate: any | null, endDate: any | null, landingPage: { __typename: 'LandingPageRecord', id: any, slug: string | null, category: string | null } | null } | null }> }> }> } | null };
+export type TradeShowIndexPageGetDataQuery = { __typename: 'Query', landingPage: { __typename: 'LandingPageRecord', id: any, slug: string | null, title: string | null, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }>, _allReferencingTradeshowLandingPages: Array<{ __typename: 'TradeshowLandingPageRecord', id: any, startDate: any | null, endDate: any | null }>, content: Array<{ __typename: 'PageCallToActionRecord', id: any, title: string | null, description: string | null, actions: Array<{ __typename: 'CallToActionButtonRecord', label: string | null, url: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'PageHeroRecord', id: any, title: string | null, description: string | null, callToActions: Array<{ __typename: 'CallToActionButtonRecord', id: any, label: string | null, url: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'PageSectionCatalogRecord', id: any, title: string | null, description: string | null, disableDefaultCategories: any | null, categories: Array<{ __typename: 'CatalogCategoryRecord', id: any, bigCommerceCategoryId: any | null, name: string | null }> } | { __typename: 'PageSectionRecord', id: any, title: string | null, subtitle: string | null, gutter: string | null, textAlignment: string | null, imageAlignment: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null, content: Array<{ __typename: 'FaqGroupRecord', id: any, expandAll: any | null, faqs: Array<{ __typename: 'FaqRecord', id: any, question: string | null, answer: string | null }> } | { __typename: 'FeatureGridRecord', id: any, features: Array<{ __typename: 'FeatureGridFeatureRecord', id: any, name: string | null, shortDescription: string | null, callToActionText: string | null, callToActionUrl: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'LandingPageGridRecord', id: any, landingPages: Array<{ __typename: 'LandingPageLinkRecord', id: any, title: string | null, landingPage: { __typename: 'LandingPageRecord', id: any, slug: string | null, category: string | null } | { __typename: 'TradeshowLandingPageRecord', id: any, startDate: any | null, endDate: any | null, landingPage: { __typename: 'LandingPageRecord', id: any, slug: string | null, category: string | null } | null } | null }> } | { __typename: 'RichContentRecord', id: any, content: { __typename: 'RichContentModelContentField', value: any, blocks: Array<{ __typename: 'ImageRecord', id: any, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null }> } | null }> }> } | null };
 
 export type AccountSetupPageBootstrapAccountVariables = Exact<{ [key: string]: never; }>;
 
@@ -12482,7 +12653,7 @@ export type IndustriesIndexPageGetDataQueryVariables = Exact<{
 }>;
 
 
-export type IndustriesIndexPageGetDataQuery = { __typename: 'Query', landingPage: { __typename: 'LandingPageRecord', id: any, slug: string | null, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }>, content: Array<{ __typename: 'PageCallToActionRecord', id: any, title: string | null, description: string | null, actions: Array<{ __typename: 'CallToActionButtonRecord', label: string | null, url: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'PageHeroRecord', id: any, title: string | null, description: string | null, callToActions: Array<{ __typename: 'CallToActionButtonRecord', id: any, label: string | null, url: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'PageSectionCatalogRecord', id: any, title: string | null, description: string | null, disableDefaultCategories: any | null, categories: Array<{ __typename: 'CatalogCategoryRecord', id: any, bigCommerceCategoryId: any | null, name: string | null }> } | { __typename: 'PageSectionRecord', id: any, title: string | null, subtitle: string | null, gutter: string | null, textAlignment: string | null, imageAlignment: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null, content: Array<{ __typename: 'FaqGroupRecord', id: any, expandAll: any | null, faqs: Array<{ __typename: 'FaqRecord', id: any, question: string | null, answer: string | null }> } | { __typename: 'FeatureGridRecord', id: any, features: Array<{ __typename: 'FeatureGridFeatureRecord', id: any, name: string | null, shortDescription: string | null, callToActionText: string | null, callToActionUrl: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'LandingPageGridRecord', id: any, landingPages: Array<{ __typename: 'LandingPageLinkRecord', id: any, title: string | null, landingPage: { __typename: 'LandingPageRecord', id: any, slug: string | null, category: string | null } | { __typename: 'TradeshowLandingPageRecord', id: any, startDate: any | null, endDate: any | null, landingPage: { __typename: 'LandingPageRecord', id: any, slug: string | null, category: string | null } | null } | null }> }> }> } | null };
+export type IndustriesIndexPageGetDataQuery = { __typename: 'Query', landingPage: { __typename: 'LandingPageRecord', id: any, slug: string | null, title: string | null, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }>, _allReferencingTradeshowLandingPages: Array<{ __typename: 'TradeshowLandingPageRecord', id: any, startDate: any | null, endDate: any | null }>, content: Array<{ __typename: 'PageCallToActionRecord', id: any, title: string | null, description: string | null, actions: Array<{ __typename: 'CallToActionButtonRecord', label: string | null, url: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'PageHeroRecord', id: any, title: string | null, description: string | null, callToActions: Array<{ __typename: 'CallToActionButtonRecord', id: any, label: string | null, url: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'PageSectionCatalogRecord', id: any, title: string | null, description: string | null, disableDefaultCategories: any | null, categories: Array<{ __typename: 'CatalogCategoryRecord', id: any, bigCommerceCategoryId: any | null, name: string | null }> } | { __typename: 'PageSectionRecord', id: any, title: string | null, subtitle: string | null, gutter: string | null, textAlignment: string | null, imageAlignment: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null, content: Array<{ __typename: 'FaqGroupRecord', id: any, expandAll: any | null, faqs: Array<{ __typename: 'FaqRecord', id: any, question: string | null, answer: string | null }> } | { __typename: 'FeatureGridRecord', id: any, features: Array<{ __typename: 'FeatureGridFeatureRecord', id: any, name: string | null, shortDescription: string | null, callToActionText: string | null, callToActionUrl: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'LandingPageGridRecord', id: any, landingPages: Array<{ __typename: 'LandingPageLinkRecord', id: any, title: string | null, landingPage: { __typename: 'LandingPageRecord', id: any, slug: string | null, category: string | null } | { __typename: 'TradeshowLandingPageRecord', id: any, startDate: any | null, endDate: any | null, landingPage: { __typename: 'LandingPageRecord', id: any, slug: string | null, category: string | null } | null } | null }> } | { __typename: 'RichContentRecord', id: any, content: { __typename: 'RichContentModelContentField', value: any, blocks: Array<{ __typename: 'ImageRecord', id: any, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null }> } | null }> }> } | null };
 
 export type IndustriesIndexPageGetPathDataQueryVariables = Exact<{
   category: Scalars['String']['input'];
@@ -12502,9 +12673,9 @@ export type CmsLandingPageCatalogSectionGetDataQuery = { __typename: 'Query', si
 
 export type CmsLandingPageCatalogSectionCatalogSectionFragment = { __typename: 'PageSectionCatalogRecord', id: any, title: string | null, description: string | null, disableDefaultCategories: any | null, categories: Array<{ __typename: 'CatalogCategoryRecord', id: any, bigCommerceCategoryId: any | null, name: string | null }> };
 
-export type CmsLandingPageSectionSectionFragment = { __typename: 'PageSectionRecord', id: any, title: string | null, subtitle: string | null, gutter: string | null, textAlignment: string | null, imageAlignment: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null, content: Array<{ __typename: 'FaqGroupRecord', id: any, expandAll: any | null, faqs: Array<{ __typename: 'FaqRecord', id: any, question: string | null, answer: string | null }> } | { __typename: 'FeatureGridRecord', id: any, features: Array<{ __typename: 'FeatureGridFeatureRecord', id: any, name: string | null, shortDescription: string | null, callToActionText: string | null, callToActionUrl: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'LandingPageGridRecord', id: any, landingPages: Array<{ __typename: 'LandingPageLinkRecord', id: any, title: string | null, landingPage: { __typename: 'LandingPageRecord', id: any, slug: string | null, category: string | null } | { __typename: 'TradeshowLandingPageRecord', id: any, startDate: any | null, endDate: any | null, landingPage: { __typename: 'LandingPageRecord', id: any, slug: string | null, category: string | null } | null } | null }> }> };
+export type CmsLandingPageSectionSectionFragment = { __typename: 'PageSectionRecord', id: any, title: string | null, subtitle: string | null, gutter: string | null, textAlignment: string | null, imageAlignment: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null, content: Array<{ __typename: 'FaqGroupRecord', id: any, expandAll: any | null, faqs: Array<{ __typename: 'FaqRecord', id: any, question: string | null, answer: string | null }> } | { __typename: 'FeatureGridRecord', id: any, features: Array<{ __typename: 'FeatureGridFeatureRecord', id: any, name: string | null, shortDescription: string | null, callToActionText: string | null, callToActionUrl: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'LandingPageGridRecord', id: any, landingPages: Array<{ __typename: 'LandingPageLinkRecord', id: any, title: string | null, landingPage: { __typename: 'LandingPageRecord', id: any, slug: string | null, category: string | null } | { __typename: 'TradeshowLandingPageRecord', id: any, startDate: any | null, endDate: any | null, landingPage: { __typename: 'LandingPageRecord', id: any, slug: string | null, category: string | null } | null } | null }> } | { __typename: 'RichContentRecord', id: any, content: { __typename: 'RichContentModelContentField', value: any, blocks: Array<{ __typename: 'ImageRecord', id: any, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null }> } | null }> };
 
-export type CmsLandingPageV2Fragment = { __typename: 'LandingPageRecord', id: any, slug: string | null, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }>, content: Array<{ __typename: 'PageCallToActionRecord', id: any, title: string | null, description: string | null, actions: Array<{ __typename: 'CallToActionButtonRecord', label: string | null, url: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'PageHeroRecord', id: any, title: string | null, description: string | null, callToActions: Array<{ __typename: 'CallToActionButtonRecord', id: any, label: string | null, url: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'PageSectionCatalogRecord', id: any, title: string | null, description: string | null, disableDefaultCategories: any | null, categories: Array<{ __typename: 'CatalogCategoryRecord', id: any, bigCommerceCategoryId: any | null, name: string | null }> } | { __typename: 'PageSectionRecord', id: any, title: string | null, subtitle: string | null, gutter: string | null, textAlignment: string | null, imageAlignment: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null, content: Array<{ __typename: 'FaqGroupRecord', id: any, expandAll: any | null, faqs: Array<{ __typename: 'FaqRecord', id: any, question: string | null, answer: string | null }> } | { __typename: 'FeatureGridRecord', id: any, features: Array<{ __typename: 'FeatureGridFeatureRecord', id: any, name: string | null, shortDescription: string | null, callToActionText: string | null, callToActionUrl: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'LandingPageGridRecord', id: any, landingPages: Array<{ __typename: 'LandingPageLinkRecord', id: any, title: string | null, landingPage: { __typename: 'LandingPageRecord', id: any, slug: string | null, category: string | null } | { __typename: 'TradeshowLandingPageRecord', id: any, startDate: any | null, endDate: any | null, landingPage: { __typename: 'LandingPageRecord', id: any, slug: string | null, category: string | null } | null } | null }> }> }> };
+export type CmsLandingPageV2Fragment = { __typename: 'LandingPageRecord', id: any, slug: string | null, title: string | null, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }>, _allReferencingTradeshowLandingPages: Array<{ __typename: 'TradeshowLandingPageRecord', id: any, startDate: any | null, endDate: any | null }>, content: Array<{ __typename: 'PageCallToActionRecord', id: any, title: string | null, description: string | null, actions: Array<{ __typename: 'CallToActionButtonRecord', label: string | null, url: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'PageHeroRecord', id: any, title: string | null, description: string | null, callToActions: Array<{ __typename: 'CallToActionButtonRecord', id: any, label: string | null, url: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'PageSectionCatalogRecord', id: any, title: string | null, description: string | null, disableDefaultCategories: any | null, categories: Array<{ __typename: 'CatalogCategoryRecord', id: any, bigCommerceCategoryId: any | null, name: string | null }> } | { __typename: 'PageSectionRecord', id: any, title: string | null, subtitle: string | null, gutter: string | null, textAlignment: string | null, imageAlignment: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null, content: Array<{ __typename: 'FaqGroupRecord', id: any, expandAll: any | null, faqs: Array<{ __typename: 'FaqRecord', id: any, question: string | null, answer: string | null }> } | { __typename: 'FeatureGridRecord', id: any, features: Array<{ __typename: 'FeatureGridFeatureRecord', id: any, name: string | null, shortDescription: string | null, callToActionText: string | null, callToActionUrl: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'LandingPageGridRecord', id: any, landingPages: Array<{ __typename: 'LandingPageLinkRecord', id: any, title: string | null, landingPage: { __typename: 'LandingPageRecord', id: any, slug: string | null, category: string | null } | { __typename: 'TradeshowLandingPageRecord', id: any, startDate: any | null, endDate: any | null, landingPage: { __typename: 'LandingPageRecord', id: any, slug: string | null, category: string | null } | null } | null }> } | { __typename: 'RichContentRecord', id: any, content: { __typename: 'RichContentModelContentField', value: any, blocks: Array<{ __typename: 'ImageRecord', id: any, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null }> } | null }> }> };
 
 export type CmsSeoTagsFragment = { __typename: 'Tag', attributes: any | null, content: string | null, tag: string };
 
@@ -12517,6 +12688,8 @@ export type CmsStructuredTextTermsOfUseContentFragment = { __typename: 'TermsOfU
 export type CmsStructuredTextCategoryDescriptionFragment = { __typename: 'CategoryModelDescriptionField', value: any };
 
 export type CmsStructuredTextGlossaryDescriptionFragment = { __typename: 'GlossaryEntryModelDescriptionField', value: any, blocks: Array<{ __typename: 'ImageRecord', id: any, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null }>, links: Array<{ __typename: 'ArticleRecord', id: any, slug: string | null, title: string | null } | { __typename: 'GlossaryEntryRecord', id: any, slug: string | null, term: string | null }> };
+
+export type CmsStructuredTextRichContentRecordFragment = { __typename: 'RichContentModelContentField', value: any, blocks: Array<{ __typename: 'ImageRecord', id: any, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null }> };
 
 export type CmsStructuredTextTableOfContentsContentFragment = { __typename: 'ArticleModelContentField', value: any };
 

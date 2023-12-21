@@ -103,7 +103,8 @@
     "PageSectionModelContentField": [
       "FaqGroupRecord",
       "FeatureGridRecord",
-      "LandingPageGridRecord"
+      "LandingPageGridRecord",
+      "RichContentRecord"
     ],
     "ProductAvailability": [
       "ProductAvailable",
@@ -139,6 +140,7 @@
       "PageSectionCatalogRecord",
       "PageSectionRecord",
       "PrivacyPolicyPageRecord",
+      "RichContentRecord",
       "TableRecord",
       "TermsOfUsePageRecord",
       "TradeshowLandingPageRecord"

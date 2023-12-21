@@ -11,18 +11,43 @@ import CmsLandingPageSection from '../CmsLandingPage/CmsLandingPageSection'
 import CmsLandingPageCallToAction from '../CmsLandingPage/CmsLandingPageCallToAction'
 import CmsLandingPageCatalogSection from '../CmsLandingPage/CmsLandingPageCatalogSection'
 import { useLogger } from 'next-axiom'
+import { formatTradeshowDate } from '@lib/cms-landing-page'
+import Breadcrumbs, { BreadcrumbProps } from '../Breadcrumbs'
+import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
+import Container from '@components/ui/Container'
 
-interface Props {
+export interface Props {
   landingPage: CmsLandingPageV2Fragment
-  canonicalUrl: string
+  href: string
+  parentBreadcrumbs?: BreadcrumbProps['breadcrumbs']
 }
 
-const CmsLandingPageV2 = ({ landingPage, canonicalUrl }: Props) => {
+const CmsLandingPageV2 = ({ landingPage, href, parentBreadcrumbs }: Props) => {
   const logger = useLogger()
+
+  const breadcrumbs = [
+    ...(parentBreadcrumbs || []),
+    {
+      href,
+      label: landingPage.title || '',
+    },
+  ]
+
   return (
     <div>
       {landingPage.slug ? (
-        <CmsSeo seo={landingPage._seoMetaTags} canonicalUrl={canonicalUrl} />
+        <CmsSeo
+          seo={landingPage._seoMetaTags}
+          canonicalUrl={makeAbsoluteUrl(href)}
+        />
+      ) : null}
+
+      {breadcrumbs.length > 1 ? (
+        <div className="mt-4">
+          <Container>
+            <Breadcrumbs breadcrumbs={breadcrumbs} />
+          </Container>
+        </div>
       ) : null}
 
       {landingPage.content.map(content => {
@@ -40,15 +65,30 @@ const CmsLandingPageV2 = ({ landingPage, canonicalUrl }: Props) => {
               }
             }
 
+            const referencingTradeshowLandingPage =
+              landingPage._allReferencingTradeshowLandingPages?.[0]
+
+            let overline
+
+            if (referencingTradeshowLandingPage) {
+              overline = formatTradeshowDate(
+                referencingTradeshowLandingPage.startDate,
+                referencingTradeshowLandingPage.endDate,
+              )
+            }
+
             return (
               <CmsLandingPageHero
                 key={content.id}
                 title={content.title}
                 ctas={ctas}
+                overline={overline}
                 description={
                   content.description ? (
                     <div
-                      dangerouslySetInnerHTML={{ __html: content.description }}
+                      dangerouslySetInnerHTML={{
+                        __html: content.description,
+                      }}
                     />
                   ) : null
                 }
@@ -93,8 +133,15 @@ CmsLandingPageV2.fragments = {
     fragment CmsLandingPageV2Fragment on LandingPageRecord {
       id
       slug
+      title
       _seoMetaTags {
         ...CmsSeoTagsFragment
+      }
+
+      _allReferencingTradeshowLandingPages(first: 1) {
+        id
+        startDate
+        endDate
       }
 
       content {

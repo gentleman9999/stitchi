@@ -4,7 +4,6 @@ import CmsLandingPage, {
 } from '@components/common/CmsLandingPage'
 import { PrimaryLayout } from '@components/layout'
 import routes from '@lib/routes'
-import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { useRouter } from 'next/router'
 import React from 'react'
 
@@ -15,15 +14,23 @@ const Page = () => {
 
   const landingPageSlug = router.query.landingPageSlug as string
 
-  const canonicalUrl = makeAbsoluteUrl(
-    routes.internal.tradeshows.show.href({ tradeshowSlug: landingPageSlug }),
+  return (
+    <CmsLandingPage
+      href={routes.internal.tradeshows.show.href({
+        tradeshowSlug: landingPageSlug,
+      })}
+      parentBreadcrumbs={[
+        {
+          href: routes.internal.tradeshows.href(),
+          label: 'Tradeshows',
+        },
+      ]}
+    />
   )
-
-  return <CmsLandingPage canonicalUrl={canonicalUrl} />
 }
 
 Page.getLayout = (page: React.ReactElement) => (
-  <PrimaryLayout disableNavSpacing>{page}</PrimaryLayout>
+  <PrimaryLayout>{page}</PrimaryLayout>
 )
 
 export default Page

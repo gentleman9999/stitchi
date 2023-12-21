@@ -8,7 +8,6 @@ import {
   TradeShowIndexPageGetDataQueryVariables,
 } from '@generated/types'
 import routes from '@lib/routes'
-import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { notFound } from 'next/navigation'
 import React from 'react'
 
@@ -27,10 +26,11 @@ const Page = () => {
     notFound()
   }
 
-  const canonicalUrl = makeAbsoluteUrl(routes.internal.tradeshows.href())
-
   return (
-    <CmsLandingPageV2 canonicalUrl={canonicalUrl} landingPage={landingPage} />
+    <CmsLandingPageV2
+      href={routes.internal.tradeshows.href()}
+      landingPage={landingPage}
+    />
   )
 }
 

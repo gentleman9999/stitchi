@@ -16,6 +16,7 @@ import { StructuredText, renderNodeRule } from 'react-datocms'
 import CmsImage, { CmsImageFragments } from '../CmsImage'
 import CampusMarketSizeCalculator from './CampusMarketSizeCalculator'
 import TableRecord from './TableRecord'
+import { CmsStructuredTextRichContentRecordFragment } from '@generated/types'
 
 interface Props {
   content:
@@ -24,6 +25,7 @@ interface Props {
     | CmsStructuredTextPrivacyPolicyContentFragment
     | CmsStructuredTextTermsOfUseContentFragment
     | CmsStructuredTextGlossaryDescriptionFragment
+    | CmsStructuredTextRichContentRecordFragment
 }
 
 const CmsStructuredText = ({ content }: Props) => {
@@ -227,6 +229,23 @@ CmsStructuredText.fragments = {
           id
           slug
           term
+        }
+      }
+    }
+  `,
+
+  richContentRecord: gql`
+    fragment CmsStructuredTextRichContentRecordFragment on RichContentModelContentField {
+      value
+      blocks {
+        id
+        ... on ImageRecord {
+          image {
+            id
+            responsiveImage {
+              ...CmsImageFragment
+            }
+          }
         }
       }
     }
