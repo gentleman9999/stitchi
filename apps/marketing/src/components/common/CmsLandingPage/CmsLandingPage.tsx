@@ -89,9 +89,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   })
 }
 
-interface Props {}
+interface Props {
+  canonicalUrl: string
+}
 
-const CmsLandingPage = ({}: Props) => {
+const CmsLandingPage = ({ canonicalUrl }: Props) => {
   const logger = useLogger()
   const { query } = useRouter()
 
@@ -123,12 +125,7 @@ const CmsLandingPage = ({}: Props) => {
   return (
     <div>
       {landingPage.slug ? (
-        <CmsSeo
-          seo={landingPage._seoMetaTags}
-          canonicalUrl={makeAbsoluteUrl(
-            routes.internal.industries.show.href(landingPage.slug),
-          )}
-        />
+        <CmsSeo seo={landingPage._seoMetaTags} canonicalUrl={canonicalUrl} />
       ) : null}
 
       {landingPage.content.map(content => {

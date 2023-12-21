@@ -109,7 +109,7 @@ export default async function Image({
                 }}
                 tw="text-3xl font-bold text-black py-4 px-12 rounded-lg flex items-center justify-center"
               >
-                Customize for{' '}
+                Customize from{' '}
                 {currency(product.priceMetadata.minPriceCents, {
                   fromCents: true,
                 }).format()}

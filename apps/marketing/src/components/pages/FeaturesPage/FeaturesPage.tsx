@@ -283,7 +283,7 @@ const FeaturesPage = () => {
                     href={routes.internal.signup.href()}
                     color="brandPrimary"
                   >
-                    Create free account
+                    Sign up for free
                   </Button>
                 </div>
               </div>

@@ -31,7 +31,7 @@ const ClosingCtaSection = () => {
               >
                 <Button Component="a" color="primary" bold shadow>
                   <div className="flex items-center group">
-                    Create free account{' '}
+                    Sign up for free{' '}
                     <ArrowRight
                       strokeWidth="2"
                       className="ml-2 group-hover:translate-x-2 transition-all"
