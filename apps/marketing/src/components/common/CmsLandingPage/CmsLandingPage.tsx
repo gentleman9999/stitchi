@@ -10,20 +10,11 @@ import {
   IndustriesIndexPageGetPathDataQueryVariables,
 } from '@generated/IndustriesIndexPageGetPathDataQuery'
 import { addApolloState, initializeApollo } from '@lib/apollo'
-import routes from '@lib/routes'
-import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps } from 'next'
-import { useLogger } from 'next-axiom'
 import { useRouter } from 'next/router'
 import React from 'react'
-import CmsSeo, { CmsSeoFragments } from '../CmsSeo'
 import ComponentErrorMessage from '../ComponentErrorMessage'
-import CmsLandingPageCallToAction from './CmsLandingPageCallToAction'
-import CmsLandingPageCatalogSection from './CmsLandingPageCatalogSection'
-import CmsLandingPageHero, {
-  Props as CmsLandingPageHeroProps,
-} from './CmsLandingPageHero'
-import CmsLandingPageSection from './CmsLandingPageSection'
+import CmsLandingPageV2 from '../CmsLandingPageV2'
 
 export const makeGetStaticPaths =
   (category: string): GetStaticPaths =>
@@ -94,7 +85,6 @@ interface Props {
 }
 
 const CmsLandingPage = ({ canonicalUrl }: Props) => {
-  const logger = useLogger()
   const { query } = useRouter()
 
   const landingPageSlug = query.landingPageSlug as string
@@ -123,116 +113,16 @@ const CmsLandingPage = ({ canonicalUrl }: Props) => {
   }
 
   return (
-    <div>
-      {landingPage.slug ? (
-        <CmsSeo seo={landingPage._seoMetaTags} canonicalUrl={canonicalUrl} />
-      ) : null}
-
-      {landingPage.content.map(content => {
-        switch (content.__typename) {
-          case 'PageHeroRecord':
-            let ctas: CmsLandingPageHeroProps['ctas'] = []
-
-            for (const cta of content.callToActions) {
-              if (cta.url && cta.label) {
-                ctas.push({
-                  children: cta.label,
-                  url: cta.url,
-                  iconId: cta.icon[0]?.tag,
-                })
-              }
-            }
-
-            return (
-              <CmsLandingPageHero
-                key={content.id}
-                title={content.title}
-                ctas={ctas}
-                description={
-                  content.description ? (
-                    <div
-                      dangerouslySetInnerHTML={{ __html: content.description }}
-                    />
-                  ) : null
-                }
-              />
-            )
-
-          case 'PageSectionRecord':
-            return <CmsLandingPageSection key={content.id} section={content} />
-
-          case 'PageCallToActionRecord':
-            return (
-              <CmsLandingPageCallToAction
-                key={content.id}
-                callToAction={content}
-              />
-            )
-
-          case 'PageSectionCatalogRecord':
-            return (
-              <CmsLandingPageCatalogSection
-                key={content.id}
-                catalogSection={content}
-              />
-            )
-
-          default:
-            logger.error(
-              `Unsupported content type: ${(content as any).__typename}`,
-            )
-        }
-      })}
-    </div>
+    <CmsLandingPageV2 canonicalUrl={canonicalUrl} landingPage={landingPage} />
   )
 }
 
 const GET_PAGE_DATA = gql`
-  ${CmsLandingPageSection.fragments.section}
-  ${CmsLandingPageCallToAction.fragments.callToAction}
-  ${CmsLandingPageCatalogSection.fragments.catalogSection}
-  ${CmsSeoFragments.seoTags}
+  ${CmsLandingPageV2.fragments.landingPage}
   query IndustriesIndexPageGetDataQuery($slug: String!) {
     landingPage(filter: { slug: { eq: $slug } }) {
       id
-      slug
-      _seoMetaTags {
-        ...CmsSeoTagsFragment
-      }
-
-      content {
-        ... on PageHeroRecord {
-          id
-
-          title
-          description
-
-          callToActions {
-            id
-            label
-            url
-            icon {
-              id
-              tag
-            }
-          }
-        }
-
-        ... on PageSectionRecord {
-          id
-          ...CmsLandingPageSectionSectionFragment
-        }
-
-        ... on PageCallToActionRecord {
-          id
-          ...CmsLandingPageCallToActionCallToActionFragment
-        }
-
-        ... on PageSectionCatalogRecord {
-          id
-          ...CmsLandingPageCatalogSectionCatalogSectionFragment
-        }
-      }
+      ...CmsLandingPageV2Fragment
     }
   }
 `

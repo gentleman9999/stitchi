@@ -8,7 +8,7 @@ import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-const getStaticPaths = makeGetStaticPaths('conference')
+const getStaticPaths = makeGetStaticPaths('tradeshow')
 
 const Page = () => {
   const router = useRouter()

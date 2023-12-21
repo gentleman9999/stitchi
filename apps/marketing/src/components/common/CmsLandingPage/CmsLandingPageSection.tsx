@@ -3,12 +3,17 @@ import cx from 'classnames'
 import Section from '../Section'
 import SectionHeader from '../SectionHeader'
 import { gql } from '@apollo/client'
-import { CmsLandingPageSectionSectionFragment } from '@generated/CmsLandingPageSectionSectionFragment'
 import FeatureGrid, { Props as FeatureGridProps } from './FeatureGrid'
 import Container from '@components/ui/Container'
 import CmsImage, { CmsImageFragments } from '../CmsImage'
 import FAQGroup, { Props as FAQGroupProps } from './FAQGroup'
 import { useLogger } from 'next-axiom'
+import LandingPageGrid, {
+  Props as LandingPageGridProps,
+} from './LandingPageGrid'
+import { CmsLandingPageSectionSectionFragment } from '@generated/types'
+import { getHref } from '@lib/cms-landing-page'
+import { format } from 'date-fns'
 
 interface Props {
   section: CmsLandingPageSectionSectionFragment
@@ -101,6 +106,60 @@ const CmsLandingPageSection = ({ section }: Props) => {
                       <FAQGroup faqs={faqs} expandAll={content.expandAll} />
                     )
 
+                  case 'LandingPageGridRecord':
+                    const landingPages: LandingPageGridProps['landingPages'] =
+                      []
+
+                    for (const link of content.landingPages) {
+                      const { title, landingPage } = link
+
+                      if (!landingPage) continue
+
+                      switch (landingPage.__typename) {
+                        case 'LandingPageRecord': {
+                          const { slug, category } = landingPage
+                          if (title && slug && category) {
+                            landingPages.push({
+                              title,
+                              href: getHref({ category, slug }),
+                            })
+                          }
+
+                          break
+                        }
+
+                        case 'TradeshowLandingPageRecord': {
+                          const { startDate, endDate } = landingPage
+                          const { slug, category } =
+                            landingPage.landingPage || {}
+
+                          let subtitle
+
+                          if (startDate) {
+                            if (endDate) {
+                              subtitle = `From ${formatDate(
+                                startDate,
+                              )} to ${formatDate(endDate)}`
+                            } else {
+                              subtitle = `On ${formatDate(startDate)}`
+                            }
+                          }
+
+                          if (title && slug && category) {
+                            landingPages.push({
+                              title,
+                              subtitle,
+                              href: getHref({ category, slug }),
+                            })
+                          }
+
+                          break
+                        }
+                      }
+                    }
+
+                    return <LandingPageGrid landingPages={landingPages} />
+
                   default:
                     logger.error(
                       `Unsupported content type: ${
@@ -125,6 +184,10 @@ const CmsLandingPageSection = ({ section }: Props) => {
       </Section>
     </Container>
   )
+}
+
+const formatDate = (date: string) => {
+  return format(new Date(date), 'MMMM d, yyyy')
 }
 
 CmsLandingPageSection.fragments = {
@@ -168,6 +231,33 @@ CmsLandingPageSection.fragments = {
             id
             question
             answer
+          }
+        }
+
+        ... on LandingPageGridRecord {
+          id
+          landingPages {
+            id
+            title
+
+            landingPage {
+              ... on LandingPageRecord {
+                id
+                slug
+                category
+              }
+
+              ... on TradeshowLandingPageRecord {
+                id
+                startDate
+                endDate
+                landingPage {
+                  id
+                  slug
+                  category
+                }
+              }
+            }
           }
         }
       }

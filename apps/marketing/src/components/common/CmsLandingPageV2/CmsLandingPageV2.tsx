@@ -11,8 +11,6 @@ import CmsLandingPageSection from '../CmsLandingPage/CmsLandingPageSection'
 import CmsLandingPageCallToAction from '../CmsLandingPage/CmsLandingPageCallToAction'
 import CmsLandingPageCatalogSection from '../CmsLandingPage/CmsLandingPageCatalogSection'
 import { useLogger } from 'next-axiom'
-import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
-import routes from '@lib/routes'
 
 interface Props {
   landingPage: CmsLandingPageV2Fragment
