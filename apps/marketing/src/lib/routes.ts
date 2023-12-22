@@ -504,6 +504,9 @@ const routes = {
       twitter: {
         href: () => buildRoute(`https://twitter.com/gostitchi`),
       },
+      linkedin: {
+        href: () => buildRoute(`https://www.linkedin.com/company/stitchi`),
+      },
     },
     customers: {
       morningBrew: {

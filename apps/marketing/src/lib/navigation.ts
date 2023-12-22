@@ -1,4 +1,4 @@
-import { Support, Twitter } from 'icons'
+import { LinkedIn, Support, Twitter } from 'icons'
 import { routes } from '.'
 
 export type Navigation = ReturnType<typeof navigation.makeNavigation>
@@ -85,6 +85,11 @@ const navigation = {
         label: 'Twitter',
         href: routes.external.social.twitter.href(),
         icon: Twitter,
+      },
+      {
+        label: 'LinkedIn',
+        href: routes.external.social.linkedin.href(),
+        icon: LinkedIn,
       },
     ],
   }),
