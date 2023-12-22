@@ -65,15 +65,17 @@ const CmsLandingPageV2 = ({ landingPage, href, parentBreadcrumbs }: Props) => {
               }
             }
 
-            const referencingTradeshowLandingPage =
-              landingPage._allReferencingTradeshowLandingPages?.[0]
+            // Even though we receive an array, it should always be at most a single item
+            const metadata = landingPage.categoryMetadata?.[0]
 
             let overline
 
-            if (referencingTradeshowLandingPage) {
+            if (
+              metadata?.__typename === 'TradeshowCategoryMetadataModelRecord'
+            ) {
               overline = formatTradeshowDate(
-                referencingTradeshowLandingPage.startDate,
-                referencingTradeshowLandingPage.endDate,
+                metadata.startDate,
+                metadata.endDate,
               )
             }
 
@@ -138,10 +140,12 @@ CmsLandingPageV2.fragments = {
         ...CmsSeoTagsFragment
       }
 
-      _allReferencingTradeshowLandingPages(first: 1) {
-        id
-        startDate
-        endDate
+      categoryMetadata {
+        ... on TradeshowCategoryMetadataModelRecord {
+          id
+          startDate
+          endDate
+        }
       }
 
       content {

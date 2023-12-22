@@ -70,13 +70,13 @@ const BlogPostCard = ({ post, variant = 'vertical' }: BlogPostCardProps) => {
       )}
       <div className="max-w-xl">
         {categoryHref ? (
-          <div className="mt-8 flex items-center gap-x-4 text-xs">
+          <div className="mt-4 md:mt-8 flex items-center gap-x-4 text-xs">
             <time dateTime={post._createdAt} className="text-gray-500">
               {humanizeDate(post._createdAt, { short: true })}
             </time>
             <Link
               href={categoryHref}
-              className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+              className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100 text-xs md:text-base"
             >
               {category.name}
             </Link>
@@ -84,19 +84,19 @@ const BlogPostCard = ({ post, variant = 'vertical' }: BlogPostCardProps) => {
         ) : null}
 
         <div className="group relative">
-          <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+          <h3 className="mt-2 md:mt-3 text-base md:text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
             <Link href={postHref}>
               <span className="absolute inset-0" />
               {post.title}
             </Link>
           </h3>
-          <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
+          <p className="mt-3 md:mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
             {post.shortDescription}
           </p>
         </div>
 
         {post.author ? (
-          <div className="relative mt-8 flex items-center gap-x-4">
+          <div className="relative mt-4 md:mt-8 flex items-center gap-x-2 md:gap-x-4">
             {post.author.image ? <Avatar image={post.author.image} /> : null}
 
             <div className="text-sm leading-6">

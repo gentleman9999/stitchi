@@ -2,7 +2,6 @@ import { gql } from '@apollo/client'
 import {
   BlogPostCard,
   CmsStructuredText,
-  InfiniteScrollContainer,
   InlineMailingListSubscribe,
   Section,
   SubscribeInline,
@@ -44,14 +43,6 @@ const BlogIndexPage = ({
   const activeCategory = categories?.find(
     category => category.slug === categorySlug,
   )
-
-  const handleFetchMore = () => {
-    if (!loading && canFetchMore) {
-      router.replace(fetchMoreHref, undefined, {
-        scroll: false,
-      })
-    }
-  }
 
   return (
     <>
@@ -160,7 +151,7 @@ const BlogIndexPage = ({
             </div>
           )}
 
-          <div className="mt-12 mb-5 max-w-lg mx-auto grid gap-10 lg:grid-cols-3 lg:max-w-none">
+          <div className="mt-12 mb-5 max-w-lg mx-auto grid gap-20 lg:grid-cols-3 lg:max-w-none">
             {activeCategory ? null : (
               <div className="md:hidden grid gap-10">
                 {articles.slice(0, 3).map(post => (
@@ -176,8 +167,6 @@ const BlogIndexPage = ({
               )}
           </div>
 
-          <InfiniteScrollContainer onIntersect={handleFetchMore} />
-
           {canFetchMore ? (
             <div className="flex justify-center">
               <Button
@@ -186,8 +175,9 @@ const BlogIndexPage = ({
                 href={fetchMoreHref}
                 className="mt-2"
                 loading={loading}
+                size="2xl"
               >
-                Next page
+                Load more
               </Button>
             </div>
           ) : null}

@@ -45,7 +45,7 @@ const CmsLandingPageSection = ({ section }: Props) => {
             </div>
           ) : null}
 
-          <div className="flex-1">
+          <div className="flex-1 w-full">
             <SectionHeader
               align={textAlignment as any}
               title={
@@ -123,39 +123,29 @@ const CmsLandingPageSection = ({ section }: Props) => {
 
                       if (!landingPage) continue
 
-                      switch (landingPage.__typename) {
-                        case 'LandingPageRecord': {
-                          const { slug, category } = landingPage
-                          if (title && slug && category) {
-                            landingPages.push({
-                              title,
-                              href: getHref({ category, slug }),
-                            })
-                          }
+                      const { slug, category, categoryMetadata } = landingPage
 
-                          break
-                        }
+                      // Even though we receive an array, it should always be at most a single item
+                      const metadata = categoryMetadata?.[0]
 
-                        case 'TradeshowLandingPageRecord': {
-                          const { startDate, endDate } = landingPage
-                          const { slug, category } =
-                            landingPage.landingPage || {}
+                      let subtitle
 
-                          const subtitle = formatTradeshowDate(
-                            startDate,
-                            endDate,
-                          )
+                      if (
+                        metadata?.__typename ===
+                        'TradeshowCategoryMetadataModelRecord'
+                      ) {
+                        subtitle = formatTradeshowDate(
+                          metadata.startDate,
+                          metadata.endDate,
+                        )
+                      }
 
-                          if (title && slug && category) {
-                            landingPages.push({
-                              title,
-                              subtitle,
-                              href: getHref({ category, slug }),
-                            })
-                          }
-
-                          break
-                        }
+                      if (title && slug && category) {
+                        landingPages.push({
+                          title,
+                          subtitle,
+                          href: getHref({ category, slug }),
+                        })
                       }
                     }
 
@@ -250,16 +240,13 @@ CmsLandingPageSection.fragments = {
                 id
                 slug
                 category
-              }
 
-              ... on TradeshowLandingPageRecord {
-                id
-                startDate
-                endDate
-                landingPage {
-                  id
-                  slug
-                  category
+                categoryMetadata {
+                  ... on TradeshowCategoryMetadataModelRecord {
+                    id
+                    startDate
+                    endDate
+                  }
                 }
               }
             }

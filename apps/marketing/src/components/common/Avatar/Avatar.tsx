@@ -12,7 +12,7 @@ const Avatar = (props: AvatarProps) => {
     return null
   }
   return (
-    <div className="h-10 w-10 rounded-full relative overflow-hidden">
+    <div className="h-7 w-7 sm:h-7 sm:w-8 md:h-10 md:w-10 rounded-full relative overflow-hidden">
       <CmsImage
         data={props.image.responsiveImage}
         layout="fill"

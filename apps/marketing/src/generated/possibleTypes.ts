@@ -70,10 +70,6 @@
       "ArticleRecord",
       "GlossaryEntryRecord"
     ],
-    "LandingPageLinkModelLandingPageField": [
-      "LandingPageRecord",
-      "TradeshowLandingPageRecord"
-    ],
     "LandingPageModelContentField": [
       "PageCallToActionRecord",
       "PageHeroRecord",
@@ -143,7 +139,7 @@
       "RichContentRecord",
       "TableRecord",
       "TermsOfUsePageRecord",
-      "TradeshowLandingPageRecord"
+      "TradeshowCategoryMetadataModelRecord"
     ],
     "RedirectTo": [
       "BlogPostRedirect",
