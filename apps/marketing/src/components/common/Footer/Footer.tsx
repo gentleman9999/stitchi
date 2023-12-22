@@ -1,6 +1,5 @@
 import nav from '@lib/navigation'
 import React from 'react'
-
 import cx from 'classnames'
 import ClosingCtaSection from './ClosingCtaSection'
 import Container from '@components/ui/Container'
@@ -34,28 +33,49 @@ const Footer = () => (
               </p>
               <SubscribeInline className="mt-4" variant="primary" />
             </div>
-            <div className="flex-1 flex justify-center text-center sm:text-left sm:justify-end gap-4">
-              <div className="flex flex-col gap-6">
-                <ListItem
-                  label="Why Stitchi?"
-                  href={routes.internal.solutions.href()}
-                />
-                <ListItem
-                  label="Catalog"
-                  href={routes.internal.catalog.href()}
-                />
-                <ListItem label="Closet" href={routes.internal.closet.href()} />
-              </div>
-              <div className="flex flex-col gap-6">
-                <ListItem
-                  label="Articles & Guides"
-                  href={routes.internal.blog.href()}
-                />
-                <ListItem
-                  label="Careers"
-                  href={routes.external.careers.href()}
-                />
-              </div>
+            <div className="flex-1 flex justify-center text-center sm:text-left sm:justify-end gap-12">
+              <ListItemGroup
+                label="Solutions"
+                items={[
+                  {
+                    label: 'Why Stitchi?',
+                    href: routes.internal.solutions.href(),
+                  },
+
+                  {
+                    label: 'Loyalty & Referral Programs',
+                    href: routes.internal.solutions.loyaltyPrograms.href(),
+                  },
+
+                  {
+                    label: 'Tradeshows',
+                    href: routes.internal.tradeshows.href(),
+                  },
+
+                  {
+                    label: 'Swag Bags & Boxes',
+                    href: routes.internal.solutions.swagBox.href(),
+                  },
+                ]}
+              />
+
+              <ListItemGroup
+                label="Resources"
+                items={[
+                  {
+                    label: 'Catalog',
+                    href: routes.internal.catalog.href(),
+                  },
+                  {
+                    label: 'Articles & Guides',
+                    href: routes.internal.blog.href(),
+                  },
+                  {
+                    label: 'Careers',
+                    href: routes.external.careers.href(),
+                  },
+                ]}
+              />
             </div>
           </div>
 
@@ -70,7 +90,8 @@ const Footer = () => (
               <a
                 key={item.label}
                 href={item.href}
-                className="text-gray-100 hover:text-gray-300"
+                className="text-gray-100 hover:text-gray-300 fill-gray-100 hover:fill-gray-300"
+                target="_blank"
               >
                 <span className="sr-only">{item.label}</span>
                 <item.icon className="h-6 w-6" aria-hidden="true" />
@@ -144,5 +165,23 @@ const ListItem = ({ label, href, beta }: Item) => {
     </li>
   )
 }
+
+interface ListItemGroupProps {
+  items: Item[]
+  label: string
+}
+
+const ListItemGroup = ({ items, label }: ListItemGroupProps) => (
+  <div className="flex-1 sm:flex-initial flex flex-col gap-6">
+    <h4 className="text-base font-semibold text-gray-100 tracking-wider">
+      {label}
+    </h4>
+    <ul className="flex flex-col gap-6">
+      {items.map(item => (
+        <ListItem key={item.label} {...item} />
+      ))}
+    </ul>
+  </div>
+)
 
 export default Footer
