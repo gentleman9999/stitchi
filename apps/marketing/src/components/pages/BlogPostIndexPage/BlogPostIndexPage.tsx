@@ -52,15 +52,13 @@ const BlogIndexPage = ({
       ) : null}
       <Container className="relative">
         <div className="relative max-w-7xl mx-auto">
-          <div className="text-center">
+          <div className="text-center mt-12">
             <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl font-headingDisplay">
               {activeCategory?.name
                 ? `${activeCategory.name}`
                 : 'Become a merch pro.'}
             </h1>
-            <div className="flex justify-center py-8">
-              <SubscribeInline />
-            </div>
+
             <div className="mt-3 max-w-4xl mx-auto text text-gray-500 sm:mt-4">
               {activeCategory?.description ? (
                 <CmsStructuredText content={activeCategory.description} />
@@ -72,29 +70,11 @@ const BlogIndexPage = ({
                 </>
               )}
             </div>
+
+            <div className="flex justify-center py-8 ">
+              <SubscribeInline />
+            </div>
           </div>
-          <BlogPostIndexPageFilters
-            filters={[
-              {
-                id: 'all',
-                key: 'all',
-                title: 'All',
-                href: routes.internal.blog.href(),
-                active: !activeCategory,
-              },
-              ...(categories
-                ?.filter(c => Boolean(c.slug))
-                .map(category => ({
-                  id: category.id,
-                  key: category.slug,
-                  title: category.shortName || category.name || 'Category',
-                  href: routes.internal.blog.category.href({
-                    categorySlug: category.slug!,
-                  }),
-                  active: category.slug === activeCategory?.slug,
-                })) || []),
-            ]}
-          />
 
           {activeCategory ? null : (
             <div className="mt-12">
@@ -151,8 +131,32 @@ const BlogIndexPage = ({
             </div>
           )}
 
-          <div className="mt-12 mb-5 max-w-lg mx-auto grid gap-20 lg:grid-cols-3 lg:max-w-none">
+          <BlogPostIndexPageFilters
+            filters={[
+              {
+                id: 'all',
+                key: 'all',
+                title: 'All',
+                href: routes.internal.blog.href(),
+                active: !activeCategory,
+              },
+              ...(categories
+                ?.filter(c => Boolean(c.slug))
+                .map(category => ({
+                  id: category.id,
+                  key: category.slug,
+                  title: category.shortName || category.name || 'Category',
+                  href: routes.internal.blog.category.href({
+                    categorySlug: category.slug!,
+                  }),
+                  active: category.slug === activeCategory?.slug,
+                })) || []),
+            ]}
+          />
+
+          <div className="mt-12 mb-5 max-w-lg mx-auto grid gap-20 lg:gap-6 lg:grid-cols-3 lg:max-w-none">
             {activeCategory ? null : (
+              // On mobile, we remove featured posts (the first three posts). This is us adding in the featured posts.
               <div className="md:hidden grid gap-10">
                 {articles.slice(0, 3).map(post => (
                   <BlogPostCard key={post.id} post={post} />

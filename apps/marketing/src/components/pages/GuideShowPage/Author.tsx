@@ -45,13 +45,13 @@ const Author = (props: Props) => {
             </p>
             <p className="mt-4 text-lg tracking-tight text-gray-700">
               I&apos;ve been a custom merch expert for several years and am the
-              proud founder of Stitchi, a successful merch platform. My journey
-              in the world of custom merch began during my time at the
-              University of Michigan, where I founded a thriving student merch
+              proud founder of Stitchi, a simplified all-in-one merch platform.
+              My journey in the world of custom merch began during my time at
+              the University of Michigan, where I founded a student merch
               business that catered to my fellow Wolverines. This experience not
               only taught me the ins and outs of the industry but also helped me
               develop strategies and techniques that can be implemented by
-              anyone, even those with limited time and resources.
+              anyone.
             </p>
             <p className="mt-4 text-lg tracking-tight text-gray-700">
               My mission is to empower students and young entrepreneurs to turn

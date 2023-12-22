@@ -75,6 +75,7 @@ function InlineTextForm<T extends string>(props: InlineTextFormProps<T>) {
           />
           <div className="mt-3 sm:mt-0 sm:ml-3 sm:flex-shrink-0">
             <Button
+              size="xl"
               className="w-full h-full"
               type="submit"
               loading={loading}
