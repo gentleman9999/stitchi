@@ -6,6 +6,7 @@ import { CategoryTreeItem } from '@generated/types'
 import cx from 'classnames'
 import { ChevronLeftIcon } from '@heroicons/react/24/outline'
 import Checkbox from '@components/ui/inputs/Checkbox'
+import { useCategories } from '../categories-context'
 
 function getActiveCategoryEntityIds(
   categories: CategoryTreeItem[],
@@ -38,87 +39,89 @@ function getActiveCategoryEntityIds(
   // If the category is not found in this branch, return an empty array
   return []
 }
-interface Props {}
+interface Props {
+  activeCategoryId?: number
+  activeCollectionId?: number
+}
 
-const CatalogFilters = ({}: Props) => {
+const CatalogSidebar = ({ activeCategoryId, activeCollectionId }: Props) => {
+  const { categories, collections } = useCategories()
+
   const {
     toggleFilter,
-    filters: {
-      category: activeCategory,
-      brands: activeBrands,
-      collection: activeCollection,
-    },
-    availableFilters: { categories, collections, brands },
+    filters: { brands: activeBrands },
+    availableFilters: { brands },
   } = useFilters()
 
   const activeCategoryTreeEntityIds = React.useMemo(() => {
-    if (!activeCategory) return []
+    if (!activeCategoryId) return []
 
     return getActiveCategoryEntityIds(
-      categories as any,
-      activeCategory.entityId,
+      categories as CategoryTreeItem[],
+      activeCategoryId,
     ).reverse()
-  }, [activeCategory, categories])
+  }, [activeCategoryId, categories])
+
+  console.log('ACTIVE COLLECTION ID', activeCollectionId)
+  console.log('ACTIVE CATEGORY ID', activeCategoryId)
 
   return (
-    <aside className="w-80 px-6">
-      <ul className="flex flex-col gap-10">
-        {!activeCollection ? (
-          <Section
-            label={activeCategory ? 'All products' : 'Categories'}
-            href={activeCategory ? routes.internal.catalog.href() : undefined}
-          >
-            <FilterGroup>
-              {categories.map(category => (
-                <CategoryTree
-                  key={category.entityId}
-                  category={category as any}
-                  expanded={activeCategoryTreeEntityIds.includes(
-                    category.entityId,
-                  )}
-                  activeCategoryTreeEntityIds={activeCategoryTreeEntityIds}
-                />
-              ))}
-            </FilterGroup>
-          </Section>
-        ) : null}
+    <ul className="px-6 flex flex-col gap-10">
+      {!activeCollectionId ? (
+        <Section
+          label={activeCategoryId ? 'All products' : 'Categories'}
+          href={activeCategoryId ? routes.internal.catalog.href() : undefined}
+        >
+          <FilterGroup>
+            {categories.map(category => (
+              <CategoryTree
+                key={category.entityId}
+                category={category as any}
+                expanded={activeCategoryTreeEntityIds.includes(
+                  category.entityId,
+                )}
+                activeCategoryTreeEntityIds={activeCategoryTreeEntityIds}
+              />
+            ))}
+          </FilterGroup>
+        </Section>
+      ) : null}
 
-        {!activeCategory ? (
-          <Section
-            label={activeCollection ? 'All products' : 'Collections'}
-            href={activeCollection ? routes.internal.catalog.href() : undefined}
-          >
-            <FilterGroup>
-              {collections.map(collection => (
-                <FilterItem
-                  key={collection.entityId}
-                  href={routes.internal.catalog.category.show.href({
-                    categorySlug: collection.path,
-                  })}
-                  active={activeCollection?.entityId === collection.entityId}
-                >
-                  {collection.name}
-                </FilterItem>
-              ))}
-            </FilterGroup>
-          </Section>
-        ) : null}
-
-        <Section label="Filters">
-          <FilterGroup label="Brands">
-            {brands.map(brand => (
+      {!activeCategoryId ? (
+        <Section
+          label={activeCollectionId ? 'All products' : 'Collections'}
+          href={activeCollectionId ? routes.internal.catalog.href() : undefined}
+        >
+          <FilterGroup>
+            {collections.map(collection => (
               <FilterItem
-                key={brand.id}
-                onClick={() => toggleFilter('brands', brand.id)}
-                active={activeBrands?.includes(brand)}
+                key={collection.entityId}
+                href={routes.internal.catalog.category.show.href({
+                  categorySlug: collection.path,
+                })}
+                active={activeCollectionId === collection.entityId}
               >
-                {brand.name}
+                {collection.name}
               </FilterItem>
             ))}
           </FilterGroup>
         </Section>
-      </ul>
-    </aside>
+      ) : null}
+
+      <Section label="Filters">
+        <FilterGroup label="Brands">
+          {brands.map(brand => (
+            <FilterItem
+              key={brand.id}
+              onClick={() => toggleFilter('brands', brand.id)}
+              active={activeBrands?.includes(brand)}
+            >
+              {brand.name}
+            </FilterItem>
+          ))}
+        </FilterGroup>
+      </Section>
+    </ul>
   )
 }
 
@@ -264,4 +267,4 @@ const CategoryTree = ({
   )
 }
 
-export default CatalogFilters
+export default CatalogSidebar

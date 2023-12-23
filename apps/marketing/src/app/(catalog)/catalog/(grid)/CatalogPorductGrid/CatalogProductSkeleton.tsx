@@ -1,5 +1,5 @@
 import React from 'react'
-import SwatchGroup from '../../../../components/common/SwatchGroup'
+import SwatchGroup from '../../../../../components/common/SwatchGroup'
 import Skeleton from '@components/ui/Skeleton'
 
 const CatalogProductSkeleton = () => {

@@ -1,15 +1,16 @@
 'use client'
 
 import React from 'react'
-// import CatalogFilters from './CatalogFilters'
 import Section from '@components/common/Section'
-import CatalogProuductZeroState from './CatalogProductZeroState'
+import CatalogProuductZeroState from './CatalogPorductGrid/CatalogProductZeroState'
 import { FiltersProvider } from './filters-context'
 import { usePathname, useSelectedLayoutSegments } from 'next/navigation'
 import staticData from '@generated/static.json'
 import ClosetPageContainer from '@components/common/ClosetPageContainer'
-import CatalogFiltersV2 from './CatalogFiltersV2'
 import Header from './Header'
+import { CategoriesProvider } from './categories-context'
+import CatalogSidebar from './CatalogSidebar'
+import CatalogTopbar from './CatalogTopbar'
 
 interface Props {
   children: React.ReactNode
@@ -43,49 +44,32 @@ const Layout = ({ children }: Props) => {
   let description = category ? category.description : null
 
   return (
-    <div className="min-h-[calc(100vh-var(--topbar-height))]">
-      {title ? (
-        <ClosetPageContainer className="max-w-none">
-          <div className="bg-gray-100 p-6 rounded-md mt-2 mb-4">
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-heading">
-              {title}
-            </h1>
+    <CategoriesProvider>
+      <FiltersProvider>
+        <ClosetPageContainer className="max-w-none min-h-[calc(100vh-var(--topbar-height))] flex flex-col gap-4 mt-4">
+          <Header title={title} description={description} />
 
-            {description ? (
-              <div
-                className="mt-2 text-sm sm:text-base text-gray-600 max-w-4xl"
-                dangerouslySetInnerHTML={{ __html: description }}
+          <div className="flex">
+            <aside className="w-80">
+              <CatalogSidebar
+                activeCategoryId={category?.id}
+                activeCollectionId={collection?.id}
               />
-            ) : null}
+            </aside>
+
+            <div className="flex-1 flex flex-col gap-y-4">
+              <CatalogTopbar />
+
+              <Section>{children}</Section>
+
+              <div className="mt-20">
+                <CatalogProuductZeroState />
+              </div>
+            </div>
           </div>
         </ClosetPageContainer>
-      ) : (
-        <h1 className="sr-only">Catalog</h1>
-      )}
-
-      <FiltersProvider
-        brandEntityId={brand?.id}
-        categoryEntityId={category?.id}
-        collectionEntityId={collection?.id}
-      >
-        {/* <CatalogFilters
-          brandEntityId={brand?.id}
-          categoryEntityId={category?.id}
-        /> */}
-        <Header />
-        <div className="flex">
-          <CatalogFiltersV2 />
-
-          <ClosetPageContainer className="max-w-none !m-0">
-            <Section>{children}</Section>
-
-            <div className="mt-20">
-              <CatalogProuductZeroState />
-            </div>
-          </ClosetPageContainer>
-        </div>
       </FiltersProvider>
-    </div>
+    </CategoriesProvider>
   )
 }
 

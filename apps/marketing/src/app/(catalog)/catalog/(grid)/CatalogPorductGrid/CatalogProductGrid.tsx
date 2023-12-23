@@ -2,7 +2,7 @@
 
 import React, { useTransition } from 'react'
 import { notEmpty } from '@lib/utils/typescript'
-import CatalogProductLegacy from '../../../../components/common/CatalogProductLegacy'
+import CatalogProductLegacy from '../../../../../components/common/CatalogProductLegacy'
 import CatalogProductSkeleton from './CatalogProductSkeleton'
 import { InfiniteScrollContainer } from '@components/common'
 import Link from 'next/link'
@@ -11,15 +11,20 @@ import {
   CatalogIndexPageGetDataQueryVariables,
 } from '@generated/types'
 import CatalogProductGridContainer from './CatalogProductGridContainer'
-import { GET_DATA } from './graphql'
+import { GET_DATA } from '../graphql'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
-import { mergeFilters } from './format-filters'
+import { mergeFilters } from '../format-filters'
 import deepEqual from 'deep-equal'
-import { useFilters } from './filters-context'
+import { useFilters } from '../filters-context'
 import routes from '@lib/routes'
 
-const CatalogProductGrid = () => {
+interface Props {
+  categoryId?: number
+  brandId?: number
+}
+
+const CatalogProductGrid = ({ categoryId, brandId }: Props) => {
   const { replace } = useRouter()
   const pathname = usePathname()!
   const searchParams = useSearchParams()!
@@ -30,16 +35,8 @@ const CatalogProductGrid = () => {
 
   const filters = mergeFilters({
     search,
-    brands: unmergedFilters.brands.map(({ id }) => id),
-    categories: unmergedFilters.category
-      ? [unmergedFilters.category.entityId]
-      : [],
-    collections: unmergedFilters.collection
-      ? [unmergedFilters.collection.entityId]
-      : [],
-
-    fabrics: unmergedFilters.fabrics.map(({ entityId }) => entityId),
-    fits: unmergedFilters.fits.map(({ entityId }) => entityId),
+    brands: brandId ? [brandId] : unmergedFilters.brands.map(({ id }) => id),
+    category: categoryId || null,
   })
 
   const [prevFilters, setPrevFilters] = React.useState(filters)

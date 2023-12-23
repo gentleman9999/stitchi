@@ -9,7 +9,7 @@ import {
 import routes from '@lib/routes'
 import staticData from '@generated/static.json'
 import { gql } from '@apollo/client'
-import CatalogProductGrid from '../../CatalogProductGrid'
+import { CatalogProductGrid } from '../../CatalogPorductGrid'
 
 interface Params {
   catchAllSlug: string[]
@@ -70,7 +70,7 @@ const Page = ({ params }: { params: Params }) => {
     notFound()
   }
 
-  return <CatalogProductGrid />
+  return <CatalogProductGrid categoryId={foundCategory.id} />
 }
 
 const GET_DATA = gql`

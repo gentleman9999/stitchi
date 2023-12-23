@@ -10,7 +10,7 @@ import routes from '@lib/routes'
 import staticData from '@generated/static.json'
 import { BrandJsonLd } from 'next-seo'
 import { gql } from '@apollo/client'
-import CatalogProductGrid from '../../CatalogProductGrid'
+import { CatalogProductGrid } from '../../CatalogPorductGrid'
 
 interface Params {
   brandSlug: string
@@ -75,7 +75,7 @@ const Page = async ({ params }: { params: Params }) => {
   return (
     <>
       <BrandJsonLd useAppDir id={href} logo={foundBrand.image_url} />
-      <CatalogProductGrid />
+      <CatalogProductGrid brandId={foundBrand.id} />
     </>
   )
 }

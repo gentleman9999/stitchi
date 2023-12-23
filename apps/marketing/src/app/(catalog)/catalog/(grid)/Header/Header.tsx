@@ -1,22 +1,30 @@
-'use client'
-
 import React from 'react'
-import { useFilters } from '../filters-context'
-import SortButton from '../CatalogFilters/SortButton'
-import Container from '@components/ui/Container'
 
-const Header = () => {
-  const { sort } = useFilters()
+interface Props {
+  title: string | null
+  description: string | null
+}
 
+const Header = ({ title, description }: Props) => {
   return (
-    <Container className="max-w-none">
-      <div className="flex justify-between items-center">
-        <h1>Header</h1>
-        <div>
-          <SortButton />
+    <>
+      {title ? (
+        <div className="bg-gray-100 p-6 rounded-md">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-heading">
+            {title}
+          </h1>
+
+          {description ? (
+            <div
+              className="mt-2 text-sm sm:text-base text-gray-600 max-w-4xl"
+              dangerouslySetInnerHTML={{ __html: description }}
+            />
+          ) : null}
         </div>
-      </div>
-    </Container>
+      ) : (
+        <h1 className="sr-only">Catalog</h1>
+      )}
+    </>
   )
 }
 

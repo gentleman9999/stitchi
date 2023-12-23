@@ -12332,17 +12332,17 @@ export type BrandPageGetDataQueryVariables = Exact<{
 
 export type BrandPageGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', route: { __typename: 'Route', node: { __typename: 'Banner', id: string } | { __typename: 'Blog', id: string } | { __typename: 'BlogIndexPage', id: string } | { __typename: 'BlogPost', id: string } | { __typename: 'Brand', name: string, id: string, defaultImage: { __typename: 'Image', url: string } | null, seo: { __typename: 'SeoDetails', pageTitle: string, metaDescription: string } } | { __typename: 'Cart', id: string } | { __typename: 'Category', id: string } | { __typename: 'Checkout', id: string } | { __typename: 'ContactPage', id: string } | { __typename: 'NormalPage', id: string } | { __typename: 'Product', id: string } | { __typename: 'RawHtmlPage', id: string } | { __typename: 'Redirect', id: string } | { __typename: 'Variant', id: string } | null } } };
 
+export type CategoriesContextGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CategoriesContextGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', categoryTree: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string }> }> }> }>, collections: Array<{ __typename: 'CategoryTreeItem', entityId: number, path: string, name: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string }> }> } };
+
 export type CatalogCategoryPageGetDataQueryVariables = Exact<{
   path: Scalars['String']['input'];
 }>;
 
 
 export type CatalogCategoryPageGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', route: { __typename: 'Route', node: { __typename: 'Banner', id: string } | { __typename: 'Blog', id: string } | { __typename: 'BlogIndexPage', id: string } | { __typename: 'BlogPost', id: string } | { __typename: 'Brand', id: string } | { __typename: 'Cart', id: string } | { __typename: 'Category', name: string, description: string, id: string, seo: { __typename: 'SeoDetails', metaDescription: string } } | { __typename: 'Checkout', id: string } | { __typename: 'ContactPage', id: string } | { __typename: 'NormalPage', id: string } | { __typename: 'Product', id: string } | { __typename: 'RawHtmlPage', id: string } | { __typename: 'Redirect', id: string } | { __typename: 'Variant', id: string } | null } } };
-
-export type UseCatalogFiltersGetDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type UseCatalogFiltersGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', categoryTree: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string }> }> }> }>, fabricCategory: Array<{ __typename: 'CategoryTreeItem', entityId: number, path: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string }> }>, collections: Array<{ __typename: 'CategoryTreeItem', entityId: number, path: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string }> }>, fit: Array<{ __typename: 'CategoryTreeItem', entityId: number, path: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string }> }> } };
 
 export type CatalogIndexPageGetDataQueryVariables = Exact<{
   filters: SearchProductsFiltersInput;

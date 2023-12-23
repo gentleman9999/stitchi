@@ -1,5 +1,5 @@
 import React from 'react'
-import TalkToPersonButton from './TalkToPersonButton'
+import TalkToPersonButton from '../TalkToPersonButton'
 
 const CatalogProuductZeroState = () => {
   return (
