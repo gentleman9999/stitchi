@@ -1,32 +1,42 @@
 'use client'
 
 import React from 'react'
-import CatalogFilters from './CatalogFilters'
+// import CatalogFilters from './CatalogFilters'
 import Section from '@components/common/Section'
 import CatalogProuductZeroState from './CatalogProductZeroState'
 import { FiltersProvider } from './filters-context'
-import { useSelectedLayoutSegments } from 'next/navigation'
+import { usePathname, useSelectedLayoutSegments } from 'next/navigation'
 import staticData from '@generated/static.json'
 import ClosetPageContainer from '@components/common/ClosetPageContainer'
+import CatalogFiltersV2 from './CatalogFiltersV2'
+import Header from './Header'
 
 interface Props {
   children: React.ReactNode
 }
 
 const Layout = ({ children }: Props) => {
+  const pathname = usePathname()
   const [entity, entitySlug] = useSelectedLayoutSegments()
 
   let brand
   let category
+  let collection
 
   if (entity === 'brands') {
     brand = staticData.brands.find(
       brand => brand.custom_url.url === `/${entitySlug}/`,
     )
   } else if (entity === 'categories') {
-    category = staticData.categories.find(
-      category => category.custom_url.url === `/${entitySlug}/`,
-    )
+    if (pathname?.includes('collections')) {
+      collection = staticData.categories.find(
+        category => category.custom_url.url === `/${entitySlug}/`,
+      )
+    } else {
+      category = staticData.categories.find(
+        category => category.custom_url.url === `/${entitySlug}/`,
+      )
+    }
   }
 
   let title = brand ? brand.name : category ? category.name : null
@@ -56,19 +66,24 @@ const Layout = ({ children }: Props) => {
       <FiltersProvider
         brandEntityId={brand?.id}
         categoryEntityId={category?.id}
+        collectionEntityId={collection?.id}
       >
-        <CatalogFilters
+        {/* <CatalogFilters
           brandEntityId={brand?.id}
           categoryEntityId={category?.id}
-        />
+        /> */}
+        <Header />
+        <div className="flex">
+          <CatalogFiltersV2 />
 
-        <ClosetPageContainer className="max-w-none">
-          <Section>{children}</Section>
+          <ClosetPageContainer className="max-w-none !m-0">
+            <Section>{children}</Section>
 
-          <div className="mt-20">
-            <CatalogProuductZeroState />
-          </div>
-        </ClosetPageContainer>
+            <div className="mt-20">
+              <CatalogProuductZeroState />
+            </div>
+          </ClosetPageContainer>
+        </div>
       </FiltersProvider>
     </div>
   )

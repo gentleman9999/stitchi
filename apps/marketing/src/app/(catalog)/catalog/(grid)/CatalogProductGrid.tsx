@@ -26,15 +26,18 @@ const CatalogProductGrid = () => {
   const [isFetchingMore, startFetchMoreTransition] = useTransition()
   const { filters: unmergedFilters, search, sort } = useFilters()
 
-  const isCloset = pathname.startsWith('/closet')
-
   const after = searchParams.get('after')
 
   const filters = mergeFilters({
     search,
     brands: unmergedFilters.brands.map(({ id }) => id),
-    categories: unmergedFilters.categories.map(({ entityId }) => entityId),
-    collections: unmergedFilters.collections.map(({ entityId }) => entityId),
+    categories: unmergedFilters.category
+      ? [unmergedFilters.category.entityId]
+      : [],
+    collections: unmergedFilters.collection
+      ? [unmergedFilters.collection.entityId]
+      : [],
+
     fabrics: unmergedFilters.fabrics.map(({ entityId }) => entityId),
     fits: unmergedFilters.fits.map(({ entityId }) => entityId),
   })
@@ -89,10 +92,6 @@ const CatalogProductGrid = () => {
     replace(pathname + '?' + newParams.toString())
   }
 
-  const catalogRoutes = isCloset
-    ? routes.internal.closet.catalog
-    : routes.internal.catalog
-
   return (
     <>
       <CatalogProductGridContainer>
@@ -102,7 +101,7 @@ const CatalogProductGrid = () => {
               key={product.id}
               productId={product.id}
               priority={i < 6}
-              href={catalogRoutes.product.href({
+              href={routes.internal.catalog.product.href({
                 brandSlug: product.brand?.path || '',
                 productSlug: product.path,
               })}

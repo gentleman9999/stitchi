@@ -58,29 +58,41 @@ type QueryFilters = {
   }
 }
 
-type Filters = {
+interface AvailableFilters {
   brands: typeof staticData.brands
   categories: UseCatalogFiltersGetDataQuery['site']['categoryTree']
   collections: UseCatalogFiltersGetDataQuery['site']['collections'][0]['children']
   fabrics: UseCatalogFiltersGetDataQuery['site']['fabricCategory'][0]['children']
   fits: UseCatalogFiltersGetDataQuery['site']['fit'][0]['children']
+  sort: typeof SORT_OPTIONS
 }
+
+type ActiveFilters = {
+  brands: typeof staticData.brands
+  category?: UseCatalogFiltersGetDataQuery['site']['categoryTree'][number]
+  collection?: UseCatalogFiltersGetDataQuery['site']['collections'][0]['children'][number]
+  fabrics: UseCatalogFiltersGetDataQuery['site']['fabricCategory'][0]['children']
+  fits: UseCatalogFiltersGetDataQuery['site']['fit'][0]['children']
+}
+
+type ToggleableFilters = keyof Omit<
+  AvailableFilters,
+  'categories' | 'collections'
+>
 
 type SetFiltersFn = UseQueryStatesReturn<
   Omit<QueryFilters, 'sort' | 'search'>
 >[1]
 
 interface State {
-  filters: Filters
+  filters: ActiveFilters
   search: string
   sort: (typeof SORT_OPTIONS)[number]
   setFilters: SetFiltersFn
   setSearch: (search: string) => void
   setSort: (sort: SearchProductsSortInput) => void
-  toggleFilter: (filter: keyof Filters, id: number) => void
-  availableFilters: Omit<Filters, 'search'> & {
-    sort: typeof SORT_OPTIONS
-  }
+  toggleFilter: (filter: ToggleableFilters, id: number) => void
+  availableFilters: AvailableFilters
 }
 
 const FiltersContext = React.createContext<State | undefined>(undefined)
@@ -89,19 +101,19 @@ interface FiltersProviderProps {
   children: React.ReactNode
   brandEntityId?: number
   categoryEntityId?: number
+  collectionEntityId?: number
 }
 
 const FiltersProvider = ({
   children,
   brandEntityId,
   categoryEntityId,
+  collectionEntityId,
 }: FiltersProviderProps) => {
   const [queryStates, setQueryStates] = useQueryStates(
     {
       brands: parseAsArrayOf(parseAsInteger),
-      categories: parseAsArrayOf(parseAsInteger),
       fabrics: parseAsArrayOf(parseAsInteger),
-      collections: parseAsArrayOf(parseAsInteger),
       fits: parseAsArrayOf(parseAsInteger),
       search: parseAsString.withDefault(''),
       sort: parseAsStringEnum(
@@ -124,6 +136,10 @@ const FiltersProvider = ({
   const defaultCategory = getDefaultCategory(
     [...categoryTree, ...(collections as any), ...fabricCategory, ...fit],
     categoryEntityId,
+  )
+
+  const defaultCollection = collections?.[0].children.find(
+    collection => collection.entityId === collectionEntityId,
   )
 
   const setSearch = React.useCallback(
@@ -150,7 +166,7 @@ const FiltersProvider = ({
   )
 
   const toggleFilter = React.useCallback(
-    (filter: keyof Filters, id: number) => {
+    (filter: keyof AvailableFilters, id: number) => {
       setFilters(prev => {
         const currentFilters = prev[filter]
         const newFilters = currentFilters?.includes(id)
@@ -172,21 +188,12 @@ const FiltersProvider = ({
         ? [defaultBrand]
         : staticData.brands.sort((a, b) => a.name.localeCompare(b.name)) || [],
 
-      categories: defaultCategory
-        ? [defaultCategory]
-        : categoryTree?.filter(notEmpty) || [],
+      categories: categoryTree?.filter(notEmpty) || [],
       fabrics: fabricCategory?.[0].children || [],
       collections: collections?.[0].children || [],
       fits: fit?.[0].children || [],
     }),
-    [
-      categoryTree,
-      collections,
-      defaultBrand,
-      defaultCategory,
-      fabricCategory,
-      fit,
-    ],
+    [categoryTree, collections, defaultBrand, fabricCategory, fit],
   )
 
   const state = React.useMemo<State>(() => {
@@ -206,17 +213,11 @@ const FiltersProvider = ({
           : availableFilters.brands.filter(brand =>
               queryStates.brands?.includes(brand.id),
             ),
-        categories: defaultCategory
-          ? [defaultCategory]
-          : availableFilters.categories.filter(category =>
-              queryStates.categories?.includes(category.entityId),
-            ),
+        category: defaultCategory || undefined,
         fabrics: availableFilters.fabrics.filter(fabric =>
           queryStates.fabrics?.includes(fabric.entityId),
         ),
-        collections: availableFilters.collections.filter(collection =>
-          queryStates.collections?.includes(collection.entityId),
-        ),
+        collection: defaultCollection || undefined,
         fits: availableFilters.fits.filter(fit =>
           queryStates.fits?.includes(fit.entityId),
         ),
@@ -231,9 +232,7 @@ const FiltersProvider = ({
     queryStates.search,
     queryStates.sort,
     queryStates.brands,
-    queryStates.categories,
     queryStates.fabrics,
-    queryStates.collections,
     queryStates.fits,
     defaultBrand,
     defaultCategory,
@@ -296,39 +295,49 @@ const GET_DATA = gql`
       categoryTree {
         entityId
         name
+        path
         children {
           entityId
           name
+          path
           children {
             entityId
             name
+            path
 
             children {
               entityId
               name
+              path
             }
           }
         }
       }
       fabricCategory: categoryTree(rootEntityId: 506) {
         entityId
+        path
         children {
           entityId
           name
+          path
         }
       }
       collections: categoryTree(rootEntityId: 516) {
         entityId
+        path
         children {
           entityId
           name
+          path
         }
       }
       fit: categoryTree(rootEntityId: 508) {
         entityId
+        path
         children {
           entityId
           name
+          path
         }
       }
     }

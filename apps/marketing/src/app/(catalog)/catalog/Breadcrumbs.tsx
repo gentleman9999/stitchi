@@ -15,10 +15,6 @@ const Breadcrumbs = () => {
 
   const isCloset = pathname.startsWith('/closet')
 
-  const catalogRoutes = isCloset
-    ? routes.internal.closet.catalog
-    : routes.internal.catalog
-
   const [first, ...rest] = selectedLayoutSegments
 
   const breadcrumbs: BreadcrumbProps['breadcrumbs'] = [
@@ -30,7 +26,7 @@ const Breadcrumbs = () => {
       hidden: true,
     },
     {
-      href: catalogRoutes.href(),
+      href: routes.internal.catalog.href(),
       label: 'Catalog',
       hidden: selectedLayoutSegments.length === 1,
     },
@@ -47,7 +43,7 @@ const Breadcrumbs = () => {
 
       if (brand) {
         breadcrumbs.push({
-          href: catalogRoutes.brand.show.href({
+          href: routes.internal.catalog.brand.show.href({
             brandSlug: entitySlug,
           }),
           label: brand.name,
@@ -64,7 +60,7 @@ const Breadcrumbs = () => {
 
         if (category) {
           breadcrumbs.push({
-            href: catalogRoutes.category.show.href({
+            href: routes.internal.catalog.category.show.href({
               categorySlug: category.custom_url.url,
             }),
             label: category.name,
@@ -81,7 +77,7 @@ const Breadcrumbs = () => {
 
     if (brand) {
       breadcrumbs.push({
-        href: catalogRoutes.brand.show.href({
+        href: routes.internal.catalog.brand.show.href({
           brandSlug,
         }),
         label: brand.name,
@@ -89,7 +85,7 @@ const Breadcrumbs = () => {
 
       if (productSlug) {
         breadcrumbs.push({
-          href: catalogRoutes.product.href({
+          href: routes.internal.catalog.product.href({
             brandSlug,
             productSlug,
           }),

@@ -97,10 +97,6 @@ const ProductShowPage = ({ path }: Props) => {
       }),
   }
 
-  const catalogRoutes = isCloset
-    ? routes.internal.closet.catalog
-    : routes.internal.catalog
-
   return (
     <>
       <ProductJsonLd useAppDir {...jsonLDData} key={jsonLDData.id} />
@@ -110,7 +106,7 @@ const ProductShowPage = ({ path }: Props) => {
           <div />
 
           <ProductQuickActions
-            shareHref={catalogRoutes.product.share.href({
+            shareHref={routes.internal.catalog.product.share.href({
               brandSlug: product.brand?.path || '',
               productSlug: product.path,
             })}
@@ -133,7 +129,7 @@ const ProductShowPage = ({ path }: Props) => {
             <CatalogProductLegacy
               productId={product.id}
               priority={false}
-              href={catalogRoutes.product.href({
+              href={routes.internal.catalog.product.href({
                 brandSlug: product.brand?.path?.replaceAll('/', '') || '',
                 productSlug: product.path?.replaceAll('/', '') || '',
               })}

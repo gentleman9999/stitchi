@@ -19,7 +19,7 @@ const CatalogNavItem = () => {
     <NavItem
       activeOverride={active}
       label="Catalog"
-      href={routes.internal.closet.catalog.href()}
+      href={routes.internal.catalog.href()}
       icon={<SwatchIcon className="w-4 h-4" />}
     />
   )

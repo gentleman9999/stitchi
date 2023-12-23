@@ -8,7 +8,7 @@ import Logo from '@components/ui/Logo'
 
 interface Props {
   children: React.ReactNode
-  innerRef: React.RefObject<HTMLDivElement> | React.RefCallback<HTMLDivElement>
+  innerRef?: React.RefObject<HTMLDivElement> | React.RefCallback<HTMLDivElement>
 }
 
 const NavbarRoot = ({ children, innerRef }: Props) => {

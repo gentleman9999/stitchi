@@ -11,7 +11,7 @@ import {
   RectangleStackIcon,
 } from '@heroicons/react/24/outline'
 import NavItem from '../../NavItem'
-import CatalogNavItem from '../../../(marketing)/catalog/CatalogNavItem'
+import CatalogNavItem from '../../../(catalog)/catalog/CatalogNavItem'
 import SidenavWrapper from '../../SidenavWrapper'
 
 interface Props {

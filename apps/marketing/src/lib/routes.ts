@@ -16,17 +16,15 @@ type QueryParams = Record<
   string | string[] | number | boolean | undefined
 >
 
-const makeCatalogRoutes = (fromCloset: boolean) => {
-  const basePath = fromCloset ? '/closet' : ''
-
+const makeCatalogRoutes = () => {
   return {
     href: ({ params }: { params?: QueryParams } = {}) =>
-      buildRoute(`${basePath}/catalog`, params),
+      buildRoute(`/catalog`, params),
 
     brand: {
       show: {
         href: ({ brandSlug }: { brandSlug: string }) =>
-          buildRoute(`${basePath}/${brandSlug.replaceAll('/', '')}`),
+          buildRoute(`/${brandSlug.replaceAll('/', '')}`),
       },
     },
 
@@ -34,7 +32,7 @@ const makeCatalogRoutes = (fromCloset: boolean) => {
       show: {
         href: ({ categorySlug }: { categorySlug: string }) =>
           // Replace leading and trailing slash
-          buildRoute(`${basePath}/${categorySlug.replace(/^\/|\/$/g, '')}`),
+          buildRoute(`/${categorySlug.replace(/^\/|\/$/g, '')}`),
       },
     },
 
@@ -50,7 +48,7 @@ const makeCatalogRoutes = (fromCloset: boolean) => {
       }) => {
         const serialize = (s: string) => s.replace(/\//g, '')
         return buildRoute(
-          `${basePath}/${serialize(brandSlug)}-${serialize(productSlug)}`,
+          `/${serialize(brandSlug)}-${serialize(productSlug)}`,
           params,
         )
       },
@@ -66,9 +64,7 @@ const makeCatalogRoutes = (fromCloset: boolean) => {
           const serialize = (s: string) => s.replace(/\//g, '')
 
           return buildRoute(
-            `${basePath}/${serialize(brandSlug)}-${serialize(
-              productSlug,
-            )}/share`,
+            `/${serialize(brandSlug)}-${serialize(productSlug)}/share`,
           )
         },
       },
@@ -129,7 +125,7 @@ const routes = {
         }),
     },
     catalog: {
-      ...makeCatalogRoutes(false),
+      ...makeCatalogRoutes(),
       wizard: {
         welcome: {
           href: () => buildRoute('/catalog/wizard/welcome'),
@@ -288,10 +284,6 @@ const routes = {
 
     closet: {
       href: () => buildRoute('/closet'),
-
-      catalog: {
-        ...makeCatalogRoutes(true),
-      },
 
       dashboard: {
         href: () => buildRoute('/closet/dashboard'),

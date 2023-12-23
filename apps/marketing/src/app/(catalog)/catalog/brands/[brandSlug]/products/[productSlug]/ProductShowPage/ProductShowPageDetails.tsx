@@ -28,10 +28,6 @@ const ProductShowPageDetails = ({ productId, isCloset }: Props) => {
   const [ref, setRef] = React.useState<HTMLDivElement | null>(null)
   const [expanded, setExpanded] = React.useState(false)
 
-  const catalogRoutes = isCloset
-    ? routes.internal.closet.catalog
-    : routes.internal.catalog
-
   React.useEffect(() => {
     if (ref) {
       const scrollHeight = ref.scrollHeight
@@ -89,7 +85,7 @@ const ProductShowPageDetails = ({ productId, isCloset }: Props) => {
                   <td className="flex justify-end py-2">
                     {product.brand?.path ? (
                       <Link
-                        href={catalogRoutes.brand.show.href({
+                        href={routes.internal.catalog.brand.show.href({
                           brandSlug: product.brand.path.replace('/', ''),
                         })}
                         className="underline"
@@ -114,9 +110,14 @@ const ProductShowPageDetails = ({ productId, isCloset }: Props) => {
                               className="whitespace-nowrap"
                             >
                               <Link
-                                href={catalogRoutes.category.show.href({
-                                  categorySlug: category.path.replace('/', ''),
-                                })}
+                                href={routes.internal.catalog.category.show.href(
+                                  {
+                                    categorySlug: category.path.replace(
+                                      '/',
+                                      '',
+                                    ),
+                                  },
+                                )}
                                 className="hover:underline"
                               >
                                 {category?.name}
