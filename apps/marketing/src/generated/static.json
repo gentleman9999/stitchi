@@ -1052,7 +1052,10 @@
       "layout_file": "category.html",
       "is_visible": true,
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/headwear/hats/", "is_customized": false },
+      "custom_url": {
+        "url": "/apparel/headwear/headwear/hats/",
+        "is_customized": true
+      },
       "image_url": ""
     },
     {

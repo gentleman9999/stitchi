@@ -12335,7 +12335,7 @@ export type BrandPageGetDataQuery = { __typename: 'Query', site: { __typename: '
 export type CategoriesContextGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CategoriesContextGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', categoryTree: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string }> }> }> }>, collections: Array<{ __typename: 'CategoryTreeItem', entityId: number, path: string, name: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string }> }> } };
+export type CategoriesContextGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', categoryTree: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string }> }> }> }>, collections: Array<{ __typename: 'CategoryTreeItem', entityId: number, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string }> }> } };
 
 export type CatalogCategoryPageGetDataQueryVariables = Exact<{
   path: Scalars['String']['input'];
