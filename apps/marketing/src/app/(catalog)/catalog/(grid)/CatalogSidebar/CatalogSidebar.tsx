@@ -40,11 +40,16 @@ function getActiveCategoryEntityIds(
   return []
 }
 interface Props {
-  activeCategoryId?: number
-  activeCollectionId?: number
+  activeCategoryId: number | undefined
+  activeCollectionId: number | undefined
+  activeBrandId: number | undefined
 }
 
-const CatalogSidebar = ({ activeCategoryId, activeCollectionId }: Props) => {
+const CatalogSidebar = ({
+  activeCategoryId,
+  activeCollectionId,
+  activeBrandId,
+}: Props) => {
   const { categories, collections } = useCategories()
 
   const {
@@ -62,11 +67,8 @@ const CatalogSidebar = ({ activeCategoryId, activeCollectionId }: Props) => {
     ).reverse()
   }, [activeCategoryId, categories])
 
-  console.log('ACTIVE COLLECTION ID', activeCollectionId)
-  console.log('ACTIVE CATEGORY ID', activeCategoryId)
-
   return (
-    <ul className="px-6 flex flex-col gap-10">
+    <ul className="flex flex-col gap-10">
       {!activeCollectionId ? (
         <Section
           label={activeCategoryId ? 'All products' : 'Categories'}
@@ -100,26 +102,26 @@ const CatalogSidebar = ({ activeCategoryId, activeCollectionId }: Props) => {
                   categorySlug: collection.path,
                 })}
                 active={activeCollectionId === collection.entityId}
-              >
-                {collection.name}
-              </FilterItem>
+                label={collection.name}
+              />
             ))}
           </FilterGroup>
         </Section>
       ) : null}
 
       <Section label="Filters">
-        <FilterGroup label="Brands">
-          {brands.map(brand => (
-            <FilterItem
-              key={brand.id}
-              onClick={() => toggleFilter('brands', brand.id)}
-              active={activeBrands?.includes(brand)}
-            >
-              {brand.name}
-            </FilterItem>
-          ))}
-        </FilterGroup>
+        {!activeBrandId ? (
+          <FilterGroup label="Brands">
+            {brands.map(brand => (
+              <FilterItem
+                key={brand.id}
+                onClick={() => toggleFilter('brands', brand.id)}
+                active={activeBrands?.includes(brand)}
+                label={brand.name}
+              />
+            ))}
+          </FilterGroup>
+        ) : null}
       </Section>
     </ul>
   )
@@ -167,16 +169,18 @@ const FilterGroup = ({
   return (
     <ul className={cx('flex flex-col gap-2 items-start', className)}>
       {label ? <h3 className="text-base font-semibold mb-2">{label}</h3> : null}
-      {children.map((child, idx) => (
-        <li
-          key={idx}
-          className={cx({
-            'sr-only': !expanded && idx > 4,
-          })}
-        >
-          {child}
-        </li>
-      ))}
+      {children
+        .slice(0, expanded ? children.length : Math.min(children.length, 5))
+        .map((child, idx) => {
+          const clonedChild = React.cloneElement(child as any, {
+            className: cx({
+              'sr-only': !expanded && idx > 4,
+            }),
+          })
+
+          return clonedChild
+        })}
+
       {children.length > 5 ? (
         <button
           className="text-gray-600 underline"
@@ -191,38 +195,42 @@ const FilterGroup = ({
 
 type FilterItemProps =
   | {
-      children: React.ReactNode
+      label: string
       onClick: () => void
       active?: boolean
+      children?: React.ReactNode
     }
   | {
-      children: React.ReactNode
+      label: string
       href: string
       active?: boolean
+      children?: React.ReactNode
     }
 
 const FilterItem = (props: FilterItemProps) => {
-  const className = cx('flex items-center gap-2', {
+  const linkClassName = cx('flex items-center gap-2', {
     'font-bold': props.active,
   })
 
   return (
-    <li>
+    <li className="flex flex-col gap-2">
       {'href' in props ? (
-        <Link href={props.href} className={className}>
-          {props.children}
+        <Link href={props.href} className={linkClassName}>
+          {props.label}
         </Link>
       ) : (
-        <button onClick={props.onClick} className={className}>
+        <button onClick={props.onClick} className={linkClassName}>
           <Checkbox
             name="checkbox"
             value="checkbox"
             onChange={() => {}}
             checked={props.active}
           />
-          {props.children}
+          {props.label}
         </button>
       )}
+
+      {props.children}
     </li>
   )
 }
@@ -237,33 +245,34 @@ const CategoryTree = ({
   activeCategoryTreeEntityIds?: number[]
 }) => {
   return (
-    <li className="flex flex-col gap-2">
+    <>
       <FilterItem
         href={routes.internal.catalog.category.show.href({
           categorySlug: category.path,
         })}
         active={activeCategoryTreeEntityIds[0] === category.entityId}
+        label={category.name}
       >
-        {category.name}
+        {category.children?.length ? (
+          <FilterGroup
+            className={cx('ml-4', {
+              'sr-only': !expanded,
+            })}
+          >
+            {category.children.map(category => (
+              <CategoryTree
+                key={category.entityId}
+                category={category}
+                expanded={activeCategoryTreeEntityIds.includes(
+                  category.entityId,
+                )}
+                activeCategoryTreeEntityIds={activeCategoryTreeEntityIds}
+              />
+            ))}
+          </FilterGroup>
+        ) : null}
       </FilterItem>
-
-      {category.children ? (
-        <FilterGroup
-          className={cx('ml-4', {
-            'sr-only': !expanded,
-          })}
-        >
-          {category.children.map(category => (
-            <CategoryTree
-              key={category.entityId}
-              category={category}
-              expanded={activeCategoryTreeEntityIds.includes(category.entityId)}
-              activeCategoryTreeEntityIds={activeCategoryTreeEntityIds}
-            />
-          ))}
-        </FilterGroup>
-      ) : null}
-    </li>
+    </>
   )
 }
 

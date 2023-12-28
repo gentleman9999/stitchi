@@ -26,7 +26,7 @@ const Breadcrumbs = ({ breadcrumbs }: Props) => {
           item: makeAbsoluteUrl(crumb.href),
         }))}
       />
-      <nav aria-label="breadcrumbs" className="sr-only sm:not-sr-only">
+      <nav aria-label="breadcrumbs" className="">
         <ol className="flex gap-2 text-gray-600 text-xs">
           {breadcrumbs.map((crumb, i) => (
             <React.Fragment key={crumb.href}>

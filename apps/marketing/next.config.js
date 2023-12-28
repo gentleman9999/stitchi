@@ -60,6 +60,11 @@ module.exports = withBundleAnalyzer(
           permanent: false,
         },
         {
+          source: '/compare',
+          destination: '/',
+          permanent: true,
+        },
+        {
           source: '/features',
           destination: '/',
           permanent: true,

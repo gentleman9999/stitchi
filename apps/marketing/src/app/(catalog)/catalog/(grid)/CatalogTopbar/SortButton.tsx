@@ -14,6 +14,7 @@ const SortButton = (props: Props) => {
   return (
     <Dropdown
       align="end"
+      buttonClassName="h-full w-full lg:w-auto"
       label={
         <div className="flex flex-col items-start gap-0.5">
           <div className="text-xs font-normal text-gray-500 leading-none">

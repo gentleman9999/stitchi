@@ -1664,6 +1664,23 @@
       "image_url": ""
     },
     {
+      "id": 287,
+      "parent_id": 29,
+      "name": "Structured",
+      "description": "",
+      "views": 0,
+      "sort_order": 3,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": { "url": "/structured/", "is_customized": false },
+      "image_url": ""
+    },
+    {
       "id": 289,
       "parent_id": 29,
       "name": "Bucket",

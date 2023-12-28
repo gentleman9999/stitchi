@@ -1,4 +1,3 @@
-import NavbarRoot from '@components/layout/PrimaryLayout/Navbar/NavbarRoot'
 import cx from 'classnames'
 import UserNavItem from './UserNavItem'
 import Link from 'next/link'
@@ -6,6 +5,7 @@ import routes from '@lib/routes'
 import s from './layout.module.css'
 import Logo from '@components/ui/Logo'
 import Container from '@components/ui/Container'
+import CategoryNavItem from './CategoryNavItem'
 
 interface Props {
   children: React.ReactNode
@@ -20,8 +20,8 @@ const Layout = ({ children }: Props) => {
 
       <div className="fixed h-topbar-height bg-white top-0 left-0 right-0 z-40 transition-all border-b">
         <Container className="max-w-none flex items-center h-full">
-          <nav className="flex-1 grid grid-cols-12">
-            <div className="col-span-1">
+          <nav className="flex-1 flex">
+            <div className="flex-1">
               <Link
                 href={routes.internal.home.href()}
                 passHref
@@ -31,45 +31,27 @@ const Layout = ({ children }: Props) => {
               </Link>
             </div>
 
-            <div className="col-span-10 flex items-center justify-center space-x-6">
-              <Link
+            <div className="hidden flex-auto lg:flex items-center justify-center space-x-6">
+              {/* <Link
                 href={routes.internal.login.href()}
                 passHref
                 className={s.link}
               >
                 Discover
-              </Link>
-              <Link
-                href={routes.internal.login.href()}
-                passHref
-                className={s.link}
-              >
+              </Link> */}
+              <CategoryNavItem categorySlug="catalog">
                 All products
-              </Link>
-              <Link
-                href={routes.internal.login.href()}
-                passHref
-                className={s.link}
-              >
-                Apparel
-              </Link>
-              <Link
-                href={routes.internal.login.href()}
-                passHref
-                className={s.link}
-              >
+              </CategoryNavItem>
+              <CategoryNavItem categorySlug="apparel">Apparel</CategoryNavItem>
+              <CategoryNavItem categorySlug="accessories">
                 Accessories
-              </Link>
-              <Link
-                href={routes.internal.login.href()}
-                passHref
-                className={s.link}
-              >
+              </CategoryNavItem>
+              <CategoryNavItem categorySlug="home-goods">
                 Home & Living
-              </Link>
+              </CategoryNavItem>
             </div>
 
-            <div className="col-span-1 flex items-center justify-center">
+            <div className="flex-1 flex items-center justify-end">
               <UserNavItem />
             </div>
           </nav>

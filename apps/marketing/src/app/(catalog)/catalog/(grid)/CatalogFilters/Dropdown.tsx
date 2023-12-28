@@ -16,9 +16,16 @@ interface Props {
   items: DropdownItem[]
   multiple?: boolean
   align?: 'start' | 'end'
+  buttonClassName?: string
 }
 
-const Dropdown = ({ items, label, multiple, align = 'start' }: Props) => {
+const Dropdown = ({
+  items,
+  label,
+  multiple,
+  buttonClassName,
+  align = 'start',
+}: Props) => {
   const active = Boolean(items.find(item => item.active))
 
   return (
@@ -27,9 +34,13 @@ const Dropdown = ({ items, label, multiple, align = 'start' }: Props) => {
       renderTrigger={() => (
         <Button
           variant="ghost"
-          className={cx('flex-1 !py-1 !px-2.5 group !justify-between', {
-            '!border-gray-400': active,
-          })}
+          className={cx(
+            'flex-1 !py-1 !px-2.5 group !justify-between',
+            {
+              '!border-gray-400': active,
+            },
+            buttonClassName,
+          )}
           endIcon={
             <ChevronDownIcon className="w-5 h-5 group-data-[state=open]:rotate-180 transition-all" />
           }

@@ -16,62 +16,6 @@ type QueryParams = Record<
   string | string[] | number | boolean | undefined
 >
 
-const makeCatalogRoutes = () => {
-  return {
-    href: ({ params }: { params?: QueryParams } = {}) =>
-      buildRoute(`/catalog`, params),
-
-    brand: {
-      show: {
-        href: ({ brandSlug }: { brandSlug: string }) =>
-          buildRoute(`/${brandSlug.replaceAll('/', '')}`),
-      },
-    },
-
-    category: {
-      show: {
-        href: ({ categorySlug }: { categorySlug: string }) =>
-          // Replace leading and trailing slash
-          buildRoute(`/${categorySlug.replace(/^\/|\/$/g, '')}`),
-      },
-    },
-
-    product: {
-      href: ({
-        brandSlug,
-        productSlug,
-        params,
-      }: {
-        brandSlug: string
-        productSlug: string
-        params?: QueryParams
-      }) => {
-        const serialize = (s: string) => s.replace(/\//g, '')
-        return buildRoute(
-          `/${serialize(brandSlug)}-${serialize(productSlug)}`,
-          params,
-        )
-      },
-
-      share: {
-        href: ({
-          brandSlug,
-          productSlug,
-        }: {
-          brandSlug: string
-          productSlug: string
-        }) => {
-          const serialize = (s: string) => s.replace(/\//g, '')
-
-          return buildRoute(
-            `/${serialize(brandSlug)}-${serialize(productSlug)}/share`,
-          )
-        },
-      },
-    },
-  }
-}
-
 const buildRoute = (path: string, queryParams?: QueryParams): string => {
   if (queryParams) {
     // Remove 'undefined' query params
@@ -125,7 +69,57 @@ const routes = {
         }),
     },
     catalog: {
-      ...makeCatalogRoutes(),
+      href: ({ params }: { params?: QueryParams } = {}) =>
+        buildRoute(`/catalog`, params),
+
+      brand: {
+        show: {
+          href: ({ brandSlug }: { brandSlug: string }) =>
+            buildRoute(`/${brandSlug.replaceAll('/', '')}`),
+        },
+      },
+
+      category: {
+        show: {
+          href: ({ categorySlug }: { categorySlug: string }) =>
+            // Replace leading and trailing slash
+            buildRoute(`/${categorySlug.replace(/^\/|\/$/g, '')}`),
+        },
+      },
+
+      product: {
+        href: ({
+          brandSlug,
+          productSlug,
+          params,
+        }: {
+          brandSlug: string
+          productSlug: string
+          params?: QueryParams
+        }) => {
+          const serialize = (s: string) => s.replace(/\//g, '')
+          return buildRoute(
+            `/${serialize(brandSlug)}-${serialize(productSlug)}`,
+            params,
+          )
+        },
+
+        share: {
+          href: ({
+            brandSlug,
+            productSlug,
+          }: {
+            brandSlug: string
+            productSlug: string
+          }) => {
+            const serialize = (s: string) => s.replace(/\//g, '')
+
+            return buildRoute(
+              `/${serialize(brandSlug)}-${serialize(productSlug)}/share`,
+            )
+          },
+        },
+      },
       wizard: {
         welcome: {
           href: () => buildRoute('/catalog/wizard/welcome'),

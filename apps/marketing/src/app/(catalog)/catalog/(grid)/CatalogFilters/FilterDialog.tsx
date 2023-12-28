@@ -29,13 +29,7 @@ const FilterDialog = ({
   categoryEntityId,
 }: Props) => {
   const {
-    filters: {
-      brands: activeBrands,
-      categories: activeCategories,
-      collections: activeCollections,
-      fabrics: activeFabrics,
-      fits: activeFits,
-    },
+    filters: { brands: activeBrands },
     availableFilters,
     setFilters,
     toggleFilter,
@@ -43,13 +37,9 @@ const FilterDialog = ({
 
   const [filterState, setFilterState] = React.useState({
     brands: activeBrands,
-    categories: activeCategories,
-    collections: activeCollections,
-    fabrics: activeFabrics,
-    fits: activeFits,
   })
 
-  const { brands, categories, fits, fabrics, collections } = filterState
+  const { brands } = filterState
 
   const filterPreviewFilters = React.useMemo(() => {
     return {
@@ -59,38 +49,13 @@ const FilterDialog = ({
           : brandEntityId
           ? [brandEntityId]
           : undefined,
-        categoryEntityIds:
-          categories?.length ||
-          collections?.length ||
-          fits?.length ||
-          fabrics?.length
-            ? [
-                ...(categories.map(category => category.entityId) || []),
-                ...(collections.map(collection => collection.entityId) || []),
-                ...(fits.map(fit => fit.entityId) || []),
-                ...(fabrics.map(fabric => fabric.entityId) || []),
-              ]
-            : categoryEntityId
-            ? [
-                categoryEntityId,
-                ...(collections.map(collection => collection.entityId) || []),
-                ...(fits.map(fit => fit.entityId) || []),
-                ...(fabrics.map(fabric => fabric.entityId) || []),
-              ]
-            : undefined,
+
+        categoryEntityIds: categoryEntityId ? [categoryEntityId] : null,
 
         searchSubCategories: true,
       },
     }
-  }, [
-    brandEntityId,
-    brands,
-    categories,
-    categoryEntityId,
-    collections,
-    fabrics,
-    fits,
-  ])
+  }, [brandEntityId, brands, categoryEntityId])
 
   const { count } = useFilterPreview(filterPreviewFilters)
 
@@ -98,29 +63,14 @@ const FilterDialog = ({
     if (open) {
       setFilterState({
         brands: activeBrands,
-        categories: activeCategories,
-        collections: activeCollections,
-        fabrics: activeFabrics,
-        fits: activeFits,
       })
     }
-  }, [
-    activeBrands,
-    activeCategories,
-    activeCollections,
-    activeFabrics,
-    activeFits,
-    open,
-  ])
+  }, [activeBrands, open])
 
   const handleSubmit = () => {
     setFilters(
       {
         brands: brands.map(brand => brand.id),
-        categories: categories.map(category => category.entityId),
-        collections: collections.map(collection => collection.entityId),
-        fabrics: fabrics.map(fabric => fabric.entityId),
-        fits: fits.map(fit => fit.entityId),
       },
       { scroll },
     )
@@ -129,13 +79,7 @@ const FilterDialog = ({
   }
 
   const handleReset = () => {
-    setFilterState({
-      brands: [],
-      categories: [],
-      collections: [],
-      fabrics: [],
-      fits: [],
-    })
+    setFilterState({ brands: [] })
   }
 
   return (
@@ -206,71 +150,6 @@ const FilterDialog = ({
                     <FilterSectionSpacer />
                   </>
                 ) : null}
-
-                {/* {availableFilters.categories.length && !categoryEntityId ? (
-                  <>
-                    <FilterSection title="Categories">
-                      <CategoryTree
-                        categories={availableFilters.categories}
-                        onToggle={id => handleToggle(id, 'categories')}
-                        activeCategoryIds={categories}
-                      />
-                    </FilterSection>
-                    <FilterSectionSpacer />
-                  </>
-                ) : null} */}
-
-                <FilterSection title="Fabric">
-                  <CheckboxGroup>
-                    {availableFilters.fabrics.map(fabric => (
-                      <CheckboxFilter
-                        key={fabric.entityId}
-                        active={Boolean(fabrics?.includes(fabric))}
-                        value={fabric.entityId}
-                        label={fabric.name}
-                        onChange={() =>
-                          toggleFilter('fabrics', fabric.entityId)
-                        }
-                        sectionName="Fabric"
-                      />
-                    ))}
-                  </CheckboxGroup>
-                </FilterSection>
-                <FilterSectionSpacer />
-
-                <FilterSection title="Collections">
-                  <CheckboxGroup>
-                    {availableFilters.collections.map(collection => (
-                      <CheckboxFilter
-                        key={collection.entityId}
-                        active={Boolean(collections?.includes(collection))}
-                        value={collection.entityId}
-                        label={collection.name}
-                        onChange={() =>
-                          toggleFilter('collections', collection.entityId)
-                        }
-                        sectionName="Collections"
-                      />
-                    ))}
-                  </CheckboxGroup>
-                </FilterSection>
-
-                <FilterSectionSpacer />
-
-                <FilterSection title="Fit">
-                  <CheckboxGroup>
-                    {availableFilters.fits.map(fit => (
-                      <CheckboxFilter
-                        key={fit.entityId}
-                        active={Boolean(fits?.includes(fit))}
-                        value={fit.entityId}
-                        label={fit.name}
-                        onChange={() => toggleFilter('fits', fit.entityId)}
-                        sectionName="Fit"
-                      />
-                    ))}
-                  </CheckboxGroup>
-                </FilterSection>
               </fieldset>
             </DialogSectionPadding>
           </div>

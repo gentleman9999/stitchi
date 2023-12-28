@@ -2,22 +2,24 @@
 
 import React, { useTransition } from 'react'
 import { notEmpty } from '@lib/utils/typescript'
-import CatalogProductLegacy from '../../../../../components/common/CatalogProductLegacy'
 import CatalogProductSkeleton from './CatalogProductSkeleton'
-import { InfiniteScrollContainer } from '@components/common'
 import Link from 'next/link'
 import {
   CatalogIndexPageGetDataQuery,
   CatalogIndexPageGetDataQueryVariables,
 } from '@generated/types'
 import CatalogProductGridContainer from './CatalogProductGridContainer'
-import { GET_DATA } from '../graphql'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
-import { mergeFilters } from '../format-filters'
 import deepEqual from 'deep-equal'
-import { useFilters } from '../filters-context'
 import routes from '@lib/routes'
+import CatalogProductLegacy, {
+  CatalogProductLegacyFragments,
+} from '@components/common/CatalogProductLegacy'
+import { gql } from '@apollo/client'
+import { useFilters } from '../filters-context'
+import { mergeFilters } from '../format-filters'
+import LoadingDots from '@components/ui/LoadingDots'
 
 interface Props {
   categoryId?: number
@@ -41,12 +43,12 @@ const CatalogProductGrid = ({ categoryId, brandId }: Props) => {
 
   const [prevFilters, setPrevFilters] = React.useState(filters)
 
-  const { data, refetch, fetchMore } = useSuspenseQuery<
+  const { data, refetch, fetchMore, networkStatus } = useSuspenseQuery<
     CatalogIndexPageGetDataQuery,
     CatalogIndexPageGetDataQueryVariables
   >(GET_DATA, {
     variables: {
-      first: 24,
+      first: 20,
       sort: sort.value,
       after: after || undefined,
       filters,
@@ -69,7 +71,7 @@ const CatalogProductGrid = ({ categoryId, brandId }: Props) => {
 
   const handleFetchMore = () => {
     if (pageInfo?.hasNextPage && pageInfo.endCursor) {
-      startFetchMoreTransition(async () => {
+      startFetchMoreTransition(() => {
         fetchMore({
           variables: {
             after: pageInfo.endCursor,
@@ -80,13 +82,13 @@ const CatalogProductGrid = ({ categoryId, brandId }: Props) => {
   }
 
   if (after) {
-    handleFetchMore()
-
-    // Remove 'after' query param
+    // Remove 'after' query param. We use this only for google crawling
     const newParams = new URLSearchParams(searchParams)
     newParams.delete('after')
 
-    replace(pathname + '?' + newParams.toString())
+    replace(pathname + '?' + newParams.toString(), {
+      scroll: false,
+    })
   }
 
   return (
@@ -107,25 +109,57 @@ const CatalogProductGrid = ({ categoryId, brandId }: Props) => {
         )}
 
         {isFetchingMore
-          ? Array.from(new Array(6)).map((_, i) => (
+          ? Array.from(new Array(5)).map((_, i) => (
               <CatalogProductSkeleton key={i} />
             ))
           : null}
       </CatalogProductGridContainer>
 
-      <InfiniteScrollContainer onIntersect={handleFetchMore} />
-
       {pageInfo?.hasNextPage && (
-        <Link
-          replace
-          href={{ query: { after: pageInfo?.endCursor } }}
-          className="sr-only"
-        >
-          Next
-        </Link>
+        <div className="flex justify-center mt-8">
+          <Link
+            replace
+            scroll={false}
+            href={{ query: { after: pageInfo?.endCursor } }}
+            className="inline-flex justify-center px-3 py-1 rounded-md border text-gray-900 font-semibold"
+            onClick={handleFetchMore}
+          >
+            {isFetchingMore ? <LoadingDots /> : 'Load more'}
+          </Link>
+        </div>
       )}
     </>
   )
 }
+
+const GET_DATA = gql`
+  ${CatalogProductLegacyFragments.product}
+  query CatalogIndexPageGetDataQuery(
+    $filters: SearchProductsFiltersInput!
+    $sort: SearchProductsSortInput!
+    $first: Int!
+    $after: String
+  ) {
+    site {
+      search {
+        searchProducts(filters: $filters, sort: $sort) {
+          products(first: $first, after: $after) {
+            edges {
+              node {
+                id
+                entityId
+                ...CatalogProductLegacyProductFragment
+              }
+            }
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
+          }
+        }
+      }
+    }
+  }
+`
 
 export default CatalogProductGrid

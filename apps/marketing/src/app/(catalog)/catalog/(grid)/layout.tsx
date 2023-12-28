@@ -11,6 +11,8 @@ import Header from './Header'
 import { CategoriesProvider } from './categories-context'
 import CatalogSidebar from './CatalogSidebar'
 import CatalogTopbar from './CatalogTopbar'
+import FilterDialog from './CatalogFilters/FilterDialog'
+import CatalogBreadcrumbs from './CatalogBreadcrumbs'
 
 interface Props {
   children: React.ReactNode
@@ -19,6 +21,7 @@ interface Props {
 const Layout = ({ children }: Props) => {
   const pathname = usePathname()
   const [entity, entitySlug] = useSelectedLayoutSegments()
+  const [showFilterDialog, setShowFilterDialog] = React.useState(false)
 
   let brand
   let category
@@ -46,20 +49,35 @@ const Layout = ({ children }: Props) => {
   return (
     <CategoriesProvider>
       <FiltersProvider>
-        <ClosetPageContainer className="max-w-none min-h-[calc(100vh-var(--topbar-height))] flex flex-col gap-4 mt-4">
-          <Header title={title} description={description} />
+        <FilterDialog
+          open={showFilterDialog}
+          onClose={() => setShowFilterDialog(false)}
+          scroll={true}
+          brandEntityId={brand?.id}
+          categoryEntityId={category?.id}
+        />
+        <ClosetPageContainer className="max-w-none flex flex-col gap-4 mt-4">
+          <CatalogBreadcrumbs />
 
+          <Header title={title} description={description} />
+        </ClosetPageContainer>
+
+        <CatalogTopbar
+          activeCategoryId={category?.id}
+          onOpenFilters={() => setShowFilterDialog(true)}
+        />
+
+        <ClosetPageContainer className="max-w-none flex flex-col gap-4 mt-4 mb-4">
           <div className="flex">
-            <aside className="w-80">
+            <aside className="hidden lg:block w-80">
               <CatalogSidebar
                 activeCategoryId={category?.id}
                 activeCollectionId={collection?.id}
+                activeBrandId={brand?.id}
               />
             </aside>
 
             <div className="flex-1 flex flex-col gap-y-4">
-              <CatalogTopbar />
-
               <Section>{children}</Section>
 
               <div className="mt-20">
