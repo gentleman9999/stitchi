@@ -1,0 +1,165 @@
+'use client'
+
+import React, { useTransition } from 'react'
+import { notEmpty } from '@lib/utils/typescript'
+import CatalogProductSkeleton from './CatalogProductSkeleton'
+import Link from 'next/link'
+import {
+  CatalogIndexPageGetDataQuery,
+  CatalogIndexPageGetDataQueryVariables,
+} from '@generated/types'
+import CatalogProductGridContainer from './CatalogProductGridContainer'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
+import deepEqual from 'deep-equal'
+import routes from '@lib/routes'
+import CatalogProductLegacy, {
+  CatalogProductLegacyFragments,
+} from '@components/common/CatalogProductLegacy'
+import { gql } from '@apollo/client'
+import { useFilters } from '../filters-context'
+import { mergeFilters } from '../format-filters'
+import LoadingDots from '@components/ui/LoadingDots'
+
+interface Props {
+  categoryId?: number
+  brandId?: number
+}
+
+const CatalogProductGrid = ({ categoryId, brandId }: Props) => {
+  const { replace } = useRouter()
+  const pathname = usePathname()!
+  const searchParams = useSearchParams()!
+  const [isFetchingMore, startFetchMoreTransition] = useTransition()
+  const { filters: unmergedFilters, search, sort } = useFilters()
+
+  const after = searchParams.get('after')
+
+  const filters = mergeFilters({
+    search,
+    brands: brandId ? [brandId] : unmergedFilters.brands.map(({ id }) => id),
+    category: categoryId || null,
+  })
+
+  const [prevFilters, setPrevFilters] = React.useState(filters)
+
+  const { data, refetch, fetchMore, networkStatus } = useSuspenseQuery<
+    CatalogIndexPageGetDataQuery,
+    CatalogIndexPageGetDataQueryVariables
+  >(GET_DATA, {
+    variables: {
+      first: 20,
+      sort: sort.value,
+      after: after || undefined,
+      filters,
+    },
+  })
+
+  React.useEffect(() => {
+    if (!deepEqual(filters, prevFilters)) {
+      refetch({ filters })
+      setPrevFilters(filters)
+    }
+  }, [filters, prevFilters, refetch])
+
+  const { products: productResult } = data?.site?.search?.searchProducts || {}
+
+  const products =
+    productResult?.edges?.map(edge => edge?.node).filter(notEmpty) || []
+
+  const { pageInfo } = productResult || {}
+
+  const handleFetchMore = () => {
+    if (pageInfo?.hasNextPage && pageInfo.endCursor) {
+      startFetchMoreTransition(() => {
+        fetchMore({
+          variables: {
+            after: pageInfo.endCursor,
+          },
+        })
+      })
+    }
+  }
+
+  if (after) {
+    // Remove 'after' query param. We use this only for google crawling
+    const newParams = new URLSearchParams(searchParams)
+    newParams.delete('after')
+
+    replace(pathname + '?' + newParams.toString(), {
+      scroll: false,
+    })
+  }
+
+  return (
+    <>
+      <CatalogProductGridContainer>
+        {products.map((product, i) =>
+          product.id ? (
+            <CatalogProductLegacy
+              key={product.id}
+              productId={product.id}
+              priority={i < 6}
+              href={routes.internal.catalog.product.href({
+                brandSlug: product.brand?.path || '',
+                productSlug: product.path,
+              })}
+            />
+          ) : null,
+        )}
+
+        {isFetchingMore
+          ? Array.from(new Array(5)).map((_, i) => (
+              <CatalogProductSkeleton key={i} />
+            ))
+          : null}
+      </CatalogProductGridContainer>
+
+      {pageInfo?.hasNextPage && (
+        <div className="flex justify-center mt-8">
+          <Link
+            replace
+            scroll={false}
+            href={{ query: { after: pageInfo?.endCursor } }}
+            className="inline-flex justify-center px-3 py-1 rounded-md border text-gray-900 font-semibold"
+            onClick={handleFetchMore}
+          >
+            {isFetchingMore ? <LoadingDots /> : 'Load more'}
+          </Link>
+        </div>
+      )}
+    </>
+  )
+}
+
+const GET_DATA = gql`
+  ${CatalogProductLegacyFragments.product}
+  query CatalogIndexPageGetDataQuery(
+    $filters: SearchProductsFiltersInput!
+    $sort: SearchProductsSortInput!
+    $first: Int!
+    $after: String
+  ) {
+    site {
+      search {
+        searchProducts(filters: $filters, sort: $sort) {
+          products(first: $first, after: $after) {
+            edges {
+              node {
+                id
+                entityId
+                ...CatalogProductLegacyProductFragment
+              }
+            }
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+export default CatalogProductGrid

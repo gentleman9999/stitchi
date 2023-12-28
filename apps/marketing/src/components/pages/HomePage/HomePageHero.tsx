@@ -38,7 +38,7 @@ const HomePageHero = () => {
               <ul className="flex-col gap-2 grid grid-cols-1 sm:grid-cols-2 gap-x-6">
                 <ListItem label="End-to-end platform" />
                 <ListItem label="Premium products" />
-                <ListItem label="Sustaiable solutions" />
+                <ListItem label="Integrations" />
                 <ListItem label="Dedicated support" />
                 <ListItem label="Global fulfillment" />
                 <ListItem label="Warehousing" />

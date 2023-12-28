@@ -146,35 +146,6 @@ const middleware: NextMiddleware = async (request, event) => {
     // Start: App rewrites
     // ***
 
-    const brandSlugMatcherCloset = new RegExp(`^/closet/${slug}$`)
-
-    if (brandSlugMatcherCloset.test(pathname)) {
-      // /catalog/product-brand -> /catalog/brands/product-brand
-      destination = `/closet/catalog/brands/${slug}`
-    }
-
-    const productSlugMatcherCloset = new RegExp(
-      `^/closet/${slug}-([a-zA-Z0-9_-]+)$`,
-    )
-
-    if (productSlugMatcherCloset.test(pathname)) {
-      // /closet/product-brand-product-slug -> /closet/catalog/brands/product-brand/products/product-slug
-      const rest = pathname.match(productSlugMatcherCloset)?.[1]
-
-      destination = `/closet/catalog/brands/${slug}/products/${rest}`
-    }
-
-    const productSlugShareMatcherCloset = new RegExp(
-      `^/closet/${slug}-([a-zA-Z0-9_-]+)/share$`,
-    )
-
-    if (productSlugShareMatcherCloset.test(pathname)) {
-      // /closet/product-brand-product-slug -> /closet/catalog/brands/product-brand/products/product-slug
-
-      const rest = pathname.match(productSlugShareMatcherCloset)?.[1]
-      destination = `/closet/catalog/brands/${slug}/products/${rest}/share`
-    }
-
     // ***
     // End: App rewrites
     // ***
@@ -209,13 +180,6 @@ const middleware: NextMiddleware = async (request, event) => {
     // ***
     // Start: App rewrites
     // ***
-
-    const categorySlugMatcherCloset = new RegExp(`^/closet/${slug}$`)
-
-    if (new RegExp(categorySlugMatcherCloset).test(pathname)) {
-      // /closet/product-category -> /closet/catalog/categories/product-category
-      destination = `/closet/catalog/categories/${slug}`
-    }
 
     // ***
     // End: App rewrites
