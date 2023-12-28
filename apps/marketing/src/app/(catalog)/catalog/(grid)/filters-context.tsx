@@ -82,8 +82,8 @@ const FiltersProvider = ({ children }: FiltersProviderProps) => {
   const [queryStates, setQueryStates] = useQueryStates(
     {
       brands: parseAsArrayOf(parseAsInteger),
-      fabrics: parseAsArrayOf(parseAsInteger),
-      fits: parseAsArrayOf(parseAsInteger),
+      // fabrics: parseAsArrayOf(parseAsInteger),
+      // fits: parseAsArrayOf(parseAsInteger),
       search: parseAsString.withDefault(''),
       sort: parseAsStringEnum(
         Object.values(SearchProductsSortInput),
@@ -118,9 +118,9 @@ const FiltersProvider = ({ children }: FiltersProviderProps) => {
   )
 
   const toggleFilter = React.useCallback(
-    (filter: keyof AvailableFilters, id: number) => {
+    (filter: keyof QueryFilters, id: number) => {
       setFilters(prev => {
-        const currentFilters = prev[filter]
+        const currentFilters = prev[filter as keyof typeof prev]
         const newFilters = currentFilters?.includes(id)
           ? currentFilters.filter(currentId => currentId !== id)
           : [...(currentFilters || []), id]

@@ -11,7 +11,7 @@ import Header from './Header'
 import { CategoriesProvider } from './categories-context'
 import CatalogSidebar from './CatalogSidebar'
 import CatalogTopbar from './CatalogTopbar'
-import FilterDialog from './CatalogFilters/FilterDialog'
+import FilterDialog from './FilterDialog'
 import CatalogBreadcrumbs from './CatalogBreadcrumbs'
 
 interface Props {

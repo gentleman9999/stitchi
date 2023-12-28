@@ -11,10 +11,10 @@ interface Props {
 
 const FilterDialogButton = ({ onClick, floating = false }: Props) => {
   const {
-    filters: { brands, categories },
+    filters: { brands },
   } = useFilters()
 
-  const filterCount = (brands?.length || 0) + (categories?.length || 0)
+  const filterCount = brands?.length || 0
 
   const active = filterCount > 0
 
