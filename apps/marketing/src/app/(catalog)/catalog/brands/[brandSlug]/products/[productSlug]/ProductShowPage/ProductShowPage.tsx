@@ -123,7 +123,7 @@ const ProductShowPage = ({ path }: Props) => {
       <Divider />
 
       <h2 className="font-semibold text-xl">Related products</h2>
-      <div className="flex flex-row gap-2 overflow-x-scroll">
+      <div className="flex flex-row gap-4 overflow-x-scroll">
         {relatedProducts.map(product => (
           <div key={product.id} className="flex-1 min-w-[200px] flex">
             <CatalogProductLegacy

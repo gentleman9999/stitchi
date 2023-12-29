@@ -55,7 +55,7 @@ const CatalogProductLegacy = ({
         onClick={onClick}
         className="group flex-1 flex flex-col cursor-pointer rounded-lg overflow-hidden transition-all bg-paper"
       >
-        <div className="relative w-full h-[320px] flex items-center justify-center rounded-lg group-hover:rounded-none overflow-hidden">
+        <div className="relative w-full aspect-[2/3] flex items-center justify-center rounded-lg group-hover:rounded-none overflow-hidden">
           {product?.defaultImage?.url ? (
             <Image
               priority={priority}
@@ -64,13 +64,14 @@ const CatalogProductLegacy = ({
               alt={product.defaultImage.altText || product.name}
               layout="fill"
               objectFit="contain"
+              style={{ width: '100%', height: '100%' }}
               sizes={generateImageSizes([{ imageWidth: '230px' }])}
             />
           ) : (
             <span>No image</span>
           )}
         </div>
-        <div className="p-2">
+        <div className="py-2 flex-1 flex flex-col">
           <h3 className="text-sm font-normal leading-tight">
             {product ? makeProductTitle(product) : null}
           </h3>
