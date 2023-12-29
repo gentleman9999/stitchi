@@ -7,6 +7,8 @@ import cx from 'classnames'
 import Link from 'next/link'
 import routes from '@lib/routes'
 import ClosetPageContainer from '@components/common/ClosetPageContainer'
+import { Search } from 'icons'
+import { useSearch } from '../../../search-context'
 
 const getActiveCategoryAndParent = (
   categories: CategoryTreeItem[],
@@ -38,6 +40,7 @@ interface Props {
 
 const CatalogTopbar = ({ activeCategoryId, onOpenFilters }: Props) => {
   const { categories } = useCategories()
+  const { setShowSearch } = useSearch()
 
   const [activeCategory, activeParent] = React.useMemo(() => {
     if (!activeCategoryId) return [undefined, undefined]
@@ -62,6 +65,14 @@ const CatalogTopbar = ({ activeCategoryId, onOpenFilters }: Props) => {
       {categoriesToDisplay.length ? (
         <div className="px-6 overflow-x-scroll flex lg:!hidden no-scrollbar mt-4">
           <ul className="flex gap-2">
+            <li>
+              <button
+                onClick={() => setShowSearch(true)}
+                className="h-full flex py-1 px-3 rounded-full border border-gray-900 whitespace-nowrap items-center justify-center"
+              >
+                <Search className="w-4 h-4 stroke-2" />
+              </button>
+            </li>
             <li>
               <Link
                 href={

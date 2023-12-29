@@ -16,9 +16,15 @@ export interface Props {
   priority: boolean
   productId: string
   href: string
+  onClick?: () => void
 }
 
-const CatalogProductLegacy = ({ priority, productId, href }: Props) => {
+const CatalogProductLegacy = ({
+  priority,
+  productId,
+  href,
+  onClick,
+}: Props) => {
   const logger = useLogger()
 
   const { data: product } = useFragment<CatalogProductLegacyProductFragment>({
@@ -46,7 +52,8 @@ const CatalogProductLegacy = ({ priority, productId, href }: Props) => {
     <li className="flex flex-col w-full">
       <Link
         href={href}
-        className="group flex-1 flex flex-col cursor-pointer rounded-lg overflow-hidden hover:shadow-lg transition-all bg-paper"
+        onClick={onClick}
+        className="group flex-1 flex flex-col cursor-pointer rounded-lg overflow-hidden transition-all bg-paper"
       >
         <div className="relative w-full h-[320px] flex items-center justify-center rounded-lg group-hover:rounded-none overflow-hidden">
           {product?.defaultImage?.url ? (

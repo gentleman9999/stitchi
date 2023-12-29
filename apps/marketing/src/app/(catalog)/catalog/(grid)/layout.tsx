@@ -68,8 +68,8 @@ const Layout = ({ children }: Props) => {
         />
 
         <ClosetPageContainer className="max-w-none flex flex-col gap-4 mt-4 mb-4">
-          <div className="flex">
-            <aside className="hidden lg:block w-80">
+          <div className="flex gap-4">
+            <aside className="hidden lg:block w-64">
               <CatalogSidebar
                 activeCategoryId={category?.id}
                 activeCollectionId={collection?.id}
