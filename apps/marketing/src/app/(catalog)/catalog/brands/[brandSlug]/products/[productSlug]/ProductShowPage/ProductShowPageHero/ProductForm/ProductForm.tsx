@@ -13,14 +13,13 @@ import {
   SwatchIcon,
 } from '@heroicons/react/20/solid'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { makeProductTitle } from '@lib/utils/catalog'
 import currency from 'currency.js'
 import React from 'react'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import InformationGroup from './InformationGroup'
 import { MIN_ORDER_QTY } from '@lib/constants'
-import Skeleton from '../../../../../../../../../components/ui/Skeleton/Skeleton'
+import Skeleton from '../../../../../../../../../../components/ui/Skeleton/Skeleton'
 import useProductQuote from './useProductQuote'
 import {
   CatalogProductCustomizationAddonType,
@@ -104,6 +103,7 @@ interface ProductFormProps {
   productId: string
   colors: ProductVariantQuantityMatrixFormProps['colors']
   variants: ProductVariantQuantityMatrixFormProps['variants']
+  requireLogin: boolean
   onSubmit: (values: FormValues) => Promise<void>
   onActiveColorChange?: (colorId: string | null) => void
 }
@@ -201,144 +201,139 @@ const ProductForm = (props: ProductFormProps) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="relative flex flex-col gap-8 my-8 bg-paper rounded-lg ">
-        <h1 className="font-headingDisplay font-semibold text-2xl sm:text-3xl text-gray-800 hidden sm:block">
-          {makeProductTitle(product)}
-        </h1>
-
-        <div className="flex flex-col gap-16">
-          <InformationGroup
-            title="Sizes & Colors"
-            description="Select size range and article colors. If you aren't sure how many you want to order, you can leave the quantity blank."
-            icon={<SwatchIcon className={iconStyle} />}
-            error={form.formState.errors.colors?.message}
-          >
-            <ProductVariantQuantityMatrixForm
-              showColorOptions
-              form={form}
-              colors={props.colors}
-              variants={props.variants}
-              onSwatchClick={color => {
-                props.onActiveColorChange?.(color.id)
-              }}
-            />
-          </InformationGroup>
-          <InformationGroup
-            title="Customizations"
-            description="Add customization"
-            icon={<SquaresPlusIcon className={iconStyle} />}
-          >
-            <div className="@container">
-              <div className="grid grid-cols-1 @[500px]:grid-cols-2 gap-1.5">
-                {customizationFields.fields.map((customization, index) => (
-                  <Controller
-                    key={customization.id}
-                    name={`customizations.${index}.selected`}
-                    control={form.control}
-                    render={({ field: { onChange, value, name, ref } }) => (
-                      <button
-                        type="button"
-                        ref={ref}
-                        key={index}
-                        className="flex flex-row items-center gap-4 border rounded-md p-4 hover:bg-gray-50 transition-all"
-                        onClick={() => onChange(!value)}
-                      >
-                        <Checkbox
-                          name={name}
-                          value="checked"
-                          checked={value}
-                          onChange={() => {}}
-                          size={2}
-                        />
-                        <div className="flex flex-col gap-1">
-                          <div className="text-sm font-semibold">
-                            {customization.name}
-                          </div>
-                        </div>
-                      </button>
-                    )}
-                  />
-                ))}
-              </div>
-            </div>
-          </InformationGroup>
-          <Controller
-            name="designBrief"
-            control={form.control}
-            render={({ field: { onChange, onBlur, value, ref } }) => {
-              let content
-
-              try {
-                content = JSON.parse(value)
-              } catch (e) {
-                content = null
-              }
-
-              return (
-                <InformationGroup
-                  title="Design Brief"
-                  description="Discuss your design. You'll be connected with a designer to help perfect your design."
-                  icon={<ChatBubbleBottomCenterIcon className={iconStyle} />}
-                  error={form.formState.errors.designBrief?.message}
-                >
-                  <RichTextEditor
-                    inputRef={ref}
-                    placeholder="Describe your design and how you want it to look. If you have any design files, you can upload it below."
-                    editorOptions={{
-                      content,
-                      onBlur: onBlur,
-                      onUpdate: params => {
-                        // Auto format as ordered list
-                        if (!params.editor.getHTML().includes('<ol>')) {
-                          const content = params.editor.getHTML()
-                          params.editor
-                            .chain()
-                            .focus()
-                            .setContent(`<ol><li>${content}</li></ol>`)
-                            .run()
-                        }
-                        // Check for empty ordered list and clear editor
-                        else if (
-                          params.editor.getHTML() ===
-                            '<ol><li><p></p></li></ol>' ||
-                          params.editor.getHTML().trim() === ''
-                        ) {
-                          params.editor.chain().focus().setContent('').run()
-                        }
-
-                        if (params.editor.isEmpty) {
-                          onChange('')
-                        } else {
-                          onChange(JSON.stringify(params.editor.getJSON()))
-                        }
-                      },
-                    }}
-                  />
-                </InformationGroup>
-              )
+      <div className="flex flex-col gap-16">
+        <InformationGroup
+          title="Choose Colors & Sizes"
+          description="Select your preferred size range and colors for the hoodie. If you're still deciding on the quantity, feel free to leave that section blank for now."
+          icon={<SwatchIcon className={iconStyle} />}
+          error={form.formState.errors.colors?.message}
+        >
+          <ProductVariantQuantityMatrixForm
+            showColorOptions
+            form={form}
+            colors={props.colors}
+            variants={props.variants}
+            onSwatchClick={color => {
+              props.onActiveColorChange?.(color.id)
             }}
           />
+        </InformationGroup>
 
-          <Controller
-            name="fileIds"
-            control={form.control}
-            render={({ field: { onChange, value } }) => (
+        <InformationGroup
+          title="Add Customizations"
+          description="Decide on the placement of your design. You can select one or multiple locations."
+          icon={<SquaresPlusIcon className={iconStyle} />}
+        >
+          <div className="@container">
+            <div className="grid grid-cols-1 @[500px]:grid-cols-2 gap-1.5">
+              {customizationFields.fields.map((customization, index) => (
+                <Controller
+                  key={customization.id}
+                  name={`customizations.${index}.selected`}
+                  control={form.control}
+                  render={({ field: { onChange, value, name, ref } }) => (
+                    <button
+                      type="button"
+                      ref={ref}
+                      key={index}
+                      className="flex flex-row items-center gap-4 border rounded-md p-4 hover:bg-gray-50 transition-all"
+                      onClick={() => onChange(!value)}
+                    >
+                      <Checkbox
+                        name={name}
+                        value="checked"
+                        checked={value}
+                        onChange={() => {}}
+                        size={2}
+                      />
+                      <div className="flex flex-col gap-1">
+                        <div className="text-sm font-semibold">
+                          {customization.name}
+                        </div>
+                      </div>
+                    </button>
+                  )}
+                />
+              ))}
+            </div>
+          </div>
+        </InformationGroup>
+        <Controller
+          name="designBrief"
+          control={form.control}
+          render={({ field: { onChange, onBlur, value, ref } }) => {
+            let content
+
+            try {
+              content = JSON.parse(value)
+            } catch (e) {
+              content = null
+            }
+
+            return (
               <InformationGroup
-                optional
-                title="Files"
-                description="Add brand assets, complete designs, design inspiration, etc..."
-                icon={<FolderPlusIcon className={iconStyle} />}
+                title="Add Design Brief"
+                description="Share your vision for the design. A Stitchi designer will collaborate with you to refine and perfect your concept."
+                icon={<ChatBubbleBottomCenterIcon className={iconStyle} />}
+                error={form.formState.errors.designBrief?.message}
               >
-                <FileInput
-                  keepUploadStatus
-                  fileIds={value}
-                  folder="/design-request-general"
-                  onChange={onChange}
+                <RichTextEditor
+                  inputRef={ref}
+                  placeholder="Describe your design and how you want it to look. If you have any design files, you can upload it below."
+                  editorOptions={{
+                    content,
+                    onBlur: onBlur,
+                    onUpdate: params => {
+                      // Auto format as ordered list
+                      if (!params.editor.getHTML().includes('<ol>')) {
+                        const content = params.editor.getHTML()
+                        params.editor
+                          .chain()
+                          .focus()
+                          .setContent(`<ol><li>${content}</li></ol>`)
+                          .run()
+                      }
+                      // Check for empty ordered list and clear editor
+                      else if (
+                        params.editor.getHTML() ===
+                          '<ol><li><p></p></li></ol>' ||
+                        params.editor.getHTML().trim() === ''
+                      ) {
+                        params.editor.chain().focus().setContent('').run()
+                      }
+
+                      if (params.editor.isEmpty) {
+                        onChange('')
+                      } else {
+                        onChange(JSON.stringify(params.editor.getJSON()))
+                      }
+                    },
+                  }}
                 />
               </InformationGroup>
-            )}
-          />
-        </div>
+            )
+          }}
+        />
+
+        <Controller
+          name="fileIds"
+          control={form.control}
+          render={({ field: { onChange, value } }) => (
+            <InformationGroup
+              optional
+              title="Attach Files"
+              description="Upload any brand assets, existing designs, or inspiration materials that will guide the design process."
+              icon={<FolderPlusIcon className={iconStyle} />}
+            >
+              <FileInput
+                keepUploadStatus
+                fileIds={value}
+                folder="/design-request-general"
+                onChange={onChange}
+              />
+            </InformationGroup>
+          )}
+        />
       </div>
       <div className="sticky bottom-0 bg-paper">
         <div className="p-4 border-t rounded-b-lg flex flex-wrap gap-4 justify-between items-end">

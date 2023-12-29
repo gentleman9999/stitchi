@@ -8,6 +8,7 @@ import Container from '@components/ui/Container'
 import Button from '@components/ui/ButtonV2/Button'
 import Link from 'next/link'
 import LinkInline from '@components/ui/LinkInline'
+import { track } from '@lib/analytics'
 
 enum Sections {
   Design = 'Design merch',
@@ -282,6 +283,12 @@ const FeaturesPage = () => {
                     Component={Link}
                     href={routes.internal.signup.href()}
                     color="brandPrimary"
+                    onClick={() => {
+                      track.signupCtaClicked({
+                        ctaType: 'hero',
+                        locationHref: window.location.href,
+                      })
+                    }}
                   >
                     Sign up for free
                   </Button>

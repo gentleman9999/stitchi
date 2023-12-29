@@ -6,6 +6,8 @@ enum MixpanelEvents {
   PRODUCT_FAVORITED = 'Product Favorited',
   PRODUCT_PRIMARY_CTA_CLICKED = 'Product Primary CTA Clicked',
 
+  SIGNUP_CTA_CLICKED = 'Signup CTA Clicked',
+
   CATALOG_FILTER_CLICKED = 'Catalog Filter Clicked',
 
   MAILING_LIST_SUBSCRIBE_CLICKED = 'Mailing List Subscribe Clicked',
@@ -23,8 +25,6 @@ interface Product {
 }
 
 interface TrackEvents {
-  navbarCtaCliced: (args: { view: 'mobile' | 'desktop' }) => void
-
   productFavorited: (product: Product) => void
   productPrimaryCtaClicked: (product: Product) => void
 
@@ -37,15 +37,14 @@ interface TrackEvents {
   errorShown: (args: { error: Error | string }) => void
 
   supportChatOpened: (args: { locationHref: string }) => void
+
+  signupCtaClicked: (args: {
+    locationHref: string
+    ctaType: 'product' | 'navigation' | 'hero' | null
+  }) => void
 }
 
 const track: TrackEvents = {
-  navbarCtaCliced: ({ view }) => {
-    mixpanel.track(MixpanelEvents.NAVBAR_CTA_CLICKED, {
-      view,
-    })
-  },
-
   productFavorited: product => {
     mixpanel.track(MixpanelEvents.PRODUCT_FAVORITED, { product })
   },
@@ -74,6 +73,13 @@ const track: TrackEvents = {
 
   supportChatOpened: ({ locationHref }) => {
     mixpanel.track(MixpanelEvents.SUPPORT_CHAT_OPENED, { locationHref })
+  },
+
+  signupCtaClicked: ({ locationHref, ctaType }) => {
+    mixpanel.track(MixpanelEvents.SIGNUP_CTA_CLICKED, {
+      locationHref,
+      ctaType,
+    })
   },
 }
 

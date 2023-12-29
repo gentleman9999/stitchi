@@ -4,7 +4,7 @@ import React from 'react'
 import s from './layout.module.css'
 import cx from 'classnames'
 import { Search } from 'icons'
-import { useSearch } from './search-context'
+import { useSearch } from './layout-context'
 
 interface Props {}
 
@@ -13,10 +13,7 @@ const SearchButton = (props: Props) => {
 
   return (
     <button
-      className={cx(
-        s.link,
-        '!hidden lg:!flex gap-2 items-center !text-gray-500',
-      )}
+      className={cx(s.link, '!hidden !font-normal lg:!flex gap-2 items-center')}
       onClick={() => {
         setShowSearch(true)
       }}

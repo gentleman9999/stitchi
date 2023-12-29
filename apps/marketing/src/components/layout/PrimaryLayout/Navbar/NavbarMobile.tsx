@@ -97,6 +97,14 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
                   ? routes.internal.closet.href()
                   : routes.internal.signup.href()
               }
+              onClick={() => {
+                if (!user) {
+                  track.signupCtaClicked({
+                    ctaType: 'navigation',
+                    locationHref: window.location.href,
+                  })
+                }
+              }}
             >
               <HeadlessPopover.Button as="div">
                 <Button
@@ -105,7 +113,12 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
                   color="brandPrimary"
                   className="w-full"
                   onClick={() => {
-                    track.navbarCtaCliced({ view: 'mobile' })
+                    if (!user) {
+                      track.signupCtaClicked({
+                        ctaType: 'navigation',
+                        locationHref: window.location.href,
+                      })
+                    }
                   }}
                 >
                   {user ? 'My closet' : 'Sign up for free'}

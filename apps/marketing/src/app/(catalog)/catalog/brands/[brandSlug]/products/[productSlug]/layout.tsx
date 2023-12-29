@@ -60,7 +60,7 @@ const Layout = ({ children, share, params }: Props) => {
   return (
     <>
       {share}
-      <Container className="max-w-none flex flex-col gap-4 mt-4">
+      <Container className="flex flex-col gap-6 my-4">
         <Breadcrumbs breadcrumbs={breadcrumbs} />
         {children}
         <ValuePropositions />

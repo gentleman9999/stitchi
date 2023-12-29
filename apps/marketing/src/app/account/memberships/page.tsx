@@ -13,16 +13,16 @@ import {
 import { PlusIcon } from '@heroicons/react/20/solid'
 import routes from '@lib/routes'
 import { notEmpty } from '@lib/utils/typescript'
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import React from 'react'
 
 const ViewerMembershipsIndexPage = () => {
   const { setStandout } = useStandout()
 
   const router = useRouter()
-  const { redirectUrl } = useParams<{
-    redirectUrl?: string
-  }>()!
+  const searchParams = useSearchParams()!
+
+  const redirectUrl = searchParams.get('redirectUrl')
 
   const { data } = useSuspenseQuery<
     ViewerMembershipsIndexPageGetDataQuer,

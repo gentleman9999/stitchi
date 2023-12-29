@@ -8,7 +8,7 @@ import Link from 'next/link'
 import routes from '@lib/routes'
 import ClosetPageContainer from '@components/common/ClosetPageContainer'
 import { Search } from 'icons'
-import { useSearch } from '../../../search-context'
+import { useSearch } from '../../../layout-context'
 
 const getActiveCategoryAndParent = (
   categories: CategoryTreeItem[],

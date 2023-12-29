@@ -47,10 +47,9 @@ const defaultAuthorizationParams = {
 
 const login: AppRouteHandlerFn = async (req, context) => {
   // This query param must NOT be 'returnTo' or else it will be overwritten
+  const searchParams = req.nextUrl.searchParams
   const redirectUrl =
-    typeof context.params?.redirectUrl === 'string'
-      ? context.params.redirectUrl
-      : req.headers.get('referer') || undefined
+    searchParams.get('redirectUrl') || req.headers.get('referer') || undefined
 
   return handleAction(req, context as any, {
     returnTo: routes.internal.account.authenticated.href({
@@ -65,10 +64,9 @@ const login: AppRouteHandlerFn = async (req, context) => {
 
 const signup: AppRouteHandlerFn = async (req, context) => {
   // This query param must NOT be 'returnTo' or else it will be overwritten
+  const searchParams = req.nextUrl.searchParams
   const redirectUrl =
-    typeof context.params?.redirectUrl === 'string'
-      ? context.params.redirectUrl
-      : req.headers.get('referrer') || undefined
+    searchParams.get('redirectUrl') || req.headers.get('referer') || undefined
 
   return handleAction(req, context as any, {
     returnTo: routes.internal.account.authenticated.href({
@@ -96,7 +94,7 @@ const logout: AppRouteHandlerFn = async (req, context) => {
   }
 
   return handleLogout(req, context as any, {
-    returnTo: context.params?.redirectUrl as string,
+    returnTo: req.nextUrl.searchParams.get('redirectUrl') || undefined,
   })
 }
 

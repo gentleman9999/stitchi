@@ -3,7 +3,7 @@
 import React from 'react'
 import cx from 'classnames'
 import Container from '@components/ui/Container'
-import { useSearch } from './search-context'
+import { useSearch } from './layout-context'
 
 interface Props {
   children: React.ReactNode
@@ -17,7 +17,7 @@ const PrimaryNavContainer = ({ children }: Props) => {
       className={cx(
         'fixed h-topbar-height bg-white top-0 left-0 right-0 z-40 transition-all border-b',
         {
-          'opacity-0 -z-10': showSearch,
+          'opacity-0 !-z-10': showSearch,
         },
       )}
     >

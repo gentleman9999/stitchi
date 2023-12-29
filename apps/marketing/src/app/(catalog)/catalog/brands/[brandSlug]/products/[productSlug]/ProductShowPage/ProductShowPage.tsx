@@ -15,7 +15,7 @@ import {
 } from '@generated/types'
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 import { GET_DATA } from '../graphql'
-import { notFound, usePathname } from 'next/navigation'
+import { notFound } from 'next/navigation'
 import CatalogProductLegacy from '@components/common/CatalogProductLegacy'
 
 interface Props {
@@ -23,10 +23,6 @@ interface Props {
 }
 
 const ProductShowPage = ({ path }: Props) => {
-  const pathname = usePathname()!
-
-  const isCloset = pathname.startsWith('/closet')
-
   const { data } = useSuspenseQuery<
     ProductPageGetDataQuery,
     ProductPageGetDataQueryVariables
@@ -58,6 +54,7 @@ const ProductShowPage = ({ path }: Props) => {
   )
 
   const jsonLDData: ProductJsonLdProps & { id: string } = {
+    useAppDir: true, // Required when using Next.js app directory
     url,
     id: product.id,
     description: product.plainTextDescription,
@@ -95,16 +92,18 @@ const ProductShowPage = ({ path }: Props) => {
           },
         }
       }),
+    aggregateRating: {
+      ratingValue: product.reviewSummary.summationOfRatings ?? 0,
+      reviewCount: product.reviewSummary.numberOfReviews ?? 0,
+    },
   }
 
   return (
     <>
-      <ProductJsonLd useAppDir {...jsonLDData} key={jsonLDData.id} />
+      <ProductJsonLd {...jsonLDData} key={jsonLDData.id} />
 
-      <div className="flex flex-col sm:flex-col-reverse gap-4">
-        <div className="flex justify-between items-center">
-          <div />
-
+      <div>
+        <div className="flex justify-end items-center">
           <ProductQuickActions
             shareHref={routes.internal.catalog.product.share.href({
               brandSlug: product.brand?.path || '',
@@ -116,35 +115,39 @@ const ProductShowPage = ({ path }: Props) => {
             }}
           />
         </div>
-      </div>
 
-      <ProductShowPageHero product={product} />
-
-      <Divider />
-
-      <h2 className="font-semibold text-xl">Related products</h2>
-      <div className="flex flex-row gap-4 overflow-x-scroll">
-        {relatedProducts.map(product => (
-          <div key={product.id} className="flex-1 min-w-[200px] flex">
-            <CatalogProductLegacy
-              productId={product.id}
-              priority={false}
-              href={routes.internal.catalog.product.href({
-                brandSlug: product.brand?.path?.replaceAll('/', '') || '',
-                productSlug: product.path?.replaceAll('/', '') || '',
-              })}
-            />
-          </div>
-        ))}
+        <ProductShowPageHero product={product} />
       </div>
 
       <Divider />
-      <ProductShowPageDetails productId={product.id} isCloset={isCloset} />
+
+      <div>
+        <h2 className="font-semibold text-xl md:text-2xl">You may also like</h2>
+        <div className="flex flex-row gap-4 overflow-x-scroll mt-2">
+          {relatedProducts.map(product => (
+            <div key={product.id} className="flex-1 min-w-[200px] flex">
+              <CatalogProductLegacy
+                productId={product.id}
+                priority={false}
+                href={routes.internal.catalog.product.href({
+                  brandSlug: product.brand?.path?.replaceAll('/', '') || '',
+                  productSlug: product.path?.replaceAll('/', '') || '',
+                })}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <Divider />
+
+      <ProductShowPageDetails productId={product.id} />
+
       <Divider />
     </>
   )
 }
 
-const Divider = () => <hr className="my-1" />
+const Divider = () => <hr className="" />
 
 export default ProductShowPage

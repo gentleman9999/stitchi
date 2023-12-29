@@ -18,7 +18,6 @@ import {
   AppLayoutGetDataQuery,
   AppLayoutGetDataQueryVariables,
 } from '@generated/types'
-import NavItem from './NavItem'
 
 interface Props {}
 

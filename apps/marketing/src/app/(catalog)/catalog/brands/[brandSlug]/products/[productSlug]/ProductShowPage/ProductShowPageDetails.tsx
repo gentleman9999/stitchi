@@ -13,10 +13,9 @@ const MIN_HEIGHT = 300
 
 interface Props {
   productId: string
-  isCloset: boolean
 }
 
-const ProductShowPageDetails = ({ productId, isCloset }: Props) => {
+const ProductShowPageDetails = ({ productId }: Props) => {
   const { data: product } = useFragment<ProductShowPageDetailsProductFragment>({
     fragment: fragments.product,
     fragmentName: 'ProductShowPageDetailsProductFragment',
@@ -55,12 +54,12 @@ const ProductShowPageDetails = ({ productId, isCloset }: Props) => {
   const alwaysExpanded = (ref?.scrollHeight || 0) < MIN_HEIGHT
 
   return (
-    <>
-      <h2 className="font-semibold text-xl">Product details</h2>
+    <div>
+      <h2 className="font-semibold text-xl md:text-2xl">Product details</h2>
       <div
         ref={setRef}
         className={cx(
-          `relative max-h-[${
+          `mt-4 relative max-h-[${
             alwaysExpanded ? 'none' : `${MIN_HEIGHT}px`
           }] transition-all duration-500 overflow-hidden scroll-mt-20`,
         )}
@@ -165,7 +164,7 @@ const ProductShowPageDetails = ({ productId, isCloset }: Props) => {
           </Button>
         </div>
       )}
-    </>
+    </div>
   )
 }
 

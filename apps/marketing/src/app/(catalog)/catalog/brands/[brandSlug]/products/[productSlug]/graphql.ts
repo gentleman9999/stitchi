@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { CatalogProductLegacyFragments } from '@components/common/CatalogProductLegacy'
-import { fragments as ProductShowPageHeroFragments } from './ProductShowPage/ProductShowPageHero.fragments'
+import { fragments as ProductShowPageHeroFragments } from './ProductShowPage/ProductShowPageHero/ProductShowPageHero.fragments'
 import { fragments as ProductShowPageDetailsFragments } from './ProductShowPage/ProductShowPageDetails.fragments'
 
 export const GET_DATA = gql`
@@ -25,6 +25,10 @@ export const GET_DATA = gql`
             plainTextDescription
             defaultImage {
               seoImageUrl: url(width: 1000)
+            }
+            reviewSummary {
+              numberOfReviews
+              summationOfRatings
             }
             images(first: 10) {
               edges {
