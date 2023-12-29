@@ -1,8 +1,6 @@
 import mixpanel from 'mixpanel-browser'
 
 enum MixpanelEvents {
-  NAVBAR_CTA_CLICKED = 'Navbar CTA Clicked',
-
   PRODUCT_FAVORITED = 'Product Favorited',
   PRODUCT_PRIMARY_CTA_CLICKED = 'Product Primary CTA Clicked',
 
