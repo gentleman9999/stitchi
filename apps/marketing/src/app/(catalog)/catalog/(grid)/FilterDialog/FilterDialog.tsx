@@ -29,17 +29,23 @@ const FilterDialog = ({
   categoryEntityId,
 }: Props) => {
   const {
+    search: defaultSearch,
+    setSearch,
     filters: { brands: activeBrands },
     availableFilters,
     setFilters,
     toggleFilter,
   } = useFilters()
 
-  const [filterState, setFilterState] = React.useState({
+  const [filterState, setFilterState] = React.useState<{
+    search: string
+    brands: typeof activeBrands
+  }>({
+    search: defaultSearch,
     brands: activeBrands,
   })
 
-  const { brands } = filterState
+  const { brands, search } = filterState
 
   const filterPreviewFilters = React.useMemo(() => {
     return {
@@ -51,35 +57,38 @@ const FilterDialog = ({
           : undefined,
 
         categoryEntityIds: categoryEntityId ? [categoryEntityId] : null,
-
         searchSubCategories: true,
+        searchTerm: search,
       },
     }
-  }, [brandEntityId, brands, categoryEntityId])
+  }, [brandEntityId, brands, categoryEntityId, search])
 
   const { count } = useFilterPreview(filterPreviewFilters)
 
   React.useEffect(() => {
     if (open) {
       setFilterState({
+        search: defaultSearch,
         brands: activeBrands,
       })
     }
-  }, [activeBrands, open])
+  }, [activeBrands, defaultSearch, open])
 
   const handleSubmit = () => {
     setFilters(
       {
-        brands: brands.map(brand => brand.id),
+        brands: brands.length ? brands.map(brand => brand.id) : null,
       },
       { scroll },
     )
+
+    setSearch(search)
 
     onClose()
   }
 
   const handleReset = () => {
-    setFilterState({ brands: [] })
+    setFilterState({ brands: [], search: '' })
   }
 
   return (

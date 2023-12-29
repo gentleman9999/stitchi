@@ -96,14 +96,17 @@ const FiltersProvider = ({ children }: FiltersProviderProps) => {
 
   const setSearch = React.useCallback(
     (search: string) => {
-      setQueryStates({ search })
+      setQueryStates(prev => ({
+        ...prev,
+        search: search.length > 0 ? search : null,
+      }))
     },
     [setQueryStates],
   )
 
   const setSort = React.useCallback(
     (sort: SearchProductsSortInput) => {
-      setQueryStates({ sort })
+      setQueryStates(prev => ({ ...prev, sort }))
     },
     [setQueryStates],
   )

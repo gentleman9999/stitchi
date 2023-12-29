@@ -43,19 +43,18 @@ const Layout = ({ children }: Props) => {
     }
   }
 
-  let title = brand
-    ? brand.name
-    : category
-    ? category.name
-    : collection
-    ? collection.name
-    : null
+  let title
+  let description
 
-  let description = category
-    ? category.description
-    : collection
-    ? collection.description
-    : null
+  if (brand) {
+    title = brand.name
+  } else if (collection) {
+    title = collection.name
+    description = collection.description
+  } else if (category) {
+    title = category.name
+    description = category.description
+  }
 
   return (
     <CategoriesProvider>

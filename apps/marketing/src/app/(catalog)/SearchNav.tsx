@@ -21,7 +21,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import CatalogProductSkeleton from './catalog/(grid)/CatalogPorductGrid/CatalogProductSkeleton'
 import { useRouter } from 'next/navigation'
 import * as yup from 'yup'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useDebouncedCallback } from 'use-debounce'
 import { useSearch } from './search-context'
@@ -68,7 +68,7 @@ const SearchNav = ({}: Props) => {
       debouncedGetData({
         variables: {
           filters: {
-            searchTerm,
+            searchTerm: searchTerm.length > 0 ? searchTerm : undefined,
           },
         },
       })
@@ -102,7 +102,7 @@ const SearchNav = ({}: Props) => {
         className={cx(
           'fixed h-topbar-height bg-white top-0 left-0 right-0 z-40 border-b',
           {
-            'opacity-0 -z-10': !showSearch,
+            'opacity-0 -z-10 overflow-hidden': !showSearch,
           },
         )}
       >

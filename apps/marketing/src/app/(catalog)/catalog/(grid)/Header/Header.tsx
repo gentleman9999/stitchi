@@ -1,8 +1,8 @@
 import React from 'react'
 
 interface Props {
-  title: string | null
-  description: string | null
+  title: string | undefined
+  description: string | undefined
 }
 
 const Header = ({ title, description }: Props) => {
