@@ -24,7 +24,7 @@ import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useDebouncedCallback } from 'use-debounce'
-import { useSearch } from './search-context'
+import { useSearch } from './layout-context'
 
 const schema = yup.object().shape({
   searchTerm: yup.string().required(),
@@ -102,7 +102,7 @@ const SearchNav = ({}: Props) => {
         className={cx(
           'fixed h-topbar-height bg-white top-0 left-0 right-0 z-40 border-b',
           {
-            'opacity-0 -z-10 overflow-hidden': !showSearch,
+            'opacity-0 !-z-10 overflow-hidden': !showSearch,
           },
         )}
       >

@@ -9,10 +9,11 @@ import routes from '@lib/routes'
 import Link from 'next/link'
 
 import NotificationsButton from './NotificationsButton'
-import AppTopbarUser from './AppTopbarUser'
+import AppTopbarUser from '../../AppTopbarUser'
 import { getSession } from '@auth0/nextjs-auth0'
 import SupportButton from './SupportButton'
 import cx from 'classnames'
+import { track } from '@lib/analytics'
 
 interface Props {}
 
@@ -66,6 +67,12 @@ const Topbar = async (props: Props) => {
                   color="brandPrimary"
                   Component={Link}
                   href={routes.internal.signup.href()}
+                  onClick={() => {
+                    track.signupCtaClicked({
+                      ctaType: 'navigation',
+                      locationHref: window.location.href,
+                    })
+                  }}
                 >
                   Sign up
                 </Button>

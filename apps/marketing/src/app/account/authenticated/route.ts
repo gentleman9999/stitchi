@@ -9,7 +9,7 @@ import {
 import { getClient } from '@lib/apollo-rsc'
 import routes from '@lib/routes'
 import { Logger } from 'next-axiom'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 const makeSetActiveMembership =
   (client: ApolloClient<any>) =>
@@ -25,19 +25,13 @@ const makeSetActiveMembership =
     })
   }
 
-export const GET = async (
-  request: Request,
-  context: {
-    params?: {
-      redirectUrl?: string
-    }
-  },
-) => {
+export const GET = async (request: NextRequest) => {
   const log = new Logger()
 
   const client = await getClient()
 
-  const redirectUrl = context.params?.redirectUrl
+  const redirectUrl =
+    request.nextUrl.searchParams.get('redirectUrl') || undefined
 
   try {
     const { data } = await client.query<AccountSetupPageGetDataQuery>({

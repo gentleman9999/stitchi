@@ -16,6 +16,7 @@ export const fragments = {
       entityId
       name
       path
+      sku
       variants(first: $variantsFirst) {
         edges {
           node {

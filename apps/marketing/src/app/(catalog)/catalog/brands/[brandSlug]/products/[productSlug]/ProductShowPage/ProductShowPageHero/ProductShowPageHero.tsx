@@ -6,11 +6,14 @@ import { useRouter } from 'next/navigation'
 import useProductOptions from '@components/hooks/useProductOptions/useProductOptions'
 import { useLogger } from 'next-axiom'
 import ProductForm, { FormValues } from './ProductForm'
-import useCustomizeProduct from './useCustomizeProduct'
+import useCustomizeProduct from '../useCustomizeProduct'
 import { makeProductTitle } from '@lib/utils/catalog'
 import { CatalogProductCustomizeInput } from '@generated/globalTypes'
 import { notEmpty } from '@lib/utils/typescript'
 import { ProductShowPageHeroProductFragment } from '@generated/types'
+import { useUser } from '@auth0/nextjs-auth0/client'
+import ProductTitle from './ProductTitle'
+import ProductFormPreview from './ProductFormPreview'
 
 interface Props {
   product: ProductShowPageHeroProductFragment
@@ -19,6 +22,7 @@ interface Props {
 const ProductShowPageHero = ({ product }: Props) => {
   const logger = useLogger()
   const router = useRouter()
+  const { user } = useUser()
 
   const { colors } = useProductOptions({ productId: product.id })
   const [handleCustomize] = useCustomizeProduct()
@@ -139,12 +143,25 @@ const ProductShowPageHero = ({ product }: Props) => {
     }
   }
 
+  const handleActiveColorChange = (colorId: string | null) => {
+    setActiveVariantId(
+      variants.find(variant => variant.catalogProductColorId === colorId)
+        ?.catalogProductVariantId || null,
+    )
+  }
+
+  const mappedColors = colors.map(color => ({
+    id: color.entityId.toString(),
+    catalogProductColorId: color.entityId.toString(),
+    hex: color.hexColors[0],
+    name: color.label,
+  }))
+
+  const { reviewSummary } = product
+
   return (
     <div className="@container w-full">
       <div className="w-full flex flex-col @2xl:flex-row relative z-0">
-        <h1 className="font-headingDisplay font-semibold text-2xl text-gray-800 @2xl:hidden">
-          {makeProductTitle(product)}
-        </h1>
         <div className="flex flex-col @2xl:flex-row w-full gap-2">
           <div className="flex-1 z-0">
             <div className={`w-full sticky top-topbar-height`}>
@@ -155,27 +172,37 @@ const ProductShowPageHero = ({ product }: Props) => {
             </div>
           </div>
           <div className="flex-1 z-10 @2lg:max-w-2xl ml-auto shrink w-full">
-            {product.entityId ? (
-              <ProductForm
-                productEntityId={product.entityId?.toString()}
-                productId={product.id}
-                onSubmit={handleSubmit}
-                onActiveColorChange={colorId => {
-                  setActiveVariantId(
-                    variants.find(
-                      variant => variant.catalogProductColorId === colorId,
-                    )?.catalogProductVariantId || null,
-                  )
-                }}
-                colors={colors.map(color => ({
-                  id: color.entityId.toString(),
-                  catalogProductColorId: color.entityId.toString(),
-                  hex: color.hexColors[0],
-                  name: color.label,
-                }))}
-                variants={variants}
+            <div className="relative flex flex-col gap-8 mb-8 bg-paper rounded-lg">
+              <ProductTitle
+                pretitle={`${product.brand?.name} ${product.sku}`}
+                title={makeProductTitle(product)}
+                rating={reviewSummary?.summationOfRatings}
+                ratingCount={reviewSummary?.numberOfReviews}
               />
-            ) : null}
+              {user ? (
+                <>
+                  {product.entityId ? (
+                    <ProductForm
+                      productEntityId={product.entityId?.toString()}
+                      productId={product.id}
+                      onSubmit={handleSubmit}
+                      onActiveColorChange={handleActiveColorChange}
+                      colors={mappedColors}
+                      variants={variants}
+                      requireLogin={!user}
+                    />
+                  ) : null}
+                </>
+              ) : (
+                <ProductFormPreview
+                  minPriceCents={product.priceMetadata.minPriceCents || 0}
+                  colors={mappedColors}
+                  onSelectColor={color =>
+                    handleActiveColorChange(color.catalogProductColorId)
+                  }
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>

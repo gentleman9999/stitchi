@@ -1,5 +1,4 @@
 import cx from 'classnames'
-import UserNavItem from './UserNavItem'
 import Link from 'next/link'
 import routes from '@lib/routes'
 import Logo from '@components/ui/Logo'
@@ -7,13 +6,17 @@ import CategoryNavItem from './CategoryNavItem'
 import PrimaryNavContainer from './PrimaryNavContainer'
 import SearchNav from './SearchNav'
 import SearchButton from './SearchButton'
-import { SearchProvider } from './search-context'
+import { SearchProvider } from './layout-context'
+import { getSession } from '@auth0/nextjs-auth0'
+import AppTopbarUser from '../AppTopbarUser'
 
 interface Props {
   children: React.ReactNode
 }
 
-const Layout = ({ children }: Props) => {
+const Layout = async ({ children }: Props) => {
+  const session = await getSession()
+
   return (
     <div className={cx('flex flex-col justify-between min-h-screen')}>
       {/* Floating nav spacer */}
@@ -54,7 +57,7 @@ const Layout = ({ children }: Props) => {
 
           <div className="flex-1 flex items-center justify-end space-x-6">
             <SearchButton />
-            <UserNavItem />
+            {session ? <AppTopbarUser /> : null}
           </div>
         </PrimaryNavContainer>
 

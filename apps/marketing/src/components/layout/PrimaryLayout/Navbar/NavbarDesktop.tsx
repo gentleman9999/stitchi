@@ -53,7 +53,10 @@ const NavbarDesktop = ({ anchorEl }: Props) => {
           user ? routes.internal.closet.href() : routes.internal.signup.href()
         }
         onClick={() => {
-          track.navbarCtaCliced({ view: 'desktop' })
+          track.signupCtaClicked({
+            ctaType: 'navigation',
+            locationHref: window.location.href,
+          })
         }}
       >
         {user ? 'My closet' : 'Sign up for free'}

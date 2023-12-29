@@ -32,7 +32,7 @@ const ColorSwatch = (props: Props) => {
             outlineColor: ensureMaximumLightness(color, 96).toString(),
           }}
           className={cx(
-            props.selected ? 'outline outline-4 ' : '',
+            props.selected ? 'outline outline-2 ' : '',
             Boolean(props.onClick) ? 'cursor-pointer' : '',
             'relative flex items-center justify-center rounded-full p-0.5',
           )}
