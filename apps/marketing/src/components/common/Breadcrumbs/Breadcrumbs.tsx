@@ -27,13 +27,13 @@ const Breadcrumbs = ({ breadcrumbs }: Props) => {
         }))}
       />
       <nav aria-label="breadcrumbs" className="">
-        <ol className="flex gap-2 text-gray-600 text-xs">
+        <ol className="flex gap-2 text-gray-600 text-xs flex-wrap">
           {breadcrumbs.map((crumb, i) => (
             <React.Fragment key={crumb.href}>
               <li className={crumb.hidden ? 'sr-only' : ''}>
                 <Link
                   href={crumb.href}
-                  className={cx('hover:text-gray-800', {
+                  className={cx('hover:text-gray-800 whitespace-nowrap', {
                     'pointer-events-none underline':
                       i === breadcrumbs.length - 1,
                   })}
