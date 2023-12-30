@@ -30,6 +30,21 @@ export const GET_DATA = gql`
               numberOfReviews
               summationOfRatings
             }
+            reviews(first: 50, filters: { rating: { minRating: 4 } }) {
+              edges {
+                node {
+                  author {
+                    name
+                  }
+                  rating
+                  title
+                  text
+                  createdAt {
+                    utc
+                  }
+                }
+              }
+            }
             images(first: 10) {
               edges {
                 node {

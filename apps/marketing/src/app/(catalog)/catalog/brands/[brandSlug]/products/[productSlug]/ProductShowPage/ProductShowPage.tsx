@@ -68,15 +68,28 @@ const ProductShowPage = ({ path }: Props) => {
       ?.map(edge => edge?.node)
       .filter(notEmpty)
       .map(variant => {
-        const color = variant.options.edges
+        const variantOptions = variant.options.edges
           ?.map(edge => edge?.node)
-          .find(option => option?.displayName === 'Color')
+          .filter(notEmpty)
+
+        const color = variantOptions
+          ?.find(option => option?.displayName === 'Color')
           ?.values.edges?.map(edge => edge?.node)
-          .filter(notEmpty)[0].label
+          .filter(notEmpty)?.[0]?.label
+
+        const size = variantOptions
+          ?.find(option => option?.displayName === 'Size')
+          ?.values.edges?.map(edge => edge?.node)
+          .filter(notEmpty)?.[0]?.label
 
         return {
           url,
           color,
+          size: {
+            name: size,
+            sizeGroup: 'https://schema.org/WearableSizeGroupRegular',
+            sizeSystem: 'https://schema.org/WearableSizeSystemUS',
+          },
           price: currency(product.priceMetadata.minPriceCents || 0, {
             fromCents: true,
           }),
@@ -84,7 +97,8 @@ const ProductShowPage = ({ path }: Props) => {
           images: variant.defaultImage ? [variant.defaultImage.url] : [],
           sku: variant.sku,
           mpn: variant.mpn || undefined,
-          gtin13: variant.gtin || undefined,
+          gtin: variant.gtin || undefined,
+          hasMerchantReturnPolicy: true,
           itemCondition: 'https://schema.org/NewCondition',
           availability: 'https://schema.org/InStock',
           seller: {
@@ -92,10 +106,32 @@ const ProductShowPage = ({ path }: Props) => {
           },
         }
       }),
-    aggregateRating: {
-      ratingValue: product.reviewSummary.summationOfRatings ?? 0,
-      reviewCount: product.reviewSummary.numberOfReviews ?? 0,
-    },
+    aggregateRating:
+      product.reviewSummary.numberOfReviews === 0
+        ? undefined
+        : {
+            ratingValue: product.reviewSummary.summationOfRatings ?? 0,
+            reviewCount: product.reviewSummary.numberOfReviews ?? 0,
+            bestRating: 5,
+            worstRating: 1,
+          },
+    reviews:
+      product.reviews.edges
+        ?.map(edge => edge?.node)
+        .filter(notEmpty)
+        .map(review => ({
+          datePublished: review.createdAt.utc,
+          reviewBody: review.text,
+          reviewAspect: review.title,
+          reviewRating: {
+            ratingValue: review.rating,
+            bestRating: 5,
+            worstRating: 1,
+          },
+          author: {
+            name: review.author.name,
+          },
+        })) || [],
   }
 
   return (
