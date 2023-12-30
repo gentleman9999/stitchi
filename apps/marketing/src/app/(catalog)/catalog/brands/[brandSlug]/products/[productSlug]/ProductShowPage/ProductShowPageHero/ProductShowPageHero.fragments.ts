@@ -17,6 +17,10 @@ export const fragments = {
       name
       path
       sku
+      reviewSummary {
+        numberOfReviews
+        summationOfRatings
+      }
       variants(first: $variantsFirst) {
         edges {
           node {

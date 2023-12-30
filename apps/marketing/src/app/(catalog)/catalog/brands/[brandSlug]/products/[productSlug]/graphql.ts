@@ -17,7 +17,6 @@ export const GET_DATA = gql`
             ...ProductShowPageDetailsProductFragment
             name
             path
-            gtin
             sku
             priceMetadata {
               minPriceCents
