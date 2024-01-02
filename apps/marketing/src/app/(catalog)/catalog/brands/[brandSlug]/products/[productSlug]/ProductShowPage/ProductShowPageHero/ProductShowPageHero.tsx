@@ -7,7 +7,11 @@ import useProductOptions from '@components/hooks/useProductOptions/useProductOpt
 import { useLogger } from 'next-axiom'
 import ProductForm, { FormValues } from './ProductForm'
 import useCustomizeProduct from '../useCustomizeProduct'
-import { makeProductTitle } from '@lib/utils/catalog'
+import {
+  getSizeRange,
+  makeProductTitle,
+  normalizeAndSortSizes,
+} from '@lib/utils/catalog'
 import { CatalogProductCustomizeInput } from '@generated/globalTypes'
 import { notEmpty } from '@lib/utils/typescript'
 import { ProductShowPageHeroProductFragment } from '@generated/types'
@@ -24,7 +28,7 @@ const ProductShowPageHero = ({ product }: Props) => {
   const router = useRouter()
   const { user } = useUser()
 
-  const { colors } = useProductOptions({ productId: product.id })
+  const { colors, sizes } = useProductOptions({ productId: product.id })
   const [handleCustomize] = useCustomizeProduct()
   const [activeVariantId, setActiveVariantId] = React.useState<string | null>(
     null,
@@ -171,8 +175,8 @@ const ProductShowPageHero = ({ product }: Props) => {
               />
             </div>
           </div>
-          <div className="flex-1 z-10 @2lg:max-w-2xl ml-auto shrink w-full">
-            <div className="relative flex flex-col gap-8 mb-8 bg-paper rounded-lg">
+          <div className="flex-1 z-10 @2xl:max-w-md ml-auto shrink w-full">
+            <div className="relative flex flex-col gap-8 mb-8 bg-paper">
               <ProductTitle
                 pretitle={`${product.brand?.name} ${product.sku}`}
                 title={makeProductTitle(product)}
@@ -200,6 +204,9 @@ const ProductShowPageHero = ({ product }: Props) => {
                   onSelectColor={color =>
                     handleActiveColorChange(color.catalogProductColorId)
                   }
+                  sizeRange={getSizeRange(
+                    normalizeAndSortSizes(sizes.map(size => size.label)),
+                  )}
                 />
               )}
             </div>

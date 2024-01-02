@@ -9,7 +9,6 @@ import {
 import { track } from '@lib/analytics'
 import routes from '@lib/routes'
 import currency from 'currency.js'
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
 
@@ -23,12 +22,14 @@ interface ProductColor {
 interface Props {
   colors: ProductColor[]
   minPriceCents: number
+  sizeRange: string
   onSelectColor: (color: ProductColor) => void
 }
 
 const ProductFormPreview = ({
   colors,
   minPriceCents,
+  sizeRange,
   onSelectColor,
 }: Props) => {
   const pathname = usePathname()!
@@ -38,24 +39,32 @@ const ProductFormPreview = ({
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="flex flex-col gap-8 border rounded-md p-4">
-        <ul className="flex flex-wrap gap-1 py-1">
-          {colors.map(color => (
-            <li key={color.catalogProductColorId}>
-              <ColorSwatch
-                onClick={() => {
-                  setSelectedColorEntityId(color.catalogProductColorId)
-                  onSelectColor(color)
-                }}
-                hexCode={color.hex || '#000'}
-                label={color.name}
-                width="w-8"
-                height="h-8"
-                selected={color.catalogProductColorId === selectedColorEntityId}
-              />
-            </li>
-          ))}
-        </ul>
+      <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-4">
+          {sizeRange.toLowerCase() !== 'one size' ? (
+            <span className="text-lg">{sizeRange}</span>
+          ) : null}
+
+          <ul className="flex flex-wrap gap-1 py-1">
+            {colors.map(color => (
+              <li key={color.catalogProductColorId}>
+                <ColorSwatch
+                  onClick={() => {
+                    setSelectedColorEntityId(color.catalogProductColorId)
+                    onSelectColor(color)
+                  }}
+                  hexCode={color.hex || '#000'}
+                  label={color.name}
+                  width="w-6"
+                  height="h-6"
+                  selected={
+                    color.catalogProductColorId === selectedColorEntityId
+                  }
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
 
         <div className="flex flex-col gap-3">
           <h2 className="font-headingDisplay font-semibold text-xl sm:text-2xl text-gray-800">
