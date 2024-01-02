@@ -134,8 +134,6 @@ const ProductShowPage = ({ path }: Props) => {
         })) || [],
   }
 
-  console.log('JSON LD', jsonLDData)
-
   return (
     <>
       <ProductJsonLd {...jsonLDData} key={jsonLDData.id} />
