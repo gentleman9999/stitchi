@@ -1,3 +1,5 @@
+'use client'
+
 import { FAQPageJsonLd } from 'next-seo'
 import React from 'react'
 import Section from '../Section/Section'

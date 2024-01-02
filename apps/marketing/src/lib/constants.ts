@@ -28,3 +28,5 @@ export const MIN_ORDER_QTY = parseInt(
     'NEXT_PUBLIC_MIN_ORDER_QTY',
   ),
 )
+
+export const INTERCOM_SURVEY_ID__PARTNER_REQUEST = 37919081

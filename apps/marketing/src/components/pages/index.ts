@@ -25,9 +25,6 @@ export * from './DesignPage'
 export { default as DistributionPage } from './DistributionPage'
 export * from './DistributionPage'
 
-export { default as PartnersPage } from './PartnersPage'
-export * from './PartnersPage'
-
 export { default as PrivacyPage } from './PrivacyPage'
 export * from './PrivacyPage'
 

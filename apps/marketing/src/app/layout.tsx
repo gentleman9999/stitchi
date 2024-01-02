@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   generator: COMPANY_NAME,
   applicationName: COMPANY_NAME,
-  title: { default: title, template: '%s | Stitchi' },
+  title: { default: title, template: `%s | ${COMPANY_NAME}` },
   // When running in a browser on a mobile phone, "format-detection" meta tag determines whether or not telephone numbers in the HTML content will appear as hypertext links.
   formatDetection: {
     email: false,
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
         url: 'https://www.datocms-assets.com/61029/1673022707-stitchi_sharing_image.png?auto=format&fit=max&w=1200',
         width: 1200,
         type: 'image/png',
-        alt: 'Stitchi Cover Image',
+        alt: `${COMPANY_NAME} Cover Image`,
       },
     ],
   },

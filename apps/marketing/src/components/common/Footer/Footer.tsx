@@ -71,8 +71,8 @@ const Footer = () => (
                     href: routes.internal.blog.href(),
                   },
                   {
-                    label: 'Careers',
-                    href: routes.external.careers.href(),
+                    label: 'Partner Program',
+                    href: routes.internal.partners.href(),
                   },
                 ]}
               />
@@ -108,6 +108,7 @@ const Footer = () => (
                 label="Terms"
                 href={routes.internal.legal.terms.href()}
               />
+              <ListItem label="Careers" href={routes.external.careers.href()} />
               <ListItem label="Support" href={routes.external.support.href()} />
             </ul>
             <p className="text-base text-gray-100 ">
