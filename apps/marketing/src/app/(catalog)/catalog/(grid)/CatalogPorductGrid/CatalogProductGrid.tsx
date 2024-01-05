@@ -69,27 +69,13 @@ const CatalogProductGrid = ({ categoryId, brandId }: Props) => {
 
   const { pageInfo } = productResult || {}
 
-  const handleFetchMore = () => {
-    if (pageInfo?.hasNextPage && pageInfo.endCursor) {
+  React.useEffect(() => {
+    if (!isFetchingMore && after && after === pageInfo?.endCursor) {
       startFetchMoreTransition(() => {
-        fetchMore({
-          variables: {
-            after: pageInfo.endCursor,
-          },
-        })
+        fetchMore({ variables: { after } })
       })
     }
-  }
-
-  if (after) {
-    // Remove 'after' query param. We use this only for google crawling
-    const newParams = new URLSearchParams(searchParams)
-    newParams.delete('after')
-
-    replace(pathname + '?' + newParams.toString(), {
-      scroll: false,
-    })
-  }
+  }, [after, fetchMore, isFetchingMore, pageInfo?.endCursor])
 
   return (
     <>
@@ -122,7 +108,6 @@ const CatalogProductGrid = ({ categoryId, brandId }: Props) => {
             scroll={false}
             href={{ query: { after: pageInfo?.endCursor } }}
             className="inline-flex justify-center px-3 py-1 rounded-md border text-gray-900 font-semibold"
-            onClick={handleFetchMore}
           >
             {isFetchingMore ? <LoadingDots /> : 'Load more'}
           </Link>
