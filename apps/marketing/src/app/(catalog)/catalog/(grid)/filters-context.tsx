@@ -9,8 +9,8 @@ import {
   parseAsString,
   parseAsStringEnum,
   useQueryStates,
-} from 'next-usequerystate'
-import React from 'react'
+} from 'nuqs'
+import React, { useTransition } from 'react'
 import staticData from '@generated/static.json'
 
 const SORT_OPTIONS = [
@@ -62,6 +62,7 @@ type SetFiltersFn = UseQueryStatesReturn<
 >[1]
 
 interface State {
+  transitioning: boolean
   filters: ActiveFilters
   search: string
   sort: (typeof SORT_OPTIONS)[number]
@@ -79,6 +80,8 @@ interface FiltersProviderProps {
 }
 
 const FiltersProvider = ({ children }: FiltersProviderProps) => {
+  const [transitioning, startTransition] = useTransition()
+
   const [queryStates, setQueryStates] = useQueryStates(
     {
       brands: parseAsArrayOf(parseAsInteger),
@@ -91,6 +94,7 @@ const FiltersProvider = ({ children }: FiltersProviderProps) => {
     },
     {
       scroll: true,
+      startTransition,
     },
   )
 
@@ -147,6 +151,7 @@ const FiltersProvider = ({ children }: FiltersProviderProps) => {
 
   const state = React.useMemo<State>(() => {
     return {
+      transitioning,
       availableFilters,
       setFilters,
       setSearch,
@@ -163,6 +168,7 @@ const FiltersProvider = ({ children }: FiltersProviderProps) => {
       },
     }
   }, [
+    transitioning,
     availableFilters,
     setFilters,
     setSearch,

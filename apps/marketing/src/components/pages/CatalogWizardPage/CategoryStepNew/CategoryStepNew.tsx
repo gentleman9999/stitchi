@@ -6,7 +6,7 @@ import {
 } from '@generated/CatalogWizardPageCategoryStepGetCategoryDataQuery'
 import routes from '@lib/routes'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useQueryState } from 'next-usequerystate'
+import { useQueryState } from 'nuqs'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'

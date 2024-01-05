@@ -1,4 +1,4 @@
-import { queryTypes, useQueryState, useQueryStates } from 'next-usequerystate'
+import { queryTypes, useQueryState, useQueryStates } from 'nuqs'
 
 const useRelayPagination = ({ limit }: { limit?: number } = {}) => {
   const [{ cursor, direction }, setPagination] = useQueryStates({

@@ -9741,13 +9741,6 @@ next-sitemap@^4.0.6:
     fast-glob "^3.2.12"
     minimist "^1.2.8"
 
-next-usequerystate@^1.12.2:
-  version "1.12.2"
-  resolved "https://registry.yarnpkg.com/next-usequerystate/-/next-usequerystate-1.12.2.tgz#c8e69026c66da8a7d3ad712903715e105cd5e0dc"
-  integrity sha512-CkXN7vE0AeoytrwYsjtDT7IgKKU/fT6ebVG+5b6l5wVzWAt/jAoWjwWneA++xE5oTZnR8kgXYiqonXh0sJb7zA==
-  dependencies:
-    mitt "^3.0.1"
-
 next@^14.0.2:
   version "14.0.3"
   resolved "https://registry.yarnpkg.com/next/-/next-14.0.3.tgz#8d801a08eaefe5974203d71092fccc463103a03f"
@@ -9934,6 +9927,13 @@ num-sort@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/num-sort/-/num-sort-2.1.0.tgz#1cbb37aed071329fdf41151258bc011898577a9b"
   integrity sha512-1MQz1Ed8z2yckoBeSfkQHHO9K1yDRxxtotKSJ9yvcTUUxSvfvzEq5GwBrjjHEpMlq/k5gvXdmJ1SbYxWtpNoVg==
+
+nuqs@^1.14.0:
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/nuqs/-/nuqs-1.14.0.tgz#24abfafc20033133756c5c0db55ee4f57916d28a"
+  integrity sha512-bdJlLFTwowc6oA8dvhY+s52lIW3F8J6mTksIoDo414D/6P7uf1039XJiRtZXi6rk6374I7e4Pn//YjMJ2pYWbQ==
+  dependencies:
+    mitt "^3.0.1"
 
 oauth4webapi@^2.3.0:
   version "2.4.0"

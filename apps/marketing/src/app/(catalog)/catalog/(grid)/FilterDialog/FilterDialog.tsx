@@ -100,7 +100,7 @@ const FilterDialog = ({
         >
           <div className="grid grid-cols-3">
             <div>
-              <Dialog.Close>
+              <Dialog.Close asChild>
                 <IconButton variant="ghost" disableGutters>
                   <XIcon width={20} height={20} />
                 </IconButton>

@@ -1,4 +1,4 @@
-import { queryTypes, useQueryState } from 'next-usequerystate'
+import { queryTypes, useQueryState } from 'nuqs'
 import React from 'react'
 
 interface Image {

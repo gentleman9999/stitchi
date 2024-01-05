@@ -9,7 +9,7 @@ import {
   CatalogIndexPageGetDataQueryVariables,
 } from '@generated/types'
 import CatalogProductGridContainer from './CatalogProductGridContainer'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 import deepEqual from 'deep-equal'
 import routes from '@lib/routes'
@@ -27,11 +27,9 @@ interface Props {
 }
 
 const CatalogProductGrid = ({ categoryId, brandId }: Props) => {
-  const { replace } = useRouter()
-  const pathname = usePathname()!
   const searchParams = useSearchParams()!
   const [isFetchingMore, startFetchMoreTransition] = useTransition()
-  const { filters: unmergedFilters, search, sort } = useFilters()
+  const { filters: unmergedFilters, search, sort, transitioning } = useFilters()
 
   const after = searchParams.get('after')
 
@@ -43,7 +41,7 @@ const CatalogProductGrid = ({ categoryId, brandId }: Props) => {
 
   const [prevFilters, setPrevFilters] = React.useState(filters)
 
-  const { data, refetch, fetchMore, networkStatus } = useSuspenseQuery<
+  const { data, refetch, fetchMore } = useSuspenseQuery<
     CatalogIndexPageGetDataQuery,
     CatalogIndexPageGetDataQueryVariables
   >(GET_DATA, {
@@ -77,28 +75,44 @@ const CatalogProductGrid = ({ categoryId, brandId }: Props) => {
     }
   }, [after, fetchMore, isFetchingMore, pageInfo?.endCursor])
 
+  const nextPageParams = new URLSearchParams(searchParams)
+
+  if (pageInfo?.endCursor) {
+    nextPageParams.set('after', pageInfo?.endCursor)
+  }
+
   return (
     <>
       <CatalogProductGridContainer>
-        {products.map((product, i) =>
-          product.id ? (
-            <CatalogProductLegacy
-              key={product.id}
-              productId={product.id}
-              priority={i < 6}
-              href={routes.internal.catalog.product.href({
-                brandSlug: product.brand?.path || '',
-                productSlug: product.path,
-              })}
-            />
-          ) : null,
-        )}
-
-        {isFetchingMore
-          ? Array.from(new Array(5)).map((_, i) => (
+        {transitioning ? (
+          <>
+            {Array.from(new Array(5)).map((_, i) => (
               <CatalogProductSkeleton key={i} />
-            ))
-          : null}
+            ))}
+          </>
+        ) : (
+          <>
+            {products.map((product, i) =>
+              product.id ? (
+                <CatalogProductLegacy
+                  key={product.id}
+                  productId={product.id}
+                  priority={i < 6}
+                  href={routes.internal.catalog.product.href({
+                    brandSlug: product.brand?.path || '',
+                    productSlug: product.path,
+                  })}
+                />
+              ) : null,
+            )}
+
+            {isFetchingMore
+              ? Array.from(new Array(5)).map((_, i) => (
+                  <CatalogProductSkeleton key={i} />
+                ))
+              : null}
+          </>
+        )}
       </CatalogProductGridContainer>
 
       {pageInfo?.hasNextPage && (
@@ -106,7 +120,9 @@ const CatalogProductGrid = ({ categoryId, brandId }: Props) => {
           <Link
             replace
             scroll={false}
-            href={{ query: { after: pageInfo?.endCursor } }}
+            href={{
+              search: nextPageParams.toString(),
+            }}
             className="inline-flex justify-center px-3 py-1 rounded-md border text-gray-900 font-semibold"
           >
             {isFetchingMore ? <LoadingDots /> : 'Load more'}

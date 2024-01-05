@@ -64,7 +64,6 @@ const CatalogProductLegacy = ({
               alt={product.defaultImage.altText || product.name}
               layout="fill"
               objectFit="contain"
-              style={{ width: '100%', height: '100%' }}
               sizes={generateImageSizes([{ imageWidth: '230px' }])}
             />
           ) : (

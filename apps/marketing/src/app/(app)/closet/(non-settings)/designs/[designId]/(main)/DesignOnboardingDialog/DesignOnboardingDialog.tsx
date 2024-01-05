@@ -5,7 +5,7 @@ import Dialog from '@components/ui/Dialog'
 import Button from '@components/ui/ButtonV2/Button'
 import { PaintBrushIcon } from '@heroicons/react/20/solid'
 import { SUPPORT_EMAIL } from '@lib/constants'
-import { queryTypes, useQueryState } from 'next-usequerystate'
+import { queryTypes, useQueryState } from 'nuqs'
 import React from 'react'
 import Logo from '@components/ui/Logo'
 

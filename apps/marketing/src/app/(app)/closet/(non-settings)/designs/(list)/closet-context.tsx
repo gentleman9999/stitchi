@@ -2,7 +2,7 @@
 
 import { TableFilterDateProps } from '@components/ui/Table/TableFilterDate'
 import { TableFilterUserProps } from '@components/ui/Table/TableFilterUser'
-import { useQueryState } from 'next-usequerystate'
+import { useQueryState } from 'nuqs'
 import React from 'react'
 
 interface Filters {
