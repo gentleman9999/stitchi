@@ -54,7 +54,7 @@ const FileIcon = ({ file }: Props) => {
       <img
         src={file.filePath}
         alt={file.fileName}
-        className="w-[50px] h-[50px] object-contain rounded-md overflow-hidden"
+        className="w-[50px] h-[50px] object-contain rounded-sm overflow-hidden"
       />
     )
   }

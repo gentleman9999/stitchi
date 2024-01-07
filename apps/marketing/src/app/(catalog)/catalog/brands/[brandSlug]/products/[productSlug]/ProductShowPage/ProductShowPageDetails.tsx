@@ -55,7 +55,9 @@ const ProductShowPageDetails = ({ productId }: Props) => {
 
   return (
     <div>
-      <h2 className="font-semibold text-xl md:text-2xl">Product details</h2>
+      <h2 className="font-headingDisplay uppercase text-xl md:text-2xl">
+        Product details
+      </h2>
       <div
         ref={setRef}
         className={cx(

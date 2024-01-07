@@ -41,7 +41,7 @@ const ClosetTabAllCollections = ({}: Props) => {
       className="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4"
     >
       {projects.map(project => (
-        <li key={project.name} className="col-span-1 flex rounded-md">
+        <li key={project.name} className="col-span-1 flex rounded-sm">
           <div
             className={cx(
               'flex w-16 flex-shrink-0 items-center justify-center rounded-l-md text-sm font-medium text-white bg-gray-500',

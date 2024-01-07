@@ -69,7 +69,7 @@ const Dropdown = ({
               }}
             >
               <Container>
-                <div className="mt-2 bg-white p-4 relative rounded-md focus:outline-none shadow-md">
+                <div className="mt-2 bg-white p-4 relative rounded-sm focus:outline-none shadow-md">
                   {panelChildren}
                 </div>
               </Container>

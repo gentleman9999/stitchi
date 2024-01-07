@@ -72,7 +72,7 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
                       key={item.label}
                       href={item.href}
                       as={Link}
-                      className={cx('block text-lg text-secondary')}
+                      className={cx('block text-lg text-midnight')}
                     >
                       {item.label}
                     </HeadlessPopover.Button>

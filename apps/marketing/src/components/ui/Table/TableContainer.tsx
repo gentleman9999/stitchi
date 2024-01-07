@@ -9,7 +9,7 @@ interface Props {
 
 const TableContainer = ({ children, loading }: Props) => {
   return (
-    <div className="border border-spacing-2 rounded-md bg-paper w-full">
+    <div className="border border-spacing-2 rounded-sm bg-paper w-full">
       {loading ? (
         <div className="absolute left-0 right-0 flex justify-center mt-8">
           <LoadingDots />

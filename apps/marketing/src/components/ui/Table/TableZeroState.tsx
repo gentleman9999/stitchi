@@ -8,7 +8,7 @@ const TableZeroState = (props: Props) => {
     <div className="py-20 flex items-center justify-center border-y">
       <div className="flex flex-col gap-2">
         <div>
-          <div className="rounded-md bg-gray-100 inline-flex p-2">
+          <div className="rounded-sm bg-gray-100 inline-flex p-2">
             <Search className="w-6 h-6 stroke-2 stroke-gray-400" />
           </div>
         </div>

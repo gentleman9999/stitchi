@@ -4,7 +4,7 @@ import Skeleton from '@components/ui/Skeleton'
 
 const CatalogProductSkeleton = () => {
   return (
-    <li className="rounded-md flex flex-col">
+    <li className="rounded-sm flex flex-col">
       <Skeleton className="w-full aspect-[2/3]" />
       <div className="py-2 flex-1 flex flex-col">
         <h3 className="text-sm font-normal leading-tight">

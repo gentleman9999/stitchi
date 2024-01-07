@@ -42,7 +42,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         {...rest}
         ref={forwardedRef || ref}
         onClick={handleClick}
-        className={cx(className, 'transition-all rounded-md', {
+        className={cx(className, 'transition-all rounded-sm', {
           'hover:bg-gray-100 focus:bg-gray-100': variant === 'primary',
           'bg-transparent': variant === 'ghost',
           '-translate-x-2': shift?.includes('left'),

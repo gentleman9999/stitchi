@@ -26,7 +26,7 @@ const NavigationGroup = ({
       className="flex flex-col gap-1"
     >
       <Collapsible.Trigger asChild>
-        <button className="group hover:bg-gray-50 rounded-md p-2 w-full text-sm font-medium flex items-center gap-2 text-gray-700 transition-all">
+        <button className="group hover:bg-gray-50 rounded-sm p-2 w-full text-sm font-medium flex items-center gap-2 text-gray-700 transition-all">
           <div className="w-5 h-5 inline-flex items-center justify-center">
             {icon}
           </div>

@@ -14,6 +14,7 @@ import categorySweatshirt from '../../../../public/category-sweatshirt.jpg'
 import categoryHeadwear from '../../../../public/category-hat.jpg'
 import categoryBags from '../../../../public/category-bags.jpg'
 import Image from 'next/image'
+import { ArrowRightIcon } from '@heroicons/react/20/solid'
 
 const featuredCategories = [
   {
@@ -58,7 +59,7 @@ const HomePage = ({}: HomePageProps) => {
               {featuredCategories.map(category => (
                 <li key={category.slug} className="col-span-1">
                   <Link
-                    className="h-full flex flex-col items-center border rounded-lg border-black overflow-hidden"
+                    className="h-full flex flex-col items-center border rounded-sm border-midnight overflow-hidden"
                     href={routes.internal.catalog.category.show.href({
                       categorySlug: category.slug,
                     })}
@@ -68,10 +69,11 @@ const HomePage = ({}: HomePageProps) => {
                       alt={category.title}
                       className="w-full aspect-[3/2]"
                     />
-                    <div className="p-4 bg-primary-light w-full flex-1 flex items-center">
-                      <span className="text-sm text-gray-900 hover:text-gray-900 font-semibold">
+                    <div className="p-4 bg-midnight hover:bg-turquoise text-gray-100 hover:text-midnight transition-colors w-full flex-1 flex items-center">
+                      <span className="text-sm font-semibold">
                         {category.title}
                       </span>
+                      <ArrowRightIcon className="w-4 h-4 ml-auto text-midnight" />
                     </div>
                   </Link>
                 </li>
@@ -85,32 +87,34 @@ const HomePage = ({}: HomePageProps) => {
           <HomePageSolutions />
         </Section>
 
-        <div className="bg-primary-light">
+        <div className="bg-midnight">
           <Container>
             <Section
               gutter="lg"
               className="flex flex-col items-center text-center"
             >
-              <span className="uppercase text-sm font-light">
+              <span className="uppercase text-sm bg-primary px-2 py-1">
                 Built for scale
               </span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mt-4 ">
+              <h2 className="font-headingDisplay uppercase text-4xl sm:text-5xl md:text-6xl font-bold mt-4 text-white">
                 Merch is awesome. <br />
                 Managing it sucks.
               </h2>
-              <p className="mt-6 text-gray-700  max-w-md">
+              <p className="mt-6 text-gray-50/80  max-w-md">
                 Develop quality branded merchandise experiences with a partner
                 you can depend on every step of the way.
               </p>
 
               <Button
-                className="mt-6"
-                size="xl"
+                className="mt-12"
+                size="2xl"
                 Component={Link}
                 variant="flat"
+                color="brandPrimary"
                 href={routes.internal.getStarted.href()}
+                endIcon={<ArrowRightIcon className="w-4 h-4" />}
               >
-                Make merch fun
+                Simplify merch
               </Button>
             </Section>
           </Container>

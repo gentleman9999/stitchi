@@ -30,7 +30,7 @@ const Progress = ({ status }: Props) => {
     <div className="@container">
       <ol
         role="list"
-        className="@xl:border-y overflow-hidden rounded-md @xl:flex @xl:rounded-none @xl:border-l @xl:border-r @xl:border-gray-200"
+        className="@xl:border-y overflow-hidden rounded-sm @xl:flex @xl:rounded-none @xl:border-l @xl:border-r @xl:border-gray-200"
       >
         {steps.map((_, stepIdx) => {
           const completionStatus = (() => {

@@ -37,7 +37,7 @@ const FilterDialogContainer = ({
                 <Dialog.Content
                   forceMount
                   className={cx(
-                    'align-bottom bg-white overflow-scroll shadow-xl transform transition-all sm:align-middle sm:w-full flex flex-col max-h-[93%] sm:max-w-4xl fixed bottom-0 left-0 right-0 sm:right-auto sm:left-auto sm:bottom-auto sm:flex sm:relative rounded-t-lg sm:rounded-lg sm:my-8 text-sm',
+                    'align-bottom bg-white overflow-scroll shadow-xl transform transition-all sm:align-middle sm:w-full flex flex-col max-h-[93%] sm:max-w-4xl fixed bottom-0 left-0 right-0 sm:right-auto sm:left-auto sm:bottom-auto sm:flex sm:relative rounded-t-lg sm:rounded-sm sm:my-8 text-sm',
                   )}
                 >
                   {children}

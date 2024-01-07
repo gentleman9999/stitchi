@@ -80,7 +80,7 @@ const ProofLocationInput = ({ form, uploadFolder }: Props) => {
                     </div>
                   }
                 >
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-6 border rounded-md">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-6 border rounded-sm">
                     <Controller
                       name={`proofLocations.${index}.placement`}
                       control={form.control}

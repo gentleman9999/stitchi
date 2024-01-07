@@ -30,7 +30,7 @@ const Toast = ({
       <RuiToast.Root
         className={cx(
           s.ToastRoot,
-          'rounded-md ring-1 shadow-magical p-4 text-sm',
+          'rounded-sm ring-1 shadow-magical p-4 text-sm',
           {
             'bg-paper ring-gray-100': severity === 'default',
             'bg-red-50  ring-red-200': severity === 'error',

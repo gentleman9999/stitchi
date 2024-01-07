@@ -36,7 +36,7 @@ const Card = ({ children, className, disabled }: Props) => {
     <CardCollapsableRoot>
       <div
         className={cx(
-          'relative group overflow-hidden rounded-md bg-white sm:border flex flex-col pb-4',
+          'relative group overflow-hidden rounded-sm bg-white sm:border flex flex-col pb-4',
           {
             'opacity-50 pointer-events-none': disabled,
           },

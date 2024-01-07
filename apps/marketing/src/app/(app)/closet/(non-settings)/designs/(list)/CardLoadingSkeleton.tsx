@@ -3,9 +3,9 @@ import React from 'react'
 
 const CardLoadingSkeleton = () => {
   return (
-    <div className="rounded-md border flex flex-col w-full bg-paper">
+    <div className="rounded-sm border flex flex-col w-full bg-paper">
       <Skeleton
-        containerClassName="flex aspect-square rounded-md"
+        containerClassName="flex aspect-square rounded-sm"
         className="h-full"
       />
 

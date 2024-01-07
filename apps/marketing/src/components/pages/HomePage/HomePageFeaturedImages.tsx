@@ -6,7 +6,7 @@ import Image from 'next/image'
 
 const imageProps = {
   className:
-    'rounded-md ring-2 ring-gray-950 shadow-magical max-w-[300px] max-h-[300px] md:max-w-[350px] md:max-h-[350px] lg:max-w-none lg:max-h-none lg:w-full',
+    'rounded-sm ring-2 ring-gray-950 shadow-magical max-w-[300px] max-h-[300px] md:max-w-[350px] md:max-h-[350px] lg:max-w-none lg:max-h-none lg:w-full',
 }
 
 interface Props {}

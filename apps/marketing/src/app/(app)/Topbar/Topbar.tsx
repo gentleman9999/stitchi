@@ -24,13 +24,13 @@ const Topbar = async (props: Props) => {
       <Container className="max-w-none flex items-center justify-between py-2">
         <div className="md:hidden">
           <LogoButton>
-            <Logo className="h-10" />
+            <Logo className="h-8" />
           </LogoButton>
         </div>
 
         <div className="hidden md:block">
           <Link href={routes.internal.home.href()}>
-            <Logo className="h-10" />
+            <Logo className="h-8" />
           </Link>
         </div>
 

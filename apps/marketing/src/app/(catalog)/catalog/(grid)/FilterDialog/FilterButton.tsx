@@ -14,7 +14,7 @@ const FilterButton = (props: Props) => {
     <button
       onClick={props.onClick}
       className={cx(
-        'h-full transition-colors duration-200 flex rounded-md items-center font-medium',
+        'h-full transition-colors duration-200 flex rounded-sm items-center font-medium',
         {
           'ring !ring-gray-300 text-gray-800 stroke-gray-400': Boolean(
             props.active,

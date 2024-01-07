@@ -29,7 +29,7 @@ const TableRecord = ({ table }: Props) => {
 
   const Table = () => {
     return (
-      <div className="not-prose bg-gray-900 rounded-lg relative border border-white/20">
+      <div className="not-prose bg-gray-900 rounded-sm relative border border-white/20">
         <div className="overflow-auto p-1 sm:p-2 md:p-4 lg:p-8">
           <table className="min-w-full divide-y divide-gray-300 text-left whitespace-nowrap ">
             <thead className="border-b border-white/10 text-sm leading-6 text-white">

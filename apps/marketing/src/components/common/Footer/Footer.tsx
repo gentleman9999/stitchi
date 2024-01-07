@@ -14,7 +14,7 @@ import Link from 'next/link'
 const navigation = nav.makeNavigation()
 
 const Footer = () => (
-  <footer aria-labelledby="footer-heading" className="bg-black">
+  <footer aria-labelledby="footer-heading" className="bg-midnight">
     <h2 id="footer-heading" className="sr-only">
       Footer
     </h2>

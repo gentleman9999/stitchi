@@ -74,7 +74,7 @@ const DesignRequestApprovedMessage = ({ designRequestId }: Props) => {
                   {orders.map(order => (
                     <li
                       key={order.id}
-                      className="flex border rounded-md p-3 items-center justify-between gap-4"
+                      className="flex border rounded-sm p-3 items-center justify-between gap-4"
                     >
                       <div className="flex gap-3">
                         <div>{order.humanOrderId}</div>
@@ -114,7 +114,7 @@ const DesignRequestApprovedMessage = ({ designRequestId }: Props) => {
           ) : null}
 
           <Link
-            className="p-4 flex gap-4 border border-gray-200 rounded-md hover:bg-gray-100 transition-all"
+            className="p-4 flex gap-4 border border-gray-200 rounded-sm hover:bg-gray-100 transition-all"
             href={routes.internal.closet.inventory.show.products.show.buy.href({
               designId: designProduct.id,
             })}
@@ -130,7 +130,7 @@ const DesignRequestApprovedMessage = ({ designRequestId }: Props) => {
             </div>
           </Link>
           <Link
-            className="p-4 flex gap-4 border border-gray-200 rounded-md hover:bg-gray-100 transition-all"
+            className="p-4 flex gap-4 border border-gray-200 rounded-sm hover:bg-gray-100 transition-all"
             href={routes.internal.closet.inventory.show.products.show.href({
               designId: designProduct.id,
             })}

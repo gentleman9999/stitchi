@@ -96,7 +96,7 @@ const schema = yup.object().shape({
 
 export type FormValues = yup.InferType<typeof schema>
 
-const iconStyle = 'w-7 h-7 text-primary'
+const iconStyle = 'w-7 h-7 text-midnight'
 
 interface ProductFormProps {
   productEntityId: string
@@ -236,7 +236,7 @@ const ProductForm = (props: ProductFormProps) => {
                       type="button"
                       ref={ref}
                       key={index}
-                      className="flex flex-row items-center gap-4 border rounded-md p-4 hover:bg-gray-50 transition-all"
+                      className="flex flex-row items-center gap-4 border rounded-sm p-4 hover:bg-gray-50 transition-all"
                       onClick={() => onChange(!value)}
                     >
                       <Checkbox

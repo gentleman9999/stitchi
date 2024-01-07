@@ -66,7 +66,7 @@ const DesignProofsList = ({
                 src={approvedProof.primaryImageFile?.url}
                 width={approvedProof.primaryImageFile?.width}
                 height={approvedProof.primaryImageFile?.height}
-                className="w-16 h-16 rounded-md object-contain"
+                className="w-16 h-16 rounded-sm object-contain"
               />
               <div className="flex-1 flex flex-col items-start gap-1">
                 <span className="text-sm font-medium">
@@ -96,7 +96,7 @@ const DesignProofsList = ({
                 side="bottom"
                 align="center"
                 renderTrigger={() => (
-                  <button className="border rounded-md w-full flex justify-between gap-2 items-center hover:bg-gray-50">
+                  <button className="border rounded-sm w-full flex justify-between gap-2 items-center hover:bg-gray-50">
                     <Proof
                       key="active"
                       proof={activeProof}
@@ -112,7 +112,7 @@ const DesignProofsList = ({
                       key={proof.id}
                       onClick={() => onClick(proof.id)}
                       className={cx(
-                        'hover:bg-gray-100 transition-all w-full rounded-md',
+                        'hover:bg-gray-100 transition-all w-full rounded-sm',
                         {
                           'bg-gray-50': proof.id === activeProofId,
                         },
@@ -171,7 +171,7 @@ const Proof = ({ proof, latest }: ProofProps) => {
         src={proof.primaryImageFile?.url}
         width={proof.primaryImageFile?.width}
         height={proof.primaryImageFile?.height}
-        className="w-16 h-16 rounded-md object-contain"
+        className="w-16 h-16 rounded-sm object-contain"
       />
       <div className="flex-1 flex flex-col items-start gap-1">
         <span className="text-sm font-medium">

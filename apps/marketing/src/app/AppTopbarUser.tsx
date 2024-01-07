@@ -35,7 +35,7 @@ const AppTopbarUser = ({}: Props) => {
 
   return (
     <Dropdown.Root>
-      <Dropdown.Trigger className="outline-none flex gap-2 text-left items-center hover:bg-gray-50 px-1 py-0.5 rounded-md">
+      <Dropdown.Trigger className="outline-none flex gap-2 text-left items-center hover:bg-gray-50 px-1 py-0.5 rounded-sm">
         <div className="shrink-0 w-6 h-6 flex items-center justify-center">
           <UserAvatar
             width="w-6"
@@ -64,7 +64,7 @@ const AppTopbarUser = ({}: Props) => {
           side="bottom"
           sideOffset={6}
           align="end"
-          className="overflow-hidden rounded-md bg-paper shadow-lg flex flex-col border z-10 w-full min-w-[200px]"
+          className="overflow-hidden rounded-sm bg-paper shadow-lg flex flex-col border z-10 w-full min-w-[200px]"
         >
           <div className="bg-gray-50 p-4 w-full text-sm font-regular flex items-center gap-2 text-gray-800">
             <div className="text-xs">
@@ -132,7 +132,7 @@ const DropdownItem = ({
       <LinkComponent
         href={href}
         className={
-          'border-2 border-transparent hover:border-primary hover:bg-gray-50 transition-all py-2 px-2 rounded-md flex-1 flex items-center gap-2 outline-none text-sm font-medium'
+          'border-2 border-transparent hover:border-midnight hover:bg-gray-50 transition-all py-2 px-2 rounded-sm flex-1 flex items-center gap-2 outline-none text-sm font-medium'
         }
       >
         {icon}

@@ -1,5 +1,5 @@
 import { Section, SectionHeader } from '@components/common'
-import Image from "next/legacy/image";
+import Image from 'next/legacy/image'
 import React from 'react'
 import closetRendering from '../../../../public/greek_life_custom_swag.jpg'
 
@@ -11,7 +11,7 @@ const DesignPageAdvantages = () => {
         title="Everything you asked for"
       />
 
-      <div className="rounded-md overflow-hidden mt-6">
+      <div className="rounded-sm overflow-hidden mt-6">
         <Image
           src={closetRendering}
           layout="intrinsic"

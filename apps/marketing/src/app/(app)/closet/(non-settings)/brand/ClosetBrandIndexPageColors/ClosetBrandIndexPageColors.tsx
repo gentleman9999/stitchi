@@ -100,7 +100,7 @@ const ClosetBrandIndexPageColors = (props: Props) => {
         {!showColorForm && colors.length < 10 ? (
           <li className="flex flex-col items-center w-36 h-36">
             <button
-              className="flex flex-col items-center justify-center w-full h-full rounded-md border-2 border-dashed"
+              className="flex flex-col items-center justify-center w-full h-full rounded-sm border-2 border-dashed"
               onClick={() => setShowColorForm(true)}
             >
               <span className="text-sm">Add Color</span>

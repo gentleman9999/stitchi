@@ -9,7 +9,7 @@ const Tab = (props: Props) => {
     <RUITabs.Trigger
       {...props}
       className={cx({
-        'rounded-md px-3 py-2 text-sm font-medium whitespace-nowrap': true,
+        'rounded-sm px-3 py-2 text-sm font-medium whitespace-nowrap': true,
         'data-[state=active]:bg-primary/10 data-[state=active]:text-gray-900/80':
           true,
         'data-[state=inactive]:text-gray-500 data-[state=inactive]:hover:text-gray-700':

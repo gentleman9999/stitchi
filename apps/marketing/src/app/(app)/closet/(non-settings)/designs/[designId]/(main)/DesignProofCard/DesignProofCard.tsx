@@ -22,7 +22,7 @@ const DesignProofCard = ({ designProof, badges, href }: Props) => {
           width={primaryImageFile?.width}
           height={primaryImageFile?.height}
           alt="Featured"
-          className="w-full aspect-square bg-gray-50 rounded-md object-contain"
+          className="w-full aspect-square bg-gray-50 rounded-sm object-contain"
         />
         <div className="text-sm text-gray-500 text-center mt-2">
           <div>{format(new Date(designProof.createdAt), 'PPP')}</div>

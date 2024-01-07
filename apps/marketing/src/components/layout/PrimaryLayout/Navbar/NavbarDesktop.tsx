@@ -47,7 +47,7 @@ const NavbarDesktop = ({ anchorEl }: Props) => {
       <Link
         className={cx(
           s.link,
-          'border !font-bold py-1 px-2 rounded-lg border-gray-950',
+          'border !font-bold py-1 px-2 rounded-sm border-gray-950',
         )}
         href={
           user ? routes.internal.closet.href() : routes.internal.signup.href()

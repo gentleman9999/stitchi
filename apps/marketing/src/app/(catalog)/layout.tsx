@@ -31,7 +31,7 @@ const Layout = async ({ children }: Props) => {
               passHref
               className="contents"
             >
-              <Logo className="h-[40px]" />
+              <Logo className="h-[30px]" />
             </Link>
           </div>
 

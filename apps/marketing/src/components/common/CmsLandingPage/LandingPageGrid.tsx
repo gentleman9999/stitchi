@@ -19,7 +19,7 @@ const LandingPageGrid = (props: Props) => {
         <a
           key={landingPage.href}
           href={landingPage.href}
-          className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+          className="bg-white rounded-sm shadow-md hover:shadow-lg transition-shadow duration-300"
         >
           <div className="p-6">
             <h3 className="text-lg font-bold">{landingPage.title}</h3>

@@ -13,15 +13,15 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      heading: ['var(--font-outfit)'],
-      headingDisplay: ['var(--font-outfit)'],
-      default: ['var(--font-outfit)', 'sans-serif'],
+      heading: ['var(--font-default)'],
+      headingDisplay: ['var(--font-heading-display)'],
+      default: ['var(--font-default)', 'sans-serif'],
     },
     colors: {
       transparent: 'transparent',
-      primary: '#bdfd6d',
-      'primary-light': '#e8ffbf',
-      secondary: colors.stone[900], // #0f172a
+      primary: '#fdff71',
+      midnight: '#160828',
+      turquoise: '#50f6cf',
       paper: colors.white,
       gray: colors.stone,
       black: colors.stone[900],

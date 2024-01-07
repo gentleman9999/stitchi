@@ -114,19 +114,19 @@ const SearchNav = ({}: Props) => {
                 passHref
                 className="contents"
               >
-                <Logo className="h-[40px]" />
+                <Logo className="h-[30px]" />
               </Link>
             </div>
 
             <form className="flex-auto" onSubmit={handleSubmit}>
-              <div className="w-full rounded-md border border-gray-300 focus:ring-0 focus:border-black flex items-center pr-2">
+              <div className="w-full rounded-sm border border-gray-300 focus:ring-0 focus:border-black flex items-center pr-2">
                 <label htmlFor="search" className="sr-only">
                   Search
                 </label>
                 <input
                   type="text"
                   placeholder="Search products"
-                  className="w-full rounded-md border-none focus:ring-0 focus:border-none px-4 py-2 "
+                  className="w-full rounded-sm border-none focus:ring-0 focus:border-none px-4 py-2 "
                   {...form.register('searchTerm')}
                 />
                 <button

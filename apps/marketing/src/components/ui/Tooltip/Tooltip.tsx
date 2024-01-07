@@ -21,7 +21,7 @@ const Tooltip = (props: Props) => {
             sideOffset={4}
             collisionPadding={4}
           >
-            <div className="max-w-xs text-xs bg-gray-800 text-white opacity-90 p-2 rounded-md w-full">
+            <div className="max-w-xs text-xs bg-gray-800 text-white opacity-90 p-2 rounded-sm w-full">
               {props.label}
             </div>
           </RuiTooltip.Content>

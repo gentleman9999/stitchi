@@ -28,7 +28,7 @@ const SearchBar = ({ onSubmit }: Props) => {
           />
         </div>
         <input
-          className="py-3 pr-5 pl-10 font-medium w-full rounded-md border focus:outline-gray-800 placeholder:font-normal"
+          className="py-3 pr-5 pl-10 font-medium w-full rounded-sm border focus:outline-gray-800 placeholder:font-normal"
           placeholder="Search for companies"
           onChange={handleChange}
           value={search}
@@ -42,7 +42,7 @@ const SearchBar = ({ onSubmit }: Props) => {
         </div>
       </div>
 
-      <button className="rounded-md bg-gray-900 p-3" onClick={onSubmit}>
+      <button className="rounded-sm bg-gray-900 p-3" onClick={onSubmit}>
         <Search className="stroke-white" strokeWidth={2} height={14} />
       </button>
     </div>

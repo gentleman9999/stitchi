@@ -22,7 +22,7 @@ const ClosetBrandIndexPageColorsColorPreview = ({
   return (
     <div className="flex flex-col items-center group">
       <div
-        className="w-36 h-36 rounded-md relative overflow-hidden"
+        className="w-36 h-36 rounded-sm relative overflow-hidden"
         style={{
           backgroundColor: color.hex || undefined,
         }}
@@ -37,13 +37,13 @@ const ClosetBrandIndexPageColorsColorPreview = ({
           <div className="absolute top-2 right-2">
             <div className="flex gap-1">
               <button
-                className="p-1 rounded-md bg-white/50 hover:bg-white/25"
+                className="p-1 rounded-sm bg-white/50 hover:bg-white/25"
                 onClick={() => onEdit(color.id)}
               >
                 <PencilIcon className="w-4 h-4 text-white" />
               </button>
               <button
-                className="p-1 rounded-md bg-white/50 hover:bg-white/25"
+                className="p-1 rounded-sm bg-white/50 hover:bg-white/25"
                 onClick={() => onDelete(color.id)}
               >
                 <TrashIcon className="w-4 h-4 text-white" />

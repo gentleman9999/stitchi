@@ -64,7 +64,7 @@ const NavbarDropdownItemDesktop = ({
           )}
           <div>
             <h4 className="font-extrabold font-heading">{label}</h4>
-            <span className="text-secondary">{description}</span>
+            <span className="text-midnight">{description}</span>
           </div>
         </div>
       </Link>
@@ -80,7 +80,7 @@ const StyledATag = (props: {
   const linkProps = {
     ...props,
     className:
-      'cursor-pointer block p-4 text-sm hover:bg-gray-50 transition-all rounded-md ring-2 ring-transparent hover:ring-primary',
+      'cursor-pointer block p-4 text-sm hover:bg-gray-50 transition-all rounded-sm ring-2 ring-transparent hover:ring-primary',
     ...(props.external ? { target: '_blank', rel: 'noreferrer' } : {}),
   }
   return <a {...linkProps} />

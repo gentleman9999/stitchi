@@ -40,7 +40,7 @@ const DesignRequestAssociatedProducts = ({ designRequestId }: Props) => {
         {designRequest.designProducts.map(designProduct => (
           <Link
             key={designProduct.id}
-            className="flex justify-between gap-2 items-center border rounded-md p-4"
+            className="flex justify-between gap-2 items-center border rounded-sm p-4"
             href={routes.internal.closet.inventory.show.products.show.href({
               designId: designProduct.id,
             })}
@@ -51,7 +51,7 @@ const DesignRequestAssociatedProducts = ({ designRequestId }: Props) => {
                 alt={designProduct.name}
                 width={designProduct.primaryImageFile?.width}
                 height={designProduct.primaryImageFile?.height}
-                className="w-12 h-12 rounded-md object-contain"
+                className="w-12 h-12 rounded-sm object-contain"
               />
 
               <div className="flex flex-col">

@@ -93,7 +93,7 @@ const StyledATag = (props: {
 }) => {
   const linkProps = {
     className: cx(
-      'cursor-pointer block text-sm hover:ring-primary hover:bg-gray-50 transition-all rounded-md ring-2 ring-transparent w-full',
+      'cursor-pointer block text-sm hover:ring-primary hover:bg-gray-50 transition-all rounded-sm ring-2 ring-transparent w-full',
       {
         'pointer-events-none touch-none': props.disabled,
       },

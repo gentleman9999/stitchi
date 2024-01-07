@@ -236,7 +236,7 @@ const HomePageSimpleFeatureSection = () => {
                       fill="url(#e80155a9-dfde-425a-b5ea-1f6fadd20131)"
                     />
                   </svg> */}
-                  <div className="block items-center justify-center max-h-[490px] max-w-[600px] rounded-md bg-paper p-20">
+                  <div className="block items-center justify-center max-h-[490px] max-w-[600px] rounded-sm bg-paper p-20">
                     <section.icon aria-hidden="true" />
                   </div>
                 </div>

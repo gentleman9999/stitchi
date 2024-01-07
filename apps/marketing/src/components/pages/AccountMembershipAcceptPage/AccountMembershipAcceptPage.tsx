@@ -55,7 +55,7 @@ const AccountMembershipAcceptPage = ({
   return (
     <Container>
       <div className="min-h-screen w-full flex items-center justify-center">
-        <div className="max-w-lg w-full bg-paper shadow-magical p-8 rounded-lg text-center flex flex-col items-center justify-center gap-10">
+        <div className="max-w-lg w-full bg-paper shadow-magical p-8 rounded-sm text-center flex flex-col items-center justify-center gap-10">
           {dataLoading ? (
             <LoadingDots />
           ) : (

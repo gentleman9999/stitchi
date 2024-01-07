@@ -67,7 +67,7 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
           </Section>
 
           {post.image?.responsiveImage && (
-            <div className="not-prose mb-12 max-h-[60vh] overflow-hidden rounded-lg">
+            <div className="not-prose mb-12 max-h-[60vh] overflow-hidden rounded-sm">
               <CmsImage
                 priority
                 data={post.image.responsiveImage}
@@ -83,7 +83,7 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
 
             <div>
               <div>
-                <section className="p-4 prose-a:text-current prose-a:no-underline hover:prose-a:underline bg-gray-100 rounded-md ">
+                <section className="p-4 prose-a:text-current prose-a:no-underline hover:prose-a:underline bg-gray-100 rounded-sm ">
                   <div className="not-prose">
                     <p className="text-2xl md:text-3xl lg:text-4xl font-headingDisplay font-bold text-gray-600 mt-0 mb-4">
                       Overview

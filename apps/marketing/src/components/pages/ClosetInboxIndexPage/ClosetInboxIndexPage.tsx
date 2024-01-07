@@ -44,7 +44,7 @@ const ClosetInboxIndexPage = ({
         />
       </ClosetPageHeader>
       <ClosetSection>
-        <div className="border rounded-md mt-6 bg-paper">
+        <div className="border rounded-sm mt-6 bg-paper">
           {loading ? (
             <div className="h-[50vh] flex items-center justify-center">
               <LoadingDots />

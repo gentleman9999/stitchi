@@ -53,7 +53,7 @@ const BlogIndexPage = ({
       <Container className="relative">
         <div className="relative max-w-7xl mx-auto">
           <div className="text-center mt-12">
-            <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl font-headingDisplay">
+            <h1 className="text-4xl text-gray-900 sm:text-5xl font-headingDisplay uppercase">
               {activeCategory?.name
                 ? `${activeCategory.name}`
                 : 'Become a merch pro.'}
@@ -79,7 +79,7 @@ const BlogIndexPage = ({
           {activeCategory ? null : (
             <div className="mt-12">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div className="col-span-1 bg-gray-100 p-4 rounded-lg">
+                <div className="col-span-1 bg-gray-100 p-4 rounded-sm">
                   <Link
                     href={routes.internal.blog.category.href({
                       categorySlug: 'college-merch-business',

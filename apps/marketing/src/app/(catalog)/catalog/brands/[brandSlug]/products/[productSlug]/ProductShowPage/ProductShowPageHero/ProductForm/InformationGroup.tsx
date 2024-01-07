@@ -30,7 +30,7 @@ const InformationGroup = ({
               </span>
             ) : null}
           </div>
-          <div className="text-sm">{description}</div>
+          <div className="text-sm font-normal">{description}</div>
         </div>
       </div>
       {error ? <div className="text-xs text-red-500 mt-1">{error}</div> : null}

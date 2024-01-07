@@ -8,7 +8,7 @@ import routes from '@lib/routes'
 import Button from '@components/ui/Button'
 
 const linkClass =
-  'font-semibold border-2 border-transparent hover:border-primary hover:bg-gray-50 p-2 rounded-md -translate-x-1 transition-all'
+  'font-semibold border-2 border-transparent hover:border-primary hover:bg-gray-50 p-2 rounded-sm -translate-x-1 transition-all'
 
 interface Props {}
 
@@ -27,7 +27,7 @@ const NavbarDesktopLearnContents = () => {
         </div>
         <div className="flex flex-col gap-2 justify-between">
           <div>
-            <span className="p-1 border-2 rounded-md border-gray-800  font-semibold text-sm">
+            <span className="p-1 border-2 rounded-sm border-gray-800  font-semibold text-sm">
               Case study
             </span>
           </div>

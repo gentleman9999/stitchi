@@ -92,7 +92,7 @@ const Page = () => {
           </ul>
         </section>
 
-        <section className="border rounded-md not-prose p-4 mt-20">
+        <section className="border rounded-sm not-prose p-4 mt-20">
           <h2 className="text-2xl font-medium">Ready to Start?</h2>
           <p className="mt-2">
             Join {COMPANY_NAME}&apos;s referral program today and turn your
