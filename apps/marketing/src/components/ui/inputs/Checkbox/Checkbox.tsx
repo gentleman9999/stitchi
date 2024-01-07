@@ -62,7 +62,7 @@ const Checkbox = (props: CheckboxProps) => {
         props.showSecondaryAction &&
         props.onSecondaryAction && (
           <button
-            className="px-3 text-sm font-bold rounded-md text-primary hover:bg-hover-1 ease-in-out transition-all"
+            className="px-3 text-sm font-bold rounded-sm text-primary hover:bg-hover-1 ease-in-out transition-all"
             onClick={props.onSecondaryAction}
           >
             Only

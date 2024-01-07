@@ -1,5 +1,5 @@
 .root {
-  @apply relative bg-gray-900 text-gray-50 text-center text-sm cursor-pointer inline-flex leading-none transition ease-in-out duration-150 shadow-sm justify-center border border-transparent items-center font-medium tracking-normal rounded-md whitespace-nowrap;
+  @apply relative bg-gray-900 text-gray-50 text-center text-sm cursor-pointer inline-flex leading-none transition ease-in-out duration-150 shadow-sm justify-center border border-transparent items-center font-medium tracking-normal rounded-sm whitespace-nowrap;
   max-height: 64px;
 
   &.brandColors {
@@ -28,7 +28,7 @@
 }
 
 .xxl {
-  @apply px-4 py-3 text-lg;
+  @apply px-4 py-3 text-base;
 }
 
 .root:hover {
@@ -52,7 +52,7 @@
 }
 
 .ghost {
-  @apply border border-gray-200 bg-transparent text-secondary;
+  @apply border border-gray-200 bg-transparent text-midnight;
 
   &.brandColors {
     @apply border-primary bg-transparent border-2 font-medium;
@@ -88,5 +88,5 @@
 .progress {}
 
 .shadow1 {
-  @apply rounded-md shadow;
+  @apply rounded-sm shadow;
 }

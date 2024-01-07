@@ -126,7 +126,7 @@ const IndustryTermsShowPage = ({ term, relatedTerms }: Props) => {
         <br />
         <div>
           <br />
-          <div className="bg-primary rounded-lg px-4 py-8 flex flex-col gap-4 sm:flex-row justify-between sm:items-center">
+          <div className="bg-primary rounded-sm px-4 py-8 flex flex-col gap-4 sm:flex-row justify-between sm:items-center">
             <p className="text-2xl font-heading font-medium">
               Become a promotional product terminology expert.
             </p>

@@ -49,7 +49,7 @@ const ReferenceFilesPreview = ({ files, onDelete, visibleFileIds }: Props) => {
                 <img
                   src={file.url}
                   alt={file.name}
-                  className="w-[50px] h-[50px] object-contain rounded-md overflow-hidden"
+                  className="w-[50px] h-[50px] object-contain rounded-sm overflow-hidden"
                 />
               )
 
@@ -60,7 +60,7 @@ const ReferenceFilesPreview = ({ files, onDelete, visibleFileIds }: Props) => {
                 <img
                   src={file.url.replace('.pdf', '.jpg')}
                   alt={file.name}
-                  className="w-[50px] h-[50px] object-contain rounded-md overflow-hidden"
+                  className="w-[50px] h-[50px] object-contain rounded-sm overflow-hidden"
                 />
               )
               break

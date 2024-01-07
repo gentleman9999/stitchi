@@ -83,13 +83,13 @@ const DesignProofVariantPreview = ({ designProofId }: Props) => {
       )}
 
       <div>
-        <div className="w-full h-full max-h-[60vh]  bg-gray-50 rounded-md overflow-hidden">
+        <div className="w-full h-full max-h-[60vh]  bg-gray-50 rounded-sm overflow-hidden">
           {activeImage ? (
             <img
               src={activeImage?.url}
               width={activeImage?.width}
               height={activeImage?.height}
-              className="w-full h-full max-h-[60vh] aspect-square object-contain cursor-zoom-in hover:scale-105 overflow-hidden transition-all rounded-md"
+              className="w-full h-full max-h-[60vh] aspect-square object-contain cursor-zoom-in hover:scale-105 overflow-hidden transition-all rounded-sm"
               onClick={() => setPreviewImageId(activeImage.id)}
             />
           ) : (
@@ -103,7 +103,7 @@ const DesignProofVariantPreview = ({ designProofId }: Props) => {
             <button
               key={image.id}
               onClick={() => setActiveImageId(image.id)}
-              className="w-16 h-16 rounded-md overflow-hidden"
+              className="w-16 h-16 rounded-sm overflow-hidden"
             >
               <img
                 src={image.url}

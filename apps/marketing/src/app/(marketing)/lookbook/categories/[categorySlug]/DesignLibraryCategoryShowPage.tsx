@@ -101,7 +101,7 @@ const DesignLibraryCategoryShowPage = ({ categorySlug }: Props) => {
                   design.primaryImage?.responsiveImage ? (
                     <div
                       key={design.id}
-                      className="overflow-hidden min-w-[200px] rounded-md shadow-magical"
+                      className="overflow-hidden min-w-[200px] rounded-sm shadow-magical"
                     >
                       <CmsImage data={design.primaryImage?.responsiveImage} />
                     </div>

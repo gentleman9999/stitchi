@@ -123,7 +123,7 @@ const CatalogProductGrid = ({ categoryId, brandId }: Props) => {
             href={{
               search: nextPageParams.toString(),
             }}
-            className="inline-flex justify-center px-3 py-1 rounded-md border text-gray-900 font-semibold"
+            className="inline-flex justify-center px-3 py-1 rounded-sm border text-gray-900 font-semibold"
           >
             {isFetchingMore ? <LoadingDots /> : 'Load more'}
           </Link>

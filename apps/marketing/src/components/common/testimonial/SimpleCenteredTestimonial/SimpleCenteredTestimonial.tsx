@@ -69,7 +69,7 @@ const SimpleCenteredTestimonial = ({
           </div>
         ) : null}
       </div>
-      <div className="ring-8 ring-primary-light relative w-full max-w-[260px] aspect-square overflow-hidden rounded-xl hidden md:flex">
+      <div className="ring-8 ring-primary relative w-full max-w-[260px] aspect-square overflow-hidden rounded-xl hidden md:flex">
         <Image
           src={spokesperson.headshot.src}
           alt={`${spokesperson.name} headshot`}

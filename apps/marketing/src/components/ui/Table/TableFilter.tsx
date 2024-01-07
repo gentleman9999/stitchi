@@ -25,7 +25,7 @@ const TableFilter = ({ renderFilter, value, label, onRemove }: Props) => {
       <Popover.Trigger asChild>
         <div
           className={cx(
-            'border border-dashed rounded-md px-1 py-0.5 inline-flex items-center gap-2 text-sm text-gray-500 font-semibold cursor-pointer hover:bg-gray-50',
+            'border border-dashed rounded-sm px-1 py-0.5 inline-flex items-center gap-2 text-sm text-gray-500 font-semibold cursor-pointer hover:bg-gray-50',
           )}
         >
           <div
@@ -59,7 +59,7 @@ const TableFilter = ({ renderFilter, value, label, onRemove }: Props) => {
               duration: 0.1,
               delay: 0,
             }}
-            className="p-3 bg-paper rounded-md border shadow-magical min-w-[320px]"
+            className="p-3 bg-paper rounded-sm border shadow-magical min-w-[320px]"
           >
             {renderFilter({ onClose: () => setOpen(false) })}
           </motion.div>

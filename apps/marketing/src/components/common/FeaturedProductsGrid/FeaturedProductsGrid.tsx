@@ -22,7 +22,7 @@ const FeaturedProductsGrid = ({ catalog }: FeaturedProductsGridProps) => {
 
   return (
     <Section gutter="md">
-      <div className="border rounded-md shadow-magical">
+      <div className="border rounded-sm shadow-magical">
         <div className="px-6 pt-6">
           <h2 className="capitalize font-medium text-2xl">Popular products</h2>
           <div className="flex">

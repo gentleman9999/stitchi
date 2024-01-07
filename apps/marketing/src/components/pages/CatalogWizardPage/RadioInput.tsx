@@ -27,7 +27,7 @@ const RadioInput = ({ items, value, onValueChange }: Props) => (
 
 const RadioItem = ({ label, name, value }: Item) => {
   return (
-    <div className="flex items-center px-6 border rounded-md gap-4 cursor-pointer hover:bg-gray-50">
+    <div className="flex items-center px-6 border rounded-sm gap-4 cursor-pointer hover:bg-gray-50">
       <RadioGroup.Item
         className="bg-white w-5 h-5 rounded-full shadow-sm border"
         value={value}

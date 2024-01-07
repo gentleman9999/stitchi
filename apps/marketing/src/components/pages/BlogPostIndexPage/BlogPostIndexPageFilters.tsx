@@ -26,7 +26,7 @@ const BlogPostIndexPageFilters = ({ filters, className }: Props) => (
         href={href}
         key={id}
         className={cx(
-          'px-4 py-0.5 rounded-md transition-all whitespace-nowrap font-bold font-heading text-gray-900 border',
+          'px-4 py-0.5 rounded-sm transition-all whitespace-nowrap font-bold font-heading text-gray-900 border',
           { 'bg-gray-900 text-white': active },
         )}
       >

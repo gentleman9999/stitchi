@@ -27,7 +27,7 @@ const Hero = (props: HeroProps) => {
         <div className="flex gap-8 max-w-4xl">
           <div className="flex-auto flex flex-col items-center">
             {props.title && (
-              <h1 className="text-center font-semibold font-headingDisplay text-gray-900 text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
+              <h1 className="text-center font-semibold font-headingDisplay uppercase text-gray-900 text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
                 {props.title}
               </h1>
             )}
@@ -40,7 +40,7 @@ const Hero = (props: HeroProps) => {
             {(props.primaryCta || props.secondaryCta) && (
               <div className="mt-12 max-w-md sm:flex">
                 {props.primaryCta && (
-                  <div className="rounded-md">
+                  <div className="rounded-sm">
                     <Button
                       size="2xl"
                       Component={Link}
@@ -54,7 +54,7 @@ const Hero = (props: HeroProps) => {
                 )}
                 {props.secondaryCta && (
                   <Button
-                    size="xl"
+                    size="2xl"
                     Component={Link}
                     href={props.secondaryCta.href}
                   >

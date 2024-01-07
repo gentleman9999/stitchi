@@ -26,7 +26,7 @@ const DropdownItem = React.forwardRef<any, Props>((props, ref) => {
     <Wrapper
       {...rest}
       ref={ref}
-      className="p-0.5 flex items-center py-2 px-2 relative outline-none text-sm text-gray-700 cursor-pointer hover:bg-gray-100 transition-all w-full gap-4 rounded-md"
+      className="p-0.5 flex items-center py-2 px-2 relative outline-none text-sm text-gray-700 cursor-pointer hover:bg-gray-100 transition-all w-full gap-4 rounded-sm"
     >
       {showCheck ? (
         <Checkbox

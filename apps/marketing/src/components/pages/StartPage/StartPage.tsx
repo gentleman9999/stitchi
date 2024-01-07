@@ -58,7 +58,7 @@ const StartPage = () => {
             </div>
           </div>
           <div className="col-span-6 md:col-span-4">
-            <div className="bg-gray-50 p-5 md:p-10 rounded-lg">
+            <div className="bg-gray-50 p-5 md:p-10 rounded-sm">
               <NewOrderForm />
             </div>
           </div>

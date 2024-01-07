@@ -123,7 +123,7 @@ const ClosetBrandIndexPageFiles = ({}: Props) => {
             {files.length > 0 ? (
               <div className="absolute -top-1 -right-2 z-10">
                 <button
-                  className="p-1 rounded-md bg-gray-900/30 hover:bg-gray-900/25"
+                  className="p-1 rounded-sm bg-gray-900/30 hover:bg-gray-900/25"
                   onClick={() => setShowBrandFilesForm(false)}
                 >
                   <XMarkIcon className="w-4 h-4 text-white" />

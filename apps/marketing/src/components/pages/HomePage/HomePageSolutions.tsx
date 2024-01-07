@@ -86,7 +86,7 @@ const Solution = ({
         />
       </div>
       <div className="md:flex-1 flex flex-col justify-center items-center md:items-start text-center md:text-left">
-        <span className="text-3xl font-bold mb-4">{lable}</span>
+        <h2 className="text-3xl mb-4 font-headingDisplay uppercase">{lable}</h2>
         <div className="flex md:hidden relative items-center justify-center mb-8">
           <Image
             src={image}
@@ -95,7 +95,7 @@ const Solution = ({
             alt={imageAlt}
           />
         </div>
-        <h2 className="text-xl">{title}</h2>
+        <p className="text-xl">{title}</p>
         <p className="text-base text-gray-500 mb-6">{description}</p>
         <Button Component={Link} href={cta.href} variant="ghost" size="xl">
           {cta.label}

@@ -124,7 +124,7 @@ const BrandColorForm = (props: Props) => {
           <button
             type="button"
             onClick={props.onClose}
-            className="flex justify-center items-center p-2 bg-gray-900/60 hover:bg-gray-900/70 transition-all rounded-md"
+            className="flex justify-center items-center p-2 bg-gray-900/60 hover:bg-gray-900/70 transition-all rounded-sm"
           >
             <XMarkIcon className="w-5 h-5 text-white" />
           </button>

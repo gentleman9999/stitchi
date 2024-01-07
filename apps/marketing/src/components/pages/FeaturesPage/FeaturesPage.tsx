@@ -269,7 +269,7 @@ const FeaturesPage = () => {
         >
           <div className="flex gap-8 max-w-4xl">
             <div className="flex-auto flex flex-col items-center">
-              <h1 className="text-center font-semibold font-headingDisplay text-gray-900 text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
+              <h1 className="text-center font-semibold font-headingDisplay uppercase text-gray-900 text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
                 Everything you want in a merch platform
               </h1>
               <p className="text-center mt-10 max-w-md font-light text-base text-gray-500 sm:text-lg lg:text-2xl md:max-w-2xl">
@@ -277,7 +277,7 @@ const FeaturesPage = () => {
               </p>
 
               <div className="mt-12 max-w-md sm:flex">
-                <div className="rounded-md">
+                <div className="rounded-sm">
                   <Button
                     size="2xl"
                     Component={Link}
@@ -307,7 +307,7 @@ const FeaturesPage = () => {
                 <a
                   href={`#${value}`}
                   className={cx(
-                    `capitalize py-2 px-4 text-xs sm:text-sm md:text-base font-bold rounded-lg text-gray-400 whitespace-nowrap `,
+                    `capitalize py-2 px-4 text-xs sm:text-sm md:text-base font-bold rounded-sm text-gray-400 whitespace-nowrap `,
                     {
                       'bg-primary text-gray-950': activeSections === value,
                     },
@@ -342,9 +342,9 @@ const FeaturesPage = () => {
             {section.items.map((item, idx) => (
               <div
                 key={idx}
-                className="col-span-1 flex flex-col gap-2 border border-gray-950 rounded-md p-4 sm:p-6"
+                className="col-span-1 flex flex-col gap-2 border border-gray-950 rounded-sm p-4 sm:p-6"
               >
-                <div className="text-primary">{item.icon}</div>
+                <div className="text-midnight">{item.icon}</div>
                 <h3 className="font-bold text-gray-900 text-lg sm:text-xl">
                   {item.title}
                 </h3>

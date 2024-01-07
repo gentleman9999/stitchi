@@ -8,7 +8,7 @@ import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '@lib/apollo'
 import { SeoDefault } from '@components/common'
 import { StandoutProvider } from '@components/context'
-import { Outfit } from 'next/font/google'
+import { Saira, Saira_Condensed } from 'next/font/google'
 import Script from 'next/script'
 import { GTM_ID } from '@lib/events'
 import MixpanelProvider from '@components/context/mixpanel-context'
@@ -19,10 +19,17 @@ import { CookiesProvider } from 'react-cookie'
 import IntercomProvider from 'app/IntercomProvider'
 import PageloadProgressIndicator from '@components/layout/PageloadProgressIndicator'
 
-const outfit = Outfit({
+const saira = Saira({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-outfit',
+  variable: '--font-default',
+})
+
+const sairaCond = Saira_Condensed({
+  weight: ['600'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-heading-display',
 })
 
 type ExtendedNextPage = NextPage & {
@@ -56,7 +63,7 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
         }}
       />
       {/* Google Tag Manager - Global base code - end */}
-      <div className={`${outfit.variable}`}>
+      <div className={`${saira.variable} ${sairaCond.variable}`}>
         <PageloadProgressIndicator />
         <UserProvider>
           <CookiesProvider>
@@ -68,8 +75,8 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
                 <MixpanelProvider>
                   <SnackbarProvider>
                     <StandoutProvider>
-                        <AxiomWebVitals />
-                        {getLayout(<Component {...pageProps} />)}
+                      <AxiomWebVitals />
+                      {getLayout(<Component {...pageProps} />)}
                     </StandoutProvider>
                   </SnackbarProvider>
                 </MixpanelProvider>

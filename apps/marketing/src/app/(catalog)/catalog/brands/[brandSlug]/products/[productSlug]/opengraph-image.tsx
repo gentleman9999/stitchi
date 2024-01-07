@@ -92,7 +92,7 @@ export default async function Image({
           }}
           tw="h-full w-full flex items-start justify-start bg-white p-4"
         >
-          <div tw="flex items-start justify-start h-full bg-white rounded-lg">
+          <div tw="flex items-start justify-start h-full bg-white rounded-sm">
             <div tw="flex w-2/5 flex-col justify-between h-full pl-12 py-12">
               <div tw="flex flex-col">
                 <p tw="text-2xl mb-0 text-gray-600">
@@ -107,7 +107,7 @@ export default async function Image({
                 style={{
                   backgroundColor: theme.colors.primary,
                 }}
-                tw="text-3xl font-bold text-black py-4 px-12 rounded-lg flex items-center justify-center"
+                tw="text-3xl font-bold text-black py-4 px-12 rounded-sm flex items-center justify-center"
               >
                 Customize from{' '}
                 {currency(product.priceMetadata.minPriceCents, {

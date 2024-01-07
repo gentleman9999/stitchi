@@ -53,9 +53,9 @@ const CatalogProductLegacy = ({
       <Link
         href={href}
         onClick={onClick}
-        className="group flex-1 flex flex-col cursor-pointer rounded-lg overflow-hidden transition-all bg-paper"
+        className="group flex-1 flex flex-col cursor-pointer rounded-sm overflow-hidden transition-all bg-paper"
       >
-        <div className="relative w-full aspect-[2/3] flex items-center justify-center rounded-lg group-hover:rounded-none overflow-hidden">
+        <div className="relative w-full aspect-[2/3] flex items-center justify-center rounded-sm group-hover:rounded-none overflow-hidden">
           {product?.defaultImage?.url ? (
             <Image
               priority={priority}

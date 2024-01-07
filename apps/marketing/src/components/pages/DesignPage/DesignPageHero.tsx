@@ -11,15 +11,14 @@ const DesignPageHero = ({}: Props) => {
     <Section gutter="lg">
       <Link
         href={routes.internal.getStarted.href()}
-        className="inline-flex py-1 items-center font-bold text-black flex-wrap font-heading">
-
-        <span className="bg-primary px-2 py-1 rounded-md text-sm md:text-md mr-2 mt-2">
+        className="inline-flex py-1 items-center font-bold text-black flex-wrap font-heading"
+      >
+        <span className="bg-primary px-2 py-1 rounded-sm text-sm md:text-md mr-2 mt-2">
           Free mockups, unlimited revisions
         </span>{' '}
         <h1 className="text-sm md:text-md tracking-wide text-grey-900 mt-2">
           Professional promotional product design
         </h1>
-
       </Link>
 
       <div className="mt-6 py-2">
@@ -32,7 +31,7 @@ const DesignPageHero = ({}: Props) => {
         </h2>
       </div>
     </Section>
-  );
+  )
 }
 
 const Highlighted = ({

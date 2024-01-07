@@ -11,7 +11,7 @@ interface Props {
 
 const Alert = ({ description, title, severity }: Props) => {
   return (
-    <div className="rounded-md bg-blue-50 p-4">
+    <div className="rounded-sm bg-blue-50 p-4">
       <div className="flex">
         <div className="flex-shrink-0">
           {severity === 'info' ? (

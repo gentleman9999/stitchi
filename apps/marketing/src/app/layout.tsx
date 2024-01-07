@@ -27,12 +27,19 @@ import MixpanelProvider from '@components/context/mixpanel-context'
 import { AxiomWebVitals } from 'next-axiom'
 import Script from 'next/script'
 import { GTM_ID } from '@lib/events'
-import { Outfit } from 'next/font/google'
+import { Saira, Saira_Condensed } from 'next/font/google'
 
-const outfit = Outfit({
+const saira = Saira({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-outfit',
+  variable: '--font-default',
+})
+
+const sairaCond = Saira_Condensed({
+  weight: ['600'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-heading-display',
 })
 
 const title = 'Custom Merch & Merch Programs'
@@ -122,7 +129,7 @@ const RootLayout = async ({ children }: Props) => {
   const deviceId = cookiesInstance.get(COOKIE_DEVICE_ID)?.value
 
   return (
-    <html className={outfit.className}>
+    <html className={`${saira.variable} ${sairaCond.variable}`}>
       {/* Google Tag Manager - Global base code */}
       <Script
         id="google-tag-manager"

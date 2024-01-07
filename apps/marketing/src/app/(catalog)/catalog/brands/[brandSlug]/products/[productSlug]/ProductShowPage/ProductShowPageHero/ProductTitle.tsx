@@ -19,7 +19,7 @@ const ProductTitle = ({
     <div className="flex flex-col gap-2">
       <h3 className="text-gray-500 font-light">{pretitle}</h3>
 
-      <h1 className="font-headingDisplay font-semibold text-2xl sm:text-3xl text-gray-800">
+      <h1 className="font-headingDisplay uppercase font-semibold text-2xl sm:text-3xl text-gray-800">
         {title}
       </h1>
 

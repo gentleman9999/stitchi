@@ -11,7 +11,7 @@ const Process = () => {
           {...babyImage}
           alt="Baby shirt example"
           style={{ width: '100%', height: '100%' }}
-          className="rounded-lg max-w-md"
+          className="rounded-sm max-w-md"
         />
         <div>
           <h2 className="text-4xl font-heading font-bold mb-4">Process</h2>

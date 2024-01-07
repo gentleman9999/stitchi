@@ -99,7 +99,7 @@ const DesignLibraryPage = (props: Props) => {
                 <li key="cta" className="col-span-2 ">
                   <Link
                     href={routes.internal.solutions.design.href()}
-                    className="flex flex-col items-center justify-center h-full bg-gray-100 rounded-md py-10 px-10 drop-shadow-md group"
+                    className="flex flex-col items-center justify-center h-full bg-gray-100 rounded-sm py-10 px-10 drop-shadow-md group"
                   >
                     <Customization className="w-12 h-12 text-primary" />
                     <span className="mt-2 text-sm font-semibold text-gray-700 group-hover:underline">
@@ -125,14 +125,14 @@ const DesignLibraryPage = (props: Props) => {
                   className="relative"
                   onClick={() => setActiveImageId(design.id)}
                 >
-                  <div className="absolute z-10 inset-0 rounded-md hover:bg-gradient-to-b from-transparent from-65% to-gray-700/50 opacity-0 hover:opacity-100 transition-all group">
+                  <div className="absolute z-10 inset-0 rounded-sm hover:bg-gradient-to-b from-transparent from-65% to-gray-700/50 opacity-0 hover:opacity-100 transition-all group">
                     <Expand
                       width={20}
                       height={20}
                       className="absolute right-2 bottom-2 opacity-0 group-hover:opacity-100 transition-all stroke-white"
                     />
                   </div>
-                  <div className="rounded-md overflow-hidden">
+                  <div className="rounded-sm overflow-hidden">
                     <CmsImage data={image} />
                   </div>
                 </button>

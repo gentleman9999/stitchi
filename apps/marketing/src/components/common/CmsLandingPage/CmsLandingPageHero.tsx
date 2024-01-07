@@ -25,7 +25,7 @@ const CmsLandingPageHero = ({ title, overline, description, ctas }: Props) => {
           ) : null}
 
           {title ? (
-            <h1 className="text-center text-4xl md:text-5xl lg:text-7xl font-semibold font-headingDisplay max-w-3xl">
+            <h1 className="text-center text-4xl md:text-5xl lg:text-7xl font-semibold font-headingDisplay uppercase max-w-3xl">
               {title}
             </h1>
           ) : null}
@@ -37,11 +37,11 @@ const CmsLandingPageHero = ({ title, overline, description, ctas }: Props) => {
           ) : null}
 
           {primaryCta ? (
-            <div className="flex gap-4 justify-center flex-wrap">
+            <div className="flex gap-4 justify-center flex-wrap mt-12">
               <CallToActionButton size="xl" {...primaryCta} />
               {secondaryCta ? (
                 <CallToActionButton
-                  size="xl"
+                  size="2xl"
                   variant="ghost"
                   {...secondaryCta}
                 />

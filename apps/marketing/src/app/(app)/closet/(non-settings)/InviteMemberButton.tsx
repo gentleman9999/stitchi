@@ -9,7 +9,7 @@ const InviteMemberButton = () => {
 
   return (
     <button
-      className="hover:bg-gray-50 rounded-md p-2 w-full text-sm font-medium flex items-center gap-2 text-gray-500"
+      className="hover:bg-gray-50 rounded-sm p-2 w-full text-sm font-medium flex items-center gap-2 text-gray-500"
       onClick={() =>
         setStandout({
           type: StandoutType.UserInvite,

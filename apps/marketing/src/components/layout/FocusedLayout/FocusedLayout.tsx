@@ -31,7 +31,7 @@ const FocusedLayout = ({ children, disableNavSpacing }: Props) => {
       <div className="fixed top-0 left-0 right-0 bg-white border-b py-2 z-40">
         <Container>
           <Link href={routes.internal.home.href()}>
-            <Logo className="h-10" />
+            <Logo className="h-9" />
           </Link>
         </Container>
       </div>

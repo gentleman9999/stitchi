@@ -44,7 +44,7 @@ const Feature = (props: Feature) => {
   const { name, shortDescription, iconTag, ctaText, ctaUrl } = props
 
   return (
-    <div className="flex flex-col gap-4 border rounded-md p-4">
+    <div className="flex flex-col gap-4 border rounded-sm p-4">
       <div className="flex gap-4">
         {iconTag ? (
           <HeroIcon

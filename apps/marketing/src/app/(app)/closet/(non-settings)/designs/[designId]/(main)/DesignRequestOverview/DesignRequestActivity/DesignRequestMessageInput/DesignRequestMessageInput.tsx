@@ -125,7 +125,7 @@ const Form = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className="relative flex-auto ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600 rounded-md shadow-sm bg-paper"
+      className="relative flex-auto ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600 rounded-sm shadow-sm bg-paper"
     >
       <div className="overflow-hidden">
         <label htmlFor="comment" className="sr-only">

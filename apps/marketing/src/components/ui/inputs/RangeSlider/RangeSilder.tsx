@@ -52,7 +52,7 @@ const RangeSlider = (props: RangeSliderProps) => {
             <RSlider.Range className="absolute rounded h-full" />
           </RSlider.Track>
           <RSlider.Thumb
-            className="block w-4 h-4 bg-primary rounded-lg hover:cursor-pointer"
+            className="block w-4 h-4 bg-primary rounded-sm hover:cursor-pointer"
             onPointerUp={props.onPointerUp}
             onPointerDown={props.onPointerDown}
           />

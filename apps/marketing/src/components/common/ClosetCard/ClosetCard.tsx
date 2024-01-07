@@ -40,7 +40,7 @@ const ClosetCard = ({
 
   return (
     <LinkComponent
-      className="relative group rounded-md overflow-hidden border flex flex-col w-full bg-paper"
+      className="relative group rounded-sm overflow-hidden border flex flex-col w-full bg-paper"
       href={href || ''}
     >
       {badge || actions?.length ? (
@@ -51,7 +51,7 @@ const ClosetCard = ({
               <Dropdown
                 renderTrigger={() => (
                   <button
-                    className="max-w-0 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto group-hover:max-w-[60px] p-1 bg-gray-900/50 hover:bg-gray-900/60 data-[state=open]:opacity-100 data-[state=open]:pointer-events-auto data-[state=open]:max-w-none rounded-md transition-all outline-none"
+                    className="max-w-0 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto group-hover:max-w-[60px] p-1 bg-gray-900/50 hover:bg-gray-900/60 data-[state=open]:opacity-100 data-[state=open]:pointer-events-auto data-[state=open]:max-w-none rounded-sm transition-all outline-none"
                     onClick={e => {
                       e.stopPropagation()
                       e.preventDefault()
@@ -71,7 +71,7 @@ const ClosetCard = ({
         </div>
       ) : null}
 
-      <div className="aspect-square overflow-hidden rounded-md bg-paper flex justify-center items-center">
+      <div className="aspect-square overflow-hidden rounded-sm bg-paper flex justify-center items-center">
         {loading ? (
           <LoadingDots />
         ) : image ? (

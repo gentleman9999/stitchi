@@ -97,8 +97,8 @@ const Dialog = (props: DialogProps) => {
                       'sm:max-w-sm': size === 'sm',
                       'sm:max-w-lg': size === 'md',
                       'sm:max-w-2xl': size === 'lg',
-                      'flex my-8 mx-4 rounded-lg': !props.mobileFullScreen,
-                      'fixed bottom-0 left-0 right-0 sm:right-auto sm:left-auto sm:bottom-auto sm:flex rounded-t-lg sm:rounded-lg sm:my-8':
+                      'flex my-8 mx-4 rounded-sm': !props.mobileFullScreen,
+                      'fixed bottom-0 left-0 right-0 sm:right-auto sm:left-auto sm:bottom-auto sm:flex rounded-t-lg sm:rounded-sm sm:my-8':
                         Boolean(props.mobileFullScreen),
                     },
                     props.className,

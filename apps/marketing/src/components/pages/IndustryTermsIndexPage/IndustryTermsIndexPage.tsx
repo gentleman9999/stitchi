@@ -17,7 +17,7 @@ const IndustryTermsIndexPage = ({ entries }: Props) => {
       <Section gutter="sm">
         <div className="flex flex-col gap-12">
           <div>
-            <h1 className="font-heading text-4xl font-bold">
+            <h1 className="font-headingDisplay uppercase text-4xl font-bold">
               Discover the internet&apos;s best merch
             </h1>
             <p className="text-gray-700">

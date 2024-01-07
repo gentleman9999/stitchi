@@ -11,7 +11,7 @@ interface Props {
 const OrderPayPageOrderPreview = ({ order }: Props) => {
   const { itemSummaries: items } = order
   return (
-    <div className="border p-4 sm:p-6 rounded-md shadow-sm bg-paper">
+    <div className="border p-4 sm:p-6 rounded-sm shadow-sm bg-paper">
       <h2 className="text-lg font-semibold text-gray-400 mb-2">Summary</h2>
 
       <div className="w-full text-sm flex flex-col gap-5">

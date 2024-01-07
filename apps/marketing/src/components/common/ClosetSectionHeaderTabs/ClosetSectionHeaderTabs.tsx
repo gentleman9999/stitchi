@@ -20,7 +20,7 @@ const ClosetSectionHeaderTabs = ({}: Props) => {
         <select
           id="tabs"
           name="tabs"
-          className="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+          className="block w-full rounded-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
           defaultValue={activeTab?.id}
           onChange={e => setActiveTab(e.target.value)}
         >
@@ -40,7 +40,7 @@ const ClosetSectionHeaderTabs = ({}: Props) => {
                 href={tab.href}
                 className={cx(
                   activeTab?.id === tab.id
-                    ? 'border-secondary text-secondary'
+                    ? 'border-secondary text-midnight'
                     : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
                   'group inline-flex items-center border-b-2 py-4 px-1 text-sm font-medium',
                 )}

@@ -49,7 +49,7 @@ const CategoryStepNew = (props: Props) => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 key={category.entityId}
-                className="text-lg md:text-xl font-semibold text-center py-2 px-6 md:py-4 :px-8 rounded-md border border-gray-300 hover:border-gray-400 focus:border-gray-400 transition-colors"
+                className="text-lg md:text-xl font-semibold text-center py-2 px-6 md:py-4 :px-8 rounded-sm border border-gray-300 hover:border-gray-400 focus:border-gray-400 transition-colors"
                 onClick={() => {
                   if (category.hasChildren) {
                     setParentCategoryId(category.entityId)

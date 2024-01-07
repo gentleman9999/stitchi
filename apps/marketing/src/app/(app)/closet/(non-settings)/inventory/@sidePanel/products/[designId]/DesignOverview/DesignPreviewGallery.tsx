@@ -53,7 +53,7 @@ const DesignPreviewGallery = ({ design, activeColorId, loading }: Props) => {
           <button
             key={image.id}
             onClick={() => setActiveImage(image)}
-            className="w-16 h-16 rounded-md overflow-hidden border border-gray-50"
+            className="w-16 h-16 rounded-sm overflow-hidden border border-gray-50"
           >
             <img
               src={image.url}

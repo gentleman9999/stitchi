@@ -40,7 +40,7 @@ const SectionFAQ = ({ faqs }: Props) => {
               {faqs.map(faq => (
                 <div
                   key={faq.id}
-                  className="bg-primary/30  rounded-md p-4 sm:p-6 md:p-10"
+                  className="bg-primary/30  rounded-sm p-4 sm:p-6 md:p-10"
                 >
                   <dt className="text-xl font-bold text-black">
                     Q: {faq.question}

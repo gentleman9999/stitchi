@@ -133,7 +133,7 @@ const OrganizationButton = ({
 
   return (
     <button
-      className="w-full rounded-md border border-gray-200 py-2 px-4 flex items-center justify-between gap-2 hover:bg-gray-50"
+      className="w-full rounded-sm border border-gray-200 py-2 px-4 flex items-center justify-between gap-2 hover:bg-gray-50"
       onClick={handleSubmit}
     >
       <div className="flex flex-col items-start">

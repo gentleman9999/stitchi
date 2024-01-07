@@ -9,7 +9,7 @@ const Header = ({ title, description }: Props) => {
   return (
     <>
       {title ? (
-        <div className="bg-gray-100 p-6 rounded-md">
+        <div className="bg-gray-100 p-6 rounded-sm">
           <h1 className="text-xl sm:text-2xl md:text-3xl font-heading">
             {title}
           </h1>

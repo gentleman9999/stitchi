@@ -42,7 +42,7 @@ const TextField = (props: TextFieldProps) => {
   } = props
 
   const className = cx(
-    'block w-full shadow-sm sm:text-sm focus:ring-primary focus:border-primary border-gray-300 rounded-md disabled:text-gray-200',
+    'block w-full shadow-sm sm:text-sm focus:ring-primary focus:border-primary border-gray-300 rounded-sm disabled:text-gray-200',
     {
       'border-red-500 focus:border-red-500 focus:ring-red-500': props.error,
       'py-1 px-1.5': size === 'sm',

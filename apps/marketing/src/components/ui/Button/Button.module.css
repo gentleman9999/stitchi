@@ -1,5 +1,5 @@
 .root {
-  @apply relative bg-gray-900 text-gray-50 text-center text-xl cursor-pointer inline-flex px-4 py-3 leading-none transition ease-in-out duration-150 shadow-sm justify-center border border-transparent items-center font-semibold font-heading tracking-normal rounded-md;
+  @apply relative bg-gray-900 text-gray-50 text-center text-xl cursor-pointer inline-flex px-4 py-3 leading-none transition ease-in-out duration-150 shadow-sm justify-center border border-transparent items-center font-semibold font-heading tracking-normal rounded-sm;
   max-height: 64px;
 
   &.brandColors {
@@ -32,7 +32,7 @@
 }
 
 .ghost {
-  @apply border border-gray-200 bg-transparent text-secondary;
+  @apply border border-gray-200 bg-transparent text-midnight;
 
   &.brandColors {
     @apply border-primary bg-transparent border-2 font-medium;
@@ -68,5 +68,5 @@
 .progress {}
 
 .shadow1 {
-  @apply rounded-md shadow;
+  @apply rounded-sm shadow;
 }

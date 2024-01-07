@@ -65,7 +65,7 @@ const CampusMarketSizeCalculator = ({}: Props) => {
 
   return (
     <div className="flex not-prose">
-      <div className="bg-gray-50 rounded-md p-2 sm:p-3 md:p-4 lg:p-6 border">
+      <div className="bg-gray-50 rounded-sm p-2 sm:p-3 md:p-4 lg:p-6 border">
         <form className="flex flex-col gap-8">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
@@ -92,7 +92,7 @@ const CampusMarketSizeCalculator = ({}: Props) => {
                         <RadioGroup.Item
                           key={i}
                           value={item.value}
-                          className="flex items-center p-1 border rounded-md text-xs data-[state=checked]:outline-none data-[state=checked]:ring-2 data-[state=checked]:ring-offset-1 data-[state=checked]:ring-gray-700"
+                          className="flex items-center p-1 border rounded-sm text-xs data-[state=checked]:outline-none data-[state=checked]:ring-2 data-[state=checked]:ring-offset-1 data-[state=checked]:ring-gray-700"
                         >
                           {item.label}
                         </RadioGroup.Item>

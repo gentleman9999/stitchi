@@ -69,7 +69,7 @@ const DistributorPageHero = () => {
               </div>
             </div>
             <div className="flex-1 min-w-[300px]">
-              <div className="ring-2 rounded-lg bg-white p-4 text-gray-800 shadow-gray-700 shadow-lg">
+              <div className="ring-2 rounded-sm bg-white p-4 text-gray-800 shadow-gray-700 shadow-lg">
                 <h2 className="text-lg font-medium">
                   Estimate your <span className="font-bold">savings</span> with
                   Stitchi fulfillment.

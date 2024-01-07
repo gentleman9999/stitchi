@@ -11,7 +11,7 @@ const CardFloatingActions = ({ items }: Props) => {
     <div>
       <Dropdown
         renderTrigger={() => (
-          <button className="opacity-0 group-hover:opacity-100 p-1 bg-gray-900/60 hover:bg-gray-900/70 data-[state=open]:opacity-100 rounded-md transition-all absolute top-2 right-2 outline-none">
+          <button className="opacity-0 group-hover:opacity-100 p-1 bg-gray-900/60 hover:bg-gray-900/70 data-[state=open]:opacity-100 rounded-sm transition-all absolute top-2 right-2 outline-none">
             <EllipsisHorizontalIcon className="w-6 text-white" />
           </button>
         )}

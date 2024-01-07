@@ -32,7 +32,7 @@ const SectionHeader = ({
 
       {title && (
         <>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 font-heading">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 font-headingDisplay uppercase">
             {title}
           </h2>
         </>

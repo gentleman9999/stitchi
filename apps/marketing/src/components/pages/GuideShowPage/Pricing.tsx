@@ -106,7 +106,7 @@ const Pricing = () => {
                   className="peer relative z-10 w-full appearance-none bg-transparent px-4 py-2 text-base text-gray-900 placeholder:text-gray-900/70 focus:outline-none sm:py-3 border-none focus:ring-0"
                   {...form.register('email')}
                 />
-                <div className="absolute inset-0 rounded-md border border-gray-900/20 peer-focus:border-bg-gray-50/20 peer-focus:bg-gray-50/20 peer-focus:ring-2 peer-focus:ring-gray-50 peer-focus:border-transparent" />
+                <div className="absolute inset-0 rounded-sm border border-gray-900/20 peer-focus:border-bg-gray-50/20 peer-focus:bg-gray-50/20 peer-focus:ring-2 peer-focus:ring-gray-50 peer-focus:border-transparent" />
               </div>
               <Button
                 type="submit"
