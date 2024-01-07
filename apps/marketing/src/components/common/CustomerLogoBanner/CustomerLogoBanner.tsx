@@ -26,11 +26,7 @@ const CustomerLogoBanner = () => {
     <div className="bg-primary py-5 relative flex flex-col sm:flex-row items-center border-y border-gray-950 overflow-x-hidden">
       <span className="hidden sm:flex justify-center absolute left-0 right-0">
         <InfiniteLooper speed={20}>
-          <BrandLogo image={weworkLogo} alt="WeWork logo" />
-          <BrandLogo image={morningBrewLogo} alt="Morning Brew logo" />
-          <BrandLogo image={greekDressingLogo} alt="Greek Dressing logo" />
-          <BrandLogo image={lineleapLogo} alt="Lineleep logo" />
-          <BrandLogo image={greekLicensingLogo} alt="Greek Licensing logo" />
+          <Logos />
         </InfiniteLooper>
       </span>
       <span className="bg-primary w-full sm:w-[350px] absolute left-0 top-0 bottom-0 hidden sm:block" />
@@ -43,17 +39,23 @@ const CustomerLogoBanner = () => {
         </div>
       </Container>
 
-      <span className="flex justify-center sm:hidden">
+      <span className="w-full sm:hidden">
         <InfiniteLooper speed={20}>
-          <BrandLogo image={weworkLogo} alt="WeWork logo" />
-          <BrandLogo image={morningBrewLogo} alt="Morning Brew logo" />
-          <BrandLogo image={greekDressingLogo} alt="Greek Dressing logo" />
-          <BrandLogo image={lineleapLogo} alt="Lineleep logo" />
-          <BrandLogo image={greekLicensingLogo} alt="Greek Licensing logo" />
+          <Logos />
         </InfiniteLooper>
       </span>
     </div>
   )
 }
+
+const Logos = () => (
+  <>
+    <BrandLogo image={weworkLogo} alt="WeWork logo" />
+    <BrandLogo image={morningBrewLogo} alt="Morning Brew logo" />
+    <BrandLogo image={greekDressingLogo} alt="Greek Dressing logo" />
+    <BrandLogo image={lineleapLogo} alt="Lineleep logo" />
+    <BrandLogo image={greekLicensingLogo} alt="Greek Licensing logo" />
+  </>
+)
 
 export default CustomerLogoBanner

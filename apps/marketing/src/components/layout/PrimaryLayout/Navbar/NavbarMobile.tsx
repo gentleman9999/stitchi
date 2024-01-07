@@ -110,6 +110,7 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
                 <Button
                   bold
                   shadow
+                  size="xl"
                   color="brandPrimary"
                   className="w-full"
                   onClick={() => {
