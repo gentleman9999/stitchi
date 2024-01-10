@@ -85,7 +85,7 @@ const ProductFormPreview = ({
               })
             }}
           >
-            Sign up to design
+            Sign up to customize
           </Button>
 
           <p>
