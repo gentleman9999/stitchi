@@ -1,5 +1,5 @@
-import * as uuid from 'uuid';
-import { InventoryFactorySku, skuFactory } from "./factory";
+import * as uuid from 'uuid'
+import { InventoryFactorySku, skuFactory } from './factory'
 
 /**
  * Create the literal stock keeping unit (SKU).
@@ -7,10 +7,10 @@ import { InventoryFactorySku, skuFactory } from "./factory";
  * This may be an API call to BIGC/Shopify and/or DB calls.
  */
 interface CreateSkuInput {
-  designRequestId: string;
-  initialQuantity: number;
-  membershipId: string;
-  organizationId: string;
+  designRequestId: string
+  initialQuantity: number
+  membershipId: string
+  organizationId: string
 }
 
 /**
@@ -20,8 +20,8 @@ interface CreateSkuInput {
  * This may be an API call to BIGC/Shopify and/or DB calls.
  */
 interface CreateInventoryInput {
-  designRequestId: string;
-  quantity: number;
+  designRequestId: string
+  quantity: number
 }
 
 /**
@@ -31,77 +31,86 @@ interface CreateInventoryInput {
  * This may be an API call to BIGC/Shopify and/or DB calls.
  */
 interface ConsumeInventoryInput {
-  designRequestId: string;
-  quantity: number;
+  designRequestId: string
+  quantity: number
 }
 
 export interface InventoryClientService {
-  createSku: (input: CreateSkuInput) => Promise<InventoryFactorySku>;
-  createInventory: (input: CreateInventoryInput) => Promise<InventoryFactorySku>;
-  consumeInventory: (input: ConsumeInventoryInput) => Promise<InventoryFactorySku>;
+  createSku: (input: CreateSkuInput) => Promise<InventoryFactorySku>
+  createInventory: (input: CreateInventoryInput) => Promise<InventoryFactorySku>
+  consumeInventory: (
+    input: ConsumeInventoryInput,
+  ) => Promise<InventoryFactorySku>
 }
 
 interface MakeClientParams {}
 
 type MakeClientFn = (params?: MakeClientParams) => InventoryClientService
 
-type Sku = string;
+type Sku = string
 
 interface Ledger {
-  id: string;
-  designRequestId: string;
-  membershipId: string;
-  organizationId: string;
-  quantity: number;
+  id: string
+  designRequestId: string
+  membershipId: string
+  organizationId: string
+  quantity: number
 }
 
 /**
  * This is a placeholder for where we actually want to store the data.
  * This could be a BIGC catalog, a Shopify catalog, or our own tables.
  */
-const database: Record<Sku, Ledger> = {};
+const database: Record<Sku, Ledger> = {}
 
 const makeClient: MakeClientFn = () => {
   return {
-    createSku: async ({ designRequestId, membershipId, organizationId, initialQuantity }) => {
+    createSku: async ({
+      designRequestId,
+      membershipId,
+      organizationId,
+      initialQuantity,
+    }) => {
       if (!(designRequestId in database)) {
         database[designRequestId] = {
           id: uuid.v4(),
           designRequestId,
           membershipId,
           organizationId,
-          quantity: initialQuantity ,
-        };
+          quantity: initialQuantity,
+        }
       }
 
-      return skuFactory({ skuRecord: database[designRequestId] });
+      return skuFactory({ skuRecord: database[designRequestId] })
     },
     createInventory: async ({ designRequestId, quantity }) => {
       if (!(designRequestId in database)) {
-        throw new Error(`SKU not found for design request ${designRequestId}`);
+        throw new Error(`SKU not found for design request ${designRequestId}`)
       }
 
-      database[designRequestId].quantity += quantity;
+      database[designRequestId].quantity += quantity
 
-      return skuFactory({ skuRecord: database[designRequestId] });
+      return skuFactory({ skuRecord: database[designRequestId] })
     },
     consumeInventory: async ({ designRequestId, quantity }) => {
       if (!(designRequestId in database)) {
-        throw new Error(`SKU not found for design request ${designRequestId}`);
+        throw new Error(`SKU not found for design request ${designRequestId}`)
       }
 
-      const remaining = database[designRequestId].quantity - quantity;
+      const remaining = database[designRequestId].quantity - quantity
 
       // Never let inventory drop below 0
       if (remaining < 0) {
-        throw new Error(`SKU would have fewer than zero items remaining for design request ${designRequestId}`);
+        throw new Error(
+          `SKU would have fewer than zero items remaining for design request ${designRequestId}`,
+        )
       }
 
-      database[designRequestId].quantity = remaining;
+      database[designRequestId].quantity = remaining
 
-      return skuFactory({ skuRecord: database[designRequestId] });
+      return skuFactory({ skuRecord: database[designRequestId] })
     },
-  };
+  }
 }
 
-export { makeClient };
+export { makeClient }
