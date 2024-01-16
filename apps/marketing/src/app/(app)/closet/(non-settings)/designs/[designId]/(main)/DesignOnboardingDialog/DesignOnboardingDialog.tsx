@@ -5,7 +5,7 @@ import Dialog from '@components/ui/Dialog'
 import Button from '@components/ui/ButtonV2/Button'
 import { PaintBrushIcon } from '@heroicons/react/20/solid'
 import { SUPPORT_EMAIL } from '@lib/constants'
-import { queryTypes, useQueryState } from 'nuqs'
+import { useQueryState, parseAsBoolean } from 'nuqs'
 import React from 'react'
 import Logo from '@components/ui/Logo'
 
@@ -15,7 +15,7 @@ const DesignOnboardingDialog = ({}: Props) => {
   const { onboarding, update: updateOnboarding } = useUserOnboarding()
   const [showOnboarding, setShowOnboarding] = useQueryState(
     'onboarding',
-    queryTypes.boolean.withDefault(false),
+    parseAsBoolean.withDefault(false),
   )
 
   const hasSeenOnboarding = onboarding?.seenDesignRequestDraftOnboarding

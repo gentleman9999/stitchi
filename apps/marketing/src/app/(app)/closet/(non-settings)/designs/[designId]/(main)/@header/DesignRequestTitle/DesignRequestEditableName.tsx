@@ -10,6 +10,9 @@ import { useDebouncedCallback } from 'use-debounce'
 import * as yup from 'yup'
 import { useDesignContext } from '../../design-context'
 import useUpdateName from './useUpdateName'
+import Tooltip from '@components/ui/Tooltip'
+
+const inputClass = 'text-xl p-0'
 
 const schema = yup.object().shape({
   name: yup.string().min(2).required(),
@@ -52,7 +55,9 @@ const DesignRequestEditableName = ({
 
   React.useEffect(() => {
     if (name && shadowInput.current) {
-      setInputWidthPx(shadowInput.current.getBoundingClientRect().width + 2)
+      const { width } = shadowInput.current.getBoundingClientRect()
+
+      setInputWidthPx(width + 4)
     }
   }, [name])
 
@@ -84,17 +89,17 @@ const DesignRequestEditableName = ({
 
   return (
     <div className="flex relative">
-      <span className="text-gray-800 font-semibold flex-1">
-        <div className="relative flex flex-col">
+      <span className="text-gray-800 font-medium flex-1">
+        <div className="relative inline-flex flex-col">
           <div
             ref={shadowInput}
-            className="invisible absolute whitespace-pre inline"
+            className={`${inputClass} invisible absolute whitespace-pre inline`}
           >
             {name}
           </div>
           <input
             disabled={!edit}
-            className="disabled:bg-transparent outline-primary "
+            className={`${inputClass} disabled:bg-transparent outline-primary border-none`}
             onFocus={() => setEdit(true)}
             style={{ width: `${inputWidthPx}px` }}
             onKeyDown={event => {
@@ -118,9 +123,15 @@ const DesignRequestEditableName = ({
               resource={ScopeResource.DesignRequest}
               action={ScopeAction.UPDATE}
             >
-              <button className="absolute -right-3 top-0">
-                <Pencil className="w-3 h-3" onClick={handleEdit} />
-              </button>
+              <Tooltip
+                label="Edit name"
+                delay={0}
+                renderTrigger={() => (
+                  <button className="absolute -right-3 top-0">
+                    <Pencil className="w-3 h-3" onClick={handleEdit} />
+                  </button>
+                )}
+              />
             </AuthorizedComponent>
           ) : null}
         </div>

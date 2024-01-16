@@ -179,7 +179,7 @@ const makeHandler =
             },
           })
           .error(
-            `Membership not found for submitted design request ${nextDesignRequest.id}. This should not happen.`,
+            `Design request ${nextDesignRequest.id} does not have membership ID.. This should not happen.`,
           )
         return
       }
