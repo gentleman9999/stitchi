@@ -70,7 +70,7 @@ const CatalogSidebar = ({
 
   return (
     <ul className="flex flex-col gap-10">
-      {!activeCollectionId ? (
+      {!activeCollectionId && categories.length ? (
         <Section
           label={activeCategoryId ? 'All products' : 'Categories'}
           href={activeCategoryId ? routes.internal.catalog.href() : undefined}
@@ -90,7 +90,7 @@ const CatalogSidebar = ({
         </Section>
       ) : null}
 
-      {!activeCategoryId ? (
+      {!activeCategoryId && collections.length ? (
         <Section
           label={activeCollectionId ? 'All products' : 'Collections'}
           href={activeCollectionId ? routes.internal.catalog.href() : undefined}

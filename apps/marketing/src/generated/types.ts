@@ -2851,7 +2851,12 @@ export interface Customer {
   firstName: Scalars['String']['output'];
   /** The last name of the customer. */
   lastName: Scalars['String']['output'];
-  /** The notes of the customer. */
+  /** Metafield data related to a customer. */
+  metafields: MetafieldConnection;
+  /**
+   * The notes of the customer.
+   * @deprecated Notes aren't supported in Storefront GQL API.
+   */
   notes: Scalars['String']['output'];
   /** The phone number of the customer. */
   phone: Scalars['String']['output'];
@@ -2861,6 +2866,17 @@ export interface Customer {
   taxExemptCategory: Scalars['String']['output'];
   /** Customer wishlists. */
   wishlists: WishlistConnection;
+}
+
+
+/** A customer that shops on a store */
+export interface CustomermetafieldsArgs {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  keys?: InputMaybe<Array<Scalars['String']['input']>>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  namespace: Scalars['String']['input'];
 }
 
 
@@ -3671,6 +3687,12 @@ export enum EntityPageType {
   CONTACT_US = 'CONTACT_US',
   PAGE = 'PAGE',
   PRODUCT = 'PRODUCT'
+}
+
+/** An error object, indicating what went wrong with a mutation. */
+export interface Error {
+  /** A description of the error */
+  message: Scalars['String']['output'];
 }
 
 /** An external link page. */
@@ -7077,6 +7099,8 @@ export interface Mutation {
   organizationBrandFileDeleteBatch: Maybe<OrganizationBrandFileDeleteBatchPayload>;
   organizationUpdate: Maybe<OrganizationUpdatePayload>;
   paymentIntentCreate: Maybe<PaymentIntentCreatePayload>;
+  /** Contact us mutation. */
+  submitContactUs: SubmitContactUsResult;
   /** Creates a new email subscriber */
   subscriberCreate: Maybe<SubscriberCreatePayload>;
   /** Bootstraps a new user with necessary resources */
@@ -7268,6 +7292,12 @@ export interface MutationorganizationUpdateArgs {
 
 export interface MutationpaymentIntentCreateArgs {
   input: PaymentIntentCreateInput;
+}
+
+
+export interface MutationsubmitContactUsArgs {
+  input: SubmitContactUsInput;
+  reCaptchaV2?: InputMaybe<ReCaptchaV2Input>;
 }
 
 
@@ -9388,6 +9418,12 @@ export interface ReCaptchaSettings {
   siteKey: Scalars['String']['output'];
 }
 
+/** Recaptcha input (in case Recaptcha is enabled on a store) */
+export interface ReCaptchaV2Input {
+  /** Recaptcha token */
+  token: Scalars['String']['input'];
+}
+
 export interface RecordInterface {
   _createdAt: Scalars['DateTime']['output'];
   /** Editing URL */
@@ -10229,6 +10265,42 @@ export interface SubCategorySearchFilterItemEdge {
   cursor: Scalars['String']['output'];
   /** The item at the end of the edge. */
   node: SubCategorySearchFilterItem;
+}
+
+/** Input for contact us form */
+export interface SubmitContactUsDataInput {
+  /** Comments */
+  comments: Scalars['String']['input'];
+  /** Company name */
+  companyName?: InputMaybe<Scalars['String']['input']>;
+  /** Customer email */
+  email: Scalars['String']['input'];
+  /** Customer full name */
+  fullName?: InputMaybe<Scalars['String']['input']>;
+  /** Order number */
+  orderNumber?: InputMaybe<Scalars['String']['input']>;
+  /** Customer phone number */
+  phoneNumber?: InputMaybe<Scalars['String']['input']>;
+  /** RMA number */
+  rmaNumber?: InputMaybe<Scalars['String']['input']>;
+}
+
+/** Error that occurred when submitting the contact us email */
+export type SubmitContactUsError = ValidationError;
+
+/** Input for contact us form */
+export interface SubmitContactUsInput {
+  /** The form data we are submitting */
+  data: SubmitContactUsDataInput;
+  /** The contact page we're sending on behalf of */
+  pageEntityId: Scalars['Int']['input'];
+}
+
+/** Result of submitting contact us form */
+export interface SubmitContactUsResult {
+  __typename: 'SubmitContactUsResult';
+  /** List of errors that occurred executing the mutation. */
+  errors: Array<SubmitContactUsError>;
 }
 
 export interface Subscriber {
@@ -11090,6 +11162,15 @@ export interface UserSetOrganizationPayload {
   __typename: 'UserSetOrganizationPayload';
   membershipId: Maybe<Scalars['String']['output']>;
   organizationId: Maybe<Scalars['String']['output']>;
+}
+
+/** Validation error that occurred during a graphql request */
+export interface ValidationError extends Error {
+  __typename: 'ValidationError';
+  /** A description of the error */
+  message: Scalars['String']['output'];
+  /** Path to the field that caused the error, if applicable */
+  path: Array<Scalars['String']['output']>;
 }
 
 /** Variant */
@@ -12328,7 +12409,7 @@ export type CatalogIndexPageGetDataQueryVariables = Exact<{
 }>;
 
 
-export type CatalogIndexPageGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', search: { __typename: 'SearchQueries', searchProducts: { __typename: 'SearchProducts', products: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, entityId: number, name: string, path: string, priceMetadata: { __typename: 'ProductPriceMetadata', minPriceCents: number }, brand: { __typename: 'Brand', id: string, name: string, path: string } | null, defaultImage: { __typename: 'Image', urlOriginal: string, altText: string, url: string } | null, productOptions: { __typename: 'ProductOptionConnection', edges: Array<{ __typename: 'ProductOptionEdge', node: { __typename: 'CheckboxOption', entityId: number } | { __typename: 'DateFieldOption', entityId: number } | { __typename: 'FileUploadFieldOption', entityId: number } | { __typename: 'MultiLineTextFieldOption', entityId: number } | { __typename: 'MultipleChoiceOption', displayName: string, entityId: number, values: { __typename: 'ProductOptionValueConnection', edges: Array<{ __typename: 'ProductOptionValueEdge', node: { __typename: 'MultipleChoiceOptionValue', entityId: number, label: string } | { __typename: 'ProductPickListOptionValue', entityId: number, label: string } | { __typename: 'SwatchOptionValue', hexColors: Array<string>, entityId: number, label: string } } | null> | null } } | { __typename: 'NumberFieldOption', entityId: number } | { __typename: 'TextFieldOption', entityId: number } } | null> | null } } } | null> | null, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, endCursor: string | null, hasPreviousPage: boolean, startCursor: string | null } } } } } };
+export type CatalogIndexPageGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', search: { __typename: 'SearchQueries', searchProducts: { __typename: 'SearchProducts', products: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, entityId: number, name: string, path: string, priceMetadata: { __typename: 'ProductPriceMetadata', minPriceCents: number }, brand: { __typename: 'Brand', id: string, name: string, path: string } | null, defaultImage: { __typename: 'Image', urlOriginal: string, altText: string, url: string } | null, productOptions: { __typename: 'ProductOptionConnection', edges: Array<{ __typename: 'ProductOptionEdge', node: { __typename: 'CheckboxOption', entityId: number } | { __typename: 'DateFieldOption', entityId: number } | { __typename: 'FileUploadFieldOption', entityId: number } | { __typename: 'MultiLineTextFieldOption', entityId: number } | { __typename: 'MultipleChoiceOption', displayName: string, entityId: number, values: { __typename: 'ProductOptionValueConnection', edges: Array<{ __typename: 'ProductOptionValueEdge', node: { __typename: 'MultipleChoiceOptionValue', entityId: number, label: string } | { __typename: 'ProductPickListOptionValue', entityId: number, label: string } | { __typename: 'SwatchOptionValue', hexColors: Array<string>, entityId: number, label: string } } | null> | null } } | { __typename: 'NumberFieldOption', entityId: number } | { __typename: 'TextFieldOption', entityId: number } } | null> | null } } } | null> | null, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, endCursor: string | null } } } } } };
 
 export type UseFilterPreviewGetDataQueryVariables = Exact<{
   filters: SearchProductsFiltersInput;

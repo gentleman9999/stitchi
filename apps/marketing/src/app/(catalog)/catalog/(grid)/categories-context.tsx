@@ -29,7 +29,10 @@ export const CategoriesProvider = ({ children }: Props) => {
 
   return (
     <CategoriesContext.Provider
-      value={{ collections: collections[0].children, categories: categoryTree }}
+      value={{
+        collections: collections[0]?.children || [],
+        categories: categoryTree,
+      }}
     >
       {children}
     </CategoriesContext.Provider>

@@ -58,6 +58,9 @@
       "DesignRequestHistoryItemDesignRequestEvent",
       "DesignRequestRevisionRequest"
     ],
+    "Error": [
+      "ValidationError"
+    ],
     "File": [
       "FileImage",
       "FilePdf",
@@ -160,6 +163,9 @@
     "StoreLogo": [
       "StoreImageLogo",
       "StoreTextLogo"
+    ],
+    "SubmitContactUsError": [
+      "ValidationError"
     ],
     "WebPage": [
       "BlogIndexPage",
