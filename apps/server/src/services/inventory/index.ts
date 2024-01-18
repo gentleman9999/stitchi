@@ -2,15 +2,14 @@ import * as uuid from 'uuid'
 import { InventoryFactorySku, skuFactory } from './factory'
 
 /**
- * Create the literal stock keeping unit (SKU).
+ * Create the literal stock keeping unit (Sku).
  *
  * This may be an API call to BIGC/Shopify and/or DB calls.
  */
 interface CreateSkuInput {
-  designRequestId: string
+  designVariantId: string
+  size: string
   initialQuantity: number
-  membershipId: string
-  organizationId: string
 }
 
 /**
@@ -20,7 +19,8 @@ interface CreateSkuInput {
  * This may be an API call to BIGC/Shopify and/or DB calls.
  */
 interface CreateInventoryInput {
-  designRequestId: string
+  designVariantId: string
+  size: string
   quantity: number
 }
 
@@ -31,7 +31,8 @@ interface CreateInventoryInput {
  * This may be an API call to BIGC/Shopify and/or DB calls.
  */
 interface ConsumeInventoryInput {
-  designRequestId: string
+  designVariantId: string
+  size: string
   quantity: number
 }
 
@@ -51,9 +52,8 @@ type Sku = string
 
 interface Ledger {
   id: string
-  designRequestId: string
-  membershipId: string
-  organizationId: string
+  designVariantId: string
+  size: string
   quantity: number
 }
 
@@ -65,50 +65,50 @@ const database: Record<Sku, Ledger> = {}
 
 const makeClient: MakeClientFn = () => {
   return {
-    createSku: async ({
-      designRequestId,
-      membershipId,
-      organizationId,
-      initialQuantity,
-    }) => {
-      if (!(designRequestId in database)) {
-        database[designRequestId] = {
+    createSku: async ({ designVariantId, size, initialQuantity }) => {
+      if (!(designVariantId in database)) {
+        database[designVariantId] = {
           id: uuid.v4(),
-          designRequestId,
-          membershipId,
-          organizationId,
+          designVariantId,
+          size,
           quantity: initialQuantity,
         }
       }
 
-      return skuFactory({ skuRecord: database[designRequestId] })
+      return skuFactory({
+        skuRecord: database[designVariantId],
+      })
     },
-    createInventory: async ({ designRequestId, quantity }) => {
-      if (!(designRequestId in database)) {
-        throw new Error(`SKU not found for design request ${designRequestId}`)
+    createInventory: async ({ designVariantId, quantity }) => {
+      if (!(designVariantId in database)) {
+        throw new Error(`Sku not found for design request ${designVariantId}`)
       }
 
-      database[designRequestId].quantity += quantity
+      database[designVariantId].quantity += quantity
 
-      return skuFactory({ skuRecord: database[designRequestId] })
+      return skuFactory({
+        skuRecord: database[designVariantId],
+      })
     },
-    consumeInventory: async ({ designRequestId, quantity }) => {
-      if (!(designRequestId in database)) {
-        throw new Error(`SKU not found for design request ${designRequestId}`)
+    consumeInventory: async ({ designVariantId, quantity }) => {
+      if (!(designVariantId in database)) {
+        throw new Error(`Sku not found for design request ${designVariantId}`)
       }
 
-      const remaining = database[designRequestId].quantity - quantity
+      const remaining = database[designVariantId].quantity - quantity
 
       // Never let inventory drop below 0
       if (remaining < 0) {
         throw new Error(
-          `SKU would have fewer than zero items remaining for design request ${designRequestId}`,
+          `Sku would have fewer than zero items remaining for design request ${designVariantId}`,
         )
       }
 
-      database[designRequestId].quantity = remaining
+      database[designVariantId].quantity = remaining
 
-      return skuFactory({ skuRecord: database[designRequestId] })
+      return skuFactory({
+        skuRecord: database[designVariantId],
+      })
     },
   }
 }

@@ -1,30 +1,25 @@
 export interface InventoryFactorySku {
   id: string
-  designRequestId: string
+  designVariantId: string
   quantity: number
-  membershipId: string
-  organizationId: string
 }
 
 interface SkuRecord {
   id: string
-  designRequestId: string
-  membershipId: string
-  organizationId: string
+  // TODO: designVariant needs to support either `size` or `bigCommerceProductVariantId`
+  designVariantId: string
   quantity: number
 }
 
-const skuFactory = ({
-  skuRecord,
-}: {
+interface FactoryInput {
   skuRecord: SkuRecord
-}): InventoryFactorySku => {
+}
+
+const skuFactory = ({ skuRecord }: FactoryInput): InventoryFactorySku => {
   return {
     id: skuRecord.id,
-    designRequestId: skuRecord.designRequestId,
+    designVariantId: skuRecord.designVariantId,
     quantity: skuRecord.quantity,
-    membershipId: skuRecord.membershipId,
-    organizationId: skuRecord.organizationId,
   }
 }
 
