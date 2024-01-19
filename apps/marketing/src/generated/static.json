@@ -3037,6 +3037,23 @@
       "image_url": ""
     },
     {
+      "id": 516,
+      "parent_id": 0,
+      "name": "Collections",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "category.html",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": { "url": "/collections/", "is_customized": false },
+      "image_url": ""
+    },
+    {
       "id": 521,
       "parent_id": 520,
       "name": "Tops",

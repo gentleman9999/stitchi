@@ -63,7 +63,7 @@ const CmsLandingPageSection = ({ section }: Props) => {
             {image?.responsiveImage ? (
               <CmsImage
                 data={image.responsiveImage}
-                className={cx('mt-8 sm:mt-10 md:mt-12 lg:mt-16', {
+                className={cx('mt-8 sm:mt-10 md:mt-12 lg:mt-16 m-auto', {
                   'lg:hidden': imageAlignment !== 'center',
                 })}
               />
