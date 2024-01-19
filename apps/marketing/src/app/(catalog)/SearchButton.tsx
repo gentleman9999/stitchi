@@ -13,7 +13,7 @@ const SearchButton = (props: Props) => {
 
   return (
     <button
-      className={cx(s.link, '!hidden !font-normal lg:!flex gap-2 items-center')}
+      className={cx(s.link, '!flex !font-normal gap-2 items-center')}
       onClick={() => {
         setShowSearch(true)
       }}

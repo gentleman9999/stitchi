@@ -163,7 +163,7 @@ const SearchNav = ({}: Props) => {
             >
               <Container className="@container w-full">
                 {products.length || loading ? (
-                  <ul className="grid grid-cols-1 @lg:grid-cols-2 @3xl:grid-cols-4 gap-4 @4xl:gap-8">
+                  <ul className="grid grid-cols-2 @3xl:grid-cols-4 gap-4 @4xl:gap-8">
                     {loading ? (
                       <>
                         {Array.from(new Array(4)).map((_, i) => (
