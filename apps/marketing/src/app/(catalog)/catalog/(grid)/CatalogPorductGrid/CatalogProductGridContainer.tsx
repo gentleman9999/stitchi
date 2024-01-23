@@ -7,7 +7,7 @@ interface Props {
 const CatalogProductGridContainer = ({ children }: Props) => {
   return (
     <div className="@container w-full">
-      <ul className="grid grid-cols-1 @lg:grid-cols-2 @2xl:grid-cols-3 @4xl:grid-cols-4 @6xl:grid-cols-5 gap-4 @4xl:gap-8">
+      <ul className="grid grid-cols-2 @2xl:grid-cols-3 @4xl:grid-cols-4 @6xl:grid-cols-5 gap-4 @4xl:gap-8">
         {children}
       </ul>
     </div>
