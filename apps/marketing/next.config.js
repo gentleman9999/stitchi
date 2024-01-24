@@ -23,6 +23,9 @@ module.exports = withBundleAnalyzer(
         {
           hostname: 'cdn11.bigcommerce.com',
         },
+        {
+          hostname: 'mars-images.imgix.net',
+        },
       ],
     },
 
