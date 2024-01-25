@@ -133,6 +133,11 @@ module.exports = withBundleAnalyzer(
           destination: '/loyalty-referral-programs',
           permanent: true,
         },
+        {
+          source: '/promotional-product-customization',
+          destination: '/',
+          permanent: true,
+        },
       ]
     },
   }),
