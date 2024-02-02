@@ -48,13 +48,13 @@ const Footer = () => (
                   },
 
                   {
-                    label: 'Tradeshows',
-                    href: routes.internal.tradeshows.href(),
+                    label: 'Swag Bags & Boxes',
+                    href: routes.internal.solutions.swagBox.href(),
                   },
 
                   {
-                    label: 'Swag Bags & Boxes',
-                    href: routes.internal.solutions.swagBox.href(),
+                    label: 'Tradeshows',
+                    href: routes.internal.tradeshows.href(),
                   },
                 ]}
               />
@@ -77,6 +77,10 @@ const Footer = () => (
                   {
                     label: 'Blog',
                     href: routes.internal.blog.href(),
+                  },
+                  {
+                    label: 'Merch Insights',
+                    href: routes.internal.insights.href(),
                   },
                 ]}
               />
