@@ -60,7 +60,7 @@ const CmsStructuredText = ({ content }: Props) => {
           case 'ArticleRecord':
             return (
               <Link
-                href={routes.internal.blog.show.href(record.slug as string)}
+                href={routes.internal.learn.show.href(record.slug as string)}
               >
                 {record.title as string}
               </Link>
@@ -102,7 +102,7 @@ const CmsStructuredText = ({ content }: Props) => {
           default: {
             return (
               <Link
-                href={routes.internal.blog.show.href(record.slug as string)}
+                href={routes.internal.learn.show.href(record.slug as string)}
                 className="no-underline rounded-sm border p-2 md:p-4 lg:p-6 flex flex-col gap-2 md:gap-4 not-prose bg-gray-50"
               >
                 <span className="hover:underline leading-tight font-bold text-sm md:text-lg">

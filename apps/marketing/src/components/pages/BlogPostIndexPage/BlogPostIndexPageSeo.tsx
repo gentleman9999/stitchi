@@ -17,10 +17,10 @@ const BlogPostIndexPageSeo = ({ category, page }: Props) => {
       seo={category?._seoMetaTags || page?._seoMetaTags || []}
       canonicalUrl={makeAbsoluteUrl(
         category
-          ? routes.internal.blog.category.href({
+          ? routes.internal.learn.category.href({
               categorySlug: category.slug || '',
             })
-          : routes.internal.blog.href(),
+          : routes.internal.learn.href(),
       )}
     />
   )

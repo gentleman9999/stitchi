@@ -199,7 +199,7 @@ const BlogCategoryIndexPage = (props: Props) => {
       page={blogIndexPage}
       loading={loading}
       canFetchMore={canFetchMore}
-      fetchMoreHref={routes.internal.blog.category.href({
+      fetchMoreHref={routes.internal.learn.category.href({
         categorySlug: props.categorySlug,
         page: props.pageNumber + 1,
       })}

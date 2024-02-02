@@ -181,7 +181,7 @@ const routes = {
           buildRoute(`/tradeshows/${tradeshowSlug}`),
       },
     },
-    blog: {
+    learn: {
       href: () => buildRoute(`/learn`),
       show: {
         href: (postSlug: string) => buildRoute(`/learn/${postSlug}`),
@@ -202,6 +202,11 @@ const routes = {
           ),
       },
     },
+
+    blog: {
+      href: () => buildRoute('/blog'),
+    },
+
     customers: {
       morningBrew: {
         href: () =>

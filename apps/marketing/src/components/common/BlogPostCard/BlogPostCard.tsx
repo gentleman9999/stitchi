@@ -14,9 +14,9 @@ export interface BlogPostCardProps {
 
 const BlogPostCard = ({ post, variant = 'vertical' }: BlogPostCardProps) => {
   const category = post.categories[0]
-  const postHref = post.slug ? routes.internal.blog.show.href(post.slug) : null
+  const postHref = post.slug ? routes.internal.learn.show.href(post.slug) : null
   const categoryHref = category?.slug
-    ? routes.internal.blog.category.href({
+    ? routes.internal.learn.category.href({
         categorySlug: category.slug,
       })
     : null

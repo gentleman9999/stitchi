@@ -68,11 +68,15 @@ const Footer = () => (
                   },
                   {
                     label: 'Articles & Guides',
-                    href: routes.internal.blog.href(),
+                    href: routes.internal.learn.href(),
                   },
                   {
                     label: 'Partner Program',
                     href: routes.internal.partners.href(),
+                  },
+                  {
+                    label: 'Blog',
+                    href: routes.internal.blog.href(),
                   },
                 ]}
               />

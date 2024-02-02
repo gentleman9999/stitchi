@@ -34,7 +34,7 @@ const HomePageFeaturedPosts = ({ posts }: Props) => {
 
       <div className="mt-20 flex justify-center">
         <Link
-          href={routes.internal.blog.href()}
+          href={routes.internal.learn.href()}
           className="flex items-center underline font-medium text-xl"
         >
           View all articles <ArrowRight />

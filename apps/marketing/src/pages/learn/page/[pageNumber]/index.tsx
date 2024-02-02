@@ -115,7 +115,7 @@ const BlogIndexPage = () => {
         page={blogIndexPage}
         canFetchMore={canFetchMore}
         loading={loading}
-        fetchMoreHref={routes.internal.blog.page.href(pageNumberInt + 1)}
+        fetchMoreHref={routes.internal.learn.page.href(pageNumberInt + 1)}
       />
     </>
   )

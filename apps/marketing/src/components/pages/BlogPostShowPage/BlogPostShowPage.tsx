@@ -54,11 +54,11 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
                   breadcrumbs={[
                     {
                       label: 'Articles & Guides',
-                      href: routes.internal.blog.href(),
+                      href: routes.internal.learn.href(),
                     },
                     {
                       label: post.title,
-                      href: routes.internal.blog.show.href(post.slug),
+                      href: routes.internal.learn.show.href(post.slug),
                     },
                   ]}
                 />

@@ -81,7 +81,7 @@ const BlogIndexPage = ({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div className="col-span-1 bg-gray-100 p-4 rounded-sm">
                   <Link
-                    href={routes.internal.blog.category.href({
+                    href={routes.internal.learn.category.href({
                       categorySlug: 'college-merch-business',
                     })}
                   >
@@ -92,7 +92,7 @@ const BlogIndexPage = ({
                   </Link>
 
                   <Link
-                    href={routes.internal.blog.category.href({
+                    href={routes.internal.learn.category.href({
                       categorySlug: 'college-merch-business',
                     })}
                   >
@@ -137,7 +137,7 @@ const BlogIndexPage = ({
                 id: 'all',
                 key: 'all',
                 title: 'All',
-                href: routes.internal.blog.href(),
+                href: routes.internal.learn.href(),
                 active: !activeCategory,
               },
               ...(categories
@@ -146,7 +146,7 @@ const BlogIndexPage = ({
                   id: category.id,
                   key: category.slug,
                   title: category.shortName || category.name || 'Category',
-                  href: routes.internal.blog.category.href({
+                  href: routes.internal.learn.category.href({
                     categorySlug: category.slug!,
                   }),
                   active: category.slug === activeCategory?.slug,

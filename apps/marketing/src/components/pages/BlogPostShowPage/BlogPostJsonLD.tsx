@@ -12,7 +12,7 @@ const BlogPostJsonLD = ({ post }: { post: BlogPostJsonLDArticleFragment }) => {
     title: post.title || 'Untitled',
     publisherLogo: makeAbsoluteUrl('/public/stitchi_logo.svg'),
     publisherName: 'Stitchi',
-    url: post.slug ? routes.internal.blog.show.href(post.slug) : '',
+    url: post.slug ? routes.internal.learn.show.href(post.slug) : '',
     description: post._seoMetaTags?.find(
       tag => tag.attributes?.property === 'og:description',
     )?.attributes?.content,

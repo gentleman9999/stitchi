@@ -14,7 +14,7 @@ const BlogPostShowPageSeo = ({ article }: Props) => {
     <CmsSeo
       seo={article._seoMetaTags || []}
       canonicalUrl={makeAbsoluteUrl(
-        routes.internal.blog.show.href(article.slug || ''),
+        routes.internal.learn.show.href(article.slug || ''),
       )}
     />
   )
