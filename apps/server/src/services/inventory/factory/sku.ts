@@ -1,15 +1,6 @@
-export interface InventoryFactorySku {
-  id: string
-  designVariantId: string
-  quantity: number
-}
+import { SkuRecord } from '../db/sku-table'
 
-interface SkuRecord {
-  id: string
-  // TODO: designVariant needs to support either `size` or `bigCommerceProductVariantId`
-  designVariantId: string
-  quantity: number
-}
+export interface InventoryFactorySku extends SkuRecord {}
 
 interface FactoryInput {
   skuRecord: SkuRecord
@@ -20,6 +11,10 @@ const skuFactory = ({ skuRecord }: FactoryInput): InventoryFactorySku => {
     id: skuRecord.id,
     designVariantId: skuRecord.designVariantId,
     quantity: skuRecord.quantity,
+
+    createdAt: skuRecord.createdAt,
+    updatedAt: skuRecord.updatedAt,
+    deletedAt: skuRecord.deletedAt,
   }
 }
 
