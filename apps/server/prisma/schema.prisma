@@ -943,3 +943,16 @@ model KeyValue {
   key   String @id
   value String @db.Text
 }
+
+model Sku {
+  id                String @id
+  // TODO designVariant needs to support either `size` or `bigCommerceProductVariantId`
+  designVariantId   String
+  quantity          Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  @@index([designVariantId])
+}
