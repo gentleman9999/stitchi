@@ -13,9 +13,9 @@ const navigation = {
       // },
 
       {
-        label: 'Articles & Guides',
+        label: 'Blog',
         icon: Support,
-        href: routes.internal.learn.href(),
+        href: routes.internal.blog.href(),
       },
 
       {

@@ -6,14 +6,14 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - '5000:5000'
+      - '5001:5001'
     volumes:
       - ./:/app/
         # Just specify a path and let the Engine create a volume
       - /app/node_modules/
     restart: on-failure
     environment:
-      PORT: 5000
+      PORT: 5001
   redis:
     container_name: stitchi_redis
     image: redis:7-alpine
@@ -27,4 +27,3 @@ networks:
 volumes:
   redis:
     driver: local
-

@@ -67,16 +67,16 @@ const Footer = () => (
                     href: routes.internal.catalog.href(),
                   },
                   {
-                    label: 'Articles & Guides',
-                    href: routes.internal.learn.href(),
+                    label: 'Blog',
+                    href: routes.internal.blog.href(),
                   },
                   {
                     label: 'Partner Program',
                     href: routes.internal.partners.href(),
                   },
                   {
-                    label: 'Blog',
-                    href: routes.internal.blog.href(),
+                    label: 'Articles & Guides',
+                    href: routes.internal.learn.href(),
                   },
                   {
                     label: 'Merch Insights',

@@ -35,11 +35,11 @@ const HomePageHero = () => {
                 </div>
               </h1>
               <ul className="flex-col gap-2 grid grid-cols-1 sm:grid-cols-2 gap-x-6">
-                <ListItem label="End-to-end platform" />
-                <ListItem label="Premium products" />
-                <ListItem label="Integrations" />
-                <ListItem label="Dedicated support" />
-                <ListItem label="Global fulfillment" />
+                <ListItem label="Design to Delivery" />
+                <ListItem label="Dedicated Support" />
+                <ListItem label="Premium Products" />
+                <ListItem label="API Integrations" />
+                <ListItem label="Global Fulfillment" />
                 <ListItem label="Warehousing" />
               </ul>
 

@@ -52,13 +52,9 @@ const NavbarDesktopLearnContents = () => {
         </div>
       </div>
       <div className="col-span-1 pl-8 flex flex-col">
-        <h2 className="text-3xl font-bold font-heading p-1">Learn</h2>
-        <Link
-          passHref
-          href={routes.internal.learn.href()}
-          className={linkClass}
-        >
-          <Popover.Button as="div">Articles & Guides</Popover.Button>
+        <h2 className="text-3xl font-bold font-heading p-1">Resources</h2>
+        <Link passHref href={routes.internal.blog.href()} className={linkClass}>
+          <Popover.Button as="div">Blog</Popover.Button>
         </Link>
         <Link
           passHref

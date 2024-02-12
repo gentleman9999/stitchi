@@ -104,10 +104,10 @@ async function start() {
   await new Promise<void>(resolve => httpServer.listen({ port: PORT }, resolve))
 
   logger.info(
-    `🚀 Server ready at http://localhost:5000${gqlServer.graphqlPath}`,
+    `🚀 Server ready at http://localhost:5001${gqlServer.graphqlPath}`,
   )
   logger.info(
-    `🚀 Web Socket ready at ws://localhost:5000${gqlServer.graphqlPath}`,
+    `🚀 Web Socket ready at ws://localhost:5001${gqlServer.graphqlPath}`,
   )
 }
 

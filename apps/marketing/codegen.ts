@@ -2,7 +2,7 @@ import type { CodegenConfig } from '@graphql-codegen/cli'
 
 const config: CodegenConfig = {
   overwrite: true, // overwrite the file every time
-  schema: 'http://localhost:5000/graphql', // reference the local schema
+  schema: 'http://localhost:5001/graphql', // reference the local schema
   documents: 'src/**/*.{ts,tsx}', // look up gql operations in all .ts and .tsx files
   config: {
     declarationKind: 'interface', // use interfaces, not types (compatibile with Apollo)

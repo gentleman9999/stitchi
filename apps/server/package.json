@@ -13,7 +13,7 @@
     "codegen:prisma": "prisma generate",
     "db:migrate": "npx prisma db push",
     "db:inspect": "npx prisma studio",
-    "stripe:listen": "stripe listen --forward-to localhost:5000/api/v1/stripe/webhook",
+    "stripe:listen": "stripe listen --forward-to localhost:5001/api/v1/stripe/webhook",
     "email:compose": "email dev --dir src/email-template-composer/emails --port 3004"
   },
   "devDependencies": {
