@@ -1,28 +1,32 @@
 'use client'
 
 import { gql } from '@apollo/client'
-import { CmsLandingPageV2Fragment } from '@generated/types'
+import { CmsLandingPageAppDirFragment } from '@generated/types'
 import React from 'react'
-import CmsSeo, { CmsSeoFragments } from '../CmsSeo'
-import CmsLandingPageHero, {
-  Props as CmsLandingPageHeroProps,
-} from '../CmsLandingPage/CmsLandingPageHero'
-import CmsLandingPageSection from '../CmsLandingPage/CmsLandingPageSection'
-import CmsLandingPageCallToAction from '../CmsLandingPage/CmsLandingPageCallToAction'
-import CmsLandingPageCatalogSection from '../CmsLandingPage/CmsLandingPageCatalogSection'
 import { useLogger } from 'next-axiom'
 import { formatTradeshowDate } from '@lib/cms-landing-page'
 import Breadcrumbs, { BreadcrumbProps } from '../Breadcrumbs'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import Container from '@components/ui/Container'
+import CmsSeo, { CmsSeoFragments } from '../CmsSeo'
+import CmsLandingPageHero, {
+  Props as CmsLandingPageHeroProps,
+} from './CmsLandingPageHero'
+import CmsLandingPageSection from './CmsLandingPageSection'
+import CmsLandingPageCallToAction from './CmsLandingPageCallToAction'
+import CmsLandingPageCatalogSection from './CmsLandingPageCatalogSection'
 
 export interface Props {
-  landingPage: CmsLandingPageV2Fragment
+  landingPage: CmsLandingPageAppDirFragment
   href: string
   parentBreadcrumbs?: BreadcrumbProps['breadcrumbs']
 }
 
-const CmsLandingPageV2 = ({ landingPage, href, parentBreadcrumbs }: Props) => {
+const CmsLandingPageAppDir = ({
+  landingPage,
+  href,
+  parentBreadcrumbs,
+}: Props) => {
   const logger = useLogger()
 
   const breadcrumbs = [
@@ -126,13 +130,13 @@ const CmsLandingPageV2 = ({ landingPage, href, parentBreadcrumbs }: Props) => {
   )
 }
 
-CmsLandingPageV2.fragments = {
+CmsLandingPageAppDir.fragments = {
   landingPage: gql`
     ${CmsLandingPageSection.fragments.section}
     ${CmsLandingPageCallToAction.fragments.callToAction}
     ${CmsLandingPageCatalogSection.fragments.catalogSection}
     ${CmsSeoFragments.seoTags}
-    fragment CmsLandingPageV2Fragment on LandingPageRecord {
+    fragment CmsLandingPageAppDirFragment on LandingPageRecord {
       id
       slug
       title
@@ -185,4 +189,4 @@ CmsLandingPageV2.fragments = {
   `,
 }
 
-export default CmsLandingPageV2
+export default CmsLandingPageAppDir

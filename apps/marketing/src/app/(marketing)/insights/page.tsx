@@ -2,7 +2,7 @@
 
 import { gql } from '@apollo/client'
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
-import CmsLandingPageV2 from '@components/common/CmsLandingPageV2'
+import CmsLandingPageV2 from '@components/common/CmsLandingPageAppDir'
 import {
   InsightIndexPageGetDataQuery,
   InsightIndexPageGetDataQueryVariables,
@@ -39,7 +39,7 @@ const GET_DATA = gql`
   query InsightIndexPageGetDataQuery {
     landingPage(filter: { id: { eq: "D2HV_J7hTKmi0T2hgBN1-w" } }) {
       id
-      ...CmsLandingPageV2Fragment
+      ...CmsLandingPageAppDirFragment
     }
   }
 `

@@ -7,7 +7,9 @@ import { GetStaticPaths, GetStaticPathsResult, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import React from 'react'
 import ComponentErrorMessage from '../ComponentErrorMessage'
-import CmsLandingPageV2, { CmsLandingPageV2Props } from '../CmsLandingPageV2'
+import CmsLandingPageV2, {
+  CmsLandingPageAppDirProps,
+} from '../CmsLandingPageAppDir'
 import {
   IndustriesIndexPageGetDataQuery,
   IndustriesIndexPageGetDataQueryVariables,
@@ -81,7 +83,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 interface Props {
   href: string
-  parentBreadcrumbs?: CmsLandingPageV2Props['parentBreadcrumbs']
+  parentBreadcrumbs?: CmsLandingPageAppDirProps['parentBreadcrumbs']
 }
 
 const CmsLandingPage = ({ href, parentBreadcrumbs }: Props) => {
@@ -126,7 +128,7 @@ const GET_PAGE_DATA = gql`
   query IndustriesIndexPageGetDataQuery($slug: String!) {
     landingPage(filter: { slug: { eq: $slug } }) {
       id
-      ...CmsLandingPageV2Fragment
+      ...CmsLandingPageAppDirFragment
     }
   }
 `

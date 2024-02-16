@@ -2,7 +2,7 @@
 
 import { gql } from '@apollo/client'
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
-import CmsLandingPageV2 from '@components/common/CmsLandingPageV2'
+import CmsLandingPageV2 from '@components/common/CmsLandingPageAppDir'
 import {
   TradeShowIndexPageGetDataQuery,
   TradeShowIndexPageGetDataQueryVariables,
@@ -39,7 +39,7 @@ const GET_DATA = gql`
   query TradeShowIndexPageGetDataQuery {
     landingPage(filter: { id: { eq: "163817886" } }) {
       id
-      ...CmsLandingPageV2Fragment
+      ...CmsLandingPageAppDirFragment
     }
   }
 `
