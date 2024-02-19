@@ -21,9 +21,21 @@ services:
       - '6379:6379'
     volumes:
       - redis:/data
+  database:
+    container_name: stitchi_database
+    image: mysql:8.3.0
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_DATABASE: stitchi
+      MYSQL_ROOT_PASSWORD: stitchi
+    volumes:
+      - mysql:/var/lib/mysql
 networks:
   turbo-network:
     driver: bridge
 volumes:
   redis:
+    driver: local
+  mysql:
     driver: local
