@@ -13,6 +13,7 @@ import { makeClient as makeOrganizationClient } from './organization'
 import { makeClient as makeMembershipClient } from './membership'
 import { makeClient as makeColorClient } from './color'
 import { makeClient as makeKeyValueStoreClient } from './key-value-store'
+import { makeClient as makeInventoryClient } from './inventory'
 
 export interface ServiceList {
   conversation: ReturnType<typeof makeConversationClient>
@@ -30,6 +31,7 @@ export interface ServiceList {
   membership: ReturnType<typeof makeMembershipClient>
   color: ReturnType<typeof makeColorClient>
   keyValueStore: ReturnType<typeof makeKeyValueStoreClient>
+  inventory: ReturnType<typeof makeInventoryClient>
 }
 
 const services: ServiceList = {
@@ -48,6 +50,7 @@ const services: ServiceList = {
   membership: makeMembershipClient(),
   color: makeColorClient(),
   keyValueStore: makeKeyValueStoreClient(),
+  inventory: makeInventoryClient(),
 }
 
 export default services

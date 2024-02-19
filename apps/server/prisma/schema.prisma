@@ -945,8 +945,8 @@ model KeyValue {
 }
 
 model Sku {
-  id                String @id
-  // TODO designVariant needs to support either `size` or `bigCommerceProductVariantId`
+  id                String @id @default(uuid())
+  // TODO(custompro98): designVariant needs to support either `size` or `bigCommerceProductVariantId`
   designVariantId   String
   quantity          Int @default(0)
 

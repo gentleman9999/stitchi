@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-import { PrismaClient, Sku as SkuSchema, Prisma } from '@prisma/client'
+import { PrismaClient, Sku as SkuSchema } from '@prisma/client'
 
 export const Sku: yup.ObjectSchema<SkuSchema> = yup
   .object()

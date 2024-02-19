@@ -1,16 +1,6 @@
-import * as uuid from 'uuid'
-import { InventoryFactorySku, skuFactory } from './factory'
-
-/**
- * Create the literal stock keeping unit (Sku).
- *
- * This may be an API call to BIGC/Shopify and/or DB calls.
- */
-interface CreateSkuInput {
-  designVariantId: string
-  size: string
-  initialQuantity: number
-}
+import { InventoryFactorySku } from './factory'
+import makeInventoryRepository, { InventoryRepository } from './repository'
+import { CreateSkuFnInput } from './repository/create-sku'
 
 /**
  * Increase the quantity of the item in inventory.
@@ -37,79 +27,34 @@ interface ConsumeInventoryInput {
 }
 
 export interface InventoryClientService {
-  createSku: (input: CreateSkuInput) => Promise<InventoryFactorySku>
-  createInventory: (input: CreateInventoryInput) => Promise<InventoryFactorySku>
-  consumeInventory: (
-    input: ConsumeInventoryInput,
-  ) => Promise<InventoryFactorySku>
+  createSku: (input: CreateSkuFnInput) => Promise<InventoryFactorySku>
+  createInventory: (input: CreateInventoryInput) => Promise<void>
+  consumeInventory: (input: ConsumeInventoryInput) => Promise<void>
 }
 
-interface MakeClientParams {}
+interface MakeClientParams {
+  inventoryRepository: InventoryRepository
+}
 
 type MakeClientFn = (params?: MakeClientParams) => InventoryClientService
 
-type Sku = string
-
-interface Ledger {
-  id: string
-  designVariantId: string
-  size: string
-  quantity: number
-}
-
-/**
- * This is a placeholder for where we actually want to store the data.
- * This could be a BIGC catalog, a Shopify catalog, or our own tables.
- */
-const database: Record<Sku, Ledger> = {}
-
-const makeClient: MakeClientFn = () => {
+const makeClient: MakeClientFn = (
+  { inventoryRepository } = { inventoryRepository: makeInventoryRepository() },
+) => {
   return {
-    createSku: async ({ designVariantId, size, initialQuantity }) => {
-      if (!(designVariantId in database)) {
-        database[designVariantId] = {
-          id: uuid.v4(),
-          designVariantId,
-          size,
-          quantity: initialQuantity,
-        }
+    createSku: async ({ sku }) => {
+      let newSku
+
+      try {
+        newSku = await inventoryRepository.createSku({ sku })
+      } catch (error) {
+        throw new Error('Failed to create sku')
       }
 
-      return skuFactory({
-        skuRecord: database[designVariantId],
-      })
+      return newSku
     },
-    createInventory: async ({ designVariantId, quantity }) => {
-      if (!(designVariantId in database)) {
-        throw new Error(`Sku not found for design request ${designVariantId}`)
-      }
-
-      database[designVariantId].quantity += quantity
-
-      return skuFactory({
-        skuRecord: database[designVariantId],
-      })
-    },
-    consumeInventory: async ({ designVariantId, quantity }) => {
-      if (!(designVariantId in database)) {
-        throw new Error(`Sku not found for design request ${designVariantId}`)
-      }
-
-      const remaining = database[designVariantId].quantity - quantity
-
-      // Never let inventory drop below 0
-      if (remaining < 0) {
-        throw new Error(
-          `Sku would have fewer than zero items remaining for design request ${designVariantId}`,
-        )
-      }
-
-      database[designVariantId].quantity = remaining
-
-      return skuFactory({
-        skuRecord: database[designVariantId],
-      })
-    },
+    createInventory: async () => {},
+    consumeInventory: async () => {},
   }
 }
 
