@@ -111,14 +111,14 @@ const CmsLandingPageCatalogSection = ({ catalogSection }: Props) => {
             </Tabs.TabList>
           </Tabs>
 
-          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
-            <Suspense
+          <div className="grid gap-4 grid-cols-2 md:grid-cols-4">
+            {/* <Suspense
               fallback={Array.from(new Array(4)).map((_, i) => (
                 <CatalogProductSkeleton key={i} />
               ))}
-            >
-              <CmsLandingPageCatalogSectionProducts categoryId={categoryId} />
-            </Suspense>
+            > */}
+            <CmsLandingPageCatalogSectionProducts categoryId={categoryId} />
+            {/* </Suspense> */}
           </div>
         </div>
       </Section>
