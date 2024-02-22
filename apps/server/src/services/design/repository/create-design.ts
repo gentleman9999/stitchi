@@ -89,6 +89,7 @@ const makeCreateDesign: MakeCreateDesignFn =
           designVariants: {
             create: validInput.variants.map(variant => ({
               catalogProductColorId: variant.catalogProductColorId,
+              catalogProductVariantId: variant.catalogProductVariantId,
               colorHexCode: variant.colorHexCode,
               colorName: variant.colorName,
               images: {

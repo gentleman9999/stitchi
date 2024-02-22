@@ -460,11 +460,12 @@ model DesignLocation {
   @@index([designId])
 }
 
-// A design variant is a variant of the design that can be purchased. For example, each color of a garment is a variant.
+// A design variant is a variant of the design that can be purchased. For example, each color and size combination of a garment is a variant.
 model DesignVariant {
   id String @id @default(uuid())
 
   designId String
+  catalogProductVariantId String?
 
   catalogProductColorId String
 
