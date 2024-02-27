@@ -1,10 +1,12 @@
+'use client'
+
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import * as RadioGroup from '@radix-ui/react-radio-group'
 import currency from 'currency.js'
-import { RangeSlider } from '@components/ui/inputs'
+import RangeSlider from '@components/ui/inputs/RangeSlider'
 
 const schema = yup.object({
   campusPopulation: yup.number().min(0).required(),

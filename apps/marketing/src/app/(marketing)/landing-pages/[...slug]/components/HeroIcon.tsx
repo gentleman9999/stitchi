@@ -1,3 +1,4 @@
+'use client'
 import { useEffect, useState } from 'react'
 
 interface Props {
@@ -17,8 +18,6 @@ const HeroIcon = ({
   ...props
 }: Props) => {
   const [svg, setSvg] = useState<string | null>(null)
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [isErrored, setIsErrored] = useState(false)
 
   useEffect(() => {
     const url = `https://cdn.jsdelivr.net/npm/heroicons@${version}/${
@@ -27,8 +26,6 @@ const HeroIcon = ({
     fetch(url)
       .then(res => res.text())
       .then(setSvg)
-      .catch(setIsErrored)
-      .then(() => setIsLoaded(true))
   }, [icon, mini, outline, version])
 
   return (

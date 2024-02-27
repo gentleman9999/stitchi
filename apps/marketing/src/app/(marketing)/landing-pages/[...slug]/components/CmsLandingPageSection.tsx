@@ -1,26 +1,26 @@
 import React from 'react'
 import cx from 'classnames'
-import Section from '../Section'
-import SectionHeader from '../SectionHeader'
+import Section from '@components/common/Section'
+import SectionHeader from '@components/common/SectionHeader'
 import { gql } from '@apollo/client'
 import FeatureGrid, { Props as FeatureGridProps } from './FeatureGrid'
 import Container from '@components/ui/Container'
-import CmsImage, { CmsImageFragments } from '../CmsImage'
+import CmsImage, { CmsImageFragments } from '@components/common/CmsImage'
 import FAQGroup, { Props as FAQGroupProps } from './FAQGroup'
-import { useLogger } from 'next-axiom'
+import { Logger } from 'next-axiom'
 import LandingPageGrid, {
   Props as LandingPageGridProps,
 } from './LandingPageGrid'
 import { CmsLandingPageSectionSectionFragment } from '@generated/types'
 import { formatTradeshowDate, getHref } from '@lib/cms-landing-page'
-import CmsStructuredText from '../CmsStructuredText'
+import CmsStructuredText from '@components/common/CmsStructuredText'
 
 interface Props {
   section: CmsLandingPageSectionSectionFragment
 }
 
 const CmsLandingPageSection = ({ section }: Props) => {
-  const logger = useLogger()
+  const logger = new Logger()
   const {
     title,
     subtitle,

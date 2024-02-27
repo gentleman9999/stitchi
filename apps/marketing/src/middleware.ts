@@ -14,6 +14,29 @@ const allCategorySlugs = staticData.categories.map(
   category => category.custom_url.url.replace(/^\/|\/$/g, ''),
 )
 
+const allLandingPageSlugs = staticData.landingPages.map(page => {
+  let category = ''
+
+  if (page.category) {
+    switch (page.category) {
+      case 'industry':
+        category = routes.internal.industries.href()
+        break
+      case 'insight':
+        category = routes.internal.insights.href()
+        break
+      case 'tradeshow':
+        category = routes.internal.tradeshows.href()
+        break
+      case 'conference':
+        category = routes.internal.conferences.href()
+        break
+    }
+  }
+
+  return `${category}/${page.slug}`
+})
+
 const addDeviceCooke = (request: NextRequest, response: NextResponse) => {
   response.cookies.set(COOKIE_DEVICE_ID, uuid.v4(), {
     path: '/',
@@ -94,6 +117,12 @@ const middleware: NextMiddleware = async (request, event) => {
 
       return addDeviceCooke(request, redirect)
     }
+  }
+
+  if (allLandingPageSlugs.includes(pathname)) {
+    return NextResponse.rewrite(
+      new URL(`/landing-pages${pathname}`, request.url),
+    )
   }
 
   // ***

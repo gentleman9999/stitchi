@@ -1,5 +1,3 @@
-'use client'
-
 import Link from 'next/link'
 import React from 'react'
 import cx from 'classnames'
@@ -14,12 +12,14 @@ interface Breadcrumb {
 
 export interface Props {
   breadcrumbs: Breadcrumb[]
+  useAppDir?: boolean
 }
 
-const Breadcrumbs = ({ breadcrumbs }: Props) => {
+const Breadcrumbs = ({ breadcrumbs, useAppDir }: Props) => {
   return (
     <>
       <BreadcrumbJsonLd
+        useAppDir={useAppDir}
         itemListElements={breadcrumbs.map((crumb, i) => ({
           position: i + 1,
           name: crumb.label,

@@ -1,4 +1,151 @@
 {
+  "designCategorySlugs": [
+    "outdoors",
+    "wilderness",
+    "fishing",
+    "dee-jay",
+    "detroit",
+    "city",
+    "ocean",
+    "beach",
+    "tropical",
+    "soccer",
+    "baseball",
+    "football",
+    "basketball",
+    "athletic",
+    "newsletter",
+    "cryptocurrency",
+    "bitcoin",
+    "sorority",
+    "fraternity",
+    "university",
+    "collegiate",
+    "musician",
+    "western",
+    "motorcycle",
+    "mountain",
+    "nature",
+    "skyline",
+    "music-festival",
+    "band",
+    "surfing",
+    "christian"
+  ],
+  "landingPages": [
+    {
+      "id": "VTIl84fjR4-hj5hfh4CuTw",
+      "slug": "blank-cream-hoodies",
+      "category": "insight"
+    },
+    { "id": "D2HV_J7hTKmi0T2hgBN1-w", "slug": "insights", "category": "none" },
+    {
+      "id": "dIiDSCAVQ_GB4c1v7B5Lfg",
+      "slug": "cheap-bulk-hoodies",
+      "category": "insight"
+    },
+    {
+      "id": "UIV0Cvm5Qmm1QqRC9_QIag",
+      "slug": "top-blank-full-zip-hoodies",
+      "category": "insight"
+    },
+    {
+      "id": "DWiH-tquS5SydNlGdGKSwg",
+      "slug": "wholesale-burnout-baseball-tee",
+      "category": "insight"
+    },
+    {
+      "id": "AR42_d7mR5KOl95H0tJs9Q",
+      "slug": "tshirt-for-workers-customized-tshirt-uniform",
+      "category": "insight"
+    },
+    {
+      "id": "QvbJZm5OS7OxLzHun3eXEw",
+      "slug": "aba-techshow-2024-chicago-and-startup-alley",
+      "category": "tradeshow"
+    },
+    {
+      "id": "KWIycKuWSGatqytYCNvZzQ",
+      "slug": "cosmoprof-north-america-2024",
+      "category": "tradeshow"
+    },
+    {
+      "id": "afXZUIfNQCmOGgGzJW8q9g",
+      "slug": "saastock-usa-2024",
+      "category": "tradeshow"
+    },
+    { "id": "163817886", "slug": "tradeshows", "category": "none" },
+    {
+      "id": "bU6tQGMFTqW6QzGGkH1QqA",
+      "slug": "shoptalk-2024",
+      "category": "tradeshow"
+    },
+    {
+      "id": "aGuDWEzYRQigbFsuwBxnSA",
+      "slug": "natural-products-expo-west-2024",
+      "category": "tradeshow"
+    },
+    {
+      "id": "S8rINUXFQFm_81-N8ZOHmw",
+      "slug": "collision-conference-2024",
+      "category": "tradeshow"
+    },
+    {
+      "id": "fnGQhHEPRxmOemY0K4U5Xg",
+      "slug": "b2bmx-2024",
+      "category": "tradeshow"
+    },
+    {
+      "id": "cXjYTLPyRwuWYsEURoARuQ",
+      "slug": "club-industry-2024",
+      "category": "tradeshow"
+    },
+    {
+      "id": "bw0DKxknRMKgxZhvw5a9MQ",
+      "slug": "ces-2024",
+      "category": "tradeshow"
+    },
+    {
+      "id": "164992423",
+      "slug": "expensive-promotional-gifts-for-businesses",
+      "category": "insight"
+    },
+    {
+      "id": "164886464",
+      "slug": "gifts-under-usd-25-for-employees",
+      "category": "insight"
+    },
+    {
+      "id": "165013881",
+      "slug": "get-the-best-marketing-promotional-items",
+      "category": "insight"
+    },
+    {
+      "id": "180124067",
+      "slug": "promotional-items-for-fundraisers",
+      "category": "industry"
+    },
+    {
+      "id": "183421286",
+      "slug": "fundraisers-promotional-items",
+      "category": "industry"
+    },
+    {
+      "id": "191373546",
+      "slug": "political-campaign-promotional-items-us-made",
+      "category": "industry"
+    },
+    {
+      "id": "NgBrGnHgQLWz5lgPy2b9bw",
+      "slug": "burnout-tees",
+      "category": "insight"
+    },
+    {
+      "id": "VH-G59YqSfOF2879UMsR4A",
+      "slug": "branded-beanies",
+      "category": "insight"
+    }
+  ],
   "brands": [
     {
       "id": 38,
@@ -3809,11 +3956,11 @@
     },
     {
       "id": 573,
-      "parent_id": 516,
+      "parent_id": 1067,
       "name": "Swags Under $25",
       "description": "<p>Tax-deductible holiday gifts and promotional swags under $25. Embed your logo, tagline, or custom design on these high-quality, durable, and stylish merchandise. According to IRS,&nbsp;when businesses offer Christmas or holidays gifts to stakeholders such as key customers, clients, donors, suppliers, etc. within the scope of their professional activities, they are eligible to deduct a maximum of $25 for each business gift provided to an individual, either directly or indirectly, during the tax year.&nbsp;</p>",
       "views": 0,
-      "sort_order": 3,
+      "sort_order": 7,
       "page_title": "Tax-deductible holiday gifts and promotional swags under $25",
       "search_keywords": "Are gift cards to employees tax deductible, Are employee Christmas gifts tax deductible, Corporate Swags Under $10,  corporate gifts under $25, gifts under $25 for employees, inexpensive swags, inexpensive gifts,",
       "meta_keywords": [
@@ -3833,11 +3980,11 @@
     },
     {
       "id": 574,
-      "parent_id": 516,
+      "parent_id": 1067,
       "name": "Corporate Merchandise and Swags Under $10",
       "description": "",
       "views": 0,
-      "sort_order": 2,
+      "sort_order": 8,
       "page_title": "",
       "search_keywords": "",
       "meta_keywords": [],
@@ -3874,11 +4021,11 @@
     },
     {
       "id": 577,
-      "parent_id": 516,
+      "parent_id": 1067,
       "name": "Burnout Tees",
       "description": "<p>Welcome to our wide catalog of Burnout Tees where style meets comfort in the form of high-quality apparel for men, women, and children. Discover a diverse collection of burnout tees and hoodies that redefine casual wear with their unique textures and designs.&nbsp;</p>",
       "views": 0,
-      "sort_order": 1,
+      "sort_order": 4,
       "page_title": "Burnout Tees, Shirts, and Hoodies | Top-Quality",
       "search_keywords": "burnout tee, burnout tee, shirt burnout tees, womens burnout tees, burnout tee shirts",
       "meta_keywords": [
@@ -3996,11 +4143,11 @@
     },
     {
       "id": 1057,
-      "parent_id": 516,
+      "parent_id": 1067,
       "name": "Branded Merchandise for Salons and Spas",
       "description": "",
       "views": 0,
-      "sort_order": 0,
+      "sort_order": 1,
       "page_title": "",
       "search_keywords": "",
       "meta_keywords": [],
@@ -4110,11 +4257,11 @@
     },
     {
       "id": 1063,
-      "parent_id": 516,
+      "parent_id": 1067,
       "name": "Branded-beanies",
       "description": "",
       "views": 0,
-      "sort_order": 0,
+      "sort_order": 2,
       "page_title": "",
       "search_keywords": "",
       "meta_keywords": [],
@@ -4127,39 +4274,46 @@
         "is_customized": false
       },
       "image_url": ""
+    },
+    {
+      "id": 1064,
+      "parent_id": 1067,
+      "name": "Workers uniform T-shirts under $10",
+      "description": "",
+      "views": 0,
+      "sort_order": 6,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/collections/workers-uniform-t-shirts-under-10/",
+        "is_customized": false
+      },
+      "image_url": ""
+    },
+    {
+      "id": 1066,
+      "parent_id": 1067,
+      "name": "Uniform Hoodies and Sweatshirts",
+      "description": "",
+      "views": 0,
+      "sort_order": 3,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/collections/uniform-hoodies-and-sweatshirts/",
+        "is_customized": false
+      },
+      "image_url": ""
     }
-  ],
-  "designCategorySlugs": [
-    "outdoors",
-    "wilderness",
-    "fishing",
-    "dee-jay",
-    "detroit",
-    "city",
-    "ocean",
-    "beach",
-    "tropical",
-    "soccer",
-    "baseball",
-    "football",
-    "basketball",
-    "athletic",
-    "newsletter",
-    "cryptocurrency",
-    "bitcoin",
-    "sorority",
-    "fraternity",
-    "university",
-    "collegiate",
-    "musician",
-    "western",
-    "motorcycle",
-    "mountain",
-    "nature",
-    "skyline",
-    "music-festival",
-    "band",
-    "surfing",
-    "christian"
   ]
 }

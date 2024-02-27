@@ -1,15 +1,16 @@
+'use client'
+
 import Container from '@components/ui/Container'
 import Button from '@components/ui/ButtonV2/Button'
 import Tabs from '@components/ui/Tabs'
 import routes from '@lib/routes'
 import Link from 'next/link'
-import React, { Suspense } from 'react'
-import Section from '../Section'
-import SectionHeader from '../SectionHeader'
+import React from 'react'
+import Section from '../../../../../../components/common/Section'
+import SectionHeader from '../../../../../../components/common/SectionHeader'
 import { CmsLandingPageCatalogSectionCatalogSectionFragment } from '@generated/types'
-import CatalogProductSkeleton from 'app/(catalog)/catalog/(grid)/CatalogPorductGrid/CatalogProductSkeleton'
 import CmsLandingPageCatalogSectionProducts from './CmsLandingPageCatalogSectionProducts'
-import { gql } from '@apollo/client'
+import staticData from '../../../../../../generated/static.json'
 
 const defaultCategories = [
   {
@@ -68,9 +69,19 @@ const CmsLandingPageCatalogSection = ({ catalogSection }: Props) => {
       }))
   }, [catalogSection.categories, catalogSection.disableDefaultCategories])
 
-  const [categoryId, setCategoryId] = React.useState(categories[0]?.id)
+  const [categoryId, setCategoryId] = React.useState<number | undefined>(
+    categories[0]?.id,
+  )
 
   const { title, description } = catalogSection
+
+  const activeCategory = staticData.categories.find(
+    category => category.id === categoryId,
+  )
+
+  if (!categoryId) {
+    return null
+  }
 
   return (
     <Container>
@@ -90,14 +101,20 @@ const CmsLandingPageCatalogSection = ({ catalogSection }: Props) => {
               size="lg"
               variant="ghost"
               Component={Link}
-              href={routes.internal.catalog.href()}
+              href={
+                activeCategory
+                  ? routes.internal.catalog.category.show.href({
+                      categorySlug: activeCategory.custom_url.url,
+                    })
+                  : routes.internal.catalog.href()
+              }
             >
               Browse catalog
             </Button>
           </div>
 
           <Tabs
-            value={categoryId.toString()}
+            value={categoryId?.toString()}
             onValueChange={value => {
               setCategoryId(parseInt(value))
             }}
@@ -112,34 +129,12 @@ const CmsLandingPageCatalogSection = ({ catalogSection }: Props) => {
           </Tabs>
 
           <div className="grid gap-4 grid-cols-2 md:grid-cols-4">
-            {/* <Suspense
-              fallback={Array.from(new Array(4)).map((_, i) => (
-                <CatalogProductSkeleton key={i} />
-              ))}
-            > */}
             <CmsLandingPageCatalogSectionProducts categoryId={categoryId} />
-            {/* </Suspense> */}
           </div>
         </div>
       </Section>
     </Container>
   )
-}
-
-CmsLandingPageCatalogSection.fragments = {
-  catalogSection: gql`
-    fragment CmsLandingPageCatalogSectionCatalogSectionFragment on PageSectionCatalogRecord {
-      id
-      title
-      description
-      disableDefaultCategories
-      categories {
-        id
-        bigCommerceCategoryId
-        name
-      }
-    }
-  `,
 }
 
 export default CmsLandingPageCatalogSection
