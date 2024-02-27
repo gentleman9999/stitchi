@@ -1,8 +1,9 @@
+'use client'
+
 import { gql } from '@apollo/client'
 import CatalogProductLegacy, {
   CatalogProductLegacyFragments,
-} from '../CatalogProductLegacy'
-import { notEmpty } from '@lib/utils/typescript'
+} from '../../../../../../components/common/CatalogProductLegacy'
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 import routes from '@lib/routes'
 import {
@@ -21,7 +22,6 @@ const CmsLandingPageCatalogSectionProducts = ({ categoryId }: Props) => {
     CmsLandingPageCatalogSectionProductsGetDataQueryVariables
   >(GET_DATA, {
     variables: { categoryId },
-    skip: !notEmpty(categoryId),
   })
 
   const { products } = data?.site?.category || {}
@@ -53,10 +53,11 @@ const GET_DATA = gql`
     site {
       category(entityId: $categoryId) {
         id
-        products(first: 4) {
+        products(first: 4, sortBy: DEFAULT) {
           edges {
             node {
               id
+
               ...CatalogProductLegacyProductFragment
             }
           }

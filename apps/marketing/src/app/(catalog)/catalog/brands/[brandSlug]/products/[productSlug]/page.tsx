@@ -39,17 +39,17 @@ export const generateMetadata = async ({
       product.sku ? ` - ${product.sku}` : ''
     }`
 
+    const { brand, name, path: productPath } = product
+
     let description
 
     if (product.seo.metaDescription) {
       description = product.seo.metaDescription
+    } else {
+      ;`Customize ${name}${
+        brand?.name ? ` by ${brand.name}` : ''
+      }. We offer free design, fast delivery, $1 fulfillment. Shop sustainable, high quality custom merch today.`
     }
-
-    const { brand, name, path: productPath } = product
-
-    description = `Customize ${name}${
-      brand?.name ? ` by ${brand.name}` : ''
-    }. We offer free design, fast delivery, $1 fulfillment. Shop sustainable, high quality custom merch today.`
 
     let images: NonNullable<Metadata['openGraph']>['images'] = []
 

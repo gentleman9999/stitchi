@@ -1,52 +1,7 @@
-import { FAQPageJsonLd } from 'next-seo'
 import React from 'react'
-import { renderToString } from 'react-dom/server'
-import cx from 'classnames'
+import type { FAQ } from './FAQGroup'
 import { MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
-
-interface FAQ {
-  id: string
-  question: string
-  answer: string
-}
-
-export interface Props {
-  faqs: FAQ[]
-  expandAll?: boolean
-}
-
-const FAQGroup = ({ faqs, expandAll }: Props) => {
-  const [isMobile, setIsMobile] = React.useState(false)
-
-  React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setIsMobile(window.innerWidth < 640)
-    }
-  }, [])
-
-  return (
-    <>
-      <FAQPageJsonLd
-        mainEntity={faqs.map(faq => ({
-          questionName: faq.question,
-          acceptedAnswerText: React.isValidElement(faq.answer)
-            ? renderToString(faq.answer)
-            : faq.answer,
-        }))}
-      />
-
-      <dl className="flex flex-col divide-y max-w-4xl m-auto border-t">
-        {faqs.map((faq, i) => (
-          <FAQ
-            key={faq.id}
-            faq={faq}
-            defaultExpanded={isMobile ? false : expandAll || i === 0}
-          />
-        ))}
-      </dl>
-    </>
-  )
-}
+import cx from 'classnames'
 
 const FAQ = ({
   faq,
@@ -99,4 +54,4 @@ const FAQ = ({
   )
 }
 
-export default FAQGroup
+export default FAQ

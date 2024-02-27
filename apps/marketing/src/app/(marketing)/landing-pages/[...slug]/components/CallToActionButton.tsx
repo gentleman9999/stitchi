@@ -1,5 +1,4 @@
 import Button, { ButtonProps } from '@components/ui/ButtonV2/Button'
-import getOrThrow from '@lib/utils/get-or-throw'
 import Link from 'next/link'
 import React from 'react'
 import HeroIcon from './HeroIcon'

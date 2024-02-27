@@ -37,15 +37,18 @@ export const generateMetadata = async ({
   const node = data?.site.route.node
 
   if (node?.__typename === 'Category') {
-    const title = `Browse ${node.name} Products`
+    const title = node.seo.pageTitle || `Browse ${node.name}`
+
     const description =
       node.seo.metaDescription ||
       node.description ||
       `Discover our extensive range of ${node.name} products, perfect for your audience. Each ${node.name} product in our collection offers unique customization options to align with your style and preferences. Shop now to find the ideal ${node.name} product that embodies, quality, functionality and affordability.`
+
     const url = routes.internal.catalog.category.show.href({ categorySlug })
     return {
       title,
       description,
+      keywords: node.seo.metaKeywords,
       alternates: {
         canonical: url,
       },
@@ -79,12 +82,13 @@ const GET_DATA = gql`
       route(path: $path) {
         node {
           id
-
           ... on Category {
             name
             description
             seo {
               metaDescription
+              pageTitle
+              metaKeywords
             }
           }
         }

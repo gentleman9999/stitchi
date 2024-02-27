@@ -10,7 +10,6 @@ import { CmsStructuredTextTermsOfUseContentFragment } from '@generated/CmsStruct
 import routes from '@lib/routes'
 import { anchorTagFromNode } from '@lib/utils/structured-text'
 import { isLink, isHeading } from 'datocms-structured-text-utils'
-import { useLogger } from 'next-axiom'
 import Link from 'next/link'
 import { StructuredText, renderNodeRule } from 'react-datocms'
 import CmsImage, { CmsImageFragments } from '../CmsImage'
@@ -29,8 +28,6 @@ interface Props {
 }
 
 const CmsStructuredText = ({ content }: Props) => {
-  const logger = useLogger()
-
   return (
     <StructuredText
       data={content as any}
@@ -94,7 +91,7 @@ const CmsStructuredText = ({ content }: Props) => {
               }
 
               default: {
-                logger.error(`Invalid componentId: ${record.componentId}`)
+                console.error(`Invalid componentId: ${record.componentId}`)
               }
             }
           }

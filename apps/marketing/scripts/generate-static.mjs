@@ -72,10 +72,15 @@ const designCategoryQuery = `
       id
       slug
     }
+    allLandingPages(first: 100) {
+      id
+      slug
+      category
+    }
   }
 `
 
-const getDesignLibraryCategories = async () => {
+const getCmsData = async () => {
   try {
     const result = await fetch(endpoint, {
       method: 'POST',
@@ -90,18 +95,26 @@ const getDesignLibraryCategories = async () => {
       throw json.errors
     }
 
-    return json.data?.allDesignCategories?.map(({ slug }) => slug) || []
+    return {
+      designCategorySlugs:
+        json.data?.allDesignCategories?.map(({ slug }) => slug) || [],
+      landingPages: json.data?.allLandingPages || [],
+    }
   } catch (error) {
-    return console.error(error)
+    console.error(error)
+    throw error
   }
 }
 
 async function fetchSeoData() {
   try {
+    const { designCategorySlugs, landingPages } = await getCmsData()
+
     return {
+      designCategorySlugs,
+      landingPages,
       brands: await getBigCommerceBrands(),
       categories: await getBigCommerceCategories(),
-      designCategorySlugs: await getDesignLibraryCategories(),
     }
   } catch (error) {
     return console.error(error)

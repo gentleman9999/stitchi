@@ -1,8 +1,10 @@
+'use client'
+
 import React from 'react'
 import { Expand } from 'icons'
 import * as Portal from '@radix-ui/react-portal'
 import cx from 'classnames'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 const tdClassName = 'px-3 py-3.5'
 
