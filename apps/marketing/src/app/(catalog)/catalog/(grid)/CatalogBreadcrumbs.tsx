@@ -57,7 +57,7 @@ const CatalogBreadcrumbs = ({}: Props) => {
     })
   }
 
-  return <Breadcrumbs breadcrumbs={breadcrumbs} />
+  return <Breadcrumbs useAppDir breadcrumbs={breadcrumbs} />
 }
 
 export default CatalogBreadcrumbs

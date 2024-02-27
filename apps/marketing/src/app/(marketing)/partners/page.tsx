@@ -5,6 +5,11 @@ import React from 'react'
 import CTAButton from './CTAButton'
 import Container from '@components/ui/Container'
 
+export const metadata = {
+  title: 'Partners',
+  description: `Become a part of ${COMPANY_NAME}'s referral program and unlock the potential to earn significant commissions. Invite friends to explore our custom merchandise solutions and earn 10% on their orders for the first 12 months. Sign up now to start sharing and earning!`,
+}
+
 const Page = () => {
   return (
     <Container>

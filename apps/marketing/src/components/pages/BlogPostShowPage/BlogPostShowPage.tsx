@@ -51,6 +51,7 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
             {post.title && post.slug ? (
               <div className="!mb-20 flex justify-center sr-only sm:not-sr-only not-prose">
                 <Breadcrumbs
+                  useAppDir={false}
                   breadcrumbs={[
                     {
                       label: 'Articles & Guides',

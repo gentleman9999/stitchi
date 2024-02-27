@@ -4,7 +4,7 @@ import { BlogClient } from 'seobot'
 import ArticleCard from '../../components/ArticleCard'
 import Pagination from '../../components/Pagination'
 import getOrThrow from '@lib/utils/get-or-throw'
-import { COMPANY_NAME, SITE_URL } from '@lib/constants'
+import { SITE_URL } from '@lib/constants'
 
 async function getPosts(slug: string, page: number) {
   const key = getOrThrow(process.env.SEOBOT_API_KEY, 'SEOBOT_API_KEY')
@@ -22,23 +22,26 @@ export async function generateMetadata({
 }: {
   params: { slug: string }
 }): Promise<Metadata> {
-  const title = `${deslugify(slug)} - ${COMPANY_NAME} Blog`
+  const title = deslugify(slug)
+  const description = `Articles tagged with ${title}`
+
   return {
     title,
     metadataBase: new URL(SITE_URL),
+    description,
     alternates: {
       canonical: `/blog/tag/${slug}`,
     },
     openGraph: {
       type: 'article',
       title,
-      // description: '',
+      description,
       // images: [],
       url: `${SITE_URL}/blog/tag/${slug}`,
     },
     twitter: {
       title,
-      // description: '',
+      description,
       // card: 'summary_large_image',
       // images: [],
     },

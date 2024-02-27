@@ -37,7 +37,7 @@ export const generateMetadata = async ({
   const node = data?.site.route.node
 
   if (node?.__typename === 'Category') {
-    const title = node.seo.pageTitle || `Browse ${node.name}`
+    const title = node.seo.pageTitle || `Browse Customizable ${node.name}`
 
     const description =
       node.seo.metaDescription ||
