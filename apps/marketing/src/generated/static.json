@@ -34,11 +34,51 @@
   ],
   "landingPages": [
     {
+      "id": "cXjYTLPyRwuWYsEURoARuQ",
+      "slug": "club-industry-2024",
+      "category": "tradeshow"
+    },
+    {
+      "id": "fnGQhHEPRxmOemY0K4U5Xg",
+      "slug": "b2bmx-2024",
+      "category": "tradeshow"
+    },
+    {
+      "id": "S8rINUXFQFm_81-N8ZOHmw",
+      "slug": "collision-conference-2024",
+      "category": "tradeshow"
+    },
+    {
+      "id": "aGuDWEzYRQigbFsuwBxnSA",
+      "slug": "natural-products-expo-west-2024",
+      "category": "tradeshow"
+    },
+    {
+      "id": "bU6tQGMFTqW6QzGGkH1QqA",
+      "slug": "shoptalk-2024",
+      "category": "tradeshow"
+    },
+    {
+      "id": "afXZUIfNQCmOGgGzJW8q9g",
+      "slug": "saastock-usa-2024",
+      "category": "tradeshow"
+    },
+    {
+      "id": "QvbJZm5OS7OxLzHun3eXEw",
+      "slug": "aba-techshow-2024-chicago-and-startup-alley",
+      "category": "tradeshow"
+    },
+    {
+      "id": "KWIycKuWSGatqytYCNvZzQ",
+      "slug": "cosmoprof-north-america-2024",
+      "category": "tradeshow"
+    },
+    { "id": "D2HV_J7hTKmi0T2hgBN1-w", "slug": "insights", "category": "none" },
+    {
       "id": "VTIl84fjR4-hj5hfh4CuTw",
       "slug": "blank-cream-hoodies",
       "category": "insight"
     },
-    { "id": "D2HV_J7hTKmi0T2hgBN1-w", "slug": "insights", "category": "none" },
     {
       "id": "dIiDSCAVQ_GB4c1v7B5Lfg",
       "slug": "cheap-bulk-hoodies",
@@ -59,47 +99,7 @@
       "slug": "tshirt-for-workers-customized-tshirt-uniform",
       "category": "insight"
     },
-    {
-      "id": "QvbJZm5OS7OxLzHun3eXEw",
-      "slug": "aba-techshow-2024-chicago-and-startup-alley",
-      "category": "tradeshow"
-    },
-    {
-      "id": "KWIycKuWSGatqytYCNvZzQ",
-      "slug": "cosmoprof-north-america-2024",
-      "category": "tradeshow"
-    },
-    {
-      "id": "afXZUIfNQCmOGgGzJW8q9g",
-      "slug": "saastock-usa-2024",
-      "category": "tradeshow"
-    },
     { "id": "163817886", "slug": "tradeshows", "category": "none" },
-    {
-      "id": "bU6tQGMFTqW6QzGGkH1QqA",
-      "slug": "shoptalk-2024",
-      "category": "tradeshow"
-    },
-    {
-      "id": "aGuDWEzYRQigbFsuwBxnSA",
-      "slug": "natural-products-expo-west-2024",
-      "category": "tradeshow"
-    },
-    {
-      "id": "S8rINUXFQFm_81-N8ZOHmw",
-      "slug": "collision-conference-2024",
-      "category": "tradeshow"
-    },
-    {
-      "id": "fnGQhHEPRxmOemY0K4U5Xg",
-      "slug": "b2bmx-2024",
-      "category": "tradeshow"
-    },
-    {
-      "id": "cXjYTLPyRwuWYsEURoARuQ",
-      "slug": "club-industry-2024",
-      "category": "tradeshow"
-    },
     {
       "id": "bw0DKxknRMKgxZhvw5a9MQ",
       "slug": "ces-2024",
@@ -4308,7 +4308,7 @@
       "meta_description": "",
       "layout_file": "",
       "is_visible": true,
-      "default_product_sort": "use_store_settings",
+      "default_product_sort": "alpha_desc",
       "custom_url": {
         "url": "/collections/uniform-hoodies-and-sweatshirts/",
         "is_customized": false

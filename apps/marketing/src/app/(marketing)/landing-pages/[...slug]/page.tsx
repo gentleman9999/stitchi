@@ -22,12 +22,17 @@ import { Logger } from 'next-axiom'
 import routes from '@lib/routes'
 import { notEmpty } from '@lib/utils/typescript'
 import { getClient } from '@lib/apollo-rsc'
+import { Metadata } from 'next'
 
 interface Params {
   slug: string[]
 }
 
-const generateMetadata = async ({ params }: { params: Params }) => {
+const generateMetadata = async ({
+  params,
+}: {
+  params: Params
+}): Promise<Metadata> => {
   const client = await getClient()
 
   const { data } = await client.query<
@@ -38,7 +43,20 @@ const generateMetadata = async ({ params }: { params: Params }) => {
     variables: { slug: params.slug[params.slug.length - 1] },
   })
 
-  return toNextMetadata(data.landingPage?._seoMetaTags || [])
+  const metadata = toNextMetadata(data.landingPage?._seoMetaTags || [])
+
+  const url = params.slug.join('/')
+
+  return {
+    ...metadata,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      url,
+      ...metadata.openGraph,
+    },
+  }
 }
 
 const Page = async ({ params }: { params: Params }) => {

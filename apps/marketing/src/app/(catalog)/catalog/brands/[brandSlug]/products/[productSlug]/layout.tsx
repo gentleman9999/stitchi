@@ -61,7 +61,7 @@ const Layout = ({ children, share, params }: Props) => {
     <>
       {share}
       <Container className="flex flex-col gap-6 my-4">
-        <Breadcrumbs breadcrumbs={breadcrumbs} />
+        <Breadcrumbs useAppDir breadcrumbs={breadcrumbs} />
         {children}
         <ValuePropositions />
       </Container>

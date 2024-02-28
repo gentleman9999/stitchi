@@ -10,6 +10,7 @@ const CatalogIndexPage = ({}: CatalogIndexPageProps) => {
     <>
       <div className="sr-only">
         <Breadcrumbs
+          useAppDir={false}
           breadcrumbs={[
             { label: 'Home', href: routes.internal.home.href() },
             { label: 'Catalog', href: routes.internal.catalog.href() },

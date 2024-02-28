@@ -12,7 +12,7 @@ interface Breadcrumb {
 
 export interface Props {
   breadcrumbs: Breadcrumb[]
-  useAppDir?: boolean
+  useAppDir: boolean
 }
 
 const Breadcrumbs = ({ breadcrumbs, useAppDir }: Props) => {
