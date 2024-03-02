@@ -332,6 +332,7 @@ export interface NexusGenInputs {
   }
   ProductKey: { // input type
     id: string; // ID!
+    name: string; // ID!
     prices: NexusGenInputs['ProductPrice']; // ProductPrice!
   }
   ProductPrice: { // input type
@@ -1698,6 +1699,7 @@ export interface NexusGenFieldTypes {
   Product: { // field return type
     estimate: NexusGenRootTypes['Quote']; // Quote!
     id: string; // ID!
+    name: string; // String!
     priceMetadata: NexusGenRootTypes['ProductPriceMetadata']; // ProductPriceMetadata!
   }
   ProductPriceMetadata: { // field return type
@@ -2457,6 +2459,7 @@ export interface NexusGenFieldTypeNames {
   Product: { // field return type name
     estimate: 'Quote'
     id: 'ID'
+    name: 'String'
     priceMetadata: 'ProductPriceMetadata'
   }
   ProductPriceMetadata: { // field return type name

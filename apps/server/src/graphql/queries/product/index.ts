@@ -1,5 +1,6 @@
 import { GraphQLError } from 'graphql'
 import { extendType, inputObjectType, list, nonNull, queryField } from 'nexus'
+import catalogData from '../../../generated/catalog.json'
 
 export const products = queryField('_products', {
   type: list('Product'),
@@ -11,6 +12,7 @@ export const products = queryField('_products', {
             name: 'ProductKey',
             definition: t => {
               t.nonNull.id('id')
+              t.nonNull.id('name')
               t.nonNull.field('prices', {
                 type: nonNull(
                   inputObjectType({
@@ -44,9 +46,32 @@ export const products = queryField('_products', {
 export const ProductPriceMetadataExtendsProduct = extendType({
   type: 'Product',
   definition(t) {
+    t.nonNull.string('name', {
+      resolve: parent => {
+        let manipulatedValue = (parent as any).name
+
+        if (typeof manipulatedValue === 'string') {
+          // BigCommerce product names are stored with SKU at end to make them unique
+          const skuRegex = /\s*\[[a-zA-Z0-9]+\]$/
+          manipulatedValue = manipulatedValue.replace(skuRegex, '')
+
+          const brandInName = catalogData.brands
+            .map(brand => brand.name)
+            .find(brand => manipulatedValue.includes(brand))
+
+          if (brandInName) {
+            manipulatedValue = manipulatedValue.replace(brandInName, '')
+          }
+        }
+        return manipulatedValue.trim()
+      },
+    })
+
     t.nonNull.field('priceMetadata', {
       type: 'ProductPriceMetadata',
       resolve: async (parent, _, ctx) => {
+        console.log('PRICES', parent as any)
+
         const productPriceCents = (parent as any).prices.price.value * 100
         const includeFulfillment = false
 
