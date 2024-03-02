@@ -129,7 +129,7 @@ const middleware: NextMiddleware = async (request, event) => {
   // Handle brand, product, and category rewrites
   // ***
 
-  for (const slug of allBrandSlugs) {
+  for (const brandSlug of allBrandSlugs) {
     //
     // Our product catalog lives in two places, the marketing site and the app. We must handle rewrites for both cases.
     //
@@ -139,32 +139,19 @@ const middleware: NextMiddleware = async (request, event) => {
     // ***
     let destination: string | null = null
 
-    const brandSlugMatcher = new RegExp(`^/${slug}$`)
+    const brandSlugMatcher = new RegExp(`^/${brandSlug}$`)
 
     if (brandSlugMatcher.test(pathname)) {
       // /product-brand -> /catalog/brands/product-brand
-      destination = `/catalog/brands/${slug}`
+      destination = `/catalog/brands/${brandSlug}`
     }
 
-    const productSlugMatcher = new RegExp(`^/${slug}-([a-zA-Z0-9_-]+)$`)
+    // const productSlugMatcher = new RegExp(`^/${brandSlug}-([a-zA-Z0-9_-]+)$`)
 
-    if (productSlugMatcher.test(pathname)) {
+    if (pathname.startsWith(`/${brandSlug}-`)) {
       // /product-brand-product-slug -> /catalog/brands/product-brand/products/product-slug
 
-      const rest = pathname.match(productSlugMatcher)?.[1]
-
-      destination = `/catalog/brands/${slug}/products/${rest}`
-    }
-
-    const productSlugShareMatcher = new RegExp(
-      `^/${slug}-([a-zA-Z0-9_-]+)/share$`,
-    )
-
-    if (productSlugShareMatcher.test(pathname)) {
-      // /product-brand-product-slug/share -> /catalog/brands/product-brand/products/product-slug/share
-
-      const rest = pathname.match(productSlugShareMatcher)?.[1]
-      destination = `/catalog/brands/${slug}/products/${rest}/share`
+      destination = `/catalog/brands/${brandSlug}/products${pathname}`
     }
 
     // ***

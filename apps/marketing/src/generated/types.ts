@@ -8622,6 +8622,7 @@ export interface ProductInventory {
 
 export interface ProductKey {
   id: Scalars['ID']['input'];
+  name: Scalars['ID']['input'];
   prices: ProductPrice;
 }
 
