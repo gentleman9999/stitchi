@@ -1,4 +1,5 @@
 import * as yup from 'yup'
+import catalogData from '../generated/catalog.json'
 
 const customFieldSchema = yup.object().shape({
   id: yup.number().required(),
@@ -48,7 +49,27 @@ const optionSchema = yup.object().shape({
 const productSchema = yup.object().shape({
   id: yup.number().required(),
   sku: yup.string().notRequired(),
-  name: yup.string().required(),
+  name: yup
+    .string()
+    .transform((value, originalValue) => {
+      let manipulatedValue = originalValue
+
+      if (typeof manipulatedValue === 'string') {
+        // BigCommerce product names are stored with SKU at end to make them unique
+        const skuRegex = /\s*\[[a-zA-Z0-9]+\]$/
+        manipulatedValue = manipulatedValue.replace(skuRegex, '')
+
+        const brandInName = catalogData.brands
+          .map(brand => brand.name)
+          .find(brand => manipulatedValue.includes(brand))
+
+        if (brandInName) {
+          manipulatedValue = manipulatedValue.replace(brandInName, '')
+        }
+      }
+      return manipulatedValue.trim()
+    })
+    .required(),
   description: yup.string().notRequired(),
   weight: yup.number().required(),
   price: yup.number().min(0).required(),
