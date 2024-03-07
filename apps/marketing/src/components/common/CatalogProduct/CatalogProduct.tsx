@@ -28,7 +28,6 @@ const CatalogProduct = ({ product, priority }: Props) => {
   }
 
   const href = routes.internal.catalog.product.href({
-    brandSlug: product.brand?.path.replaceAll('/', ''),
     productSlug: product.path.replaceAll('/', ''),
   })
 

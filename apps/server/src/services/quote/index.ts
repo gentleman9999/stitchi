@@ -1,28 +1,10 @@
-import calculate from './calculateEstimate'
-import calculateV2 from './calculateQuoteV2'
 import * as yup from 'yup'
 import {
   CatalogService,
   makeClient as makeCatalogServiceClient,
 } from '../catalog'
 import { logger } from '../../telemetry'
-
-const inputSchema = yup.object().shape({
-  productPriceCents: yup.number().min(0).required(),
-  quantity: yup.number().min(1).required(),
-  includeFulfillment: yup.boolean().required(),
-  printLocations: yup
-    .array()
-    .of(
-      yup
-        .object()
-        .shape({
-          colorCount: yup.number().min(1).required(),
-        })
-        .required(),
-    )
-    .required(),
-})
+import { makeCalculate } from 'quote'
 
 const inputV2Schema = yup.object().shape({
   includeFulfillment: yup.boolean().required(),
@@ -74,10 +56,6 @@ export interface QuoteServiceQuoteV2 {
 }
 
 export interface QuoteService {
-  generateEstimate(
-    input: yup.InferType<typeof inputSchema>,
-  ): Promise<QuoteServiceEstimate>
-
   generateQuoteV2(input: GenerateQuoteV2Input): Promise<QuoteServiceQuoteV2>
 }
 
@@ -93,12 +71,6 @@ const makeClient: MakeClientFn = (
   },
 ) => {
   return {
-    generateEstimate: async input => {
-      const validInput = await inputSchema.validate(input)
-
-      return calculate(validInput)
-    },
-
     generateQuoteV2: async input => {
       const filterInput = {
         ...input,
@@ -137,15 +109,29 @@ const makeClient: MakeClientFn = (
 
         serializedVariants.push({
           ...variant,
-          priceCents: productVariant.priceCents,
+          priceCents: productVariant.costCents,
         })
       }
 
-      return calculateV2({
+      const calculate = makeCalculate()
+
+      const [error, calculation] = calculate({
         includeFulfillment: validInput.includeFulfillment,
         printLocations: validInput.printLocations,
         variants: serializedVariants,
       })
+
+      if (error) {
+        logger
+          .child({
+            context: { error },
+          })
+          .error('Failed to calculate quote')
+
+        throw error
+      }
+
+      return calculation
     },
   }
 }

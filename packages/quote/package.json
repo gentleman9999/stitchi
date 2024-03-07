@@ -1,0 +1,16 @@
+{
+  "name": "quote",
+  "version": "0.0.0",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "license": "MIT",
+  "devDependencies": {
+    "config": "*",
+    "eslint": "^8.6.0",
+    "tsconfig": "*",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "mathjs": "^12.4.0"
+  }
+}

@@ -90,10 +90,8 @@ const CatalogProductLegacy = ({
                 renderTrigger={() => (
                   <button>
                     <span className="font-bold">
-                      {product?.priceMetadata?.minPriceCents
-                        ? currency(product.priceMetadata.minPriceCents, {
-                            fromCents: true,
-                          }).format()
+                      {product?.prices?.price?.value
+                        ? currency(product?.prices?.price?.value, {}).format()
                         : null}
                     </span>
                   </button>

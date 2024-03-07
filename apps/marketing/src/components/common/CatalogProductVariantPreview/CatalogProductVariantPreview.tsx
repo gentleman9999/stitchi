@@ -1,9 +1,9 @@
-import { CatalogProductVariantPreviewProductFragment } from '@generated/CatalogProductVariantPreviewProductFragment'
 import { generateImageSizes } from '@lib/utils/image'
 import { notEmpty } from '@lib/utils/typescript'
 import Image from 'next/image'
 import React from 'react'
 import dynamic from 'next/dynamic'
+import { CatalogProductVariantPreviewProductFragment } from '@generated/types'
 
 const ImageFullScreenBase = dynamic(
   () => import('../ImageFullScreen').then(mod => mod.ImageFullScreenBase),
@@ -14,7 +14,7 @@ const ImageFullScreenBase = dynamic(
 
 interface Props {
   product: CatalogProductVariantPreviewProductFragment
-  activeVariantId?: string | null
+  activeVariantId: string
 }
 
 const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
@@ -33,6 +33,10 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
     [activeVariantId, productVariants],
   )
 
+  const activeVariantImageGroupId = activeVariant?.metafields?.edges?.find(
+    edge => edge?.node?.key === 'image_group',
+  )?.node?.value
+
   React.useEffect(() => {
     // Anytime the active variant changes, reset the secondary image
     setActiveSecondaryImage(null)
@@ -45,8 +49,15 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
     return null
   }
 
-  const secondaryImages = product.images?.edges
-    ?.map(edge => edge?.node)
+  const secondaryImages = product.allImages
+    .filter(node => {
+      const productImageGroupId = node?.urlStandard
+        ?.split('/')
+        .pop()
+        ?.split('_')[0]
+
+      return productImageGroupId === activeVariantImageGroupId
+    })
     .filter(notEmpty)
 
   return (
@@ -106,11 +117,11 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
             ) : null}
 
             {secondaryImages.map(image => {
-              if (!image.url || image.isDefault) return null
+              if (!image.urlThumbnail) return null
               return (
                 <Image
-                  key={image.url}
-                  src={image.url}
+                  key={image.urlThumbnail}
+                  src={image.urlThumbnail}
                   alt={product.name || "Product's secondary image"}
                   width={70}
                   height={70}
@@ -120,9 +131,9 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
                     cursor: 'pointer',
                   }}
                   onClick={() => {
-                    if (image.url) {
+                    if (image.urlZoom) {
                       setActiveSecondaryImage({
-                        url: image.url,
+                        url: image.urlZoom,
                       })
                     }
                   }}

@@ -7,9 +7,10 @@ export const fragments = {
       entityId
       name
       sku
-      priceMetadata {
-        minPriceCents
-        maxPriceCents
+      prices {
+        price {
+          value
+        }
       }
       brand {
         id

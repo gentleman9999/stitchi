@@ -26,7 +26,7 @@ const CatalogBreadcrumbs = ({}: Props) => {
 
   if (entity === 'brands') {
     const brand = staticData.brands.find(
-      brand => brand.custom_url.url === `/${entitySlug}/`,
+      brand => brand.custom_url?.url === `/${entitySlug}/`,
     )
 
     if (brand) {
@@ -42,16 +42,16 @@ const CatalogBreadcrumbs = ({}: Props) => {
     categorySlugs.forEach((_, i) => {
       const category = staticData.categories.find(
         category =>
-          category.custom_url.url ===
+          category.custom_url?.url ===
           `/${categorySlugs.slice(0, i + 1).join('/')}/`,
       )
 
       if (category) {
         breadcrumbs.push({
           href: routes.internal.catalog.category.show.href({
-            categorySlug: category.custom_url.url,
+            categorySlug: category.custom_url?.url,
           }),
-          label: category.name,
+          label: category?.name,
         })
       }
     })

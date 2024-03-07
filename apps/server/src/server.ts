@@ -37,9 +37,12 @@ const makeGatewaySchema = async () => {
         batch: true,
         merge: {
           Product: {
-            selectionSet: '{ id name prices { price { value } } }',
+            selectionSet: '{ id entityId }',
             fieldName: '_products',
-            key: ({ id, prices, name }) => ({ id, name, prices }),
+            key: ({ id, entityId }) => ({
+              id,
+              entityId,
+            }),
             argsFromKeys: keys => ({
               products: keys,
             }),

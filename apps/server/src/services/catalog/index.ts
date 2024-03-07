@@ -9,6 +9,8 @@ import {
   catalogFactoryCategory,
   CatalogFactoryCatalogProductOptionValue,
   catalogFactoryCatalogProductOptionValue,
+  CatalogFactoryProductImage,
+  catalogFactoryCatalogProductImage,
 } from './factory'
 import {
   BigCommerceClient,
@@ -42,6 +44,10 @@ export interface CatalogService {
     productEntityId: string
     optionEntityId: string
   }) => Promise<CatalogFactoryCatalogProductOptionValue[]>
+
+  listProductImages: (input: { productEntityId: number }) => Promise<{
+    images: CatalogFactoryProductImage[]
+  }>
 }
 
 interface MakeClientParams {
@@ -177,6 +183,30 @@ const makeClient: MakeClientFn = (
           })
           .error(`Failed to get product option values`)
         throw new Error('Failed to get product option values')
+      }
+    },
+
+    listProductImages: async input => {
+      let images
+
+      try {
+        images = await bigCommerceClient.listProductImages({
+          productEntityId: input.productEntityId,
+        })
+      } catch (error) {
+        logger
+          .child({
+            context: { error },
+          })
+          .error(`Failed to get product images`)
+
+        throw new Error('Failed to get product images')
+      }
+
+      return {
+        images: images.map(bigCommerceImage =>
+          catalogFactoryCatalogProductImage({ bigCommerceImage }),
+        ),
       }
     },
   }

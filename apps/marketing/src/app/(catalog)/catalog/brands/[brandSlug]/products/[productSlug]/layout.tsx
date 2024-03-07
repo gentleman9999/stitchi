@@ -46,7 +46,6 @@ const Layout = ({ children, share, params }: Props) => {
     if (productSlug) {
       breadcrumbs.push({
         href: routes.internal.catalog.product.href({
-          brandSlug,
           productSlug,
         }),
         label: productSlug

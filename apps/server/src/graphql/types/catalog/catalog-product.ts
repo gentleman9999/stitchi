@@ -5,6 +5,12 @@ export const CatalogProductImage = objectType({
   definition(t) {
     t.nonNull.string('url')
     t.nullable.int('order')
+
+    t.nonNull.boolean('isDefault')
+    t.nonNull.string('urlZoom')
+    t.nonNull.string('urlStandard')
+    t.nonNull.string('urlThumbnail')
+    t.nonNull.string('urlTiny')
   },
 })
 

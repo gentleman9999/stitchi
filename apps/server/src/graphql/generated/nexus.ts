@@ -331,15 +331,8 @@ export interface NexusGenInputs {
     orderId: string; // String!
   }
   ProductKey: { // input type
+    entityId: string; // ID!
     id: string; // ID!
-    name: string; // ID!
-    prices: NexusGenInputs['ProductPrice']; // ProductPrice!
-  }
-  ProductPrice: { // input type
-    price: NexusGenInputs['ProductPriceValue']; // ProductPriceValue!
-  }
-  ProductPriceValue: { // input type
-    value: number; // Float!
   }
   QuoteGeneratePrintLocationInput: { // input type
     colorCount: number; // Int!
@@ -433,8 +426,13 @@ export interface NexusGenObjects {
     order?: NexusGenRootTypes['Order'] | null; // Order
   }
   CatalogProductImage: { // root type
+    isDefault: boolean; // Boolean!
     order?: number | null; // Int
     url: string; // String!
+    urlStandard: string; // String!
+    urlThumbnail: string; // String!
+    urlTiny: string; // String!
+    urlZoom: string; // String!
   }
   CatalogProductQuoteCreatePayload: { // root type
     quote?: NexusGenRootTypes['Quote'] | null; // Quote
@@ -1021,6 +1019,9 @@ export interface NexusGenObjects {
     membershipId?: string | null; // String
     organizationId?: string | null; // String
   }
+  Variant: { // root type
+    id: string; // ID!
+  }
 }
 
 export interface NexusGenInterfaces {
@@ -1069,8 +1070,13 @@ export interface NexusGenFieldTypes {
     order: NexusGenRootTypes['Order'] | null; // Order
   }
   CatalogProductImage: { // field return type
+    isDefault: boolean; // Boolean!
     order: number | null; // Int
     url: string; // String!
+    urlStandard: string; // String!
+    urlThumbnail: string; // String!
+    urlTiny: string; // String!
+    urlZoom: string; // String!
   }
   CatalogProductQuoteCreatePayload: { // field return type
     quote: NexusGenRootTypes['Quote'] | null; // Quote
@@ -1697,10 +1703,9 @@ export interface NexusGenFieldTypes {
     last4: string | null; // String
   }
   Product: { // field return type
-    estimate: NexusGenRootTypes['Quote']; // Quote!
+    allImages: NexusGenRootTypes['CatalogProductImage'][]; // [CatalogProductImage!]!
     id: string; // ID!
     name: string; // String!
-    priceMetadata: NexusGenRootTypes['ProductPriceMetadata']; // ProductPriceMetadata!
   }
   ProductPriceMetadata: { // field return type
     maxPriceCents: number; // Int!
@@ -1777,6 +1782,9 @@ export interface NexusGenFieldTypes {
     membershipId: string | null; // String
     organizationId: string | null; // String
   }
+  Variant: { // field return type
+    id: string; // ID!
+  }
   File: { // field return type
     bytes: number; // Int!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -1829,8 +1837,13 @@ export interface NexusGenFieldTypeNames {
     order: 'Order'
   }
   CatalogProductImage: { // field return type name
+    isDefault: 'Boolean'
     order: 'Int'
     url: 'String'
+    urlStandard: 'String'
+    urlThumbnail: 'String'
+    urlTiny: 'String'
+    urlZoom: 'String'
   }
   CatalogProductQuoteCreatePayload: { // field return type name
     quote: 'Quote'
@@ -2457,10 +2470,9 @@ export interface NexusGenFieldTypeNames {
     last4: 'String'
   }
   Product: { // field return type name
-    estimate: 'Quote'
+    allImages: 'CatalogProductImage'
     id: 'ID'
     name: 'String'
-    priceMetadata: 'ProductPriceMetadata'
   }
   ProductPriceMetadata: { // field return type name
     maxPriceCents: 'Int'
@@ -2536,6 +2548,9 @@ export interface NexusGenFieldTypeNames {
   UserSetOrganizationPayload: { // field return type name
     membershipId: 'String'
     organizationId: 'String'
+  }
+  Variant: { // field return type name
+    id: 'ID'
   }
   File: { // field return type name
     bytes: 'Int'
@@ -2727,13 +2742,6 @@ export interface NexusGenArgTypes {
       before?: string | null; // String
       first?: number | null; // Int
       last?: number | null; // Int
-    }
-  }
-  Product: {
-    estimate: { // args
-      includeFulfillment?: boolean | null; // Boolean
-      printLocations: NexusGenInputs['QuoteGeneratePrintLocationInput'][]; // [QuoteGeneratePrintLocationInput!]!
-      quantity: number; // Int!
     }
   }
   Query: {

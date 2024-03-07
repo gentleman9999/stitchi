@@ -9,8 +9,10 @@ const fragments = {
       id
       name
       path
-      priceMetadata {
-        minPriceCents
+      prices {
+        price {
+          value
+        }
       }
       brand {
         id

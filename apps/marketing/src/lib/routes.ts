@@ -89,34 +89,20 @@ const routes = {
 
       product: {
         href: ({
-          brandSlug,
           productSlug,
           params,
         }: {
-          brandSlug: string
           productSlug: string
           params?: QueryParams
         }) => {
           const serialize = (s: string) => s.replace(/\//g, '')
-          return buildRoute(
-            `/${serialize(brandSlug)}-${serialize(productSlug)}`,
-            params,
-          )
+          return buildRoute(`/${serialize(productSlug)}`, params)
         },
 
         share: {
-          href: ({
-            brandSlug,
-            productSlug,
-          }: {
-            brandSlug: string
-            productSlug: string
-          }) => {
+          href: ({ productSlug }: { productSlug: string }) => {
             const serialize = (s: string) => s.replace(/\//g, '')
-
-            return buildRoute(
-              `/${serialize(brandSlug)}-${serialize(productSlug)}/share`,
-            )
+            return buildRoute(`/${serialize(productSlug)}/share`)
           },
         },
       },

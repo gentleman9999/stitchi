@@ -61,8 +61,13 @@ type CatalogProductCustomizePayload {
 }
 
 type CatalogProductImage {
+  isDefault: Boolean!
   order: Int
   url: String!
+  urlStandard: String!
+  urlThumbnail: String!
+  urlTiny: String!
+  urlZoom: String!
 }
 
 input CatalogProductQuoteCreateAddonInput {
@@ -1348,29 +1353,19 @@ type PaymentMethodCard {
 }
 
 type Product {
-  estimate(includeFulfillment: Boolean, printLocations: [QuoteGeneratePrintLocationInput!]!, quantity: Int!): Quote!
+  allImages: [CatalogProductImage!]!
   id: ID!
   name: String!
-  priceMetadata: ProductPriceMetadata!
 }
 
 input ProductKey {
+  entityId: ID!
   id: ID!
-  name: ID!
-  prices: ProductPrice!
-}
-
-input ProductPrice {
-  price: ProductPriceValue!
 }
 
 type ProductPriceMetadata {
   maxPriceCents: Int!
   minPriceCents: Int!
-}
-
-input ProductPriceValue {
-  value: Float!
 }
 
 type Query {
@@ -1531,4 +1526,8 @@ input UserSetOrganizationInput {
 type UserSetOrganizationPayload {
   membershipId: String
   organizationId: String
+}
+
+type Variant {
+  id: ID!
 }

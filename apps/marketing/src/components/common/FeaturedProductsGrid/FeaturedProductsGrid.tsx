@@ -59,7 +59,6 @@ const Product = ({
     <div className="min-w-[150px] flex-1">
       <Link
         href={routes.internal.catalog.product.href({
-          brandSlug: product.brand.path,
           productSlug: product.path,
         })}
       >

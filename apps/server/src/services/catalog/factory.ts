@@ -5,12 +5,17 @@ import {
   BigCommerceProduct,
   BigCommerceProductVariant,
 } from '../../bigcommerce'
+import { ProductImage } from '../../bigcommerce/serialize'
 import { notEmpty } from '../../utils'
 
-export interface BigCommerceImage {
+export interface CatalogFactoryProductImage {
   url: string
+  isThumbnail: boolean
   order?: number | null
-  isThumbnail?: boolean | null
+  urlZoom: string
+  urlStandard: string
+  urlThumbnail: string
+  urlTiny: string
 }
 
 export interface CatalogFactoryCatalogProduct {
@@ -18,8 +23,8 @@ export interface CatalogFactoryCatalogProduct {
   name: string
   priceCents: number
   description: string
-  primaryImage?: BigCommerceImage | null
-  images: BigCommerceImage[]
+  primaryImage?: CatalogFactoryProductImage | null
+  images: CatalogFactoryProductImage[]
   visible: boolean
   slug: string
   brandId?: string | null
@@ -65,6 +70,10 @@ const catalogFactoryCatalogProduct = ({
       url: primaryImage?.url_standard || '',
       isThumbnail: primaryImage?.is_thumbnail || false,
       order: primaryImage?.sort_order || null,
+      urlStandard: primaryImage?.url_standard || '',
+      urlThumbnail: primaryImage?.url_thumbnail || '',
+      urlTiny: primaryImage?.url_tiny || '',
+      urlZoom: primaryImage?.url_zoom || '',
     },
     createdAt: bigCommerceProduct.date_created
       ? new Date(bigCommerceProduct.date_created)
@@ -78,9 +87,13 @@ const catalogFactoryCatalogProduct = ({
         ?.map(image =>
           image.url_standard
             ? {
-                url: image.url_standard,
+                url: image.url_standard || '',
                 order: image.sort_order,
-                isThumbnail: image.is_thumbnail,
+                isThumbnail: Boolean(image.is_thumbnail),
+                urlStandard: image.url_standard || '',
+                urlThumbnail: image.url_thumbnail || '',
+                urlTiny: image.url_tiny || '',
+                urlZoom: image.url_zoom || '',
               }
             : null,
         )
@@ -123,6 +136,7 @@ const catalogFactoryBrand = ({
 export interface CatalogFactoryProductVariant
   extends Omit<BigCommerceProductVariant, 'price'> {
   priceCents: number
+  costCents: number
 }
 
 const productVariantFactory = ({
@@ -134,6 +148,9 @@ const productVariantFactory = ({
     ...bigCommerceProductVariant,
     priceCents: bigCommerceProductVariant.price
       ? Math.round(bigCommerceProductVariant.price * 100)
+      : 0,
+    costCents: bigCommerceProductVariant.cost_price
+      ? Math.round(bigCommerceProductVariant.cost_price * 100)
       : 0,
   }
 }
@@ -171,6 +188,24 @@ const catalogFactoryCatalogProductOptionValue = ({
     bigCommerceOptionValueId: bigCommerceOptionValue.id.toString(),
     label: bigCommerceOptionValue.label || '',
     colorHexCodes: bigCommerceOptionValue.value_data?.colors || [],
+  }
+}
+
+export interface CatalogFactoryCatalogProductImage {}
+
+export const catalogFactoryCatalogProductImage = ({
+  bigCommerceImage,
+}: {
+  bigCommerceImage: ProductImage
+}): CatalogFactoryProductImage => {
+  return {
+    isThumbnail: Boolean(bigCommerceImage.is_thumbnail),
+    urlZoom: bigCommerceImage.url_zoom || '',
+    urlStandard: bigCommerceImage.url_standard || '',
+    urlThumbnail: bigCommerceImage.url_thumbnail || '',
+    urlTiny: bigCommerceImage.url_tiny || '',
+    url: bigCommerceImage.url_standard || '',
+    order: bigCommerceImage.sort_order,
   }
 }
 

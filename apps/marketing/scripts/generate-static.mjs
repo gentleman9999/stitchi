@@ -15,19 +15,19 @@ const getBigCommerceCategories = async () => {
 
   while (hasNextPage) {
     const res = await fetch(
-      'https://api.bigcommerce.com/stores/ycjcgspsys/v3/catalog/categories?limit=250&is_visible=true',
+      `${process.env.BIGCOMMERCE_REST_API_URI}/catalog/categories?limit=250&is_visible=true`,
       {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          'X-Auth-Token': '12hvybfwmj3u7jddg1v452q5rg3oun6',
+          'X-Auth-Token': process.env.BIGCOMMERCE_REST_API_ACCESS_TOKEN,
         },
       },
     )
 
     const { data, meta } = await res.json()
 
-    categories.push(...data)
+    categories.push(...data.filter(category => category.custom_url !== null))
 
     hasNextPage = meta.pagination.total_pages > page
     page++
@@ -43,19 +43,19 @@ const getBigCommerceBrands = async () => {
 
   while (hasNextPage) {
     const res = await fetch(
-      'https://api.bigcommerce.com/stores/ycjcgspsys/v3/catalog/brands?limit=250',
+      `${process.env.BIGCOMMERCE_REST_API_URI}/catalog/brands?limit=250`,
       {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          'X-Auth-Token': '12hvybfwmj3u7jddg1v452q5rg3oun6',
+          'X-Auth-Token': process.env.BIGCOMMERCE_REST_API_ACCESS_TOKEN,
         },
       },
     )
 
     const { data, meta } = await res.json()
 
-    brands.push(...data)
+    brands.push(...data.filter(brand => brand.custom_url !== null))
 
     hasNextPage = meta.pagination.total_pages > page
     page++

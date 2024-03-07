@@ -7,30 +7,51 @@ import {
   getPrintQtyBreakpoint,
 } from './shared'
 
-const calculate = ({
+type VariantMetadata = Record<string, any>
+
+type VariantInput<T extends VariantMetadata> = T & {
+  quantity: number
+  priceCents: number
+}
+
+type VariantResponse<T extends VariantMetadata> = T & {
+  quantity: number
+  unitCostCents: number
+  unitRetailPriceCents: number
+  totalRetailPriceCents: number
+}
+
+interface Input<T extends VariantMetadata> {
+  includeFulfillment: boolean
+  printLocations: { colorCount: number }[]
+  variants: VariantInput<T>[]
+}
+
+interface Quote<T extends VariantMetadata> {
+  totalRetailPriceCents: number
+  unitRetailPriceCents: number
+  variants: VariantResponse<T>[]
+}
+
+const calculate = <T extends VariantMetadata>({
   includeFulfillment,
   printLocations,
   variants,
-}: {
-  includeFulfillment: boolean
-  printLocations: { colorCount: number }[]
-  variants: {
-    catalogProductId: string
-    catalogProductVariantId: string
-    quantity: number
-    priceCents: number
-  }[]
-}) => {
+}: Input<T>): [Error, null] | [null, Quote<T>] => {
   const fulfillmentCost = includeFulfillment ? FULFILLMENT_CHARGE : 0
 
   const totalQuantity = sum(0, ...variants.map(v => v.quantity))
 
   const printQtyBreakpoint = getPrintQtyBreakpoint(totalQuantity)
 
-  const printLocationsCosts = getPrintLocationsCost(
+  const [error, printLocationsCosts] = getPrintLocationsCost(
     printQtyBreakpoint,
     printLocations,
   )
+
+  if (error) {
+    return [error, null]
+  }
 
   const totalColorCount: number = sum(
     0,
@@ -59,9 +80,10 @@ const calculate = ({
       .add(fulfillmentCost)
       .done()
 
+    const { priceCents, quantity, ...metadata } = variant
+
     return {
-      catalogProductVariantId: variant.catalogProductVariantId,
-      catalogProductId: variant.catalogProductId,
+      ...metadata,
       unitCostCents: Math.floor(variantUnitCostCents),
       unitRetailPriceCents: Math.floor(variantUnitRetailCents),
       totalRetailPriceCents: Math.floor(
@@ -71,17 +93,22 @@ const calculate = ({
     }
   })
 
-  return {
-    variants: variantQuotes,
-    totalRetailPriceCents: sum(
-      0,
-      ...variantQuotes.map(v => v.totalRetailPriceCents),
-    ),
-    unitRetailPriceCents: divide(
-      sum(0, ...variantQuotes.map(v => v.unitRetailPriceCents)),
-      variantQuotes.length || 1,
-    ),
-  }
+  return [
+    null,
+    {
+      variants: variantQuotes as any,
+      totalRetailPriceCents: sum(
+        0,
+        ...variantQuotes.map(v => v.totalRetailPriceCents),
+      ),
+      unitRetailPriceCents: divide(
+        sum(0, ...variantQuotes.map(v => v.unitRetailPriceCents)),
+        variantQuotes.length || 1,
+      ),
+    },
+  ]
 }
 
-export default calculate
+export const makeCalculate = (): typeof calculate => {
+  return args => calculate(args)
+}

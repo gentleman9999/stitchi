@@ -13,7 +13,10 @@ const imageSchema = yup.object().shape({
   is_thumbnail: yup.boolean().notRequired(),
   sort_order: yup.number().notRequired(),
   description: yup.string().notRequired(),
+  url_zoom: yup.string().notRequired(),
   url_standard: yup.string().notRequired(),
+  url_thumbnail: yup.string().notRequired(),
+  url_tiny: yup.string().notRequired(),
 })
 
 const optionValueSchema = yup.object().shape({
@@ -95,6 +98,7 @@ const productVariantSchema = yup.object().shape({
   id: yup.number().required(),
   product_id: yup.number().required(),
   sku: yup.string().required(),
+  cost_price: yup.number().optional().nullable(),
   price: yup.number().min(0).optional().nullable(),
   option_values: yup
     .array(
@@ -122,6 +126,7 @@ const categorySchema = yup.object().shape({
 })
 
 export type Product = yup.InferType<typeof productSchema>
+export type ProductImage = yup.InferType<typeof imageSchema>
 export type ProductVariant = yup.InferType<typeof productVariantSchema>
 export type Brand = yup.InferType<typeof brandSchema>
 export type Category = yup.InferType<typeof categorySchema>
@@ -145,4 +150,8 @@ export const makeCategory = (data: any): Category => {
 
 export const makeOptionValue = (data: any): OptionValue => {
   return optionValueSchema.validateSync(data)
+}
+
+export const makeProductImage = (data: any): ProductImage => {
+  return imageSchema.validateSync(data)
 }
