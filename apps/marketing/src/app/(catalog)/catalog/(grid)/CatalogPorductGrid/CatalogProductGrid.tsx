@@ -99,7 +99,6 @@ const CatalogProductGrid = ({ categoryId, brandId }: Props) => {
                   productId={product.id}
                   priority={i < 6}
                   href={routes.internal.catalog.product.href({
-                    brandSlug: product.brand?.path || '',
                     productSlug: product.path,
                   })}
                 />

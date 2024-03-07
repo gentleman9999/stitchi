@@ -1,5 +1,4 @@
-import { sum } from 'mathjs'
-import { logger } from '../../telemetry'
+import { MathScalarType, sum } from 'mathjs'
 
 export const getMarkupMultiplier = (unitCost: number) => {
   let markup = 65
@@ -70,23 +69,29 @@ interface PrintLocation {
 export const getPrintLocationsCost = (
   printQtyBreakpoint: number,
   printLocations: PrintLocation[],
-) => {
-  return sum(
-    0,
-    ...printLocations.map<number>((printLocation, i) => {
+): [Error, null] | [null, number] => {
+  const printCostArray = printLocations.map<number | null>(
+    (printLocation, i) => {
       const printCost =
         PRICE_COST_CENTS[printQtyBreakpoint][printLocation.colorCount - 1]
 
       if (!printCost) {
-        logger.error(
-          `Invalid color count for print location ${i + 1} (color count: ${
-            printLocation.colorCount
-          })`,
-        )
-        throw new Error(`Invalid color count for print location ${i + 1}`)
+        return null
       }
 
       return printCost
-    }),
+    },
   )
+
+  for (const printCostIdx in printCostArray) {
+    const printCost = printCostArray[printCostIdx]
+    if (printCost === null) {
+      return [
+        new Error(`Invalid color count for print location ${printCostIdx + 1}`),
+        null,
+      ]
+    }
+  }
+
+  return [null, sum(0, ...(printCostArray as number[]))]
 }

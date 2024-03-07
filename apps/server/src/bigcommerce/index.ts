@@ -8,6 +8,8 @@ import {
   makeCategory,
   Category,
   OptionValue,
+  ProductImage,
+  makeProductImage,
 } from './serialize'
 import { logger } from '../telemetry'
 
@@ -39,6 +41,10 @@ export interface BigCommerceClient {
     productEntityId: number
     optionEntityId: number
   }) => Promise<any[]>
+
+  listProductImages: (input: {
+    productEntityId: number
+  }) => Promise<ProductImage[]>
 }
 
 interface BigCommerceClientConfig {}
@@ -216,6 +222,44 @@ const makeClient = (
 
         throw new Error('Failed to get product option values')
       }
+    },
+
+    listProductImages: async input => {
+      let hasNextPage = true
+      let nextPageLink = ''
+
+      let images = []
+
+      while (hasNextPage) {
+        try {
+          const res = await bigCommerceClient(
+            `/catalog/products/${input.productEntityId}/images${nextPageLink}`,
+          )
+
+          const { data, meta, errors } = await res.json()
+
+          if (errors) {
+            logger.error(errors)
+          }
+
+          images.push(...data.map(makeProductImage))
+
+          if (meta.pagination.links.next) {
+            nextPageLink = meta.pagination.links.next
+          } else {
+            hasNextPage = false
+          }
+        } catch (error) {
+          logger
+            .child({
+              context: { error, productEntityId: input.productEntityId },
+            })
+            .error(`Failed to get product images: ${input.productEntityId}`)
+          throw new Error('Failed to get product images')
+        }
+      }
+
+      return images
     },
   }
 }

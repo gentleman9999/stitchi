@@ -178,7 +178,6 @@ const SearchNav = ({}: Props) => {
                             key={product.id}
                             productId={product.id}
                             href={routes.internal.catalog.product.href({
-                              brandSlug: product.brand?.path || '',
                               productSlug: product.path,
                             })}
                             onClick={() => {

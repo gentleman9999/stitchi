@@ -27,7 +27,7 @@ const getBigCommerceCategories = async () => {
 
     const { data, meta } = await res.json()
 
-    categories.push(...data)
+    categories.push(...data.filter(category => category.custom_url !== null))
 
     hasNextPage = meta.pagination.total_pages > page
     page++
@@ -55,7 +55,7 @@ const getBigCommerceBrands = async () => {
 
     const { data, meta } = await res.json()
 
-    brands.push(...data)
+    brands.push(...data.filter(brand => brand.custom_url !== null))
 
     hasNextPage = meta.pagination.total_pages > page
     page++

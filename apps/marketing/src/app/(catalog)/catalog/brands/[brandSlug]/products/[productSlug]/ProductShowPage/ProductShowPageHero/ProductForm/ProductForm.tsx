@@ -197,7 +197,7 @@ const ProductForm = (props: ProductFormProps) => {
     name: 'customizations',
   })
 
-  const { priceMetadata } = product
+  const { value: price } = product.prices?.price || {}
 
   return (
     <form onSubmit={handleSubmit}>
@@ -354,9 +354,7 @@ const ProductForm = (props: ProductFormProps) => {
                 {totalQuantity === 0 || totalQuantity >= MIN_ORDER_QTY ? (
                   <>
                     {totalQuantity === 0 ? (
-                      currency(priceMetadata?.minPriceCents || 0, {
-                        fromCents: true,
-                      }).format()
+                      currency(price, {}).format()
                     ) : loadingQuote ? (
                       <Skeleton />
                     ) : quote?.productUnitCostCents ? (
@@ -374,12 +372,11 @@ const ProductForm = (props: ProductFormProps) => {
                   </p>
                 )}
 
-                {totalQuantity === 0 && priceMetadata?.maxPriceCents
+                {/* {totalQuantity === 0 && priceMetadata?.maxPriceCents
                   ? `-
                   ${currency(priceMetadata.maxPriceCents, {
-                    fromCents: true,
                   }).format()}`
-                  : null}
+                  : null} */}
               </>
             </span>
           </div>

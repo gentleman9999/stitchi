@@ -20,7 +20,6 @@ const Page = ({ params: { brandSlug, productSlug } }: { params: Params }) => {
       onClose={router.back}
       href={makeAbsoluteUrl(
         routes.internal.catalog.product.href({
-          brandSlug,
           productSlug,
         }),
       )}

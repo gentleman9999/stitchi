@@ -30,33 +30,42 @@ const ProductShowPageHero = ({ product }: Props) => {
 
   const { colors, sizes } = useProductOptions({ productId: product.id })
   const [handleCustomize] = useCustomizeProduct()
-  const [activeVariantId, setActiveVariantId] = React.useState<string | null>(
-    null,
+
+  const variants = React.useMemo(
+    () =>
+      product.variants?.edges
+        ?.map(edge => edge?.node)
+        .map(node => {
+          const size = node?.options?.edges?.find(
+            edge => edge?.node?.displayName === 'Size',
+          )?.node?.values?.edges?.[0]?.node
+
+          const color = node?.options?.edges?.find(
+            edge => edge?.node?.displayName === 'Color',
+          )?.node?.values?.edges?.[0]?.node
+
+          if (!size?.entityId || !color?.entityId || !node?.entityId)
+            return null
+
+          return {
+            catalogProductVariantId: node?.entityId.toString(),
+            sizeName: size.label,
+            colorName: color.label,
+            catalogProductSizeId: size.entityId.toString(),
+            catalogProductColorId: color.entityId.toString(),
+          }
+        })
+        .filter(notEmpty) || [],
+    [product.variants?.edges],
   )
 
-  const variants =
-    product.variants?.edges
-      ?.map(edge => edge?.node)
-      .map(node => {
-        const size = node?.options?.edges?.find(
-          edge => edge?.node?.displayName === 'Size',
-        )?.node?.values?.edges?.[0]?.node
+  if (!variants.length) {
+    throw new Error('Invariant error: variants is empty')
+  }
 
-        const color = node?.options?.edges?.find(
-          edge => edge?.node?.displayName === 'Color',
-        )?.node?.values?.edges?.[0]?.node
-
-        if (!size?.entityId || !color?.entityId || !node?.entityId) return null
-
-        return {
-          catalogProductVariantId: node?.entityId.toString(),
-          sizeName: size.label,
-          colorName: color.label,
-          catalogProductSizeId: size.entityId.toString(),
-          catalogProductColorId: color.entityId.toString(),
-        }
-      })
-      .filter(notEmpty) || []
+  const [activeVariantId, setActiveVariantId] = React.useState<string>(
+    variants[0].catalogProductVariantId,
+  )
 
   const handleSubmit = async (data: FormValues) => {
     const serializedItems: CatalogProductCustomizeInput['items'] = []
@@ -148,10 +157,13 @@ const ProductShowPageHero = ({ product }: Props) => {
   }
 
   const handleActiveColorChange = (colorId: string | null) => {
-    setActiveVariantId(
-      variants.find(variant => variant.catalogProductColorId === colorId)
-        ?.catalogProductVariantId || null,
+    const foundVariant = variants.find(
+      variant => variant.catalogProductColorId === colorId,
     )
+
+    if (foundVariant) {
+      setActiveVariantId(foundVariant.catalogProductVariantId)
+    }
   }
 
   const mappedColors = colors.map(color => ({
@@ -199,7 +211,7 @@ const ProductShowPageHero = ({ product }: Props) => {
                 </>
               ) : (
                 <ProductFormPreview
-                  minPriceCents={product.priceMetadata.minPriceCents || 0}
+                  minPrice={product.prices?.price.value || 0}
                   colors={mappedColors}
                   onSelectColor={color =>
                     handleActiveColorChange(color.catalogProductColorId)

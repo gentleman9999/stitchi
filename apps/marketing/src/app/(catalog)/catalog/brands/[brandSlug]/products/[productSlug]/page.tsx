@@ -70,7 +70,6 @@ export const generateMetadata = async ({
     }
 
     const url = routes.internal.catalog.product.href({
-      brandSlug: brand.path.replaceAll('/', ''),
       productSlug: productPath.replaceAll('/', ''),
     })
 

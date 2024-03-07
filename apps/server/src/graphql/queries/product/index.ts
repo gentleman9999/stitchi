@@ -1,6 +1,6 @@
-import { GraphQLError } from 'graphql'
 import { extendType, inputObjectType, list, nonNull, queryField } from 'nexus'
-import catalogData from '../../../generated/catalog.json'
+import { catalogProductFactoryProductImageToGraphQl } from '../../serializers/catalog'
+import { CatalogFactoryProductImage } from '../../../services/catalog/factory'
 
 export const products = queryField('_products', {
   type: list('Product'),
@@ -12,26 +12,7 @@ export const products = queryField('_products', {
             name: 'ProductKey',
             definition: t => {
               t.nonNull.id('id')
-              t.nonNull.id('name')
-              t.nonNull.field('prices', {
-                type: nonNull(
-                  inputObjectType({
-                    name: 'ProductPrice',
-                    definition: t => {
-                      t.nonNull.field('price', {
-                        type: nonNull(
-                          inputObjectType({
-                            name: 'ProductPriceValue',
-                            definition: t => {
-                              t.nonNull.float('value')
-                            },
-                          }),
-                        ),
-                      })
-                    },
-                  }),
-                ),
-              })
+              t.nonNull.id('entityId')
             },
           }),
         ),
@@ -43,70 +24,32 @@ export const products = queryField('_products', {
   },
 })
 
-export const ProductPriceMetadataExtendsProduct = extendType({
+export const ExtendsProduct = extendType({
   type: 'Product',
   definition(t) {
-    t.nonNull.string('name', {
-      resolve: parent => {
-        let manipulatedValue = (parent as any).name
-
-        if (typeof manipulatedValue === 'string') {
-          // BigCommerce product names are stored with SKU at end to make them unique
-          const skuRegex = /\s*\[[a-zA-Z0-9]+\]$/
-          manipulatedValue = manipulatedValue.replace(skuRegex, '')
-
-          const brandInName = catalogData.brands
-            .map(brand => brand.name)
-            .find(brand => manipulatedValue.includes(brand))
-
-          if (brandInName) {
-            manipulatedValue = manipulatedValue.replace(brandInName, '')
-          }
-        }
-        return manipulatedValue.trim()
-      },
-    })
-
-    t.nonNull.field('priceMetadata', {
-      type: 'ProductPriceMetadata',
+    t.nonNull.list.nonNull.field('allImages', {
+      type: 'CatalogProductImage',
       resolve: async (parent, _, ctx) => {
-        console.log('PRICES', parent as any)
-
-        const productPriceCents = (parent as any).prices.price.value * 100
-        const includeFulfillment = false
+        let images: CatalogFactoryProductImage[] = []
 
         try {
-          const { productUnitCostCents: minPriceCents } =
-            await ctx.quote.generateEstimate({
-              productPriceCents,
-              includeFulfillment,
-              quantity: 20_000,
-              printLocations: [{ colorCount: 1 }],
+          images = (
+            await ctx.catalog.listProductImages({
+              productEntityId: (parent as any).entityId,
             })
-
-          const { productUnitCostCents: maxPriceCents } =
-            await ctx.quote.generateEstimate({
-              productPriceCents,
-              includeFulfillment,
-              quantity: 24,
-              printLocations: [{ colorCount: 3 }],
-            })
-
-          return {
-            minPriceCents,
-            maxPriceCents,
-          }
+          ).images
         } catch (error) {
-          ctx.logger
-            .child({
-              context: {
-                error,
-              },
-            })
-            .error("Error calculating product's price")
-
-          throw new GraphQLError(`Unable to calculate product price`)
+          ctx.logger.child({
+            context: {
+              error,
+              productEntityId: (parent as any).entityId,
+            },
+          })
         }
+
+        return images.map(productImage =>
+          catalogProductFactoryProductImageToGraphQl({ productImage }),
+        )
       },
     })
   },

@@ -48,23 +48,12 @@ const ProductShowPage = ({ path }: Props) => {
 
   const url = makeAbsoluteUrl(
     routes.internal.catalog.product.href({
-      brandSlug: product.brand?.path || '',
       productSlug: product.path,
     }),
   )
 
-  const jsonLDData: ProductJsonLdProps & { id: string } = {
-    useAppDir: true, // Required when using Next.js app directory
-    url,
-    id: product.id,
-    description: product.plainTextDescription,
-    productName: product.name,
-    brand: product.brand?.name,
-    images:
-      product.images.edges
-        ?.map(edge => edge?.node.seoImageUrl)
-        .filter(notEmpty) || [],
-    offers: product.variants.edges
+  const productsJsonLd: (ProductJsonLdProps & { id: string })[] =
+    product.variants.edges
       ?.map(edge => edge?.node)
       .filter(notEmpty)
       .map(variant => {
@@ -82,67 +71,98 @@ const ProductShowPage = ({ path }: Props) => {
           ?.values.edges?.map(edge => edge?.node)
           .filter(notEmpty)?.[0]?.label
 
+        const imageGroup = variant.metafields.edges?.find(
+          metafield => metafield?.node.key === 'image_group',
+        )
+
+        const images = product.allImages
+          .filter(image => {
+            const imageGroupTest = image.urlStandard
+              .split('/')
+              .pop()
+              ?.split('_')
+              .shift()
+
+            return imageGroupTest === imageGroup?.node.value
+          })
+          .map(image => image.urlZoom)
+
+        const name = `${product.name} - ${color} - ${size}`
+
         return {
+          useAppDir: true, // Required when using Next.js app directory
           url,
-          color,
+          images,
           size: {
             name: size,
             sizeGroup: 'https://schema.org/WearableSizeGroupRegular',
             sizeSystem: 'https://schema.org/WearableSizeSystemUS',
           },
-          price: currency(product.priceMetadata.minPriceCents || 0, {
-            fromCents: true,
-          }),
-          priceCurrency: 'USD',
-          images: variant.defaultImage ? [variant.defaultImage.url] : [],
+          adult: false,
+          ageGroup: 'adult', // Change if it's for kids
+          productName: name,
+          id: variant.id,
+          itemGroupId: product.sku,
+          description: product.plainTextDescription,
+          brand: product.brand?.name,
           sku: variant.sku,
           mpn: variant.mpn || undefined,
           gtin: variant.gtin || undefined,
-          hasMerchantReturnPolicy: true,
           itemCondition: 'https://schema.org/NewCondition',
-          availability: 'https://schema.org/InStock',
+          color: color,
+          validFrom: new Date().toISOString(),
+
           seller: {
             name: 'Stitchi',
           },
+          aggregateRating:
+            product.reviewSummary.numberOfReviews === 0
+              ? undefined
+              : {
+                  ratingValue: product.reviewSummary.summationOfRatings ?? 0,
+                  reviewCount: product.reviewSummary.numberOfReviews ?? 0,
+                  bestRating: 5,
+                  worstRating: 1,
+                },
+          reviews:
+            product.reviews.edges
+              ?.map(edge => edge?.node)
+              .filter(notEmpty)
+              .map(review => ({
+                datePublished: review.createdAt.utc,
+                reviewBody: review.text,
+                reviewAspect: review.title,
+                reviewRating: {
+                  ratingValue: review.rating,
+                  bestRating: 5,
+                  worstRating: 1,
+                },
+                author: {
+                  name: review.author.name,
+                },
+              })) || [],
+          offers: [
+            {
+              price: currency(product.prices?.price.value, {}),
+              priceCurrency: 'USD',
+              applicableCountry: 'US',
+              hasMerchantReturnPolicy: true,
+              availability: 'https://schema.org/InStock',
+            },
+          ],
         }
-      }),
-    aggregateRating:
-      product.reviewSummary.numberOfReviews === 0
-        ? undefined
-        : {
-            ratingValue: product.reviewSummary.summationOfRatings ?? 0,
-            reviewCount: product.reviewSummary.numberOfReviews ?? 0,
-            bestRating: 5,
-            worstRating: 1,
-          },
-    reviews:
-      product.reviews.edges
-        ?.map(edge => edge?.node)
-        .filter(notEmpty)
-        .map(review => ({
-          datePublished: review.createdAt.utc,
-          reviewBody: review.text,
-          reviewAspect: review.title,
-          reviewRating: {
-            ratingValue: review.rating,
-            bestRating: 5,
-            worstRating: 1,
-          },
-          author: {
-            name: review.author.name,
-          },
-        })) || [],
-  }
+      }) || []
 
   return (
     <>
-      <ProductJsonLd {...jsonLDData} key={jsonLDData.id} />
+      {productsJsonLd.map((product, i) => (
+        <ProductJsonLd {...product} key={i} />
+      ))}
 
       <div>
         <div className="flex justify-end items-center">
           <ProductQuickActions
             shareHref={routes.internal.catalog.product.share.href({
-              brandSlug: product.brand?.path || '',
               productSlug: product.path,
             })}
             product={{
@@ -166,7 +186,6 @@ const ProductShowPage = ({ path }: Props) => {
                 productId={product.id}
                 priority={false}
                 href={routes.internal.catalog.product.href({
-                  brandSlug: product.brand?.path?.replaceAll('/', '') || '',
                   productSlug: product.path?.replaceAll('/', '') || '',
                 })}
               />

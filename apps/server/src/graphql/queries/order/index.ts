@@ -33,46 +33,6 @@ export const order = queryField('order', {
   },
 })
 
-export const ProductExtendsQuote = extendType({
-  type: 'Product',
-  definition(t) {
-    t.nonNull.field('estimate', {
-      type: 'Quote',
-      args: {
-        quantity: nonNull('Int'),
-        printLocations: nonNull(
-          list(nonNull('QuoteGeneratePrintLocationInput')),
-        ),
-        includeFulfillment: 'Boolean',
-      },
-      resolve: async (
-        parent,
-        { includeFulfillment, printLocations, quantity },
-        context,
-      ) => {
-        try {
-          const data = await context.quote.generateEstimate({
-            includeFulfillment: Boolean(includeFulfillment),
-            printLocations,
-            quantity,
-            productPriceCents: (parent as any).prices.price.value * 100,
-          })
-
-          return {
-            id: uuid.v4(),
-            ...data,
-          }
-        } catch (error) {
-          context.logger.error(error)
-          throw new GraphQLError(
-            `Unable to get quote for product: ${parent.id}`,
-          )
-        }
-      },
-    })
-  },
-})
-
 export const OrderItemSummaries = extendType({
   type: 'Order',
   definition(t) {

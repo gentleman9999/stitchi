@@ -21,14 +21,14 @@ interface ProductColor {
 
 interface Props {
   colors: ProductColor[]
-  minPriceCents: number
+  minPrice: number
   sizeRange: string
   onSelectColor: (color: ProductColor) => void
 }
 
 const ProductFormPreview = ({
   colors,
-  minPriceCents,
+  minPrice,
   sizeRange,
   onSelectColor,
 }: Props) => {
@@ -68,7 +68,7 @@ const ProductFormPreview = ({
 
         <div className="flex flex-col gap-3">
           <h2 className="font-headingDisplay font-semibold text-xl sm:text-2xl text-gray-800">
-            From {currency(minPriceCents, { fromCents: true }).format()}
+            From {currency(minPrice).format()}
           </h2>
 
           <Button
@@ -85,7 +85,7 @@ const ProductFormPreview = ({
               })
             }}
           >
-            Sign up to customize
+            Customize
           </Button>
 
           <p>

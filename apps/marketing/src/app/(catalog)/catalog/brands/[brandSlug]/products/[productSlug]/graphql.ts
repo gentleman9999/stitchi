@@ -18,8 +18,10 @@ export const GET_DATA = gql`
             name
             path
             sku
-            priceMetadata {
-              minPriceCents
+            prices {
+              price {
+                value
+              }
             }
             plainTextDescription
             defaultImage {
@@ -44,12 +46,9 @@ export const GET_DATA = gql`
                 }
               }
             }
-            images(first: 10) {
-              edges {
-                node {
-                  seoImageUrl: url(width: 1000)
-                }
-              }
+
+            allImages {
+              urlStandard
             }
             brand {
               id

@@ -38,7 +38,6 @@ const DesignRequestOverviewProductList = ({ product }: Props) => {
             href={
               catalogProduct.brand?.slug
                 ? routes.internal.catalog.product.href({
-                    brandSlug: catalogProduct.brand.slug,
                     productSlug: catalogProduct.slug,
                   })
                 : '#'

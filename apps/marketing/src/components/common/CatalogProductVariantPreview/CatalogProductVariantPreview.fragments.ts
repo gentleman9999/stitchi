@@ -9,13 +9,10 @@ export const fragments = {
         url(width: 700)
       }
 
-      images(first: 10) {
-        edges {
-          node {
-            isDefault
-            url(width: 700)
-          }
-        }
+      allImages {
+        urlStandard
+        urlZoom
+        urlThumbnail
       }
 
       variants(first: $variantsFirst) {
@@ -26,6 +23,16 @@ export const fragments = {
             defaultImage {
               isDefault
               url(width: 700)
+            }
+
+            metafields(namespace: "main") {
+              edges {
+                node {
+                  id
+                  key
+                  value
+                }
+              }
             }
           }
         }
