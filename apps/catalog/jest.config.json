@@ -1,0 +1,13 @@
+{
+  "transform": {
+    "^.+\\.ts$": [
+      "ts-jest",
+      {
+        "tsconfig": "./tsconfig.json"
+      }
+    ]
+  },
+  "moduleFileExtensions": ["ts", "js"],
+  "testMatch": ["<rootDir>/src/**/*.test.ts"],
+  "testEnvironment": "node"
+}
