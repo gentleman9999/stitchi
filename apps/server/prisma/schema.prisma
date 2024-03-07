@@ -473,6 +473,7 @@ model DesignVariant {
 
   images DesignVariantImage[]
   design Design               @relation(fields: [designId], references: [id])
+  sku    Sku?
 
   @@index([designId])
 }
@@ -942,4 +943,19 @@ model Color {
 model KeyValue {
   key   String @id
   value String @db.Text
+}
+
+model Sku {
+  id                String  @id @default(uuid())
+  // TODO(custompro98): designVariant needs to support either `size` or `bigCommerceProductVariantId`
+  designVariantId   String  @unique
+  quantity          Int     @default(0)
+
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  deletedAt DateTime?
+
+  designVariant DesignVariant   @relation(fields: [designVariantId], references: [id])
+
+  @@index([designVariantId])
 }
