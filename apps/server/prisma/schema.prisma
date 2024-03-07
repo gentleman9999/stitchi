@@ -472,6 +472,9 @@ model DesignVariant {
   colorHexCode String?
   colorName    String?
 
+  catalogProductSizeId String?
+  sizeName String?
+
   images DesignVariantImage[]
   design Design               @relation(fields: [designId], references: [id])
   sku    Sku?

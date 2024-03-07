@@ -631,6 +631,8 @@ export const DesignRequestApproveInput = inputObjectType({
 
 type ApprovedProofVariant = DesignProofVariant & {
   catalogProductVariantId: string
+  catalogProductSizeId: string
+  sizeName: string
 }
 
 export const designRequestApprove = mutationField('designRequestApprove', {
@@ -696,10 +698,25 @@ export const designRequestApprove = mutationField('designRequestApprove', {
           )
 
         const approvedProofVariantsBySize: ApprovedProofVariant[] =
-          colorMatchedCatalogProductVariants.map(catalogVariant => ({
-            ...proofVariant,
-            catalogProductVariantId: catalogVariant.id.toString(),
-          }))
+          colorMatchedCatalogProductVariants.reduce((acc, catalogVariant) => {
+            const sizeOption = catalogVariant.option_values?.find(
+              value => value.option_display_name === 'Size',
+            )
+
+            if (!notEmpty(sizeOption)) {
+              return acc
+            }
+
+            return [
+              ...acc,
+              {
+                ...proofVariant,
+                catalogProductVariantId: catalogVariant.id.toString(),
+                catalogProductSizeId: sizeOption.option_id.toString(),
+                sizeName: sizeOption.label || '',
+              },
+            ]
+          }, [] as ApprovedProofVariant[])
 
         return [...acc, ...approvedProofVariantsBySize]
       }, [] as ApprovedProofVariant[])
@@ -727,6 +744,8 @@ export const designRequestApprove = mutationField('designRequestApprove', {
             catalogProductVariantId: variant.catalogProductVariantId,
             colorHexCode: variant.hexCode,
             colorName: variant.name,
+            catalogProductSizeId: variant.catalogProductSizeId,
+            sizeName: variant.sizeName,
             images: variant.images.map(image => ({
               fileId: image.imageFileId,
               order: image.order,
