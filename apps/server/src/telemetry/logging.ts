@@ -4,7 +4,10 @@ import { getOrThrow } from '../utils'
 const logLevel = process.env.LOG_LEVEL || 'info'
 
 const AXIOM_API_KEY = getOrThrow(process.env.AXIOM_API_KEY, 'AXIOM_API_KEY')
-const AXIOM_DATASET = getOrThrow(process.env.AXIOM_DATASET_LOGGING, 'AXIOM_DATASET_LOGGING')
+const AXIOM_DATASET = getOrThrow(
+  process.env.AXIOM_DATASET_LOGGING,
+  'AXIOM_DATASET_LOGGING',
+)
 
 const localTransport = {
   level: logLevel,
@@ -23,7 +26,7 @@ const axiomTransport = {
   },
 }
 
-export default pino({
+export default pino<string>({
   level: logLevel,
   transport: { targets: [localTransport, axiomTransport] },
 }).child({
