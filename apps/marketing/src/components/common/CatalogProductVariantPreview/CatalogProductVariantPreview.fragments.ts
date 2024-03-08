@@ -15,7 +15,7 @@ export const fragments = {
         urlThumbnail
       }
 
-      variants(first: $variantsFirst) {
+      variants(first: $variantsFirst, isPurchasable: true) {
         edges {
           node {
             id

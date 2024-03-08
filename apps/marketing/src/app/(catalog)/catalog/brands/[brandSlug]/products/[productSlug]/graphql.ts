@@ -66,7 +66,7 @@ export const GET_DATA = gql`
                 }
               }
             }
-            variants(first: $variantsFirst) {
+            variants(first: $variantsFirst, isPurchasable: true) {
               edges {
                 node {
                   id

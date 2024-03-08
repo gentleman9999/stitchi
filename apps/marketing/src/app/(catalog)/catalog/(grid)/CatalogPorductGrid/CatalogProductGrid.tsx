@@ -81,6 +81,8 @@ const CatalogProductGrid = ({ categoryId, brandId }: Props) => {
     nextPageParams.set('after', pageInfo?.endCursor)
   }
 
+  console.log('PRODUCTS', products)
+
   return (
     <>
       <CatalogProductGridContainer>

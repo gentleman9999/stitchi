@@ -8308,7 +8308,6 @@ export interface Product extends Node {
   description: Scalars['String']['output'];
   /** Id of the product. */
   entityId: Scalars['Int']['output'];
-  estimate: Quote;
   /** Gift wrapping options available for the product. */
   giftWrappingOptions: GiftWrappingConnection;
   /** Global trade item number. */
@@ -8392,14 +8391,6 @@ export interface ProductcustomFieldsArgs {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   names?: InputMaybe<Array<Scalars['String']['input']>>;
-}
-
-
-/** Product */
-export interface ProductestimateArgs {
-  includeFulfillment?: InputMaybe<Scalars['Boolean']['input']>;
-  printLocations: Array<QuoteGeneratePrintLocationInput>;
-  quantity: Scalars['Int']['input'];
 }
 
 
@@ -8628,8 +8619,6 @@ export interface ProductInventory {
 export interface ProductKey {
   entityId: Scalars['ID']['input'];
   id: Scalars['ID']['input'];
-  name: Scalars['ID']['input'];
-  prices: ProductPrice;
 }
 
 /** Product Option */
@@ -8737,18 +8726,10 @@ export interface ProductPreOrder extends ProductAvailability {
   willBeReleasedAt: Maybe<DateTimeExtended>;
 }
 
-export interface ProductPrice {
-  price: ProductPriceValue;
-}
-
 export interface ProductPriceMetadata {
   __typename: 'ProductPriceMetadata';
   maxPriceCents: Scalars['Int']['output'];
   minPriceCents: Scalars['Int']['output'];
-}
-
-export interface ProductPriceValue {
-  value: Scalars['Float']['input'];
 }
 
 /** Redirect to a product. */

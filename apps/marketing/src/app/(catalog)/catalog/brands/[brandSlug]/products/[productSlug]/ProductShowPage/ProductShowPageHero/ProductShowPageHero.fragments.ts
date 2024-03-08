@@ -21,7 +21,7 @@ export const fragments = {
         numberOfReviews
         summationOfRatings
       }
-      variants(first: $variantsFirst) {
+      variants(first: $variantsFirst, isPurchasable: true) {
         edges {
           node {
             id
