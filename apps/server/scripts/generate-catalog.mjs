@@ -1,6 +1,7 @@
+import 'dotenv/config'
+
 import fetch from 'node-fetch'
 import { writeFile } from 'fs'
-import 'dotenv/config'
 
 const getBigCommerceBrands = async () => {
   let page = 1
