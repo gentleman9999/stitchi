@@ -7,7 +7,7 @@
     "dev:typecheck": "tsc --watch --noEmit",
     "start": "node dist/src/server",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
-    "build": "yarn clean && tsc -b",
+    "build": "yarn clean && yarn codegen:prisma && tsc -b",
     "build:docker": "cd ../.. && docker build -t stitchi-server .",
     "codegen": "yarn codegen:prisma && yarn codegen:catalog",
     "codegen:prisma": "prisma generate",
