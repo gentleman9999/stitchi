@@ -457,10 +457,6 @@ export const ExtendDesignRequests = extendType({
             previewImageUrl = catalogProduct.primaryImage?.url
           } catch (error) {
             ctx.logger.error(error)
-
-            throw new GraphQLError(
-              'Unable to fetch preview image for design request',
-            )
           }
         }
 
