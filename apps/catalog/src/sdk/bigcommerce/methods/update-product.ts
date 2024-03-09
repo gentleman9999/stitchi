@@ -1,45 +1,57 @@
-import { BigCommerceProduct } from "../types";
-import { UpdateProductInput } from "../repository/product/update";
-import makeBigCommerceRepository, {
-  BigCommerceRepository,
-} from "../repository";
-import { BatchCreateProductMetadataInput } from "../repository/product-metadata/batch-create";
-import { BatchUpdateProductMetadataInput } from "../repository/product-metadata/batch-update";
+import { BigCommerceProduct } from '../types'
+import { UpdateProductInput } from '../repository/product/update'
+import makeBigCommerceRepository, { BigCommerceRepository } from '../repository'
+import { BatchCreateProductMetadataInput } from '../repository/product-metadata/batch-create'
+import { BatchUpdateProductMetadataInput } from '../repository/product-metadata/batch-update'
 
 export type UpdateProductFn = (
   input: UpdateProductInput & {
     metadata:
-      | BatchCreateProductMetadataInput["metadata"]
-      | BatchUpdateProductMetadataInput["metadata"];
-  }
-) => Promise<BigCommerceProduct>;
+      | BatchCreateProductMetadataInput['metadata']
+      | BatchUpdateProductMetadataInput['metadata']
+  },
+) => Promise<BigCommerceProduct>
 
 interface Client {
-  bigCommerceRepository: BigCommerceRepository;
+  bigCommerceRepository: BigCommerceRepository
 }
 
 export const makeUpdateProductFn = (
   { bigCommerceRepository }: Client = {
     bigCommerceRepository: makeBigCommerceRepository(),
-  }
+  },
 ): UpdateProductFn => {
-  return async (input) => {
-    const { images: imageInput, ...productInput } = input;
+  return async input => {
+    const { images: imageInput, ...productInput } = input
 
-    let product: BigCommerceProduct;
+    let product: BigCommerceProduct
 
     try {
       product = await bigCommerceRepository.updateProduct(productInput, {
-        include: ["images"],
-      });
+        include: ['images'],
+      })
 
-      let index = 1;
+      let index = 1
 
-      while (product.url === null) {
-        let newUrl;
+      if (input.url && !product.url?.startsWith(input.url.slice(0, -1))) {
+        console.log(
+          'product.url DOESN"T START WITH INPUT URL: ',
+          product.url,
+          ' ',
+          input.url,
+        )
+      }
+
+      while (
+        product.url === null ||
+        // Backfill old urls
+        (input.url !== undefined &&
+          !product.url.startsWith(input.url.slice(0, -1)))
+      ) {
+        let newUrl
 
         if (input.url) {
-          newUrl = input.url.slice(0, input.url.length - 1) + `-${index}/`;
+          newUrl = input.url.slice(0, input.url.length - 1) + `-${index}/`
         }
 
         if (newUrl) {
@@ -47,69 +59,69 @@ export const makeUpdateProductFn = (
             id: product.id,
             availability: product.availability,
             url: newUrl,
-          });
+          })
         } else {
-          break;
+          break
         }
 
         if (index > 10) {
           // Prevent infinite loop
-          break;
+          break
         }
 
-        index++;
+        index++
       }
     } catch (error) {
-      console.error("Error updating product", {
+      console.error('Error updating product', {
         context: { error },
-      });
+      })
 
-      throw error;
+      throw error
     }
 
-    const metadataToCreate: BatchCreateProductMetadataInput["metadata"] = [];
-    const metadataToUpdate: BatchUpdateProductMetadataInput["metadata"] = [];
+    const metadataToCreate: BatchCreateProductMetadataInput['metadata'] = []
+    const metadataToUpdate: BatchUpdateProductMetadataInput['metadata'] = []
 
     for (const metadata of input.metadata) {
-      if ("id" in metadata) {
-        metadataToUpdate.push(metadata);
+      if ('id' in metadata) {
+        metadataToUpdate.push(metadata)
       } else {
-        metadataToCreate.push(metadata);
+        metadataToCreate.push(metadata)
       }
     }
 
     try {
       await bigCommerceRepository.batchCreateProductMetadata({
         productId: product.id,
-        metadata: metadataToCreate.map((metadata) => ({
+        metadata: metadataToCreate.map(metadata => ({
           key: metadata.key,
           namespace: metadata.namespace,
           permission_set: metadata.permission_set,
           value: metadata.value,
         })),
-      });
+      })
     } catch (error) {
-      console.error("Error creating product metadata", {
+      console.error('Error creating product metadata', {
         context: { error },
-      });
+      })
     }
 
     try {
       await bigCommerceRepository.batchUpdateProductMetadata({
-        metadata: metadataToUpdate.map((metadata) => ({
+        metadata: metadataToUpdate.map(metadata => ({
           id: metadata.id,
           key: metadata.key,
           namespace: metadata.namespace,
           permission_set: metadata.permission_set,
           value: metadata.value,
         })),
-      });
+      })
     } catch (error) {
-      console.error("Error updating product metadata", {
+      console.error('Error updating product metadata', {
         context: { error },
-      });
+      })
     }
 
-    return product;
-  };
-};
+    return product
+  }
+}

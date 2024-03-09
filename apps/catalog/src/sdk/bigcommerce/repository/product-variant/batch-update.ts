@@ -142,33 +142,29 @@ const makeBatchUpdateProductVariantsFn = (
     const chunkedVariants = chunkArray(variants, 50) // BigCommerce API has a limit of 50 variants per request
 
     for (const variantChunk of chunkedVariants) {
-      try {
-        const [error, response] = await client.call(
-          `/variants`,
-          bigCommerceApiResponseSchema(
-            yup
-              .array()
-              .of(bigCommerceApiProductVariantSchema.required())
-              .required(),
-          ),
-          {
-            method: 'PUT',
-            body: JSON.stringify(variantChunk),
-          },
-        )
+      const [error, response] = await client.call(
+        `/variants`,
+        bigCommerceApiResponseSchema(
+          yup
+            .array()
+            .of(bigCommerceApiProductVariantSchema.required())
+            .required(),
+        ),
+        {
+          method: 'PUT',
+          body: JSON.stringify(variantChunk),
+        },
+      )
 
-        if (error) {
-          throw error
-        }
-
-        variantsResponse.push(...(response.data.map(makeProductVariant) || []))
-      } catch (error) {
+      if (error) {
         console.error('Error batch updating product variants', {
           context: { error },
         })
 
         throw error
       }
+
+      variantsResponse.push(...(response.data.map(makeProductVariant) || []))
     }
 
     return variantsResponse

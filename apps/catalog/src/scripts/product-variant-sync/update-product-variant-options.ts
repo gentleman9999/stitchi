@@ -1,92 +1,90 @@
-import { BigCommerceSdk } from "../../sdk";
+import { BigCommerceSdk } from '../../sdk'
 import {
   BigCommerceProductOptionType,
   BigCommerceProductVariantOption,
-} from "../../sdk/bigcommerce/types";
+} from '../../sdk/bigcommerce/types'
 
 export const updateProductVariantOptions = async (
   input: {
-    productId: number;
-    productVariantOptions: BigCommerceProductVariantOption[];
-    ssActivewearSizeOptions: string[];
+    productId: number
+    productVariantOptions: BigCommerceProductVariantOption[]
+    ssActivewearSizeOptions: string[]
     ssActivewearColorOptions: {
-      value: string;
-      color1?: string;
-      color2?: string;
-    }[];
+      value: string
+      color1?: string
+      color2?: string
+    }[]
   },
   config: {
-    bigCommerce: BigCommerceSdk;
-  }
+    bigCommerce: BigCommerceSdk
+  },
 ) => {
   const {
     productId,
     productVariantOptions,
     ssActivewearSizeOptions,
     ssActivewearColorOptions,
-  } = input;
-  const { bigCommerce } = config;
+  } = input
+  const { bigCommerce } = config
 
   let sizeOption = productVariantOptions.find(
-    (option) => option.displayName === "Size"
-  );
+    option => option.displayName === 'Size',
+  )
 
   let colorOption = productVariantOptions.find(
-    (option) => option.displayName === "Color"
-  );
+    option => option.displayName === 'Color',
+  )
 
   const newSizeOptionValues = ssActivewearSizeOptions.filter(
-    (size) =>
-      !sizeOption?.optionValues.some(
-        (optionValue) => optionValue.label === size
-      )
-  );
+    size =>
+      !sizeOption?.optionValues.some(optionValue => optionValue.label === size),
+  )
 
   const newColorOptionValues = ssActivewearColorOptions.filter(
     ({ value }) =>
       !colorOption?.optionValues.some(
-        (optionValue) => optionValue.label === value
-      )
-  );
+        optionValue => optionValue.label === value,
+      ),
+  )
 
   const mergedSizeOptionValues = [
-    ...(sizeOption?.optionValues.map((option) => ({
+    ...(sizeOption?.optionValues.map(option => ({
       ...option,
       valueData: undefined,
     })) || []),
-    ...newSizeOptionValues.map((size) => ({
+    ...newSizeOptionValues.map(size => ({
       label: size,
       sortOrder: 0,
     })),
-  ];
+  ]
 
   const mergedColorOptionValues = [
-    ...(colorOption?.optionValues.map((value) => ({
+    ...(colorOption?.optionValues.map(value => ({
       ...value,
       valueData: value.valueData?.colors || [],
     })) || []),
-    ...newColorOptionValues.map((color) => ({
+    ...newColorOptionValues.map(color => ({
       label: color.value,
       sortOrder: 0,
       valueData: [color.color1, color.color2].filter((v): v is string =>
-        Boolean(v)
+        Boolean(v),
       ),
     })),
-  ];
+  ]
 
   if (!sizeOption) {
     // Create size option
     try {
       sizeOption = await bigCommerce.createProductOption({
         productId,
-        displayName: "Size",
+        displayName: 'Size',
         optionValues: mergedSizeOptionValues,
         type: BigCommerceProductOptionType.Dropdown,
-      });
+      })
     } catch (error) {
-      console.error("Error creating size option", {
+      console.error('Error creating size option', {
         context: { error },
-      });
+      })
     }
   } else {
     try {
@@ -94,11 +92,11 @@ export const updateProductVariantOptions = async (
         ...sizeOption,
         id: sizeOption.id,
         optionValues: mergedSizeOptionValues,
-      });
+      })
     } catch (error) {
-      console.error("Error updating size option", {
+      console.error('Error updating size option', {
         context: { error },
-      });
+      })
     }
   }
 
@@ -106,14 +104,14 @@ export const updateProductVariantOptions = async (
     try {
       colorOption = await bigCommerce.createProductOption({
         productId,
-        displayName: "Color",
+        displayName: 'Color',
         optionValues: mergedColorOptionValues,
         type: BigCommerceProductOptionType.Swatch,
-      });
+      })
     } catch (error) {
-      console.error("Error creating color option", {
+      console.error('Error creating color option', {
         context: { error },
-      });
+      })
     }
   } else {
     try {
@@ -121,24 +119,24 @@ export const updateProductVariantOptions = async (
         ...colorOption,
         id: colorOption.id,
         optionValues: mergedColorOptionValues,
-      });
+      })
     } catch (error) {
-      console.error("Error updating color option", {
+      console.error('Error updating color option', {
         context: { error },
-      });
+      })
     }
   }
 
   if (!sizeOption) {
-    throw new Error("Size option not found");
+    throw new Error('Size option not found')
   }
 
   if (!colorOption) {
-    throw new Error("Color option not found");
+    throw new Error('Color option not found')
   }
 
   return {
     sizeOption,
     colorOption,
-  };
-};
+  }
+}

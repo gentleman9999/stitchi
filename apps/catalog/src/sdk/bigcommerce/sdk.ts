@@ -1,87 +1,101 @@
 import makeBatchUpdateProductVariantsFn, {
   BatchUpdateProductVariantsFn,
-} from "./methods/batch-update-product-variants";
+} from './methods/batch-update-product-variants'
 import makeCreateCategoryFn, {
   CreateCategoryFn,
-} from "./methods/create-category";
-import makeCreateProductFn, { CreateProductFn } from "./methods/create-product";
+} from './methods/create-category'
+import makeCreateProductFn, { CreateProductFn } from './methods/create-product'
 import makeCreateProductOptionFn, {
   CreateProductOptionFn,
-} from "./methods/create-product-option";
-import makeGetProductFn, { GetProductFn } from "./methods/get-product";
+} from './methods/create-product-option'
+import {
+  DeleteProductsFn,
+  makeDeleteProductsFn,
+} from './methods/delete-product'
+import {
+  DeleteProductVariantFn,
+  makeDeleteProductVariantFn,
+} from './methods/delete-product-variant'
+import makeGetProductFn, { GetProductFn } from './methods/get-product'
 
 import makeGetProductBySkuFn, {
   GetProductBySkuFn,
-} from "./methods/get-product-by-sku";
-import makeListBrandsFn, { ListBrandsFn } from "./methods/list-brands";
+} from './methods/get-product-by-sku'
+import makeListBrandsFn, { ListBrandsFn } from './methods/list-brands'
 import makeListCategoriesFn, {
   ListCategoriesFn,
-} from "./methods/list-categories";
+} from './methods/list-categories'
 import makeListProductImagesFn, {
   ListProductImagesFn,
-} from "./methods/list-product-images";
+} from './methods/list-product-images'
 import makeListProductOptionsFn, {
   ListProductOptionsFn,
-} from "./methods/list-product-options";
+} from './methods/list-product-options'
 import makeListProductVariantsFn, {
   ListProductVariantsFn,
-} from "./methods/list-product-variants";
-import makeListProductsFn, { ListProductsFn } from "./methods/list-products";
+} from './methods/list-product-variants'
+import makeListProductsFn, { ListProductsFn } from './methods/list-products'
 import makeListProductsMetadataFn, {
   ListProductsMetadataFn,
-} from "./methods/list-products-metadata";
-import { UpdateProductFn, makeUpdateProductFn } from "./methods/update-product";
+} from './methods/list-products-metadata'
+import { UpdateProductFn, makeUpdateProductFn } from './methods/update-product'
 import makeUpdateProductOptionFn, {
   UpdateProductOptionFn,
-} from "./methods/update-product-option";
+} from './methods/update-product-option'
 import makeUpdateProductVariantImageFn, {
   UpdateProductVariantImageFn,
-} from "./repository/product-variant-image/update";
+} from './repository/product-variant-image/update'
 
 export interface BigCommerceSdk {
-  getProduct: GetProductFn;
-  getProductBySku: GetProductBySkuFn;
+  getProduct: GetProductFn
+  getProductBySku: GetProductBySkuFn
 
-  createCategory: CreateCategoryFn;
-  createProduct: CreateProductFn;
-  createProductOption: CreateProductOptionFn;
+  createCategory: CreateCategoryFn
+  createProduct: CreateProductFn
+  createProductOption: CreateProductOptionFn
 
-  updateProduct: UpdateProductFn;
-  updateProductOption: UpdateProductOptionFn;
-  updateProductVariantImage: UpdateProductVariantImageFn;
+  updateProduct: UpdateProductFn
+  updateProductOption: UpdateProductOptionFn
+  updateProductVariantImage: UpdateProductVariantImageFn
 
-  batchUpdateProductVariants: BatchUpdateProductVariantsFn;
+  batchUpdateProductVariants: BatchUpdateProductVariantsFn
 
-  listBrands: ListBrandsFn;
-  listCategories: ListCategoriesFn;
-  listProducts: ListProductsFn;
-  listProductVariants: ListProductVariantsFn;
-  listProductOptions: ListProductOptionsFn;
-  listProductImages: ListProductImagesFn;
-  listProductsMetadata: ListProductsMetadataFn;
+  listBrands: ListBrandsFn
+  listCategories: ListCategoriesFn
+  listProducts: ListProductsFn
+  listProductVariants: ListProductVariantsFn
+  listProductOptions: ListProductOptionsFn
+  listProductImages: ListProductImagesFn
+  listProductsMetadata: ListProductsMetadataFn
+
+  deleteProducts: DeleteProductsFn
+  deleteProductVariant: DeleteProductVariantFn
 }
 
 interface MakeSdkConfig {
-  makeGetProduct: typeof makeGetProductFn;
-  makeGetProductBySku: typeof makeGetProductBySkuFn;
+  makeGetProduct: typeof makeGetProductFn
+  makeGetProductBySku: typeof makeGetProductBySkuFn
 
-  makeCreateCategory: typeof makeCreateCategoryFn;
-  makeCreateProduct: typeof makeCreateProductFn;
-  makeCreateProductOption: typeof makeCreateProductOptionFn;
-  makeUpdateProductVariantImage: typeof makeUpdateProductVariantImageFn;
+  makeCreateCategory: typeof makeCreateCategoryFn
+  makeCreateProduct: typeof makeCreateProductFn
+  makeCreateProductOption: typeof makeCreateProductOptionFn
+  makeUpdateProductVariantImage: typeof makeUpdateProductVariantImageFn
 
-  makeUpdateProduct: typeof makeUpdateProductFn;
-  makeUpdateProductOption: typeof makeUpdateProductOptionFn;
+  makeUpdateProduct: typeof makeUpdateProductFn
+  makeUpdateProductOption: typeof makeUpdateProductOptionFn
 
-  makeBatchUpdateProductVariants: typeof makeBatchUpdateProductVariantsFn;
+  makeBatchUpdateProductVariants: typeof makeBatchUpdateProductVariantsFn
 
-  makeListBrands: typeof makeListBrandsFn;
-  makeListCategories: typeof makeListCategoriesFn;
-  makeListProducts: typeof makeListProductsFn;
-  makeListProductVariants: typeof makeListProductVariantsFn;
-  makeListProductOptions: typeof makeListProductOptionsFn;
-  makeListProductImages: typeof makeListProductImagesFn;
-  makeListProductsMetadata: typeof makeListProductsMetadataFn;
+  makeListBrands: typeof makeListBrandsFn
+  makeListCategories: typeof makeListCategoriesFn
+  makeListProducts: typeof makeListProductsFn
+  makeListProductVariants: typeof makeListProductVariantsFn
+  makeListProductOptions: typeof makeListProductOptionsFn
+  makeListProductImages: typeof makeListProductImagesFn
+  makeListProductsMetadata: typeof makeListProductsMetadataFn
+
+  makeDeleteProducts: typeof makeDeleteProductsFn
+  makeDeleteProductVariant: typeof makeDeleteProductVariantFn
 }
 
 const makeSdk = (
@@ -102,6 +116,8 @@ const makeSdk = (
     makeListProductsMetadata,
     makeListProductImages,
     makeListBrands,
+    makeDeleteProducts,
+    makeDeleteProductVariant,
   }: MakeSdkConfig = {
     makeCreateCategory: makeCreateCategoryFn,
     makeListCategories: makeListCategoriesFn,
@@ -119,7 +135,9 @@ const makeSdk = (
     makeListProductsMetadata: makeListProductsMetadataFn,
     makeListProductImages: makeListProductImagesFn,
     makeListBrands: makeListBrandsFn,
-  }
+    makeDeleteProducts: makeDeleteProductsFn,
+    makeDeleteProductVariant: makeDeleteProductVariantFn,
+  },
 ): BigCommerceSdk => {
   return {
     getProduct: makeGetProduct(),
@@ -142,7 +160,10 @@ const makeSdk = (
     listProductOptions: makeListProductOptions(),
     listProductImages: makeListProductImages(),
     listProductsMetadata: makeListProductsMetadata(),
-  };
-};
 
-export default makeSdk;
+    deleteProducts: makeDeleteProducts(),
+    deleteProductVariant: makeDeleteProductVariant(),
+  }
+}
+
+export default makeSdk

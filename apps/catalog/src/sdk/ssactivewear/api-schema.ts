@@ -1,21 +1,21 @@
-import * as yup from "yup";
+import * as yup from 'yup'
 
 export const ssActivewearCategoryApiSchema = yup.object().shape({
   categoryID: yup.number().required(),
   name: yup.string().required(),
-});
+})
 
 export type SsActivewearCategoryApiSchema = yup.Asserts<
   typeof ssActivewearCategoryApiSchema
->;
+>
 
 export const ssActivewearCategoriesApiSchema = yup
   .array()
-  .of(ssActivewearCategoryApiSchema.required());
+  .of(ssActivewearCategoryApiSchema.required())
 
 export type SsActivewearCategoriesApiSchema = yup.Asserts<
   typeof ssActivewearCategoriesApiSchema
->;
+>
 
 export const ssActivewearStyleApiSchema = yup.object().shape({
   styleID: yup.number().required(),
@@ -29,11 +29,11 @@ export const ssActivewearStyleApiSchema = yup.object().shape({
     .array()
     .of(yup.number().required())
     .required()
-    .transform((value) => value.split(",").map(Number))
+    .transform(value => value.split(',').map(Number))
     .test(
-      "is-numbers-array",
-      "Categories must be an array of numbers",
-      (value) => Array.isArray(value) && value.every(Number.isFinite)
+      'is-numbers-array',
+      'Categories must be an array of numbers',
+      value => Array.isArray(value) && value.every(Number.isFinite),
     ),
   catalogPageNumber: yup.string().required(),
   newStyle: yup.boolean().required(),
@@ -42,23 +42,31 @@ export const ssActivewearStyleApiSchema = yup.object().shape({
   brandImage: yup.string().required(),
   styleImage: yup.string().required(),
   sustainableStyle: yup.boolean().required(),
-});
+})
 
 export type SsActivewearStyleApiSchema = yup.Asserts<
   typeof ssActivewearStyleApiSchema
->;
+>
 
 export const ssActivewearStylesApiSchema = yup
   .array()
-  .of(ssActivewearStyleApiSchema.required());
+  .of(ssActivewearStyleApiSchema.required())
 
 export type SsActivewearStylesApiSchema = yup.Asserts<
   typeof ssActivewearStylesApiSchema
->;
+>
 
-const hexColor = yup
-  .string()
-  .matches(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$|^$/, "Invalid hex color");
+const hexColor = yup.string().transform(value => {
+  const isValidHex = /^#?([\da-fA-F]{2})([\da-fA-F]{2})([\da-fA-F]{2})$/.test(
+    value,
+  )
+
+  if (isValidHex) {
+    return value
+  }
+
+  return ''
+})
 
 export const ssActivewearWarehouseApiSchema = yup.object().shape({
   warehouseAbbr: yup.string().required(),
@@ -69,20 +77,23 @@ export const ssActivewearWarehouseApiSchema = yup.object().shape({
   excludeFreeFreight: yup.boolean().required(),
   fullCaseOnly: yup.boolean().required(),
   returnable: yup.boolean().required(),
-});
+})
 
 export type SsActivewearWarehouseApiSchema = yup.Asserts<
   typeof ssActivewearWarehouseApiSchema
->;
+>
 
 export const ssActivewearProductApiSchema = yup.object().shape({
   sku: yup.string().required(),
-  gtin: yup.string().required(),
+  gtin: yup.string().optional(),
   skuID_Master: yup.number().required(),
   styleID: yup.number().required(),
   brandName: yup.string().required(),
   styleName: yup.string().required(),
-  colorName: yup.string().required(),
+  colorName: yup
+    .string()
+    .transform((v: string | undefined) => v?.trim())
+    .required(),
   colorCode: yup.string().required(),
   colorPriceCodeName: yup.string().required(),
   colorGroup: yup.string().required(),
@@ -98,7 +109,7 @@ export const ssActivewearProductApiSchema = yup.object().shape({
   colorOnModelFrontImage: yup.string().optional(),
   colorOnModelSideImage: yup.string().optional(),
   colorOnModelBackImage: yup.string().optional(),
-  color1: hexColor.required(),
+  color1: hexColor.optional(),
   color2: hexColor.optional(),
   sizeName: yup.string().required(),
   sizeCode: yup.string().required(),
@@ -125,16 +136,16 @@ export const ssActivewearProductApiSchema = yup.object().shape({
     .array()
     .of(ssActivewearWarehouseApiSchema.required())
     .required(),
-});
+})
 
 export type SsActivewearProductApiSchema = yup.Asserts<
   typeof ssActivewearProductApiSchema
->;
+>
 
 export const ssActivewearProductsApiSchema = yup
   .array()
-  .of(ssActivewearProductApiSchema.required());
+  .of(ssActivewearProductApiSchema.required())
 
 export type SsActivewearProductsApiSchema = yup.Asserts<
   typeof ssActivewearProductsApiSchema
->;
+>
