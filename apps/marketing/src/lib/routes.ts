@@ -72,6 +72,10 @@ const routes = {
       href: ({ params }: { params?: QueryParams } = {}) =>
         buildRoute(`/catalog`, params),
 
+      discover: {
+        href: () => buildRoute('/catalog/discover'),
+      },
+
       brand: {
         show: {
           href: ({ brandSlug }: { brandSlug: string }) =>

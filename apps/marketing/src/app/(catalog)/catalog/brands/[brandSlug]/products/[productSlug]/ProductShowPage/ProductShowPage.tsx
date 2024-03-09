@@ -93,11 +93,7 @@ const ProductShowPage = ({ path }: Props) => {
           useAppDir: true, // Required when using Next.js app directory
           url,
           images,
-          size: {
-            name: size,
-            sizeGroup: 'https://schema.org/WearableSizeGroupRegular',
-            sizeSystem: 'https://schema.org/WearableSizeSystemUS',
-          },
+          size: size,
           adult: false,
           ageGroup: 'adult', // Change if it's for kids
           productName: name,

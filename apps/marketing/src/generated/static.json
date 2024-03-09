@@ -4319,6 +4319,26 @@
         "is_customized": false
       },
       "image_url": ""
+    },
+    {
+      "id": 1102,
+      "parent_id": 0,
+      "name": "FSG Clubs and Committees",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/fsg-clubs-and-committees/",
+        "is_customized": false
+      },
+      "image_url": ""
     }
   ]
 }

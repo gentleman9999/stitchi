@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/legacy/image'
 import React from 'react'
 import Link from 'next/link'
@@ -40,11 +42,6 @@ const CatalogProductLegacy = ({
 
   if (!product) {
     logger.warn('Product is required')
-    return null
-  }
-
-  if (!product?.brand) {
-    logger.warn('Product must have a brand', { product })
     return null
   }
 

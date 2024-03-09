@@ -37,12 +37,20 @@ const Layout = async ({ children }: Props) => {
 
           <div className="hidden flex-auto lg:flex items-center justify-center space-x-6">
             {/* <Link
-                href={routes.internal.login.href()}
-                passHref
-                className={s.link}
-              >
-                Discover
-              </Link> */}
+              href={routes.internal.catalog.discover.href()}
+              className={cx(s.link, {
+                'underline underline-offset-8': pathname?.startsWith(
+                  routes.internal.catalog.discover.href(),
+                ),
+              })}
+            >
+              Discover
+            </Link> */}
+            <CategoryNavItem
+              categorySlug={routes.internal.catalog.discover.href()}
+            >
+              Discover
+            </CategoryNavItem>
             <CategoryNavItem categorySlug="catalog">
               All products
             </CategoryNavItem>

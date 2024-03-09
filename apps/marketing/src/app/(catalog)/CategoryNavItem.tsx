@@ -2,7 +2,7 @@
 import React from 'react'
 import s from './layout.module.css'
 import routes from '@lib/routes'
-import { useParams, usePathname } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import cx from 'classnames'
 import Link from 'next/link'
 
@@ -13,11 +13,11 @@ const CategoryNavItem = ({
   categorySlug: string
   children: React.ReactNode
 }) => {
-  const pathname = usePathname()!
-
   const { catchAllSlug } = useParams<{
     catchAllSlug?: string[]
   }>()!
+
+  console.log('CATCH ALL SLUG', catchAllSlug)
 
   const parentCategorySlug = catchAllSlug?.[0]
 
