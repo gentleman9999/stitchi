@@ -75,17 +75,25 @@ const ProductShowPage = ({ path }: Props) => {
           metafield => metafield?.node.key === 'image_group',
         )
 
-        const images = product.allImages
-          .filter(image => {
-            const imageGroupTest = image.urlStandard
-              .split('/')
-              .pop()
-              ?.split('_')
-              .shift()
+        const images = [
+          ...(variant.defaultImage
+            ? [variant.defaultImage.url]
+            : [product.defaultImage?.url]),
+          ...product.allImages
+            .filter(image => {
+              const imageGroupTest = image.urlStandard
+                .split('/')
+                .pop()
+                ?.split('_')
+                .shift()
 
-            return imageGroupTest === imageGroup?.node.value
-          })
-          .map(image => image.urlZoom)
+              return imageGroupTest === imageGroup?.node.value
+            })
+            .map(image => image.urlZoom),
+        ]
+
+        if (images.length === 0) {
+        }
 
         const name = `${product.name} - ${color} - ${size}`
 
