@@ -3197,7 +3197,7 @@ export interface DesignProduct {
   organizationId: Maybe<Scalars['ID']['output']>;
   primaryImageFile: Maybe<FileImage>;
   primaryImageFileId: Maybe<Scalars['ID']['output']>;
-  sizes: Maybe<Array<DesignProductSize>>;
+  sizes: Array<DesignProductSize>;
   termsConditionsAgreed: Scalars['Boolean']['output'];
   updatedAt: Scalars['DateTime']['output'];
   variants: Array<DesignProductVariant>;
@@ -12365,14 +12365,14 @@ export type ClosetInventoryIndexPageInventoryListGetDataQueryVariables = Exact<{
 
 export type ClosetInventoryIndexPageInventoryListGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, hasDesignProducts: boolean, designProducts: { __typename: 'DesignProductConnection', edges: Array<{ __typename: 'DesignProductEdge', node: { __typename: 'DesignProduct', id: string, name: string, inStockQty: number, inProductionQty: number, colors: Array<{ __typename: 'DesignProductColor', id: string, hex: string | null, name: string | null }>, primaryImageFile: { __typename: 'FileImage', id: string, url: string, width: number, height: number } | null } | null } | null> | null } } | null };
 
-export type DesignInventoryMatrixDesignProductFragment = { __typename: 'DesignProduct', id: string, sizes: Array<{ __typename: 'DesignProductSize', id: string, name: string }> | null, colors: Array<{ __typename: 'DesignProductColor', id: string, name: string | null, hex: string | null }> };
+export type DesignInventoryMatrixDesignProductFragment = { __typename: 'DesignProduct', id: string, sizes: Array<{ __typename: 'DesignProductSize', id: string, name: string }>, colors: Array<{ __typename: 'DesignProductColor', id: string, name: string | null, hex: string | null }> };
 
 export type DesignOverviewGetDataQueryVariables = Exact<{
   designId: Scalars['ID']['input'];
 }>;
 
 
-export type DesignOverviewGetDataQuery = { __typename: 'Query', designProduct: { __typename: 'DesignProduct', id: string, description: string | null, designRequestId: string, colors: Array<{ __typename: 'DesignProductColor', id: string, hex: string | null, name: string | null }>, orders: Array<{ __typename: 'Order', id: string, humanOrderId: string }>, sizes: Array<{ __typename: 'DesignProductSize', id: string, name: string }> | null } | null };
+export type DesignOverviewGetDataQuery = { __typename: 'Query', designProduct: { __typename: 'DesignProduct', id: string, description: string | null, designRequestId: string, colors: Array<{ __typename: 'DesignProductColor', id: string, hex: string | null, name: string | null }>, orders: Array<{ __typename: 'Order', id: string, humanOrderId: string }>, sizes: Array<{ __typename: 'DesignProductSize', id: string, name: string }> } | null };
 
 export type DesignPreviewGalleryDesignProductFragment = { __typename: 'DesignProduct', id: string, colors: Array<{ __typename: 'DesignProductColor', id: string, images: Array<{ __typename: 'FileImage', id: string, url: string, width: number, height: number }> }> };
 
