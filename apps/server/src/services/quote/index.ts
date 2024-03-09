@@ -4,7 +4,7 @@ import {
   makeClient as makeCatalogServiceClient,
 } from '../catalog'
 import { logger } from '../../telemetry'
-import { makeCalculate } from 'quote'
+import { makeCalculate } from '@stitchi/quote'
 
 const inputV2Schema = yup.object().shape({
   includeFulfillment: yup.boolean().required(),
