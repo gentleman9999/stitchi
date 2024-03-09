@@ -242,10 +242,6 @@ export const designProductCreateQuote = mutationField(
         product = await ctx.catalog.getCatalogProduct({
           productEntityId: designProduct.catalogProductId,
         })
-
-        if (!product) {
-          throw new Error('Product not found')
-        }
       } catch (error) {
         ctx.logger
           .child({
@@ -253,7 +249,9 @@ export const designProductCreateQuote = mutationField(
           })
           .error('Error getting catalog product')
 
-        throw new GraphQLError('Error getting catalog product')
+        return {
+          quote: null,
+        }
       }
 
       let designProof

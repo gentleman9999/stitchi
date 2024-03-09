@@ -1,4 +1,3 @@
-import { GraphQLError } from 'graphql'
 import { extendType } from 'nexus'
 import { catalogProductFactoryToGraphQl } from '../../serializers/catalog'
 
@@ -14,10 +13,6 @@ export const CatalogProductExtendsDesignRequestProduct = extendType({
           catalogProduct = await ctx.catalog.getCatalogProduct({
             productEntityId: designRequestProduct.catalogProductId,
           })
-
-          if (!catalogProduct) {
-            throw new Error('Catalog product not found')
-          }
         } catch (error) {
           ctx.logger.error(
             `Failed to get catalog product: ${designRequestProduct.catalogProductId}`,
@@ -28,7 +23,8 @@ export const CatalogProductExtendsDesignRequestProduct = extendType({
               },
             },
           )
-          throw new GraphQLError('Failed to get catalog product')
+
+          return null
         }
 
         return catalogProductFactoryToGraphQl({

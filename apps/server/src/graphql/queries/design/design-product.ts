@@ -34,7 +34,7 @@ export const designProduct = queryField('designProduct', {
 export const DesignProductExtendsDesignProduct = extendType({
   type: 'DesignProduct',
   definition(t) {
-    t.list.nonNull.field('sizes', {
+    t.nonNull.list.nonNull.field('sizes', {
       type: 'DesignProductSize',
       resolve: async (parent, _, ctx) => {
         let catalogProductVariants
@@ -50,9 +50,9 @@ export const DesignProductExtendsDesignProduct = extendType({
             .child({
               context: { error, designProduct: parent },
             })
-            .error('Error getting catalog product')
+            .error('Error getting catalog product variants')
 
-          throw new GraphQLError('Error getting catalog product')
+          return []
         }
 
         let sizeSet = new Set<string>()

@@ -23,9 +23,9 @@ export const DesignProductVariantExtendsDesignProduct = extendType({
             .child({
               context: { error, designProduct: parent },
             })
-            .error('Error getting catalog product')
+            .error('Error listing catalog product variants')
 
-          throw new GraphQLError('Error getting catalog product')
+          throw new GraphQLError('Error listing catalog product variants')
         }
 
         let availableVariants: NexusGenObjects['DesignProductVariant'][] = []

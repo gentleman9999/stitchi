@@ -1123,7 +1123,7 @@ export interface NexusGenFieldTypes {
     organizationId: string | null; // ID
     primaryImageFile: NexusGenRootTypes['FileImage'] | null; // FileImage
     primaryImageFileId: string | null; // ID
-    sizes: NexusGenRootTypes['DesignProductSize'][] | null; // [DesignProductSize!]
+    sizes: NexusGenRootTypes['DesignProductSize'][]; // [DesignProductSize!]!
     termsConditionsAgreed: boolean; // Boolean!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
     variants: NexusGenRootTypes['DesignProductVariant'][]; // [DesignProductVariant!]!

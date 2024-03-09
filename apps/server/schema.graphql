@@ -147,7 +147,7 @@ type DesignProduct {
   organizationId: ID
   primaryImageFile: FileImage
   primaryImageFileId: ID
-  sizes: [DesignProductSize!]
+  sizes: [DesignProductSize!]!
   termsConditionsAgreed: Boolean!
   updatedAt: DateTime!
   variants: [DesignProductVariant!]!
