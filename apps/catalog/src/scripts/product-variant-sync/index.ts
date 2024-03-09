@@ -1,93 +1,113 @@
-import chalk from "chalk";
-import makeSdks, { BigCommerceProduct } from "../../sdk";
-import chunkArray from "../../utils/chunk-array";
-import { updateProductVariants } from "./update-product-variants";
-import generateSummary from "./generate-summary";
+import chalk from 'chalk'
+import makeSdks, { BigCommerceProduct } from '../../sdk'
+import chunkArray from '../../utils/chunk-array'
+import { updateProductVariants } from './update-product-variants'
+import generateSummary from './generate-summary'
 
-const { bigCommerce, ssactivewear } = makeSdks();
+const { bigCommerce, ssactivewear } = makeSdks()
 
 /**
  * This script will sync product variants from SS Activewear to BigCommerce.
  * This script is idempotent, so it can be run multiple times without duplicating product variants.
  */
 const start = async () => {
-  console.info(chalk.green("Starting product variant sync...\n"));
+  console.info(chalk.green('Starting product variant sync...\n'))
 
-  const successfulProducts: BigCommerceProduct[] = [];
-  const erroredProducts: BigCommerceProduct[] = [];
+  // const variants = await ssactivewear.listProductVariants()
 
-  let productListPage = 1;
-  let productListHasNextPage = true;
+  // const variantMap = new Map<string, number>()
+
+  // for (const variant of variants) {
+  //   const existing = variantMap.get(variant.sku) || 0
+
+  //   variantMap.set(variant.sku, existing + 1)
+  // }
+
+  // console.log(
+  //   'VARIANTS THAT HAVE DUPLICATE SKUS',
+  //   Array.from(variantMap)
+  //     .filter(([_, count]) => count > 1)
+  //     .map(([sku, count]) => ({ sku, count })),
+  // )
+
+  // return
+
+  const ssActivewearProductVariants = await ssactivewear.listProductVariants()
+
+  const successfulProducts: BigCommerceProduct[] = []
+  const erroredProducts: BigCommerceProduct[] = []
+
+  let productListPage = 1
+  let productListHasNextPage = true
 
   while (productListHasNextPage) {
-    let products: BigCommerceProduct[] = [];
+    let products: BigCommerceProduct[] = []
 
-    // try {
-    //   const response = await bigCommerce.listProducts(
-    //     {
-    //       limit: 50,
-    //       page: productListPage,
-    //     },
-    //     {
-    //       includeMetadata: true,
-    //     }
-    //   );
+    try {
+      const response = await bigCommerce.listProducts(
+        {
+          limit: 100,
+          page: productListPage,
+        },
+        {
+          includeMetadata: true,
+          includeCustomFields: true,
+        },
+      )
 
-    //   products = response.products;
-    //   productListHasNextPage = response.hasNextPage;
-    // } catch (error) {
-    //   console.error("Error fetching products from BigCommerce", {
-    //     context: { error },
-    //   });
+      products = response.products
+      productListHasNextPage = response.hasNextPage
+    } catch (error) {
+      console.error('Error fetching products from BigCommerce', {
+        context: { error },
+      })
 
-    //   break;
-    // }
-    productListHasNextPage = false;
+      break
+    }
 
-    products = [
-      await bigCommerce.getProduct(
-        { productId: 10282 },
-        { include: ["metadata"] }
-      ),
-    ];
+    // products = [
+    //   await bigCommerce.getProduct(
+    //     { productId: 1764 },
+    //     { include: ['metadata', 'custom_fields'] },
+    //   ),
+    // ]
 
-    console.log(products);
+    const BATCH_SIZE = 100
 
-    const BATCH_SIZE = 10;
-
-    const productBatches = chunkArray(products, BATCH_SIZE);
+    const productBatches = chunkArray(products, BATCH_SIZE)
 
     for (let i = 0; i < productBatches.length; i++) {
-      const batch = productBatches[i];
+      const batch = productBatches[i]
 
-      const productUpdatePromises = batch.map(async (product) => {
+      const productUpdatePromises = batch.map(async product => {
         try {
           await updateProductVariants(
             {
               bigCommerceProduct: product,
+              allSsActivewearProductVariants: ssActivewearProductVariants,
             },
             {
               ssactivewear,
               bigCommerce,
-            }
-          );
+            },
+          )
 
-          successfulProducts.push(product);
+          successfulProducts.push(product)
         } catch (error) {
-          erroredProducts.push(product);
+          erroredProducts.push(product)
 
-          console.error("Error updating product", {
+          console.error('Error updating product', {
             context: { error },
-          });
+          })
         }
-      });
+      })
 
       try {
-        await Promise.all(productUpdatePromises);
+        await Promise.all(productUpdatePromises)
       } catch (error) {
-        console.error("Error updating products", {
+        console.error('Error updating products', {
           context: { error },
-        });
+        })
       }
     }
   }
@@ -95,14 +115,14 @@ const start = async () => {
   generateSummary({
     erroredProductsCount: erroredProducts.length,
     successfulProductsCount: successfulProducts.length,
-  });
-};
+  })
+}
 
 start()
-  .catch((err) => {
-    console.error(chalk.red("Unhandled error in start function:"), err);
-    process.exit(1);
+  .catch(err => {
+    console.error(chalk.red('Unhandled error in start function:'), err)
+    process.exit(1)
   })
   .then(() => {
-    process.exit(0);
-  });
+    process.exit(0)
+  })

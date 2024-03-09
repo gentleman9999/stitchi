@@ -9,20 +9,21 @@ import {
 import { updateProductVariantOptions } from './update-product-variant-options'
 import env from '../../environment'
 import { BatchUpdateProductVariantsFnInput } from '../../sdk/bigcommerce/methods/batch-update-product-variants'
-import { makeCalculate } from 'quote'
+import { makeCalculate } from '@stitchi/quote'
 
 const calculate = makeCalculate()
 
 export const updateProductVariants = async (
   params: {
     bigCommerceProduct: BigCommerceProduct
+    allSsActivewearProductVariants: SsActivewearProductVariant[]
   },
   config: {
     ssactivewear: SsActivewearSdk
     bigCommerce: BigCommerceSdk
   },
 ) => {
-  const { bigCommerceProduct } = params
+  const { bigCommerceProduct, allSsActivewearProductVariants } = params
   const { ssactivewear, bigCommerce } = config
 
   console.info(
@@ -31,7 +32,12 @@ export const updateProductVariants = async (
     ),
   )
 
-  if (bigCommerceProduct.metadataMap?.source !== 'ss-activewear') {
+  if (
+    bigCommerceProduct.metadataMap?.source !== 'ss-activewear' &&
+    !bigCommerceProduct.customFields?.find(
+      field => field.name === 'source' && field.value === 'ss-activewear',
+    )
+  ) {
     console.info(
       chalk.yellow(
         `Skipping product ${bigCommerceProduct.id} because it is not from SS Activewear`,
@@ -40,7 +46,10 @@ export const updateProductVariants = async (
     return
   }
 
-  const ssActivewearStyleId = bigCommerceProduct.metadataMap?.styleId
+  const ssActivewearStyleId =
+    bigCommerceProduct.metadataMap?.styleId ||
+    bigCommerceProduct.customFields?.find(field => field.name === 'style_id')
+      ?.value
 
   if (!ssActivewearStyleId) {
     console.info(
@@ -51,9 +60,9 @@ export const updateProductVariants = async (
     return
   }
 
-  const ssActivewearProductVariants = await ssactivewear.listProductVariants({
-    styleId: ssActivewearStyleId,
-  })
+  const ssActivewearProductVariants = allSsActivewearProductVariants.filter(
+    variant => variant.styleID.toString() === ssActivewearStyleId,
+  )
 
   if (!ssActivewearProductVariants.length) {
     console.info(
@@ -229,7 +238,7 @@ export const updateProductVariants = async (
       inventoryLevel: variant.inventoryQty,
       purchasingDisabled: variant.inventoryQty === 0,
       unitWeight: variant.unitWeight,
-      gtin: variant.gtin,
+      gtin: variant.gtin || null,
       productId: bigCommerceProduct.id,
       optionValues: [
         { id: colorValue.id, optionId: colorOption.id },
@@ -245,7 +254,7 @@ export const updateProductVariants = async (
 
     if (!colorValue) {
       console.error('Color value not found for variant', {
-        context: { variant },
+        context: { variant: JSON.stringify(variant) },
       })
       continue
     }
@@ -256,7 +265,7 @@ export const updateProductVariants = async (
 
     if (!sizeValue) {
       console.error('Size value not found for variant', {
-        context: { variant },
+        context: { variant: JSON.stringify(variant) },
       })
       continue
     }
@@ -292,7 +301,12 @@ export const updateProductVariants = async (
       inventoryLevel: variant.ssActivewearVariant.inventoryQty,
       purchasingDisabled: variant.ssActivewearVariant.inventoryQty === 0,
       unitWeight: variant.ssActivewearVariant.unitWeight,
-      gtin: variant.ssActivewearVariant.gtin,
+      gtin: variant.ssActivewearVariant.gtin || null,
+      sku: variant.ssActivewearVariant.sku,
+      optionValues: [
+        { id: colorValue.id, optionId: colorOption.id },
+        { id: sizeValue.id, optionId: sizeOption.id },
+      ],
     })
   }
 

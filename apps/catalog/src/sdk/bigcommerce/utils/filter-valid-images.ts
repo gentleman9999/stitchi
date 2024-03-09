@@ -1,5 +1,3 @@
-import { notEmpty } from '../../../utils/typescript'
-
 interface Image {
   imageUrl: string
 }

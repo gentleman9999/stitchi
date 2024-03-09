@@ -73,7 +73,11 @@ const start = async () => {
   const getCustomFieldsFromBigCommerceCategories =
     makeGetCustomFieldsFromBigCommerceCategories(allBigCommerceCategories)
 
-  const chunkedProducts = chunkArray(ssactivewearProducts, 50)
+  const p = ssactivewearProducts.filter(
+    product => product.title === 'Unisex Jersey Short Sleeve Tee',
+  )
+
+  const chunkedProducts = chunkArray(p, 100)
 
   for (const productChunk of chunkedProducts) {
     const productPromises = productChunk.map(async product => {
@@ -81,7 +85,7 @@ const start = async () => {
 
       let bigCProduct: BigCommerceProduct | null = null
 
-      if (productSkuMetadata) {
+      if (productSkuMetadata?.resourceId) {
         try {
           bigCProduct = await sdks.bigCommerce.getProduct(
             {
@@ -166,6 +170,11 @@ const start = async () => {
             data => data.key === 'display_name',
           )?.id
 
+          const currentUrl = makeProductUrl({
+            brandName: product.brandName,
+            name: product.title,
+          })
+
           await sdks.bigCommerce.updateProduct({
             customFields,
             metadata: [
@@ -184,10 +193,7 @@ const start = async () => {
               brandName: product.brandName,
               sku: product.styleName,
             }),
-            url: makeProductUrl({
-              brandName: product.brandName,
-              name: product.title,
-            }),
+            url: currentUrl !== bigCProduct.url ? currentUrl : undefined,
             description: product.description,
             sku: product.styleName, // TODO: Figure out better SKU than Style name which may not always be unique
             categoryIds: categoryIds,

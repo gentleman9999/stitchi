@@ -1,11 +1,11 @@
-import * as yup from "yup";
-import { BigCommerceClient } from "../../client";
+import * as yup from 'yup'
+import { BigCommerceClient } from '../../client'
 import {
   bigCommerceApiResponseSchema,
   bigCommerceProductImageSchema,
-} from "../../api-schema";
-import { BigCommerceProductImage } from "../../types";
-import { makeProductImage } from "../../serializer";
+} from '../../api-schema'
+import { BigCommerceProductImage } from '../../types'
+import { makeProductImage } from '../../serializer'
 
 const querySchema = yup.object().shape({
   productId: yup.number().required(),
@@ -16,59 +16,61 @@ const querySchema = yup.object().shape({
       page: yup.number().required(),
     })
     .required(),
-});
+})
 
-export type ListProductImagesQuery = yup.InferType<typeof querySchema>;
+export type ListProductImagesQuery = yup.InferType<typeof querySchema>
 
 export type ListProductImagesFn = (query: ListProductImagesQuery) => Promise<{
-  images: BigCommerceProductImage[];
-  pagination: { hasNextPage: boolean };
-}>;
+  images: BigCommerceProductImage[]
+  pagination: { hasNextPage: boolean }
+}>
 
 interface Client {
-  client: BigCommerceClient;
+  client: BigCommerceClient
 }
 
 const makeListProductImagesFn = ({ client }: Client): ListProductImagesFn => {
   return async function list(query) {
-    let validQuery;
+    let validQuery
 
     try {
-      validQuery = await querySchema.validate(query);
+      validQuery = await querySchema.validate(query)
     } catch (error) {
-      console.error("Error validating product image query", {
+      console.error('Error validating product image query', {
         context: { error },
-      });
+      })
 
-      throw error;
+      throw error
     }
 
-    const { page, limit } = validQuery.filter;
+    const { page, limit } = validQuery.filter
 
-    let productImageData;
-    let hasNextPage = false;
+    let productImageData
+    let hasNextPage = false
 
     try {
       const [error, listProductImagesResponse] = await client.call(
         `/products/${validQuery.productId}/images?limit=${limit}&page=${page}`,
         bigCommerceApiResponseSchema(
-          yup.array().of(bigCommerceProductImageSchema).required()
-        )
-      );
+          yup.array().of(bigCommerceProductImageSchema).required(),
+        ),
+      )
 
       if (error) {
-        throw error;
+        throw error
       }
 
-      productImageData = listProductImagesResponse.data;
-      hasNextPage =
-        listProductImagesResponse.meta?.pagination?.total_pages !== page;
-    } catch (error) {
-      console.error("Error listing product images", {
-        context: { error },
-      });
+      productImageData = listProductImagesResponse.data
 
-      throw error;
+      const totalPages = listProductImagesResponse.meta?.pagination?.total_pages
+
+      hasNextPage = Boolean(totalPages && totalPages !== page)
+    } catch (error) {
+      console.error('Error listing product images', {
+        context: { error },
+      })
+
+      throw error
     }
 
     return {
@@ -76,8 +78,8 @@ const makeListProductImagesFn = ({ client }: Client): ListProductImagesFn => {
       pagination: {
         hasNextPage,
       },
-    };
-  };
-};
+    }
+  }
+}
 
-export default makeListProductImagesFn;
+export default makeListProductImagesFn

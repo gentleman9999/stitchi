@@ -1,55 +1,58 @@
 import {
   bigCommerceApiResponseSchema,
   bigCommerceBrandsApiSchema,
-} from "../api-schema";
-import makeClient from "../client";
-import { makeBrand } from "../serializer";
-import { BigCommerceBrand } from "../types";
+} from '../api-schema'
+import makeClient from '../client'
+import { makeBrand } from '../serializer'
+import { BigCommerceBrand } from '../types'
 
 export type ListBrandsFnInput = {
-  limit: number;
-  page: number;
-};
+  limit: number
+  page: number
+}
 
 export type ListBrandsFn = (input: ListBrandsFnInput) => Promise<{
-  brands: BigCommerceBrand[];
+  brands: BigCommerceBrand[]
   pagination: {
-    hasNextPage: boolean;
-  };
-}>;
+    hasNextPage: boolean
+  }
+}>
 
 interface Config {
-  client: ReturnType<typeof makeClient>;
+  client: ReturnType<typeof makeClient>
 }
 
 const makeListBrandsFn = (
   { client }: Config = {
     client: makeClient(),
-  }
+  },
 ): ListBrandsFn => {
-  return async (input) => {
+  return async input => {
     const [error, res] = await client.call(
       `/brands?limit=${input.limit}&page=${input.page}`,
-      bigCommerceApiResponseSchema(bigCommerceBrandsApiSchema.required())
-    );
+      bigCommerceApiResponseSchema(bigCommerceBrandsApiSchema.required()),
+    )
 
     if (error) {
-      console.error("Error fetching brands", {
+      console.error('Error fetching brands', {
         context: { error },
-      });
+      })
 
-      throw error;
+      throw error
     }
 
-    const { pagination } = res.meta || {};
+    const { pagination } = res.meta || {}
 
     return {
       brands: res.data.map(makeBrand),
       pagination: {
-        hasNextPage: pagination?.current_page !== pagination?.total_pages,
+        hasNextPage: Boolean(
+          pagination?.total_pages &&
+            pagination?.current_page !== pagination?.total_pages,
+        ),
       },
-    };
-  };
-};
+    }
+  }
+}
 
-export default makeListBrandsFn;
+export default makeListBrandsFn

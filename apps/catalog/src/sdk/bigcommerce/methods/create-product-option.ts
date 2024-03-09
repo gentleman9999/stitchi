@@ -1,14 +1,14 @@
-import * as yup from "yup";
+import * as yup from 'yup'
 import {
   BigCommerceProductOptionType,
   BigCommerceProductVariantOption,
-} from "../types";
-import makeClient from "../client";
+} from '../types'
+import makeClient from '../client'
 import {
   bigCommerceApiProductOptionSchema,
   bigCommerceApiResponseSchema,
-} from "../api-schema";
-import { makeProductVariantOption } from "../serializer";
+} from '../api-schema'
+import { makeProductVariantOption } from '../serializer'
 
 const inputSchema = yup.object().shape({
   productId: yup.number().required(),
@@ -27,51 +27,62 @@ const inputSchema = yup.object().shape({
           sortOrder: yup.number().required(),
           valueData: yup.array().of(yup.string().required()).optional(),
         })
-        .required()
+        .required(),
     )
     .required(),
-});
+})
 
-type ProductOptionInput = yup.InferType<typeof inputSchema>;
+type ProductOptionInput = yup.InferType<typeof inputSchema>
 
 export type CreateProductOptionFn = (
-  productOptionInput: ProductOptionInput
-) => Promise<BigCommerceProductVariantOption>;
+  productOptionInput: ProductOptionInput,
+) => Promise<BigCommerceProductVariantOption>
 
 interface Client {
-  client: ReturnType<typeof makeClient>;
+  client: ReturnType<typeof makeClient>
 }
 
 const makeCreateProductOptionFn = (
   { client }: Client = {
     client: makeClient(),
-  }
+  },
 ): CreateProductOptionFn => {
-  return async (productOption) => {
-    let validInput;
+  return async productOption => {
+    let validInput
 
     try {
-      validInput = await inputSchema.validate(productOption);
+      validInput = await inputSchema.validate(productOption)
     } catch (error) {
-      console.error("Error validating product option input", {
+      console.error('Error validating product option input', {
         error,
         params: error instanceof yup.ValidationError ? error.params : null,
-      });
+      })
 
-      throw error;
+      throw error
     }
+
+    // Remove duplicate option values by comparing their label
+    const uniqueOptionValues = validInput.optionValues.filter(
+      (optionValue, index, self) =>
+        index ===
+        self.findIndex(
+          t =>
+            t.label.trim().toLowerCase() ===
+            optionValue.label.trim().toLowerCase(),
+        ),
+    )
 
     const [error, response] = await client.call(
       `/products/${validInput.productId}/options`,
       bigCommerceApiResponseSchema(
-        bigCommerceApiProductOptionSchema.required()
+        bigCommerceApiProductOptionSchema.required(),
       ),
       {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify({
           display_name: validInput.displayName,
           type: validInput.type,
-          option_values: validInput.optionValues.map((optionValue) => ({
+          option_values: uniqueOptionValues.map(optionValue => ({
             label: optionValue.label,
             sort_order: optionValue.sortOrder,
             value_data: optionValue.valueData
@@ -81,19 +92,19 @@ const makeCreateProductOptionFn = (
               : undefined,
           })),
         }),
-      }
-    );
+      },
+    )
 
     if (error) {
-      console.error("Error creating product option", {
+      console.error('Error creating product option', {
         error,
-      });
+      })
 
-      throw error;
+      throw error
     }
 
-    return makeProductVariantOption(response.data);
-  };
-};
+    return makeProductVariantOption(response.data)
+  }
+}
 
-export default makeCreateProductOptionFn;
+export default makeCreateProductOptionFn

@@ -1,63 +1,70 @@
-import makeClient, { BigCommerceClient } from "../client";
+import makeClient, { BigCommerceClient } from '../client'
 import makeCreateProductImageFn, {
   CreateProductImageFn,
-} from "./product-image/create";
+} from './product-image/create'
 import makeDeleteProductImageFn, {
   DeleteProductImageFn,
-} from "./product-image/delete";
+} from './product-image/delete'
 import makeListProductImagesFn, {
   ListProductImagesFn,
-} from "./product-image/list";
+} from './product-image/list'
 import makeBatchCreateProductMetadataFn, {
   BatchCreateProductMetadataFn,
-} from "./product-metadata/batch-create";
+} from './product-metadata/batch-create'
 import makeBatchUpdateProductMetadataFn, {
   BatchUpdateProductMetadataFn,
-} from "./product-metadata/batch-update";
+} from './product-metadata/batch-update'
 import makeListProductMetadataFn, {
   ListProductMetadataFn,
-} from "./product-metadata/list";
+} from './product-metadata/list'
 import makeUpdateProductVariantImageFn, {
   UpdateProductVariantImageFn,
-} from "./product-variant-image/update";
+} from './product-variant-image/update'
 import makeBatchUpdateProductVariantsFn, {
   BatchUpdateProductVariantsFn,
-} from "./product-variant/batch-update";
-import makeCreateProductFn, { CreateProductFn } from "./product/create";
-import makeGetProductFn, { GetProductFn } from "./product/get";
-import makeUpdateProductFn, { UpdateProductFn } from "./product/update";
+} from './product-variant/batch-update'
+import makeDeleteProductVariantFn, {
+  DeleteProductVariantFn,
+} from './product-variant/delete'
+import makeCreateProductFn, { CreateProductFn } from './product/create'
+import makeDeleteProductsFn, { DeleteProductsFn } from './product/delete'
+import makeGetProductFn, { GetProductFn } from './product/get'
+import makeUpdateProductFn, { UpdateProductFn } from './product/update'
 
 export interface BigCommerceRepository {
-  getProduct: GetProductFn;
-  createProduct: CreateProductFn;
-  updateProduct: UpdateProductFn;
+  getProduct: GetProductFn
+  createProduct: CreateProductFn
+  updateProduct: UpdateProductFn
+  deleteProduct: DeleteProductsFn
 
-  createProductImage: CreateProductImageFn;
-  deletedProductImage: DeleteProductImageFn;
-  listProductImages: ListProductImagesFn;
+  createProductImage: CreateProductImageFn
+  deletedProductImage: DeleteProductImageFn
+  listProductImages: ListProductImagesFn
 
-  listProductMetadata: ListProductMetadataFn;
-  batchCreateProductMetadata: BatchCreateProductMetadataFn;
-  batchUpdateProductMetadata: BatchUpdateProductMetadataFn;
+  listProductMetadata: ListProductMetadataFn
+  batchCreateProductMetadata: BatchCreateProductMetadataFn
+  batchUpdateProductMetadata: BatchUpdateProductMetadataFn
 
-  updateProductVariantImage: UpdateProductVariantImageFn;
+  updateProductVariantImage: UpdateProductVariantImageFn
 
-  batchUpdateProductVariants: BatchUpdateProductVariantsFn;
+  batchUpdateProductVariants: BatchUpdateProductVariantsFn
+  deleteProductVariant: DeleteProductVariantFn
 }
 
 interface Config {
-  client: BigCommerceClient;
+  client: BigCommerceClient
 }
 
 const makeBigCommerceRepository = (
   { client }: Config = {
     client: makeClient(),
-  }
+  },
 ): BigCommerceRepository => {
   return {
     getProduct: makeGetProductFn({ client }),
     createProduct: makeCreateProductFn({ client }),
     updateProduct: makeUpdateProductFn({ client }),
+    deleteProduct: makeDeleteProductsFn({ client }),
 
     createProductImage: makeCreateProductImageFn({ client }),
     deletedProductImage: makeDeleteProductImageFn({ client }),
@@ -70,7 +77,8 @@ const makeBigCommerceRepository = (
     updateProductVariantImage: makeUpdateProductVariantImageFn({ client }),
 
     batchUpdateProductVariants: makeBatchUpdateProductVariantsFn({ client }),
-  };
-};
+    deleteProductVariant: makeDeleteProductVariantFn({ client }),
+  }
+}
 
-export default makeBigCommerceRepository;
+export default makeBigCommerceRepository
