@@ -1,6 +1,10 @@
 'use client'
 
-import { SearchProductsSortInput } from '@generated/types'
+import {
+  FiltersProviderDynamicFilterFragment,
+  SearchProductFilter,
+  SearchProductsSortInput,
+} from '@generated/types'
 import {
   ParserBuilder,
   UseQueryStatesReturn,
@@ -10,8 +14,9 @@ import {
   parseAsStringEnum,
   useQueryStates,
 } from 'nuqs'
-import React, { useTransition } from 'react'
+import React, { useState, useTransition } from 'react'
 import staticData from '@generated/static.json'
+import { gql } from '@apollo/client'
 
 const SORT_OPTIONS = [
   {
@@ -69,8 +74,10 @@ interface State {
   setFilters: SetFiltersFn
   setSearch: (search: string) => void
   setSort: (sort: SearchProductsSortInput) => void
+  setDynamicFilters: (filters: FiltersProviderDynamicFilterFragment[]) => void
   toggleFilter: (filter: keyof AvailableFilters, id: number) => void
   availableFilters: AvailableFilters
+  availableDynamicFilters: FiltersProviderDynamicFilterFragment[]
 }
 
 const FiltersContext = React.createContext<State | undefined>(undefined)
@@ -82,11 +89,13 @@ interface FiltersProviderProps {
 const FiltersProvider = ({ children }: FiltersProviderProps) => {
   const [transitioning, startTransition] = useTransition()
 
+  const [dynamicFilters, setDynamicFilters] = useState<
+    FiltersProviderDynamicFilterFragment[]
+  >([])
+
   const [queryStates, setQueryStates] = useQueryStates(
     {
       brands: parseAsArrayOf(parseAsInteger),
-      // fabrics: parseAsArrayOf(parseAsInteger),
-      // fits: parseAsArrayOf(parseAsInteger),
       search: parseAsString.withDefault(''),
       sort: parseAsStringEnum(
         Object.values(SearchProductsSortInput),
@@ -157,7 +166,9 @@ const FiltersProvider = ({ children }: FiltersProviderProps) => {
       setSearch,
       setSort,
       toggleFilter,
+      setDynamicFilters,
       search: queryStates.search,
+      availableDynamicFilters: dynamicFilters,
       sort:
         SORT_OPTIONS.find(option => option.value === queryStates.sort) ||
         SORT_OPTIONS[0],
@@ -177,6 +188,7 @@ const FiltersProvider = ({ children }: FiltersProviderProps) => {
     queryStates.search,
     queryStates.sort,
     queryStates.brands,
+    dynamicFilters,
   ])
 
   return (
@@ -190,6 +202,37 @@ const useFilters = () => {
     throw new Error('useFilters must be used within a FiltersProvider')
   }
   return context
+}
+
+FiltersProvider.fragments = {
+  dynamicFilter: gql`
+    fragment FiltersProviderDynamicFilterFragment on SearchProductFilter {
+      __typename
+      name
+      isCollapsedByDefault
+
+      ... on PriceSearchFilter {
+        selected {
+          minPrice
+          maxPrice
+        }
+      }
+
+      ... on ProductAttributeSearchFilter {
+        displayProductCount
+        filterName
+        attributes {
+          edges {
+            node {
+              value
+              isSelected
+              productCount
+            }
+          }
+        }
+      }
+    }
+  `,
 }
 
 export { FiltersProvider, useFilters }

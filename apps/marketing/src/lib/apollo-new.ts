@@ -121,6 +121,12 @@ export const createApolloClient = (
             notifications: relayStylePagination(),
           },
         },
+        SearchProductFilter: {
+          keyFields: ['name'],
+        },
+        ProductAttributeSearchFilterItem: {
+          keyFields: ['value'],
+        },
       },
     }),
   })

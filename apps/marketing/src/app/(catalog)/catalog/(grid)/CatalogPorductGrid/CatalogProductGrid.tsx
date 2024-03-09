@@ -17,7 +17,7 @@ import CatalogProductLegacy, {
   CatalogProductLegacyFragments,
 } from '@components/common/CatalogProductLegacy'
 import { gql } from '@apollo/client'
-import { useFilters } from '../filters-context'
+import { FiltersProvider, useFilters } from '../filters-context'
 import { mergeFilters } from '../format-filters'
 import LoadingDots from '@components/ui/LoadingDots'
 
@@ -29,7 +29,14 @@ interface Props {
 const CatalogProductGrid = ({ categoryId, brandId }: Props) => {
   const searchParams = useSearchParams()!
   const [isFetchingMore, startFetchMoreTransition] = useTransition()
-  const { filters: unmergedFilters, search, sort, transitioning } = useFilters()
+  const {
+    filters: unmergedFilters,
+    search,
+    sort,
+    transitioning,
+    setDynamicFilters,
+    availableDynamicFilters,
+  } = useFilters()
 
   const after = searchParams.get('after')
 
@@ -74,6 +81,18 @@ const CatalogProductGrid = ({ categoryId, brandId }: Props) => {
       })
     }
   }, [after, fetchMore, isFetchingMore, pageInfo?.endCursor])
+
+  const filtersData = data?.site?.search?.searchProducts?.filters?.edges
+    ?.map(edge => edge?.node)
+    .filter(notEmpty)
+
+  React.useEffect(() => {
+    console.log('FILTER DATA', filtersData)
+
+    if (!deepEqual(availableDynamicFilters, filtersData)) {
+      setDynamicFilters(filtersData || [])
+    }
+  }, [setDynamicFilters, filtersData, availableDynamicFilters])
 
   const nextPageParams = new URLSearchParams(searchParams)
 
@@ -147,6 +166,26 @@ const GET_DATA = gql`
             edges {
               node {
                 name
+                isCollapsedByDefault
+                ... on PriceSearchFilter {
+                  selected {
+                    minPrice
+                    maxPrice
+                  }
+                }
+                ... on ProductAttributeSearchFilter {
+                  filterName
+                  displayProductCount
+                  attributes {
+                    edges {
+                      node {
+                        value
+                        isSelected
+                        productCount
+                      }
+                    }
+                  }
+                }
               }
             }
           }

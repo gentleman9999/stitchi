@@ -2,11 +2,15 @@ import React from 'react'
 import { useFilters } from '../filters-context'
 import Link from 'next/link'
 import routes from '@lib/routes'
-import { CategoryTreeItem } from '@generated/types'
+import { CategoryTreeItem, PriceSearchFilter } from '@generated/types'
 import cx from 'classnames'
 import { ChevronLeftIcon } from '@heroicons/react/24/outline'
-import Checkbox from '@components/ui/inputs/Checkbox'
 import { useCategories } from '../categories-context'
+import { notEmpty } from '@lib/utils/typescript'
+import FilterItem from './FilterItem'
+import FilterGroup from './FilterGroup'
+import DynamicFilter from './DynamicFilter'
+import { TextField } from '@components/ui/inputs'
 
 function getActiveCategoryEntityIds(
   categories: CategoryTreeItem[],
@@ -57,6 +61,7 @@ const CatalogSidebar = ({
     setFilters,
     filters: { brands: activeBrands },
     availableFilters: { brands },
+    availableDynamicFilters,
   } = useFilters()
 
   const activeCategoryTreeEntityIds = React.useMemo(() => {
@@ -68,8 +73,26 @@ const CatalogSidebar = ({
     ).reverse()
   }, [activeCategoryId, categories])
 
+  const priceFilter = availableDynamicFilters.find(
+    (filter): filter is PriceSearchFilter =>
+      filter.__typename === 'PriceSearchFilter',
+  )
+
   return (
     <ul className="flex flex-col gap-10">
+      <Section label="Price">
+        <FilterGroup>
+          <TextField
+            label="Min"
+            value={priceFilter?.selected?.minPrice || undefined}
+          />
+          <TextField
+            label="Max"
+            value={priceFilter?.selected?.maxPrice || undefined}
+          />
+        </FilterGroup>
+      </Section>
+
       {!activeCollectionId && categories.length ? (
         <Section
           label={activeCategoryId ? 'All products' : 'Categories'}
@@ -111,27 +134,56 @@ const CatalogSidebar = ({
       ) : null}
 
       <Section label="Filters">
-        {!activeBrandId ? (
-          <FilterGroup
-            label="Brands"
-            showClear={Boolean(activeBrands?.length)}
-            onClear={() => {
-              setFilters(prev => ({
-                ...prev,
-                brands: null,
-              }))
-            }}
-          >
-            {brands.map(brand => (
-              <FilterItem
-                key={brand.id}
-                onClick={() => toggleFilter('brands', brand.id)}
-                active={activeBrands?.includes(brand)}
-                label={brand.name}
-              />
-            ))}
-          </FilterGroup>
-        ) : null}
+        <div className="flex flex-col gap-8">
+          {!activeBrandId ? (
+            <FilterGroup
+              label="Brands"
+              showClear={Boolean(activeBrands?.length)}
+              onClear={() => {
+                setFilters(prev => ({
+                  ...prev,
+                  brands: null,
+                }))
+              }}
+            >
+              {brands.map(brand => (
+                <FilterItem
+                  key={brand.id}
+                  onClick={() => toggleFilter('brands', brand.id)}
+                  active={activeBrands?.includes(brand)}
+                  label={brand.name}
+                />
+              ))}
+            </FilterGroup>
+          ) : null}
+
+          {availableDynamicFilters.map(filter => {
+            if (filter.__typename !== 'ProductAttributeSearchFilter') {
+              return null
+            }
+
+            const attributes =
+              filter.attributes?.edges?.map(a => a?.node).filter(notEmpty) || []
+
+            return (
+              <FilterGroup
+                key={filter.name}
+                label={filter.filterName}
+                showClear={Boolean(attributes.find(a => a.isSelected))}
+                onClear={() => {}}
+              >
+                {attributes.map(attribute => (
+                  <FilterItem
+                    key={attribute.value}
+                    onClick={() => {}}
+                    label={attribute.value || ''}
+                    active={attribute.isSelected}
+                  />
+                ))}
+              </FilterGroup>
+            )
+          })}
+        </div>
       </Section>
     </ul>
   )
@@ -161,102 +213,6 @@ const Section = ({
     <li>
       {Label}
       {children}
-    </li>
-  )
-}
-
-const FilterGroup = ({
-  children,
-  className,
-  label,
-  onClear,
-  showClear,
-}: {
-  children: React.ReactNode[]
-  className?: string
-  label?: string
-  onClear?: () => void
-  showClear?: boolean
-}) => {
-  const [expanded, setExpanded] = React.useState(false)
-
-  return (
-    <ul className={cx('flex flex-col gap-2 items-start', className)}>
-      {label ? (
-        <div className="flex justify-between items-center gap-2 w-full">
-          <h3 className="text-base font-semibold mb-2">{label}</h3>
-          {onClear && showClear ? (
-            <button
-              className="text-gray-600 underline text-xs"
-              onClick={() => onClear()}
-            >
-              Reset
-            </button>
-          ) : null}
-        </div>
-      ) : null}
-      {children
-        .slice(0, expanded ? children.length : Math.min(children.length, 5))
-        .map((child, idx) => {
-          const clonedChild = React.cloneElement(child as any, {
-            className: cx({
-              'sr-only': !expanded && idx > 4,
-            }),
-          })
-
-          return clonedChild
-        })}
-
-      {children.length > 5 ? (
-        <button
-          className="text-gray-600 underline"
-          onClick={() => setExpanded(prev => !prev)}
-        >
-          {expanded ? 'Show less' : 'Show more'}
-        </button>
-      ) : null}
-    </ul>
-  )
-}
-
-type FilterItemProps =
-  | {
-      label: string
-      onClick: () => void
-      active?: boolean
-      children?: React.ReactNode
-    }
-  | {
-      label: string
-      href: string
-      active?: boolean
-      children?: React.ReactNode
-    }
-
-const FilterItem = (props: FilterItemProps) => {
-  const linkClassName = cx('flex items-center gap-2', {
-    'font-bold': props.active,
-  })
-
-  return (
-    <li className="flex flex-col gap-2">
-      {'href' in props ? (
-        <Link href={props.href} className={linkClassName}>
-          {props.label}
-        </Link>
-      ) : (
-        <button onClick={props.onClick} className={linkClassName}>
-          <Checkbox
-            name="checkbox"
-            value="checkbox"
-            onChange={() => {}}
-            checked={props.active}
-          />
-          {props.label}
-        </button>
-      )}
-
-      {props.children}
     </li>
   )
 }
