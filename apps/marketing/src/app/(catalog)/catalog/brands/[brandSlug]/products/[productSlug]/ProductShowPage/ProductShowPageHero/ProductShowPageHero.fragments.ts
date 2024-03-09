@@ -14,7 +14,7 @@ export const fragments = {
       ...UseProductColorsProductFragment
       id
       entityId
-      name
+      humanizedName
       path
       sku
       reviewSummary {

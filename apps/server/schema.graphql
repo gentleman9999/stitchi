@@ -1354,13 +1354,14 @@ type PaymentMethodCard {
 
 type Product {
   allImages: [CatalogProductImage!]!
+  humanizedName: String!
   id: ID!
-  name: String!
 }
 
 input ProductKey {
   entityId: ID!
   id: ID!
+  name: ID!
 }
 
 type ProductPriceMetadata {

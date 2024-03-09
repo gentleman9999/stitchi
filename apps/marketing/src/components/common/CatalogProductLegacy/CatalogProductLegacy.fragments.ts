@@ -7,8 +7,9 @@ const fragments = {
     fragment CatalogProductLegacyProductFragment on Product {
       ...UseProductColorsProductFragment
       id
-      name
+      humanizedName
       path
+      sku
       prices {
         price {
           value
@@ -21,9 +22,8 @@ const fragments = {
       }
 
       defaultImage {
-        urlOriginal
         altText
-        url(width: 400)
+        url(width: 800)
       }
     }
   `,

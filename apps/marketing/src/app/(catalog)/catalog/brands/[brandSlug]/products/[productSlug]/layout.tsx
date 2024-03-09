@@ -31,8 +31,8 @@ const Layout = ({ children, share, params }: Props) => {
     },
   ]
 
-  const brand = staticData.brands.find(
-    brand => brand.custom_url.url === `/${brandSlug}/`,
+  const brand = staticData.brands.find(brand =>
+    brand.custom_url.url.startsWith(`/${brandSlug}`),
   )
 
   if (brand) {

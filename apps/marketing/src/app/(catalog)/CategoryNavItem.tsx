@@ -2,7 +2,7 @@
 import React from 'react'
 import s from './layout.module.css'
 import routes from '@lib/routes'
-import { useParams } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 import cx from 'classnames'
 import Link from 'next/link'
 
@@ -13,11 +13,15 @@ const CategoryNavItem = ({
   categorySlug: string
   children: React.ReactNode
 }) => {
+  const pathname = usePathname()
   const { catchAllSlug } = useParams<{
     catchAllSlug?: string[]
   }>()!
+  const [isActive, setIsActive] = React.useState(false)
 
-  console.log('CATCH ALL SLUG', catchAllSlug)
+  React.useEffect(() => {
+    setIsActive(Boolean(pathname?.startsWith(categorySlug)))
+  }, [pathname, categorySlug])
 
   const parentCategorySlug = catchAllSlug?.[0]
 
@@ -25,9 +29,9 @@ const CategoryNavItem = ({
     categorySlug,
   })
 
-  const isActive =
-    parentCategorySlug === categorySlug ||
-    (categorySlug === 'catalog' && !parentCategorySlug)
+  // const isActive =
+  //   parentCategorySlug === categorySlug ||
+  //   (categorySlug === 'catalog' && !parentCategorySlug)
 
   return (
     <Link

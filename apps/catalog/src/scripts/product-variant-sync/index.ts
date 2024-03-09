@@ -1,4 +1,3 @@
-import chalk from 'chalk'
 import makeSdks, { BigCommerceProduct } from '../../sdk'
 import chunkArray from '../../utils/chunk-array'
 import { updateProductVariants } from './update-product-variants'
@@ -11,7 +10,7 @@ const { bigCommerce, ssactivewear } = makeSdks()
  * This script is idempotent, so it can be run multiple times without duplicating product variants.
  */
 const start = async () => {
-  console.info(chalk.green('Starting product variant sync...\n'))
+  console.info('Starting product variant sync...\n')
 
   // const variants = await ssactivewear.listProductVariants()
 
@@ -46,7 +45,7 @@ const start = async () => {
     try {
       const response = await bigCommerce.listProducts(
         {
-          limit: 100,
+          limit: 50,
           page: productListPage,
         },
         {
@@ -57,6 +56,7 @@ const start = async () => {
 
       products = response.products
       productListHasNextPage = response.hasNextPage
+      productListPage++
     } catch (error) {
       console.error('Error fetching products from BigCommerce', {
         context: { error },
@@ -72,7 +72,7 @@ const start = async () => {
     //   ),
     // ]
 
-    const BATCH_SIZE = 100
+    const BATCH_SIZE = 25
 
     const productBatches = chunkArray(products, BATCH_SIZE)
 
@@ -120,7 +120,7 @@ const start = async () => {
 
 start()
   .catch(err => {
-    console.error(chalk.red('Unhandled error in start function:'), err)
+    console.error('Unhandled error in start function:', err)
     process.exit(1)
   })
   .then(() => {

@@ -1,6 +1,4 @@
-import { generateImageSizes } from '@lib/utils/image'
 import { notEmpty } from '@lib/utils/typescript'
-import Image from 'next/image'
 import React from 'react'
 import dynamic from 'next/dynamic'
 import { CatalogProductVariantPreviewProductFragment } from '@generated/types'
@@ -64,44 +62,34 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
     <>
       {showFullScreen ? (
         <ImageFullScreenBase open onClose={() => setShowFullScreen(false)}>
-          <Image
-            fill
+          <img
             src={image.url}
             alt={product.name || 'Product image'}
-            style={{
-              objectFit: 'contain',
-            }}
+            className="object-contain w-full h-full"
           />
         </ImageFullScreenBase>
       ) : null}
       <div
         className={`relative w-full h-[calc(100vh-var(--topbar-height))] flex flex-col`}
       >
-        <div className="relative flex-1">
-          <Image
-            fill
-            priority
+        <div className="relative flex-1 overflow-hidden">
+          <img
             key={image.url}
             src={image.url}
             alt={product.name || 'Product image'}
-            sizes={generateImageSizes([{ imageWidth: '700px' }])}
-            style={{
-              objectFit: 'contain',
-            }}
             onClick={() => setShowFullScreen(true)}
-            className="cursor-zoom-in hover:opacity-80 transition-all"
+            className="cursor-zoom-in hover:opacity-80 transition-all object-contain w-full h-full"
           />
         </div>
 
         {secondaryImages?.length ? (
           <div className="flex h-70 overflow-x-scroll">
             {activeVariant?.defaultImage?.url ? (
-              <Image
+              <img
                 src={activeVariant.defaultImage.url}
                 alt={product.name || 'Secondary image'}
                 width={70}
                 height={70}
-                sizes={generateImageSizes([{ imageWidth: '70px' }])}
                 style={{
                   objectFit: 'contain',
                   cursor: 'pointer',
@@ -119,13 +107,12 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
             {secondaryImages.map(image => {
               if (!image.urlThumbnail) return null
               return (
-                <Image
+                <img
                   key={image.urlThumbnail}
                   src={image.urlThumbnail}
                   alt={product.name || "Product's secondary image"}
                   width={70}
                   height={70}
-                  sizes={generateImageSizes([{ imageWidth: '70px' }])}
                   style={{
                     objectFit: 'contain',
                     cursor: 'pointer',

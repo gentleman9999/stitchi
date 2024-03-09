@@ -15,7 +15,7 @@ export const GET_DATA = gql`
           ... on Product {
             ...ProductShowPageHeroProductFragment
             ...ProductShowPageDetailsProductFragment
-            name
+            humanizedName
             path
             sku
             prices {

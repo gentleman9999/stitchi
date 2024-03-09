@@ -1,5 +1,4 @@
 import process from 'process'
-import chalk from 'chalk'
 import makeSdks from '../sdk'
 import chunkArray from '../utils/chunk-array'
 
@@ -13,11 +12,9 @@ const sdks = makeSdks()
  * This script will not delete categories in BigCommerce that do not exist in SSActivewear.
  */
 const start = async () => {
-  console.info(chalk.green('Starting category sync... \n'))
+  console.info('Starting category sync... \n')
   console.info(
-    chalk.yellow(
-      'CONFIG:\n - Create New Categories: true \n - Update Existing Categories: false \n',
-    ),
+    'CONFIG:\n - Create New Categories: true \n - Update Existing Categories: false \n',
   )
 
   const ssactivewearCategories = await sdks.ssactivewear.listCategories()
@@ -38,10 +35,8 @@ const start = async () => {
   }
 
   console.info(
-    chalk.green(
-      `Found ${ssCategoriesToCreate.length} categories to create in BigCommerce:\n`,
-      ssCategoriesToCreate.map(c => c.name).join(',\n'),
-    ),
+    `Found ${ssCategoriesToCreate.length} categories to create in BigCommerce:\n`,
+    ssCategoriesToCreate.map(c => c.name).join(',\n'),
   )
 
   const chunkedBigCommerceCategoriesToCreate = chunkArray(
@@ -76,24 +71,18 @@ const start = async () => {
     await Promise.allSettled(createCategoryPromises)
 
     console.info(
-      chalk.green(
-        `Created ${createdCategoriesCount}/${ssCategoriesToCreate.length} categories in BigCommerce...`,
-      ),
+      `Created ${createdCategoriesCount}/${ssCategoriesToCreate.length} categories in BigCommerce...`,
     )
   }
 
   console.info('Completed creating categories in BigCommerce... \n')
 
   console.info(
-    chalk.greenBright(
-      `Created ${createdCategoriesCount}/${ssCategoriesToCreate.length} categories in BigCommerce...`,
-    ),
+    `Created ${createdCategoriesCount}/${ssCategoriesToCreate.length} categories in BigCommerce...`,
   )
 
   console.info(
-    chalk.redBright(
-      `Errored on ${erroredCategoriesCount}/${ssCategoriesToCreate.length} categories...`,
-    ),
+    `Errored on ${erroredCategoriesCount}/${ssCategoriesToCreate.length} categories...`,
   )
 }
 

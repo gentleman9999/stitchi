@@ -1089,6 +1089,56 @@
       "image_url": "",
       "search_keywords": "",
       "custom_url": { "url": "/stitchi/", "is_customized": false }
+    },
+    {
+      "id": 3054,
+      "name": "Adams Headwear",
+      "page_title": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "image_url": "",
+      "search_keywords": "",
+      "custom_url": { "url": "/adams-headwear", "is_customized": false }
+    },
+    {
+      "id": 3056,
+      "name": "ANETIK",
+      "page_title": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "image_url": "",
+      "search_keywords": "",
+      "custom_url": { "url": "/anetik", "is_customized": false }
+    },
+    {
+      "id": 3062,
+      "name": "Burk's Bay",
+      "page_title": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "image_url": "",
+      "search_keywords": "",
+      "custom_url": { "url": "/burks-bay", "is_customized": false }
+    },
+    {
+      "id": 3065,
+      "name": "Ei Lo",
+      "page_title": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "image_url": "",
+      "search_keywords": "",
+      "custom_url": { "url": "/ei-lo", "is_customized": false }
+    },
+    {
+      "id": 3066,
+      "name": "Nautica",
+      "page_title": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "image_url": "",
+      "search_keywords": "",
+      "custom_url": { "url": "/nautica", "is_customized": false }
     }
   ],
   "categories": [
@@ -4336,6 +4386,26 @@
       "default_product_sort": "use_store_settings",
       "custom_url": {
         "url": "/fsg-clubs-and-committees/",
+        "is_customized": false
+      },
+      "image_url": ""
+    },
+    {
+      "id": 1103,
+      "parent_id": 0,
+      "name": "FSG Coaches and Staff",
+      "description": "",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/fsg-coaches-and-staff/",
         "is_customized": false
       },
       "image_url": ""

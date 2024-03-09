@@ -5,7 +5,6 @@ import React from 'react'
 import Link from 'next/link'
 import useProductOptions from '@components/hooks/useProductOptions/useProductOptions'
 import SwatchGroup from '../SwatchGroup'
-import { makeProductTitle } from '@lib/utils/catalog'
 import { generateImageSizes } from '@lib/utils/image'
 import currency from 'currency.js'
 import Tooltip from '@components/ui/Tooltip'
@@ -52,27 +51,27 @@ const CatalogProductLegacy = ({
         onClick={onClick}
         className="group flex-1 flex flex-col cursor-pointer rounded-sm overflow-hidden transition-all bg-paper"
       >
-        <div className="relative w-full aspect-[2/3] flex items-center justify-center rounded-sm group-hover:rounded-none overflow-hidden">
+        <div className="relative w-full aspect-[4/5] flex items-center justify-center rounded-sm group-hover:rounded-none overflow-hidden">
           {product?.defaultImage?.url ? (
-            <Image
-              priority={priority}
+            <img
               key={product.defaultImage.url}
               src={product.defaultImage.url}
-              alt={product.defaultImage.altText || product.name}
-              layout="fill"
-              objectFit="contain"
-              sizes={generateImageSizes([{ imageWidth: '230px' }])}
+              alt={product.defaultImage.altText || product.humanizedName}
             />
           ) : (
             <span>No image</span>
           )}
         </div>
-        <div className="py-2 flex-1 flex flex-col">
-          <h3 className="text-sm font-normal leading-tight">
-            {product ? makeProductTitle(product) : null}
+        <div className="pt-3 flex-1 flex flex-col gap-2">
+          <h4 className="text-sm text-gray-500">
+            {product.brand?.name} {product.sku}
+          </h4>
+
+          <h3 className="text-base font-normal leading-tight">
+            {product.humanizedName}
           </h3>
 
-          <div className="mt-4 flex justify-between items-end flex-wrap flex-1">
+          <div className="flex justify-between items-end flex-wrap flex-1">
             <div className="flex-1 flex items-end">
               <SwatchGroup
                 // Could add support for more colors in the future

@@ -46,11 +46,11 @@ const Layout = async ({ children }: Props) => {
             >
               Discover
             </Link> */}
-            <CategoryNavItem
+            {/* <CategoryNavItem
               categorySlug={routes.internal.catalog.discover.href()}
             >
               Discover
-            </CategoryNavItem>
+            </CategoryNavItem> */}
             <CategoryNavItem categorySlug="catalog">
               All products
             </CategoryNavItem>

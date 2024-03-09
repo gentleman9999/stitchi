@@ -5,7 +5,6 @@ import { NextResponse } from 'next/server'
 import { theme } from '../../../../../../../../tailwind.config'
 import { SITE_URL } from '@lib/constants'
 import currency from 'currency.js'
-import { makeProductTitle } from '@lib/utils/catalog'
 
 const graphqlEndpoint = getOrThrow(
   process.env.NEXT_PUBLIC_STITCHI_GRAPHQL_URI,
@@ -28,7 +27,7 @@ const makeDataP = (productSlug: string) =>
               id
               __typename
               ... on Product {
-                name
+                humanizedName
                 defaultImage {
                   url(width: 1000)
                 }
@@ -102,7 +101,7 @@ export default async function Image({
                   {SITE_URL.replace(/^(https?:\/\/)?(www\.)?/, '')}
                 </p>
                 <h1 tw="text-5xl font-black text-left">
-                  {makeProductTitle(product)}
+                  {product.humanizedName}
                 </h1>
               </div>
               <p
