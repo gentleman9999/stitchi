@@ -1,11 +1,10 @@
 import { gql } from '@apollo/client'
 import ColorSwatch from '@components/common/ColorSwatch'
 import ButtonV2 from '@components/ui/ButtonV2'
-import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/Card'
+import { Card, CardContent } from '@components/ui/Card'
 import { DesignRequestOverviewProductListDesignRequestProductFragment } from '@generated/DesignRequestOverviewProductListDesignRequestProductFragment'
 import { ArrowRightIcon } from '@heroicons/react/20/solid'
 import routes from '@lib/routes'
-import { makeProductTitle } from '@lib/utils/catalog'
 import Link from 'next/link'
 import React from 'react'
 

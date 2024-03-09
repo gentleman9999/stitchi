@@ -6,7 +6,6 @@ import {
   ProductPageGetDataQueryVariables,
 } from '@generated/types'
 import { notFound } from 'next/navigation'
-import { makeProductTitle } from '@lib/utils/catalog'
 import ProductShowPage from './ProductShowPage'
 import routes from '@lib/routes'
 
@@ -35,7 +34,7 @@ export const generateMetadata = async ({
 
   if (product?.__typename === 'Product') {
     // SEO Title shouldn't be the same as H1
-    const title = `${makeProductTitle(product)}${
+    const title = `${product.humanizedName}${
       product.sku ? ` - ${product.sku}` : ''
     }`
 
@@ -60,7 +59,7 @@ export const generateMetadata = async ({
         {
           url: image.seoImageUrl,
           width: 1000,
-          alt: makeProductTitle(product),
+          alt: product.humanizedName,
         },
       ]
     }

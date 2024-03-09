@@ -333,6 +333,7 @@ export interface NexusGenInputs {
   ProductKey: { // input type
     entityId: string; // ID!
     id: string; // ID!
+    name: string; // ID!
   }
   QuoteGeneratePrintLocationInput: { // input type
     colorCount: number; // Int!
@@ -1704,8 +1705,8 @@ export interface NexusGenFieldTypes {
   }
   Product: { // field return type
     allImages: NexusGenRootTypes['CatalogProductImage'][]; // [CatalogProductImage!]!
+    humanizedName: string; // String!
     id: string; // ID!
-    name: string; // String!
   }
   ProductPriceMetadata: { // field return type
     maxPriceCents: number; // Int!
@@ -2471,8 +2472,8 @@ export interface NexusGenFieldTypeNames {
   }
   Product: { // field return type name
     allImages: 'CatalogProductImage'
+    humanizedName: 'String'
     id: 'ID'
-    name: 'String'
   }
   ProductPriceMetadata: { // field return type name
     maxPriceCents: 'Int'

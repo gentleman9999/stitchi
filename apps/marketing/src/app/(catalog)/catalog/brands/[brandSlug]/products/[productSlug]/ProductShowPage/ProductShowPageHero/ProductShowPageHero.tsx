@@ -7,11 +7,7 @@ import useProductOptions from '@components/hooks/useProductOptions/useProductOpt
 import { useLogger } from 'next-axiom'
 import ProductForm, { FormValues } from './ProductForm'
 import useCustomizeProduct from '../useCustomizeProduct'
-import {
-  getSizeRange,
-  makeProductTitle,
-  normalizeAndSortSizes,
-} from '@lib/utils/catalog'
+import { getSizeRange, normalizeAndSortSizes } from '@lib/utils/catalog'
 import { CatalogProductCustomizeInput } from '@generated/globalTypes'
 import { notEmpty } from '@lib/utils/typescript'
 import { ProductShowPageHeroProductFragment } from '@generated/types'
@@ -67,6 +63,8 @@ const ProductShowPageHero = ({ product }: Props) => {
     variants[0].catalogProductVariantId,
   )
 
+  const productTitle = product.humanizedName
+
   const handleSubmit = async (data: FormValues) => {
     const serializedItems: CatalogProductCustomizeInput['items'] = []
 
@@ -107,8 +105,6 @@ const ProductShowPageHero = ({ product }: Props) => {
         }
       }
     }
-
-    const productTitle = makeProductTitle(product)
 
     let designRequest
 
@@ -191,7 +187,7 @@ const ProductShowPageHero = ({ product }: Props) => {
             <div className="relative flex flex-col gap-8 mb-8 bg-paper">
               <ProductTitle
                 pretitle={`${product.brand?.name} ${product.sku}`}
-                title={makeProductTitle(product)}
+                title={productTitle}
                 rating={reviewSummary?.summationOfRatings}
                 ratingCount={reviewSummary?.numberOfReviews}
               />

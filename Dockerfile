@@ -33,7 +33,7 @@ FROM base AS builder
 COPY --from=installer /app/ .
 COPY --from=pruner /app/out/full/ .
 
-RUN yarn turbo run build test --filter=${SCOPE} --include-dependencies
+RUN yarn turbo run build test --scope=${SCOPE} --include-dependencies
 
 
 ##

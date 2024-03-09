@@ -27,7 +27,7 @@ const ImageFullScreenBase = ({
       <Dialog.Portal>
         <Dialog.Overlay className="bg-gray-800/70 fixed inset-0 z-50" />
         <Dialog.Content className="bg-white rounded-sm fixed top-1/2 left-1/2 w-full max-w-[90%] md:max-w-5xl h-[80vh] -translate-x-1/2 -translate-y-1/2 z-50">
-          <div className="relative h-full w-full">
+          <div className="relative h-full w-full overflow-hidden">
             <button
               className={cx(
                 'hidden md:block absolute -left-12 top-1/2 text-white border rounded-full transition-all',

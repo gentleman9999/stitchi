@@ -5,11 +5,11 @@
     "module": "CommonJS",
     "sourceMap": true,
     "allowJs": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
+    // "outDir": "./dist",
+    // "rootDir": "./src",
     "lib": ["esnext"],
     "resolveJsonModule": true
   },
-  "exclude": ["node_modules"],
-  "include": ["src"]
+  "exclude": ["node_modules"]
+  // "include": ["src"]
 }

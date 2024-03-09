@@ -1,10 +1,3 @@
-export const makeProductTitle = (product: {
-  name?: string
-  brand?: { name?: string } | null
-}) => {
-  return `${product.name}`
-}
-
 type Size = string | number
 
 export const normalizeAndSortSizes = (sizes: Size[]): Size[] => {

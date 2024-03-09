@@ -6,7 +6,6 @@ import routes from '@lib/routes'
 import Link from 'next/link'
 import useProductOptions from '@components/hooks/useProductOptions/useProductOptions'
 import SwatchGroup from '../SwatchGroup'
-import { makeProductTitle } from '@lib/utils/catalog'
 import { generateImageSizes } from '@lib/utils/image'
 import currency from 'currency.js'
 import Tooltip from '@components/ui/Tooltip'
@@ -51,9 +50,7 @@ const CatalogProduct = ({ product, priority }: Props) => {
           </div>
         )}
         <div className="p-2">
-          <h3 className="text-sm font-normal leading-tight">
-            {makeProductTitle(product)}
-          </h3>
+          <h3 className="text-sm font-normal leading-tight">{product.name}</h3>
 
           <div className="mt-4 flex justify-between items-end flex-wrap flex-1">
             <div className="flex-1 flex items-end">

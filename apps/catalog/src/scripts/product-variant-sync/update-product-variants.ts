@@ -1,4 +1,3 @@
-import chalk from 'chalk'
 import {
   BigCommerceProduct,
   BigCommerceProductVariant,
@@ -24,12 +23,10 @@ export const updateProductVariants = async (
   },
 ) => {
   const { bigCommerceProduct, allSsActivewearProductVariants } = params
-  const { ssactivewear, bigCommerce } = config
+  const { bigCommerce } = config
 
   console.info(
-    chalk.white(
-      `Starting product variant sync for product ${bigCommerceProduct.id}...`,
-    ),
+    `Starting product variant sync for product ${bigCommerceProduct.id}...`,
   )
 
   if (
@@ -39,9 +36,7 @@ export const updateProductVariants = async (
     )
   ) {
     console.info(
-      chalk.yellow(
-        `Skipping product ${bigCommerceProduct.id} because it is not from SS Activewear`,
-      ),
+      `Skipping product ${bigCommerceProduct.id} because it is not from SS Activewear`,
     )
     return
   }
@@ -53,9 +48,7 @@ export const updateProductVariants = async (
 
   if (!ssActivewearStyleId) {
     console.info(
-      chalk.red(
-        `Skipping product ${bigCommerceProduct.id} because it does not have a product distributor product ID`,
-      ),
+      `Skipping product ${bigCommerceProduct.id} because it does not have a product distributor product ID`,
     )
     return
   }
@@ -66,18 +59,14 @@ export const updateProductVariants = async (
 
   if (!ssActivewearProductVariants.length) {
     console.info(
-      chalk.red(
-        `Skipping product ${bigCommerceProduct.id} because it does not have any variants in SS Activewear`,
-      ),
+      `Skipping product ${bigCommerceProduct.id} because it does not have any variants in SS Activewear`,
     )
 
     return
   }
 
   console.info(
-    chalk.green(
-      `Found ${ssActivewearProductVariants.length} product variants for product ${bigCommerceProduct.id} in SS Activewear`,
-    ),
+    `Found ${ssActivewearProductVariants.length} product variants for product ${bigCommerceProduct.id} in SS Activewear`,
   )
 
   const { productVariantOptions } = await bigCommerce.listProductOptions({
@@ -112,9 +101,7 @@ export const updateProductVariants = async (
   }
 
   console.info(
-    chalk.green(
-      `Product variant option sync complete for product ${bigCommerceProduct.id} in SS Activewear`,
-    ),
+    `Product variant option sync complete for product ${bigCommerceProduct.id} in SS Activewear`,
   )
 
   // For all BigCommerce variants, find corresponding SS Activewear variant and sync
@@ -216,7 +203,7 @@ export const updateProductVariants = async (
       printLocations: [{ colorCount: 1 }],
       variants: [
         {
-          priceCents: variant.customerPrice,
+          priceCents: variant.customerPrice * 100,
           quantity: 10_000,
         },
       ],
@@ -233,7 +220,7 @@ export const updateProductVariants = async (
       primaryImageUrl,
       secondaryImageUrls,
       sku: variant.sku,
-      price: quote.unitRetailPriceCents,
+      price: quote.unitRetailPriceCents / 100,
       costPrice: variant.customerPrice,
       inventoryLevel: variant.inventoryQty,
       purchasingDisabled: variant.inventoryQty === 0,
@@ -279,7 +266,7 @@ export const updateProductVariants = async (
       printLocations: [{ colorCount: 1 }],
       variants: [
         {
-          priceCents: variant.ssActivewearVariant.customerPrice,
+          priceCents: variant.ssActivewearVariant.customerPrice * 100,
           quantity: 10_000,
         },
       ],
@@ -296,7 +283,7 @@ export const updateProductVariants = async (
       primaryImageUrl,
       secondaryImageUrls,
       id: variant.bigCommerceVariant.id,
-      price: quote.unitRetailPriceCents,
+      price: quote.unitRetailPriceCents / 100,
       costPrice: variant.ssActivewearVariant.customerPrice,
       inventoryLevel: variant.ssActivewearVariant.inventoryQty,
       purchasingDisabled: variant.ssActivewearVariant.inventoryQty === 0,

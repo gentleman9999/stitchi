@@ -81,8 +81,6 @@ const CatalogProductGrid = ({ categoryId, brandId }: Props) => {
     nextPageParams.set('after', pageInfo?.endCursor)
   }
 
-  console.log('PRODUCTS', products)
-
   return (
     <>
       <CatalogProductGridContainer>
@@ -145,6 +143,13 @@ const GET_DATA = gql`
     site {
       search {
         searchProducts(filters: $filters, sort: $sort) {
+          filters {
+            edges {
+              node {
+                name
+              }
+            }
+          }
           products(first: $first, after: $after) {
             edges {
               node {

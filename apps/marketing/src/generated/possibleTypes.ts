@@ -139,6 +139,7 @@
       "PageSectionCatalogRecord",
       "PageSectionRecord",
       "PrivacyPolicyPageRecord",
+      "ProductDiscoveryPageRecord",
       "RichContentRecord",
       "TableRecord",
       "TermsOfUsePageRecord",
