@@ -6,6 +6,11 @@
       }
       const result: PossibleTypesResultData = {
   "possibleTypes": {
+    "AddCustomerAddressError": [
+      "CustomerAddressCreationError",
+      "CustomerNotLoggedInError",
+      "ValidationError"
+    ],
     "ArticleModelContentLinksField": [
       "ArticleRecord",
       "CustomComponentRecord",
@@ -40,6 +45,12 @@
       "ProductPickListOptionValue",
       "SwatchOptionValue"
     ],
+    "ChangePasswordError": [
+      "CustomerDoesNotExistError",
+      "CustomerNotLoggedInError",
+      "CustomerPasswordError",
+      "ValidationError"
+    ],
     "CheckoutAddress": [
       "CheckoutBillingAddress",
       "CheckoutConsignmentAddress"
@@ -52,6 +63,18 @@
       "CheckoutAddressPasswordCustomField",
       "CheckoutAddressTextFieldCustomField"
     ],
+    "CustomerFormFieldValue": [
+      "CheckboxesFormFieldValue",
+      "DateFormFieldValue",
+      "MultipleChoiceFormFieldValue",
+      "NumberFormFieldValue",
+      "PasswordFormFieldValue",
+      "TextFormFieldValue"
+    ],
+    "DeleteCustomerAddressError": [
+      "CustomerAddressDeletionError",
+      "CustomerNotLoggedInError"
+    ],
     "DesignRequestHistoryItem": [
       "ConversationMessage",
       "DesignProof",
@@ -59,6 +82,16 @@
       "DesignRequestRevisionRequest"
     ],
     "Error": [
+      "AccountCreationDisabledError",
+      "AddressDoesNotExistError",
+      "CustomerAddressCreationError",
+      "CustomerAddressDeletionError",
+      "CustomerAddressUpdateError",
+      "CustomerDoesNotExistError",
+      "CustomerNotLoggedInError",
+      "CustomerPasswordError",
+      "CustomerRegistrationError",
+      "EmailAlreadyInUseError",
       "ValidationError"
     ],
     "File": [
@@ -68,6 +101,16 @@
     ],
     "FileFieldInterface": [
       "FileField"
+    ],
+    "FormField": [
+      "CheckboxesFormField",
+      "DateFormField",
+      "MultilineTextFormField",
+      "NumberFormField",
+      "PasswordFormField",
+      "PicklistFormField",
+      "RadioButtonsFormField",
+      "TextFormField"
     ],
     "GlossaryEntryModelDescriptionLinksField": [
       "ArticleRecord",
@@ -153,6 +196,19 @@
       "PageRedirect",
       "ProductRedirect"
     ],
+    "RegisterCustomerError": [
+      "AccountCreationDisabledError",
+      "CustomerRegistrationError",
+      "EmailAlreadyInUseError",
+      "ValidationError"
+    ],
+    "RequestResetPasswordError": [
+      "ValidationError"
+    ],
+    "ResetPasswordError": [
+      "CustomerPasswordError",
+      "ValidationError"
+    ],
     "SearchProductFilter": [
       "BrandSearchFilter",
       "CategorySearchFilter",
@@ -166,6 +222,17 @@
       "StoreTextLogo"
     ],
     "SubmitContactUsError": [
+      "ValidationError"
+    ],
+    "UpdateCustomerAddressError": [
+      "AddressDoesNotExistError",
+      "CustomerAddressUpdateError",
+      "CustomerNotLoggedInError",
+      "ValidationError"
+    ],
+    "UpdateCustomerError": [
+      "CustomerDoesNotExistError",
+      "EmailAlreadyInUseError",
       "ValidationError"
     ],
     "WebPage": [

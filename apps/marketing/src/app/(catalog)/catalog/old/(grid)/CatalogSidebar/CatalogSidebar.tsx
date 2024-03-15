@@ -80,19 +80,6 @@ const CatalogSidebar = ({
 
   return (
     <ul className="flex flex-col gap-10">
-      <Section label="Price">
-        <FilterGroup>
-          <TextField
-            label="Min"
-            value={priceFilter?.selected?.minPrice || undefined}
-          />
-          <TextField
-            label="Max"
-            value={priceFilter?.selected?.maxPrice || undefined}
-          />
-        </FilterGroup>
-      </Section>
-
       {!activeCollectionId && categories.length ? (
         <Section
           label={activeCategoryId ? 'All products' : 'Categories'}
@@ -135,6 +122,26 @@ const CatalogSidebar = ({
 
       <Section label="Filters">
         <div className="flex flex-col gap-8">
+          <FilterGroup
+            label="Base Price"
+            showClear={Boolean(
+              priceFilter?.selected?.minPrice ||
+                priceFilter?.selected?.maxPrice,
+            )}
+            onClear={() => {}}
+          >
+            <div className="grid grid-cols-2 gap-4">
+              <TextField
+                label="Min"
+                value={priceFilter?.selected?.minPrice || undefined}
+              />
+              <TextField
+                label="Max"
+                value={priceFilter?.selected?.maxPrice || undefined}
+              />
+            </div>
+          </FilterGroup>
+
           {!activeBrandId ? (
             <FilterGroup
               label="Brands"

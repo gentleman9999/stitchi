@@ -87,8 +87,6 @@ const CatalogProductGrid = ({ categoryId, brandId }: Props) => {
     .filter(notEmpty)
 
   React.useEffect(() => {
-    console.log('FILTER DATA', filtersData)
-
     if (!deepEqual(availableDynamicFilters, filtersData)) {
       setDynamicFilters(filtersData || [])
     }

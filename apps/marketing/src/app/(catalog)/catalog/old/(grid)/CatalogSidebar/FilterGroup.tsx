@@ -8,7 +8,7 @@ const FilterGroup = ({
   onClear,
   showClear,
 }: {
-  children: React.ReactNode[]
+  children: React.ReactNode[] | React.ReactNode
   className?: string
   label?: string
   onClear?: () => void
@@ -31,19 +31,21 @@ const FilterGroup = ({
           ) : null}
         </div>
       ) : null}
-      {children
-        .slice(0, expanded ? children.length : Math.min(children.length, 5))
-        .map((child, idx) => {
-          const clonedChild = React.cloneElement(child as any, {
-            className: cx({
-              'sr-only': !expanded && idx > 4,
-            }),
-          })
+      {Array.isArray(children)
+        ? children
+            .slice(0, expanded ? children.length : Math.min(children.length, 5))
+            .map((child, idx) => {
+              const clonedChild = React.cloneElement(child as any, {
+                className: cx({
+                  'sr-only': !expanded && idx > 4,
+                }),
+              })
 
-          return clonedChild
-        })}
+              return clonedChild
+            })
+        : children}
 
-      {children.length > 5 ? (
+      {Array.isArray(children) && children.length > 5 ? (
         <button
           className="text-gray-600 underline"
           onClick={() => setExpanded(prev => !prev)}

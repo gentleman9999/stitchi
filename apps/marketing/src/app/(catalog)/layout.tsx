@@ -46,11 +46,11 @@ const Layout = async ({ children }: Props) => {
             >
               Discover
             </Link> */}
-            {/* <CategoryNavItem
+            <CategoryNavItem
               categorySlug={routes.internal.catalog.discover.href()}
             >
               Discover
-            </CategoryNavItem> */}
+            </CategoryNavItem>
             <CategoryNavItem categorySlug="catalog">
               All products
             </CategoryNavItem>
@@ -65,7 +65,11 @@ const Layout = async ({ children }: Props) => {
 
           <div className="flex-1 flex items-center justify-end space-x-6">
             <SearchButton />
-            {session ? <AppTopbarUser /> : null}
+            {session ? (
+              <AppTopbarUser />
+            ) : (
+              <Link href={routes.internal.login.href()}>Login</Link>
+            )}
           </div>
         </PrimaryNavContainer>
 

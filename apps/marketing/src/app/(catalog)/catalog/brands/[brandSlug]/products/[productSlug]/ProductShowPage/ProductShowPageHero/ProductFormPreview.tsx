@@ -66,10 +66,15 @@ const ProductFormPreview = ({
           </ul>
         </div>
 
-        <div className="flex flex-col gap-3">
-          <h2 className="font-headingDisplay font-semibold text-xl sm:text-2xl text-gray-800">
-            From {currency(minPrice).format()}
-          </h2>
+        <div className="flex flex-col gap-4">
+          <div>
+            <h2 className="font-headingDisplay font-semibold text-2xl sm:text-3xl text-gray-800">
+              From {currency(minPrice).format()}
+            </h2>
+            <p className="text-gray-500 text-sm">
+              Pricing varies by print areas, ink colors, and units ordered.
+            </p>
+          </div>
 
           <Button
             Component="a"

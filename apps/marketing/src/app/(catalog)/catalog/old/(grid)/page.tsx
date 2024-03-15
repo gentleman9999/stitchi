@@ -1,6 +1,6 @@
-import routes from '@lib/routes'
 import { Metadata } from 'next'
-import CatalogProductsListPage from './CatalogProductsListPage'
+import routes from '@lib/routes'
+import { CatalogProductGrid } from './CatalogPorductGrid'
 
 const title =
   'View our entire collection of Customizable Apparel for Every Style & Budget'
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 }
 
 const Page = () => {
-  return <CatalogProductsListPage />
+  return <CatalogProductGrid />
 }
 
 export default Page

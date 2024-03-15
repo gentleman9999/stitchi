@@ -1,8 +1,3 @@
-import React from 'react'
-import { CatalogProductGridSkeleton } from './CatalogPorductGrid'
-
-const Loading = () => {
-  return <CatalogProductGridSkeleton />
-}
+const Loading = () => {}
 
 export default Loading

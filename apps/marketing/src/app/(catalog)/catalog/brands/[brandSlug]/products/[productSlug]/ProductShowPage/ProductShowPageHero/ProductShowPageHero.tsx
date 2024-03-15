@@ -55,12 +55,8 @@ const ProductShowPageHero = ({ product }: Props) => {
     [product.variants?.edges],
   )
 
-  if (!variants.length) {
-    throw new Error('Invariant error: variants is empty')
-  }
-
-  const [activeVariantId, setActiveVariantId] = React.useState<string>(
-    variants[0].catalogProductVariantId,
+  const [activeVariantId, setActiveVariantId] = React.useState<string | null>(
+    variants[0]?.catalogProductVariantId || null,
   )
 
   const productTitle = product.humanizedName
@@ -191,6 +187,9 @@ const ProductShowPageHero = ({ product }: Props) => {
                 rating={reviewSummary?.summationOfRatings}
                 ratingCount={reviewSummary?.numberOfReviews}
               />
+
+              {!variants.length ? <div>Out of stock</div> : null}
+
               {user ? (
                 <>
                   {product.entityId ? (

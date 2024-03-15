@@ -1,23 +1,25 @@
 'use client'
 
 import { gql, useSuspenseQuery } from '@apollo/client'
-import CatalogProductLegacy, {
-  CatalogProductLegacyFragments,
-} from '@components/common/CatalogProductLegacy'
 import {
   CatalogDiscoverPageFeaturedCategoryGetCategoryDataQuery,
   CatalogDiscoverPageFeaturedCategoryGetCategoryDataQueryVariables,
 } from '@generated/types'
 import routes from '@lib/routes'
-import { notEmpty } from '@lib/utils/typescript'
+import Link from 'next/link'
 import React from 'react'
 
 interface Props {
+  categoryName: string | null
+  categoryImageUrl: string | null | undefined
   categoryEntityId: number
 }
 
-const FeaturedCategory = ({ categoryEntityId }: Props) => {
-  console.log('CATEGORY ENTITY ID', categoryEntityId)
+const FeaturedCategory = ({
+  categoryName,
+  categoryImageUrl,
+  categoryEntityId,
+}: Props) => {
   const { data } = useSuspenseQuery<
     CatalogDiscoverPageFeaturedCategoryGetCategoryDataQuery,
     CatalogDiscoverPageFeaturedCategoryGetCategoryDataQueryVariables
@@ -29,46 +31,37 @@ const FeaturedCategory = ({ categoryEntityId }: Props) => {
 
   const category = data.site.category
 
+  if (!category || !categoryImageUrl) return null
+
   return (
-    <ul className="grid grid-cols-5 gap-4">
-      {category?.products.edges
-        ?.map(node => node?.node)
-        .filter(notEmpty)
-        .map(product => (
-          <CatalogProductLegacy
-            key={product.id}
-            productId={product.id}
-            href={routes.internal.catalog.product.href({
-              productSlug: product.path,
-            })}
-            priority={false}
-          />
-        ))}
-    </ul>
+    <div className="flex flex-col gap-4">
+      <img
+        src={categoryImageUrl}
+        alt={category.name}
+        className="aspect-[3/2] object-cover"
+      />
+
+      <Link
+        className="text-xl font-medium text-gray-900 hover:text-gray-800"
+        href={routes.internal.catalog.category.show.href({
+          categorySlug: category.path,
+        })}
+      >
+        {categoryName || category.name}
+      </Link>
+    </div>
   )
 }
 
 const GET_CATEGORY_DATA = gql`
-  ${CatalogProductLegacyFragments.product}
   query CatalogDiscoverPageFeaturedCategoryGetCategoryDataQuery(
     $categoryEntityId: Int!
   ) {
     site {
       category(entityId: $categoryEntityId) {
         id
+        path
         name
-        defaultImage {
-          url(width: 600)
-        }
-        products(first: 5) {
-          edges {
-            node {
-              id
-              path
-              ...CatalogProductLegacyProductFragment
-            }
-          }
-        }
       }
     }
   }

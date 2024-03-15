@@ -18,7 +18,7 @@ import CatalogProductLegacy, {
   CatalogProductLegacyFragments,
 } from '@components/common/CatalogProductLegacy'
 import { AnimatePresence, motion } from 'framer-motion'
-import CatalogProductSkeleton from './catalog/(grid)/CatalogPorductGrid/CatalogProductSkeleton'
+import CatalogProductSkeleton from './catalog/old/(grid)/CatalogPorductGrid/CatalogProductSkeleton'
 import { useRouter } from 'next/navigation'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'

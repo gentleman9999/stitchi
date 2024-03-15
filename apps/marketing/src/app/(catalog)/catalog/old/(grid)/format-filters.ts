@@ -10,6 +10,7 @@ export const mergeFilters = (params: Params): SearchProductsFiltersInput => {
   return {
     searchTerm: params.search,
     searchSubCategories: true,
+    hideOutOfStock: true,
 
     brandEntityIds: params.brands?.length ? params.brands : undefined,
     categoryEntityId: params.category,

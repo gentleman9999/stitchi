@@ -8,12 +8,14 @@ type FilterItemProps =
       onClick: () => void
       active?: boolean
       children?: React.ReactNode
+      productCount?: number
     }
   | {
       label: string
       href: string
       active?: boolean
       children?: React.ReactNode
+      productCount?: number
     }
 
 const FilterItem = (props: FilterItemProps) => {
@@ -21,11 +23,20 @@ const FilterItem = (props: FilterItemProps) => {
     'font-bold': props.active,
   })
 
+  const label = (
+    <>
+      {props.label}
+      {props.productCount !== undefined ? (
+        <span className="text-xs text-gray-300">({props.productCount})</span>
+      ) : null}
+    </>
+  )
+
   return (
     <li className="flex flex-col gap-2">
       {'href' in props ? (
         <Link href={props.href} className={linkClassName}>
-          {props.label}
+          {label}
         </Link>
       ) : (
         <button onClick={props.onClick} className={linkClassName}>
@@ -35,7 +46,7 @@ const FilterItem = (props: FilterItemProps) => {
             onChange={() => {}}
             checked={props.active}
           />
-          {props.label}
+          {label}
         </button>
       )}
 

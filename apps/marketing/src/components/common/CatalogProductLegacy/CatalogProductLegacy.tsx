@@ -1,11 +1,9 @@
 'use client'
 
-import Image from 'next/legacy/image'
 import React from 'react'
 import Link from 'next/link'
 import useProductOptions from '@components/hooks/useProductOptions/useProductOptions'
 import SwatchGroup from '../SwatchGroup'
-import { generateImageSizes } from '@lib/utils/image'
 import currency from 'currency.js'
 import Tooltip from '@components/ui/Tooltip'
 import { useLogger } from 'next-axiom'
@@ -14,18 +12,12 @@ import { useFragment } from '@apollo/experimental-nextjs-app-support/ssr'
 import { CatalogProductLegacyFragments } from '.'
 
 export interface Props {
-  priority: boolean
   productId: string
   href: string
   onClick?: () => void
 }
 
-const CatalogProductLegacy = ({
-  priority,
-  productId,
-  href,
-  onClick,
-}: Props) => {
+const CatalogProductLegacy = ({ productId, href, onClick }: Props) => {
   const logger = useLogger()
 
   const { data: product } = useFragment<CatalogProductLegacyProductFragment>({
