@@ -5,52 +5,42 @@ import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 import {
   CatalogFiltersContainerGetDataQuery,
   CatalogFiltersContainerGetDataQueryVariables,
-  CatalogProductGridQueryVariables,
 } from '@generated/types'
 import { SetValues, UseQueryStatesKeysMap } from 'nuqs'
-import {
-  QueryStates,
-  useCatalogQueryStates,
-} from './catalog-query-states-context'
+import { QueryStates } from './CatalogProductsListPage'
 
-interface Props {}
+interface Props {
+  variables: CatalogFiltersContainerGetDataQueryVariables
+  setQueryStates: SetValues<UseQueryStatesKeysMap<QueryStates>>
+  defaultBrandEntityId?: number
+}
 
-const CatalogFiltersContainer = ({}: Props) => {
-  const { variables, setQueryStates } = useCatalogQueryStates()
-
-  const { data, refetch } = useSuspenseQuery<
+const CatalogFiltersContainer = ({
+  variables,
+  setQueryStates,
+  defaultBrandEntityId,
+}: Props) => {
+  const { data } = useSuspenseQuery<
     CatalogFiltersContainerGetDataQuery,
     CatalogFiltersContainerGetDataQueryVariables
-  >(GET_DATA, {
-    variables: {
-      filters: variables.filters,
-      sort: variables.sort,
-    },
-  })
+  >(GET_DATA, { variables })
 
-  const { filters } = data?.site.search.searchProducts || {}
-
-  const memoizedVariables = React.useMemo(
-    () => ({
-      filters: variables.filters,
-      sort: variables.sort,
-    }),
-    [variables.filters, variables.sort],
-  )
-
-  //   React.useEffect(() => {
-  //     refetch(memoizedVariables)
-  //   }, [memoizedVariables, refetch])
+  const filters = data.site.search.searchProducts.filters
 
   return (
     <aside className="hidden lg:block w-64">
-      <CatalogFiltersSidebar filters={filters} setFilters={setQueryStates} />
+      <CatalogFiltersSidebar
+        filters={filters}
+        defaultBrandEntityId={defaultBrandEntityId}
+        setFilters={setQueryStates}
+      />
     </aside>
   )
 }
 
 const GET_DATA = gql`
   ${CatalogFiltersSidebar.fragments.filters}
+
   query CatalogFiltersContainerGetDataQuery(
     $filters: SearchProductsFiltersInput!
     $sort: SearchProductsSortInput!

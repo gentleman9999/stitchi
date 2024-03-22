@@ -17,16 +17,20 @@ import Link from 'next/link'
 import { notEmpty } from '@lib/utils/typescript'
 import { useSearchParams } from 'next/navigation'
 import routes from '@lib/routes'
-import { useCatalogQueryStates } from './catalog-query-states-context'
 
-interface Props {}
+interface Props {
+  transitioningQuery: boolean
+  variables: CatalogProductsContainerGetDataQueryVariables
+  defaultCategoryEntityId?: number
+  defaultBrandEntityId?: number
+}
 
-const CatalogProductsContainer = ({}: Props) => {
+const CatalogProductsContainer = ({ variables, transitioningQuery }: Props) => {
+  const [transition, startTransition] = useTransition()
+
   const searchParams = useSearchParams()!
-  const [transitioningData, startDataTransition] = useTransition()
-  const { variables, transitioningQuery } = useCatalogQueryStates()
 
-  const { data, refetch, fetchMore } = useSuspenseQuery<
+  const { data, fetchMore } = useSuspenseQuery<
     CatalogProductsContainerGetDataQuery,
     CatalogProductsContainerGetDataQueryVariables
   >(GET_DATA, { variables })
@@ -38,25 +42,13 @@ const CatalogProductsContainer = ({}: Props) => {
 
   const pageInfo = productRes.pageInfo
 
-  //   React.useEffect(() => {
-  //     if (!transitioningData && pageInfo.endCursor === variables.after) {
-  //       startDataTransition(() => {
-  //         fetchMore({ variables: { after: variables.after } })
-  //       })
-  //     }
-  //   }, [fetchMore, variables.after, transitioningData, pageInfo.endCursor])
-
-  //   const variablesWithoutAfter = React.useMemo(() => {
-  //     return {
-  //       sort: variables.sort,
-  //       filters: variables.filters,
-  //       first: variables.first,
-  //     }
-  //   }, [variables])
-
-  //   React.useEffect(() => {
-  //     refetch(variablesWithoutAfter)
-  //   }, [variablesWithoutAfter, refetch])
+  React.useEffect(() => {
+    if (!transition && pageInfo.endCursor === variables.after) {
+      startTransition(() => {
+        fetchMore({ variables: { after: variables.after } })
+      })
+    }
+  }, [fetchMore, variables.after, transition, pageInfo.endCursor])
 
   const nextPageParams = new URLSearchParams(searchParams)
 
@@ -81,7 +73,6 @@ const CatalogProductsContainer = ({}: Props) => {
                   <CatalogProductLegacy
                     key={product.id}
                     productId={product.id}
-                    priority={i < 6}
                     href={routes.internal.catalog.product.href({
                       productSlug: product.path,
                     })}
@@ -89,7 +80,7 @@ const CatalogProductsContainer = ({}: Props) => {
                 ) : null,
               )}
 
-              {transitioningData
+              {transition
                 ? Array.from(new Array(5)).map((_, i) => (
                     <CatalogProductSkeleton key={i} />
                   ))
@@ -108,7 +99,7 @@ const CatalogProductsContainer = ({}: Props) => {
               }}
               className="inline-flex justify-center px-3 py-1 rounded-sm border text-gray-900 font-semibold"
             >
-              {transitioningData ? <LoadingDots /> : 'Load more'}
+              {transition ? <LoadingDots /> : 'Load more'}
             </Link>
           </div>
         )}

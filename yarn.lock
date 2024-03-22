@@ -10900,7 +10900,7 @@ num-sort@^2.0.0:
   resolved "https://registry.yarnpkg.com/num-sort/-/num-sort-2.1.0.tgz#1cbb37aed071329fdf41151258bc011898577a9b"
   integrity sha512-1MQz1Ed8z2yckoBeSfkQHHO9K1yDRxxtotKSJ9yvcTUUxSvfvzEq5GwBrjjHEpMlq/k5gvXdmJ1SbYxWtpNoVg==
 
-nuqs@^1.14.0:
+nuqs@^1.17.1:
   version "1.17.1"
   resolved "https://registry.yarnpkg.com/nuqs/-/nuqs-1.17.1.tgz#26873cf91add0dc376e6a6c916ea89b1d70f5b4a"
   integrity sha512-zJPisj8L+SzKzt57c5s3fJW0ikksPr+PyeLyNwvx0i5ggTr5XR5uFhCoX/T+Mkmb6X5UxHB/0nnuZyFiQsh0cA==

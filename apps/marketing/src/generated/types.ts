@@ -2004,6 +2004,8 @@ export interface CheckboxesFormFieldValue extends CustomerFormFieldValue {
   __typename: 'CheckboxesFormFieldValue';
   /** Entity ID of a custom form field value on a customer or customer address. */
   entityId: Scalars['Int']['output'];
+  /** The name of the form field that the value is for. */
+  name: Scalars['String']['output'];
   /** List of checkbox value ids selected by customer. */
   valueEntityIds: Array<Scalars['Int']['output']>;
   /** List of checkbox values selected by customer. */
@@ -3086,6 +3088,8 @@ export interface CustomerDoesNotExistError extends Error {
 export interface CustomerFormFieldValue {
   /** Entity ID of a custom form field value on a customer or customer address. */
   entityId: Scalars['Int']['output'];
+  /** The name of the form field that the value is for. */
+  name: Scalars['String']['output'];
 }
 
 /** The input for the filled out customer form fields. */
@@ -3262,6 +3266,8 @@ export interface DateFormFieldValue extends CustomerFormFieldValue {
   date: DateTimeExtended;
   /** Entity ID of a custom form field value on a customer or customer address. */
   entityId: Scalars['Int']['output'];
+  /** The name of the form field that the value is for. */
+  name: Scalars['String']['output'];
 }
 
 /** Date Time Extended */
@@ -5057,6 +5063,8 @@ export interface Image {
   url: Scalars['String']['output'];
   /** Absolute path to original image using store CDN. */
   urlOriginal: Scalars['String']['output'];
+  /** A templatized URL containing a {:size} parameter which can be replaced with a string specifying the desired image size in either inherent width (123w) or width and height (123x123). */
+  urlTemplate: Scalars['String']['output'];
 }
 
 
@@ -7462,6 +7470,8 @@ export interface MultipleChoiceFormFieldValue extends CustomerFormFieldValue {
   __typename: 'MultipleChoiceFormFieldValue';
   /** Entity ID of a custom form field value on a customer or customer address. */
   entityId: Scalars['Int']['output'];
+  /** The name of the form field that the value is for. */
+  name: Scalars['String']['output'];
   /** The multiple choice value selected by customer. */
   value: Scalars['String']['output'];
   /** The multiple choice value id selected by customer. */
@@ -7949,6 +7959,8 @@ export interface NumberFormFieldValue extends CustomerFormFieldValue {
   __typename: 'NumberFormFieldValue';
   /** Entity ID of a custom form field value on a customer or customer address. */
   entityId: Scalars['Int']['output'];
+  /** The name of the form field that the value is for. */
+  name: Scalars['String']['output'];
   /** The number value submitted by customer. */
   number: Scalars['Float']['output'];
 }
@@ -8602,6 +8614,8 @@ export interface PasswordFormFieldValue extends CustomerFormFieldValue {
   __typename: 'PasswordFormFieldValue';
   /** Entity ID of a custom form field value on a customer or customer address. */
   entityId: Scalars['Int']['output'];
+  /** The name of the form field that the value is for. */
+  name: Scalars['String']['output'];
   /** The password text submitted by a customer. */
   password: Scalars['String']['output'];
 }
@@ -10131,6 +10145,8 @@ export type RequestResetPasswordError = ValidationError;
 export interface RequestResetPasswordInput {
   /** The email address of the customer requesting a reset password email. */
   email: Scalars['String']['input'];
+  /** A path to direct the customer to from the email. */
+  path?: InputMaybe<Scalars['String']['input']>;
 }
 
 /** The result of requesting a reset password email. */
@@ -11225,6 +11241,8 @@ export interface TextFormFieldValue extends CustomerFormFieldValue {
   __typename: 'TextFormFieldValue';
   /** Entity ID of a custom form field value on a customer or customer address. */
   entityId: Scalars['Int']['output'];
+  /** The name of the form field that the value is for. */
+  name: Scalars['String']['output'];
   /** The text submitted by a customer. */
   text: Scalars['String']['output'];
 }
@@ -11464,7 +11482,7 @@ export interface UpdateCustomerAddressResult {
 }
 
 /** An error when updating a customer. */
-export type UpdateCustomerError = CustomerDoesNotExistError | EmailAlreadyInUseError | ValidationError;
+export type UpdateCustomerError = CustomerDoesNotExistError | CustomerNotLoggedInError | EmailAlreadyInUseError | ValidationError;
 
 /** The values to use for customer update operation. */
 export interface UpdateCustomerInput {

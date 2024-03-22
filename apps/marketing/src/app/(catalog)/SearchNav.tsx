@@ -174,7 +174,6 @@ const SearchNav = ({}: Props) => {
                       <>
                         {products.map(product => (
                           <CatalogProductLegacy
-                            priority
                             key={product.id}
                             productId={product.id}
                             href={routes.internal.catalog.product.href({

@@ -1,6 +1,7 @@
 import Checkbox from '@components/ui/inputs/Checkbox'
 import Link from 'next/link'
 import cx from 'classnames'
+import React from 'react'
 
 type FilterItemProps =
   | {
@@ -19,6 +20,8 @@ type FilterItemProps =
     }
 
 const FilterItem = (props: FilterItemProps) => {
+  const [nextState, setNextState] = React.useState(props.active)
+
   const linkClassName = cx('flex items-center gap-2', {
     'font-bold': props.active,
   })
@@ -39,12 +42,18 @@ const FilterItem = (props: FilterItemProps) => {
           {label}
         </Link>
       ) : (
-        <button onClick={props.onClick} className={linkClassName}>
+        <button
+          onClick={() => {
+            setNextState(!nextState)
+            props.onClick()
+          }}
+          className={linkClassName}
+        >
           <Checkbox
             name="checkbox"
             value="checkbox"
             onChange={() => {}}
-            checked={props.active}
+            checked={nextState}
           />
           {label}
         </button>

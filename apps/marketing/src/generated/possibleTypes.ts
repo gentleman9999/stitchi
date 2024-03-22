@@ -232,6 +232,7 @@
     ],
     "UpdateCustomerError": [
       "CustomerDoesNotExistError",
+      "CustomerNotLoggedInError",
       "EmailAlreadyInUseError",
       "ValidationError"
     ],

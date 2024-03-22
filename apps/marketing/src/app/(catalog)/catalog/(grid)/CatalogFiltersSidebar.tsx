@@ -1,18 +1,24 @@
 import { gql } from '@apollo/client'
-import { CatalogFiltersSidebarFiltersFragment } from '@generated/types'
+import {
+  CatalogFiltersSidebarFiltersFragment,
+  CategoryTreeItem,
+} from '@generated/types'
 import { ChevronLeftIcon } from '@heroicons/react/20/solid'
 import { notEmpty } from '@lib/utils/typescript'
 import Link from 'next/link'
 import React from 'react'
 import FilterGroup from '../old/(grid)/CatalogSidebar/FilterGroup'
 import FilterItem from '../old/(grid)/CatalogSidebar/FilterItem'
-import type { Filters } from './CatalogProductsListPage'
 import { SetValues, UseQueryStatesKeysMap } from 'nuqs'
 import MoneyFilter from './MoneyFilter'
+import { QueryStates } from './CatalogProductsListPage'
+import routes from '@lib/routes'
+import cx from 'classnames'
 
 interface Props {
   filters: CatalogFiltersSidebarFiltersFragment | undefined
-  setFilters: SetValues<UseQueryStatesKeysMap<Filters>>
+  setFilters: SetValues<UseQueryStatesKeysMap<QueryStates>>
+  defaultBrandEntityId?: number
 }
 
 const CatalogFiltersSidebar = (props: Props) => {
@@ -20,11 +26,20 @@ const CatalogFiltersSidebar = (props: Props) => {
   const filters =
     props.filters?.edges?.map(edge => edge?.node).filter(notEmpty) || []
 
+  console.log(
+    'FILTERS',
+    filters.filter(filter => filter.__typename === 'CategorySearchFilter'),
+  )
+
   return (
     <ul className="flex flex-col gap-10">
       {filters.map(filter => {
         switch (filter.__typename) {
           case 'BrandSearchFilter': {
+            if (props.defaultBrandEntityId) {
+              return
+            }
+
             const brands =
               filter.brands.edges?.map(edge => edge?.node).filter(notEmpty) ||
               []
@@ -70,7 +85,26 @@ const CatalogFiltersSidebar = (props: Props) => {
             )
           }
           case 'CategorySearchFilter': {
-            return null
+            const categories = filter.categories.edges
+              ?.map(edge => edge?.node)
+              .filter(notEmpty)
+            return (
+              <FilterGroup
+                label="Collections"
+                showClear={Boolean(
+                  categories?.some(category => category.isSelected),
+                )}
+              >
+                {categories?.map(category => {
+                  return (
+                    <CategoryTree
+                      key={category.entityId}
+                      category={category as any}
+                    />
+                  )
+                })}
+              </FilterGroup>
+            )
           }
           case 'PriceSearchFilter': {
             return (
@@ -202,6 +236,47 @@ const Section = ({
       {Label}
       {children}
     </li>
+  )
+}
+
+const CategoryTree = ({
+  category,
+  expanded,
+  activeCategoryTreeEntityIds = [],
+}: {
+  category: CategoryTreeItem
+  expanded?: boolean
+  activeCategoryTreeEntityIds?: number[]
+}) => {
+  return (
+    <>
+      <FilterItem
+        href={routes.internal.catalog.category.show.href({
+          categorySlug: category.path,
+        })}
+        active={activeCategoryTreeEntityIds[0] === category.entityId}
+        label={category.name}
+      >
+        {category.children?.length ? (
+          <FilterGroup
+            className={cx('ml-4', {
+              'sr-only': !expanded,
+            })}
+          >
+            {category.children.map(category => (
+              <CategoryTree
+                key={category.entityId}
+                category={category}
+                expanded={activeCategoryTreeEntityIds.includes(
+                  category.entityId,
+                )}
+                activeCategoryTreeEntityIds={activeCategoryTreeEntityIds}
+              />
+            ))}
+          </FilterGroup>
+        ) : null}
+      </FilterItem>
+    </>
   )
 }
 
