@@ -31,6 +31,13 @@ export interface Scalars {
   UploadId: { input: any; output: any; }
 }
 
+/** An error due to customer registration being disabled on a storefront. */
+export interface AccountCreationDisabledError extends Error {
+  __typename: 'AccountCreationDisabledError';
+  /** A description of the error. */
+  message: Scalars['String']['output'];
+}
+
 /** Add cart line items data object */
 export interface AddCartLineItemsDataInput {
   /** List of gift certificates */
@@ -96,6 +103,44 @@ export interface AddCheckoutShippingConsignmentsResult {
   checkout: Maybe<Checkout>;
 }
 
+/** Possible response error when attempting to use AddCustomerAddress mutation. */
+export type AddCustomerAddressError = CustomerAddressCreationError | CustomerNotLoggedInError | ValidationError;
+
+/** Input for adding a customer address. */
+export interface AddCustomerAddressInput {
+  /** First line for the street address. */
+  address1: Scalars['String']['input'];
+  /** Second line for the street address. */
+  address2?: InputMaybe<Scalars['String']['input']>;
+  /** City. */
+  city: Scalars['String']['input'];
+  /** Company name associated with the address. */
+  company?: InputMaybe<Scalars['String']['input']>;
+  /** 2-letter country code. */
+  countryCode: Scalars['String']['input'];
+  /** First name of the address owner. */
+  firstName: Scalars['String']['input'];
+  /** Additional form fields defined by merchant. */
+  formFields?: InputMaybe<CustomerFormFieldsInput>;
+  /** Last name of the address owner. */
+  lastName: Scalars['String']['input'];
+  /** Phone number. */
+  phone?: InputMaybe<Scalars['String']['input']>;
+  /** Postal code for the address. This is only required for certain countries. */
+  postalCode?: InputMaybe<Scalars['String']['input']>;
+  /** Name of State or Province. */
+  stateOrProvince?: InputMaybe<Scalars['String']['input']>;
+}
+
+/** Result of AddCustomerAddress mutation. */
+export interface AddCustomerAddressResult {
+  __typename: 'AddCustomerAddressResult';
+  /** Customer address that was created. */
+  address: Maybe<CustomerAddress>;
+  /** List of response errors when attempting to submit an address. */
+  errors: Array<AddCustomerAddressError>;
+}
+
 /** Add wishlist items input object */
 export interface AddWishlistItemsInput {
   /** The wishlist id */
@@ -109,6 +154,13 @@ export interface AddWishlistItemsResult {
   __typename: 'AddWishlistItemsResult';
   /** The wishlist */
   result: Wishlist;
+}
+
+/** An error due to providing an invalid or non-existent address ID.  */
+export interface AddressDoesNotExistError extends Error {
+  __typename: 'AddressDoesNotExistError';
+  /** Error message. */
+  message: Scalars['String']['output'];
 }
 
 /** Aggregated */
@@ -1437,6 +1489,7 @@ export interface CatalogCategoryRecord extends RecordInterface {
   bigCommerceCategoryId: Maybe<Scalars['IntType']['output']>;
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['ItemId']['output'];
+  image: Maybe<FileField>;
   name: Maybe<Scalars['String']['output']>;
   updatedAt: Scalars['DateTime']['output'];
 }
@@ -1862,6 +1915,24 @@ export interface CategoryTreeItem {
   productCount: Scalars['Int']['output'];
 }
 
+/** An error that occurred while changing a password. */
+export type ChangePasswordError = CustomerDoesNotExistError | CustomerNotLoggedInError | CustomerPasswordError | ValidationError;
+
+/** The input for changing a customer password. */
+export interface ChangePasswordInput {
+  /** The current password. Do not pass this directly in the query, use GraphQL variables. */
+  currentPassword: Scalars['String']['input'];
+  /** The new password. Do not pass this directly in the query, use GraphQL variables. */
+  newPassword: Scalars['String']['input'];
+}
+
+/** The result of changing a password. */
+export interface ChangePasswordResult {
+  __typename: 'ChangePasswordResult';
+  /** Errors encountered while changing the password. */
+  errors: Array<ChangePasswordError>;
+}
+
 /** The Channel */
 export interface Channel {
   __typename: 'Channel';
@@ -1901,6 +1972,44 @@ export interface CheckboxOption extends CatalogProductOption {
   label: Scalars['String']['output'];
   /** Option value entity ID used for specifying the checkbox is not checked. */
   uncheckedOptionValueEntityId: Scalars['Int']['output'];
+}
+
+/** Checkboxes form field. */
+export interface CheckboxesFormField extends FormField {
+  __typename: 'CheckboxesFormField';
+  /** The entity ID of the form field. */
+  entityId: Scalars['Int']['output'];
+  /** Indicates whether the form field is built-in. */
+  isBuiltIn: Scalars['Boolean']['output'];
+  /** Indicates whether the form field is required. */
+  isRequired: Scalars['Boolean']['output'];
+  /** The label to display for the form field. */
+  label: Scalars['String']['output'];
+  /** The options for the form field. */
+  options: Array<FormFieldOption>;
+  /** The sort order priority of the form field. */
+  sortOrder: Scalars['Int']['output'];
+}
+
+/** The user input for checkbox form fields. */
+export interface CheckboxesFormFieldInput {
+  /** The custom form field ID. */
+  fieldEntityId: Scalars['Int']['input'];
+  /** List of custom form field value IDs. */
+  fieldValueEntityIds: Array<Scalars['Int']['input']>;
+}
+
+/** Checkboxes custom form field result. */
+export interface CheckboxesFormFieldValue extends CustomerFormFieldValue {
+  __typename: 'CheckboxesFormFieldValue';
+  /** Entity ID of a custom form field value on a customer or customer address. */
+  entityId: Scalars['Int']['output'];
+  /** The name of the form field that the value is for. */
+  name: Scalars['String']['output'];
+  /** List of checkbox value ids selected by customer. */
+  valueEntityIds: Array<Scalars['Int']['output']>;
+  /** List of checkbox values selected by customer. */
+  values: Array<Scalars['String']['output']>;
 }
 
 /** The checkout. */
@@ -2894,6 +3003,56 @@ export interface CustomerwishlistsArgs {
   last?: InputMaybe<Scalars['Int']['input']>;
 }
 
+/** Address that is associated with a customer account. */
+export interface CustomerAddress {
+  __typename: 'CustomerAddress';
+  /** First line for the street address. */
+  address1: Scalars['String']['output'];
+  /** Second line for the street address. */
+  address2: Maybe<Scalars['String']['output']>;
+  /** City. */
+  city: Scalars['String']['output'];
+  /** Company name associated with the address. */
+  company: Maybe<Scalars['String']['output']>;
+  /** 2-letter country code. */
+  countryCode: Scalars['String']['output'];
+  /** Customer address ID. */
+  entityId: Scalars['Int']['output'];
+  /** First name of the address owner. */
+  firstName: Scalars['String']['output'];
+  /** The form field values of the customer address. */
+  formFields: Array<CustomerFormFieldValue>;
+  /** Last name of the address owner. */
+  lastName: Scalars['String']['output'];
+  /** Phone number. */
+  phone: Maybe<Scalars['String']['output']>;
+  /** Postal code. */
+  postalCode: Maybe<Scalars['String']['output']>;
+  /** Name of State or Province. */
+  stateOrProvince: Maybe<Scalars['String']['output']>;
+}
+
+/** Unexpected error while creating a customer address. */
+export interface CustomerAddressCreationError extends Error {
+  __typename: 'CustomerAddressCreationError';
+  /** Error message. */
+  message: Scalars['String']['output'];
+}
+
+/** Unexpected error while deleting a customer address. */
+export interface CustomerAddressDeletionError extends Error {
+  __typename: 'CustomerAddressDeletionError';
+  /** Error message. */
+  message: Scalars['String']['output'];
+}
+
+/** An unexpected error while updating an address for a customer. */
+export interface CustomerAddressUpdateError extends Error {
+  __typename: 'CustomerAddressUpdateError';
+  /** Error message. */
+  message: Scalars['String']['output'];
+}
+
 /** A custom, store-specific attribute for a customer */
 export interface CustomerAttribute {
   __typename: 'CustomerAttribute';
@@ -2916,6 +3075,133 @@ export interface CustomerAttributes {
 /** Custom, store-specific customer attributes */
 export interface CustomerAttributesattributeArgs {
   entityId: Scalars['Int']['input'];
+}
+
+/** An error due to customer not existing when attempting to update customer information. */
+export interface CustomerDoesNotExistError extends Error {
+  __typename: 'CustomerDoesNotExistError';
+  /** Error message. */
+  message: Scalars['String']['output'];
+}
+
+/** Custom form field value as submitted by customer. */
+export interface CustomerFormFieldValue {
+  /** Entity ID of a custom form field value on a customer or customer address. */
+  entityId: Scalars['Int']['output'];
+  /** The name of the form field that the value is for. */
+  name: Scalars['String']['output'];
+}
+
+/** The input for the filled out customer form fields. */
+export interface CustomerFormFieldsInput {
+  /** List of checkboxes custom form fields input. */
+  checkboxes?: InputMaybe<Array<CheckboxesFormFieldInput>>;
+  /** List of date custom form fields input. */
+  dates?: InputMaybe<Array<DateFormFieldInput>>;
+  /** List of multiple choice custom form fields input. This includes pick lists. */
+  multipleChoices?: InputMaybe<Array<MultipleChoiceFormFieldInput>>;
+  /** List of number custom form fields input. */
+  numbers?: InputMaybe<Array<NumberFormFieldInput>>;
+  /** List of password custom form fields input. */
+  passwords?: InputMaybe<Array<PasswordFormFieldInput>>;
+  /** List of text custom form fields input. */
+  texts?: InputMaybe<Array<TextFormFieldInput>>;
+}
+
+/** Mutations for customers domain. */
+export interface CustomerMutations {
+  __typename: 'CustomerMutations';
+  /** Submit a customer address. */
+  addCustomerAddress: AddCustomerAddressResult;
+  /** Change the password for a customer. */
+  changePassword: ChangePasswordResult;
+  /** Delete a customer address. */
+  deleteCustomerAddress: DeleteCustomerAddressResult;
+  /** Register a new customer. */
+  registerCustomer: RegisterCustomerResult;
+  /** Request reset password email. */
+  requestResetPassword: RequestResetPasswordResult;
+  /** Reset customer password */
+  resetPassword: ResetPasswordResult;
+  /** Update a customer. */
+  updateCustomer: UpdateCustomerResult;
+  /** Update a customer address. */
+  updateCustomerAddress: UpdateCustomerAddressResult;
+}
+
+
+/** Mutations for customers domain. */
+export interface CustomerMutationsaddCustomerAddressArgs {
+  input: AddCustomerAddressInput;
+  reCaptchaV2?: InputMaybe<ReCaptchaV2Input>;
+}
+
+
+/** Mutations for customers domain. */
+export interface CustomerMutationschangePasswordArgs {
+  input: ChangePasswordInput;
+}
+
+
+/** Mutations for customers domain. */
+export interface CustomerMutationsdeleteCustomerAddressArgs {
+  input: DeleteCustomerAddressInput;
+  reCaptchaV2?: InputMaybe<ReCaptchaV2Input>;
+}
+
+
+/** Mutations for customers domain. */
+export interface CustomerMutationsregisterCustomerArgs {
+  input: RegisterCustomerInput;
+  reCaptchaV2?: InputMaybe<ReCaptchaV2Input>;
+}
+
+
+/** Mutations for customers domain. */
+export interface CustomerMutationsrequestResetPasswordArgs {
+  input: RequestResetPasswordInput;
+  reCaptchaV2?: InputMaybe<ReCaptchaV2Input>;
+}
+
+
+/** Mutations for customers domain. */
+export interface CustomerMutationsresetPasswordArgs {
+  input: ResetPasswordInput;
+}
+
+
+/** Mutations for customers domain. */
+export interface CustomerMutationsupdateCustomerArgs {
+  input: UpdateCustomerInput;
+  reCaptchaV2?: InputMaybe<ReCaptchaV2Input>;
+}
+
+
+/** Mutations for customers domain. */
+export interface CustomerMutationsupdateCustomerAddressArgs {
+  input: UpdateCustomerAddressInput;
+  reCaptchaV2?: InputMaybe<ReCaptchaV2Input>;
+}
+
+/** An error due to not supplying a customer ID either via customer-id header (when using a customer impersonation token) or by logging into the storefront as a customer. */
+export interface CustomerNotLoggedInError extends Error {
+  __typename: 'CustomerNotLoggedInError';
+  /** Error message. */
+  message: Scalars['String']['output'];
+}
+
+/** An error that occurred when a customer password is being changed or reset. */
+export interface CustomerPasswordError extends Error {
+  __typename: 'CustomerPasswordError';
+  /** Details of the error. */
+  message: Scalars['String']['output'];
+}
+
+/** An unexpected error while registering a customer. */
+export interface CustomerRegistrationError extends Error {
+  __typename: 'CustomerRegistrationError';
+  /** A description of the error. */
+  message: Scalars['String']['output'];
 }
 
 /** A calendar for allowing selection of a date. */
@@ -2942,6 +3228,46 @@ export interface DateFieldOption extends CatalogProductOption {
 export interface DateFilterInput {
   gte?: InputMaybe<Scalars['String']['input']>;
   lte?: InputMaybe<Scalars['String']['input']>;
+}
+
+/** Date form field. */
+export interface DateFormField extends FormField {
+  __typename: 'DateFormField';
+  /** The default date value for the form field. */
+  defaultDate: Maybe<Scalars['DateTime']['output']>;
+  /** The entity ID of the form field. */
+  entityId: Scalars['Int']['output'];
+  /** Indicates whether the form field is built-in. */
+  isBuiltIn: Scalars['Boolean']['output'];
+  /** Indicates whether the form field is required. */
+  isRequired: Scalars['Boolean']['output'];
+  /** The label to display for the form field. */
+  label: Scalars['String']['output'];
+  /** The latest date that can be selected for the form field. */
+  maxDate: Maybe<Scalars['DateTime']['output']>;
+  /** The earliest date that can be selected for the form field. */
+  minDate: Maybe<Scalars['DateTime']['output']>;
+  /** The sort order priority of the form field. */
+  sortOrder: Scalars['Int']['output'];
+}
+
+/** The user input for date form fields. */
+export interface DateFormFieldInput {
+  /** The user date input for the form field in ISO-8601 format. */
+  date: Scalars['DateTime']['input'];
+  /** The custom form field ID. */
+  fieldEntityId: Scalars['Int']['input'];
+}
+
+/** Date custom form field value. */
+export interface DateFormFieldValue extends CustomerFormFieldValue {
+  __typename: 'DateFormFieldValue';
+  /** The date submitted by a customer. */
+  date: DateTimeExtended;
+  /** Entity ID of a custom form field value on a customer or customer address. */
+  entityId: Scalars['Int']['output'];
+  /** The name of the form field that the value is for. */
+  name: Scalars['String']['output'];
 }
 
 /** Date Time Extended */
@@ -2996,6 +3322,22 @@ export interface DeleteCheckoutConsignmentResult {
   __typename: 'DeleteCheckoutConsignmentResult';
   /** The Checkout that is updated as a result of mutation. */
   checkout: Maybe<Checkout>;
+}
+
+/** Possible response errors when attempting to delete a customer address. */
+export type DeleteCustomerAddressError = CustomerAddressDeletionError | CustomerNotLoggedInError;
+
+/** Input for deleting a customer address. */
+export interface DeleteCustomerAddressInput {
+  /** Address entity ID for the customer address to delete. */
+  addressEntityId: Scalars['Int']['input'];
+}
+
+/** Result of DeleteCustomerAddress mutation. */
+export interface DeleteCustomerAddressResult {
+  __typename: 'DeleteCustomerAddressResult';
+  /** Response errors that occurred while attempting to delete a customer address. */
+  errors: Array<DeleteCustomerAddressError>;
 }
 
 /** Delete wishlist items input object */
@@ -3684,6 +4026,13 @@ export interface DistanceFilter {
   radius: Scalars['Float']['input'];
 }
 
+/** An error due to the customer email already being in use when attempting registration. */
+export interface EmailAlreadyInUseError extends Error {
+  __typename: 'EmailAlreadyInUseError';
+  /** A description of the error. */
+  message: Scalars['String']['output'];
+}
+
 /** Entity page type */
 export enum EntityPageType {
   BLOG_POST = 'BLOG_POST',
@@ -4179,6 +4528,77 @@ export interface FileUploadFieldOption extends CatalogProductOption {
   maxFileSize: Scalars['Int']['output'];
 }
 
+/** The details of a form field. */
+export interface FormField {
+  /** The entity ID of the form field. */
+  entityId: Scalars['Int']['output'];
+  /** Indicates whether the form field is built-in. */
+  isBuiltIn: Scalars['Boolean']['output'];
+  /** Indicates whether the form field is required. */
+  isRequired: Scalars['Boolean']['output'];
+  /** The label to display for the form field. */
+  label: Scalars['String']['output'];
+  /** The sort order priority of the form field. */
+  sortOrder: Scalars['Int']['output'];
+}
+
+/** Object containing filters for querying form fields. */
+export interface FormFieldFiltersInput {
+  /** Filter by form field entity IDs. */
+  entityIds?: InputMaybe<Array<Scalars['Int']['input']>>;
+  /** Filter by built-in form fields. */
+  isBuiltIn?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Filter by required form fields. */
+  isRequired?: InputMaybe<Scalars['Boolean']['input']>;
+}
+
+/** The details of an option for a checkbox or multiple choice form field. */
+export interface FormFieldOption {
+  __typename: 'FormFieldOption';
+  /** The entity ID of the form field option. */
+  entityId: Scalars['Int']['output'];
+  /** The label to display for the form field option. */
+  label: Scalars['String']['output'];
+}
+
+/** The sorting to use on form field results. */
+export enum FormFieldSortInput {
+  FIELD_ID = 'FIELD_ID',
+  SORT_ORDER = 'SORT_ORDER'
+}
+
+/** The types of form fields that can be queried. */
+export interface FormFields {
+  __typename: 'FormFields';
+  /** The billing address form fields. */
+  billingAddress: Array<FormField>;
+  /** The customer form fields. */
+  customer: Array<FormField>;
+  /** The shipping address form fields. */
+  shippingAddress: Array<FormField>;
+}
+
+
+/** The types of form fields that can be queried. */
+export interface FormFieldsbillingAddressArgs {
+  filters?: InputMaybe<FormFieldFiltersInput>;
+  sortBy?: InputMaybe<FormFieldSortInput>;
+}
+
+
+/** The types of form fields that can be queried. */
+export interface FormFieldscustomerArgs {
+  filters?: InputMaybe<FormFieldFiltersInput>;
+  sortBy?: InputMaybe<FormFieldSortInput>;
+}
+
+
+/** The types of form fields that can be queried. */
+export interface FormFieldsshippingAddressArgs {
+  filters?: InputMaybe<FormFieldFiltersInput>;
+  sortBy?: InputMaybe<FormFieldSortInput>;
+}
+
 export interface Fulfillment {
   __typename: 'Fulfillment';
   createdAt: Scalars['DateTime']['output'];
@@ -4643,6 +5063,8 @@ export interface Image {
   url: Scalars['String']['output'];
   /** Absolute path to original image using store CDN. */
   urlOriginal: Scalars['String']['output'];
+  /** A templatized URL containing a {:size} parameter which can be replaced with a string specifying the desired image size in either inherent width (123w) or width and height (123x123). */
+  urlTemplate: Scalars['String']['output'];
 }
 
 
@@ -5663,6 +6085,12 @@ export interface ImgixParams {
    * Skips every Nth frame starting with the first frame.
    */
   skip?: InputMaybe<Scalars['IntType']['input']>;
+  /**
+   * Bypasses any [DatoCMS Automatic Image Optimization](https://www.datocms.com/docs/cdn-settings/advanced-asset-settings) that might be set up for the project.
+   *
+   * Exercise caution when using this parameter, as it could significantly increase your bandwidth costs.
+   */
+  skipDefaultOptimizations?: InputMaybe<Scalars['BooleanType']['input']>;
   /**
    * Transparency
    *
@@ -7016,6 +7444,46 @@ export interface MultiLineTextFieldOption extends CatalogProductOption {
   minLength: Maybe<Scalars['Int']['output']>;
 }
 
+/** Multiline text form field. */
+export interface MultilineTextFormField extends FormField {
+  __typename: 'MultilineTextFormField';
+  /** The default text value for the form field. */
+  defaultText: Maybe<Scalars['String']['output']>;
+  /** The entity ID of the form field. */
+  entityId: Scalars['Int']['output'];
+  /** Indicates whether the form field is built-in. */
+  isBuiltIn: Scalars['Boolean']['output'];
+  /** Indicates whether the form field is required. */
+  isRequired: Scalars['Boolean']['output'];
+  /** The label to display for the form field. */
+  label: Scalars['String']['output'];
+  /** The amount of rows for the form field. */
+  rows: Scalars['Int']['output'];
+  /** The sort order priority of the form field. */
+  sortOrder: Scalars['Int']['output'];
+}
+
+/** The user input for multiple choice form fields. */
+export interface MultipleChoiceFormFieldInput {
+  /** The custom form field ID. */
+  fieldEntityId: Scalars['Int']['input'];
+  /** The custom form field value ID. */
+  fieldValueEntityId: Scalars['Int']['input'];
+}
+
+/** Multiple choice (includes radio button and pick list) custom form field result. */
+export interface MultipleChoiceFormFieldValue extends CustomerFormFieldValue {
+  __typename: 'MultipleChoiceFormFieldValue';
+  /** Entity ID of a custom form field value on a customer or customer address. */
+  entityId: Scalars['Int']['output'];
+  /** The name of the form field that the value is for. */
+  name: Scalars['String']['output'];
+  /** The multiple choice value selected by customer. */
+  value: Scalars['String']['output'];
+  /** The multiple choice value id selected by customer. */
+  valueEntityId: Scalars['Int']['output'];
+}
+
 /** An option type that has a fixed list of values. */
 export interface MultipleChoiceOption extends CatalogProductOption {
   __typename: 'MultipleChoiceOption';
@@ -7063,6 +7531,8 @@ export interface Mutation {
   catalogProductQuoteCreate: Maybe<CatalogProductQuoteCreatePayload>;
   /** The Checkout mutations. */
   checkout: CheckoutMutations;
+  /** The customer mutations. */
+  customer: CustomerMutations;
   designProductCreateOrder: Maybe<DesignProductCreateOrderPayload>;
   designProductCreateQuote: Maybe<DesignProductCreateQuotePayload>;
   designRequestApprove: Maybe<DesignRequestApprovePayload>;
@@ -7457,6 +7927,48 @@ export interface NumberFieldOption extends CatalogProductOption {
   limitNumberBy: LimitInputBy;
   /** The bottom limit of possible numbers. */
   lowest: Maybe<Scalars['Float']['output']>;
+}
+
+/** Number only form field. */
+export interface NumberFormField extends FormField {
+  __typename: 'NumberFormField';
+  /** The default number value for the form field. */
+  defaultNumber: Maybe<Scalars['Float']['output']>;
+  /** The entity ID of the form field. */
+  entityId: Scalars['Int']['output'];
+  /** Indicates whether the form field is built-in. */
+  isBuiltIn: Scalars['Boolean']['output'];
+  /** Indicates whether the form field is required. */
+  isRequired: Scalars['Boolean']['output'];
+  /** The label to display for the form field. */
+  label: Scalars['String']['output'];
+  /** The maximum amount of characters that can be entered into text form field. */
+  maxLength: Maybe<Scalars['Int']['output']>;
+  /** The highest allowed number to be entered in the form field. */
+  maxNumber: Maybe<Scalars['Int']['output']>;
+  /** The lowest allowed number to be entered in the form field. */
+  minNumber: Maybe<Scalars['Int']['output']>;
+  /** The sort order priority of the form field. */
+  sortOrder: Scalars['Int']['output'];
+}
+
+/** The user input for number form fields. */
+export interface NumberFormFieldInput {
+  /** The custom form field ID. */
+  fieldEntityId: Scalars['Int']['input'];
+  /** The number input of the number field. */
+  number: Scalars['Float']['input'];
+}
+
+/** Numbers custom form field value. */
+export interface NumberFormFieldValue extends CustomerFormFieldValue {
+  __typename: 'NumberFormFieldValue';
+  /** Entity ID of a custom form field value on a customer or customer address. */
+  entityId: Scalars['Int']['output'];
+  /** The name of the form field that the value is for. */
+  name: Scalars['String']['output'];
+  /** The number value submitted by customer. */
+  number: Scalars['Float']['output'];
 }
 
 /** Operating day */
@@ -8076,6 +8588,44 @@ export interface ParentFilter {
   exists?: InputMaybe<Scalars['BooleanType']['input']>;
 }
 
+/** Password form field. */
+export interface PasswordFormField extends FormField {
+  __typename: 'PasswordFormField';
+  /** The default text value for the form field. */
+  defaultText: Maybe<Scalars['String']['output']>;
+  /** The entity ID of the form field. */
+  entityId: Scalars['Int']['output'];
+  /** Indicates whether the form field is built-in. */
+  isBuiltIn: Scalars['Boolean']['output'];
+  /** Indicates whether the form field is required. */
+  isRequired: Scalars['Boolean']['output'];
+  /** The label to display for the form field. */
+  label: Scalars['String']['output'];
+  /** The maximum amount of characters that can be entered into the form field. */
+  maxLength: Maybe<Scalars['Int']['output']>;
+  /** The sort order priority of the form field. */
+  sortOrder: Scalars['Int']['output'];
+}
+
+/** The user input for password form fields. */
+export interface PasswordFormFieldInput {
+  /** The custom form field ID. */
+  fieldEntityId: Scalars['Int']['input'];
+  /** Password value. */
+  password: Scalars['String']['input'];
+}
+
+/** Password custom form field value. */
+export interface PasswordFormFieldValue extends CustomerFormFieldValue {
+  __typename: 'PasswordFormFieldValue';
+  /** Entity ID of a custom form field value on a customer or customer address. */
+  entityId: Scalars['Int']['output'];
+  /** The name of the form field that the value is for. */
+  name: Scalars['String']['output'];
+  /** The password text submitted by a customer. */
+  password: Scalars['String']['output'];
+}
+
 export interface PaymentIntent {
   __typename: 'PaymentIntent';
   amount: Scalars['Int']['output'];
@@ -8119,6 +8669,25 @@ export interface PaymentMethodCard {
   expMonth: Maybe<Scalars['Int']['output']>;
   expYear: Maybe<Scalars['Int']['output']>;
   last4: Maybe<Scalars['String']['output']>;
+}
+
+/** Pick list form field. Similar to Radio Buttons, but should be rendered as a dropdown select. */
+export interface PicklistFormField extends FormField {
+  __typename: 'PicklistFormField';
+  /** The text to display before a user has made a selection. */
+  choosePrefix: Scalars['String']['output'];
+  /** The entity ID of the form field. */
+  entityId: Scalars['Int']['output'];
+  /** Indicates whether the form field is built-in. */
+  isBuiltIn: Scalars['Boolean']['output'];
+  /** Indicates whether the form field is required. */
+  isRequired: Scalars['Boolean']['output'];
+  /** The label to display for the form field. */
+  label: Scalars['String']['output'];
+  /** The options for the form field. */
+  options: Array<FormFieldOption>;
+  /** The sort order priority of the form field. */
+  sortOrder: Scalars['Int']['output'];
 }
 
 /** A connection to a list of items. */
@@ -8615,6 +9184,7 @@ export interface ProductDiscoveryPageRecord extends RecordInterface {
   _updatedAt: Scalars['DateTime']['output'];
   createdAt: Scalars['DateTime']['output'];
   featuredCategories: Array<CatalogCategoryRecord>;
+  featuredCollections: Array<CatalogCategoryRecord>;
   id: Scalars['ItemId']['output'];
   updatedAt: Scalars['DateTime']['output'];
 }
@@ -9352,6 +9922,23 @@ export interface QuoteGeneratePrintLocationInput {
   colorCount: Scalars['Int']['input'];
 }
 
+/** Radio buttons form field. */
+export interface RadioButtonsFormField extends FormField {
+  __typename: 'RadioButtonsFormField';
+  /** The entity ID of the form field. */
+  entityId: Scalars['Int']['output'];
+  /** Indicates whether the form field is built-in. */
+  isBuiltIn: Scalars['Boolean']['output'];
+  /** Indicates whether the form field is required. */
+  isRequired: Scalars['Boolean']['output'];
+  /** The label to display for the form field. */
+  label: Scalars['String']['output'];
+  /** The options for the form field. */
+  options: Array<FormFieldOption>;
+  /** The sort order priority of the form field. */
+  sortOrder: Scalars['Int']['output'];
+}
+
 /** Rating Filter */
 export interface RatingSearchFilter extends SearchProductFilter {
   __typename: 'RatingSearchFilter';
@@ -9500,6 +10087,38 @@ export interface Region {
   name: Scalars['String']['output'];
 }
 
+/** An error when registering a customer. */
+export type RegisterCustomerError = AccountCreationDisabledError | CustomerRegistrationError | EmailAlreadyInUseError | ValidationError;
+
+/** The values to use for customer registration. */
+export interface RegisterCustomerInput {
+  /** The address of the customer. */
+  address?: InputMaybe<AddCustomerAddressInput>;
+  /** The company of the customer. */
+  company?: InputMaybe<Scalars['String']['input']>;
+  /** The email of the customer. */
+  email: Scalars['String']['input'];
+  /** The first name of the customer. */
+  firstName: Scalars['String']['input'];
+  /** The custom form fields that the customer filled out. */
+  formFields?: InputMaybe<CustomerFormFieldsInput>;
+  /** The last name of the customer. */
+  lastName: Scalars['String']['input'];
+  /** The password supplied by the customer. */
+  password: Scalars['String']['input'];
+  /** The phone number of the customer. */
+  phone?: InputMaybe<Scalars['String']['input']>;
+}
+
+/** The result of registering a customer. */
+export interface RegisterCustomerResult {
+  __typename: 'RegisterCustomerResult';
+  /** The customer that was registered. */
+  customer: Maybe<Customer>;
+  /** The errors, if any, that occured during the registration. */
+  errors: Array<RegisterCustomerError>;
+}
+
 /** A connection to a list of items. */
 export interface RelatedProductsConnection {
   __typename: 'RelatedProductsConnection';
@@ -9523,6 +10142,44 @@ export interface RenderedRegionsByPageType {
   __typename: 'RenderedRegionsByPageType';
   /** List of regions */
   regions: Array<Region>;
+}
+
+/** An error when requesting a reset password email. */
+export type RequestResetPasswordError = ValidationError;
+
+/** Input for requesting a reset password email. */
+export interface RequestResetPasswordInput {
+  /** The email address of the customer requesting a reset password email. */
+  email: Scalars['String']['input'];
+  /** A path to direct the customer to from the email. */
+  path?: InputMaybe<Scalars['String']['input']>;
+}
+
+/** The result of requesting a reset password email. */
+export interface RequestResetPasswordResult {
+  __typename: 'RequestResetPasswordResult';
+  /** The errors, if any, that occured during the request. */
+  errors: Array<RequestResetPasswordError>;
+}
+
+/** An error when resetting a password. */
+export type ResetPasswordError = CustomerPasswordError | ValidationError;
+
+/** Input for resetting a password. */
+export interface ResetPasswordInput {
+  /** The customer ID of the customer resetting their password. */
+  customerEntityId: Scalars['Int']['input'];
+  /** The new password for the customer. */
+  newPassword: Scalars['String']['input'];
+  /** The token sent to the customer in the reset password email. */
+  token: Scalars['String']['input'];
+}
+
+/** The result of resetting a password. */
+export interface ResetPasswordResult {
+  __typename: 'ResetPasswordResult';
+  /** The errors, if any, that occurred during the request. */
+  errors: Array<ResetPasswordError>;
 }
 
 /** Specifies how to filter by upload type */
@@ -9864,6 +10521,8 @@ export interface Settings {
   contact: Maybe<ContactField>;
   /** Store display format information. */
   display: DisplayField;
+  /** The form fields to display on the storefront during customer registration or address creation. */
+  formFields: FormFields;
   /** Inventory settings. */
   inventory: Maybe<InventorySettings>;
   /**
@@ -10556,6 +11215,44 @@ export interface TextFilter {
   notMatches?: InputMaybe<StringMatchesFilter>;
 }
 
+/** A single line text form field. */
+export interface TextFormField extends FormField {
+  __typename: 'TextFormField';
+  /** The default text value of the text form field. */
+  defaultText: Maybe<Scalars['String']['output']>;
+  /** The entity ID of the form field. */
+  entityId: Scalars['Int']['output'];
+  /** Indicates whether the form field is built-in. */
+  isBuiltIn: Scalars['Boolean']['output'];
+  /** Indicates whether the form field is required. */
+  isRequired: Scalars['Boolean']['output'];
+  /** The label to display for the form field. */
+  label: Scalars['String']['output'];
+  /** The maximum amount of characters that can be entered into the form field. */
+  maxLength: Maybe<Scalars['Int']['output']>;
+  /** The sort order priority of the form field. */
+  sortOrder: Scalars['Int']['output'];
+}
+
+/** The user input for text form fields. */
+export interface TextFormFieldInput {
+  /** The custom form field ID. */
+  fieldEntityId: Scalars['Int']['input'];
+  /** Text value. */
+  text: Scalars['String']['input'];
+}
+
+/** Text (includes basic text field and multi-line text) custom form field value. */
+export interface TextFormFieldValue extends CustomerFormFieldValue {
+  __typename: 'TextFormFieldValue';
+  /** Entity ID of a custom form field value on a customer or customer address. */
+  entityId: Scalars['Int']['output'];
+  /** The name of the form field that the value is for. */
+  name: Scalars['String']['output'];
+  /** The text submitted by a customer. */
+  text: Scalars['String']['output'];
+}
+
 /** Block of type Tradeshow Category Metadata (tradeshow_category_metadata_model) */
 export interface TradeshowCategoryMetadataModelRecord extends RecordInterface {
   __typename: 'TradeshowCategoryMetadataModelRecord';
@@ -10742,6 +11439,80 @@ export interface UpdateCheckoutShippingConsignmentResult {
   __typename: 'UpdateCheckoutShippingConsignmentResult';
   /** The Checkout that is updated as a result of mutation. */
   checkout: Maybe<Checkout>;
+}
+
+/** Data fields to update on address. */
+export interface UpdateCustomerAddressDataInput {
+  /** First line for the street address. */
+  address1?: InputMaybe<Scalars['String']['input']>;
+  /** Second line for the street address. */
+  address2?: InputMaybe<Scalars['String']['input']>;
+  /** City. */
+  city?: InputMaybe<Scalars['String']['input']>;
+  /** Company name associated with the address. */
+  company?: InputMaybe<Scalars['String']['input']>;
+  /** 2-letter country code. */
+  countryCode?: InputMaybe<Scalars['String']['input']>;
+  /** First name of address owner. */
+  firstName?: InputMaybe<Scalars['String']['input']>;
+  /** Additional form fields defined by merchant. */
+  formFields?: InputMaybe<CustomerFormFieldsInput>;
+  /** Last name of the address owner. */
+  lastName?: InputMaybe<Scalars['String']['input']>;
+  /** Phone number. */
+  phone?: InputMaybe<Scalars['String']['input']>;
+  /** Postal code for the address. This is only required for certain countries. */
+  postalCode?: InputMaybe<Scalars['String']['input']>;
+  /** Name of State or Province. */
+  stateOrProvince?: InputMaybe<Scalars['String']['input']>;
+}
+
+/** Possible response error when attempting to use UpdateCustomerAddress mutation. */
+export type UpdateCustomerAddressError = AddressDoesNotExistError | CustomerAddressUpdateError | CustomerNotLoggedInError | ValidationError;
+
+/** Input for updating a customer address. */
+export interface UpdateCustomerAddressInput {
+  /** ID of the address to update. */
+  addressEntityId: Scalars['Int']['input'];
+  /** Data fields to update on address. */
+  data: UpdateCustomerAddressDataInput;
+}
+
+/** Result of UpdateCustomerAddress mutation. */
+export interface UpdateCustomerAddressResult {
+  __typename: 'UpdateCustomerAddressResult';
+  /** Customer address that was updated. */
+  address: Maybe<CustomerAddress>;
+  /** List of response errors when attempting to update an address. */
+  errors: Array<UpdateCustomerAddressError>;
+}
+
+/** An error when updating a customer. */
+export type UpdateCustomerError = CustomerDoesNotExistError | CustomerNotLoggedInError | EmailAlreadyInUseError | ValidationError;
+
+/** The values to use for customer update operation. */
+export interface UpdateCustomerInput {
+  /** The company of the customer. */
+  company?: InputMaybe<Scalars['String']['input']>;
+  /** The email of the customer. */
+  email?: InputMaybe<Scalars['String']['input']>;
+  /** The first name of the customer. */
+  firstName?: InputMaybe<Scalars['String']['input']>;
+  /** The custom form fields that the customer filled out. */
+  formFields?: InputMaybe<CustomerFormFieldsInput>;
+  /** The last name of the customer. */
+  lastName?: InputMaybe<Scalars['String']['input']>;
+  /** The phone number of the customer. */
+  phone?: InputMaybe<Scalars['String']['input']>;
+}
+
+/** The result of updating a customer. */
+export interface UpdateCustomerResult {
+  __typename: 'UpdateCustomerResult';
+  /** The customer that was updated. */
+  customer: Maybe<Customer>;
+  /** The errors, if any, that occured during the update operation. */
+  errors: Array<UpdateCustomerError>;
 }
 
 /** The behavior type for updating stock levels. */
