@@ -41,7 +41,13 @@ export const bigCommerceProductMetadataApiSchema =
       resource_type: yup.string().oneOf(['product']).required(),
       key: yup
         .string()
-        .oneOf(['style_id', 'source', 'updated_description_at', 'display_name'])
+        .oneOf([
+          'style_id',
+          'source',
+          'updated_description_at',
+          'original_description',
+          'display_name',
+        ])
         .min(1)
         .max(64)
         .required(),

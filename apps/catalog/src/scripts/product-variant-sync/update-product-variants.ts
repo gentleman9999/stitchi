@@ -308,10 +308,30 @@ export const updateProductVariants = async (
     })
   }
 
+  // TODO: Figure out how to support more than 600 variants
+  // BigCommerce has a hard limit of 600 variants
+  let filteredVariants: typeof variantsInput = []
+
+  if (variantsInput.length > 600) {
+    const variantsToRemoveCount = variantsInput.length - 600
+    let removedCount = 0
+    // Remove necessary variants. Make sure these are "create" not "update" variants.
+
+    variantsInput.map(v => {
+      if ('id' in v) {
+        filteredVariants.push(v)
+      }
+
+      if (removedCount < variantsToRemoveCount) {
+        removedCount++
+      }
+    })
+  }
+
   try {
     await bigCommerce.batchUpdateProductVariants({
       productId: bigCommerceProduct.id,
-      variants: variantsInput,
+      variants: filteredVariants,
     })
   } catch (error) {
     console.error('Failed to batch update product variants', {
