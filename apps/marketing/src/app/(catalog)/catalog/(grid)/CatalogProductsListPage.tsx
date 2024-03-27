@@ -1,11 +1,13 @@
 'use client'
 
 import React, { Suspense, useTransition } from 'react'
-import ClosetPageContainer from '@components/common/ClosetPageContainer'
 import CatalogFiltersContainer from './CatalogFiltersContainer'
 import CatalogProductsContainer from './CatalogProductsContainer'
-import { CatalogProductGridSkeleton } from '../old/(grid)/CatalogPorductGrid'
-import { SearchProductsSortInput } from '@generated/types'
+import {
+  CatalogProductsListBrandFragment,
+  CatalogProductsListCategoryFragment,
+  SearchProductsSortInput,
+} from '@generated/types'
 import * as yup from 'yup'
 import {
   parseAsArrayOf,
@@ -15,6 +17,10 @@ import {
   parseAsStringEnum,
   useQueryStates,
 } from 'nuqs'
+import CatalogHeader from './CatalogHeader'
+import CatalogProductGridSkeleton from './CatalogProductGridSkeleton'
+import SortButton from './SortButton'
+import Skeleton from 'react-loading-skeleton'
 
 const DEFAULT_FILTERS = {
   hideOutOfStock: true,
@@ -32,22 +38,28 @@ export interface QueryStates {
   productAttributes: { attribute: string; values: string[] }[]
 }
 
-interface Props {
-  defaultCategoryEntityId?: number
-  defaultBrandEntityId?: number
-}
+type Props =
+  | {
+      category?: never
+      brand: CatalogProductsListBrandFragment
+    }
+  | {
+      brand?: never
+      category: CatalogProductsListCategoryFragment
+    }
+  | {
+      brand?: never
+      category?: never
+    }
 
-const CatalogProductsListPage = ({
-  defaultBrandEntityId,
-  defaultCategoryEntityId,
-}: Props) => {
+const CatalogProductsListPage = (props: Props) => {
+  const { brand, category } = props
   const [transition, startTransition] = useTransition()
 
   const [
     {
       after,
       brandEntityIds,
-      categoryEntityIds,
       maxPrice,
       minPrice,
       searchTerm,
@@ -64,8 +76,7 @@ const CatalogProductsListPage = ({
       searchTerm: parseAsString.withDefault(''),
       minPrice: parseAsInteger,
       maxPrice: parseAsInteger,
-      brandEntityIds: parseAsArrayOf(parseAsInteger),
-      categoryEntityIds: parseAsArrayOf(parseAsInteger),
+      brandEntityIds: parseAsArrayOf(parseAsInteger).withDefault([]),
       productAttributes: parseAsJson(value =>
         yup
           .array()
@@ -88,58 +99,109 @@ const CatalogProductsListPage = ({
     },
   )
 
-  const finalCategoryEntityIds = defaultCategoryEntityId
-    ? [defaultCategoryEntityId]
-    : categoryEntityIds
-
-  const finalBrandEntityIds = defaultBrandEntityId
-    ? [defaultBrandEntityId]
-    : brandEntityIds
+  const finalBrandEntityIds = brand
+    ? [brand.entityId]
+    : brandEntityIds?.length
+    ? brandEntityIds
+    : null
 
   return (
-    <ClosetPageContainer className="max-w-none flex flex-col gap-4 mt-4 mb-4">
+    <>
+      {brand ? (
+        <CatalogHeader brand={brand} />
+      ) : category ? (
+        <CatalogHeader category={category} />
+      ) : null}
+
       <div className="flex gap-4">
-        <Suspense fallback={<div>Loading</div>}>
+        <Suspense
+          fallback={
+            <aside className="hidden lg:block w-64">
+              <ul className="flex flex-col gap-10">
+                {Array.from(new Array(5)).map((_, i) => (
+                  <li key={i}>
+                    <ul className="flex flex-col gap-2">
+                      <h3 className="text-lg font-semibold mb-2">
+                        <Skeleton width="50%" />
+                      </h3>
+                      {Array.from(new Array(4)).map((_, i) => (
+                        <li key={i}>
+                          <Skeleton width="60%" />
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                ))}
+              </ul>
+            </aside>
+          }
+        >
           <CatalogFiltersContainer
-            defaultBrandEntityId={defaultBrandEntityId}
-            setQueryStates={(...any) => {
+            isRootCategory={!category?.entityId}
+            defaultBrandEntityId={brand?.entityId || null}
+            setQueryStates={value => {
               startTransition(() => {
-                setQueryStates(...any)
+                if (typeof value === 'function') {
+                  setQueryStates(values =>
+                    value({ ...values, after: null } as any),
+                  )
+                } else {
+                  setQueryStates({ ...value, after: null })
+                }
               })
+
+              return null as any
             }}
             variables={{
-              sort: sort,
-              filters: {
-                ...DEFAULT_FILTERS,
-                searchTerm,
-                productAttributes,
-                brandEntityIds: finalBrandEntityIds,
-                categoryEntityIds: finalCategoryEntityIds,
-                price: { maxPrice, minPrice },
-              },
-            }}
-          />
-        </Suspense>
-        <Suspense fallback={<CatalogProductGridSkeleton />}>
-          <CatalogProductsContainer
-            variables={{
-              filters: {
-                ...DEFAULT_FILTERS,
-                searchTerm,
-                productAttributes,
-                brandEntityIds: finalBrandEntityIds,
-                categoryEntityIds: finalCategoryEntityIds,
-                price: { maxPrice, minPrice },
-              },
               sort,
-              first: 20,
-              after,
+              rootCategoryEntityId: category?.entityId || 0,
+              filters: {
+                ...DEFAULT_FILTERS,
+                searchTerm,
+                productAttributes,
+                brandEntityIds: finalBrandEntityIds,
+                categoryEntityId: category?.entityId,
+                price: { maxPrice, minPrice },
+              },
             }}
-            transitioningQuery={transition}
           />
         </Suspense>
+
+        <div className="flex-1 flex flex-col gap-4">
+          <div className="flex justify-end">
+            <div>
+              <SortButton
+                sort={sort}
+                onChange={sort => {
+                  startTransition(() => {
+                    setQueryStates(prev => ({ ...prev, sort, after: null }))
+                  })
+                }}
+              />
+            </div>
+          </div>
+
+          <Suspense fallback={<CatalogProductGridSkeleton />}>
+            <CatalogProductsContainer
+              transitioningQuery={transition}
+              variables={{
+                sort,
+                after,
+                first: 20,
+                filters: {
+                  ...DEFAULT_FILTERS,
+                  searchTerm,
+                  productAttributes,
+                  brandEntityIds: finalBrandEntityIds,
+                  categoryEntityId: category?.entityId,
+                  price: { maxPrice, minPrice },
+                },
+              }}
+            />
+          </Suspense>
+        </div>
       </div>
-    </ClosetPageContainer>
+    </>
   )
 }
 

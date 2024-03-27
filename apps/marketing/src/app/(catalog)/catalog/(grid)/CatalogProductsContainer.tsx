@@ -21,8 +21,6 @@ import routes from '@lib/routes'
 interface Props {
   transitioningQuery: boolean
   variables: CatalogProductsContainerGetDataQueryVariables
-  defaultCategoryEntityId?: number
-  defaultBrandEntityId?: number
 }
 
 const CatalogProductsContainer = ({ variables, transitioningQuery }: Props) => {

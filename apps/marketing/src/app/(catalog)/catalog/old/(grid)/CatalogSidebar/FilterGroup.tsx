@@ -20,7 +20,7 @@ const FilterGroup = ({
     <ul className={cx('flex flex-col gap-2 items-start', className)}>
       {label ? (
         <div className="flex justify-between items-center gap-2 w-full">
-          <h3 className="text-base font-semibold mb-2">{label}</h3>
+          <h3 className="text-lg font-semibold mb-2">{label}</h3>
           {onClear && showClear ? (
             <button
               className="text-gray-600 underline text-xs"

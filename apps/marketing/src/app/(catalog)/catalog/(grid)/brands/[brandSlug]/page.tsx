@@ -7,10 +7,10 @@ import {
   BrandPageGetDataQueryVariables,
 } from '@generated/types'
 import routes from '@lib/routes'
-import staticData from '@generated/static.json'
 import { BrandJsonLd } from 'next-seo'
 import { gql } from '@apollo/client'
 import CatalogProductsListPage from '../../CatalogProductsListPage'
+import { fragments } from '../../CatalogProductsListPage.fragments'
 
 interface Params {
   brandSlug: string
@@ -60,27 +60,42 @@ export const generateMetadata = async ({
 }
 
 const Page = async ({ params }: { params: Params }) => {
-  const foundBrand = staticData.brands.find(
-    brand => brand.custom_url.url === `/${params.brandSlug}/`,
-  )
+  const client = await getClient()
 
-  if (!foundBrand) {
-    notFound()
-  }
+  const brandSlug = `/${params.brandSlug}/`
 
-  const href = routes.internal.catalog.brand.show.href({
-    brandSlug: foundBrand.custom_url.url,
+  const { data } = await client.query<
+    BrandPageGetDataQuery,
+    BrandPageGetDataQueryVariables
+  >({
+    query: GET_DATA,
+    variables: {
+      path: brandSlug,
+    },
   })
+
+  const node = data.site.route.node
+
+  if (node?.__typename !== 'Brand') {
+    return notFound()
+  }
 
   return (
     <>
-      <BrandJsonLd useAppDir id={href} logo={foundBrand.image_url} />
-      <CatalogProductsListPage defaultBrandEntityId={foundBrand.id} />
+      <BrandJsonLd
+        useAppDir
+        id={node.id}
+        logo={node.defaultImage?.url}
+        name={node.name}
+      />
+
+      <CatalogProductsListPage brand={node} />
     </>
   )
 }
 
 const GET_DATA = gql`
+  ${fragments.brand}
   query BrandPageGetDataQuery($path: String!) {
     site {
       route(path: $path) {
@@ -95,6 +110,7 @@ const GET_DATA = gql`
               pageTitle
               metaDescription
             }
+            ...CatalogProductsListBrandFragment
           }
         }
       }

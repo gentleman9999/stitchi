@@ -22,7 +22,11 @@ type FilterItemProps =
 const FilterItem = (props: FilterItemProps) => {
   const [nextState, setNextState] = React.useState(props.active)
 
-  const linkClassName = cx('flex items-center gap-2', {
+  React.useEffect(() => {
+    setNextState(props.active)
+  }, [props.active])
+
+  const linkClassName = cx('text-left flex items-center gap-2', {
     'font-bold': props.active,
   })
 

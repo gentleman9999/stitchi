@@ -104,15 +104,30 @@ export const createApolloClient = (
         }
       },
       typePolicies: {
+        SearchQueries: {
+          fields: {
+            searchProducts: {
+              merge(existing, incoming, { mergeObjects }) {
+                return mergeObjects(existing, incoming)
+              },
+            },
+          },
+        },
         SearchProducts: {
           fields: {
             products: relayStylePagination(),
+            filters: relayStylePagination(),
           },
         },
         Query: {
           fields: {
             allArticles: firstSkipPagination(['filter']),
             allDesigns: firstSkipPagination(['filter']),
+            // site: {
+            //   merge(existing, incoming, { mergeObjects }) {
+            //     return mergeObjects(existing, incoming)
+            //   },
+            // },
           },
         },
         Membership: {

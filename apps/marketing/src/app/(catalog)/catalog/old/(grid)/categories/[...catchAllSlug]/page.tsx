@@ -77,7 +77,7 @@ const Page = ({ params }: { params: Params }) => {
 }
 
 const GET_DATA = gql`
-  query CatalogCategoryPageGetDataQuery($path: String!) {
+  query CatalogCategoryPageGetDataQueryOld($path: String!) {
     site {
       route(path: $path) {
         node {

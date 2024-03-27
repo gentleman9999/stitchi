@@ -202,7 +202,6 @@ const middleware: NextMiddleware = async (request, event) => {
     // ***
 
     if (destination) {
-      console.log('destination', destination)
       return NextResponse.rewrite(new URL(destination, request.url))
     }
   }

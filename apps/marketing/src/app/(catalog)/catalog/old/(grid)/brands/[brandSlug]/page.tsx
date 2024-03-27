@@ -81,7 +81,7 @@ const Page = async ({ params }: { params: Params }) => {
 }
 
 const GET_DATA = gql`
-  query BrandPageGetDataQuery($path: String!) {
+  query BrandPageGetDataQueryOld($path: String!) {
     site {
       route(path: $path) {
         node {

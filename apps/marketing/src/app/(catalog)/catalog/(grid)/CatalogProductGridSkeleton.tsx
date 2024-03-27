@@ -1,6 +1,6 @@
 import React from 'react'
-import CatalogProductGridContainer from './CatalogProductGridContainer'
-import CatalogProductSkeleton from './CatalogProductSkeleton'
+import CatalogProductGridContainer from '../old/(grid)/CatalogPorductGrid/CatalogProductGridContainer'
+import CatalogProductSkeleton from '../old/(grid)/CatalogPorductGrid/CatalogProductSkeleton'
 
 const CatalogProductGridSkeleton = () => {
   return (

@@ -7,9 +7,9 @@ import {
   CatalogCategoryPageGetDataQueryVariables,
 } from '@generated/types'
 import routes from '@lib/routes'
-import staticData from '@generated/static.json'
 import { gql } from '@apollo/client'
 import CatalogProductsListPage from '../../CatalogProductsListPage'
+import { fragments } from '../../CatalogProductsListPage.fragments'
 
 interface Params {
   catchAllSlug: string[]
@@ -63,26 +63,39 @@ export const generateMetadata = async ({
   notFound()
 }
 
-const Page = ({ params }: { params: Params }) => {
-  const foundCategory = staticData.categories.find(
-    category =>
-      category.custom_url.url === `/${params.catchAllSlug.join('/')}/`,
-  )
+const Page = async ({ params }: { params: Params }) => {
+  const client = await getClient()
 
-  if (!foundCategory) {
-    notFound()
+  const categorySlug = `/${params.catchAllSlug.join('/')}/`
+
+  const { data } = await client.query<
+    CatalogCategoryPageGetDataQuery,
+    CatalogCategoryPageGetDataQueryVariables
+  >({
+    query: GET_DATA,
+    variables: {
+      path: categorySlug,
+    },
+  })
+
+  const node = data.site.route.node
+
+  if (node?.__typename !== 'Category') {
+    return notFound()
   }
 
-  return <CatalogProductsListPage defaultCategoryEntityId={foundCategory.id} />
+  return <CatalogProductsListPage category={node} />
 }
 
 const GET_DATA = gql`
+  ${fragments.category}
   query CatalogCategoryPageGetDataQuery($path: String!) {
     site {
       route(path: $path) {
         node {
           id
           ... on Category {
+            entityId
             name
             description
             seo {
@@ -90,6 +103,7 @@ const GET_DATA = gql`
               pageTitle
               metaKeywords
             }
+            ...CatalogProductsListCategoryFragment
           }
         }
       }
