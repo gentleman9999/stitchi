@@ -946,7 +946,7 @@
       "meta_description": "",
       "image_url": "",
       "search_keywords": "",
-      "custom_url": null
+      "custom_url": { "url": "/adams-headwear/", "is_customized": false }
     },
     {
       "id": 3056,
@@ -956,7 +956,7 @@
       "meta_description": "",
       "image_url": "",
       "search_keywords": "",
-      "custom_url": null
+      "custom_url": { "url": "/anetik/", "is_customized": false }
     },
     {
       "id": 3062,
@@ -966,7 +966,7 @@
       "meta_description": "",
       "image_url": "",
       "search_keywords": "",
-      "custom_url": null
+      "custom_url": { "url": "/burks-bay/", "is_customized": false }
     },
     {
       "id": 3065,
@@ -976,7 +976,7 @@
       "meta_description": "",
       "image_url": "",
       "search_keywords": "",
-      "custom_url": null
+      "custom_url": { "url": "/ei-lo/", "is_customized": false }
     },
     {
       "id": 3066,
@@ -986,7 +986,7 @@
       "meta_description": "",
       "image_url": "",
       "search_keywords": "",
-      "custom_url": null
+      "custom_url": { "url": "/nautica/", "is_customized": false }
     }
   ]
 }

@@ -90,10 +90,7 @@ const ProductShowPage = ({ path }: Props) => {
               return imageGroupTest === imageGroup?.node.value
             })
             .map(image => image.urlZoom),
-        ]
-
-        if (images.length === 0) {
-        }
+        ].filter(notEmpty)
 
         const name = `${product.name} - ${color} - ${size}`
 

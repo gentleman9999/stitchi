@@ -73,11 +73,7 @@ const start = async () => {
   const getCustomFieldsFromBigCommerceCategories =
     makeGetCustomFieldsFromBigCommerceCategories(allBigCommerceCategories)
 
-  const p = ssactivewearProducts.filter(
-    product => product.title === 'Unisex Jersey Short Sleeve Tee',
-  )
-
-  const chunkedProducts = chunkArray(p, 100)
+  const chunkedProducts = chunkArray(ssactivewearProducts, 100)
 
   for (const productChunk of chunkedProducts) {
     const productPromises = productChunk.map(async product => {
@@ -170,6 +166,14 @@ const start = async () => {
             data => data.key === 'display_name',
           )?.id
 
+          const styledIdMetadataId = bigCProduct.metadata?.find(
+            data => data.key === 'style_id',
+          )?.id
+
+          const sourceMetadataId = bigCProduct.metadata?.find(
+            data => data.key === 'source',
+          )?.id
+
           const currentUrl = makeProductUrl({
             brandName: product.brandName,
             name: product.title,
@@ -185,6 +189,20 @@ const start = async () => {
                 namespace: 'main',
                 permission_set: 'write_and_sf_access',
               },
+              {
+                ...(styledIdMetadataId ? { id: styledIdMetadataId } : {}),
+                key: 'style_id',
+                value: product.styleId.toString(),
+                namespace: 'main',
+                permission_set: 'write',
+              },
+              {
+                ...(sourceMetadataId ? { id: sourceMetadataId } : {}),
+                key: 'source',
+                value: 'ss-activewear',
+                namespace: 'main',
+                permission_set: 'write',
+              },
             ],
             id: bigCProduct.id,
             visible: true,
@@ -194,7 +212,8 @@ const start = async () => {
               sku: product.styleName,
             }),
             url: currentUrl !== bigCProduct.url ? currentUrl : undefined,
-            description: product.description,
+            // DON'T update description - we generate these with another script
+            // description: product.description,
             sku: product.styleName, // TODO: Figure out better SKU than Style name which may not always be unique
             categoryIds: categoryIds,
             brandName: product.brandName,
