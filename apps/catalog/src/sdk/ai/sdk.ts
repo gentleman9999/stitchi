@@ -1,38 +1,39 @@
-import { ChatOpenAI } from "@langchain/openai";
-import { StringOutputParser } from "@langchain/core/output_parsers";
-import { PromptTemplate } from "@langchain/core/prompts";
-import { RunnableSequence } from "@langchain/core/runnables";
+import { ChatOpenAI } from '@langchain/openai'
+import { StringOutputParser } from '@langchain/core/output_parsers'
+import { PromptTemplate } from '@langchain/core/prompts'
+import { RunnableSequence } from '@langchain/core/runnables'
 
 interface Product {
-  name: string;
-  brand: string;
-  description: string;
-  categories: string[];
+  name: string
+  brand: string
+  description: string
+  categories: string[]
 }
 
 interface AiSdk {
-  generateProductDescription: (product: Product) => Promise<string>;
+  generateProductDescription: (product: Product) => Promise<string>
 }
 
 interface MakeAiSdkConfig {}
 
 const makeSdk = ({}: MakeAiSdkConfig = {}): AiSdk => {
   return {
-    generateProductDescription: async (product) => {
+    generateProductDescription: async product => {
       const model = new ChatOpenAI({
         maxTokens: 2000,
         temperature: 0,
-        modelName: "gpt-4",
-        openAIApiKey: "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",
+        modelName: 'gpt-4',
+        openAIApiKey: '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',
         timeout: 45_000, // 45 seconds
         maxRetries: 3,
-      });
+        maxConcurrency: 10,
+      })
 
-      const outputParser = new StringOutputParser();
+      const outputParser = new StringOutputParser()
 
       const prompt = new PromptTemplate<Product>({
-        inputVariables: ["name", "brand", "description", "categories"],
-        template: `Task: You will be given details about a product (including a basic description). Your job is to take the provided product information and craft an irresistible rich text product description that highlights the benefits of {name}. First, include at least 3-5 product features and corresponding benefits. Second, include a single paragraph describing the product. Ensure that the benefits are clear and persuasive. Be sure the description is SEO optimized for the product, and also includes general keywords such as "merch", "swag" or "promotional products. Below are 3 example quality outputs for the given sample input. Use HTML only to format your a single HTML description for the product. Do not use H1.".
+        inputVariables: ['name', 'brand', 'description', 'categories'],
+        template: `Task: You will be given details about a product (including a basic description). Your job is to take the provided product information and craft an irresistible rich text product description that highlights the benefits of {name}. First, include at least 3-5 product features and corresponding benefits. Second, include a single paragraph describing the product. Ensure that the benefits are clear and persuasive. Be sure the description is SEO optimized for the product, and also includes general keywords related to "merch", "swag" or "promotional products. Below are 3 example quality outputs for the given sample input. Use HTML only to format a single HTML description for the product. Do not use H1 html tag. Your response should include only HTML".
 
 
         Example Input:
@@ -76,15 +77,15 @@ const makeSdk = ({}: MakeAiSdkConfig = {}): AiSdk => {
         Actual Input:
         {{ name: "{name}", brand: "{brand}", description: "{description}", categories: "{categories}" }}
         `,
-      });
+      })
 
-      const chain = RunnableSequence.from([prompt, model, outputParser]);
+      const chain = RunnableSequence.from([prompt, model, outputParser])
 
-      const result = await chain.invoke(product);
+      const result = await chain.invoke(product)
 
-      return result;
+      return result
     },
-  };
-};
+  }
+}
 
-export default makeSdk;
+export default makeSdk

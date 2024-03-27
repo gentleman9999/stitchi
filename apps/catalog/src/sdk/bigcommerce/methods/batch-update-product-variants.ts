@@ -98,7 +98,14 @@ const makeBatchUpdateProductVariantsFn =
       },
     )
 
-    await Promise.all(variantPrimaryImageUpdatePromises)
+    const variantPrimaryImageUpdatePromiseChunks = chunkArray(
+      variantPrimaryImageUpdatePromises,
+      50,
+    )
+
+    for (const chunk of variantPrimaryImageUpdatePromiseChunks) {
+      await Promise.all(chunk)
+    }
 
     // Ensure we remove duplicates, since multiple variants can have the same image
     const secondaryImages = Array.from(

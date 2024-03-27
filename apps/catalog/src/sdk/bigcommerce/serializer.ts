@@ -88,6 +88,12 @@ export const makeProductMetadata = (
         key: 'display_name',
         value: metadata.value,
       }
+    case 'original_description':
+      return {
+        ...shared,
+        key: 'original_description',
+        value: metadata.value,
+      }
     default:
       assertNever(metadata.key)
   }

@@ -70,6 +70,11 @@ interface ProductMetadataHasAiDescription extends ProductMetadataBase {
   value: string
 }
 
+interface ProductMetadataOriginalDescription extends ProductMetadataBase {
+  key: 'original_description'
+  value: string
+}
+
 interface ProductMetadataDisplayName extends ProductMetadataBase {
   key: 'display_name'
   value: string
@@ -80,6 +85,7 @@ export type BigCommerceProductMetadata =
   | ProductMetadataProductDistributorProductId
   | ProductMetadataHasAiDescription
   | ProductMetadataDisplayName
+  | ProductMetadataOriginalDescription
 
 interface ProductVariantMetadataBase extends MetadataBase {
   resourceType: 'variant'
