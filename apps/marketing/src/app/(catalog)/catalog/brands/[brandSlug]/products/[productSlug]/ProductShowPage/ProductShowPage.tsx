@@ -185,7 +185,6 @@ const ProductShowPage = ({ path }: Props) => {
             <div key={product.id} className="flex-1 min-w-[200px] flex">
               <CatalogProductLegacy
                 productId={product.id}
-                priority={false}
                 href={routes.internal.catalog.product.href({
                   productSlug: product.path?.replaceAll('/', '') || '',
                 })}
