@@ -92,7 +92,7 @@ const ProductShowPage = ({ path }: Props) => {
             .map(image => image.urlZoom),
         ].filter(notEmpty)
 
-        const name = `${product.name} - ${color} - ${size}`
+        const name = `${product.humanizedName} - ${color} - ${size}`
 
         return {
           useAppDir: true, // Required when using Next.js app directory
