@@ -4414,7 +4414,7 @@
     {
       "id": 1084,
       "parent_id": 1067,
-      "name": "Columbia Après-Ski CA",
+      "name": "Après-Ski",
       "description": "",
       "views": 0,
       "sort_order": 2,
@@ -4425,10 +4425,7 @@
       "layout_file": "",
       "is_visible": true,
       "default_product_sort": "use_store_settings",
-      "custom_url": {
-        "url": "/columbia-apres-ski-ca/",
-        "is_customized": false
-      },
+      "custom_url": { "url": "/collections/apres-ski", "is_customized": true },
       "image_url": ""
     },
     {
