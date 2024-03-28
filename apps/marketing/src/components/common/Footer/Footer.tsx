@@ -38,7 +38,7 @@ const Footer = () => (
                 label="Solutions"
                 items={[
                   {
-                    label: 'Why Stitchi?',
+                    label: 'Features',
                     href: routes.internal.solutions.href(),
                   },
 
@@ -63,7 +63,7 @@ const Footer = () => (
                 label="Resources"
                 items={[
                   {
-                    label: 'Catalog',
+                    label: 'Product catalog',
                     href: routes.internal.catalog.href(),
                   },
                   {

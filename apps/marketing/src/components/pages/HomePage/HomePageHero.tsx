@@ -30,7 +30,7 @@ const HomePageHero = () => {
             <div className="flex-auto flex flex-col items-center gap-16">
               <h1 className="text-center font-semibold font-headingDisplay text-6xl sm:text-7xl md:text-8xl xl:text-9xl">
                 <div className="inline font-headingDisplay ">
-                  Simpler, faster merch.
+                  Simpler, faster merch
                   <span className="text-primary">.</span>
                 </div>
               </h1>

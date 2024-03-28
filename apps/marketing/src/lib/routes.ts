@@ -50,7 +50,7 @@ const routes = {
         }),
     },
     signup: {
-      href: ({ redirectTo = '/catalog' }: { redirectTo?: string } = {}) =>
+      href: ({ redirectTo = '/products' }: { redirectTo?: string } = {}) =>
         buildRoute('/api/auth/signup', {
           redirectUrl: redirectTo,
         }),
@@ -70,10 +70,10 @@ const routes = {
     },
     catalog: {
       href: ({ params }: { params?: QueryParams } = {}) =>
-        buildRoute(`/catalog`, params),
+        buildRoute(`/products`, params),
 
-      discover: {
-        href: () => buildRoute('/catalog/discover'),
+      all: {
+        href: () => buildRoute('/products/all'),
       },
 
       brand: {
@@ -112,14 +112,14 @@ const routes = {
       },
       wizard: {
         welcome: {
-          href: () => buildRoute('/catalog/wizard/welcome'),
+          href: () => buildRoute('/products/wizard/welcome'),
         },
         categories: {
-          href: () => buildRoute('/catalog/wizard/categories'),
+          href: () => buildRoute('/products/wizard/categories'),
 
           styles: {
             href: ({ categoryId }: { categoryId: string }) =>
-              buildRoute(`/catalog/wizard/categories/${categoryId}/styles`),
+              buildRoute(`/products/wizard/categories/${categoryId}/styles`),
           },
         },
       },
@@ -335,7 +335,7 @@ const routes = {
         },
 
         create: {
-          href: () => buildRoute('/catalog'),
+          href: () => buildRoute('/products'),
         },
 
         show: {

@@ -35,7 +35,6 @@ const CmsLandingPageCatalogSectionProducts = ({ categoryId }: Props) => {
             <CatalogProductLegacy
               key={product.id}
               productId={product.id}
-              priority={false}
               href={routes.internal.catalog.product.href({
                 productSlug: product.path,
               })}

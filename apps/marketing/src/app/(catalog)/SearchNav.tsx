@@ -18,7 +18,7 @@ import CatalogProductLegacy, {
   CatalogProductLegacyFragments,
 } from '@components/common/CatalogProductLegacy'
 import { AnimatePresence, motion } from 'framer-motion'
-import CatalogProductSkeleton from './catalog/old/(grid)/CatalogPorductGrid/CatalogProductSkeleton'
+import CatalogProductSkeleton from './products/(grid)/CatalogProductSkeleton'
 import { useRouter } from 'next/navigation'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
@@ -90,7 +90,7 @@ const SearchNav = ({}: Props) => {
     router.push(
       routes.internal.catalog.href({
         params: {
-          search: data.searchTerm,
+          searchTerm: data.searchTerm,
         },
       }),
     )

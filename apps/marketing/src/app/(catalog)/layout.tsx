@@ -36,29 +36,31 @@ const Layout = async ({ children }: Props) => {
           </div>
 
           <div className="hidden flex-auto lg:flex items-center justify-center space-x-6">
-            {/* <Link
-              href={routes.internal.catalog.discover.href()}
-              className={cx(s.link, {
-                'underline underline-offset-8': pathname?.startsWith(
-                  routes.internal.catalog.discover.href(),
-                ),
-              })}
-            >
-              Discover
-            </Link> */}
-            <CategoryNavItem
-              categorySlug={routes.internal.catalog.discover.href()}
-            >
+            <CategoryNavItem path={routes.internal.catalog.href()}>
               Discover
             </CategoryNavItem>
-            <CategoryNavItem categorySlug="catalog">
+            <CategoryNavItem path={routes.internal.catalog.all.href()}>
               All products
             </CategoryNavItem>
-            <CategoryNavItem categorySlug="apparel">Apparel</CategoryNavItem>
-            <CategoryNavItem categorySlug="accessories">
+            <CategoryNavItem
+              path={routes.internal.catalog.category.show.href({
+                categorySlug: 'apparel',
+              })}
+            >
+              Apparel
+            </CategoryNavItem>
+            <CategoryNavItem
+              path={routes.internal.catalog.category.show.href({
+                categorySlug: 'accessories',
+              })}
+            >
               Accessories
             </CategoryNavItem>
-            <CategoryNavItem categorySlug="home-goods">
+            <CategoryNavItem
+              path={routes.internal.catalog.category.show.href({
+                categorySlug: 'home-goods',
+              })}
+            >
               Home & Living
             </CategoryNavItem>
           </div>
