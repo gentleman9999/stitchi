@@ -166,10 +166,11 @@ const FilterDialogInner = ({
                                         a => a.attribute === filter.name,
                                       )
 
-                                    if (notEmpty(existingAttributeIdx)) {
+                                    if (existingAttributeIdx >= 0) {
                                       const existingValues =
                                         productAttributes[existingAttributeIdx]
                                           .values
+
                                       const newValue = attribute.value || ''
 
                                       if (existingValues.includes(newValue)) {
@@ -209,7 +210,7 @@ const FilterDialogInner = ({
                                   previewFilters.productAttributes?.some(
                                     a =>
                                       a.attribute === filter.name &&
-                                      a.values.includes(attribute.value),
+                                      a?.values?.includes(attribute.value),
                                   ),
                                 )}
                               />
