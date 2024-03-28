@@ -29,14 +29,14 @@ const NavbarMobile = ({ anchorEl, navigation }: Props) => {
           <div className={s.item}>
             <Link href={routes.internal.solutions.href()}>
               <HeadlessPopover.Button className={s.link}>
-                Why Stitchi?
+                Features
               </HeadlessPopover.Button>
             </Link>
           </div>
           <div className={s.item}>
             <Link href={routes.internal.catalog.href()}>
               <HeadlessPopover.Button className={s.link}>
-                Catalog
+                Product catalog
               </HeadlessPopover.Button>
             </Link>
           </div>

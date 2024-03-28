@@ -7,10 +7,10 @@ import cx from 'classnames'
 import Link from 'next/link'
 
 const CategoryNavItem = ({
-  categorySlug,
+  path,
   children,
 }: {
-  categorySlug: string
+  path: string
   children: React.ReactNode
 }) => {
   const pathname = usePathname()
@@ -20,18 +20,16 @@ const CategoryNavItem = ({
   const [isActive, setIsActive] = React.useState(false)
 
   React.useEffect(() => {
-    setIsActive(Boolean(pathname?.startsWith(categorySlug)))
-  }, [pathname, categorySlug])
-
-  const parentCategorySlug = catchAllSlug?.[0]
+    if (pathname?.startsWith(routes.internal.catalog.all.href())) {
+      setIsActive(path === routes.internal.catalog.all.href())
+    } else {
+      setIsActive(Boolean(pathname?.startsWith(path)))
+    }
+  }, [pathname, path])
 
   const href = routes.internal.catalog.category.show.href({
-    categorySlug,
+    categorySlug: path,
   })
-
-  // const isActive =
-  //   parentCategorySlug === categorySlug ||
-  //   (categorySlug === 'catalog' && !parentCategorySlug)
 
   return (
     <Link

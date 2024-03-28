@@ -20,11 +20,11 @@ const NavbarDesktop = ({ anchorEl }: Props) => {
   return (
     <nav className="space-x-10">
       <Link href={routes.internal.solutions.href()} passHref className={s.link}>
-        Why Stitchi?
+        Features
       </Link>
 
       <Link href={routes.internal.catalog.href()} passHref className={s.link}>
-        Catalog
+        Product catalog
       </Link>
 
       <RuiPopover.Group className="space-x-10 inline-flex">

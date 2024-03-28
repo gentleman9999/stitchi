@@ -143,7 +143,7 @@ const middleware: NextMiddleware = async (request, event) => {
 
     if (brandSlugMatcher.test(pathname)) {
       // /product-brand -> /catalog/brands/product-brand
-      destination = `/catalog/brands/${brandSlug}`
+      destination = `/products/brands/${brandSlug}`
     }
 
     // const productSlugMatcher = new RegExp(`^/${brandSlug}-([a-zA-Z0-9_-]+)$`)
@@ -151,7 +151,7 @@ const middleware: NextMiddleware = async (request, event) => {
     if (pathname.startsWith(`/${brandSlug}-`)) {
       // /product-brand-product-slug -> /catalog/brands/product-brand/products/product-slug
 
-      destination = `/catalog/brands/${brandSlug}/products${pathname}`
+      destination = `/products/brands/${brandSlug}/products${pathname}`
     }
 
     // ***
@@ -186,7 +186,7 @@ const middleware: NextMiddleware = async (request, event) => {
 
     if (categorySlugMatcher.test(pathname)) {
       // /product-category -> /catalog/categories/product-category
-      destination = `/catalog/categories/${slug}`
+      destination = `/products/categories/${slug}`
     }
 
     // ***
@@ -202,7 +202,6 @@ const middleware: NextMiddleware = async (request, event) => {
     // ***
 
     if (destination) {
-      console.log('destination', destination)
       return NextResponse.rewrite(new URL(destination, request.url))
     }
   }

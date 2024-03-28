@@ -12,7 +12,7 @@ const ImageFullScreenBase = dynamic(
 
 interface Props {
   product: CatalogProductVariantPreviewProductFragment
-  activeVariantId: string
+  activeVariantId: string | null
 }
 
 const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {

@@ -29,17 +29,16 @@ const HomePageHero = () => {
           <div className="flex max-w-5xl">
             <div className="flex-auto flex flex-col items-center gap-16">
               <h1 className="text-center font-semibold font-headingDisplay text-6xl sm:text-7xl md:text-8xl xl:text-9xl">
-                <div className="inline font-headingDisplay uppercase">
-                  Merch simplified
+                <div className="inline font-headingDisplay ">
+                  Simpler, faster merch
                   <span className="text-primary">.</span>
                 </div>
               </h1>
               <ul className="flex-col gap-2 grid grid-cols-1 sm:grid-cols-2 gap-x-6">
-                <ListItem label="Design to Delivery" />
+                <ListItem label="Professional Design" />
                 <ListItem label="Dedicated Support" />
                 <ListItem label="Premium Products" />
-                <ListItem label="API Integrations" />
-                <ListItem label="Global Fulfillment" />
+                <ListItem label="Hands-Free Fulfillment" />
                 <ListItem label="Warehousing" />
               </ul>
 

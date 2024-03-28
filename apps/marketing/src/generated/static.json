@@ -34,6 +34,21 @@
   ],
   "landingPages": [
     {
+      "id": "e8N_vJgSQ6ewHWgUly_N6A",
+      "slug": "best-employee-gifts-under-10",
+      "category": "insight"
+    },
+    {
+      "id": "XSgcT1JbRZ6ffxU9ygXBpQ",
+      "slug": "best-merch-store-for-youtubers-and-streamers",
+      "category": "insight"
+    },
+    {
+      "id": "XQiE1LSUTAa3-GeOUIIHYQ",
+      "slug": "youtuber-merch-sites",
+      "category": "insight"
+    },
+    {
       "id": "X4bmdSw9TaWmFLm3LUL7rA",
       "slug": "wholesale-heavyweight-blank-hoodies",
       "category": "insight"
@@ -1264,7 +1279,10 @@
       "layout_file": "category.html",
       "is_visible": true,
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/sleeveless/", "is_customized": true },
+      "custom_url": {
+        "url": "/apparel/tops/t-shirts/sleeveless-t-shirts/",
+        "is_customized": false
+      },
       "image_url": ""
     },
     {
@@ -1353,8 +1371,8 @@
       "is_visible": true,
       "default_product_sort": "use_store_settings",
       "custom_url": {
-        "url": "/ss-activewear/go-to-fashion/",
-        "is_customized": false
+        "url": "/collections/go-to-fashion/",
+        "is_customized": true
       },
       "image_url": ""
     },
@@ -1393,8 +1411,8 @@
       "is_visible": true,
       "default_product_sort": "use_store_settings",
       "custom_url": {
-        "url": "/ss-activewear/go-to-basics/",
-        "is_customized": false
+        "url": "/collections/go-to-basics/",
+        "is_customized": true
       },
       "image_url": ""
     },
@@ -1429,7 +1447,10 @@
       "layout_file": "",
       "is_visible": true,
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/classic-and-joggers/", "is_customized": true },
+      "custom_url": {
+        "url": "/apparel/bottoms/sweatpants/classic-joggers/",
+        "is_customized": false
+      },
       "image_url": ""
     },
     {
@@ -1500,7 +1521,7 @@
       "layout_file": "",
       "is_visible": true,
       "default_product_sort": "use_store_settings",
-      "custom_url": { "url": "/bottoms/", "is_customized": false },
+      "custom_url": { "url": "/apparel/bottoms/", "is_customized": true },
       "image_url": ""
     },
     {
@@ -4430,7 +4451,7 @@
     {
       "id": 1102,
       "parent_id": 516,
-      "name": "FSG Clubs and Committees",
+      "name": "Clubs and Committees",
       "description": "",
       "views": 0,
       "sort_order": 5,
@@ -4442,7 +4463,7 @@
       "is_visible": true,
       "default_product_sort": "use_store_settings",
       "custom_url": {
-        "url": "/fsg-clubs-and-committees/",
+        "url": "/collections/clubs-and-committees/",
         "is_customized": false
       },
       "image_url": ""
@@ -4450,7 +4471,7 @@
     {
       "id": 1103,
       "parent_id": 516,
-      "name": "FSG Coaches and Staff",
+      "name": "Coaches and Staff",
       "description": "",
       "views": 0,
       "sort_order": 4,
@@ -4462,7 +4483,7 @@
       "is_visible": true,
       "default_product_sort": "use_store_settings",
       "custom_url": {
-        "url": "/fsg-coaches-and-staff/",
+        "url": "/collections/coaches-and-staff/",
         "is_customized": false
       },
       "image_url": ""
@@ -4522,8 +4543,8 @@
       "is_visible": true,
       "default_product_sort": "use_store_settings",
       "custom_url": {
-        "url": "/collections-hidden/to-the-mountains/",
-        "is_customized": false
+        "url": "/collections/to-the-mountains/",
+        "is_customized": true
       },
       "image_url": ""
     },
