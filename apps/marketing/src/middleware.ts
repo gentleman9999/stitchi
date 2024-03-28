@@ -146,8 +146,6 @@ const middleware: NextMiddleware = async (request, event) => {
       destination = `/products/brands/${brandSlug}`
     }
 
-    // const productSlugMatcher = new RegExp(`^/${brandSlug}-([a-zA-Z0-9_-]+)$`)
-
     if (pathname.startsWith(`/${brandSlug}-`)) {
       // /product-brand-product-slug -> /catalog/brands/product-brand/products/product-slug
 
