@@ -33,21 +33,23 @@ export const generateMetadata = async ({
   const product = data?.site.route.node
 
   if (product?.__typename === 'Product') {
-    // SEO Title shouldn't be the same as H1
-    const title = `${product.humanizedName}${
-      product.sku ? ` - ${product.sku}` : ''
-    }`
+    const { brand, humanizedName, path: productPath } = product
 
-    const { brand, name, path: productPath } = product
+    // SEO Title shouldn't be the same as H1
+    const title = `${
+      product.brand ? `${product.brand.name} - ` : ''
+    }${humanizedName}${product.sku ? ` - ${product.sku}` : ''}`
 
     let description
 
     if (product.seo.metaDescription) {
       description = product.seo.metaDescription
     } else {
-      ;`Customize ${name}${
+      description = `Customize ${humanizedName}${
         brand?.name ? ` by ${brand.name}` : ''
-      }. We offer free design, fast delivery, $1 fulfillment. Shop sustainable, high quality custom merch today.`
+      } (${
+        product.sku
+      }). We offer free design, fast delivery, $1 fulfillment. Shop sustainable, high quality custom merch today.`
     }
 
     let images: NonNullable<Metadata['openGraph']>['images'] = []
