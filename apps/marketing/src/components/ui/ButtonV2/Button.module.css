@@ -68,7 +68,7 @@
 }
 
 .naked {
-  @apply text-gray-800 bg-transparent font-medium border-none shadow-none outline-none py-0 px-0;
+  @apply text-[inherit] bg-transparent font-medium border-none shadow-none outline-none py-0 px-0;
 }
 
 .naked:hover,

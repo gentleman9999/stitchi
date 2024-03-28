@@ -35,7 +35,7 @@ export const ExtendsProduct = extendType({
 
         if (typeof manipulatedValue === 'string') {
           // BigCommerce product names are stored with SKU at end to make them unique
-          const skuRegex = /\s*\[[a-zA-Z0-9]+\]$/
+          const skuRegex = /\s*\[[[a-zA-Z0-9 ]+\]$/
           manipulatedValue = manipulatedValue.replace(skuRegex, '')
 
           const brandInName = catalogData.brands

@@ -14,6 +14,9 @@ import { ProductShowPageHeroProductFragment } from '@generated/types'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import ProductTitle from './ProductTitle'
 import ProductFormPreview from './ProductFormPreview'
+import Alert from '@components/ui/Alert'
+import Button from '@components/ui/ButtonV2/Button'
+import { useIntercom } from 'react-use-intercom'
 
 interface Props {
   product: ProductShowPageHeroProductFragment
@@ -23,6 +26,7 @@ const ProductShowPageHero = ({ product }: Props) => {
   const logger = useLogger()
   const router = useRouter()
   const { user } = useUser()
+  const intercom = useIntercom()
 
   const { colors, sizes } = useProductOptions({ productId: product.id })
   const [handleCustomize] = useCustomizeProduct()
@@ -188,33 +192,52 @@ const ProductShowPageHero = ({ product }: Props) => {
                 ratingCount={reviewSummary?.numberOfReviews}
               />
 
-              {!variants.length ? <div>Out of stock</div> : null}
-
-              {user ? (
-                <>
-                  {product.entityId ? (
-                    <ProductForm
-                      productEntityId={product.entityId?.toString()}
-                      productId={product.id}
-                      onSubmit={handleSubmit}
-                      onActiveColorChange={handleActiveColorChange}
-                      colors={mappedColors}
-                      variants={variants}
-                      requireLogin={!user}
-                    />
-                  ) : null}
-                </>
-              ) : (
-                <ProductFormPreview
-                  minPrice={product.prices?.price.value || 0}
-                  colors={mappedColors}
-                  onSelectColor={color =>
-                    handleActiveColorChange(color.catalogProductColorId)
+              {!variants.length ? (
+                <Alert
+                  title="Product out of stock"
+                  description={
+                    <>
+                      Please{' '}
+                      <Button
+                        className="underline"
+                        onClick={() => intercom.showNewMessage()}
+                        variant="naked"
+                      >
+                        chat with us
+                      </Button>{' '}
+                      if you need assitance.
+                    </>
                   }
-                  sizeRange={getSizeRange(
-                    normalizeAndSortSizes(sizes.map(size => size.label)),
-                  )}
                 />
+              ) : (
+                <>
+                  {user ? (
+                    <>
+                      {product.entityId ? (
+                        <ProductForm
+                          productEntityId={product.entityId?.toString()}
+                          productId={product.id}
+                          onSubmit={handleSubmit}
+                          onActiveColorChange={handleActiveColorChange}
+                          colors={mappedColors}
+                          variants={variants}
+                          requireLogin={!user}
+                        />
+                      ) : null}
+                    </>
+                  ) : (
+                    <ProductFormPreview
+                      minPrice={product.prices?.price.value || 0}
+                      colors={mappedColors}
+                      onSelectColor={color =>
+                        handleActiveColorChange(color.catalogProductColorId)
+                      }
+                      sizeRange={getSizeRange(
+                        normalizeAndSortSizes(sizes.map(size => size.label)),
+                      )}
+                    />
+                  )}
+                </>
               )}
             </div>
           </div>

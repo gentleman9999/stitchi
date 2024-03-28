@@ -181,17 +181,19 @@ const start = async () => {
   const table = new Table({
     head: ['Action', 'Count'],
     rows: [
-      { action: 'Products updated', count: updatedProducts.length.toString() },
-      { action: 'Products skipped', count: skippedProducts.length.toString() },
-      { action: 'Products failed', count: failedProducts.length.toString() },
+      ['Products updated', updatedProducts.length.toString()],
+      ['Products skipped', skippedProducts.length.toString()],
+      ['Products failed', failedProducts.length.toString()],
     ],
   })
 
-  logger.info('\n***********************************************')
-  logger.info('                 SYNC SUMMARY')
-  logger.info('***********************************************\n')
-  logger.info(table.toString())
-  logger.info('\n***********************************************\n')
+  logger.info(`
+    ***********************************************\n
+                   SYNC SUMMARY\n
+    ***********************************************\n
+    ${table.toString()}\n
+    ***********************************************\n
+  `)
 }
 
 start()
