@@ -3,21 +3,29 @@ import process from 'process'
 import makeSdks from '../sdk'
 import chunkArray from '../utils/chunk-array'
 import { notEmpty } from '../utils/typescript'
-import { BigCommerceBrand } from '../sdk/bigcommerce/types'
-import { UpdateProductFn } from '../sdk/bigcommerce/methods/update-product'
+import { BigCommerceBrand, BigCommerceProduct } from '../sdk/bigcommerce/types'
 import { BatchCreateProductMetadataInput } from '../sdk/bigcommerce/repository/product-metadata/batch-create'
 import { BatchUpdateProductMetadataInput } from '../sdk/bigcommerce/repository/product-metadata/batch-update'
+import makeLogger from '../telemetry/logger'
+import env from '../environment'
+import Table from 'cli-table'
 
 const sdks = makeSdks()
+const logger = makeLogger()
 
 /**
  * This script is used to update default product descriptions in BigCommerce with GPT-optimized descriptions.
  * If we've previously created a GPT-optimized description, we should not overwrite it.
  */
 const start = async () => {
-  console.info(chalk.green('Starting product GPT description sync... \n'))
+  logger.info(chalk.green('Starting product GPT description sync... \n'))
 
   const bigCommerceCategories = await sdks.bigCommerce.listCategories()
+  const ssactivewearProducts = await sdks.ssactivewear.listProducts()
+
+  const updatedProducts: BigCommerceProduct[] = []
+  const skippedProducts: BigCommerceProduct[] = []
+  const failedProducts: BigCommerceProduct[] = []
 
   const brands: BigCommerceBrand[] = []
 
@@ -33,7 +41,7 @@ const start = async () => {
 
     brands.push(...fetchedBrands)
     hasNextPage = pagination.hasNextPage
-    page += 1
+    page++
   }
 
   page = 1
@@ -43,18 +51,33 @@ const start = async () => {
     const { products, hasNextPage: next } = await sdks.bigCommerce.listProducts(
       {
         page,
-        limit: 50,
+        limit: 250,
       },
       { includeMetadata: true, includeCustomFields: true },
     )
 
     hasNextPage = next
+    page++
 
-    const chunkedProducts = chunkArray(products, 5)
+    const chunkedProducts = chunkArray(products, 50)
 
     for (const productChunk of chunkedProducts) {
       const productPromises = productChunk.map(async product => {
         let updatedDescription
+
+        const updatedAtField = product.metadata?.find(
+          field => field.key === 'updated_description_at',
+        )
+
+        if (updatedAtField && env.SKIP_UPDATING_EXISTING_AI_DESCRIPTIONS) {
+          logger.info(
+            `Product ${product.name} already has an updated description. Skipping.`,
+          )
+
+          skippedProducts.push(product)
+
+          return
+        }
 
         const categories = product.categoryIds
           .map(categoryId => {
@@ -68,19 +91,19 @@ const start = async () => {
 
         const brand = brands.find(brand => brand.id === product.brandId)
 
-        let ssActivewearProduct
-
-        if (product.metadataMap?.styleId) {
-          ssActivewearProduct = await sdks.ssactivewear.getProduct({
-            productId: product.metadataMap?.styleId?.toString(),
-          })
-        }
+        const ssActivewearProduct = ssactivewearProducts.find(
+          ssProduct =>
+            ssProduct.styleId.toString() === product.metadataMap?.styleId,
+        )
 
         if (!ssActivewearProduct) {
-          console.error(
-            `Could not find SS Activewear product for ${product.name} - ${product.sku}`,
-          )
           // If we don't have the base description, we should avoid using AI to update
+          logger
+            .child({ product })
+            .error(`Could not find SS Activewear product for ${product.name}`)
+
+          skippedProducts.push(product)
+
           return
         }
 
@@ -92,17 +115,17 @@ const start = async () => {
             description: ssActivewearProduct.description || '',
           })
         } catch (error) {
-          console.error(
-            `Error generating description for ${product.name}`,
-            error,
-          )
+          logger
+            .child({
+              error,
+              product,
+            })
+            .error(`Error generating description for ${product.name}`)
+
+          failedProducts.push(product)
 
           return
         }
-
-        const updatedAtField = product.metadata?.find(
-          field => field.key === 'updated_description_at',
-        )
 
         const originalDescriptionField = product.metadata?.find(
           field => field.key === 'original_description',
@@ -132,6 +155,8 @@ const start = async () => {
 
         let updatedProduct
 
+        logger.info(`Updating description for ${product.name}...`)
+
         try {
           updatedProduct = await sdks.bigCommerce.updateProduct({
             metadata,
@@ -139,22 +164,39 @@ const start = async () => {
             description: updatedDescription,
           })
 
-          return updatedProduct
+          updatedProducts.push(updatedProduct)
         } catch (error) {
-          console.error(`Error updating description for ${product.name}`, error)
+          logger
+            .child({ error, product })
+            .error(`Error updating description for ${product.name}`)
 
-          return
+          failedProducts.push(product)
         }
       })
 
-      await Promise.all(productPromises)
+      await Promise.allSettled(productPromises)
     }
   }
+
+  const table = new Table({
+    head: ['Action', 'Count'],
+    rows: [
+      { action: 'Products updated', count: updatedProducts.length.toString() },
+      { action: 'Products skipped', count: skippedProducts.length.toString() },
+      { action: 'Products failed', count: failedProducts.length.toString() },
+    ],
+  })
+
+  logger.info('\n***********************************************')
+  logger.info('                 SYNC SUMMARY')
+  logger.info('***********************************************\n')
+  logger.info(table.toString())
+  logger.info('\n***********************************************\n')
 }
 
 start()
   .catch(err => {
-    console.error(err)
+    logger.error(err)
     process.exit(1)
   })
   .then(() => {
