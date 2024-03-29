@@ -24,11 +24,7 @@ import FilterDialog from './FilterDialog'
 import CatalogFiltersSidebar from './CatalogFiltersSidebar'
 import CatalogFiltersSidebarSkeleton from './CatalogFiltersSidebarSkeleton'
 import CatalogFiltersTopbar from './CatalogFiltersTopbar'
-
-export const DEFAULT_FILTERS = {
-  hideOutOfStock: true,
-  searchSubCategories: true,
-}
+import { DEFAULT_FILTERS } from '../constants'
 
 export interface QueryStates {
   after: string

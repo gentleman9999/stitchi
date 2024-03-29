@@ -11,6 +11,11 @@
       "CustomerNotLoggedInError",
       "ValidationError"
     ],
+    "AddProductReviewError": [
+      "NotAuthorizedToAddProductReviewError",
+      "NumberOfReviewsPerCustomerExceededError",
+      "ValidationError"
+    ],
     "ArticleModelContentLinksField": [
       "ArticleRecord",
       "CustomComponentRecord",
@@ -92,6 +97,8 @@
       "CustomerPasswordError",
       "CustomerRegistrationError",
       "EmailAlreadyInUseError",
+      "NotAuthorizedToAddProductReviewError",
+      "NumberOfReviewsPerCustomerExceededError",
       "ValidationError"
     ],
     "File": [

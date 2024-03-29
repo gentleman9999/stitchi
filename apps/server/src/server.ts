@@ -31,7 +31,6 @@ const makeGatewaySchema = async () => {
 
   return stitchSchemas({
     subschemas: [
-      { schema: makeExecutableSchema({ typeDefs: await makeDatoCmsSchema() }) },
       {
         schema: mainGraphSchema,
         batch: true,
@@ -50,6 +49,7 @@ const makeGatewaySchema = async () => {
           },
         },
       },
+      { schema: makeExecutableSchema({ typeDefs: await makeDatoCmsSchema() }) },
       {
         schema: makeExecutableSchema({
           typeDefs: bigCommerceSchema,

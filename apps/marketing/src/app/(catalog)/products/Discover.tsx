@@ -14,7 +14,8 @@ import CatalogProductLegacy, {
 import { notEmpty } from '@lib/utils/typescript'
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 import routes from '@lib/routes'
-import { Suspense } from 'react'
+import CategorySelect from './CategorySelect'
+import { DEFAULT_FILTERS } from './constants'
 
 const Discover = () => {
   const { data } = useSuspenseQuery<
@@ -39,6 +40,7 @@ const Discover = () => {
 
   return (
     <ClosetPageContainer className="max-w-8xl">
+      <CategorySelect filters={{ ...DEFAULT_FILTERS }} activeCategory={null} />
       <Section gutter="md">
         <h1 className="text-4xl font-bold">What would you like to create?</h1>
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-8 mt-8">
@@ -57,13 +59,12 @@ const Discover = () => {
         <h2 className="text-2xl font-medium mb-2">Browse by Category</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {featuredCategories?.map(category => (
-            <Suspense key={category.id}>
-              <FeaturedCategory
-                categoryEntityId={category.bigCommerceCategoryId}
-                categoryName={category.name}
-                categoryImageUrl={category.image?.url}
-              />
-            </Suspense>
+            <FeaturedCategory
+              key={category.id}
+              categoryEntityId={category.bigCommerceCategoryId}
+              categoryName={category.name}
+              categoryImageUrl={category.image?.url}
+            />
           ))}
         </div>
       </Section>
@@ -106,13 +107,12 @@ const Discover = () => {
         <h2 className="text-2xl font-medium mb-2">Featured Collections</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {featuredCollections?.map(collection => (
-            <Suspense key={collection.id}>
-              <FeaturedCategory
-                categoryEntityId={collection.bigCommerceCategoryId}
-                categoryName={collection.name}
-                categoryImageUrl={collection.image?.url}
-              />
-            </Suspense>
+            <FeaturedCategory
+              key={collection.id}
+              categoryEntityId={collection.bigCommerceCategoryId}
+              categoryName={collection.name}
+              categoryImageUrl={collection.image?.url}
+            />
           ))}
         </div>
       </Section>

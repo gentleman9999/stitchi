@@ -1,7 +1,6 @@
 import React, { useTransition } from 'react'
 import CheckboxFilter from './CheckboxFilter'
 import CheckboxGroup from './CheckboxGroup'
-import CategoryTree from './CategoryTree'
 import Button from '@components/ui/ButtonV2/Button'
 import pluralize from 'pluralize'
 import MoneyFilter from '../MoneyFilter'
@@ -9,8 +8,8 @@ import { SearchProductsFiltersInput } from '@generated/globalTypes'
 import { notEmpty } from '@lib/utils/typescript'
 import DialogSectionPadding from './DialogSectionPadding'
 import Divider from './Divider'
-import { DEFAULT_FILTERS } from '../CatalogProductsListPage'
 import useSearchProductFilters from '../useSearchProductFilters'
+import { DEFAULT_FILTERS } from '../../constants'
 
 interface Props {
   rootCategoryEntityId: number
