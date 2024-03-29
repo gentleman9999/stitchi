@@ -26,7 +26,7 @@ const Layout = ({ children, share, params }: Props) => {
       hidden: true,
     },
     {
-      href: routes.internal.catalog.href(),
+      href: routes.internal.catalog.all.href(),
       label: 'Products',
     },
   ]

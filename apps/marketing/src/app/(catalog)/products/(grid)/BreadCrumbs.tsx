@@ -21,7 +21,7 @@ const BreadCrumbs = () => {
   const pathname = usePathname()!
 
   const breadcrumbs = [
-    { label: 'All products', href: routes.internal.catalog.all.href() },
+    { label: 'Products', href: routes.internal.catalog.all.href() },
   ]
 
   const parts = pathname.split('/')
