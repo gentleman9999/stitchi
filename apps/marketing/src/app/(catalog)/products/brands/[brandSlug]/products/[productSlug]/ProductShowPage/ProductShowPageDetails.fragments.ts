@@ -10,6 +10,15 @@ export const fragments = {
         name
         path
       }
+      customFields(first: 50) {
+        edges {
+          node {
+            entityId
+            name
+            value
+          }
+        }
+      }
       categories(first: 10) {
         edges {
           node {

@@ -1,13 +1,16 @@
-import { ProductShowPageDetailsProductFragment } from '@generated/ProductShowPageDetailsProductFragment'
 import routes from '@lib/routes'
 import Link from 'next/link'
 import React from 'react'
 import cx from 'classnames'
 import styles from './ProductShowPageDetails.module.css'
-import Button from '@components/ui/Button'
 import { ChevronDown, ChevronUp } from 'icons'
 import { useFragment } from '@apollo/experimental-nextjs-app-support/ssr'
 import { fragments } from './ProductShowPageDetails.fragments'
+import Button from '@components/ui/ButtonV2/Button'
+import { ProductShowPageDetailsProductFragment } from '@generated/types'
+import { notEmpty } from '@lib/utils/typescript'
+
+const tableDataClasses = 'flex justify-end pl-8 py-2'
 
 const MIN_HEIGHT = 300
 
@@ -53,6 +56,21 @@ const ProductShowPageDetails = ({ productId }: Props) => {
 
   const alwaysExpanded = (ref?.scrollHeight || 0) < MIN_HEIGHT
 
+  const customFields: Map<string, string[]> = new Map()
+
+  product.customFields?.edges
+    ?.map(edge => edge?.node)
+    .filter(notEmpty)
+    .forEach(field => {
+      if (field.name && field.value) {
+        if (!customFields.has(field.name)) {
+          customFields.set(field.name, [])
+        }
+
+        customFields.get(field.name)?.push(field.value)
+      }
+    })
+
   return (
     <div>
       <h2 className="font-headingDisplay uppercase text-xl md:text-2xl">
@@ -83,7 +101,7 @@ const ProductShowPageDetails = ({ productId }: Props) => {
               <tbody>
                 <tr className="border-y">
                   <td>Brand</td>
-                  <td className="flex justify-end py-2">
+                  <td className={tableDataClasses}>
                     {product.brand?.path ? (
                       <Link
                         href={routes.internal.catalog.brand.show.href({
@@ -100,7 +118,7 @@ const ProductShowPageDetails = ({ productId }: Props) => {
                 </tr>
                 <tr className="border-y">
                   <td>Categories</td>
-                  <td className="flex justify-end pl-8 py-2">
+                  <td className={tableDataClasses}>
                     <div className="flex flex-wrap justify-end">
                       {product.categories?.edges
                         ?.map(edge => edge?.node)
@@ -133,6 +151,13 @@ const ProductShowPageDetails = ({ productId }: Props) => {
                     </div>
                   </td>
                 </tr>
+
+                {Array.from(customFields.entries()).map(([name, values]) => (
+                  <tr key={name} className="border-y">
+                    <td className="whitespace-nowrap">{name}</td>
+                    <td className={tableDataClasses}>{values.join(', ')}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
