@@ -17,7 +17,7 @@ $ yarn sync:categories
 Now we'll ensure we have the latest products. This won't delete any products that already exist, because we need these for record keeping purposes.
 
 ```
-$ yarn sync:products
+$ MODE=all yarn sync:products
 ```
 
 Finally, we make sure the latest product variants are synced for each product. Similarly, we won't delete any variants for record keeping purposes.
@@ -28,10 +28,10 @@ $ yarn sync:product-variants
 
 ### Bonus
 
-Re-run product sync to update a product's visibility once inventory (product variants) have been synced.
+Re-run product sync to update a product's visibility once inventory (product variants) have been synced. This will also set the parent product with the min offer price amongst variants. This ensures we can filter products by price.
 
 ```
-$ yarn sync:products
+$ MODE=update yarn sync:products
 ```
 
 Update each product to have optimized descriptions.

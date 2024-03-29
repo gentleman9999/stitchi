@@ -10,7 +10,10 @@ import fetchAndMapCategories, {
 import fetchAndMapStyleMetadata from './fetch-and-map-style-metadata'
 import makeLogger from '../../telemetry/logger'
 import chunkArray from '../../utils/chunk-array'
-import { BigCommerceProductImage } from '../../sdk/bigcommerce/types'
+import {
+  BigCommerceProductImage,
+  BigCommerceProductVariant,
+} from '../../sdk/bigcommerce/types'
 import makeFilenameFromImageUrl from '../../sdk/bigcommerce/utils/make-filename-from-image-url'
 import makeGetCustomFieldsFromBigCommerceCategories from './make-get-custom-fields-from-big-commerce-categories'
 
@@ -51,6 +54,15 @@ const start = async () => {
   logger.info(
     'CONFIG:\n - Create New Products: true \n - Update Existing Products: true \n',
   )
+
+  const mode = process.env.MODE
+
+  if (!mode || !['create', 'update', 'all'].includes(mode)) {
+    logger.error(
+      'Invalid mode. Please provide a valid mode: create, update, all',
+    )
+    process.exit(1)
+  }
 
   let productsToCreateCount = 0
   let createdProductsCount = 0
@@ -117,6 +129,11 @@ const start = async () => {
       )
 
       if (bigCProduct) {
+        if (!['update', 'all'].includes(mode)) {
+          logger.info(`Skipping update for product ${product.title}. \n`)
+          return
+        }
+
         productsToUpdateCount++
 
         try {
@@ -139,6 +156,36 @@ const start = async () => {
             hasNextPage = pagination.hasNextPage
             page++
           }
+
+          page = 1
+          hasNextPage = true
+
+          const productVariants: BigCommerceProductVariant[] = []
+
+          while (hasNextPage) {
+            const { productVariants: response, hasNextPage: next } =
+              await sdks.bigCommerce.listProductVariants({
+                productId: bigCProduct.id,
+                limit: 250,
+                page,
+              })
+
+            productVariants.push(...response)
+            hasNextPage = next
+            page++
+          }
+
+          const minVariantPrice = productVariants.reduce((min, variant) => {
+            if (variant.price === null) {
+              return min
+            }
+
+            if (min === 0) {
+              return variant.price
+            }
+
+            return Math.min(min, variant.price)
+          }, 0)
 
           const imageInput = product.styleImage
             ? [
@@ -181,6 +228,9 @@ const start = async () => {
 
           await sdks.bigCommerce.updateProduct({
             customFields,
+            // BigCommerce requires the parent product to have a price if we want to filter by price.
+            // It cannot use the variant's prices to filter.
+            price: minVariantPrice,
             metadata: [
               {
                 ...(displayNameMetadataId ? { id: displayNameMetadataId } : {}),
@@ -234,6 +284,11 @@ const start = async () => {
           erroredUpdatedProductsCount++
         }
       } else {
+        if (!['create', 'all'].includes(mode)) {
+          logger.info(`Skipping create for product ${product.title}. \n`)
+          return
+        }
+
         productsToCreateCount++
         try {
           await sdks.bigCommerce.createProduct({
