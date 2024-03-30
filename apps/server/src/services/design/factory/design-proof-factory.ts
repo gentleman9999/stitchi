@@ -6,7 +6,7 @@ import { DesignRequestDesignProofRecord } from '../db/design-request-design-proo
 
 interface DesignProofVariantImage extends DesignProofVariantImageRecord {}
 
-interface DesignProofVariant extends DesignProofVariantRecord {
+export interface DesignProofVariant extends DesignProofVariantRecord {
   images: DesignProofVariantImage[]
 }
 

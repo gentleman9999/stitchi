@@ -6,6 +6,8 @@ import {
   designRequestFactoryToGrahpql,
 } from '../../../serializers/design'
 import { DesignRequestStatus } from '../../../../services/design/db/design-request-table'
+import { CatalogFactoryProductVariant } from '../../../../services/catalog/factory'
+import { DesignProofVariant } from '../../../../services/design/factory'
 
 export * from './design-request-assign'
 export * from './design-request-reject'
@@ -627,6 +629,12 @@ export const DesignRequestApproveInput = inputObjectType({
   },
 })
 
+type ApprovedProofVariant = DesignProofVariant & {
+  catalogProductVariantId: string
+  catalogProductSizeId: string
+  sizeName: string
+}
+
 export const designRequestApprove = mutationField('designRequestApprove', {
   type: 'DesignRequestApprovePayload',
   args: {
@@ -657,6 +665,62 @@ export const designRequestApprove = mutationField('designRequestApprove', {
       throw new Error('Failed to get design proof')
     }
 
+    // Fetch possible product variants beyond "color" (which is persisted with design proof variant) such as size
+    let catalogProductVariants: CatalogFactoryProductVariant[]
+
+    try {
+      catalogProductVariants = await ctx.catalog.listCatalogProductVariants({
+        productEntityId: approvedProof.catalogProductId,
+      })
+    } catch (error) {
+      ctx.logger.error(error)
+      throw new Error('Failed to list catalog product variants')
+    }
+
+    /**
+     * Find the combination of available sizes along with chosen colors
+     *
+     * A single tee could have “Phoenix Club” on the pocket and a phoenix with its wings spread on the back.
+     * The design would have two designLocations and a designVariant for each of blue, red, white x small, medium, large. Meaning in the end we’d have:
+     *
+     * 1 design record (Product)
+     * 2 design location records (Product Modifiers)
+     * 9 design variant records (Product Variants) (i.e. [small, blue], [medium, blue], [large, blue], [small, red], [medium, red], [large, red], [small, white], [medium, white], [large, white])
+     */
+    const approvedProofVariants: ApprovedProofVariant[] =
+      approvedProof.variants.reduce((acc, proofVariant) => {
+        const colorMatchedCatalogProductVariants =
+          catalogProductVariants.filter(
+            catalogVariant =>
+              catalogVariant.option_values
+                ?.find(value => value.option_display_name === 'Color')
+                ?.id.toString() === proofVariant.catalogProductColorId,
+          )
+
+        const approvedProofVariantsBySize: ApprovedProofVariant[] =
+          colorMatchedCatalogProductVariants.reduce((acc, catalogVariant) => {
+            const sizeOption = catalogVariant.option_values?.find(
+              value => value.option_display_name === 'Size',
+            )
+
+            if (!notEmpty(sizeOption)) {
+              return acc
+            }
+
+            return [
+              ...acc,
+              {
+                ...proofVariant,
+                catalogProductVariantId: catalogVariant.id.toString(),
+                catalogProductSizeId: sizeOption.option_id.toString(),
+                sizeName: sizeOption.label || '',
+              },
+            ]
+          }, [] as ApprovedProofVariant[])
+
+        return [...acc, ...approvedProofVariantsBySize]
+      }, [] as ApprovedProofVariant[])
+
     let newDesign
 
     try {
@@ -675,10 +739,13 @@ export const designRequestApprove = mutationField('designRequestApprove', {
             colorCount: location.colorCount || 0,
             placement: location.placement,
           })),
-          variants: approvedProof.variants.map(variant => ({
+          variants: approvedProofVariants.map(variant => ({
             catalogProductColorId: variant.catalogProductColorId,
+            catalogProductVariantId: variant.catalogProductVariantId,
             colorHexCode: variant.hexCode,
             colorName: variant.name,
+            catalogProductSizeId: variant.catalogProductSizeId,
+            sizeName: variant.sizeName,
             images: variant.images.map(image => ({
               fileId: image.imageFileId,
               order: image.order,
