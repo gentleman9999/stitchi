@@ -712,7 +712,7 @@ export const designRequestApprove = mutationField('designRequestApprove', {
               {
                 ...proofVariant,
                 catalogProductVariantId: catalogVariant.id.toString(),
-                catalogProductSizeId: sizeOption.option_id.toString(),
+                catalogProductSizeId: sizeOption.id.toString(),
                 sizeName: sizeOption.label || '',
               },
             ]
