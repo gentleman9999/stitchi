@@ -268,7 +268,8 @@ const start = async () => {
             categoryIds: categoryIds,
             brandName: product.brandName,
             inventoryTracking: 'variant',
-            availability: 'available',
+            // If no variants, set availability to 'disabled' [product with 1 variant is parent]
+            availability: productVariants.length > 1 ? 'available' : 'disabled',
             images: imagesToCreate,
           })
 
