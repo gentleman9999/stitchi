@@ -120,7 +120,7 @@ const getCatalogProductSlugs = async () => {
       products.edges.forEach(edge => {
         if (edge && edge.node) {
           const node = edge.node
-          if (node.path && node.brand && node.brand.path) {
+          if (node.path) {
             const slashRegexp = /\//g
             const serializedProductPath = node.path.replace(slashRegexp, '')
 
