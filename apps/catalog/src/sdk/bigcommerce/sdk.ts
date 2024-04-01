@@ -9,6 +9,10 @@ import makeCreateProductOptionFn, {
   CreateProductOptionFn,
 } from './methods/create-product-option'
 import {
+  DeleteProductCustomFieldFn,
+  makeDeleteProductCustomFieldFn,
+} from './methods/delete-custom-field'
+import {
   DeleteProductsFn,
   makeDeleteProductsFn,
 } from './methods/delete-product'
@@ -70,6 +74,7 @@ export interface BigCommerceSdk {
 
   deleteProducts: DeleteProductsFn
   deleteProductVariant: DeleteProductVariantFn
+  deleteProductCustomField: DeleteProductCustomFieldFn
 }
 
 interface MakeSdkConfig {
@@ -96,6 +101,7 @@ interface MakeSdkConfig {
 
   makeDeleteProducts: typeof makeDeleteProductsFn
   makeDeleteProductVariant: typeof makeDeleteProductVariantFn
+  makeDeleteProductCustomField: typeof makeDeleteProductCustomFieldFn
 }
 
 const makeSdk = (
@@ -118,6 +124,7 @@ const makeSdk = (
     makeListBrands,
     makeDeleteProducts,
     makeDeleteProductVariant,
+    makeDeleteProductCustomField,
   }: MakeSdkConfig = {
     makeCreateCategory: makeCreateCategoryFn,
     makeListCategories: makeListCategoriesFn,
@@ -137,6 +144,7 @@ const makeSdk = (
     makeListBrands: makeListBrandsFn,
     makeDeleteProducts: makeDeleteProductsFn,
     makeDeleteProductVariant: makeDeleteProductVariantFn,
+    makeDeleteProductCustomField: makeDeleteProductCustomFieldFn,
   },
 ): BigCommerceSdk => {
   return {
@@ -163,6 +171,7 @@ const makeSdk = (
 
     deleteProducts: makeDeleteProducts(),
     deleteProductVariant: makeDeleteProductVariant(),
+    deleteProductCustomField: makeDeleteProductCustomField(),
   }
 }
 

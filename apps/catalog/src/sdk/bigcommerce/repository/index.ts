@@ -1,4 +1,7 @@
 import makeClient, { BigCommerceClient } from '../client'
+import makeDeleteProductCustomFieldFn, {
+  DeleteProductCustomFieldFn,
+} from './product-custom-field/delete'
 import makeCreateProductImageFn, {
   CreateProductImageFn,
 } from './product-image/create'
@@ -49,6 +52,8 @@ export interface BigCommerceRepository {
 
   batchUpdateProductVariants: BatchUpdateProductVariantsFn
   deleteProductVariant: DeleteProductVariantFn
+
+  deleteProductCustomField: DeleteProductCustomFieldFn
 }
 
 interface Config {
@@ -78,6 +83,8 @@ const makeBigCommerceRepository = (
 
     batchUpdateProductVariants: makeBatchUpdateProductVariantsFn({ client }),
     deleteProductVariant: makeDeleteProductVariantFn({ client }),
+
+    deleteProductCustomField: makeDeleteProductCustomFieldFn({ client }),
   }
 }
 
