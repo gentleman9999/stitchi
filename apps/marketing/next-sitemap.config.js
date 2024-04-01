@@ -48,10 +48,6 @@ const productQuery = /* GraphQL */ `
           node {
             id
             path
-            brand {
-              id
-              path
-            }
           }
         }
         pageInfo {
@@ -126,10 +122,9 @@ const getCatalogProductSlugs = async () => {
           const node = edge.node
           if (node.path && node.brand && node.brand.path) {
             const slashRegexp = /\//g
-            const serializedBrandPath = node.brand.path.replace(slashRegexp, '')
             const serializedProductPath = node.path.replace(slashRegexp, '')
 
-            paths.push(`/${serializedBrandPath}-${serializedProductPath}`)
+            paths.push(`/${serializedProductPath}`)
           }
         }
       })
