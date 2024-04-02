@@ -69,6 +69,10 @@ const brandQuery = /* GraphQL */ `
             path
           }
         }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
       }
     }
   }
@@ -133,7 +137,13 @@ const getCatalogProductSlugs = async () => {
     }
   }
 
-  hasNextPage = false
+  return paths
+}
+
+const getCatalogBrandSlugs = async () => {
+  const paths = []
+  let after = null
+  hasNextPage = true
 
   while (hasNextPage !== false) {
     const res = await fetchGraphQlData(
@@ -142,6 +152,7 @@ const getCatalogProductSlugs = async () => {
         query: brandQuery,
       }),
     )
+
     if (
       res &&
       res.data &&
@@ -201,6 +212,7 @@ module.exports = {
   },
   additionalPaths: async () => {
     const productSlugs = await getCatalogProductSlugs()
+    const brandSlugs = await getCatalogBrandSlugs()
     const productCategorySlugs = await getBigCommerceCategorySlugs()
     const productDesignCategorySlugs = await getDesignCategorySlugs()
 
@@ -212,6 +224,12 @@ module.exports = {
         lastmod: new Date().toISOString(),
       },
       ...productSlugs.map(slug => ({
+        loc: slug,
+        changefreq: 'daily',
+        priority: 0.7,
+        lastmod: new Date().toISOString(),
+      })),
+      ...brandSlugs.map(slug => ({
         loc: slug,
         changefreq: 'daily',
         priority: 0.7,
