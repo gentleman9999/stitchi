@@ -41,9 +41,12 @@ const CatalogProductLegacy = ({ productId, href, onClick }: Props) => {
       <Link
         href={href}
         onClick={onClick}
-        className="group flex-1 flex flex-col cursor-pointer rounded-sm overflow-hidden transition-all bg-paper"
+        className="group flex-1 flex flex-col cursor-pointer rounded-sm  transition-all bg-paper"
       >
-        <div className="relative w-full aspect-[4/5] flex items-center justify-center rounded-sm group-hover:rounded-none overflow-hidden">
+        <div
+          className="relative w-full aspect-[4/5] flex items-center justify-center overflow-hidden"
+          style={{}}
+        >
           {product?.defaultImage?.url ? (
             <img
               key={product.defaultImage.url}
