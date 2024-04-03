@@ -124,7 +124,7 @@ const GET_PAGE_DATA = gql`
   ${CatalogProductLegacyFragments.product}
   query CatalogDiscoverPageGetDataQuery {
     site {
-      featuredProducts(first: 5) {
+      featuredProducts(first: 5, hideOutOfStock: true) {
         edges {
           node {
             id
@@ -133,7 +133,7 @@ const GET_PAGE_DATA = gql`
           }
         }
       }
-      newestProducts(first: 5) {
+      newestProducts(first: 5, hideOutOfStock: true) {
         edges {
           node {
             id
@@ -142,7 +142,7 @@ const GET_PAGE_DATA = gql`
           }
         }
       }
-      bestSellingProducts(first: 5) {
+      bestSellingProducts(first: 5, hideOutOfStock: true) {
         edges {
           node {
             id
