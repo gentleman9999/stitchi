@@ -1194,7 +1194,7 @@
     {
       "id": 26,
       "parent_id": 25,
-      "name": "Short Sleeve T-Shirt",
+      "name": "Short Sleeve T-Shirts",
       "description": "",
       "views": 0,
       "sort_order": 1,
@@ -1254,7 +1254,7 @@
       "name": "Accessories",
       "description": "",
       "views": 0,
-      "sort_order": 3,
+      "sort_order": 2,
       "page_title": "",
       "search_keywords": "",
       "meta_keywords": [],
@@ -1271,7 +1271,7 @@
       "name": "Safety and Personal Protection",
       "description": "",
       "views": 0,
-      "sort_order": 6,
+      "sort_order": 5,
       "page_title": "",
       "search_keywords": "",
       "meta_keywords": [],
@@ -2870,7 +2870,7 @@
       "name": "Home Goods",
       "description": "",
       "views": 0,
-      "sort_order": 4,
+      "sort_order": 3,
       "page_title": "",
       "search_keywords": "",
       "meta_keywords": [],
@@ -2887,7 +2887,7 @@
       "name": "Collections",
       "description": "",
       "views": 0,
-      "sort_order": 5,
+      "sort_order": 4,
       "page_title": "",
       "search_keywords": "",
       "meta_keywords": [],
@@ -3670,6 +3670,326 @@
       "is_visible": true,
       "default_product_sort": "use_store_settings",
       "custom_url": { "url": "/sustainable-styles/", "is_customized": false },
+      "image_url": ""
+    },
+    {
+      "id": 1208,
+      "parent_id": 0,
+      "name": "2024 Summer Style Guide",
+      "description": "",
+      "views": 0,
+      "sort_order": 6,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/2024-summer-style-guide/",
+        "is_customized": false
+      },
+      "image_url": ""
+    },
+    {
+      "id": 1269,
+      "parent_id": 1208,
+      "name": "In the Air or On the Road",
+      "description": "",
+      "views": 0,
+      "sort_order": 1,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/2024-summer-style-guide/in-the-air-or-on-the-road/",
+        "is_customized": false
+      },
+      "image_url": ""
+    },
+    {
+      "id": 1270,
+      "parent_id": 1208,
+      "name": "Amusement",
+      "description": "",
+      "views": 0,
+      "sort_order": 15,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/2024-summer-style-guide/amusement/",
+        "is_customized": false
+      },
+      "image_url": ""
+    },
+    {
+      "id": 1271,
+      "parent_id": 1208,
+      "name": "At the Resort",
+      "description": "",
+      "views": 0,
+      "sort_order": 3,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/2024-summer-style-guide/at-the-resort/",
+        "is_customized": false
+      },
+      "image_url": ""
+    },
+    {
+      "id": 1272,
+      "parent_id": 1208,
+      "name": "By the Water",
+      "description": "",
+      "views": 0,
+      "sort_order": 14,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/2024-summer-style-guide/by-the-water/",
+        "is_customized": false
+      },
+      "image_url": ""
+    },
+    {
+      "id": 1273,
+      "parent_id": 1208,
+      "name": "Camps",
+      "description": "",
+      "views": 0,
+      "sort_order": 13,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/2024-summer-style-guide/camps/",
+        "is_customized": false
+      },
+      "image_url": ""
+    },
+    {
+      "id": 1274,
+      "parent_id": 1208,
+      "name": "Chasing the Sun",
+      "description": "",
+      "views": 0,
+      "sort_order": 12,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/2024-summer-style-guide/chasing-the-sun/",
+        "is_customized": false
+      },
+      "image_url": ""
+    },
+    {
+      "id": 1275,
+      "parent_id": 1208,
+      "name": "Fitness & Wellness",
+      "description": "",
+      "views": 0,
+      "sort_order": 9,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/2024-summer-style-guide/fitness-wellness/",
+        "is_customized": false
+      },
+      "image_url": ""
+    },
+    {
+      "id": 1276,
+      "parent_id": 1208,
+      "name": "Gatherings",
+      "description": "",
+      "views": 0,
+      "sort_order": 11,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/2024-summer-style-guide/gatherings/",
+        "is_customized": false
+      },
+      "image_url": ""
+    },
+    {
+      "id": 1277,
+      "parent_id": 1208,
+      "name": "Live Shows",
+      "description": "",
+      "views": 0,
+      "sort_order": 8,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/2024-summer-style-guide/live-shows/",
+        "is_customized": false
+      },
+      "image_url": ""
+    },
+    {
+      "id": 1278,
+      "parent_id": 1208,
+      "name": "Local Happenings",
+      "description": "",
+      "views": 0,
+      "sort_order": 7,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/2024-summer-style-guide/local-happenings/",
+        "is_customized": false
+      },
+      "image_url": ""
+    },
+    {
+      "id": 1279,
+      "parent_id": 1208,
+      "name": "Markets",
+      "description": "",
+      "views": 0,
+      "sort_order": 10,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/2024-summer-style-guide/markets/",
+        "is_customized": false
+      },
+      "image_url": ""
+    },
+    {
+      "id": 1280,
+      "parent_id": 1208,
+      "name": "Outdoor Leisure",
+      "description": "",
+      "views": 0,
+      "sort_order": 6,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/2024-summer-style-guide/outdoor-leisure/",
+        "is_customized": false
+      },
+      "image_url": ""
+    },
+    {
+      "id": 1281,
+      "parent_id": 1208,
+      "name": "Summer Entertainment",
+      "description": "",
+      "views": 0,
+      "sort_order": 5,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/2024-summer-style-guide/summer-entertainment/",
+        "is_customized": false
+      },
+      "image_url": ""
+    },
+    {
+      "id": 1282,
+      "parent_id": 1208,
+      "name": "Summer Sports",
+      "description": "",
+      "views": 0,
+      "sort_order": 4,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/2024-summer-style-guide/summer-sports/",
+        "is_customized": false
+      },
+      "image_url": ""
+    },
+    {
+      "id": 1283,
+      "parent_id": 1208,
+      "name": "The Year of Travel",
+      "description": "",
+      "views": 0,
+      "sort_order": 2,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/2024-summer-style-guide/the-year-of-travel/",
+        "is_customized": false
+      },
       "image_url": ""
     }
   ]
