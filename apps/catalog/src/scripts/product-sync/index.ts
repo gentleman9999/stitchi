@@ -26,10 +26,30 @@ const logger = makeLogger()
 const getBigCommerceCategoryIds = (
   product: SsActivewearProduct,
   categoriesMap: SsCategoryMap,
-) =>
-  product.categoryIds
+) => {
+  const bigCCategoryIds = product.categoryIds
     .map(categoryId => categoriesMap.get(categoryId.toString()))
     .filter((id): id is number => Number.isInteger(id))
+
+  const SHORT_SLEEVE_ID = 57
+  const LONG_SLEEVE_ID = 56
+  const T_SHIRT_ID = 21
+
+  if (product.categoryIds.includes(T_SHIRT_ID)) {
+    if (
+      product.categoryIds.includes(SHORT_SLEEVE_ID) &&
+      env.BIGC_CATEGORY_SHORT_SLEEVE_T_SHIRTS
+    ) {
+      bigCCategoryIds.push(Number(env.BIGC_CATEGORY_SHORT_SLEEVE_T_SHIRTS))
+    }
+
+    if (product.categoryIds.includes(LONG_SLEEVE_ID)) {
+      bigCCategoryIds.push(Number(env.BIGC_CATEGORY_LONG_SLEEVE_T_SHIRTS))
+    }
+  }
+
+  return bigCCategoryIds
+}
 
 /**
  * This script will create or update products in BigCommerce for each product in SSActivewear.

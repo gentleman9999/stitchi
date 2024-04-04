@@ -15,6 +15,7 @@ const CUSTOM_FIELD_PARENT_IDS = [
   509, // Thickness
   510, // Tag
   513, // Logo (visibility)
+  517, // Gender
 ]
 
 const makeGetCustomFieldsFromBigCommerceCategories = (
