@@ -18,6 +18,8 @@ import {
   AppLayoutGetDataQuery,
   AppLayoutGetDataQueryVariables,
 } from '@generated/types'
+import LinkInline from '@components/ui/LinkInline'
+import ButtonV2 from '@components/ui/ButtonV2'
 
 interface Props {}
 
@@ -29,10 +31,6 @@ const AppTopbarUser = ({}: Props) => {
 
   const { humanizedRole, user, organization } = data.viewer || {}
 
-  if (!user || !organization) {
-    return null
-  }
-
   return (
     <Dropdown.Root>
       <Dropdown.Trigger className="outline-none flex gap-2 text-left items-center hover:bg-gray-50 px-1 py-0.5 rounded-sm">
@@ -41,18 +39,28 @@ const AppTopbarUser = ({}: Props) => {
             width="w-6"
             height="h-6"
             user={{
-              name: user.name || 'Unknown',
-              picture: user.picture || null,
+              name: user?.name || null,
+              picture: user?.picture || null,
             }}
           />
         </div>
-        <div className="text-xs sr-only sm:not-sr-only">
-          <span className="font-semibold whitespace-nowrap truncate">
-            {user.name}
-          </span>
-          <br />
-          <span className="text-gray-500 truncate">{organization.name}</span>
-        </div>
+        {user || organization ? (
+          <div className="text-xs sr-only sm:not-sr-only">
+            {user ? (
+              <span className="font-semibold whitespace-nowrap truncate">
+                {user.name}
+              </span>
+            ) : null}
+
+            {user && organization && <br />}
+
+            {organization ? (
+              <span className="text-gray-500 truncate">
+                {organization.name}
+              </span>
+            ) : null}
+          </div>
+        ) : null}
 
         <div className="ml-auto">
           <ChevronUpDownIcon className="h-4" />
@@ -64,55 +72,112 @@ const AppTopbarUser = ({}: Props) => {
           side="bottom"
           sideOffset={6}
           align="end"
-          className="overflow-hidden rounded-sm bg-paper shadow-lg flex flex-col border z-10 w-full min-w-[200px]"
+          className="overflow-hidden rounded-sm bg-paper shadow-lg flex flex-col border z-50 w-full min-w-[200px]"
         >
-          <div className="bg-gray-50 p-4 w-full text-sm font-regular flex items-center gap-2 text-gray-800">
-            <div className="text-xs">
-              {humanizedRole ? (
-                <>
-                  <Badge
-                    className="text-gray-500"
-                    label={humanizedRole}
-                    size="small"
-                  />
-                  <br />
-                  <br />
-                </>
-              ) : null}
-              <span className="font-semibold">{user.name}</span>
-              <br />
-              <span className="text-gray-500">{user.email?.toLowerCase()}</span>
+          {user ? (
+            <div className="bg-gray-50 p-4 w-full text-sm font-regular flex items-center gap-2 text-gray-800">
+              <div className="text-xs">
+                {humanizedRole ? (
+                  <>
+                    <Badge
+                      className="text-gray-500"
+                      label={humanizedRole}
+                      size="small"
+                    />
+                    <br />
+                    <br />
+                  </>
+                ) : null}
+
+                <span className="font-semibold">{user.name}</span>
+                <br />
+                <span className="text-gray-500">
+                  {user.email?.toLowerCase()}
+                </span>
+              </div>
             </div>
-          </div>
+          ) : null}
+
           <div className="p-2">
-            <DropdownItem
-              label="Go to closet"
-              href={routes.internal.closet.href()}
-              icon={<Squares2X2Icon className="w-4 h-4" />}
-            />
-
-            <DropdownItem
-              href={routes.internal.account.memberships.href()}
-              label="Switch workspace"
-              icon={<ArrowPathRoundedSquareIcon className="w-4 h-4" />}
-            />
-
-            <DropdownItem
-              href={routes.internal.closet.settings.general.href()}
-              label="Settings"
-              icon={<Cog6ToothIcon className="w-4 h-4" />}
-            />
-
-            <DropdownItem
-              LinkComponent="a"
-              href={routes.internal.logout.href()}
-              label="Sign Out"
-              icon={<ArrowRightOnRectangleIcon className="w-4 h-4" />}
-            />
+            {user ? (
+              <AuthenticatedUserDropdownContent />
+            ) : (
+              <UnauthenticatedUserDropdownContent />
+            )}
           </div>
         </Dropdown.Content>
       </Dropdown.Portal>
     </Dropdown.Root>
+  )
+}
+
+const AuthenticatedUserDropdownContent = () => {
+  return (
+    <div>
+      <DropdownItem
+        label="Closet"
+        href={routes.internal.closet.href()}
+        icon={<Squares2X2Icon className="w-4 h-4" />}
+      />
+
+      <DropdownItem
+        href={routes.internal.account.memberships.href()}
+        label="Workspaces"
+        icon={<ArrowPathRoundedSquareIcon className="w-4 h-4" />}
+      />
+
+      <DropdownItem
+        href={routes.internal.closet.settings.general.href()}
+        label="Settings"
+        icon={<Cog6ToothIcon className="w-4 h-4" />}
+      />
+
+      <DropdownItem
+        LinkComponent="a"
+        href={routes.internal.logout.href()}
+        label="Sign out"
+        icon={<ArrowRightOnRectangleIcon className="w-4 h-4" />}
+      />
+    </div>
+  )
+}
+
+const UnauthenticatedUserDropdownContent = () => {
+  return (
+    <div>
+      <div className="flex flex-col gap-2">
+        <ButtonV2 href={routes.internal.login.href()} Component={Link}>
+          Login
+        </ButtonV2>
+
+        <span className="text-xs">
+          New customer?{' '}
+          <LinkInline href={routes.internal.signup.href()}>
+            Start here
+          </LinkInline>
+        </span>
+      </div>
+
+      <hr className="my-3" />
+
+      <DropdownItem
+        label="Closet"
+        href={routes.internal.closet.href()}
+        icon={<Squares2X2Icon className="w-4 h-4" />}
+      />
+
+      <DropdownItem
+        href={routes.internal.account.memberships.href()}
+        label="Workspaces"
+        icon={<ArrowPathRoundedSquareIcon className="w-4 h-4" />}
+      />
+
+      <DropdownItem
+        href={routes.internal.closet.settings.general.href()}
+        label="Settings"
+        icon={<Cog6ToothIcon className="w-4 h-4" />}
+      />
+    </div>
   )
 }
 

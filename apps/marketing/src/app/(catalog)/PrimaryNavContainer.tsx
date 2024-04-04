@@ -15,7 +15,7 @@ const PrimaryNavContainer = ({ children }: Props) => {
   return (
     <div
       className={cx(
-        'fixed h-topbar-height bg-white top-0 left-0 right-0 z-40 transition-all border-b',
+        'fixed h-topbar-height top-0 left-0 right-0 z-40 transition-all border-b',
         {
           'opacity-0 !-z-10': showSearch,
         },
