@@ -18,31 +18,16 @@ export const GET_DATA = gql`
             humanizedName
             path
             sku
-            prices {
-              price {
-                value
-              }
-            }
             plainTextDescription
             defaultImage {
               seoImageUrl: url(width: 1000)
             }
-            reviewSummary {
-              numberOfReviews
-              summationOfRatings
-            }
-            reviews(first: 50, filters: { rating: { minRating: 4 } }) {
+
+            gender: customFields(names: "Gender") {
               edges {
                 node {
-                  author {
-                    name
-                  }
-                  rating
-                  title
-                  text
-                  createdAt {
-                    utc
-                  }
+                  name
+                  value
                 }
               }
             }
@@ -73,6 +58,15 @@ export const GET_DATA = gql`
                   gtin
                   mpn
                   sku
+
+                  prices {
+                    price {
+                      value
+                      currencyCode
+                    }
+                  }
+
+                  isPurchasable
 
                   options {
                     edges {
