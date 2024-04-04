@@ -152,6 +152,7 @@ const ProductShowPage = ({ path }: Props) => {
                   transitTime: {
                     minValue: 1,
                     maxValue: 5,
+                    unitCode: 'DAY',
                   },
                 },
               },
