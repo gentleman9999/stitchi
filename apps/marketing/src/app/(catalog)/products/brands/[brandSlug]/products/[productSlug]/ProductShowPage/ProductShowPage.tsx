@@ -28,7 +28,7 @@ const ProductShowPage = ({ path }: Props) => {
     ProductPageGetDataQueryVariables
   >(GET_DATA, { variables: { path } })
 
-  const product = data?.site.route.node
+  const product = data.site.route.node
 
   if (product?.__typename !== 'Product') {
     console.error('Expected Product, got', product?.__typename, {
@@ -52,7 +52,7 @@ const ProductShowPage = ({ path }: Props) => {
     }),
   )
 
-  const productsJsonLd: (ProductJsonLdProps & { id: string })[] =
+  const productsJsonLd: ProductJsonLdProps[] =
     product.variants.edges
       ?.map(edge => edge?.node)
       .filter(notEmpty)
@@ -70,6 +70,12 @@ const ProductShowPage = ({ path }: Props) => {
           ?.find(option => option?.displayName === 'Size')
           ?.values.edges?.map(edge => edge?.node)
           .filter(notEmpty)?.[0]?.label
+
+        const gender =
+          product.gender.edges?.[0]?.node.value.toLowerCase().trim() ===
+          'womens'
+            ? 'female'
+            : 'unisex'
 
         const imageGroup = variant.metafields.edges?.find(
           metafield => metafield?.node.key === 'image_group',
@@ -96,14 +102,10 @@ const ProductShowPage = ({ path }: Props) => {
 
         return {
           useAppDir: true, // Required when using Next.js app directory
-          url,
           images,
           size: size,
-          adult: false,
-          ageGroup: 'adult', // Change if it's for kids
+          inProductGroupWithID: product.sku,
           productName: name,
-          id: variant.id,
-          itemGroupId: product.sku,
           description: product.plainTextDescription,
           brand: product.brand?.name,
           sku: variant.sku,
@@ -111,44 +113,48 @@ const ProductShowPage = ({ path }: Props) => {
           gtin: variant.gtin || undefined,
           itemCondition: 'https://schema.org/NewCondition',
           color: color,
-          validFrom: new Date().toISOString(),
-
-          seller: {
-            name: 'Stitchi',
+          // validFrom: new Date().toISOString(),
+          audience: {
+            type: 'https://schema.org/PeopleAudience',
+            suggestedGender: gender,
+            suggestedMinAge: 13,
           },
-          aggregateRating:
-            product.reviewSummary.numberOfReviews === 0
-              ? undefined
-              : {
-                  ratingValue: product.reviewSummary.summationOfRatings ?? 0,
-                  reviewCount: product.reviewSummary.numberOfReviews ?? 0,
-                  bestRating: 5,
-                  worstRating: 1,
-                },
-          reviews:
-            product.reviews.edges
-              ?.map(edge => edge?.node)
-              .filter(notEmpty)
-              .map(review => ({
-                datePublished: review.createdAt.utc,
-                reviewBody: review.text,
-                reviewAspect: review.title,
-                reviewRating: {
-                  ratingValue: review.rating,
-                  bestRating: 5,
-                  worstRating: 1,
-                },
-                author: {
-                  name: review.author.name,
-                },
-              })) || [],
+
           offers: [
             {
-              price: currency(product.prices?.price.value, {}),
-              priceCurrency: 'USD',
-              applicableCountry: 'US',
-              hasMerchantReturnPolicy: true,
-              availability: 'https://schema.org/InStock',
+              url,
+              price: currency(variant.prices?.price.value, {}),
+              priceCurrency: variant.prices?.price.currencyCode,
+              hasMerchantReturnPolicy: {
+                applicableCountry: 'US',
+                returnPolicyCategory:
+                  'https://schema.org/MerchantReturnNotPermitted',
+              },
+              itemCondition: 'https://schema.org/NewCondition',
+              availability: variant.isPurchasable
+                ? 'https://schema.org/InStock'
+                : 'https://schema.org/OutOfStock',
+              shippingDetails: {
+                shippingDestination: {
+                  addressCountry: 'US',
+                  addressRegion: 'MI',
+                },
+                shippingRate: {
+                  value: 0,
+                  currency: 'USD',
+                },
+                deliveryTime: {
+                  handlingTime: {
+                    minValue: 1,
+                    maxValue: 10,
+                    unitCode: 'DAY',
+                  },
+                  transitTime: {
+                    minValue: 1,
+                    maxValue: 5,
+                  },
+                },
+              },
             },
           ],
         }
