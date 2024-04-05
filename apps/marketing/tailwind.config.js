@@ -1,3 +1,5 @@
+/** @type {import('tailwindcss').Config} */
+
 const colors = require('tailwindcss/colors')
 
 module.exports = {
@@ -49,6 +51,21 @@ module.exports = {
 
       spacing: {
         'topbar-height': 'var(--topbar-height)',
+      },
+
+      keyframes: {
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
+      },
+      animation: {
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
       },
     },
     variants: {
