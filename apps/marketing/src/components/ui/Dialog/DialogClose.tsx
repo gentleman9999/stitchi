@@ -7,6 +7,7 @@ const DialogClose = (props: DC.DialogCloseProps) => {
   return (
     <DC.Close {...props} asChild>
       <IconButton
+        name="close"
         shift={['left', 'down']}
         className="outline-none absolute top-0 right-0"
       >

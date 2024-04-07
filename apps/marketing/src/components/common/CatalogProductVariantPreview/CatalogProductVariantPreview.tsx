@@ -2,6 +2,7 @@ import { notEmpty } from '@lib/utils/typescript'
 import React from 'react'
 import dynamic from 'next/dynamic'
 import { CatalogProductVariantPreviewProductFragment } from '@generated/types'
+import Image from 'next/image'
 
 const ImageFullScreenBase = dynamic(
   () => import('../ImageFullScreen').then(mod => mod.ImageFullScreenBase),
@@ -62,10 +63,13 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
     <>
       {showFullScreen ? (
         <ImageFullScreenBase open onClose={() => setShowFullScreen(false)}>
-          <img
+          <Image
+            fill
             src={image.url}
             alt={product.name || 'Product image'}
-            className="object-contain w-full h-full"
+            style={{
+              objectFit: 'contain',
+            }}
           />
         </ImageFullScreenBase>
       ) : null}
@@ -73,19 +77,21 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
         className={`relative w-full h-[calc(100vh-var(--topbar-height))] flex flex-col`}
       >
         <div className="relative flex-1 overflow-hidden">
-          <img
-            key={image.url}
+          <Image
+            fill
+            priority
             src={image.url}
             alt={product.name || 'Product image'}
             onClick={() => setShowFullScreen(true)}
-            className="cursor-zoom-in hover:opacity-80 transition-all object-contain w-full h-full"
+            className="cursor-zoom-in hover:opacity-80 transition-all object-contain"
+            sizes="(max-width: 717px) 98vw, 776px"
           />
         </div>
 
         {secondaryImages?.length ? (
-          <div className="flex h-70 overflow-x-scroll">
+          <div className="flex overflow-x-scroll">
             {activeVariant?.defaultImage?.url ? (
-              <img
+              <Image
                 src={activeVariant.defaultImage.url}
                 alt={product.name || 'Secondary image'}
                 width={70}
@@ -107,7 +113,7 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
             {secondaryImages.map(image => {
               if (!image.urlThumbnail) return null
               return (
-                <img
+                <Image
                   key={image.urlThumbnail}
                   src={image.urlThumbnail}
                   alt={product.name || "Product's secondary image"}

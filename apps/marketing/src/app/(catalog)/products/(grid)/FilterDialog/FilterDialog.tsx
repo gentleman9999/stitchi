@@ -44,7 +44,7 @@ const FilterDialog = ({
           <div className="grid grid-cols-3">
             <div>
               <Dialog.Close asChild>
-                <IconButton variant="ghost" disableGutters>
+                <IconButton variant="ghost" disableGutters name="close">
                   <XIcon width={20} height={20} />
                 </IconButton>
               </Dialog.Close>

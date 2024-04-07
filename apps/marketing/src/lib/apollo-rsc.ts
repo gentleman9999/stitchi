@@ -8,6 +8,9 @@ import {
   AccessTokenErrorCode,
   getAccessToken,
 } from '@auth0/nextjs-auth0'
+import { Logger } from 'next-axiom'
+
+const logger = new Logger()
 
 // Allows us to share the apollo client instance (including auth) across client and server
 // To be used by react server components to instantiate the client
@@ -22,10 +25,17 @@ export const getClient = async () => {
       error.code === AccessTokenErrorCode.MISSING_SESSION
     ) {
       // Do nothing
+    } else if (
+      typeof error === 'object' &&
+      error !== null &&
+      'digest' in error &&
+      error.digest === 'DYNAMIC_SERVER_USAGE'
+    ) {
+      // We are building the app and don't have access to cookies. Do nothing.
     } else {
-      console.error(
+      logger.error(
         "Failed to get access token in RSC. This shouldn't happen.",
-        { context: { error } },
+        { error },
       )
     }
   }

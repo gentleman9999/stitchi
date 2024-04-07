@@ -17,7 +17,7 @@ const FilterGroup = ({
   const [expanded, setExpanded] = React.useState(false)
 
   return (
-    <ul className={cx('flex flex-col gap-2 items-start', className)}>
+    <li className="flex flex-col gap-2 items-start">
       {label ? (
         <div className="flex justify-between items-center gap-2 w-full">
           <h3 className="text-lg font-semibold mb-2">{label}</h3>
@@ -31,19 +31,25 @@ const FilterGroup = ({
           ) : null}
         </div>
       ) : null}
-      {Array.isArray(children)
-        ? children
-            .slice(0, expanded ? children.length : Math.min(children.length, 5))
-            .map((child, idx) => {
-              const clonedChild = React.cloneElement(child as any, {
-                className: cx({
-                  'sr-only': !expanded && idx > 4,
-                }),
-              })
 
-              return clonedChild
-            })
-        : children}
+      <ul className={cx('flex flex-col gap-2 items-start', className)}>
+        {Array.isArray(children)
+          ? children
+              .slice(
+                0,
+                expanded ? children.length : Math.min(children.length, 5),
+              )
+              .map((child, idx) => {
+                const clonedChild = React.cloneElement(child as any, {
+                  className: cx({
+                    'sr-only': !expanded && idx > 4,
+                  }),
+                })
+
+                return clonedChild
+              })
+          : children}
+      </ul>
 
       {Array.isArray(children) && children.length > 5 ? (
         <button
@@ -53,7 +59,7 @@ const FilterGroup = ({
           {expanded ? 'Show less' : 'Show more'}
         </button>
       ) : null}
-    </ul>
+    </li>
   )
 }
 

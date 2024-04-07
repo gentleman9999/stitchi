@@ -89,6 +89,7 @@ const ClosetInboxIndexPage = ({
                         size="sm"
                         onClick={onPreviousPage}
                         disabled={!hasPreviousPage}
+                        name="previous page"
                       >
                         <ChevronLeftIcon className="w-5 h-5" />
                       </IconButton>
@@ -96,6 +97,7 @@ const ClosetInboxIndexPage = ({
                         size="sm"
                         onClick={onNextPage}
                         disabled={!hasNextPage}
+                        name="next page"
                       >
                         <ChevronRightIcon className="w-5 h-5" />
                       </IconButton>

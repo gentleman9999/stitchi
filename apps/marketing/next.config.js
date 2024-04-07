@@ -64,7 +64,7 @@ module.exports = withBundleAnalyzer(
         },
         {
           source: '/catalog',
-          destination: '/products',
+          destination: '/products/all',
           permanent: true,
         },
         {
