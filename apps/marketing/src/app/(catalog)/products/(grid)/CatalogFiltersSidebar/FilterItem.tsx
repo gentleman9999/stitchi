@@ -32,9 +32,9 @@ const FilterItem = (props: FilterItemProps) => {
 
   const label = (
     <>
-      {props.label}
+      {props.label}{' '}
       {props.productCount !== undefined ? (
-        <span className="text-xs text-gray-300">({props.productCount})</span>
+        <span className="text-xs text-gray-500">({props.productCount})</span>
       ) : null}
     </>
   )
@@ -46,21 +46,16 @@ const FilterItem = (props: FilterItemProps) => {
           {label}
         </Link>
       ) : (
-        <button
-          onClick={() => {
+        <Checkbox
+          name={props.label}
+          value="checkbox"
+          onChange={() => {
             setNextState(!nextState)
             props.onClick()
           }}
-          className={linkClassName}
-        >
-          <Checkbox
-            name="checkbox"
-            value="checkbox"
-            onChange={() => {}}
-            checked={nextState}
-          />
-          {label}
-        </button>
+          checked={nextState}
+          label={label}
+        />
       )}
 
       {props.children}

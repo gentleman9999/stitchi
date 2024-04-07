@@ -31,7 +31,7 @@ const ShareDialog = (props: Props) => {
       <Dialog.Title>
         <div className="flex justify-between items-center">
           <div>Share with your team</div>
-          <IconButton onClick={props.onClose}>
+          <IconButton onClick={props.onClose} name="close">
             <XIcon width={24} height={24} className="stroke-gray-800" />
           </IconButton>
         </div>

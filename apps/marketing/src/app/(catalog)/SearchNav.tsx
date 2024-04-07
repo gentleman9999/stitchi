@@ -124,13 +124,16 @@ const SearchNav = ({}: Props) => {
                   Search
                 </label>
                 <input
+                  id="search"
                   type="text"
                   placeholder="Search products"
                   className="w-full rounded-sm border-none focus:ring-0 focus:border-none px-4 py-2 "
                   {...form.register('searchTerm')}
                 />
                 <button
+                  name="reset"
                   type="button"
+                  aria-label="reset"
                   onClick={() => {
                     form.setValue('searchTerm', '')
                   }}
@@ -143,6 +146,7 @@ const SearchNav = ({}: Props) => {
 
             <div className="flex-1 justify-end flex">
               <IconButton
+                name="close"
                 onClick={() => {
                   setShowSearch(false)
                 }}
@@ -163,7 +167,7 @@ const SearchNav = ({}: Props) => {
             >
               <Container className="@container w-full">
                 {products.length || loading ? (
-                  <ul className="grid grid-cols-2 @3xl:grid-cols-4 gap-4 @4xl:gap-8">
+                  <ul className="grid grid-cols-2 @xl:grid-cols-4 gap-4 @4xl:gap-8">
                     {loading ? (
                       <>
                         {Array.from(new Array(4)).map((_, i) => (
@@ -182,6 +186,7 @@ const SearchNav = ({}: Props) => {
                             onClick={() => {
                               setShowSearch(false)
                             }}
+                            imageSizes="(max-width: 400px): 190px, (max-width: 525px) 230px, 284px"
                           />
                         ))}
                       </>

@@ -187,18 +187,19 @@ const ProductShowPage = ({ path }: Props) => {
 
       <div>
         <h2 className="font-semibold text-xl md:text-2xl">You may also like</h2>
-        <div className="flex flex-row gap-4 overflow-x-scroll mt-2">
+        <ul className="flex flex-row gap-4 overflow-x-scroll mt-2">
           {relatedProducts.map(product => (
-            <div key={product.id} className="flex-1 min-w-[200px] flex">
-              <CatalogProductLegacy
-                productId={product.id}
-                href={routes.internal.catalog.product.href({
-                  productSlug: product.path?.replaceAll('/', '') || '',
-                })}
-              />
-            </div>
+            <CatalogProductLegacy
+              key={product.id}
+              className="flex-1 min-w-[200px]"
+              productId={product.id}
+              href={routes.internal.catalog.product.href({
+                productSlug: product.path?.replaceAll('/', '') || '',
+              })}
+              imageSizes="(max-width: 400px): 190px, (max-width: 525px) 230px, 284px"
+            />
           ))}
-        </div>
+        </ul>
       </div>
 
       <Divider />

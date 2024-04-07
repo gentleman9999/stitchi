@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 
 export interface IconButtonProps {
+  name: string
   children: React.ReactNode
   variant?: 'primary' | 'ghost'
   onClick?: React.ButtonHTMLAttributes<HTMLButtonElement>['onClick']
@@ -42,6 +43,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         {...rest}
         ref={forwardedRef || ref}
         onClick={handleClick}
+        aria-label={rest.name}
         className={cx(className, 'transition-all rounded-sm', {
           'hover:bg-gray-100 focus:bg-gray-100': variant === 'primary',
           'bg-transparent': variant === 'ghost',

@@ -74,6 +74,8 @@ const CatalogProductsContainer = ({ variables, transitioningQuery }: Props) => {
                     href={routes.internal.catalog.product.href({
                       productSlug: product.path,
                     })}
+                    priority={i < 5}
+                    imageSizes="(max-width: 400px): 190px, (max-width: 525px) 230px, 300px"
                   />
                 ) : null,
               )}

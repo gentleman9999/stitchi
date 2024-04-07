@@ -10,14 +10,26 @@ import { useLogger } from 'next-axiom'
 import { CatalogProductLegacyProductFragment } from '@generated/types'
 import { useFragment } from '@apollo/experimental-nextjs-app-support/ssr'
 import { CatalogProductLegacyFragments } from '.'
+import Image from 'next/image'
+import cn from 'classnames'
 
 export interface Props {
   productId: string
   href: string
   onClick?: () => void
+  priority?: boolean
+  className?: string
+  imageSizes: string
 }
 
-const CatalogProductLegacy = ({ productId, href, onClick }: Props) => {
+const CatalogProductLegacy = ({
+  productId,
+  href,
+  priority,
+  onClick,
+  className,
+  imageSizes,
+}: Props) => {
   const logger = useLogger()
 
   const { data: product } = useFragment<CatalogProductLegacyProductFragment>({
@@ -37,7 +49,7 @@ const CatalogProductLegacy = ({ productId, href, onClick }: Props) => {
   }
 
   return (
-    <li className="flex flex-col w-full">
+    <li className={cn('flex flex-col w-full', className)}>
       <Link
         href={href}
         onClick={onClick}
@@ -48,19 +60,26 @@ const CatalogProductLegacy = ({ productId, href, onClick }: Props) => {
           style={{}}
         >
           {product?.defaultImage?.url ? (
-            <img
+            <Image
+              fill
+              priority={priority}
               key={product.defaultImage.url}
               src={product.defaultImage.url}
-              alt={product.defaultImage.altText || product.humanizedName}
+              alt={
+                product.defaultImage.altText ||
+                product.humanizedName ||
+                'product image'
+              }
+              sizes={imageSizes}
             />
           ) : (
             <span>No image</span>
           )}
         </div>
         <div className="pt-3 flex-1 flex flex-col gap-2">
-          <h4 className="text-sm text-gray-500">
+          <span className="text-sm text-gray-500">
             {product.brand?.name} {product.sku}
-          </h4>
+          </span>
 
           <h3 className="text-base font-normal leading-tight">
             {product.humanizedName}

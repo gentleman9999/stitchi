@@ -9,22 +9,25 @@ const ValuePropositions = (props: Props) => {
   return (
     <ul className="grid grid-cols-1 sm:grid-cols-3 gap-4">
       <ValueProposition
-        title="Free Design"
-        description="Partner with a designer on our team to make your vision come to life."
+        title="Expertly Crafted"
+        description="Partner with a designer on our team for free to make your vision come to life."
         icon={<Sun width={22} height={22} />}
         href={routes.internal.solutions.design.href()}
+        cta="Learn about design"
       />
       <ValueProposition
         title="$1 Fulfillment"
         description="We'll efficiently store, pack, and ship your merchandise providing you cost savings, convenience, and unlimited scalability."
         icon={<PaperPlane width={22} height={22} />}
         href={routes.internal.solutions.distribution.href()}
+        cta="Learn about fulfillment"
       />
       <ValueProposition
-        title="Sell instantly"
-        description="Effortlessly integrate with any eCommerce platform to sell your merchandise."
+        title="Delivered Anywhere"
+        description="Effortlessly sell your merchandise online with e-commerce integrations, team stores, and presales."
         icon={<Bag width={22} height={22} />}
         href={routes.internal.solutions.distribution.href()}
+        cta="Learn about distribution"
       />
     </ul>
   )
@@ -35,11 +38,13 @@ const ValueProposition = ({
   description,
   icon,
   href,
+  cta,
 }: {
   icon: React.ReactNode
   title: string
   description: string
   href: string
+  cta: string
 }) => {
   return (
     <li className="p-6 bg-midnight flex gap-4 rounded-sm text-gray-100 ">
@@ -48,7 +53,7 @@ const ValueProposition = ({
         <h3 className="font-bold ">{title}</h3>
         <p>{description}</p>
         <Link href={href} className="underline">
-          Learn more
+          {cta}
         </Link>
       </div>
     </li>

@@ -19,6 +19,7 @@ import {
   NextSSRInMemoryCache,
   SSRMultipartLink,
 } from '@apollo/experimental-nextjs-app-support/ssr'
+import { IncomingHttpHeaders } from 'http'
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__' as const
 
@@ -73,7 +74,7 @@ const makeSplitLink = ({ rsc = false }) =>
 const makeAuthLink = (
   params: { deviceId?: string; accessToken?: string } = {},
 ) =>
-  setContext(async (_, { headers }) => {
+  setContext(async (_, { headers }: IncomingHttpHeaders) => {
     return {
       headers: Object.assign(headers || {}, {
         'x-device-id': params.deviceId,
@@ -123,11 +124,6 @@ export const createApolloClient = (
           fields: {
             allArticles: firstSkipPagination(['filter']),
             allDesigns: firstSkipPagination(['filter']),
-            // site: {
-            //   merge(existing, incoming, { mergeObjects }) {
-            //     return mergeObjects(existing, incoming)
-            //   },
-            // },
           },
         },
         Membership: {

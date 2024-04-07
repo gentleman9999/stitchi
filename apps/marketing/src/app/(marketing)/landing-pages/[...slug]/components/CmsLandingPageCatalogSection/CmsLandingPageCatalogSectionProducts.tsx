@@ -38,6 +38,7 @@ const CmsLandingPageCatalogSectionProducts = ({ categoryId }: Props) => {
               href={routes.internal.catalog.product.href({
                 productSlug: product.path,
               })}
+              imageSizes="(max-width: 400px): 190px, (max-width: 525px) 230px, 284px"
             />
           ) : null,
         )}
