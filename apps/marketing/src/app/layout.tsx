@@ -24,10 +24,12 @@ import PageloadProgressIndicator from '@components/layout/PageloadProgressIndica
 import { Metadata } from 'next'
 import IntercomProvider from './IntercomProvider'
 import MixpanelProvider from '@components/context/mixpanel-context'
-import { AxiomWebVitals } from 'next-axiom'
+import { AxiomWebVitals, Logger } from 'next-axiom'
 import Script from 'next/script'
 import { GTM_ID } from '@lib/events'
 import { Saira, Saira_Condensed } from 'next/font/google'
+
+const logger = new Logger()
 
 const saira = Saira({
   subsets: ['latin'],
@@ -110,14 +112,17 @@ const RootLayout = async ({ children }: Props) => {
       error.code === AccessTokenErrorCode.MISSING_SESSION
     ) {
       // Do nothing
+    } else if (
+      typeof error === 'object' &&
+      error !== null &&
+      'digest' in error &&
+      error.digest === 'DYNAMIC_SERVER_USAGE'
+    ) {
+      // We are building the app and don't have access to cookies. Do nothing.
     } else {
-      console.error(
+      logger.error(
         "Failed to get access token in RootLayout. This shouldn't happen.",
-        {
-          context: {
-            error,
-          },
-        },
+        { error },
       )
 
       redirect(routes.internal.logout.href(), RedirectType.replace)
@@ -129,7 +134,7 @@ const RootLayout = async ({ children }: Props) => {
   const deviceId = cookiesInstance.get(COOKIE_DEVICE_ID)?.value
 
   return (
-    <html className={`${saira.variable} ${sairaCond.variable}`}>
+    <html className={`${saira.variable} ${sairaCond.variable}`} lang="en-US">
       {/* Google Tag Manager - Global base code */}
       <Script
         id="google-tag-manager"

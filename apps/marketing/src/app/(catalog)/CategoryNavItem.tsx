@@ -2,7 +2,7 @@
 import React from 'react'
 import s from './layout.module.css'
 import routes from '@lib/routes'
-import { useParams, usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import cx from 'classnames'
 import Link from 'next/link'
 
@@ -14,9 +14,6 @@ const CategoryNavItem = ({
   children: React.ReactNode
 }) => {
   const pathname = usePathname()
-  const { catchAllSlug } = useParams<{
-    catchAllSlug?: string[]
-  }>()!
   const [isActive, setIsActive] = React.useState(false)
 
   React.useEffect(() => {

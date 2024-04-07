@@ -21,7 +21,7 @@
     "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build"
   },
   "dependencies": {
-    "@apollo/client": "^3.9.5",
+    "@apollo/client": "^3.9.10",
     "@apollo/experimental-nextjs-app-support": "^0.8.0",
     "@auth0/nextjs-auth0": "^3.5.0",
     "@headlessui/react": "^1.7.8",
@@ -70,7 +70,7 @@
     "icons": "*",
     "lodash-es": "^4.17.21",
     "mixpanel-browser": "^2.47.0",
-    "next": "^14.1.0",
+    "next": "^14.1.4",
     "next-axiom": "^1.0.0",
     "next-seo": "^6.5.0",
     "next-sitemap": "^4.0.6",

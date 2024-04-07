@@ -74,7 +74,7 @@ const ClosetSettingsTeamPageTableDesktop = ({
                   : []
               }
               renderTrigger={() => (
-                <IconButton>
+                <IconButton name="toggle">
                   <EllipsisHorizontalIcon className="w-5" />
                 </IconButton>
               )}

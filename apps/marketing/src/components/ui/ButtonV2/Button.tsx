@@ -70,6 +70,7 @@ const Button: React.FC<ButtonProps> = forwardRef((props, buttonRef) => {
   return (
     <Component
       aria-pressed={active}
+      aria-label={rest.name}
       data-variant={variant}
       ref={buttonRef}
       className={rootClassName}

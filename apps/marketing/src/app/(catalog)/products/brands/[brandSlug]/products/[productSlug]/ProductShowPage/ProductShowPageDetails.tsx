@@ -94,7 +94,7 @@ const ProductShowPageDetails = ({ productId }: Props) => {
         />
         <div className="grid grid-cols-12 gap-2 sm:gap-4 md:gap-8">
           <div className="col-span-12 sm:col-span-6 lg:col-span-4">
-            <table className="table-auto w-full text-gray-600 ">
+            <table className="table-auto text-gray-600 ">
               <caption className="font-medium mb-4 sr-only">
                 Specifications
               </caption>
@@ -126,7 +126,7 @@ const ProductShowPageDetails = ({ productId }: Props) => {
                           category?.path ? (
                             <span
                               key={category?.id}
-                              className="whitespace-nowrap"
+                              className="whitespace-pre-line text-right"
                             >
                               <Link
                                 href={routes.internal.catalog.category.show.href(

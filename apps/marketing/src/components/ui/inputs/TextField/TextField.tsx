@@ -82,6 +82,7 @@ const TextField = (props: TextFieldProps) => {
             rows={props.rows || 4}
             aria-describedby={props.description && `${props.name}-description`}
             className={className}
+            id={inputProps.name}
           />
         ) : (
           <input
@@ -90,6 +91,7 @@ const TextField = (props: TextFieldProps) => {
             type={props.type || 'text'}
             aria-describedby={props.description && `${props.name}-description`}
             className={className}
+            id={inputProps.name}
           />
         )}
       </div>

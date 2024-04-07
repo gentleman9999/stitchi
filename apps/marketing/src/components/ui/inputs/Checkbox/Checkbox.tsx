@@ -5,7 +5,7 @@ export interface CheckboxProps {
   name: string
   value: string | number
   onChange: (checked: boolean) => void
-  label?: string
+  label?: React.ReactNode
   description?: string
   checked?: boolean
   onSecondaryAction?: () => void
@@ -29,7 +29,7 @@ const Checkbox = (props: CheckboxProps) => {
         <input
           ref={props.inputRef}
           type="checkbox"
-          id={props.value.toString()}
+          id={props.name}
           name={props.name}
           value={props.value}
           checked={props.checked}
@@ -47,7 +47,10 @@ const Checkbox = (props: CheckboxProps) => {
           onClick={() => props.onChange(!props.checked)}
         >
           {props.label && (
-            <label className="font-medium text-gray-700 cursor-pointer">
+            <label
+              htmlFor={props.name}
+              className="font-medium text-gray-700 cursor-pointer"
+            >
               {props.label}
             </label>
           )}

@@ -117,19 +117,21 @@ const CatalogFiltersSidebar = (props: Props) => {
                   }))
                 }}
               >
-                <MoneyFilter
-                  value={{
-                    min: filter.selected?.minPrice || null,
-                    max: filter.selected?.maxPrice || null,
-                  }}
-                  onChange={value => {
-                    setFilters(prev => ({
-                      ...prev,
-                      minPrice: value.min,
-                      maxPrice: value.max,
-                    }))
-                  }}
-                />
+                <li>
+                  <MoneyFilter
+                    value={{
+                      min: filter.selected?.minPrice || null,
+                      max: filter.selected?.maxPrice || null,
+                    }}
+                    onChange={value => {
+                      setFilters(prev => ({
+                        ...prev,
+                        minPrice: value.min,
+                        maxPrice: value.max,
+                      }))
+                    }}
+                  />
+                </li>
               </FilterGroup>
             )
           }

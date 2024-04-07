@@ -46,11 +46,13 @@ const Discover = () => {
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-8 mt-8">
           {featuredProducts?.map(product => (
             <CatalogProductLegacy
+              priority
               key={product.id}
               productId={product.id}
               href={routes.internal.catalog.product.href({
                 productSlug: product.path,
               })}
+              imageSizes="(max-width: 400px): 190px, (max-width: 525px) 230px, 284px"
             />
           ))}
         </div>
@@ -80,6 +82,7 @@ const Discover = () => {
                 href={routes.internal.catalog.product.href({
                   productSlug: product.path,
                 })}
+                imageSizes="(max-width: 400px): 190px, (max-width: 525px) 230px, 284px"
               />
             ))}
           </div>
@@ -97,6 +100,7 @@ const Discover = () => {
                 href={routes.internal.catalog.product.href({
                   productSlug: product.path,
                 })}
+                imageSizes="(max-width: 400px): 190px, (max-width: 525px) 230px, 284px"
               />
             ))}
           </div>
