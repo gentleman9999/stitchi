@@ -6,6 +6,7 @@ import {
   PrimaryLayoutGetDataQuery,
   PrimaryLayoutGetDataQueryVariables,
 } from '@generated/types'
+import { SearchProvider } from './search-context'
 
 interface Props {
   children: React.ReactNode
@@ -19,10 +20,12 @@ const Layout = async ({ children }: Props) => {
   >({ query: GET_DATA })
 
   return (
-    <div className="min-h-screen">
-      <Navigation categoryTree={data.site.categoryTree} />
-      <main className="mb-auto relative">{children}</main>
-    </div>
+    <SearchProvider>
+      <div className="min-h-screen">
+        <Navigation categoryTree={data.site.categoryTree} />
+        <main className="mb-auto relative">{children}</main>
+      </div>
+    </SearchProvider>
   )
 }
 

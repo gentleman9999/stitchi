@@ -215,7 +215,7 @@ const SearchNav = ({}: Props) => {
 
 const GET_DATA = gql`
   ${CatalogProductLegacyFragments.product}
-  query ProductCatalogSearchNavGetDataQuery(
+  query ProductCatalogSearchNavGetDataQueryOld(
     $filters: SearchProductsFiltersInput!
   ) {
     site {

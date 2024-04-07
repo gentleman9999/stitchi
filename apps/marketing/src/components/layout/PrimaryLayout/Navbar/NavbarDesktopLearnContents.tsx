@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import Image from 'next/legacy/image'
 import usps from '../../../../../public/customers/morning_brew/global_fast_delivery.jpg'

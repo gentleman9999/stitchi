@@ -20,10 +20,13 @@ import {
 } from '@generated/types'
 import LinkInline from '@components/ui/LinkInline'
 import ButtonV2 from '@components/ui/ButtonV2'
+import { cn } from '@lib/utils'
 
-interface Props {}
+interface Props {
+  background?: 'light' | 'dark'
+}
 
-const AppTopbarUser = ({}: Props) => {
+const AppTopbarUser = ({ background = 'light' }: Props) => {
   const { data } = useSuspenseQuery<
     AppLayoutGetDataQuery,
     AppLayoutGetDataQueryVariables
@@ -33,7 +36,15 @@ const AppTopbarUser = ({}: Props) => {
 
   return (
     <Dropdown.Root>
-      <Dropdown.Trigger className="outline-none flex gap-2 text-left items-center hover:bg-gray-50 px-1 py-0.5 rounded-sm">
+      <Dropdown.Trigger
+        className={cn(
+          'outline-none flex gap-2 text-left items-center px-1 py-0.5 rounded-sm',
+          {
+            'hover:bg-gray-50': background === 'light',
+            'bg-white bg-opacity-0  hover:bg-opacity-5': background === 'dark',
+          },
+        )}
+      >
         <div className="shrink-0 w-6 h-6 flex items-center justify-center">
           <UserAvatar
             width="w-6"
@@ -47,7 +58,12 @@ const AppTopbarUser = ({}: Props) => {
         {user || organization ? (
           <div className="text-xs sr-only sm:not-sr-only">
             {user ? (
-              <span className="font-semibold whitespace-nowrap truncate">
+              <span
+                className={cn('font-semibold whitespace-nowrap truncate', {
+                  'text-gray-950': background === 'light',
+                  'text-gray-100': background === 'dark',
+                })}
+              >
                 {user.name}
               </span>
             ) : null}
@@ -55,7 +71,12 @@ const AppTopbarUser = ({}: Props) => {
             {user && organization && <br />}
 
             {organization ? (
-              <span className="text-gray-500 truncate">
+              <span
+                className={cn('text-gray-500 truncate', {
+                  'text-gray-500': background === 'light',
+                  'text-gray-300': background === 'dark',
+                })}
+              >
                 {organization.name}
               </span>
             ) : null}
@@ -63,7 +84,12 @@ const AppTopbarUser = ({}: Props) => {
         ) : null}
 
         <div className="ml-auto">
-          <ChevronUpDownIcon className="h-4" />
+          <ChevronUpDownIcon
+            className={cn('h-4', {
+              'text-white': background === 'dark',
+              'text-black': background === 'light',
+            })}
+          />
         </div>
       </Dropdown.Trigger>
 
