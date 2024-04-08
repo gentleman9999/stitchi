@@ -69,11 +69,11 @@ const routes = {
         }),
     },
     catalog: {
-      href: ({ params }: { params?: QueryParams } = {}) =>
-        buildRoute(`/products`, params),
+      href: () => buildRoute(`/products`),
 
       all: {
-        href: () => buildRoute('/products/all'),
+        href: ({ params }: { params?: QueryParams } = {}) =>
+          buildRoute('/products/all', params),
       },
 
       brand: {
