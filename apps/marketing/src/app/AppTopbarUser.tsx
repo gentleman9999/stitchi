@@ -4,7 +4,6 @@ import { gql, useSuspenseQuery } from '@apollo/client'
 import UserAvatar from '@components/common/UserAvatar'
 import routes from '@lib/routes'
 import React from 'react'
-import * as Dropdown from '@radix-ui/react-dropdown-menu'
 import Link from 'next/link'
 import {
   ArrowPathRoundedSquareIcon,
@@ -21,6 +20,12 @@ import {
 import LinkInline from '@components/ui/LinkInline'
 import ButtonV2 from '@components/ui/ButtonV2'
 import { cn } from '@lib/utils'
+import {
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuTrigger,
+} from '@components/ui/navigation-menu'
 
 interface Props {
   background?: 'light' | 'dark'
@@ -35,111 +40,111 @@ const AppTopbarUser = ({ background = 'light' }: Props) => {
   const { humanizedRole, user, organization } = data.viewer || {}
 
   return (
-    <Dropdown.Root>
-      <Dropdown.Trigger
-        className={cn(
-          'outline-none flex gap-2 text-left items-center px-1 py-0.5 rounded-sm',
-          {
-            'hover:bg-gray-50': background === 'light',
-            'bg-white bg-opacity-0  hover:bg-opacity-5': background === 'dark',
-          },
-        )}
-      >
-        <div className="shrink-0 w-6 h-6 flex items-center justify-center">
-          <UserAvatar
-            width="w-6"
-            height="h-6"
-            user={{
-              name: user?.name || null,
-              picture: user?.picture || null,
-            }}
-          />
-        </div>
-        {user || organization ? (
-          <div className="text-xs sr-only sm:not-sr-only">
-            {user ? (
-              <span
-                className={cn('font-semibold whitespace-nowrap truncate', {
-                  'text-gray-950': background === 'light',
-                  'text-gray-100': background === 'dark',
-                })}
-              >
-                {user.name}
-              </span>
-            ) : null}
-
-            {user && organization && <br />}
-
-            {organization ? (
-              <span
-                className={cn('text-gray-500 truncate', {
-                  'text-gray-500': background === 'light',
-                  'text-gray-300': background === 'dark',
-                })}
-              >
-                {organization.name}
-              </span>
-            ) : null}
-          </div>
-        ) : null}
-
-        <div className="ml-auto">
-          <ChevronUpDownIcon
-            className={cn('h-4', {
-              'text-white': background === 'dark',
-              'text-black': background === 'light',
-            })}
-          />
-        </div>
-      </Dropdown.Trigger>
-
-      <Dropdown.Portal>
-        <Dropdown.Content
-          side="bottom"
-          sideOffset={6}
-          align="end"
-          className="overflow-hidden rounded-sm bg-paper shadow-lg flex flex-col border z-50 w-full min-w-[200px]"
+    <NavigationMenuItem>
+      <NavigationMenuTrigger asChild>
+        <button
+          aria-label="user dropdown"
+          className={cn(
+            'outline-none flex gap-2 text-left items-center px-1 py-0.5 rounded-sm',
+            {
+              'hover:bg-gray-50': background === 'light',
+              'bg-white bg-opacity-0  hover:bg-opacity-5':
+                background === 'dark',
+            },
+          )}
         >
-          {user ? (
-            <div className="bg-gray-50 p-4 w-full text-sm font-regular flex items-center gap-2 text-gray-800">
-              <div className="text-xs">
-                {humanizedRole ? (
-                  <>
-                    <Badge
-                      className="text-gray-500"
-                      label={humanizedRole}
-                      size="small"
-                    />
-                    <br />
-                    <br />
-                  </>
-                ) : null}
-
-                <span className="font-semibold">{user.name}</span>
-                <br />
-                <span className="text-gray-500">
-                  {user.email?.toLowerCase()}
+          <div className="shrink-0 w-6 h-6 flex items-center justify-center">
+            <UserAvatar
+              width="w-6"
+              height="h-6"
+              user={{
+                name: user?.name || null,
+                picture: user?.picture || null,
+              }}
+            />
+          </div>
+          {user || organization ? (
+            <div className="text-xs sr-only sm:not-sr-only">
+              {user ? (
+                <span
+                  className={cn('font-semibold whitespace-nowrap truncate', {
+                    'text-gray-950': background === 'light',
+                    'text-gray-100': background === 'dark',
+                  })}
+                >
+                  {user.name}
                 </span>
-              </div>
+              ) : null}
+
+              {user && organization && <br />}
+
+              {organization ? (
+                <span
+                  className={cn('text-gray-500 truncate', {
+                    'text-gray-500': background === 'light',
+                    'text-gray-300': background === 'dark',
+                  })}
+                >
+                  {organization.name}
+                </span>
+              ) : null}
             </div>
           ) : null}
 
-          <div className="p-2">
-            {user ? (
-              <AuthenticatedUserDropdownContent />
-            ) : (
-              <UnauthenticatedUserDropdownContent />
-            )}
+          <div className="ml-auto">
+            <ChevronUpDownIcon
+              className={cn('h-4', {
+                'text-white': background === 'dark',
+                'text-black': background === 'light',
+              })}
+            />
           </div>
-        </Dropdown.Content>
-      </Dropdown.Portal>
-    </Dropdown.Root>
+        </button>
+      </NavigationMenuTrigger>
+
+      <NavigationMenuContent
+        // side="bottom"
+        // sideOffset={6}
+        // align="end"
+        className="overflow-hidden rounded-sm bg-paper shadow-lg flex flex-col border z-50 w-full min-w-[200px]"
+      >
+        {user ? (
+          <div className="bg-gray-50 p-4 w-full text-sm font-regular flex items-center gap-2 text-gray-800">
+            <div className="text-xs">
+              {humanizedRole ? (
+                <>
+                  <Badge
+                    className="text-gray-500"
+                    label={humanizedRole}
+                    size="small"
+                  />
+                  <br />
+                  <br />
+                </>
+              ) : null}
+
+              <span className="font-semibold">{user.name}</span>
+              <br />
+              <span className="text-gray-500">{user.email?.toLowerCase()}</span>
+            </div>
+          </div>
+        ) : null}
+
+        <div className="p-2">
+          {user ? (
+            <AuthenticatedUserDropdownContent />
+          ) : (
+            <UnauthenticatedUserDropdownContent />
+          )}
+        </div>
+      </NavigationMenuContent>
+    </NavigationMenuItem>
   )
 }
 
 const AuthenticatedUserDropdownContent = () => {
   return (
-    <div>
+    <>
       <DropdownItem
         label="Closet"
         href={routes.internal.closet.href()}
@@ -164,13 +169,13 @@ const AuthenticatedUserDropdownContent = () => {
         label="Sign out"
         icon={<ArrowRightOnRectangleIcon className="w-4 h-4" />}
       />
-    </div>
+    </>
   )
 }
 
 const UnauthenticatedUserDropdownContent = () => {
   return (
-    <div>
+    <>
       <div className="flex flex-col gap-2">
         <ButtonV2 href={routes.internal.login.href()} Component={Link}>
           Login
@@ -203,7 +208,7 @@ const UnauthenticatedUserDropdownContent = () => {
         label="Settings"
         icon={<Cog6ToothIcon className="w-4 h-4" />}
       />
-    </div>
+    </>
   )
 }
 
@@ -219,7 +224,7 @@ const DropdownItem = ({
   LinkComponent?: React.ElementType
 }) => {
   return (
-    <Dropdown.Item asChild>
+    <NavigationMenuLink asChild>
       <LinkComponent
         href={href}
         className={
@@ -229,7 +234,7 @@ const DropdownItem = ({
         {icon}
         {label}
       </LinkComponent>
-    </Dropdown.Item>
+    </NavigationMenuLink>
   )
 }
 

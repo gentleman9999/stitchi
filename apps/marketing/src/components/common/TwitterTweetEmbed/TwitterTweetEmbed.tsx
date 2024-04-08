@@ -1,4 +1,7 @@
+'use client'
+
 import React from 'react'
+
 import twitterWidgetJs from './twitter-widget-url'
 import Script from 'next/script'
 import { useLogger } from 'next-axiom'
@@ -35,7 +38,7 @@ export interface TwitterTweetEmbedProps {
 const methodName = 'createTweet'
 
 const TwitterTweetEmbed = (props: TwitterTweetEmbedProps): any => {
-  const logger = useLogger();
+  const logger = useLogger()
   const ref = React.useRef<HTMLDivElement | null>(null)
 
   const handleLoad = () => {

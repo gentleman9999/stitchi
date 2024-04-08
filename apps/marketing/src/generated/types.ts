@@ -13285,12 +13285,12 @@ export type ClosetBaseLayoutGetDataQueryVariables = Exact<{ [key: string]: never
 
 export type ClosetBaseLayoutGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string } | null };
 
-export type ProductCatalogSearchNavGetDataQueryVariables = Exact<{
+export type ProductCatalogSearchNavGetDataQueryOldVariables = Exact<{
   filters: SearchProductsFiltersInput;
 }>;
 
 
-export type ProductCatalogSearchNavGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', search: { __typename: 'SearchQueries', searchProducts: { __typename: 'SearchProducts', products: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, entityId: number, humanizedName: string, path: string, sku: string, prices: { __typename: 'Prices', price: { __typename: 'Money', value: any } } | null, brand: { __typename: 'Brand', id: string, name: string, path: string } | null, defaultImage: { __typename: 'Image', altText: string, url: string } | null, productOptions: { __typename: 'ProductOptionConnection', edges: Array<{ __typename: 'ProductOptionEdge', node: { __typename: 'CheckboxOption', entityId: number } | { __typename: 'DateFieldOption', entityId: number } | { __typename: 'FileUploadFieldOption', entityId: number } | { __typename: 'MultiLineTextFieldOption', entityId: number } | { __typename: 'MultipleChoiceOption', displayName: string, entityId: number, values: { __typename: 'ProductOptionValueConnection', edges: Array<{ __typename: 'ProductOptionValueEdge', node: { __typename: 'MultipleChoiceOptionValue', entityId: number, label: string } | { __typename: 'ProductPickListOptionValue', entityId: number, label: string } | { __typename: 'SwatchOptionValue', hexColors: Array<string>, entityId: number, label: string } } | null> | null } } | { __typename: 'NumberFieldOption', entityId: number } | { __typename: 'TextFieldOption', entityId: number } } | null> | null } } } | null> | null } } } } };
+export type ProductCatalogSearchNavGetDataQueryOld = { __typename: 'Query', site: { __typename: 'Site', search: { __typename: 'SearchQueries', searchProducts: { __typename: 'SearchProducts', products: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, entityId: number, humanizedName: string, path: string, sku: string, prices: { __typename: 'Prices', price: { __typename: 'Money', value: any } } | null, brand: { __typename: 'Brand', id: string, name: string, path: string } | null, defaultImage: { __typename: 'Image', altText: string, url: string } | null, productOptions: { __typename: 'ProductOptionConnection', edges: Array<{ __typename: 'ProductOptionEdge', node: { __typename: 'CheckboxOption', entityId: number } | { __typename: 'DateFieldOption', entityId: number } | { __typename: 'FileUploadFieldOption', entityId: number } | { __typename: 'MultiLineTextFieldOption', entityId: number } | { __typename: 'MultipleChoiceOption', displayName: string, entityId: number, values: { __typename: 'ProductOptionValueConnection', edges: Array<{ __typename: 'ProductOptionValueEdge', node: { __typename: 'MultipleChoiceOptionValue', entityId: number, label: string } | { __typename: 'ProductPickListOptionValue', entityId: number, label: string } | { __typename: 'SwatchOptionValue', hexColors: Array<string>, entityId: number, label: string } } | null> | null } } | { __typename: 'NumberFieldOption', entityId: number } | { __typename: 'TextFieldOption', entityId: number } } | null> | null } } } | null> | null } } } } };
 
 export type CatalogHeaderCategoryFragment = { __typename: 'Category', id: string, name: string, description: string };
 
@@ -13372,14 +13372,30 @@ export type ProductPageGetDataQueryVariables = Exact<{
 
 export type ProductPageGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', route: { __typename: 'Route', node: { __typename: 'Banner', id: string } | { __typename: 'Blog', id: string } | { __typename: 'BlogIndexPage', id: string } | { __typename: 'BlogPost', id: string } | { __typename: 'Brand', id: string } | { __typename: 'Cart', id: string } | { __typename: 'Category', id: string } | { __typename: 'Checkout', id: string } | { __typename: 'ContactPage', id: string } | { __typename: 'NormalPage', id: string } | { __typename: 'Product', humanizedName: string, path: string, sku: string, plainTextDescription: string, id: string, entityId: number, description: string, name: string, defaultImage: { __typename: 'Image', url: string, seoImageUrl: string } | null, gender: { __typename: 'CustomFieldConnection', edges: Array<{ __typename: 'CustomFieldEdge', node: { __typename: 'CustomField', name: string, value: string } } | null> | null }, allImages: Array<{ __typename: 'CatalogProductImage', urlStandard: string, urlZoom: string, urlThumbnail: string }>, brand: { __typename: 'Brand', id: string, name: string, path: string } | null, seo: { __typename: 'SeoDetails', metaDescription: string }, relatedProducts: { __typename: 'RelatedProductsConnection', edges: Array<{ __typename: 'RelatedProductsEdge', node: { __typename: 'Product', id: string, humanizedName: string, path: string, sku: string, prices: { __typename: 'Prices', price: { __typename: 'Money', value: any } } | null, brand: { __typename: 'Brand', id: string, name: string, path: string } | null, defaultImage: { __typename: 'Image', altText: string, url: string } | null, productOptions: { __typename: 'ProductOptionConnection', edges: Array<{ __typename: 'ProductOptionEdge', node: { __typename: 'CheckboxOption', entityId: number } | { __typename: 'DateFieldOption', entityId: number } | { __typename: 'FileUploadFieldOption', entityId: number } | { __typename: 'MultiLineTextFieldOption', entityId: number } | { __typename: 'MultipleChoiceOption', displayName: string, entityId: number, values: { __typename: 'ProductOptionValueConnection', edges: Array<{ __typename: 'ProductOptionValueEdge', node: { __typename: 'MultipleChoiceOptionValue', entityId: number, label: string } | { __typename: 'ProductPickListOptionValue', entityId: number, label: string } | { __typename: 'SwatchOptionValue', hexColors: Array<string>, entityId: number, label: string } } | null> | null } } | { __typename: 'NumberFieldOption', entityId: number } | { __typename: 'TextFieldOption', entityId: number } } | null> | null } } } | null> | null }, variants: { __typename: 'VariantConnection', edges: Array<{ __typename: 'VariantEdge', node: { __typename: 'Variant', id: string, gtin: string | null, mpn: string | null, sku: string, isPurchasable: boolean, entityId: number, prices: { __typename: 'Prices', price: { __typename: 'Money', value: any, currencyCode: string } } | null, options: { __typename: 'OptionConnection', edges: Array<{ __typename: 'OptionEdge', node: { __typename: 'ProductOption', displayName: string, values: { __typename: 'OptionValueConnection', edges: Array<{ __typename: 'OptionValueEdge', node: { __typename: 'ProductOptionValue', entityId: number, label: string } } | null> | null } } } | null> | null }, jsonLdImage: { __typename: 'Image', url: string } | null, defaultImage: { __typename: 'Image', isDefault: boolean, url: string } | null, metafields: { __typename: 'MetafieldConnection', edges: Array<{ __typename: 'MetafieldEdge', node: { __typename: 'Metafields', id: string, key: string, value: string } } | null> | null } } } | null> | null }, reviewSummary: { __typename: 'Reviews', numberOfReviews: number, summationOfRatings: number }, customFields: { __typename: 'CustomFieldConnection', edges: Array<{ __typename: 'CustomFieldEdge', node: { __typename: 'CustomField', entityId: number, name: string, value: string } } | null> | null }, categories: { __typename: 'CategoryConnection', edges: Array<{ __typename: 'CategoryEdge', node: { __typename: 'Category', id: string, name: string, path: string } } | null> | null }, prices: { __typename: 'Prices', price: { __typename: 'Money', value: any } } | null, productOptions: { __typename: 'ProductOptionConnection', edges: Array<{ __typename: 'ProductOptionEdge', node: { __typename: 'CheckboxOption', entityId: number } | { __typename: 'DateFieldOption', entityId: number } | { __typename: 'FileUploadFieldOption', entityId: number } | { __typename: 'MultiLineTextFieldOption', entityId: number } | { __typename: 'MultipleChoiceOption', displayName: string, entityId: number, values: { __typename: 'ProductOptionValueConnection', edges: Array<{ __typename: 'ProductOptionValueEdge', node: { __typename: 'MultipleChoiceOptionValue', entityId: number, label: string } | { __typename: 'ProductPickListOptionValue', entityId: number, label: string } | { __typename: 'SwatchOptionValue', hexColors: Array<string>, entityId: number, label: string } } | null> | null } } | { __typename: 'NumberFieldOption', entityId: number } | { __typename: 'TextFieldOption', entityId: number } } | null> | null } } | { __typename: 'RawHtmlPage', id: string } | { __typename: 'Redirect', id: string } | { __typename: 'Variant', id: string } | null } } };
 
+export type HomePageFeaturedPostsPostsFragment = { __typename: 'ArticleRecord', id: any, _publishedAt: any | null, _createdAt: any, title: string | null, slug: string | null, shortDescription: string | null, image: { __typename: 'FileField', responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null, author: { __typename: 'AuthorRecord', id: any, name: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null } | null, categories: Array<{ __typename: 'CategoryRecord', id: any, name: string | null, slug: string | null }> };
+
 export type NavigationSiteCategoryTreeFragment = { __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, productCount: number };
 
 export type NavigationSiteFragment = { __typename: 'Site', categoryTree: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, productCount: number, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, productCount: number, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, productCount: number, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, productCount: number }> }> }> }> };
 
-export type PrimaryLayoutGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+export type ProductCatalogSearchNavGetDataQueryVariables = Exact<{
+  filters: SearchProductsFiltersInput;
+}>;
 
 
-export type PrimaryLayoutGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', categoryTree: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, productCount: number, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, productCount: number, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, productCount: number, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, productCount: number }> }> }> }> } };
+export type ProductCatalogSearchNavGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', search: { __typename: 'SearchQueries', searchProducts: { __typename: 'SearchProducts', products: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, entityId: number, humanizedName: string, path: string, sku: string, prices: { __typename: 'Prices', price: { __typename: 'Money', value: any } } | null, brand: { __typename: 'Brand', id: string, name: string, path: string } | null, defaultImage: { __typename: 'Image', altText: string, url: string } | null, productOptions: { __typename: 'ProductOptionConnection', edges: Array<{ __typename: 'ProductOptionEdge', node: { __typename: 'CheckboxOption', entityId: number } | { __typename: 'DateFieldOption', entityId: number } | { __typename: 'FileUploadFieldOption', entityId: number } | { __typename: 'MultiLineTextFieldOption', entityId: number } | { __typename: 'MultipleChoiceOption', displayName: string, entityId: number, values: { __typename: 'ProductOptionValueConnection', edges: Array<{ __typename: 'ProductOptionValueEdge', node: { __typename: 'MultipleChoiceOptionValue', entityId: number, label: string } | { __typename: 'ProductPickListOptionValue', entityId: number, label: string } | { __typename: 'SwatchOptionValue', hexColors: Array<string>, entityId: number, label: string } } | null> | null } } | { __typename: 'NumberFieldOption', entityId: number } | { __typename: 'TextFieldOption', entityId: number } } | null> | null } } } | null> | null } } } } };
+
+export type PromotionalProductGlossaryGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PromotionalProductGlossaryGetDataQuery = { __typename: 'Query', allGlossaryEntries: Array<{ __typename: 'GlossaryEntryRecord', id: any, slug: string | null, entryType: string | null, definition: string | null, term: string | null }> };
+
+export type PromotionalProductGlossaryTermGetDataQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type PromotionalProductGlossaryTermGetDataQuery = { __typename: 'Query', glossaryEntry: { __typename: 'GlossaryEntryRecord', id: any, term: string | null, slug: string | null, definition: string | null, entryType: string | null, businessUrl: string | null, affiliateUrl: string | null, description: { __typename: 'GlossaryEntryModelDescriptionField', value: any, blocks: Array<{ __typename: 'ImageRecord', id: any, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null }>, links: Array<{ __typename: 'ArticleRecord', id: any, slug: string | null, title: string | null } | { __typename: 'GlossaryEntryRecord', id: any, slug: string | null, term: string | null }> } | null } | null, relatedTerms: Array<{ __typename: 'GlossaryEntryRecord', id: any, term: string | null, slug: string | null, entryType: string | null }> };
 
 export type CmsLandingPageCallToActionCallToActionFragment = { __typename: 'PageCallToActionRecord', id: any, title: string | null, description: string | null, actions: Array<{ __typename: 'CallToActionButtonRecord', label: string | null, url: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> };
 
@@ -13408,6 +13424,67 @@ export type LandingPageGetDataQueryVariables = Exact<{
 
 export type LandingPageGetDataQuery = { __typename: 'Query', landingPage: { __typename: 'LandingPageRecord', id: any, slug: string | null, title: string | null, category: string | null, categoryMetadata: Array<{ __typename: 'TradeshowCategoryMetadataModelRecord', id: any, startDate: any | null, endDate: any | null }>, content: Array<{ __typename: 'PageCallToActionRecord', id: any, title: string | null, description: string | null, actions: Array<{ __typename: 'CallToActionButtonRecord', label: string | null, url: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'PageHeroRecord', id: any, title: string | null, description: string | null, callToActions: Array<{ __typename: 'CallToActionButtonRecord', id: any, label: string | null, url: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'PageSectionCatalogRecord', id: any, title: string | null, description: string | null, disableDefaultCategories: any | null, categories: Array<{ __typename: 'CatalogCategoryRecord', id: any, bigCommerceCategoryId: any | null, name: string | null }> } | { __typename: 'PageSectionRecord', id: any, title: string | null, subtitle: string | null, gutter: string | null, textAlignment: string | null, imageAlignment: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null, content: Array<{ __typename: 'FaqGroupRecord', id: any, expandAll: any | null, faqs: Array<{ __typename: 'FaqRecord', id: any, question: string | null, answer: string | null }> } | { __typename: 'FeatureGridRecord', id: any, features: Array<{ __typename: 'FeatureGridFeatureRecord', id: any, name: string | null, shortDescription: string | null, callToActionText: string | null, callToActionUrl: string | null, icon: Array<{ __typename: 'HeroIconRecord', id: any, tag: string | null }> }> } | { __typename: 'LandingPageGridRecord', id: any, landingPages: Array<{ __typename: 'LandingPageLinkRecord', id: any, title: string | null, landingPage: { __typename: 'LandingPageRecord', id: any, slug: string | null, category: string | null, categoryMetadata: Array<{ __typename: 'TradeshowCategoryMetadataModelRecord', id: any, startDate: any | null, endDate: any | null }> } | null }> } | { __typename: 'RichContentRecord', id: any, content: { __typename: 'RichContentModelContentField', value: any, blocks: Array<{ __typename: 'ImageRecord', id: any, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null }> } | null }> }> } | null };
 
+export type PrimaryLayoutGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PrimaryLayoutGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', categoryTree: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, productCount: number, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, productCount: number, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, productCount: number, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, productCount: number }> }> }> }> } };
+
+export type BlogPostJsonLDArticleFragment = { __typename: 'ArticleRecord', id: any, title: string | null, slug: string | null, _publishedAt: any | null, _updatedAt: any, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null }>, author: { __typename: 'AuthorRecord', id: any, name: string | null } | null, image: { __typename: 'FileField', id: any, image: { __typename: 'ResponsiveImage', src: string } | null } | null };
+
+export type BlogPostShowPageArticleFragment = { __typename: 'ArticleRecord', id: any, title: string | null, _publishedAt: any | null, _createdAt: any, slug: string | null, _updatedAt: any, author: { __typename: 'AuthorRecord', id: any, name: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null } | null, categories: Array<{ __typename: 'CategoryRecord', id: any, name: string | null, slug: string | null }>, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null, image: { __typename: 'ResponsiveImage', src: string } | null } | null, content: { __typename: 'ArticleModelContentField', value: any, blocks: Array<{ __typename: 'ImageRecord', id: any, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null }>, links: Array<{ __typename: 'ArticleRecord', id: any, slug: string | null, title: string | null, shortDescription: string | null } | { __typename: 'CustomComponentRecord', id: any, componentId: string | null } | { __typename: 'GlossaryEntryRecord', id: any, slug: string | null, term: string | null, entryType: string | null } | { __typename: 'TableRecord', id: any, table: any | null }> } | null, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null }> };
+
+export type BlogPostShowPageAuthorFragment = { __typename: 'AuthorRecord', id: any, name: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null };
+
+export type BlogShowPageGetDataQueryVariables = Exact<{
+  slug: SlugFilter;
+}>;
+
+
+export type BlogShowPageGetDataQuery = { __typename: 'Query', article: { __typename: 'ArticleRecord', id: any, title: string | null, _publishedAt: any | null, _createdAt: any, slug: string | null, _updatedAt: any, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }>, author: { __typename: 'AuthorRecord', id: any, name: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null } | null, categories: Array<{ __typename: 'CategoryRecord', id: any, name: string | null, slug: string | null }>, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null, image: { __typename: 'ResponsiveImage', src: string } | null } | null, content: { __typename: 'ArticleModelContentField', value: any, blocks: Array<{ __typename: 'ImageRecord', id: any, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null }>, links: Array<{ __typename: 'ArticleRecord', id: any, slug: string | null, title: string | null, shortDescription: string | null } | { __typename: 'CustomComponentRecord', id: any, componentId: string | null } | { __typename: 'GlossaryEntryRecord', id: any, slug: string | null, term: string | null, entryType: string | null } | { __typename: 'TableRecord', id: any, table: any | null }> } | null } | null };
+
+export type BlogIndexPageGetDataQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['IntType']['input']>;
+  skip?: InputMaybe<Scalars['IntType']['input']>;
+  filter?: InputMaybe<ArticleModelFilter>;
+}>;
+
+
+export type BlogIndexPageGetDataQuery = { __typename: 'Query', _allArticlesMeta: { __typename: 'CollectionMetadata', count: any }, allArticles: Array<{ __typename: 'ArticleRecord', id: any, _publishedAt: any | null, _createdAt: any, title: string | null, slug: string | null, shortDescription: string | null, image: { __typename: 'FileField', responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null, author: { __typename: 'AuthorRecord', id: any, name: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null } | null, categories: Array<{ __typename: 'CategoryRecord', id: any, name: string | null, slug: string | null }> }>, allCategories: Array<{ __typename: 'CategoryRecord', id: any, name: string | null, shortName: string | null, slug: string | null, description: { __typename: 'CategoryModelDescriptionField', value: any } | null, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }> }>, blogIndexPage: { __typename: 'BlogIndexPageRecord', id: any, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }> } | null };
+
+export type BlogIndexPageGetPagesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type BlogIndexPageGetPagesQuery = { __typename: 'Query', _allArticlesMeta: { __typename: 'CollectionMetadata', count: any } };
+
+export type BlogCategoryIndexPageGetPageDataQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['IntType']['input']>;
+  skip?: InputMaybe<Scalars['IntType']['input']>;
+  filter?: InputMaybe<ArticleModelFilter>;
+  orderBy?: InputMaybe<Array<InputMaybe<ArticleModelOrderBy>>>;
+}>;
+
+
+export type BlogCategoryIndexPageGetPageDataQuery = { __typename: 'Query', allArticles: Array<{ __typename: 'ArticleRecord', id: any, _publishedAt: any | null, _createdAt: any, title: string | null, slug: string | null, shortDescription: string | null, image: { __typename: 'FileField', responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null, author: { __typename: 'AuthorRecord', id: any, name: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null } | null, categories: Array<{ __typename: 'CategoryRecord', id: any, name: string | null, slug: string | null }> }>, _allArticlesMeta: { __typename: 'CollectionMetadata', count: any }, allCategories: Array<{ __typename: 'CategoryRecord', id: any, name: string | null, shortName: string | null, slug: string | null, description: { __typename: 'CategoryModelDescriptionField', value: any } | null, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }> }>, blogIndexPage: { __typename: 'BlogIndexPageRecord', id: any, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }> } | null };
+
+export type BlogCategoryIndexPageGetPagesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type BlogCategoryIndexPageGetPagesQuery = { __typename: 'Query', allCategories: Array<{ __typename: 'CategoryRecord', id: any, slug: string | null }>, _allArticlesMeta: { __typename: 'CollectionMetadata', count: any } };
+
+export type BlogCategoryIndexPageGetCategoryPostsQueryVariables = Exact<{
+  filter?: InputMaybe<ArticleModelFilter>;
+}>;
+
+
+export type BlogCategoryIndexPageGetCategoryPostsQuery = { __typename: 'Query', _allArticlesMeta: { __typename: 'CollectionMetadata', count: any } };
+
+export type BlogCategoryIndexPageGetCategoryQueryVariables = Exact<{
+  categorySlug: Scalars['String']['input'];
+}>;
+
+
+export type BlogCategoryIndexPageGetCategoryQuery = { __typename: 'Query', allCategories: Array<{ __typename: 'CategoryRecord', id: any }> };
+
 export type DesignLibraryPageGetDataQueryVariables = Exact<{
   first?: InputMaybe<Scalars['IntType']['input']>;
   skip?: InputMaybe<Scalars['IntType']['input']>;
@@ -13431,6 +13508,31 @@ export type LookbookCategoriesIndexPageGetDataQueryVariables = Exact<{ [key: str
 
 
 export type LookbookCategoriesIndexPageGetDataQuery = { __typename: 'Query', allDesignCategories: Array<{ __typename: 'DesignCategoryRecord', id: any, slug: string | null, name: string | null }> };
+
+export type PrivacyGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PrivacyGetDataQuery = { __typename: 'Query', privacyPolicyPage: { __typename: 'PrivacyPolicyPageRecord', id: any, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }>, content: { __typename: 'PrivacyPolicyPageModelContentField', value: any } | null } | null };
+
+export type PromotionalProductsDesigngetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PromotionalProductsDesigngetDataQuery = { __typename: 'Query', site: { __typename: 'Site', featuredProducts: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, name: string, path: string, brand: { __typename: 'Brand', id: string, path: string } | null, defaultImage: { __typename: 'Image', url: string } | null } } | null> | null } } };
+
+export type PromotionalProductsDistributionGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PromotionalProductsDistributionGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', featuredProducts: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, name: string, path: string, brand: { __typename: 'Brand', id: string, path: string } | null, defaultImage: { __typename: 'Image', url: string } | null } } | null> | null } } };
+
+export type FeaturesIndexPageGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FeaturesIndexPageGetDataQuery = { __typename: 'Query', featureIndexPage: { __typename: 'FeatureIndexPageRecord', id: any, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }> } | null };
+
+export type TermsGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TermsGetDataQuery = { __typename: 'Query', termsOfUsePage: { __typename: 'TermsOfUsePageRecord', id: any, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }>, content: { __typename: 'TermsOfUsePageModelContentField', value: any } | null } | null };
 
 export type AppLayoutGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -13468,6 +13570,13 @@ export type LogoutUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type LogoutUserQuery = { __typename: 'Mutation', userLogout: { __typename: 'UserLogoutPayload', success: boolean } | null };
+
+export type GuideShowPageMarketingSubscribeMutationVariables = Exact<{
+  input: SubscriberCreateInput;
+}>;
+
+
+export type GuideShowPageMarketingSubscribeMutation = { __typename: 'Mutation', subscriberCreate: { __typename: 'SubscriberCreatePayload', subscriber: { __typename: 'Subscriber', id: string } | null } | null };
 
 export type AvatarImageFragment = { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null };
 
@@ -13591,21 +13700,6 @@ export type BlogPostIndexPageSeoCategoryFragment = { __typename: 'CategoryRecord
 
 export type BlogPostIndexPageSeoPageFragment = { __typename: 'BlogIndexPageRecord', id: any, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }> };
 
-export type BlogPostJsonLDArticleFragment = { __typename: 'ArticleRecord', id: any, title: string | null, slug: string | null, _publishedAt: any | null, _updatedAt: any, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null }>, author: { __typename: 'AuthorRecord', id: any, name: string | null } | null, image: { __typename: 'FileField', id: any, image: { __typename: 'ResponsiveImage', src: string } | null } | null };
-
-export type BlogPostShowPageArticleFragment = { __typename: 'ArticleRecord', id: any, title: string | null, _publishedAt: any | null, _createdAt: any, slug: string | null, _updatedAt: any, author: { __typename: 'AuthorRecord', id: any, name: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null } | null, categories: Array<{ __typename: 'CategoryRecord', id: any, name: string | null, slug: string | null }>, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null, image: { __typename: 'ResponsiveImage', src: string } | null } | null, content: { __typename: 'ArticleModelContentField', value: any, blocks: Array<{ __typename: 'ImageRecord', id: any, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null }>, links: Array<{ __typename: 'ArticleRecord', id: any, slug: string | null, title: string | null, shortDescription: string | null } | { __typename: 'CustomComponentRecord', id: any, componentId: string | null } | { __typename: 'GlossaryEntryRecord', id: any, slug: string | null, term: string | null, entryType: string | null } | { __typename: 'TableRecord', id: any, table: any | null }> } | null, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }> };
-
-export type BlogPostShowPageAuthorFragment = { __typename: 'AuthorRecord', id: any, name: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null };
-
-export type BlogPostShowPageSEOArticleFragment = { __typename: 'ArticleRecord', id: any, slug: string | null, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }> };
-
-export type CatalogWizardPageCategoryStepGetCategoryDataQueryVariables = Exact<{
-  rootEntityId: Scalars['Int']['input'];
-}>;
-
-
-export type CatalogWizardPageCategoryStepGetCategoryDataQuery = { __typename: 'Query', site: { __typename: 'Site', categoryTree: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, children: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, path: string, hasChildren: boolean }> }> } };
-
 export type ClosetDashboardPageGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -13683,28 +13777,9 @@ export type ClosetSettingsTeamPageTableDesktopMembershipFragment = { __typename:
 
 export type ClosetSettingsTeamPageTableMobileMemberFragment = { __typename: 'Membership', id: string, createdAt: any, humanizedRole: string | null, user: { __typename: 'User', id: string, name: string | null, email: string | null } | null };
 
-export type DesignPageCatalogFragment = { __typename: 'Site', featuredProducts: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, name: string, path: string, brand: { __typename: 'Brand', id: string, path: string } | null, defaultImage: { __typename: 'Image', url: string } | null } } | null> | null } };
-
-export type DistributionPageCatalogFragment = { __typename: 'Site', featuredProducts: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, name: string, path: string, brand: { __typename: 'Brand', id: string, path: string } | null, defaultImage: { __typename: 'Image', url: string } | null } } | null> | null } };
-
-export type GuideShowPageMarketingSubscribeMutationVariables = Exact<{
-  input: SubscriberCreateInput;
-}>;
-
-
-export type GuideShowPageMarketingSubscribeMutation = { __typename: 'Mutation', subscriberCreate: { __typename: 'SubscriberCreatePayload', subscriber: { __typename: 'Subscriber', id: string } | null } | null };
-
-export type HomePageFeaturedPostsPostsFragment = { __typename: 'ArticleRecord', id: any, _publishedAt: any | null, _createdAt: any, title: string | null, slug: string | null, shortDescription: string | null, image: { __typename: 'FileField', responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null, author: { __typename: 'AuthorRecord', id: any, name: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null } | null, categories: Array<{ __typename: 'CategoryRecord', id: any, name: string | null, slug: string | null }> };
-
 export type IndustryTermsCategoryShowPageCategoryFragment = { __typename: 'GlossaryCategoryRecord', id: any, title: string | null, slug: string | null };
 
 export type IndustryTermsCategoryShowPageEntryFragment = { __typename: 'GlossaryEntryRecord', id: any, slug: string | null, entryType: string | null, definition: string | null, term: string | null };
-
-export type IndustryTermsIndexPageEntryFragment = { __typename: 'GlossaryEntryRecord', id: any, slug: string | null, entryType: string | null, definition: string | null, term: string | null };
-
-export type IndustryTermsShowPageTermFragment = { __typename: 'GlossaryEntryRecord', id: any, term: string | null, slug: string | null, entryType: string | null, businessUrl: string | null, affiliateUrl: string | null, description: { __typename: 'GlossaryEntryModelDescriptionField', value: any, blocks: Array<{ __typename: 'ImageRecord', id: any, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null }>, links: Array<{ __typename: 'ArticleRecord', id: any, slug: string | null, title: string | null } | { __typename: 'GlossaryEntryRecord', id: any, slug: string | null, term: string | null }> } | null };
-
-export type IndustryTermsShowPageRelatedTermsFragment = { __typename: 'GlossaryEntryRecord', id: any, term: string | null, slug: string | null, entryType: string | null };
 
 export type OrderDetailsPageOrderFragment = { __typename: 'Order', id: string, createdAt: any, humanOrderId: string, paymentStatus: OrderPaymentStatus, humanPaymentStatus: string, totalTaxCents: number, statusTemporary: OrderStatusTemporary, totalShippingCents: number, subtotalPriceCents: number, totalProcessingFeeCents: number, totalPriceCents: number, totalAmountDueCents: number, totalAmountRefundedCents: number, customerEmail: string | null, customerPhone: string | null, items: Array<{ __typename: 'OrderItem', id: string, title: string, quantity: number, unitPriceCents: number, totalPriceCents: number, designProduct: { __typename: 'DesignProduct', id: string, name: string } | null }>, lastPaymentMethod: { __typename: 'PaymentMethod', id: string, type: string, card: { __typename: 'PaymentMethodCard', brand: string | null, last4: string | null, expMonth: number | null, expYear: number | null } | null, billingDetails: { __typename: 'PaymentMethodBillingDetails', line1: string | null, line2: string | null, city: string | null, state: string | null, postalCode: string | null, country: string | null } | null } | null, fulfillments: Array<{ __typename: 'Fulfillment', id: string, trackingInfo: { __typename: 'FulfillmentTrackingInfo', id: string, trackingNumber: string, trackingUrl: string } }>, shippingAddress: { __typename: 'MailingAddress', id: string, firstName: string | null, lastName: string | null, company: string | null, phone: string | null, address1: string | null, address2: string | null, city: string | null, country: string | null, province: string | null, provinceCode: string | null, zip: string | null } | null };
 
@@ -13734,43 +13809,10 @@ export type UseConfirmOrderConfirmOrderMutationVariables = Exact<{
 
 export type UseConfirmOrderConfirmOrderMutation = { __typename: 'Mutation', orderConfirm: { __typename: 'OrderConfirmPayload', order: { __typename: 'Order', id: string } | null } | null };
 
-export type PrivacyPagePageFragment = { __typename: 'PrivacyPolicyPageRecord', id: any, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }>, content: { __typename: 'PrivacyPolicyPageModelContentField', value: any } | null };
-
-export type TermsPagePageFragment = { __typename: 'TermsOfUsePageRecord', id: any, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }>, content: { __typename: 'TermsOfUsePageModelContentField', value: any } | null };
-
 export type UseAuthorizedComponentGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type UseAuthorizedComponentGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, role: MembershipRole | null, scopes: Array<{ __typename: 'Scope', resource: ScopeResource, action: ScopeAction }> } | null };
-
-export type PromotionalProductGlossaryTermGetDataQueryVariables = Exact<{
-  slug: Scalars['String']['input'];
-}>;
-
-
-export type PromotionalProductGlossaryTermGetDataQuery = { __typename: 'Query', glossaryEntry: { __typename: 'GlossaryEntryRecord', id: any, term: string | null, definition: string | null, slug: string | null, entryType: string | null, businessUrl: string | null, affiliateUrl: string | null, description: { __typename: 'GlossaryEntryModelDescriptionField', value: any, blocks: Array<{ __typename: 'ImageRecord', id: any, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null }>, links: Array<{ __typename: 'ArticleRecord', id: any, slug: string | null, title: string | null } | { __typename: 'GlossaryEntryRecord', id: any, slug: string | null, term: string | null }> } | null } | null, relatedTerms: Array<{ __typename: 'GlossaryEntryRecord', id: any, term: string | null, slug: string | null, entryType: string | null }> };
-
-export type PromotionalProductGlossaryTermGetPagesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PromotionalProductGlossaryTermGetPagesQuery = { __typename: 'Query', allGlossaryEntries: Array<{ __typename: 'GlossaryEntryRecord', id: any, slug: string | null, entryType: string | null, description: { __typename: 'GlossaryEntryModelDescriptionField', value: any } | null }> };
-
-export type PromotionalProductsGlossaryCategoryGetPagesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PromotionalProductsGlossaryCategoryGetPagesQuery = { __typename: 'Query', allGlossaryCategories: Array<{ __typename: 'GlossaryCategoryRecord', id: any, slug: string | null }> };
-
-export type PromotionalProductsGlossaryCategoryGetDataQueryVariables = Exact<{
-  slug: Scalars['String']['input'];
-}>;
-
-
-export type PromotionalProductsGlossaryCategoryGetDataQuery = { __typename: 'Query', glossaryCategory: { __typename: 'GlossaryCategoryRecord', id: any, slug: string | null, title: string | null, seoMetadata: { __typename: 'SeoField', title: string | null, description: string | null } | null, _allReferencingGlossaryEntries: Array<{ __typename: 'GlossaryEntryRecord', id: any, slug: string | null, entryType: string | null, definition: string | null, term: string | null }> } | null };
-
-export type PromotionalProductGlossaryGetDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PromotionalProductGlossaryGetDataQuery = { __typename: 'Query', allGlossaryEntries: Array<{ __typename: 'GlossaryEntryRecord', id: any, slug: string | null, entryType: string | null, definition: string | null, term: string | null }> };
 
 export type AcceptMembershipPageSetActiveMembershipMutationVariables = Exact<{
   input: UserSetOrganizationInput;
@@ -13786,61 +13828,6 @@ export type AcceptMembershipPageGetDataQueryVariables = Exact<{
 
 export type AcceptMembershipPageGetDataQuery = { __typename: 'Query', membershipInvite: { __typename: 'MembershipInvite', id: string, membershipId: string, organizationId: string, accepted: boolean, invitedEmail: string | null, organizationName: string | null } };
 
-export type BlogShowPageGetDataQueryVariables = Exact<{
-  slug: SlugFilter;
-}>;
-
-
-export type BlogShowPageGetDataQuery = { __typename: 'Query', article: { __typename: 'ArticleRecord', id: any, title: string | null, _publishedAt: any | null, _createdAt: any, slug: string | null, _updatedAt: any, author: { __typename: 'AuthorRecord', id: any, name: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null } | null, categories: Array<{ __typename: 'CategoryRecord', id: any, name: string | null, slug: string | null }>, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null, image: { __typename: 'ResponsiveImage', src: string } | null } | null, content: { __typename: 'ArticleModelContentField', value: any, blocks: Array<{ __typename: 'ImageRecord', id: any, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null }>, links: Array<{ __typename: 'ArticleRecord', id: any, slug: string | null, title: string | null, shortDescription: string | null } | { __typename: 'CustomComponentRecord', id: any, componentId: string | null } | { __typename: 'GlossaryEntryRecord', id: any, slug: string | null, term: string | null, entryType: string | null } | { __typename: 'TableRecord', id: any, table: any | null }> } | null, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }> } | null };
-
-export type BlogShowPageGetPagesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type BlogShowPageGetPagesQuery = { __typename: 'Query', allArticles: Array<{ __typename: 'ArticleRecord', id: any, slug: string | null }> };
-
-export type BlogIndexPageGetDataQueryVariables = Exact<{
-  first?: InputMaybe<Scalars['IntType']['input']>;
-  skip?: InputMaybe<Scalars['IntType']['input']>;
-  filter?: InputMaybe<ArticleModelFilter>;
-}>;
-
-
-export type BlogIndexPageGetDataQuery = { __typename: 'Query', _allArticlesMeta: { __typename: 'CollectionMetadata', count: any }, allArticles: Array<{ __typename: 'ArticleRecord', id: any, _publishedAt: any | null, _createdAt: any, title: string | null, slug: string | null, shortDescription: string | null, image: { __typename: 'FileField', responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null, author: { __typename: 'AuthorRecord', id: any, name: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null } | null, categories: Array<{ __typename: 'CategoryRecord', id: any, name: string | null, slug: string | null }> }>, allCategories: Array<{ __typename: 'CategoryRecord', id: any, name: string | null, shortName: string | null, slug: string | null, description: { __typename: 'CategoryModelDescriptionField', value: any } | null, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }> }>, blogIndexPage: { __typename: 'BlogIndexPageRecord', id: any, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }> } | null };
-
-export type BlogIndexPageGetPagesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type BlogIndexPageGetPagesQuery = { __typename: 'Query', _allArticlesMeta: { __typename: 'CollectionMetadata', count: any } };
-
-export type BlogCategoryIndexPageGetPageDataQueryVariables = Exact<{
-  first?: InputMaybe<Scalars['IntType']['input']>;
-  skip?: InputMaybe<Scalars['IntType']['input']>;
-  filter?: InputMaybe<ArticleModelFilter>;
-  orderBy?: InputMaybe<Array<InputMaybe<ArticleModelOrderBy>>>;
-}>;
-
-
-export type BlogCategoryIndexPageGetPageDataQuery = { __typename: 'Query', allArticles: Array<{ __typename: 'ArticleRecord', id: any, _publishedAt: any | null, _createdAt: any, title: string | null, slug: string | null, shortDescription: string | null, image: { __typename: 'FileField', responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null, author: { __typename: 'AuthorRecord', id: any, name: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null } | null, categories: Array<{ __typename: 'CategoryRecord', id: any, name: string | null, slug: string | null }> }>, _allArticlesMeta: { __typename: 'CollectionMetadata', count: any }, allCategories: Array<{ __typename: 'CategoryRecord', id: any, name: string | null, shortName: string | null, slug: string | null, description: { __typename: 'CategoryModelDescriptionField', value: any } | null, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }> }>, blogIndexPage: { __typename: 'BlogIndexPageRecord', id: any, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }> } | null };
-
-export type BlogCategoryIndexPageGetPagesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type BlogCategoryIndexPageGetPagesQuery = { __typename: 'Query', allCategories: Array<{ __typename: 'CategoryRecord', id: any, slug: string | null }>, _allArticlesMeta: { __typename: 'CollectionMetadata', count: any } };
-
-export type BlogCategoryIndexPageGetCategoryPostsQueryVariables = Exact<{
-  filter?: InputMaybe<ArticleModelFilter>;
-}>;
-
-
-export type BlogCategoryIndexPageGetCategoryPostsQuery = { __typename: 'Query', _allArticlesMeta: { __typename: 'CollectionMetadata', count: any } };
-
-export type BlogCategoryIndexPageGetCategoryQueryVariables = Exact<{
-  categorySlug: Scalars['String']['input'];
-}>;
-
-
-export type BlogCategoryIndexPageGetCategoryQuery = { __typename: 'Query', allCategories: Array<{ __typename: 'CategoryRecord', id: any }> };
-
 export type OrderPayPageGetDataQueryVariables = Exact<{
   orderId: Scalars['ID']['input'];
 }>;
@@ -13854,28 +13841,3 @@ export type OrderPayPageCreatepaymentIntentVariables = Exact<{
 
 
 export type OrderPayPageCreatepaymentIntent = { __typename: 'Mutation', paymentIntentCreate: { __typename: 'PaymentIntentCreatePayload', paymentIntent: { __typename: 'PaymentIntent', id: string, clientSecret: string | null, amount: number } | null } | null };
-
-export type PrivacyGetDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PrivacyGetDataQuery = { __typename: 'Query', privacyPolicyPage: { __typename: 'PrivacyPolicyPageRecord', id: any, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }>, content: { __typename: 'PrivacyPolicyPageModelContentField', value: any } | null } | null };
-
-export type PromotionalProductsDesigngetDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PromotionalProductsDesigngetDataQuery = { __typename: 'Query', site: { __typename: 'Site', featuredProducts: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, name: string, path: string, brand: { __typename: 'Brand', id: string, path: string } | null, defaultImage: { __typename: 'Image', url: string } | null } } | null> | null } } };
-
-export type PromotionalProductsDistributionGetDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PromotionalProductsDistributionGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', featuredProducts: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, name: string, path: string, brand: { __typename: 'Brand', id: string, path: string } | null, defaultImage: { __typename: 'Image', url: string } | null } } | null> | null } } };
-
-export type FeaturesIndexPageGetDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type FeaturesIndexPageGetDataQuery = { __typename: 'Query', featureIndexPage: { __typename: 'FeatureIndexPageRecord', id: any, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }> } | null };
-
-export type TermsGetDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type TermsGetDataQuery = { __typename: 'Query', termsOfUsePage: { __typename: 'TermsOfUsePageRecord', id: any, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }>, content: { __typename: 'TermsOfUsePageModelContentField', value: any } | null } | null };

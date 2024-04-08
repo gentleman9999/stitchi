@@ -111,7 +111,7 @@ const CustomerSuppert = ({ ...props }) => (
     />
     <path
       d="M114.34,22.08a36.37,36.37,0,0,1-2.24,8.44h0a27.52,27.52,0,0,1-1.41,3c.89-6.62-3-15.79-3-15.79s-1.27,2.59-6,5-17.32.37-17.32.37L82.89,33.54l-.07-.07a11.43,11.43,0,0,1-1.59-3.11c-.4-1-.86-2.27-1.39-3.95-2-6.37-.26-17.7,12-21.64S109.38,11,109.38,11C113.32,10.62,115.23,15.39,114.34,22.08Z"
-      className="fill-secondary stroke-secondary"
+      className="fill-midnight stroke-midnight"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="2"
@@ -229,7 +229,7 @@ const CustomerSuppert = ({ ...props }) => (
     />
     <path
       d="M50.92,66.13a36.37,36.37,0,0,1-2.24,8.44h0a27.52,27.52,0,0,1-1.41,3C48.15,71,44.31,61.8,44.31,61.8s-1.28,2.6-6,5S21,67.15,21,67.15L19.48,77.59l-.08-.06a11.83,11.83,0,0,1-1.59-3.12c-.39-1-.86-2.27-1.39-4-2-6.37-.26-17.7,12-21.64S46,55.05,46,55.05C49.91,54.68,51.81,59.45,50.92,66.13Z"
-      className="fill-secondary stroke-secondary"
+      className="fill-midnight stroke-midnight"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="2"

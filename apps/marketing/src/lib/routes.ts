@@ -110,19 +110,6 @@ const routes = {
           },
         },
       },
-      wizard: {
-        welcome: {
-          href: () => buildRoute('/products/wizard/welcome'),
-        },
-        categories: {
-          href: () => buildRoute('/products/wizard/categories'),
-
-          styles: {
-            href: ({ categoryId }: { categoryId: string }) =>
-              buildRoute(`/products/wizard/categories/${categoryId}/styles`),
-          },
-        },
-      },
     },
     order: {
       show: {

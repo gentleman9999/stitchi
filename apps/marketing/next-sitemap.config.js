@@ -87,6 +87,19 @@ const designCategoryQuery = /* GraphQL */ `
   }
 `
 
+const GET_PAGES = gql`
+  query BlogShowPageGetPagesQuery {
+    allArticles(first: 100) {
+      id
+      slug
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+`
+
 const fetchGraphQlData = async body => {
   const res = await fetch(endpoint, {
     body,
@@ -200,6 +213,34 @@ const getDesignCategorySlugs = async () => {
   return []
 }
 
+const getAllArticleSlugs = async () => {
+  const paths = []
+  let after = null
+  hasNextPage = true
+
+  while (hasNextPage) {
+    const res = await fetchGraphQlData(
+      JSON.stringify({
+        query: GET_PAGES,
+        variables: {
+          after,
+        },
+      }),
+    )
+
+    after = res.data.pageInfo?.after
+    hasNextPage = res.data.pageInfo?.hasNextPage
+
+    if (res && res.data && res.data.allArticles) {
+      return res.data.allArticles.map(article =>
+        paths.push(`/learn/${article.slug}`),
+      )
+    }
+  }
+
+  return paths
+}
+
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.stitchi.co',
@@ -215,6 +256,7 @@ module.exports = {
     const brandSlugs = await getCatalogBrandSlugs()
     const productCategorySlugs = await getBigCommerceCategorySlugs()
     const productDesignCategorySlugs = await getDesignCategorySlugs()
+    const articleSlugs = await getAllArticleSlugs()
 
     return [
       {
@@ -223,6 +265,12 @@ module.exports = {
         priority: 0.7,
         lastmod: new Date().toISOString(),
       },
+      ...articleSlugs.map(slug => ({
+        loc: slug,
+        changefreq: 'daily',
+        priority: 0.7,
+        lastmod: new Date().toISOString(),
+      })),
       ...productSlugs.map(slug => ({
         loc: slug,
         changefreq: 'daily',
