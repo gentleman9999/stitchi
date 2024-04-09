@@ -88,7 +88,7 @@ const SearchNav = ({}: Props) => {
   const handleSubmit = form.handleSubmit(data => {
     setShowSearch(false)
     router.push(
-      routes.internal.catalog.href({
+      routes.internal.catalog.all.href({
         params: {
           searchTerm: data.searchTerm,
         },
