@@ -87,7 +87,7 @@ const designCategoryQuery = /* GraphQL */ `
   }
 `
 
-const GET_PAGES = gql`
+const allArticlesQuery = gql`
   query BlogShowPageGetPagesQuery {
     allArticles(first: 100) {
       id
@@ -156,7 +156,7 @@ const getCatalogProductSlugs = async () => {
 const getCatalogBrandSlugs = async () => {
   const paths = []
   let after = null
-  hasNextPage = true
+  let hasNextPage = true
 
   while (hasNextPage !== false) {
     const res = await fetchGraphQlData(
@@ -221,7 +221,7 @@ const getAllArticleSlugs = async () => {
   while (hasNextPage) {
     const res = await fetchGraphQlData(
       JSON.stringify({
-        query: GET_PAGES,
+        query: allArticlesQuery,
         variables: {
           after,
         },
@@ -232,8 +232,43 @@ const getAllArticleSlugs = async () => {
     hasNextPage = res.data.pageInfo?.hasNextPage
 
     if (res && res.data && res.data.allArticles) {
-      return res.data.allArticles.map(article =>
-        paths.push(`/learn/${article.slug}`),
+      res.data.allArticles.map(article => paths.push(`/learn/${article.slug}`))
+    }
+  }
+
+  return paths
+}
+
+const allArticleCategoriesQuery = gql`
+  query BlogCategoryIndexPageGetPagesQuery {
+    allCategories {
+      id
+      slug
+    }
+  }
+`
+
+const getAllArticleCategoryPaths = async () => {
+  const paths = []
+  let after = null
+  let hasNextPage = true
+
+  while (hasNextPage) {
+    const res = await fetchGraphQlData(
+      JSON.stringify({
+        query: allArticleCategoriesQuery,
+        variables: {
+          after,
+        },
+      }),
+    )
+
+    after = res.data.pageInfo?.after
+    hasNextPage = res.data.pageInfo?.hasNextPage
+
+    if (res && res.data && res.data.allCategories) {
+      res.data.allCategories.map(category =>
+        paths.push(`/learn/topic/${category.slug}`),
       )
     }
   }
@@ -257,6 +292,7 @@ module.exports = {
     const productCategorySlugs = await getBigCommerceCategorySlugs()
     const productDesignCategorySlugs = await getDesignCategorySlugs()
     const articleSlugs = await getAllArticleSlugs()
+    const articleCategorySlugs = await getAllArticleCategoryPaths()
 
     return [
       {
@@ -266,6 +302,12 @@ module.exports = {
         lastmod: new Date().toISOString(),
       },
       ...articleSlugs.map(slug => ({
+        loc: slug,
+        changefreq: 'daily',
+        priority: 0.7,
+        lastmod: new Date().toISOString(),
+      })),
+      ...articleCategorySlugs.map(slug => ({
         loc: slug,
         changefreq: 'daily',
         priority: 0.7,

@@ -71,10 +71,10 @@ const SimpleCenteredTestimonial = ({
       </div>
       <div className="ring-8 ring-primary relative w-full max-w-[260px] aspect-square overflow-hidden rounded-xl hidden md:flex">
         <Image
+          fill
           src={spokesperson.headshot.src}
           alt={`${spokesperson.name} headshot`}
-          fill
-          objectFit="cover"
+          style={{ objectFit: 'cover' }}
         />
       </div>
     </div>

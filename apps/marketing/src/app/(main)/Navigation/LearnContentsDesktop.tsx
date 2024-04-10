@@ -1,18 +1,14 @@
-'use client'
-
 import React from 'react'
 import Image from 'next/legacy/image'
 import usps from '../../../../public/customers/morning_brew/global_fast_delivery.jpg'
 import { generateImageSizes } from '@lib/utils/image'
 import Link from 'next/link'
 import routes from '@lib/routes'
-import { NavigationMenuLink } from '@components/ui/navigation-menu'
 import Button from '@components/ui/ButtonV2/Button'
+import { DropdownMenuItem } from '@components/ui/dropdown-menu'
 
 const linkClass =
   'font-semibold border-2 border-transparent hover:border-primary hover:bg-gray-50 p-2 rounded-sm -translate-x-1 transition-all'
-
-interface Props {}
 
 const LearnContentsDesktop = () => {
   return (
@@ -34,48 +30,48 @@ const LearnContentsDesktop = () => {
             </span>
           </div>
           <div>
-            <NavigationMenuLink asChild>
+            <DropdownMenuItem asChild>
               <Link
                 href={routes.internal.customers.morningBrew.href()}
                 className="text-2xl font-bold font-heading leading-tight"
               >
                 Stitchi Fulfillment: Reduce CAC, multiply growth
               </Link>
-            </NavigationMenuLink>
+            </DropdownMenuItem>
 
             <br />
             <br />
-            <NavigationMenuLink asChild>
+            <DropdownMenuItem asChild>
               <Button
                 Component={Link}
                 href={routes.internal.customers.morningBrew.href()}
               >
                 Read more
               </Button>
-            </NavigationMenuLink>
+            </DropdownMenuItem>
           </div>
         </div>
       </div>
       <div className="col-span-1 pl-8 flex flex-col">
         <h2 className="text-3xl font-bold font-heading p-1">Resources</h2>
-        <NavigationMenuLink asChild>
+        <DropdownMenuItem asChild>
           <Link href={routes.internal.blog.href()} className={linkClass}>
             Blog
           </Link>
-        </NavigationMenuLink>
-        <NavigationMenuLink asChild>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
           <Link href={routes.internal.glossary.href()} className={linkClass}>
             Promotional Products Directory
           </Link>
-        </NavigationMenuLink>
+        </DropdownMenuItem>
 
-        <NavigationMenuLink asChild>
+        <DropdownMenuItem asChild>
           <Link href={routes.internal.lookbook.href()} className={linkClass}>
             Design Lookbook
           </Link>
-        </NavigationMenuLink>
+        </DropdownMenuItem>
 
-        <NavigationMenuLink asChild>
+        <DropdownMenuItem asChild>
           <Link
             href={routes.external.support.href()}
             target="_blank"
@@ -83,7 +79,7 @@ const LearnContentsDesktop = () => {
           >
             Support
           </Link>
-        </NavigationMenuLink>
+        </DropdownMenuItem>
       </div>
     </div>
   )

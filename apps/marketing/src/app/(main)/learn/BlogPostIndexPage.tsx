@@ -1,55 +1,43 @@
 import { gql } from '@apollo/client'
-import {
-  BlogPostCard,
-  CmsStructuredText,
-  InlineMailingListSubscribe,
-  Section,
-  SubscribeInline,
-} from '@components/common'
-import { BlogIndexPageArticleFragment } from '@generated/BlogIndexPageArticleFragment'
-import { BlogPostIndexPageCategoryFragment } from '@generated/BlogPostIndexPageCategoryFragment'
-import { BlogPostIndexPagePageFragment } from '@generated/BlogPostIndexPagePageFragment'
+import BlogPostCard from '@components/common/BlogPostCard'
+import CmsStructuredText from '@components/common/CmsStructuredText'
+import InlineMailingListSubscribe from '@components/common/InlineMailingListSubscribe'
+import Section from '@components/common/Section'
+import SubscribeInline from '@components/common/SubscribeInline'
 import routes from '@lib/routes'
-import { useRouter } from 'next/router'
 import React from 'react'
 import BlogPostIndexPageFilters from './BlogPostIndexPageFilters'
-import BlogPostIndexPageSeo from './BlogPostIndexPageSeo'
 import Link from 'next/link'
 import Image from 'next/image'
 import featuredPostImage from '../../../../public/cash-in-on-merch-book-cover.jpg'
 import Container from '@components/ui/Container'
 import Button from '@components/ui/ButtonV2/Button'
+import {
+  BlogIndexPageArticleFragment,
+  BlogPostIndexPageCategoryFragment,
+} from '@generated/types'
 
 export interface BlogPostIndexPageProps {
   articles: BlogIndexPageArticleFragment[]
   categories?: BlogPostIndexPageCategoryFragment[]
-  page?: BlogPostIndexPagePageFragment | null
   canFetchMore: boolean
-  loading: boolean
   fetchMoreHref: string
+  categorySlug?: string
 }
 
-const BlogIndexPage = ({
+const BlogPostIndexPage = ({
   articles,
   categories,
-  page,
   canFetchMore,
-  loading,
   fetchMoreHref,
+  categorySlug,
 }: BlogPostIndexPageProps) => {
-  const router = useRouter()
-  const { categorySlug } = router.query
-
   const activeCategory = categories?.find(
     category => category.slug === categorySlug,
   )
 
   return (
     <>
-      {/* THIS IS A HACK: On SRR page should always be available */}
-      {page ? (
-        <BlogPostIndexPageSeo category={activeCategory} page={page} />
-      ) : null}
       <Container className="relative">
         <div className="relative max-w-7xl mx-auto">
           <div className="text-center mt-12">
@@ -175,10 +163,8 @@ const BlogIndexPage = ({
             <div className="flex justify-center">
               <Button
                 Component={Link}
-                {...{ scroll: false, replace: true }}
                 href={fetchMoreHref}
                 className="mt-2"
-                loading={loading}
                 size="2xl"
               >
                 Load more
@@ -194,7 +180,7 @@ const BlogIndexPage = ({
   )
 }
 
-BlogIndexPage.fragments = {
+BlogPostIndexPage.fragments = {
   article: gql`
     ${BlogPostCard.fragments.article}
     fragment BlogIndexPageArticleFragment on ArticleRecord {
@@ -204,7 +190,6 @@ BlogIndexPage.fragments = {
   `,
   category: gql`
     ${CmsStructuredText.fragments.categoryDescription}
-    ${BlogPostIndexPageSeo.fragments.category}
     fragment BlogPostIndexPageCategoryFragment on CategoryRecord {
       id
       name
@@ -213,16 +198,8 @@ BlogIndexPage.fragments = {
       description {
         ...CmsStructuredTextCategoryDescriptionFragment
       }
-      ...BlogPostIndexPageSeoCategoryFragment
-    }
-  `,
-  page: gql`
-    ${BlogPostIndexPageSeo.fragments.page}
-    fragment BlogPostIndexPagePageFragment on BlogIndexPageRecord {
-      id
-      ...BlogPostIndexPageSeoPageFragment
     }
   `,
 }
 
-export default BlogIndexPage
+export default BlogPostIndexPage

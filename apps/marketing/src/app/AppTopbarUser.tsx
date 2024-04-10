@@ -21,11 +21,10 @@ import LinkInline from '@components/ui/LinkInline'
 import ButtonV2 from '@components/ui/ButtonV2'
 import { cn } from '@lib/utils'
 import {
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuTrigger,
-} from '@components/ui/navigation-menu'
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@components/ui/dropdown-menu'
+import NavigationDropdownMenu from './NavigationDropdownMenu'
 
 interface Props {
   background?: 'light' | 'dark'
@@ -40,74 +39,71 @@ const AppTopbarUser = ({ background = 'light' }: Props) => {
   const { humanizedRole, user, organization } = data.viewer || {}
 
   return (
-    <NavigationMenuItem>
-      <NavigationMenuTrigger asChild>
-        <button
-          aria-label="user dropdown"
-          className={cn(
-            'outline-none flex gap-2 text-left items-center px-1 py-0.5 rounded-sm',
-            {
-              'hover:bg-gray-50': background === 'light',
-              'bg-white bg-opacity-0  hover:bg-opacity-5':
-                background === 'dark',
-            },
-          )}
-        >
-          <div className="shrink-0 w-6 h-6 flex items-center justify-center">
-            <UserAvatar
-              width="w-6"
-              height="h-6"
-              user={{
-                name: user?.name || null,
-                picture: user?.picture || null,
-              }}
-            />
-          </div>
-          {user || organization ? (
-            <div className="text-xs sr-only sm:not-sr-only">
-              {user ? (
-                <span
-                  className={cn('font-semibold whitespace-nowrap truncate', {
-                    'text-gray-950': background === 'light',
-                    'text-gray-100': background === 'dark',
-                  })}
-                >
-                  {user.name}
-                </span>
-              ) : null}
-
-              {user && organization && <br />}
-
-              {organization ? (
-                <span
-                  className={cn('text-gray-500 truncate', {
-                    'text-gray-500': background === 'light',
-                    'text-gray-300': background === 'dark',
-                  })}
-                >
-                  {organization.name}
-                </span>
-              ) : null}
+    <NavigationDropdownMenu
+      trigger={
+        <DropdownMenuTrigger asChild>
+          <button
+            aria-label="user dropdown"
+            className={cn(
+              'outline-none flex gap-2 text-left items-center !px-1 !py-0.5 rounded-sm translate-x-2',
+              {
+                'hover:bg-gray-50': background === 'light',
+                'bg-white bg-opacity-0  hover:bg-opacity-5':
+                  background === 'dark',
+              },
+            )}
+          >
+            <div className="shrink-0 w-6 h-6 flex items-center justify-center">
+              <UserAvatar
+                width="w-6"
+                height="h-6"
+                user={{
+                  name: user?.name || null,
+                  picture: user?.picture || null,
+                }}
+              />
             </div>
-          ) : null}
+            {user || organization ? (
+              <div className="text-xs sr-only sm:not-sr-only">
+                {user ? (
+                  <span
+                    className={cn('font-semibold whitespace-nowrap truncate', {
+                      'text-gray-950': background === 'light',
+                      'text-gray-100': background === 'dark',
+                    })}
+                  >
+                    {user.name}
+                  </span>
+                ) : null}
 
-          <div className="ml-auto">
-            <ChevronUpDownIcon
-              className={cn('h-4', {
-                'text-white': background === 'dark',
-                'text-black': background === 'light',
-              })}
-            />
-          </div>
-        </button>
-      </NavigationMenuTrigger>
+                {user && organization && <br />}
 
-      <NavigationMenuContent
-        // side="bottom"
-        // sideOffset={6}
-        // align="end"
-        className="overflow-hidden rounded-sm bg-paper shadow-lg flex flex-col border z-50 w-full min-w-[200px]"
-      >
+                {organization ? (
+                  <span
+                    className={cn('text-gray-500 truncate', {
+                      'text-gray-500': background === 'light',
+                      'text-gray-300': background === 'dark',
+                    })}
+                  >
+                    {organization.name}
+                  </span>
+                ) : null}
+              </div>
+            ) : null}
+
+            <div className="ml-auto">
+              <ChevronUpDownIcon
+                className={cn('h-4', {
+                  'text-white': background === 'dark',
+                  'text-black': background === 'light',
+                })}
+              />
+            </div>
+          </button>
+        </DropdownMenuTrigger>
+      }
+    >
+      <div>
         {user ? (
           <div className="bg-gray-50 p-4 w-full text-sm font-regular flex items-center gap-2 text-gray-800">
             <div className="text-xs">
@@ -137,8 +133,8 @@ const AppTopbarUser = ({ background = 'light' }: Props) => {
             <UnauthenticatedUserDropdownContent />
           )}
         </div>
-      </NavigationMenuContent>
-    </NavigationMenuItem>
+      </div>
+    </NavigationDropdownMenu>
   )
 }
 
@@ -224,7 +220,7 @@ const DropdownItem = ({
   LinkComponent?: React.ElementType
 }) => {
   return (
-    <NavigationMenuLink asChild>
+    <DropdownMenuItem asChild>
       <LinkComponent
         href={href}
         className={
@@ -234,7 +230,7 @@ const DropdownItem = ({
         {icon}
         {label}
       </LinkComponent>
-    </NavigationMenuLink>
+    </DropdownMenuItem>
   )
 }
 

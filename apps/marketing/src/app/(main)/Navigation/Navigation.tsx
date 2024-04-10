@@ -4,112 +4,19 @@ import routes from '@lib/routes'
 import Logo from '@components/ui/Logo'
 import Container from '@components/ui/Container'
 import cx from 'classnames'
-import AppTopbarUser from 'app/AppTopbarUser'
+import AppTopbarUser from '../../AppTopbarUser'
 import { gql } from '@apollo/client'
-import {
-  NavigationSiteCategoryTreeFragment,
-  NavigationSiteFragment,
-} from '@generated/types'
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from '@components/ui/navigation-menu'
+import { NavigationSiteFragment } from '@generated/types'
 import SearchBar from './SearchBar'
 import LearnContentsDesktop from './LearnContentsDesktop'
-
-type CategoryTreeItemWithChildren = NavigationSiteCategoryTreeFragment & {
-  children?: CategoryTreeItemWithChildren[]
-}
-
-const MAX_ITEMS_PER_COLUMN = 15
-
-const renderMenuContent = (subCategories: CategoryTreeItemWithChildren[]) => {
-  if (!subCategories) {
-    return null
-  }
-
-  const columns = []
-
-  let currentColumn: CategoryTreeItemWithChildren[] = []
-
-  for (const category of subCategories) {
-    const currentColumnLength = currentColumn.reduce((acc, category) => {
-      return acc + 1 + (category.children?.length || 0)
-    }, 0)
-
-    const newColumnLength =
-      currentColumnLength + 1 + (category.children?.length || 0)
-
-    if (currentColumnLength > 0 && newColumnLength > MAX_ITEMS_PER_COLUMN) {
-      columns.push(currentColumn)
-      currentColumn = [category]
-    } else {
-      currentColumn.push(category)
-    }
-  }
-
-  if (currentColumn.length > 0) {
-    columns.push(currentColumn)
-  }
-
-  return (
-    <div
-      className="grid gap-8"
-      style={{
-        gridTemplateColumns: `repeat(${columns.length}, 1fr)`,
-      }}
-    >
-      {columns.map((column, key) => (
-        <ul key={key} className="col-span-1 flex flex-col">
-          {column.map((subCategory, idx) => (
-            <NavigationMenuLink
-              key={subCategory.entityId}
-              asChild
-              className={cx({
-                'mt-6': Boolean(idx > 0 && column[idx - 1].children?.length),
-              })}
-            >
-              <li>
-                <Link
-                  className={'whitespace-nowrap text-lg font-medium'}
-                  href={routes.internal.catalog.category.show.href({
-                    categorySlug: subCategory.path,
-                  })}
-                >
-                  {subCategory.name}
-                </Link>
-
-                {subCategory.children ? (
-                  <>
-                    {subCategory.children.map(subCategory => (
-                      <NavigationMenuLink key={subCategory.entityId} asChild>
-                        <li>
-                          <Link
-                            className={'whitespace-nowrap text-sm'}
-                            href={routes.internal.catalog.category.show.href({
-                              categorySlug: subCategory.path,
-                            })}
-                          >
-                            {subCategory.name}
-                          </Link>
-                        </li>
-                      </NavigationMenuLink>
-                    ))}
-                  </>
-                ) : null}
-              </li>
-            </NavigationMenuLink>
-          ))}
-        </ul>
-      ))}
-    </div>
-  )
-}
+import IconButton from '@components/ui/IconButton'
+import { Bars3Icon } from '@heroicons/react/20/solid'
+import MobileNavigation from './MobileNavigation'
+import SearchButton from './SearchButton'
+import NavigationBottomBar from './NavigationBottomBar'
+import NavigationDropdownMenu from '../../NavigationDropdownMenu'
+import ServicesContentsDesktop from './ServicesContentsDesktop'
+import { DropdownMenuTrigger } from '@components/ui/dropdown-menu'
 
 interface Props {
   categoryTree: NavigationSiteFragment['categoryTree']
@@ -121,115 +28,108 @@ const Navigation = ({ categoryTree }: Props) => {
   return (
     <>
       <TopBarContainer>
-        <NavigationMenu>
-          <NavigationMenuList className="flex-1 flex flex-row justify-between items-center gap-4">
-            <div className="flex-1 flex items-center flex-row gap-4">
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link
-                    href={routes.internal.home.href()}
-                    passHref
-                    className="contents"
-                  >
-                    <Logo className="h-[30px]" background="dark" />
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
+        <div className="flex-1 flex flex-row justify-between items-center gap-4">
+          <MobileNavigation
+            renderTrigger={
+              <IconButton
+                name="toggle navigation menu"
+                className="md:!hidden -translate-x-2"
+                variant="ghost"
+              >
+                <Bars3Icon className="h-5 w-5 text-white" />
+              </IconButton>
+            }
+          />
 
-              <NavigationMenuItem className="flex-1 max-w-[400px] ">
-                <SearchBar />
-              </NavigationMenuItem>
+          <Link
+            href={routes.internal.home.href()}
+            passHref
+            className="contents"
+          >
+            <Logo className="h-[30px] shrink-0" background="dark" />
+          </Link>
 
-              <NavigationMenuItem>
-                <TopBarNavigationMenuTrigger>
-                  <div className="text-left leading-none">
-                    <span className="text-xs">Our</span>
-                    <br />
-                    <span className="text-base">Services</span>
-                  </div>
-                </TopBarNavigationMenuTrigger>
+          <div className="flex-1 flex flex-row justify-between items-center gap-4">
+            <div className="flex-1 flex items-stretch h-auto flex-row gap-4">
+              <SearchBar className="max-w-[500px] hidden lg:flex" />
 
-                <NavigationMenuContent>
-                  <ul className="p-6">
-                    <li>
-                      <NavigationMenuLink asChild>
-                        <Link
-                          href={routes.internal.solutions.design.href()}
-                          className="block p-2 text-sm text-gray-700 hover:bg-gray-50"
-                        >
-                          Custom Design
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
-                    <li>
-                      <NavigationMenuLink asChild>
-                        <Link
-                          href={routes.internal.solutions.customization.href()}
-                          className="block p-2 text-sm text-gray-700 hover:bg-gray-50"
-                        >
-                          Bulk Orders
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
-                    <li>
-                      <NavigationMenuLink asChild>
-                        <Link
-                          href={routes.internal.solutions.distribution.href()}
-                          className="block p-2 text-sm text-gray-700 hover:bg-gray-50"
-                        >
-                          Express Delivery
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
+              <NavigationDropdownMenu
+                trigger={
+                  <TopBarNavigationMenuTrigger
+                    title="Services"
+                    preTitle="Our"
+                  />
+                }
+              >
+                <ServicesContentsDesktop />
+              </NavigationDropdownMenu>
 
-                    <li>
-                      <NavigationMenuLink asChild>
-                        <Link
-                          href={routes.internal.solutions.swagBox.href()}
-                          className="block p-2 text-sm text-gray-700 hover:bg-gray-50"
-                        >
-                          Unwrapping Experiences
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <TopBarNavigationMenuTrigger>
-                  <div className="text-left leading-none">
-                    <span className="text-xs">Learning &</span>
-                    <br />
-                    <span className="text-base">Resources</span>
-                  </div>
-                </TopBarNavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <LearnContentsDesktop />
-                </NavigationMenuContent>
-              </NavigationMenuItem>
+              <NavigationDropdownMenu
+                trigger={
+                  <TopBarNavigationMenuTrigger
+                    title="Resources"
+                    preTitle="Learning &"
+                  />
+                }
+              >
+                <LearnContentsDesktop />
+              </NavigationDropdownMenu>
+            </div>
+
+            <div className="lg:hidden">
+              <SearchButton />
             </div>
 
             <AppTopbarUser background="dark" />
-          </NavigationMenuList>
-        </NavigationMenu>
+          </div>
+        </div>
       </TopBarContainer>
       <BottomBarContainer>
-        <NavigationMenu>
-          <NavigationMenuList>
-            {rootCategory.children.map(category => (
-              <NavigationMenuItem key={category.entityId}>
-                <NavigationMenuTrigger>{category.name}</NavigationMenuTrigger>
-                <NavigationMenuContent className="p-6">
-                  {renderMenuContent(category.children as any)}
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-            ))}
-
-            <NavigationMenuIndicator />
-          </NavigationMenuList>
-        </NavigationMenu>
+        <NavigationBottomBar rootCategory={rootCategory} />
       </BottomBarContainer>
     </>
+  )
+}
+
+const TopBarContainer = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div
+      className={cx('transition-all border-b bg-midnight relative z-20 py-2')}
+    >
+      <Container className="max-w-none flex items-center h-full">
+        {children}
+      </Container>
+    </div>
+  )
+}
+
+const BottomBarContainer = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="sticky top-0 border-b h-[39px] flex flex-column bg-white py-1 z-10">
+      {children}
+    </div>
+  )
+}
+
+const TopBarNavigationMenuTrigger = ({
+  title,
+  preTitle,
+}: {
+  title: string
+  preTitle?: string
+}) => {
+  return (
+    <DropdownMenuTrigger className="hidden md:flex h-full py-0.5 px-1 bg-transparent rounded-sm text-white hover:text-white hover:bg-transparent hover:border-gray-200 border-transparent border text-left">
+      <div className="flex flex-col">
+        {preTitle ? (
+          <>
+            <span className="text-xs leading-none">{preTitle}</span>
+          </>
+        ) : null}
+
+        <span className="text-base font-medium leading-none">{title}</span>
+      </div>
+    </DropdownMenuTrigger>
   )
 }
 
@@ -261,36 +161,6 @@ Navigation.fragments = {
       }
     }
   `,
-}
-
-const TopBarContainer = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div
-      className={cx('transition-all border-b bg-midnight relative z-20 py-1')}
-    >
-      <Container className="max-w-none flex items-center h-full">
-        {children}
-      </Container>
-    </div>
-  )
-}
-
-const TopBarNavigationMenuTrigger = ({
-  children,
-}: {
-  children: React.ReactNode
-}) => {
-  return (
-    <NavigationMenuTrigger className="h-full py-0.5 bg-transparent rounded-sm text-white hover:text-white hover:bg-transparent hover:border-gray-200 border-transparent border">
-      {children}
-    </NavigationMenuTrigger>
-  )
-}
-
-const BottomBarContainer = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div className="sticky top-0 border-b bg-white z-10 py-0.5">{children}</div>
-  )
 }
 
 export default Navigation

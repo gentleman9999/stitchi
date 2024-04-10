@@ -2,7 +2,7 @@ import { Heart, Share } from 'icons'
 import React from 'react'
 import cx from 'classnames'
 import Tooltip from '@components/ui/Tooltip'
-import { useWishlist } from 'app/(catalog)/products/wishlist-context'
+import { useWishlist } from 'app/(main)/products/wishlist-context'
 import Link from 'next/link'
 import routes from '@lib/routes'
 

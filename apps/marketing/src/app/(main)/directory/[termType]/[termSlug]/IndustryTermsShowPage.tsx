@@ -12,7 +12,6 @@ import RelatedTerms from './RelatedTerms'
 import Container from '@components/ui/Container'
 import Button from '@components/ui/ButtonV2/Button'
 import {
-  IndustryTermsShowPageTermFragment,
   PromotionalProductGlossaryTermGetDataQuery,
   PromotionalProductGlossaryTermGetDataQueryVariables,
 } from '@generated/types'
@@ -20,6 +19,10 @@ import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 import { notFound } from 'next/navigation'
 import { GET_DATA } from './graphql'
 import Section from '@components/common/Section'
+
+type Term = NonNullable<
+  PromotionalProductGlossaryTermGetDataQuery['glossaryEntry']
+>
 
 interface Props {
   termSlug: string
@@ -178,7 +181,7 @@ const IndustryTermsShowPage = ({ termSlug }: Props) => {
   )
 }
 
-const getTermUrl = (term: IndustryTermsShowPageTermFragment): string | null => {
+const getTermUrl = (term: Term): string | null => {
   // Pick URL
   const url = term.affiliateUrl || term.businessUrl || null // Default to affiliate URL if it exists, otherwise use business URL
 
@@ -197,9 +200,7 @@ const getTermUrl = (term: IndustryTermsShowPageTermFragment): string | null => {
   return urlObj.toString()
 }
 
-const getDisplayUrl = (
-  term: IndustryTermsShowPageTermFragment,
-): string | null => {
+const getDisplayUrl = (term: Term): string | null => {
   const url = term.businessUrl || term.affiliateUrl || null
 
   if (!url) return null

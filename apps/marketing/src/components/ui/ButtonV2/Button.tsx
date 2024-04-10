@@ -1,4 +1,3 @@
-import cn from 'classnames'
 import React, {
   forwardRef,
   ButtonHTMLAttributes,
@@ -6,6 +5,7 @@ import React, {
 } from 'react'
 import s from './Button.module.css'
 import LoadingDots from '../LoadingDots'
+import { cn } from '@lib/utils'
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   href?: string

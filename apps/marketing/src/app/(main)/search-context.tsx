@@ -1,8 +1,10 @@
 'use client'
 
+import { parseAsString, useQueryState } from 'nuqs'
 import React from 'react'
 
 interface State {
+  searchTerm: string | null
   showSearch: boolean
   setShowSearch: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -14,10 +16,11 @@ interface Props {
 }
 
 export const SearchProvider = ({ children }: Props) => {
+  const [searchTerm] = useQueryState('searchTerm', parseAsString)
   const [showSearch, setShowSearch] = React.useState(false)
 
   return (
-    <SearchContext.Provider value={{ showSearch, setShowSearch }}>
+    <SearchContext.Provider value={{ showSearch, searchTerm, setShowSearch }}>
       {children}
     </SearchContext.Provider>
   )

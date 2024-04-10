@@ -1,6 +1,3 @@
-export { default as BlogPostIndexPage } from './BlogPostIndexPage'
-export * from './BlogPostIndexPage'
-
 export { default as CatalogIndexPage } from './CatalogIndexPage'
 export * from './CatalogIndexPage'
 

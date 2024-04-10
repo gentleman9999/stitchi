@@ -13451,11 +13451,6 @@ export type BlogIndexPageGetDataQueryVariables = Exact<{
 
 export type BlogIndexPageGetDataQuery = { __typename: 'Query', _allArticlesMeta: { __typename: 'CollectionMetadata', count: any }, allArticles: Array<{ __typename: 'ArticleRecord', id: any, _publishedAt: any | null, _createdAt: any, title: string | null, slug: string | null, shortDescription: string | null, image: { __typename: 'FileField', responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null, author: { __typename: 'AuthorRecord', id: any, name: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null } | null, categories: Array<{ __typename: 'CategoryRecord', id: any, name: string | null, slug: string | null }> }>, allCategories: Array<{ __typename: 'CategoryRecord', id: any, name: string | null, shortName: string | null, slug: string | null, description: { __typename: 'CategoryModelDescriptionField', value: any } | null, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }> }>, blogIndexPage: { __typename: 'BlogIndexPageRecord', id: any, _seoMetaTags: Array<{ __typename: 'Tag', attributes: any | null, content: string | null, tag: string }> } | null };
 
-export type BlogIndexPageGetPagesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type BlogIndexPageGetPagesQuery = { __typename: 'Query', _allArticlesMeta: { __typename: 'CollectionMetadata', count: any } };
-
 export type BlogCategoryIndexPageGetPageDataQueryVariables = Exact<{
   first?: InputMaybe<Scalars['IntType']['input']>;
   skip?: InputMaybe<Scalars['IntType']['input']>;
