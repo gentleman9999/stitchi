@@ -16,12 +16,18 @@ import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 import routes from '@lib/routes'
 import CategorySelect from './CategorySelect'
 import { DEFAULT_FILTERS } from './constants'
+import { useSearchProductFiltersQueryRef } from './(grid)/useSearchProductFilters'
 
 const Discover = () => {
   const { data } = useSuspenseQuery<
     CatalogDiscoverPageGetDataQuery,
     CatalogDiscoverPageGetDataQueryVariables
   >(GET_PAGE_DATA)
+
+  const categorySelectQueryRef = useSearchProductFiltersQueryRef({
+    filters: DEFAULT_FILTERS,
+    rootCategoryEntityId: 0,
+  })
 
   const featuredProducts = data.site.featuredProducts.edges
     ?.map(edge => edge?.node)
@@ -40,7 +46,10 @@ const Discover = () => {
 
   return (
     <ClosetPageContainer className="max-w-8xl">
-      <CategorySelect filters={{ ...DEFAULT_FILTERS }} activeCategory={null} />
+      <CategorySelect
+        useSearchProductFiltersQueryRef={categorySelectQueryRef}
+        activeCategory={null}
+      />
       <Section gutter="md">
         <h1 className="text-4xl font-bold">What would you like to create?</h1>
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-8 mt-8">

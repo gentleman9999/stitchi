@@ -87,15 +87,20 @@ const designCategoryQuery = /* GraphQL */ `
   }
 `
 
-const allArticlesQuery = gql`
-  query BlogShowPageGetPagesQuery {
-    allArticles(first: 100) {
+const allArticlesQuery = /* GraphQL */ `
+  query ($first: IntType, $skip: IntType) {
+    allArticles(first: $first, skip: $skip) {
       id
       slug
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
+    }
+  }
+`
+
+const allArticleCategoriesQuery = /* GraphQL */ `
+  query {
+    allCategories {
+      id
+      slug
     }
   }
 `
@@ -215,7 +220,8 @@ const getDesignCategorySlugs = async () => {
 
 const getAllArticleSlugs = async () => {
   const paths = []
-  let after = null
+  const first = 100
+  let skip = 0
   hasNextPage = true
 
   while (hasNextPage) {
@@ -223,13 +229,14 @@ const getAllArticleSlugs = async () => {
       JSON.stringify({
         query: allArticlesQuery,
         variables: {
-          after,
+          first,
+          skip,
         },
       }),
     )
 
-    after = res.data.pageInfo?.after
-    hasNextPage = res.data.pageInfo?.hasNextPage
+    skip += first
+    hasNextPage = res.data.allArticles.length === first
 
     if (res && res.data && res.data.allArticles) {
       res.data.allArticles.map(article => paths.push(`/learn/${article.slug}`))
@@ -238,15 +245,6 @@ const getAllArticleSlugs = async () => {
 
   return paths
 }
-
-const allArticleCategoriesQuery = gql`
-  query BlogCategoryIndexPageGetPagesQuery {
-    allCategories {
-      id
-      slug
-    }
-  }
-`
 
 const getAllArticleCategoryPaths = async () => {
   const paths = []

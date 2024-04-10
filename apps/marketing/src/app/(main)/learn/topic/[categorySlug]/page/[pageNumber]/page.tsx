@@ -14,9 +14,9 @@ import React from 'react'
 import BlogPostIndexPage from '../../../../BlogPostIndexPage'
 import { toNextMetadata } from 'react-datocms/seo'
 import { notFound } from 'next/navigation'
+import { STUDENT_GUIDE_CATEGORY_ID } from '@lib/constants'
 
 const PAGE_LIMIT = 10
-export const STUDENT_GUIDE_CATEGORY_ID = '148284102'
 
 const makeDefaultFilter = (categoryId: string): ArticleModelFilter => ({
   categories: { anyIn: [categoryId] },

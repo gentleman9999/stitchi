@@ -1,5 +1,8 @@
-import { gql } from '@apollo/client'
-import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
+import { QueryReference, gql } from '@apollo/client'
+import {
+  useBackgroundQuery,
+  useReadQuery,
+} from '@apollo/experimental-nextjs-app-support/ssr'
 import { Section } from '@components/common'
 import {
   CatalogProductsContainerGetDataQuery,
@@ -20,18 +23,22 @@ import routes from '@lib/routes'
 
 interface Props {
   transitioningQuery: boolean
-  variables: CatalogProductsContainerGetDataQueryVariables
+  queryRef: QueryReference<CatalogProductsContainerGetDataQuery>
+  fetchMore: () => void
+  currentEndCursor?: string
 }
 
-const CatalogProductsContainer = ({ variables, transitioningQuery }: Props) => {
+const CatalogProductsContainer = ({
+  transitioningQuery,
+  queryRef,
+  fetchMore,
+  currentEndCursor,
+}: Props) => {
   const [transition, startTransition] = useTransition()
 
   const searchParams = useSearchParams()!
 
-  const { data, fetchMore } = useSuspenseQuery<
-    CatalogProductsContainerGetDataQuery,
-    CatalogProductsContainerGetDataQueryVariables
-  >(GET_DATA, { variables })
+  const { data } = useReadQuery(queryRef)
 
   const { products: productRes } = data.site.search.searchProducts || {}
 
@@ -41,12 +48,12 @@ const CatalogProductsContainer = ({ variables, transitioningQuery }: Props) => {
   const pageInfo = productRes.pageInfo
 
   React.useEffect(() => {
-    if (!transition && pageInfo.endCursor === variables.after) {
+    if (!transition && pageInfo.endCursor === currentEndCursor) {
       startTransition(() => {
-        fetchMore({ variables: { after: variables.after } })
+        fetchMore()
       })
     }
-  }, [fetchMore, variables.after, transition, pageInfo.endCursor])
+  }, [fetchMore, transition, pageInfo.endCursor])
 
   const nextPageParams = new URLSearchParams(searchParams)
 
@@ -109,6 +116,17 @@ const CatalogProductsContainer = ({ variables, transitioningQuery }: Props) => {
       </div>
     </div>
   )
+}
+
+export const useCatalogProductsContainerQueryRef = (
+  variables: CatalogProductsContainerGetDataQueryVariables,
+) => {
+  const [backgroundQuery, { fetchMore }] = useBackgroundQuery<
+    CatalogProductsContainerGetDataQuery,
+    CatalogProductsContainerGetDataQueryVariables
+  >(GET_DATA, { variables })
+
+  return [backgroundQuery, fetchMore] as const
 }
 
 const GET_DATA = gql`

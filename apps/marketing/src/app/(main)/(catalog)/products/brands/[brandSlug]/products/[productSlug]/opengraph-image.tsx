@@ -2,7 +2,7 @@ import { ProductPageGetDataQuery } from '@generated/types'
 import { ImageResponse } from 'next/og'
 import getOrThrow from '@lib/utils/get-or-throw'
 import { NextResponse } from 'next/server'
-import { theme } from '../../../../../../../../tailwind.config'
+import { theme } from '../../../../../../../../../tailwind.config'
 import { SITE_URL } from '@lib/constants'
 import currency from 'currency.js'
 

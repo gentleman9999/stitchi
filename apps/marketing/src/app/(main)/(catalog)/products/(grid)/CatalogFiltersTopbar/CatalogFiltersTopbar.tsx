@@ -6,11 +6,13 @@ import { QueryStates } from '../CatalogProductsListPage'
 import {
   SearchProductsFiltersInput,
   SearchProductsSortInput,
+  UseSearchProductFiltersGetDataQuery,
 } from '@generated/types'
 import CategorySelect, {
   Props as CategorySelectProps,
 } from '../../CategorySelect'
 import BreadCrumbs from '../BreadCrumbs'
+import { QueryReference } from '@apollo/client'
 
 const invisibleFilters: (keyof SearchProductsFiltersInput)[] = [
   'isFeatured',
@@ -27,6 +29,7 @@ interface Props {
   activeCategory: CategorySelectProps['activeCategory']
   setFilters: SetValues<UseQueryStatesKeysMap<QueryStates>>
   onOpenFilters: () => void
+  useSearchProductFiltersQueryRef: QueryReference<UseSearchProductFiltersGetDataQuery>
 }
 
 const CatalogFiltersTopbar = ({
@@ -35,6 +38,7 @@ const CatalogFiltersTopbar = ({
   activeCategory,
   setFilters,
   onOpenFilters,
+  useSearchProductFiltersQueryRef,
 }: Props) => {
   let activeFiltersCount = 0
 
@@ -76,7 +80,10 @@ const CatalogFiltersTopbar = ({
       </div>
 
       <Suspense>
-        <CategorySelect filters={filters} activeCategory={activeCategory} />
+        <CategorySelect
+          useSearchProductFiltersQueryRef={useSearchProductFiltersQueryRef}
+          activeCategory={activeCategory}
+        />
       </Suspense>
 
       <div className="flex flex-col gap-4">

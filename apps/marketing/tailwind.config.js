@@ -11,6 +11,7 @@ module.exports = {
     require('@tailwindcss/typography'),
     require('@tailwindcss/forms'),
     require('@tailwindcss/container-queries'),
+    require('tailwindcss-animate'),
     plugin(({ matchUtilities }) => {
       matchUtilities({
         perspective: value => ({

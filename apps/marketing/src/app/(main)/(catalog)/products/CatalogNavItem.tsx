@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import NavItem from '../../(app)/NavItem'
+import NavItem from '../../../(app)/NavItem'
 import routes from '@lib/routes'
 import { SwatchIcon } from '@heroicons/react/24/outline'
 import { useSelectedLayoutSegments } from 'next/navigation'

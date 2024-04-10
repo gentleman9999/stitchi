@@ -11,10 +11,11 @@ import {
 import { notFound } from 'next/navigation'
 import { toNextMetadata } from 'react-datocms/seo'
 import BlogPostIndexPage from '../../BlogPostIndexPage'
+import { STUDENT_GUIDE_CATEGORY_ID } from '@lib/constants'
 
 const PAGE_LIMIT = 6
 
-const SKIP_CATEGORIES = ['148284102'] // STUDENT_GUIDE_CATEGORY_ID
+const SKIP_CATEGORIES = [STUDENT_GUIDE_CATEGORY_ID]
 
 interface Params {
   pageNumber: string

@@ -19,7 +19,7 @@ import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import InformationGroup from './InformationGroup'
 import { MIN_ORDER_QTY } from '@lib/constants'
-import Skeleton from '../../../../../../../../../../components/ui/Skeleton/Skeleton'
+import Skeleton from '../../../../../../../../../../../components/ui/Skeleton/Skeleton'
 import useProductQuote from './useProductQuote'
 import {
   CatalogProductCustomizationAddonType,

@@ -1,7 +1,9 @@
-import { gql } from '@apollo/client'
-import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
+import { QueryReference, gql } from '@apollo/client'
 import {
-  SearchProductsFiltersInput,
+  useBackgroundQuery,
+  useReadQuery,
+} from '@apollo/experimental-nextjs-app-support/ssr'
+import {
   UseSearchProductFiltersGetDataQuery,
   UseSearchProductFiltersGetDataQueryVariables,
 } from '@generated/types'
@@ -18,18 +20,11 @@ export type CategoryTree = NonNullable<
 >
 
 interface Props {
-  rootCategoryEntityId: number
-  filters: SearchProductsFiltersInput
+  queryRef: QueryReference<UseSearchProductFiltersGetDataQuery>
 }
 
-const useSearchProductFilters = ({
-  rootCategoryEntityId,
-  filters: filtersInput,
-}: Props) => {
-  const { data } = useSuspenseQuery<
-    UseSearchProductFiltersGetDataQuery,
-    UseSearchProductFiltersGetDataQueryVariables
-  >(GET_DATA, { variables: { rootCategoryEntityId, filters: filtersInput } })
+const useSearchProductFilters = ({ queryRef }: Props) => {
+  const { data } = useReadQuery(queryRef)
 
   const { categoryTree, search } = data.site
   const { filters: filterEdges, products } = search.searchProducts
@@ -42,6 +37,19 @@ const useSearchProductFilters = ({
     categoryTree,
     totalItems: products.collectionInfo?.totalItems,
   }
+}
+
+export const useSearchProductFiltersQueryRef = (
+  variables: UseSearchProductFiltersGetDataQueryVariables,
+) => {
+  const [queryRef] = useBackgroundQuery<
+    UseSearchProductFiltersGetDataQuery,
+    UseSearchProductFiltersGetDataQueryVariables
+  >(GET_DATA, {
+    variables,
+  })
+
+  return queryRef
 }
 
 const GET_DATA = gql`

@@ -7,20 +7,19 @@ import MoneyFilter from '../MoneyFilter'
 import { QueryStates } from '../CatalogProductsListPage'
 import routes from '@lib/routes'
 import useSearchProductFilters from '../useSearchProductFilters'
-import { SearchProductsFiltersInput } from '@generated/globalTypes'
+import { QueryReference } from '@apollo/client'
+import { UseSearchProductFiltersGetDataQuery } from '@generated/types'
 
 interface Props {
-  rootCategoryEntityId: number
-  filters: SearchProductsFiltersInput
   setFilters: SetValues<UseQueryStatesKeysMap<QueryStates>>
   defaultBrandEntityId: number | null
   isRootCategory: boolean
+  useSearchProductFiltersQueryRef: QueryReference<UseSearchProductFiltersGetDataQuery>
 }
 
 const CatalogFiltersSidebar = (props: Props) => {
   const { filters, categoryTree } = useSearchProductFilters({
-    rootCategoryEntityId: props.rootCategoryEntityId,
-    filters: props.filters,
+    queryRef: props.useSearchProductFiltersQueryRef,
   })
 
   const { setFilters } = props

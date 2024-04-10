@@ -122,7 +122,7 @@ const renderMenuContent = (subCategories: CategoryTreeItemWithChildren[]) => {
                   </DropdownMenuItem>
 
                   {subCategory.children ? (
-                    <>
+                    <ul>
                       {subCategory.children.map(subCategory => (
                         <li key={subCategory.entityId}>
                           <DropdownMenuItem asChild>
@@ -137,7 +137,7 @@ const renderMenuContent = (subCategories: CategoryTreeItemWithChildren[]) => {
                           </DropdownMenuItem>
                         </li>
                       ))}
-                    </>
+                    </ul>
                   ) : null}
                 </li>
               </ul>

@@ -3,7 +3,7 @@ import Container from '@components/ui/Container'
 import { ChevronLeftIcon } from '@heroicons/react/20/solid'
 import routes from '@lib/routes'
 import Link from 'next/link'
-import image404 from '../../../../../../../public/404.png'
+import image404 from '../../../../../../../../public/404.png'
 import Image from 'next/image'
 
 const NotFound = () => {

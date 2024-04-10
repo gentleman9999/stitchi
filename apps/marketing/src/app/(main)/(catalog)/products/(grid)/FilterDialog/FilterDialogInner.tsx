@@ -8,7 +8,9 @@ import { SearchProductsFiltersInput } from '@generated/globalTypes'
 import { notEmpty } from '@lib/utils/typescript'
 import DialogSectionPadding from './DialogSectionPadding'
 import Divider from './Divider'
-import useSearchProductFilters from '../useSearchProductFilters'
+import useSearchProductFilters, {
+  useSearchProductFiltersQueryRef,
+} from '../useSearchProductFilters'
 import { DEFAULT_FILTERS } from '../../constants'
 
 interface Props {
@@ -37,9 +39,13 @@ const FilterDialogInner = ({
 
   const [loading, startLoading] = useTransition()
 
-  const { totalItems, filters } = useSearchProductFilters({
+  const queryRef = useSearchProductFiltersQueryRef({
     filters: previewFilters,
     rootCategoryEntityId,
+  })
+
+  const { totalItems, filters } = useSearchProductFilters({
+    queryRef,
   })
 
   const handleReset = () => {

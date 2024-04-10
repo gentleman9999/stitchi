@@ -30,3 +30,5 @@ export const MIN_ORDER_QTY = parseInt(
 )
 
 export const INTERCOM_SURVEY_ID__PARTNER_REQUEST = 37919081
+
+export const STUDENT_GUIDE_CATEGORY_ID = '148284102'

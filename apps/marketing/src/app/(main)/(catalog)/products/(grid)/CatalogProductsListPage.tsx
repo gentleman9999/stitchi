@@ -1,7 +1,9 @@
 'use client'
 
 import React, { Suspense, useTransition } from 'react'
-import CatalogProductsContainer from './CatalogProductsContainer'
+import CatalogProductsContainer, {
+  useCatalogProductsContainerQueryRef,
+} from './CatalogProductsContainer'
 import {
   CatalogProductsListBrandFragment,
   CatalogProductsListCategoryFragment,
@@ -25,6 +27,7 @@ import CatalogFiltersSidebar from './CatalogFiltersSidebar'
 import CatalogFiltersSidebarSkeleton from './CatalogFiltersSidebarSkeleton'
 import CatalogFiltersTopbar from './CatalogFiltersTopbar'
 import { DEFAULT_FILTERS } from '../constants'
+import { useSearchProductFiltersQueryRef } from './useSearchProductFilters'
 
 export interface QueryStates {
   after: string
@@ -116,6 +119,18 @@ const CatalogProductsListPage = (props: Props) => {
     price: { maxPrice, minPrice },
   }
 
+  const catalogProductsContainerQueryRef = useCatalogProductsContainerQueryRef({
+    sort,
+    after,
+    filters,
+    first: 20,
+  })
+
+  const searchProductFiltersQueryRef = useSearchProductFiltersQueryRef({
+    filters,
+    rootCategoryEntityId,
+  })
+
   const handleSetFilters: SetValues<
     UseQueryStatesKeysMap<QueryStates>
   > = action => {
@@ -151,11 +166,10 @@ const CatalogProductsListPage = (props: Props) => {
         <aside className="hidden lg:block w-64">
           <Suspense fallback={<CatalogFiltersSidebarSkeleton />}>
             <CatalogFiltersSidebar
+              useSearchProductFiltersQueryRef={searchProductFiltersQueryRef}
               isRootCategory={!category?.entityId}
               defaultBrandEntityId={brand?.entityId || null}
               setFilters={handleSetFilters}
-              filters={filters}
-              rootCategoryEntityId={rootCategoryEntityId}
             />
           </Suspense>
         </aside>
@@ -167,16 +181,20 @@ const CatalogProductsListPage = (props: Props) => {
             setFilters={handleSetFilters}
             onOpenFilters={() => setFilterDialogOpen(true)}
             activeCategory={category || null}
+            useSearchProductFiltersQueryRef={searchProductFiltersQueryRef}
           />
 
           <Suspense fallback={<CatalogProductGridSkeleton />}>
             <CatalogProductsContainer
               transitioningQuery={transition}
-              variables={{
-                sort,
-                after,
-                filters,
-                first: 20,
+              queryRef={catalogProductsContainerQueryRef[0]}
+              currentEndCursor={after}
+              fetchMore={() => {
+                const fetchMore = catalogProductsContainerQueryRef[1]
+
+                fetchMore({
+                  variables: { after },
+                })
               }}
             />
           </Suspense>

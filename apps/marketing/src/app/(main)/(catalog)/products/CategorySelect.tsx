@@ -1,10 +1,10 @@
-import { SearchProductsFiltersInput } from '@generated/types'
+import { UseSearchProductFiltersGetDataQuery } from '@generated/types'
 import useSearchProductFilters from './(grid)/useSearchProductFilters'
-import { Search } from 'icons'
 import Link from 'next/link'
 import routes from '@lib/routes'
 import cx from 'classnames'
 import { usePathname } from 'next/navigation'
+import { QueryReference } from '@apollo/client'
 
 const buttonClasses =
   'flex py-1.5 px-3 rounded-full border border-gray-900 whitespace-nowrap'
@@ -12,18 +12,20 @@ const buttonClasses =
 const buttonActiveClasses = 'bg-gray-900 text-white'
 
 export interface Props {
-  filters: SearchProductsFiltersInput
   activeCategory: {
     entityId: number
     path: string
     name: string
   } | null
+  useSearchProductFiltersQueryRef: QueryReference<UseSearchProductFiltersGetDataQuery>
 }
 
-const CategorySelect = ({ filters, activeCategory }: Props) => {
+const CategorySelect = ({
+  useSearchProductFiltersQueryRef,
+  activeCategory,
+}: Props) => {
   const { categoryTree } = useSearchProductFilters({
-    filters,
-    rootCategoryEntityId: activeCategory?.entityId || 0,
+    queryRef: useSearchProductFiltersQueryRef,
   })
 
   const pathname = usePathname()!
