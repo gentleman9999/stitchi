@@ -4,23 +4,15 @@ import routes from '@lib/routes'
 import { ArrowRight } from 'icons'
 import Link from 'next/link'
 import React from 'react'
-import styles from './HomePageHero.module.css'
 import Container from '@components/ui/Container'
+import HomePageHeroListItem from './HomePageHeroListItem'
+import { CheckBadgeIcon } from '@heroicons/react/20/solid'
+
+const SharedBadge = <CheckBadgeIcon className="w-8 h-8 text-white" />
 
 const HomePageHero = () => {
   return (
     <header className="relative z-0 ">
-      <div className={styles.bg}>
-        <div>
-          <img src="/shapes/home-elipses-lg.svg" />
-        </div>
-        <div>
-          <img src="/shapes/home-elipses-lg.svg" />
-        </div>
-        <div>
-          <img src="/shapes/home-elipses-lg.svg" />
-        </div>
-      </div>
       <Container>
         <Section
           gutter="lg"
@@ -28,19 +20,54 @@ const HomePageHero = () => {
         >
           <div className="flex max-w-5xl">
             <div className="flex-auto flex flex-col items-center gap-16">
-              <h1 className="text-center font-semibold font-headingDisplay text-6xl sm:text-7xl md:text-8xl xl:text-9xl">
+              <h1 className="text-center font-bold font-headingDisplay text-5xl sm:text-6xl md:text-7xl xl:text-8xl">
                 <div className="inline font-headingDisplay ">
-                  Simpler, faster merch
-                  <span className="text-primary">.</span>
+                  The best place to scale merch, profitably
                 </div>
               </h1>
-              <ul className="flex-col gap-2 grid grid-cols-1 sm:grid-cols-2 gap-x-6">
-                <ListItem label="Professional Design" />
-                <ListItem label="Dedicated Support" />
-                <ListItem label="Premium Products" />
-                <ListItem label="Hands-Free Fulfillment" />
-                <ListItem label="Warehousing" />
-              </ul>
+              <fieldset className="w-full">
+                <legend className="text-center text-xl font-semibold text-gray-800">
+                  What do you want help with?
+                </legend>
+                <ul className="flex flex-row gap-4 mt-8 flex-wrap">
+                  <HomePageHeroListItem
+                    label="Design"
+                    description="This is some placeholder text about the feature"
+                    icon={SharedBadge}
+                    color={0}
+                  />
+                  <HomePageHeroListItem
+                    label="Sourcing"
+                    description="This is some placeholder text about the feature"
+                    icon={SharedBadge}
+                    color={1}
+                  />
+                  <HomePageHeroListItem
+                    label="Logistics"
+                    description="This is some placeholder text about the feature"
+                    icon={SharedBadge}
+                    color={2}
+                  />
+                  <HomePageHeroListItem
+                    label="Warehousing"
+                    description="This is some placeholder text about the feature"
+                    icon={SharedBadge}
+                    color={3}
+                  />
+                  <HomePageHeroListItem
+                    label="Storefront"
+                    description="This is some placeholder text about the feature"
+                    icon={SharedBadge}
+                    color={4}
+                  />
+                  <HomePageHeroListItem
+                    label="Analytics"
+                    description="This is some placeholder text about the feature"
+                    icon={SharedBadge}
+                    color={5}
+                  />
+                </ul>
+              </fieldset>
 
               <div className="max-w-md sm:flex">
                 <div className="rounded-sm">
@@ -60,18 +87,6 @@ const HomePageHero = () => {
         </Section>
       </Container>
     </header>
-  )
-}
-
-const ListItem = ({ label }: { label: string }) => {
-  return (
-    <li className="flex items-center gap-2 font-medium text-lg leading-tight">
-      <div className="flex items-center justify-center bg-primary w-5 h-5 rounded-sm text-sm text-gray-950">
-        ✓
-      </div>
-
-      {label}
-    </li>
   )
 }
 

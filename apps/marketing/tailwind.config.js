@@ -36,10 +36,16 @@ module.exports = {
       black: colors.stone[900],
       white: colors.white,
       red: colors.red,
+      fuchsia: colors.fuchsia,
+      pink: colors.pink,
       purple: colors.purple,
+      violet: colors.violet,
+      indigo: colors.indigo,
       orange: colors.orange,
       green: colors.green,
+      lime: colors.lime,
       blue: colors.blue,
+      cyan: colors.cyan,
     },
 
     extend: {

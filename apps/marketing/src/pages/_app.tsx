@@ -8,7 +8,7 @@ import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '@lib/apollo'
 import { SeoDefault } from '@components/common'
 import { StandoutProvider } from '@components/context'
-import { Saira, Saira_Condensed } from 'next/font/google'
+import { Poppins, Saira, Saira_Condensed } from 'next/font/google'
 import Script from 'next/script'
 import { GTM_ID } from '@lib/events'
 import MixpanelProvider from '@components/context/mixpanel-context'
@@ -19,17 +19,24 @@ import { CookiesProvider } from 'react-cookie'
 import IntercomProvider from 'app/IntercomProvider'
 import PageloadProgressIndicator from '@components/layout/PageloadProgressIndicator'
 
-const saira = Saira({
+// const saira = Saira({
+//   subsets: ['latin'],
+//   display: 'swap',
+//   variable: '--font-default',
+// })
+
+// const sairaCond = Saira_Condensed({
+//   weight: ['600'],
+//   subsets: ['latin'],
+//   display: 'swap',
+//   variable: '--font-heading-display',
+// })
+
+const poppins = Poppins({
+  weight: ['400', '600', '800', '900'],
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-default',
-})
-
-const sairaCond = Saira_Condensed({
-  weight: ['600'],
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-heading-display',
 })
 
 type ExtendedNextPage = NextPage & {
@@ -63,7 +70,7 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
         }}
       />
       {/* Google Tag Manager - Global base code - end */}
-      <div className={`${saira.variable} ${sairaCond.variable}`}>
+      <div className={`${poppins.variable}`}>
         <PageloadProgressIndicator />
         <UserProvider>
           <CookiesProvider>
