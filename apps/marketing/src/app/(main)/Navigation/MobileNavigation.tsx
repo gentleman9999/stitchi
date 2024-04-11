@@ -47,7 +47,7 @@ const MobileNavigation = ({ renderTrigger }: Props) => {
 
           <hr />
 
-          <Section title="Our Services">
+          <Section title="Our Solutions">
             <NavLink href={routes.internal.solutions.design.href()}>
               Custom Design
             </NavLink>

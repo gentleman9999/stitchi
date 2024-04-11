@@ -18,7 +18,7 @@ import CatalogProuductZeroState from './CatalogProductZeroState'
 import LoadingDots from '@components/ui/LoadingDots'
 import Link from 'next/link'
 import { notEmpty } from '@lib/utils/typescript'
-import { useSearchParams } from 'next/navigation'
+import { notFound, useSearchParams } from 'next/navigation'
 import routes from '@lib/routes'
 
 interface Props {
@@ -48,7 +48,11 @@ const CatalogProductsContainer = ({
   const pageInfo = productRes.pageInfo
 
   React.useEffect(() => {
-    if (!transition && pageInfo.endCursor === currentEndCursor) {
+    if (
+      !transition &&
+      Boolean(pageInfo.endCursor) &&
+      pageInfo.endCursor === currentEndCursor
+    ) {
       startTransition(() => {
         fetchMore()
       })

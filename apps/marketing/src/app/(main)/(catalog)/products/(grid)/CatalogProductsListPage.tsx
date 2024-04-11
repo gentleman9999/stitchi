@@ -56,7 +56,7 @@ type Props =
 
 const CatalogProductsListPage = (props: Props) => {
   const { brand, category } = props
-  const [transition, startTransition] = useTransition()
+  const [queryTransition, startQueryTransition] = useTransition()
   const [filterDialogOpen, setFilterDialogOpen] = React.useState(false)
 
   const [
@@ -97,7 +97,7 @@ const CatalogProductsListPage = (props: Props) => {
       ),
     },
     {
-      startTransition,
+      startTransition: startQueryTransition,
       clearOnDefault: true,
     },
   )
@@ -134,7 +134,7 @@ const CatalogProductsListPage = (props: Props) => {
   const handleSetFilters: SetValues<
     UseQueryStatesKeysMap<QueryStates>
   > = action => {
-    startTransition(() => {
+    startQueryTransition(() => {
       if (typeof action === 'function') {
         setQueryStates(values => action({ ...values, after: null } as any))
       } else {
@@ -186,15 +186,17 @@ const CatalogProductsListPage = (props: Props) => {
 
           <Suspense fallback={<CatalogProductGridSkeleton />}>
             <CatalogProductsContainer
-              transitioningQuery={transition}
+              transitioningQuery={queryTransition}
               queryRef={catalogProductsContainerQueryRef[0]}
               currentEndCursor={after}
               fetchMore={() => {
                 const fetchMore = catalogProductsContainerQueryRef[1]
 
-                fetchMore({
-                  variables: { after },
-                })
+                console.log('AFter', after)
+
+                // fetchMore({
+                //   variables: { after },
+                // })
               }}
             />
           </Suspense>

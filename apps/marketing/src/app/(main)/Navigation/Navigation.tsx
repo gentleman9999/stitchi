@@ -10,13 +10,13 @@ import { NavigationSiteFragment } from '@generated/types'
 import SearchBar from './SearchBar'
 import LearnContentsDesktop from './LearnContentsDesktop'
 import IconButton from '@components/ui/IconButton'
-import { Bars3Icon, ChevronDownIcon } from '@heroicons/react/20/solid'
+import { Bars3Icon } from '@heroicons/react/20/solid'
 import MobileNavigation from './MobileNavigation'
 import SearchButton from './SearchButton'
 import NavigationBottomBar from './NavigationBottomBar'
 import NavigationDropdownMenu from '../../NavigationDropdownMenu'
 import ServicesContentsDesktop from './ServicesContentsDesktop'
-import { DropdownMenuTrigger } from '@components/ui/dropdown-menu'
+import DropdownGroup from '@components/common/DropdownGroup'
 
 interface Props {
   categoryTree: NavigationSiteFragment['categoryTree']
@@ -26,8 +26,8 @@ const Navigation = ({ categoryTree }: Props) => {
   const rootCategory = categoryTree[0]
 
   return (
-    <>
-      <TopBarContainer>
+    <DropdownGroup>
+      <TopNavContainer>
         <div className="flex-1 flex flex-row justify-between items-center gap-4">
           <MobileNavigation
             renderTrigger={
@@ -54,9 +54,10 @@ const Navigation = ({ categoryTree }: Props) => {
               <SearchBar className="max-w-[500px] hidden lg:flex" />
 
               <NavigationDropdownMenu
+                as="div"
                 trigger={
                   <TopBarNavigationMenuTrigger
-                    title="Services"
+                    title="Solutions"
                     preTitle="Our"
                   />
                 }
@@ -65,6 +66,7 @@ const Navigation = ({ categoryTree }: Props) => {
               </NavigationDropdownMenu>
 
               <NavigationDropdownMenu
+                as="div"
                 trigger={
                   <TopBarNavigationMenuTrigger
                     title="Resources"
@@ -83,31 +85,35 @@ const Navigation = ({ categoryTree }: Props) => {
             <AppTopbarUser background="dark" />
           </div>
         </div>
-      </TopBarContainer>
-      <BottomBarContainer>
+      </TopNavContainer>
+      <BottomNavContainer>
         <NavigationBottomBar rootCategory={rootCategory} />
-      </BottomBarContainer>
-    </>
+      </BottomNavContainer>
+    </DropdownGroup>
   )
 }
 
-const TopBarContainer = ({ children }: { children: React.ReactNode }) => {
+const TopNavContainer = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div
+    <nav
+      aria-label="Primary navigation"
       className={cx('transition-all border-b bg-midnight relative z-20 py-2')}
     >
       <Container className="max-w-none flex items-center h-full">
         {children}
       </Container>
-    </div>
+    </nav>
   )
 }
 
-const BottomBarContainer = ({ children }: { children: React.ReactNode }) => {
+const BottomNavContainer = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="sticky top-0 border-b h-[39px] flex flex-column bg-white py-1 z-10">
+    <nav
+      aria-label="Product categories navigation"
+      className="sticky top-0 border-b h-[39px] flex flex-column bg-white py-1 z-10"
+    >
       {children}
-    </div>
+    </nav>
   )
 }
 
@@ -119,7 +125,7 @@ const TopBarNavigationMenuTrigger = ({
   preTitle?: string
 }) => {
   return (
-    <DropdownMenuTrigger className="hidden md:flex h-full py-0.5 px-1 bg-transparent rounded-sm text-white hover:text-white hover:bg-transparent hover:border-gray-200 border-transparent border text-left">
+    <button className="hidden md:flex h-full py-0.5 px-1 bg-transparent rounded-sm text-white hover:text-white hover:bg-transparent hover:border-gray-200 border-transparent border text-left">
       <div className="flex flex-col">
         {preTitle ? (
           <>
@@ -129,7 +135,7 @@ const TopBarNavigationMenuTrigger = ({
 
         <span className="text-base font-medium leading-none">{title}</span>
       </div>
-    </DropdownMenuTrigger>
+    </button>
   )
 }
 

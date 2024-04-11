@@ -12,10 +12,7 @@ import { useSearch } from '../search-context'
 import SearchBar from './SearchBar'
 import Container from '@components/ui/Container'
 import NavigationDropdownMenu from '../../NavigationDropdownMenu'
-import {
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@components/ui/dropdown-menu'
+import NavigationDropdownItem from 'app/NavigationDropdownItem'
 
 interface Props {
   rootCategory: NavigationSiteFragment['categoryTree'][number]
@@ -38,20 +35,22 @@ const NavigationBottomBar = ({ rootCategory }: Props) => {
         containerClassName={cn('', {
           'hidden lg:block': showSearch,
         })}
-        className="overflow-x-scroll no-scrollbar flex gap-4 max-w-none"
+        className="overflow-x-scroll no-scrollbar flex max-w-none"
       >
-        {rootCategory.children.map(category => (
-          <NavigationDropdownMenu
-            key={category.entityId}
-            trigger={
-              <DropdownMenuTrigger className="whitespace-nowrap text-sm my-1">
-                {category.name}
-              </DropdownMenuTrigger>
-            }
-          >
-            {renderMenuContent(category.children as any)}
-          </NavigationDropdownMenu>
-        ))}
+        <ul className="flex gap-4">
+          {rootCategory.children.map(category => (
+            <NavigationDropdownMenu
+              key={category.entityId}
+              trigger={
+                <button className="whitespace-nowrap text-sm my-1 text-black">
+                  {category.name}
+                </button>
+              }
+            >
+              {renderMenuContent(category.children as any)}
+            </NavigationDropdownMenu>
+          ))}
+        </ul>
       </Container>
     </>
   )
@@ -110,7 +109,7 @@ const renderMenuContent = (subCategories: CategoryTreeItemWithChildren[]) => {
             >
               <ul>
                 <li>
-                  <DropdownMenuItem asChild>
+                  <NavigationDropdownItem>
                     <Link
                       className={'whitespace-nowrap text-lg font-medium'}
                       href={routes.internal.catalog.category.show.href({
@@ -119,13 +118,13 @@ const renderMenuContent = (subCategories: CategoryTreeItemWithChildren[]) => {
                     >
                       {subCategory.name}
                     </Link>
-                  </DropdownMenuItem>
+                  </NavigationDropdownItem>
 
                   {subCategory.children ? (
                     <ul>
                       {subCategory.children.map(subCategory => (
                         <li key={subCategory.entityId}>
-                          <DropdownMenuItem asChild>
+                          <NavigationDropdownItem>
                             <Link
                               className="whitespace-nowrap text-sm"
                               href={routes.internal.catalog.category.show.href({
@@ -134,7 +133,7 @@ const renderMenuContent = (subCategories: CategoryTreeItemWithChildren[]) => {
                             >
                               {subCategory.name}
                             </Link>
-                          </DropdownMenuItem>
+                          </NavigationDropdownItem>
                         </li>
                       ))}
                     </ul>
