@@ -17,6 +17,7 @@ import ProductFormPreview from './ProductFormPreview'
 import Alert from '@components/ui/Alert'
 import Button from '@components/ui/ButtonV2/Button'
 import { useIntercom } from 'react-use-intercom'
+import { parseAsString, useQueryState } from 'nuqs'
 
 interface Props {
   product: ProductShowPageHeroProductFragment
@@ -59,9 +60,30 @@ const ProductShowPageHero = ({ product }: Props) => {
     [product.variants?.edges],
   )
 
-  const [activeVariantId, setActiveVariantId] = React.useState<string | null>(
-    variants[0]?.catalogProductVariantId || null,
+  const [activeColorId, setActiveColorId] = useQueryState(
+    'color',
+    parseAsString,
   )
+
+  const [activeSizeId, setActiveSizeId] = useQueryState('size', parseAsString)
+
+  const activeVariantId = React.useMemo(() => {
+    let filteredVariants = variants
+
+    if (activeColorId) {
+      filteredVariants = variants.filter(
+        variant => variant.catalogProductColorId === activeColorId,
+      )
+    }
+
+    if (activeSizeId) {
+      filteredVariants = filteredVariants.filter(
+        variant => variant.catalogProductSizeId === activeSizeId,
+      )
+    }
+
+    return filteredVariants[0]?.catalogProductVariantId || null
+  }, [activeColorId, variants])
 
   const productTitle = product.humanizedName
 
@@ -153,13 +175,7 @@ const ProductShowPageHero = ({ product }: Props) => {
   }
 
   const handleActiveColorChange = (colorId: string | null) => {
-    const foundVariant = variants.find(
-      variant => variant.catalogProductColorId === colorId,
-    )
-
-    if (foundVariant) {
-      setActiveVariantId(foundVariant.catalogProductVariantId)
-    }
+    setActiveColorId(colorId)
   }
 
   const mappedColors = colors.map(color => ({
@@ -217,6 +233,7 @@ const ProductShowPageHero = ({ product }: Props) => {
                         <ProductForm
                           productEntityId={product.entityId?.toString()}
                           productId={product.id}
+                          defaultColorId={activeColorId || undefined}
                           onSubmit={handleSubmit}
                           onActiveColorChange={handleActiveColorChange}
                           colors={mappedColors}
@@ -229,6 +246,7 @@ const ProductShowPageHero = ({ product }: Props) => {
                     <ProductFormPreview
                       minPrice={product.prices?.price.value || 0}
                       colors={mappedColors}
+                      activeColorId={activeColorId}
                       onSelectColor={color =>
                         handleActiveColorChange(color.catalogProductColorId)
                       }

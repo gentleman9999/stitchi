@@ -23,6 +23,7 @@ interface Props {
   colors: ProductColor[]
   minPrice: number
   sizeRange: string
+  activeColorId: string | null
   onSelectColor: (color: ProductColor) => void
 }
 
@@ -30,12 +31,10 @@ const ProductFormPreview = ({
   colors,
   minPrice,
   sizeRange,
+  activeColorId,
   onSelectColor,
 }: Props) => {
   const pathname = usePathname()!
-  const [selectedColorEntityId, setSelectedColorEntityId] = React.useState<
-    string | null
-  >(null)
 
   return (
     <div className="flex flex-col gap-8">
@@ -50,16 +49,13 @@ const ProductFormPreview = ({
               <li key={color.catalogProductColorId}>
                 <ColorSwatch
                   onClick={() => {
-                    setSelectedColorEntityId(color.catalogProductColorId)
                     onSelectColor(color)
                   }}
                   hexCode={color.hex || '#000'}
                   label={color.name}
                   width="w-6"
                   height="h-6"
-                  selected={
-                    color.catalogProductColorId === selectedColorEntityId
-                  }
+                  selected={color.catalogProductColorId === activeColorId}
                 />
               </li>
             ))}

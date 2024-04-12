@@ -106,6 +106,7 @@ interface ProductFormProps {
   requireLogin: boolean
   onSubmit: (values: FormValues) => Promise<void>
   onActiveColorChange?: (colorId: string | null) => void
+  defaultColorId: string | undefined
 }
 
 const ProductForm = (props: ProductFormProps) => {
@@ -122,7 +123,25 @@ const ProductForm = (props: ProductFormProps) => {
   const form = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      colors: [],
+      colors: props.defaultColorId
+        ? [
+            {
+              catalogProductColorId: props.defaultColorId,
+              sizes: props.variants
+                .filter(
+                  v =>
+                    v.catalogProductColorId === props.defaultColorId &&
+                    v.catalogProductSizeId,
+                )
+                .map(v => ({
+                  catalogProductVariantId: v.catalogProductVariantId,
+                  catalogSizeEntityId: v.catalogProductSizeId!,
+                  quantity: 0,
+                  disabled: false,
+                })),
+            },
+          ]
+        : [],
       fileIds: [],
       designBrief: '',
       customizations: customizationOptions,

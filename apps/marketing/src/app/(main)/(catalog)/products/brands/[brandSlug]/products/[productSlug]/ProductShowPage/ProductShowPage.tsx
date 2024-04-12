@@ -2,7 +2,6 @@
 
 import React from 'react'
 import ProductShowPageHero from './ProductShowPageHero'
-import { ProductJsonLd, ProductJsonLdProps } from 'next-seo'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import routes from '@lib/routes'
 import { notEmpty } from '@lib/utils/typescript'
@@ -17,6 +16,14 @@ import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 import { GET_DATA } from '../graphql'
 import { notFound } from 'next/navigation'
 import CatalogProductLegacy from '@components/common/CatalogProductLegacy'
+import {
+  ProductGroup,
+  Product,
+  OfferShippingDetails,
+  MerchantReturnPolicy,
+} from 'schema-dts'
+import { JsonLd } from '@lib/json-ld'
+import { addDays } from 'date-fns'
 
 interface Props {
   path: string
@@ -46,13 +53,55 @@ const ProductShowPage = ({ path }: Props) => {
     product.relatedProducts.edges?.map(edge => edge?.node).filter(notEmpty) ||
     []
 
-  const url = makeAbsoluteUrl(
+  const baseUrl = makeAbsoluteUrl(
     routes.internal.catalog.product.href({
       productSlug: product.path,
     }),
   )
 
-  const productsJsonLd: ProductJsonLdProps[] =
+  const gender =
+    product.gender.edges?.[0]?.node.value.toLowerCase().trim() === 'womens'
+      ? 'female'
+      : 'unisex'
+
+  const shippingDetailsJsonLd: OfferShippingDetails = {
+    '@id': `${product.sku}#shipping`,
+    '@type': 'OfferShippingDetails',
+    shippingDestination: {
+      '@type': 'DefinedRegion',
+      addressCountry: 'US',
+      addressRegion: 'MI',
+    },
+    shippingRate: {
+      '@type': 'MonetaryAmount',
+      value: 0,
+      currency: 'USD',
+    },
+    deliveryTime: {
+      '@type': 'ShippingDeliveryTime',
+      handlingTime: {
+        '@type': 'QuantitativeValue',
+        minValue: 1,
+        maxValue: 10,
+        unitCode: 'DAY',
+      },
+      transitTime: {
+        '@type': 'QuantitativeValue',
+        minValue: 1,
+        maxValue: 5,
+        unitCode: 'DAY',
+      },
+    },
+  }
+
+  const merchantReturnPolicy: MerchantReturnPolicy = {
+    '@id': `${product.sku}#return`,
+    '@type': 'MerchantReturnPolicy',
+    applicableCountry: 'US',
+    returnPolicyCategory: 'MerchantReturnNotPermitted',
+  }
+
+  const productsJsonLd: Product[] =
     product.variants.edges
       ?.map(edge => edge?.node)
       .filter(notEmpty)
@@ -71,15 +120,17 @@ const ProductShowPage = ({ path }: Props) => {
           ?.values.edges?.map(edge => edge?.node)
           .filter(notEmpty)?.[0]?.label
 
-        const gender =
-          product.gender.edges?.[0]?.node.value.toLowerCase().trim() ===
-          'womens'
-            ? 'female'
-            : 'unisex'
-
         const imageGroup = variant.metafields.edges?.find(
           metafield => metafield?.node.key === 'image_group',
         )
+
+        const variantUrl = routes.internal.catalog.product.href({
+          productSlug: product.path,
+          params: {
+            color: color?.toLowerCase(),
+            size: size?.toLowerCase(),
+          },
+        })
 
         const images = [
           ...(variant.defaultImage
@@ -101,71 +152,71 @@ const ProductShowPage = ({ path }: Props) => {
         const name = `${product.humanizedName} - ${color} - ${size}`
 
         return {
-          useAppDir: true, // Required when using Next.js app directory
-          images,
+          '@id': variant.sku,
+          '@type': 'Product',
+          url: variantUrl,
+          image: images,
           size: size,
-          inProductGroupWithID: product.sku,
-          productName: name,
+          color: color,
+          name,
           description: product.plainTextDescription,
-          brand: product.brand?.name,
           sku: variant.sku,
           mpn: variant.mpn || undefined,
           gtin: variant.gtin || undefined,
-          itemCondition: 'https://schema.org/NewCondition',
-          color: color,
-          // validFrom: new Date().toISOString(),
-          audience: {
-            type: 'https://schema.org/PeopleAudience',
-            suggestedGender: gender,
-            suggestedMinAge: 13,
-          },
-
+          itemCondition: 'NewCondition',
           offers: [
             {
-              url,
-              price: currency(variant.prices?.price.value, {}),
+              '@type': 'Offer',
+              price: currency(variant.prices?.price.value, {}).toString(),
               priceCurrency: variant.prices?.price.currencyCode,
-              hasMerchantReturnPolicy: {
-                applicableCountry: 'US',
-                returnPolicyCategory:
-                  'https://schema.org/MerchantReturnNotPermitted',
-              },
-              itemCondition: 'https://schema.org/NewCondition',
-              availability: variant.isPurchasable
-                ? 'https://schema.org/InStock'
-                : 'https://schema.org/OutOfStock',
+              priceValidUntil: addDays(new Date(), 7).toISOString(),
+              itemCondition: 'NewCondition',
+              availability: variant.isPurchasable ? 'InStock' : 'OutOfStock',
               shippingDetails: {
-                shippingDestination: {
-                  addressCountry: 'US',
-                  addressRegion: 'MI',
-                },
-                shippingRate: {
-                  value: 0,
-                  currency: 'USD',
-                },
-                deliveryTime: {
-                  handlingTime: {
-                    minValue: 1,
-                    maxValue: 10,
-                    unitCode: 'DAY',
-                  },
-                  transitTime: {
-                    minValue: 1,
-                    maxValue: 5,
-                    unitCode: 'DAY',
-                  },
-                },
+                '@id': `${product.sku}#shipping`,
+              },
+              hasMerchantReturnPolicy: {
+                '@id': `${product.sku}#return`,
               },
             },
           ],
         }
       }) || []
 
+  const productGroupJsonLd: ProductGroup = {
+    '@id': product.sku,
+    '@type': 'ProductGroup',
+    url: baseUrl,
+    name: product.humanizedName,
+    description: product.plainTextDescription,
+    brand: product.brand?.name,
+    sku: product.sku,
+    productGroupID: product.sku,
+    image: product.defaultImage?.url,
+    review: [],
+    variesBy: ['Size', 'Color'],
+    audience: {
+      '@type': 'PeopleAudience',
+      suggestedGender: gender,
+      suggestedMinAge: 13,
+    },
+    hasVariant: productsJsonLd,
+  }
+
   return (
     <>
-      {productsJsonLd.map((product, i) => (
-        <ProductJsonLd {...product} key={i} />
-      ))}
+      <JsonLd
+        scriptId="product"
+        json={{ '@context': 'https://schema.org', ...productGroupJsonLd }}
+      />
+      <JsonLd
+        scriptId="shipping_details"
+        json={{ '@context': 'https://schema.org', ...shippingDetailsJsonLd }}
+      />
+      <JsonLd
+        scriptId="return_policy"
+        json={{ '@context': 'https://schema.org', ...merchantReturnPolicy }}
+      />
 
       <div>
         <div className="flex justify-end items-center">

@@ -143,6 +143,11 @@ module.exports = withBundleAnalyzer(
           destination: '/',
           permanent: true,
         },
+        {
+          source: '/learn/kanye-west-yeezy-vultures-merch',
+          destination: '/learn/kanye-yeezy-vultures-merch-official-links',
+          permanent: true,
+        },
       ]
     },
   }),
