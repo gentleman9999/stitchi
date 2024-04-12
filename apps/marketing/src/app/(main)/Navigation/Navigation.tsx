@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import Link from 'next/link'
 import routes from '@lib/routes'
 import Logo from '@components/ui/Logo'
@@ -16,7 +16,7 @@ import SearchButton from './SearchButton'
 import NavigationBottomBar from './NavigationBottomBar'
 import NavigationDropdownMenu from '../../NavigationDropdownMenu'
 import ServicesContentsDesktop from './ServicesContentsDesktop'
-import DropdownGroup from '@components/common/DropdownGroup'
+import { PopoverGroup } from '@components/ui/popover'
 
 interface Props {
   categoryTree: NavigationSiteFragment['categoryTree']
@@ -26,7 +26,7 @@ const Navigation = ({ categoryTree }: Props) => {
   const rootCategory = categoryTree[0]
 
   return (
-    <DropdownGroup>
+    <>
       <TopNavContainer>
         <div className="flex-1 flex flex-row justify-between items-center gap-4">
           <MobileNavigation
@@ -49,47 +49,51 @@ const Navigation = ({ categoryTree }: Props) => {
             <Logo className="h-[30px] shrink-0" background="dark" />
           </Link>
 
-          <div className="flex-1 flex flex-row justify-between items-center gap-4">
-            <div className="flex-1 flex items-stretch h-auto flex-row gap-4">
-              <SearchBar className="max-w-[500px] hidden lg:flex" />
+          <PopoverGroup as={Fragment}>
+            <div className="flex-1 flex flex-row justify-between items-center gap-4">
+              <div className="flex-1 flex items-stretch h-auto flex-row gap-4">
+                <SearchBar className="max-w-[500px] hidden lg:flex" />
 
-              <NavigationDropdownMenu
-                as="div"
-                trigger={
-                  <TopBarNavigationMenuTrigger
-                    title="Solutions"
-                    preTitle="Our"
-                  />
-                }
-              >
-                <ServicesContentsDesktop />
-              </NavigationDropdownMenu>
+                <NavigationDropdownMenu
+                  as="div"
+                  trigger={
+                    <TopBarNavigationMenuTrigger
+                      title="Solutions"
+                      preTitle="Our"
+                    />
+                  }
+                >
+                  <ServicesContentsDesktop />
+                </NavigationDropdownMenu>
 
-              <NavigationDropdownMenu
-                as="div"
-                trigger={
-                  <TopBarNavigationMenuTrigger
-                    title="Resources"
-                    preTitle="Learning &"
-                  />
-                }
-              >
-                <LearnContentsDesktop />
-              </NavigationDropdownMenu>
+                <NavigationDropdownMenu
+                  as="div"
+                  trigger={
+                    <TopBarNavigationMenuTrigger
+                      title="Resources"
+                      preTitle="Learning &"
+                    />
+                  }
+                >
+                  <LearnContentsDesktop />
+                </NavigationDropdownMenu>
+              </div>
+
+              <div className="lg:hidden">
+                <SearchButton />
+              </div>
+
+              <AppTopbarUser background="dark" />
             </div>
-
-            <div className="lg:hidden">
-              <SearchButton />
-            </div>
-
-            <AppTopbarUser background="dark" />
-          </div>
+          </PopoverGroup>
         </div>
       </TopNavContainer>
       <BottomNavContainer>
-        <NavigationBottomBar rootCategory={rootCategory} />
+        <PopoverGroup as={Fragment}>
+          <NavigationBottomBar rootCategory={rootCategory} />
+        </PopoverGroup>
       </BottomNavContainer>
-    </DropdownGroup>
+    </>
   )
 }
 

@@ -7,12 +7,12 @@ import {
 import routes from '@lib/routes'
 import { cn } from '@lib/utils'
 import Link from 'next/link'
-import React from 'react'
+import React, { Fragment } from 'react'
 import { useSearch } from '../search-context'
 import SearchBar from './SearchBar'
 import Container from '@components/ui/Container'
 import NavigationDropdownMenu from '../../NavigationDropdownMenu'
-import NavigationDropdownItem from 'app/NavigationDropdownItem'
+import { PopoverButton } from '@components/ui/popover'
 
 interface Props {
   rootCategory: NavigationSiteFragment['categoryTree'][number]
@@ -109,7 +109,7 @@ const renderMenuContent = (subCategories: CategoryTreeItemWithChildren[]) => {
             >
               <ul>
                 <li>
-                  <NavigationDropdownItem>
+                  <PopoverButton as={Fragment}>
                     <Link
                       className={'whitespace-nowrap text-lg font-medium'}
                       href={routes.internal.catalog.category.show.href({
@@ -118,13 +118,13 @@ const renderMenuContent = (subCategories: CategoryTreeItemWithChildren[]) => {
                     >
                       {subCategory.name}
                     </Link>
-                  </NavigationDropdownItem>
+                  </PopoverButton>
 
                   {subCategory.children ? (
                     <ul>
                       {subCategory.children.map(subCategory => (
                         <li key={subCategory.entityId}>
-                          <NavigationDropdownItem>
+                          <PopoverButton as={Fragment}>
                             <Link
                               className="whitespace-nowrap text-sm"
                               href={routes.internal.catalog.category.show.href({
@@ -133,7 +133,7 @@ const renderMenuContent = (subCategories: CategoryTreeItemWithChildren[]) => {
                             >
                               {subCategory.name}
                             </Link>
-                          </NavigationDropdownItem>
+                          </PopoverButton>
                         </li>
                       ))}
                     </ul>
