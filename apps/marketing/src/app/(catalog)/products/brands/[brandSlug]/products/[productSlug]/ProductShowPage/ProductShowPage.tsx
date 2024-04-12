@@ -206,12 +206,15 @@ const ProductShowPage = ({ path }: Props) => {
   return (
     <>
       <JsonLd
+        scriptId="product"
         json={{ '@context': 'https://schema.org', ...productGroupJsonLd }}
       />
       <JsonLd
+        scriptId="shipping_details"
         json={{ '@context': 'https://schema.org', ...shippingDetailsJsonLd }}
       />
       <JsonLd
+        scriptId="return_policy"
         json={{ '@context': 'https://schema.org', ...merchantReturnPolicy }}
       />
 
