@@ -3,9 +3,11 @@
 import React from 'react'
 import { VariantProps, cva } from 'class-variance-authority'
 import { CheckIcon } from '@heroicons/react/20/solid'
+import { Control, Controller } from 'react-hook-form'
+import { FormInput, Interest } from './HomePageHero'
 
 const containerVariants = cva(
-  'group cursor-pointer relative flex-1 flex flex-col justify-center items-center gap-2 font-medium text-lg leading-tight border rounded-xl aspect-square text-center p-4 transition-colors duration-200',
+  'group cursor-pointer w-[180px] relative flex flex-col justify-center items-center gap-2 font-medium text-lg leading-tight border rounded-xl aspect-square text-center p-4 transition-colors duration-200',
   {
     variants: {
       color: {
@@ -79,49 +81,67 @@ const labelVariants = cva(
 
 const HomePageHeroListItem = ({
   label,
+  value,
+  name,
   description,
   icon,
   color,
+  control,
 }: {
   label: string
+  name: string
+  value: Interest
   description: string
   icon: React.ReactElement
+  control: Control<FormInput>
 } & VariantProps<typeof labelVariants>) => {
-  const [checked, setChecked] = React.useState(false)
-
   return (
-    <li
-      id={label}
-      data-checked={checked}
-      className={containerVariants({ color })}
-      onClick={() => setChecked(prev => !prev)}
-    >
-      <div className="absolute top-0 left-0 p-2">
-        <input
-          type="checkbox"
-          id={label}
-          name={label}
-          value={label}
-          checked={checked}
-          className="sr-only"
-        />
-        <div
-          aria-hidden
-          className={checkboxVariants({ color })}
-          data-checked={checked}
-        >
-          <CheckIcon className="h-4 w-4 text-white" />
-        </div>
-      </div>
+    <Controller
+      name="interests"
+      control={control}
+      render={({ field }) => {
+        const checked = field.value?.includes(value) ? 'true' : 'false'
+        return (
+          <li
+            id={label}
+            data-checked={checked}
+            className={containerVariants({ color })}
+            onClick={() =>
+              field.onChange(
+                field.value?.includes(value)
+                  ? field.value.filter((v: string) => v !== value)
+                  : [...(field.value || []), value],
+              )
+            }
+          >
+            <div className="absolute top-0 left-0 p-2">
+              <input
+                type="checkbox"
+                id={label}
+                value={value}
+                checked={checked === 'true'}
+                className="sr-only"
+              />
+              <div
+                aria-hidden
+                className={checkboxVariants({ color })}
+                data-checked={checked}
+              >
+                <CheckIcon className="h-4 w-4 text-white" />
+              </div>
+            </div>
 
-      <div className={iconVariants({ color })}>{icon}</div>
+            <div className={iconVariants({ color })}>{icon}</div>
 
-      <label htmlFor={label} className={labelVariants({ color })}>
-        {label}
-      </label>
+            <label htmlFor={label} className={labelVariants({ color })}>
+              {label}
+            </label>
 
-      <p className="text-gray-500 text-sm leading-tight">{description}</p>
-    </li>
+            <p className="text-gray-500 text-sm leading-tight">{description}</p>
+          </li>
+        )
+      }}
+    />
   )
 }
 

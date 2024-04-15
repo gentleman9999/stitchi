@@ -8,9 +8,7 @@ import {
   SearchProductsSortInput,
   UseSearchProductFiltersGetDataQuery,
 } from '@generated/types'
-import CategorySelect, {
-  Props as CategorySelectProps,
-} from '../../CategorySelect'
+import CategorySelect, { Props as CategorySelectProps } from './CategorySelect'
 import BreadCrumbs from '../BreadCrumbs'
 import { QueryReference } from '@apollo/client'
 

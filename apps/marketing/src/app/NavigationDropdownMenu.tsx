@@ -1,9 +1,9 @@
 'use client'
 
 import { Transition } from '@headlessui/react'
-import React, { Fragment, Ref, useState } from 'react'
+import React, { Fragment } from 'react'
 import { Popover, PopoverButton, PopoverPanel } from '@components/ui/popover'
-import { autoPlacement, shift, useFloating } from '@floating-ui/react-dom'
+import { autoPlacement, useFloating } from '@floating-ui/react-dom'
 
 interface Props {
   trigger: React.ReactElement
@@ -18,8 +18,9 @@ const NavigationDropdownMenu = (props: Props) => {
     strategy: 'fixed',
     placement: 'bottom-start',
     middleware: [
-      shift({
-        mainAxis: true,
+      autoPlacement({
+        alignment: 'start',
+        autoAlignment: true,
         padding: 8,
       }),
     ],
@@ -45,10 +46,13 @@ const NavigationDropdownMenu = (props: Props) => {
           unmount={false}
           ref={refs.setFloating}
           style={floatingStyles}
+          className="flex"
           // className="absolute left-1/2 z-10 mt-0 flex w-screen max-w-max -translate-x-1/2 px-4"
         >
-          <div className="mt-4 overflow-hidden rounded-md bg-white p-1 text-gray-950 shadow-lg">
-            {props.children}
+          <div className="absolute left-1/2 z-10 mt-0 flex w-screen max-w-max -translate-x-1/2 px-4">
+            <div className="mt-4 overflow-hidden rounded-md bg-white p-1 text-gray-950 shadow-lg">
+              {props.children}
+            </div>
           </div>
         </PopoverPanel>
       </Transition>

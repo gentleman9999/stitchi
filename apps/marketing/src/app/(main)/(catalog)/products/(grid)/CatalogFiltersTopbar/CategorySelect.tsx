@@ -1,10 +1,10 @@
 import { UseSearchProductFiltersGetDataQuery } from '@generated/types'
-import useSearchProductFilters from './(grid)/useSearchProductFilters'
 import Link from 'next/link'
 import routes from '@lib/routes'
 import cx from 'classnames'
 import { usePathname } from 'next/navigation'
 import { QueryReference } from '@apollo/client'
+import useSearchProductFilters from '../useSearchProductFilters'
 
 const buttonClasses =
   'flex py-1.5 px-3 rounded-full border border-gray-900 whitespace-nowrap'

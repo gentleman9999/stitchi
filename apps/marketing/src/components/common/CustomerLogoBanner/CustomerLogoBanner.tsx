@@ -5,8 +5,11 @@ import greekDressingLogo from '../../../../public/customers/greek_dressing/greek
 import morningBrewLogo from '../../../../public/customers/morning_brew/morning_brew_logo_black.png'
 import greekLicensingLogo from '../../../../public/customers/greek_licensing/greek_licensing_logo.png'
 import lineleapLogo from '../../../../public/customers/lineleap/lineleap_logo.png'
-import Container from '@components/ui/Container'
+import johnnyHamcheckLogo from '../../../../public/customers/johnny_hamcheck_logo.png'
+import iscgLogo from '../../../../public/customers/iscg_logo.png'
+import haworthLogoBlack from '../../../../public/customers/haworth_logo_black.png'
 import { InfiniteLooper } from '@components/common'
+import { cn } from '@lib/utils'
 
 const BrandLogo = (props: { image: StaticImageData; alt: string }) => {
   return (
@@ -21,23 +24,21 @@ const BrandLogo = (props: { image: StaticImageData; alt: string }) => {
   )
 }
 
-const CustomerLogoBanner = () => {
+interface Props {}
+
+const CustomerLogoBanner = ({}: Props) => {
   return (
-    <div className="bg-primary py-5 relative flex flex-col sm:flex-row items-center border-y border-gray-950 overflow-x-hidden">
+    <div
+      className={cn(
+        ' flex flex-col sm:flex-row items-center border-gray-950 overflow-x-hidden',
+      )}
+    >
       <span className="hidden sm:flex justify-center absolute left-0 right-0">
         <InfiniteLooper speed={20}>
           <Logos />
         </InfiniteLooper>
       </span>
-      <span className="bg-primary w-full sm:w-[350px] absolute left-0 top-0 bottom-0 hidden sm:block" />
-
-      <Container>
-        <div className="flex flex-col sm:flex-row gap-10 items-center relative ">
-          <h2 className="text-center sm:text-left text-3xl font-semibold sm:w-[350px] shrink-0 bg-primary leading-1">
-            Powering merch for <br /> the world&apos;s top brands.
-          </h2>
-        </div>
-      </Container>
+      <span className="w-full sm:w-[350px] absolute left-0 top-0 bottom-0 hidden sm:block" />
 
       <span className="w-full sm:hidden">
         <InfiniteLooper speed={20}>
@@ -52,9 +53,12 @@ const Logos = () => (
   <>
     <BrandLogo image={weworkLogo} alt="WeWork logo" />
     <BrandLogo image={morningBrewLogo} alt="Morning Brew logo" />
-    <BrandLogo image={greekDressingLogo} alt="Greek Dressing logo" />
+    <BrandLogo image={johnnyHamcheckLogo} alt="Johnny Hamcheck logo" />
+    <BrandLogo image={haworthLogoBlack} alt="Haworth logo" />
+    <BrandLogo image={iscgLogo} alt="ISCG logo" />
     <BrandLogo image={lineleapLogo} alt="Lineleep logo" />
     <BrandLogo image={greekLicensingLogo} alt="Greek Licensing logo" />
+    <BrandLogo image={greekDressingLogo} alt="Greek Dressing logo" />
   </>
 )
 

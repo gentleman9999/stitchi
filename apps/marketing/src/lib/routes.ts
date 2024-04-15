@@ -73,7 +73,7 @@ const routes = {
 
       all: {
         href: ({ params }: { params?: QueryParams } = {}) =>
-          buildRoute('/products/all', params),
+          buildRoute('/products', params),
       },
 
       brand: {

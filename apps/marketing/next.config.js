@@ -148,6 +148,11 @@ module.exports = withBundleAnalyzer(
           destination: '/learn/kanye-yeezy-vultures-merch-official-links',
           permanent: true,
         },
+        {
+          source: '/products/all',
+          destination: '/products',
+          permanent: true,
+        },
       ]
     },
   }),

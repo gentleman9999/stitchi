@@ -13,6 +13,7 @@ import SearchBar from './SearchBar'
 import Container from '@components/ui/Container'
 import NavigationDropdownMenu from '../../NavigationDropdownMenu'
 import { PopoverButton } from '@components/ui/popover'
+import { ChevronDownIcon } from '@heroicons/react/20/solid'
 
 interface Props {
   rootCategory: NavigationSiteFragment['categoryTree'][number]
@@ -42,8 +43,10 @@ const NavigationBottomBar = ({ rootCategory }: Props) => {
             <NavigationDropdownMenu
               key={category.entityId}
               trigger={
-                <button className="whitespace-nowrap text-sm my-1 text-black">
+                <button className="whitespace-nowrap text-sm my-1 text-black flex items-center">
                   {category.name}
+
+                  <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
                 </button>
               }
             >

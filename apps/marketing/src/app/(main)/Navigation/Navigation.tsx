@@ -10,7 +10,7 @@ import { NavigationSiteFragment } from '@generated/types'
 import SearchBar from './SearchBar'
 import LearnContentsDesktop from './LearnContentsDesktop'
 import IconButton from '@components/ui/IconButton'
-import { Bars3Icon } from '@heroicons/react/20/solid'
+import { Bars3Icon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import MobileNavigation from './MobileNavigation'
 import SearchButton from './SearchButton'
 import NavigationBottomBar from './NavigationBottomBar'
@@ -139,6 +139,7 @@ const TopBarNavigationMenuTrigger = ({
 
         <span className="text-base font-medium leading-none">{title}</span>
       </div>
+      <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
     </button>
   )
 }
