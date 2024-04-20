@@ -107,7 +107,7 @@ const Footer = () => (
             ))}
           </div>
           <div className="mt-8 md:mt-0 md:order-1">
-            <ul className="flex items-center gap-8 mb-3">
+            <ul className="flex items-center gap-8 mb-3 flex-wrap">
               <ListItem
                 label="Privacy"
                 href={routes.internal.legal.privacy.href()}

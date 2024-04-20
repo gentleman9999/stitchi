@@ -28,7 +28,7 @@ const Navigation = ({ categoryTree }: Props) => {
   return (
     <>
       <TopNavContainer>
-        <div className="flex-1 flex flex-row justify-between items-center gap-4">
+        <div className="flex-1 flex flex-row justify-between items-center gap-2 sm:gap-4">
           <MobileNavigation
             renderTrigger={
               <IconButton
@@ -50,7 +50,7 @@ const Navigation = ({ categoryTree }: Props) => {
           </Link>
 
           <PopoverGroup as={Fragment}>
-            <div className="flex-1 flex flex-row justify-between items-center gap-4">
+            <div className="flex-1 flex flex-row justify-between items-center gap-2 sm:gap-4">
               <div className="flex-1 flex items-stretch h-auto flex-row gap-4">
                 <SearchBar className="max-w-[500px] hidden lg:flex" />
 

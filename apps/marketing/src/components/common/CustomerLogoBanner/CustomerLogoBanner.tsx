@@ -30,7 +30,7 @@ const CustomerLogoBanner = ({}: Props) => {
   return (
     <div
       className={cn(
-        ' flex flex-col sm:flex-row items-center border-gray-950 overflow-x-hidden',
+        ' flex flex-col sm:flex-row items-center border-gray-950 overflow-x-hidden h-32',
       )}
     >
       <span className="hidden sm:flex justify-center absolute left-0 right-0">
@@ -38,7 +38,6 @@ const CustomerLogoBanner = ({}: Props) => {
           <Logos />
         </InfiniteLooper>
       </span>
-      <span className="w-full sm:w-[350px] absolute left-0 top-0 bottom-0 hidden sm:block" />
 
       <span className="w-full sm:hidden">
         <InfiniteLooper speed={20}>

@@ -94,92 +94,101 @@ const HomePageHero = () => {
         </Container>
 
         <form className="" {...form}>
-          <p className=" text-center text-2xl font-medium text-gray-600">
-            What do you want help with?
-          </p>
+          <Container>
+            <p className=" text-center text-2xl font-medium text-gray-600">
+              What do you want help with?
+            </p>
+          </Container>
 
-          <fieldset className="w-full">
-            <legend className="sr-only">Solutions</legend>
-
-            <div className="overflow-x-scroll w-full">
-              <ul className="flex flex-row gap-4 sm:flex-wrap justify-start sm:justify-center p-8">
-                <HomePageHeroListItem
-                  label="Design"
-                  value={Interest.Design}
-                  name="interests"
-                  description="Work with our designers to create merch that speaks your brand"
-                  icon={SharedBadge}
-                  color={0}
-                  control={control}
-                />
-                <HomePageHeroListItem
-                  label="Sourcing"
-                  value={Interest.Sourcing}
-                  name="interests"
-                  description="This is some placeholder text about the feature"
-                  icon={SharedBadge}
-                  color={1}
-                  control={control}
-                />
-                <HomePageHeroListItem
-                  label="Logistics"
-                  value={Interest.Logistics}
-                  name="interests"
-                  description="This is some placeholder text about the feature"
-                  icon={SharedBadge}
-                  color={2}
-                  control={control}
-                />
-                <HomePageHeroListItem
-                  label="Warehousing"
-                  value={Interest.Warehousing}
-                  name="interests"
-                  description="This is some placeholder text about the feature"
-                  icon={SharedBadge}
-                  color={3}
-                  control={control}
-                />
-                <HomePageHeroListItem
-                  label="Storefront"
-                  value={Interest.Storefront}
-                  name="interests"
-                  description="This is some placeholder text about the feature"
-                  icon={SharedBadge}
-                  color={4}
-                  control={control}
-                />
-                <HomePageHeroListItem
-                  label="Analytics"
-                  value={Interest.Analytics}
-                  name="interests"
-                  description="This is some placeholder text about the feature"
-                  icon={SharedBadge}
-                  color={5}
-                  control={control}
-                />
-              </ul>
+          <div
+            className="w-full flex flex-nowrap overflow-x-auto no-scrollbar"
+            role="group"
+            aria-labelledby="legend"
+          >
+            <div id="legend" className="sr-only">
+              Solutions
             </div>
-          </fieldset>
-
-          <div className="max-w-md sm:flex">
-            <Link
-              href={routes.internal.getStarted.href()}
-              className={cn(
-                'rounded-lg flex items-center gap-2 py-3 px-4 text-white font-medium shadow-lg transition-all hover:scale-105',
-                getGradientColor(interests),
-              )}
-            >
-              Start creating merch{' '}
-              <ArrowRight strokeWidth="2" className="w-4 h-4" />
-            </Link>
+            <ul className="m-auto flex flex-row gap-4 sm:flex-wrap justify-start sm:justify-center p-8">
+              <HomePageHeroListItem
+                label="Design"
+                value={Interest.Design}
+                name="interests"
+                description="Work with our designers to create merch that speaks your brand"
+                icon={SharedBadge}
+                color={0}
+                control={control}
+              />
+              <HomePageHeroListItem
+                label="Sourcing"
+                value={Interest.Sourcing}
+                name="interests"
+                description="This is some placeholder text about the feature"
+                icon={SharedBadge}
+                color={1}
+                control={control}
+              />
+              <HomePageHeroListItem
+                label="Logistics"
+                value={Interest.Logistics}
+                name="interests"
+                description="This is some placeholder text about the feature"
+                icon={SharedBadge}
+                color={2}
+                control={control}
+              />
+              <HomePageHeroListItem
+                label="Warehousing"
+                value={Interest.Warehousing}
+                name="interests"
+                description="This is some placeholder text about the feature"
+                icon={SharedBadge}
+                color={3}
+                control={control}
+              />
+              <HomePageHeroListItem
+                label="Storefront"
+                value={Interest.Storefront}
+                name="interests"
+                description="This is some placeholder text about the feature"
+                icon={SharedBadge}
+                color={4}
+                control={control}
+              />
+              <HomePageHeroListItem
+                label="Analytics"
+                value={Interest.Analytics}
+                name="interests"
+                description="This is some placeholder text about the feature"
+                icon={SharedBadge}
+                color={5}
+                control={control}
+              />
+            </ul>
           </div>
+          <Container>
+            <div className="flex justify-center">
+              <Link
+                href={routes.internal.getStarted.href()}
+                className={cn(
+                  'rounded-lg inline-flex items-center gap-2 py-3 px-4 text-white font-medium shadow-lg transition-all hover:scale-105',
+                  getGradientColor(interests),
+                )}
+              >
+                Start creating merch{' '}
+                <ArrowRight strokeWidth="2" className="w-4 h-4" />
+              </Link>
+            </div>
+          </Container>
         </form>
 
-        <div className="flex flex-col items-center relative gap-20 ">
-          <p className=" text-gray-600 text-2xl">
-            Powering merch for the world&apos;s top brands.
-          </p>
-          {/* <CustomerLogoBanner /> */}
+        <div>
+          <Container className="mb-10">
+            <p className=" text-gray-600 text-2xl">
+              Powering merch for the world&apos;s top brands.
+            </p>
+          </Container>
+
+          <CustomerLogoBanner />
         </div>
       </Section>
     </header>

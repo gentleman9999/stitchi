@@ -11,12 +11,12 @@ const containerVariants = cva(
   {
     variants: {
       color: {
-        0: 'hover:border-red-500 data-[checked=true]:border-red-500',
-        1: 'hover:border-orange-500 data-[checked=true]:border-orange-500',
-        2: 'hover:border-pink-500 data-[checked=true]:border-pink-500',
-        3: 'hover:border-indigo-500 data-[checked=true]:border-indigo-500',
-        4: 'hover:border-blue-500 data-[checked=true]:border-blue-500',
-        5: 'hover:border-cyan-500 data-[checked=true]:border-cyan-500',
+        0: 'hover:border-red-500 focus:border-red-500 data-[checked=true]:border-red-500',
+        1: 'hover:border-orange-500 focus:border-orange-500 data-[checked=true]:border-orange-500',
+        2: 'hover:border-pink-500 focus:border-pink-500 data-[checked=true]:border-pink-500',
+        3: 'hover:border-indigo-500 focus:border-indigo-500 data-[checked=true]:border-indigo-500',
+        4: 'hover:border-blue-500 focus:border-blue-500 data-[checked=true]:border-blue-500',
+        5: 'hover:border-cyan-500 focus:border-cyan-500 data-[checked=true]:border-cyan-500',
       },
     },
     defaultVariants: {
@@ -29,12 +29,12 @@ const checkboxVariants = cva(
   {
     variants: {
       color: {
-        0: 'data-[checked=true]:from-red-500 data-[checked=true]:to-orange-500 data-[checked=true]:border-red-500 group-hover:border-red-500',
-        1: 'data-[checked=true]:from-orange-500 data-[checked=true]:to-fuchsia-500 data-[checked=true]:border-orange-500 group-hover:border-orange-500',
-        2: 'data-[checked=true]:from-pink-500 data-[checked=true]:to-violet-500 data-[checked=true]:border-pink-500 group-hover:border-pink-500',
-        3: 'data-[checked=true]:from-indigo-500 data-[checked=true]:to-blue-500 data-[checked=true]:border-indigo-500 group-hover:border-indigo-500',
-        4: 'data-[checked=true]:from-blue-500 data-[checked=true]:to-cyan-500 data-[checked=true]:border-blue-500 group-hover:border-blue-500',
-        5: 'data-[checked=true]:from-cyan-500 data-[checked=true]:to-lime-500 data-[checked=true]:border-cyan-500 group-hover:border-cyan-500',
+        0: 'data-[checked=true]:from-red-500 data-[checked=true]:to-orange-500 data-[checked=true]:border-red-500 group-hover:border-red-500 group-focus:border-red-500',
+        1: 'data-[checked=true]:from-orange-500 data-[checked=true]:to-fuchsia-500 data-[checked=true]:border-orange-500 group-hover:border-orange-500 group-focus:border-orange-500',
+        2: 'data-[checked=true]:from-pink-500 data-[checked=true]:to-violet-500 data-[checked=true]:border-pink-500 group-hover:border-pink-500 group-focus:border-pink-500',
+        3: 'data-[checked=true]:from-indigo-500 data-[checked=true]:to-blue-500 data-[checked=true]:border-indigo-500 group-hover:border-indigo-500 group-focus:border-indigo-500',
+        4: 'data-[checked=true]:from-blue-500 data-[checked=true]:to-cyan-500 data-[checked=true]:border-blue-500 group-hover:border-blue-500 group-focus:border-blue-500',
+        5: 'data-[checked=true]:from-cyan-500 data-[checked=true]:to-lime-500 data-[checked=true]:border-cyan-500 group-hover:border-cyan-500 group-focus:border-cyan-500',
       },
       defaultVariants: {
         color: 0,
@@ -101,21 +101,33 @@ const HomePageHeroListItem = ({
       control={control}
       render={({ field }) => {
         const checked = field.value?.includes(value) ? 'true' : 'false'
+
+        const handleChange = () => {
+          field.onChange(
+            field.value?.includes(value)
+              ? field.value.filter((v: string) => v !== value)
+              : [...(field.value || []), value],
+          )
+        }
         return (
           <li
-            id={label}
+            role="option"
+            tabIndex={0}
+            id={`option-${label}`}
             data-checked={checked}
+            aria-selected={checked === 'true'}
             className={containerVariants({ color })}
-            onClick={() =>
-              field.onChange(
-                field.value?.includes(value)
-                  ? field.value.filter((v: string) => v !== value)
-                  : [...(field.value || []), value],
-              )
-            }
+            onKeyDown={e => {
+              if (e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault()
+                handleChange()
+              }
+            }}
+            onClick={() => handleChange()}
           >
             <div className="absolute top-0 left-0 p-2">
               <input
+                tabIndex={-1} // Prevents the checkbox from being focused when the user clicks on the list item
                 type="checkbox"
                 id={label}
                 value={value}
