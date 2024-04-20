@@ -36,9 +36,6 @@ const Layout = async ({ children }: Props) => {
           </div>
 
           <div className="hidden flex-auto lg:flex items-center justify-center space-x-6">
-            <CategoryNavItem path={routes.internal.catalog.href()}>
-              Discover
-            </CategoryNavItem>
             <CategoryNavItem path={routes.internal.catalog.all.href()}>
               All products
             </CategoryNavItem>

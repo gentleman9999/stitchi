@@ -1,9 +1,7 @@
 import React from 'react'
-import {
-  Section,
-  SimpleCenteredTestimonial,
-  useSpokesperson,
-} from '@components/common'
+import Section from '@components/common/Section'
+import { useSpokesperson } from '@components/common/testimonial/Spokesperson'
+import SimpleCenteredTestimonial from '@components/common/testimonial/SimpleCenteredTestimonial'
 import routes from '@lib/routes'
 
 import morningBrewLogo from '../../../../public/customers/morning_brew/morning_brew_logo.png'

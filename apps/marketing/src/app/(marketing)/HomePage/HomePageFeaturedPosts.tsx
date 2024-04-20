@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client'
-import { BlogPostCard, Section } from '@components/common'
+import BlogPostCard from '@components/common/BlogPostCard'
+import Section from '@components/common/Section'
 import { HomePageFeaturedPostsPostsFragment } from '@generated/HomePageFeaturedPostsPostsFragment'
 import routes from '@lib/routes'
 import { ArrowRight } from 'icons'

@@ -1,10 +1,10 @@
-import { Section } from '@components/common'
+import Section from '@components/common/Section'
 import React from 'react'
 import cx from 'classnames'
 import routes from '@lib/routes'
 import Link from 'next/link'
 import Container from '@components/ui/Container'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 const useCases = [
   {

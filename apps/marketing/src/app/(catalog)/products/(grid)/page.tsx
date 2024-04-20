@@ -1,6 +1,6 @@
 import routes from '@lib/routes'
 import { Metadata } from 'next'
-import CatalogProductsListPage from '../CatalogProductsListPage'
+import CatalogProductsListPage from './CatalogProductsListPage'
 
 const title =
   'View our entire collection of Customizable Apparel for Every Style & Budget'
