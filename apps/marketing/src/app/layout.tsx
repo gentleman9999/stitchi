@@ -27,21 +27,28 @@ import MixpanelProvider from '@components/context/mixpanel-context'
 import { AxiomWebVitals, Logger } from 'next-axiom'
 import Script from 'next/script'
 import { GTM_ID } from '@lib/events'
-import { Saira, Saira_Condensed } from 'next/font/google'
+import { Saira, Saira_Condensed, Poppins } from 'next/font/google'
 
 const logger = new Logger()
 
-const saira = Saira({
+// const saira = Saira({
+//   subsets: ['latin'],
+//   display: 'swap',
+//   variable: '--font-default',
+// })
+
+// const sairaCond = Saira_Condensed({
+//   weight: ['600'],
+//   subsets: ['latin'],
+//   display: 'swap',
+//   variable: '--font-heading-display',
+// })
+
+const poppins = Poppins({
+  weight: ['400', '600', '800', '900'],
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-default',
-})
-
-const sairaCond = Saira_Condensed({
-  weight: ['600'],
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-heading-display',
 })
 
 const title = 'Custom Merch & Merch Programs'
@@ -134,7 +141,7 @@ const RootLayout = async ({ children }: Props) => {
   const deviceId = cookiesInstance.get(COOKIE_DEVICE_ID)?.value
 
   return (
-    <html className={`${saira.variable} ${sairaCond.variable}`} lang="en-US">
+    <html className={`${poppins.variable}`} lang="en-US">
       {/* Google Tag Manager - Global base code */}
       <Script
         id="google-tag-manager"
