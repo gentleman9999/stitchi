@@ -9,6 +9,7 @@ import {
   COMPANY_NAME,
   COOKIE_DEVICE_ID,
   SEO_DEFAULT_DESCRIPTION,
+  SEO_DEFAULT_TITLE,
   SITE_URL,
 } from '@lib/constants'
 import { StandoutProvider } from '@components/context/standout'
@@ -51,7 +52,7 @@ const poppins = Poppins({
   variable: '--font-default',
 })
 
-const title = 'Custom Merch & Merch Programs'
+const title = SEO_DEFAULT_TITLE
 const description = SEO_DEFAULT_DESCRIPTION
 
 export const metadata: Metadata = {
