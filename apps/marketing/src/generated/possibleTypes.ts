@@ -11,11 +11,6 @@
       "CustomerNotLoggedInError",
       "ValidationError"
     ],
-    "AddProductReviewError": [
-      "NotAuthorizedToAddProductReviewError",
-      "NumberOfReviewsPerCustomerExceededError",
-      "ValidationError"
-    ],
     "ArticleModelContentLinksField": [
       "ArticleRecord",
       "CustomComponentRecord",
@@ -68,6 +63,12 @@
       "CheckoutAddressPasswordCustomField",
       "CheckoutAddressTextFieldCustomField"
     ],
+    "CreateCartMetafieldError": [
+      "AlreadyExistsError",
+      "LimitExceededError",
+      "NotFoundError",
+      "ValidationError"
+    ],
     "CustomerFormFieldValue": [
       "CheckboxesFormFieldValue",
       "DateFormFieldValue",
@@ -75,6 +76,11 @@
       "NumberFormFieldValue",
       "PasswordFormFieldValue",
       "TextFormFieldValue"
+    ],
+    "DeleteCartMetafieldError": [
+      "NotAuthorisedError",
+      "NotFoundError",
+      "ValidationError"
     ],
     "DeleteCustomerAddressError": [
       "CustomerAddressDeletionError",
@@ -89,6 +95,7 @@
     "Error": [
       "AccountCreationDisabledError",
       "AddressDoesNotExistError",
+      "AlreadyExistsError",
       "CustomerAddressCreationError",
       "CustomerAddressDeletionError",
       "CustomerAddressUpdateError",
@@ -97,8 +104,9 @@
       "CustomerPasswordError",
       "CustomerRegistrationError",
       "EmailAlreadyInUseError",
-      "NotAuthorizedToAddProductReviewError",
-      "NumberOfReviewsPerCustomerExceededError",
+      "LimitExceededError",
+      "NotAuthorisedError",
+      "NotFoundError",
       "ValidationError"
     ],
     "File": [
@@ -116,6 +124,7 @@
       "NumberFormField",
       "PasswordFormField",
       "PicklistFormField",
+      "PicklistOrTextFormField",
       "RadioButtonsFormField",
       "TextFormField"
     ],
@@ -229,6 +238,12 @@
       "StoreTextLogo"
     ],
     "SubmitContactUsError": [
+      "ValidationError"
+    ],
+    "UpdateCartMetafieldError": [
+      "AlreadyExistsError",
+      "NotAuthorisedError",
+      "NotFoundError",
       "ValidationError"
     ],
     "UpdateCustomerAddressError": [

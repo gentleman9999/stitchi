@@ -153,6 +153,18 @@ module.exports = withBundleAnalyzer(
           destination: '/learn/kanye-yeezy-vultures-merch-official-links',
           permanent: true,
         },
+
+        //
+        // Start - Legacy hidden collection URLs
+        //
+        {
+          source: '/collections-hidden/pullover-blank-hoodie',
+          destination: '/collections/pullover-blank-hoodie',
+          permanent: true,
+        },
+        //
+        // End - Legacy hidden collection URLs
+        //
       ]
     },
   }),

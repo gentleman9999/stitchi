@@ -113,7 +113,7 @@ const HomePageHero = () => {
                 label="Design"
                 value={Interest.Design}
                 name="interests"
-                description="Work with our designers to create merch that speaks your brand"
+                description="Free customization support from our professional designers."
                 icon={SharedBadge}
                 color={0}
                 control={control}
@@ -122,7 +122,7 @@ const HomePageHero = () => {
                 label="Sourcing"
                 value={Interest.Sourcing}
                 name="interests"
-                description="This is some placeholder text about the feature"
+                description="Catalog of 10,000+ high-quality products at 30%+ lower rates."
                 icon={SharedBadge}
                 color={1}
                 control={control}
@@ -131,7 +131,7 @@ const HomePageHero = () => {
                 label="Logistics"
                 value={Interest.Logistics}
                 name="interests"
-                description="This is some placeholder text about the feature"
+                description="Efficient, worldwide logistics and shipment tracking to meet your needs."
                 icon={SharedBadge}
                 color={2}
                 control={control}
@@ -140,7 +140,7 @@ const HomePageHero = () => {
                 label="Warehousing"
                 value={Interest.Warehousing}
                 name="interests"
-                description="This is some placeholder text about the feature"
+                description="Let us hold your inventory and ship on demand for only 99¢."
                 icon={SharedBadge}
                 color={3}
                 control={control}
@@ -149,7 +149,7 @@ const HomePageHero = () => {
                 label="Storefront"
                 value={Interest.Storefront}
                 name="interests"
-                description="This is some placeholder text about the feature"
+                description="Integrate with any e-commerce platform."
                 icon={SharedBadge}
                 color={4}
                 control={control}
@@ -158,7 +158,7 @@ const HomePageHero = () => {
                 label="Analytics"
                 value={Interest.Analytics}
                 name="interests"
-                description="This is some placeholder text about the feature"
+                description="Manage spend, track ROI, and optimize your merch strategy."
                 icon={SharedBadge}
                 color={5}
                 control={control}
