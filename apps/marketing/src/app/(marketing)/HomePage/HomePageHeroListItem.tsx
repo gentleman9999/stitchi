@@ -131,7 +131,7 @@ const HomePageHeroListItem = ({
                 type="checkbox"
                 id={label}
                 value={value}
-                checked={checked === 'true'}
+                defaultChecked={checked === 'true'}
                 className="sr-only"
               />
               <div

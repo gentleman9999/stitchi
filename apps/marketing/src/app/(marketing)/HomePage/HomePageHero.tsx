@@ -93,7 +93,7 @@ const HomePageHero = () => {
           </div>
         </Container>
 
-        <form className="" {...form}>
+        <form onSubmit={e => e.preventDefault()}>
           <Container>
             <p className="text-left md:text-center text-2xl font-medium text-gray-600">
               What do you want help with?
