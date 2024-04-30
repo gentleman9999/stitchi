@@ -122,7 +122,7 @@ const HomePageHero = () => {
                 label="Sourcing"
                 value={Interest.Sourcing}
                 name="interests"
-                description="Catalog of 10,000+ high-quality products at 30%+ lower rates."
+                description="Customize 5,000+ high-quality products at 30%+ lower rates."
                 icon={SharedBadge}
                 color={1}
                 control={control}

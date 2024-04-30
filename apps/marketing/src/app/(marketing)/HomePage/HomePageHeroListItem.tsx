@@ -7,7 +7,7 @@ import { Control, Controller } from 'react-hook-form'
 import { FormInput, Interest } from './HomePageHero'
 
 const containerVariants = cva(
-  'group cursor-pointer w-[180px] relative flex flex-col justify-center items-center gap-2 font-medium text-lg leading-tight border rounded-xl aspect-square text-center p-4 transition-colors duration-200',
+  'group cursor-pointer w-[180px] relative flex flex-col  items-center gap-2 font-medium text-lg leading-tight border rounded-xl aspect-square text-center p-4 transition-colors duration-200',
   {
     variants: {
       color: {
