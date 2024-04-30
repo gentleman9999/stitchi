@@ -124,6 +124,7 @@ export interface BigCommerceProduct {
   availability: 'available' | 'disabled' | 'preorder'
   images: BigCommerceProductImage[] | undefined
   url: string | null
+  sortOrder: number
 }
 
 export interface BigCommerceProductImage {

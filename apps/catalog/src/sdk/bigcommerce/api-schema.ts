@@ -255,6 +255,7 @@ export const bigCommerceProductApiSchema = yup.object().shape({
     .required(),
   is_visible: yup.boolean().required(),
   is_featured: yup.boolean().required(),
+  sort_order: yup.number().integer().required(),
   upc: yup.string().optional(),
   gtin: yup.string().optional(),
   mpn: yup.string().optional(),

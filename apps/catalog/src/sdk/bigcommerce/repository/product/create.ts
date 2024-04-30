@@ -1,13 +1,13 @@
-import * as yup from "yup";
-import { BigCommerceProduct } from "../../types";
-import makeClient from "../../client";
-import { makeProduct } from "../../serializer";
+import * as yup from 'yup'
+import { BigCommerceProduct } from '../../types'
+import makeClient from '../../client'
+import { makeProduct } from '../../serializer'
 import {
   bigCommerceApiResponseSchema,
   bigCommerceCustomFieldApiSchema,
   bigCommerceProductApiSchema,
-} from "../../api-schema";
-import filterValidImages from "../../utils/filter-valid-images";
+} from '../../api-schema'
+import filterValidImages from '../../utils/filter-valid-images'
 
 const inputSchema = yup.object().shape({
   visible: yup.boolean().required(),
@@ -16,13 +16,14 @@ const inputSchema = yup.object().shape({
   sku: yup.string().required(),
   categoryIds: yup.array(yup.number().required()).required(),
   brandName: yup.string().required(),
+  sortOrder: yup.number().optional(),
   availability: yup
     .string()
-    .oneOf(["available", "disabled", "preorder"])
+    .oneOf(['available', 'disabled', 'preorder'])
     .required(),
   inventoryTracking: yup
     .string()
-    .oneOf(["none", "variant", "product"])
+    .oneOf(['none', 'variant', 'product'])
     .required(),
   url: yup.string().required(),
   images: yup
@@ -34,51 +35,51 @@ const inputSchema = yup.object().shape({
           imageUrl: yup.string().required(),
           isThumbnail: yup.boolean().required(),
         })
-        .required()
+        .required(),
     )
     .nullable(),
   customFields: yup
     .array()
-    .of(bigCommerceCustomFieldApiSchema.omit(["id"]).required()),
-});
+    .of(bigCommerceCustomFieldApiSchema.omit(['id']).required()),
+})
 
-export type CreateProductInput = yup.InferType<typeof inputSchema>;
+export type CreateProductInput = yup.InferType<typeof inputSchema>
 
 export type CreateProductFn = (
-  productInput: CreateProductInput
-) => Promise<BigCommerceProduct>;
+  productInput: CreateProductInput,
+) => Promise<BigCommerceProduct>
 
 interface Client {
-  client: ReturnType<typeof makeClient>;
+  client: ReturnType<typeof makeClient>
 }
 
 const makeCreateProductFn = ({ client }: Client): CreateProductFn => {
   return async function create(product) {
-    let validInput;
+    let validInput
 
     try {
-      validInput = await inputSchema.validate(product);
+      validInput = await inputSchema.validate(product)
     } catch (error) {
-      console.error("Error validating product input", {
+      console.error('Error validating product input', {
         context: { error },
-      });
+      })
 
-      throw error;
+      throw error
     }
 
-    const copiedValidInput = { ...validInput };
+    const copiedValidInput = { ...validInput }
 
-    const validImages = await filterValidImages(copiedValidInput.images || []);
+    const validImages = await filterValidImages(copiedValidInput.images || [])
 
-    let productData;
+    let productData
 
     const [error, productResponse] = await client.call(
-      "/products",
+      '/products',
       bigCommerceApiResponseSchema(bigCommerceProductApiSchema.required()),
       {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify({
-          type: "physical",
+          type: 'physical',
           // We set price on the variant, not the product
           price: 0,
           // We set weight on the variant, not the product
@@ -91,6 +92,7 @@ const makeCreateProductFn = ({ client }: Client): CreateProductFn => {
           brand_name: copiedValidInput.brandName,
           availability: copiedValidInput.availability,
           inventory_tracking: copiedValidInput.inventoryTracking,
+          sort_order: copiedValidInput.sortOrder,
           custom_url: {
             // By default, the url is the BigCommerce product name
             // Our BigCommerce product names are BRAND NAME + PRODUCT NAME + [SKU] in order for them to be unique
@@ -99,30 +101,30 @@ const makeCreateProductFn = ({ client }: Client): CreateProductFn => {
             url: copiedValidInput.url,
             is_customized: true,
           },
-          images: validImages.map((image) => ({
+          images: validImages.map(image => ({
             image_url: image.imageUrl,
             is_thumbnail: image.isThumbnail,
           })),
-          custom_fields: validInput.customFields?.map((field) => ({
+          custom_fields: validInput.customFields?.map(field => ({
             name: field.name,
             value: field.value,
           })),
         }),
-      }
-    );
+      },
+    )
 
     if (error) {
-      console.error("Error creating product", {
+      console.error('Error creating product', {
         context: { error },
-      });
+      })
 
-      throw error;
+      throw error
     }
 
-    productData = productResponse.data;
+    productData = productResponse.data
 
-    return makeProduct({ ...productData, metadata: [] });
-  };
-};
+    return makeProduct({ ...productData, metadata: [] })
+  }
+}
 
-export default makeCreateProductFn;
+export default makeCreateProductFn

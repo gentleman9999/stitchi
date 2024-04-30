@@ -18,6 +18,7 @@ const inputSchema = yup.object().shape({
   sku: yup.string().optional(),
   categoryIds: yup.array(yup.number().required()).optional(),
   price: yup.number().optional(),
+  sortOrder: yup.number().optional(),
   inventoryTracking: yup
     .string()
     .oneOf(['none', 'variant', 'product'])
@@ -106,6 +107,7 @@ const makeUpdateProductFn = ({ client }: Client): UpdateProductFn => {
             is_visible: validInput.visible,
             brand_name: validInput.brandName,
             inventory_tracking: validInput.inventoryTracking,
+            sort_order: validInput.sortOrder,
             ...(validInput.url
               ? {
                   custom_url: {
