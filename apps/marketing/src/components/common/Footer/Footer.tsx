@@ -118,6 +118,10 @@ const Footer = () => (
               />
               <ListItem label="Careers" href={routes.external.careers.href()} />
               <ListItem label="Support" href={routes.external.support.href()} />
+              <ListItem
+                label="Contact Us"
+                href={routes.internal.contact.href()}
+              />
             </ul>
             <p className="text-base text-gray-100 ">
               &copy; {new Date().getFullYear()} Stitchi, LLC. All rights

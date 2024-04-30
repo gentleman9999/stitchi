@@ -17,11 +17,11 @@ const ClosingCtaSection = () => {
         <div className="py-10 md:py-28 lg:py-36 xl:p">
           <div className="flex flex-col items-center gap-8 md:gap-10">
             <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold max-w-3xl md:text-center m-auto font-headingDisplay uppercase">
-              There’s a better way
+              Merchandise simplified
             </h2>
             <p className="text-lg md:text-xl max-w-sm sm:max-w-lg text-center">
-              Develop quality branded merchandise experiences with a partner you
-              can depend on at every step.
+              The best swag management platform from the partner you can depend
+              on at every step.
             </p>
             <div className="inline-block mt-12">
               <Button

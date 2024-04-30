@@ -117,12 +117,13 @@ const HomePage = () => {
               Built for scale
             </span>
             <h2 className="font-headingDisplay uppercase text-4xl sm:text-5xl md:text-6xl font-bold mt-4 text-white">
-              Merch is awesome. <br />
-              Managing it sucks.
+              Awesome merch services <br />
+              You wished for.
             </h2>
             <p className="mt-6 text-gray-50/80  max-w-md">
-              Develop quality branded merchandise experiences with a partner you
-              can depend on every step of the way.
+              We are your one-stop partner for all merchandise services.
+              Customization, storage, packing, shipping, analytics, team stores,
+              and storefront support. Always reliable, fast, and affordable.
             </p>
 
             <Button

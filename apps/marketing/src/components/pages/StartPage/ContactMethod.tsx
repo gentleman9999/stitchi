@@ -1,19 +1,34 @@
 import LinkInline from '@components/ui/LinkInline'
 import React from 'react'
 
-interface Props {
+interface BaseProps {
   title: string
   label: string
+}
+
+interface LinkProps extends BaseProps {
   href: string
 }
 
-const ContactMethod = ({ title, label, href }: Props) => {
+interface ButtonProps extends BaseProps {
+  onClick: () => void
+}
+
+type Props = LinkProps | ButtonProps
+
+const ContactMethod = ({ title, label, ...rest }: Props) => {
   return (
     <div>
       <div className="font-bold text-2xl">{title}</div>
-      <LinkInline href={href} external>
-        {label}
-      </LinkInline>
+      {'href' in rest ? (
+        <LinkInline {...rest} external>
+          {label}
+        </LinkInline>
+      ) : (
+        <button {...rest} className="underline">
+          {label}
+        </button>
+      )}
     </div>
   )
 }
