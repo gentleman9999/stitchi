@@ -18,7 +18,7 @@ const StartPage = () => {
   const { showNewMessage } = useIntercom()
 
   const OtherContactOptions = (
-    <div className="flex flex-col gap-10">
+    <address className="flex flex-col gap-10">
       <p className="mt-4 text-lg md:text-xl lg:text-2xl text-gray-500 sm:mt-3 max-w-3xl">
         Need something else? Here are some other ways to get in touch.
       </p>
@@ -42,7 +42,16 @@ const StartPage = () => {
         label="+1 (248) 221-1863"
         href={routes.external.support.phone.href()}
       />
-    </div>
+      <ContactMethod
+        title="Write us"
+        label={
+          <>
+            30140 Orchard Lake Rd. <br />
+            Farmington Hills, MI 48334
+          </>
+        }
+      />
+    </address>
   )
 
   return (

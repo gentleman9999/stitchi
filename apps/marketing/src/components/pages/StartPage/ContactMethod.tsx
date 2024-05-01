@@ -3,7 +3,7 @@ import React from 'react'
 
 interface BaseProps {
   title: string
-  label: string
+  label: React.ReactNode
 }
 
 interface LinkProps extends BaseProps {
@@ -14,7 +14,7 @@ interface ButtonProps extends BaseProps {
   onClick: () => void
 }
 
-type Props = LinkProps | ButtonProps
+type Props = LinkProps | ButtonProps | BaseProps
 
 const ContactMethod = ({ title, label, ...rest }: Props) => {
   return (
@@ -24,10 +24,12 @@ const ContactMethod = ({ title, label, ...rest }: Props) => {
         <LinkInline {...rest} external>
           {label}
         </LinkInline>
-      ) : (
+      ) : 'onClick' in rest ? (
         <button {...rest} className="underline">
           {label}
         </button>
+      ) : (
+        label
       )}
     </div>
   )
