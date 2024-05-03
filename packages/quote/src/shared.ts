@@ -44,19 +44,14 @@ export const SCREEN_CHARGE = 20_00 // per color
 export const getPrintQtyBreakpoint = (qty: number) => {
   return PRINT_QTY_BREAKPOINTS.findIndex((bp, i) => {
     if (qty > bp) {
-      // If this is the greatest breakpoint, return true
-      if (!PRINT_QTY_BREAKPOINTS[i + 1]) {
+      if (PRINT_QTY_BREAKPOINTS[i + 1] === undefined) {
         return true
       }
 
-      if (qty < PRINT_QTY_BREAKPOINTS[i + 1]) {
-        return true
-      }
-    } else if (i === 0) {
-      return true
+      return false
     }
 
-    return false
+    return true
   })
 }
 
