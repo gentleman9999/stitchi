@@ -15,6 +15,28 @@ type CatalogCategory {
   subcategories: CatalogCategory
 }
 
+input CatalogManualQuoteCreateAddonsInput {
+  printLocation: CatalogManualQuoteCreateAddonsPrintLocationInput
+}
+
+input CatalogManualQuoteCreateAddonsPrintLocationInput {
+  colorCount: Int!
+}
+
+input CatalogManualQuoteCreateInput {
+  addons: [CatalogManualQuoteCreateAddonsInput!]!
+  items: [CatalogManualQuoteCreateItemsInput!]!
+}
+
+input CatalogManualQuoteCreateItemsInput {
+  priceCents: Int!
+  quantity: Int!
+}
+
+type CatalogManualQuoteCreatePayload {
+  quote: Quote
+}
+
 type CatalogProduct {
   brand: CatalogBrand
   brandId: ID
@@ -917,6 +939,7 @@ enum MembershipRole {
 }
 
 type Mutation {
+  catalogManualQuoteCreate(input: CatalogManualQuoteCreateInput!): CatalogManualQuoteCreatePayload
   catalogProductCustomize(input: CatalogProductCustomizeInput!): CatalogProductCustomizePayload
   catalogProductQuoteCreate(input: CatalogProductQuoteCreateInput!): CatalogProductQuoteCreatePayload
   designProductCreateOrder(input: DesignProductCreateOrderInput!): DesignProductCreateOrderPayload
@@ -1418,6 +1441,7 @@ enum ScopeResource {
   DesignRequest
   DesignRequestRevisionRequest
   Integration
+  ManualQuote
   Membership
   Order
   OrderFulfillment

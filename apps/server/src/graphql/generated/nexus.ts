@@ -38,6 +38,20 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  CatalogManualQuoteCreateAddonsInput: { // input type
+    printLocation?: NexusGenInputs['CatalogManualQuoteCreateAddonsPrintLocationInput'] | null; // CatalogManualQuoteCreateAddonsPrintLocationInput
+  }
+  CatalogManualQuoteCreateAddonsPrintLocationInput: { // input type
+    colorCount: number; // Int!
+  }
+  CatalogManualQuoteCreateInput: { // input type
+    addons: NexusGenInputs['CatalogManualQuoteCreateAddonsInput'][]; // [CatalogManualQuoteCreateAddonsInput!]!
+    items: NexusGenInputs['CatalogManualQuoteCreateItemsInput'][]; // [CatalogManualQuoteCreateItemsInput!]!
+  }
+  CatalogManualQuoteCreateItemsInput: { // input type
+    priceCents: number; // Int!
+    quantity: number; // Int!
+  }
   CatalogProductCustomizeAddonInput: { // input type
     name: string; // String!
     type: NexusGenEnums['CatalogProductCustomizationAddonType']; // CatalogProductCustomizationAddonType!
@@ -382,7 +396,7 @@ export interface NexusGenEnums {
   OrderType: "CART" | "CONFIRMED"
   ScopeAction: "CREATE" | "DELETE" | "READ" | "UPDATE"
   ScopeModifier: "ALL" | "OWN"
-  ScopeResource: "DesignProduct" | "DesignProof" | "DesignRequest" | "DesignRequestRevisionRequest" | "Integration" | "Membership" | "Order" | "OrderFulfillment" | "Organization"
+  ScopeResource: "DesignProduct" | "DesignProof" | "DesignRequest" | "DesignRequestRevisionRequest" | "Integration" | "ManualQuote" | "Membership" | "Order" | "OrderFulfillment" | "Organization"
   SubscriberListEnum: "NEWSLETTER_SUBSCRIBER" | "NEW_USER" | "STUDENT_MERCH_DOWNLOAD"
 }
 
@@ -406,6 +420,9 @@ export interface NexusGenObjects {
     description?: string | null; // String
     name: string; // String!
     subcategories?: NexusGenRootTypes['CatalogCategory'] | null; // CatalogCategory
+  }
+  CatalogManualQuoteCreatePayload: { // root type
+    quote?: NexusGenRootTypes['Quote'] | null; // Quote
   }
   CatalogProduct: { // root type
     brandId?: string | null; // ID
@@ -1050,6 +1067,9 @@ export interface NexusGenFieldTypes {
     name: string; // String!
     subcategories: NexusGenRootTypes['CatalogCategory'] | null; // CatalogCategory
   }
+  CatalogManualQuoteCreatePayload: { // field return type
+    quote: NexusGenRootTypes['Quote'] | null; // Quote
+  }
   CatalogProduct: { // field return type
     brand: NexusGenRootTypes['CatalogBrand'] | null; // CatalogBrand
     brandId: string | null; // ID
@@ -1475,6 +1495,7 @@ export interface NexusGenFieldTypes {
     membership: NexusGenRootTypes['Membership']; // Membership!
   }
   Mutation: { // field return type
+    catalogManualQuoteCreate: NexusGenRootTypes['CatalogManualQuoteCreatePayload'] | null; // CatalogManualQuoteCreatePayload
     catalogProductCustomize: NexusGenRootTypes['CatalogProductCustomizePayload'] | null; // CatalogProductCustomizePayload
     catalogProductQuoteCreate: NexusGenRootTypes['CatalogProductQuoteCreatePayload'] | null; // CatalogProductQuoteCreatePayload
     designProductCreateOrder: NexusGenRootTypes['DesignProductCreateOrderPayload'] | null; // DesignProductCreateOrderPayload
@@ -1816,6 +1837,9 @@ export interface NexusGenFieldTypeNames {
     description: 'String'
     name: 'String'
     subcategories: 'CatalogCategory'
+  }
+  CatalogManualQuoteCreatePayload: { // field return type name
+    quote: 'Quote'
   }
   CatalogProduct: { // field return type name
     brand: 'CatalogBrand'
@@ -2242,6 +2266,7 @@ export interface NexusGenFieldTypeNames {
     membership: 'Membership'
   }
   Mutation: { // field return type name
+    catalogManualQuoteCreate: 'CatalogManualQuoteCreatePayload'
     catalogProductCustomize: 'CatalogProductCustomizePayload'
     catalogProductQuoteCreate: 'CatalogProductQuoteCreatePayload'
     designProductCreateOrder: 'DesignProductCreateOrderPayload'
@@ -2619,6 +2644,9 @@ export interface NexusGenArgTypes {
     }
   }
   Mutation: {
+    catalogManualQuoteCreate: { // args
+      input: NexusGenInputs['CatalogManualQuoteCreateInput']; // CatalogManualQuoteCreateInput!
+    }
     catalogProductCustomize: { // args
       input: NexusGenInputs['CatalogProductCustomizeInput']; // CatalogProductCustomizeInput!
     }

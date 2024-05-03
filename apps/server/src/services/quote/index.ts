@@ -36,11 +36,31 @@ const inputV2Schema = yup.object().shape({
 
 type GenerateQuoteV2Input = yup.InferType<typeof inputV2Schema>
 
-export interface QuoteServiceEstimate {
-  productTotalCostCents: number
-  productUnitCostCents: number
-  printLocationCount: number
-}
+const inputManualSchema = yup.object().shape({
+  includeFulfillment: yup.boolean().required(),
+  printLocations: yup
+    .array()
+    .of(
+      yup
+        .object()
+        .shape({
+          colorCount: yup.number().min(1).required(),
+        })
+        .required(),
+    )
+    .required(),
+  variants: yup
+    .array()
+    .of(
+      yup.object().shape({
+        priceCents: yup.number().required(),
+        quantity: yup.number().min(1).required(),
+      }),
+    )
+    .required(),
+})
+
+type GenerateQuoteManualInput = yup.InferType<typeof inputManualSchema>
 
 export interface QuoteServiceQuoteV2 {
   totalRetailPriceCents: number
@@ -55,8 +75,21 @@ export interface QuoteServiceQuoteV2 {
   }[]
 }
 
+export interface QuoteServiceQuoteManual {
+  totalRetailPriceCents: number
+  unitRetailPriceCents: number
+  variants: {
+    unitCostCents: number
+    totalRetailPriceCents: number
+    quantity: number
+  }[]
+}
+
 export interface QuoteService {
   generateQuoteV2(input: GenerateQuoteV2Input): Promise<QuoteServiceQuoteV2>
+  generateQuoteManual(
+    input: GenerateQuoteManualInput,
+  ): Promise<QuoteServiceQuoteManual>
 }
 
 interface MakeClientParams {
@@ -119,6 +152,33 @@ const makeClient: MakeClientFn = (
         includeFulfillment: validInput.includeFulfillment,
         printLocations: validInput.printLocations,
         variants: serializedVariants,
+      })
+
+      if (error) {
+        logger
+          .child({
+            context: { error },
+          })
+          .error('Failed to calculate quote')
+
+        throw error
+      }
+
+      return calculation
+    },
+
+    generateQuoteManual: async input => {
+      const validInput = await inputManualSchema.validate(input)
+
+      const calculate = makeCalculate()
+
+      const [error, calculation] = calculate({
+        includeFulfillment: validInput.includeFulfillment,
+        printLocations: validInput.printLocations,
+        variants: validInput.variants.map(variant => ({
+          quantity: variant.quantity,
+          priceCents: variant.priceCents,
+        })),
       })
 
       if (error) {

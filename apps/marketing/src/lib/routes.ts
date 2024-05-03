@@ -409,6 +409,12 @@ const routes = {
           href: () => buildRoute('/closet/settings/organization'),
         },
       },
+
+      admin: {
+        tools: {
+          href: () => buildRoute('/closet/admin/tools'),
+        },
+      },
     },
 
     account: {
@@ -426,6 +432,7 @@ const routes = {
       },
     },
   },
+
   api: {
     formResponse: {
       create: {
