@@ -19,7 +19,7 @@ interface MultilineProps
   inputRef?: React.Ref<any>
 }
 
-interface SinglelineProps
+export interface SinglelineProps
   extends BaseProps,
     Omit<InputElementAttributes, 'size'> {
   multiline?: false
