@@ -18,6 +18,7 @@ import { designRequestFactoryToGrahpql } from '../../serializers/design'
 import { orderFactoryOrderToGraphQL } from '../../serializers/order'
 
 export * from './catalog-product-quote'
+export * from './catalog-manual-quote'
 
 export const CatalogProductCustomizeItemsInput = inputObjectType({
   name: 'CatalogProductCustomizeItemsInput',

@@ -1568,6 +1568,29 @@ export interface CatalogCategoryRecord_seoMetaTagsArgs {
   locale?: InputMaybe<SiteLocale>;
 }
 
+export interface CatalogManualQuoteCreateAddonsInput {
+  printLocation?: InputMaybe<CatalogManualQuoteCreateAddonsPrintLocationInput>;
+}
+
+export interface CatalogManualQuoteCreateAddonsPrintLocationInput {
+  colorCount: Scalars['Int']['input'];
+}
+
+export interface CatalogManualQuoteCreateInput {
+  addons: Array<CatalogManualQuoteCreateAddonsInput>;
+  items: Array<CatalogManualQuoteCreateItemsInput>;
+}
+
+export interface CatalogManualQuoteCreateItemsInput {
+  priceCents: Scalars['Int']['input'];
+  quantity: Scalars['Int']['input'];
+}
+
+export interface CatalogManualQuoteCreatePayload {
+  __typename: 'CatalogManualQuoteCreatePayload';
+  quote: Maybe<Quote>;
+}
+
 export interface CatalogProduct {
   __typename: 'CatalogProduct';
   brand: Maybe<CatalogBrand>;
@@ -7691,6 +7714,7 @@ export interface Mutation {
   __typename: 'Mutation';
   /** The Cart mutations. */
   cart: CartMutations;
+  catalogManualQuoteCreate: Maybe<CatalogManualQuoteCreatePayload>;
   catalogProductCustomize: Maybe<CatalogProductCustomizePayload>;
   catalogProductQuoteCreate: Maybe<CatalogProductQuoteCreatePayload>;
   /** The Checkout mutations. */
@@ -7750,6 +7774,11 @@ export interface Mutation {
   userSetOrganization: Maybe<UserSetOrganizationPayload>;
   /** The wishlist mutations. */
   wishlist: WishlistMutations;
+}
+
+
+export interface MutationcatalogManualQuoteCreateArgs {
+  input: CatalogManualQuoteCreateInput;
 }
 
 
@@ -10539,6 +10568,7 @@ export enum ScopeResource {
   DesignRequest = 'DesignRequest',
   DesignRequestRevisionRequest = 'DesignRequestRevisionRequest',
   Integration = 'Integration',
+  ManualQuote = 'ManualQuote',
   Membership = 'Membership',
   Order = 'Order',
   OrderFulfillment = 'OrderFulfillment',
@@ -13094,6 +13124,13 @@ export type NotificationsButtonGetDataQueryVariables = Exact<{ [key: string]: ne
 
 export type NotificationsButtonGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, unseenWebNotificationsCount: number } | null };
 
+export type UseManualQuoteCreateQuoteMutationVariables = Exact<{
+  input: CatalogManualQuoteCreateInput;
+}>;
+
+
+export type UseManualQuoteCreateQuoteMutation = { __typename: 'Mutation', catalogManualQuoteCreate: { __typename: 'CatalogManualQuoteCreatePayload', quote: { __typename: 'Quote', id: string, productTotalCostCents: number, productUnitCostCents: number } | null } | null };
+
 export type ClosetBrandIndexPageColorsGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -13535,7 +13572,7 @@ export type ProductPageGetDataQuery = { __typename: 'Query', site: { __typename:
 export type CatalogDiscoverPageGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CatalogDiscoverPageGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', featuredProducts: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, path: string, humanizedName: string, sku: string, prices: { __typename: 'Prices', price: { __typename: 'Money', value: any } } | null, brand: { __typename: 'Brand', id: string, name: string, path: string } | null, defaultImage: { __typename: 'Image', altText: string, url: string } | null, productOptions: { __typename: 'ProductOptionConnection', edges: Array<{ __typename: 'ProductOptionEdge', node: { __typename: 'CheckboxOption', entityId: number } | { __typename: 'DateFieldOption', entityId: number } | { __typename: 'FileUploadFieldOption', entityId: number } | { __typename: 'MultiLineTextFieldOption', entityId: number } | { __typename: 'MultipleChoiceOption', displayName: string, entityId: number, values: { __typename: 'ProductOptionValueConnection', edges: Array<{ __typename: 'ProductOptionValueEdge', node: { __typename: 'MultipleChoiceOptionValue', entityId: number, label: string } | { __typename: 'ProductPickListOptionValue', entityId: number, label: string } | { __typename: 'SwatchOptionValue', hexColors: Array<string>, entityId: number, label: string } }> | null } } | { __typename: 'NumberFieldOption', entityId: number } | { __typename: 'TextFieldOption', entityId: number } }> | null } } }> | null }, newestProducts: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, path: string, humanizedName: string, sku: string, prices: { __typename: 'Prices', price: { __typename: 'Money', value: any } } | null, brand: { __typename: 'Brand', id: string, name: string, path: string } | null, defaultImage: { __typename: 'Image', altText: string, url: string } | null, productOptions: { __typename: 'ProductOptionConnection', edges: Array<{ __typename: 'ProductOptionEdge', node: { __typename: 'CheckboxOption', entityId: number } | { __typename: 'DateFieldOption', entityId: number } | { __typename: 'FileUploadFieldOption', entityId: number } | { __typename: 'MultiLineTextFieldOption', entityId: number } | { __typename: 'MultipleChoiceOption', displayName: string, entityId: number, values: { __typename: 'ProductOptionValueConnection', edges: Array<{ __typename: 'ProductOptionValueEdge', node: { __typename: 'MultipleChoiceOptionValue', entityId: number, label: string } | { __typename: 'ProductPickListOptionValue', entityId: number, label: string } | { __typename: 'SwatchOptionValue', hexColors: Array<string>, entityId: number, label: string } }> | null } } | { __typename: 'NumberFieldOption', entityId: number } | { __typename: 'TextFieldOption', entityId: number } }> | null } } }> | null }, bestSellingProducts: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, path: string, humanizedName: string, sku: string, prices: { __typename: 'Prices', price: { __typename: 'Money', value: any } } | null, brand: { __typename: 'Brand', id: string, name: string, path: string } | null, defaultImage: { __typename: 'Image', altText: string, url: string } | null, productOptions: { __typename: 'ProductOptionConnection', edges: Array<{ __typename: 'ProductOptionEdge', node: { __typename: 'CheckboxOption', entityId: number } | { __typename: 'DateFieldOption', entityId: number } | { __typename: 'FileUploadFieldOption', entityId: number } | { __typename: 'MultiLineTextFieldOption', entityId: number } | { __typename: 'MultipleChoiceOption', displayName: string, entityId: number, values: { __typename: 'ProductOptionValueConnection', edges: Array<{ __typename: 'ProductOptionValueEdge', node: { __typename: 'MultipleChoiceOptionValue', entityId: number, label: string } | { __typename: 'ProductPickListOptionValue', entityId: number, label: string } | { __typename: 'SwatchOptionValue', hexColors: Array<string>, entityId: number, label: string } }> | null } } | { __typename: 'NumberFieldOption', entityId: number } | { __typename: 'TextFieldOption', entityId: number } }> | null } } }> | null } }, productDiscoveryPage: { __typename: 'ProductDiscoveryPageRecord', id: any, featuredCategories: Array<{ __typename: 'CatalogCategoryRecord', id: any, bigCommerceCategoryId: any | null, name: string | null, image: { __typename: 'FileField', url: string } | null }>, featuredCollections: Array<{ __typename: 'CatalogCategoryRecord', id: any, name: string | null, bigCommerceCategoryId: any | null, image: { __typename: 'FileField', url: string } | null }> } | null };
+export type CatalogDiscoverPageGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', featuredProducts: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, path: string, humanizedName: string, sku: string, prices: { __typename: 'Prices', price: { __typename: 'Money', value: any } } | null, brand: { __typename: 'Brand', id: string, name: string, path: string } | null, defaultImage: { __typename: 'Image', altText: string, url: string } | null, productOptions: { __typename: 'ProductOptionConnection', edges: Array<{ __typename: 'ProductOptionEdge', node: { __typename: 'CheckboxOption', entityId: number } | { __typename: 'DateFieldOption', entityId: number } | { __typename: 'FileUploadFieldOption', entityId: number } | { __typename: 'MultiLineTextFieldOption', entityId: number } | { __typename: 'MultipleChoiceOption', displayName: string, entityId: number, values: { __typename: 'ProductOptionValueConnection', edges: Array<{ __typename: 'ProductOptionValueEdge', node: { __typename: 'MultipleChoiceOptionValue', entityId: number, label: string } | { __typename: 'ProductPickListOptionValue', entityId: number, label: string } | { __typename: 'SwatchOptionValue', hexColors: Array<string>, entityId: number, label: string } }> | null } } | { __typename: 'NumberFieldOption', entityId: number } | { __typename: 'TextFieldOption', entityId: number } }> | null } } }> | null }, newestProducts: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, path: string, humanizedName: string, sku: string, prices: { __typename: 'Prices', price: { __typename: 'Money', value: any } } | null, brand: { __typename: 'Brand', id: string, name: string, path: string } | null, defaultImage: { __typename: 'Image', altText: string, url: string } | null, productOptions: { __typename: 'ProductOptionConnection', edges: Array<{ __typename: 'ProductOptionEdge', node: { __typename: 'CheckboxOption', entityId: number } | { __typename: 'DateFieldOption', entityId: number } | { __typename: 'FileUploadFieldOption', entityId: number } | { __typename: 'MultiLineTextFieldOption', entityId: number } | { __typename: 'MultipleChoiceOption', displayName: string, entityId: number, values: { __typename: 'ProductOptionValueConnection', edges: Array<{ __typename: 'ProductOptionValueEdge', node: { __typename: 'MultipleChoiceOptionValue', entityId: number, label: string } | { __typename: 'ProductPickListOptionValue', entityId: number, label: string } | { __typename: 'SwatchOptionValue', hexColors: Array<string>, entityId: number, label: string } }> | null } } | { __typename: 'NumberFieldOption', entityId: number } | { __typename: 'TextFieldOption', entityId: number } }> | null } } }> | null } }, productDiscoveryPage: { __typename: 'ProductDiscoveryPageRecord', id: any, featuredCategories: Array<{ __typename: 'CatalogCategoryRecord', id: any, bigCommerceCategoryId: any | null, name: string | null, image: { __typename: 'FileField', url: string } | null }>, featuredCollections: Array<{ __typename: 'CatalogCategoryRecord', id: any, name: string | null, bigCommerceCategoryId: any | null, image: { __typename: 'FileField', url: string } | null }> } | null };
 
 export type HomePageFeaturedPostsPostsFragment = { __typename: 'ArticleRecord', id: any, _publishedAt: any | null, _createdAt: any, title: string | null, slug: string | null, shortDescription: string | null, image: { __typename: 'FileField', responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null, author: { __typename: 'AuthorRecord', id: any, name: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null } | null, categories: Array<{ __typename: 'CategoryRecord', id: any, name: string | null, slug: string | null }> };
 

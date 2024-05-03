@@ -12,6 +12,7 @@ export const ScopeResource = enumType({
     'OrderFulfillment',
     'Organization',
     'Integration',
+    'ManualQuote',
     'Membership',
   ],
 })
