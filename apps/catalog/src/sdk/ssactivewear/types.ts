@@ -64,7 +64,7 @@ export interface SsActivewearProductVariant {
   caseQty: number
   unitWeight: number
   mapPrice?: number
-  piecePrice?: number
+  piecePrice: number
   dozenPrice?: number
   casePrice?: number
   salePrice?: number
