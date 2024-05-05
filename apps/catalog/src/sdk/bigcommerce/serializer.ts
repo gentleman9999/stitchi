@@ -146,6 +146,7 @@ export const makeProduct = (
       availability: product.availability,
       images: product.images?.map(makeProductImage),
       url: product.custom_url?.url || null,
+      sortOrder: product.sort_order,
       customFields: product.custom_fields?.map(field => ({
         id: field.id,
         name: field.name,

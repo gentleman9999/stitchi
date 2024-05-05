@@ -82,20 +82,20 @@ const HomePageHero = () => {
   const interests = watch('interests')
   return (
     <header className="relative z-0 min-h-[calc(100vh-var(--topbar-height))]">
-      <Section gutter="lg" className="flex flex-col gap-32">
+      <Section gutter="lg" className="flex flex-col gap-10 md:gap-20 lg:gap-32">
         <Container className="flex flex-col justify-center items-center gap-12">
           <div className="flex max-w-5xl">
-            <h1 className="text-center font-bold text-3xl sm:text-4xl md:text-5xl xl:text-6xl inline font-headingDisplay">
-              Shop, store, and ship the highest quality swag around the world
+            <h1 className="md:text-center font-bold text-5xl text-left md:text-6xl xl:text-6xl inline font-headingDisplay">
+              Shop, store, and ship the highest quality swag around the world.
               {/* Precision screen printing & embroidary delivered anywhere */}
               {/* The best place to scale merch, profitably */}
             </h1>
           </div>
         </Container>
 
-        <form className="" {...form}>
+        <form onSubmit={e => e.preventDefault()}>
           <Container>
-            <p className=" text-center text-2xl font-medium text-gray-600">
+            <p className="text-left md:text-center text-2xl font-medium text-gray-600">
               What do you want help with?
             </p>
           </Container>
@@ -113,7 +113,7 @@ const HomePageHero = () => {
                 label="Design"
                 value={Interest.Design}
                 name="interests"
-                description="Work with our designers to create merch that speaks your brand"
+                description="Free customization support from our professional designers."
                 icon={SharedBadge}
                 color={0}
                 control={control}
@@ -122,7 +122,7 @@ const HomePageHero = () => {
                 label="Sourcing"
                 value={Interest.Sourcing}
                 name="interests"
-                description="This is some placeholder text about the feature"
+                description="Customize 5,000+ high-quality products at 30%+ lower rates."
                 icon={SharedBadge}
                 color={1}
                 control={control}
@@ -131,7 +131,7 @@ const HomePageHero = () => {
                 label="Logistics"
                 value={Interest.Logistics}
                 name="interests"
-                description="This is some placeholder text about the feature"
+                description="Efficient, worldwide logistics and shipment tracking to meet your needs."
                 icon={SharedBadge}
                 color={2}
                 control={control}
@@ -140,7 +140,7 @@ const HomePageHero = () => {
                 label="Warehousing"
                 value={Interest.Warehousing}
                 name="interests"
-                description="This is some placeholder text about the feature"
+                description="Let us hold your inventory and ship on demand for only 99¢."
                 icon={SharedBadge}
                 color={3}
                 control={control}
@@ -149,7 +149,7 @@ const HomePageHero = () => {
                 label="Storefront"
                 value={Interest.Storefront}
                 name="interests"
-                description="This is some placeholder text about the feature"
+                description="Integrate with any e-commerce platform."
                 icon={SharedBadge}
                 color={4}
                 control={control}
@@ -158,7 +158,7 @@ const HomePageHero = () => {
                 label="Analytics"
                 value={Interest.Analytics}
                 name="interests"
-                description="This is some placeholder text about the feature"
+                description="Manage spend, track ROI, and optimize your merch strategy."
                 icon={SharedBadge}
                 color={5}
                 control={control}
@@ -166,7 +166,7 @@ const HomePageHero = () => {
             </ul>
           </div>
           <Container>
-            <div className="flex justify-center">
+            <div className="flex md:justify-center">
               <Link
                 href={routes.internal.getStarted.href()}
                 className={cn(
@@ -182,7 +182,7 @@ const HomePageHero = () => {
         </form>
 
         <div>
-          <Container className="mb-10">
+          <Container className="mb-10 md:justify-center flex">
             <p className=" text-gray-600 text-2xl">
               Powering merch for the world&apos;s top brands.
             </p>

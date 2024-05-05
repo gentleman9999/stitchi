@@ -63,8 +63,13 @@ module.exports = withBundleAnalyzer(
           permanent: false,
         },
         {
-          source: '/catalog',
-          destination: '/products/all',
+          source: '/catalog/:path*',
+          destination: '/products/:path*',
+          permanent: true,
+        },
+        {
+          source: '/products/all',
+          destination: '/products',
           permanent: true,
         },
         {
@@ -153,6 +158,18 @@ module.exports = withBundleAnalyzer(
           destination: '/products',
           permanent: true,
         },
+
+        //
+        // Start - Legacy hidden collection URLs
+        //
+        {
+          source: '/collections-hidden/pullover-blank-hoodie',
+          destination: '/collections/pullover-blank-hoodie',
+          permanent: true,
+        },
+        //
+        // End - Legacy hidden collection URLs
+        //
       ]
     },
   }),

@@ -1,5 +1,5 @@
-import { ScopeAction, ScopeResource } from '@generated/types'
-import { AuthorizedComponent } from '@lib/auth-rsc'
+import { MembershipRole, ScopeAction, ScopeResource } from '@generated/types'
+import { AuthorizedComponent, getUserAuthorization } from '@lib/auth-rsc'
 import routes from '@lib/routes'
 import React from 'react'
 import InviteMemberButton from './InviteMemberButton'
@@ -17,7 +17,8 @@ import SidenavWrapper from '../../SidenavWrapper'
 interface Props {
   children: React.ReactNode
 }
-const Layout = ({ children }: Props) => {
+const Layout = async ({ children }: Props) => {
+  const { role } = await getUserAuthorization()
   return (
     <SidenavWrapper
       navigation={
@@ -95,6 +96,13 @@ const Layout = ({ children }: Props) => {
               </AuthorizedComponent>
             </NavigationGroup>
           </AuthorizedComponent>
+
+          {role && [MembershipRole.STITCHI_ADMIN].includes(role) ? (
+            <NavItem
+              label="Admin Tools"
+              href={routes.internal.closet.admin.tools.href()}
+            />
+          ) : null}
 
           <hr className="my-2" />
 

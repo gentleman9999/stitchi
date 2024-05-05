@@ -5,6 +5,7 @@ import Container from '@components/ui/Container'
 import Section from '@components/common/Section'
 import { SUPPORT_EMAIL } from '@lib/constants'
 import NewOrderForm from './NewOrderForm'
+import { useIntercom } from 'react-use-intercom'
 
 export const metadata: Metadata = {
   title: 'Contact us to get started',
@@ -13,9 +14,11 @@ export const metadata: Metadata = {
   openGraph: { url: routes.internal.contact.href() },
 }
 
-const Start = () => {
+const StartPage = () => {
+  const { showNewMessage } = useIntercom()
+
   const OtherContactOptions = (
-    <div className="flex flex-col gap-10">
+    <address className="flex flex-col gap-10">
       <p className="mt-4 text-lg md:text-xl lg:text-2xl text-gray-500 sm:mt-3 max-w-3xl">
         Need something else? Here are some other ways to get in touch.
       </p>
@@ -23,6 +26,11 @@ const Start = () => {
         title="Work with us"
         label="See open positions"
         href={routes.external.careers.href()}
+      />
+      <ContactMethod
+        title="Live Chat"
+        label="Chat now"
+        onClick={() => showNewMessage()}
       />
       <ContactMethod
         title="Email us"
@@ -34,7 +42,16 @@ const Start = () => {
         label="+1 (248) 221-1863"
         href={routes.external.support.phone.href()}
       />
-    </div>
+      <ContactMethod
+        title="Write us"
+        label={
+          <>
+            30140 Orchard Lake Rd. <br />
+            Farmington Hills, MI 48334
+          </>
+        }
+      />
+    </address>
   )
 
   return (
@@ -50,7 +67,7 @@ const Start = () => {
                 <br />
                 <p className="mt-4 text-lg md:text-xl lg:text-2xl text-gray-500 sm:mt-3 text-center md:text-left max-w-3xl">
                   Have a question? Fill out the form and our team will get back
-                  to you within 24 hours.
+                  to you.
                 </p>
               </div>
               <div className="hidden md:block">{OtherContactOptions}</div>
@@ -71,4 +88,4 @@ const Start = () => {
   )
 }
 
-export default Start
+export default StartPage

@@ -1,3 +1,8 @@
+import {
+  COMPANY_NAME,
+  SEO_DEFAULT_DESCRIPTION,
+  SEO_DEFAULT_TITLE,
+} from '@lib/constants'
 import routes from '@lib/routes'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { NextSeo } from 'next-seo'
@@ -7,15 +12,14 @@ import React from 'react'
 export interface SeoDefaultProps {}
 
 const SeoDefault = (props: SeoDefaultProps) => {
-  const title = 'Custom Merch & Merch Programs'
-  const description =
-    'We craft personalized promotional merchandise, perfect for corporate events, startups, and fundraisers. Drive your brand visibility with our unique, high-quality customizable products distributed globally.'
+  const title = SEO_DEFAULT_TITLE
+  const description = SEO_DEFAULT_DESCRIPTION
 
   return (
     <>
       <NextSeo
         title={title}
-        titleTemplate="%s | Stitchi"
+        titleTemplate={`%s - ${COMPANY_NAME}`}
         description={description}
         twitter={{
           handle: '@gostitchi',

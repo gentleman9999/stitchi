@@ -37,7 +37,7 @@ export const generateMetadata = async ({
 
     // SEO Title shouldn't be the same as H1
     const title = `${
-      product.brand ? `${product.brand.name} - ` : ''
+      product.brand ? `${product.brand.name} ` : ''
     }${humanizedName}${product.sku ? ` - ${product.sku}` : ''}`
 
     let description

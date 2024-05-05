@@ -156,11 +156,31 @@ export interface AddWishlistItemsResult {
   result: Wishlist;
 }
 
+/** A connection to a list of customer addresses. */
+export interface AddressConnection {
+  __typename: 'AddressConnection';
+  /** Collection info. */
+  collectionInfo: Maybe<CollectionInfo>;
+  /** A list of edges. */
+  edges: Maybe<Array<AddressEdge>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+}
+
 /** An error due to providing an invalid or non-existent address ID.  */
 export interface AddressDoesNotExistError extends Error {
   __typename: 'AddressDoesNotExistError';
   /** Error message. */
   message: Scalars['String']['output'];
+}
+
+/** An edge in a connection. */
+export interface AddressEdge {
+  __typename: 'AddressEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node: CustomerAddress;
 }
 
 /** Aggregated */
@@ -179,6 +199,13 @@ export interface AggregatedInventory {
   availableToSell: Scalars['Int']['output'];
   /** Indicates a threshold low-stock level. This can be 'null' if the inventory warning level is not set or if the store's Inventory Settings disable displaying stock levels on the storefront. */
   warningLevel: Scalars['Int']['output'];
+}
+
+/** Subject that should be created as a result of mutation would cause duplicate.  */
+export interface AlreadyExistsError extends Error {
+  __typename: 'AlreadyExistsError';
+  /** A description of the error */
+  message: Scalars['String']['output'];
 }
 
 /** Apply checkout coupon data object */
@@ -1186,16 +1213,24 @@ export interface CartMutations {
   assignCartToCustomer: Maybe<AssignCartToCustomerResult>;
   /** Creates a cart and generates a cart ID. */
   createCart: Maybe<CreateCartResult>;
+  /** Creates a metafield for cart object. */
+  createCartMetafield: CreateCartMetafieldResult;
+  /** Create single-use redirect URLs for a cart. */
+  createCartRedirectUrls: CreateCartRedirectUrlsResult;
   /** Deletes a Cart. */
   deleteCart: Maybe<DeleteCartResult>;
   /** Delete line item in the cart. Removing the last line item in the Cart deletes the Cart. */
   deleteCartLineItem: Maybe<DeleteCartLineItemResult>;
+  /** Deletes a metafield for cart object. */
+  deleteCartMetafield: DeleteCartMetafieldResult;
   /** Unassign cart from the customer. */
   unassignCartFromCustomer: Maybe<UnassignCartFromCustomerResult>;
   /** Update currency of the cart. */
   updateCartCurrency: Maybe<UpdateCartCurrencyResult>;
   /** Updates line item in the cart. */
   updateCartLineItem: Maybe<UpdateCartLineItemResult>;
+  /** Updates a metafield for cart object. */
+  updateCartMetafield: UpdateCartMetafieldResult;
 }
 
 
@@ -1218,6 +1253,18 @@ export interface CartMutationscreateCartArgs {
 
 
 /** Cart mutations */
+export interface CartMutationscreateCartMetafieldArgs {
+  input: CreateCartMetafieldInput;
+}
+
+
+/** Cart mutations */
+export interface CartMutationscreateCartRedirectUrlsArgs {
+  input?: InputMaybe<CreateCartRedirectUrlsInput>;
+}
+
+
+/** Cart mutations */
 export interface CartMutationsdeleteCartArgs {
   input: DeleteCartInput;
 }
@@ -1226,6 +1273,12 @@ export interface CartMutationsdeleteCartArgs {
 /** Cart mutations */
 export interface CartMutationsdeleteCartLineItemArgs {
   input: DeleteCartLineItemInput;
+}
+
+
+/** Cart mutations */
+export interface CartMutationsdeleteCartMetafieldArgs {
+  input: DeleteCartMetafieldInput;
 }
 
 
@@ -1244,6 +1297,12 @@ export interface CartMutationsupdateCartCurrencyArgs {
 /** Cart mutations */
 export interface CartMutationsupdateCartLineItemArgs {
   input: UpdateCartLineItemInput;
+}
+
+
+/** Cart mutations */
+export interface CartMutationsupdateCartMetafieldArgs {
+  input: UpdateCartMetafieldInput;
 }
 
 /** Cart physical item. */
@@ -1293,6 +1352,15 @@ export interface CartPhysicalItem {
   url: Scalars['String']['output'];
   /** ID of the variant. */
   variantEntityId: Maybe<Scalars['Int']['output']>;
+}
+
+/** Cart redirect URLs. */
+export interface CartRedirectUrls {
+  __typename: 'CartRedirectUrls';
+  /** The single-use URL to the embedded checkout for the cart. */
+  embeddedCheckoutUrl: Scalars['String']['output'];
+  /** The single-use URL to the BigCommerce hosted checkout for the cart. */
+  redirectedCheckoutUrl: Scalars['String']['output'];
 }
 
 /** Selected checkbox option. */
@@ -1498,6 +1566,29 @@ export interface CatalogCategoryRecord extends RecordInterface {
 /** Block of type Catalog Category (catalog_category) */
 export interface CatalogCategoryRecord_seoMetaTagsArgs {
   locale?: InputMaybe<SiteLocale>;
+}
+
+export interface CatalogManualQuoteCreateAddonsInput {
+  printLocation?: InputMaybe<CatalogManualQuoteCreateAddonsPrintLocationInput>;
+}
+
+export interface CatalogManualQuoteCreateAddonsPrintLocationInput {
+  colorCount: Scalars['Int']['input'];
+}
+
+export interface CatalogManualQuoteCreateInput {
+  addons: Array<CatalogManualQuoteCreateAddonsInput>;
+  items: Array<CatalogManualQuoteCreateItemsInput>;
+}
+
+export interface CatalogManualQuoteCreateItemsInput {
+  priceCents: Scalars['Int']['input'];
+  quantity: Scalars['Int']['input'];
+}
+
+export interface CatalogManualQuoteCreatePayload {
+  __typename: 'CatalogManualQuoteCreatePayload';
+  quote: Maybe<Quote>;
 }
 
 export interface CatalogProduct {
@@ -2735,6 +2826,57 @@ export interface CreateCartInput {
   locale?: InputMaybe<Scalars['String']['input']>;
 }
 
+/** Create cart's metafield data. */
+export interface CreateCartMetafieldDataInput {
+  /** Key for cart metafield. */
+  key: Scalars['String']['input'];
+  /** Value for cart metafield. */
+  value: Scalars['String']['input'];
+}
+
+/** Error that occured as a result of createCartMetafieldMutation. */
+export type CreateCartMetafieldError = AlreadyExistsError | LimitExceededError | NotFoundError | ValidationError;
+
+/** Input for create cart's metafield. */
+export interface CreateCartMetafieldInput {
+  /** Cart id for which to create metafield. */
+  cartEntityId: Scalars['String']['input'];
+  /** Create cart's metafield data. */
+  data: CreateCartMetafieldDataInput;
+}
+
+/** Result of creating metafield for cart. */
+export interface CreateCartMetafieldResult {
+  __typename: 'CreateCartMetafieldResult';
+  /** Errors found during creation of cart's metafield. */
+  errors: Array<CreateCartMetafieldError>;
+  /** Metafield created for cart. */
+  metafield: Maybe<Metafields>;
+}
+
+/** Create cart redirect URLs input object. */
+export interface CreateCartRedirectUrlsInput {
+  /** The cart id to create the redirect URLs for. */
+  cartEntityId?: InputMaybe<Scalars['String']['input']>;
+  /** The query parameters to pass when redirecting to the URLs. */
+  queryParams?: InputMaybe<Array<CreateCartRedirectUrlsQueryParamsInput>>;
+}
+
+/** Create cart redirect URLs query params input object. */
+export interface CreateCartRedirectUrlsQueryParamsInput {
+  /** The key of the query parameter to pass. */
+  key: Scalars['String']['input'];
+  /** The value of the query parameter to pass. */
+  value: Scalars['String']['input'];
+}
+
+/** Create cart redirect URLs result */
+export interface CreateCartRedirectUrlsResult {
+  __typename: 'CreateCartRedirectUrlsResult';
+  /** The redirect URLs created as a result of the mutation. */
+  redirectUrls: Maybe<CartRedirectUrls>;
+}
+
 /** Create cart result */
 export interface CreateCartResult {
   __typename: 'CreateCartResult';
@@ -2947,8 +3089,13 @@ export interface CustomFieldEdge {
 /** A customer that shops on a store */
 export interface Customer {
   __typename: 'Customer';
-  /** Customer addresses count. */
+  /**
+   * Customer addresses count.
+   * @deprecated Use addresses.collectionInfo.totalItems instead.
+   */
   addressCount: Scalars['Int']['output'];
+  /** Customer addresses. */
+  addresses: AddressConnection;
   /** Customer attributes count. */
   attributeCount: Scalars['Int']['output'];
   /** Customer attributes. */
@@ -2963,6 +3110,8 @@ export interface Customer {
   entityId: Scalars['Int']['output'];
   /** The first name of the customer. */
   firstName: Scalars['String']['output'];
+  /** The form field values of the customer. */
+  formFields: Array<CustomerFormFieldValue>;
   /** The last name of the customer. */
   lastName: Scalars['String']['output'];
   /** Metafield data related to a customer. */
@@ -2980,6 +3129,15 @@ export interface Customer {
   taxExemptCategory: Scalars['String']['output'];
   /** Customer wishlists. */
   wishlists: WishlistConnection;
+}
+
+
+/** A customer that shops on a store */
+export interface CustomeraddressesArgs {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
 }
 
 
@@ -3300,6 +3458,26 @@ export interface DeleteCartLineItemResult {
   deletedCartEntityId: Maybe<Scalars['String']['output']>;
   /** The ID of the line item that is deleted as a result of mutation. */
   deletedLineItemEntityId: Maybe<Scalars['String']['output']>;
+}
+
+/** Error that occured as a result of deleteCartMetafield mutation. */
+export type DeleteCartMetafieldError = NotAuthorisedError | NotFoundError | ValidationError;
+
+/** Input for delete cart's metafield mutation. */
+export interface DeleteCartMetafieldInput {
+  /** Id of the cart for which to delete metafield. */
+  cartEntityId: Scalars['String']['input'];
+  /** Id of metafield to delete. */
+  metafieldEntityId: Scalars['Int']['input'];
+}
+
+/** Result of deleting metafield for cart. */
+export interface DeleteCartMetafieldResult {
+  __typename: 'DeleteCartMetafieldResult';
+  /** Id of metafield deleted for cart. */
+  deletedMetafieldEntityId: Maybe<Scalars['Int']['output']>;
+  /** Errors found during deletion of cart's metafield. */
+  errors: Array<DeleteCartMetafieldError>;
 }
 
 /** Delete cart result */
@@ -7050,6 +7228,15 @@ export enum LimitDateOption {
   RANGE = 'RANGE'
 }
 
+/** Limit already reached. Can't create more subjects. */
+export interface LimitExceededError extends Error {
+  __typename: 'LimitExceededError';
+  /** Limit boundary. */
+  limit: Scalars['Int']['output'];
+  /** A description of the error */
+  message: Scalars['String']['output'];
+}
+
 /** Limit numbers by several options. */
 export enum LimitInputBy {
   HIGHEST_VALUE = 'HIGHEST_VALUE',
@@ -7118,7 +7305,7 @@ export interface LocationEdge {
   node: InventoryByLocations;
 }
 
-/** Login result */
+/** Login result. */
 export interface LoginResult {
   __typename: 'LoginResult';
   /** The currently logged in customer. */
@@ -7527,6 +7714,7 @@ export interface Mutation {
   __typename: 'Mutation';
   /** The Cart mutations. */
   cart: CartMutations;
+  catalogManualQuoteCreate: Maybe<CatalogManualQuoteCreatePayload>;
   catalogProductCustomize: Maybe<CatalogProductCustomizePayload>;
   catalogProductQuoteCreate: Maybe<CatalogProductQuoteCreatePayload>;
   /** The Checkout mutations. */
@@ -7551,7 +7739,7 @@ export interface Mutation {
   fileCreate: Maybe<FileCreatePayload>;
   fileCreateBatch: Maybe<FileCreateBatchPayload>;
   fulfillmentCreate: Maybe<FulfillmentCreatePayload>;
-  /** Customer login */
+  /** Customer login. */
   login: LoginResult;
   /** Customer logout */
   logout: LogoutResult;
@@ -7586,6 +7774,11 @@ export interface Mutation {
   userSetOrganization: Maybe<UserSetOrganizationPayload>;
   /** The wishlist mutations. */
   wishlist: WishlistMutations;
+}
+
+
+export interface MutationcatalogManualQuoteCreateArgs {
+  input: CatalogManualQuoteCreateInput;
 }
 
 
@@ -7836,6 +8029,20 @@ export interface NormalPage extends Node, WebPage {
 /** A normal page. */
 export interface NormalPageplainTextSummaryArgs {
   characterLimit?: InputMaybe<Scalars['Int']['input']>;
+}
+
+/** The not authorized to perform operation error. */
+export interface NotAuthorisedError extends Error {
+  __typename: 'NotAuthorisedError';
+  /** A description of the error */
+  message: Scalars['String']['output'];
+}
+
+/** Subject not found error. */
+export interface NotFoundError extends Error {
+  __typename: 'NotFoundError';
+  /** A description of the error */
+  message: Scalars['String']['output'];
 }
 
 export interface Notification {
@@ -8686,6 +8893,25 @@ export interface PicklistFormField extends FormField {
   label: Scalars['String']['output'];
   /** The options for the form field. */
   options: Array<FormFieldOption>;
+  /** The sort order priority of the form field. */
+  sortOrder: Scalars['Int']['output'];
+}
+
+/** Pick list or text form field. This field can either be rendered as text or a dropdown and is used for the State/Province field. */
+export interface PicklistOrTextFormField extends FormField {
+  __typename: 'PicklistOrTextFormField';
+  /** The entity ID of the form field. */
+  entityId: Scalars['Int']['output'];
+  /** Indicates whether the form field is built-in. */
+  isBuiltIn: Scalars['Boolean']['output'];
+  /** Indicates whether the form field is required. */
+  isRequired: Scalars['Boolean']['output'];
+  /** The label to display for the form field. */
+  label: Scalars['String']['output'];
+  /** The maximum amount of characters that can be entered into the form field when it is a text type. */
+  maxLength: Maybe<Scalars['Int']['output']>;
+  /** The text to display before a user has made a selection when it is a picklist type. */
+  picklistPrefix: Scalars['String']['output'];
   /** The sort order priority of the form field. */
   sortOrder: Scalars['Int']['output'];
 }
@@ -10342,6 +10568,7 @@ export enum ScopeResource {
   DesignRequest = 'DesignRequest',
   DesignRequestRevisionRequest = 'DesignRequestRevisionRequest',
   Integration = 'Integration',
+  ManualQuote = 'ManualQuote',
   Membership = 'Membership',
   Order = 'Order',
   OrderFulfillment = 'OrderFulfillment',
@@ -11372,6 +11599,36 @@ export interface UpdateCartLineItemResult {
   __typename: 'UpdateCartLineItemResult';
   /** The Cart that is updated as a result of mutation. */
   cart: Maybe<Cart>;
+}
+
+/** Update cart's metafield data. */
+export interface UpdateCartMetafieldDataInput {
+  /** New key for cart metafield. */
+  key?: InputMaybe<Scalars['String']['input']>;
+  /** New value for cart metafield. */
+  value?: InputMaybe<Scalars['String']['input']>;
+}
+
+/** Error that occured as a result of updateCartMetafield mutation. */
+export type UpdateCartMetafieldError = AlreadyExistsError | NotAuthorisedError | NotFoundError | ValidationError;
+
+/** Input for update cart's metafield mutation. */
+export interface UpdateCartMetafieldInput {
+  /** Id of the cart for which to update metafield. */
+  cartEntityId: Scalars['String']['input'];
+  /** Data to update metafield. */
+  data: UpdateCartMetafieldDataInput;
+  /** Id of metafield to update. */
+  metafieldEntityId: Scalars['Int']['input'];
+}
+
+/** Result of updating metafield for cart. */
+export interface UpdateCartMetafieldResult {
+  __typename: 'UpdateCartMetafieldResult';
+  /** Errors found during update of cart's metafield. */
+  errors: Array<UpdateCartMetafieldError>;
+  /** Successfully updated metafield for cart. */
+  metafield: Maybe<Metafields>;
 }
 
 /** Update checkout billing address data object */
@@ -12867,6 +13124,13 @@ export type NotificationsButtonGetDataQueryVariables = Exact<{ [key: string]: ne
 
 export type NotificationsButtonGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, unseenWebNotificationsCount: number } | null };
 
+export type UseManualQuoteCreateQuoteMutationVariables = Exact<{
+  input: CatalogManualQuoteCreateInput;
+}>;
+
+
+export type UseManualQuoteCreateQuoteMutation = { __typename: 'Mutation', catalogManualQuoteCreate: { __typename: 'CatalogManualQuoteCreatePayload', quote: { __typename: 'Quote', id: string, productTotalCostCents: number, productUnitCostCents: number } | null } | null };
+
 export type ClosetBrandIndexPageColorsGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -13263,11 +13527,6 @@ export type UseSearchProductFiltersGetDataQueryVariables = Exact<{
 
 export type UseSearchProductFiltersGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', categoryTree: Array<{ __typename: 'CategoryTreeItem', entityId: number, name: string, productCount: number, children: Array<{ __typename: 'CategoryTreeItem', name: string, entityId: number, path: string, productCount: number }> }>, search: { __typename: 'SearchQueries', searchProducts: { __typename: 'SearchProducts', products: { __typename: 'ProductConnection', collectionInfo: { __typename: 'CollectionInfo', totalItems: any | null } | null }, filters: { __typename: 'SearchProductFilterConnection', edges: Array<{ __typename: 'SearchProductFilterEdge', node: { __typename: 'BrandSearchFilter', displayProductCount: boolean, name: string, isCollapsedByDefault: boolean, brands: { __typename: 'BrandSearchFilterItemConnection', edges: Array<{ __typename: 'BrandSearchFilterItemEdge', node: { __typename: 'BrandSearchFilterItem', entityId: number, name: string, isSelected: boolean, productCount: number } }> | null } } | { __typename: 'CategorySearchFilter', name: string, isCollapsedByDefault: boolean } | { __typename: 'OtherSearchFilter', name: string, isCollapsedByDefault: boolean } | { __typename: 'PriceSearchFilter', name: string, isCollapsedByDefault: boolean, selected: { __typename: 'PriceSearchFilterItem', minPrice: number | null, maxPrice: number | null } | null } | { __typename: 'ProductAttributeSearchFilter', filterName: string, name: string, isCollapsedByDefault: boolean, attributes: { __typename: 'ProductAttributeSearchFilterItemConnection', edges: Array<{ __typename: 'ProductAttributeSearchFilterItemEdge', node: { __typename: 'ProductAttributeSearchFilterItem', value: string, isSelected: boolean, productCount: number } }> | null } } | { __typename: 'RatingSearchFilter', name: string, isCollapsedByDefault: boolean } }> | null } } } } };
 
-export type CatalogDiscoverPageGetDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type CatalogDiscoverPageGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', featuredProducts: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, path: string, humanizedName: string, sku: string, prices: { __typename: 'Prices', price: { __typename: 'Money', value: any } } | null, brand: { __typename: 'Brand', id: string, name: string, path: string } | null, defaultImage: { __typename: 'Image', altText: string, url: string } | null, productOptions: { __typename: 'ProductOptionConnection', edges: Array<{ __typename: 'ProductOptionEdge', node: { __typename: 'CheckboxOption', entityId: number } | { __typename: 'DateFieldOption', entityId: number } | { __typename: 'FileUploadFieldOption', entityId: number } | { __typename: 'MultiLineTextFieldOption', entityId: number } | { __typename: 'MultipleChoiceOption', displayName: string, entityId: number, values: { __typename: 'ProductOptionValueConnection', edges: Array<{ __typename: 'ProductOptionValueEdge', node: { __typename: 'MultipleChoiceOptionValue', entityId: number, label: string } | { __typename: 'ProductPickListOptionValue', entityId: number, label: string } | { __typename: 'SwatchOptionValue', hexColors: Array<string>, entityId: number, label: string } }> | null } } | { __typename: 'NumberFieldOption', entityId: number } | { __typename: 'TextFieldOption', entityId: number } }> | null } } }> | null }, newestProducts: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, path: string, humanizedName: string, sku: string, prices: { __typename: 'Prices', price: { __typename: 'Money', value: any } } | null, brand: { __typename: 'Brand', id: string, name: string, path: string } | null, defaultImage: { __typename: 'Image', altText: string, url: string } | null, productOptions: { __typename: 'ProductOptionConnection', edges: Array<{ __typename: 'ProductOptionEdge', node: { __typename: 'CheckboxOption', entityId: number } | { __typename: 'DateFieldOption', entityId: number } | { __typename: 'FileUploadFieldOption', entityId: number } | { __typename: 'MultiLineTextFieldOption', entityId: number } | { __typename: 'MultipleChoiceOption', displayName: string, entityId: number, values: { __typename: 'ProductOptionValueConnection', edges: Array<{ __typename: 'ProductOptionValueEdge', node: { __typename: 'MultipleChoiceOptionValue', entityId: number, label: string } | { __typename: 'ProductPickListOptionValue', entityId: number, label: string } | { __typename: 'SwatchOptionValue', hexColors: Array<string>, entityId: number, label: string } }> | null } } | { __typename: 'NumberFieldOption', entityId: number } | { __typename: 'TextFieldOption', entityId: number } }> | null } } }> | null }, bestSellingProducts: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, path: string, humanizedName: string, sku: string, prices: { __typename: 'Prices', price: { __typename: 'Money', value: any } } | null, brand: { __typename: 'Brand', id: string, name: string, path: string } | null, defaultImage: { __typename: 'Image', altText: string, url: string } | null, productOptions: { __typename: 'ProductOptionConnection', edges: Array<{ __typename: 'ProductOptionEdge', node: { __typename: 'CheckboxOption', entityId: number } | { __typename: 'DateFieldOption', entityId: number } | { __typename: 'FileUploadFieldOption', entityId: number } | { __typename: 'MultiLineTextFieldOption', entityId: number } | { __typename: 'MultipleChoiceOption', displayName: string, entityId: number, values: { __typename: 'ProductOptionValueConnection', edges: Array<{ __typename: 'ProductOptionValueEdge', node: { __typename: 'MultipleChoiceOptionValue', entityId: number, label: string } | { __typename: 'ProductPickListOptionValue', entityId: number, label: string } | { __typename: 'SwatchOptionValue', hexColors: Array<string>, entityId: number, label: string } }> | null } } | { __typename: 'NumberFieldOption', entityId: number } | { __typename: 'TextFieldOption', entityId: number } }> | null } } }> | null } }, productDiscoveryPage: { __typename: 'ProductDiscoveryPageRecord', id: any, featuredCategories: Array<{ __typename: 'CatalogCategoryRecord', id: any, bigCommerceCategoryId: any | null, name: string | null, image: { __typename: 'FileField', url: string } | null }>, featuredCollections: Array<{ __typename: 'CatalogCategoryRecord', id: any, name: string | null, bigCommerceCategoryId: any | null, image: { __typename: 'FileField', url: string } | null }> } | null };
-
 export type CatalogDiscoverPageFeaturedCategoryGetCategoryDataQueryVariables = Exact<{
   categoryEntityId: Scalars['Int']['input'];
 }>;
@@ -13302,6 +13561,11 @@ export type ProductPageGetDataQueryVariables = Exact<{
 
 
 export type ProductPageGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', route: { __typename: 'Route', node: { __typename: 'Banner', id: string } | { __typename: 'Blog', id: string } | { __typename: 'BlogIndexPage', id: string } | { __typename: 'BlogPost', id: string } | { __typename: 'Brand', id: string } | { __typename: 'Cart', id: string } | { __typename: 'Category', id: string } | { __typename: 'Checkout', id: string } | { __typename: 'ContactPage', id: string } | { __typename: 'NormalPage', id: string } | { __typename: 'Product', humanizedName: string, path: string, sku: string, plainTextDescription: string, id: string, entityId: number, description: string, name: string, defaultImage: { __typename: 'Image', url: string, seoImageUrl: string } | null, gender: { __typename: 'CustomFieldConnection', edges: Array<{ __typename: 'CustomFieldEdge', node: { __typename: 'CustomField', name: string, value: string } }> | null }, allImages: Array<{ __typename: 'CatalogProductImage', urlStandard: string, urlZoom: string, urlThumbnail: string }>, brand: { __typename: 'Brand', id: string, name: string, path: string } | null, seo: { __typename: 'SeoDetails', metaDescription: string }, relatedProducts: { __typename: 'RelatedProductsConnection', edges: Array<{ __typename: 'RelatedProductsEdge', node: { __typename: 'Product', id: string, humanizedName: string, path: string, sku: string, prices: { __typename: 'Prices', price: { __typename: 'Money', value: any } } | null, brand: { __typename: 'Brand', id: string, name: string, path: string } | null, defaultImage: { __typename: 'Image', altText: string, url: string } | null, productOptions: { __typename: 'ProductOptionConnection', edges: Array<{ __typename: 'ProductOptionEdge', node: { __typename: 'CheckboxOption', entityId: number } | { __typename: 'DateFieldOption', entityId: number } | { __typename: 'FileUploadFieldOption', entityId: number } | { __typename: 'MultiLineTextFieldOption', entityId: number } | { __typename: 'MultipleChoiceOption', displayName: string, entityId: number, values: { __typename: 'ProductOptionValueConnection', edges: Array<{ __typename: 'ProductOptionValueEdge', node: { __typename: 'MultipleChoiceOptionValue', entityId: number, label: string } | { __typename: 'ProductPickListOptionValue', entityId: number, label: string } | { __typename: 'SwatchOptionValue', hexColors: Array<string>, entityId: number, label: string } }> | null } } | { __typename: 'NumberFieldOption', entityId: number } | { __typename: 'TextFieldOption', entityId: number } }> | null } } }> | null }, variants: { __typename: 'VariantConnection', edges: Array<{ __typename: 'VariantEdge', node: { __typename: 'Variant', id: string, gtin: string | null, mpn: string | null, sku: string, isPurchasable: boolean, entityId: number, prices: { __typename: 'Prices', price: { __typename: 'Money', value: any, currencyCode: string } } | null, options: { __typename: 'OptionConnection', edges: Array<{ __typename: 'OptionEdge', node: { __typename: 'ProductOption', displayName: string, values: { __typename: 'OptionValueConnection', edges: Array<{ __typename: 'OptionValueEdge', node: { __typename: 'ProductOptionValue', entityId: number, label: string } }> | null } } }> | null }, jsonLdImage: { __typename: 'Image', url: string } | null, defaultImage: { __typename: 'Image', isDefault: boolean, url: string } | null, metafields: { __typename: 'MetafieldConnection', edges: Array<{ __typename: 'MetafieldEdge', node: { __typename: 'Metafields', id: string, key: string, value: string } }> | null } } }> | null }, reviewSummary: { __typename: 'Reviews', numberOfReviews: number, summationOfRatings: number }, customFields: { __typename: 'CustomFieldConnection', edges: Array<{ __typename: 'CustomFieldEdge', node: { __typename: 'CustomField', entityId: number, name: string, value: string } }> | null }, categories: { __typename: 'CategoryConnection', edges: Array<{ __typename: 'CategoryEdge', node: { __typename: 'Category', id: string, name: string, path: string } }> | null }, prices: { __typename: 'Prices', price: { __typename: 'Money', value: any } } | null, productOptions: { __typename: 'ProductOptionConnection', edges: Array<{ __typename: 'ProductOptionEdge', node: { __typename: 'CheckboxOption', entityId: number } | { __typename: 'DateFieldOption', entityId: number } | { __typename: 'FileUploadFieldOption', entityId: number } | { __typename: 'MultiLineTextFieldOption', entityId: number } | { __typename: 'MultipleChoiceOption', displayName: string, entityId: number, values: { __typename: 'ProductOptionValueConnection', edges: Array<{ __typename: 'ProductOptionValueEdge', node: { __typename: 'MultipleChoiceOptionValue', entityId: number, label: string } | { __typename: 'ProductPickListOptionValue', entityId: number, label: string } | { __typename: 'SwatchOptionValue', hexColors: Array<string>, entityId: number, label: string } }> | null } } | { __typename: 'NumberFieldOption', entityId: number } | { __typename: 'TextFieldOption', entityId: number } }> | null } } | { __typename: 'RawHtmlPage', id: string } | { __typename: 'Redirect', id: string } | { __typename: 'Variant', id: string } | null } } };
+
+export type CatalogDiscoverPageGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CatalogDiscoverPageGetDataQuery = { __typename: 'Query', site: { __typename: 'Site', featuredProducts: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, path: string, humanizedName: string, sku: string, prices: { __typename: 'Prices', price: { __typename: 'Money', value: any } } | null, brand: { __typename: 'Brand', id: string, name: string, path: string } | null, defaultImage: { __typename: 'Image', altText: string, url: string } | null, productOptions: { __typename: 'ProductOptionConnection', edges: Array<{ __typename: 'ProductOptionEdge', node: { __typename: 'CheckboxOption', entityId: number } | { __typename: 'DateFieldOption', entityId: number } | { __typename: 'FileUploadFieldOption', entityId: number } | { __typename: 'MultiLineTextFieldOption', entityId: number } | { __typename: 'MultipleChoiceOption', displayName: string, entityId: number, values: { __typename: 'ProductOptionValueConnection', edges: Array<{ __typename: 'ProductOptionValueEdge', node: { __typename: 'MultipleChoiceOptionValue', entityId: number, label: string } | { __typename: 'ProductPickListOptionValue', entityId: number, label: string } | { __typename: 'SwatchOptionValue', hexColors: Array<string>, entityId: number, label: string } }> | null } } | { __typename: 'NumberFieldOption', entityId: number } | { __typename: 'TextFieldOption', entityId: number } }> | null } } }> | null }, newestProducts: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', node: { __typename: 'Product', id: string, path: string, humanizedName: string, sku: string, prices: { __typename: 'Prices', price: { __typename: 'Money', value: any } } | null, brand: { __typename: 'Brand', id: string, name: string, path: string } | null, defaultImage: { __typename: 'Image', altText: string, url: string } | null, productOptions: { __typename: 'ProductOptionConnection', edges: Array<{ __typename: 'ProductOptionEdge', node: { __typename: 'CheckboxOption', entityId: number } | { __typename: 'DateFieldOption', entityId: number } | { __typename: 'FileUploadFieldOption', entityId: number } | { __typename: 'MultiLineTextFieldOption', entityId: number } | { __typename: 'MultipleChoiceOption', displayName: string, entityId: number, values: { __typename: 'ProductOptionValueConnection', edges: Array<{ __typename: 'ProductOptionValueEdge', node: { __typename: 'MultipleChoiceOptionValue', entityId: number, label: string } | { __typename: 'ProductPickListOptionValue', entityId: number, label: string } | { __typename: 'SwatchOptionValue', hexColors: Array<string>, entityId: number, label: string } }> | null } } | { __typename: 'NumberFieldOption', entityId: number } | { __typename: 'TextFieldOption', entityId: number } }> | null } } }> | null } }, productDiscoveryPage: { __typename: 'ProductDiscoveryPageRecord', id: any, featuredCategories: Array<{ __typename: 'CatalogCategoryRecord', id: any, bigCommerceCategoryId: any | null, name: string | null, image: { __typename: 'FileField', url: string } | null }>, featuredCollections: Array<{ __typename: 'CatalogCategoryRecord', id: any, name: string | null, bigCommerceCategoryId: any | null, image: { __typename: 'FileField', url: string } | null }> } | null };
 
 export type HomePageFeaturedPostsPostsFragment = { __typename: 'ArticleRecord', id: any, _publishedAt: any | null, _createdAt: any, title: string | null, slug: string | null, shortDescription: string | null, image: { __typename: 'FileField', responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null, author: { __typename: 'AuthorRecord', id: any, name: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null } | null, categories: Array<{ __typename: 'CategoryRecord', id: any, name: string | null, slug: string | null }> };
 

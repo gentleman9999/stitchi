@@ -203,7 +203,7 @@ export const updateProductVariants = async (
       printLocations: [{ colorCount: 1 }],
       variants: [
         {
-          priceCents: variant.customerPrice * 100,
+          priceCents: variant.piecePrice * 100,
           quantity: 10_000,
         },
       ],
@@ -221,7 +221,7 @@ export const updateProductVariants = async (
       secondaryImageUrls,
       sku: variant.sku,
       price: quote.unitRetailPriceCents / 100,
-      costPrice: variant.customerPrice,
+      costPrice: variant.piecePrice,
       inventoryLevel: variant.inventoryQty,
       purchasingDisabled: variant.inventoryQty === 0,
       unitWeight: variant.unitWeight,
@@ -266,7 +266,7 @@ export const updateProductVariants = async (
       printLocations: [{ colorCount: 1 }],
       variants: [
         {
-          priceCents: variant.ssActivewearVariant.customerPrice * 100,
+          priceCents: variant.ssActivewearVariant.piecePrice * 100,
           quantity: 10_000,
         },
       ],
@@ -284,7 +284,7 @@ export const updateProductVariants = async (
       secondaryImageUrls,
       id: variant.bigCommerceVariant.id,
       price: quote.unitRetailPriceCents / 100,
-      costPrice: variant.ssActivewearVariant.customerPrice,
+      costPrice: variant.ssActivewearVariant.piecePrice,
       inventoryLevel: variant.ssActivewearVariant.inventoryQty,
       purchasingDisabled: variant.ssActivewearVariant.inventoryQty === 0,
       unitWeight: variant.ssActivewearVariant.unitWeight,

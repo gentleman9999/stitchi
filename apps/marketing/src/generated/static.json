@@ -34,6 +34,26 @@
   ],
   "landingPages": [
     {
+      "id": "CuBhwgBCQfGQIHSx6gCkpw",
+      "slug": "nonprofit-merchandise",
+      "category": "industry"
+    },
+    {
+      "id": "dKY50S-zSaqz2vqXntPMLw",
+      "slug": "uniforms-and-workwear",
+      "category": "industry"
+    },
+    {
+      "id": "TeeR6_LCShyJokDsjGx74Q",
+      "slug": "educational-institutes-merch",
+      "category": "industry"
+    },
+    {
+      "id": "Bc4E-cfeQt2rxXj8NlxTpw",
+      "slug": "corporate-merchandise-store",
+      "category": "industry"
+    },
+    {
       "id": "e8N_vJgSQ6ewHWgUly_N6A",
       "slug": "best-employee-gifts-under-10",
       "category": "insight"
@@ -3989,6 +4009,51 @@
       "custom_url": {
         "url": "/2024-summer-style-guide/the-year-of-travel/",
         "is_customized": false
+      },
+      "image_url": ""
+    },
+    {
+      "id": 1290,
+      "parent_id": 1067,
+      "name": "High-Quality Custom Embroidered Hoodies | 2024",
+      "description": "<p>Experience style and comfort with Stitchi's high-quality custom embroidered hoodies. Choose from a variety of colors and enjoy durable, detailed designs with our advanced embroidery technology. Ideal for corporate gifts, these hoodies are tailored to showcase your team's unique identity. Embrace cozy warmth and personal expression in one perfect package. Our custom embroidered&nbsp;hoodies come in a variety of colors and sizes, ensuring a perfect match for every taste and preference.</p>",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "High-Quality Custom Embroidered Hoodies | Fresh 2024 Collection",
+      "search_keywords": "high-quality custom embroidered hoodies  embroidered hoodie brands,  best custom embroidered hoodies,  embroidery custom hoodies,  custom embroidered hoodie",
+      "meta_keywords": [
+        "high-quality custom embroidered hoodies  embroidered hoodie brands",
+        "best custom embroidered hoodies",
+        "embroidery custom hoodies",
+        "custom embroidered hoodie"
+      ],
+      "meta_description": "100% authentic custom embroidered hoodies. Customization with the latest embrodery technics. 30% lower rates. Fast delivery.",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/collections/high-quality-custom-embroidered-hoodies/",
+        "is_customized": true
+      },
+      "image_url": ""
+    },
+    {
+      "id": 1291,
+      "parent_id": 1067,
+      "name": "Stylish Custom Vintage Hoodies",
+      "description": "<p>Discover your next wardrobe favorite with our stylish custom vintage hoodies collection from Stitchi. Embrace a blend of nostalgia and contemporary fashion with these must-have hoodies, meticulously crafted to deliver both comfort and style. Each piece in this exclusive collection exudes a timeless vintage charm, making it a versatile addition to any outfit. Stitchi elevates personal expression to new heights by offering bespoke customization services. Choose from&nbsp; <strong>embroidery </strong>or <strong>vibrant screen printing</strong> to make your vintage hoodie uniquely yours. Perfect for casual outings or cozy evenings, these custom vintage hoodies promise not only superior warmth and softness but also a statement of individuality. Dive into the Fresh 2024 Collection and experience the ultimate in tailored comfort and style.</p>",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "Stylish Custom Vintage Hoodies | Fresh 2024 Collection",
+      "search_keywords": "Custom Vintage Hoodie",
+      "meta_keywords": ["Custom Vintage Hoodie"],
+      "meta_description": "Discover your next wardrobe favorite with our stylish custom vintage hoodies collection from Stitchi. Choose from  embroidery or vibrant screen printing to make your vintage hoodie uniquely yours.",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/collections/custom-vintage-hoodies/",
+        "is_customized": true
       },
       "image_url": ""
     }

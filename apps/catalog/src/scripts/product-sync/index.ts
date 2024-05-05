@@ -16,6 +16,7 @@ import {
 } from '../../sdk/bigcommerce/types'
 import makeFilenameFromImageUrl from '../../sdk/bigcommerce/utils/make-filename-from-image-url'
 import makeGetCustomFieldsFromBigCommerceCategories from './make-get-custom-fields-from-big-commerce-categories'
+import { isFeaturedBrand } from './is-featured-brand'
 
 const sdks = makeSdks()
 const logger = makeLogger()
@@ -291,6 +292,10 @@ const start = async () => {
             // If no variants, set availability to 'disabled' [product with 1 variant is parent]
             availability: productVariants.length > 1 ? 'available' : 'disabled',
             images: imagesToCreate,
+            sortOrder:
+              isFeaturedBrand(product.brandName) && bigCProduct.sortOrder > -1
+                ? -1
+                : undefined,
           })
 
           logger.info(
@@ -330,6 +335,7 @@ const start = async () => {
             brandName: product.brandName,
             inventoryTracking: 'variant',
             availability: 'available',
+            sortOrder: isFeaturedBrand(product.brandName) ? -1 : undefined,
             images: product.styleImage
               ? [
                   {

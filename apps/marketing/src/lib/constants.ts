@@ -19,8 +19,11 @@ export const SITE_URL = getOrThrow(
   'NEXT_PUBLIC_SITE_URL',
 )
 
+export const SEO_DEFAULT_TITLE =
+  'Stitchi - Premium Custom Merchandise for Global Brands'
+
 export const SEO_DEFAULT_DESCRIPTION =
-  'We craft personalized promotional merchandise, perfect for corporate events, startups, and fundraisers. Drive your brand visibility with our unique, high-quality customizable products distributed globally.'
+  'Stitchi is your swag headquarters! Effortlessly shop, store, and ship premium merchandise worldwide.'
 
 export const MIN_ORDER_QTY = parseInt(
   getOrThrow(

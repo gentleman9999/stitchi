@@ -6,7 +6,6 @@ import {
   CatalogDiscoverPageGetDataQueryVariables,
 } from '@generated/types'
 import Section from '@components/common/Section'
-import FeaturedCategory from '../(catalog)/products/FeaturedCategory'
 import CatalogProductLegacy, {
   CatalogProductLegacyFragments,
 } from '@components/common/CatalogProductLegacy'
@@ -19,6 +18,7 @@ import Link from 'next/link'
 import { ArrowRightIcon } from '@heroicons/react/20/solid'
 import Button from '@components/ui/ButtonV2/Button'
 import HomePageTestimonial from './HomePageTestimonial'
+import FeaturedCategory from '../(catalog)/products/FeaturedCategory'
 
 const HomePage = () => {
   const { data } = useSuspenseQuery<
@@ -27,10 +27,6 @@ const HomePage = () => {
   >(GET_PAGE_DATA)
 
   const featuredProducts = data.site.featuredProducts.edges
-    ?.map(edge => edge?.node)
-    .filter(notEmpty)
-
-  const bestSellingProducts = data.site.bestSellingProducts.edges
     ?.map(edge => edge?.node)
     .filter(notEmpty)
 
@@ -87,24 +83,6 @@ const HomePage = () => {
             ))}
           </div>
         </Section>
-
-        {/* {bestSellingProducts?.length ? (
-          <Section gutter="md">
-            <h2 className="text-2xl font-medium mb-2">Best Sellers</h2>
-            <div className="grid grid-cols-2 lg:grid-cols-5 gap-8">
-              {bestSellingProducts.map(product => (
-                <CatalogProductLegacy
-                  key={product.id}
-                  productId={product.id}
-                  href={routes.internal.catalog.product.href({
-                    productSlug: product.path,
-                  })}
-                  imageSizes="(max-width: 400px): 190px, (max-width: 525px) 230px, 284px"
-                />
-              ))}
-            </div>
-          </Section>
-        ) : null} */}
       </Container>
 
       <div className="bg-midnight">
@@ -117,12 +95,13 @@ const HomePage = () => {
               Built for scale
             </span>
             <h2 className="font-headingDisplay uppercase text-4xl sm:text-5xl md:text-6xl font-bold mt-4 text-white">
-              Merch is awesome. <br />
-              Managing it sucks.
+              Awesome merch services <br />
+              You wished for.
             </h2>
             <p className="mt-6 text-gray-50/80  max-w-md">
-              Develop quality branded merchandise experiences with a partner you
-              can depend on every step of the way.
+              We are your one-stop partner for all merchandise services.
+              Customization, storage, packing, shipping, analytics, team stores,
+              and storefront support. Always reliable, fast, and affordable.
             </p>
 
             <Button
@@ -193,15 +172,6 @@ const GET_PAGE_DATA = gql`
         }
       }
       newestProducts(first: 5, hideOutOfStock: true) {
-        edges {
-          node {
-            id
-            path
-            ...CatalogProductLegacyProductFragment
-          }
-        }
-      }
-      bestSellingProducts(first: 5, hideOutOfStock: true) {
         edges {
           node {
             id

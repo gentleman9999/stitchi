@@ -75,7 +75,7 @@ const CatalogProductsListPage = (props: Props) => {
       after: parseAsString.withDefault(''),
       sort: parseAsStringEnum(
         Object.values(SearchProductsSortInput),
-      ).withDefault(SearchProductsSortInput.RELEVANCE),
+      ).withDefault(SearchProductsSortInput.FEATURED),
       searchTerm: parseAsString.withDefault(''),
       minPrice: parseAsInteger,
       maxPrice: parseAsInteger,

@@ -92,7 +92,7 @@
     "seobot": "^1.0.7",
     "server-only": "^0.0.1",
     "sharp": "^0.31.3",
-    "tailwind-merge": "^2.2.2",
+    "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "universal-cookie": "^6.1.1",
     "url-parse": "^1.5.10",
