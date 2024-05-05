@@ -277,6 +277,26 @@ const ProductForm = (props: ProductFormProps) => {
             </div>
           </div>
         </InformationGroup>
+
+        <Controller
+          name="fileIds"
+          control={form.control}
+          render={({ field: { onChange, value } }) => (
+            <InformationGroup
+              title="Attach Files"
+              description="Upload your logo, designs, quotes, images, or inspiration that you want to get imprinted on this merch."
+              icon={<FolderPlusIcon className={iconStyle} />}
+            >
+              <FileInput
+                keepUploadStatus
+                fileIds={value}
+                folder="/design-request-general"
+                onChange={onChange}
+              />
+            </InformationGroup>
+          )}
+        />
+
         <Controller
           name="designBrief"
           control={form.control}
@@ -292,7 +312,7 @@ const ProductForm = (props: ProductFormProps) => {
             return (
               <InformationGroup
                 title="Add Design Brief"
-                description="Share your vision for the design. A Stitchi designer will collaborate with you to refine and perfect your concept."
+                description="Share your vision for the design. A Stitchi designer will collaborate with you within 24 hours to refine and perfect your concept."
                 icon={<ChatBubbleBottomCenterIcon className={iconStyle} />}
                 error={form.formState.errors.designBrief?.message}
               >
@@ -332,26 +352,6 @@ const ProductForm = (props: ProductFormProps) => {
               </InformationGroup>
             )
           }}
-        />
-
-        <Controller
-          name="fileIds"
-          control={form.control}
-          render={({ field: { onChange, value } }) => (
-            <InformationGroup
-              optional
-              title="Attach Files"
-              description="Upload any brand assets, existing designs, or inspiration materials that will guide the design process."
-              icon={<FolderPlusIcon className={iconStyle} />}
-            >
-              <FileInput
-                keepUploadStatus
-                fileIds={value}
-                folder="/design-request-general"
-                onChange={onChange}
-              />
-            </InformationGroup>
-          )}
         />
       </div>
       <div className="sticky bottom-0 bg-paper">
