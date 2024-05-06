@@ -519,10 +519,11 @@
       "id": 482,
       "name": "J. America",
       "page_title": "",
+      "meta_keywords": [],
       "meta_description": "",
       "image_url": "",
       "search_keywords": "",
-      "custom_url": { "url": "/j.-america/", "is_customized": true }
+      "custom_url": { "url": "/j-america/", "is_customized": false }
     },
     {
       "id": 491,

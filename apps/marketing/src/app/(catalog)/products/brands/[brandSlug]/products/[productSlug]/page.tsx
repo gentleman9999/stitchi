@@ -5,11 +5,12 @@ import {
   ProductPageGetDataQuery,
   ProductPageGetDataQueryVariables,
 } from '@generated/types'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import ProductShowPage from './ProductShowPage'
 import routes from '@lib/routes'
 
 interface Params {
+  brandSlug: string
   productSlug: string
 }
 
@@ -32,7 +33,13 @@ export const generateMetadata = async ({
 
   const product = data?.site.route.node
 
-  if (product?.__typename === 'Product') {
+  if (product?.__typename !== 'Product') {
+    redirect(
+      routes.internal.catalog.brand.show.href({
+        brandSlug: params.brandSlug,
+      }),
+    )
+  } else {
     const { brand, humanizedName, path: productPath } = product
 
     // SEO Title shouldn't be the same as H1
@@ -66,7 +73,7 @@ export const generateMetadata = async ({
       ]
     }
 
-    if (!brand || !productPath) {
+    if (!productPath) {
       notFound()
     }
 
@@ -91,12 +98,15 @@ export const generateMetadata = async ({
       },
     }
   }
-
-  notFound()
 }
 
 const Page = ({ params }: { params: Params }) => {
-  return <ProductShowPage path={`/${params.productSlug}/`} />
+  return (
+    <ProductShowPage
+      brandSlug={params.brandSlug}
+      path={`/${params.productSlug}/`}
+    />
+  )
 }
 
 export default Page

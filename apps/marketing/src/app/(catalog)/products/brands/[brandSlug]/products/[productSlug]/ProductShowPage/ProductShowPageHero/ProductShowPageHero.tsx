@@ -83,7 +83,7 @@ const ProductShowPageHero = ({ product }: Props) => {
     }
 
     return filteredVariants[0]?.catalogProductVariantId || null
-  }, [activeColorId, variants])
+  }, [activeColorId, activeSizeId, variants])
 
   const productTitle = product.humanizedName
 

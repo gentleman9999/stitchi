@@ -14,7 +14,7 @@ import {
 } from '@generated/types'
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 import { GET_DATA } from '../graphql'
-import { notFound } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import CatalogProductLegacy from '@components/common/CatalogProductLegacy'
 import {
   ProductGroup,
@@ -24,12 +24,21 @@ import {
 } from 'schema-dts'
 import { JsonLd } from '@lib/json-ld'
 import { addDays } from 'date-fns'
+import staticData from '@generated/static.json'
+
+export const getBrandFromProductSlug = (productSlug: string) => {
+  const brandSlugs = staticData.brands.map(brand => brand.custom_url?.url)
+  const brandSlug = brandSlugs.find(slug => productSlug.startsWith(slug))
+
+  return brandSlug
+}
 
 interface Props {
   path: string
+  brandSlug: string
 }
 
-const ProductShowPage = ({ path }: Props) => {
+const ProductShowPage = ({ path, brandSlug }: Props) => {
   const { data } = useSuspenseQuery<
     ProductPageGetDataQuery,
     ProductPageGetDataQueryVariables
@@ -38,15 +47,12 @@ const ProductShowPage = ({ path }: Props) => {
   const product = data.site.route.node
 
   if (product?.__typename !== 'Product') {
-    console.error('Expected Product, got', product?.__typename, {
-      context: {
-        node: product,
-        data,
-        path,
-      },
-    })
-
-    notFound()
+    // If the product is not found, redirect to brand page
+    redirect(
+      routes.internal.catalog.brand.show.href({
+        brandSlug,
+      }),
+    )
   }
 
   const relatedProducts =
