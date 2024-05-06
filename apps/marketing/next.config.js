@@ -149,6 +149,11 @@ module.exports = withBundleAnalyzer(
           destination: '/learn/kanye-yeezy-vultures-merch-official-links',
           permanent: true,
         },
+        {
+          source: '/learn/unique-conference-and-event-giveaway-ideas',
+          destination: '/learn/event-merchandise-ideas',
+          permanent: true,
+        },
 
         //
         // Start - Legacy hidden collection URLs
