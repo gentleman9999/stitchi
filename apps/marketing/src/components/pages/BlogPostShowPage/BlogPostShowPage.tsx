@@ -30,7 +30,7 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
     <>
       <BlogPostShowPageSeo article={post} />
       <BlogPostJsonLD post={post} />
-      <Container className="!max-w-4xl">
+      <Container className="!max-w-4xl ">
         <article className="prose prose-stone prose-headings:font-heading lg:prose-lg m-auto max-w-none prose-h1:md:text-6xl prose-h1:lg:text-7xl">
           <Section gutter="lg">
             <h1 className="text-center !mb-12">{post.title}</h1>
@@ -80,8 +80,6 @@ const BlogPostShowPage = ({ post }: BlogShowPageProps) => {
           )}
 
           <div className="relative mx-auto max-w-4xl">
-            <BackgroundTexture />
-
             <div>
               <div>
                 <section className="p-4 prose-a:text-current prose-a:no-underline hover:prose-a:underline bg-gray-100 rounded-sm ">
