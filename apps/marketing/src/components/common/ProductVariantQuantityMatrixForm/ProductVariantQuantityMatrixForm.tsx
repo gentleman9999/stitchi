@@ -190,9 +190,7 @@ const ProductVariantQuantityMatrixForm = <
             <div
               className="grid grid-flow-row"
               style={{
-                gridTemplateColumns: `1fr repeat(${sizes.length}, 60px)${
-                  showColorOptions ? ' 24px' : ''
-                }`,
+                gridTemplateColumns: `1fr repeat(${sizes.length}, 60px)`,
               }}
             >
               <div className="sticky left-0 bg-white"></div>
@@ -209,9 +207,6 @@ const ProductVariantQuantityMatrixForm = <
                 <div className="text-center text-sm">Quantity</div>
               )}
 
-              {/* Insert placeholder for "X" icon */}
-              {showColorOptions ? <div></div> : null}
-
               {colorFields.fields.map(({ catalogProductColorId }, index) => {
                 const color = colors.find(
                   color =>
@@ -223,6 +218,19 @@ const ProductVariantQuantityMatrixForm = <
                 return (
                   <React.Fragment key={color.id}>
                     <div className="p-1 sticky left-0 flex bg-white">
+                      {showColorOptions ? (
+                        <div className="flex items-center">
+                          <button
+                            type="button"
+                            className="p-1 hover:bg-gray-100 rounded-sm"
+                            onClick={() =>
+                              handleRemoveColor({ catalogProductColorId })
+                            }
+                          >
+                            <XIcon className="w-4 h-4 text-gray-400" />
+                          </button>
+                        </div>
+                      ) : null}
                       <div className="flex items-center text-xs">
                         <ColorSwatch
                           hexCode={color.hex || '#000'}
@@ -236,20 +244,6 @@ const ProductVariantQuantityMatrixForm = <
                       </div>
                     </div>
                     <ColorSizesInput form={form} colorFieldIndex={index} />
-
-                    {showColorOptions ? (
-                      <div className="flex items-center">
-                        <button
-                          type="button"
-                          className="p-1 hover:bg-gray-100 rounded-sm"
-                          onClick={() =>
-                            handleRemoveColor({ catalogProductColorId })
-                          }
-                        >
-                          <XIcon className="w-4 h-4 text-gray-400" />
-                        </button>
-                      </div>
-                    ) : null}
                   </React.Fragment>
                 )
               })}

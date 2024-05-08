@@ -225,6 +225,7 @@ const ProductForm = (props: ProductFormProps) => {
       <div className="flex flex-col gap-16">
         <InformationGroup
           title="Colors & Sizes"
+          description="Choose color to view available sizes."
           footer={
             colors.length ? (
               <>
