@@ -80,7 +80,7 @@ const FileInput = ({
       <div className="w-full">
         <div
           className={cx(
-            'flex justify-center rounded-sm border border-dashed border-gray-900/25 px-6 py-10 cursor-pointer',
+            'flex justify-center rounded-sm border border-dashed border-gray-900/25 px-6 py-4 cursor-pointer',
             {
               'bg-gray-100': isDragging,
             },
@@ -100,7 +100,7 @@ const FileInput = ({
             <div className="mt-4 flex text-sm leading-6 text-gray-600 justify-center">
               <label
                 htmlFor="file-upload"
-                className="relative cursor-pointer rounded-sm bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                className="relative cursor-pointer rounded-sm bg-white font-semibold text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
               >
                 <span>Upload a file</span>
                 <input

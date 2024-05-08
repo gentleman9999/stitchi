@@ -3,7 +3,7 @@
   max-height: 64px;
 
   &.brandColors {
-    @apply border-primary bg-primary text-black;
+    @apply border-turquoise bg-turquoise text-black;
   }
 }
 
@@ -35,7 +35,7 @@
   @apply border-gray-900 bg-gray-700;
 
   &.brandColors {
-    @apply bg-primary border-primary;
+    @apply bg-turquoise border-turquoise;
   }
 }
 
@@ -55,7 +55,7 @@
   @apply border border-gray-200 bg-transparent text-midnight;
 
   &.brandColors {
-    @apply border-primary bg-transparent border-2 font-medium;
+    @apply border-turquoise bg-transparent border-2 font-medium;
   }
 }
 
@@ -63,7 +63,7 @@
   @apply border-gray-900 bg-transparent text-gray-900;
 
   &.brandColors {
-    @apply border-primary bg-transparent text-primary;
+    @apply border-turquoise bg-transparent text-turquoise;
   }
 }
 

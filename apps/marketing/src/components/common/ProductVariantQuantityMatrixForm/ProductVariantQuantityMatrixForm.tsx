@@ -173,8 +173,8 @@ const ProductVariantQuantityMatrixForm = <
                       }}
                       hexCode={color.hex || '#000'}
                       label={color.name}
-                      width="w-6"
-                      height="h-6"
+                      width={colors.length > 20 ? 'w-6' : 'w-8'}
+                      height={colors.length > 20 ? 'h-6' : 'h-8'}
                     />
                   </motion.li>
                 ))}

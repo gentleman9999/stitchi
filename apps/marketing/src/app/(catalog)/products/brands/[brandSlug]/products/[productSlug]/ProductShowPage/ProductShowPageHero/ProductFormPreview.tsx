@@ -65,7 +65,7 @@ const ProductFormPreview = ({
         </div>
 
         <div className="flex flex-col gap-4">
-          <div className="rounded-sm p-4 flex flex-col gap-4 border">
+          <div className="rounded-sm flex flex-col gap-4 ">
             <div>
               <h2 className="font-headingDisplay font-semibold text-2xl sm:text-3xl text-gray-800">
                 From {currency(minPrice).format()}
@@ -77,7 +77,7 @@ const ProductFormPreview = ({
             </div>
 
             <h3 className="font-medium text-xl">
-              Login to customize and get live quote
+              Login to customize and get instant quote
             </h3>
             <Button
               Component="a"
@@ -93,7 +93,7 @@ const ProductFormPreview = ({
                 })
               }}
             >
-              Create account
+              Create free account
             </Button>
 
             <p className="text-gray-700">

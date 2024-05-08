@@ -12,7 +12,7 @@ export const JsonLd = <T extends Thing>({
       id={scriptId}
       type="application/ld+json"
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify(json, null, 2),
+        __html: JSON.stringify(json),
       }}
     />
   )
