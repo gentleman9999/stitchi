@@ -61,8 +61,8 @@ const Loading = () => {
                         From $<Skeleton width="40px" />
                       </h2>
                       <p className="text-gray-500 text-sm">
-                        Pricing varies by print areas, ink colors, and units
-                        ordered.
+                        Price varies based on print areas, ink colors, and
+                        quantity ordered.
                       </p>
                     </div>
 

@@ -358,7 +358,7 @@ const ProductForm = (props: ProductFormProps) => {
         <div className="p-4 border-t rounded-b-lg flex flex-wrap gap-4 justify-between items-end">
           <div className="flex flex-col">
             <Tooltip
-              label="The price per unit is based on the total quantity of all colors and sizes."
+              label="Price varies based on print areas, ink colors, and quantity ordered."
               renderTrigger={() => (
                 <button>
                   <span className="text-xl text-gray-400 font-medium font-headingDisplay flex">

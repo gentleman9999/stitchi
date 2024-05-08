@@ -18,6 +18,8 @@ import Alert from '@components/ui/Alert'
 import Button from '@components/ui/ButtonV2/Button'
 import { useIntercom } from 'react-use-intercom'
 import { parseAsString, useQueryState } from 'nuqs'
+import { addBusinessDays, format } from 'date-fns'
+import { BoltIcon } from '@heroicons/react/24/outline'
 
 interface Props {
   product: ProductShowPageHeroProductFragment
@@ -207,6 +209,20 @@ const ProductShowPageHero = ({ product }: Props) => {
                 rating={reviewSummary?.summationOfRatings}
                 ratingCount={reviewSummary?.numberOfReviews}
               />
+
+              <div className="rounded-sm p-4 bg-gray-100 flex flex-row items-center gap-4">
+                <BoltIcon className="w-6 h-6 text-lime-500" />
+                <div className="flex flex-col gap-1">
+                  <p className="text-sm">
+                    Get this delivered by{' '}
+                    <b>
+                      {format(addBusinessDays(new Date(), 12), 'EEEE, MMMM d')}
+                    </b>
+                    .
+                  </p>
+                  <p className="text-xs">Rush options available at checkout.</p>
+                </div>
+              </div>
 
               {!variants.length ? (
                 <Alert

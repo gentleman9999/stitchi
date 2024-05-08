@@ -68,6 +68,8 @@ const MixpanelProvider = ({ children }: MixpanelContextProps) => {
           organizationId: data.viewer.organization.id,
           organizationName: data.viewer.organization.name,
           $email: data.viewer.user.email,
+          $first_name: data.viewer.user.name?.split(' ')[0],
+          $last_name: data.viewer.user.name?.split(' ')[1],
         })
 
         let params
