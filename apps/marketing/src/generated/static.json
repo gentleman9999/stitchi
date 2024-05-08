@@ -34,6 +34,11 @@
   ],
   "landingPages": [
     {
+      "id": "VTIl84fjR4-hj5hfh4CuTw",
+      "slug": "blank-cream-hoodies",
+      "category": "insight"
+    },
+    {
       "id": "CuBhwgBCQfGQIHSx6gCkpw",
       "slug": "nonprofit-merchandise",
       "category": "industry"
@@ -114,11 +119,6 @@
       "category": "tradeshow"
     },
     { "id": "D2HV_J7hTKmi0T2hgBN1-w", "slug": "insights", "category": "none" },
-    {
-      "id": "VTIl84fjR4-hj5hfh4CuTw",
-      "slug": "blank-cream-hoodies",
-      "category": "insight"
-    },
     {
       "id": "dIiDSCAVQ_GB4c1v7B5Lfg",
       "slug": "cheap-bulk-hoodies",
@@ -4014,6 +4014,26 @@
       "image_url": ""
     },
     {
+      "id": 1289,
+      "parent_id": 1067,
+      "name": "Custom Adidas Hoodie with Embroidery",
+      "description": "<p>Stitchi offers a unique collection of custom Adidas hoodies, featuring expert embroidery and screen printing services. This collection includes a variety of authentic Adidas apparel such as hooded pullovers, sweatshirts, and full-zip jackets. At Stitchi, we provide each custom Adidas embroidered hoodie at <strong>prices 30% lower than market rates</strong>, making it an attractive option for those looking to sport stylish, personalized Adidas gear without breaking the bank.</p>",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "Custom Adidas Hoodies with Embroidery and Screen Printing",
+      "search_keywords": "custom adidas hoodie, adidas embroidered hoodie",
+      "meta_keywords": ["custom adidas hoodie", "adidas embroidered hoodie"],
+      "meta_description": "We provide each custom Adidas embroidered hoodie at prices 30% lower than market rates. 100% authentic Adidas apparel such as hooded pullovers, sweatshirts, and full-zip jackets",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/collections/custom-adidas-hoodie/",
+        "is_customized": true
+      },
+      "image_url": "https://cdn11.bigcommerce.com/s-ycjcgspsys/product_images/o/screenshot%202024-05-01%20at%205.28.14%20pm__59577.png"
+    },
+    {
       "id": 1290,
       "parent_id": 1067,
       "name": "High-Quality Custom Embroidered Hoodies | 2024",
@@ -4057,6 +4077,26 @@
         "is_customized": true
       },
       "image_url": ""
+    },
+    {
+      "id": 1292,
+      "parent_id": 1067,
+      "name": "Custom Tote Bags with Logo",
+      "description": "<p>Looking to elevate your brand's visibility? Stitchi.co offers a diverse selection of custom tote bags with logo imprinting services to suit your promotional needs. With over 100 varieties starting at just $1.2 per bag, our collection encompasses various styles, colors, and sizes, ensuring you find the perfect match for your brand aesthetic. Plus, our commitment to sustainability means we also offer eco-friendly tote options. Whether you prefer screen printing or embroidery techniques, our expert team ensures your logo stands out with impeccable quality and durability.&nbsp;</p>",
+      "views": 0,
+      "sort_order": 0,
+      "page_title": "Custom Tote Bags with Logo | 2024 Collection",
+      "search_keywords": "Custom Tote Bags with Logo, Tote Bags with Logo",
+      "meta_keywords": ["Custom Tote Bags with Logo", "Tote Bags with Logo"],
+      "meta_description": "With over 100 varieties starting at just $1.2 per bag, our collection of custom tote bags with logo encompasses various styles, colors, and sizes",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": {
+        "url": "/collections/custom-tote-bags-with-logo/",
+        "is_customized": true
+      },
+      "image_url": "https://cdn11.bigcommerce.com/s-ycjcgspsys/product_images/t/screenshot%202024-05-06%20at%206.54.35%20pm__85549.png"
     }
   ]
 }
