@@ -4,6 +4,7 @@ import React from 'react'
 import { useFieldArray, UseFormReturn } from 'react-hook-form'
 import ColorSizesInput from './ColorSizesInput'
 import { AnimatePresence, motion } from 'framer-motion'
+import { sortedSizeMap } from "../../../lib/utils/catalog"
 
 interface ProductColor {
   id: string
@@ -92,7 +93,13 @@ const ProductVariantQuantityMatrixForm = <
       }
     })
 
-    return Array.from(sizeMap.values())
+    const sortedSizes = Array.from(sizeMap.values()).sort((a, b) => {
+      const rankA = sortedSizeMap[a.label.toLowerCase()] || 999;
+      const rankB = sortedSizeMap[b.label.toLowerCase()] || 999;
+      return rankA - rankB;
+    });
+
+    return sortedSizes;
   }, [variants])
 
   const handleSwatchClick = (color: ProductColor) => {
@@ -258,5 +265,4 @@ const ProductVariantQuantityMatrixForm = <
     </>
   )
 }
-
 export default ProductVariantQuantityMatrixForm
