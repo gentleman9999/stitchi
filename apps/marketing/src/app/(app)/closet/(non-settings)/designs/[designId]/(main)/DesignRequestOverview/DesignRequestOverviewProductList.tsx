@@ -14,22 +14,11 @@ interface Props {
 
 const DesignRequestOverviewProductList = ({ product }: Props) => {
   const { catalogProduct, colors } = product
-
   if (!catalogProduct) return null
 
   return (
     <div>
       <Card key={catalogProduct.id}>
-        {catalogProduct.primaryImage?.url ? (
-          <div className="flex justify-center w-full">
-            <img
-              className="aspect-square object-contain w-full max-h-60"
-              src={catalogProduct.primaryImage.url}
-              alt={catalogProduct.name}
-            />
-          </div>
-        ) : null}
-
         <CardContent>
           <Link
             target={'_blank'}
@@ -42,24 +31,35 @@ const DesignRequestOverviewProductList = ({ product }: Props) => {
                 : '#'
             }
           >
-            <div className="flex flex-col">
-              <h3 className="font-semibold">{catalogProduct.name}</h3>
-              <p className="text-gray-400">{catalogProduct.brand?.name}</p>
-              {colors.length ? (
-                <div className="mt-2 flex flex-wrap">
-                  {colors.map(color =>
-                    color.hexCode ? (
-                      <ColorSwatch
-                        key={color.hexCode}
-                        hexCode={color.hexCode}
-                        label={color.name}
-                        width="w-5"
-                        height="h-5"
-                      />
-                    ) : null,
-                  )}
+            <div className="flex">
+              {catalogProduct.primaryImage?.url && (
+                <div className="flex justify-center">
+                  <img
+                    className="aspect-square object-contain w-full max-h-20"
+                    src={catalogProduct.primaryImage?.url}
+                    alt={catalogProduct.name}
+                  />
                 </div>
-              ) : null}
+              )}
+              <div className="flex flex-col">
+                <h3 className="font-semibold">{catalogProduct.name}</h3>
+                <p className="text-gray-400">{catalogProduct.brand?.name}</p>
+                {colors.length ? (
+                  <div className="mt-2 flex flex-wrap">
+                    {colors.map(color =>
+                      color.hexCode ? (
+                        <ColorSwatch
+                          key={color.hexCode}
+                          hexCode={color.hexCode}
+                          label={color.name}
+                          width="w-5"
+                          height="h-5"
+                        />
+                      ) : null,
+                    )}
+                  </div>
+                ) : null}
+              </div>
             </div>
 
             <div className="border-t pt-6">
