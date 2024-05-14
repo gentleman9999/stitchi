@@ -1,12 +1,15 @@
 import Button from '@components/ui/Button'
 import routes from '@lib/routes'
 import React from 'react'
+import { useIntercom } from 'react-use-intercom'
 
 interface Props {
   humanOrderId: string
 }
 
 const ContactUs = (props: Props) => {
+  const { showNewMessage } = useIntercom()
+
   return (
     <div className="flex flex-col items-center gap-5 text-center">
       <h2 className="text-gray-900 text-2xl font-medium font-heading">
@@ -16,16 +19,10 @@ const ContactUs = (props: Props) => {
         <Button
           variant="ghost"
           className="!border-gray-900"
-          Component="a"
-          href={routes.external.support.email.href({
-            params: {
-              subject: `Order #${props.humanOrderId}`,
-            },
-          })}
-          {...{ target: '_blank' }}
+          onClick={() => showNewMessage()}
         >
-          <span className="hidden sm:block">Send us an email</span>
-          <span className="sm:hidden">Email us</span>
+          <span className="hidden sm:block">Send us a message</span>
+          <span className="sm:hidden">Message us</span>
         </Button>
         <div className="text-sm">
           or give us a call{' '}
