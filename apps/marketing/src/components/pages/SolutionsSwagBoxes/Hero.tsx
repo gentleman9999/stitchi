@@ -6,8 +6,11 @@ import { ArrowRight } from 'icons'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import { useIntercom } from 'react-use-intercom'
 
 const Hero = () => {
+  const { showNewMessage } = useIntercom()
+
   return (
     <header>
       <Section gutter="md">
@@ -26,9 +29,8 @@ const Hero = () => {
             <br />
             <br />
             <Button
-              href={routes.internal.getStarted.href()}
-              Component={Link}
               endIcon={<ArrowRight width={16} height={16} strokeWidth={3} />}
+              onClick={() => showNewMessage("I'm interested in creating a swag box.")}
             >
               Build a box
             </Button>
