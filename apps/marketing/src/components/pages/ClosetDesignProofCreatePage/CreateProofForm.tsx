@@ -114,7 +114,7 @@ const CreateProofForm = ({
                   folder={uploadFolder}
                   keepUploadStatus
                   fileIds={[field.value]}
-                  onChange={v => field.onChange(v[1])}
+                  onChange={v => field.onChange(v[0])}
                   accept="image/jpg,image/jpeg,image/png"
                 />
               </InputGroup>
