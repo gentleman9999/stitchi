@@ -29,8 +29,6 @@ const Hero = () => {
             <br />
             <br />
             <Button
-              href={routes.internal.getStarted.href()}
-              Component={Link}
               endIcon={<ArrowRight width={16} height={16} strokeWidth={3} />}
               onClick={() => showNewMessage("I'm interested in creating a swag box.")}
             >
