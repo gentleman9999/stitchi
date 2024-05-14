@@ -2,7 +2,7 @@
 
 import { gql } from '@apollo/client'
 import { StandoutType, useStandout } from '@components/context'
-import { EyeIcon, LinkIcon } from '@heroicons/react/24/outline'
+import { EyeIcon, LinkIcon, ShoppingBagIcon } from '@heroicons/react/24/outline'
 import routes from '@lib/routes'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { format } from 'date-fns'
@@ -54,6 +54,13 @@ const ClosetDesignIndexPageDesignRequestCard = ({ designRequest }: Props) => {
               ),
             }),
           icon: <LinkIcon className="w-full" />,
+        },
+        {
+          label: 'View inventory',
+          icon: <ShoppingBagIcon className="w-full" />,
+          href: routes.internal.closet.inventory.show.products.show.href({
+            designId: designRequest.id,
+          }),
         },
         // {
         //   label: 'Duplicate',
