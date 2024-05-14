@@ -44,7 +44,6 @@ const Checkbox = (props: CheckboxProps) => {
       {(props.label || props.description) && (
         <div
           className="pl-3 flex-1 cursor-pointer"
-          onClick={() => props.onChange(!props.checked)}
         >
           {props.label && (
             <label
