@@ -10,9 +10,14 @@ import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import ProofLocationInput from './ProofLocationInput'
 import ProofVariantInput from './ProofVariantInput'
-import { validate } from 'uuid'
+import { validate as isUuid } from 'uuid'
 
-const fileSchema = yup.mixed().nullable().label('File')
+const fileSchema = yup
+  .mixed()
+  .test('is-uuid', '${path} must be a valid UUID', value =>
+    isUuid(value as string),
+  )
+  .label('File')
 
 const locationSchema = yup
   .object()
