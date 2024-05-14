@@ -41,7 +41,6 @@ const CheckboxFilter = ({
       <label
         htmlFor={name}
         className="font-medium text-gray-500 select-none cursor-pointer font-heading text-md"
-        onClick={onChange}
       >
         {label}
         {productCount && (
