@@ -27,7 +27,6 @@ const ProofLocationInput = ({ form, uploadFolder }: Props) => {
     locationFields.append({
       colorCount: null,
       placement: '',
-      fileId: '',
     })
   }
 

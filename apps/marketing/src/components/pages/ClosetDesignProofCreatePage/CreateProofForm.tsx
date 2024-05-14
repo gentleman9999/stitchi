@@ -16,7 +16,10 @@ const fileSchema = yup.string().uuid().label('File')
 const locationSchema = yup
   .object()
   .shape({
-    fileId: fileSchema.required(),
+    fileId: fileSchema
+      .test('File ID not null', 'File cannot be empty.', v => Boolean(v))
+      .optional(),
+
     placement: yup.string().required().label('Placement'),
     colorCount: yup.number().min(0).nullable().label('Color count'),
   })
@@ -76,7 +79,6 @@ const CreateProofForm = ({
         {
           colorCount: null,
           placement: '',
-          fileId: undefined,
         },
       ],
       proofVariants: designRequest.designRequestProduct.colors.map(color => ({
