@@ -10,19 +10,16 @@ import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import ProofLocationInput from './ProofLocationInput'
 import ProofVariantInput from './ProofVariantInput'
-import { validate as isUuid } from 'uuid'
 
-const fileSchema = yup
-  .mixed()
-  .test('is-uuid', '${path} must be a valid UUID', value =>
-    isUuid(value as string),
-  )
-  .label('File')
+const fileSchema = yup.string().uuid().label('File')
 
 const locationSchema = yup
   .object()
   .shape({
-    fileId: fileSchema.required(),
+    fileId: fileSchema
+      .test('File ID not null', 'File cannot be empty.', v => Boolean(v))
+      .optional(),
+
     placement: yup.string().required().label('Placement'),
     colorCount: yup.number().min(0).nullable().label('Color count'),
   })
@@ -82,7 +79,6 @@ const CreateProofForm = ({
         {
           colorCount: null,
           placement: '',
-          fileId: undefined,
         },
       ],
       proofVariants: designRequest.designRequestProduct.colors.map(color => ({
@@ -119,7 +115,7 @@ const CreateProofForm = ({
                 <FileInput
                   folder={uploadFolder}
                   keepUploadStatus
-                  fileIds={[field.value as string]}
+                  fileIds={[field.value]}
                   onChange={v => field.onChange(v[1])}
                   accept="image/jpg,image/jpeg,image/png"
                 />

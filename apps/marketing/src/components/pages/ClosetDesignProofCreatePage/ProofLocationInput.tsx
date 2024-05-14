@@ -27,7 +27,6 @@ const ProofLocationInput = ({ form, uploadFolder }: Props) => {
     locationFields.append({
       colorCount: null,
       placement: '',
-      fileId: undefined,
     })
   }
 
@@ -159,7 +158,7 @@ const ProofLocationInput = ({ form, uploadFolder }: Props) => {
                           <FileInput
                             keepUploadStatus
                             folder={uploadFolder}
-                            fileIds={[field.value as string]}
+                            fileIds={[field.value]}
                             onChange={v => field.onChange(v[0])}
                             accept="application/pdf"
                           />
