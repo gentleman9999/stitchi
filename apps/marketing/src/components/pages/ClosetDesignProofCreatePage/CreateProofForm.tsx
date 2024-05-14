@@ -10,8 +10,9 @@ import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import ProofLocationInput from './ProofLocationInput'
 import ProofVariantInput from './ProofVariantInput'
+import { validate } from 'uuid'
 
-const fileSchema = yup.string().uuid().label('File')
+const fileSchema = yup.mixed().nullable().label('File')
 
 const locationSchema = yup
   .object()
@@ -113,8 +114,8 @@ const CreateProofForm = ({
                 <FileInput
                   folder={uploadFolder}
                   keepUploadStatus
-                  fileIds={[field.value]}
-                  onChange={v => field.onChange(v[0])}
+                  fileIds={[field.value as string]}
+                  onChange={v => field.onChange(v[1])}
                   accept="image/jpg,image/jpeg,image/png"
                 />
               </InputGroup>
