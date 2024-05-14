@@ -33,7 +33,7 @@ const Breadcrumbs = ({ breadcrumbs, useAppDir }: Props) => {
               <li className={crumb.hidden ? 'sr-only' : ''}>
                 <Link
                   href={crumb.href}
-                  className={cx('hover:text-gray-800 whitespace-nowrap', {
+                  className={cx('hover:text-gray-800 whitespace-normal md:whitespace-nowrap', {
                     'pointer-events-none underline':
                       i === breadcrumbs.length - 1,
                   })}
