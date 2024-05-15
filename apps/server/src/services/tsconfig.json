@@ -11,6 +11,7 @@
     { "path": "../auth0" },
     { "path": "../telemetry" },
     { "path": "../utils" },
-    { "path": "../email-template-composer" }
+    { "path": "../email-template-composer" },
+    { "path": "../google-analytics" }
   ]
 }

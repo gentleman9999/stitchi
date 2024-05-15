@@ -3,6 +3,8 @@
 import { gql, useLazyQuery } from '@apollo/client'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { MixpanelProviderGetDataQuery } from '@generated/MixpanelProviderGetDataQuery'
+
+import events, { EventName } from '@lib/events'
 import getOrThrow from '@lib/utils/get-or-throw'
 import mixpanel, { Mixpanel } from 'mixpanel-browser'
 import React from 'react'
@@ -79,6 +81,15 @@ const MixpanelProvider = ({ children }: MixpanelContextProps) => {
             query: parse(window.location.toString()).query,
           })
         }
+
+        events.track({
+          event: EventName.INITIALIZE,
+          user_id: data.viewer.user.id,
+          user_properties: {
+            organization_id: data.viewer.organization.id,
+            organization_name: data.viewer.organization.name,
+          },
+        })
 
         update({
           userId: data.viewer.user.id,

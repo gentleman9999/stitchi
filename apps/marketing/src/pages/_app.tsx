@@ -19,19 +19,6 @@ import { CookiesProvider } from 'react-cookie'
 import IntercomProvider from 'app/IntercomProvider'
 import PageloadProgressIndicator from '@components/layout/PageloadProgressIndicator'
 
-// const saira = Saira({
-//   subsets: ['latin'],
-//   display: 'swap',
-//   variable: '--font-default',
-// })
-
-// const sairaCond = Saira_Condensed({
-//   weight: ['600'],
-//   subsets: ['latin'],
-//   display: 'swap',
-//   variable: '--font-heading-display',
-// })
-
 const poppins = Poppins({
   weight: ['400', '600', '800', '900'],
   subsets: ['latin'],

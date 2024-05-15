@@ -20,6 +20,7 @@ export enum DataLayerVariableNames {
 
 // Each value must map to an event name in the Google Tag Manager data layer.
 export enum EventName {
+  INITIALIZE = 'initialize',
   EMAIL_LIST_SUBSCRIBE = 'email_list_subscribe',
   GENERATE_LEAD = 'generate_lead',
 }
@@ -40,7 +41,16 @@ interface EventEmailListSubscribe extends BaseEvent {
   userEmail: string
 }
 
-type Event = EventGenerateLead | EventEmailListSubscribe
+interface EventInitialize extends BaseEvent {
+  event: EventName.INITIALIZE
+  user_id: string
+  user_properties: {
+    organization_id: string
+    organization_name: string | null
+  }
+}
+
+type Event = EventGenerateLead | EventEmailListSubscribe | EventInitialize
 
 const makeEvents = () => {
   return {

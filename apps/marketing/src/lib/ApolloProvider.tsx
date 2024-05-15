@@ -4,15 +4,23 @@ import { ApolloNextAppProvider } from '@apollo/experimental-nextjs-app-support/s
 import { createApolloClient } from './apollo-new'
 
 interface Props {
-  deviceId?: string
-  accessToken?: string
+  deviceId: string | null
+  accessToken: string | null
+  gaClientId: string | null
   children: React.ReactNode
 }
 
-const ApolloProvider = ({ children, deviceId, accessToken }: Props) => {
+const ApolloProvider = ({
+  children,
+  deviceId,
+  accessToken,
+  gaClientId,
+}: Props) => {
   return (
     <ApolloNextAppProvider
-      makeClient={() => createApolloClient({ deviceId, accessToken })}
+      makeClient={() =>
+        createApolloClient({ deviceId, accessToken, gaClientId })
+      }
     >
       {children}
     </ApolloNextAppProvider>

@@ -9,6 +9,10 @@ import { SendgridClient, makeClient as makeSendgridClient } from '../sendgrid'
 import PubSubClient from './pubsub'
 import { logger, Logger } from '../telemetry'
 import { AuthorizerFn, makeAuthorizer } from './authorization'
+import {
+  GoogleAnalyticsClient,
+  makeGoogleAnalyticsClient,
+} from '../google-analytics'
 
 const HEADER_X_DEVICE_ID = 'x-device-id'
 
@@ -40,6 +44,7 @@ export interface Context {
   subscriptions: PubSubClient
   authorize: AuthorizerFn
   logger: Logger
+  googleAnalytics: GoogleAnalyticsClient | null
 }
 
 interface ContextCreatorParams {
@@ -79,6 +84,15 @@ function makeContext(
           ? req.headers[HEADER_X_DEVICE_ID]?.toString()
           : null
 
+      const gaClientId =
+        req?.headers && 'x-ga-client-id' in req.headers
+          ? req.headers['x-ga-client-id']?.toString()
+          : null
+
+      if (!gaClientId) {
+        logger.warn('Missing x-ga-client-id header. This is unexpected.')
+      }
+
       return {
         subscriptions: params.pubsub,
         role: userActiveMembership?.role ?? undefined,
@@ -108,6 +122,13 @@ function makeContext(
         color: services.color,
         keyValueStore: services.keyValueStore,
         authorize: makeAuthorizer(userActiveMembership?.role),
+        googleAnalytics: gaClientId
+          ? makeGoogleAnalyticsClient({
+              logger,
+              userId: userActiveMembership?.id || null,
+              clientId: gaClientId,
+            })
+          : null,
       }
     } catch (error) {
       logger.error(error)

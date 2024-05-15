@@ -139,7 +139,8 @@ const RootLayout = async ({ children }: Props) => {
 
   const cookiesInstance = cookies()
 
-  const deviceId = cookiesInstance.get(COOKIE_DEVICE_ID)?.value
+  const deviceId = cookiesInstance.get(COOKIE_DEVICE_ID)?.value || null
+  const gaClientId = cookiesInstance.get('x-ga-client-id')?.value || null
 
   return (
     <html className={`${poppins.variable}`} lang="en-US">
@@ -162,7 +163,11 @@ const RootLayout = async ({ children }: Props) => {
       <AxiomWebVitals />
 
       <UserProvider>
-        <ApolloProvider deviceId={deviceId} accessToken={accessToken}>
+        <ApolloProvider
+          deviceId={deviceId}
+          accessToken={accessToken || null}
+          gaClientId={gaClientId}
+        >
           <body>
             <PageloadProgressIndicator />
             <IntercomProvider>
