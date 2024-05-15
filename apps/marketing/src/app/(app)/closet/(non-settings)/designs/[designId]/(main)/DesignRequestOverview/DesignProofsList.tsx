@@ -17,7 +17,6 @@ import {
 import { ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
 import routes from '@lib/routes'
-import { get } from 'lodash-es'
 
 interface Props {
   designRequestId: string
@@ -85,7 +84,6 @@ const DesignProofsList = ({
 
   const activeProof = proofs?.find(proof => proof.id === activeProofId)
   const latestProofId = proofs?.[0]?.id
-  const proofPdf = get(activeProof, 'locations[0].file.url')
 
   return (
     <ClosetSection>
@@ -153,13 +151,14 @@ const DesignProofsList = ({
                 Approve selected proof
               </Button>
               <Button
-                Component={Link}
-                className="w-full hover:underline italic"
+                className="w-full hover:underline"
                 color="primary"
                 size="lg"
-                loading={loading}
-                href={proofPdf ?? ''}
-                {...{ target: '_blank' }}
+                onClick={() => {
+                  activeProof?.locations.forEach(({ file }) => {
+                    file?.url && window.open(file.url)
+                  })
+                }}
               >
                 Download PDF
               </Button>
