@@ -14,7 +14,6 @@ import {
   DesignProofsListGetDataQuery,
   DesignProofsListGetDataQueryVariables,
 } from '@generated/types'
-import IconButton from '@components/ui/IconButton'
 import { ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
 import routes from '@lib/routes'
@@ -135,21 +134,35 @@ const DesignProofsList = ({
         !authorizationLoading &&
         can(ScopeResource.DesignProduct, ScopeAction.CREATE) ? (
           <CardContent divide>
-            <Button
-              Component={Link}
-              className="w-full"
-              color="brandPrimary"
-              size="lg"
-              loading={loading}
-              href={routes.internal.closet.designs.show.proofs.show.approve.href(
-                {
-                  designId: designRequestId,
-                  proofId: activeProofId,
-                },
-              )}
-            >
-              Approve selected proof
-            </Button>
+            <div className="flex gap-2 flex-wrap md:flex-wrap lg:flex-nowrap sm:flex-wrap">
+              <Button
+                Component={Link}
+                className="w-full"
+                color="brandPrimary"
+                size="lg"
+                loading={loading}
+                href={routes.internal.closet.designs.show.proofs.show.approve.href(
+                  {
+                    designId: designRequestId,
+                    proofId: activeProofId,
+                  },
+                )}
+              >
+                Approve selected proof
+              </Button>
+              <Button
+                className="w-full hover:underline"
+                color="primary"
+                size="lg"
+                onClick={() => {
+                  activeProof?.locations.forEach(({ file }) => {
+                    file?.url && window.open(file.url)
+                  })
+                }}
+              >
+                Download PDF
+              </Button>
+            </div>
           </CardContent>
         ) : null}
       </Card>
@@ -210,6 +223,11 @@ const GET_DATA = gql`
           url
           width
           height
+        }
+        locations {
+          file {
+            url
+          }
         }
       }
     }
