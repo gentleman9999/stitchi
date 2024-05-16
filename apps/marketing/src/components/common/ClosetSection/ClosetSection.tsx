@@ -35,7 +35,7 @@ const ClosetSection = ({ children }: Props) => {
   const state = useClosetSectionContext()
 
   return (
-    <div className="pb-16">
+    <div className="pb-4">
       {typeof children === 'function' ? children(state) : children}
     </div>
   )
