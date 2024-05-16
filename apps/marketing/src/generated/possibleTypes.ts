@@ -17,6 +17,9 @@
       "GlossaryEntryRecord",
       "TableRecord"
     ],
+    "BaseOrder": [
+      "Order"
+    ],
     "BulkPricingTier": [
       "BulkPricingFixedPriceDiscount",
       "BulkPricingPercentageDiscount",
@@ -149,6 +152,7 @@
       "Checkout",
       "ContactPage",
       "NormalPage",
+      "Order",
       "Product",
       "RawHtmlPage",
       "Redirect",
