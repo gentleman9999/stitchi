@@ -1,8 +1,9 @@
 'use client'
 
-import { gql, useLazyQuery } from '@apollo/client'
+import { gql, useLazyQuery, useQuery } from '@apollo/client'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { MixpanelProviderGetDataQuery } from '@generated/MixpanelProviderGetDataQuery'
+import { MixpanelContextViewerFragment } from '@generated/types'
 
 import events, { EventName } from '@lib/events'
 import getOrThrow from '@lib/utils/get-or-throw'
@@ -47,31 +48,28 @@ function registerUtmParams(mp: Mixpanel) {
 const MixpanelContext = React.createContext<Mixpanel | undefined>(undefined)
 
 interface MixpanelContextProps {
+  viewer: MixpanelContextViewerFragment | null
   children: React.ReactNode
 }
 
-const MixpanelProvider = ({ children }: MixpanelContextProps) => {
+const MixpanelProvider = ({ children, viewer }: MixpanelContextProps) => {
   const { user } = useUser()
 
   const { update } = useIntercom()
 
-  const [getViewer] = useLazyQuery<MixpanelProviderGetDataQuery>(GET_DATA)
-
   React.useEffect(() => {
     const identifyUser = async () => {
-      const { data } = await getViewer()
-
-      if (data?.viewer?.user) {
-        mixpanel.identify(data.viewer.user.id)
+      if (viewer?.user) {
+        mixpanel.identify(viewer.user.id)
 
         mixpanel.people.set({
-          userId: data.viewer.user.id,
-          membershipId: data.viewer.id,
-          organizationId: data.viewer.organization.id,
-          organizationName: data.viewer.organization.name,
-          $email: data.viewer.user.email,
-          $first_name: data.viewer.user.name?.split(' ')[0],
-          $last_name: data.viewer.user.name?.split(' ')[1],
+          userId: viewer.user.id,
+          membershipId: viewer.id,
+          organizationId: viewer.organization.id,
+          organizationName: viewer.organization.name,
+          $email: viewer.user.email,
+          $first_name: viewer.user.name?.split(' ')[0],
+          $last_name: viewer.user.name?.split(' ')[1],
         })
 
         let params
@@ -84,20 +82,20 @@ const MixpanelProvider = ({ children }: MixpanelContextProps) => {
 
         events.track({
           event: EventName.INITIALIZE,
-          user_id: data.viewer.user.id,
+          user_id: viewer.user.id,
           user_properties: {
-            organization_id: data.viewer.organization.id,
-            organization_name: data.viewer.organization.name,
+            organization_id: viewer.organization.id,
+            organization_name: viewer.organization.name,
           },
         })
 
         update({
-          userId: data.viewer.user.id,
-          userHash: data.viewer.user.intercomUserHash || undefined,
-          createdAt: data.viewer.user.createdAt,
-          email: data.viewer.user.email || undefined,
-          name: data.viewer.user.name || undefined,
-          phone: data.viewer.user.phoneNumber || undefined,
+          userId: viewer.user.id,
+          userHash: viewer.user.intercomUserHash || undefined,
+          createdAt: viewer.user.createdAt,
+          email: viewer.user.email || undefined,
+          name: viewer.user.name || undefined,
+          phone: viewer.user.phoneNumber || undefined,
           utmCampaign: params?.utm_campaign,
           utmContent: params?.utm_content,
           utmMedium: params?.utm_medium,
@@ -105,12 +103,12 @@ const MixpanelProvider = ({ children }: MixpanelContextProps) => {
           utmTerm: params?.utm_term,
           avatar: {
             type: 'avatar',
-            imageUrl: data.viewer.user.picture || undefined,
+            imageUrl: viewer.user.picture || undefined,
           },
           company: {
-            companyId: data.viewer.organization.id,
-            createdAt: data.viewer.user.createdAt,
-            name: data.viewer.organization.name || undefined,
+            companyId: viewer.organization.id,
+            createdAt: viewer.user.createdAt,
+            name: viewer.organization.name || undefined,
           },
         })
       }
@@ -119,7 +117,7 @@ const MixpanelProvider = ({ children }: MixpanelContextProps) => {
     if (user) {
       identifyUser()
     }
-  }, [getViewer, update, user])
+  }, [update, user])
 
   React.useEffect(() => {
     try {
@@ -135,27 +133,5 @@ const MixpanelProvider = ({ children }: MixpanelContextProps) => {
     </MixpanelContext.Provider>
   )
 }
-
-const GET_DATA = gql`
-  query MixpanelProviderGetDataQuery {
-    viewer {
-      id
-      organization {
-        id
-        name
-      }
-      user {
-        createdAt
-        id
-
-        intercomUserHash
-        email
-        name
-        phoneNumber
-        picture
-      }
-    }
-  }
-`
 
 export default MixpanelProvider

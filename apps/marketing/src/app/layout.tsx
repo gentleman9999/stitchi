@@ -29,6 +29,13 @@ import { AxiomWebVitals, Logger } from 'next-axiom'
 import Script from 'next/script'
 import { GTM_ID } from '@lib/events'
 import { Saira, Saira_Condensed, Poppins } from 'next/font/google'
+import { gql } from '@apollo/client'
+import { fragments as mixpanelFragments } from '@components/context/mixpanel-context.fragments'
+import { getClient } from '@lib/apollo-rsc'
+import {
+  RootLayoutGetDataQuery,
+  RootLayoutGetDataQueryVariables,
+} from '@generated/types'
 
 const logger = new Logger()
 
@@ -106,10 +113,7 @@ export const metadata: Metadata = {
   ],
 }
 
-interface Props {
-  children: React.ReactNode
-}
-const RootLayout = async ({ children }: Props) => {
+const handleGetAccessToken = async () => {
   let accessToken
 
   try {
@@ -136,6 +140,25 @@ const RootLayout = async ({ children }: Props) => {
       redirect(routes.internal.logout.href(), RedirectType.replace)
     }
   }
+
+  return accessToken
+}
+
+interface Props {
+  children: React.ReactNode
+}
+const RootLayout = async ({ children }: Props) => {
+  const [client, accessToken] = await Promise.all([
+    getClient(),
+    handleGetAccessToken(),
+  ])
+
+  const { data } = await client.query<
+    RootLayoutGetDataQuery,
+    RootLayoutGetDataQueryVariables
+  >({
+    query: GET_DATA,
+  })
 
   const cookiesInstance = cookies()
 
@@ -171,7 +194,7 @@ const RootLayout = async ({ children }: Props) => {
           <body>
             <PageloadProgressIndicator />
             <IntercomProvider>
-              <MixpanelProvider>
+              <MixpanelProvider viewer={data.viewer}>
                 <SnackbarProvider>
                   <StandoutProvider>
                     {/* We use Next.js Parallel Routes to support a root level [...catchAll] in both the app and marketing context */}
@@ -186,5 +209,14 @@ const RootLayout = async ({ children }: Props) => {
     </html>
   )
 }
+
+const GET_DATA = gql`
+  ${mixpanelFragments.viewer}
+  query RootLayoutGetDataQuery {
+    viewer {
+      ...MixpanelContextViewerFragment
+    }
+  }
+`
 
 export default RootLayout
