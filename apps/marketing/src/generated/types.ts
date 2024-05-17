@@ -141,6 +141,24 @@ export interface AddCustomerAddressResult {
   errors: Array<AddCustomerAddressError>;
 }
 
+/** Error coming from submitting a product review. */
+export type AddProductReviewError = CustomerAlreadyReviewedProductError | InvalidInputFieldsError | NotAuthorizedToAddProductReviewError | ProductIdNotFoundError | UnexpectedAddReviewError;
+
+/** Input for the addProductReview mutation. */
+export interface AddProductReviewInput {
+  /** ID of the product to submit reviews for. */
+  productEntityId: Scalars['Long']['input'];
+  /** The review to submit. */
+  review: ProductReviewInput;
+}
+
+/** Result of the addProductReview mutation. */
+export interface AddProductReviewResult {
+  __typename: 'AddProductReviewResult';
+  /** Errors encountered while submitting the review. */
+  errors: Array<AddProductReviewError>;
+}
+
 /** Add wishlist items input object */
 export interface AddWishlistItemsInput {
   /** The wishlist id */
@@ -1595,6 +1613,20 @@ export interface CatalogManualQuoteCreateItemsInput {
 export interface CatalogManualQuoteCreatePayload {
   __typename: 'CatalogManualQuoteCreatePayload';
   quote: Maybe<Quote>;
+}
+
+/** Catalog mutations  */
+export interface CatalogMutations {
+  __typename: 'CatalogMutations';
+  /** Add a product review. */
+  addProductReview: AddProductReviewResult;
+}
+
+
+/** Catalog mutations  */
+export interface CatalogMutationsaddProductReviewArgs {
+  input: AddProductReviewInput;
+  reCaptchaV2?: InputMaybe<ReCaptchaV2Input>;
 }
 
 export interface CatalogProduct {
@@ -3234,6 +3266,13 @@ export interface CustomerAddressDeletionError extends Error {
 /** An unexpected error while updating an address for a customer. */
 export interface CustomerAddressUpdateError extends Error {
   __typename: 'CustomerAddressUpdateError';
+  /** Error message. */
+  message: Scalars['String']['output'];
+}
+
+/** An error resulting from a customer submitting multiple reviews to the same product. */
+export interface CustomerAlreadyReviewedProductError extends Error {
+  __typename: 'CustomerAlreadyReviewedProductError';
   /** Error message. */
   message: Scalars['String']['output'];
 }
@@ -6764,6 +6803,15 @@ export interface InUseFilter {
   eq?: InputMaybe<Scalars['BooleanType']['input']>;
 }
 
+/** Validation errors dealing with input parameters supplied to an rpc call. */
+export interface InvalidInputFieldsError extends Error {
+  __typename: 'InvalidInputFieldsError';
+  /** The input fields that had a validation issue. */
+  fields: Array<Scalars['String']['output']>;
+  /** Error message. */
+  message: Scalars['String']['output'];
+}
+
 /** An inventory */
 export interface Inventory {
   __typename: 'Inventory';
@@ -7754,6 +7802,8 @@ export interface Mutation {
   __typename: 'Mutation';
   /** The Cart mutations. */
   cart: CartMutations;
+  /** The catalog mutations. */
+  catalog: CatalogMutations;
   catalogManualQuoteCreate: Maybe<CatalogManualQuoteCreatePayload>;
   catalogProductCustomize: Maybe<CatalogProductCustomizePayload>;
   catalogProductQuoteCreate: Maybe<CatalogProductQuoteCreatePayload>;
@@ -8075,6 +8125,13 @@ export interface NormalPageplainTextSummaryArgs {
 export interface NotAuthorisedError extends Error {
   __typename: 'NotAuthorisedError';
   /** A description of the error */
+  message: Scalars['String']['output'];
+}
+
+/** The not authorized to add product review error. */
+export interface NotAuthorizedToAddProductReviewError extends Error {
+  __typename: 'NotAuthorizedToAddProductReviewError';
+  /** Error message. */
   message: Scalars['String']['output'];
 }
 
@@ -9471,6 +9528,13 @@ export interface ProductEdge {
   node: Product;
 }
 
+/** Product ID did not map to any existing products. */
+export interface ProductIdNotFoundError extends Error {
+  __typename: 'ProductIdNotFoundError';
+  /** Error message. */
+  message: Scalars['String']['output'];
+}
+
 /** Product Inventory Information */
 export interface ProductInventory {
   __typename: 'ProductInventory';
@@ -9608,6 +9672,20 @@ export interface ProductRedirect {
   id: Scalars['ID']['output'];
   /** Relative destination url. */
   path: Scalars['String']['output'];
+}
+
+/** Content of the review to be added */
+export interface ProductReviewInput {
+  /** Product review author. */
+  author: Scalars['String']['input'];
+  /** Email of review author. */
+  email?: InputMaybe<Scalars['String']['input']>;
+  /** Product review rating. */
+  rating: Scalars['Int']['input'];
+  /** Product review text. */
+  text: Scalars['String']['input'];
+  /** Product review title. */
+  title: Scalars['String']['input'];
 }
 
 /** Product reviews filters. */
@@ -11607,6 +11685,13 @@ export interface UnassignCartFromCustomerResult {
   __typename: 'UnassignCartFromCustomerResult';
   /** The Cart that is updated as a result of mutation. */
   cart: Maybe<Cart>;
+}
+
+/** Catch all error type for any unexpected responses from the AddProductReview mutation rpc. */
+export interface UnexpectedAddReviewError extends Error {
+  __typename: 'UnexpectedAddReviewError';
+  /** Error message. */
+  message: Scalars['String']['output'];
 }
 
 /** Update cart currency data object */

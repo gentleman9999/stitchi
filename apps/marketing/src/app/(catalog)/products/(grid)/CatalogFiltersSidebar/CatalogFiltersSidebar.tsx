@@ -8,6 +8,7 @@ import { QueryStates } from '../CatalogProductsListPage'
 import routes from '@lib/routes'
 import useSearchProductFilters from '../useSearchProductFilters'
 import { SearchProductsFiltersInput } from '@generated/globalTypes'
+import { HIDDEN_BIGCOMMERCE_PRODUCT_IDS } from '@lib/constants'
 
 interface Props {
   rootCategoryEntityId: number
@@ -35,17 +36,22 @@ const CatalogFiltersSidebar = (props: Props) => {
           key="categories"
           label={props.isRootCategory ? 'Categories' : parentCategory?.name}
         >
-          {childCategories.map(category => {
-            return (
-              <FilterItem
-                key={category.entityId}
-                label={category.name}
-                href={routes.internal.catalog.category.show.href({
-                  categorySlug: category.path,
-                })}
-              />
+          {childCategories
+            .filter(
+              c =>
+                !HIDDEN_BIGCOMMERCE_PRODUCT_IDS.includes(c.entityId.toString()),
             )
-          })}
+            .map(category => {
+              return (
+                <FilterItem
+                  key={category.entityId}
+                  label={category.name}
+                  href={routes.internal.catalog.category.show.href({
+                    categorySlug: category.path,
+                  })}
+                />
+              )
+            })}
         </FilterGroup>
       )}
 

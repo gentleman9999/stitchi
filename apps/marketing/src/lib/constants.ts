@@ -32,4 +32,11 @@ export const MIN_ORDER_QTY = parseInt(
   ),
 )
 
+export const HIDDEN_BIGCOMMERCE_PRODUCT_IDS = getOrThrow(
+  process.env.NEXT_PUBLIC_BIG_COMMERCE_HIDDEN_CATEGORY_IDS,
+  'NEXT_PUBLIC_BIG_COMMERCE_HIDDEN_CATEGORY_IDS',
+)
+  .replace(' ', '')
+  .split(',')
+
 export const INTERCOM_SURVEY_ID__PARTNER_REQUEST = 37919081
