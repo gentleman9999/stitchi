@@ -121,7 +121,6 @@ export const getPrintLocationsCost = (
       }
     },
   )
-
   for (const printCostIdx in printCostArray) {
     const printCost = printCostArray[printCostIdx]
     if (printCost === null) {
