@@ -89,7 +89,7 @@ export enum EmbellishmentType {
 
 interface PrintLocation {
   colorCount: number
-  embellishmentType: EmbellishmentType | undefined
+  embellishmentType?: EmbellishmentType
 }
 
 // Each print location's price is a factor of quatity and color count.
@@ -103,21 +103,19 @@ export const getPrintLocationsCost = (
   const printCostArray = printLocations.map<number | null>(
     (printLocation, i) => {
 
-      if(printLocation.embellishmentType === EmbellishmentType.SCREENPRINTING) {
-        const printCost = PRINT_PRICE_COST_CENTS[printQtyBreakpoint][printLocation.colorCount - 1]
-  
-        if (!printCost) {
-          return null
-        }
-
-        return printCost
-      } else if(printLocation.embellishmentType === EmbellishmentType.EMBROIDERY) {
+      if(printLocation.embellishmentType === EmbellishmentType.EMBROIDERY) {
         const embroideryCost = twoOrMoreEmbroidery ? ALTER_EMBROIDERY_PRICE_COST_CENTS[embroideryQtyBreakpoint] : EMBROIDERY_PRICE_COST_CENTS[embroideryQtyBreakpoint]
         twoOrMoreEmbroidery = true;
 
         return embroideryCost
       } else {
-        return null
+        const printCost = PRINT_PRICE_COST_CENTS[printQtyBreakpoint][printLocation.colorCount - 1]
+
+        if (!printCost) {
+          return null
+        }
+
+        return printCost
       }
     },
   )

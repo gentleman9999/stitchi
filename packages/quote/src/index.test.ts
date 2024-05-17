@@ -47,7 +47,7 @@ describe('calculate', () => {
     const input = {
       includeFulfillment: false,
       printLocations: [
-        { colorCount: 1, embellishmentType: EmbellishmentType.SCREENPRINTING },
+        { colorCount: 1 },
         { colorCount: 1, embellishmentType: EmbellishmentType.SCREENPRINTING },
         { colorCount: 0, embellishmentType: EmbellishmentType.EMBROIDERY },
         { colorCount: 0, embellishmentType: EmbellishmentType.EMBROIDERY }

@@ -25,7 +25,7 @@ type VariantResponse<T extends VariantMetadata> = T & {
 
 interface Input<T extends VariantMetadata> {
   includeFulfillment: boolean
-  printLocations: { colorCount: number, embellishmentType: EmbellishmentType | undefined }[]
+  printLocations: { colorCount: number, embellishmentType?: EmbellishmentType }[]
   variants: VariantInput<T>[]
 }
 
