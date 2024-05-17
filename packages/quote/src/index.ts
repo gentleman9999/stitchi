@@ -5,6 +5,8 @@ import {
   getMarkupMultiplier,
   getPrintLocationsCost,
   getPrintQtyBreakpoint,
+  getEmbroideryQtyBreakpoint,
+  EmbellishmentType
 } from './shared'
 
 type VariantMetadata = Record<string, any>
@@ -23,7 +25,7 @@ type VariantResponse<T extends VariantMetadata> = T & {
 
 interface Input<T extends VariantMetadata> {
   includeFulfillment: boolean
-  printLocations: { colorCount: number }[]
+  printLocations: { colorCount: number, embellishmentType: EmbellishmentType | undefined }[]
   variants: VariantInput<T>[]
 }
 
@@ -38,14 +40,17 @@ const calculate = <T extends VariantMetadata>({
   printLocations,
   variants,
 }: Input<T>): [Error, null] | [null, Quote<T>] => {
+  
   const fulfillmentCost = includeFulfillment ? FULFILLMENT_CHARGE : 0
 
   const totalQuantity = sum(0, ...variants.map(v => v.quantity))
 
   const printQtyBreakpoint = getPrintQtyBreakpoint(totalQuantity)
+  const embroideryQtyBreakpoint = getEmbroideryQtyBreakpoint(totalQuantity)
 
   const [error, printLocationsCosts] = getPrintLocationsCost(
     printQtyBreakpoint,
+    embroideryQtyBreakpoint,
     printLocations,
   )
 
@@ -59,11 +64,14 @@ const calculate = <T extends VariantMetadata>({
   )
 
   const screenCost = multiply(totalColorCount, SCREEN_CHARGE)
+  const digitizationCost: number = printLocations.some(location => 
+    location.embellishmentType === EmbellishmentType.EMBROIDERY
+  ) ? 50 : 0;
 
   const variantQuotes = variants.map(variant => {
     const variantUnitCostCents = chain(printLocationsCosts)
       .add(variant.priceCents)
-      .add(divide(screenCost, totalQuantity))
+      .add(divide(sum(screenCost, digitizationCost), totalQuantity))
       .done()
 
     const discount = printQtyBreakpoint * 0.03 // 3% discount per qty breakpoint
