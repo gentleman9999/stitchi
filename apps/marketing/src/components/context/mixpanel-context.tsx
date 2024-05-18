@@ -1,11 +1,7 @@
 'use client'
 
-import { gql, useLazyQuery, useQuery } from '@apollo/client'
-import { useUser } from '@auth0/nextjs-auth0/client'
-import { MixpanelProviderGetDataQuery } from '@generated/MixpanelProviderGetDataQuery'
 import { MixpanelContextViewerFragment } from '@generated/types'
 
-import events, { EventName } from '@lib/events'
 import getOrThrow from '@lib/utils/get-or-throw'
 import mixpanel, { Mixpanel } from 'mixpanel-browser'
 import React from 'react'
@@ -53,8 +49,6 @@ interface MixpanelContextProps {
 }
 
 const MixpanelProvider = ({ children, viewer }: MixpanelContextProps) => {
-  const { user } = useUser()
-
   const { update } = useIntercom()
 
   React.useEffect(() => {
@@ -79,15 +73,6 @@ const MixpanelProvider = ({ children, viewer }: MixpanelContextProps) => {
             query: parse(window.location.toString()).query,
           })
         }
-
-        events.track({
-          event: EventName.INITIALIZE,
-          user_id: viewer.user.id,
-          user_properties: {
-            organization_id: viewer.organization.id,
-            organization_name: viewer.organization.name,
-          },
-        })
 
         update({
           userId: viewer.user.id,
@@ -114,10 +99,10 @@ const MixpanelProvider = ({ children, viewer }: MixpanelContextProps) => {
       }
     }
 
-    if (user) {
+    if (viewer) {
       identifyUser()
     }
-  }, [update, user])
+  }, [update, viewer])
 
   React.useEffect(() => {
     try {

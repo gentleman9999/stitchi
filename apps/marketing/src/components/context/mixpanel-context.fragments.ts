@@ -11,7 +11,6 @@ export const fragments = {
       user {
         createdAt
         id
-
         intercomUserHash
         email
         name

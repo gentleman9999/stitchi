@@ -13806,7 +13806,7 @@ export type LogoutUserQuery = { __typename: 'Mutation', userLogout: { __typename
 export type RootLayoutGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RootLayoutGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, organization: { __typename: 'Organization', id: string, name: string | null }, user: { __typename: 'User', createdAt: any | null, id: string, intercomUserHash: string | null, email: string | null, name: string | null, phoneNumber: string | null, picture: string | null } | null } | null };
+export type RootLayoutGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, user: { __typename: 'User', id: string, email: string | null, givenName: string | null, familyName: string | null, phoneNumber: string | null, createdAt: any | null, intercomUserHash: string | null, name: string | null, picture: string | null } | null, organization: { __typename: 'Organization', id: string, name: string | null } } | null };
 
 export type AvatarImageFragment = { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null };
 
@@ -13860,11 +13860,6 @@ export type UserAvatarUserFragment = { __typename: 'User', id: string, name: str
 export type UserBadgeUserFramgent = { __typename: 'User', id: string, name: string | null, picture: string | null };
 
 export type MixpanelContextViewerFragment = { __typename: 'Membership', id: string, organization: { __typename: 'Organization', id: string, name: string | null }, user: { __typename: 'User', createdAt: any | null, id: string, intercomUserHash: string | null, email: string | null, name: string | null, phoneNumber: string | null, picture: string | null } | null };
-
-export type MixpanelProviderGetDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type MixpanelProviderGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, organization: { __typename: 'Organization', id: string, name: string | null }, user: { __typename: 'User', createdAt: any | null, id: string, intercomUserHash: string | null, email: string | null, name: string | null, phoneNumber: string | null, picture: string | null } | null } | null };
 
 export type OrganizationCreateDialogCreateOrganizationMutationVariables = Exact<{
   input: UserOrganizationCreateInput;
