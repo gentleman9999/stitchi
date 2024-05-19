@@ -9,12 +9,9 @@ import { SendgridClient, makeClient as makeSendgridClient } from '../sendgrid'
 import PubSubClient from './pubsub'
 import { logger, Logger } from '../telemetry'
 import { AuthorizerFn, makeAuthorizer } from './authorization'
-import {
-  GoogleAnalyticsClient,
-  makeGoogleAnalyticsClient,
-} from '../google-analytics'
 
 const HEADER_X_DEVICE_ID = 'x-device-id'
+const HEADER_X_GA_CLIENT_ID = 'x-ga-client-id'
 
 type StripeClient = ReturnType<typeof makeStripeClient>
 
@@ -24,6 +21,7 @@ export interface Context {
   userId?: string
   deviceId?: string
   organizationId?: string
+  gaClientId?: string
   sendgrid: SendgridClient
   stripe: StripeClient
   conversation: typeof services.conversation
@@ -44,7 +42,6 @@ export interface Context {
   subscriptions: PubSubClient
   authorize: AuthorizerFn
   logger: Logger
-  googleAnalytics: GoogleAnalyticsClient | null
 }
 
 interface ContextCreatorParams {
@@ -85,12 +82,14 @@ function makeContext(
           : null
 
       const gaClientId =
-        req?.headers && 'x-ga-client-id' in req.headers
-          ? req.headers['x-ga-client-id']?.toString()
+        req?.headers && HEADER_X_GA_CLIENT_ID in req.headers
+          ? req.headers[HEADER_X_GA_CLIENT_ID]?.toString()
           : null
 
       if (!gaClientId) {
-        logger.warn('Missing x-ga-client-id header. This is unexpected.')
+        logger.warn(
+          `Missing ${HEADER_X_GA_CLIENT_ID} header. This is unexpected.`,
+        )
       }
 
       return {
@@ -100,6 +99,7 @@ function makeContext(
         sendgrid: params.sendgrid,
         userId: payload?.sub,
         deviceId: deviceId || undefined,
+        gaClientId: gaClientId || undefined,
         membershipId: userActiveMembership?.id ?? undefined,
         organizationId: userActiveMembership?.organizationId ?? undefined,
         logger: params.logger.child({
@@ -122,13 +122,6 @@ function makeContext(
         color: services.color,
         keyValueStore: services.keyValueStore,
         authorize: makeAuthorizer(userActiveMembership?.role),
-        googleAnalytics: gaClientId
-          ? makeGoogleAnalyticsClient({
-              logger,
-              userId: userActiveMembership?.id || null,
-              clientId: gaClientId,
-            })
-          : null,
       }
     } catch (error) {
       logger.error(error)

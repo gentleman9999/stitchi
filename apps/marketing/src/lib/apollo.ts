@@ -22,10 +22,7 @@ import { GetStaticPropsResult, GetServerSidePropsContext } from 'next'
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
 import { createClient } from 'graphql-ws'
 import Cookies from 'universal-cookie'
-import {
-  COOKIE_DEVICE_ID,
-  NEXT_PUBLIC_GA_CLIENT_ID_COOKIE_KEY,
-} from './constants'
+import { COOKIE_DEVICE_ID, GA_CLIENT_ID_COOKIE_KEY } from './constants'
 import { getAccessToken } from './access-token'
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__' as const
@@ -81,11 +78,11 @@ const makeAuthLink = (ctx?: Pick<GetServerSidePropsContext, 'req' | 'res'>) =>
       const cookies = new Cookies(ctx.req.headers.cookie)
 
       deviceId = cookies.get(COOKIE_DEVICE_ID)
-      gaClientId = cookies.get(NEXT_PUBLIC_GA_CLIENT_ID_COOKIE_KEY)
+      gaClientId = cookies.get(GA_CLIENT_ID_COOKIE_KEY)
     } else if (typeof document !== 'undefined') {
       const cookies = new Cookies(document.cookie)
       deviceId = cookies.get(COOKIE_DEVICE_ID)
-      gaClientId = cookies.get(NEXT_PUBLIC_GA_CLIENT_ID_COOKIE_KEY)
+      gaClientId = cookies.get(GA_CLIENT_ID_COOKIE_KEY)
     }
 
     return {

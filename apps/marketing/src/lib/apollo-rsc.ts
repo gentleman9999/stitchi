@@ -2,10 +2,7 @@ import 'server-only'
 import { registerApolloClient } from '@apollo/experimental-nextjs-app-support/rsc'
 import { createApolloClient } from './apollo-new'
 import { cookies } from 'next/headers'
-import {
-  COOKIE_DEVICE_ID,
-  NEXT_PUBLIC_GA_CLIENT_ID_COOKIE_KEY,
-} from '@lib/constants'
+import { COOKIE_DEVICE_ID, GA_CLIENT_ID_COOKIE_KEY } from '@lib/constants'
 import {
   AccessTokenError,
   AccessTokenErrorCode,
@@ -46,9 +43,7 @@ export const getClient = async () => {
   const cookiesInstance = cookies()
 
   const deviceId = cookiesInstance.get(COOKIE_DEVICE_ID)?.value
-  const gaClientId = cookiesInstance.get(
-    NEXT_PUBLIC_GA_CLIENT_ID_COOKIE_KEY,
-  )?.value
+  const gaClientId = cookiesInstance.get(GA_CLIENT_ID_COOKIE_KEY)?.value
 
   return registerApolloClient(() =>
     createApolloClient({

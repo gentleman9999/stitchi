@@ -8,6 +8,7 @@ import { cookies } from 'next/headers'
 import {
   COMPANY_NAME,
   COOKIE_DEVICE_ID,
+  GA_CLIENT_ID_COOKIE_KEY,
   NEXT_PUBLIC_GOOGLE_ANALYTICS_MEASUREMENT_ID,
   SEO_DEFAULT_DESCRIPTION,
   SEO_DEFAULT_TITLE,
@@ -153,7 +154,7 @@ const RootLayout = async ({ children }: Props) => {
   const cookiesInstance = cookies()
 
   const deviceId = cookiesInstance.get(COOKIE_DEVICE_ID)?.value || null
-  const gaClientId = cookiesInstance.get('x-ga-client-id')?.value || null
+  const gaClientId = cookiesInstance.get(GA_CLIENT_ID_COOKIE_KEY)?.value || null
 
   const initialDataLayer = {
     measurement_id: NEXT_PUBLIC_GOOGLE_ANALYTICS_MEASUREMENT_ID,

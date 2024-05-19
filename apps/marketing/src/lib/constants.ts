@@ -32,7 +32,7 @@ export const MIN_ORDER_QTY = parseInt(
   ),
 )
 
-export const NEXT_PUBLIC_GA_CLIENT_ID_COOKIE_KEY = getOrThrow(
+export const GA_CLIENT_ID_COOKIE_KEY = getOrThrow(
   process.env.NEXT_PUBLIC_GA_CLIENT_ID_COOKIE_KEY,
   'NEXT_PUBLIC_GA_CLIENT_ID_COOKIE_KEY',
 )

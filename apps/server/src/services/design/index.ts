@@ -12,10 +12,7 @@ import { DesignEvents, makeEvents as makeDesignEvents } from './events'
 import { UpdateDesignRequestFnInput } from './repository/update-design-request'
 import { DesignFactoryDesignRequest } from './factory'
 import { DesignRequestStatus } from './db/design-request-table'
-import {
-  GoogleAnalyticsClient,
-  GoogleAnalyticsEventEventName,
-} from '../../google-analytics'
+import { Actor } from '../types'
 
 export interface DesignService {
   createDesign: DesignRepository['createDesign']
@@ -24,6 +21,7 @@ export interface DesignService {
   listDesignsCount: DesignRepository['listDesignsCount']
 
   createDesignRequest(input: {
+    actor: Actor
     designRequest: Omit<
       CreateDesignRequestFnInput['designRequest'],
       'conversationId'
@@ -55,24 +53,16 @@ interface MakeClientParams {
   conversationClient: ConversationService
   notificationClient: NotificationClientService
   designEvents: DesignEvents
-  googleAnalyticsClient: GoogleAnalyticsClient | null
 }
 
 type MakeClientFn = (params?: MakeClientParams) => DesignService
 
 const makeClient: MakeClientFn = (
-  {
-    designRepository,
-    conversationClient,
-    notificationClient,
-    designEvents,
-    googleAnalyticsClient,
-  } = {
+  { designRepository, conversationClient, notificationClient, designEvents } = {
     designRepository: makeDesignRepository(),
     conversationClient: makeConversationServiceClient(),
     notificationClient: makeNotificationServiceClient(),
     designEvents: makeDesignEvents(),
-    googleAnalyticsClient: null,
   },
 ) => {
   return {
@@ -145,21 +135,9 @@ const makeClient: MakeClientFn = (
       designEvents.emit({
         type: 'designRequest.created',
         payload: {
+          actor: input.actor,
           nextDesignRequest: designRequest,
         },
-      })
-
-      googleAnalyticsClient?.trackEvents({
-        events: [
-          {
-            name: GoogleAnalyticsEventEventName.NEW_DESIGN_REQUEST,
-            params: {
-              design_request_id: designRequest.id,
-              design_request_name: designRequest.name,
-              design_request_product_id: designRequest.product.id,
-            },
-          },
-        ],
       })
 
       return designRequest
