@@ -43,7 +43,7 @@ const ClosetDesignProofCreatePage = ({ designRequest }: Props) => {
         message: data.message,
         proofLocations: data.proofLocations.map(location => ({
           colorCount: location.colorCount,
-          fileId: location.fileId,
+          fileId: location.fileId || '',
           placement: location.placement,
         })),
         proofVariants: serializedProofVariants.map(variant => ({

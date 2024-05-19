@@ -1,15 +1,10 @@
 import getOrThrow from '@lib/utils/get-or-throw'
+import { sendGTMEvent } from './google'
 
 export const GTM_ID = getOrThrow(
   process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID,
   'NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID',
 )
-
-const pushToDataLayer = (obj: Record<string, any>) => {
-  if (window !== undefined && window.dataLayer !== undefined) {
-    window.dataLayer.push(obj)
-  }
-}
 
 // Each value must map to a data layer variable in Google Tag Manager.
 export enum DataLayerVariableNames {
@@ -45,7 +40,7 @@ type Event = EventGenerateLead | EventEmailListSubscribe
 const makeEvents = () => {
   return {
     track: (event: Event) => {
-      pushToDataLayer(event)
+      sendGTMEvent(event)
     },
   }
 }

@@ -8,6 +8,7 @@ import Tooltip from '@components/ui/Tooltip'
 import {
   ChatBubbleBottomCenterIcon,
   FolderPlusIcon,
+  PlusCircleIcon,
   QuestionMarkCircleIcon,
   SquaresPlusIcon,
   SwatchIcon,
@@ -27,6 +28,7 @@ import {
 } from '@generated/types'
 import { useFragment } from '@apollo/experimental-nextjs-app-support/ssr'
 import { fragments } from './ProductForm.fragments'
+import routes from '@lib/routes'
 
 const customizationOptions = [
   {
@@ -222,8 +224,16 @@ const ProductForm = (props: ProductFormProps) => {
     <form onSubmit={handleSubmit}>
       <div className="flex flex-col gap-16">
         <InformationGroup
-          title="Choose Colors & Sizes"
-          description="Select your preferred size range and colors for the hoodie. If you're still deciding on the quantity, feel free to leave that section blank for now."
+          title="Colors & Sizes"
+          description="Choose color to view available sizes."
+          footer={
+            colors.length ? (
+              <>
+                <b>Haven&apos;t decided the quantity?</b> No worries! You can
+                leave that empty for now.
+              </>
+            ) : null
+          }
           icon={<SwatchIcon className={iconStyle} />}
           error={form.formState.errors.colors?.message}
         >
@@ -239,12 +249,31 @@ const ProductForm = (props: ProductFormProps) => {
         </InformationGroup>
 
         <InformationGroup
-          title="Add Customizations"
-          description="Decide on the placement of your design. You can select one or multiple locations."
+          title="Customizations"
+          description="Select the locations you want to customize."
+          footer={
+            <button
+              className="cursor-pointer flex flex-col relative w-full"
+              onClick={() =>
+                window.open(
+                  routes.external.support.production.printProcesses.href(),
+                )
+              }
+            >
+              <b>Want to learn more about our customization options?</b>
+              Get immersed in advanced customization options.
+              <a
+                target="blank"
+                href={routes.external.support.production.printProcesses.href()}
+              >
+                <PlusCircleIcon className="w-4 h-4 absolute -top-2 -right-2" />
+              </a>
+            </button>
+          }
           icon={<SquaresPlusIcon className={iconStyle} />}
         >
           <div className="@container">
-            <div className="grid grid-cols-1 @[500px]:grid-cols-2 gap-1.5">
+            <div className="grid grid-cols-1 @[500px]:grid-cols-2 gap-2">
               {customizationFields.fields.map((customization, index) => (
                 <Controller
                   key={customization.id}
@@ -277,6 +306,31 @@ const ProductForm = (props: ProductFormProps) => {
             </div>
           </div>
         </InformationGroup>
+
+        <Controller
+          name="fileIds"
+          control={form.control}
+          render={({ field: { onChange, value } }) => (
+            <InformationGroup
+              title="Design Files"
+              description={
+                <>
+                  Upload your logo, designs, quotes, images, or other
+                  inspiration that you want to imprint on this merch.
+                </>
+              }
+              icon={<FolderPlusIcon className={iconStyle} />}
+            >
+              <FileInput
+                keepUploadStatus
+                fileIds={value}
+                folder="/design-request-general"
+                onChange={onChange}
+              />
+            </InformationGroup>
+          )}
+        />
+
         <Controller
           name="designBrief"
           control={form.control}
@@ -291,14 +345,19 @@ const ProductForm = (props: ProductFormProps) => {
 
             return (
               <InformationGroup
-                title="Add Design Brief"
-                description="Share your vision for the design. A Stitchi designer will collaborate with you to refine and perfect your concept."
+                title="Design Brief"
+                footer={
+                  <>
+                    A <b>Stitchi Designer</b> will collaborate with you{' '}
+                    <b>within 24 hours</b> to refine and perfect your concept.
+                  </>
+                }
                 icon={<ChatBubbleBottomCenterIcon className={iconStyle} />}
                 error={form.formState.errors.designBrief?.message}
               >
                 <RichTextEditor
                   inputRef={ref}
-                  placeholder="Describe your design and how you want it to look. If you have any design files, you can upload it below."
+                  placeholder="Describe your design and how you want it to look."
                   editorOptions={{
                     content,
                     onBlur: onBlur,
@@ -333,32 +392,13 @@ const ProductForm = (props: ProductFormProps) => {
             )
           }}
         />
-
-        <Controller
-          name="fileIds"
-          control={form.control}
-          render={({ field: { onChange, value } }) => (
-            <InformationGroup
-              optional
-              title="Attach Files"
-              description="Upload any brand assets, existing designs, or inspiration materials that will guide the design process."
-              icon={<FolderPlusIcon className={iconStyle} />}
-            >
-              <FileInput
-                keepUploadStatus
-                fileIds={value}
-                folder="/design-request-general"
-                onChange={onChange}
-              />
-            </InformationGroup>
-          )}
-        />
       </div>
+      <br />
       <div className="sticky bottom-0 bg-paper">
         <div className="p-4 border-t rounded-b-lg flex flex-wrap gap-4 justify-between items-end">
           <div className="flex flex-col">
             <Tooltip
-              label="The price per unit is based on the total quantity of all colors and sizes."
+              label="Price varies based on print areas, ink colors, and quantity ordered."
               renderTrigger={() => (
                 <button>
                   <span className="text-xl text-gray-400 font-medium font-headingDisplay flex">
@@ -385,7 +425,7 @@ const ProductForm = (props: ProductFormProps) => {
                     ) : null}
                   </>
                 ) : (
-                  <p className="text-xs text-blue-500 max-w-[300px] whitespace-pre-line">
+                  <p className="text-xs text-gray-800 max-w-[300px] whitespace-pre-line">
                     Minimum order quantity is {MIN_ORDER_QTY} pieces. This
                     ensures we can offer the best prices to our customers.
                   </p>
@@ -404,6 +444,7 @@ const ProductForm = (props: ProductFormProps) => {
             color="brandPrimary"
             type="submit"
             loading={submitting}
+            className="min-w-[200px]"
           >
             Customize
           </Button>

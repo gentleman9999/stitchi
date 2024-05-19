@@ -4,6 +4,8 @@ import dynamic from 'next/dynamic'
 import { CatalogProductVariantPreviewProductFragment } from '@generated/types'
 import Image from 'next/image'
 
+const ON_MODEL_IMAGE_KEY = '_om'
+
 const ImageFullScreenBase = dynamic(
   () => import('../ImageFullScreen').then(mod => mod.ImageFullScreenBase),
   {
@@ -58,6 +60,16 @@ const CatalogProductVariantPreview = ({ product, activeVariantId }: Props) => {
       return productImageGroupId === activeVariantImageGroupId
     })
     .filter(notEmpty)
+    .sort((a, b) => {
+      if (
+        a.urlStandard.includes(ON_MODEL_IMAGE_KEY) &&
+        !b.urlStandard.includes(ON_MODEL_IMAGE_KEY)
+      ) {
+        return -1
+      }
+
+      return 0
+    })
 
   return (
     <>

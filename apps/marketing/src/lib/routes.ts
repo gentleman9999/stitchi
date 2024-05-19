@@ -474,6 +474,14 @@ const routes = {
             ),
         },
       },
+      production: {
+        printProcesses: {
+          href: () =>
+            buildRoute(
+              'https://help.stitchi.co/en/articles/8348533-print-processes',
+            ),
+        },
+      },
     },
     social: {
       twitter: {

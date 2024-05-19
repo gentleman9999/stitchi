@@ -130,10 +130,6 @@ const middleware: NextMiddleware = async (request, event) => {
   // ***
 
   for (const brandSlug of allBrandSlugs) {
-    //
-    // Our product catalog lives in two places, the marketing site and the app. We must handle rewrites for both cases.
-    //
-
     // ***
     // Start: Marketing site rewrites
     // ***
@@ -142,12 +138,12 @@ const middleware: NextMiddleware = async (request, event) => {
     const brandSlugMatcher = new RegExp(`^/${brandSlug}$`)
 
     if (brandSlugMatcher.test(pathname)) {
-      // /product-brand -> /catalog/brands/product-brand
+      // /product-brand -> /products/brands/product-brand
       destination = `/products/brands/${brandSlug}`
     }
 
     if (pathname.startsWith(`/${brandSlug}-`)) {
-      // /product-brand-product-slug -> /catalog/brands/product-brand/products/product-slug
+      // /product-brand-product-slug -> /products/brands/product-brand/products/product-slug
 
       destination = `/products/brands/${brandSlug}/products${pathname}`
     }

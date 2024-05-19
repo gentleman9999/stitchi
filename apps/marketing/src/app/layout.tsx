@@ -8,6 +8,8 @@ import { cookies } from 'next/headers'
 import {
   COMPANY_NAME,
   COOKIE_DEVICE_ID,
+  GA_CLIENT_ID_COOKIE_KEY,
+  NEXT_PUBLIC_GOOGLE_ANALYTICS_MEASUREMENT_ID,
   SEO_DEFAULT_DESCRIPTION,
   SEO_DEFAULT_TITLE,
   SITE_URL,
@@ -26,24 +28,18 @@ import { Metadata } from 'next'
 import IntercomProvider from './IntercomProvider'
 import MixpanelProvider from '@components/context/mixpanel-context'
 import { AxiomWebVitals, Logger } from 'next-axiom'
-import Script from 'next/script'
 import { GTM_ID } from '@lib/events'
-import { Saira, Saira_Condensed, Poppins } from 'next/font/google'
+import { Poppins } from 'next/font/google'
+import { gql } from '@apollo/client'
+import { getClient } from '@lib/apollo-rsc'
+import {
+  RootLayoutGetDataQuery,
+  RootLayoutGetDataQueryVariables,
+} from '@generated/types'
+import { GoogleTagManager } from '@lib/google'
+import IdentifyUser from './IdentifyUser'
 
 const logger = new Logger()
-
-// const saira = Saira({
-//   subsets: ['latin'],
-//   display: 'swap',
-//   variable: '--font-default',
-// })
-
-// const sairaCond = Saira_Condensed({
-//   weight: ['600'],
-//   subsets: ['latin'],
-//   display: 'swap',
-//   variable: '--font-heading-display',
-// })
 
 const poppins = Poppins({
   weight: ['400', '600', '800', '900'],
@@ -106,10 +102,7 @@ export const metadata: Metadata = {
   ],
 }
 
-interface Props {
-  children: React.ReactNode
-}
-const RootLayout = async ({ children }: Props) => {
+const handleGetAccessToken = async () => {
   let accessToken
 
   try {
@@ -137,36 +130,69 @@ const RootLayout = async ({ children }: Props) => {
     }
   }
 
+  return accessToken
+}
+
+interface Props {
+  children: React.ReactNode
+}
+const RootLayout = async ({ children }: Props) => {
+  const [client, accessToken] = await Promise.all([
+    getClient(),
+    handleGetAccessToken(),
+  ])
+
+  const { data } = await client.query<
+    RootLayoutGetDataQuery,
+    RootLayoutGetDataQueryVariables
+  >({
+    query: GET_DATA,
+  })
+
+  const { user, organization, id: membershipId } = data.viewer || {}
+
   const cookiesInstance = cookies()
 
-  const deviceId = cookiesInstance.get(COOKIE_DEVICE_ID)?.value
+  const deviceId = cookiesInstance.get(COOKIE_DEVICE_ID)?.value || null
+  const gaClientId = cookiesInstance.get(GA_CLIENT_ID_COOKIE_KEY)?.value || null
+
+  const initialDataLayer = {
+    measurement_id: NEXT_PUBLIC_GOOGLE_ANALYTICS_MEASUREMENT_ID,
+    user_id: user?.id,
+    organization_id: organization?.id,
+    organization_name: organization?.name,
+    user_first_name: user?.givenName,
+    user_last_name: user?.familyName,
+    user_email: user?.email,
+    user_phone: user?.phoneNumber,
+  }
 
   return (
     <html className={`${poppins.variable}`} lang="en-US">
-      {/* Google Tag Manager - Global base code */}
-      <Script
-        id="google-tag-manager"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer', '${GTM_ID}');
-          `,
-        }}
-      />
-      {/* Google Tag Manager - Global base code - end */}
-
-      <AxiomWebVitals />
-
       <UserProvider>
-        <ApolloProvider deviceId={deviceId} accessToken={accessToken}>
+        <ApolloProvider
+          deviceId={deviceId}
+          accessToken={accessToken || null}
+          gaClientId={gaClientId}
+        >
           <body>
             <PageloadProgressIndicator />
             <IntercomProvider>
               <MixpanelProvider>
+                <IdentifyUser
+                  membershipId={membershipId}
+                  organization={organization}
+                  user={
+                    user
+                      ? {
+                          ...user,
+                          firstName: user.givenName,
+                          lastName: user.familyName,
+                        }
+                      : undefined
+                  }
+                />
+
                 <SnackbarProvider>
                   <StandoutProvider>
                     {/* We use Next.js Parallel Routes to support a root level [...catchAll] in both the app and marketing context */}
@@ -178,8 +204,35 @@ const RootLayout = async ({ children }: Props) => {
           </body>
         </ApolloProvider>
       </UserProvider>
+
+      <GoogleTagManager initialDataLayer={initialDataLayer} gtmId={GTM_ID} />
+      <AxiomWebVitals />
     </html>
   )
 }
+
+const GET_DATA = gql`
+  query RootLayoutGetDataQuery {
+    viewer {
+      id
+      user {
+        id
+        email
+        name
+        givenName
+        familyName
+        phoneNumber
+        picture
+        intercomUserHash
+        createdAt
+      }
+      organization {
+        id
+        name
+        createdAt
+      }
+    }
+  }
+`
 
 export default RootLayout

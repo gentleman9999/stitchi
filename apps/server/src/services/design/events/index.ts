@@ -65,7 +65,9 @@ const makeEvents = (
 ) => {
   return {
     emit: async (event: DesignRequestEvent) => {
-      logger.child({ context: { event } }).info(`Handling event ${event.type}`)
+      logger
+        .child({ context: { event: JSON.stringify(event) } })
+        .info(`Handling event ${event.type}`)
 
       switch (event.type) {
         case 'designRequest.created':

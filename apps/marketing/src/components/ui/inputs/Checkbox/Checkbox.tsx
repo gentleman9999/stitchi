@@ -35,7 +35,7 @@ const Checkbox = (props: CheckboxProps) => {
           checked={props.checked}
           onChange={e => props.onChange(e.target.checked)}
           className={cx(
-            'focus:ring-primary text-primary border-gray-300 rounded cursor-pointer',
+            'focus:ring-midnight text-midnight border-gray-300 rounded cursor-pointer',
             { 'h-4 w-4': size === 1 },
             { 'h-6 w-6': size === 2 },
           )}
@@ -44,7 +44,6 @@ const Checkbox = (props: CheckboxProps) => {
       {(props.label || props.description) && (
         <div
           className="pl-3 flex-1 cursor-pointer"
-          onClick={() => props.onChange(!props.checked)}
         >
           {props.label && (
             <label
@@ -65,7 +64,7 @@ const Checkbox = (props: CheckboxProps) => {
         props.showSecondaryAction &&
         props.onSecondaryAction && (
           <button
-            className="px-3 text-sm font-bold rounded-sm text-primary hover:bg-hover-1 ease-in-out transition-all"
+            className="px-3 text-sm font-bold rounded-sm text-midnight hover:bg-hover-1 ease-in-out transition-all"
             onClick={props.onSecondaryAction}
           >
             Only

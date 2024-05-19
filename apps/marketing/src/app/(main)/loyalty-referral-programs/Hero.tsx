@@ -1,15 +1,16 @@
 import Section from '@components/common/Section'
 import Button from '@components/ui/ButtonV2'
-import routes from '@lib/routes'
 import { generateImageSizes } from '@lib/utils/image'
 import { ArrowRight } from 'icons'
 import Image from 'next/image'
-import Link from 'next/link'
 import React from 'react'
 import referralApp from '../../../../public/industries/newsletter/referral-app.png'
 import brewTweet from '../../../../public/industries/newsletter/morning-brew-referral-program-giveaway.png'
+import { useIntercom } from 'react-use-intercom'
 
 const Hero = () => {
+  const { showNewMessage } = useIntercom()
+
   return (
     <header>
       <Section gutter="lg">
@@ -28,9 +29,10 @@ const Hero = () => {
             <br />
             <br />
             <Button
-              href={routes.internal.getStarted.href()}
-              Component={Link}
               endIcon={<ArrowRight width={16} height={16} strokeWidth={3} />}
+              onClick={() =>
+                showNewMessage("I'm interested in creating a swag box.")
+              }
             >
               Grow your list
             </Button>

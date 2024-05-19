@@ -17,12 +17,12 @@ const getBigCommerceCategorySlugs = async () => {
 
   while (hasNextPage) {
     const res = await fetch(
-      'https://api.bigcommerce.com/stores/ycjcgspsys/v3/catalog/categories?limit=250&is_visible=true',
+      `https://api.bigcommerce.com/stores/ycjcgspsys/v3/catalog/categories?limit=250&page=${page}&is_visible=true`,
       {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          'X-Auth-Token': '12hvybfwmj3u7jddg1v452q5rg3oun6',
+          'X-Auth-Token': 'o6t22c84y4aaoeaepzfqvqceiwn0luw',
         },
       },
     )

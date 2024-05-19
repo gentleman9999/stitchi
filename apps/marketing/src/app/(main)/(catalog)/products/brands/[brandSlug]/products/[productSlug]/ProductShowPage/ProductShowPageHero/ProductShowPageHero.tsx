@@ -18,6 +18,11 @@ import Alert from '@components/ui/Alert'
 import Button from '@components/ui/ButtonV2/Button'
 import { useIntercom } from 'react-use-intercom'
 import { parseAsString, useQueryState } from 'nuqs'
+import { addBusinessDays, format } from 'date-fns'
+import { BoltIcon, TruckIcon } from '@heroicons/react/24/outline'
+
+const DISABLE_ANONYMOUS_USER_DESIGN_REQUEST =
+  process.env.NEXT_PUBLIC_DISABLE_ANONYMOUS_USER_DESIGN_REQUEST === 'true'
 
 interface Props {
   product: ProductShowPageHeroProductFragment
@@ -83,7 +88,7 @@ const ProductShowPageHero = ({ product }: Props) => {
     }
 
     return filteredVariants[0]?.catalogProductVariantId || null
-  }, [activeColorId, variants])
+  }, [activeColorId, activeSizeId, variants])
 
   const productTitle = product.humanizedName
 
@@ -200,13 +205,39 @@ const ProductShowPageHero = ({ product }: Props) => {
             </div>
           </div>
           <div className="flex-1 z-10 @2xl:max-w-md ml-auto shrink w-full">
-            <div className="relative flex flex-col gap-8 mb-8 bg-paper">
-              <ProductTitle
-                pretitle={`${product.brand?.name} ${product.sku}`}
-                title={productTitle}
-                rating={reviewSummary?.summationOfRatings}
-                ratingCount={reviewSummary?.numberOfReviews}
-              />
+            <div className="relative flex flex-col gap-14 mb-8 bg-paper">
+              <div>
+                <ProductTitle
+                  pretitle={`${product.brand?.name} ${product.sku}`}
+                  title={productTitle}
+                  rating={reviewSummary?.summationOfRatings}
+                  ratingCount={reviewSummary?.numberOfReviews}
+                />
+
+                <div className="block mt-6">
+                  <div className="rounded-sm p-1 border inline-flex flex-row items-center gap-1">
+                    <TruckIcon
+                      className="w-5 h-5 text-turquoise"
+                      aria-label="Shipping truck"
+                    />
+                    <div className="flex flex-col gap-1">
+                      <p className="text-xs">
+                        <span className="sr-only">Delivery by </span>
+                        <b>
+                          {format(
+                            addBusinessDays(new Date(), 12),
+                            'EEEE, MMMM d',
+                          )}
+                        </b>
+                        .
+                      </p>
+                      {/* <p className="text-xs">
+                      Rush options available at checkout.
+                    </p> */}
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               {!variants.length ? (
                 <Alert
@@ -227,7 +258,7 @@ const ProductShowPageHero = ({ product }: Props) => {
                 />
               ) : (
                 <>
-                  {user ? (
+                  {user || !DISABLE_ANONYMOUS_USER_DESIGN_REQUEST ? (
                     <>
                       {product.entityId ? (
                         <ProductForm

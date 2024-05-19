@@ -57,7 +57,7 @@ const makeClient = (
   return {
     call: async <T>(
       url: string,
-      schema: yup.Schema<T>,
+      schema?: yup.Schema<T>,
       init?: RequestInit,
     ): Promise<ResponseTuple<T>> => {
       let res
@@ -65,22 +65,24 @@ const makeClient = (
 
       let json
 
-      try {
-        json = await res.json()
-      } catch (error) {
-        console.error(`Error parsing BigCommerce response.`, {
-          error,
-          url,
-          init,
-        })
+      if (init?.method !== 'DELETE') {
+        try {
+          json = await res.json()
+        } catch (error) {
+          console.error(`Error parsing BigCommerce response.`, {
+            error,
+            url,
+            init,
+          })
 
-        return [
-          {
-            status: 500,
-            title: 'Failed to parse response body',
-          },
-          null,
-        ]
+          return [
+            {
+              status: 500,
+              title: 'Failed to parse response body',
+            },
+            null,
+          ]
+        }
       }
 
       if (!res.ok) {
@@ -103,37 +105,41 @@ const makeClient = (
         ]
       }
 
-      try {
-        const validResponse = await schema.validate(json)
+      if (schema) {
+        try {
+          const validResponse = await schema.validate(json)
 
-        return [null, validResponse]
-      } catch (error) {
-        if (error instanceof yup.ValidationError) {
+          return [null, validResponse]
+        } catch (error) {
+          if (error instanceof yup.ValidationError) {
+            return [
+              {
+                status: 500,
+                title: 'Failed to validate response body',
+                errors: JSON.stringify(error.errors),
+              },
+              null,
+            ]
+          }
+
+          console.error(`Error validating BigCommerce response.`, {
+            error,
+            url,
+            init,
+          })
+
           return [
             {
               status: 500,
               title: 'Failed to validate response body',
-              errors: JSON.stringify(error.errors),
+              errors: [JSON.stringify(error)],
             },
             null,
           ]
         }
-
-        console.error(`Error validating BigCommerce response.`, {
-          error,
-          url,
-          init,
-        })
-
-        return [
-          {
-            status: 500,
-            title: 'Failed to validate response body',
-            errors: [JSON.stringify(error)],
-          },
-          null,
-        ]
       }
+
+      return [null, json as T]
     },
   }
 }

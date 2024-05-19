@@ -15,8 +15,16 @@ import { DesignRequestStatus } from '../db/design-request-table'
 import { DesignFactoryDesignRequest } from '../factory'
 import { designRequestSubmitted } from './transitions/design-request-submitted'
 
+import { Actor } from '../../types'
+import {
+  makeClient as makeAnalyticsClient,
+  AnalyticsService,
+  EventName,
+} from '../../analytics'
+
 export interface DesignRequestCreatedEventPayload {
   nextDesignRequest: DesignFactoryDesignRequest
+  actor: Actor
 }
 
 interface MakeHandlerParams {
@@ -24,6 +32,7 @@ interface MakeHandlerParams {
   notificationClient: NotificationClientService
   userClient: UserService
   membershipClient: MembershipService
+  analyticsClient: AnalyticsService
 }
 
 interface DesignRequestCreatedHandler {
@@ -37,14 +46,25 @@ const makeHandler =
       notificationClient,
       membershipClient,
       userClient,
+      analyticsClient,
     }: MakeHandlerParams = {
       conversationClient: makeConversationServiceClient(),
       notificationClient: makeNotificationClientServiceClient(),
       userClient: makeUserCilent(),
       membershipClient: makeMembershipClient(),
+      analyticsClient: makeAnalyticsClient(),
     },
   ): DesignRequestCreatedHandler =>
-  async ({ nextDesignRequest }) => {
+  async ({ nextDesignRequest, actor }) => {
+    if (actor.gaClientId) {
+      analyticsClient.trackEvent({
+        event: EventName.DESIGN_REQUESTED,
+        designRequest: nextDesignRequest,
+        gaClientId: actor.gaClientId,
+        userId: actor.userId,
+      })
+    }
+
     if (nextDesignRequest.status === DesignRequestStatus.SUBMITTED) {
       await designRequestSubmitted(nextDesignRequest, {
         conversationClient,

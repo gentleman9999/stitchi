@@ -11,11 +11,21 @@
       "CustomerNotLoggedInError",
       "ValidationError"
     ],
+    "AddProductReviewError": [
+      "CustomerAlreadyReviewedProductError",
+      "InvalidInputFieldsError",
+      "NotAuthorizedToAddProductReviewError",
+      "ProductIdNotFoundError",
+      "UnexpectedAddReviewError"
+    ],
     "ArticleModelContentLinksField": [
       "ArticleRecord",
       "CustomComponentRecord",
       "GlossaryEntryRecord",
       "TableRecord"
+    ],
+    "BaseOrder": [
+      "Order"
     ],
     "BulkPricingTier": [
       "BulkPricingFixedPriceDiscount",
@@ -99,14 +109,19 @@
       "CustomerAddressCreationError",
       "CustomerAddressDeletionError",
       "CustomerAddressUpdateError",
+      "CustomerAlreadyReviewedProductError",
       "CustomerDoesNotExistError",
       "CustomerNotLoggedInError",
       "CustomerPasswordError",
       "CustomerRegistrationError",
       "EmailAlreadyInUseError",
+      "InvalidInputFieldsError",
       "LimitExceededError",
       "NotAuthorisedError",
+      "NotAuthorizedToAddProductReviewError",
       "NotFoundError",
+      "ProductIdNotFoundError",
+      "UnexpectedAddReviewError",
       "ValidationError"
     ],
     "File": [
@@ -149,6 +164,7 @@
       "Checkout",
       "ContactPage",
       "NormalPage",
+      "Order",
       "Product",
       "RawHtmlPage",
       "Redirect",

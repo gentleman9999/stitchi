@@ -12,25 +12,6 @@ const { bigCommerce, ssactivewear } = makeSdks()
 const start = async () => {
   console.info('Starting product variant sync...\n')
 
-  // const variants = await ssactivewear.listProductVariants()
-
-  // const variantMap = new Map<string, number>()
-
-  // for (const variant of variants) {
-  //   const existing = variantMap.get(variant.sku) || 0
-
-  //   variantMap.set(variant.sku, existing + 1)
-  // }
-
-  // console.log(
-  //   'VARIANTS THAT HAVE DUPLICATE SKUS',
-  //   Array.from(variantMap)
-  //     .filter(([_, count]) => count > 1)
-  //     .map(([sku, count]) => ({ sku, count })),
-  // )
-
-  // return
-
   const ssActivewearProductVariants = await ssactivewear.listProductVariants()
 
   const successfulProducts: BigCommerceProduct[] = []
@@ -64,13 +45,6 @@ const start = async () => {
 
       break
     }
-
-    // products = [
-    //   await bigCommerce.getProduct(
-    //     { productId: 1764 },
-    //     { include: ['metadata', 'custom_fields'] },
-    //   ),
-    // ]
 
     const BATCH_SIZE = 25
 

@@ -50,28 +50,7 @@ const makeBatchUpdateProductVariantsFn =
       throw error
     }
 
-    // Make sure the product variant has an image
-    let existingProductImages
-
-    try {
-      const { images } = await repository.listProductImages({
-        productId: input.productId,
-        filter: {
-          limit: 1000,
-          page: 1,
-        },
-      })
-
-      existingProductImages = images
-    } catch (error) {
-      console.error('Error fetching product images', {
-        context: { error },
-      })
-
-      throw error
-    }
-
-    const copiedExistingProductImages = [...existingProductImages]
+    const createdPrimaryImageSSUrls: string[] = []
 
     const variantPrimaryImageUpdatePromises = updatedVariants.map(
       async bigCommerceVariant => {
@@ -89,6 +68,11 @@ const makeBatchUpdateProductVariantsFn =
               productId: bigCommerceVariant.productId,
               imageUrl: primaryImageUrl,
             })
+            const ssUrl = makeFilenameFromSSImageUrl(primaryImageUrl)
+
+            if (ssUrl) {
+              createdPrimaryImageSSUrls.push(ssUrl)
+            }
           } catch (error) {
             console.error('Error creating product variant image', {
               context: { error },
@@ -116,6 +100,45 @@ const makeBatchUpdateProductVariantsFn =
           .filter((url): url is string => Boolean(url)),
       ),
     )
+
+    // Make sure the product variant has an image
+    let existingProductImages
+
+    try {
+      const { images } = await repository.listProductImages({
+        productId: input.productId,
+        filter: {
+          limit: 1000,
+          page: 1,
+        },
+      })
+
+      existingProductImages = images
+    } catch (error) {
+      console.error('Error fetching product images', {
+        context: { error },
+      })
+
+      throw error
+    }
+
+    const copiedExistingProductImages = [...existingProductImages]
+
+    const productImagesToDelete = copiedExistingProductImages.filter(image => {
+      const bigCImageFilename = makeFilenameFromBigCImageUrl(image.imageFile)
+
+      return (
+        bigCImageFilename &&
+        createdPrimaryImageSSUrls.includes(bigCImageFilename)
+      )
+    })
+
+    for (const image of productImagesToDelete) {
+      repository.deletedProductImage({
+        imageId: image.id,
+        productId: input.productId,
+      })
+    }
 
     const productImagesToCreate = secondaryImages.filter(imageUrl => {
       const fileName = makeFilenameFromSSImageUrl(imageUrl)

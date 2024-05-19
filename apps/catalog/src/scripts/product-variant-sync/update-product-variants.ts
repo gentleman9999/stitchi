@@ -310,22 +310,12 @@ export const updateProductVariants = async (
 
   // TODO: Figure out how to support more than 600 variants
   // BigCommerce has a hard limit of 600 variants
-  let filteredVariants: typeof variantsInput = []
+  let filteredVariants: typeof variantsInput = [...variantsInput]
 
-  if (variantsInput.length > 600) {
-    const variantsToRemoveCount = variantsInput.length - 600
-    let removedCount = 0
-    // Remove necessary variants. Make sure these are "create" not "update" variants.
+  if (filteredVariants.length > 600) {
+    const variantsToRemoveCount = filteredVariants.length - 600
 
-    variantsInput.map(v => {
-      if ('id' in v) {
-        filteredVariants.push(v)
-      }
-
-      if (removedCount < variantsToRemoveCount) {
-        removedCount++
-      }
-    })
+    filteredVariants = filteredVariants.slice(variantsToRemoveCount)
   }
 
   try {
@@ -376,11 +366,33 @@ const getVariantImages = (
   primaryImageUrl: string | null
   secondaryImageUrls: string[]
 } => {
-  const primaryImageUrl = variant.colorFrontImage
+  const primaryImageUrl = variant.colorOnModelFrontImage
+    ? `${env.BIGC_IMAGES_SS_ACTIVEWEAR_BASE_URL}${variant.colorOnModelFrontImage}`
+    : variant.colorFrontImage
     ? `${env.BIGC_IMAGES_SS_ACTIVEWEAR_BASE_URL}${variant.colorFrontImage}`
     : null
 
   let secondaryImageUrls = []
+
+  // Order matters here. We want on-model images to be first.
+  if (variant.colorOnModelBackImage) {
+    secondaryImageUrls.push(
+      `${env.BIGC_IMAGES_SS_ACTIVEWEAR_BASE_URL}${variant.colorOnModelBackImage}`,
+    )
+  }
+
+  if (variant.colorOnModelSideImage) {
+    secondaryImageUrls.push(
+      `${env.BIGC_IMAGES_SS_ACTIVEWEAR_BASE_URL}${variant.colorOnModelSideImage}`,
+    )
+  }
+
+  // When we don't have an on-model image, we've set the colorFrontImage as the primary image. Therefore we don't want to duplicate it here.
+  if (variant.colorOnModelFrontImage && variant.colorFrontImage) {
+    secondaryImageUrls.push(
+      `${env.BIGC_IMAGES_SS_ACTIVEWEAR_BASE_URL}${variant.colorFrontImage}`,
+    )
+  }
 
   if (variant.colorBackImage) {
     secondaryImageUrls.push(
@@ -397,24 +409,6 @@ const getVariantImages = (
   if (variant.colorDirectSideImage) {
     secondaryImageUrls.push(
       `${env.BIGC_IMAGES_SS_ACTIVEWEAR_BASE_URL}${variant.colorDirectSideImage}`,
-    )
-  }
-
-  if (variant.colorOnModelFrontImage) {
-    secondaryImageUrls.push(
-      `${env.BIGC_IMAGES_SS_ACTIVEWEAR_BASE_URL}${variant.colorOnModelFrontImage}`,
-    )
-  }
-
-  if (variant.colorOnModelBackImage) {
-    secondaryImageUrls.push(
-      `${env.BIGC_IMAGES_SS_ACTIVEWEAR_BASE_URL}${variant.colorOnModelBackImage}`,
-    )
-  }
-
-  if (variant.colorOnModelSideImage) {
-    secondaryImageUrls.push(
-      `${env.BIGC_IMAGES_SS_ACTIVEWEAR_BASE_URL}${variant.colorOnModelSideImage}`,
     )
   }
 

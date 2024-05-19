@@ -28,7 +28,7 @@ const CatalogHeader = ({ brand, category }: Props) => {
     title = category.name
     description = category.description
   } else {
-    title = `Browse ${brand.name} products`
+    title = `Browse customizable ${brand.name} products`
   }
 
   return (

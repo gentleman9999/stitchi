@@ -40,10 +40,6 @@ const ProductFormPreview = ({
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-4">
-          {sizeRange.toLowerCase() !== 'one size' ? (
-            <span className="text-lg">{sizeRange}</span>
-          ) : null}
-
           <ul className="flex flex-wrap gap-1 py-1">
             {colors.map(color => (
               <li key={color.catalogProductColorId}>
@@ -60,45 +56,57 @@ const ProductFormPreview = ({
               </li>
             ))}
           </ul>
+
+          {sizeRange.toLowerCase() !== 'one size' ? (
+            <span className="text-base font-medium">
+              Available sizes: {sizeRange}
+            </span>
+          ) : null}
         </div>
 
         <div className="flex flex-col gap-4">
-          <div>
-            <h2 className="font-headingDisplay font-semibold text-2xl sm:text-3xl text-gray-800">
-              From {currency(minPrice).format()}
-            </h2>
-            <p className="text-gray-500 text-sm">
-              Pricing varies by print areas, ink colors, and units ordered.
+          <div className="rounded-sm flex flex-col gap-4 ">
+            <div>
+              <h2 className="font-headingDisplay font-semibold text-2xl sm:text-3xl text-gray-800">
+                From {currency(minPrice).format()}
+              </h2>
+              <p className="text-gray-500 text-sm">
+                Price varies based on print areas, ink colors, and quantity
+                ordered.
+              </p>
+            </div>
+
+            <h3 className="font-medium text-xl">
+              Login to customize and get instant quote
+            </h3>
+            <Button
+              Component="a"
+              href={routes.internal.signup.href({
+                redirectTo: pathname,
+              })}
+              size="2xl"
+              color="brandPrimary"
+              onClick={() => {
+                track.signupCtaClicked({
+                  locationHref: window.location.href,
+                  ctaType: 'product',
+                })
+              }}
+            >
+              Create free account
+            </Button>
+
+            <p className="text-gray-700">
+              Have an account already?{' '}
+              <LinkInline href={routes.internal.login.href()} external>
+                Login
+              </LinkInline>
             </p>
           </div>
-
-          <Button
-            Component="a"
-            href={routes.internal.signup.href({
-              redirectTo: pathname,
-            })}
-            size="2xl"
-            color="brandPrimary"
-            onClick={() => {
-              track.signupCtaClicked({
-                locationHref: window.location.href,
-                ctaType: 'product',
-              })
-            }}
-          >
-            Customize
-          </Button>
-
-          <p>
-            Have an account already?{' '}
-            <LinkInline href={routes.internal.login.href()} external>
-              Login
-            </LinkInline>
-          </p>
         </div>
       </div>
 
-      <div className="flex flex-col gap-8">
+      {/* <div className="flex flex-col gap-4">
         <Feature
           title="Order risk-free"
           description="Cancel before proof approval - no fees, no fuss. Order with confidence!"
@@ -116,7 +124,7 @@ const ProductFormPreview = ({
           description="Global shipping or on-demand fulfillment from our warehouse. Convenience redefined!"
           icon={<PaperAirplaneIcon className="w-6 h-6" />}
         />
-      </div>
+      </div> */}
     </div>
   )
 }
@@ -131,14 +139,15 @@ const Feature = ({
   icon: React.ReactNode
 }) => {
   return (
-    <div className="flex flex-col gap-2">
+    <div className=" bg-gray-100 rounded-sm p-4 flex flex-row gap-4 items-center">
       <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gray-100">
         {icon}
       </div>
+      <div className="flex flex-col ">
+        <h3 className="text-gray-800 font-semibold text-base">{title}</h3>
 
-      <h3 className="text-gray-800 font-semibold text-lg">{title}</h3>
-
-      <p className="text-gray-500">{description}</p>
+        <p className="text-gray-500 text-sm">{description}</p>
+      </div>
     </div>
   )
 }

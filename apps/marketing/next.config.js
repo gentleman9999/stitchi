@@ -73,6 +73,11 @@ module.exports = withBundleAnalyzer(
           permanent: true,
         },
         {
+          source: '/wizard/:path*',
+          destination: '/products',
+          permanent: true,
+        },
+        {
           source: '/compare',
           destination: '/',
           permanent: true,
@@ -102,16 +107,7 @@ module.exports = withBundleAnalyzer(
           destination: '/directory/:path*',
           permanent: true,
         },
-        // {
-        //   source: '/learn/page/1',
-        //   destination: '/learn',
-        //   permanent: true,
-        // },
-        // {
-        //   source: '/learn/topic/:topicSlug/page/1',
-        //   destination: '/learn/topic/:topicSlug',
-        //   permanent: true,
-        // },
+
         {
           source: '/start/success',
           destination: '/learn?standout=contact_success',
@@ -156,6 +152,11 @@ module.exports = withBundleAnalyzer(
         {
           source: '/products/all',
           destination: '/products',
+          permanent: true,
+        },
+        {
+          source: '/learn/unique-conference-and-event-giveaway-ideas',
+          destination: '/learn/event-merchandise-ideas',
           permanent: true,
         },
 
