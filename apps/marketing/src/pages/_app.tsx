@@ -18,6 +18,8 @@ import { AxiomWebVitals } from 'next-axiom'
 import { CookiesProvider } from 'react-cookie'
 import IntercomProvider from 'app/IntercomProvider'
 import PageloadProgressIndicator from '@components/layout/PageloadProgressIndicator'
+import { GoogleTagManager } from '@lib/google'
+import IdentifyUser from 'app/IdentifyUser'
 
 const poppins = Poppins({
   weight: ['400', '600', '800', '900'],
@@ -42,21 +44,6 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
 
   return (
     <>
-      {/* Google Tag Manager - Global base code */}
-      <Script
-        id="google-tag-manager"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer', '${GTM_ID}');
-          `,
-        }}
-      />
-      {/* Google Tag Manager - Global base code - end */}
       <div className={`${poppins.variable}`}>
         <PageloadProgressIndicator />
         <UserProvider>
@@ -67,6 +54,12 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
               {/* Right now we have a hack and set the intercom context in mixpanel provider */}
               <IntercomProvider>
                 <MixpanelProvider>
+                  <IdentifyUser
+                    membershipId={undefined}
+                    organization={undefined}
+                    user={undefined}
+                  />
+
                   <SnackbarProvider>
                     <StandoutProvider>
                       <AxiomWebVitals />
@@ -79,6 +72,8 @@ const Page = ({ Component, pageProps }: ExtendedAppProps) => {
           </CookiesProvider>
         </UserProvider>
       </div>
+
+      <GoogleTagManager gtmId={GTM_ID} />
     </>
   )
 }
