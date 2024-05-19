@@ -84,13 +84,23 @@ export const getEmbroideryQtyBreakpoint = (qty: number) => {
 export enum EmbellishmentType {
   SCREENPRINTING = 'screen printing',
   EMBROIDERY = 'embroidery',
-  HEATTRANSFER = 'heat transfer',
 }
 
-interface PrintLocation {
-  colorCount: number
-  embellishmentType?: EmbellishmentType
+// interface PrintLocation {
+//   colorCount?: number
+//   embellishmentType?: EmbellishmentType
+// }
+
+export interface ScreenPrintingLocation {
+  colorCount: number;
+  embellishmentType: EmbellishmentType.SCREENPRINTING;
 }
+
+interface EmbroideryLocation {
+  embellishmentType: EmbellishmentType.EMBROIDERY;
+}
+
+export type PrintLocation = ScreenPrintingLocation | EmbroideryLocation;
 
 // Each print location's price is a factor of quatity and color count.
 // Here we sum all of the print locations' costs in the event a design has more than 1 print location.
@@ -109,7 +119,8 @@ export const getPrintLocationsCost = (
 
         return embroideryCost
       } else {
-        const printCost = PRINT_PRICE_COST_CENTS[printQtyBreakpoint][printLocation.colorCount - 1]
+        const colorCount = printLocation.colorCount ?? 1;
+        const printCost = PRINT_PRICE_COST_CENTS[printQtyBreakpoint][colorCount - 1]
 
         if (!printCost) {
           return null

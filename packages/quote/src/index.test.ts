@@ -1,17 +1,23 @@
-// index.test.ts
-import { makeCalculate } from './index'
+import { makeCalculate, Input } from './index'
 import { EmbellishmentType } from './shared'
+
+interface Product {
+  catalogProductId: string;
+  catalogProductVariantId: string;
+  quantity: number;
+  priceCents: number;
+}
 
 describe('calculate', () => {
   const calculate = makeCalculate()
 
-  it('2 screenprints, 1 embroideries', () => {
-    const input = {
+  it('2 screenprints, 1 embroidery', () => {
+    const input: Input<Product> = {
       includeFulfillment: false,
       printLocations: [
         { colorCount: 1, embellishmentType: EmbellishmentType.SCREENPRINTING },
         { colorCount: 1, embellishmentType: EmbellishmentType.SCREENPRINTING },
-        { colorCount: 0, embellishmentType: EmbellishmentType.EMBROIDERY }
+        { embellishmentType: EmbellishmentType.EMBROIDERY }
       ],
       variants: [
         {
@@ -43,14 +49,14 @@ describe('calculate', () => {
     expect(quote!.unitRetailPriceCents).toBe(1585)
   })
 
-  it('2 printscreens, 2 embroideries', () => {
-    const input = {
+  it('2 screenprints, 2 embroideries', () => {
+    const input: Input<Product> = {
       includeFulfillment: false,
       printLocations: [
-        { colorCount: 1 },
         { colorCount: 1, embellishmentType: EmbellishmentType.SCREENPRINTING },
-        { colorCount: 0, embellishmentType: EmbellishmentType.EMBROIDERY },
-        { colorCount: 0, embellishmentType: EmbellishmentType.EMBROIDERY }
+        { colorCount: 1, embellishmentType: EmbellishmentType.SCREENPRINTING },
+        { embellishmentType: EmbellishmentType.EMBROIDERY },
+        { embellishmentType: EmbellishmentType.EMBROIDERY }
       ],
       variants: [
         {
@@ -64,7 +70,7 @@ describe('calculate', () => {
           catalogProductVariantId: '239598',
           quantity: 100,
           priceCents: 521
-      },
+        },
         {
             catalogProductId: '6593',
             catalogProductVariantId: '239202',
@@ -88,6 +94,6 @@ describe('calculate', () => {
     expect(quote!.variants[2].unitRetailPriceCents).toBe(1906)
     expect(quote!.variants[2].totalRetailPriceCents).toBe(381266)
     expect(quote!.totalRetailPriceCents).toBe(664495)
-    expect(quote!.unitRetailPriceCents).toBe(1892.3333333333333)
+    expect(quote!.unitRetailPriceCents).toBe(1892)
   })
 })

@@ -6,7 +6,9 @@ import {
   getPrintLocationsCost,
   getPrintQtyBreakpoint,
   getEmbroideryQtyBreakpoint,
-  EmbellishmentType
+  EmbellishmentType,
+  PrintLocation,
+  ScreenPrintingLocation
 } from './shared'
 
 type VariantMetadata = Record<string, any>
@@ -23,9 +25,9 @@ type VariantResponse<T extends VariantMetadata> = T & {
   totalRetailPriceCents: number
 }
 
-interface Input<T extends VariantMetadata> {
+export interface Input<T extends VariantMetadata> {
   includeFulfillment: boolean
-  printLocations: { colorCount: number, embellishmentType?: EmbellishmentType }[]
+  printLocations: PrintLocation[]
   variants: VariantInput<T>[]
 }
 
@@ -57,9 +59,10 @@ const calculate = <T extends VariantMetadata>({
 
   const totalColorCount: number = sum(
     0,
-    ...printLocations.map(l => l.colorCount),
+    ...printLocations
+      .filter((location): location is ScreenPrintingLocation => location.embellishmentType === EmbellishmentType.SCREENPRINTING)
+      .map(l => l.colorCount)
   )
-
   const screenCost = multiply(totalColorCount, SCREEN_CHARGE)
   const digitizationCost: number = printLocations.some(location => 
     location.embellishmentType === EmbellishmentType.EMBROIDERY
@@ -107,9 +110,11 @@ const calculate = <T extends VariantMetadata>({
         0,
         ...variantQuotes.map(v => v.totalRetailPriceCents),
       ),
-      unitRetailPriceCents: divide(
-        sum(0, ...variantQuotes.map(v => v.unitRetailPriceCents)),
-        variantQuotes.length || 1,
+      unitRetailPriceCents: Math.floor(
+        divide(
+          sum(0, ...variantQuotes.map(v => v.unitRetailPriceCents)),
+          variantQuotes.length || 1,
+        )
       ),
     },
   ]
