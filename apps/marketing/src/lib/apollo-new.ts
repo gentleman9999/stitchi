@@ -72,12 +72,21 @@ const makeSplitLink = ({ rsc = false }) =>
   )
 
 const makeAuthLink = (
-  params: { deviceId?: string; accessToken?: string } = {},
+  params: {
+    deviceId: string | null
+    gaClientId: string | null
+    accessToken: string | null
+  } = {
+    deviceId: null,
+    gaClientId: null,
+    accessToken: null,
+  },
 ) =>
   setContext(async (_, { headers }: IncomingHttpHeaders) => {
     return {
       headers: Object.assign(headers || {}, {
-        'x-device-id': params.deviceId,
+        'x-device-id': params.deviceId || undefined,
+        'x-ga-client-id': params.gaClientId || undefined,
         'Content-Type': 'application/json',
         Accept: 'application/json',
         Authorization: params.accessToken ? `Bearer ${params.accessToken}` : '',
@@ -86,7 +95,17 @@ const makeAuthLink = (
   })
 
 export const createApolloClient = (
-  params: { deviceId?: string; accessToken?: string; rsc?: boolean } = {},
+  params: {
+    deviceId: string | null
+    accessToken: string | null
+    gaClientId: string | null
+    rsc?: boolean
+  } = {
+    deviceId: null,
+    accessToken: null,
+    gaClientId: null,
+    rsc: false,
+  },
 ) =>
   new NextSSRApolloClient({
     link: makeAuthLink(params).concat(makeSplitLink({ rsc: params.rsc })),

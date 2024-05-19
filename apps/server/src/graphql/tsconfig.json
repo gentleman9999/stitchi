@@ -8,6 +8,7 @@
     { "path": "../stripe" },
     { "path": "../sendgrid" },
     { "path": "../telemetry" },
-    { "path": "../generated" }
+    { "path": "../generated" },
+    { "path": "../google-analytics" }
   ]
 }

@@ -11,6 +11,7 @@ import { logger, Logger } from '../telemetry'
 import { AuthorizerFn, makeAuthorizer } from './authorization'
 
 const HEADER_X_DEVICE_ID = 'x-device-id'
+const HEADER_X_GA_CLIENT_ID = 'x-ga-client-id'
 
 type StripeClient = ReturnType<typeof makeStripeClient>
 
@@ -20,6 +21,7 @@ export interface Context {
   userId?: string
   deviceId?: string
   organizationId?: string
+  gaClientId?: string
   sendgrid: SendgridClient
   stripe: StripeClient
   conversation: typeof services.conversation
@@ -79,6 +81,17 @@ function makeContext(
           ? req.headers[HEADER_X_DEVICE_ID]?.toString()
           : null
 
+      const gaClientId =
+        req?.headers && HEADER_X_GA_CLIENT_ID in req.headers
+          ? req.headers[HEADER_X_GA_CLIENT_ID]?.toString()
+          : null
+
+      if (!gaClientId) {
+        logger.warn(
+          `Missing ${HEADER_X_GA_CLIENT_ID} header. This is unexpected.`,
+        )
+      }
+
       return {
         subscriptions: params.pubsub,
         role: userActiveMembership?.role ?? undefined,
@@ -86,6 +99,7 @@ function makeContext(
         sendgrid: params.sendgrid,
         userId: payload?.sub,
         deviceId: deviceId || undefined,
+        gaClientId: gaClientId || undefined,
         membershipId: userActiveMembership?.id ?? undefined,
         organizationId: userActiveMembership?.organizationId ?? undefined,
         logger: params.logger.child({

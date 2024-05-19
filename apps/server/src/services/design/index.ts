@@ -12,6 +12,7 @@ import { DesignEvents, makeEvents as makeDesignEvents } from './events'
 import { UpdateDesignRequestFnInput } from './repository/update-design-request'
 import { DesignFactoryDesignRequest } from './factory'
 import { DesignRequestStatus } from './db/design-request-table'
+import { Actor } from '../types'
 
 export interface DesignService {
   createDesign: DesignRepository['createDesign']
@@ -20,6 +21,7 @@ export interface DesignService {
   listDesignsCount: DesignRepository['listDesignsCount']
 
   createDesignRequest(input: {
+    actor: Actor
     designRequest: Omit<
       CreateDesignRequestFnInput['designRequest'],
       'conversationId'
@@ -133,6 +135,7 @@ const makeClient: MakeClientFn = (
       designEvents.emit({
         type: 'designRequest.created',
         payload: {
+          actor: input.actor,
           nextDesignRequest: designRequest,
         },
       })

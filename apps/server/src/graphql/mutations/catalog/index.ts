@@ -162,6 +162,12 @@ export const catalogProductCustomize = mutationField(
 
       try {
         designRequest = await ctx.design.createDesignRequest({
+          actor: {
+            gaClientId: ctx.gaClientId,
+            membershipId: ctx.membershipId,
+            organizationId: ctx.organizationId,
+            userId: ctx.userId,
+          },
           designRequest: {
             organizationId: ctx.organizationId || null,
             approvedDesignProofId: null,
