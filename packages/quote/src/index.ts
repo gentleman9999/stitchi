@@ -5,6 +5,10 @@ import {
   getMarkupMultiplier,
   getPrintLocationsCost,
   getPrintQtyBreakpoint,
+  getEmbroideryQtyBreakpoint,
+  EmbellishmentType,
+  PrintLocation,
+  ScreenPrintingLocation
 } from './shared'
 
 type VariantMetadata = Record<string, any>
@@ -21,9 +25,9 @@ type VariantResponse<T extends VariantMetadata> = T & {
   totalRetailPriceCents: number
 }
 
-interface Input<T extends VariantMetadata> {
+export interface Input<T extends VariantMetadata> {
   includeFulfillment: boolean
-  printLocations: { colorCount: number }[]
+  printLocations: PrintLocation[]
   variants: VariantInput<T>[]
 }
 
@@ -39,13 +43,13 @@ const calculate = <T extends VariantMetadata>({
   variants,
 }: Input<T>): [Error, null] | [null, Quote<T>] => {
   const fulfillmentCost = includeFulfillment ? FULFILLMENT_CHARGE : 0
-
   const totalQuantity = sum(0, ...variants.map(v => v.quantity))
-
   const printQtyBreakpoint = getPrintQtyBreakpoint(totalQuantity)
+  const embroideryQtyBreakpoint = getEmbroideryQtyBreakpoint(totalQuantity)
 
   const [error, printLocationsCosts] = getPrintLocationsCost(
     printQtyBreakpoint,
+    embroideryQtyBreakpoint,
     printLocations,
   )
 
@@ -55,15 +59,20 @@ const calculate = <T extends VariantMetadata>({
 
   const totalColorCount: number = sum(
     0,
-    ...printLocations.map(l => l.colorCount),
+    ...printLocations
+      .filter((location): location is ScreenPrintingLocation => location.embellishmentType === EmbellishmentType.SCREENPRINTING)
+      .map(l => l.colorCount)
   )
-
   const screenCost = multiply(totalColorCount, SCREEN_CHARGE)
+  const digitizationCost: number = printLocations.some(location => 
+    location.embellishmentType === EmbellishmentType.EMBROIDERY
+  ) ? 5000 : 0;
 
   const variantQuotes = variants.map(variant => {
+
     const variantUnitCostCents = chain(printLocationsCosts)
       .add(variant.priceCents)
-      .add(divide(screenCost, totalQuantity))
+      .add(divide(sum(screenCost, digitizationCost), totalQuantity))
       .done()
 
     const discount = printQtyBreakpoint * 0.03 // 3% discount per qty breakpoint
@@ -92,7 +101,7 @@ const calculate = <T extends VariantMetadata>({
       quantity: variant.quantity,
     }
   })
-
+  
   return [
     null,
     {
@@ -101,9 +110,11 @@ const calculate = <T extends VariantMetadata>({
         0,
         ...variantQuotes.map(v => v.totalRetailPriceCents),
       ),
-      unitRetailPriceCents: divide(
-        sum(0, ...variantQuotes.map(v => v.unitRetailPriceCents)),
-        variantQuotes.length || 1,
+      unitRetailPriceCents: Math.floor(
+        divide(
+          sum(0, ...variantQuotes.map(v => v.unitRetailPriceCents)),
+          variantQuotes.length || 1,
+        )
       ),
     },
   ]
