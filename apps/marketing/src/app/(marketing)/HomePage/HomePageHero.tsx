@@ -86,7 +86,7 @@ const HomePageHero = () => {
         <Container className="flex flex-col justify-center items-center gap-12">
           <div className="flex max-w-5xl">
             <h1 className="md:text-center font-bold text-5xl text-left md:text-6xl xl:text-6xl inline font-headingDisplay">
-              Shop, store, and ship the highest quality swag around the world.
+              Create, store, and ship high-quality swag to your fans.
               {/* Precision screen printing & embroidary delivered anywhere */}
               {/* The best place to scale merch, profitably */}
             </h1>
