@@ -15,7 +15,7 @@ const getBigCommerceCategories = async () => {
 
   while (hasNextPage) {
     const res = await fetch(
-      `${process.env.BIGCOMMERCE_REST_API_URI}/catalog/categories?limit=250&is_visible=true`,
+      `${process.env.BIGCOMMERCE_REST_API_URI}/catalog/categories?limit=250&page=${page}&is_visible=true`,
       {
         headers: {
           Accept: 'application/json',
