@@ -141,6 +141,24 @@ export interface AddCustomerAddressResult {
   errors: Array<AddCustomerAddressError>;
 }
 
+/** Error coming from submitting a product review. */
+export type AddProductReviewError = CustomerAlreadyReviewedProductError | InvalidInputFieldsError | NotAuthorizedToAddProductReviewError | ProductIdNotFoundError | UnexpectedAddReviewError;
+
+/** Input for the addProductReview mutation. */
+export interface AddProductReviewInput {
+  /** ID of the product to submit reviews for. */
+  productEntityId: Scalars['Long']['input'];
+  /** The review to submit. */
+  review: ProductReviewInput;
+}
+
+/** Result of the addProductReview mutation. */
+export interface AddProductReviewResult {
+  __typename: 'AddProductReviewResult';
+  /** Errors encountered while submitting the review. */
+  errors: Array<AddProductReviewError>;
+}
+
 /** Add wishlist items input object */
 export interface AddWishlistItemsInput {
   /** The wishlist id */
@@ -1595,6 +1613,20 @@ export interface CatalogManualQuoteCreateItemsInput {
 export interface CatalogManualQuoteCreatePayload {
   __typename: 'CatalogManualQuoteCreatePayload';
   quote: Maybe<Quote>;
+}
+
+/** Catalog mutations  */
+export interface CatalogMutations {
+  __typename: 'CatalogMutations';
+  /** Add a product review. */
+  addProductReview: AddProductReviewResult;
+}
+
+
+/** Catalog mutations  */
+export interface CatalogMutationsaddProductReviewArgs {
+  input: AddProductReviewInput;
+  reCaptchaV2?: InputMaybe<ReCaptchaV2Input>;
 }
 
 export interface CatalogProduct {
@@ -3234,6 +3266,13 @@ export interface CustomerAddressDeletionError extends Error {
 /** An unexpected error while updating an address for a customer. */
 export interface CustomerAddressUpdateError extends Error {
   __typename: 'CustomerAddressUpdateError';
+  /** Error message. */
+  message: Scalars['String']['output'];
+}
+
+/** An error resulting from a customer submitting multiple reviews to the same product. */
+export interface CustomerAlreadyReviewedProductError extends Error {
+  __typename: 'CustomerAlreadyReviewedProductError';
   /** Error message. */
   message: Scalars['String']['output'];
 }
@@ -6764,6 +6803,15 @@ export interface InUseFilter {
   eq?: InputMaybe<Scalars['BooleanType']['input']>;
 }
 
+/** Validation errors dealing with input parameters supplied to an rpc call. */
+export interface InvalidInputFieldsError extends Error {
+  __typename: 'InvalidInputFieldsError';
+  /** The input fields that had a validation issue. */
+  fields: Array<Scalars['String']['output']>;
+  /** Error message. */
+  message: Scalars['String']['output'];
+}
+
 /** An inventory */
 export interface Inventory {
   __typename: 'Inventory';
@@ -7754,6 +7802,8 @@ export interface Mutation {
   __typename: 'Mutation';
   /** The Cart mutations. */
   cart: CartMutations;
+  /** The catalog mutations. */
+  catalog: CatalogMutations;
   catalogManualQuoteCreate: Maybe<CatalogManualQuoteCreatePayload>;
   catalogProductCustomize: Maybe<CatalogProductCustomizePayload>;
   catalogProductQuoteCreate: Maybe<CatalogProductQuoteCreatePayload>;
@@ -8075,6 +8125,13 @@ export interface NormalPageplainTextSummaryArgs {
 export interface NotAuthorisedError extends Error {
   __typename: 'NotAuthorisedError';
   /** A description of the error */
+  message: Scalars['String']['output'];
+}
+
+/** The not authorized to add product review error. */
+export interface NotAuthorizedToAddProductReviewError extends Error {
+  __typename: 'NotAuthorizedToAddProductReviewError';
+  /** Error message. */
   message: Scalars['String']['output'];
 }
 
@@ -9471,6 +9528,13 @@ export interface ProductEdge {
   node: Product;
 }
 
+/** Product ID did not map to any existing products. */
+export interface ProductIdNotFoundError extends Error {
+  __typename: 'ProductIdNotFoundError';
+  /** Error message. */
+  message: Scalars['String']['output'];
+}
+
 /** Product Inventory Information */
 export interface ProductInventory {
   __typename: 'ProductInventory';
@@ -9608,6 +9672,20 @@ export interface ProductRedirect {
   id: Scalars['ID']['output'];
   /** Relative destination url. */
   path: Scalars['String']['output'];
+}
+
+/** Content of the review to be added */
+export interface ProductReviewInput {
+  /** Product review author. */
+  author: Scalars['String']['input'];
+  /** Email of review author. */
+  email?: InputMaybe<Scalars['String']['input']>;
+  /** Product review rating. */
+  rating: Scalars['Int']['input'];
+  /** Product review text. */
+  text: Scalars['String']['input'];
+  /** Product review title. */
+  title: Scalars['String']['input'];
 }
 
 /** Product reviews filters. */
@@ -11607,6 +11685,13 @@ export interface UnassignCartFromCustomerResult {
   __typename: 'UnassignCartFromCustomerResult';
   /** The Cart that is updated as a result of mutation. */
   cart: Maybe<Cart>;
+}
+
+/** Catch all error type for any unexpected responses from the AddProductReview mutation rpc. */
+export interface UnexpectedAddReviewError extends Error {
+  __typename: 'UnexpectedAddReviewError';
+  /** Error message. */
+  message: Scalars['String']['output'];
 }
 
 /** Update cart currency data object */
@@ -13718,6 +13803,11 @@ export type LogoutUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type LogoutUserQuery = { __typename: 'Mutation', userLogout: { __typename: 'UserLogoutPayload', success: boolean } | null };
 
+export type RootLayoutGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RootLayoutGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, user: { __typename: 'User', id: string, email: string | null, name: string | null, givenName: string | null, familyName: string | null, phoneNumber: string | null, picture: string | null, intercomUserHash: string | null, createdAt: any | null } | null, organization: { __typename: 'Organization', id: string, name: string | null, createdAt: any } } | null };
+
 export type AvatarImageFragment = { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null };
 
 export type BlogPostCardArticleFragment = { __typename: 'ArticleRecord', id: any, _publishedAt: any | null, _createdAt: any, title: string | null, slug: string | null, shortDescription: string | null, image: { __typename: 'FileField', responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null, author: { __typename: 'AuthorRecord', id: any, name: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null } | null, categories: Array<{ __typename: 'CategoryRecord', id: any, name: string | null, slug: string | null }> };
@@ -13768,11 +13858,6 @@ export type UseSubscribeInlineSubscribeMutation = { __typename: 'Mutation', subs
 export type UserAvatarUserFragment = { __typename: 'User', id: string, name: string | null, picture: string | null };
 
 export type UserBadgeUserFramgent = { __typename: 'User', id: string, name: string | null, picture: string | null };
-
-export type MixpanelProviderGetDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type MixpanelProviderGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, organization: { __typename: 'Organization', id: string, name: string | null }, user: { __typename: 'User', createdAt: any | null, id: string, intercomUserHash: string | null, email: string | null, name: string | null, phoneNumber: string | null, picture: string | null } | null } | null };
 
 export type OrganizationCreateDialogCreateOrganizationMutationVariables = Exact<{
   input: UserOrganizationCreateInput;

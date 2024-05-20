@@ -1,7 +1,6 @@
 import { ApolloError } from 'apollo-server-core'
 import { mutationField } from 'nexus'
 import { SendgridMarketingEmailList } from '../../../sendgrid'
-import { KeyValueRecordKey } from '../../../services/key-value-store'
 import { OrganizationRecordGlobalRole } from '../../../services/organization/db/organization-table'
 import { getOrThrow } from '../../../utils'
 

@@ -11,6 +11,13 @@
       "CustomerNotLoggedInError",
       "ValidationError"
     ],
+    "AddProductReviewError": [
+      "CustomerAlreadyReviewedProductError",
+      "InvalidInputFieldsError",
+      "NotAuthorizedToAddProductReviewError",
+      "ProductIdNotFoundError",
+      "UnexpectedAddReviewError"
+    ],
     "ArticleModelContentLinksField": [
       "ArticleRecord",
       "CustomComponentRecord",
@@ -102,14 +109,19 @@
       "CustomerAddressCreationError",
       "CustomerAddressDeletionError",
       "CustomerAddressUpdateError",
+      "CustomerAlreadyReviewedProductError",
       "CustomerDoesNotExistError",
       "CustomerNotLoggedInError",
       "CustomerPasswordError",
       "CustomerRegistrationError",
       "EmailAlreadyInUseError",
+      "InvalidInputFieldsError",
       "LimitExceededError",
       "NotAuthorisedError",
+      "NotAuthorizedToAddProductReviewError",
       "NotFoundError",
+      "ProductIdNotFoundError",
+      "UnexpectedAddReviewError",
       "ValidationError"
     ],
     "File": [

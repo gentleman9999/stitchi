@@ -60,12 +60,18 @@ export const designRequestCreate = mutationField('designRequestCreate', {
   resolve: async (
     _,
     { input },
-    { design, organizationId, membershipId, logger },
+    { design, organizationId, membershipId, logger, gaClientId, userId },
   ) => {
     let designRequest
 
     try {
       designRequest = await design.createDesignRequest({
+        actor: {
+          gaClientId,
+          membershipId,
+          organizationId,
+          userId,
+        },
         designRequest: {
           organizationId: organizationId || null,
           approvedDesignProofId: null,
