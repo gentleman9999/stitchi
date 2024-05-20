@@ -101,6 +101,7 @@ const CmsLandingPageCatalogSection = ({ catalogSection }: Props) => {
               size="lg"
               variant="ghost"
               Component={Link}
+              className="capitalize"
               href={
                 activeCategory
                   ? routes.internal.catalog.category.show.href({
@@ -109,7 +110,7 @@ const CmsLandingPageCatalogSection = ({ catalogSection }: Props) => {
                   : routes.internal.catalog.href()
               }
             >
-              Browse catalog
+              Browse {activeCategory?.name || 'products'}
             </Button>
           </div>
 
