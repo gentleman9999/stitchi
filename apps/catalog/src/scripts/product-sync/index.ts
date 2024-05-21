@@ -150,7 +150,7 @@ const start = async () => {
         bigCProduct?.customFields || [],
       )
 
-      const supportedPrintingMethods = getAvailPrintingMethods(categoryIds)
+      const supportedPrintingMethods = await getAvailPrintingMethods(categoryIds, product.title)
 
       if (bigCProduct) {
         if (!['update', 'all'].includes(mode)) {
