@@ -1,7 +1,7 @@
-import { PopoverButton } from '@components/ui/popover'
 import routes from '@lib/routes'
 import LinkBase from 'next/link'
-import React, { Fragment } from 'react'
+import React from 'react'
+import PopperButton from './PopperButton'
 
 interface Props {}
 
@@ -32,14 +32,14 @@ const Link = ({
 }) => {
   return (
     <li>
-      <PopoverButton as={Fragment}>
+      <PopperButton>
         <LinkBase
           href={href}
           className="block p-2 text-sm text-gray-700 hover:bg-gray-50"
         >
           {children}
         </LinkBase>
-      </PopoverButton>
+      </PopperButton>
     </li>
   )
 }

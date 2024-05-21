@@ -17,6 +17,7 @@ import NavigationBottomBar from './NavigationBottomBar'
 import NavigationDropdownMenu from '../../NavigationDropdownMenu'
 import ServicesContentsDesktop from './ServicesContentsDesktop'
 import { PopoverGroup } from '@components/ui/popover'
+import Popper from './Popper'
 
 interface Props {
   categoryTree: NavigationSiteFragment['categoryTree']
@@ -54,7 +55,28 @@ const Navigation = ({ categoryTree }: Props) => {
               <div className="flex-1 flex items-stretch h-auto flex-row gap-4">
                 <SearchBar className="max-w-[500px] hidden lg:flex" />
 
-                <NavigationDropdownMenu
+                <Popper
+                  Trigger={
+                    <TopBarNavigationMenuTrigger
+                      href={routes.internal.solutions.href()}
+                      title="Solutions"
+                      preTitle="Our"
+                    />
+                  }
+                  Content={<ServicesContentsDesktop />}
+                />
+
+                <Popper
+                  Trigger={
+                    <TopBarNavigationMenuTrigger
+                      title="Resources"
+                      preTitle="Learning &"
+                    />
+                  }
+                  Content={<LearnContentsDesktop />}
+                />
+
+                {/* <NavigationDropdownMenu
                   as="div"
                   trigger={
                     <TopBarNavigationMenuTrigger
@@ -76,7 +98,7 @@ const Navigation = ({ categoryTree }: Props) => {
                   }
                 >
                   <LearnContentsDesktop />
-                </NavigationDropdownMenu>
+                </NavigationDropdownMenu> */}
               </div>
 
               <div className="lg:hidden">
@@ -122,14 +144,21 @@ const BottomNavContainer = ({ children }: { children: React.ReactNode }) => {
 }
 
 const TopBarNavigationMenuTrigger = ({
+  href,
   title,
   preTitle,
 }: {
+  href?: string
   title: string
   preTitle?: string
 }) => {
+  const Component = href ? Link : 'button'
+
   return (
-    <button className="hidden md:flex h-full py-0.5 px-1 bg-transparent rounded-sm text-white hover:text-white hover:bg-transparent hover:border-gray-200 border-transparent border text-left">
+    <Component
+      {...((href ? { href } : {}) as any)}
+      className="hidden md:flex h-full py-0.5 px-1 bg-transparent rounded-sm text-white hover:text-white hover:bg-transparent hover:border-gray-200 border-transparent border text-left"
+    >
       <div className="flex flex-col">
         {preTitle ? (
           <>
@@ -140,7 +169,7 @@ const TopBarNavigationMenuTrigger = ({
         <span className="text-base font-medium leading-none">{title}</span>
       </div>
       <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
-    </button>
+    </Component>
   )
 }
 
