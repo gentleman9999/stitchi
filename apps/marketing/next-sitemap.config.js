@@ -206,8 +206,14 @@ module.exports = {
   exclude: ['/learn/page/*'],
   generateRobotsTxt: true,
   robotsTxtOptions: {
+    additionalSitemaps: [
+      `${process.env.NEXT_PUBLIC_SITE_URL}/blog/sitemap.xml`,
+    ],
     policies: [
-      { userAgent: '*', disallow: ['/orders', '/buy', '/closet', '/account'] },
+      {
+        userAgent: '*',
+        disallow: ['', '/orders', '/buy', '/closet', '/account'],
+      },
       { userAgent: 'Googlebot', disallow: '' },
       { userAgent: 'Googlebot-Image', disallow: '' },
       { userAgent: 'AdsBot-Google', disallow: '' },
