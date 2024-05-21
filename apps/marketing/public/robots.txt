@@ -5,6 +5,18 @@ Disallow: /buy
 Disallow: /closet
 Disallow: /account
 
+# Googlebot
+User-agent: Googlebot
+Disallow: 
+
+# Googlebot-Image
+User-agent: Googlebot-Image
+Disallow: 
+
+# AdsBot-Google
+User-agent: AdsBot-Google
+Disallow: 
+
 # Host
 Host: http://localhost:3000
 

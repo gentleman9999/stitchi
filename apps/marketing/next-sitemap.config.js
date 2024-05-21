@@ -208,6 +208,9 @@ module.exports = {
   robotsTxtOptions: {
     policies: [
       { userAgent: '*', disallow: ['/orders', '/buy', '/closet', '/account'] },
+      { userAgent: 'Googlebot', disallow: '' },
+      { userAgent: 'Googlebot-Image', disallow: '' },
+      { userAgent: 'AdsBot-Google', disallow: '' },
     ],
   },
   additionalPaths: async () => {
