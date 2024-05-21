@@ -7,15 +7,20 @@ interface Props {
   children: React.ReactElement
 }
 
-const PopperButton = (props: Props) => {
-  const { close } = usePopper()
+const PopperButton = React.forwardRef<HTMLElement, Props>(
+  ({ children }, ref) => {
+    const { hide } = usePopper()
 
-  return React.cloneElement(props.children, {
-    onClick: (...params: any[]) => {
-      close()
-      props.children.props.onClick?.(...params)
-    },
-  })
-}
+    return React.cloneElement(children, {
+      ref,
+      onClick: (...params: any[]) => {
+        hide()
+        children.props.onClick?.(...params)
+      },
+    })
+  },
+)
+
+PopperButton.displayName = 'PopperButton'
 
 export default PopperButton

@@ -60,6 +60,10 @@ const SearchBar = ({ className }: Props) => {
           <button
             type="button"
             onClick={() => {
+              if (!searchTerm?.length) {
+                setShowSearch(false)
+              }
+
               form.setValue('searchTerm', '')
             }}
             className="flex items-center justify-center rounded-full bg-gray-100 p-1"

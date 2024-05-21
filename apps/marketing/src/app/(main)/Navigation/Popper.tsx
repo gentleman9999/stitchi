@@ -3,8 +3,9 @@
 import React from 'react'
 import { usePopper as useReactPopper } from 'react-popper'
 import PopperProvider from './PopperContext'
+import { useNavigation } from './NavigationContext'
 
-const showEvents = ['mouseenter', 'focus']
+const showEvents = ['click', 'mouseenter', 'focus']
 const hideEvents = ['mouseleave', 'blur']
 
 interface Props {
@@ -22,19 +23,25 @@ const Popper = (props: Props) => {
     placement: 'bottom-start',
   })
 
+  const { setExpanded: setNavigationExpanded } = useNavigation()
+
   const show = React.useCallback(() => {
     if (popperRef) {
       popperRef.setAttribute('data-show', 'true')
 
       update?.()
+
+      setNavigationExpanded(true)
     }
-  }, [update, popperRef])
+  }, [update, popperRef, setNavigationExpanded])
 
   const hide = React.useCallback(() => {
     if (popperRef) {
       popperRef.removeAttribute('data-show')
+
+      setNavigationExpanded(false)
     }
-  }, [popperRef])
+  }, [popperRef, setNavigationExpanded])
 
   React.useEffect(() => {
     if (triggerRef) {
@@ -48,8 +55,13 @@ const Popper = (props: Props) => {
     }
 
     if (popperRef) {
-      popperRef.addEventListener('mouseenter', show)
-      popperRef.addEventListener('mouseleave', hide)
+      showEvents.forEach(event => {
+        popperRef.addEventListener(event, show)
+      })
+
+      hideEvents.forEach(event => {
+        popperRef.addEventListener(event, hide)
+      })
     }
 
     return () => {
@@ -64,14 +76,19 @@ const Popper = (props: Props) => {
       }
 
       if (popperRef) {
-        popperRef.removeEventListener('mouseenter', show)
-        popperRef.removeEventListener('mouseleave', hide)
+        showEvents.forEach(event => {
+          popperRef.removeEventListener(event, show)
+        })
+
+        hideEvents.forEach(event => {
+          popperRef.removeEventListener(event, hide)
+        })
       }
     }
   }, [show, hide, triggerRef, popperRef])
 
   return (
-    <PopperProvider open={open} close={close}>
+    <PopperProvider show={show} hide={hide}>
       {React.cloneElement(props.Trigger, {
         ref: setTriggerRef,
         id: 'button',
@@ -84,9 +101,9 @@ const Popper = (props: Props) => {
         role="navigation"
         style={styles.popper}
         {...attributes.popper}
-        className="pt-2 hidden data-[show=true]:block"
+        className="sr-only data-[show=true]:not-sr-only"
       >
-        <div className="bg-white shadow-sm rounded-sm">{props.Content}</div>
+        {props.Content}
       </div>
     </PopperProvider>
   )

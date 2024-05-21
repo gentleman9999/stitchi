@@ -3,21 +3,21 @@
 import React from 'react'
 
 interface State {
-  open: () => void
-  close: () => void
+  show: () => void
+  hide: () => void
 }
 
 const PopperContext = React.createContext<State | undefined>(undefined)
 
 interface PopperProviderProps {
   children: React.ReactNode
-  open: () => void
-  close: () => void
+  show: () => void
+  hide: () => void
 }
 
-const PopperProvider = ({ children, open, close }: PopperProviderProps) => {
+const PopperProvider = ({ children, show, hide }: PopperProviderProps) => {
   return (
-    <PopperContext.Provider value={{ open, close }}>
+    <PopperContext.Provider value={{ show, hide }}>
       {children}
     </PopperContext.Provider>
   )

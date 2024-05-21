@@ -47,7 +47,10 @@ const MobileNavigation = ({ renderTrigger }: Props) => {
 
           <hr />
 
-          <Section title="Our Solutions">
+          <Section
+            title="Our Solutions"
+            href={routes.internal.solutions.href()}
+          >
             <NavLink href={routes.internal.solutions.design.href()}>
               Custom Design
             </NavLink>
@@ -85,13 +88,24 @@ const MobileNavigation = ({ renderTrigger }: Props) => {
 const Section = ({
   children,
   title,
+  href,
 }: {
   children: React.ReactNode
   title?: string
+  href?: string
 }) => {
+  const TitleComponent = href ? (
+    <SheetClose asChild>
+      <Link href={href} className="text-lg font-semibold hover:underline">
+        {title}
+      </Link>
+    </SheetClose>
+  ) : (
+    <h3 className="text-lg font-semibold">{title}</h3>
+  )
   return (
     <div className="grid gap-4">
-      {title ? <h3 className="text-lg font-semibold">{title}</h3> : null}
+      {title ? TitleComponent : null}
 
       <ul className="grid gap-4">{children}</ul>
     </div>
@@ -109,7 +123,10 @@ const NavLink = (props: {
       <SheetClose asChild>
         <Link
           {...props}
-          className={cn('text-base font-regular', props.className)}
+          className={cn(
+            'text-base font-regular hover:underline underline-offset-4',
+            props.className,
+          )}
         />
       </SheetClose>
     </li>

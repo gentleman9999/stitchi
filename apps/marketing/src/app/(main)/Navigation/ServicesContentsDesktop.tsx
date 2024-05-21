@@ -7,7 +7,7 @@ interface Props {}
 
 const ServicesContentsDesktop = ({}: Props) => {
   return (
-    <ul className="p-2">
+    <ul className="p-4 flex flex-col gap-2">
       <Link href={routes.internal.solutions.design.href()}>Custom Design</Link>
       <Link href={routes.internal.solutions.customization.href()}>
         Bulk Orders
@@ -31,11 +31,11 @@ const Link = ({
   children: React.ReactNode
 }) => {
   return (
-    <li>
+    <li className="flex-1 flex">
       <PopperButton>
         <LinkBase
           href={href}
-          className="block p-2 text-sm text-gray-700 hover:bg-gray-50"
+          className="flex-1 font-semibold hover:underline underline-offset-4"
         >
           {children}
         </LinkBase>

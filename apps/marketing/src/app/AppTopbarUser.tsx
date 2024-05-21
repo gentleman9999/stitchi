@@ -20,7 +20,9 @@ import {
 import LinkInline from '@components/ui/LinkInline'
 import ButtonV2 from '@components/ui/ButtonV2'
 import { cn } from '@lib/utils'
-import NavigationDropdownMenu from './NavigationDropdownMenu'
+import Popper from './(main)/Navigation/Popper'
+import PopperButton from './(main)/Navigation/PopperButton'
+import NavigationPopperContainer from './(main)/Navigation/NavigationPopperContainer'
 
 interface Props {
   background?: 'light' | 'dark'
@@ -35,9 +37,8 @@ const AppTopbarUser = ({ background = 'light' }: Props) => {
   const { humanizedRole, user, organization } = data.viewer || {}
 
   return (
-    <NavigationDropdownMenu
-      as="div"
-      trigger={
+    <Popper
+      Trigger={
         <button
           aria-label="user dropdown"
           className={cn(
@@ -97,39 +98,42 @@ const AppTopbarUser = ({ background = 'light' }: Props) => {
           </div>
         </button>
       }
-    >
-      <div>
-        {user ? (
-          <div className="bg-gray-50 p-4 w-full text-sm font-regular flex items-center gap-2 text-gray-800">
-            <div className="text-xs">
-              {humanizedRole ? (
-                <>
-                  <Badge
-                    className="text-gray-500"
-                    label={humanizedRole}
-                    size="small"
-                  />
-                  <br />
-                  <br />
-                </>
-              ) : null}
-
-              <span className="font-semibold">{user.name}</span>
-              <br />
-              <span className="text-gray-500">{user.email?.toLowerCase()}</span>
-            </div>
-          </div>
-        ) : null}
-
-        <div className="p-2">
+      Content={
+        <NavigationPopperContainer className="pt-3">
           {user ? (
-            <AuthenticatedUserDropdownContent />
-          ) : (
-            <UnauthenticatedUserDropdownContent />
-          )}
-        </div>
-      </div>
-    </NavigationDropdownMenu>
+            <div className="bg-gray-50 p-4 w-full text-sm font-regular flex items-center gap-2 text-gray-800">
+              <div className="text-xs">
+                {humanizedRole ? (
+                  <>
+                    <Badge
+                      className="text-gray-500"
+                      label={humanizedRole}
+                      size="small"
+                    />
+                    <br />
+                    <br />
+                  </>
+                ) : null}
+
+                <span className="font-semibold">{user.name}</span>
+                <br />
+                <span className="text-gray-500">
+                  {user.email?.toLowerCase()}
+                </span>
+              </div>
+            </div>
+          ) : null}
+
+          <div className="p-2">
+            {user ? (
+              <AuthenticatedUserDropdownContent />
+            ) : (
+              <UnauthenticatedUserDropdownContent />
+            )}
+          </div>
+        </NavigationPopperContainer>
+      }
+    />
   )
 }
 
@@ -215,15 +219,17 @@ const DropdownItem = ({
   LinkComponent?: React.ElementType
 }) => {
   return (
-    <LinkComponent
-      href={href}
-      className={
-        'border-2 border-transparent hover:border-midnight hover:bg-gray-50 transition-all py-2 px-2 rounded-sm flex-1 flex items-center gap-2 outline-none text-sm font-medium'
-      }
-    >
-      {icon}
-      {label}
-    </LinkComponent>
+    <PopperButton>
+      <LinkComponent
+        href={href}
+        className={
+          'border-2 border-transparent hover:border-midnight hover:bg-gray-50 transition-all py-2 px-2 rounded-sm flex-1 flex items-center gap-2 outline-none text-sm font-medium'
+        }
+      >
+        {icon}
+        {label}
+      </LinkComponent>
+    </PopperButton>
   )
 }
 

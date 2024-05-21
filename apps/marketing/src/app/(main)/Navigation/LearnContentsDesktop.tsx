@@ -7,8 +7,7 @@ import routes from '@lib/routes'
 import Button from '@components/ui/ButtonV2/Button'
 import PopperButton from './PopperButton'
 
-const linkClass =
-  'font-semibold border-2 border-transparent hover:border-primary hover:bg-gray-50 p-2 rounded-sm -translate-x-1 transition-all'
+const linkClass = 'font-semibold hover:underline underline-offset-4'
 
 const LearnContentsDesktop = () => {
   return (
@@ -52,9 +51,9 @@ const LearnContentsDesktop = () => {
           </div>
         </div>
       </div>
-      <div className="col-span-1 pl-8 flex flex-col">
-        <h2 className="text-3xl font-bold font-heading p-1">Resources</h2>
-        <ul>
+      <div className="col-span-1 pl-8 flex flex-col gap-4">
+        <h2 className="text-3xl font-bold font-heading">Resources</h2>
+        <ul className="flex flex-col gap-4">
           <li>
             <PopperButton>
               <Link href={routes.internal.blog.href()} className={linkClass}>

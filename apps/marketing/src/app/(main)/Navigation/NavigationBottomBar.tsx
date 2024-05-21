@@ -7,13 +7,17 @@ import {
 import routes from '@lib/routes'
 import { cn } from '@lib/utils'
 import Link from 'next/link'
-import React, { Fragment } from 'react'
+import React from 'react'
 import { useSearch } from '../search-context'
 import SearchBar from './SearchBar'
 import Container from '@components/ui/Container'
-import NavigationDropdownMenu from '../../NavigationDropdownMenu'
-import { PopoverButton } from '@components/ui/popover'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import PopperButton from './PopperButton'
+import Popper from './Popper'
+import { HIDDEN_BIGCOMMERCE_PRODUCT_IDS } from '@lib/constants'
+import NavigationPopperContainer from './NavigationPopperContainer'
+import { ArrowRightIcon } from '@heroicons/react/24/outline'
+import { usePopper } from './PopperContext'
 
 interface Props {
   rootCategory: NavigationSiteFragment['categoryTree'][number]
@@ -39,20 +43,38 @@ const NavigationBottomBar = ({ rootCategory }: Props) => {
         className="overflow-x-scroll no-scrollbar flex max-w-none"
       >
         <ul className="flex gap-4">
-          {rootCategory.children.map(category => (
-            <NavigationDropdownMenu
-              key={category.entityId}
-              trigger={
-                <button className="whitespace-nowrap text-sm my-1 text-black flex items-center">
-                  {category.name}
-
-                  <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
-                </button>
-              }
-            >
-              {renderMenuContent(category.children as any)}
-            </NavigationDropdownMenu>
-          ))}
+          {rootCategory.children
+            .filter(
+              category =>
+                !HIDDEN_BIGCOMMERCE_PRODUCT_IDS.includes(
+                  category.entityId.toString(),
+                ),
+            )
+            .map(category => (
+              <Popper
+                key={category.entityId}
+                Trigger={<PrimaryNavigationMenuTrigger category={category} />}
+                Content={
+                  <NavigationPopperContainer className="pt-3 !w-[100vw]">
+                    <div className="p-4">
+                      <PopperButton>
+                        <Link
+                          href={routes.internal.catalog.category.show.href({
+                            categorySlug: category.path,
+                          })}
+                        >
+                          <div className="mt-2 text-3xl font-bold hover:underline underline-offset-4 transition-all flex items-center gap-2">
+                            All {category.name}{' '}
+                            <ArrowRightIcon className="h-5 w-5" />
+                          </div>
+                        </Link>
+                      </PopperButton>
+                      {renderMenuContent(category.children)}
+                    </div>
+                  </NavigationPopperContainer>
+                }
+              />
+            ))}
         </ul>
       </Container>
     </>
@@ -96,53 +118,51 @@ const renderMenuContent = (subCategories: CategoryTreeItemWithChildren[]) => {
 
   return (
     <div
-      className="grid gap-8"
+      className="flex flex-wrap gap-8 mt-4"
       style={{
         gridTemplateColumns: `repeat(${columns.length}, 1fr)`,
       }}
     >
       {columns.map((column, key) => (
-        <ul key={key} className="col-span-1 flex flex-col">
+        <ul key={key} className="flex-1 flex flex-col">
           {column.map((subCategory, idx) => (
             <li
               key={subCategory.entityId}
-              className={cn({
+              className={cn('flex flex-col gap-3', {
                 'mt-6': Boolean(idx > 0 && column[idx - 1].children?.length),
               })}
             >
-              <ul>
-                <li>
-                  <PopoverButton as={Fragment}>
-                    <Link
-                      className={'whitespace-nowrap text-lg font-medium'}
-                      href={routes.internal.catalog.category.show.href({
-                        categorySlug: subCategory.path,
-                      })}
-                    >
-                      {subCategory.name}
-                    </Link>
-                  </PopoverButton>
+              <PopperButton>
+                <Link
+                  className={
+                    'whitespace-nowrap text-xl font-semibold hover:underline underline-offset-4 transition-all'
+                  }
+                  href={routes.internal.catalog.category.show.href({
+                    categorySlug: subCategory.path,
+                  })}
+                >
+                  {subCategory.name}
+                </Link>
+              </PopperButton>
 
-                  {subCategory.children ? (
-                    <ul>
-                      {subCategory.children.map(subCategory => (
-                        <li key={subCategory.entityId}>
-                          <PopoverButton as={Fragment}>
-                            <Link
-                              className="whitespace-nowrap text-sm"
-                              href={routes.internal.catalog.category.show.href({
-                                categorySlug: subCategory.path,
-                              })}
-                            >
-                              {subCategory.name}
-                            </Link>
-                          </PopoverButton>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-                </li>
-              </ul>
+              {subCategory.children ? (
+                <ul className="flex flex-col gap-2">
+                  {subCategory.children.map(subCategory => (
+                    <li key={subCategory.entityId}>
+                      <PopperButton>
+                        <Link
+                          className="whitespace-nowrap text-xl text-gray-700 hover:underline underline-offset-4 transition-all"
+                          href={routes.internal.catalog.category.show.href({
+                            categorySlug: subCategory.path,
+                          })}
+                        >
+                          {subCategory.name}
+                        </Link>
+                      </PopperButton>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
             </li>
           ))}
         </ul>
@@ -150,5 +170,60 @@ const renderMenuContent = (subCategories: CategoryTreeItemWithChildren[]) => {
     </div>
   )
 }
+
+const PrimaryNavigationMenuTrigger = React.forwardRef<
+  HTMLDivElement,
+  { category: { path: string; name: string } }
+>(({ category }, ref) => {
+  const popper = usePopper()
+  const [touchCount, setTouchCount] = React.useState(0)
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLAnchorElement>) => {}
+
+  const [wasTouched, setWasTouched] = React.useState(false)
+
+  const handleTouchStart = () => {
+    setWasTouched(true)
+  }
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (wasTouched) {
+      if (touchCount === 0) {
+        e.preventDefault()
+        setTouchCount(1)
+
+        setTimeout(() => {
+          setTouchCount(0)
+        }, 2000)
+      } else {
+        setTouchCount(0)
+        popper.hide()
+      }
+
+      setWasTouched(false) // Reset the flag
+    } else {
+      console.log('Button was clicked')
+    }
+  }
+
+  return (
+    <div ref={ref}>
+      <Link
+        onTouchEnd={handleTouchEnd}
+        onTouchStart={handleTouchStart}
+        onClick={handleClick}
+        href={routes.internal.catalog.category.show.href({
+          categorySlug: category.path,
+        })}
+        className="flex font-medium whitespace-nowrap text-sm my-1 text-black items-center hover:underline underline-offset-4"
+      >
+        {category.name}
+        <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
+      </Link>
+    </div>
+  )
+})
+
+PrimaryNavigationMenuTrigger.displayName = 'PrimaryNavigationMenuTrigger'
 
 export default NavigationBottomBar

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import routes from '@lib/routes'
 import Logo from '@components/ui/Logo'
@@ -14,10 +14,11 @@ import { Bars3Icon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import MobileNavigation from './MobileNavigation'
 import SearchButton from './SearchButton'
 import NavigationBottomBar from './NavigationBottomBar'
-import NavigationDropdownMenu from '../../NavigationDropdownMenu'
 import ServicesContentsDesktop from './ServicesContentsDesktop'
-import { PopoverGroup } from '@components/ui/popover'
 import Popper from './Popper'
+import Backdrop from './Backdrop'
+import NavigationContextProvider from './NavigationContext'
+import NavigationPopperContainer from './NavigationPopperContainer'
 
 interface Props {
   categoryTree: NavigationSiteFragment['categoryTree']
@@ -27,7 +28,7 @@ const Navigation = ({ categoryTree }: Props) => {
   const rootCategory = categoryTree[0]
 
   return (
-    <>
+    <NavigationContextProvider>
       <TopNavContainer>
         <div className="flex-1 flex flex-row justify-between items-center gap-2 sm:gap-4">
           <MobileNavigation
@@ -50,72 +51,54 @@ const Navigation = ({ categoryTree }: Props) => {
             <Logo className="h-[30px] shrink-0" background="dark" />
           </Link>
 
-          <PopoverGroup as={Fragment}>
-            <div className="flex-1 flex flex-row justify-between items-center gap-2 sm:gap-4">
-              <div className="flex-1 flex items-stretch h-auto flex-row gap-4">
-                <SearchBar className="max-w-[500px] hidden lg:flex" />
+          <div className="flex-1 flex flex-row justify-between items-center gap-2 sm:gap-4">
+            <div className="flex-1 flex items-stretch h-auto flex-row gap-4">
+              <SearchBar className="max-w-[500px] hidden lg:flex" />
 
-                <Popper
-                  Trigger={
-                    <TopBarNavigationMenuTrigger
-                      href={routes.internal.solutions.href()}
-                      title="Solutions"
-                      preTitle="Our"
-                    />
-                  }
-                  Content={<ServicesContentsDesktop />}
-                />
+              <Popper
+                Trigger={
+                  <TopBarNavigationMenuTrigger
+                    href={routes.internal.solutions.href()}
+                    title="Solutions"
+                    preTitle="Our"
+                  />
+                }
+                Content={
+                  <NavigationPopperContainer className="pt-2">
+                    <ServicesContentsDesktop />
+                  </NavigationPopperContainer>
+                }
+              />
 
-                <Popper
-                  Trigger={
-                    <TopBarNavigationMenuTrigger
-                      title="Resources"
-                      preTitle="Learning &"
-                    />
-                  }
-                  Content={<LearnContentsDesktop />}
-                />
-
-                {/* <NavigationDropdownMenu
-                  as="div"
-                  trigger={
-                    <TopBarNavigationMenuTrigger
-                      title="Solutions"
-                      preTitle="Our"
-                    />
-                  }
-                >
-                  <ServicesContentsDesktop />
-                </NavigationDropdownMenu>
-
-                <NavigationDropdownMenu
-                  as="div"
-                  trigger={
-                    <TopBarNavigationMenuTrigger
-                      title="Resources"
-                      preTitle="Learning &"
-                    />
-                  }
-                >
-                  <LearnContentsDesktop />
-                </NavigationDropdownMenu> */}
-              </div>
-
-              <div className="lg:hidden">
-                <SearchButton />
-              </div>
-
-              <AppTopbarUser background="dark" />
+              <Popper
+                Trigger={
+                  <TopBarNavigationMenuTrigger
+                    title="Resources"
+                    preTitle="Learning &"
+                  />
+                }
+                Content={
+                  <NavigationPopperContainer className="pt-2">
+                    <LearnContentsDesktop />
+                  </NavigationPopperContainer>
+                }
+              />
             </div>
-          </PopoverGroup>
+
+            <div className="lg:hidden">
+              <SearchButton />
+            </div>
+
+            <AppTopbarUser background="dark" />
+          </div>
         </div>
       </TopNavContainer>
       <BottomNavContainer>
-        <PopoverGroup as={Fragment}>
-          <NavigationBottomBar rootCategory={rootCategory} />
-        </PopoverGroup>
+        <NavigationBottomBar rootCategory={rootCategory} />
       </BottomNavContainer>
-    </>
+
+      <Backdrop />
+    </NavigationContextProvider>
   )
 }
 
@@ -123,7 +106,7 @@ const TopNavContainer = ({ children }: { children: React.ReactNode }) => {
   return (
     <nav
       aria-label="Primary navigation"
-      className={cx('transition-all border-b bg-midnight relative z-20 py-2')}
+      className={cx('transition-all border-b bg-midnight relative z-30 py-2')}
     >
       <Container className="max-w-none flex items-center h-full">
         {children}
@@ -136,7 +119,7 @@ const BottomNavContainer = ({ children }: { children: React.ReactNode }) => {
   return (
     <nav
       aria-label="Product categories navigation"
-      className="sticky top-0 border-b h-[39px] flex flex-column bg-white py-1 z-10"
+      className="sticky top-0 border-b h-[39px] flex flex-column bg-white py-1 z-20"
     >
       {children}
     </nav>
