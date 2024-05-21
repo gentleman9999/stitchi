@@ -43,8 +43,10 @@ async function queryChatGPT(prompt: string): Promise<GPTResponse> {
 }
 
 export const getAvailPrintingMethods = async (categoryIds: number[], productTitle: string) => {
+    const APPAREL = 24
     let availPrintingMethods:EmbellishmentType[] = [];
-    if(categoryIds.includes(24)) {
+
+    if(categoryIds.includes(APPAREL)) {
         availPrintingMethods = [ EmbellishmentType.SCREENPRINTING, EmbellishmentType.EMBROIDERY, EmbellishmentType.HEATTRANSFER];
     } else {
         // TODO: Use OpenAI to determine this product's availPrintingMethods.
