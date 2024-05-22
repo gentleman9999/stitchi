@@ -28,7 +28,7 @@ const makeSdk = ({}: MakeAiSdkConfig = {}): AiSdk => {
       const model = new ChatOpenAI({
         maxTokens: 2000,
         temperature: 0,
-        modelName: 'gpt-4-turbo-preview',
+        modelName: 'gpt-4-turbo',
         openAIApiKey: env.OPEN_AI_API_KEY,
         timeout: 45_000, // 45 seconds
         maxRetries: 3,
@@ -71,7 +71,7 @@ const makeSdk = ({}: MakeAiSdkConfig = {}): AiSdk => {
 
 const humanTemplate = `{{ name: "{name}", brand: "{brand}", description: "{description}", categories: "{categories}" }}`
 
-const systemTemplate = `Task: You will be given details about a product (including a basic description). Your job is to take the provided product information and craft an irresistible HTML product description that highlights the benefits of {name}. First, include at least 3-5 product features and corresponding benefits. Second, include a single paragraph describing the product. Ensure that the benefits are clear and persuasive. Be sure the description is SEO optimized for the product, and also includes general keywords related to "merch", "swag" or "promotional products. Below are 3 example quality outputs for the given sample input. 
+const systemTemplate = `Task: You will be given details about a product including a basic description, categories, and other available metadata. Your job is to take the provided product information and craft an irresistible HTML product description that highlights the benefits of {name}. First, include at least 3-5 product features and corresponding benefits. Second, include a single paragraph describing the product. Ensure that the benefits are clear and persuasive. Be sure the description is SEO optimized for the product, and also includes general keywords related to "merch", "swag" or "promotional products. Below are 3 example quality outputs for the given sample input. 
 
 {formatInstructions}
 

@@ -1,7 +1,7 @@
 'use client'
 
-import ClosetOrdersIndexPage from '@components/pages/ClosetOrdersIndexPage'
 import React from 'react'
+import ClosetOrdersIndexPage from './ClosetOrdersIndexPage'
 
 const Page = () => {
   return <ClosetOrdersIndexPage />

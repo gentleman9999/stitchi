@@ -2,7 +2,6 @@ import { gql } from '@apollo/client'
 import FeaturePageTestimonial from '@components/common/FeaturePageContainer/FeaturePageTestimonial'
 import Container from '@components/ui/Container'
 import { FeaturePageContainerCatalogFragment } from '@generated/FeaturePageContainerCatalogFragment'
-import { NextSeo } from 'next-seo'
 import React from 'react'
 import FeaturedProductsGrid, {
   FeaturedProductsGridFragments,
@@ -10,27 +9,12 @@ import FeaturedProductsGrid, {
 
 interface Props {
   children: React.ReactNode
-  seoTitle: string
-  seoDescription: string
-  canonicalUrl: string
   catalog?: FeaturePageContainerCatalogFragment | null
 }
 
-const FeaturePageContainer = ({
-  children,
-  catalog,
-  seoTitle,
-  seoDescription,
-  canonicalUrl,
-}: Props) => {
+const FeaturePageContainer = ({ children, catalog }: Props) => {
   return (
     <>
-      <NextSeo
-        title={seoTitle}
-        description={seoDescription}
-        canonical={canonicalUrl}
-        openGraph={{ url: canonicalUrl }}
-      />
       {children}
 
       <Container>

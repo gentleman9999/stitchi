@@ -150,6 +150,11 @@ module.exports = withBundleAnalyzer(
           permanent: true,
         },
         {
+          source: '/products/all',
+          destination: '/products',
+          permanent: true,
+        },
+        {
           source: '/learn/unique-conference-and-event-giveaway-ideas',
           destination: '/learn/event-merchandise-ideas',
           permanent: true,

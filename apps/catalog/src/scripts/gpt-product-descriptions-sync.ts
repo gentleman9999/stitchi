@@ -59,7 +59,7 @@ const start = async () => {
     hasNextPage = next
     page++
 
-    const chunkedProducts = chunkArray(products, 50)
+    const chunkedProducts = chunkArray(products, 40)
 
     for (const productChunk of chunkedProducts) {
       const productPromises = productChunk.map(async product => {

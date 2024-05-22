@@ -1,6 +1,6 @@
 'use client'
 
-import { useMixpanel } from '@components/context/mixpanel-context'
+import { useMixpanel } from 'app/mixpanel-context'
 import { Mixpanel } from 'mixpanel-browser'
 import React from 'react'
 import { useIntercom } from 'react-use-intercom'

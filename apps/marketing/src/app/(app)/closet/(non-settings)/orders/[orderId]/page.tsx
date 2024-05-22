@@ -2,7 +2,6 @@
 
 import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/experimental-nextjs-app-support/ssr'
-import OrderDetailsPage from '@components/pages/OrderDetailsPage'
 import { OrderPaymentStatus } from '@generated/globalTypes'
 import {
   OrderDetailsPageGetDataQuery,
@@ -10,6 +9,7 @@ import {
 } from '@generated/types'
 import { useParams } from 'next/navigation'
 import React from 'react'
+import OrderDetailsPage from './OrderDetailsPage'
 
 const Page = () => {
   const params = useParams<{ orderId: string }>()

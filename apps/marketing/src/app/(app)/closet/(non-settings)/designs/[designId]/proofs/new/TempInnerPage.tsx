@@ -1,11 +1,11 @@
 'use client'
 
 import { gql, useQuery } from '@apollo/client'
-import ClosetDesignProofCreatePage from '@components/pages/ClosetDesignProofCreatePage'
 import {
   DesignRequestProofCreatePageGetDataQuery,
   DesignRequestProofCreatePageGetDataQueryVariables,
 } from '@generated/DesignRequestProofCreatePageGetDataQuery'
+import ClosetDesignProofCreatePage from './ClosetDesignProofCreatePage'
 
 interface Props {
   designId: string

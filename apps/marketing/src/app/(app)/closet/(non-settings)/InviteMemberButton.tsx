@@ -1,7 +1,7 @@
 'use client'
 
-import { StandoutType, useStandout } from '@components/context'
 import { RectangleStackIcon } from '@heroicons/react/20/solid'
+import { StandoutType, useStandout } from 'app/standout'
 import React from 'react'
 
 const InviteMemberButton = () => {

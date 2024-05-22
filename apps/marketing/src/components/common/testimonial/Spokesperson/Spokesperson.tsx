@@ -1,5 +1,5 @@
 import React from 'react'
-import Image, { StaticImageData } from 'next/legacy/image'
+import { StaticImageData } from 'next/legacy/image'
 import cx from 'classnames'
 
 export interface SpokespersonProps {

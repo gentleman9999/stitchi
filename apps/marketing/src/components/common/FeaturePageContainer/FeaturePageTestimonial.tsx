@@ -4,7 +4,7 @@ import Link from 'next/link'
 import routes from '@lib/routes'
 import jennyHeadshot from '../../../../public/customers/morning_brew/jenny_rothenberg_morning_brew.jpg'
 import referralProgram from '../../../../public/customers/morning_brew/morning_brew_referral_program.jpg'
-import { Section } from '@components/common'
+import Section from '@components/common/Section'
 import LinkInline from '@components/ui/LinkInline'
 import Button from '@components/ui/ButtonV2/Button'
 

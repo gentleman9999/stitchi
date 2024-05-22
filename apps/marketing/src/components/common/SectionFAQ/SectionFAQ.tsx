@@ -2,8 +2,34 @@
 
 import { FAQPageJsonLd } from 'next-seo'
 import React from 'react'
-import Section from '../Section/Section'
+import Section from '../Section/index'
 import { renderToString } from 'react-dom/server'
+
+function extractTextContent(element: React.ReactNode): string {
+  // Base case: If it's a string or number, return it as is
+  if (typeof element === 'string' || typeof element === 'number') {
+    return element.toString()
+  }
+
+  // If it's a React element, recursively process its children
+  if (
+    React.isValidElement(element) &&
+    element.props &&
+    element.props.children
+  ) {
+    return React.Children.toArray(element.props.children)
+      .map(child => extractTextContent(child))
+      .join('')
+  }
+
+  // If it's an array of elements, process each one
+  if (Array.isArray(element)) {
+    return element.map(child => extractTextContent(child)).join('')
+  }
+
+  // For any other case (e.g., null, undefined, boolean), return an empty string
+  return ''
+}
 
 interface FAQ {
   id: string
@@ -23,11 +49,10 @@ const SectionFAQ = ({ faqs }: Props) => {
   return (
     <>
       <FAQPageJsonLd
+        useAppDir
         mainEntity={faqs.map(faq => ({
           questionName: faq.question,
-          acceptedAnswerText: React.isValidElement(faq.answer)
-            ? renderToString(faq.answer)
-            : faq.answer,
+          acceptedAnswerText: extractTextContent(faq.answer),
         }))}
       />
       <Section gutter="lg">

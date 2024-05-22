@@ -1,14 +1,13 @@
 import Container from '@components/ui/Container'
-import MarketingLayout from './(marketing)/layout'
-import { Section, SectionHeader } from '@components/common'
+import MainLayout from './(main)/layout'
+import { Section } from '@components/common'
 import LinkInline from '@components/ui/LinkInline'
 import routes from '@lib/routes'
-import Button from '@components/ui/ButtonV2/Button'
 import { ArrowRightIcon } from '@heroicons/react/20/solid'
 
 const NotFound = () => {
   return (
-    <MarketingLayout>
+    <MainLayout>
       <Container>
         <Section gutter="lg" className="flex flex-col items-center">
           <h1 className="text-4xl font-medium">
@@ -25,7 +24,7 @@ const NotFound = () => {
           <Link href={routes.external.support.href()} label="Help center" />
         </Section>
       </Container>
-    </MarketingLayout>
+    </MainLayout>
   )
 }
 

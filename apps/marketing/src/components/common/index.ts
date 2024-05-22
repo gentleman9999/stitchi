@@ -42,9 +42,6 @@ export * from './SectionHeader'
 export { default as TwitterTweetEmbed } from './TwitterTweetEmbed'
 export * from './TwitterTweetEmbed'
 
-export { default as SeoDefault } from './SeoDefault'
-export * from './SeoDefault'
-
 export { default as SubscribeInline } from './SubscribeInline'
 export * from './SubscribeInline'
 

@@ -26,21 +26,21 @@ const EcommerceWebsite = ({ ...props }) => (
       cx="112.92"
       cy="22.35"
       r="3.76"
-      className="fill-secondary"
+      className="fill-midnight"
       opacity="0.3"
     />
     <circle
       cx="96.07"
       cy="22.35"
       r="3.76"
-      className="fill-secondary"
+      className="fill-midnight"
       opacity="0.3"
     />
     <circle
       cx="79.22"
       cy="22.35"
       r="3.76"
-      className="fill-secondary"
+      className="fill-midnight"
       opacity="0.3"
     />
     <rect
@@ -103,7 +103,7 @@ const EcommerceWebsite = ({ ...props }) => (
       y="97"
       width="36.96"
       height="11.04"
-      className="fill-secondary"
+      className="fill-midnight"
       stroke="#002428"
       strokeLinecap="round"
       strokeLinejoin="round"

@@ -87,6 +87,24 @@ const designCategoryQuery = /* GraphQL */ `
   }
 `
 
+const allArticlesQuery = /* GraphQL */ `
+  query ($first: IntType, $skip: IntType) {
+    allArticles(first: $first, skip: $skip) {
+      id
+      slug
+    }
+  }
+`
+
+const allArticleCategoriesQuery = /* GraphQL */ `
+  query {
+    allCategories {
+      id
+      slug
+    }
+  }
+`
+
 const fetchGraphQlData = async body => {
   const res = await fetch(endpoint, {
     body,
@@ -143,7 +161,7 @@ const getCatalogProductSlugs = async () => {
 const getCatalogBrandSlugs = async () => {
   const paths = []
   let after = null
-  hasNextPage = true
+  let hasNextPage = true
 
   while (hasNextPage !== false) {
     const res = await fetchGraphQlData(
@@ -200,6 +218,62 @@ const getDesignCategorySlugs = async () => {
   return []
 }
 
+const getAllArticleSlugs = async () => {
+  const paths = []
+  const first = 100
+  let skip = 0
+  hasNextPage = true
+
+  while (hasNextPage) {
+    const res = await fetchGraphQlData(
+      JSON.stringify({
+        query: allArticlesQuery,
+        variables: {
+          first,
+          skip,
+        },
+      }),
+    )
+
+    skip += first
+    hasNextPage = res.data.allArticles.length === first
+
+    if (res && res.data && res.data.allArticles) {
+      res.data.allArticles.map(article => paths.push(`/learn/${article.slug}`))
+    }
+  }
+
+  return paths
+}
+
+const getAllArticleCategoryPaths = async () => {
+  const paths = []
+  let after = null
+  let hasNextPage = true
+
+  while (hasNextPage) {
+    const res = await fetchGraphQlData(
+      JSON.stringify({
+        query: allArticleCategoriesQuery,
+        variables: {
+          after,
+        },
+      }),
+    )
+
+    after = res.data.pageInfo?.after
+    hasNextPage = res.data.pageInfo?.hasNextPage
+
+    if (res && res.data && res.data.allCategories) {
+      res.data.allCategories.map(category =>
+        paths.push(`/learn/topic/${category.slug}`),
+      )
+    }
+  }
+
+  return paths
+}
+
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.stitchi.co',
@@ -224,6 +298,8 @@ module.exports = {
     const brandSlugs = await getCatalogBrandSlugs()
     const productCategorySlugs = await getBigCommerceCategorySlugs()
     const productDesignCategorySlugs = await getDesignCategorySlugs()
+    const articleSlugs = await getAllArticleSlugs()
+    const articleCategorySlugs = await getAllArticleCategoryPaths()
 
     return [
       {
@@ -232,6 +308,18 @@ module.exports = {
         priority: 0.7,
         lastmod: new Date().toISOString(),
       },
+      ...articleSlugs.map(slug => ({
+        loc: slug,
+        changefreq: 'daily',
+        priority: 0.7,
+        lastmod: new Date().toISOString(),
+      })),
+      ...articleCategorySlugs.map(slug => ({
+        loc: slug,
+        changefreq: 'daily',
+        priority: 0.7,
+        lastmod: new Date().toISOString(),
+      })),
       ...productSlugs.map(slug => ({
         loc: slug,
         changefreq: 'daily',

@@ -1,5 +1,5 @@
-import ClosetDashboardPage from '@components/pages/ClosetDashboardPage'
 import React from 'react'
+import ClosetDashboardPage from './ClosetDashboardPage'
 
 const Page = () => {
   return <ClosetDashboardPage />

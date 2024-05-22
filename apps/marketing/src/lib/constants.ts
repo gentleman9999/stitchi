@@ -50,3 +50,5 @@ export const HIDDEN_BIGCOMMERCE_PRODUCT_IDS = getOrThrow(
   .split(',')
 
 export const INTERCOM_SURVEY_ID__PARTNER_REQUEST = 37919081
+
+export const STUDENT_GUIDE_CATEGORY_ID = '148284102'
