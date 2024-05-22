@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { gql } from '@apollo/client'
 import { IndustryTermCardTermFragment } from '@generated/IndustryTermCardTermFragment'
 import routes from '@lib/routes'
-import CmsImage from '../CmsImage'
+import CmsResponsiveImage from '../.dato-cms/CmsResponsiveImage'
 import { useLogger } from 'next-axiom'
 
 export interface Props {
@@ -12,7 +12,7 @@ export interface Props {
 }
 
 const IndustryTermCard = ({ entry, component: Component = 'div' }: Props) => {
-  const logger = useLogger();
+  const logger = useLogger()
 
   if (!entry.slug || !entry.entryType) {
     logger.error('IndustryTermCard: missing slug or entryType', { entry })

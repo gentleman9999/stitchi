@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client'
-import { CmsImageFragments } from '@components/common/CmsImage'
-import { CmsSeoFragments } from '@components/common/CmsSeo'
+import { CmsResponsiveImageFragments } from '@components/common/.dato-cms/CmsResponsiveImage'
 import { FeaturedProductsGridFragments } from '@components/common/FeaturedProductsGrid'
 
 export const fragments = {
@@ -11,8 +10,7 @@ export const fragments = {
     }
   `,
   category: gql`
-    ${CmsImageFragments.image}
-    ${CmsSeoFragments.seoTags}
+    ${CmsResponsiveImageFragments.image}
     fragment DesignLibraryCategoryShowPageDesignCategoryFragment on DesignCategoryRecord {
       id
       name
@@ -25,7 +23,7 @@ export const fragments = {
         primaryImage {
           id
           responsiveImage {
-            ...CmsImageFragment
+            ...CmsResponsiveImageFragment
           }
         }
       }

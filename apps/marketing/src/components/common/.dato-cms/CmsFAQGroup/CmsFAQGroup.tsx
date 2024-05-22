@@ -1,4 +1,3 @@
-'use client'
 import { FAQPageJsonLd } from 'next-seo'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
@@ -15,7 +14,7 @@ export interface Props {
   expandAll?: boolean
 }
 
-const FAQGroup = ({ faqs, expandAll }: Props) => {
+const CmsFAQGroup = ({ faqs, expandAll }: Props) => {
   return (
     <>
       <FAQPageJsonLd
@@ -33,4 +32,4 @@ const FAQGroup = ({ faqs, expandAll }: Props) => {
   )
 }
 
-export default FAQGroup
+export default CmsFAQGroup

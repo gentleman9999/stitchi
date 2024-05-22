@@ -2,7 +2,7 @@ import Container from '@components/ui/Container'
 import React from 'react'
 import CallToActionButton, {
   Props as CallToActionButtonProps,
-} from './CallToActionButton'
+} from './CmsCallToActionButton'
 
 export interface Props {
   title: string | null

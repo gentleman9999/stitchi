@@ -6,12 +6,6 @@ export * from './BlogPostCard'
 export { default as Footer } from './Footer'
 export * from './Footer'
 
-export { default as CmsStructuredText } from './CmsStructuredText'
-export * from './CmsStructuredText'
-
-export { default as CmsStructuredTextTableOfContents } from './CmsStructuredTextTableOfContents'
-export * from './CmsStructuredTextTableOfContents'
-
 export { default as ComponentErrorMessage } from './ComponentErrorMessage'
 export * from './ComponentErrorMessage'
 

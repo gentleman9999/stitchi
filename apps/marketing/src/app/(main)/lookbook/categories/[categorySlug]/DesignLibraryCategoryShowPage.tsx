@@ -1,7 +1,7 @@
 'use client'
 
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
-import { Section, SectionHeader } from '@components/common'
+import { SectionHeader } from '@components/common'
 import CustomerLogoBanner from '@components/common/CustomerLogoBanner'
 import Container from '@components/ui/Container'
 import LinkInline from '@components/ui/LinkInline'
@@ -10,18 +10,16 @@ import {
   ProductPageGetDesignCategoryDataVariables,
 } from '@generated/types'
 import routes from '@lib/routes'
-import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { ArrowRight } from 'icons'
 import React from 'react'
 import { GET_DATA } from './graphql'
 import { notFound } from 'next/navigation'
-import CmsSeo from '@components/common/CmsSeo'
-import CmsImage from '@components/common/CmsImage'
 import FeaturedProductsGrid from '@components/common/FeaturedProductsGrid'
 import ClosetPageContainer from '@components/common/ClosetPageContainer'
 import ClosetSection from '@components/common/ClosetSection'
 import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
 import ClosetSectionTitle from '@components/common/ClosetSectionTitle'
+import CmsResponsiveImage from '@components/common/.dato-cms/CmsResponsiveImage'
 
 interface Props {
   categorySlug: string
@@ -65,7 +63,7 @@ const DesignLibraryCategoryShowPage = ({ categorySlug }: Props) => {
             </div>
             <div className="relative max-w-xs sm:max-w-[200px] md:max-w-[225px] lg:max-w-xs">
               {featuredImage?.responsiveImage ? (
-                <CmsImage data={featuredImage.responsiveImage} />
+                <CmsResponsiveImage data={featuredImage.responsiveImage} />
               ) : null}
             </div>
           </div>
@@ -103,7 +101,9 @@ const DesignLibraryCategoryShowPage = ({ categorySlug }: Props) => {
                       key={design.id}
                       className="overflow-hidden min-w-[200px] rounded-sm shadow-magical"
                     >
-                      <CmsImage data={design.primaryImage?.responsiveImage} />
+                      <CmsResponsiveImage
+                        data={design.primaryImage?.responsiveImage}
+                      />
                     </div>
                   ) : null,
                 )}

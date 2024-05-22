@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 
 export const fragments = {
   image: gql`
-    fragment CmsImageFragment on ResponsiveImage {
+    fragment CmsResponsiveImageFragment on ResponsiveImage {
       srcSet
       webpSrcSet
       sizes

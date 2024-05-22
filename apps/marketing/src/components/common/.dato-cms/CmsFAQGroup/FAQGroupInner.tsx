@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import type { FAQ } from './FAQGroup'
+import type { FAQ } from './CmsFAQGroup'
 import FAQComponent from './FAQ'
 
 interface Props {

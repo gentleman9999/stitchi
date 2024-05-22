@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client'
 import BlogPostCard from '@components/common/BlogPostCard'
-import CmsStructuredText from '@components/common/CmsStructuredText'
 import InlineMailingListSubscribe from '@components/common/InlineMailingListSubscribe'
 import Section from '@components/common/Section'
 import SubscribeInline from '@components/common/SubscribeInline'
@@ -16,6 +15,7 @@ import {
   BlogIndexPageArticleFragment,
   BlogPostIndexPageCategoryFragment,
 } from '@generated/types'
+import CmsStructuredText from '@components/common/.dato-cms/CmsStructuredText'
 
 export interface BlogPostIndexPageProps {
   articles: BlogIndexPageArticleFragment[]

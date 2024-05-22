@@ -10,19 +10,19 @@ import { toNextMetadata } from 'react-datocms/seo'
 import Container from '@components/ui/Container'
 import Breadcrumbs from '@components/common/Breadcrumbs'
 import { formatTradeshowDate } from '@lib/cms-landing-page'
-import CmsLandingPageHero, {
-  Props as CmsLandingPageHeroProps,
-} from './components/CmsLandingPageHero'
-import CmsLandingPageSection from './components/CmsLandingPageSection'
-import CmsLandingPageCallToAction from './components/CmsLandingPageCallToAction'
-import CmsLandingPageCatalogSection, {
-  fragments as cmsLandingPageCatalogSectionFragments,
-} from './components/CmsLandingPageCatalogSection'
 import { Logger } from 'next-axiom'
 import routes from '@lib/routes'
 import { notEmpty } from '@lib/utils/typescript'
 import { getClient } from '@lib/apollo-rsc'
 import { Metadata } from 'next'
+import CmsLandingPageSection from '@components/common/.dato-cms/CmsLandingPageSection'
+import CmsLandingPageCallToAction from '@components/common/.dato-cms/CmsLandingPageCallToAction'
+import CmsLandingPageCatalogSection, {
+  fragments as cmsLandingPageCatalogSectionFragments,
+} from '@components/common/.dato-cms/CmsLandingPageCatalogSection'
+import CmsLandingPageHero, {
+  Props as CmsLandingPageHeroProps,
+} from '@components/common/.dato-cms/CmsLandingPageHero'
 
 interface Params {
   slug: string[]
@@ -204,38 +204,6 @@ const Page = async ({ params }: { params: Params }) => {
       })}
     </div>
   )
-}
-
-type Breadcrumb = {
-  name: string
-  path: string
-}
-
-function createBreadcrumbs(
-  path: string,
-  acc: Breadcrumb[] = [],
-  currentIndex: number = 0,
-): Breadcrumb[] {
-  // Split the path into components if it's the first call (currentIndex will be 0)
-  const components =
-    currentIndex === 0
-      ? path.split('/').filter(Boolean)
-      : acc[acc.length - 1].path.split('/').filter(Boolean)
-
-  // Base case: If there are no components left, return the accumulator
-  if (currentIndex >= components.length) return acc
-
-  // Build the current path up to the current index
-  const currentPath = '/' + components.slice(0, currentIndex + 1).join('/')
-
-  // Create the breadcrumb item for the current index
-  const breadcrumb: Breadcrumb = {
-    name: components[currentIndex],
-    path: currentPath,
-  }
-
-  // Recursively call the function with the next index
-  return createBreadcrumbs(path, [...acc, breadcrumb], currentIndex + 1)
 }
 
 const GET_METADATA = gql`

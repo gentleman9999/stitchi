@@ -1,5 +1,5 @@
 import React from 'react'
-import type { FAQ } from './FAQGroup'
+import type { FAQ } from './CmsFAQGroup'
 import { MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
 import cx from 'classnames'
 

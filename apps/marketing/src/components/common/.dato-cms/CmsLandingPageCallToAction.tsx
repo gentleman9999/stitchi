@@ -2,8 +2,8 @@ import { gql } from '@apollo/client'
 import Container from '@components/ui/Container'
 import { CmsLandingPageCallToActionCallToActionFragment } from '@generated/CmsLandingPageCallToActionCallToActionFragment'
 import React from 'react'
-import Section from '../../../../../components/common/Section'
-import CallToActionButton from './CallToActionButton'
+import Section from '../Section'
+import CallToActionButton from './CmsCallToActionButton'
 
 interface Props {
   callToAction: CmsLandingPageCallToActionCallToActionFragment

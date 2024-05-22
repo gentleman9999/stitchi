@@ -2,15 +2,10 @@
 
 import { gql } from '@apollo/client'
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
-import Section from '@components/common/Section'
 import InfiniteScrollContainer from '@components/common/InfiniteScrollContainer/InfiniteScrollContainer'
-import CmsImage, { CmsImageFragments } from '@components/common/CmsImage'
-import {
-  CmsImageFullScreen,
-  useImageFullScreen,
-} from '@components/common/ImageFullScreen'
+
+import { useImageFullScreen } from '@components/common/ImageFullScreen'
 import Button from '@components/ui/ButtonV2/Button'
-import Container from '@components/ui/Container'
 import {
   DesignLibraryPageGetDataQuery,
   DesignLibraryPageGetDataQueryVariables,
@@ -23,6 +18,10 @@ import ClosetPageContainer from '@components/common/ClosetPageContainer'
 import ClosetPageHeader from '@components/common/ClosetPageHeader'
 import ClosetPageTitle from '@components/common/ClosetPageTitle'
 import ClosetSection from '@components/common/ClosetSection'
+import CmsResponsiveImageFullScreen from '@components/common/.dato-cms/CmsResponsiveImageFullScreen'
+import CmsResponsiveImage, {
+  CmsResponsiveImageFragments,
+} from '@components/common/.dato-cms/CmsResponsiveImage'
 
 const PAGE_SIZE = 20
 
@@ -54,7 +53,7 @@ const DesignLibraryPage = (props: Props) => {
   return (
     <ClosetPageContainer>
       {currentImage?.primaryImage?.responsiveImage ? (
-        <CmsImageFullScreen
+        <CmsResponsiveImageFullScreen
           open
           image={currentImage.primaryImage.responsiveImage}
           {...imageFullScreenProps}
@@ -133,7 +132,7 @@ const DesignLibraryPage = (props: Props) => {
                     />
                   </div>
                   <div className="rounded-sm overflow-hidden">
-                    <CmsImage data={image} />
+                    <CmsResponsiveImage data={image} />
                   </div>
                 </button>
               </li>
@@ -147,16 +146,16 @@ const DesignLibraryPage = (props: Props) => {
 }
 
 const GET_DATA = gql`
-  ${CmsImageFragments.image}
-  ${CmsImageFullScreen.fragments.image}
+  ${CmsResponsiveImageFragments.image}
+  ${CmsResponsiveImageFullScreen.fragments.image}
   query DesignLibraryPageGetDataQuery($first: IntType, $skip: IntType) {
     allDesigns(first: $first, skip: $skip) {
       id
       primaryImage {
         id
         responsiveImage {
-          ...CmsImageFragment
-          ...CmsImageFullScreenImageFragment
+          ...CmsResponsiveImageFragment
+          ...CmsResponsiveImageFullScreenImageFragment
         }
       }
     }
