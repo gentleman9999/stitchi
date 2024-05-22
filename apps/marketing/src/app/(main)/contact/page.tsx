@@ -1,3 +1,5 @@
+'use client'
+
 import routes from '@lib/routes'
 import { Metadata } from 'next'
 import ContactMethod from './ContactMethod'

@@ -1,9 +1,9 @@
 'use client'
 
 import React from 'react'
-import { usePopper as useReactPopper } from 'react-popper'
+import { Modifier, usePopper as useReactPopper } from 'react-popper'
 import PopperProvider from './PopperContext'
-import { useNavigation } from './NavigationContext'
+import { useNavigation } from '../../NavigationContext'
 
 const showEvents = ['click', 'mouseenter', 'focus']
 const hideEvents = ['mouseleave', 'blur']

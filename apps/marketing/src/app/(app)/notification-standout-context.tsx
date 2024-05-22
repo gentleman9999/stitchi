@@ -4,12 +4,9 @@ import React from 'react'
 import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
 
-const NotificationSlideover = dynamic(
-  () => import('./NotificationsSlideover'),
-  {
-    ssr: false,
-  },
-)
+const NotificationSlideover = dynamic(() => import('./NotificationSlideover'), {
+  ssr: false,
+})
 
 interface State {
   open: boolean

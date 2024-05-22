@@ -1,7 +1,7 @@
 'use client'
 
 import { gql, useSuspenseQuery } from '@apollo/client'
-import { StandoutType, useStandout } from '@components/context'
+import { StandoutType, useStandout } from 'app/standout'
 import useSetUserMembership from '@components/hooks/useSetUserMembership'
 import Button from '@components/ui/ButtonV2/Button'
 import LoadingDots from '@components/ui/LoadingDots'

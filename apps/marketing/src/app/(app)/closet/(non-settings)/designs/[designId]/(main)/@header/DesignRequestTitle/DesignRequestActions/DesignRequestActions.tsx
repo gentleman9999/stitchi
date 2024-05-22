@@ -4,7 +4,6 @@ import { gql, useMutation } from '@apollo/client'
 import ClosetPageActions, {
   ClosetPageActionType,
 } from '@components/common/ClosetPageActions'
-import { StandoutType, useStandout } from '@components/context'
 import useConfirmAction from '@components/hooks/useConfirmAction'
 import {
   DesignRequestStatus,
@@ -21,6 +20,7 @@ import {
   UseDesignRequestActionsRejectDesignRequestMutation,
   UseDesignRequestActionsRejectDesignRequestMutationVariables,
 } from '@generated/types'
+import { StandoutType, useStandout } from 'app/standout'
 
 interface Props {
   designRequest: DesignRequestActionsDesignRequestFragment

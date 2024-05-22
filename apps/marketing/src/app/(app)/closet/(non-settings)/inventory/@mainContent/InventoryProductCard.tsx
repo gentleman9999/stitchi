@@ -2,7 +2,6 @@
 
 import { gql } from '@apollo/client'
 import SwatchGroup from '@components/common/SwatchGroup'
-import { StandoutType, useStandout } from '@components/context'
 import { ClosetInventoryIndexPageProductCardDesignProductFragment } from '@generated/ClosetInventoryIndexPageProductCardDesignProductFragment'
 import {
   ArrowPathRoundedSquareIcon,
@@ -14,6 +13,7 @@ import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
 import { notEmpty } from '@lib/utils/typescript'
 import React from 'react'
 import Card from '@components/common/ClosetCard'
+import { StandoutType, useStandout } from 'app/standout'
 
 interface Props {
   loading: boolean

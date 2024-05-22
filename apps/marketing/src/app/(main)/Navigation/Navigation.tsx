@@ -16,8 +16,8 @@ import SearchButton from './SearchButton'
 import NavigationBottomBar from './NavigationBottomBar'
 import ServicesContentsDesktop from './ServicesContentsDesktop'
 import Popper from './Popper'
-import Backdrop from './Backdrop'
-import NavigationContextProvider from './NavigationContext'
+import PopperBackdrop from '../../PopperBackdrop'
+import NavigationContextProvider from '../../NavigationContext'
 import NavigationPopperContainer from './NavigationPopperContainer'
 
 interface Props {
@@ -97,7 +97,7 @@ const Navigation = ({ categoryTree }: Props) => {
         <NavigationBottomBar rootCategory={rootCategory} />
       </BottomNavContainer>
 
-      <Backdrop />
+      <PopperBackdrop />
     </NavigationContextProvider>
   )
 }

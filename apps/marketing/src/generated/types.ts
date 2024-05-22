@@ -13258,6 +13258,13 @@ export type NotificationsSlideoverGetDataQueryVariables = Exact<{
 
 export type NotificationsSlideoverGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, notifications: { __typename: 'NotificationConnection', edges: Array<{ __typename: 'NotificationEdge', node: { __typename: 'Notification', id: string, createdAt: any, channels: Array<{ __typename: 'NotificationChannelEmail', id: string } | { __typename: 'NotificationChannelWeb', message: string, ctaText: string | null, ctaUrl: string | null, seenAt: any | null, id: string } | null> } | null } | null> | null, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, endCursor: string | null } } | null } | null };
 
+export type UseMarkNotificationAsSeenMarkAsSeenMutationVariables = Exact<{
+  input: NotificationMarkAsSeenInput;
+}>;
+
+
+export type UseMarkNotificationAsSeenMarkAsSeenMutation = { __typename: 'Mutation', notificationMarkAsSeen: { __typename: 'NotificationMarkAsSeenPayload', notification: { __typename: 'Notification', id: string } | null } | null };
+
 export type NotificationsButtonGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -13319,6 +13326,19 @@ export type UseClosetBrandIndexPageDeleteFilesMutationVariables = Exact<{
 
 
 export type UseClosetBrandIndexPageDeleteFilesMutation = { __typename: 'Mutation', organizationBrandFileDeleteBatch: { __typename: 'OrganizationBrandFileDeleteBatchPayload', brand: { __typename: 'OrganizationBrand', id: string } | null } | null };
+
+export type ClosetDashboardPageGetDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ClosetDashboardPageGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, user: { __typename: 'User', id: string, name: string | null } | null } | null };
+
+export type UnclaimedDesignRequestsCardGetDataQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UnclaimedDesignRequestsCardGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, unassignedDesignRequests: { __typename: 'DesignRequestConnection', edges: Array<{ __typename: 'DesignRequestEdge', node: { __typename: 'DesignRequest', id: string, name: string, membership: { __typename: 'Membership', id: string, organization: { __typename: 'Organization', id: string, name: string | null }, user: { __typename: 'User', id: string, name: string | null } | null } | null } | null } | null> | null } } | null };
 
 export type ClosetTabApprovedDesignRequestGetDataQueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -13521,6 +13541,19 @@ export type DesignAssignPageAssignDesignMutationVariables = Exact<{
 
 export type DesignAssignPageAssignDesignMutation = { __typename: 'Mutation', designRequestAssign: { __typename: 'DesignRequestAssignPayload', designRequest: { __typename: 'DesignRequest', id: string } | null } | null };
 
+export type ClosetDesignProofCreatePageDesignRequestFragment = { __typename: 'DesignRequest', id: string, fileUploadDirectory: string, designRequestProduct: { __typename: 'DesignRequestProduct', id: string, colors: Array<{ __typename: 'DesignRequestProductColors', name: string | null, hexCode: string | null, catalogProductColorId: string }> } };
+
+export type CreateProofFormDesignRequestFragment = { __typename: 'DesignRequest', id: string, designRequestProduct: { __typename: 'DesignRequestProduct', id: string, colors: Array<{ __typename: 'DesignRequestProductColors', name: string | null, hexCode: string | null, catalogProductColorId: string }> } };
+
+export type ProofVariantInputDesignRequestFragment = { __typename: 'DesignRequest', designRequestProduct: { __typename: 'DesignRequestProduct', id: string, colors: Array<{ __typename: 'DesignRequestProductColors', name: string | null, hexCode: string | null, catalogProductColorId: string }> } };
+
+export type UseCreateProofCreateProofVariables = Exact<{
+  input: DesignRequestProofCreateInput;
+}>;
+
+
+export type UseCreateProofCreateProof = { __typename: 'Mutation', designRequestProofCreate: { __typename: 'DesignRequestProofCreatePayload', designRequest: { __typename: 'DesignRequest', id: string } | null } | null };
+
 export type DesignRequestProofCreatePageGetDataQueryVariables = Exact<{
   designId: Scalars['ID']['input'];
 }>;
@@ -13599,6 +13632,32 @@ export type InventoryProductDetailsGetDataQueryVariables = Exact<{
 
 export type InventoryProductDetailsGetDataQuery = { __typename: 'Query', designProduct: { __typename: 'DesignProduct', id: string, designRequestId: string, name: string } | null };
 
+export type ClosetOrdersDesktopTableOrderFragment = { __typename: 'Order', id: string, humanOrderId: string, paymentStatus: OrderPaymentStatus, statusTemporary: OrderStatusTemporary, humanStatusTemporary: string, humanPaymentStatus: string, totalTaxCents: number, totalPriceCents: number, createdAt: any, organization: { __typename: 'Organization', id: string, name: string | null } | null };
+
+export type ClosetOrdersIndexPageGetDataQueryVariables = Exact<{
+  first: Scalars['Int']['input'];
+  after?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<MembershipOrdersFilterInput>;
+}>;
+
+
+export type ClosetOrdersIndexPageGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, hasOrders: boolean, orders: { __typename: 'OrderConnection', edges: Array<{ __typename: 'OrderEdge', node: { __typename: 'Order', id: string, humanOrderId: string, paymentStatus: OrderPaymentStatus, statusTemporary: OrderStatusTemporary, humanStatusTemporary: string, humanPaymentStatus: string, totalTaxCents: number, totalPriceCents: number, createdAt: any, organization: { __typename: 'Organization', id: string, name: string | null } | null } | null } | null> | null, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, endCursor: string | null } } | null } | null };
+
+export type OrderDetailsPageOrderFragment = { __typename: 'Order', id: string, createdAt: any, humanOrderId: string, paymentStatus: OrderPaymentStatus, humanPaymentStatus: string, totalTaxCents: number, statusTemporary: OrderStatusTemporary, totalShippingCents: number, subtotalPriceCents: number, totalProcessingFeeCents: number, totalPriceCents: number, totalAmountDueCents: number, totalAmountRefundedCents: number, customerEmail: string | null, customerPhone: string | null, items: Array<{ __typename: 'OrderItem', id: string, title: string, quantity: number, unitPriceCents: number, totalPriceCents: number, designProduct: { __typename: 'DesignProduct', id: string, name: string } | null }>, lastPaymentMethod: { __typename: 'PaymentMethod', id: string, type: string, card: { __typename: 'PaymentMethodCard', brand: string | null, last4: string | null, expMonth: number | null, expYear: number | null } | null, billingDetails: { __typename: 'PaymentMethodBillingDetails', line1: string | null, line2: string | null, city: string | null, state: string | null, postalCode: string | null, country: string | null } | null } | null, fulfillments: Array<{ __typename: 'Fulfillment', id: string, trackingInfo: { __typename: 'FulfillmentTrackingInfo', id: string, trackingNumber: string, trackingUrl: string } }>, shippingAddress: { __typename: 'MailingAddress', id: string, firstName: string | null, lastName: string | null, company: string | null, phone: string | null, address1: string | null, address2: string | null, city: string | null, country: string | null, province: string | null, provinceCode: string | null, zip: string | null } | null };
+
+export type OrderDetailsPageBillingDetailsOrderFragment = { __typename: 'Order', id: string, totalTaxCents: number, totalShippingCents: number, totalPriceCents: number, subtotalPriceCents: number, totalProcessingFeeCents: number, totalAmountDueCents: number, totalAmountRefundedCents: number, lastPaymentMethod: { __typename: 'PaymentMethod', id: string, type: string, card: { __typename: 'PaymentMethodCard', brand: string | null, last4: string | null, expMonth: number | null, expYear: number | null } | null, billingDetails: { __typename: 'PaymentMethodBillingDetails', line1: string | null, line2: string | null, city: string | null, state: string | null, postalCode: string | null, country: string | null } | null } | null };
+
+export type OrderDetailsPageLineItemsItemFragment = { __typename: 'OrderItem', id: string, title: string, quantity: number, unitPriceCents: number, totalPriceCents: number, designProduct: { __typename: 'DesignProduct', id: string, name: string } | null };
+
+export type OrderDetailsPageShippingDetailsOrderFragment = { __typename: 'Order', id: string, customerEmail: string | null, customerPhone: string | null, statusTemporary: OrderStatusTemporary, fulfillments: Array<{ __typename: 'Fulfillment', id: string, trackingInfo: { __typename: 'FulfillmentTrackingInfo', id: string, trackingNumber: string, trackingUrl: string } }>, shippingAddress: { __typename: 'MailingAddress', id: string, firstName: string | null, lastName: string | null, company: string | null, phone: string | null, address1: string | null, address2: string | null, city: string | null, country: string | null, province: string | null, provinceCode: string | null, zip: string | null } | null };
+
+export type UseUpdateOrderStatusUpdateStatusMutationVariables = Exact<{
+  input: OrderStatusTemporaryUpdateInput;
+}>;
+
+
+export type UseUpdateOrderStatusUpdateStatusMutation = { __typename: 'Mutation', orderStatusTemporaryUpdate: { __typename: 'OrderStatusTemporaryUpdatePayload', order: { __typename: 'Order', id: string } | null } | null };
+
 export type OrderDetailsPageGetDataQueryVariables = Exact<{
   orderId: Scalars['ID']['input'];
 }>;
@@ -13606,15 +13665,46 @@ export type OrderDetailsPageGetDataQueryVariables = Exact<{
 
 export type OrderDetailsPageGetDataQuery = { __typename: 'Query', order: { __typename: 'Order', id: string, paymentStatus: OrderPaymentStatus, createdAt: any, humanOrderId: string, humanPaymentStatus: string, totalTaxCents: number, statusTemporary: OrderStatusTemporary, totalShippingCents: number, subtotalPriceCents: number, totalProcessingFeeCents: number, totalPriceCents: number, totalAmountDueCents: number, totalAmountRefundedCents: number, customerEmail: string | null, customerPhone: string | null, items: Array<{ __typename: 'OrderItem', id: string, title: string, quantity: number, unitPriceCents: number, totalPriceCents: number, designProduct: { __typename: 'DesignProduct', id: string, name: string } | null }>, lastPaymentMethod: { __typename: 'PaymentMethod', id: string, type: string, card: { __typename: 'PaymentMethodCard', brand: string | null, last4: string | null, expMonth: number | null, expYear: number | null } | null, billingDetails: { __typename: 'PaymentMethodBillingDetails', line1: string | null, line2: string | null, city: string | null, state: string | null, postalCode: string | null, country: string | null } | null } | null, fulfillments: Array<{ __typename: 'Fulfillment', id: string, trackingInfo: { __typename: 'FulfillmentTrackingInfo', id: string, trackingNumber: string, trackingUrl: string } }>, shippingAddress: { __typename: 'MailingAddress', id: string, firstName: string | null, lastName: string | null, company: string | null, phone: string | null, address1: string | null, address2: string | null, city: string | null, country: string | null, province: string | null, provinceCode: string | null, zip: string | null } | null } | null };
 
+export type ClosetSettingsGeneralPageUserFragment = { __typename: 'User', id: string, name: string | null, email: string | null, picture: string | null };
+
 export type ClosetSettingsGeneralPageGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ClosetSettingsGeneralPageGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, user: { __typename: 'User', id: string, name: string | null, email: string | null, picture: string | null } | null } | null };
 
+export type ClosetSettingsOrganizationPageOrganizationFragment = { __typename: 'Organization', id: string, name: string | null };
+
+export type UseClosetSettingsOrganizationPageUpdateOrganizationMutationVariables = Exact<{
+  input: OrganizationUpdateInput;
+}>;
+
+
+export type UseClosetSettingsOrganizationPageUpdateOrganizationMutation = { __typename: 'Mutation', organizationUpdate: { __typename: 'OrganizationUpdatePayload', organization: { __typename: 'Organization', id: string } | null } | null };
+
 export type ClosetSettingsOrganizatoinPageGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ClosetSettingsOrganizatoinPageGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, organization: { __typename: 'Organization', id: string, name: string | null } } | null };
+
+export type ClosetSettingsTeamPageMembershipFragment = { __typename: 'Membership', id: string, createdAt: any, humanizedRole: string | null, invitedEmail: string | null, user: { __typename: 'User', id: string, name: string | null, email: string | null } | null };
+
+export type ClosetSettingsTeamPageResendInviteMutationVariables = Exact<{
+  input: MembershipInviteResendInput;
+}>;
+
+
+export type ClosetSettingsTeamPageResendInviteMutation = { __typename: 'Mutation', membershipInviteResend: { __typename: 'MembershipInviteResendPayload', membership: { __typename: 'Membership', id: string } } | null };
+
+export type ClosetSettingsTeamPageRevokeInviteMutationVariables = Exact<{
+  input: MembershipInviteRevokeInput;
+}>;
+
+
+export type ClosetSettingsTeamPageRevokeInviteMutation = { __typename: 'Mutation', membershipInviteRevoke: { __typename: 'MembershipInviteRevokePayload', membership: { __typename: 'Membership', id: string } } | null };
+
+export type ClosetSettingsTeamPageTableDesktopMembershipFragment = { __typename: 'Membership', id: string, createdAt: any, humanizedRole: string | null, invitedEmail: string | null, user: { __typename: 'User', id: string, name: string | null, email: string | null } | null };
+
+export type ClosetSettingsTeamPageTableMobileMemberFragment = { __typename: 'Membership', id: string, createdAt: any, humanizedRole: string | null, user: { __typename: 'User', id: string, name: string | null, email: string | null } | null };
 
 export type ClosetSettingsTeamPageGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -13625,6 +13715,56 @@ export type ClosetBaseLayoutGetDataQueryVariables = Exact<{ [key: string]: never
 
 
 export type ClosetBaseLayoutGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string } | null };
+
+export type AccountMembershipAcceptPageMembershipInviteFragment = { __typename: 'MembershipInvite', id: string, membershipId: string, invitedEmail: string | null, organizationName: string | null };
+
+export type AccountMemberhsipAcceptPageAcceptMembershipMutationVariables = Exact<{
+  input: MembershipInviteAcceptInput;
+}>;
+
+
+export type AccountMemberhsipAcceptPageAcceptMembershipMutation = { __typename: 'Mutation', membershipInviteAccept: { __typename: 'MembershipInviteAcceptPayload', membership: { __typename: 'Membership', id: string } } | null };
+
+export type AcceptMembershipPageGetDataQueryVariables = Exact<{
+  membershipId: Scalars['ID']['input'];
+}>;
+
+
+export type AcceptMembershipPageGetDataQuery = { __typename: 'Query', membershipInvite: { __typename: 'MembershipInvite', id: string, membershipId: string, organizationId: string, accepted: boolean, invitedEmail: string | null, organizationName: string | null } };
+
+export type AcceptMembershipPageSetActiveMembershipMutationVariables = Exact<{
+  input: UserSetOrganizationInput;
+}>;
+
+
+export type AcceptMembershipPageSetActiveMembershipMutation = { __typename: 'Mutation', userSetOrganization: { __typename: 'UserSetOrganizationPayload', organizationId: string | null } | null };
+
+export type OrderPayPagePaymentIntentFragment = { __typename: 'PaymentIntent', id: string, clientSecret: string | null, amount: number };
+
+export type OrderPayPageOrderFragment = { __typename: 'Order', id: string, totalTaxCents: number, totalPriceCents: number, totalShippingCents: number, subtotalPriceCents: number, totalProcessingFeeCents: number, totalAmountPaidCents: number, totalAmountDueCents: number, itemSummaries: Array<{ __typename: 'OrderItemSummary', id: string, title: string, quantity: number, totalPriceCents: number }> };
+
+export type OrderPayPageOrderPreviewItemFragment = { __typename: 'Order', id: string, totalTaxCents: number, totalPriceCents: number, totalAmountPaidCents: number, totalAmountDueCents: number, totalShippingCents: number, subtotalPriceCents: number, totalProcessingFeeCents: number, itemSummaries: Array<{ __typename: 'OrderItemSummary', id: string, title: string, quantity: number, totalPriceCents: number }> };
+
+export type UseConfirmOrderConfirmOrderMutationVariables = Exact<{
+  input: OrderConfirmInput;
+}>;
+
+
+export type UseConfirmOrderConfirmOrderMutation = { __typename: 'Mutation', orderConfirm: { __typename: 'OrderConfirmPayload', order: { __typename: 'Order', id: string } | null } | null };
+
+export type OrderPayPageGetDataQueryVariables = Exact<{
+  orderId: Scalars['ID']['input'];
+}>;
+
+
+export type OrderPayPageGetDataQuery = { __typename: 'Query', order: { __typename: 'Order', id: string, totalAmountDueCents: number, totalTaxCents: number, totalPriceCents: number, totalShippingCents: number, subtotalPriceCents: number, totalProcessingFeeCents: number, totalAmountPaidCents: number, itemSummaries: Array<{ __typename: 'OrderItemSummary', id: string, title: string, quantity: number, totalPriceCents: number }> } | null };
+
+export type OrderPayPageCreatepaymentIntentVariables = Exact<{
+  input: PaymentIntentCreateInput;
+}>;
+
+
+export type OrderPayPageCreatepaymentIntent = { __typename: 'Mutation', paymentIntentCreate: { __typename: 'PaymentIntentCreatePayload', paymentIntent: { __typename: 'PaymentIntent', id: string, clientSecret: string | null, amount: number } | null } | null };
 
 export type CatalogHeaderCategoryFragment = { __typename: 'Category', id: string, name: string, description: string };
 
@@ -13897,6 +14037,20 @@ export type RootLayoutGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type RootLayoutGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, user: { __typename: 'User', id: string, email: string | null, name: string | null, givenName: string | null, familyName: string | null, phoneNumber: string | null, picture: string | null, intercomUserHash: string | null, createdAt: any | null } | null, organization: { __typename: 'Organization', id: string, name: string | null, createdAt: any } } | null };
 
+export type OrganizationCreateDialogCreateOrganizationMutationVariables = Exact<{
+  input: UserOrganizationCreateInput;
+}>;
+
+
+export type OrganizationCreateDialogCreateOrganizationMutation = { __typename: 'Mutation', userOrganizationCreate: { __typename: 'UserOrganizationCreatePayload', organization: { __typename: 'Organization', id: string } | null, membership: { __typename: 'Membership', id: string } | null } | null };
+
+export type UserInviteDialogInviteMemberMutationVariables = Exact<{
+  input: MembershipInviteInput;
+}>;
+
+
+export type UserInviteDialogInviteMemberMutation = { __typename: 'Mutation', membershipInvite: { __typename: 'MembershipInvitePayload', memberships: Array<{ __typename: 'Membership', id: string, organizationId: string }> } | null };
+
 export type AvatarImageFragment = { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null };
 
 export type BlogPostCardArticleFragment = { __typename: 'ArticleRecord', id: any, _publishedAt: any | null, _createdAt: any, title: string | null, slug: string | null, shortDescription: string | null, image: { __typename: 'FileField', responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null, author: { __typename: 'AuthorRecord', id: any, name: string | null, image: { __typename: 'FileField', id: any, responsiveImage: { __typename: 'ResponsiveImage', srcSet: string, webpSrcSet: string, sizes: string, src: string, width: any, height: any, aspectRatio: any, alt: string | null, title: string | null, base64: string | null } | null } | null } | null, categories: Array<{ __typename: 'CategoryRecord', id: any, name: string | null, slug: string | null }> };
@@ -13946,20 +14100,6 @@ export type UserAvatarUserFragment = { __typename: 'User', id: string, name: str
 
 export type UserBadgeUserFramgent = { __typename: 'User', id: string, name: string | null, picture: string | null };
 
-export type OrganizationCreateDialogCreateOrganizationMutationVariables = Exact<{
-  input: UserOrganizationCreateInput;
-}>;
-
-
-export type OrganizationCreateDialogCreateOrganizationMutation = { __typename: 'Mutation', userOrganizationCreate: { __typename: 'UserOrganizationCreatePayload', organization: { __typename: 'Organization', id: string } | null, membership: { __typename: 'Membership', id: string } | null } | null };
-
-export type UserInviteDialogInviteMemberMutationVariables = Exact<{
-  input: MembershipInviteInput;
-}>;
-
-
-export type UserInviteDialogInviteMemberMutation = { __typename: 'Mutation', membershipInvite: { __typename: 'MembershipInvitePayload', memberships: Array<{ __typename: 'Membership', id: string, organizationId: string }> } | null };
-
 export type UseFeatureFlagsGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -13993,153 +14133,7 @@ export type UseUserOnboardingUpdateOnboardingMutationVariables = Exact<{
 
 export type UseUserOnboardingUpdateOnboardingMutation = { __typename: 'Mutation', userOnboardingUpdate: { __typename: 'UserOnboardingUpdatePayload', userOnboarding: { __typename: 'UserOnboarding', id: string } | null } | null };
 
-export type AccountMembershipAcceptPageMembershipInviteFragment = { __typename: 'MembershipInvite', id: string, membershipId: string, invitedEmail: string | null, organizationName: string | null };
-
-export type AccountMemberhsipAcceptPageAcceptMembershipMutationVariables = Exact<{
-  input: MembershipInviteAcceptInput;
-}>;
-
-
-export type AccountMemberhsipAcceptPageAcceptMembershipMutation = { __typename: 'Mutation', membershipInviteAccept: { __typename: 'MembershipInviteAcceptPayload', membership: { __typename: 'Membership', id: string } } | null };
-
-export type ClosetDashboardPageGetDataQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ClosetDashboardPageGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, user: { __typename: 'User', id: string, name: string | null } | null } | null };
-
-export type UnclaimedDesignRequestsCardGetDataQueryVariables = Exact<{
-  first?: InputMaybe<Scalars['Int']['input']>;
-  after?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type UnclaimedDesignRequestsCardGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, unassignedDesignRequests: { __typename: 'DesignRequestConnection', edges: Array<{ __typename: 'DesignRequestEdge', node: { __typename: 'DesignRequest', id: string, name: string, membership: { __typename: 'Membership', id: string, organization: { __typename: 'Organization', id: string, name: string | null }, user: { __typename: 'User', id: string, name: string | null } | null } | null } | null } | null> | null } } | null };
-
-export type ClosetDesignProofCreatePageDesignRequestFragment = { __typename: 'DesignRequest', id: string, fileUploadDirectory: string, designRequestProduct: { __typename: 'DesignRequestProduct', id: string, colors: Array<{ __typename: 'DesignRequestProductColors', name: string | null, hexCode: string | null, catalogProductColorId: string }> } };
-
-export type CreateProofFormDesignRequestFragment = { __typename: 'DesignRequest', id: string, designRequestProduct: { __typename: 'DesignRequestProduct', id: string, colors: Array<{ __typename: 'DesignRequestProductColors', name: string | null, hexCode: string | null, catalogProductColorId: string }> } };
-
-export type ProofVariantInputDesignRequestFragment = { __typename: 'DesignRequest', designRequestProduct: { __typename: 'DesignRequestProduct', id: string, colors: Array<{ __typename: 'DesignRequestProductColors', name: string | null, hexCode: string | null, catalogProductColorId: string }> } };
-
-export type UseCreateProofCreateProofVariables = Exact<{
-  input: DesignRequestProofCreateInput;
-}>;
-
-
-export type UseCreateProofCreateProof = { __typename: 'Mutation', designRequestProofCreate: { __typename: 'DesignRequestProofCreatePayload', designRequest: { __typename: 'DesignRequest', id: string } | null } | null };
-
-export type ClosetInboxIndexPageNotificationFragment = { __typename: 'Notification', id: string, createdAt: any, channels: Array<{ __typename: 'NotificationChannelEmail', id: string } | { __typename: 'NotificationChannelWeb', message: string, ctaText: string | null, ctaUrl: string | null, seenAt: any | null, id: string } | null> };
-
-export type UseMarkNotificationAsSeenMarkAsSeenMutationVariables = Exact<{
-  input: NotificationMarkAsSeenInput;
-}>;
-
-
-export type UseMarkNotificationAsSeenMarkAsSeenMutation = { __typename: 'Mutation', notificationMarkAsSeen: { __typename: 'NotificationMarkAsSeenPayload', notification: { __typename: 'Notification', id: string } | null } | null };
-
-export type ClosetOrdersDesktopTableOrderFragment = { __typename: 'Order', id: string, humanOrderId: string, paymentStatus: OrderPaymentStatus, statusTemporary: OrderStatusTemporary, humanStatusTemporary: string, humanPaymentStatus: string, totalTaxCents: number, totalPriceCents: number, createdAt: any, organization: { __typename: 'Organization', id: string, name: string | null } | null };
-
-export type ClosetOrdersIndexPageGetDataQueryVariables = Exact<{
-  first: Scalars['Int']['input'];
-  after?: InputMaybe<Scalars['String']['input']>;
-  filter?: InputMaybe<MembershipOrdersFilterInput>;
-}>;
-
-
-export type ClosetOrdersIndexPageGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, hasOrders: boolean, orders: { __typename: 'OrderConnection', edges: Array<{ __typename: 'OrderEdge', node: { __typename: 'Order', id: string, humanOrderId: string, paymentStatus: OrderPaymentStatus, statusTemporary: OrderStatusTemporary, humanStatusTemporary: string, humanPaymentStatus: string, totalTaxCents: number, totalPriceCents: number, createdAt: any, organization: { __typename: 'Organization', id: string, name: string | null } | null } | null } | null> | null, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean, endCursor: string | null } } | null } | null };
-
-export type ClosetSettingsGeneralPageUserFragment = { __typename: 'User', id: string, name: string | null, email: string | null, picture: string | null };
-
-export type ClosetSettingsOrganizationPageOrganizationFragment = { __typename: 'Organization', id: string, name: string | null };
-
-export type UseClosetSettingsOrganizationPageUpdateOrganizationMutationVariables = Exact<{
-  input: OrganizationUpdateInput;
-}>;
-
-
-export type UseClosetSettingsOrganizationPageUpdateOrganizationMutation = { __typename: 'Mutation', organizationUpdate: { __typename: 'OrganizationUpdatePayload', organization: { __typename: 'Organization', id: string } | null } | null };
-
-export type ClosetSettingsTeamPageMembershipFragment = { __typename: 'Membership', id: string, createdAt: any, humanizedRole: string | null, invitedEmail: string | null, user: { __typename: 'User', id: string, name: string | null, email: string | null } | null };
-
-export type ClosetSettingsTeamPageResendInviteMutationVariables = Exact<{
-  input: MembershipInviteResendInput;
-}>;
-
-
-export type ClosetSettingsTeamPageResendInviteMutation = { __typename: 'Mutation', membershipInviteResend: { __typename: 'MembershipInviteResendPayload', membership: { __typename: 'Membership', id: string } } | null };
-
-export type ClosetSettingsTeamPageRevokeInviteMutationVariables = Exact<{
-  input: MembershipInviteRevokeInput;
-}>;
-
-
-export type ClosetSettingsTeamPageRevokeInviteMutation = { __typename: 'Mutation', membershipInviteRevoke: { __typename: 'MembershipInviteRevokePayload', membership: { __typename: 'Membership', id: string } } | null };
-
-export type ClosetSettingsTeamPageTableDesktopMembershipFragment = { __typename: 'Membership', id: string, createdAt: any, humanizedRole: string | null, invitedEmail: string | null, user: { __typename: 'User', id: string, name: string | null, email: string | null } | null };
-
-export type ClosetSettingsTeamPageTableMobileMemberFragment = { __typename: 'Membership', id: string, createdAt: any, humanizedRole: string | null, user: { __typename: 'User', id: string, name: string | null, email: string | null } | null };
-
-export type IndustryTermsCategoryShowPageCategoryFragment = { __typename: 'GlossaryCategoryRecord', id: any, title: string | null, slug: string | null };
-
-export type IndustryTermsCategoryShowPageEntryFragment = { __typename: 'GlossaryEntryRecord', id: any, slug: string | null, entryType: string | null, definition: string | null, term: string | null };
-
-export type OrderDetailsPageOrderFragment = { __typename: 'Order', id: string, createdAt: any, humanOrderId: string, paymentStatus: OrderPaymentStatus, humanPaymentStatus: string, totalTaxCents: number, statusTemporary: OrderStatusTemporary, totalShippingCents: number, subtotalPriceCents: number, totalProcessingFeeCents: number, totalPriceCents: number, totalAmountDueCents: number, totalAmountRefundedCents: number, customerEmail: string | null, customerPhone: string | null, items: Array<{ __typename: 'OrderItem', id: string, title: string, quantity: number, unitPriceCents: number, totalPriceCents: number, designProduct: { __typename: 'DesignProduct', id: string, name: string } | null }>, lastPaymentMethod: { __typename: 'PaymentMethod', id: string, type: string, card: { __typename: 'PaymentMethodCard', brand: string | null, last4: string | null, expMonth: number | null, expYear: number | null } | null, billingDetails: { __typename: 'PaymentMethodBillingDetails', line1: string | null, line2: string | null, city: string | null, state: string | null, postalCode: string | null, country: string | null } | null } | null, fulfillments: Array<{ __typename: 'Fulfillment', id: string, trackingInfo: { __typename: 'FulfillmentTrackingInfo', id: string, trackingNumber: string, trackingUrl: string } }>, shippingAddress: { __typename: 'MailingAddress', id: string, firstName: string | null, lastName: string | null, company: string | null, phone: string | null, address1: string | null, address2: string | null, city: string | null, country: string | null, province: string | null, provinceCode: string | null, zip: string | null } | null };
-
-export type OrderDetailsPageBillingDetailsOrderFragment = { __typename: 'Order', id: string, totalTaxCents: number, totalShippingCents: number, totalPriceCents: number, subtotalPriceCents: number, totalProcessingFeeCents: number, totalAmountDueCents: number, totalAmountRefundedCents: number, lastPaymentMethod: { __typename: 'PaymentMethod', id: string, type: string, card: { __typename: 'PaymentMethodCard', brand: string | null, last4: string | null, expMonth: number | null, expYear: number | null } | null, billingDetails: { __typename: 'PaymentMethodBillingDetails', line1: string | null, line2: string | null, city: string | null, state: string | null, postalCode: string | null, country: string | null } | null } | null };
-
-export type OrderDetailsPageLineItemsItemFragment = { __typename: 'OrderItem', id: string, title: string, quantity: number, unitPriceCents: number, totalPriceCents: number, designProduct: { __typename: 'DesignProduct', id: string, name: string } | null };
-
-export type OrderDetailsPageShippingDetailsOrderFragment = { __typename: 'Order', id: string, customerEmail: string | null, customerPhone: string | null, statusTemporary: OrderStatusTemporary, fulfillments: Array<{ __typename: 'Fulfillment', id: string, trackingInfo: { __typename: 'FulfillmentTrackingInfo', id: string, trackingNumber: string, trackingUrl: string } }>, shippingAddress: { __typename: 'MailingAddress', id: string, firstName: string | null, lastName: string | null, company: string | null, phone: string | null, address1: string | null, address2: string | null, city: string | null, country: string | null, province: string | null, provinceCode: string | null, zip: string | null } | null };
-
-export type UseUpdateOrderStatusUpdateStatusMutationVariables = Exact<{
-  input: OrderStatusTemporaryUpdateInput;
-}>;
-
-
-export type UseUpdateOrderStatusUpdateStatusMutation = { __typename: 'Mutation', orderStatusTemporaryUpdate: { __typename: 'OrderStatusTemporaryUpdatePayload', order: { __typename: 'Order', id: string } | null } | null };
-
-export type OrderPayPagePaymentIntentFragment = { __typename: 'PaymentIntent', id: string, clientSecret: string | null, amount: number };
-
-export type OrderPayPageOrderFragment = { __typename: 'Order', id: string, totalTaxCents: number, totalPriceCents: number, totalShippingCents: number, subtotalPriceCents: number, totalProcessingFeeCents: number, totalAmountPaidCents: number, totalAmountDueCents: number, itemSummaries: Array<{ __typename: 'OrderItemSummary', id: string, title: string, quantity: number, totalPriceCents: number }> };
-
-export type OrderPayPageOrderPreviewItemFragment = { __typename: 'Order', id: string, totalTaxCents: number, totalPriceCents: number, totalAmountPaidCents: number, totalAmountDueCents: number, totalShippingCents: number, subtotalPriceCents: number, totalProcessingFeeCents: number, itemSummaries: Array<{ __typename: 'OrderItemSummary', id: string, title: string, quantity: number, totalPriceCents: number }> };
-
-export type UseConfirmOrderConfirmOrderMutationVariables = Exact<{
-  input: OrderConfirmInput;
-}>;
-
-
-export type UseConfirmOrderConfirmOrderMutation = { __typename: 'Mutation', orderConfirm: { __typename: 'OrderConfirmPayload', order: { __typename: 'Order', id: string } | null } | null };
-
 export type UseAuthorizedComponentGetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type UseAuthorizedComponentGetDataQuery = { __typename: 'Query', viewer: { __typename: 'Membership', id: string, role: MembershipRole | null, scopes: Array<{ __typename: 'Scope', resource: ScopeResource, action: ScopeAction }> } | null };
-
-export type AcceptMembershipPageSetActiveMembershipMutationVariables = Exact<{
-  input: UserSetOrganizationInput;
-}>;
-
-
-export type AcceptMembershipPageSetActiveMembershipMutation = { __typename: 'Mutation', userSetOrganization: { __typename: 'UserSetOrganizationPayload', organizationId: string | null } | null };
-
-export type AcceptMembershipPageGetDataQueryVariables = Exact<{
-  membershipId: Scalars['ID']['input'];
-}>;
-
-
-export type AcceptMembershipPageGetDataQuery = { __typename: 'Query', membershipInvite: { __typename: 'MembershipInvite', id: string, membershipId: string, organizationId: string, accepted: boolean, invitedEmail: string | null, organizationName: string | null } };
-
-export type OrderPayPageGetDataQueryVariables = Exact<{
-  orderId: Scalars['ID']['input'];
-}>;
-
-
-export type OrderPayPageGetDataQuery = { __typename: 'Query', order: { __typename: 'Order', id: string, totalAmountDueCents: number, totalTaxCents: number, totalPriceCents: number, totalShippingCents: number, subtotalPriceCents: number, totalProcessingFeeCents: number, totalAmountPaidCents: number, itemSummaries: Array<{ __typename: 'OrderItemSummary', id: string, title: string, quantity: number, totalPriceCents: number }> } | null };
-
-export type OrderPayPageCreatepaymentIntentVariables = Exact<{
-  input: PaymentIntentCreateInput;
-}>;
-
-
-export type OrderPayPageCreatepaymentIntent = { __typename: 'Mutation', paymentIntentCreate: { __typename: 'PaymentIntentCreatePayload', paymentIntent: { __typename: 'PaymentIntent', id: string, clientSecret: string | null, amount: number } | null } | null };

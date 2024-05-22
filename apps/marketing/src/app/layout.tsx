@@ -14,8 +14,8 @@ import {
   SEO_DEFAULT_TITLE,
   SITE_URL,
 } from '@lib/constants'
-import { StandoutProvider } from '@components/context/standout'
-import { SnackbarProvider } from '@components/context/snackbar-context'
+import { StandoutProvider } from 'app/standout'
+import { SnackbarProvider } from 'app/snackbar-context'
 import routes from '@lib/routes'
 import {
   AccessTokenError,
@@ -23,10 +23,10 @@ import {
   getAccessToken,
 } from '@auth0/nextjs-auth0'
 import { RedirectType, redirect } from 'next/navigation'
-import PageloadProgressIndicator from '@components/layout/PageloadProgressIndicator'
+import PageloadProgressIndicator from '@components/ui/PageloadProgressIndicator'
 import { Metadata } from 'next'
 import IntercomProvider from './IntercomProvider'
-import MixpanelProvider from '@components/context/mixpanel-context'
+import MixpanelProvider from 'app/mixpanel-context'
 import { AxiomWebVitals, Logger } from 'next-axiom'
 import { GTM_ID } from '@lib/events'
 import { Poppins } from 'next/font/google'

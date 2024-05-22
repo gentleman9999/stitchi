@@ -55,7 +55,7 @@ const NavigationBottomBar = ({ rootCategory }: Props) => {
                 key={category.entityId}
                 Trigger={<PrimaryNavigationMenuTrigger category={category} />}
                 Content={
-                  <NavigationPopperContainer className="pt-3 !w-[100vw]">
+                  <NavigationPopperContainer className="!w-[100vw]">
                     <div className="p-4">
                       <PopperButton>
                         <Link
@@ -63,7 +63,7 @@ const NavigationBottomBar = ({ rootCategory }: Props) => {
                             categorySlug: category.path,
                           })}
                         >
-                          <div className="mt-2 text-3xl font-bold hover:underline underline-offset-4 transition-all flex items-center gap-2">
+                          <div className="text-3xl font-bold hover:underline underline-offset-4 transition-all flex items-center gap-2">
                             All {category.name}{' '}
                             <ArrowRightIcon className="h-5 w-5" />
                           </div>

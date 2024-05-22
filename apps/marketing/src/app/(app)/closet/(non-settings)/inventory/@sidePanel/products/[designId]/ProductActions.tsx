@@ -1,12 +1,12 @@
 'use client'
 
-import { StandoutType, useStandout } from '@components/context'
 import Button from '@components/ui/ButtonV2/Button'
 import { Dropdown, DropdownItem } from '@components/ui/Dropdown'
 import { InventoryProductDetailsDesignFragment } from '@generated/types'
 import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid'
 import routes from '@lib/routes'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
+import { StandoutType, useStandout } from 'app/standout'
 import Link from 'next/link'
 import React from 'react'
 

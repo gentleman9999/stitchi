@@ -1,9 +1,9 @@
 'use client'
 
 import { gql, useQuery } from '@apollo/client'
-import ClosetSettingsTeamPage from '@components/pages/ClosetSettingsTeamPage'
 import { ClosetSettingsTeamPageGetDataQuery } from '@generated/ClosetSettingsTeamPageGetDataQuery'
 import React from 'react'
+import ClosetSettingsTeamPage from './ClosetSettingsTeamPage'
 
 const Page = () => {
   const { data, loading } = useQuery<ClosetSettingsTeamPageGetDataQuery>(
