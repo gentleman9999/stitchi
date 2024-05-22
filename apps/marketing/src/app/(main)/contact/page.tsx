@@ -1,5 +1,3 @@
-'use client'
-
 import routes from '@lib/routes'
 import { Metadata } from 'next'
 import ContactMethod from './ContactMethod'
@@ -7,7 +5,7 @@ import Container from '@components/ui/Container'
 import Section from '@components/common/Section'
 import { SUPPORT_EMAIL } from '@lib/constants'
 import NewOrderForm from './NewOrderForm'
-import { useIntercom } from 'react-use-intercom'
+import LiveChatContactMethod from './LiveChatContactMethod'
 
 export const metadata: Metadata = {
   title: 'Contact us to get started',
@@ -17,8 +15,6 @@ export const metadata: Metadata = {
 }
 
 const StartPage = () => {
-  const { showNewMessage } = useIntercom()
-
   const OtherContactOptions = (
     <address className="flex flex-col gap-10">
       <p className="mt-4 text-lg md:text-xl lg:text-2xl text-gray-500 sm:mt-3 max-w-3xl">
@@ -29,11 +25,7 @@ const StartPage = () => {
         label="See open positions"
         href={routes.external.careers.href()}
       />
-      <ContactMethod
-        title="Live Chat"
-        label="Chat now"
-        onClick={() => showNewMessage()}
-      />
+      <LiveChatContactMethod />
       <ContactMethod
         title="Email us"
         label={SUPPORT_EMAIL}

@@ -34,6 +34,11 @@
   ],
   "landingPages": [
     {
+      "id": "D98qvZv9TCiDQP4x7YcmDA",
+      "slug": "black-plain-hoodies-and-sweatshirts",
+      "category": "insight"
+    },
+    {
       "id": "164886464",
       "slug": "gifts-under-usd-25-for-employees",
       "category": "insight"
@@ -1358,6 +1363,23 @@
         "url": "/filters/fabric/athletic-fleece/",
         "is_customized": true
       },
+      "image_url": ""
+    },
+    {
+      "id": 60,
+      "parent_id": 1067,
+      "name": "Cozy Essentials",
+      "description": "",
+      "views": 0,
+      "sort_order": 1,
+      "page_title": "",
+      "search_keywords": "",
+      "meta_keywords": [],
+      "meta_description": "",
+      "layout_file": "",
+      "is_visible": true,
+      "default_product_sort": "use_store_settings",
+      "custom_url": { "url": "/cozy-essentials/", "is_customized": false },
       "image_url": ""
     },
     {

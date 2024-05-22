@@ -6,11 +6,9 @@ import Image from 'next/image'
 import React from 'react'
 import referralApp from '../../../../public/industries/newsletter/referral-app.png'
 import brewTweet from '../../../../public/industries/newsletter/morning-brew-referral-program-giveaway.png'
-import { useIntercom } from 'react-use-intercom'
+import IntercomButton from '@components/common/IntercomButton'
 
 const Hero = () => {
-  const { showNewMessage } = useIntercom()
-
   return (
     <header>
       <Section gutter="lg">
@@ -28,14 +26,18 @@ const Hero = () => {
             <br className="hidden md:block" />
             <br />
             <br />
-            <Button
-              endIcon={<ArrowRight width={16} height={16} strokeWidth={3} />}
-              onClick={() =>
-                showNewMessage("I'm interested in creating a swag box.")
+            <IntercomButton
+              message="I'm interested in creating a swag box."
+              as={
+                <Button
+                  endIcon={
+                    <ArrowRight width={16} height={16} strokeWidth={3} />
+                  }
+                >
+                  Grow your list
+                </Button>
               }
-            >
-              Grow your list
-            </Button>
+            />
           </div>
           <div className="relative w-1/2 hidden lg:block">
             <div className="absolute top-0 right-0">
