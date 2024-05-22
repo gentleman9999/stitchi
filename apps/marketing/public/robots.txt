@@ -1,12 +1,26 @@
 # *
 User-agent: *
+Disallow: 
 Disallow: /orders
 Disallow: /buy
 Disallow: /closet
 Disallow: /account
+
+# Googlebot
+User-agent: Googlebot
+Disallow: 
+
+# Googlebot-Image
+User-agent: Googlebot-Image
+Disallow: 
+
+# AdsBot-Google
+User-agent: AdsBot-Google
+Disallow: 
 
 # Host
 Host: http://localhost:3000
 
 # Sitemaps
 Sitemap: http://localhost:3000/sitemap.xml
+Sitemap: http://localhost:3000/blog/sitemap.xml
