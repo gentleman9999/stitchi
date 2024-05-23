@@ -4,6 +4,8 @@ import { COMPANY_NAME } from '@lib/constants'
 import React from 'react'
 import CTAButton from './CTAButton'
 import Container from '@components/ui/Container'
+import IntercomButton from '@components/common/IntercomButton'
+import ButtonV2 from '@components/ui/ButtonV2'
 
 export const metadata = {
   title: 'Partners',
@@ -105,6 +107,14 @@ const Page = () => {
             together!
           </p>
           <br />
+          <IntercomButton
+            message="I'm interested in becoming a partner"
+            as={
+              <ButtonV2 color="brandPrimary" size="2xl">
+                Start earning
+              </ButtonV2>
+            }
+          />
           <CTAButton />
         </section>
 

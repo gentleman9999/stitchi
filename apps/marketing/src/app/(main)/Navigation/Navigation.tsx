@@ -19,6 +19,7 @@ import Popper from './Popper'
 import PopperBackdrop from '../../PopperBackdrop'
 import NavigationContextProvider from '../../NavigationContext'
 import NavigationPopperContainer from './NavigationPopperContainer'
+import ChatWithUsButton from './ChatWithUsButton'
 
 interface Props {
   categoryTree: NavigationSiteFragment['categoryTree']
@@ -87,6 +88,10 @@ const Navigation = ({ categoryTree }: Props) => {
 
             <div className="lg:hidden">
               <SearchButton />
+            </div>
+
+            <div className="hidden lg:block">
+              <ChatWithUsButton />
             </div>
 
             <AppTopbarUser background="dark" />
