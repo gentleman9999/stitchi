@@ -4,7 +4,7 @@ import React from 'react'
 import { useIntercom } from 'react-use-intercom'
 
 interface Props {
-  message: string
+  message?: string
   as: React.ReactElement
 }
 
