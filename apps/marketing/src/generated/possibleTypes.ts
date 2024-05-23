@@ -18,6 +18,12 @@
       "ProductIdNotFoundError",
       "UnexpectedAddReviewError"
     ],
+    "ArticleModelContentBlocksField": [
+      "ImageRecord",
+      "PageCallToActionRecord",
+      "PageSectionCatalogRecord",
+      "PageSectionRecord"
+    ],
     "ArticleModelContentLinksField": [
       "ArticleRecord",
       "CustomComponentRecord",

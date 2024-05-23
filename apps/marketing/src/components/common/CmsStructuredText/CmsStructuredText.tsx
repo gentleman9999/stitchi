@@ -150,8 +150,8 @@ CmsStructuredText.fragments = {
     fragment CmsStructuredTextContentFragment on ArticleModelContentField {
       value
       blocks {
-        id
         ... on ImageRecord {
+          id
           image {
             id
             responsiveImage {
