@@ -81,7 +81,8 @@ export interface NexusGenInputs {
     quantity: number; // Int!
   }
   CatalogProductQuoteCreatePrintLocationInput: { // input type
-    colorCount: number; // Int!
+    colorCount?: number | null; // Int
+    embellishmentType: string; // String!
   }
   DateFilterInput: { // input type
     gte?: string | null; // String

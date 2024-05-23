@@ -13,7 +13,8 @@ export const CatalogProductQuoteCreateItemsInput = inputObjectType({
 export const CatalogProductQuoteCreatePrintLocationInput = inputObjectType({
   name: 'CatalogProductQuoteCreatePrintLocationInput',
   definition(t) {
-    t.nonNull.int('colorCount')
+    t.int('colorCount')
+    t.nonNull.string('embellishmentType')
   },
 })
 
@@ -65,7 +66,8 @@ export const catalogProductQuoteCreate = mutationField(
             addons
               .filter(addon => addon.printLocation)
               .map(addon => ({
-                colorCount: addon.printLocation?.colorCount || 0,
+                colorCount: addon.printLocation?.colorCount,
+                embellishmentType: addon.printLocation?.embellishmentType || 'screen print'
               })) || [],
           variants: items.map(item => ({
             catalogProductId: catalogProductId,

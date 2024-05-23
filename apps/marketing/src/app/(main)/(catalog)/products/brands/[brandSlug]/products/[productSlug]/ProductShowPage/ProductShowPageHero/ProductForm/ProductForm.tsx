@@ -13,6 +13,8 @@ import {
   SquaresPlusIcon,
   SwatchIcon,
 } from '@heroicons/react/20/solid'
+import { XIcon } from 'icons'
+import { Dropdown, DropdownItem } from '@components/ui/Dropdown'
 import { yupResolver } from '@hookform/resolvers/yup'
 import currency from 'currency.js'
 import React from 'react'
@@ -34,23 +36,29 @@ const customizationOptions = [
   {
     name: 'Front',
     type: CatalogProductCustomizationAddonType.PRINT_LOCATION,
-    selected: false,
+    selectedMethod: '',
   },
   {
     name: 'Back',
     type: CatalogProductCustomizationAddonType.PRINT_LOCATION,
-    selected: false,
+    selectedMethod: '',
   },
   {
     name: 'Left Sleeve',
     type: CatalogProductCustomizationAddonType.PRINT_LOCATION,
-    selected: false,
+    selectedMethod: '',
   },
   {
     name: 'Right Sleeve',
     type: CatalogProductCustomizationAddonType.PRINT_LOCATION,
-    selected: false,
+    selectedMethod: '',
   },
+]
+
+const availPrintingMethods = [
+  'screen print',
+  'embroidery',
+  'heat transfer'
 ]
 
 const sizeSchema = yup.object().shape({
@@ -84,7 +92,7 @@ const schema = yup.object().shape({
       yup
         .object()
         .shape({
-          selected: yup.boolean().required(),
+          selectedMethod: yup.string().required(),
           name: yup.string().required(),
           type: yup
             .mixed<CatalogProductCustomizationAddonType>()
@@ -166,11 +174,12 @@ const ProductForm = (props: ProductFormProps) => {
     .filter(
       c =>
         c.type === CatalogProductCustomizationAddonType.PRINT_LOCATION &&
-        c.selected,
+        c.selectedMethod,
     )
-    .map(() => ({
+    .map(c => ({
       printLocation: {
-        colorCount: 1,
+        ...(c.selectedMethod !== 'embroidery' && { colorCount: 1 }),
+        embellishmentType: c.selectedMethod
       },
     }))
 
@@ -277,29 +286,55 @@ const ProductForm = (props: ProductFormProps) => {
               {customizationFields.fields.map((customization, index) => (
                 <Controller
                   key={customization.id}
-                  name={`customizations.${index}.selected`}
+                  name={`customizations.${index}.selectedMethod`}
                   control={form.control}
-                  render={({ field: { onChange, value, name, ref } }) => (
-                    <button
-                      type="button"
-                      ref={ref}
-                      key={index}
-                      className="flex flex-row items-center gap-4 border rounded-sm p-4 hover:bg-gray-50 transition-all"
-                      onClick={() => onChange(!value)}
-                    >
-                      <Checkbox
-                        name={name}
-                        value="checked"
-                        checked={value}
-                        onChange={() => {}}
-                        size={2}
-                      />
-                      <div className="flex flex-col gap-1">
-                        <div className="text-sm font-semibold">
-                          {customization.name}
-                        </div>
-                      </div>
-                    </button>
+                  render={({ field: { onChange: onControllerChange, value, name, ref } }) => (
+                    <Dropdown
+                      align="end"
+                      renderTrigger={() => (
+                        <button
+                          type="button"
+                          ref={ref}
+                          key={index}
+                          className="flex flex-row w-full items-center gap-4 border rounded-sm p-4 hover:bg-gray-50 transition-all"
+                        >
+                          <Checkbox
+                            name={name}
+                            value="checked"
+                            checked={!!value}
+                            disabled={true}
+                            onChange={()=> {}}
+                            size={2}
+                          />
+                          <div className="flex flex-col gap-1">
+                            <div className="text-sm font-semibold">
+                              {customization.name}
+                              {value && ' - ' + value}
+                            </div>
+                          </div>
+                          { value && 
+                            <span
+                              className="x-btn p-1 hover:bg-gray-100 rounded-sm"
+                              onClick={(e) => {
+                                if(e && e.stopPropagation)
+                                  e.stopPropagation();
+                                onControllerChange(undefined);
+                              }}
+                            >
+                              <XIcon className="w-4 h-4 text-gray-400" />
+                            </span>
+                          }
+                        </button>
+                      )}
+                      renderItems={() => availPrintingMethods.map((element, idx) => (
+                        <DropdownItem
+                          key={"design-request-" + idx}
+                          label={element}
+                          onClick={() => onControllerChange(element)}
+                        />
+                      ))}
+                    />
+                    
                   )}
                 />
               ))}

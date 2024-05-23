@@ -1734,7 +1734,8 @@ export interface CatalogProductQuoteCreatePayload {
 }
 
 export interface CatalogProductQuoteCreatePrintLocationInput {
-  colorCount: Scalars['Int']['input'];
+  colorCount?: Scalars['Int']['input'];
+  embellishmentType: Scalars['String']['input'];
 }
 
 /** Category */

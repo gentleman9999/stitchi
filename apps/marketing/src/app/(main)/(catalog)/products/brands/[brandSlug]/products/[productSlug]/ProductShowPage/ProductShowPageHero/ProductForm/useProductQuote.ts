@@ -30,6 +30,7 @@ const useProductQuote = ({
           {
             printLocation: {
               colorCount: 1,
+              embellishmentType: 'screen print'
             },
           },
         ]

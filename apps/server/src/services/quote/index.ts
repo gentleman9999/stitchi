@@ -14,7 +14,8 @@ const inputV2Schema = yup.object().shape({
       yup
         .object()
         .shape({
-          colorCount: yup.number().min(1).required(),
+          colorCount: yup.number().min(1).nullable(),
+          embellishmentType: yup.string().required(),
         })
         .required(),
     )
@@ -44,7 +45,8 @@ const inputManualSchema = yup.object().shape({
       yup
         .object()
         .shape({
-          colorCount: yup.number().min(1).required(),
+          colorCount: yup.number().min(1).nullable(),
+          embellishmentType: yup.string().required(),
         })
         .required(),
     )
@@ -147,7 +149,6 @@ const makeClient: MakeClientFn = (
       }
 
       const calculate = makeCalculate()
-
       const [error, calculation] = calculate({
         includeFulfillment: validInput.includeFulfillment,
         printLocations: validInput.printLocations,
@@ -171,7 +172,6 @@ const makeClient: MakeClientFn = (
       const validInput = await inputManualSchema.validate(input)
 
       const calculate = makeCalculate()
-
       const [error, calculation] = calculate({
         includeFulfillment: validInput.includeFulfillment,
         printLocations: validInput.printLocations,

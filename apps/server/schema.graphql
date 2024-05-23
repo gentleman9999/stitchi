@@ -112,7 +112,8 @@ type CatalogProductQuoteCreatePayload {
 }
 
 input CatalogProductQuoteCreatePrintLocationInput {
-  colorCount: Int!
+  colorCount: Int
+  embellishmentType: String!
 }
 
 type Color {

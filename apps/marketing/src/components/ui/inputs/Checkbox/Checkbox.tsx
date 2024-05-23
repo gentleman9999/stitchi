@@ -8,6 +8,7 @@ export interface CheckboxProps {
   label?: React.ReactNode
   description?: string
   checked?: boolean
+  disabled?: boolean
   onSecondaryAction?: () => void
   showSecondaryAction?: boolean
   size?: 1 | 2
@@ -33,6 +34,7 @@ const Checkbox = (props: CheckboxProps) => {
           name={props.name}
           value={props.value}
           checked={props.checked}
+          disabled={props.disabled}
           onChange={e => props.onChange(e.target.checked)}
           className={cx(
             'focus:ring-midnight text-midnight border-gray-300 rounded cursor-pointer',
