@@ -59,7 +59,7 @@ const Navigation = ({ categoryTree }: Props) => {
                 Trigger={
                   <TopBarNavigationMenuTrigger
                     href={routes.internal.solutions.href()}
-                    title="Solutions"
+                    title="Services"
                     preTitle="Our"
                   />
                 }
