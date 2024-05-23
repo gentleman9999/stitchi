@@ -18,10 +18,8 @@ import ClosetPageContainer from '@components/common/ClosetPageContainer'
 import ClosetPageHeader from '@components/common/ClosetPageHeader'
 import ClosetPageTitle from '@components/common/ClosetPageTitle'
 import ClosetSection from '@components/common/ClosetSection'
-import CmsResponsiveImageFullScreen from '@components/common/.dato-cms/CmsResponsiveImageFullScreen'
-import CmsResponsiveImage, {
-  CmsResponsiveImageFragments,
-} from '@components/common/.dato-cms/CmsResponsiveImage'
+import CmsResponsiveImageFullScreen from '@components/common/_dato-cms/CmsResponsiveImageFullScreen'
+import CmsResponsiveImage from '@components/common/_dato-cms/CmsResponsiveImage'
 
 const PAGE_SIZE = 20
 
@@ -146,7 +144,7 @@ const DesignLibraryPage = (props: Props) => {
 }
 
 const GET_DATA = gql`
-  ${CmsResponsiveImageFragments.image}
+  ${CmsResponsiveImage.fragments.image}
   ${CmsResponsiveImageFullScreen.fragments.image}
   query DesignLibraryPageGetDataQuery($first: IntType, $skip: IntType) {
     allDesigns(first: $first, skip: $skip) {

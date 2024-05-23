@@ -5,9 +5,7 @@ import { humanizeDate } from '@lib/utils/date'
 import Link from 'next/link'
 import React from 'react'
 import Avatar from '../Avatar'
-import CmsResponsiveImage, {
-  CmsResponsiveImageFragments,
-} from '../.dato-cms/CmsResponsiveImage'
+import CmsResponsiveImage from '../_dato-cms/CmsResponsiveImage'
 
 export interface BlogPostCardProps {
   post: BlogPostCardArticleFragment
@@ -116,7 +114,7 @@ const BlogPostCard = ({ post, variant = 'vertical' }: BlogPostCardProps) => {
 
 BlogPostCard.fragments = {
   article: gql`
-    ${CmsResponsiveImageFragments.image}
+    ${CmsResponsiveImage.fragments.image}
     ${Avatar.fragments.image}
     fragment BlogPostCardArticleFragment on ArticleRecord {
       id

@@ -5,9 +5,7 @@ import SectionHeader from '@components/common/SectionHeader'
 import { gql } from '@apollo/client'
 import FeatureGrid, { Props as FeatureGridProps } from './FeatureGrid'
 import Container from '@components/ui/Container'
-import CmsResponsiveImage, {
-  CmsResponsiveImageFragments,
-} from './CmsResponsiveImage'
+import CmsResponsiveImage from './CmsResponsiveImage'
 import CmsFAQGroup, { Props as CmsFAQGroupProps } from './CmsFAQGroup'
 import { Logger } from 'next-axiom'
 import LandingPageGrid, {
@@ -181,7 +179,7 @@ const CmsLandingPageSection = ({ section }: Props) => {
 
 CmsLandingPageSection.fragments = {
   section: gql`
-    ${CmsResponsiveImageFragments.image}
+    ${CmsResponsiveImage.fragments.image}
     ${CmsRichContentRecord.fragments.richContentRecord}
     fragment CmsLandingPageSectionSectionFragment on PageSectionRecord {
       id

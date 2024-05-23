@@ -14,11 +14,9 @@ import Container from '@components/ui/Container'
 import { Avatar, InlineMailingListSubscribe, Section } from '@components/common'
 import { ArticleJsonLd, ArticleJsonLdProps } from 'next-seo'
 import makeAbsoluteUrl from '@lib/utils/get-absolute-url'
-import CmsStructuredTextTableOfContents from '@components/common/.dato-cms/CmsStructuredTextTableOfContents'
-import CmsStructuredText from '@components/common/.dato-cms/CmsStructuredText'
-import CmsResponsiveImage, {
-  CmsResponsiveImageFragments,
-} from '@components/common/.dato-cms/CmsResponsiveImage'
+import CmsStructuredTextTableOfContents from '@components/common/_dato-cms/CmsStructuredTextTableOfContents'
+import CmsStructuredText from '@components/common/_dato-cms/CmsStructuredText'
+import CmsResponsiveImage from '@components/common/_dato-cms/CmsResponsiveImage'
 
 interface Params {
   articleSlug: string
@@ -194,7 +192,7 @@ const Author = ({
 export default BlogShowPage
 
 const GET_DATA = gql`
-  ${CmsResponsiveImageFragments.image}
+  ${CmsResponsiveImage.fragments.image}
   ${CmsStructuredText.fragments.articleContent}
   ${Avatar.fragments.image}
   query BlogShowPageGetDataQuery($slug: SlugFilter!) {

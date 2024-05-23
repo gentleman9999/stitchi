@@ -12,9 +12,7 @@ import { anchorTagFromNode } from '@lib/utils/structured-text'
 import { isLink, isHeading } from 'datocms-structured-text-utils'
 import Link from 'next/link'
 import { StructuredText, renderNodeRule } from 'react-datocms'
-import CmsResponsiveImage, {
-  CmsResponsiveImageFragments,
-} from '../CmsResponsiveImage'
+import CmsResponsiveImage from '../CmsResponsiveImage'
 import CampusMarketSizeCalculator from '../../CampusMarketSizeCalculator'
 import TableRecord from '../CmsTableRecord'
 import CmsLandingPageSection from '../CmsLandingPageSection'
@@ -172,7 +170,7 @@ const CmsStructuredText = ({ content }: Props) => {
 
 CmsStructuredText.fragments = {
   articleContent: gql`
-    ${CmsResponsiveImageFragments.image}
+    ${CmsResponsiveImage.fragments.image}
     ${CmsLandingPageSection.fragments.section}
     ${CmsLandingPageCallToAction.fragments.callToAction}
     ${cmsLandingPageCatalogSectionFragments.catalogSection}
@@ -245,7 +243,7 @@ CmsStructuredText.fragments = {
     }
   `,
   glossaryEntryDescription: gql`
-    ${CmsResponsiveImageFragments.image}
+    ${CmsResponsiveImage.fragments.image}
     fragment CmsStructuredTextGlossaryDescriptionFragment on GlossaryEntryModelDescriptionField {
       value
       blocks {

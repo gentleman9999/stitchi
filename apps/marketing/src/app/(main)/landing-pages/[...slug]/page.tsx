@@ -15,14 +15,14 @@ import routes from '@lib/routes'
 import { notEmpty } from '@lib/utils/typescript'
 import { getClient } from '@lib/apollo-rsc'
 import { Metadata } from 'next'
-import CmsLandingPageSection from '@components/common/.dato-cms/CmsLandingPageSection'
-import CmsLandingPageCallToAction from '@components/common/.dato-cms/CmsLandingPageCallToAction'
+import CmsLandingPageSection from '@components/common/_dato-cms/CmsLandingPageSection'
+import CmsLandingPageCallToAction from '@components/common/_dato-cms/CmsLandingPageCallToAction'
 import CmsLandingPageCatalogSection, {
   fragments as cmsLandingPageCatalogSectionFragments,
-} from '@components/common/.dato-cms/CmsLandingPageCatalogSection'
+} from '@components/common/_dato-cms/CmsLandingPageCatalogSection'
 import CmsLandingPageHero, {
   Props as CmsLandingPageHeroProps,
-} from '@components/common/.dato-cms/CmsLandingPageHero'
+} from '@components/common/_dato-cms/CmsLandingPageHero'
 
 interface Params {
   slug: string[]

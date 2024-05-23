@@ -15,7 +15,7 @@ import {
   BlogIndexPageArticleFragment,
   BlogPostIndexPageCategoryFragment,
 } from '@generated/types'
-import CmsStructuredText from '@components/common/.dato-cms/CmsStructuredText'
+import CmsStructuredText from '@components/common/_dato-cms/CmsStructuredText'
 
 export interface BlogPostIndexPageProps {
   articles: BlogIndexPageArticleFragment[]

@@ -5,9 +5,7 @@ import { anchorTagFromNode } from '@lib/utils/structured-text'
 import { isLink, isHeading } from 'datocms-structured-text-utils'
 import Link from 'next/link'
 import { StructuredText, renderNodeRule } from 'react-datocms'
-import CmsResponsiveImage, {
-  CmsResponsiveImageFragments,
-} from './CmsResponsiveImage'
+import CmsResponsiveImage from './CmsResponsiveImage'
 import { gql } from '@apollo/client'
 
 interface Props {
@@ -70,7 +68,7 @@ const CmsRichContentRecord = ({ content }: Props) => {
 
 CmsRichContentRecord.fragments = {
   richContentRecord: gql`
-    ${CmsResponsiveImageFragments.image}
+    ${CmsResponsiveImage.fragments.image}
     fragment CmsStructuredTextRichContentRecordFragment on RichContentModelContentField {
       value
       blocks {

@@ -22,11 +22,11 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/components/common/.dato-cms/HeroIcon.tsx",
-    "src/components/common/.dato-cms/FeatureGrid.tsx",
-    "src/components/common/.dato-cms/LandingPageGrid.tsx",
-    "src/components/common/.dato-cms/SimpleFeatureList.tsx",
-    "src/components/common/.dato-cms/CmsResponsiveImageFullScreen.tsx"
+    "src/components/common/_dato-cms/HeroIcon.tsx",
+    "src/components/common/_dato-cms/FeatureGrid.tsx",
+    "src/components/common/_dato-cms/LandingPageGrid.tsx",
+    "src/components/common/_dato-cms/SimpleFeatureList.tsx",
+    "src/components/common/_dato-cms/CmsResponsiveImageFullScreen.tsx"
   ],
   "exclude": ["node_modules"]
 }

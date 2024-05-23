@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import CmsStructuredText from '@components/common/.dato-cms/CmsStructuredText'
+import CmsStructuredText from '@components/common/_dato-cms/CmsStructuredText'
 import Section from '@components/common/Section'
 import Container from '@components/ui/Container'
 import { TermsGetDataQuery } from '@generated/TermsGetDataQuery'

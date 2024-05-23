@@ -1,8 +1,6 @@
 import { gql } from '@apollo/client'
 import React from 'react'
-import CmsResponsiveImage, {
-  CmsResponsiveImageFragments,
-} from './CmsResponsiveImage'
+import CmsResponsiveImage from './CmsResponsiveImage'
 import ImageFullScreenBase, {
   Props as ImageFullScreenBaseProps,
 } from '../ImageFullScreen/ImageFullScreenBase'
@@ -30,7 +28,7 @@ const CmsResponsiveImageFullScreen = ({ image, ...rest }: Props) => {
 
 CmsResponsiveImageFullScreen.fragments = {
   image: gql`
-    ${CmsResponsiveImageFragments.image}
+    ${CmsResponsiveImage.fragments.image}
     fragment CmsResponsiveImageFullScreenImageFragment on ResponsiveImage {
       ...CmsResponsiveImageFragment
     }

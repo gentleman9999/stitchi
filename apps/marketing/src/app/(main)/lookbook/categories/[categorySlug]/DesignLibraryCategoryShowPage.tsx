@@ -19,7 +19,7 @@ import ClosetPageContainer from '@components/common/ClosetPageContainer'
 import ClosetSection from '@components/common/ClosetSection'
 import ClosetSectionHeader from '@components/common/ClosetSectionHeader'
 import ClosetSectionTitle from '@components/common/ClosetSectionTitle'
-import CmsResponsiveImage from '@components/common/.dato-cms/CmsResponsiveImage'
+import CmsResponsiveImage from '@components/common/_dato-cms/CmsResponsiveImage'
 
 interface Props {
   categorySlug: string

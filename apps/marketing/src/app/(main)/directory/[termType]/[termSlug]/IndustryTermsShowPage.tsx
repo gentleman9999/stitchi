@@ -17,8 +17,8 @@ import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 import { notFound } from 'next/navigation'
 import { GET_DATA } from './graphql'
 import Section from '@components/common/Section'
-import CmsStructuredTextTableOfContents from '@components/common/.dato-cms/CmsStructuredTextTableOfContents'
-import CmsStructuredText from '@components/common/.dato-cms/CmsStructuredText'
+import CmsStructuredTextTableOfContents from '@components/common/_dato-cms/CmsStructuredTextTableOfContents'
+import CmsStructuredText from '@components/common/_dato-cms/CmsStructuredText'
 
 type Term = NonNullable<
   PromotionalProductGlossaryTermGetDataQuery['glossaryEntry']

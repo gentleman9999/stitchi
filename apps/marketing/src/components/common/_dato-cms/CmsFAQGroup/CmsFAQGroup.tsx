@@ -1,7 +1,9 @@
+'use client'
+
 import { FAQPageJsonLd } from 'next-seo'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
-import FAQGroupInner from './FAQGroupInner'
+import FAQComponent from './FAQ'
 
 export interface FAQ {
   id: string
@@ -15,6 +17,14 @@ export interface Props {
 }
 
 const CmsFAQGroup = ({ faqs, expandAll }: Props) => {
+  const [isMobile, setIsMobile] = React.useState(false)
+
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsMobile(window.innerWidth < 640)
+    }
+  }, [])
+
   return (
     <>
       <FAQPageJsonLd
@@ -27,7 +37,15 @@ const CmsFAQGroup = ({ faqs, expandAll }: Props) => {
         }))}
       />
 
-      <FAQGroupInner faqs={faqs} expandAll={expandAll} />
+      <dl className="flex flex-col divide-y max-w-4xl m-auto border-t">
+        {faqs.map((faq, i) => (
+          <FAQComponent
+            key={faq.id}
+            faq={faq}
+            defaultExpanded={isMobile ? false : expandAll || i === 0}
+          />
+        ))}
+      </dl>
     </>
   )
 }

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { gql } from '@apollo/client'
 import { IndustryTermCardTermFragment } from '@generated/IndustryTermCardTermFragment'
 import routes from '@lib/routes'
-import CmsResponsiveImage from '../.dato-cms/CmsResponsiveImage'
+import CmsResponsiveImage from '../_dato-cms/CmsResponsiveImage'
 import { useLogger } from 'next-axiom'
 
 export interface Props {

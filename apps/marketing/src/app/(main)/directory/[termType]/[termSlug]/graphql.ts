@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
-import CmsStructuredText from '@components/common/.dato-cms/CmsStructuredText'
-import CmsStructuredTextTableofContents from '@components/common/.dato-cms/CmsStructuredTextTableOfContents'
+import CmsStructuredText from '@components/common/_dato-cms/CmsStructuredText'
+import CmsStructuredTextTableofContents from '@components/common/_dato-cms/CmsStructuredTextTableOfContents'
 
 export const GET_DATA = gql`
   ${CmsStructuredTextTableofContents.fragments.glossaryTermDescription}

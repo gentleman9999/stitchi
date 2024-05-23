@@ -11,7 +11,7 @@ import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 import { toNextMetadata } from 'react-datocms/seo'
 import routes from '@lib/routes'
-import CmsStructuredText from '@components/common/.dato-cms/CmsStructuredText'
+import CmsStructuredText from '@components/common/_dato-cms/CmsStructuredText'
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const client = await getClient()

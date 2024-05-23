@@ -1,9 +1,7 @@
 import { gql } from '@apollo/client'
 import { AvatarImageFragment } from '@generated/AvatarImageFragment'
 import React from 'react'
-import CmsResponsiveImage, {
-  CmsResponsiveImageFragments,
-} from '../.dato-cms/CmsResponsiveImage'
+import CmsResponsiveImage from '../_dato-cms/CmsResponsiveImage'
 
 export interface AvatarProps {
   image: AvatarImageFragment
@@ -26,7 +24,7 @@ const Avatar = (props: AvatarProps) => {
 
 Avatar.fragments = {
   image: gql`
-    ${CmsResponsiveImageFragments.image}
+    ${CmsResponsiveImage.fragments.image}
     fragment AvatarImageFragment on FileField {
       id
       responsiveImage(
