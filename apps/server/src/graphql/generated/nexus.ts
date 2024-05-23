@@ -82,7 +82,7 @@ export interface NexusGenInputs {
   }
   CatalogProductQuoteCreatePrintLocationInput: { // input type
     colorCount?: number | null; // Int
-    embellishmentType: string; // String!
+    embellishmentType: NexusGenEnums['PrintType']; // PrintType!
   }
   DateFilterInput: { // input type
     gte?: string | null; // String
@@ -395,6 +395,7 @@ export interface NexusGenEnums {
   OrderPaymentStatus: "NOT_PAID" | "PAID" | "PARTIALLY_PAID" | "PARTIALLY_REFUNDED" | "REFUNDED"
   OrderStatusTemporary: "COMPLETED" | "CONFIRMED" | "IN_FULFILLMENT" | "IN_PRODUCTION" | "UNCONFIRMED"
   OrderType: "CART" | "CONFIRMED"
+  PrintType: "embroidery" | "heat transfer" | "screen print"
   ScopeAction: "CREATE" | "DELETE" | "READ" | "UPDATE"
   ScopeModifier: "ALL" | "OWN"
   ScopeResource: "DesignProduct" | "DesignProof" | "DesignRequest" | "DesignRequestRevisionRequest" | "Integration" | "ManualQuote" | "Membership" | "Order" | "OrderFulfillment" | "Organization"

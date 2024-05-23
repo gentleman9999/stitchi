@@ -27,6 +27,7 @@ import useProductQuote from './useProductQuote'
 import {
   CatalogProductCustomizationAddonType,
   ProductFormProductFragment,
+  PrintType,
 } from '@generated/types'
 import { useFragment } from '@apollo/experimental-nextjs-app-support/ssr'
 import { fragments } from './ProductForm.fragments'
@@ -36,30 +37,30 @@ const customizationOptions = [
   {
     name: 'Front',
     type: CatalogProductCustomizationAddonType.PRINT_LOCATION,
-    selectedMethod: '',
+    printType: undefined,
   },
   {
     name: 'Back',
     type: CatalogProductCustomizationAddonType.PRINT_LOCATION,
-    selectedMethod: '',
+    printType: undefined,
   },
   {
     name: 'Left Sleeve',
     type: CatalogProductCustomizationAddonType.PRINT_LOCATION,
-    selectedMethod: '',
+    printType: undefined,
   },
   {
     name: 'Right Sleeve',
     type: CatalogProductCustomizationAddonType.PRINT_LOCATION,
-    selectedMethod: '',
+    printType: undefined,
   },
 ]
-
 const availPrintingMethods = [
-  'screen print',
-  'embroidery',
-  'heat transfer'
+  PrintType.SCREENPRINT,
+  PrintType.EMBROIDERY,
+  PrintType.HEATTRANSFER,
 ]
+
 
 const sizeSchema = yup.object().shape({
   catalogProductVariantId: yup.string().nullable().defined(),
@@ -92,7 +93,7 @@ const schema = yup.object().shape({
       yup
         .object()
         .shape({
-          selectedMethod: yup.string().required(),
+          printType: yup.mixed<PrintType>().oneOf(Object.values(PrintType)),
           name: yup.string().required(),
           type: yup
             .mixed<CatalogProductCustomizationAddonType>()
@@ -117,6 +118,10 @@ interface ProductFormProps {
   onSubmit: (values: FormValues) => Promise<void>
   onActiveColorChange?: (colorId: string | null) => void
   defaultColorId: string | undefined
+}
+
+const capitalizeString = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
 const ProductForm = (props: ProductFormProps) => {
@@ -174,12 +179,12 @@ const ProductForm = (props: ProductFormProps) => {
     .filter(
       c =>
         c.type === CatalogProductCustomizationAddonType.PRINT_LOCATION &&
-        c.selectedMethod,
+        c.printType,
     )
     .map(c => ({
       printLocation: {
-        ...(c.selectedMethod !== 'embroidery' && { colorCount: 1 }),
-        embellishmentType: c.selectedMethod
+        ...(c.printType !== PrintType.EMBROIDERY && { colorCount: 1 }),
+        embellishmentType: c.printType
       },
     }))
 
@@ -286,7 +291,7 @@ const ProductForm = (props: ProductFormProps) => {
               {customizationFields.fields.map((customization, index) => (
                 <Controller
                   key={customization.id}
-                  name={`customizations.${index}.selectedMethod`}
+                  name={`customizations.${index}.printType`}
                   control={form.control}
                   render={({ field: { onChange: onControllerChange, value, name, ref } }) => (
                     <Dropdown
@@ -309,7 +314,7 @@ const ProductForm = (props: ProductFormProps) => {
                           <div className="flex flex-col gap-1">
                             <div className="text-sm font-semibold">
                               {customization.name}
-                              {value && ' - ' + value}
+                              {value && ' - ' + capitalizeString(value)}
                             </div>
                           </div>
                           { value && 
@@ -329,7 +334,7 @@ const ProductForm = (props: ProductFormProps) => {
                       renderItems={() => availPrintingMethods.map((element, idx) => (
                         <DropdownItem
                           key={"design-request-" + idx}
-                          label={element}
+                          label={capitalizeString(element)}
                           onClick={() => onControllerChange(element)}
                         />
                       ))}

@@ -1,4 +1,4 @@
-import { add, chain, divide, multiply, print, sum } from 'mathjs'
+import { add, chain, divide, multiply, sum } from 'mathjs'
 import {
   FULFILLMENT_CHARGE,
   SCREEN_CHARGE,

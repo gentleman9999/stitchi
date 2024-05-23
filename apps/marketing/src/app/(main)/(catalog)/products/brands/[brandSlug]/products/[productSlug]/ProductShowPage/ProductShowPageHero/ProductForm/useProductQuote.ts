@@ -3,6 +3,7 @@ import {
   CatalogProductQuoteCreateInput,
   ProductFormCreateQuoteMutation,
   ProductFormCreateQuoteMutationVariables,
+  PrintType
 } from '@generated/types'
 import deepEqual from 'deep-equal'
 import React from 'react'
@@ -30,7 +31,7 @@ const useProductQuote = ({
           {
             printLocation: {
               colorCount: 1,
-              embellishmentType: 'screen print'
+              embellishmentType: PrintType.SCREENPRINT
             },
           },
         ]

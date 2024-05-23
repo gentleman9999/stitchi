@@ -113,7 +113,7 @@ type CatalogProductQuoteCreatePayload {
 
 input CatalogProductQuoteCreatePrintLocationInput {
   colorCount: Int
-  embellishmentType: String!
+  embellishmentType: PrintType!
 }
 
 type Color {
@@ -1374,6 +1374,12 @@ type PaymentMethodCard {
   expMonth: Int
   expYear: Int
   last4: String
+}
+
+enum PrintType {
+  EMBROIDERY
+  HEATTRANSFER
+  SCREENPRINT
 }
 
 type Product {

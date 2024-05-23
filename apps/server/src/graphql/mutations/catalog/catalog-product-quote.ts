@@ -1,6 +1,15 @@
 import { GraphQLError } from 'graphql'
-import { inputObjectType, mutationField, nonNull, objectType } from 'nexus'
+import { inputObjectType, mutationField, nonNull, objectType, enumType } from 'nexus'
 import { v4 } from 'uuid'
+
+export const PrintType = enumType({
+  name: 'PrintType',
+  members: {
+    SCREENPRINT: 'screen print',
+    EMBROIDERY: 'embroidery',
+    HEATTRANSFER: 'heat transfer',
+  },
+});
 
 export const CatalogProductQuoteCreateItemsInput = inputObjectType({
   name: 'CatalogProductQuoteCreateItemsInput',
@@ -14,7 +23,9 @@ export const CatalogProductQuoteCreatePrintLocationInput = inputObjectType({
   name: 'CatalogProductQuoteCreatePrintLocationInput',
   definition(t) {
     t.int('colorCount')
-    t.nonNull.string('embellishmentType')
+    t.nonNull.field('embellishmentType', {
+      type: 'PrintType',
+    });
   },
 })
 

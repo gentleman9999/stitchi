@@ -280,6 +280,12 @@ export interface ArticleModelContentField {
 export type ArticleModelContentLinksField = ArticleRecord | CustomComponentRecord | GlossaryEntryRecord | TableRecord;
 
 /** Linking fields */
+export enum PrintType {
+  SCREENPRINT = "screen print",
+  EMBROIDERY = "embroidery",
+  HEATTRANSFER = "heat transfer",
+}
+
 export enum ArticleModelFieldsReferencingGlossaryEntryModel {
   article_content = 'article_content'
 }
@@ -1735,7 +1741,7 @@ export interface CatalogProductQuoteCreatePayload {
 
 export interface CatalogProductQuoteCreatePrintLocationInput {
   colorCount?: Scalars['Int']['input'];
-  embellishmentType: Scalars['String']['input'];
+  embellishmentType?: PrintType;
 }
 
 /** Category */
