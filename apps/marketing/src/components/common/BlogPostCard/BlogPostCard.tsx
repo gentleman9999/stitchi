@@ -5,7 +5,7 @@ import { humanizeDate } from '@lib/utils/date'
 import Link from 'next/link'
 import React from 'react'
 import Avatar from '../Avatar'
-import CmsImage, { CmsImageFragments } from '../CmsImage'
+import CmsResponsiveImage from '../_dato-cms/CmsResponsiveImage'
 
 export interface BlogPostCardProps {
   post: BlogPostCardArticleFragment
@@ -31,7 +31,7 @@ const BlogPostCard = ({ post, variant = 'vertical' }: BlogPostCardProps) => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between w-full">
           <div className="relative w-full md:w-2/5 hidden @md:block">
             {post.image?.responsiveImage && (
-              <CmsImage
+              <CmsResponsiveImage
                 data={post.image.responsiveImage}
                 layout="responsive"
                 objectFit="cover"
@@ -59,7 +59,7 @@ const BlogPostCard = ({ post, variant = 'vertical' }: BlogPostCardProps) => {
     <article className="flex flex-col items-start">
       {post.image?.responsiveImage && (
         <div className="relative w-full">
-          <CmsImage
+          <CmsResponsiveImage
             data={post.image.responsiveImage}
             layout="responsive"
             objectFit="cover"
@@ -114,7 +114,7 @@ const BlogPostCard = ({ post, variant = 'vertical' }: BlogPostCardProps) => {
 
 BlogPostCard.fragments = {
   article: gql`
-    ${CmsImageFragments.image}
+    ${CmsResponsiveImage.fragments.image}
     ${Avatar.fragments.image}
     fragment BlogPostCardArticleFragment on ArticleRecord {
       id
@@ -125,7 +125,7 @@ BlogPostCard.fragments = {
       shortDescription
       image {
         responsiveImage(imgixParams: { auto: format }) {
-          ...CmsImageFragment
+          ...CmsResponsiveImageFragment
         }
       }
       author {

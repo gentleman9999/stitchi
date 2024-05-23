@@ -12,10 +12,14 @@ import { anchorTagFromNode } from '@lib/utils/structured-text'
 import { isLink, isHeading } from 'datocms-structured-text-utils'
 import Link from 'next/link'
 import { StructuredText, renderNodeRule } from 'react-datocms'
-import CmsImage, { CmsImageFragments } from '../CmsImage'
-import CampusMarketSizeCalculator from './CampusMarketSizeCalculator'
-import TableRecord from './TableRecord'
-import { CmsStructuredTextRichContentRecordFragment } from '@generated/types'
+import CmsResponsiveImage from '../CmsResponsiveImage'
+import CampusMarketSizeCalculator from '../../CampusMarketSizeCalculator'
+import TableRecord from '../CmsTableRecord'
+import CmsLandingPageSection from '../CmsLandingPageSection'
+import CmsLandingPageCallToAction from '../CmsLandingPageCallToAction'
+import CmsLandingPageCatalogSection, {
+  fragments as cmsLandingPageCatalogSectionFragments,
+} from '../CmsLandingPageCatalogSection'
 
 interface Props {
   content:
@@ -24,7 +28,6 @@ interface Props {
     | CmsStructuredTextPrivacyPolicyContentFragment
     | CmsStructuredTextTermsOfUseContentFragment
     | CmsStructuredTextGlossaryDescriptionFragment
-    | CmsStructuredTextRichContentRecordFragment
 }
 
 const CmsStructuredText = ({ content }: Props) => {
@@ -127,13 +130,34 @@ const CmsStructuredText = ({ content }: Props) => {
             }
             return (
               <div className="prose-img:mt-0 rounded-sm overflow-hidden">
-                <CmsImage
+                <CmsResponsiveImage
                   lazyLoad
                   data={castedRecord.image.responsiveImage}
                   layout="responsive"
                   objectFit="contain"
                 />
               </div>
+            )
+
+          case 'PageSectionRecord':
+            return (
+              <CmsLandingPageSection key={record.id} section={record as any} />
+            )
+
+          case 'PageCallToActionRecord':
+            return (
+              <CmsLandingPageCallToAction
+                key={record.id}
+                callToAction={record as any}
+              />
+            )
+
+          case 'PageSectionCatalogRecord':
+            return (
+              <CmsLandingPageCatalogSection
+                key={record.id}
+                catalogSection={record as any}
+              />
             )
 
           default:
@@ -146,7 +170,10 @@ const CmsStructuredText = ({ content }: Props) => {
 
 CmsStructuredText.fragments = {
   articleContent: gql`
-    ${CmsImageFragments.image}
+    ${CmsResponsiveImage.fragments.image}
+    ${CmsLandingPageSection.fragments.section}
+    ${CmsLandingPageCallToAction.fragments.callToAction}
+    ${cmsLandingPageCatalogSectionFragments.catalogSection}
     fragment CmsStructuredTextContentFragment on ArticleModelContentField {
       value
       blocks {
@@ -155,9 +182,23 @@ CmsStructuredText.fragments = {
           image {
             id
             responsiveImage {
-              ...CmsImageFragment
+              ...CmsResponsiveImageFragment
             }
           }
+        }
+        ... on PageSectionRecord {
+          id
+          ...CmsLandingPageSectionSectionFragment
+        }
+
+        ... on PageCallToActionRecord {
+          id
+          ...CmsLandingPageCallToActionCallToActionFragment
+        }
+
+        ... on PageSectionCatalogRecord {
+          id
+          ...CmsLandingPageCatalogSectionCatalogSectionFragment
         }
       }
       links {
@@ -202,7 +243,7 @@ CmsStructuredText.fragments = {
     }
   `,
   glossaryEntryDescription: gql`
-    ${CmsImageFragments.image}
+    ${CmsResponsiveImage.fragments.image}
     fragment CmsStructuredTextGlossaryDescriptionFragment on GlossaryEntryModelDescriptionField {
       value
       blocks {
@@ -211,7 +252,7 @@ CmsStructuredText.fragments = {
           image {
             id
             responsiveImage {
-              ...CmsImageFragment
+              ...CmsResponsiveImageFragment
             }
           }
         }
@@ -226,23 +267,6 @@ CmsStructuredText.fragments = {
           id
           slug
           term
-        }
-      }
-    }
-  `,
-
-  richContentRecord: gql`
-    fragment CmsStructuredTextRichContentRecordFragment on RichContentModelContentField {
-      value
-      blocks {
-        id
-        ... on ImageRecord {
-          image {
-            id
-            responsiveImage {
-              ...CmsImageFragment
-            }
-          }
         }
       }
     }

@@ -6,11 +6,11 @@ import Tabs from '@components/ui/Tabs'
 import routes from '@lib/routes'
 import Link from 'next/link'
 import React from 'react'
-import Section from '../../../../../../components/common/Section'
-import SectionHeader from '../../../../../../components/common/SectionHeader'
+import Section from '../../Section'
+import SectionHeader from '../../SectionHeader'
 import { CmsLandingPageCatalogSectionCatalogSectionFragment } from '@generated/types'
 import CmsLandingPageCatalogSectionProducts from './CmsLandingPageCatalogSectionProducts'
-import staticData from '../../../../../../generated/static.json'
+import staticData from '../../../../generated/static.json'
 
 const defaultCategories = [
   {

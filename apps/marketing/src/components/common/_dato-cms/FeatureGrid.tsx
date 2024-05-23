@@ -1,6 +1,6 @@
 import { ArrowRightIcon } from '@heroicons/react/20/solid'
 import React from 'react'
-import CallToActionButton from './CallToActionButton'
+import CallToActionButton from './CmsCallToActionButton'
 import HeroIcon from './HeroIcon'
 
 interface Feature {

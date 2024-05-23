@@ -17,7 +17,7 @@ interface Props {
   table: Table
 }
 
-const TableRecord = ({ table }: Props) => {
+const CmsTableRecord = ({ table }: Props) => {
   const [expanded, setExpanded] = React.useState(false)
 
   React.useEffect(() => {
@@ -104,4 +104,4 @@ const TableRecord = ({ table }: Props) => {
     </>
   )
 }
-export default TableRecord
+export default CmsTableRecord

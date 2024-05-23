@@ -5,15 +5,15 @@ import SectionHeader from '@components/common/SectionHeader'
 import { gql } from '@apollo/client'
 import FeatureGrid, { Props as FeatureGridProps } from './FeatureGrid'
 import Container from '@components/ui/Container'
-import CmsImage, { CmsImageFragments } from '@components/common/CmsImage'
-import FAQGroup, { Props as FAQGroupProps } from './FAQGroup'
+import CmsResponsiveImage from './CmsResponsiveImage'
+import CmsFAQGroup, { Props as CmsFAQGroupProps } from './CmsFAQGroup'
 import { Logger } from 'next-axiom'
 import LandingPageGrid, {
   Props as LandingPageGridProps,
 } from './LandingPageGrid'
 import { CmsLandingPageSectionSectionFragment } from '@generated/types'
 import { formatTradeshowDate, getHref } from '@lib/cms-landing-page'
-import CmsStructuredText from '@components/common/CmsStructuredText'
+import CmsRichContentRecord from './CmsRichContentRecord'
 
 interface Props {
   section: CmsLandingPageSectionSectionFragment
@@ -41,7 +41,7 @@ const CmsLandingPageSection = ({ section }: Props) => {
                 '!hidden': imageAlignment !== 'left',
               })}
             >
-              <CmsImage data={image.responsiveImage} />
+              <CmsResponsiveImage data={image.responsiveImage} />
             </div>
           ) : null}
 
@@ -61,7 +61,7 @@ const CmsLandingPageSection = ({ section }: Props) => {
             />
 
             {image?.responsiveImage ? (
-              <CmsImage
+              <CmsResponsiveImage
                 data={image.responsiveImage}
                 className={cx('mt-8 sm:mt-10 md:mt-12 lg:mt-16 m-auto', {
                   'lg:hidden': imageAlignment !== 'center',
@@ -90,7 +90,7 @@ const CmsLandingPageSection = ({ section }: Props) => {
                     return <FeatureGrid features={features} />
 
                   case 'FaqGroupRecord':
-                    const faqs: FAQGroupProps['faqs'] = []
+                    const faqs: CmsFAQGroupProps['faqs'] = []
 
                     for (const faq of content.faqs) {
                       if (faq.question && faq.answer) {
@@ -103,7 +103,7 @@ const CmsLandingPageSection = ({ section }: Props) => {
                     }
 
                     return (
-                      <FAQGroup faqs={faqs} expandAll={content.expandAll} />
+                      <CmsFAQGroup faqs={faqs} expandAll={content.expandAll} />
                     )
 
                   case 'RichContentRecord':
@@ -111,7 +111,7 @@ const CmsLandingPageSection = ({ section }: Props) => {
 
                     return (
                       <div className="prose prose-lg prose-fuchsia m-auto">
-                        <CmsStructuredText content={content.content} />
+                        <CmsRichContentRecord content={content.content} />
                       </div>
                     )
                   case 'LandingPageGridRecord':
@@ -168,7 +168,7 @@ const CmsLandingPageSection = ({ section }: Props) => {
                 '!hidden': imageAlignment !== 'right',
               })}
             >
-              <CmsImage data={image.responsiveImage} />
+              <CmsResponsiveImage data={image.responsiveImage} />
             </div>
           ) : null}
         </div>
@@ -179,8 +179,8 @@ const CmsLandingPageSection = ({ section }: Props) => {
 
 CmsLandingPageSection.fragments = {
   section: gql`
-    ${CmsImageFragments.image}
-    ${CmsStructuredText.fragments.richContentRecord}
+    ${CmsResponsiveImage.fragments.image}
+    ${CmsRichContentRecord.fragments.richContentRecord}
     fragment CmsLandingPageSectionSectionFragment on PageSectionRecord {
       id
       title
@@ -191,7 +191,7 @@ CmsLandingPageSection.fragments = {
       image {
         id
         responsiveImage {
-          ...CmsImageFragment
+          ...CmsResponsiveImageFragment
         }
       }
 

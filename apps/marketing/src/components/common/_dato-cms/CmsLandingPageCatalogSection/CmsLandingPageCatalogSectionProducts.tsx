@@ -3,7 +3,7 @@
 import { gql } from '@apollo/client'
 import CatalogProductLegacy, {
   CatalogProductLegacyFragments,
-} from '../../../../../../components/common/CatalogProductLegacy'
+} from '../../CatalogProductLegacy'
 import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 import routes from '@lib/routes'
 import {

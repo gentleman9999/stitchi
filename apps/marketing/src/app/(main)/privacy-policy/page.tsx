@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client'
-import CmsStructuredText from '@components/common/CmsStructuredText'
 import Section from '@components/common/Section'
 import Container from '@components/ui/Container'
 import { getClient } from '@lib/apollo-rsc'
@@ -12,6 +11,7 @@ import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 import { toNextMetadata } from 'react-datocms/seo'
 import routes from '@lib/routes'
+import CmsStructuredText from '@components/common/_dato-cms/CmsStructuredText'
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const client = await getClient()
