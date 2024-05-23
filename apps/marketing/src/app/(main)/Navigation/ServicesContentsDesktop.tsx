@@ -8,7 +8,9 @@ interface Props {}
 const ServicesContentsDesktop = ({}: Props) => {
   return (
     <ul className="p-4 flex flex-col gap-2">
-      <Link href={routes.internal.solutions.design.href()}>Custom Design</Link>
+      <Link href={routes.internal.solutions.design.href()}>
+        Work with a Designer
+      </Link>
       <Link href={routes.internal.solutions.customization.href()}>
         Bulk Orders
       </Link>

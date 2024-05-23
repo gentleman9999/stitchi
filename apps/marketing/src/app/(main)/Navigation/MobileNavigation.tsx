@@ -47,12 +47,9 @@ const MobileNavigation = ({ renderTrigger }: Props) => {
 
           <hr />
 
-          <Section
-            title="Our Solutions"
-            href={routes.internal.solutions.href()}
-          >
+          <Section title="Our Services" href={routes.internal.solutions.href()}>
             <NavLink href={routes.internal.solutions.design.href()}>
-              Custom Design
+              Work with a Designer
             </NavLink>
             <NavLink href={routes.internal.solutions.customization.href()}>
               Bulk Orders
