@@ -483,12 +483,6 @@ const ProductForm = (props: ProductFormProps) => {
                     ensures we can offer the best prices to our customers.
                   </p>
                 )}
-
-                {/* {totalQuantity === 0 && priceMetadata?.maxPriceCents
-                  ? `-
-                  ${currency(priceMetadata.maxPriceCents, {
-                  }).format()}`
-                  : null} */}
               </>
             </span>
           </div>
