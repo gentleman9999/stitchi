@@ -1,3 +1,4 @@
+import { EmbellishmentType } from '@stitchi/quote'
 import { GraphQLError } from 'graphql'
 import { inputObjectType, mutationField, nonNull, objectType } from 'nexus'
 import { v4 } from 'uuid'
@@ -66,6 +67,7 @@ export const catalogProductQuoteCreate = mutationField(
               .filter(addon => addon.printLocation)
               .map(addon => ({
                 colorCount: addon.printLocation?.colorCount || 0,
+                embellishmentType: EmbellishmentType.SCREENPRINTING,
               })) || [],
           variants: items.map(item => ({
             catalogProductId: catalogProductId,
