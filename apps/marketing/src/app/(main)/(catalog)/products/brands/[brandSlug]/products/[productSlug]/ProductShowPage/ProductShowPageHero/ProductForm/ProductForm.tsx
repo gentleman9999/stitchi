@@ -293,53 +293,73 @@ const ProductForm = (props: ProductFormProps) => {
                   key={customization.id}
                   name={`customizations.${index}.printType`}
                   control={form.control}
-                  render={({ field: { onChange: onControllerChange, value, name, ref } }) => (
-                    <Dropdown
-                      align="end"
-                      renderTrigger={() => (
-                        <button
-                          type="button"
-                          ref={ref}
-                          key={index}
-                          className="flex flex-row w-full items-center gap-4 border rounded-sm p-4 hover:bg-gray-50 transition-all"
-                        >
-                          <Checkbox
-                            name={name}
-                            value="checked"
-                            checked={!!value}
-                            disabled={true}
-                            onChange={()=> {}}
-                            size={2}
-                          />
-                          <div className="flex flex-col gap-1">
-                            <div className="text-sm font-semibold">
-                              {customization.name}
-                              {value && ' - ' + capitalizeString(value)}
-                            </div>
-                          </div>
-                          { value && 
-                            <span
-                              className="x-btn p-1 hover:bg-gray-100 rounded-sm"
-                              onClick={(e) => {
-                                if(e && e.stopPropagation)
-                                  e.stopPropagation();
-                                onControllerChange(undefined);
-                              }}
-                            >
-                              <XIcon className="w-4 h-4 text-gray-400" />
-                            </span>
-                          }
-                        </button>
-                      )}
-                      renderItems={() => availPrintingMethods.map((element, idx) => (
-                        <DropdownItem
-                          key={"design-request-" + idx}
-                          label={capitalizeString(element)}
-                          onClick={() => onControllerChange(element)}
+                  render={({ field: { onChange, value, name, ref } }) => (
+                    <button
+                      type="button"
+                      ref={ref}
+                      key={index}
+                      className="flex flex-col w-full items-center gap-4 border rounded-sm p-4 hover:bg-gray-50 transition-all"
+                    >
+                      <div className="flex flex-row w-full items-center">
+                        <Checkbox
+                          name={name}
+                          value="checked"
+                          checked={!!value}
+                          onChange={()=> {
+                            value ? onChange(null) : onChange(PrintType.SCREEN_PRINTING)
+                          }}
+                          size={2}
                         />
-                      ))}
-                    />
-                    
+                        <div className="flex flex-col ml-3">
+                          <div className="text-sm font-semibold">
+                            {customization.name}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex w-full">
+                        <Tooltip
+                          label="Screen Printing is popular one"
+                          renderTrigger={() => (
+                            <button
+                              className={`flex items-center px-4 py-2 ml-9 mr-2 w-40 border rounded-sm shadow-sm bg-white hover:bg-gray-50 ${ value === PrintType.SCREEN_PRINTING ? 'border-2 border-rose-600' : ''}`}
+                              onClick={() => onChange(PrintType.SCREEN_PRINTING)}
+                            >
+                              <span className="text-sm text-gray-400 font-normmmmmal font-headingDisplay flex">
+                                Screen Printing
+                                <QuestionMarkCircleIcon className="w-3 h-3" />
+                              </span>
+                            </button>
+                          )}
+                        />
+                        <Tooltip
+                          label="Screen Printing is popular one"
+                          renderTrigger={() => (
+                            <button
+                              className="flex items-center px-4 py-2 border rounded-sm shadow-sm bg-white hover:bg-gray-50"
+                              onClick={() => onChange(PrintType.EMBROIDERY)}
+                            >
+                              <span className="text-sm text-gray-400 font-normmmmmal font-headingDisplay flex">
+                                Embroidery (stitched)
+                                <QuestionMarkCircleIcon className="w-3 h-3" />
+                              </span>
+                            </button>
+                          )}
+                        />
+                      </div>
+                      {/* { value && 
+                        <span
+                          className="x-btn p-1 hover:bg-gray-100 rounded-sm"
+                          onClick={(e) => {
+                            if(e && e.stopPropagation)
+                              e.stopPropagation();
+                            onChange(undefined);
+                          }}
+                        >
+                          <XIcon className="w-4 h-4 text-gray-400" />
+                        </span>
+                      } */}
+                    </button>
                   )}
                 />
               ))}
