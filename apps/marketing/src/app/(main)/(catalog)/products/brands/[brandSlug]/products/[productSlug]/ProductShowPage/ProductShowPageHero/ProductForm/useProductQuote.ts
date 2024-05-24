@@ -31,7 +31,7 @@ const useProductQuote = ({
           {
             printLocation: {
               colorCount: 1,
-              embellishmentType: PrintType.SCREENPRINT
+              embellishmentType: PrintType.SCREEN_PRINTING
             },
           },
         ]

@@ -56,9 +56,9 @@ const customizationOptions = [
   },
 ]
 const availPrintingMethods = [
-  PrintType.SCREENPRINT,
+  PrintType.SCREEN_PRINTING,
   PrintType.EMBROIDERY,
-  PrintType.HEATTRANSFER,
+  PrintType.HEAT_TRANSFER,
 ]
 
 

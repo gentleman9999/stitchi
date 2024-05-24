@@ -395,7 +395,7 @@ export interface NexusGenEnums {
   OrderPaymentStatus: "NOT_PAID" | "PAID" | "PARTIALLY_PAID" | "PARTIALLY_REFUNDED" | "REFUNDED"
   OrderStatusTemporary: "COMPLETED" | "CONFIRMED" | "IN_FULFILLMENT" | "IN_PRODUCTION" | "UNCONFIRMED"
   OrderType: "CART" | "CONFIRMED"
-  PrintType: "embroidery" | "heat transfer" | "screen print"
+  PrintType: "EMBROIDERY" | "HEAT_TRANSFER" | "SCREEN_PRINTING"
   ScopeAction: "CREATE" | "DELETE" | "READ" | "UPDATE"
   ScopeModifier: "ALL" | "OWN"
   ScopeResource: "DesignProduct" | "DesignProof" | "DesignRequest" | "DesignRequestRevisionRequest" | "Integration" | "ManualQuote" | "Membership" | "Order" | "OrderFulfillment" | "Organization"

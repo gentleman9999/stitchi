@@ -1378,8 +1378,8 @@ type PaymentMethodCard {
 
 enum PrintType {
   EMBROIDERY
-  HEATTRANSFER
-  SCREENPRINT
+  HEAT_TRANSFER
+  SCREEN_PRINTING
 }
 
 type Product {

@@ -1,4 +1,4 @@
-import { MathScalarType, sum } from 'mathjs'
+import { sum } from 'mathjs'
 
 export const getMarkupMultiplier = (unitCost: number) => {
   let markup = 65
@@ -82,18 +82,13 @@ export const getEmbroideryQtyBreakpoint = (qty: number) => {
 }
 
 export enum EmbellishmentType {
-  SCREENPRINTING = 'screen printing',
-  EMBROIDERY = 'embroidery',
+  SCREEN_PRINTING = 'SCREEN_PRINTING',
+  EMBROIDERY = 'EMBROIDERY',
 }
-
-// interface PrintLocation {
-//   colorCount?: number
-//   embellishmentType?: EmbellishmentType
-// }
 
 export interface ScreenPrintingLocation {
   colorCount: number;
-  embellishmentType: EmbellishmentType.SCREENPRINTING;
+  embellishmentType: EmbellishmentType.SCREEN_PRINTING;
 }
 
 interface EmbroideryLocation {

@@ -281,9 +281,9 @@ export type ArticleModelContentLinksField = ArticleRecord | CustomComponentRecor
 
 /** Linking fields */
 export enum PrintType {
-  SCREENPRINT = "screen print",
-  EMBROIDERY = "embroidery",
-  HEATTRANSFER = "heat transfer",
+  SCREEN_PRINTING = "SCREEN_PRINTING",
+  EMBROIDERY = "EMBROIDERY",
+  HEAT_TRANSFER = "HEAT_TRANSFER",
 }
 
 export enum ArticleModelFieldsReferencingGlossaryEntryModel {

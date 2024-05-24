@@ -15,8 +15,8 @@ describe('calculate', () => {
     const input: Input<Product> = {
       includeFulfillment: false,
       printLocations: [
-        { colorCount: 1, embellishmentType: EmbellishmentType.SCREENPRINTING },
-        { colorCount: 1, embellishmentType: EmbellishmentType.SCREENPRINTING },
+        { colorCount: 1, embellishmentType: EmbellishmentType.SCREEN_PRINTING },
+        { colorCount: 1, embellishmentType: EmbellishmentType.SCREEN_PRINTING },
         { embellishmentType: EmbellishmentType.EMBROIDERY }
       ],
       variants: [
@@ -53,8 +53,8 @@ describe('calculate', () => {
     const input: Input<Product> = {
       includeFulfillment: false,
       printLocations: [
-        { colorCount: 1, embellishmentType: EmbellishmentType.SCREENPRINTING },
-        { colorCount: 1, embellishmentType: EmbellishmentType.SCREENPRINTING },
+        { colorCount: 1, embellishmentType: EmbellishmentType.SCREEN_PRINTING },
+        { colorCount: 1, embellishmentType: EmbellishmentType.SCREEN_PRINTING },
         { embellishmentType: EmbellishmentType.EMBROIDERY },
         { embellishmentType: EmbellishmentType.EMBROIDERY }
       ],

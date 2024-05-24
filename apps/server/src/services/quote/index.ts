@@ -6,6 +6,12 @@ import {
 import { logger } from '../../telemetry'
 import { makeCalculate } from '@stitchi/quote'
 
+export enum PrintType {
+  SCREEN_PRINTING = "SCREEN_PRINTING",
+  EMBROIDERY = "EMBROIDERY",
+  HEAT_TRANSFER = "HEAT_TRANSFER",
+}
+
 const inputV2Schema = yup.object().shape({
   includeFulfillment: yup.boolean().required(),
   printLocations: yup
@@ -15,7 +21,7 @@ const inputV2Schema = yup.object().shape({
         .object()
         .shape({
           colorCount: yup.number().min(1).nullable(),
-          embellishmentType: yup.string().required(),
+          embellishmentType: yup.mixed<PrintType>().oneOf(Object.values(PrintType)).required()
         })
         .required(),
     )
@@ -46,7 +52,7 @@ const inputManualSchema = yup.object().shape({
         .object()
         .shape({
           colorCount: yup.number().min(1).nullable(),
-          embellishmentType: yup.string().required(),
+          embellishmentType: yup.mixed<PrintType>().oneOf(Object.values(PrintType)).required()
         })
         .required(),
     )

@@ -60,7 +60,7 @@ const calculate = <T extends VariantMetadata>({
   const totalColorCount: number = sum(
     0,
     ...printLocations
-      .filter((location): location is ScreenPrintingLocation => location.embellishmentType === EmbellishmentType.SCREENPRINTING)
+      .filter((location): location is ScreenPrintingLocation => location.embellishmentType === EmbellishmentType.SCREEN_PRINTING)
       .map(l => l.colorCount)
   )
   const screenCost = multiply(totalColorCount, SCREEN_CHARGE)

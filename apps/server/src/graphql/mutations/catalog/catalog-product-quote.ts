@@ -5,9 +5,9 @@ import { v4 } from 'uuid'
 export const PrintType = enumType({
   name: 'PrintType',
   members: {
-    SCREENPRINT: 'screen print',
-    EMBROIDERY: 'embroidery',
-    HEATTRANSFER: 'heat transfer',
+    SCREEN_PRINTING: 'SCREEN_PRINTING',
+    EMBROIDERY: 'EMBROIDERY',
+    HEAT_TRANSFER: 'HEAT_TRANSFER',
   },
 });
 
@@ -78,7 +78,7 @@ export const catalogProductQuoteCreate = mutationField(
               .filter(addon => addon.printLocation)
               .map(addon => ({
                 colorCount: addon.printLocation?.colorCount,
-                embellishmentType: addon.printLocation?.embellishmentType || 'screen print'
+                embellishmentType: addon.printLocation?.embellishmentType
               })) || [],
           variants: items.map(item => ({
             catalogProductId: catalogProductId,
