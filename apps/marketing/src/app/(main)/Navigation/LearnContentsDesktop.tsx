@@ -6,12 +6,13 @@ import Link from 'next/link'
 import routes from '@lib/routes'
 import Button from '@components/ui/ButtonV2/Button'
 import PopperButton from './PopperButton'
+import IntercomButton from '@components/common/IntercomButton'
 
 const linkClass = 'font-semibold hover:underline underline-offset-4'
 
 const LearnContentsDesktop = () => {
   return (
-    <div className="grid grid-cols-3 gap-4 p-4 divide-x">
+    <div className="grid grid-cols-4 gap-4 p-4 divide-x rounded-sm ring-1 ring-gray-300">
       <div className="col-span-2 flex gap-4">
         <div className="relative w-48 h-48">
           <Image
@@ -52,12 +53,12 @@ const LearnContentsDesktop = () => {
         </div>
       </div>
       <div className="col-span-1 pl-8 flex flex-col gap-4">
-        <h2 className="text-3xl font-bold font-heading">Resources</h2>
-        <ul className="flex flex-col gap-4">
+        <h2 className="text-3xl font-bold font-heading">Learning</h2>
+        <ul className="flex flex-col gap-2">
           <li>
             <PopperButton>
               <Link href={routes.internal.blog.href()} className={linkClass}>
-                Blog
+                Stitchi Blog
               </Link>
             </PopperButton>
           </li>
@@ -67,10 +68,37 @@ const LearnContentsDesktop = () => {
                 href={routes.internal.glossary.href()}
                 className={linkClass}
               >
-                Promotional Products Directory
+                Merch Directory
               </Link>
             </PopperButton>
           </li>
+          <li>
+            <PopperButton>
+              <Link
+                href={routes.internal.learn.show.referralPrograms.href()}
+                className={linkClass}
+              >
+                Referral Program Automation
+              </Link>
+            </PopperButton>
+          </li>
+        </ul>
+      </div>
+      <div className="col-span-1 pl-8 flex flex-col gap-4">
+        <h2 className="text-3xl font-bold font-heading">Resources</h2>
+        <ul className="flex flex-col gap-2">
+          <li>
+            <PopperButton>
+              <Link
+                href={routes.external.support.href()}
+                target="_blank"
+                className={linkClass}
+              >
+                Help Center
+              </Link>
+            </PopperButton>
+          </li>
+
           <li>
             <PopperButton>
               <Link
@@ -81,15 +109,25 @@ const LearnContentsDesktop = () => {
               </Link>
             </PopperButton>
           </li>
+
           <li>
             <PopperButton>
               <Link
-                href={routes.external.support.href()}
-                target="_blank"
+                href={routes.internal.partners.href()}
                 className={linkClass}
               >
-                Support
+                Partners
               </Link>
+            </PopperButton>
+          </li>
+
+          <li>
+            <PopperButton>
+              <IntercomButton
+                as={
+                  <button className={linkClass}>Talk to a Merch Expert</button>
+                }
+              />
             </PopperButton>
           </li>
         </ul>

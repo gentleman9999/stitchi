@@ -162,6 +162,13 @@ const routes = {
       href: () => buildRoute(`/learn`),
       show: {
         href: (postSlug: string) => buildRoute(`/learn/${postSlug}`),
+
+        referralPrograms: {
+          href: () =>
+            buildRoute(
+              `/learn/ultimate-guide-to-creating-and-optimizing-referral-programs-for-your-business`,
+            ),
+        },
       },
       page: {
         href: (page: number) => buildRoute(`/learn/page/${page}`),

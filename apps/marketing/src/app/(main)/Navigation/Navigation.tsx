@@ -124,7 +124,7 @@ const BottomNavContainer = ({ children }: { children: React.ReactNode }) => {
   return (
     <nav
       aria-label="Product categories navigation"
-      className="sticky top-0 border-b h-[39px] flex flex-column bg-white py-1 z-20"
+      className="relative top-0 border-b h-[39px] flex flex-column bg-white py-1 z-20"
     >
       {children}
     </nav>
