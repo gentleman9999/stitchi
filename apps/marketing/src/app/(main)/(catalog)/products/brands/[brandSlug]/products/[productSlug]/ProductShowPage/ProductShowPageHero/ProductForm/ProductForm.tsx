@@ -13,8 +13,6 @@ import {
   SquaresPlusIcon,
   SwatchIcon,
 } from '@heroicons/react/20/solid'
-import { XIcon } from 'icons'
-import { Dropdown, DropdownItem } from '@components/ui/Dropdown'
 import { yupResolver } from '@hookform/resolvers/yup'
 import currency from 'currency.js'
 import React from 'react'
@@ -55,12 +53,6 @@ const customizationOptions = [
     printType: undefined,
   },
 ]
-const availPrintingMethods = [
-  PrintType.SCREEN_PRINTING,
-  PrintType.EMBROIDERY,
-  PrintType.HEAT_TRANSFER,
-]
-
 
 const sizeSchema = yup.object().shape({
   catalogProductVariantId: yup.string().nullable().defined(),
