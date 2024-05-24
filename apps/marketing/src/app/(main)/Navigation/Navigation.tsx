@@ -19,6 +19,7 @@ import Popper from './Popper'
 import PopperBackdrop from '../../PopperBackdrop'
 import NavigationContextProvider from '../../NavigationContext'
 import NavigationPopperContainer from './NavigationPopperContainer'
+import ChatWithUsButton from './ChatWithUsButton'
 
 interface Props {
   categoryTree: NavigationSiteFragment['categoryTree']
@@ -59,7 +60,7 @@ const Navigation = ({ categoryTree }: Props) => {
                 Trigger={
                   <TopBarNavigationMenuTrigger
                     href={routes.internal.solutions.href()}
-                    title="Solutions"
+                    title="Services"
                     preTitle="Our"
                   />
                 }
@@ -87,6 +88,10 @@ const Navigation = ({ categoryTree }: Props) => {
 
             <div className="lg:hidden">
               <SearchButton />
+            </div>
+
+            <div className="hidden lg:block">
+              <ChatWithUsButton />
             </div>
 
             <AppTopbarUser background="dark" />
@@ -119,7 +124,7 @@ const BottomNavContainer = ({ children }: { children: React.ReactNode }) => {
   return (
     <nav
       aria-label="Product categories navigation"
-      className="sticky top-0 border-b h-[39px] flex flex-column bg-white py-1 z-20"
+      className="relative top-0 border-b h-[39px] flex flex-column bg-white py-1 z-20"
     >
       {children}
     </nav>
