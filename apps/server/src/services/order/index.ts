@@ -12,17 +12,23 @@ import {
   NotificationClientService,
   makeClient as makeNotificationServiceClient,
 } from '../notification'
+import { Actor } from '../types'
+import { GetOrderFnInput } from './repository/get-order'
 
 export interface OrderClientService {
   createOrder: (input: CreateOrderFnInput) => Promise<OrderFactoryOrder>
   updateOrder: OrderRepository['updateOrder']
-  getOrder: OrderRepository['getOrder']
+  getOrder: (
+    input: GetOrderFnInput,
+    config: { actor: Actor },
+  ) => Promise<OrderFactoryOrder>
   listOrders: OrderRepository['listOrders']
   listOrdersCount: OrderRepository['listOrdersCount']
   createMailingAddress: OrderRepository['createMailingAddress']
   getMailingAddress: OrderRepository['getMailingAddress']
   reconcileOrderPayments: (input: {
     orderId: string
+    actor: Actor | null
   }) => Promise<OrderFactoryOrder>
 }
 
@@ -72,7 +78,7 @@ const makeClient: MakeClientFn = (
       return order
     },
 
-    getOrder: async input => {
+    getOrder: async (input, { actor }) => {
       try {
         const order = await orderRepository.getOrder({ orderId: input.orderId })
 
@@ -86,6 +92,7 @@ const makeClient: MakeClientFn = (
             order,
             orderRepository,
             paymentService,
+            actor,
           })
         } else {
           return order
@@ -123,6 +130,7 @@ const makeClient: MakeClientFn = (
 
       try {
         return orderRepository.updateOrder({
+          actor: input.actor,
           order: { ...input.order, items: orderItems },
         })
       } catch (error) {
@@ -158,6 +166,12 @@ const makeClient: MakeClientFn = (
         order,
         orderRepository,
         paymentService,
+        actor: input.actor || {
+          membershipId: order.membershipId || null,
+          organizationId: order.organizationId || null,
+          userId: order.userId || null,
+          gaClientId: null,
+        },
       })
     },
   }

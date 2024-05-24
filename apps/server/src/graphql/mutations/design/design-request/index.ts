@@ -801,9 +801,14 @@ export const designRequestApprove = mutationField('designRequestApprove', {
       let orderToUpdate
 
       try {
-        orderToUpdate = await ctx.order.getOrder({
-          orderId: order.id,
-        })
+        orderToUpdate = await ctx.order.getOrder(
+          {
+            orderId: order.id,
+          },
+          {
+            actor: ctx,
+          },
+        )
       } catch (error) {
         ctx.logger
           .child({ error, input })
@@ -815,6 +820,12 @@ export const designRequestApprove = mutationField('designRequestApprove', {
       try {
         // Assocatie any existing order line items with the recently created product (design)
         await ctx.order.updateOrder({
+          actor: {
+            gaClientId: ctx.gaClientId,
+            membershipId: ctx.membershipId,
+            organizationId: ctx.organizationId,
+            userId: ctx.userId,
+          },
           order: {
             ...orderToUpdate,
             items: orderToUpdate.items.map(item => {

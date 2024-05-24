@@ -4,11 +4,9 @@ import {
   extendType,
   idArg,
   inputObjectType,
-  list,
   nonNull,
   queryField,
 } from 'nexus'
-import * as uuid from 'uuid'
 import { orderFactoryOrderToGraphQL } from '../../serializers/order'
 export * from './mailing-address'
 import { NexusGenObjects } from '../../generated/nexus'
@@ -28,8 +26,15 @@ export const order = queryField('order', {
   args: {
     id: nonNull(idArg()),
   },
-  resolve: async (_, { id }, { order }) => {
-    return orderFactoryOrderToGraphQL(await order.getOrder({ orderId: id }))
+  resolve: async (_, { id }, ctx) => {
+    return orderFactoryOrderToGraphQL(
+      await ctx.order.getOrder(
+        { orderId: id },
+        {
+          actor: ctx,
+        },
+      ),
+    )
   },
 })
 

@@ -1,4 +1,5 @@
-import { gql, useMutation, useSuspenseQuery } from '@apollo/client'
+import { gql, useMutation } from '@apollo/client'
+import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr'
 import { UserOnboardingUpdateInput } from '@generated/globalTypes'
 import { UseUserOnboardingGetDataQuery } from '@generated/UseUserOnboardingGetDataQuery'
 import {

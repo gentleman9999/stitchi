@@ -57,9 +57,14 @@ export const orderConfirm = mutationField('orderConfirm', {
     let order
 
     try {
-      order = await ctx.order.getOrder({
-        orderId: input.orderId,
-      })
+      order = await ctx.order.getOrder(
+        {
+          orderId: input.orderId,
+        },
+        {
+          actor: ctx,
+        },
+      )
     } catch (error) {
       ctx.logger
         .child({
@@ -104,6 +109,12 @@ export const orderConfirm = mutationField('orderConfirm', {
 
     try {
       order = await ctx.order.updateOrder({
+        actor: {
+          gaClientId: ctx.gaClientId,
+          membershipId: ctx.membershipId,
+          organizationId: ctx.organizationId,
+          userId: ctx.userId,
+        },
         order: {
           ...order,
           type: OrderRecordType.CONFIRMED,
@@ -116,6 +127,7 @@ export const orderConfirm = mutationField('orderConfirm', {
           // Update these values if the don't already exist
           membershipId: order.membershipId || ctx.membershipId || null,
           organizationId: order.organizationId || ctx.organizationId || null,
+          userId: order.userId || ctx.userId || null,
         },
       })
     } catch (error) {
@@ -168,9 +180,14 @@ export const orderStatusTemporaryUpdate = mutationField(
       let order
 
       try {
-        order = await ctx.order.getOrder({
-          orderId: input.orderId,
-        })
+        order = await ctx.order.getOrder(
+          {
+            orderId: input.orderId,
+          },
+          {
+            actor: ctx,
+          },
+        )
       } catch (error) {
         ctx.logger
           .child({
@@ -182,6 +199,12 @@ export const orderStatusTemporaryUpdate = mutationField(
 
       try {
         order = await ctx.order.updateOrder({
+          actor: {
+            gaClientId: ctx.gaClientId,
+            membershipId: ctx.membershipId,
+            organizationId: ctx.organizationId,
+            userId: ctx.userId,
+          },
           order: {
             ...order,
             statusTemporary: input.status,

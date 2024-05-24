@@ -34,7 +34,10 @@ export const fulfillmentCreate = mutationField('fulfillmentCreate', {
     let order
 
     try {
-      order = await ctx.order.getOrder({ orderId: input.orderId })
+      order = await ctx.order.getOrder(
+        { orderId: input.orderId },
+        { actor: ctx },
+      )
     } catch (error) {
       ctx.logger.child({ context: { error } }).error(`Failed to get order`)
       throw new GraphQLError('Failed to get order')

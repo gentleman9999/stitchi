@@ -5,6 +5,7 @@ import { PrismaClient } from '@prisma/client'
 import { orderFactory, OrderFactoryOrder } from '../factory'
 import { makeEvents } from '../events'
 import { logger } from '../../../telemetry'
+import { Actor } from '../../types'
 
 const inputSchema = Order.omit(['createdAt', 'updatedAt']).concat(
   yup
@@ -35,6 +36,7 @@ interface UpdateOrderConfig {
 
 export interface UpdateOrderFnInput {
   order: yup.InferType<typeof inputSchema>
+  actor: Actor
 }
 
 type UpdateOrderFn = (input: UpdateOrderFnInput) => Promise<OrderFactoryOrder>
@@ -89,6 +91,8 @@ const makeUpdateOrder: MakeUpdateOrderFn =
           updatedAt: new Date(),
           organizationId: validInput.organizationId,
           membershipId: validInput.membershipId,
+          userId: validInput.userId,
+          designRequestId: validInput.designRequestId,
           type: validInput.type,
           customerEmail: validInput.customerEmail,
           customerFirstName: validInput.customerFirstName,
@@ -144,7 +148,7 @@ const makeUpdateOrder: MakeUpdateOrderFn =
 
     orderEvents.emit({
       type: 'order.updated',
-      payload: { prevOrder, nextOrder },
+      payload: { prevOrder, nextOrder, actor: input.actor },
     })
 
     return nextOrder
