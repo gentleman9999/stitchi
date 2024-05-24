@@ -1,6 +1,6 @@
 export interface Actor {
-  userId: string | undefined
-  membershipId: string | undefined
-  organizationId: string | undefined
-  gaClientId: string | undefined
+  userId: string | null
+  membershipId: string | null
+  organizationId: string | null
+  gaClientId: string | null
 }

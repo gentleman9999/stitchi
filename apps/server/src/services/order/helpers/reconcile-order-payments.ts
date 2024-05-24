@@ -1,6 +1,7 @@
 import { logger } from '../../../telemetry'
 import { PaymentClientService } from '../../payment'
 import { RefundFactoryRefund } from '../../payment/factory'
+import { Actor } from '../../types'
 import { OrderRecordPaymentStatus } from '../db/order-table'
 import { OrderFactoryOrder } from '../factory'
 import { OrderRepository } from '../repository'
@@ -41,10 +42,12 @@ const getOrderPaymentStatus = ({
 
 const reconcileOrderPayments = async ({
   order,
+  actor,
   orderRepository,
   paymentService,
 }: {
   order: OrderFactoryOrder
+  actor: Actor
   orderRepository: OrderRepository
   paymentService: PaymentClientService
 }) => {
@@ -105,6 +108,7 @@ const reconcileOrderPayments = async ({
 
   try {
     updatedOrder = await orderRepository.updateOrder({
+      actor,
       order: {
         ...order,
         totalAmountPaidCents,

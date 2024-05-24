@@ -263,6 +263,7 @@ export const catalogProductCustomize = mutationField(
               organizationId: ctx.organizationId || null,
               shippingAddressId: null,
               membershipId: ctx.membershipId || null,
+              userId: ctx.userId || null,
               designRequestId: designRequest.id,
               type: OrderRecordType.CART,
               items: pickedProductVariants

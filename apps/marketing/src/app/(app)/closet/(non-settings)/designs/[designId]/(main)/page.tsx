@@ -11,9 +11,9 @@ interface Props {
 const Page = ({ params }: Props) => {
   return (
     <>
-      <Suspense fallback={null}>
+      {/* <Suspense fallback={null}>
         <DesignOnboardingDialog />
-      </Suspense>
+      </Suspense> */}
 
       <DesignRequestOverview designRequestId={params.designId} />
     </>

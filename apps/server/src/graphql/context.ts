@@ -17,11 +17,11 @@ type StripeClient = ReturnType<typeof makeStripeClient>
 
 export interface Context {
   role?: MembershipRole
-  membershipId?: string
-  userId?: string
-  deviceId?: string
-  organizationId?: string
-  gaClientId?: string
+  membershipId: string | null
+  userId: string | null
+  deviceId: string | null
+  organizationId: string | null
+  gaClientId: string | null
   sendgrid: SendgridClient
   stripe: StripeClient
   conversation: typeof services.conversation
@@ -97,11 +97,11 @@ function makeContext(
         role: userActiveMembership?.role ?? undefined,
         stripe: params.stripe,
         sendgrid: params.sendgrid,
-        userId: payload?.sub,
-        deviceId: deviceId || undefined,
-        gaClientId: gaClientId || undefined,
-        membershipId: userActiveMembership?.id ?? undefined,
-        organizationId: userActiveMembership?.organizationId ?? undefined,
+        userId: payload?.sub || null,
+        deviceId: deviceId || null,
+        gaClientId: gaClientId || null,
+        membershipId: userActiveMembership?.id ?? null,
+        organizationId: userActiveMembership?.organizationId ?? null,
         logger: params.logger.child({
           operationName: req?.body.operationName,
           query: req?.body.query,

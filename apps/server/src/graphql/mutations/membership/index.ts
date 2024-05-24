@@ -446,7 +446,7 @@ export const membershipConnectAnonymousResources = mutationField(
           let foundOrder
 
           try {
-            foundOrder = await ctx.order.getOrder({ orderId })
+            foundOrder = await ctx.order.getOrder({ orderId }, { actor: ctx })
 
             if (!foundOrder) {
               continue
@@ -458,11 +458,18 @@ export const membershipConnectAnonymousResources = mutationField(
 
           try {
             await ctx.order.updateOrder({
+              actor: {
+                gaClientId: ctx.gaClientId,
+                membershipId: ctx.membershipId,
+                organizationId: ctx.organizationId,
+                userId: ctx.userId,
+              },
               order: {
                 ...foundOrder,
                 organizationId:
                   foundOrder?.organizationId || membership.organizationId,
                 membershipId: foundOrder?.membershipId || membership.id,
+                userId: foundOrder?.userId || membership.userId,
               },
             })
           } catch (error) {
