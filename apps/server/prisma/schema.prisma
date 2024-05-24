@@ -182,6 +182,9 @@ model Order {
   // The organization that this order belongs to
   organizationId String?
 
+  // The user that created the order
+  userId String?
+
   customerFirstName String?
   customerLastName  String?
   customerEmail     String?
@@ -464,7 +467,7 @@ model DesignLocation {
 model DesignVariant {
   id String @id @default(uuid())
 
-  designId String
+  designId                String
   catalogProductVariantId String?
 
   catalogProductColorId String
@@ -473,7 +476,7 @@ model DesignVariant {
   colorName    String?
 
   catalogProductSizeId String?
-  sizeName String?
+  sizeName             String?
 
   images DesignVariantImage[]
   design Design               @relation(fields: [designId], references: [id])
@@ -950,16 +953,16 @@ model KeyValue {
 }
 
 model Sku {
-  id                String  @id @default(uuid())
+  id              String @id @default(uuid())
   // TODO(custompro98): designVariant needs to support either `size` or `bigCommerceProductVariantId`
-  designVariantId   String  @unique
-  quantity          Int     @default(0)
+  designVariantId String @unique
+  quantity        Int    @default(0)
 
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  designVariant DesignVariant   @relation(fields: [designVariantId], references: [id])
+  designVariant DesignVariant @relation(fields: [designVariantId], references: [id])
 
   @@index([designVariantId])
 }

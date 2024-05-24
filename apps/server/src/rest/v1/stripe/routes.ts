@@ -63,7 +63,7 @@ const makeRoutes = (
             throw new Error('Charge is missing orderId')
           }
 
-          await orderClient.reconcileOrderPayments({ orderId })
+          await orderClient.reconcileOrderPayments({ orderId, actor: null })
         } catch (error) {
           logger
             .child({

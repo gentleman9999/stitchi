@@ -27,8 +27,9 @@ export const Order: yup.ObjectSchema<OrderSchema> = yup
   .shape({
     id: yup.string().uuid().required(),
     humanReadableId: yup.string().required(),
-    membershipId: yup.string().nullable().defined(),
+    membershipId: yup.string().uuid().nullable().defined(),
     organizationId: yup.string().uuid().nullable().defined(),
+    userId: yup.string().nullable().defined(),
     shippingAddressId: yup.string().uuid().nullable().defined(),
     designRequestId: yup.string().uuid().nullable().defined(),
 

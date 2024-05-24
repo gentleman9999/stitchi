@@ -56,14 +56,12 @@ const makeHandler =
     },
   ): DesignRequestCreatedHandler =>
   async ({ nextDesignRequest, actor }) => {
-    if (actor.gaClientId) {
-      analyticsClient.trackEvent({
-        event: EventName.DESIGN_REQUESTED,
-        designRequest: nextDesignRequest,
-        gaClientId: actor.gaClientId,
-        userId: actor.userId,
-      })
-    }
+    analyticsClient.trackEvent({
+      event: EventName.DESIGN_REQUESTED,
+      designRequest: nextDesignRequest,
+      gaClientId: actor.gaClientId,
+      userId: actor.userId,
+    })
 
     if (nextDesignRequest.status === DesignRequestStatus.SUBMITTED) {
       await designRequestSubmitted(nextDesignRequest, {

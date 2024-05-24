@@ -6,6 +6,14 @@ import {
 import { assertNever } from '../../utils/assert-never'
 import { DesignFactoryDesignRequest } from '../design/factory'
 import { OrderFactoryOrder } from '../order/factory'
+import * as uuid from 'uuid'
+
+const DEBUG_MODE =
+  process.env.GOOGLE_ANALYTICS_MEASUREMENT_DEBUG_MODE === 'true'
+
+if (DEBUG_MODE) {
+  console.log('Google Analytics Measurement Protocol API is in debug mode.')
+}
 
 export enum EventName {
   DESIGN_REQUESTED = 'design_requested',
@@ -13,8 +21,8 @@ export enum EventName {
 }
 
 interface BaseParams {
-  userId: string | undefined
-  gaClientId: string
+  userId: string | null | undefined
+  gaClientId: string | null | undefined
 }
 
 interface DesignRequestedParams extends BaseParams {
@@ -51,7 +59,8 @@ const makeClient: MakeClientFn = (
       switch (params.event) {
         case EventName.DESIGN_REQUESTED: {
           await googleAnalytics.trackEvents({
-            clientId: params.gaClientId,
+            // Generate a random UUID to ensure event gets sent.
+            clientId: params.gaClientId || uuid.v4(),
             userId: params.userId,
             events: [
               {
@@ -60,6 +69,7 @@ const makeClient: MakeClientFn = (
                   design_request_id: params.designRequest.id,
                   design_request_product_id: params.designRequest.product.id,
                   design_request_name: params.designRequest.name,
+                  debug_mode: DEBUG_MODE,
                 },
               },
             ],

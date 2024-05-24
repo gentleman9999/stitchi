@@ -27,7 +27,12 @@ export const paymentIntentCreate = mutationField('paymentIntentCreate', {
     let order
 
     try {
-      order = await ctx.order.getOrder({ orderId: input.orderId })
+      order = await ctx.order.getOrder(
+        { orderId: input.orderId },
+        {
+          actor: ctx,
+        },
+      )
     } catch (error) {
       ctx.logger
         .child({

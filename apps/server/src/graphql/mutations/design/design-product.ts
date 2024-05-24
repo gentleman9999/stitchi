@@ -133,6 +133,7 @@ export const designProductCreateOrder = mutationField(
             organizationId: ctx.organizationId || null,
             shippingAddressId: input.shippingAddressId || null,
             membershipId: ctx.membershipId || null,
+            userId: ctx.userId || null,
             type: OrderRecordType.CART,
             items: input.orderItems
               .map(item => {

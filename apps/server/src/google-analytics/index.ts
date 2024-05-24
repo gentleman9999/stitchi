@@ -22,13 +22,19 @@ export enum GoogleAnalyticsEventEventName {
   NEW_DESIGN_REQUEST = 'design_requested',
 }
 
+interface BaseEventParams {
+  debug_mode?: boolean
+}
+
+interface NewDesignRequestEventParams extends BaseEventParams {
+  design_request_name: string
+  design_request_id: string
+  design_request_product_id: string
+}
+
 interface NewDesignRequestEvent {
   name: GoogleAnalyticsEventEventName.NEW_DESIGN_REQUEST
-  params: {
-    design_request_name: string
-    design_request_id: string
-    design_request_product_id: string
-  }
+  params: NewDesignRequestEventParams
 }
 
 type GoogleAnalyticsEvent = NewDesignRequestEvent

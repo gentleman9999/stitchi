@@ -26,6 +26,7 @@ const orderFactory = ({
     id: orderRecord.id,
     membershipId: orderRecord.membershipId,
     organizationId: orderRecord.organizationId,
+    userId: orderRecord.userId,
     designRequestId: orderRecord.designRequestId,
     humanReadableId: orderRecord.humanReadableId,
     shippingAddressId: orderRecord.shippingAddressId,

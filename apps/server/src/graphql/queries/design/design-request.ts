@@ -360,7 +360,7 @@ export const ExtendDesignRequests = extendType({
 
             conversation = conversationFactoryToGraphQl({
               conversation: response,
-              viewerId: ctx.membershipId,
+              viewerId: ctx.membershipId || undefined,
             })
           } catch (error) {
             ctx.logger.error(error)
