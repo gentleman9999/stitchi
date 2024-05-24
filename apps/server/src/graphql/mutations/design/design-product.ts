@@ -10,6 +10,7 @@ import { OrderRecordType } from '../../../services/order/db/order-table'
 import { notEmpty } from '../../../utils'
 import { orderFactoryOrderToGraphQL } from '../../serializers/order'
 import { v4 } from 'uuid'
+import { EmbellishmentType } from '@stitchi/quote'
 
 export const DesignProductCreateOrderPayload = objectType({
   name: 'DesignProductCreateOrderPayload',
@@ -113,6 +114,7 @@ export const designProductCreateOrder = mutationField(
         includeFulfillment: false,
         printLocations: designProof.locations.map(location => ({
           colorCount: location.colorCount || 0,
+          embellishmentType: EmbellishmentType.SCREEN_PRINTING,
         })),
         variants: input.orderItems.map(variant => ({
           quantity: variant.quantity,
@@ -276,6 +278,7 @@ export const designProductCreateQuote = mutationField(
         includeFulfillment: false,
         printLocations: designProof.locations.map(location => ({
           colorCount: location.colorCount || 0,
+          embellishmentType: EmbellishmentType.SCREEN_PRINTING,
         })),
         variants: input.variants.map(variant => ({
           quantity: variant.quantity,

@@ -1,3 +1,4 @@
+import { EmbellishmentType } from '@stitchi/quote'
 import { GraphQLError } from 'graphql'
 import { inputObjectType, mutationField, nonNull, objectType, enumType } from 'nexus'
 import { v4 } from 'uuid'
