@@ -43,12 +43,6 @@ const printLocationSchema = yup.lazy(
   },
 )
 
-export enum PrintType {
-  SCREEN_PRINTING = "SCREEN_PRINTING",
-  EMBROIDERY = "EMBROIDERY",
-  HEAT_TRANSFER = "HEAT_TRANSFER",
-}
-
 const inputV2Schema = yup.object().shape({
   includeFulfillment: yup.boolean().required(),
   printLocations: yup.array().of(printLocationSchema).required(),
