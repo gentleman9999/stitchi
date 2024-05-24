@@ -4,21 +4,48 @@ import {
   makeClient as makeCatalogServiceClient,
 } from '../catalog'
 import { logger } from '../../telemetry'
-import { makeCalculate } from '@stitchi/quote'
+import { makeCalculate, EmbellishmentType } from '@stitchi/quote'
+import { assertNever } from '../../utils/assert-never'
+
+const screenPrintLocationSchema = yup.object().shape({
+  colorCount: yup.number().min(1).required(),
+  embellishmentType: yup
+    .string<EmbellishmentType.SCREENPRINTING>()
+    .oneOf([EmbellishmentType.SCREENPRINTING])
+    .required(),
+})
+
+type ScreenPrintLocation = yup.InferType<typeof screenPrintLocationSchema>
+
+const embroideryLocationSchema = yup.object().shape({
+  embellishmentType: yup
+    .string<EmbellishmentType.EMBROIDERY>()
+    .oneOf([EmbellishmentType.EMBROIDERY])
+    .required(),
+})
+
+type EmbroideryLocation = yup.InferType<typeof embroideryLocationSchema>
+
+const printLocationSchema = yup.lazy(
+  (
+    value: ScreenPrintLocation | EmbroideryLocation,
+  ): yup.Schema<ScreenPrintLocation | EmbroideryLocation> => {
+    const type = value.embellishmentType
+
+    switch (type) {
+      case EmbellishmentType.SCREENPRINTING:
+        return screenPrintLocationSchema
+      case EmbellishmentType.EMBROIDERY:
+        return embroideryLocationSchema
+      default:
+        return assertNever(type)
+    }
+  },
+)
 
 const inputV2Schema = yup.object().shape({
   includeFulfillment: yup.boolean().required(),
-  printLocations: yup
-    .array()
-    .of(
-      yup
-        .object()
-        .shape({
-          colorCount: yup.number().min(1).required(),
-        })
-        .required(),
-    )
-    .required(),
+  printLocations: yup.array().of(printLocationSchema).required(),
   variants: yup
     .array()
     .of(
@@ -38,17 +65,7 @@ type GenerateQuoteV2Input = yup.InferType<typeof inputV2Schema>
 
 const inputManualSchema = yup.object().shape({
   includeFulfillment: yup.boolean().required(),
-  printLocations: yup
-    .array()
-    .of(
-      yup
-        .object()
-        .shape({
-          colorCount: yup.number().min(1).required(),
-        })
-        .required(),
-    )
-    .required(),
+  printLocations: yup.array().of(printLocationSchema).required(),
   variants: yup
     .array()
     .of(

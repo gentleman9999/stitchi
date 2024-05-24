@@ -8,8 +8,11 @@ import {
   getEmbroideryQtyBreakpoint,
   EmbellishmentType,
   PrintLocation,
-  ScreenPrintingLocation
+  ScreenPrintingLocation,
 } from './shared'
+
+export type { PrintLocation }
+export { EmbellishmentType }
 
 type VariantMetadata = Record<string, any>
 
@@ -60,16 +63,20 @@ const calculate = <T extends VariantMetadata>({
   const totalColorCount: number = sum(
     0,
     ...printLocations
-      .filter((location): location is ScreenPrintingLocation => location.embellishmentType === EmbellishmentType.SCREENPRINTING)
-      .map(l => l.colorCount)
+      .filter(
+        (location): location is ScreenPrintingLocation =>
+          location.embellishmentType === EmbellishmentType.SCREENPRINTING,
+      )
+      .map(l => l.colorCount),
   )
   const screenCost = multiply(totalColorCount, SCREEN_CHARGE)
-  const digitizationCost: number = printLocations.some(location => 
-    location.embellishmentType === EmbellishmentType.EMBROIDERY
-  ) ? 5000 : 0;
+  const digitizationCost: number = printLocations.some(
+    location => location.embellishmentType === EmbellishmentType.EMBROIDERY,
+  )
+    ? 5000
+    : 0
 
   const variantQuotes = variants.map(variant => {
-
     const variantUnitCostCents = chain(printLocationsCosts)
       .add(variant.priceCents)
       .add(divide(sum(screenCost, digitizationCost), totalQuantity))
@@ -101,7 +108,7 @@ const calculate = <T extends VariantMetadata>({
       quantity: variant.quantity,
     }
   })
-  
+
   return [
     null,
     {
@@ -114,7 +121,7 @@ const calculate = <T extends VariantMetadata>({
         divide(
           sum(0, ...variantQuotes.map(v => v.unitRetailPriceCents)),
           variantQuotes.length || 1,
-        )
+        ),
       ),
     },
   ]

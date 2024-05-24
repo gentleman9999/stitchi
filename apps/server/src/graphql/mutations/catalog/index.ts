@@ -16,6 +16,7 @@ import { OrderRecordType } from '../../../services/order/db/order-table'
 import { notEmpty } from '../../../utils'
 import { designRequestFactoryToGrahpql } from '../../serializers/design'
 import { orderFactoryOrderToGraphQL } from '../../serializers/order'
+import { EmbellishmentType } from '@stitchi/quote'
 
 export * from './catalog-product-quote'
 export * from './catalog-manual-quote'
@@ -241,7 +242,10 @@ export const catalogProductCustomize = mutationField(
         // TODO: Add support for Direct to Garment
         const quote = await ctx.quote.generateQuoteV2({
           // quantity,
-          printLocations,
+          printLocations: printLocations.map(pl => ({
+            colorCount: pl.colorCount || 0,
+            embellishmentType: EmbellishmentType.SCREENPRINTING,
+          })),
           includeFulfillment: false,
           // productPriceCents: product.priceCents,
           variants: pickedProductVariants

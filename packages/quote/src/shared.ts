@@ -37,17 +37,11 @@ const PRINT_QTY_BREAKPOINTS = [
   24, 47, 71, 143, 249, 499, 999, 2499, 4999, 7499, 9999,
 ]
 
-const EMBROIDERY_PRICE_COST_CENTS = [
-  4_35, 4_15, 3_75
-]
+const EMBROIDERY_PRICE_COST_CENTS = [4_35, 4_15, 3_75]
 
-const ALTER_EMBROIDERY_PRICE_COST_CENTS = [
-  3_45, 3_25, 3_00
-]
+const ALTER_EMBROIDERY_PRICE_COST_CENTS = [3_45, 3_25, 3_00]
 
-const EMBROIDERY_QTY_BREAKPOINTS = [
-  30, 49, 100
-]
+const EMBROIDERY_QTY_BREAKPOINTS = [30, 49, 100]
 
 export const FULFILLMENT_CHARGE = 1_00
 
@@ -82,7 +76,7 @@ export const getEmbroideryQtyBreakpoint = (qty: number) => {
 }
 
 export enum EmbellishmentType {
-  SCREENPRINTING = 'screen printing',
+  SCREENPRINTING = 'screen_printing',
   EMBROIDERY = 'embroidery',
 }
 
@@ -92,15 +86,15 @@ export enum EmbellishmentType {
 // }
 
 export interface ScreenPrintingLocation {
-  colorCount: number;
-  embellishmentType: EmbellishmentType.SCREENPRINTING;
+  colorCount: number
+  embellishmentType: EmbellishmentType.SCREENPRINTING
 }
 
 interface EmbroideryLocation {
-  embellishmentType: EmbellishmentType.EMBROIDERY;
+  embellishmentType: EmbellishmentType.EMBROIDERY
 }
 
-export type PrintLocation = ScreenPrintingLocation | EmbroideryLocation;
+export type PrintLocation = ScreenPrintingLocation | EmbroideryLocation
 
 // Each print location's price is a factor of quatity and color count.
 // Here we sum all of the print locations' costs in the event a design has more than 1 print location.
@@ -109,18 +103,20 @@ export const getPrintLocationsCost = (
   embroideryQtyBreakpoint: number,
   printLocations: PrintLocation[],
 ): [Error, null] | [null, number] => {
-  let twoOrMoreEmbroidery = false;
+  let twoOrMoreEmbroidery = false
   const printCostArray = printLocations.map<number | null>(
     (printLocation, i) => {
-
-      if(printLocation.embellishmentType === EmbellishmentType.EMBROIDERY) {
-        const embroideryCost = twoOrMoreEmbroidery ? ALTER_EMBROIDERY_PRICE_COST_CENTS[embroideryQtyBreakpoint] : EMBROIDERY_PRICE_COST_CENTS[embroideryQtyBreakpoint]
-        twoOrMoreEmbroidery = true;
+      if (printLocation.embellishmentType === EmbellishmentType.EMBROIDERY) {
+        const embroideryCost = twoOrMoreEmbroidery
+          ? ALTER_EMBROIDERY_PRICE_COST_CENTS[embroideryQtyBreakpoint]
+          : EMBROIDERY_PRICE_COST_CENTS[embroideryQtyBreakpoint]
+        twoOrMoreEmbroidery = true
 
         return embroideryCost
       } else {
-        const colorCount = printLocation.colorCount ?? 1;
-        const printCost = PRINT_PRICE_COST_CENTS[printQtyBreakpoint][colorCount - 1]
+        const colorCount = printLocation.colorCount ?? 1
+        const printCost =
+          PRINT_PRICE_COST_CENTS[printQtyBreakpoint][colorCount - 1]
 
         if (!printCost) {
           return null
