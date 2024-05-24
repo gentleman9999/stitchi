@@ -11,6 +11,7 @@ import Link from 'next/link'
 import routes from '@lib/routes'
 import { HomeIcon } from '@heroicons/react/24/outline'
 import { cn } from '@lib/utils'
+import IntercomButton from '@components/common/IntercomButton'
 
 interface Props {
   renderTrigger: React.ReactNode | (() => React.ReactNode)
@@ -48,33 +49,68 @@ const MobileNavigation = ({ renderTrigger }: Props) => {
           <hr />
 
           <Section title="Our Services" href={routes.internal.solutions.href()}>
-            <NavLink href={routes.internal.solutions.design.href()}>
-              Work with a Designer
-            </NavLink>
-            <NavLink href={routes.internal.solutions.customization.href()}>
-              Bulk Orders
-            </NavLink>
             <NavLink href={routes.internal.solutions.distribution.href()}>
-              Express Delivery
+              Fulfillment & Dropshipping
             </NavLink>
+
+            <NavLink
+              external
+              href={routes.external.support.features.ecommerceFulfillment.href()}
+            >
+              Online Stores & eCommerce
+            </NavLink>
+
+            <NavLink
+              external
+              href={routes.external.support.features.teamStores.href()}
+            >
+              Online Group Ordering
+            </NavLink>
+
+            <NavLink href={routes.internal.solutions.design.href()}>
+              Free Professional Design
+            </NavLink>
+
             <NavLink href={routes.internal.solutions.swagBox.href()}>
-              Unwrapping Experiences
+              Swag Bags & Unboxing Experiences
             </NavLink>
           </Section>
 
           <hr />
 
-          <Section title="Learning & Resources">
-            <NavLink href={routes.internal.blog.href()}>Blog</NavLink>
+          <Section title="Learning">
+            <NavLink href={routes.internal.blog.href()}>Stitchi Blog</NavLink>
             <NavLink href={routes.internal.glossary.href()}>
-              Promotional Products Directory
+              Merch Directory
             </NavLink>
+
+            <NavLink href={routes.internal.learn.show.referralPrograms.href()}>
+              Referral Program Automation
+            </NavLink>
+          </Section>
+
+          <hr />
+
+          <Section title="Resources">
+            <NavLink href={routes.external.support.href()} target="_blank">
+              Help Center
+            </NavLink>
+
             <NavLink href={routes.internal.lookbook.href()}>
               Design Lookbook
             </NavLink>
-            <NavLink href={routes.external.support.href()} target="_blank">
-              Support
-            </NavLink>
+
+            <NavLink href={routes.internal.partners.href()}>Partners</NavLink>
+
+            <IntercomButton
+              as={
+                <SheetClose asChild>
+                  <button className="text-left text-base font-regular hover:underline underline-offset-4">
+                    Talk to a Merch Expert
+                  </button>
+                </SheetClose>
+              }
+            />
           </Section>
         </nav>
       </SheetContent>
@@ -109,17 +145,22 @@ const Section = ({
   )
 }
 
-const NavLink = (props: {
+const NavLink = ({
+  external,
+  ...props
+}: {
   href: string
   children: React.ReactNode
   target?: string
   className?: string
+  external?: boolean
 }) => {
   return (
     <li>
       <SheetClose asChild>
         <Link
           {...props}
+          target={external ? '_blank' : undefined}
           className={cn(
             'text-base font-regular hover:underline underline-offset-4',
             props.className,

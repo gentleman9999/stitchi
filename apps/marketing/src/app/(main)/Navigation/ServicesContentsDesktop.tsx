@@ -7,11 +7,7 @@ interface Props {}
 
 const ServicesContentsDesktop = ({}: Props) => {
   return (
-    <ul className="p-4 flex flex-col gap-2">
-      <Link href={routes.internal.solutions.design.href()}>
-        Free Professional Design
-      </Link>
-
+    <ul className="p-4 flex flex-col gap-1 rounded-sm ring-1 ring-gray-300">
       <Link href={routes.internal.solutions.distribution.href()}>
         Fulfillment & Dropshipping
       </Link>
@@ -20,15 +16,19 @@ const ServicesContentsDesktop = ({}: Props) => {
         external
         href={routes.external.support.features.ecommerceFulfillment.href()}
       >
-        Online Store & eCommerce
+        Online Stores & eCommerce
       </Link>
 
       <Link external href={routes.external.support.features.teamStores.href()}>
         Online Group Ordering
       </Link>
 
+      <Link href={routes.internal.solutions.design.href()}>
+        Free Professional Design
+      </Link>
+
       <Link href={routes.internal.solutions.swagBox.href()}>
-        Swag Boxes & Unwrapping Experiences
+        Swag Bags & Unboxing Experiences
       </Link>
     </ul>
   )
@@ -49,7 +49,7 @@ const Link = ({
         <LinkBase
           href={href}
           target={external ? '_blank' : undefined}
-          className="flex-1 font-semibold hover:underline underline-offset-4"
+          className="flex-1 font-medium hover:underline underline-offset-4 text-base"
         >
           {children}
         </LinkBase>
