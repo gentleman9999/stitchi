@@ -67,8 +67,8 @@ const ProductShowPage = ({ path, brandSlug }: Props) => {
 
   const gender =
     product.gender.edges?.[0]?.node.value.toLowerCase().trim() === 'womens'
-      ? 'Female'
-      : 'Unisex'
+      ? 'female'
+      : 'unisex'
 
   const shippingDetailsJsonLd: OfferShippingDetails = {
     '@id': `${product.sku}#shipping`,
