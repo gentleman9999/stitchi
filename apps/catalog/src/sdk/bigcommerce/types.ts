@@ -80,12 +80,18 @@ interface ProductMetadataDisplayName extends ProductMetadataBase {
   value: string
 }
 
+interface ProductMetadataAvailPrintingMethods extends ProductMetadataBase {
+  key: 'avail_printing_methods'
+  value: string
+}
+
 export type BigCommerceProductMetadata =
   | ProductMetadataProductDistributor
   | ProductMetadataProductDistributorProductId
   | ProductMetadataHasAiDescription
   | ProductMetadataDisplayName
   | ProductMetadataOriginalDescription
+  | ProductMetadataAvailPrintingMethods
 
 interface ProductVariantMetadataBase extends MetadataBase {
   resourceType: 'variant'

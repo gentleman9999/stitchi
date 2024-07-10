@@ -47,6 +47,7 @@ export const bigCommerceProductMetadataApiSchema =
           'updated_description_at',
           'original_description',
           'display_name',
+          'avail_printing_methods'
         ])
         .min(1)
         .max(64)

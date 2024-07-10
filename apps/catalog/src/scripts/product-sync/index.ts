@@ -8,6 +8,7 @@ import fetchAndMapCategories, {
   SsCategoryMap,
 } from './fetch-and-map-categories'
 import fetchAndMapStyleMetadata from './fetch-and-map-style-metadata'
+import { getAvailPrintingMethods } from './get-avail-printing-methods'
 import makeLogger from '../../telemetry/logger'
 import chunkArray from '../../utils/chunk-array'
 import {
@@ -149,6 +150,8 @@ const start = async () => {
         bigCProduct?.customFields || [],
       )
 
+      const supportedPrintingMethods = await getAvailPrintingMethods(categoryIds, product.title)
+
       if (bigCProduct) {
         if (!['update', 'all'].includes(mode)) {
           logger.info(`Skipping update for product ${product.title}. \n`)
@@ -274,6 +277,12 @@ const start = async () => {
                 namespace: 'main',
                 permission_set: 'write',
               },
+              {
+                key: 'avail_printing_methods',
+                value: supportedPrintingMethods.join(', '),
+                namespace: 'main',
+                permission_set: 'write',
+              },
             ],
             id: bigCProduct.id,
             visible: true,
@@ -362,6 +371,12 @@ const start = async () => {
                 value: product.title,
                 namespace: 'main',
                 permission_set: 'write_and_sf_access',
+              },
+              {
+                key: 'avail_printing_methods',
+                value: supportedPrintingMethods.join(', '),
+                namespace: 'main',
+                permission_set: 'write',
               },
             ],
           })
